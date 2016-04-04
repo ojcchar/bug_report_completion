@@ -36,6 +36,11 @@ summary(data_all)
 
 #---------------------------------------
 
+out_file =paste(out_folder,'all_filtered.csv', sep = "")
+write.table(filtered_data, out_file, append=FALSE, sep=";", row.names = FALSE, col.names = TRUE)
+
+#---------------------------------------
+
 sampling <- function (data1){
   
   #-----------------------
