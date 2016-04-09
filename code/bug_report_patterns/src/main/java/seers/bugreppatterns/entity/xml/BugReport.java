@@ -1,4 +1,4 @@
-package seers.bugreppatterns.entity.paragraph;
+package seers.bugreppatterns.entity.xml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

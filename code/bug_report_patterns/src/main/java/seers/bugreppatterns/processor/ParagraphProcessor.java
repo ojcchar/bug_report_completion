@@ -1,69 +1,52 @@
 package seers.bugreppatterns.processor;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import net.quux00.simplecsv.CsvWriter;
-import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
-import seers.appcore.threads.processor.ThreadProcessor;
-import seers.bugreppatterns.entity.paragraph.BugReport;
-import seers.bugreppatterns.entity.paragraph.DescriptionSentence;
-import seers.bugreppatterns.main.MainHRClassifier;
+import seers.appcore.xml.XMLHelper;
+import seers.bugreppatterns.entity.Paragraph;
+import seers.bugreppatterns.entity.xml.BugReport;
+import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
 
-public class ParagraphProcessor extends ThreadProcessor {
-
-	private String dataFolder;
-	private CsvWriter wr;
-	private List<PatternMatcher> patterns;
-	private List<File> files;
-	private String granularity;
-	private String system;
+public class ParagraphProcessor extends TextInstanceProcessor {
 
 	public ParagraphProcessor(ThreadParameters params) {
 		super(params);
-
-		dataFolder = params.getStringParam(MainHRClassifier.DATA_FOLDER);
-		wr = params.getParam(CsvWriter.class, MainHRClassifier.OUT_WR);
-		patterns = params.getListParam(PatternMatcher.class, MainHRClassifier.PATTERNS);
-		files = params.getListParam(File.class, ThreadExecutor.ELEMENTS_PARAM);
-		granularity = params.getStringParam(MainHRClassifier.GRANULARITY);
-		system = params.getStringParam(MainHRClassifier.SYSTEM);
 	}
 
 	@Override
 	public void executeJob() throws Exception {
 
-	}
+		for (File file : files) {
 
-	private void writePrediction(BugReport bugRep, DescriptionSentence textElement,
-			LinkedHashMap<PatternMatcher, Integer> patternMatches) {
-		Integer isEB = 0;
-		Integer isSR = 0;
+			try {
 
-		List<PatternMatcher> patterns = patternMatches.keySet().stream()
-				.filter(p -> PatternMatcher.EB.equals(p.getType())).collect(Collectors.toList());
-		if (!patterns.isEmpty()) {
-			isEB = 1;
+				BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
+				List<DescriptionParagraph> paragraphs = bugRep.getDescription().getParagraphs();
+
+				for (DescriptionParagraph paragraph : paragraphs) {
+
+					LinkedHashMap<PatternMatcher, Integer> patternMatches = new LinkedHashMap<>();
+
+					Paragraph parsedParagraph = parseParagraph(bugRep.getId(), paragraph);
+
+					for (PatternMatcher patternMatcher : patterns) {
+						int numMatches = patternMatcher.matchParagraph(parsedParagraph);
+						if (numMatches > 0) {
+							patternMatches.put(patternMatcher, numMatches);
+						}
+					}
+
+					writeFeatures(bugRep.getId(), paragraph.getId(), patternMatches);
+					writePrediction(bugRep.getId(), paragraph.getId(), patternMatches);
+				}
+			} catch (Exception e) {
+				LOGGER.error("[" + system + "] Error for file: " + file);
+			}
 		}
-
-		patterns = patternMatches.keySet().stream().filter(p -> PatternMatcher.SR.equals(p.getType()))
-				.collect(Collectors.toList());
-		if (!patterns.isEmpty()) {
-			isSR = 1;
-		}
-
-		List<String> nextLine = Arrays.asList(new String[] { system, bugRep.getId(), textElement.getId().toString(),
-				isEB.toString(), isSR.toString() });
-		wr.writeNext(nextLine);
-	}
-
-	private void writeFeatures(DescriptionSentence textElement, LinkedHashMap<PatternMatcher, Integer> patternMatches) {
-		// TODO Auto-generated method stub
 
 	}
 

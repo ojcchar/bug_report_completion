@@ -1,8 +1,10 @@
 package seers.bugreppatterns.pattern.eb;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -11,25 +13,20 @@ import seers.textanalyzer.entity.Token;
 public class ShouldPM extends ExpectedBehaviorPatternMatcher {
 
 	@Override
-	public boolean matchSentence(String text) throws Exception {
+	public int matchSentence(Sentence sentence) throws Exception {
+		List<Sentence> sentences = new ArrayList<>();
+		sentences.add(sentence);
 
-		List<Sentence> sentences = TextProcessor.processText(text);
 		List<Token> tokens = TextProcessor.getAllTokens(sentences);
 
 		Optional<Token> first = tokens.stream().filter(t -> "MD".equals(t.getPos()) && "should".equals(t.getLemma()))
 				.findFirst();
-		return first.isPresent();
+		return first.isPresent() ? 1 : 0;
 	}
 
 	@Override
-	public boolean matchParagraph(String text) throws Exception {
-		return false;
-	}
-
-	@Override
-	public boolean matchDocument(String text) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public int matchParagraph(Paragraph paragraph) throws Exception {
+		return defaultMatchParagraph(paragraph);
 	}
 
 }

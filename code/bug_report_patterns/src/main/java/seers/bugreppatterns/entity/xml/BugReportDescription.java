@@ -1,4 +1,4 @@
-package seers.bugreppatterns.entity.paragraph;
+package seers.bugreppatterns.entity.xml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,13 @@ public class BugReportDescription {
 
 		List<DescriptionSentence> sentences = new ArrayList<>();
 		for (DescriptionParagraph par : paragraphs) {
-			sentences.addAll(par.getSentences());
+			List<DescriptionSentence> sentences2 = par.getSentences();
+
+			if (sentences2 == null) {
+				throw new RuntimeException("Paragraph " + par.getId() + " has no sentences");
+			}
+
+			sentences.addAll(sentences2);
 		}
 		return sentences;
 	}

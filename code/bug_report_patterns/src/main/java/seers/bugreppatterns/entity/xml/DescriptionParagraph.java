@@ -1,4 +1,4 @@
-package seers.bugreppatterns.entity.paragraph;
+package seers.bugreppatterns.entity.xml;
 
 import java.util.List;
 

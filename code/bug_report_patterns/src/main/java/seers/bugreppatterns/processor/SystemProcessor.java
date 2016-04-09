@@ -38,7 +38,7 @@ public class SystemProcessor extends ThreadProcessor {
 	@Override
 	public void executeJob() throws Exception {
 
-		String sysFolder = dataFolder + File.separator + system;
+		String sysFolder = dataFolder + File.separator + system + "_parse";
 		List<File> files = getFiles(sysFolder);
 
 		LOGGER.debug("[" + system + "]: " + files.size() + " files");
@@ -76,7 +76,7 @@ public class SystemProcessor extends ThreadProcessor {
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 				if (!attrs.isDirectory()) {
-					if (file.toFile().getName().endsWith(".xml")) {
+					if (file.toFile().getName().endsWith(".xml.parse")) {
 						files.add(file.toFile());
 					}
 				}

@@ -26,8 +26,9 @@ public class MainHRClassifier {
 	public static final String DATA_FOLDER = "DATA_FOLDER";
 	public static final String SYSTEM = "SYSTEM";
 	public static final String GRANULARITY = "GRANULARITY";
-	public static final String OUT_WR = "OUT_WR";
+	public static final String PREDICTION_WRITER = "PREDICTION_WRITER";
 	public static final String PATTERNS = "PATTERNS";
+	public static final String FEATURES_WRITER = "FEATURES_WRITER";
 
 	public static void main(String[] args) throws Exception {
 
@@ -41,20 +42,25 @@ public class MainHRClassifier {
 
 		// ------------------------------------------
 
-		List<PatternMatcher> patterns = getPatterns(patternsFile, granularity);
+		List<PatternMatcher> patterns = getPatterns(patternsFile);
 
 		LOGGER.debug("#patterns: " + patterns.size());
 
 		// ------------------------------------------
 
-		try (CsvWriter csvw1 = new CsvWriterBuilder(new FileWriter(outputFolder + File.separator + "output.csv"))
-				.separator(';').build()) {
+		try (CsvWriter csvw1 = new CsvWriterBuilder(
+				new FileWriter(outputFolder + File.separator + "output-prediction-" + granularity + ".csv"))
+						.separator(';').build();
+				CsvWriter csvw2 = new CsvWriterBuilder(
+						new FileWriter(outputFolder + File.separator + "output-features-" + granularity + ".txt"))
+								.separator(' ').quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
 
 			ThreadParameters params = new ThreadParameters();
 			params.addParam(DATA_FOLDER, dataFolder);
-			params.addParam(OUT_WR, csvw1);
+			params.addParam(PREDICTION_WRITER, csvw1);
 			params.addParam(PATTERNS, patterns);
 			params.addParam(GRANULARITY, granularity);
+			params.addParam(FEATURES_WRITER, csvw2);
 
 			ThreadExecutor.executeOneByOne(Arrays.asList(systems), SystemProcessor.class, params, systems.length);
 
@@ -64,21 +70,17 @@ public class MainHRClassifier {
 
 	}
 
-	private static List<PatternMatcher> getPatterns(String patternsFile, String granularity)
+	private static List<PatternMatcher> getPatterns(String patternsFile)
 			throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
 		List<String> inputPatterns = FileUtils.readLines(new File(patternsFile));
 		List<String> allPatterns = FileUtils.readLines(new File("patterns.csv"));
 
 		List<PatternMatcher> patterns = new ArrayList<>();
+		Integer code = 0;
 
 		for (String patternName : inputPatterns) {
-
-			if (!granularity.equals("B")) {
-				if (!patternName.startsWith(granularity + "_")) {
-					continue;
-				}
-			}
+			code++;
 
 			Optional<String> patternNameClass = allPatterns.stream().filter(p -> p.startsWith(patternName + ";"))
 					.findFirst();
@@ -94,6 +96,7 @@ public class MainHRClassifier {
 
 				Class<?> class1 = Class.forName(className);
 				PatternMatcher pattern = (PatternMatcher) class1.newInstance();
+				pattern.setCode(code);
 				patterns.add(pattern);
 			}
 		}
