@@ -72,6 +72,13 @@ public class SystemProcessor extends ThreadProcessor {
 
 	private List<File> getFiles(String sysFolder) throws IOException {
 		final List<File> files = new ArrayList<>();
+
+		File folder = new File(sysFolder);
+		if (!folder.exists()) {
+			LOGGER.warn("Folder does not exist: " + sysFolder);
+			return files;
+		}
+
 		Files.walkFileTree(Paths.get(sysFolder), new SimpleFileVisitor<Path>() {
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {

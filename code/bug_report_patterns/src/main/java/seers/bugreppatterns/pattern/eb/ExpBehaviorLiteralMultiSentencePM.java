@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.eb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.entity.Paragraph;
@@ -20,39 +19,43 @@ public class ExpBehaviorLiteralMultiSentencePM extends ExpectedBehaviorPatternMa
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 
 		List<Sentence> sentences = paragraph.getSentences();
+
 		if (sentences.size() > 1) {
 			Sentence sentence = sentences.get(0);
 
-			List<Sentence> stnces = new ArrayList<>();
-			stnces.add(sentence);
-
-			String text = TextProcessor.getStringFromSentences(stnces).trim();
+			String text = TextProcessor.getStringFromSentence(sentence);
 
 			// ----------------
 
-			boolean b = text.matches("expect ((result|behavior) )?(:|-+) .+");
+			boolean b = text.matches("expect ((result|behavior) )?(:|-+)?.+");
 			if (b) {
-				List<Token> tokens = TextProcessor.getAllTokens(stnces);
+				List<Token> tokens = sentence.getTokens();
 				if (tokens.get(0).getGeneralPos().equals("VB")) {
 					return 1;
 				}
 			} else {
-				b = text.matches("expect , ((result|behavior) )?.+(:|-+) .+");
-				if (b) {
-					List<Token> tokens = TextProcessor.getAllTokens(stnces);
-					if (tokens.get(0).getGeneralPos().equals("VB")) {
-						return 1;
-					}
-				} else {
-					b = text.matches("expect ((result|behavior) )?(:|-+)\r\n");
-					if (b) {
-						List<Token> tokens = TextProcessor.getAllTokens(stnces);
-						if (tokens.get(0).getGeneralPos().equals("VB")) {
-							return 1;
-						}
-					}
-				}
+				// b = text.matches("expect , ((result|behavior) )?.+(:|-+)
+				// .+");
+				// if (b) {
+				// List<Token> tokens = TextProcessor.getAllTokens(stnces);
+				// if (tokens.get(0).getGeneralPos().equals("VB")) {
+				// return 1;
+				// }
+				// }
+
+				// else {
+				// b = text.matches("expect ((result|behavior) )?(:|-+)\r\n");
+				// if (b) {
+				// List<Token> tokens = TextProcessor.getAllTokens(stnces);
+				// if (tokens.get(0).getGeneralPos().equals("VB")) {
+				// return 1;
+				// }
+				// }
+				// }
 			}
+		} else {
+			ExpBehaviorLiteralSentencePM pmSent = new ExpBehaviorLiteralSentencePM();
+			return pmSent.matchSentence(sentences.get(0));
 		}
 		return 0;
 	}

@@ -79,7 +79,9 @@ public class ExpBehaviorLiteralSentencePMTest {
 				"Expected Results:  \r\nThe Bookmark All Tabs option SHOULD be there.  ",
 				"Expected Results:  \r\nthis has happened twice", "Expected Results:  \r\nThe post should not load.",
 				"Expected Results:  \r\nonly the first 2 tabs should be reloaded.",
-				"Expecting Results:  \r\nonly the first 2 tabs should be reloaded." };
+				"Expecting Results:  \r\nonly the first 2 tabs should be reloaded.",
+				"Expectation: Since I have just changed the configuration, the user\r\nshould be told that the changes won't happen until they restart,\r\nand offer to restart now.",
+				"Expected: * Connect with Facebook form to appear_ allowing to publish story; " };
 
 		for (int i = 0; i < txts.length; i++) {
 			String txt = txts[i];

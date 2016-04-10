@@ -77,17 +77,21 @@ public class MainHRClassifier {
 		List<String> allPatterns = FileUtils.readLines(new File("patterns.csv"));
 
 		List<PatternMatcher> patterns = new ArrayList<>();
-		Integer code = 0;
 
 		for (String patternName : inputPatterns) {
-			code++;
 
-			Optional<String> patternNameClass = allPatterns.stream().filter(p -> p.startsWith(patternName + ";"))
+			Optional<String> patternNameClassIndex = allPatterns.stream().filter(p -> p.startsWith(patternName + ";"))
 					.findFirst();
-			if (!patternNameClass.isPresent()) {
+			if (!patternNameClassIndex.isPresent()) {
 				LOGGER.warn("Pattern not implemented: " + patternName);
 			} else {
-				String className = patternNameClass.get().split(";")[1];
+
+				String[] split = patternNameClassIndex.get().split(" ");
+
+				String patternNameClass = split[0];
+				Integer code = Integer.valueOf(split[1]);
+
+				String className = patternNameClass.split(";")[1];
 				if (patternName.contains("_EB_")) {
 					className = "seers.bugreppatterns.pattern.eb." + className;
 				} else if (patternName.contains("_SR_")) {
