@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seers.textanalyzer.entity.Sentence;
+import seers.textanalyzer.entity.Token;
 
 public class Paragraph {
 
@@ -36,6 +37,17 @@ public class Paragraph {
 
 	public boolean isEmpty() {
 		return sentences.isEmpty();
+	}
+
+	public List<Token> getTokens() {
+		List<Token> tokens = new ArrayList<>();
+
+		this.sentences.forEach(s -> {
+			tokens.addAll(s.getTokens());
+		});
+
+		return tokens;
+
 	}
 
 }

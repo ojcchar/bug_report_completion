@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -80,11 +79,6 @@ public class WouldBeSentencePM extends ExpectedBehaviorPatternMatcher {
 			}
 		}
 		return pronounTokens;
-	}
-
-	@Override
-	public int matchParagraph(Paragraph paragraph) throws Exception {
-		return defaultMatchParagraph(paragraph);
 	}
 
 }

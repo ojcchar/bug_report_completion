@@ -23,7 +23,7 @@ import seers.bugreppatterns.matcher.SentenceMatcherProcessor;
 
 public class MainMatcher {
 
-	private static String fileAssignment = "test_data\\matcher\\sentences_coding.csv";
+	static String fileAssignment = "test_data\\matcher\\sentences_coding.csv";
 	public static CsvWriter conflictsWriter;
 
 	public static CsvWriter matchedWriterSentences;

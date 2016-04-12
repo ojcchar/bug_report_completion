@@ -2,7 +2,6 @@ package seers.bugreppatterns.pattern.eb;
 
 import java.util.List;
 
-import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -21,11 +20,6 @@ public class CanSentencePM extends ExpectedBehaviorPatternMatcher {
 		boolean anyMatch = tokens.stream()
 				.anyMatch(t -> t.getPos().equals("MD") && t.getLemma().equalsIgnoreCase("can"));
 		return anyMatch ? 1 : 0;
-	}
-
-	@Override
-	public int matchParagraph(Paragraph paragraph) throws Exception {
-		return defaultMatchParagraph(paragraph);
 	}
 
 }

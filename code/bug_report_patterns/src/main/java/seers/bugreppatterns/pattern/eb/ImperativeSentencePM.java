@@ -1,6 +1,7 @@
 package seers.bugreppatterns.pattern.eb;
 
-import seers.bugreppatterns.entity.Paragraph;
+import java.util.Arrays;
+
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -58,6 +59,8 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 	}
 
+	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename" };
+
 	private int checkNormalCase(Token firstToken, Token secondToken) {
 
 		if (firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP")) {
@@ -67,13 +70,11 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 					&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP"))) {
 				return 1;
 			}
+			if (Arrays.stream(UNDETECTED_VERBS).anyMatch(p -> firstToken.getLemma().equals(p))) {
+				return 1;
+			}
 		}
 		return 0;
-	}
-
-	@Override
-	public int matchParagraph(Paragraph paragraph) throws Exception {
-		return defaultMatchParagraph(paragraph);
 	}
 
 }

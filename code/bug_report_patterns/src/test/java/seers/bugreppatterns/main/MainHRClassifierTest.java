@@ -10,7 +10,7 @@ public class MainHRClassifierTest {
 		String dataFolder = "test_data/data";
 		// dataFolder = "test_data/data2";
 		// systems = "eclipse";
-		String[] args = { dataFolder, "B", systems, "test_data/output", "test_data/patterns/patterns_file.txt" };
+		String[] args = { dataFolder, "B", systems, "test_data/output" };
 		MainHRClassifier.main(args);
 	}
 

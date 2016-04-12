@@ -3,13 +3,12 @@ package seers.bugreppatterns.pattern.eb;
 import java.util.ArrayList;
 import java.util.List;
 
-import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 /**
- * Strictly "need to"
+ * "Need to" --> the to is optional
  * 
  * @author ojcch
  *
@@ -26,8 +25,8 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 		for (Integer needTok : needTokens) {
 
 			try {
-				Token toToken = tokens.get(needTok + 1);
-				if (toToken.getLemma().equalsIgnoreCase("to")) {
+				Token needToken = tokens.get(needTok);
+				if (needToken.getGeneralPos().equals("VB")) {
 					return 1;
 				}
 			} catch (IndexOutOfBoundsException e) {
@@ -46,11 +45,6 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 			}
 		}
 		return needTokens;
-	}
-
-	@Override
-	public int matchParagraph(Paragraph paragraph) throws Exception {
-		return defaultMatchParagraph(paragraph);
 	}
 
 }

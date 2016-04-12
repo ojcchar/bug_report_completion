@@ -9,13 +9,17 @@ import seers.textanalyzer.entity.Sentence;
 public abstract class PatternMatcher {
 
 	private Integer code;
+	private String name;
 
+	public static final String OB = "OB";
 	public static final String EB = "EB";
 	public static final String SR = "SR";
 
 	public abstract int matchSentence(Sentence sentence) throws Exception;
 
-	public abstract int matchParagraph(Paragraph paragraph) throws Exception;
+	public int matchParagraph(Paragraph paragraph) throws Exception {
+		return defaultMatchParagraph(paragraph);
+	}
 
 	public int matchDocument(Document bugReport) throws Exception {
 
@@ -46,6 +50,14 @@ public abstract class PatternMatcher {
 
 	public void setCode(Integer code) {
 		this.code = code;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

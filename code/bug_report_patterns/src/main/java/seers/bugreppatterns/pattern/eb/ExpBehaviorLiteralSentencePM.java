@@ -2,7 +2,6 @@ package seers.bugreppatterns.pattern.eb;
 
 import java.util.List;
 
-import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -32,11 +31,6 @@ public class ExpBehaviorLiteralSentencePM extends ExpectedBehaviorPatternMatcher
 		}
 
 		return 0;
-	}
-
-	@Override
-	public int matchParagraph(Paragraph paragraph) throws Exception {
-		return defaultMatchParagraph(paragraph);
 	}
 
 }

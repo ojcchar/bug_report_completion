@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -38,11 +37,10 @@ public class MainHRClassifier {
 		String granularity = args[1];
 		String[] systems = args[2].split(",");
 		String outputFolder = args[3];
-		String patternsFile = args[4];
 
 		// ------------------------------------------
 
-		List<PatternMatcher> patterns = getPatterns(patternsFile);
+		List<PatternMatcher> patterns = loadPatterns();
 
 		LOGGER.debug("#patterns: " + patterns.size());
 
@@ -70,39 +68,38 @@ public class MainHRClassifier {
 
 	}
 
-	private static List<PatternMatcher> getPatterns(String patternsFile)
+	private static List<PatternMatcher> loadPatterns()
 			throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
-		List<String> inputPatterns = FileUtils.readLines(new File(patternsFile));
 		List<String> allPatterns = FileUtils.readLines(new File("patterns.csv"));
 
 		List<PatternMatcher> patterns = new ArrayList<>();
 
-		for (String patternName : inputPatterns) {
+		for (String patternNameClassIndex : allPatterns) {
 
-			Optional<String> patternNameClassIndex = allPatterns.stream().filter(p -> p.startsWith(patternName + ";"))
-					.findFirst();
-			if (!patternNameClassIndex.isPresent()) {
-				LOGGER.warn("Pattern not implemented: " + patternName);
-			} else {
+			String[] split = patternNameClassIndex.split(" ");
 
-				String[] split = patternNameClassIndex.get().split(" ");
+			String patternNameClass = split[0];
+			Integer code = Integer.valueOf(split[1]);
 
-				String patternNameClass = split[0];
-				Integer code = Integer.valueOf(split[1]);
+			String[] split2 = patternNameClass.split(";");
+			String patternName = split2[0];
+			String className = split2[1];
 
-				String className = patternNameClass.split(";")[1];
-				if (patternName.contains("_EB_")) {
-					className = "seers.bugreppatterns.pattern.eb." + className;
-				} else if (patternName.contains("_SR_")) {
-					className = "seers.bugreppatterns.pattern.sr." + className;
-				}
-
-				Class<?> class1 = Class.forName(className);
-				PatternMatcher pattern = (PatternMatcher) class1.newInstance();
-				pattern.setCode(code);
-				patterns.add(pattern);
+			if (patternName.contains("_EB_")) {
+				className = "seers.bugreppatterns.pattern.eb." + className;
+			} else if (patternName.contains("_SR_")) {
+				className = "seers.bugreppatterns.pattern.sr." + className;
+			} else if (patternName.contains("_OB_")) {
+				className = "seers.bugreppatterns.pattern.ob." + className;
 			}
+
+			Class<?> class1 = Class.forName(className);
+			PatternMatcher pattern = (PatternMatcher) class1.newInstance();
+			pattern.setCode(code);
+			pattern.setName(patternName);
+
+			patterns.add(pattern);
 		}
 
 		return patterns;

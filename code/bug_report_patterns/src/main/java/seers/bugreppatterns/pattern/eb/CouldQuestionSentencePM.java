@@ -2,7 +2,6 @@ package seers.bugreppatterns.pattern.eb;
 
 import java.util.List;
 
-import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -18,11 +17,6 @@ public class CouldQuestionSentencePM extends ExpectedBehaviorPatternMatcher {
 			return 1;
 		}
 		return 0;
-	}
-
-	@Override
-	public int matchParagraph(Paragraph paragraph) throws Exception {
-		return defaultMatchParagraph(paragraph);
 	}
 
 }
