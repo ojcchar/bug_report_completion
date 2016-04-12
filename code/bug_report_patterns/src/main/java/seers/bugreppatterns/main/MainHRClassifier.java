@@ -52,8 +52,8 @@ public class MainHRClassifier {
 				new FileWriter(outputFolder + File.separator + "output-prediction-" + granularity + ".csv"))
 						.separator(';').build();
 				CsvWriter csvw2 = new CsvWriterBuilder(
-						new FileWriter(outputFolder + File.separator + "output-features-" + granularity + ".txt"))
-								.separator(' ').quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
+						new FileWriter(outputFolder + File.separator + "output-pre-features-" + granularity + ".csv"))
+								.separator(';').build();) {
 
 			ThreadParameters params = new ThreadParameters();
 			params.addParam(DATA_FOLDER, dataFolder);

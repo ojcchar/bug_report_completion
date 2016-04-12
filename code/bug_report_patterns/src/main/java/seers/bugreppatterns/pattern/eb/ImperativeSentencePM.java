@@ -6,6 +6,9 @@ import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
+/*
+ * This one applies only for titles
+ */
 public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 	@Override

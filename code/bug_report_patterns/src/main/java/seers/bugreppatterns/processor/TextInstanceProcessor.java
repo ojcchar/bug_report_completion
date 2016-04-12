@@ -66,7 +66,9 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 	protected void writeFeatures(String bugRepId, String instanceId,
 			LinkedHashMap<PatternMatcher, Integer> patternMatches) {
 		List<String> nextLine = new ArrayList<>();
-		nextLine.add(system + "-" + bugRepId + "-" + instanceId);
+		nextLine.add(system);
+		nextLine.add(bugRepId);
+		nextLine.add(instanceId);
 
 		patternMatches.forEach((k, v) -> {
 			nextLine.add(k.getCode() + ":" + v);
@@ -81,9 +83,9 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 
 		List<DescriptionSentence> elements = paragraph.getSentences();
 		if (elements != null) {
-			for (DescriptionSentence textElement : elements) {
+			for (DescriptionSentence descSentence : elements) {
 
-				List<Sentence> sentences = TextProcessor.processText(textElement.getValue());
+				List<Sentence> sentences = TextProcessor.processText(descSentence.getValue());
 
 				// if (sentences.size() > 1) {
 				// LOGGER.warn("[" + system + "] Sentence " +
@@ -92,7 +94,9 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 				// + " can be processed into multiple sentences!");
 				// }
 				if (!sentences.isEmpty()) {
-					par.addSentence(sentences.get(0));
+					Sentence sentence = sentences.get(0);
+					sentence.setId(descSentence.getId());
+					par.addSentence(sentence);
 				}
 
 			}
