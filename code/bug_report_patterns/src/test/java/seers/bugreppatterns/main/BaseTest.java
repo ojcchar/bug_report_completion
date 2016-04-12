@@ -54,15 +54,15 @@ public class BaseTest {
 				String pattern2 = sentence.get(9);
 				String pattern3 = sentence.get(10);
 
-				String instanceId = sentence.get(14);
+				// String instanceId = sentence.get(14);
 
-				// no titles
 				if (patternName.equalsIgnoreCase(pattern1) || patternName.equalsIgnoreCase(pattern2)
 						|| patternName.equalsIgnoreCase(pattern3)) {
-					if (!instanceId.startsWith("0")) {
-						testDataParagraph.add(paragraphTxt);
-						testDataSentence.add(sentenceTxt);
-					}
+					// no titles
+					// if (!instanceId.startsWith("0")) {
+					testDataParagraph.add(paragraphTxt);
+					testDataSentence.add(sentenceTxt);
+					// }
 				}
 			});
 

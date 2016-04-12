@@ -14,11 +14,12 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		try {
-			List<Token> tokens = sentence.getTokens();
-			List<Integer> nots = findNots(tokens);
+		List<Token> tokens = sentence.getTokens();
+		List<Integer> nots = findNots(tokens);
 
-			for (Integer not : nots) {
+		for (Integer not : nots) {
+
+			try {
 				Token auxToken = tokens.get(not - 1);
 				Token verbToken = tokens.get(not + 1);
 
@@ -37,9 +38,12 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 					}
 
 				}
-
+			} catch (IndexOutOfBoundsException e) {
 			}
 
+		}
+
+		try {
 			if (findAdditionalAuxVerbs(tokens)) {
 				return 1;
 			}
