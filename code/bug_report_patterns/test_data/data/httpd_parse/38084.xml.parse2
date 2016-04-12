@@ -1,0 +1,104 @@
+http://httpd.apache.org/docs/2.2/en/mod/mod_authn_dbd.html/NN contains/VBZ the/DT following/VBG example/NN :/: 
+
+(ROOT (S (NP (NN http://httpd.apache.org/docs/2.2/en/mod/mod_authn_dbd.html)) (VP (VBZ contains) (NP (DT the) (VBG following) (NN example))) (: :)))
+
+root(ROOT-0, contains-2)
+nsubj(contains-2, http://httpd.apache.org/docs/2.2/en/mod/mod_authn_dbd.html-1)
+det(example-5, the-3)
+amod(example-5, following-4)
+dobj(contains-2, example-5)
+
+>/JJR #Use/NN the/DT PostgreSQL/NN driver/NN >/JJR DBDriver/NN pgsql/NN >/JJR #Connection/NN string/NN :/: database/NN name/NN and/CC login/NN credentials/NNS >/JJR DBDParams/NNS "/`` dbname/NN =/JJ htpasswd/NN user/NN =/JJ apache/NN pass/NN =/JJ xxxxxx/NN "/'' 
+
+(ROOT (X (NP (NP (JJR >) (NN #Use)) (NP (NP (NP (DT the) (NN PostgreSQL) (NN driver)) (NP (JJR >) (NN DBDriver) (NN pgsql)) (NP (JJR >) (NN #Connection) (NN string))) (: :) (NP (NP (NN database) (NN name)) (CC and) (NP (NN login) (NNS credentials))))) (NP (JJR >) (NNS DBDParams)) (NP (NP (`` ``) (NN dbname) (JJ =) (NN htpasswd) (NN user)) (NP (JJ =) (NN apache) (NN pass) (JJ =) (NN xxxxxx) ('' '')))))
+
+root(ROOT-0, user-24)
+amod(#Use-2, >-1)
+dep(user-24, #Use-2)
+det(driver-5, the-3)
+nn(driver-5, PostgreSQL-4)
+dep(#Use-2, driver-5)
+amod(pgsql-8, >-6)
+nn(pgsql-8, DBDriver-7)
+dep(driver-5, pgsql-8)
+amod(string-11, >-9)
+nn(string-11, #Connection-10)
+dep(driver-5, string-11)
+nn(name-14, database-13)
+dep(driver-5, name-14)
+nn(credentials-17, login-16)
+dep(driver-5, credentials-17)
+conj_and(name-14, credentials-17)
+amod(DBDParams-19, >-18)
+dep(user-24, DBDParams-19)
+nn(user-24, dbname-21)
+amod(user-24, =-22)
+nn(user-24, htpasswd-23)
+amod(xxxxxx-29, =-25)
+nn(xxxxxx-29, apache-26)
+nn(xxxxxx-29, pass-27)
+amod(xxxxxx-29, =-28)
+dep(user-24, xxxxxx-29)
+
+Unfortunately/RB ,/, this/DT does/VBZ n't/RB work/VB properly/RB ./. 
+
+(ROOT (S (ADVP (RB Unfortunately)) (, ,) (NP (DT this)) (VP (VBZ does) (RB n't) (VP (VB work) (ADVP (RB properly)))) (. .)))
+
+root(ROOT-0, work-6)
+advmod(work-6, Unfortunately-1)
+nsubj(work-6, this-3)
+aux(work-6, does-4)
+neg(work-6, n't-5)
+advmod(work-6, properly-7)
+
+We/PRP should/MD write/VB "/`` password/NN "/'' instead/RB of/IN "/`` pass/NN "/'' in/IN this/DT case/NN ./. 
+
+(ROOT (S (NP (PRP We)) (VP (MD should) (VP (VB write) (NP (`` ``) (NP (NN password)) ('' '') (PP (RB instead) (IN of) (NP (`` ``) (NP (NN pass)) ('' '') (PP (IN in) (NP (DT this) (NN case)))))))) (. .)))
+
+root(ROOT-0, write-3)
+nsubj(write-3, We-1)
+aux(write-3, should-2)
+dobj(write-3, password-5)
+prep_instead_of(password-5, pass-10)
+det(case-14, this-13)
+prep_in(pass-10, case-14)
+
+The/DT DBDParams/NN depend/VB on/IN the/DT postgresql/NN API/NN ./. 
+
+(ROOT (S (NP (DT The) (NN DBDParams)) (VP (VB depend) (PP (IN on) (NP (DT the) (NN postgresql) (NN API)))) (. .)))
+
+root(ROOT-0, depend-3)
+det(DBDParams-2, The-1)
+nsubj(depend-3, DBDParams-2)
+det(API-7, the-5)
+nn(API-7, postgresql-6)
+prep_on(depend-3, API-7)
+
+The/DT API/NNP is/VBZ described/VBN in/IN the/DT following/VBG site/NN :/: http://www.postgresql.org/docs/7.4/static/libpq.html#LIBPQ-CONNECT/NN http://www.postgresql.org/docs/8.1/static/libpq.html#LIBPQ-CONNECT/NN 
+
+(ROOT (S (NP (DT The) (NNP API)) (VP (VBZ is) (VP (VBN described) (PP (IN in) (NP (DT the) (VBG following) (NN site))) (: :) (NP (NN http://www.postgresql.org/docs/7.4/static/libpq.html#LIBPQ-CONNECT) (NN http://www.postgresql.org/docs/8.1/static/libpq.html#LIBPQ-CONNECT))))))
+
+root(ROOT-0, described-4)
+det(API-2, The-1)
+nsubjpass(described-4, API-2)
+auxpass(described-4, is-3)
+det(site-8, the-6)
+amod(site-8, following-7)
+prep_in(described-4, site-8)
+nn(http://www.postgresql.org/docs/8.1/static/libpq.html#LIBPQ-CONNECT-11, http://www.postgresql.org/docs/7.4/static/libpq.html#LIBPQ-CONNECT-10)
+dobj(described-4, http://www.postgresql.org/docs/8.1/static/libpq.html#LIBPQ-CONNECT-11)
+
+I/PRP think/VBP these/DT references/NNS are/VBP necessary/JJ in/IN addition/NN to/TO fixing/VBG "/`` pass/VB "/'' ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP think) (SBAR (S (NP (DT these) (NNS references)) (VP (VBP are) (ADJP (JJ necessary) (PP (IN in) (NP (NN addition))) (PP (TO to) (S (VP (VBG fixing) (VP (`` ``) (VB pass) ('' '')))))))))) (. .)))
+
+root(ROOT-0, think-2)
+nsubj(think-2, I-1)
+det(references-4, these-3)
+nsubj(necessary-6, references-4)
+cop(necessary-6, are-5)
+ccomp(think-2, necessary-6)
+prep_in(necessary-6, addition-8)
+prepc_to(necessary-6, fixing-10)
+xcomp(fixing-10, pass-12)
+

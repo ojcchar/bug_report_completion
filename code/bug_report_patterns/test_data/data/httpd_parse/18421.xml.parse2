@@ -1,0 +1,130 @@
+In/IN httpd.h/NN ,/, arg1/NN of/IN the/DT ap_regexec/JJ function/NN should/MD be/VB declared/VBN const/NN ./. 
+
+(ROOT (S (PP (IN In) (NP (NN httpd.h))) (, ,) (NP (NP (NN arg1)) (PP (IN of) (NP (DT the) (JJ ap_regexec) (NN function)))) (VP (MD should) (VP (VB be) (VP (VBN declared) (NP (NN const))))) (. .)))
+
+root(ROOT-0, declared-11)
+prep_in(declared-11, httpd.h-2)
+nsubjpass(declared-11, arg1-4)
+det(function-8, the-6)
+amod(function-8, ap_regexec-7)
+prep_of(arg1-4, function-8)
+aux(declared-11, should-9)
+auxpass(declared-11, be-10)
+dobj(declared-11, const-12)
+
+The/DT code/NN should/MD change/VB from/IN :/: 
+
+(ROOT (S (NP (DT The) (NN code)) (VP (MD should) (VP (VB change) (PP (IN from)))) (: :)))
+
+root(ROOT-0, change-4)
+det(code-2, The-1)
+nsubj(change-4, code-2)
+aux(change-4, should-3)
+prep(change-4, from-5)
+
+AP_DECLARE/NN (/-LRB- int/NN )/-RRB- ap_regexec/NN (/-LRB- regex_t/NN */SYM preg/NN ,/, const/NN char/NN */SYM string/NN ,/, size_t/NN nmatch/NN ,/, regmatch_t/NN pmatch/NN [/-LRB- ]/-RRB- ,/, int/NN eflags/NNS )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (NP (NP (NN AP_DECLARE)) (PRN (-LRB- -LRB-) (NP (NN int)) (-RRB- -RRB-))) (NN ap_regexec)) (PRN (-LRB- -LRB-) (NP (NP (NP (NN regex_t)) (SBAR (S (VP (SYM *) (NP (NN preg)))))) (, ,) (NP (NP (NN const) (NN char)) (SBAR (S (VP (SYM *) (NP (NN string)))))) (, ,) (NP (NN size_t) (NN nmatch)) (, ,) (NP (NP (NN regmatch_t) (NN pmatch) (-LRB- -LSB-) (-RRB- -RSB-)) (, ,) (NP (NN int) (NNS eflags)))) (-RRB- -RRB-))) (: ;)))
+
+root(ROOT-0, ap_regexec-5)
+nn(ap_regexec-5, AP_DECLARE-1)
+appos(AP_DECLARE-1, int-3)
+dep(ap_regexec-5, regex_t-7)
+dep(preg-9, *-8)
+rcmod(regex_t-7, preg-9)
+nn(char-12, const-11)
+appos(regex_t-7, char-12)
+dep(string-14, *-13)
+rcmod(char-12, string-14)
+nn(nmatch-17, size_t-16)
+appos(regex_t-7, nmatch-17)
+nn(pmatch-20, regmatch_t-19)
+appos(regex_t-7, pmatch-20)
+punct(pmatch-20, -LSB--21)
+punct(pmatch-20, -RSB--22)
+nn(eflags-25, int-24)
+appos(pmatch-20, eflags-25)
+
+to/TO :/: 
+
+(ROOT (NP (TO to) (: :)))
+
+root(ROOT-0, to-1)
+
+AP_DECLARE/NN (/-LRB- int/NN )/-RRB- ap_regexec/NN (/-LRB- const/NN regex_t/NN */SYM preg/NN ,/, const/NN char/NN */SYM string/NN ,/, size_t/NN nmatch/NN ,/, regmatch_t/NN pmatch/NN [/-LRB- ]/-RRB- ,/, int/NN eflags/NNS )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (NP (NP (NN AP_DECLARE)) (PRN (-LRB- -LRB-) (NP (NN int)) (-RRB- -RRB-))) (NN ap_regexec)) (PRN (-LRB- -LRB-) (NP (NP (NP (NN const) (NN regex_t)) (SBAR (S (VP (SYM *) (NP (NN preg)))))) (, ,) (NP (NP (NN const) (NN char)) (SBAR (S (VP (SYM *) (NP (NN string)))))) (, ,) (NP (NN size_t) (NN nmatch)) (, ,) (NP (NP (NN regmatch_t) (NN pmatch) (-LRB- -LSB-) (-RRB- -RSB-)) (, ,) (NP (NN int) (NNS eflags)))) (-RRB- -RRB-))) (: ;)))
+
+root(ROOT-0, ap_regexec-5)
+nn(ap_regexec-5, AP_DECLARE-1)
+appos(AP_DECLARE-1, int-3)
+nn(regex_t-8, const-7)
+dep(ap_regexec-5, regex_t-8)
+dep(preg-10, *-9)
+rcmod(regex_t-8, preg-10)
+nn(char-13, const-12)
+appos(regex_t-8, char-13)
+dep(string-15, *-14)
+rcmod(char-13, string-15)
+nn(nmatch-18, size_t-17)
+appos(regex_t-8, nmatch-18)
+nn(pmatch-21, regmatch_t-20)
+appos(regex_t-8, pmatch-21)
+punct(pmatch-21, -LSB--22)
+punct(pmatch-21, -RSB--23)
+nn(eflags-26, int-25)
+appos(pmatch-21, eflags-26)
+
+When/WRB executing/VBG a/DT regular/JJ expression/NN ,/, the/DT regex_t/NN structure/NN is/VBZ not/RB modified/VBN by/IN regexec/NN (/-LRB- see/VB the/DT regexec/JJ man/NN page/NN )/-RRB- ./. 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (VP (VBG executing) (NP (DT a) (JJ regular) (NN expression))))) (, ,) (NP (DT the) (NN regex_t) (NN structure)) (VP (VBZ is) (RB not) (VP (VBN modified) (PP (IN by) (NP (NP (NN regexec)) (PRN (-LRB- -LRB-) (S (VP (VB see) (NP (DT the) (JJ regexec) (NN man) (NN page)))) (-RRB- -RRB-)))))) (. .)))
+
+root(ROOT-0, modified-12)
+advmod(executing-2, When-1)
+advcl(modified-12, executing-2)
+det(expression-5, a-3)
+amod(expression-5, regular-4)
+dobj(executing-2, expression-5)
+det(structure-9, the-7)
+nn(structure-9, regex_t-8)
+nsubjpass(modified-12, structure-9)
+auxpass(modified-12, is-10)
+neg(modified-12, not-11)
+agent(modified-12, regexec-14)
+dep(regexec-14, see-16)
+det(page-20, the-17)
+amod(page-20, regexec-18)
+nn(page-20, man-19)
+dobj(see-16, page-20)
+
+My/PRP$ compiler/NN gives/VBZ warning/VBG messages/NNS when/WRB passing/VBG "/`` const/JJ regex_t/NN */SYM "/'' to/TO ap_regexec/VB ,/, even/RB though/IN it/PRP 's/VBZ perfectly/RB valid/JJ to/TO use/VB "/`` const/JJ regex_t/NN */SYM "/'' instead/RB of/IN "/`` regex_t/JJ */NN "/'' ./. 
+
+(ROOT (S (NP (PRP$ My) (NN compiler)) (VP (VBZ gives) (NP (NP (VBG warning) (NNS messages) (SBAR (WHADVP (WRB when)) (S (VP (VBG passing) (`` ``) (NP (NP (NP (JJ const)) (NP (NN regex_t))) (X (SYM *))) ('' '') (S (VP (TO to) (VP (VB ap_regexec) (, ,) (SBAR (RB even) (IN though) (S (NP (PRP it)) (VP (VBZ 's) (ADJP (RB perfectly) (JJ valid)) (S (VP (TO to) (VP (VB use) (`` ``) (NP (NP (ADJP (JJ const)) (NN regex_t)) (X (SYM *))) ('' '')))))))))))))) (CONJP (RB instead) (IN of)) (NP (`` ``) (JJ regex_t) (NN *) ('' '')))) (. .)))
+
+root(ROOT-0, gives-3)
+poss(compiler-2, My-1)
+nsubj(gives-3, compiler-2)
+amod(messages-5, warning-4)
+dobj(gives-3, messages-5)
+advmod(passing-7, when-6)
+ccomp(messages-5, passing-7)
+dobj(passing-7, const-9)
+dep(const-9, regex_t-10)
+dep(const-9, *-11)
+aux(ap_regexec-14, to-13)
+vmod(passing-7, ap_regexec-14)
+advmod(valid-21, even-16)
+mark(valid-21, though-17)
+nsubj(valid-21, it-18)
+cop(valid-21, 's-19)
+advmod(valid-21, perfectly-20)
+advcl(ap_regexec-14, valid-21)
+aux(use-23, to-22)
+xcomp(valid-21, use-23)
+amod(regex_t-26, const-25)
+dobj(use-23, regex_t-26)
+dep(regex_t-26, *-27)
+amod(*-33, regex_t-32)
+dobj(gives-3, *-33)
+conj_negcc(messages-5, *-33)
+

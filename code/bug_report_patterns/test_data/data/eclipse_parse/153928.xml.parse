@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>153928</id>
+	<title>Tomcat PublishOperation2 does not handle resources out of sync</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Eclipse 3.2
+WTP 1.5.1 M20060811</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I've written a publish operation that adds a virtual folder to a flex project.</sentence>
+			<sentence id="2.2">The virtual folder is an output folder of a project.</sentence>
+			<sentence id="2.3">The publish operation then generates some files in the output folder.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The publish operation is contributed via the publishTask extension point and its priority is configured so that it runs before other publish operations.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This basically works, except that I get dialog boxes with resource out of sync errors.</sentence>
+			<sentence id="4.2">I tracked it down (using a CoreException breakpoint) to PublishOperation2#execute (line 53).</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I suggest that PublishOperation2 should not break because of such a simple problem.</sentence>
+			<sentence id="5.2">Instead it could easily perform a refrestLocal before publishing the files.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">There is also another thing I don't understand.</sentence>
+			<sentence id="6.2">I'm using a flex project and configured a virtual deployment folder in it that maps to a project location.</sentence>
+			<sentence id="6.3">The Tomcat server is also configured to run the projects right out of the workspace.</sentence>
+			<sentence id="6.4">So why is this operation still copying the files?</sentence>
+		</paragraph>
+	</description>
+</bug>

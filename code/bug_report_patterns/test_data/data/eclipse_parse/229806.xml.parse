@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>229806</id>
+	<title>[typing] "Indent Line" did not complete normally. assertion failed.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Build ID: I20080409-1425</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps To Reproduce:</sentence>
+			<sentence id="2.2">Unsure how to reproduce.</sentence>
+			<sentence id="2.3">I was editing some Java source, selected some lines and maybe alt-tabbed away from Eclipse or hit the up arrow or something when the error dialog popped up.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The following showed up in my error log:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">org.eclipse.core.runtime.AssertionFailedException: assertion failed:</sentence>
+			<sentence id="4.2">at org.eclipse.core.runtime.Assert.isTrue(Assert.java:109)</sentence>
+			<sentence id="4.3">at org.eclipse.core.runtime.Assert.isTrue(Assert.java:95)</sentence>
+			<sentence id="4.4">at org.eclipse.jdt.internal.ui.actions.IndentAction.selectAndReveal(IndentAction.java:220)</sentence>
+			<sentence id="4.5">at org.eclipse.jdt.internal.ui.actions.IndentAction.access$5(IndentAction.java:218)</sentence>
+			<sentence id="4.6">at org.eclipse.jdt.internal.ui.actions.IndentAction$1.run(IndentAction.java:189)</sentence>
+			<sentence id="4.7">at org.eclipse.jdt.internal.ui.actions.IndentAction.run(IndentAction.java:207)</sentence>
+			<sentence id="4.8">at org.eclipse.jface.action.Action.runWithEvent(Action.java:498)</sentence>
+			<sentence id="4.9">at org.eclipse.ui.commands.ActionHandler.execute(ActionHandler.java:185)</sentence>
+			<sentence id="4.10">at org.eclipse.ui.internal.handlers.LegacyHandlerWrapper.execute(LegacyHandlerWrapper.java:109)</sentence>
+			<sentence id="4.11">at org.eclipse.core.commands.Command.executeWithChecks(Command.java:476)</sentence>
+			<sentence id="4.12">at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:508)</sentence>
+			<sentence id="4.13">at org.eclipse.ui.internal.handlers.HandlerService.executeCommand(HandlerService.java:169)</sentence>
+			<sentence id="4.14">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.executeCommand(WorkbenchKeyboard.java:471)</sentence>
+			<sentence id="4.15">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.press(WorkbenchKeyboard.java:822)</sentence>
+			<sentence id="4.16">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.processKeyEvent(WorkbenchKeyboard.java:880)</sentence>
+			<sentence id="4.17">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.filterKeySequenceBindings(WorkbenchKeyboard.java:569)</sentence>
+			<sentence id="4.18">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.access$3(WorkbenchKeyboard.java:511)</sentence>
+			<sentence id="4.19">at org.eclipse.ui.internal.keys.WorkbenchKeyboard$KeyDownFilter.handleEvent(WorkbenchKeyboard.java:126)</sentence>
+			<sentence id="4.20">at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:83)</sentence>
+			<sentence id="4.21">at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1160)</sentence>
+			<sentence id="4.22">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1001)</sentence>
+			<sentence id="4.23">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1026)</sentence>
+			<sentence id="4.24">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1011)</sentence>
+			<sentence id="4.25">at org.eclipse.swt.widgets.Control.traverse(Control.java:3493)</sentence>
+			<sentence id="4.26">at org.eclipse.swt.widgets.Control.translateTraversal(Control.java:3475)</sentence>
+			<sentence id="4.27">at org.eclipse.swt.widgets.Composite.translateTraversal(Composite.java:1092)</sentence>
+			<sentence id="4.28">at org.eclipse.swt.widgets.Display.translateTraversal(Display.java:4303)</sentence>
+			<sentence id="4.29">at org.eclipse.swt.widgets.Display.filterMessage(Display.java:1174)</sentence>
+			<sentence id="4.30">at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3368)</sentence>
+			<sentence id="4.31">at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2375)</sentence>
+			<sentence id="4.32">at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2339)</sentence>
+			<sentence id="4.33">at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2205)</sentence>
+			<sentence id="4.34">at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:478)</sentence>
+			<sentence id="4.35">at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:288)</sentence>
+			<sentence id="4.36">at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:473)</sentence>
+			<sentence id="4.37">at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)</sentence>
+			<sentence id="4.38">at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)</sentence>
+			<sentence id="4.39">at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:193)</sentence>
+			<sentence id="4.40">at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)</sentence>
+			<sentence id="4.41">at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)</sentence>
+			<sentence id="4.42">at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:362)</sentence>
+			<sentence id="4.43">at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:175)</sentence>
+			<sentence id="4.44">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="4.45">at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)</sentence>
+			<sentence id="4.46">at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)</sentence>
+			<sentence id="4.47">at java.lang.reflect.Method.invoke(Unknown Source)</sentence>
+			<sentence id="4.48">at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:549)</sentence>
+			<sentence id="4.49">at org.eclipse.equinox.launcher.Main.basicRun(Main.java:504)</sentence>
+			<sentence id="4.50">at org.eclipse.equinox.launcher.Main.run(Main.java:1236)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">More information:</sentence>
+		</paragraph>
+	</description>
+</bug>

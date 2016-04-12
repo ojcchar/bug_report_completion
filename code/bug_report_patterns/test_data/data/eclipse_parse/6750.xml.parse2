@@ -1,0 +1,103 @@
+If/IN a/DT classpath/NN passed/VBD to/TO the/DT compiler/NN contains/VBZ an/DT invalid/JJ entry/NN ,/, the/DT compiler/NN throws/VBZ an/DT exception/NN ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (DT a) (NN classpath)) (VP (VBD passed) (PP (TO to) (NP (NP (DT the) (NN compiler)) (VP (VBZ contains) (NP (DT an) (ADJP (JJ invalid)) (NN entry)))))))) (, ,) (NP (DT the) (NN compiler)) (VP (VBZ throws) (NP (DT an) (NN exception))) (. .)))
+
+root(ROOT-0, throws-15)
+mark(passed-4, If-1)
+det(classpath-3, a-2)
+nsubj(passed-4, classpath-3)
+advcl(throws-15, passed-4)
+det(compiler-7, the-6)
+prep_to(passed-4, compiler-7)
+dep(compiler-7, contains-8)
+det(entry-11, an-9)
+amod(entry-11, invalid-10)
+dobj(contains-8, entry-11)
+det(compiler-14, the-13)
+nsubj(throws-15, compiler-14)
+det(exception-17, an-16)
+dobj(throws-15, exception-17)
+
+At/IN worst/JJS ,/, it/PRP should/MD log/VB a/DT warning/NN ,/, but/CC should/MD proceed/VB by/IN ignoring/VBG invalid/JJ entries/NNS on/IN the/DT classpath/NN ./. 
+
+(ROOT (S (ADVP (IN At) (JJS worst)) (, ,) (NP (PRP it)) (VP (VP (MD should) (VP (VB log) (NP (DT a) (NN warning)))) (, ,) (CC but) (VP (MD should) (VP (VB proceed) (PP (IN by) (S (VP (VBG ignoring) (NP (JJ invalid) (NNS entries)) (PP (IN on) (NP (DT the) (NN classpath))))))))) (. .)))
+
+root(ROOT-0, log-6)
+advmod(log-6, At-1)
+pobj(At-1, worst-2)
+nsubj(log-6, it-4)
+nsubj(proceed-12, it-4)
+aux(log-6, should-5)
+det(warning-8, a-7)
+dobj(log-6, warning-8)
+aux(proceed-12, should-11)
+conj_but(log-6, proceed-12)
+prepc_by(proceed-12, ignoring-14)
+amod(entries-16, invalid-15)
+dobj(ignoring-14, entries-16)
+det(classpath-19, the-18)
+prep_on(ignoring-14, classpath-19)
+
+This/DT is/VBZ pretty/RB much/RB in/IN line/NN with/IN what/WP javac/NN does/VBZ ./. 
+
+(ROOT (S (NP (DT This)) (VP (VBZ is) (ADJP (RB pretty) (RB much) (PP (IN in) (NP (NN line)))) (PP (IN with) (SBAR (WHNP (WP what)) (S (NP (NN javac)) (VP (VBZ does)))))) (. .)))
+
+root(ROOT-0, much-4)
+nsubj(much-4, This-1)
+cop(much-4, is-2)
+advmod(much-4, pretty-3)
+prep_in(much-4, line-6)
+dobj(does-10, what-8)
+nsubj(does-10, javac-9)
+prepc_with(much-4, does-10)
+
+The/DT code/NN is/VBZ in/IN Main.java/NN at/IN line/NN 602/CD 
+
+(ROOT (S (NP (DT The) (NN code)) (VP (VBZ is) (PP (IN in) (NP (NP (NN Main.java)) (PP (IN at) (NP (NN line) (CD 602))))))))
+
+root(ROOT-0, is-3)
+det(code-2, The-1)
+nsubj(is-3, code-2)
+prep_in(is-3, Main.java-5)
+prep_at(Main.java-5, line-7)
+num(line-7, 602-8)
+
+for/IN (/-LRB- int/NN i/FW =/JJ 0/CD ,/, max/NN =/JJ classpaths.length/NN ;/: i/LS </JJR max/NN ;/: i/LS +/CC +/CC )/-RRB- {/-LRB- File/VB file/NN =/JJ new/JJ File/NN (/-LRB- classpaths/NNS [/-LRB- i/FW ]/-RRB- )/-RRB- ;/: if/IN (/-LRB- !/. 
+
+(ROOT (NP (NP (NP (NP (IN for)) (PRN (-LRB- -LRB-) (S (NP (NP (NN int)) (NP (FW i)) (NP (NP (NP (JJ =) (CD 0)) (, ,) (NP (NN max) (JJ =) (NN classpaths.length))) (: ;) (NP (NP (LS i) (JJR <) (NN max)) (: ;) (NP (LS i) (CC +))))) (NP (CC +))) (-RRB- -RRB-))) (PRN (-LRB- -LCB-) (S (VP (VB File) (NP (NP (NN file) (JJ =) (JJ new) (NN File)) (PRN (-LRB- -LRB-) (NP (NP (NNS classpaths)) (-LRB- -LSB-) (NP (FW i))) (-RRB- -RSB-))))) (-RRB- -RRB-))) (: ;) (NP (IN if) (NP (-LRB- -LRB-))) (. !)))
+
+root(ROOT-0, for-1)
+dep(+-18, int-3)
+dep(int-3, i-4)
+amod(0-6, =-5)
+dep(int-3, 0-6)
+nn(classpaths.length-10, max-8)
+amod(classpaths.length-10, =-9)
+appos(0-6, classpaths.length-10)
+dep(max-14, i-12)
+amod(max-14, <-13)
+dep(0-6, max-14)
+dep(max-14, i-16)
+cc(i-16, +-17)
+dep(for-1, +-18)
+dep(for-1, File-21)
+nn(File-25, file-22)
+amod(File-25, =-23)
+amod(File-25, new-24)
+dobj(File-21, File-25)
+dep(File-25, classpaths-27)
+punct(classpaths-27, -LSB--28)
+dep(classpaths-27, i-29)
+punct(classpaths-27, -RSB--30)
+amod(-LRB--34, if-33)
+
+file.exists/NNS (/-LRB- )/-RRB- )/-RRB- throw/VBP new/JJ InvalidInputException/NNP (/-LRB- Main.bind/NNP }/-RRB- 
+
+(ROOT (S (NP (NP (NNS file.exists)) (PRN (-LRB- -LRB-) (NP (-RRB- -RRB-)) (-RRB- -RRB-))) (VP (VBP throw) (NP (NP (JJ new) (NNP InvalidInputException)) (PRN (-LRB- -LRB-) (NP (NNP Main.bind)) (-RRB- -RCB-))))))
+
+root(ROOT-0, throw-5)
+nsubj(throw-5, file.exists-1)
+amod(InvalidInputException-7, new-6)
+dobj(throw-5, InvalidInputException-7)
+appos(InvalidInputException-7, Main.bind-9)
+

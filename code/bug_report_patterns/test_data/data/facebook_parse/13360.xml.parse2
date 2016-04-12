@@ -1,0 +1,123 @@
+Repro/NNP :/: 
+
+(ROOT (NP (NNP Repro) (: :)))
+
+root(ROOT-0, Repro-1)
+
+-/: Go/VB to/TO specified/VBN URL/NN 
+
+(ROOT (PRN (: -) (S (VP (VB Go) (PP (TO to) (NP (VBN specified) (NN URL)))))))
+
+root(ROOT-0, Go-2)
+amod(URL-5, specified-4)
+prep_to(Go-2, URL-5)
+
+-/: Uncheck/NNP the/DT Show/NNP Header/NNP checkbox/NN 
+
+(ROOT (PRN (: -) (NP (NP (NNP Uncheck)) (NP (DT the) (NNP Show) (NNP Header) (NN checkbox)))))
+
+root(ROOT-0, Uncheck-2)
+det(checkbox-6, the-3)
+nn(checkbox-6, Show-4)
+nn(checkbox-6, Header-5)
+dep(Uncheck-2, checkbox-6)
+
+-/: click/VB Get/VB Code/NNP 
+
+(ROOT (PRN (: -) (S (VP (VB click) (VP (VB Get) (NP (NNP Code)))))))
+
+root(ROOT-0, click-2)
+xcomp(click-2, Get-3)
+dobj(Get-3, Code-4)
+
+The/DT XFBML/NN result/NN is/VBZ :/: &/CC lt/NN ;/: fb/NN :/: activity/NN recommendations/NNS =/JJ true/JJ &/CC gt/NN ;/: &/CC lt/NN ;/: //: fb/NN :/: activity/NN &/CC gt/NN ;/: 
+
+(ROOT (S (NP (DT The) (NN XFBML) (NN result)) (VP (VBZ is) (: :) (NP (NP (NP (NP (CC &) (NN lt)) (: ;) (NP (NP (NP (NN fb)) (: :) (NP (NP (NP (NN activity) (NNS recommendations)) (ADJP (JJ =) (JJ true))) (CC &) (NP (NN gt))) (: ;)) (CC &) (NP (NN lt))) (: ;)) (PRN (: /) (NP (NP (NN fb)) (: :) (NP (NN activity))))) (CC &) (NP (NN gt)))) (: ;)))
+
+root(ROOT-0, lt-7)
+det(result-3, The-1)
+nn(result-3, XFBML-2)
+nsubj(lt-7, result-3)
+cop(lt-7, is-4)
+dep(lt-7, fb-9)
+nn(recommendations-12, activity-11)
+dep(fb-9, recommendations-12)
+amod(true-14, =-13)
+amod(recommendations-12, true-14)
+dep(fb-9, gt-16)
+conj_and(recommendations-12, gt-16)
+dep(lt-7, lt-19)
+conj_and(fb-9, lt-19)
+punct(fb-22, /-21)
+dep(lt-7, fb-22)
+dep(fb-22, activity-24)
+conj_and(lt-7, gt-26)
+
+The/DT iframe/JJ code/NN is/VBZ :/: &/CC lt/NN ;/: iframe/NN src/NN =/JJ http://www.facebook.com/plugins/activity.php?site=www.example.com&amp;amp;width=300&amp;amp;height=300&amp;amp;header=true&amp;amp;colorscheme=light&amp;amp;recommendations=true/NN scrolling/NN =/JJ no/DT frameborder/NN =/JJ 0/CD style/NN =/JJ border/NN :/: none/NN ;/: overflow/NN :/: hidden/VBN ;/: width/NN :300/CD px/NN ;/: height/NN :300/CD px/NN ;/: allowTransparency/NN =/JJ true/JJ &/CC gt/NN ;/: &/CC lt/NN ;/: //: iframe/NN &/CC gt/NN ;/: 
+
+(ROOT (S (NP (DT The) (JJ iframe) (NN code)) (VP (VP (VBZ is)) (: :) (NP (CC &) (NP (NN lt)) (: ;) (NP (NN iframe) (NN src)) (SBAR (S (VP (NP (NP (NP (JJ =) (NN http://www.facebook.com/plugins/activity.php?site=www.example.com&amp;amp;width=300&amp;amp;height=300&amp;amp;header=true&amp;amp;colorscheme=light&amp;amp;recommendations=true) (NN scrolling)) (VP (JJ =) (NP (DT no) (NN frameborder) (JJ =) (CD 0) (NN style)) (NP (NP (JJ =) (NN border)) (: :) (NP (NP (NN none)) (: ;) (NP (NN overflow))) (: :)))) (VP (VBN hidden)) (: ;) (NP (NP (NP (NN width)) (NP (CD :300) (NN px))) (: ;) (NP (NP (NN height)) (NP (CD :300) (NN px))) (: ;) (NP (NP (NP (NN allowTransparency)) (ADJP (JJ =) (JJ true))) (CC &) (NP (NP (NN gt)) (: ;) (NP (CC &) (NN lt))))) (: ;)) (PRN (: /) (NP (NP (NN iframe)) (CC &) (NP (NN gt))))))))) (: ;)))
+
+root(ROOT-0, is-4)
+det(code-3, The-1)
+amod(code-3, iframe-2)
+nsubj(is-4, code-3)
+cc(lt-7, &-6)
+dobj(is-4, lt-7)
+nn(src-10, iframe-9)
+dep(lt-7, src-10)
+amod(scrolling-13, =-11)
+nn(scrolling-13, http://www.facebook.com/plugins/activity.php?site=www.example.com&amp;amp;width=300&amp;amp;height=300&amp;amp;header=true&amp;amp;colorscheme=light&amp;amp;recommendations=true-12)
+rcmod(lt-7, scrolling-13)
+dep(scrolling-13, =-14)
+neg(style-19, no-15)
+nn(style-19, frameborder-16)
+amod(style-19, =-17)
+num(style-19, 0-18)
+iobj(=-14, style-19)
+amod(border-21, =-20)
+dobj(=-14, border-21)
+dep(border-21, none-23)
+dep(none-23, overflow-25)
+vmod(scrolling-13, hidden-27)
+dep(scrolling-13, width-29)
+num(px-31, :300-30)
+dep(width-29, px-31)
+dep(width-29, height-33)
+num(px-35, :300-34)
+dep(height-33, px-35)
+dep(width-29, allowTransparency-37)
+amod(true-39, =-38)
+amod(allowTransparency-37, true-39)
+dep(width-29, gt-41)
+conj_and(allowTransparency-37, gt-41)
+cc(lt-44, &-43)
+dep(gt-41, lt-44)
+punct(iframe-47, /-46)
+dep(scrolling-13, iframe-47)
+dep(scrolling-13, gt-49)
+conj_and(iframe-47, gt-49)
+
+Note/VB that/IN the/DT XFBML/NN does/VBZ not/RB include/VB the/DT header/NN =/JJ false/JJ and/CC the/DT iframe/JJ mistakenly/RB includes/VBZ header/NN =/JJ true/JJ ./. 
+
+(ROOT (S (VP (VB Note) (SBAR (IN that) (S (S (NP (DT the) (NN XFBML)) (VP (VBZ does) (RB not) (VP (VB include) (NP (NP (DT the) (NN header)) (ADJP (JJ =) (JJ false)))))) (CC and) (S (NP (DT the) (JJ iframe)) (ADVP (RB mistakenly)) (VP (VBZ includes) (NP (NP (NN header)) (ADJP (JJ =) (JJ true)))))))) (. .)))
+
+root(ROOT-0, Note-1)
+mark(include-7, that-2)
+det(XFBML-4, the-3)
+nsubj(include-7, XFBML-4)
+aux(include-7, does-5)
+neg(include-7, not-6)
+ccomp(Note-1, include-7)
+det(header-9, the-8)
+dobj(include-7, header-9)
+amod(false-11, =-10)
+amod(header-9, false-11)
+det(iframe-14, the-13)
+nsubj(includes-16, iframe-14)
+advmod(includes-16, mistakenly-15)
+ccomp(Note-1, includes-16)
+conj_and(include-7, includes-16)
+dobj(includes-16, header-17)
+amod(true-19, =-18)
+amod(header-17, true-19)
+

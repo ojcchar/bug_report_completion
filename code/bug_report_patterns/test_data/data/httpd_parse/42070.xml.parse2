@@ -1,0 +1,111 @@
+apr_port_t/NN is/VBZ unsined/JJ ,/, but/CC %/NN hd/NN is/VBZ used/VBN in/IN printf/NN ./. 
+
+(ROOT (S (S (NP (NN apr_port_t)) (VP (VBZ is) (ADJP (JJ unsined)))) (, ,) (CC but) (S (NP (NN %) (NN hd)) (VP (VBZ is) (VP (VBN used) (PP (IN in) (NP (NN printf)))))) (. .)))
+
+root(ROOT-0, unsined-3)
+nsubj(unsined-3, apr_port_t-1)
+cop(unsined-3, is-2)
+nn(hd-7, %-6)
+nsubjpass(used-9, hd-7)
+auxpass(used-9, is-8)
+conj_but(unsined-3, used-9)
+prep_in(used-9, printf-11)
+
+*/SYM How/WRB To/TO reproduce/VB 
+
+(ROOT (X (X (SYM *)) (ADJP (WRB How) (S (VP (TO To) (VP (VB reproduce)))))))
+
+root(ROOT-0, How-2)
+dep(How-2, *-1)
+aux(reproduce-4, To-3)
+xcomp(How-2, reproduce-4)
+
+(/-LRB- 1/CD you/PRP start/VBP webserver/NN at/IN port/NN 40000/CD ./. 
+
+(ROOT (S (-LRB- -LRB-) (NP (CD 1)) (NP (PRP you)) (VP (VBP start) (NP (NN webserver)) (PP (IN at) (NP (NN port) (CD 40000)))) (. .)))
+
+root(ROOT-0, start-4)
+nsubj(start-4, 1-2)
+nsubj(start-4, you-3)
+dobj(start-4, webserver-5)
+prep_at(start-4, port-7)
+num(port-7, 40000-8)
+
+(/-LRB- 2/CD ab/SYM -/: n/NN 1/CD -/: c/NN 1/CD http://localhost:40000//NN 
+
+(ROOT (NP (-LRB- -LRB-) (NP (CD 2)) (PP (SYM ab) (PRN (: -) (NP (NN n) (CD 1)) (: -)) (NP (NN c) (CD 1) (NN http://localhost:40000/)))))
+
+root(ROOT-0, 2-2)
+prep(2-2, ab-3)
+dep(ab-3, n-5)
+num(n-5, 1-6)
+nn(http://localhost:40000/-10, c-8)
+num(http://localhost:40000/-10, 1-9)
+pobj(ab-3, http://localhost:40000/-10)
+
+*/SYM Actual/NNP Result/NN 
+
+(ROOT (FRAG (X (X (SYM *)) (NP (NNP Actual))) (NP (NN Result))))
+
+root(ROOT-0, Result-3)
+dep(Actual-2, *-1)
+dep(Result-3, Actual-2)
+
+Server/NN Software/NNP :/: Apache/2/NN .2.4/CD 
+
+(ROOT (NP (NP (NN Server) (NNP Software)) (: :) (NP (NN Apache/2) (CD .2.4))))
+
+root(ROOT-0, Software-2)
+nn(Software-2, Server-1)
+dep(Software-2, Apache/2-4)
+num(Apache/2-4, .2.4-5)
+
+Server/NN Hostname/NNP :/: localhost/NN 
+
+(ROOT (NP (NP (NN Server) (NNP Hostname)) (: :) (NP (NN localhost))))
+
+root(ROOT-0, Hostname-2)
+nn(Hostname-2, Server-1)
+dep(Hostname-2, localhost-4)
+
+Server/NN Port/NNP :/: -25536/CD 
+
+(ROOT (NP (NP (NN Server) (NNP Port)) (: :) (NP (CD -25536))))
+
+root(ROOT-0, Port-2)
+nn(Port-2, Server-1)
+dep(Port-2, -25536-4)
+
+*/SYM Expected/VBN Result/NN 
+
+(ROOT (X (X (SYM *)) (PP (VBN Expected) (NP (NN Result)))))
+
+root(ROOT-0, Expected-2)
+dep(Expected-2, *-1)
+pobj(Expected-2, Result-3)
+
+Server/NN Software/NNP :/: Apache/2/NN .2.4/CD 
+
+(ROOT (NP (NP (NN Server) (NNP Software)) (: :) (NP (NN Apache/2) (CD .2.4))))
+
+root(ROOT-0, Software-2)
+nn(Software-2, Server-1)
+dep(Software-2, Apache/2-4)
+num(Apache/2-4, .2.4-5)
+
+Server/NN Hostname/NNP :/: localhost/NN 
+
+(ROOT (NP (NP (NN Server) (NNP Hostname)) (: :) (NP (NN localhost))))
+
+root(ROOT-0, Hostname-2)
+nn(Hostname-2, Server-1)
+dep(Hostname-2, localhost-4)
+
+Server/NN Port/NNP :/: 40000/CD 
+
+(ROOT (NP (NP (NN Server) (NNP Port)) (: :) (NP (CD 40000))))
+
+root(ROOT-0, Port-2)
+nn(Port-2, Server-1)
+dep(Port-2, 40000-4)
+

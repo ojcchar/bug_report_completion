@@ -1,0 +1,150 @@
+3/CD 3/CD rc3/NN 
+
+(ROOT (X (NP (QP (CD 3) (CD 3)) (NN rc3))))
+
+root(ROOT-0, rc3-3)
+number(3-2, 3-1)
+num(rc3-3, 3-2)
+
+Adding/VBG a/DT java/NN breakpoints/NNS that/WDT is/VBZ already/RB in/IN the/DT breakpoint/NN list/NN but/CC disabled/JJ ,/, should/MD re-enable/VB it/PRP ./. 
+
+(ROOT (S (S (VP (VBG Adding) (NP (NP (DT a) (NN java) (NNS breakpoints)) (SBAR (WHNP (WDT that)) (S (VP (VP (VBZ is) (ADVP (RB already)) (PP (IN in) (NP (DT the) (NN breakpoint) (NN list)))) (CC but) (VP (JJ disabled)))))))) (, ,) (VP (MD should) (VP (VB re-enable) (NP (PRP it)))) (. .)))
+
+root(ROOT-0, re-enable-16)
+dep(re-enable-16, Adding-1)
+det(breakpoints-4, a-2)
+nn(breakpoints-4, java-3)
+dobj(Adding-1, breakpoints-4)
+nsubj(is-6, that-5)
+nsubj(disabled-13, that-5)
+rcmod(breakpoints-4, is-6)
+advmod(is-6, already-7)
+det(list-11, the-9)
+nn(list-11, breakpoint-10)
+prep_in(is-6, list-11)
+rcmod(breakpoints-4, disabled-13)
+conj_but(is-6, disabled-13)
+aux(re-enable-16, should-15)
+dobj(re-enable-16, it-17)
+
+Steps/NNS to/TO reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB reproduce))) (: :)))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+
+-/: go/VB to/TO the/DT breakpoints/NNS view/VBP 
+
+(ROOT (PRN (: -) (S (VP (VB go) (PP (TO to) (NP (NP (DT the) (NNS breakpoints)) (SBAR (S (VP (VBP view))))))))))
+
+root(ROOT-0, go-2)
+det(breakpoints-5, the-4)
+prep_to(go-2, breakpoints-5)
+rcmod(breakpoints-5, view-6)
+
+-/: click/VB "/`` add/VB a/DT java/NN exception/NN breakpoint/NN "/'' 
+
+(ROOT (PRN (: -) (S (VP (VB click) (VP (`` ``) (VB add) (NP (DT a) (NN java) (NN exception) (NN breakpoint)) ('' ''))))))
+
+root(ROOT-0, click-2)
+xcomp(click-2, add-4)
+det(breakpoint-8, a-5)
+nn(breakpoint-8, java-6)
+nn(breakpoint-8, exception-7)
+dobj(add-4, breakpoint-8)
+
+-/: select/JJ NullPointerException/NNP ,/, notice/NN that/IN an/DT entry/NN is/VBZ added/VBN to/TO the/DT view/NN 
+
+(ROOT (PRN (: -) (NP (NP (JJ select) (NNP NullPointerException)) (, ,) (NP (NP (NN notice)) (SBAR (IN that) (S (NP (DT an) (NN entry)) (VP (VBZ is) (VP (VBN added) (PP (TO to) (NP (DT the) (NN view)))))))))))
+
+root(ROOT-0, NullPointerException-3)
+amod(NullPointerException-3, select-2)
+appos(NullPointerException-3, notice-5)
+mark(added-10, that-6)
+det(entry-8, an-7)
+nsubjpass(added-10, entry-8)
+auxpass(added-10, is-9)
+dep(notice-5, added-10)
+det(view-13, the-12)
+prep_to(added-10, view-13)
+
+-/: in/IN the/DT view/NN ,/, disable/VB the/DT added/VBN breakpoint/NN 
+
+(ROOT (PRN (: -) (PP (IN in) (NP (DT the) (NN view))) (, ,) (S (VP (VB disable) (NP (DT the) (VBN added) (NN breakpoint))))))
+
+root(ROOT-0, disable-6)
+det(view-4, the-3)
+prep_in(disable-6, view-4)
+det(breakpoint-9, the-7)
+amod(breakpoint-9, added-8)
+dobj(disable-6, breakpoint-9)
+
+-/: click/VB "/`` add/VB a/DT java/NN exception/NN breakpoint/NN "/'' 
+
+(ROOT (PRN (: -) (S (VP (VB click) (VP (`` ``) (VB add) (NP (DT a) (NN java) (NN exception) (NN breakpoint)) ('' ''))))))
+
+root(ROOT-0, click-2)
+xcomp(click-2, add-4)
+det(breakpoint-8, a-5)
+nn(breakpoint-8, java-6)
+nn(breakpoint-8, exception-7)
+dobj(add-4, breakpoint-8)
+
+-/: select/JJ NullPointerException/NNP ,/, notice/NN that/IN an/DT entry/NN is/VBZ not/RB re-enabled/JJ ./. 
+
+(ROOT (NP (: -) (NP (NP (JJ select) (NNP NullPointerException)) (, ,) (NP (NP (NN notice)) (SBAR (IN that) (S (NP (DT an) (NN entry)) (VP (VBZ is) (RB not) (ADJP (JJ re-enabled))))))) (. .)))
+
+root(ROOT-0, NullPointerException-3)
+amod(NullPointerException-3, select-2)
+appos(NullPointerException-3, notice-5)
+mark(re-enabled-11, that-6)
+det(entry-8, an-7)
+nsubj(re-enabled-11, entry-8)
+cop(re-enabled-11, is-9)
+neg(re-enabled-11, not-10)
+dep(notice-5, re-enabled-11)
+
+This/DT is/VBZ pretty/RB annoying/JJ since/IN even/RB though/IN I/PRP may/MD at/IN one/CD point/NN have/VBP disabled/VBN the/DT exception/NN breakpoint/NN ,/, when/WRB I/PRP go/VBP back/RB to/TO the/DT "/`` add/VB a/DT java/NN exception/NN breakpoint/NN "/'' ,/, it/PRP is/VBZ that/IN I/PRP want/VBP this/DT breakpoint/NN to/TO be/VB enabled/VBN ./. 
+
+(ROOT (S (NP (DT This)) (VP (VBZ is) (ADJP (RB pretty) (JJ annoying)) (SBAR (IN since) (S (SBAR (RB even) (IN though) (S (NP (PRP I)) (VP (MD may) (X (X (IN at)) (NP (NP (CD one) (NN point)) (SBAR (S (VP (VBP have) (VP (VBN disabled) (NP (NP (DT the) (NN exception) (NN breakpoint)) (, ,) (SBAR (WHADVP (WRB when)) (S (NP (PRP I)) (VP (VBP go) (ADVP (RB back)) (PP (TO to) (NP (DT the))))))))))))) (VP (`` ``) (VB add) (NP (DT a) (NN java) (NN exception) (NN breakpoint)) ('' ''))))) (, ,) (NP (PRP it)) (VP (VBZ is) (SBAR (IN that) (S (NP (PRP I)) (VP (VBP want) (S (NP (DT this) (NN breakpoint)) (VP (TO to) (VP (VB be) (VP (VBN enabled)))))))))))) (. .)))
+
+root(ROOT-0, annoying-4)
+nsubj(annoying-4, This-1)
+cop(annoying-4, is-2)
+advmod(annoying-4, pretty-3)
+mark(is-34, since-5)
+advmod(add-26, even-6)
+mark(add-26, though-7)
+nsubj(add-26, I-8)
+aux(add-26, may-9)
+dep(point-12, at-10)
+num(point-12, one-11)
+dep(add-26, point-12)
+aux(disabled-14, have-13)
+rcmod(point-12, disabled-14)
+det(breakpoint-17, the-15)
+nn(breakpoint-17, exception-16)
+dobj(disabled-14, breakpoint-17)
+advmod(go-21, when-19)
+nsubj(go-21, I-20)
+rcmod(breakpoint-17, go-21)
+advmod(go-21, back-22)
+prep_to(go-21, the-24)
+advcl(is-34, add-26)
+det(breakpoint-30, a-27)
+nn(breakpoint-30, java-28)
+nn(breakpoint-30, exception-29)
+dobj(add-26, breakpoint-30)
+nsubj(is-34, it-33)
+advcl(annoying-4, is-34)
+mark(want-37, that-35)
+nsubj(want-37, I-36)
+ccomp(is-34, want-37)
+det(breakpoint-39, this-38)
+dobj(want-37, breakpoint-39)
+aux(enabled-42, to-40)
+auxpass(enabled-42, be-41)
+xcomp(want-37, enabled-42)
+

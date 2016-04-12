@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>40372</id>
+	<title>SEGV in ap_mpm_pod_check, Line 32 at read(fd, &amp;c,  1);</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I had a semi-working apache server on this system with httpd-2.2.2, PHP 4.1.4,</sentence>
+			<sentence id="1.2">and a slightly different configuration. I updated to 2.2.3/4.1.6 trying to get</sentence>
+			<sentence id="1.3">mod_dbd working with mysql (I've got it turned it off now as it's currently not</sentence>
+			<sentence id="1.4">functional), and now serving some php files causes the httpd children to</sentence>
+			<sentence id="1.5">seg-fault. I built everything with debugging on and with core dumping (as per</sentence>
+			<sentence id="1.6">the great documentation) and running dbx on the core file gives the following...</sentence>
+			<sentence id="1.7">###############</sentence>
+			<sentence id="1.8">t@null (l@1) terminated by signal SEGV (Segmentation Fault)</sentence>
+			<sentence id="1.9">0xfffffd7ffeb9ad0a: _read+0x000a:       jae      _read+0x16     [</sentence>
+			<sentence id="1.10">0xfffffd7ffeb9ad16, .+0xc ]</sentence>
+			<sentence id="1.11">Current function is ap_mpm_pod_check</sentence>
+			<sentence id="1.12">   54       rc = read(fd, &amp;c, 1);</sentence>
+			<sentence id="1.13">(dbx) print fd</sentence>
+			<sentence id="1.14">fd = 6</sentence>
+			<sentence id="1.15">(dbx) print &amp;c</sentence>
+			<sentence id="1.16">&amp;c = 0xfffffd7fffdff763 ""</sentence>
+			<sentence id="1.17">(dbx) print ap_mpm_pod_check</sentence>
+			<sentence id="1.18">ap_mpm_pod_check = &amp;ap_mpm_pod_check(ap_pod_t *pod) at 0x480990</sentence>
+			<sentence id="1.19">(dbx)</sentence>
+			<sentence id="1.20">###############</sentence>
+			<sentence id="1.21">If you google for ap_mpm_pod_check, it seems there's a whole collection of other</sentence>
+			<sentence id="1.22">people hitting possibly the same problem, but randomly. I can do it consistently</sentence>
+			<sentence id="1.23">with a certain php file using xml templates (don't know if that's relevent).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">http://marc.theaimsgroup.com/?l=apache-modules&amp;m=113940878609090&amp;w=2
+http://marc.theaimsgroup.com/?l=apache-modules&amp;m=114077364714463&amp;w=2
+http://www.forbiddenweb.org/viewtopic.php?id=25875</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I'm not a dbx expert, or much of a programmer anymore, but I'd be willing to
+help whoever test patches / hunt down root cause / etc.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Thanks.</sentence>
+			<sentence id="4.2">John G.</sentence>
+		</paragraph>
+	</description>
+</bug>

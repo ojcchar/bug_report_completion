@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>14981</id>
+	<title>number of likes in social plugin_ graph api and FQL</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have different number of likes if i use the social plugin like button_ the FQL_ the graph API.</sentence>
+			<sentence id="1.2">For example for the url:
+http://www.imdb.com/title/tt0068646/</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">** SOCIAL PLUGIN LIKE BUTTON</sentence>
+			<sentence id="2.2">In the web page (social plugin) at this moment i see: 7233 likes.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">** GRAPH API</sentence>
+			<sentence id="3.2">If I call:</sentence>
+			<sentence id="3.3">https://graph.facebook.com/?ids=http://www.imdb.com/title/tt0068646/</sentence>
+			<sentence id="3.4">i see:  likes : 4440</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">** FQL</sentence>
+			<sentence id="4.2">If i call FQL:</sentence>
+			<sentence id="4.3">https://api.facebook.com/method/fql.query?query=select%20%20like_count_%20total_count_%20share_count_%20click_count%20from%20link_stat%20where%20url=%22http://www.imdb.com/title/tt0068646/%22</sentence>
+			<sentence id="4.4">I see:</sentence>
+			<sentence id="4.5">&lt;fql_query_response list= true &gt;&lt;link_stat&gt;&lt;like_count&gt;5256&lt;/like_count&gt;&lt;total_count&gt;7231&lt;/total_count&gt;&lt;share_count&gt;1154&lt;/share_count&gt;&lt;click_count&gt;196&lt;/click_count&gt;&lt;/link_stat&gt;&lt;/fql_query_response&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I think that the number in the social plugin is equal of  total_count  in the FQL query.</sentence>
+			<sentence id="5.2">But the number of the graph api ?</sentence>
+		</paragraph>
+	</description>
+</bug>

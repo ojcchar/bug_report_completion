@@ -1,0 +1,108 @@
+Build/VB identifier/NN :/: Mozilla/5/NN .0/NN (/-LRB- Macintosh/NNP ;/: Intel/NNP Mac/NNP OS/NNP X/NN 10.6/CD ;/: rv/NN :2.0/CD b7pre/NN )/-RRB- Gecko/20100926/NN Firefox/4/NN .0/CD b7pre/NN 
+
+(ROOT (SINV (VP (VB Build) (NP (NP (NN identifier)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NNP Macintosh)) (: ;) (NP (NP (NNP Intel) (NNP Mac) (NNP OS) (NN X) (CD 10.6)) (: ;) (NP (NN rv) (CD :2.0) (NN b7pre))) (-RRB- -RRB-)) (NP (NN Gecko/20100926) (NN Firefox/4))))) (NP (CD .0) (NN b7pre))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, identifier-2)
+nn(.0-5, Mozilla/5-4)
+dep(identifier-2, .0-5)
+dep(.0-5, Macintosh-7)
+nn(X-12, Intel-9)
+nn(X-12, Mac-10)
+nn(X-12, OS-11)
+dep(Macintosh-7, X-12)
+num(X-12, 10.6-13)
+nn(b7pre-17, rv-15)
+num(b7pre-17, :2.0-16)
+dep(X-12, b7pre-17)
+nn(Firefox/4-20, Gecko/20100926-19)
+dep(.0-5, Firefox/4-20)
+num(b7pre-22, .0-21)
+nsubj(Build-1, b7pre-22)
+
+1/LS go/VB to/TO a/DT URL/NN such/JJ as/IN www.google.com/NNP 
+
+(ROOT (S (LST (LS 1)) (VP (VB go) (PP (TO to) (NP (NP (DT a) (NN URL)) (PP (JJ such) (PP (IN as)))))) (NNP www.google.com)))
+
+root(ROOT-0, go-2)
+dep(go-2, 1-1)
+det(URL-5, a-4)
+prep_to(go-2, URL-5)
+prep(URL-5, such-6)
+prep(such-6, as-7)
+dep(go-2, www.google.com-8)
+
+2/CD go/VBP to/TO a/DT URL/NN with/IN a/DT drop/NN down/RP list/NN such/JJ as/IN http://people.mozilla.com/~nhirata/html_tp/formsninput.html/NN 
+
+(ROOT (S (NP (CD 2)) (VP (VBP go) (PP (TO to) (NP (NP (DT a) (NN URL)) (PP (IN with) (NP (DT a) (NN drop))))) (PP (RP down) (NP (NP (NN list)) (PP (JJ such) (IN as) (NP (NN http://people.mozilla.com/~nhirata/html_tp/formsninput.html))))))))
+
+root(ROOT-0, go-2)
+nsubj(go-2, 2-1)
+det(URL-5, a-4)
+prep_to(go-2, URL-5)
+det(drop-8, a-7)
+prep_with(URL-5, drop-8)
+prep(go-2, down-9)
+dep(down-9, list-10)
+prep_such_as(list-10, http://people.mozilla.com/~nhirata/html_tp/formsninput.html-13)
+
+3/CD click/VBP on/IN the/DT drop/NN down/RP list/NN 
+
+(ROOT (S (NP (CD 3)) (VP (VBP click) (PP (IN on) (NP (DT the) (NN drop))) (PP (RP down) (NP (NN list))))))
+
+root(ROOT-0, click-2)
+nsubj(click-2, 3-1)
+det(drop-5, the-4)
+prep_on(click-2, drop-5)
+prep(click-2, down-6)
+dep(down-6, list-7)
+
+4/CD press/NN ctrl/NN right/NN arrow/NN 
+
+(ROOT (FRAG (NP (CD 4)) (NP (NN press) (NN ctrl) (NN right) (NN arrow))))
+
+root(ROOT-0, 4-1)
+nn(arrow-5, press-2)
+nn(arrow-5, ctrl-3)
+nn(arrow-5, right-4)
+dep(4-1, arrow-5)
+
+5/CD press/NN the/DT delete/VB key/NN 
+
+(ROOT (FRAG (NP (NP (CD 5) (NN press)) (SBAR (S (NP (DT the)) (VP (VB delete) (NP (NN key))))))))
+
+root(ROOT-0, press-2)
+num(press-2, 5-1)
+nsubj(delete-4, the-3)
+rcmod(press-2, delete-4)
+dobj(delete-4, key-5)
+
+Expected/VBN :/: the/DT browser/NN goes/VBZ back/RB a/DT page/NN without/IN graphic/JJ defect/NN Actual/NNP :/: the/DT browser/NN goes/VBZ back/RB a/DT page/NN with/IN the/DT drop/NN down/RP list/NN still/RB visible/JJ on/IN the/DT screen/NN ./. 
+
+(ROOT (S (S (VP (VBN Expected))) (: :) (S (NP (DT the) (NN browser)) (VP (VBZ goes) (ADVP (RB back) (NP (DT a) (NN page))) (PP (IN without) (NP (JJ graphic) (NN defect) (NNP Actual))))) (: :) (S (NP (DT the) (NN browser)) (VP (VBZ goes) (NP (NP (ADVP (RB back) (NP (DT a) (NN page)) (PP (IN with) (NP (DT the) (NN drop) (RP down)))) (NN list)) (ADJP (RB still) (JJ visible))) (PP (IN on) (NP (DT the) (NN screen))))) (. .)))
+
+root(ROOT-0, Expected-1)
+det(browser-4, the-3)
+nsubj(goes-5, browser-4)
+parataxis(Expected-1, goes-5)
+advmod(goes-5, back-6)
+det(page-8, a-7)
+pobj(back-6, page-8)
+amod(Actual-12, graphic-10)
+nn(Actual-12, defect-11)
+prep_without(goes-5, Actual-12)
+det(browser-15, the-14)
+nsubj(goes-16, browser-15)
+parataxis(Expected-1, goes-16)
+advmod(list-24, back-17)
+det(page-19, a-18)
+pobj(back-17, page-19)
+det(drop-22, the-21)
+prep_with(back-17, drop-22)
+dep(drop-22, down-23)
+dobj(goes-16, list-24)
+advmod(visible-26, still-25)
+amod(list-24, visible-26)
+det(screen-29, the-28)
+prep_on(goes-16, screen-29)
+

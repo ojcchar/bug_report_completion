@@ -1,0 +1,52 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP NT/NNP 6.1/CD ;/: rv/NN :2.0.1/NN )/-RRB- Gecko/20100101/NN Firefox/4/NN .0.1/CD Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP NT/NNP 6.1/CD ;/: rv/NN :2.0.1/NN )/-RRB- Gecko/20100101/NN Firefox/4/NN .0.1/CD 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NNP Windows) (NNP NT) (CD 6.1)) (: ;) (NP (NN rv) (NN :2.0.1))) (-RRB- -RRB-)) (NP (NN Gecko/20100101) (NN Firefox/4))) (X (NP (NP (CD .0.1)) (NP (NP (NNP Build) (NNP Identifier)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NNP Windows) (NNP NT) (CD 6.1)) (: ;) (NP (NN rv) (NN :2.0.1))) (-RRB- -RRB-))))) (NP (NN Gecko/20100101)) (NP (NP (NN Firefox/4)) (NP (CD .0.1))))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+nn(NT-7, Windows-6)
+dep(.0-4, NT-7)
+num(NT-7, 6.1-8)
+nn(:2.0.1-11, rv-10)
+dep(NT-7, :2.0.1-11)
+nn(Firefox/4-14, Gecko/20100101-13)
+dep(.0-4, Firefox/4-14)
+dep(Firefox/4-30, .0.1-15)
+nn(Identifier-17, Build-16)
+dep(.0.1-15, Identifier-17)
+nn(.0-20, Mozilla/5-19)
+dep(Identifier-17, .0-20)
+nn(NT-23, Windows-22)
+dep(.0-20, NT-23)
+num(NT-23, 6.1-24)
+nn(:2.0.1-27, rv-26)
+dep(NT-23, :2.0.1-27)
+dep(Firefox/4-30, Gecko/20100101-29)
+dep(User-Agent-1, Firefox/4-30)
+dep(Firefox/4-30, .0.1-31)
+
+incorrectly/RB calculates/VBZ the/DT width/NN of/IN the/DT block/NN </JJR div/CD id/NN =/JJ "/`` content/NN "/'' >/JJR 
+
+(ROOT (SINV (ADVP (RB incorrectly)) (VP (VBZ calculates) (NP (NP (DT the) (NN width)) (PP (IN of) (NP (NP (DT the) (NN block) (JJR <)) (ADJP (NP (CD div) (NN id)) (JJ =)))))) (NP (NP (`` ``) (NN content) ('' '')) (ADJP (JJR >)))))
+
+root(ROOT-0, calculates-2)
+advmod(calculates-2, incorrectly-1)
+det(width-4, the-3)
+dobj(calculates-2, width-4)
+det(<-8, the-6)
+dep(<-8, block-7)
+prep_of(width-4, <-8)
+num(id-10, div-9)
+npadvmod(=-11, id-10)
+amod(<-8, =-11)
+nsubj(calculates-2, content-13)
+amod(content-13, >-15)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+

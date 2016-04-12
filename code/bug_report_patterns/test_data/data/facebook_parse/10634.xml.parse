@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10634</id>
+	<title>Cannot deep link because null URL returns in 302 found</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">From 2010-05-27_ it became impossible to deep link for touch.facebook.com by using WAP authentication.</sentence>
+			<sentence id="1.2">We don t change any code but it worked fine before.</sentence>
+			<sentence id="1.3">It s critical for our android application becuase it depends on deep link.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">We access following deep link URL by using WAP authentication.</sentence>
+			<sentence id="2.2">Facebook server returns 302 found but redirect URL(Location) is null so that we cannot redirect the page which we want to deep link.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">[Request URL]
+http://touch.facebook.com/auth.php?api_key={api_key}&amp;t=1274963144&amp;uid={uid}&amp;url=http%3A%2F%2Ftouch.</sentence>
+			<sentence id="3.2">facebook.com%2F%23%2Fstory.</sentence>
+			<sentence id="3.3">php%3Fid%3D100000070512342%26v%3Dfeed%26story_fbid%3D122231824473841&amp;sig=0747b66ce189dcc79b04f</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">[Response from server]
+HTTP/1.1 302 Found
+Cache-Control: private_ no-store_ no-cache_ must-revalidate_ post-check=0_ pre-check=0
+Expires: Sat_ 01 Jan 2000 00:00:00 GMT
+Location: 
+P3P: CP= DSP LAW 
+Pragma: no-cache
+Set-Cookie: made_write_conn=deleted; expires=Wed_ 27-May-2009 12:24:48 GMT; path=/; domain=.</sentence>
+			<sentence id="4.2">facebook.com; httponly
+Content-Type: text/html; charset=utf-8
+X-Cnection: close
+Date: Thu_ 27 May 2010 12:24:49 GMT
+Content-Length: 0</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">[When] Problem occured from 2010-05-27 00:00.</sentence>
+			<sentence id="5.2">We don t change any code but it worked fine before.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">[Enviroment]
+Browser:  Android 1.6 browser
+Application which triggers deep link: an android applicaton called Timescape which pre-installed in Sonyericsson Xperia X10.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>281893</id>
+	<title>[theme] improvements to task list synchronization to reduce load on servers</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Imagine a corporate setting where a lot of developers might all start Eclipse and nail the server at the same time.  I know Mylyn synchs on startup, but does it start the "20 minutes" at the point that the first synchronization stops?  If it does, then that would at least build a little variation into everyone's clocks so that every 20 minutes the server does not get nailed again.  Likewise, have you considered adding a small amount of fudge to the interval?  Like some smallish random interval added to the 20 minutes.  I'd suggest some number between 1 and 120 seconds to create some variation?  It might be useful to also do this at startup, although personally I wish Mylyn just waited the 20 minutes before it did the first synchronization.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Finally, can a repository provider specify a minimum interval?</sentence>
+			<sentence id="2.2">So that users cannot specify something like 1 minute as their interval and stress the server?</sentence>
+			<sentence id="2.3">Since Mylyn runs in the background, a user might not even realize how much they are hurting the server performance.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>5896</id>
+	<title>call to login_status.php not using secure connection when we ve initiated connect securely.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In IE7_ I m getting a security warning  This page contains both secure and nonsecure items.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I m getting this after the page loads_ as its determining whether the user is logged in.</sentence>
+			<sentence id="2.2">Using Live HTTP headers on Firefox_ I see a call to: 
+http://www.facebook.com/extern/login_status.php?api_key=OUR_API_KEY&amp;extern=2&amp;channel=https%3A%2F%2Fpb.rondavu.com%2Fbe_sociable%2Fconnect%2Fxd_receiver_ssl.html</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">where OUR_API_KEY is our actual api key.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">We believe that that url should be https instead of http.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">We ve followed the instructions here on the setup: http://wiki.developers.facebook.com/index.php/Facebook_Connect_Via_SSL</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Our init call looks like:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;script src= https://www.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php  type= text/javascript &gt;&lt;/script&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">&lt;script type= text/javascript &gt;</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">FB_RequireFeatures([ XFBML _ Api ]_ function(){
+        FB.Facebook.init( OUR_API_KEY _ 
+                          /be_sociable/connect/xd_receiver_ssl.</sentence>
+			<sentence id="9.2">html _ 
+                         { doNotUseCachedConnectState :1_
+                           ifUserNotConnected : function(){ $( prompt ).</sentence>
+			<sentence id="9.3">show(); }_
+                           ifUserConnected : function(){ $( passthrough ).</sentence>
+			<sentence id="9.4">submit(); } });
+    });</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">&lt;/script&gt;</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Where the xd_receiver_ssl.</sentence>
+			<sentence id="11.2">html contains:</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">&lt;!</sentence>
+			<sentence id="12.2">DOCTYPE html PUBLIC  -//W3C//DTD XHTML 1.0 Strict//EN 
+     http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd &gt;
+&lt;html xmlns= http://www.w3.org/1999/xhtml  &gt;
+&lt;body&gt;
+&lt;script src= https://www.connect.facebook.com/js/api_lib/v0.4/XdCommReceiver.js  type= text/javascript &gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">This call is happening from a ticket confirmation page on LiveNation_ so I can t direct you to a url where you can test it.</sentence>
+		</paragraph>
+	</description>
+</bug>

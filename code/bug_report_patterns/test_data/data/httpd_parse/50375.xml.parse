@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>50375</id>
+	<title>&lt;Location&gt; directive does not describe what it actually matches</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">While &lt;Directory /foo&gt; exactly describes what it matches (namely the dir foo and it's subdirectories.</sentence>
+			<sentence id="2.2">and while it's clear for &lt;Files foo&gt; (there is no hierarchy within filenames like the "/" with dirs)...
+... &lt;Location /foo&gt; does not describe this.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">It's IMHO especially not clear, that no only the location "/foo" itself ist matched, but also any other locations that match "/foo/*".
+"</sentence>
+			<sentence id="3.2">/foo*" locations seem to be _NOT_ matched.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">For LocationMatch it's IMHO clear, as it is simply the "open" PCRE-regexp (i.e. ^ and $ must bee added if the whole string should be matched)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This should be added at least here:
+http://httpd.apache.org/docs/2.2/mod/core.html#location
+and probably also here:
+http://httpd.apache.org/docs/2.2/sections.html#file-and-web
+within the "Webspace Containers" section.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Cheers,
+Chris.</sentence>
+		</paragraph>
+	</description>
+</bug>

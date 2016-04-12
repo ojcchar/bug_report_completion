@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>42556</id>
+	<title>Apache with LDAP support segfaults on Solaris 9 with LDAP</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Apache 2.2.4 is compiled with OpenSSL 0.9.8e and OpenLDAP 2.3.32 using GCC 3.4.1
+on a Solaris 9 system with latest patch level.</sentence>
+			<sentence id="1.2">The Solaris 9 host is configured
+as a native LDAP over SSL client.</sentence>
+			<sentence id="1.3">LDAP is usesd for user authentication on the
+system.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Entries in /etc/nsswitch.</sentence>
+			<sentence id="2.2">conf:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">passwd:     files ldap
+group:      files ldap</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">In this setup the Apache causes segmentation faults when starting.</sentence>
+			<sentence id="4.2">See the
+output from error_log below.</sentence>
+			<sentence id="4.3">When disabling ldap in the group lookup in
+/etc/nsswitch.</sentence>
+			<sentence id="4.4">conf then Apache works fine.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This must have something to do in the way Solaris handles dynamic loading of
+libraries.</sentence>
+			<sentence id="5.2">None of the compiled Apache/OpenLDAP/OpenSSL Binaries/Modules is
+linked against Solaris native LDAP libraries.</sentence>
+			<sentence id="5.3">They all use the OpenLDAP libraries.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Apache Error Log</sentence>
+			<sentence id="6.2">----------------</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">[Thu May 31 15:37:08 2007] [info] Init: Seeding PRNG with 136 bytes of entropy</sentence>
+			<sentence id="7.2">[Thu May 31 15:37:08 2007] [info] Init: Generating temporary RSA private keys</sentence>
+			<sentence id="7.3">(512/1024 bits)</sentence>
+			<sentence id="7.4">[Thu May 31 15:37:10 2007] [info] Init: Generating temporary DH parameters</sentence>
+			<sentence id="7.5">(512/1024 bits)</sentence>
+			<sentence id="7.6">[Thu May 31 15:37:10 2007] [warn] Init: Session Cache is not configured [hint:</sentence>
+			<sentence id="7.7">SSLSessionCache]</sentence>
+			<sentence id="7.8">[Thu May 31 15:37:10 2007] [info] Init: Initializing (virtual) servers for SSL</sentence>
+			<sentence id="7.9">[Thu May 31 15:37:10 2007] [info] Server: Apache/2.2.4, Interface:</sentence>
+			<sentence id="7.10">mod_ssl/2.2.4, Library: OpenSSL/0.9.8e</sentence>
+			<sentence id="7.11">[Thu May 31 15:37:10 2007] [info] Init: Seeding PRNG with 136 bytes of entropy</sentence>
+			<sentence id="7.12">[Thu May 31 15:37:10 2007] [info] Init: Generating temporary RSA private keys</sentence>
+			<sentence id="7.13">(512/1024 bits)</sentence>
+			<sentence id="7.14">[Thu May 31 15:37:12 2007] [info] Init: Generating temporary DH parameters</sentence>
+			<sentence id="7.15">(512/1024 bits)</sentence>
+			<sentence id="7.16">[Thu May 31 15:37:12 2007] [info] Init: Initializing (virtual) servers for SSL</sentence>
+			<sentence id="7.17">[Thu May 31 15:37:12 2007] [info] Server: Apache/2.2.4, Interface:</sentence>
+			<sentence id="7.18">mod_ssl/2.2.4, Library: OpenSSL/0.9.8e</sentence>
+			<sentence id="7.19">[Thu May 31 15:37:12 2007] [notice] Digest: generating secret for digest</sentence>
+			<sentence id="7.20">authentication ...</sentence>
+			<sentence id="7.21">[Thu May 31 15:37:12 2007] [notice] Digest: done</sentence>
+			<sentence id="7.22">[Thu May 31 15:37:12 2007] [info] APR LDAP: Built with OpenLDAP LDAP SDK</sentence>
+			<sentence id="7.23">[Thu May 31 15:37:12 2007] [info] LDAP: SSL support available</sentence>
+			<sentence id="7.24">[Thu May 31 15:37:12 2007] [notice] Apache/2.2.4 (Unix) DAV/2 mod_ssl/2.2.4</sentence>
+			<sentence id="7.25">OpenSSL/0.9.8e PHP/5.2.2 configured -- resuming normal operations</sentence>
+			<sentence id="7.26">[Thu May 31 15:37:12 2007] [info] Server built: May 24 2007 08:34:22</sentence>
+			<sentence id="7.27">[Thu May 31 15:37:12 2007] [debug] prefork.c(991): AcceptMutex: fcntl (default:</sentence>
+			<sentence id="7.28">fcntl)</sentence>
+			<sentence id="7.29">[Thu May 31 15:37:12 2007] [notice] child pid 6466 exit signal Segmentation</sentence>
+			<sentence id="7.30">fault (11)</sentence>
+			<sentence id="7.31">[Thu May 31 15:37:13 2007] [notice] child pid 6465 exit signal Segmentation</sentence>
+			<sentence id="7.32">fault (11)</sentence>
+			<sentence id="7.33">[Thu May 31 15:37:13 2007] [notice] child pid 6464 exit signal Segmentation</sentence>
+			<sentence id="7.34">fault (11)</sentence>
+			<sentence id="7.35">[Thu May 31 15:37:13 2007] [notice] child pid 6463 exit signal Segmentation</sentence>
+			<sentence id="7.36">fault (11)</sentence>
+			<sentence id="7.37">[Thu May 31 15:37:13 2007] [notice] child pid 6462 exit signal Segmentation</sentence>
+			<sentence id="7.38">fault (11)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Truss Output of httpd Master Process</sentence>
+			<sentence id="8.2">------------------------------------</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">29835:  brk(0x002F5138)                                 = 0</sentence>
+			<sentence id="9.2">29835:  brk(0x002F7138)                                 = 0</sentence>
+			<sentence id="9.3">29835:  getuid()                                        = 0 [0]</sentence>
+			<sentence id="9.4">29835:  setgid(58000)                                   = 0</sentence>
+			<sentence id="9.5">29835:  sysconfig(_CONFIG_NGROUPS)                      = 16</sentence>
+			<sentence id="9.6">29835:  open("/etc/default/nss", O_RDONLY|O_LARGEFILE)  = 14</sentence>
+			<sentence id="9.7">29835:  fcntl(14, F_DUPFD, 0x00000100)                  = 256</sentence>
+			<sentence id="9.8">29835:  close(14)                                       = 0</sentence>
+			<sentence id="9.9">29835:  read(256, " #   i d e n t\t " @ ( #".</sentence>
+			<sentence id="9.10">.</sentence>
+			<sentence id="9.11">, 1024)   = 749</sentence>
+			<sentence id="9.12">29835:  read(256, 0x002F5550, 1024)                     = 0</sentence>
+			<sentence id="9.13">29835:  close(256)                                      = 0</sentence>
+			<sentence id="9.14">29835:  open("/etc/nsswitch.</sentence>
+			<sentence id="9.15">conf", O_RDONLY|O_LARGEFILE) = 14</sentence>
+			<sentence id="9.16">29835:  fcntl(14, F_DUPFD, 0x00000100)                  = 256</sentence>
+			<sentence id="9.17">29835:  close(14)                                       = 0</sentence>
+			<sentence id="9.18">29835:  read(256, " #   m o r e   n s s w i".</sentence>
+			<sentence id="9.19">.</sentence>
+			<sentence id="9.20">, 1024)   = 811</sentence>
+			<sentence id="9.21">29835:  read(256, 0x002F55B0, 1024)                     = 0</sentence>
+			<sentence id="9.22">29835:  close(256)                                      = 0</sentence>
+			<sentence id="9.23">29835:  stat("/opt/adnapache/lib/nss_files.</sentence>
+			<sentence id="9.24">so.1", 0xFFBFEC40) Err#2 ENOENT</sentence>
+			<sentence id="9.25">29835:  stat("/usr/lib/nss_files.so.1", 0xFFBFEC40)     = 0</sentence>
+			<sentence id="9.26">29835:  resolvepath("/usr/lib/nss_files.so.1", "/usr/lib/nss_files.so.1", 1023) = 23</sentence>
+			<sentence id="9.27">29835:  open("/usr/lib/nss_files.so.1", O_RDONLY)       = 14</sentence>
+			<sentence id="9.28">29835:  mmap(0x00010000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_ALIGN, 14,</sentence>
+			<sentence id="9.29">0 = 0xFEC80000</sentence>
+			<sentence id="9.30">29835:  mmap(0x00010000, 98304, PROT_NONE,</sentence>
+			<sentence id="9.31">MAP_PRIVATE|MAP_NORESERVE|MAP_ANON|MAP_ALIGN, -1, 0) = 0xFE840000</sentence>
+			<sentence id="9.32">29835:  mmap(0xFE840000, 19054, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED, 14,</sentence>
+			<sentence id="9.33">0 = 0xFE840000</sentence>
+			<sentence id="9.34">29835:  mmap(0xFE856000, 1736, PROT_READ|PROT_WRITE|PROT_EXEC,</sentence>
+			<sentence id="9.35">MAP_PRIVATE|MAP_FIXED, 14, 24576) = 0xFE856000</sentence>
+			<sentence id="9.36">29835:  munmap(0xFE846000, 65536)                       = 0</sentence>
+			<sentence id="9.37">29835:  memcntl(0xFE840000, 6232, MC_ADVISE, MADV_WILLNEED, 0, 0) = 0</sentence>
+			<sentence id="9.38">29835:  close(14)                                       = 0</sentence>
+			<sentence id="9.39">29835:  stat("/opt/adnapache/lib/libc.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.40">29835:  stat("/opt/adnapache/lib/libnsl.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.41">29835:  munmap(0xFEC80000, 8192)                        = 0</sentence>
+			<sentence id="9.42">29835:  brk(0x002F7138)                                 = 0</sentence>
+			<sentence id="9.43">29835:  brk(0x002F9138)                                 = 0</sentence>
+			<sentence id="9.44">29835:  open("/etc/group", O_RDONLY|O_LARGEFILE)        = 14</sentence>
+			<sentence id="9.45">29835:  fcntl(14, F_DUPFD, 0x00000100)                  = 256</sentence>
+			<sentence id="9.46">29835:  close(14)                                       = 0</sentence>
+			<sentence id="9.47">29835:  read(256, " r o o t : : 0 : r o o t".</sentence>
+			<sentence id="9.48">.</sentence>
+			<sentence id="9.49">, 1024)   = 305</sentence>
+			<sentence id="9.50">29835:  brk(0x002F9138)                                 = 0</sentence>
+			<sentence id="9.51">29835:  brk(0x002FB138)                                 = 0</sentence>
+			<sentence id="9.52">29835:  read(256, 0x002F5628, 1024)                     = 0</sentence>
+			<sentence id="9.53">29835:  close(256)                                      = 0</sentence>
+			<sentence id="9.54">29835:  stat("/opt/adnapache/lib/nss_ldap.</sentence>
+			<sentence id="9.55">so.1", 0xFFBFEC40) Err#2 ENOENT</sentence>
+			<sentence id="9.56">29835:  stat("/usr/lib/nss_ldap.so.1", 0xFFBFEC40)      = 0</sentence>
+			<sentence id="9.57">29835:  resolvepath("/usr/lib/nss_ldap.so.1", "/usr/lib/nss_ldap.so.1", 1023) = 22</sentence>
+			<sentence id="9.58">29835:  open("/usr/lib/nss_ldap.so.1", O_RDONLY)        = 14</sentence>
+			<sentence id="9.59">29835:  mmap(0x00010000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_ALIGN, 14,</sentence>
+			<sentence id="9.60">0 = 0xFEC80000</sentence>
+			<sentence id="9.61">29835:  mmap(0x00010000, 131072, PROT_NONE,</sentence>
+			<sentence id="9.62">MAP_PRIVATE|MAP_NORESERVE|MAP_ANON|MAP_ALIGN, -1, 0) = 0xFE6D0000</sentence>
+			<sentence id="9.63">29835:  mmap(0xFE6D0000, 50326, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED, 14,</sentence>
+			<sentence id="9.64">0 = 0xFE6D0000</sentence>
+			<sentence id="9.65">29835:  mmap(0xFE6EE000, 4317, PROT_READ|PROT_WRITE|PROT_EXEC,</sentence>
+			<sentence id="9.66">MAP_PRIVATE|MAP_FIXED, 14, 57344) = 0xFE6EE000</sentence>
+			<sentence id="9.67">29835:  munmap(0xFE6DE000, 65536)                       = 0</sentence>
+			<sentence id="9.68">29835:  memcntl(0xFE6D0000, 11088, MC_ADVISE, MADV_WILLNEED, 0, 0) = 0</sentence>
+			<sentence id="9.69">29835:  close(14)                                       = 0</sentence>
+			<sentence id="9.70">29835:  stat("/opt/adnapache/lib/libc.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.71">29835:  stat("/opt/adnapache/lib/libsldap.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.72">29835:  stat("/usr/lib/libsldap.</sentence>
+			<sentence id="9.73">so.1", 0xFFBFEB68)      = 0</sentence>
+			<sentence id="9.74">29835:  resolvepath("/usr/lib/libsldap.</sentence>
+			<sentence id="9.75">so.1", "/usr/lib/libsldap.</sentence>
+			<sentence id="9.76">so.1", 1023) = 22</sentence>
+			<sentence id="9.77">29835:  open("/usr/lib/libsldap.</sentence>
+			<sentence id="9.78">so.1", O_RDONLY)        = 14</sentence>
+			<sentence id="9.79">29835:  mmap(0xFEC80000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED, 14,</sentence>
+			<sentence id="9.80">0 = 0xFEC80000</sentence>
+			<sentence id="9.81">29835:  mmap(0x00010000, 221184, PROT_NONE,</sentence>
+			<sentence id="9.82">MAP_PRIVATE|MAP_NORESERVE|MAP_ANON|MAP_ALIGN, -1, 0) = 0xFE4C0000</sentence>
+			<sentence id="9.83">29835:  mmap(0xFE4C0000, 137456, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED, 14,</sentence>
+			<sentence id="9.84">0 = 0xFE4C0000</sentence>
+			<sentence id="9.85">29835:  mmap(0xFE4F2000, 11033, PROT_READ|PROT_WRITE|PROT_EXEC,</sentence>
+			<sentence id="9.86">MAP_PRIVATE|MAP_FIXED, 14, 139264) = 0xFE4F2000</sentence>
+			<sentence id="9.87">29835:  munmap(0xFE4E2000, 65536)                       = 0</sentence>
+			<sentence id="9.88">29835:  mmap(0x00000000, 8192, PROT_READ|PROT_WRITE|PROT_EXEC,</sentence>
+			<sentence id="9.89">MAP_PRIVATE|MAP_ANON, -1, 0) = 0xFE930000</sentence>
+			<sentence id="9.90">29835:  memcntl(0xFE4C0000, 20952, MC_ADVISE, MADV_WILLNEED, 0, 0) = 0</sentence>
+			<sentence id="9.91">29835:  close(14)                                       = 0</sentence>
+			<sentence id="9.92">29835:  stat("/opt/adnapache/lib/libnsl.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.93">29835:  stat("/opt/adnapache/lib/libsocket.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.94">29835:  stat("/opt/adnapache/lib/libldap.so.5", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.95">29835:  stat("/usr/lib/libldap.</sentence>
+			<sentence id="9.96">so.5", 0xFFBFEB68)       = 0</sentence>
+			<sentence id="9.97">29835:  resolvepath("/usr/lib/libldap.</sentence>
+			<sentence id="9.98">so.5", "/usr/lib/libldap.</sentence>
+			<sentence id="9.99">so.5", 1023) = 21</sentence>
+			<sentence id="9.100">29835:  open("/usr/lib/libldap.</sentence>
+			<sentence id="9.101">so.5", O_RDONLY)         = 14</sentence>
+			<sentence id="9.102">29835:  mmap(0xFEC80000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED, 14,</sentence>
+			<sentence id="9.103">0 = 0xFEC80000</sentence>
+			<sentence id="9.104">29835:  mmap(0x00010000, 983040, PROT_NONE,</sentence>
+			<sentence id="9.105">MAP_PRIVATE|MAP_NORESERVE|MAP_ANON|MAP_ALIGN, -1, 0) = 0xFE280000</sentence>
+			<sentence id="9.106">29835:  mmap(0xFE280000, 911095, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED, 14,</sentence>
+			<sentence id="9.107">0 = 0xFE280000</sentence>
+			<sentence id="9.108">29835:  mmap(0xFE360000, 40948, PROT_READ|PROT_WRITE|PROT_EXEC,</sentence>
+			<sentence id="9.109">MAP_PRIVATE|MAP_FIXED, 14, 917504) = 0xFE360000</sentence>
+			<sentence id="9.110">29835:  mmap(0xFE36A000, 20328, PROT_READ|PROT_WRITE|PROT_EXEC,</sentence>
+			<sentence id="9.111">MAP_PRIVATE|MAP_FIXED|MAP_ANON, -1, 0) = 0xFE36A000</sentence>
+			<sentence id="9.112">29835:  memcntl(0xFE280000, 54844, MC_ADVISE, MADV_WILLNEED, 0, 0) = 0</sentence>
+			<sentence id="9.113">29835:  close(14)                                       = 0</sentence>
+			<sentence id="9.114">29835:  stat("/opt/adnapache/lib/libnsl.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.115">29835:  stat("/opt/adnapache/lib/libldap.so.5", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.116">29835:  stat("/opt/adnapache/lib/libc.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.117">29835:  stat("/opt/adnapache/lib/libdoor.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.118">29835:  stat("/usr/lib/libdoor.</sentence>
+			<sentence id="9.119">so.1", 0xFFBFEB68)       = 0</sentence>
+			<sentence id="9.120">29835:  resolvepath("/usr/lib/libdoor.</sentence>
+			<sentence id="9.121">so.1", "/usr/lib/libdoor.</sentence>
+			<sentence id="9.122">so.1", 1023) = 21</sentence>
+			<sentence id="9.123">29835:  open("/usr/lib/libdoor.</sentence>
+			<sentence id="9.124">so.1", O_RDONLY)         = 14</sentence>
+			<sentence id="9.125">29835:  mmap(0xFEC80000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED, 14,</sentence>
+			<sentence id="9.126">0 = 0xFEC80000</sentence>
+			<sentence id="9.127">29835:  mmap(0x00010000, 81920, PROT_NONE,</sentence>
+			<sentence id="9.128">MAP_PRIVATE|MAP_NORESERVE|MAP_ANON|MAP_ALIGN, -1, 0) = 0xFE4A0000</sentence>
+			<sentence id="9.129">29835:  mmap(0xFE4A0000, 3655, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED, 14,</sentence>
+			<sentence id="9.130">0 = 0xFE4A0000</sentence>
+			<sentence id="9.131">29835:  mmap(0xFE4B2000, 616, PROT_READ|PROT_WRITE|PROT_EXEC,</sentence>
+			<sentence id="9.132">MAP_PRIVATE|MAP_FIXED, 14, 8192) = 0xFE4B2000</sentence>
+			<sentence id="9.133">29835:  munmap(0xFE4A2000, 65536)                       = 0</sentence>
+			<sentence id="9.134">29835:  memcntl(0xFE4A0000, 2528, MC_ADVISE, MADV_WILLNEED, 0, 0) = 0</sentence>
+			<sentence id="9.135">29835:  close(14)                                       = 0</sentence>
+			<sentence id="9.136">29835:  stat("/opt/adnapache/lib/librt.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.137">29835:  stat("/opt/adnapache/lib/libsocket.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.138">29835:  stat("/opt/adnapache/lib/libnsl.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.139">29835:  stat("/opt/adnapache/lib/libdl.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.140">29835:  stat("/opt/adnapache/lib/libc.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.141">29835:  stat("/opt/adnapache/lib/libmd5.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.142">29835:  stat("/opt/adnapache/lib/libc.so.1", 0xFFBFEB68) Err#2 ENOENT</sentence>
+			<sentence id="9.143">29835:  munmap(0xFEC80000, 8192)                        = 0</sentence>
+			<sentence id="9.144">29835:  sysinfo(SI_SRPC_DOMAIN, "adnovum.ch", 256)      = 11</sentence>
+			<sentence id="9.145">29835:  open("/var/run/ldap_cache_door", O_RDONLY)      = 14</sentence>
+			<sentence id="9.146">29835:  fcntl(14, F_SETFD, 0x00000001)                  = 0</sentence>
+			<sentence id="9.147">29835:  door_info(14, 0xFE4F4B20)                       = 0</sentence>
+			<sentence id="9.148">29835:  door_call(14, 0xFFBFE4B8)                       = 0</sentence>
+			<sentence id="9.149">29835:  sysinfo(SI_SRPC_DOMAIN, "adnovum.ch", 256)      = 11</sentence>
+			<sentence id="9.150">29835:  time()                                          = 1180620482</sentence>
+			<sentence id="9.151">29835:  door_info(14, 0xFFBFAC50)                       = 0</sentence>
+			<sentence id="9.152">29835:  door_call(14, 0xFFBFAC38)                       = 0</sentence>
+			<sentence id="9.153">29835:  mmap(0x00000000, 16384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1,</sentence>
+			<sentence id="9.154">0 = 0xFEC80000</sentence>
+			<sentence id="9.155">29835:  so_socket(PF_INET6, SOCK_STREAM, IPPROTO_IP, "", 1) = 15</sentence>
+			<sentence id="9.156">29835:  close(15)                                       = 0</sentence>
+			<sentence id="9.157">29835:  sigaction(SIGPIPE, 0xFFBFCA78, 0x00000000)      = 0</sentence>
+			<sentence id="9.158">29835:  open("/dev/urandom", O_RDONLY)                  = 15</sentence>
+			<sentence id="9.159">29835:  read(15, " `B2D2D4 ^\0 D } -E699A3".</sentence>
+			<sentence id="9.160">.</sentence>
+			<sentence id="9.161">, 120)     = 120</sentence>
+			<sentence id="9.162">29835:  close(15)                                       = 0</sentence>
+			<sentence id="9.163">29835:  open("/dev/urandom", O_RDONLY)                  = 15</sentence>
+			<sentence id="9.164">29835:  read(15, "8DB1A2 6F3D4 A11E3DB1C9C".</sentence>
+			<sentence id="9.165">.</sentence>
+			<sentence id="9.166">, 1024)    = 1024</sentence>
+			<sentence id="9.167">29835:  close(15)                                       = 0</sentence>
+			<sentence id="9.168">29835:  stat("/var/ldap", 0xFFBFCA68)                   = 0</sentence>
+			<sentence id="9.169">29835:  brk(0x002FB138)                                 = 0</sentence>
+			<sentence id="9.170">29835:  brk(0x002FD138)                                 = 0</sentence>
+			<sentence id="9.171">29835:  stat("/var/ldap/", 0xFFBFC9A8)                  = 0</sentence>
+			<sentence id="9.172">29835:  stat("/var/ldap/cert7.</sentence>
+			<sentence id="9.173">db", 0xFFBFC9A8)          = 0</sentence>
+			<sentence id="9.174">29835:  open("/var/ldap/cert7.</sentence>
+			<sentence id="9.175">db", O_RDONLY)            = 15</sentence>
+			<sentence id="9.176">29835:  fcntl(15, F_SETFD, 0x00000001)                  = 0</sentence>
+			<sentence id="9.177">29835:  read(15, "\00615 a\0\0\002\0\010E1".</sentence>
+			<sentence id="9.178">.</sentence>
+			<sentence id="9.179">, 260)     = 260</sentence>
+			<sentence id="9.180">29835:  brk(0x002FD138)                                 = 0</sentence>
+			<sentence id="9.181">29835:  brk(0x002FF138)                                 = 0</sentence>
+			<sentence id="9.182">29835:  brk(0x002FF138)                                 = 0</sentence>
+			<sentence id="9.183">29835:  brk(0x00301138)                                 = 0</sentence>
+			<sentence id="9.184">29835:  fstat(15, 0xFFBFC738)                           = 0</sentence>
+			<sentence id="9.185">29835:  stat("/var/ldap/cert7.</sentence>
+			<sentence id="9.186">db", 0xFFBFC6B0)          = 0</sentence>
+			<sentence id="9.187">29835:  lseek(15, 73728, SEEK_SET)                      = 73728</sentence>
+			<sentence id="9.188">29835:  read(15, "\01C1FF71FF41F821D1F1CD2".</sentence>
+			<sentence id="9.189">.</sentence>
+			<sentence id="9.190">, 8192)    = 8192</sentence>
+			<sentence id="9.191">29835:  stat("/var/ldap", 0xFFBFCA68)                   = 0</sentence>
+			<sentence id="9.192">29835:  stat("/var/ldap/", 0xFFBFC9F8)                  = 0</sentence>
+			<sentence id="9.193">29835:  stat("/var/ldap/key3.</sentence>
+			<sentence id="9.194">db", 0xFFBFC9F8)           = 0</sentence>
+			<sentence id="9.195">29835:  open("/var/ldap/key3.</sentence>
+			<sentence id="9.196">db", O_RDONLY)             = 16</sentence>
+			<sentence id="9.197">29835:  fcntl(16, F_SETFD, 0x00000001)                  = 0</sentence>
+			<sentence id="9.198">29835:  read(16, "\00615 a\0\0\002\0\010E1".</sentence>
+			<sentence id="9.199">.</sentence>
+			<sentence id="9.200">, 260)     = 260</sentence>
+			<sentence id="9.201">29835:  brk(0x00301138)                                 = 0</sentence>
+			<sentence id="9.202">29835:  brk(0x00303138)                                 = 0</sentence>
+			<sentence id="9.203">29835:  fstat(16, 0xFFBFC8D0)                           = 0</sentence>
+			<sentence id="9.204">29835:  stat("/var/ldap/key3.</sentence>
+			<sentence id="9.205">db", 0xFFBFC848)           = 0</sentence>
+			<sentence id="9.206">29835:  lseek(16, 8192, SEEK_SET)                       = 8192</sentence>
+			<sentence id="9.207">29835:  read(16, "\0041FF91FF81FED1FDD1FCF".</sentence>
+			<sentence id="9.208">.</sentence>
+			<sentence id="9.209">, 8192)    = 8192</sentence>
+			<sentence id="9.210">29835:  stat("/var/ldap", 0xFFBFCA68)                   = 0</sentence>
+			<sentence id="9.211">29835:  stat("/var/ldap/secmod.</sentence>
+			<sentence id="9.212">db", 0xFFBFC938)         = 0</sentence>
+			<sentence id="9.213">29835:  open("/var/ldap/secmod.</sentence>
+			<sentence id="9.214">db", O_RDONLY)           = 17</sentence>
+			<sentence id="9.215">29835:  fcntl(17, F_SETFD, 0x00000001)                  = 0</sentence>
+			<sentence id="9.216">29835:  read(17, "\00615 a\0\0\002\0\010E1".</sentence>
+			<sentence id="9.217">.</sentence>
+			<sentence id="9.218">, 260)     = 260</sentence>
+			<sentence id="9.219">29835:  brk(0x00303138)                                 = 0</sentence>
+			<sentence id="9.220">29835:  brk(0x00305138)                                 = 0</sentence>
+			<sentence id="9.221">29835:  fstat(17, 0xFFBFC8D8)                           = 0</sentence>
+			<sentence id="9.222">29835:  stat("/var/ldap/secmod.</sentence>
+			<sentence id="9.223">db", 0xFFBFC850)         = 0</sentence>
+			<sentence id="9.224">29835:  lseek(17, 8192, SEEK_SET)                       = 8192</sentence>
+			<sentence id="9.225">29835:  read(17, "\0021FDF1F881F ~1F88\0\0".</sentence>
+			<sentence id="9.226">.</sentence>
+			<sentence id="9.227">, 8192)    = 8192</sentence>
+			<sentence id="9.228">29835:  brk(0x00305138)                                 = 0</sentence>
+			<sentence id="9.229">29835:  brk(0x00307138)                                 = 0</sentence>
+			<sentence id="9.230">29835:  fstat(17, 0xFFBFC8D8)                           = 0</sentence>
+			<sentence id="9.231">29835:  stat("/var/ldap/secmod.</sentence>
+			<sentence id="9.232">db", 0xFFBFC850)         = 0</sentence>
+			<sentence id="9.233">29835:  lseek(17, 16384, SEEK_SET)                      = 16384</sentence>
+			<sentence id="9.234">29835:  read(17, "\0\0\0\0\0\0\0\0\0\0\0\0".</sentence>
+			<sentence id="9.235">.</sentence>
+			<sentence id="9.236">, 8192)    = 8192</sentence>
+			<sentence id="9.237">29835:  close(17)                                       = 0</sentence>
+			<sentence id="9.238">29835:  stat("/var/ldap/roots.</sentence>
+			<sentence id="9.239">dll", 0xFFBFC388)         Err#2 ENOENT</sentence>
+			<sentence id="9.240">29835:  stat("/var/ldap/libroots.</sentence>
+			<sentence id="9.241">so", 0xFFBFC388)       Err#2 ENOENT</sentence>
+			<sentence id="9.242">29835:  stat("/var/ldap/libroots.</sentence>
+			<sentence id="9.243">sl", 0xFFBFC388)       Err#2 ENOENT</sentence>
+			<sentence id="9.244">29835:  stat("/var/ldap/Root Certs", 0xFFBFC388)        Err#2 ENOENT</sentence>
+			<sentence id="9.245">29835:  stat("/var/ldap/roots.</sentence>
+			<sentence id="9.246">dll", 0xFFBFC388)         Err#2 ENOENT</sentence>
+			<sentence id="9.247">29835:  stat("/var/ldap/libroots.</sentence>
+			<sentence id="9.248">so", 0xFFBFC388)       Err#2 ENOENT</sentence>
+			<sentence id="9.249">29835:  stat("/var/ldap/libroots.</sentence>
+			<sentence id="9.250">sl", 0xFFBFC388)       Err#2 ENOENT</sentence>
+			<sentence id="9.251">29835:  stat("/var/ldap/Root Certs", 0xFFBFC388)        Err#2 ENOENT</sentence>
+			<sentence id="9.252">29835:  stat("/var/ldap/nssckbi.</sentence>
+			<sentence id="9.253">dll", 0xFFBFC388)       Err#2 ENOENT</sentence>
+			<sentence id="9.254">29835:  stat("/var/ldap/libnssckbi.</sentence>
+			<sentence id="9.255">so", 0xFFBFC388)     Err#2 ENOENT</sentence>
+			<sentence id="9.256">29835:  stat("/var/ldap/libnssckbi.</sentence>
+			<sentence id="9.257">sl", 0xFFBFC388)     Err#2 ENOENT</sentence>
+			<sentence id="9.258">29835:  stat("/var/ldap/NSS Builtin Root Certs", 0xFFBFC388) Err#2 ENOENT</sentence>
+			<sentence id="9.259">29835:  stat("/var/ldap/mozckbi.</sentence>
+			<sentence id="9.260">dll", 0xFFBFC388)       Err#2 ENOENT</sentence>
+			<sentence id="9.261">29835:  stat("/var/ldap/libmozckbi.</sentence>
+			<sentence id="9.262">so", 0xFFBFC388)     Err#2 ENOENT</sentence>
+			<sentence id="9.263">29835:  stat("/var/ldap/libmozckbi.</sentence>
+			<sentence id="9.264">sl", 0xFFBFC388)     Err#2 ENOENT</sentence>
+			<sentence id="9.265">29835:  stat("/var/ldap/Mozilla Builtin Root Certs", 0xFFBFC388) Err#2 ENOENT</sentence>
+			<sentence id="9.266">29835:  stat("/var/ldap/netckbi.</sentence>
+			<sentence id="9.267">dll", 0xFFBFC388)       Err#2 ENOENT</sentence>
+			<sentence id="9.268">29835:  stat("/var/ldap/libnetckbi.</sentence>
+			<sentence id="9.269">so", 0xFFBFC388)     Err#2 ENOENT</sentence>
+			<sentence id="9.270">29835:  stat("/var/ldap/libnetckbi.</sentence>
+			<sentence id="9.271">sl", 0xFFBFC388)     Err#2 ENOENT</sentence>
+			<sentence id="9.272">29835:  stat("/var/ldap/Netscape Builtin Root Certs", 0xFFBFC388) Err#2 ENOENT</sentence>
+			<sentence id="9.273">29835:  uname(0xFFBFC3F8)                               = 1</sentence>
+			<sentence id="9.274">29835:  door_info(5, 0xFFBFA6C0)                        = 0</sentence>
+			<sentence id="9.275">29835:  door_call(5, 0xFFBFA6A8)                        = 0</sentence>
+			<sentence id="9.276">29835:  open("/etc/opt/adnapache/openldap/ldap.</sentence>
+			<sentence id="9.277">conf", O_RDONLY) = 17</sentence>
+			<sentence id="9.278">29835:  fstat64(17, 0xFFBFC138)                         = 0</sentence>
+			<sentence id="9.279">29835:  fstat64(17, 0xFFBFBFE0)                         = 0</sentence>
+			<sentence id="9.280">29835:  ioctl(17, TCGETA, 0xFFBFC0C4)                   Err#25 ENOTTY</sentence>
+			<sentence id="9.281">29835:  read(17, " #\n #   L D A P   D e f".</sentence>
+			<sentence id="9.282">.</sentence>
+			<sentence id="9.283">, 8192)    = 246</sentence>
+			<sentence id="9.284">29835:  read(17, 0x00303E74, 8192)                      = 0</sentence>
+			<sentence id="9.285">29835:  llseek(17, 0, SEEK_CUR)                         = 246</sentence>
+			<sentence id="9.286">29835:  close(17)                                       = 0</sentence>
+			<sentence id="9.287">29835:  open("/root/ldaprc", O_RDONLY)                  Err#2 ENOENT</sentence>
+			<sentence id="9.288">29835:  open("/root/.</sentence>
+			<sentence id="9.289">ldaprc", O_RDONLY)                 Err#2 ENOENT</sentence>
+			<sentence id="9.290">29835:  open("ldaprc", O_RDONLY)                        Err#2 ENOENT</sentence>
+			<sentence id="9.291">29835:  brk(0x00307138)                                 = 0</sentence>
+			<sentence id="9.292">29835:  brk(0x0030D138)                                 = 0</sentence>
+			<sentence id="9.293">29835:      Incurred fault #6, FLTBOUNDS  %pc = 0x00000130</sentence>
+			<sentence id="9.294">29835:        siginfo: SIGSEGV SEGV_MAPERR addr=0x00000130</sentence>
+			<sentence id="9.295">29835:      Received signal #11, SIGSEGV [caught]</sentence>
+			<sentence id="9.296">29835:        siginfo: SIGSEGV SEGV_MAPERR addr=0x00000130</sentence>
+			<sentence id="9.297">29835:  sigprocmask(SIG_SETMASK, 0xFFBFC7EC, 0x00000000) = 0</sentence>
+			<sentence id="9.298">29835:  chdir("/var/opt/adnapache")                     = 0</sentence>
+			<sentence id="9.299">29835:  sigaction(SIGSEGV, 0xFFBFC530, 0xFFBFC650)      = 0</sentence>
+			<sentence id="9.300">29835:  getpid()                                        = 29835 [6448]</sentence>
+			<sentence id="9.301">29835:  getpid()                                        = 29835 [6448]</sentence>
+			<sentence id="9.302">29835:  kill(29835, SIGSEGV)                            = 0</sentence>
+			<sentence id="9.303">29835:  sigprocmask(SIG_SETMASK, 0xFECEA094, 0xFFBFC5A0) = 0</sentence>
+			<sentence id="9.304">29835:  lwp_unpark(1, 1)                                = 0</sentence>
+			<sentence id="9.305">29835:  setcontext(0xFFBFC5B0)</sentence>
+			<sentence id="9.306">29835:      Received signal #11, SIGSEGV [default]</sentence>
+			<sentence id="9.307">29835:        siginfo: SIGSEGV pid=29835 uid=0</sentence>
+			<sentence id="9.308">6448:   sigprocmask(SIG_SETMASK, 0xFFBFF800, 0x00000000) = 0</sentence>
+			<sentence id="9.309">6448:   lwp_schedctl(SC_STATE|SC_PREEMPT, 0, 0xFFBFF6D4) = 0</sentence>
+			<sentence id="9.310">6448:   sigprocmask(SIG_SETMASK, 0xFECEA094, 0xFFBFF800) = 0</sentence>
+			<sentence id="9.311">6448:   fork1()                                         = 29837</sentence>
+			<sentence id="9.312">29837:  fork1()         (returning as child ...)        = 6448</sentence>
+			<sentence id="9.313">29837:  getpid()                                        = 29837 [6448]</sentence>
+			<sentence id="9.314">29837:  sigprocmask(SIG_SETMASK, 0xFFBFF800, 0x00000000) = 0</sentence>
+			<sentence id="9.315">29837:  lwp_schedctl(SC_STATE|SC_PREEMPT, 0, 0xFFBFF654) = 0</sentence>
+			<sentence id="9.316">29837:  sigaction(SIGHUP, 0xFFBFF718, 0xFFBFF838)       = 0</sentence>
+			<sentence id="9.317">29837:  sigaction(SIGTERM, 0xFFBFF718, 0xFFBFF838)      = 0</sentence>
+			<sentence id="9.318">29837:  sigaction(SIGUSR1, 0xFFBFF718, 0xFFBFF838)      = 0</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Compile Instructions</sentence>
+			<sentence id="10.2">--------------------</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">PATH="/share/app/gnu/gcc/3.4.1/bin:/share/app/gnu/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/ccs/bin"
+CC="gcc"
+CFLAGS="-O3 -fPIC -Wall"
+CXX="g++"
+CXXFLAGS="-O3 -fPIC -Wall"
+CPPFLAGS="-I/opt/adnapache/include"
+LDFLAGS="-R/opt/adnapache/lib -L/opt/adnapache/lib"
+LD_OPTIONS="$LDFLAGS"</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">unset LD_LIBRARY_PATH
+export PATH CC CFLAGS CXX CXXFLAGS LDFLAGS CPPFLAGS LD_OPTIONS
+alias make=gmake</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">gtar -C /tmp -xvpzf openssl-0.9.8e.tar.gz</sentence>
+			<sentence id="13.2">cd /tmp/openssl-0.9.8e</sentence>
+			<sentence id="13.3">.</sentence>
+			<sentence id="13.4">/config --prefix=/opt/adnapache \</sentence>
+			<sentence id="13.5">--openssldir=/opt/adnapache/openssl shared \</sentence>
+			<sentence id="13.6">-R/opt/adnapache/lib -L/opt/adnapache/lib</sentence>
+			<sentence id="13.7">gmake</sentence>
+			<sentence id="13.8">gmake install</sentence>
+			<sentence id="13.9">cd -</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">gtar -C /tmp -xvpzf openldap-2.3.32.</sentence>
+			<sentence id="14.2">tgz</sentence>
+			<sentence id="14.3">cd /tmp/openldap-2.3.32</sentence>
+			<sentence id="14.4">.</sentence>
+			<sentence id="14.5">/configure --prefix=/opt/adnapache \</sentence>
+			<sentence id="14.6">--sysconfdir=/etc/opt/adnapache \</sentence>
+			<sentence id="14.7">--disable-slapd --disable-slurpd \</sentence>
+			<sentence id="14.8">--localstatedir=/var/opt/adnapache \</sentence>
+			<sentence id="14.9">--with-tls</sentence>
+			<sentence id="14.10">gmake depend</sentence>
+			<sentence id="14.11">gmake</sentence>
+			<sentence id="14.12">gmake install</sentence>
+			<sentence id="14.13">cd -</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">gtar -C /tmp -xvzf httpd-2.2.4.</sentence>
+			<sentence id="15.2">tar.gz</sentence>
+			<sentence id="15.3">cd /tmp/httpd-2.2.4/srclib/apr</sentence>
+			<sentence id="15.4">.</sentence>
+			<sentence id="15.5">/configure --prefix=/var/opt/adnapache \</sentence>
+			<sentence id="15.6">--exec-prefix=/opt/adnapache \</sentence>
+			<sentence id="15.7">--includedir=/opt/adnapache/include \</sentence>
+			<sentence id="15.8">--infodir=/opt/adnapache/info \</sentence>
+			<sentence id="15.9">--mandir=/opt/adnapache/man \</sentence>
+			<sentence id="15.10">--sysconfdir=/etc/opt/adnapache \</sentence>
+			<sentence id="15.11">--datadir=/var/opt/adnapache</sentence>
+			<sentence id="15.12">gmake</sentence>
+			<sentence id="15.13">gmake install</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">cd .</sentence>
+			<sentence id="16.2">.</sentence>
+			<sentence id="16.3">/apr-util</sentence>
+			<sentence id="16.4">.</sentence>
+			<sentence id="16.5">/configure --prefix=/var/opt/adnapache \</sentence>
+			<sentence id="16.6">--exec-prefix=/opt/adnapache \</sentence>
+			<sentence id="16.7">--includedir=/opt/adnapache/include \</sentence>
+			<sentence id="16.8">--infodir=/opt/adnapache/info \</sentence>
+			<sentence id="16.9">--mandir=/opt/adnapache/man \</sentence>
+			<sentence id="16.10">--sysconfdir=/etc/opt/adnapache \</sentence>
+			<sentence id="16.11">--datadir=/var/opt/adnapache \</sentence>
+			<sentence id="16.12">--with-apr=/opt/adnapache \</sentence>
+			<sentence id="16.13">--with-ldap=ldap \</sentence>
+			<sentence id="16.14">--with-ldap-include=/opt/adnapache/include \</sentence>
+			<sentence id="16.15">--with-ldap-lib=/opt/adnapache/lib</sentence>
+			<sentence id="16.16">gmake</sentence>
+			<sentence id="16.17">gmake install</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">cd /tmp/httpd-2.2.4</sentence>
+			<sentence id="17.2">.</sentence>
+			<sentence id="17.3">/configure --prefix=/var/opt/adnapache \</sentence>
+			<sentence id="17.4">--exec-prefix=/opt/adnapache \</sentence>
+			<sentence id="17.5">--includedir=/opt/adnapache/include \</sentence>
+			<sentence id="17.6">--infodir=/opt/adnapache/info \</sentence>
+			<sentence id="17.7">--mandir=/opt/adnapache/man \</sentence>
+			<sentence id="17.8">--sysconfdir=/etc/opt/adnapache \</sentence>
+			<sentence id="17.9">--datadir=/var/opt/adnapache \</sentence>
+			<sentence id="17.10">--enable-ssl \</sentence>
+			<sentence id="17.11">--with-ssl=/opt/adnapache \</sentence>
+			<sentence id="17.12">--with-ldap=ldap \</sentence>
+			<sentence id="17.13">--with-ldap-include=/opt/adnapache/include \</sentence>
+			<sentence id="17.14">--with-ldap-lib=/opt/adnapache/lib \</sentence>
+			<sentence id="17.15">--with-apr=/opt/adnapache \</sentence>
+			<sentence id="17.16">--with-apr-util=/opt/adnapache \</sentence>
+			<sentence id="17.17">--enable-authnz-ldap \</sentence>
+			<sentence id="17.18">--enable-ldap \</sentence>
+			<sentence id="17.19">--enable-dav \</sentence>
+			<sentence id="17.20">--enable-dav-fs \</sentence>
+			<sentence id="17.21">--enable-dav-lock \</sentence>
+			<sentence id="17.22">--enable-auth-digest \</sentence>
+			<sentence id="17.23">--enable-so</sentence>
+			<sentence id="17.24">gmake</sentence>
+			<sentence id="17.25">gmake install</sentence>
+		</paragraph>
+	</description>
+</bug>

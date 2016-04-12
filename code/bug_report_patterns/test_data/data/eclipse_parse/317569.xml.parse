@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>317569</id>
+	<title>open type/ open method - bad functionality</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Build Identifier: PDT 2.2.0.</sentence>
+			<sentence id="1.2">v20100621</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Have php code with classes/methods, e.g.
+&lt;?</sentence>
+			<sentence id="2.2">php
+class AAA{
+	public function ff(){
+		
+	}
+}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">class BBB {
+	public function jj(){
+		
+	}
+}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Go to main menu | Navigate | Open Type
+Type BBB, then double click on the matching result.</sentence>
+			<sentence id="4.2">The class name BBB is highlighted in editor correctly.</sentence>
+			<sentence id="4.3">Enter a few (10) new lines above class BBB body.</sentence>
+			<sentence id="4.4">Save the changes.</sentence>
+			<sentence id="4.5">Invoke again Open Type (Ctrl+Shift+T), type again BBB, then double click at the matched class BBB in the list of Open Type dialog.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Expected:
+The class name BBB should be highlighted in editor.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Actual:
+The editor is highlighted on a strange position.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The same problem if you execute the scenario for some method.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">See the attachment.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Reproducible: Always</sentence>
+		</paragraph>
+	</description>
+</bug>

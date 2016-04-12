@@ -1,0 +1,81 @@
+Steps/NNS :/: 
+
+(ROOT (NP (NNS Steps) (: :)))
+
+root(ROOT-0, Steps-1)
+
+1/CD Minefield/NNP menu/NN >/JJR Prefrences/NNS . . ./: 
+
+(ROOT (NP (NP (NP (CD 1) (NNP Minefield) (NN menu)) (NP (JJR >) (NNS Prefrences))) (: ...)))
+
+root(ROOT-0, menu-3)
+num(menu-3, 1-1)
+nn(menu-3, Minefield-2)
+amod(Prefrences-5, >-4)
+dep(menu-3, Prefrences-5)
+
+2/CD Click/VB on/IN a/DT different/JJ tab/NN than/IN the/DT one/CD selected/VBN 
+
+(ROOT (FRAG (NP (CD 2)) (VP (VB Click) (PP (IN on) (NP (DT a) (JJ different) (NN tab))) (PP (IN than) (NP (NP (DT the) (CD one)) (VP (VBN selected)))))))
+
+root(ROOT-0, 2-1)
+dep(2-1, Click-2)
+det(tab-6, a-4)
+amod(tab-6, different-5)
+prep_on(Click-2, tab-6)
+det(one-9, the-8)
+prep_than(Click-2, one-9)
+vmod(one-9, selected-10)
+
+Result/NN :/: the/DT entire/JJ dialog/NN is/VBZ painted/VBN white/JJ ,/, then/RB the/DT selected/VBN tab/NN is/VBZ drawn/VBN ./. 
+
+(ROOT (S (S (NP (NP (NN Result)) (: :) (NP (DT the) (JJ entire) (NN dialog))) (VP (VBZ is) (VP (VBN painted) (S (ADJP (JJ white)))))) (, ,) (RB then) (S (NP (DT the) (VBN selected) (NN tab)) (VP (VBZ is) (VP (VBN drawn)))) (. .)))
+
+root(ROOT-0, painted-7)
+nsubjpass(painted-7, Result-1)
+det(dialog-5, the-3)
+amod(dialog-5, entire-4)
+dep(Result-1, dialog-5)
+auxpass(painted-7, is-6)
+xcomp(painted-7, white-8)
+advmod(drawn-15, then-10)
+det(tab-13, the-11)
+amod(tab-13, selected-12)
+nsubjpass(drawn-15, tab-13)
+auxpass(drawn-15, is-14)
+parataxis(painted-7, drawn-15)
+
+The/DT user/NN sees/VBZ click/VB -/: flash/NN -/: new/JJ tab/NN as/IN a/DT result/NN ./. 
+
+(ROOT (S (NP (DT The) (NN user)) (VP (VBZ sees) (VP (VB click) (NP (NP (PRN (: -) (NP (NN flash)) (: -)) (JJ new) (NN tab)) (PP (IN as) (NP (DT a) (NN result)))))) (. .)))
+
+root(ROOT-0, sees-3)
+det(user-2, The-1)
+nsubj(sees-3, user-2)
+xcomp(sees-3, click-4)
+dep(tab-9, flash-6)
+amod(tab-9, new-8)
+dobj(click-4, tab-9)
+det(result-12, a-11)
+prep_as(tab-9, result-12)
+
+With/IN FF2/NN ,/, the/DT user/NN sees/VBZ the/DT tab/NN transition/NN smoothly/RB to/TO the/DT new/JJ tab/NN with/IN no/DT nasty/JJ white/JJ flash/NN ./. 
+
+(ROOT (S (PP (IN With) (NP (NN FF2))) (, ,) (NP (DT the) (NN user)) (VP (VBZ sees) (NP (DT the) (NN tab) (NN transition)) (ADVP (RB smoothly)) (PP (TO to) (NP (NP (DT the) (JJ new) (NN tab)) (PP (IN with) (NP (DT no) (JJ nasty) (JJ white) (NN flash)))))) (. .)))
+
+root(ROOT-0, sees-6)
+prep_with(sees-6, FF2-2)
+det(user-5, the-4)
+nsubj(sees-6, user-5)
+det(transition-9, the-7)
+nn(transition-9, tab-8)
+dobj(sees-6, transition-9)
+advmod(sees-6, smoothly-10)
+det(tab-14, the-12)
+amod(tab-14, new-13)
+prep_to(sees-6, tab-14)
+neg(flash-19, no-16)
+amod(flash-19, nasty-17)
+amod(flash-19, white-18)
+prep_with(tab-14, flash-19)
+

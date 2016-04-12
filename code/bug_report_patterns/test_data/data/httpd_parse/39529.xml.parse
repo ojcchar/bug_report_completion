@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>39529</id>
+	<title>No Authentication dialog thrown once valid username (but incorrect password) is entered</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">My Config:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">LoadModule authz_user_module modules/mod_authz_user.</sentence>
+			<sentence id="2.2">so
+LoadModule ldap_module modules/mod_ldap.so
+LoadModule authnz_ldap_module modules/mod_authnz_ldap.</sentence>
+			<sentence id="2.3">so</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;Location /ldap2&gt;
+AuthBasicProvider ldap
+AuthType Basic
+AuthName "LDAP secure2"
+AuthLDAPBindDN "testdomain2\\Administrator"
+AuthLDAPBindPassword password
+AuthLDAPUrl "ldap://server:389/OU=Test Users,DC=testdomain2,DC=local?sAMAccountName"
+AuthzLDAPAuthoritative  off
+require valid-user 
+&lt;/Location&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I'm authenticating against an Active Directory.</sentence>
+			<sentence id="4.2">I observe that if I enter a
+correct user name but incorrect password I am not asked to reauthenticate, I
+just get an internal server error.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This is due to this piece of code:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">mod_authnz_ldap.</sentence>
+			<sentence id="6.2">c</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">static authn_status authn_ldap_check_password(request_rec *r, const char *user,
+                                              const char *password)
+{
+...
+        return (LDAP_NO_SUCH_OBJECT == result) ?</sentence>
+			<sentence id="7.2">AUTH_USER_NOT_FOUND
+#ifdef LDAP_SECURITY_ERROR
+                 : (LDAP_SECURITY_ERROR(result)) ?</sentence>
+			<sentence id="7.3">AUTH_DENIED
+#endif
+                 : AUTH_GENERAL_ERROR;
+...
+}</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">LDAP_SECURITY_ERROR is not defined in the winldap SDK (nor the Sun ONE sdk) - I
+presume it is an OpenLDAP addition.</sentence>
+			<sentence id="8.2">This results in any error other than an
+invalid object being treated as an internal server error.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">This can be corrected by modifying to:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">#ifdef LDAP_SECURITY_ERROR
+                 : (LDAP_SECURITY_ERROR(result)) ?</sentence>
+			<sentence id="10.2">AUTH_DENIED
+#else
+				 : LDAP_INAPPROPRIATE_AUTH == result ?</sentence>
+			<sentence id="10.3">AUTH_DENIED
+				 : LDAP_INVALID_CREDENTIALS == result ?</sentence>
+			<sentence id="10.4">AUTH_DENIED
+				 : LDAP_INSUFFICIENT_RIGHTS == result ?</sentence>
+			<sentence id="10.5">AUTH_DENIED
+#endif</sentence>
+		</paragraph>
+	</description>
+</bug>

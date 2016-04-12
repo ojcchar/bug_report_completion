@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>40134</id>
+	<title>multiple set cookie in mod_proxy doesn't work anymore compare to httpd-2.2.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We used httpd-2.2.0 as a reverse proxy in MPM mode.</sentence>
+			<sentence id="1.2">Behind the reverse proxy are :</sentence>
+			<sentence id="1.3">- first one Alteon (load balancer) which sets one cookie</sentence>
+			<sentence id="1.4">(mode cookie-insert to keep the session on the same web server behind</sentence>
+			<sentence id="1.5">for one particular user)</sentence>
+			<sentence id="1.6">- second (after the Alteon) several web servers (Apache+PHP)</sentence>
+			<sentence id="1.7">which are setting too a cookie (PHP_SESSID).</sentence>
+			<sentence id="1.8">Everything works fine in apache 2.2.0.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When we upgrade to apache 2.2.2 (due to one referenced bug of apache 2.2.0
+of segmentation fault every 2 to 3 hours in MPM mode), 
+we lost the first cookie (Alteon cookie) but still have the
+PHP cookie.</sentence>
+			<sentence id="2.2">Of course, our users had a big problem since
+due to the lack of this Alteon cookie, they changed for every page
+of PHP server, so not getting the sticky session as supposed.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">We got back to the apache 2.2.0 and everything is working well
+(exactly the same configuration, except the level of binary).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I presume it is a regression capability of apache 2.2.2 compares
+to apache 2.2.0.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Frederic</sentence>
+		</paragraph>
+	</description>
+</bug>

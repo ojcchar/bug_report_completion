@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>47383</id>
+	<title>Please check Transfer-Encoding is "chunked" with no-case sensitivity.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 23825
+Fix checking Transfer-Encoding is "chunked".</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Currently, mod_proxy_http.</sentence>
+			<sentence id="2.2">c checks Transfer-Encoding header with case sensitivity.</sentence>
+			<sentence id="2.3">So, I have a problem with mod_proxy + mod_dav + WebDAVFS (MacOSX Finder).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">WebDAVFS send request header like</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Transfer-Encoding: Chunked</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Please check the patch.</sentence>
+		</paragraph>
+	</description>
+</bug>

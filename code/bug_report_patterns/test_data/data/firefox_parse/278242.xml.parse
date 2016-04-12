@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>278242</id>
+	<title>Link location can be spoofed in status bar using onclick</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">As exemplified with the following code:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&amp;lt;body onUnload="if(flag)location.href='http://slashdot.org'"&amp;gt;
+&amp;lt;a href="http://www.google.com" onMouseOver="window.status='test'"
+onClick="flag=true"&amp;gt;testing&amp;lt;/a&amp;gt;
+&amp;lt;/body&amp;gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">the location that a link will take you to can be spoofed.</sentence>
+			<sentence id="3.2">The onMouseOver event
+is there to show that even with the preference to disable scripts from changing
+status bar text turned off, Firefox doesn't allow this to change the status bar.</sentence>
+			<sentence id="3.3">However, clicking this link will take you to http://slashdot.org, while the
+status bar will indicate that it will take you to http://www.google.com.</sentence>
+			<sentence id="3.4">This
+doesn't work in Internet Explorer, as in, it will still take you to
+http://www.google.com.</sentence>
+			<sentence id="3.5">My guess is that this is due to the order in which the
+browser responds to the onClick event.</sentence>
+			<sentence id="3.6">Perhaps a tags should not honor onClick
+events if there is an external URL in the href attribute.</sentence>
+		</paragraph>
+	</description>
+</bug>

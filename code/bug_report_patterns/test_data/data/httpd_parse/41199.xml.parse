@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>41199</id>
+	<title>on cgi timeout, kill process group</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When the following happens in httpd 2.0.52,</sentence>
+			<sentence id="2.2">- cgi is launched</sentence>
+			<sentence id="2.3">- cgi launches a helper process</sentence>
+			<sentence id="2.4">- helper process does stuff for a too long time</sentence>
+			<sentence id="2.5">- apache httpd kills cgi process</sentence>
+			<sentence id="2.6">then</sentence>
+			<sentence id="2.7">- helper process still runs (I'd expect it to be dead, too)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Maybe it would make sense to kill the process group instead (using the cgi pgid)
+(I'm not sure about all the implications).</sentence>
+			<sentence id="3.2">i. e. do:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This seems to be the same in the httpd 2.2.3 source I just downloaded and read:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">mod_cgi.</sentence>
+			<sentence id="5.2">c:465 (in run_cgi_child) calls:
+            apr_pool_note_subprocess(p, procnew, APR_KILL_AFTER_TIMEOUT);</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">srclib/apr/memory/unix/apr_pools.c:2136 (in free_proc_chain) calls:
+            if (apr_proc_kill(pc-&gt;proc, SIGTERM) == APR_SUCCESS)</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">/srclib/apr/threadproc/unix/signals.</sentence>
+			<sentence id="7.2">c:48 (in apr_proc_kill) calls:
+    if (kill(proc-&gt;pid, signum) == -1) {</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Which means if there were any helper processes spawned by the cgi, they will
+survive.</sentence>
+			<sentence id="8.2">Which I find strange...</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">kill() with a negated pid would kill the entire process group, which would be
+preferrable.</sentence>
+		</paragraph>
+	</description>
+</bug>

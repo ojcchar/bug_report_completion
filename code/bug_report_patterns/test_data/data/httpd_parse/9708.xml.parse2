@@ -1,0 +1,306 @@
+When/WRB sending/VBG many/JJ large/JJ (/-LRB- 1MB/NN +/CC )/-RRB- POST/NN requests/NNS over/IN a/DT keep-alive/JJ connection/NN ,/, the/DT http/JJ process/NN grows/VBZ in/IN size/NN after/IN each/DT request/NN ./. 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (VP (VBG sending) (NP (NP (NP (JJ many) (JJ large)) (-LRB- -LRB-) (NP (NP (NN 1MB)) (SBAR (S (NP (CC +))))) (-RRB- -RRB-)) (NP (NP (NN POST) (NNS requests)) (PP (IN over) (NP (DT a) (JJ keep-alive) (NN connection)))))))) (, ,) (NP (DT the) (JJ http) (NN process)) (VP (VBZ grows) (PP (IN in) (NP (NN size))) (PP (IN after) (NP (DT each) (NN request)))) (. .)))
+
+root(ROOT-0, grows-19)
+advmod(sending-2, When-1)
+advcl(grows-19, sending-2)
+amod(large-4, many-3)
+dobj(sending-2, large-4)
+dep(large-4, 1MB-6)
+rcmod(1MB-6, +-7)
+nn(requests-10, POST-9)
+dep(large-4, requests-10)
+det(connection-14, a-12)
+amod(connection-14, keep-alive-13)
+prep_over(requests-10, connection-14)
+det(process-18, the-16)
+amod(process-18, http-17)
+nsubj(grows-19, process-18)
+prep_in(grows-19, size-21)
+det(request-24, each-23)
+prep_after(grows-19, request-24)
+
+For/IN example/NN ,/, after/IN 1000/CD such/JJ requests/NNS ,/, the/DT process/NN size/NN may/MD grow/VB by/IN 4MB/NN ./. 
+
+(ROOT (S (PP (IN For) (NP (NN example))) (, ,) (PP (IN after) (NP (CD 1000) (JJ such) (NNS requests))) (, ,) (NP (DT the) (NN process) (NN size)) (VP (MD may) (VP (VB grow) (PP (IN by) (NP (NN 4MB))))) (. .)))
+
+root(ROOT-0, grow-13)
+prep_for(grow-13, example-2)
+num(requests-7, 1000-5)
+amod(requests-7, such-6)
+prep_after(grow-13, requests-7)
+det(size-11, the-9)
+nn(size-11, process-10)
+nsubj(grow-13, size-11)
+aux(grow-13, may-12)
+prep_by(grow-13, 4MB-15)
+
+Without/IN keep-alive/JJ ,/, the/DT processes/NNS do/VBP not/RB grow/VB ./. 
+
+(ROOT (S (PP (IN Without) (ADJP (JJ keep-alive))) (, ,) (NP (DT the) (NNS processes)) (VP (VBP do) (RB not) (VP (VB grow))) (. .)))
+
+root(ROOT-0, grow-8)
+prep_without(grow-8, keep-alive-2)
+det(processes-5, the-4)
+nsubj(grow-8, processes-5)
+aux(grow-8, do-6)
+neg(grow-8, not-7)
+
+This/DT occurs/VBZ with/IN CGI/NN scripts/NNS and/CC custom/NN C/NN modules/NNS in/IN Apache/NNP 2.0.36/CD ./. 
+
+(ROOT (S (NP (DT This)) (VP (VBZ occurs) (PP (IN with) (NP (NN CGI) (NNS scripts) (CC and) (NN custom) (NN C) (NNS modules))) (PP (IN in) (NP (NNP Apache) (CD 2.0.36)))) (. .)))
+
+root(ROOT-0, occurs-2)
+nsubj(occurs-2, This-1)
+nn(scripts-5, CGI-4)
+prep_with(occurs-2, scripts-5)
+nn(modules-9, custom-7)
+nn(modules-9, C-8)
+prep_with(occurs-2, modules-9)
+conj_and(scripts-5, modules-9)
+prep_in(occurs-2, Apache-11)
+num(Apache-11, 2.0.36-12)
+
+However/RB ,/, the/DT memory/NN is/VBZ apparently/RB not/RB leaked/VBN --/: running/VBG the/DT same/JJ 1000/CD requests/NNS again/RB does/VBZ not/RB cause/VB the/DT size/NN to/TO grow/VB ./. 
+
+(ROOT (S (S (ADVP (RB However)) (, ,) (NP (DT the) (NN memory)) (VP (VBZ is) (ADVP (RB apparently)) (VP (RB not) (VBN leaked)))) (: --) (S (S (VP (VBG running) (NP (DT the) (JJ same) (CD 1000) (NNS requests)) (ADVP (RB again)))) (VP (VBZ does) (RB not) (VP (VB cause) (NP (DT the) (NN size) (S (VP (TO to) (VP (VB grow)))))))) (. .)))
+
+root(ROOT-0, leaked-8)
+advmod(leaked-8, However-1)
+det(memory-4, the-3)
+nsubjpass(leaked-8, memory-4)
+auxpass(leaked-8, is-5)
+advmod(leaked-8, apparently-6)
+neg(leaked-8, not-7)
+csubj(cause-18, running-10)
+det(requests-14, the-11)
+amod(requests-14, same-12)
+num(requests-14, 1000-13)
+dobj(running-10, requests-14)
+advmod(running-10, again-15)
+aux(cause-18, does-16)
+neg(cause-18, not-17)
+parataxis(leaked-8, cause-18)
+det(size-20, the-19)
+dobj(cause-18, size-20)
+aux(grow-22, to-21)
+vmod(size-20, grow-22)
+
+The/DT following/VBG CGI/NN script/NN (/-LRB- post.cgi/NN )/-RRB- can/MD be/VB used/VBN to/TO accept/VB the/DT POST/NN data/NNS :/: 
+
+(ROOT (S (NP (DT The) (NP (NP (VBG following) (NN CGI) (NN script)) (PRN (-LRB- -LRB-) (NP (NN post.cgi)) (-RRB- -RRB-)))) (VP (MD can) (VP (VB be) (VP (VBN used) (S (VP (TO to) (VP (VB accept) (NP (DT the) (NN POST) (NNS data)))))))) (: :)))
+
+root(ROOT-0, used-10)
+det(script-4, The-1)
+amod(script-4, following-2)
+nn(script-4, CGI-3)
+nsubjpass(used-10, script-4)
+appos(script-4, post.cgi-6)
+aux(used-10, can-8)
+auxpass(used-10, be-9)
+aux(accept-12, to-11)
+xcomp(used-10, accept-12)
+det(data-15, the-13)
+nn(data-15, POST-14)
+dobj(accept-12, data-15)
+
+#/# !/. 
+
+(ROOT (INTJ (# #) (. !)))
+
+root(ROOT-0, #-1)
+
+//: usr/bin/perl/NN -/: w/NN use/NN strict/JJ ;/: my/PRP$ $/$ len/NN =/JJ 0/CD ;/: while/IN (/-LRB- </JJR STDIN/CD >/JJR )/-RRB- {/-LRB- $/$ len/NN +/CC =/JJ length/NN (/-LRB- $/$ _/CD )/-RRB- ;/: }/-RRB- my/PRP$ $/$ msg/CD =/JJ "/`` Received/VBN $/$ len/NN bytes/NNS \/VBP n/NN "/'' ;/: printf/NN "/`` Content-Type/NNP :/: text/plain/NN \/CD nContent-Length/NN :/: %/NN d/NN \/CD n/NN \/NN n/NN %/NN s/NNS "/'' ,/, length/NN (/-LRB- $/$ msg/CD )/-RRB- ,/, $/$ msg/CD ;/: exit/NN ;/: 
+
+(ROOT (S (SBAR (PRN (: /) (NP (NP (NN usr/bin/perl)) (: -) (NP (NP (NP (NN w) (NN use)) (NP (JJ strict))) (: ;) (NP (NP (PRP$ my) ($ $) (NN len)) (ADJP (JJ =) (NP-TMP (CD 0)))) (: ;) (NP (NP (NP (NP (IN while)) (PRN (-LRB- -LRB-) (NP (NP (JJR <)) (NP (CD STDIN) (JJR >))) (-RRB- -RRB-))) (PRN (-LRB- -LCB-) (PP ($ $) (NP (NP (NN len)) (CC +) (NP (NP (JJ =) (NN length)) (PRN (-LRB- -LRB-) (NP ($ $) (CD _)) (-RRB- -RRB-)))) (: ;)) (-RRB- -RCB-))) (NP (PRP$ my) ($ $) (CD msg)))))) (S (NP (JJ =)) (`` ``) (VP (VBN Received)))) ($ $) (NP (NN len) (NNS bytes)) (VP (VBP \) (NP (NP (NP (NN n) ('' '')) (: ;) (NP (NP (NP (NN printf)) (`` ``) (NP (NNP Content-Type))) (: :) (NP (NP (NN text/plain)) (NP (CD \) (NN nContent-Length))) (: :) (NP (NP (NN %) (NN d)) (NP (CD \) (NN n) (NN \) (NN n) (NN %) (NNS s) ('' ''))))) (, ,) (NP (NP (NN length)) (PRN (-LRB- -LRB-) (NP ($ $) (CD msg)) (-RRB- -RRB-)) (, ,) (NP (NP ($ $) (CD msg)) (: ;) (NP (NN exit)))))) (: ;)))
+
+root(ROOT-0, \-41)
+punct(usr/bin/perl-2, /-1)
+dep(Received-37, usr/bin/perl-2)
+nn(use-5, w-4)
+dep(usr/bin/perl-2, use-5)
+dep(use-5, strict-6)
+poss(len-10, my-8)
+dep(len-10, $-9)
+dep(use-5, len-10)
+amod(len-10, =-11)
+tmod(=-11, 0-12)
+dep(use-5, while-14)
+dep(while-14, <-16)
+num(>-18, STDIN-17)
+dep(<-16, >-18)
+prep(while-14, $-21)
+dep($-21, len-22)
+amod(length-25, =-24)
+dep($-21, length-25)
+conj_+(len-22, length-25)
+appos(length-25, $-27)
+num($-27, _-28)
+poss($-33, my-32)
+dep(while-14, $-33)
+num($-33, msg-34)
+nsubj(Received-37, =-35)
+advcl(\-41, Received-37)
+dep(\-41, $-38)
+nn(bytes-40, len-39)
+nsubj(\-41, bytes-40)
+dobj(\-41, n-42)
+dep(n-42, printf-45)
+dep(printf-45, Content-Type-47)
+dep(printf-45, text/plain-49)
+num(nContent-Length-51, \-50)
+dep(text/plain-49, nContent-Length-51)
+nn(d-54, %-53)
+dep(printf-45, d-54)
+num(s-60, \-55)
+nn(s-60, n-56)
+nn(s-60, \-57)
+nn(s-60, n-58)
+nn(s-60, %-59)
+dep(d-54, s-60)
+appos(n-42, length-63)
+appos(length-63, $-65)
+num($-65, msg-66)
+appos(length-63, $-69)
+num($-69, msg-70)
+dep($-69, exit-72)
+
+Next/RB ,/, create/VB a/DT large/JJ file/NN :/: 
+
+(ROOT (NP (NP (NP (RB Next)) (PRN (, ,) (S (VP (VB create) (NP (DT a) (JJ large) (NN file)))))) (: :)))
+
+root(ROOT-0, Next-1)
+dep(Next-1, create-3)
+det(file-6, a-4)
+amod(file-6, large-5)
+dobj(create-3, file-6)
+
+$/$ dd/CD if/IN =/JJ //: dev/zero/NN of/IN =/JJ big/JJ bs/NN =/JJ 1024/CD count/NN =/JJ 1024/CD 
+
+(ROOT (FRAG (NP (NP ($ $) (CD dd)) (ADJP (ADJP (IN if) (JJ =)) (PRN (: /) (S (NP (NP (NN dev/zero)) (PP (IN of) (NP (JJ =) (JJ big) (NN bs)))) (NP (JJ =) (CD 1024) (NN count)))))) (ADJP (JJ =) (NP-TMP (CD 1024)))))
+
+root(ROOT-0, $-1)
+num($-1, dd-2)
+dep(=-4, if-3)
+amod($-1, =-4)
+punct(count-13, /-5)
+dep(count-13, dev/zero-6)
+amod(bs-10, =-8)
+amod(bs-10, big-9)
+prep_of(dev/zero-6, bs-10)
+amod(count-13, =-11)
+num(count-13, 1024-12)
+dep(=-4, count-13)
+dep($-1, =-14)
+tmod(=-14, 1024-15)
+
+Then/RB send/VB many/JJ keep-alive/JJ requests/NNS to/TO the/DT server/NN ./. 
+
+(ROOT (S (RB Then) (VP (VB send) (NP (JJ many) (JJ keep-alive) (NNS requests)) (PP (TO to) (NP (DT the) (NN server)))) (. .)))
+
+root(ROOT-0, send-2)
+advmod(send-2, Then-1)
+amod(requests-5, many-3)
+amod(requests-5, keep-alive-4)
+dobj(send-2, requests-5)
+det(server-8, the-7)
+prep_to(send-2, server-8)
+
+This/DT example/NN uses/VBZ '/`` curl/VB '/'' :/: 
+
+(ROOT (S (NP (DT This) (NN example)) (VP (VBZ uses) (VP (`` `) (VB curl) ('' '))) (: :)))
+
+root(ROOT-0, uses-3)
+det(example-2, This-1)
+nsubj(uses-3, example-2)
+xcomp(uses-3, curl-5)
+
+$/$ curl/VB -/: T/NN big/JJ '/`` perl/NN -/: e/SYM '/`` print/NN "/`` http://localhost:8080/post.cgi/NN "/'' for/IN (/-LRB- 0/CD ./. 
+
+(ROOT (NP (NP ($ $) (VB curl)) (: -) (S (NP (NN T) (JJ big)) (NP (NP (`` `) (NN perl)) (PRN (: -) (FRAG (X (X (SYM e)) (NP (NP (`` `) (NN print) (`` ``) (NN http://localhost:8080/post.cgi) ('' '')) (PP (IN for) (NP (-LRB- -LRB-))))) (NP (CD 0)))))) (. .)))
+
+root(ROOT-0, $-1)
+dep($-1, curl-2)
+dep(perl-7, T-4)
+amod(T-4, big-5)
+dep($-1, perl-7)
+dep(http://localhost:8080/post.cgi-13, e-9)
+nn(http://localhost:8080/post.cgi-13, print-11)
+dep(0-17, http://localhost:8080/post.cgi-13)
+prep(http://localhost:8080/post.cgi-13, for-15)
+dep(perl-7, 0-17)
+
+.999/NN )/-RRB- '/'' '/`` 
+
+(ROOT (S (NP (NN .999)) (VP (-RRB- -RRB-) ('' ')) (`` `)))
+
+nsubj(-RRB--2, .999-1)
+
+Observe/VB the/DT large/JJ (/-LRB- 7MB/NN )/-RRB- process/NN size/NN :/: 
+
+(ROOT (S (VP (VB Observe) (NP (DT the) (ADJP (ADJP (JJ large)) (PRN (-LRB- -LRB-) (NP (NN 7MB)) (-RRB- -RRB-))) (NN process) (NN size))) (: :)))
+
+root(ROOT-0, Observe-1)
+det(size-8, the-2)
+amod(size-8, large-3)
+dep(large-3, 7MB-5)
+nn(size-8, process-7)
+dobj(Observe-1, size-8)
+
+$/$ ps/SYM -/: aux/FW |/FW grep/FW lt-http/JJ web/NN 10917/CD 0.0/CD 0.0/CD 3200/CD 1576/CD ?/. 
+
+(ROOT (NP (NP ($ $) (SYM ps)) (: -) (NP (NP (FW aux) (FW |) (FW grep) (JJ lt-http) (NN web)) (NP (NP (QP (CD 10917) (CD 0.0)) (CD 0.0)) (QP (CD 3200) (CD 1576)))) (. ?)))
+
+root(ROOT-0, $-1)
+dep($-1, ps-2)
+nn(web-8, aux-4)
+nn(web-8, |-5)
+nn(web-8, grep-6)
+amod(web-8, lt-http-7)
+dep($-1, web-8)
+number(0.0-10, 10917-9)
+num(0.0-11, 0.0-10)
+dep(web-8, 0.0-11)
+number(1576-13, 3200-12)
+num(0.0-11, 1576-13)
+
+S/NN 07:53/CD 0:00/CD lt-httpd/JJ web/NN 10918/CD 0.8/CD 0.0/CD 3672/CD 2072/CD ?/. 
+
+(ROOT (NP (NP (NN S) (CD 07:53)) (NP (NP (CD 0:00) (JJ lt-httpd) (NN web)) (NP (QP (CD 10918) (CD 0.8)))) (NP (NP (QP (CD 0.0) (CD 3672))) (NP (CD 2072))) (. ?)))
+
+root(ROOT-0, S-1)
+num(S-1, 07:53-2)
+num(web-5, 0:00-3)
+amod(web-5, lt-httpd-4)
+dep(S-1, web-5)
+number(0.8-7, 10918-6)
+dep(web-5, 0.8-7)
+number(3672-9, 0.0-8)
+dep(S-1, 3672-9)
+dep(3672-9, 2072-10)
+
+S/NN 07:53/CD 0:01/CD lt-httpd/JJ web/NN 10919/CD 4.4/CD 0.1/CD 7620/CD 6016/CD ?/. 
+
+(ROOT (NP (NP (NN S) (CD 07:53)) (NP (NP (CD 0:01) (JJ lt-httpd) (NN web)) (NP (QP (CD 10919) (CD 4.4)))) (NP (NP (CD 0.1)) (NP (QP (CD 7620) (CD 6016)))) (. ?)))
+
+root(ROOT-0, S-1)
+num(S-1, 07:53-2)
+num(web-5, 0:01-3)
+amod(web-5, lt-httpd-4)
+dep(S-1, web-5)
+number(4.4-7, 10919-6)
+dep(web-5, 4.4-7)
+dep(S-1, 0.1-8)
+number(6016-10, 7620-9)
+dep(0.1-8, 6016-10)
+
+S/NN 07:53/CD 0:06/CD lt-httpd/NN 
+
+(ROOT (NP (NP (NN S)) (NP (NP (QP (CD 07:53) (CD 0:06))) (NP (NN lt-httpd)))))
+
+root(ROOT-0, S-1)
+number(0:06-3, 07:53-2)
+dep(S-1, 0:06-3)
+dep(0:06-3, lt-httpd-4)
+

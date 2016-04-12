@@ -1,0 +1,488 @@
+This/DT my/PRP$ httpd.conf/NN configuration/NN :/: 
+
+(ROOT (NP (NP (NP (DT This)) (NP (PRP$ my) (NN httpd.conf) (NN configuration))) (: :)))
+
+root(ROOT-0, This-1)
+poss(configuration-4, my-2)
+nn(configuration-4, httpd.conf-3)
+dep(This-1, configuration-4)
+
+Timeout/NNP 10/CD ProxyTimeout/NNP 3/CD ErrorDocument/NN 502/CD //: error/error502/NN ./. 
+
+(ROOT (NP (NP (NNP Timeout) (CD 10)) (NP (NP (NNP ProxyTimeout) (CD 3)) (NP (NP (NN ErrorDocument) (CD 502)) (PRN (: /) (NP (NN error/error502))))) (. .)))
+
+root(ROOT-0, Timeout-1)
+num(Timeout-1, 10-2)
+dep(Timeout-1, ProxyTimeout-3)
+num(ProxyTimeout-3, 3-4)
+dep(ProxyTimeout-3, ErrorDocument-5)
+num(ErrorDocument-5, 502-6)
+punct(error/error502-8, /-7)
+dep(ErrorDocument-5, error/error502-8)
+
+txt/NN RewriteEngine/NN on/IN RewriteRule/NNP ^/CD //: sleep/VB $/$ http://ws00013/cgi-bin/sleep/JJ [/-LRB- P/NN ]/-RRB- 
+
+(ROOT (FRAG (PP (NP (NN txt) (NN RewriteEngine)) (PP (IN on) (NP (NNP RewriteRule) (CD ^)))) (: /) (S (VP (VB sleep) (NP (ADJP ($ $) (JJ http://ws00013/cgi-bin/sleep)) (-LRB- -LSB-) (NN P)))) (-RRB- -RSB-)))
+
+root(ROOT-0, sleep-7)
+nn(RewriteEngine-2, txt-1)
+dep(sleep-7, RewriteEngine-2)
+prep_on(sleep-7, RewriteRule-4)
+num(RewriteRule-4, ^-5)
+punct(sleep-7, /-6)
+amod(P-11, $-8)
+dep($-8, http://ws00013/cgi-bin/sleep-9)
+punct(P-11, -LSB--10)
+dobj(sleep-7, P-11)
+punct(sleep-7, -RSB--12)
+
+The/DT page/NN times/NNS out/IN after/IN 10/CD seconds/NNS (/-LRB- instead/RB of/IN 3/CD seconds/NNS with/IN ProxyTimeout/NNP )/-RRB- ./. 
+
+(ROOT (S (NP (DT The) (NN page) (NNS times)) (VP (ADVP (IN out) (PP (IN after) (NP (NP (CD 10) (NNS seconds)) (PRN (-LRB- -LRB-) (CONJP (RB instead) (IN of)) (NP (NP (CD 3) (NNS seconds)) (PP (IN with) (NP (NNP ProxyTimeout)))) (-RRB- -RRB-)))))) (. .)))
+
+root(ROOT-0, out-4)
+det(times-3, The-1)
+nn(times-3, page-2)
+nsubj(out-4, times-3)
+num(seconds-7, 10-6)
+prep_after(out-4, seconds-7)
+cc(seconds-12, instead-9)
+num(seconds-12, 3-11)
+dep(seconds-7, seconds-12)
+prep_with(seconds-12, ProxyTimeout-14)
+
+And/CC the/DT error/NN that/WDT is/VBZ sent/VBN back/RB instead/RB the/DT default/NN ErrorDocument/NN (/-LRB- although/IN the/DT log/NN shows/VBZ that/IN the/DT ErrorDocument/NNP handler/NN is/VBZ in/IN some/DT way/NN executed/VBN :/: 
+
+(ROOT (S (CC And) (NP (NP (DT the) (NN error)) (SBAR (WHNP (WDT that)) (S (VP (VBZ is) (VP (VBN sent) (ADVP (RB back) (NP (ADVP (RB instead)) (DT the) (NN default) (NN ErrorDocument))) (-LRB- -LRB-) (PP (IN although)) (NP-TMP (DT the) (NN log))))))) (VP (VBZ shows) (SBAR (IN that) (S (NP (DT the) (NNP ErrorDocument) (NN handler)) (VP (VBZ is) (PP (IN in) (NP (NP (DT some) (NN way)) (VP (VBN executed)))))))) (: :)))
+
+root(ROOT-0, shows-16)
+cc(shows-16, And-1)
+det(error-3, the-2)
+nsubj(shows-16, error-3)
+nsubjpass(sent-6, that-4)
+auxpass(sent-6, is-5)
+rcmod(error-3, sent-6)
+advmod(sent-6, back-7)
+advmod(ErrorDocument-11, instead-8)
+det(ErrorDocument-11, the-9)
+nn(ErrorDocument-11, default-10)
+pobj(back-7, ErrorDocument-11)
+prep(sent-6, although-13)
+det(log-15, the-14)
+tmod(sent-6, log-15)
+mark(is-21, that-17)
+det(handler-20, the-18)
+nn(handler-20, ErrorDocument-19)
+nsubj(is-21, handler-20)
+ccomp(shows-16, is-21)
+det(way-24, some-23)
+prep_in(is-21, way-24)
+vmod(way-24, executed-25)
+
+=================================/NN 502/CD Bad/NNP Gateway/NNP Connection/NN :/: close/JJ Date/NN :/: Thu/NNP ,/, 05/CD Feb/NNP 2004/CD 11:33:22/CD GMT/NNP Accept-Ranges/NNPS :/: bytes/NNS ETag/NN :/: "/`` a2a1d-a-408ddc40/NN "/'' Server/NN :/: Apache/2/NN .0.48/CD (/-LRB- Unix/NNP )/-RRB- Content-Length/NNP :/: 10/CD Content-Type/NN :/: text/plain/NN Last-Modified/NNP :/: Thu/NNP ,/, 05/CD Feb/NNP 2004/CD 11:29:45/CD GMT/NNP Client-Date/NNP :/: Thu/NNP ,/, 05/CD Feb/NNP 2004/CD 11:33:32/CD GMT/NNP Client-Response-Num/NNP :/: 1/CD 
+
+(ROOT (FRAG (NP-TMP (NP (NN =================================)) (NP (CD 502) (NNP Bad) (NNP Gateway) (NN Connection))) (: :) (NP (NP (JJ close) (NN Date)) (: :) (NP (NP (NNP Thu)) (, ,) (NP (NP (NP (CD 05) (NNP Feb) (CD 2004)) (NP (CD 11:33:22) (NNP GMT) (NNPS Accept-Ranges))) (: :) (NP (NP (NNS bytes)) (NP (NN ETag))) (: :) (NP (NP (`` ``) (NN a2a1d-a-408ddc40) ('' '')) (NP (NN Server))) (: :) (NP (NP (NN Apache/2) (CD .0.48)) (PRN (-LRB- -LRB-) (NP (NNP Unix)) (-RRB- -RRB-)) (NP (NNP Content-Length))) (: :) (NP (NP (CD 10)) (NP (NN Content-Type))) (: :) (NP (NP (NN text/plain)) (NP (NNP Last-Modified))) (: :) (NP (NP (NNP Thu)) (, ,) (NP (NP (CD 05)) (NP (NNP Feb) (CD 2004) (CD 11:29:45) (NNP GMT) (NNP Client-Date)))) (: :) (NP (NP (NNP Thu)) (, ,) (NP (NP (CD 05)) (NP (NNP Feb) (CD 2004) (CD 11:33:32) (NNP GMT) (NNP Client-Response-Num)))))) (: :) (NP (CD 1)))))
+
+root(ROOT-0, =================================-1)
+num(Connection-5, 502-2)
+nn(Connection-5, Bad-3)
+nn(Connection-5, Gateway-4)
+dep(=================================-1, Connection-5)
+amod(Date-8, close-7)
+dep(=================================-1, Date-8)
+dep(Date-8, Thu-10)
+num(Feb-13, 05-12)
+appos(Thu-10, Feb-13)
+num(Feb-13, 2004-14)
+num(Accept-Ranges-17, 11:33:22-15)
+nn(Accept-Ranges-17, GMT-16)
+dep(Feb-13, Accept-Ranges-17)
+dep(Feb-13, bytes-19)
+dep(bytes-19, ETag-20)
+dep(Feb-13, a2a1d-a-408ddc40-23)
+dep(a2a1d-a-408ddc40-23, Server-25)
+dep(Feb-13, Apache/2-27)
+num(Apache/2-27, .0.48-28)
+appos(Apache/2-27, Unix-30)
+dep(Apache/2-27, Content-Length-32)
+dep(Feb-13, 10-34)
+dep(10-34, Content-Type-35)
+dep(Feb-13, text/plain-37)
+appos(text/plain-37, Last-Modified-38)
+dep(Feb-13, Thu-40)
+appos(Thu-40, 05-42)
+nn(Client-Date-47, Feb-43)
+num(Client-Date-47, 2004-44)
+num(Client-Date-47, 11:29:45-45)
+nn(Client-Date-47, GMT-46)
+dep(05-42, Client-Date-47)
+dep(Feb-13, Thu-49)
+appos(Thu-49, 05-51)
+nn(Client-Response-Num-56, Feb-52)
+num(Client-Response-Num-56, 2004-53)
+num(Client-Response-Num-56, 11:33:32-54)
+nn(Client-Response-Num-56, GMT-55)
+dep(05-51, Client-Response-Num-56)
+dep(Date-8, 1-58)
+
+</JJR HTML/NNP >/JJR </JJR HEAD/CD >/JJR </JJR TITLE/CD >/JJR An/DT Error/NN Occurred/VBD </JJR //: TITLE/NN >/JJR </JJR //: HEAD/NN >/JJR </JJR BODY/NN >/JJR </JJR H1/NN >/JJR An/DT Error/NN Occurred/VBD </JJR //: H1/NN >/JJR 502/CD Bad/NNP Gateway/NNP </JJR //: BODY/NN >/JJR </JJR //: HTML/NNP >/JJR =================================/CD 
+
+(ROOT (FRAG (NP (NP (JJR <)) (SBAR (S (NP (NP (NP (NNP HTML)) (JJR >)) (ADJP (NP (NP (JJR <)) (ADJP (NP (CD HEAD)) (JJR >))) (JJR <))) (VP (NP (NP (CD TITLE) (JJR >)) (SBAR (S (NP (DT An) (NN Error)) (VP (VBD Occurred) (ADJP (JJR <)))))) (PRN (: /) (S (NP (NN TITLE)) (ADJP (NP (JJR >)) (JJR <))) (: /)))))) (X (X (NP (NP (NN HEAD)) (NP (JJR >))) (NP (JJR <) (NN BODY)) (NP (NP (JJR >)) (NP (JJR <) (NN H1)))) (NP (NP (JJR >)) (SBAR (S (NP (DT An) (NN Error)) (VP (VBD Occurred) (NP (NP (ADJP (ADJP (JJR <)) (PRN (: /) (S (NP (NP (NN H1)) (NP (JJR >)) (NP (NP (CD 502)) (NP (NNP Bad) (NNP Gateway)))) (ADJP (JJR <))) (: /))) (NN BODY)) (ADJP (ADJP (NP (JJR >)) (JJR <)) (PRN (: /) (S (NP (NNP HTML)) (ADJP (JJR >)))))) (NP-TMP (CD =================================)))))))))
+
+root(ROOT-0, <-1)
+dep(>-3, HTML-2)
+nsubj(>-9, >-3)
+npadvmod(<-7, <-4)
+npadvmod(>-6, HEAD-5)
+amod(<-4, >-6)
+amod(>-3, <-7)
+num(>-9, TITLE-8)
+rcmod(<-1, >-9)
+det(Error-11, An-10)
+nsubj(Occurred-12, Error-11)
+rcmod(>-9, Occurred-12)
+acomp(Occurred-12, <-13)
+punct(<-17, /-14)
+dep(<-17, TITLE-15)
+npadvmod(<-17, >-16)
+parataxis(>-9, <-17)
+punct(<-17, /-18)
+dep(>-23, HEAD-19)
+dep(HEAD-19, >-20)
+amod(BODY-22, <-21)
+dep(>-23, BODY-22)
+dep(>-26, >-23)
+amod(H1-25, <-24)
+dep(>-23, H1-25)
+dep(<-1, >-26)
+det(Error-28, An-27)
+nsubj(Occurred-29, Error-28)
+rcmod(>-26, Occurred-29)
+amod(BODY-39, <-30)
+punct(<-37, /-31)
+dep(<-37, H1-32)
+dep(H1-32, >-33)
+dep(H1-32, 502-34)
+nn(Gateway-36, Bad-35)
+dep(502-34, Gateway-36)
+dep(<-30, <-37)
+punct(<-37, /-38)
+dobj(Occurred-29, BODY-39)
+npadvmod(<-41, >-40)
+amod(BODY-39, <-41)
+punct(>-44, /-42)
+dep(>-44, HTML-43)
+dep(<-41, >-44)
+tmod(Occurred-29, =================================-45)
+
+But/CC the/DT logs/NNS show/VBP the/DT following/NN :/: 
+
+(ROOT (S (CC But) (NP (DT the) (NNS logs)) (VP (VBP show) (NP (DT the) (NN following))) (: :)))
+
+root(ROOT-0, show-4)
+cc(show-4, But-1)
+det(logs-3, the-2)
+nsubj(show-4, logs-3)
+det(following-6, the-5)
+dobj(show-4, following-6)
+
+error_log/NNP :/: 
+
+(ROOT (NP (NNP error_log) (: :)))
+
+root(ROOT-0, error_log-1)
+
+----------/CD 
+
+(ROOT (FRAG (NP (CD ----------))))
+
+root(ROOT-0, -----------1)
+
+[/-LRB- Thu/NNP Feb/NNP 05/CD 11:33:32/CD 2004/CD ]/-RRB- [/-LRB- error/NN ]/-RRB- [/-LRB- client/NN 127.0.0.1/CD ]/-RRB- proxy/NN :/: error/NN reading/NN status/NN line/NN from/IN remote/JJ server/NN ws00013/NN [/-LRB- Thu/NNP Feb/NNP 05/CD 11:33:32/CD 2004/CD ]/-RRB- [/-LRB- error/NN ]/-RRB- [/-LRB- client/NN 127.0.0.1/CD ]/-RRB- proxy/NN :/: Error/NN reading/NN from/IN remote/JJ server/NN returned/VBN by/IN //: sleep/NN 
+
+(ROOT (SINV (-LRB- -LSB-) (NP (NNP Thu) (NNP Feb)) (VP (NP (QP (CD 05) (CD 11:33:32))) (S (NP (NP (NP (CD 2004) (-RRB- -RSB-)) (PP (-LRB- -LSB-) (NP (NN error)))) (PRN (-RRB- -RSB-) (PP (-LRB- -LSB-) (NP (NP (NP (NP (NN client) (CD 127.0.0.1)) (PP (-RRB- -RSB-) (NP (NN proxy)))) (: :) (NP (NP (NN error) (NN reading) (NN status) (NN line)) (PP (IN from) (NP (JJ remote) (NN server) (NN ws00013)))) (-LRB- -LSB-) (NP (NP (NNP Thu) (NNP Feb)) (NP (QP (CD 05) (CD 11:33:32)) (CD 2004))) (-RRB- -RSB-) (NP (NP (-LRB- -LSB-) (NN error) (-RRB- -RSB-)) (PP (-LRB- -LSB-) (NP (NN client) (CD 127.0.0.1) (-RRB- -RSB-) (NN proxy)))) (: :) (NP (NP (NN Error) (NN reading)) (PP (IN from) (NP (JJ remote) (NN server))))) (VP (VBN returned) (PP (IN by))))) (: /)) (NP (NN sleep)))))))
+
+root(ROOT-0, 11:33:32-5)
+punct(11:33:32-5, -LSB--1)
+nn(Feb-3, Thu-2)
+dep(11:33:32-5, Feb-3)
+number(11:33:32-5, 05-4)
+dep(11:33:32-5, 2004-6)
+punct(2004-6, -RSB--7)
+punct(error-9, -LSB--8)
+prep(2004-6, error-9)
+punct(client-12, -RSB--10)
+punct(client-12, -LSB--11)
+prep(2004-6, client-12)
+num(client-12, 127.0.0.1-13)
+punct(proxy-15, -RSB--14)
+prep(client-12, proxy-15)
+nn(line-20, error-17)
+nn(line-20, reading-18)
+nn(line-20, status-19)
+dep(client-12, line-20)
+amod(ws00013-24, remote-22)
+nn(ws00013-24, server-23)
+prep_from(line-20, ws00013-24)
+punct(client-12, -LSB--25)
+nn(Feb-27, Thu-26)
+dep(client-12, Feb-27)
+number(11:33:32-29, 05-28)
+num(2004-30, 11:33:32-29)
+dep(Feb-27, 2004-30)
+punct(client-12, -RSB--31)
+punct(error-33, -LSB--32)
+dep(client-12, error-33)
+punct(error-33, -RSB--34)
+punct(proxy-39, -LSB--35)
+nn(proxy-39, client-36)
+num(proxy-39, 127.0.0.1-37)
+punct(proxy-39, -RSB--38)
+prep(error-33, proxy-39)
+nn(reading-42, Error-41)
+dep(client-12, reading-42)
+amod(server-45, remote-44)
+prep_from(reading-42, server-45)
+vmod(client-12, returned-46)
+prep(returned-46, by-47)
+punct(client-12, /-48)
+dep(2004-6, sleep-49)
+
+access_log/NN :/: 
+
+(ROOT (NP (NN access_log) (: :)))
+
+root(ROOT-0, access_log-1)
+
+-----------/CD 
+
+(ROOT (FRAG (NP (CD -----------))))
+
+root(ROOT-0, ------------1)
+
+127.0.0.1/CD -/: -/: [/-LRB- 05/Feb/2004/NN :11:33:22/CD +0000/CD ]/-RRB- "/`` ws00013.vfl.vodafone/JJ GET/VBP //: sleep/VB HTTP/1/NN .1/NN "/'' 502/CD 10/CD "/'' -/: "/'' "/`` lwp-request/2/NN .01/CD "/'' //: apps/apache/2/NN .0.48/CD //: htdocs/error/error502/NN ./. 
+
+(ROOT (FRAG (NP (NP (CD 127.0.0.1)) (: -) (: -) (S (NP (NP (-LRB- -LSB-) (NN 05/Feb/2004)) (ADJP (CD :11:33:22) (CD +0000))) (VP (-RRB- -RSB-) (`` ``) (NP (NP (JJ ws00013.vfl.vodafone)) (SBAR (S (VP (VBP GET) (PRN (: /) (S (VP (VB sleep) (NP (NP (NN HTTP/1)) (NP (NN .1) ('' '')))))) (NP (CD 502) (CD 10)) ('' '')) (: -)))) ('' '') (NP (NP (`` ``) (NP (NN lwp-request/2) (CD .01)) ('' '') (PRN (: /) (NP (NN apps/apache/2) (CD .0.48)) (: /))) (NP (NN htdocs/error/error502))))) (. .))))
+
+root(ROOT-0, 127.0.0.1-1)
+punct(05/Feb/2004-5, -LSB--4)
+nsubj(ws00013.vfl.vodafone-10, 05/Feb/2004-5)
+number(+0000-7, :11:33:22-6)
+amod(05/Feb/2004-5, +0000-7)
+punct(ws00013.vfl.vodafone-10, -RSB--8)
+dep(127.0.0.1-1, ws00013.vfl.vodafone-10)
+rcmod(ws00013.vfl.vodafone-10, GET-11)
+punct(sleep-13, /-12)
+parataxis(GET-11, sleep-13)
+dobj(sleep-13, HTTP/1-14)
+dep(HTTP/1-14, .1-15)
+num(10-18, 502-17)
+dobj(GET-11, 10-18)
+dobj(ws00013.vfl.vodafone-10, lwp-request/2-23)
+num(lwp-request/2-23, .01-24)
+punct(apps/apache/2-27, /-26)
+dep(lwp-request/2-23, apps/apache/2-27)
+num(apps/apache/2-27, .0.48-28)
+punct(apps/apache/2-27, /-29)
+dep(lwp-request/2-23, htdocs/error/error502-30)
+
+txt/SYM -/: 10.99.148.170/CD -/: -/: [/-LRB- 05/Feb/2004/NN :11:33:22/CD +0000/CD ]/-RRB- "/`` ws00013.vfl.vodafone/JJ GET/VBP //: cgi-bin/sleep/JJ HTTP/1/NN .1/NN "/'' 200/CD 26/CD "/'' -/: "/'' "/`` lwp-request/2/NN .01/CD "/'' //: apps/apache/2/NN .0.48/CD //: cgi-bin/sleep/JJ 
+
+(ROOT (S (NP (NP (FRAG (FRAG (X (SYM txt)) (: -) (NP (CD 10.99.148.170))) (: -) (FRAG (: -) (ADVP (-LRB- -LSB-)) (NP (NP (NN 05/Feb/2004)) (NP (QP (CD :11:33:22)) (CD +0000)))))) (PP (-RRB- -RSB-) (NP (NP (`` ``) (FRAG (ADJP (JJ ws00013.vfl.vodafone)) (S (VP (VBP GET) (PRN (: /) (NP (NP (JJ cgi-bin/sleep) (NN HTTP/1) (NN .1)) (PP ('' '') (NP (NP (CD 200) (CD 26)) ('' '') (: -) ('' ''))))) (`` ``) (PP (NN lwp-request/2) (NP (CD .01)))))) ('' '') (PRN (: /) (NP (NN apps/apache/2) (CD .0.48)) (: /))) (NP-TMP (JJ cgi-bin/sleep)))))))
+
+root(ROOT-0, 10.99.148.170-3)
+dep(10.99.148.170-3, txt-1)
+dep(05/Feb/2004-7, -LSB--6)
+dep(10.99.148.170-3, 05/Feb/2004-7)
+num(+0000-9, :11:33:22-8)
+dep(05/Feb/2004-7, +0000-9)
+punct(apps/apache/2-29, -RSB--10)
+dep(apps/apache/2-29, ws00013.vfl.vodafone-12)
+dep(ws00013.vfl.vodafone-12, GET-13)
+punct(.1-17, /-14)
+amod(.1-17, cgi-bin/sleep-15)
+nn(.1-17, HTTP/1-16)
+dep(GET-13, .1-17)
+num(26-20, 200-19)
+prep(.1-17, 26-20)
+prep(GET-13, lwp-request/2-25)
+dep(lwp-request/2-25, .01-26)
+punct(apps/apache/2-29, /-28)
+prep(10.99.148.170-3, apps/apache/2-29)
+num(apps/apache/2-29, .0.48-30)
+punct(apps/apache/2-29, /-31)
+tmod(apps/apache/2-29, cgi-bin/sleep-32)
+
+rewrite_log/NN :/: 
+
+(ROOT (NP (NN rewrite_log) (: :)))
+
+root(ROOT-0, rewrite_log-1)
+
+------------/CD 
+
+(ROOT (FRAG (NP (CD ------------))))
+
+root(ROOT-0, -------------1)
+
+127.0.0.1/CD -/: -/: [/-LRB- 05/Feb/2004/NN :11:33:32/CD +0000/CD ]/-RRB- 
+
+(ROOT (NP (NP (CD 127.0.0.1)) (PRN (: -) (FRAG (: -) (ADVP (-LRB- -LSB-)) (NP (NP (NN 05/Feb/2004)) (NP (QP (CD :11:33:32) (CD +0000)) (-RRB- -RSB-)))))))
+
+root(ROOT-0, 127.0.0.1-1)
+dep(05/Feb/2004-5, -LSB--4)
+dep(127.0.0.1-1, 05/Feb/2004-5)
+number(+0000-7, :11:33:32-6)
+dep(05/Feb/2004-5, +0000-7)
+punct(+0000-7, -RSB--8)
+
+[/-LRB- ws00013.vfl.vodafone/NN //: sid/NN #/# 15d798/CD ]/-RRB- [/-LRB- rid/JJ #/# 1fac40/initial/redir/CD #/# 1/CD ]/-RRB- (/-LRB- 2/LS )/-RRB- init/NN rewrite/VBP 
+
+(ROOT (S (S (NP (NP (-LRB- -LSB-) (NN ws00013.vfl.vodafone)) (PRN (: /) (NP (NP (NN sid)) (NP (# #) (CD 15d798))) (-RRB- -RSB-))) (VP (-LRB- -LSB-) (ADJP (JJ rid) (NP (NP (# #) (CD 1fac40/initial/redir)) (ADJP (# #) (CD 1)))))) (-RRB- -RSB-) (S (LST (-LRB- -LRB-) (LS 2) (-RRB- -RRB-)) (NP (NN init)) (VP (VBP rewrite)))))
+
+root(ROOT-0, rid-9)
+punct(ws00013.vfl.vodafone-2, -LSB--1)
+nsubj(rid-9, ws00013.vfl.vodafone-2)
+punct(sid-4, /-3)
+dep(ws00013.vfl.vodafone-2, sid-4)
+dep(15d798-6, #-5)
+dep(sid-4, 15d798-6)
+punct(sid-4, -RSB--7)
+punct(rid-9, -LSB--8)
+dep(1fac40/initial/redir-11, #-10)
+dep(rid-9, 1fac40/initial/redir-11)
+number(1-13, #-12)
+amod(1fac40/initial/redir-11, 1-13)
+punct(rid-9, -RSB--14)
+dep(rewrite-19, 2-16)
+nsubj(rewrite-19, init-18)
+parataxis(rid-9, rewrite-19)
+
+engine/NN with/IN requested/VBN uri/NN //: error/error502/NN ./. 
+
+(ROOT (NP (NP (NN engine)) (PP (IN with) (NP (NP (VBN requested) (NN uri)) (PRN (: /) (NP (NN error/error502))))) (. .)))
+
+root(ROOT-0, engine-1)
+amod(uri-4, requested-3)
+prep_with(engine-1, uri-4)
+punct(error/error502-6, /-5)
+dep(uri-4, error/error502-6)
+
+txt/NN 
+
+(ROOT (NP (NN txt)))
+
+root(ROOT-0, txt-1)
+
+127.0.0.1/CD -/: -/: [/-LRB- 05/Feb/2004/NN :11:33:32/CD +0000/CD ]/-RRB- 
+
+(ROOT (NP (NP (CD 127.0.0.1)) (PRN (: -) (FRAG (: -) (ADVP (-LRB- -LSB-)) (NP (NP (NN 05/Feb/2004)) (NP (QP (CD :11:33:32) (CD +0000)) (-RRB- -RSB-)))))))
+
+root(ROOT-0, 127.0.0.1-1)
+dep(05/Feb/2004-5, -LSB--4)
+dep(127.0.0.1-1, 05/Feb/2004-5)
+number(+0000-7, :11:33:32-6)
+dep(05/Feb/2004-5, +0000-7)
+punct(+0000-7, -RSB--8)
+
+[/-LRB- ws00013.vfl.vodafone/NN //: sid/NN #/# 15d798/CD ]/-RRB- [/-LRB- rid/JJ #/# 1fac40/initial/redir/CD #/# 1/CD ]/-RRB- (/-LRB- 3/LS )/-RRB- applying/VBG 
+
+(ROOT (FRAG (NP (-LRB- -LSB-) (NN ws00013.vfl.vodafone)) (: /) (S (NP (NP (NN sid)) (NP (# #) (CD 15d798))) (VP (-RRB- -RSB-) (-LRB- -LSB-) (VP (JJ rid) (NP (NP (NP (# #) (CD 1fac40/initial/redir)) (NP (NP (QP (# #) (CD 1) (-RRB- -RSB-))) (PRN (-LRB- -LRB-) (NP (LS 3)) (-RRB- -RRB-)))) (VP (VBG applying))))))))
+
+root(ROOT-0, ws00013.vfl.vodafone-2)
+punct(ws00013.vfl.vodafone-2, -LSB--1)
+punct(ws00013.vfl.vodafone-2, /-3)
+nsubj(rid-9, sid-4)
+dep(15d798-6, #-5)
+dep(sid-4, 15d798-6)
+punct(rid-9, -RSB--7)
+punct(rid-9, -LSB--8)
+dep(ws00013.vfl.vodafone-2, rid-9)
+dep(1fac40/initial/redir-11, #-10)
+dobj(rid-9, 1fac40/initial/redir-11)
+number(1-13, #-12)
+dep(1fac40/initial/redir-11, 1-13)
+punct(1-13, -RSB--14)
+dep(1-13, 3-16)
+vmod(1fac40/initial/redir-11, applying-18)
+
+pattern/NN '/'' ^/SYM //: sleep/VB $/$ '/'' to/TO uri/NN '/'' //: error/error502/NN ./. 
+
+(ROOT (S (NP (NP (NN pattern) ('' ') (SYM ^)) (PRN (: /) (S (VP (VB sleep) (NP ($ $) ('' ')) (PP (TO to) (NP (NN uri) ('' '))))) (: /))) (VP (NN error/error502)) (. .)))
+
+root(ROOT-0, error/error502-12)
+nsubj(error/error502-12, pattern-1)
+dep(pattern-1, ^-3)
+punct(sleep-5, /-4)
+dep(pattern-1, sleep-5)
+dobj(sleep-5, $-6)
+prep_to(sleep-5, uri-9)
+punct(sleep-5, /-11)
+
+txt/NN '/'' 
+
+(ROOT (S (VP (NN txt) ('' '))))
+
+root(ROOT-0, txt-1)
+
+127.0.0.1/CD -/: -/: [/-LRB- 05/Feb/2004/NN :11:33:32/CD +0000/CD ]/-RRB- 
+
+(ROOT (NP (NP (CD 127.0.0.1)) (PRN (: -) (FRAG (: -) (ADVP (-LRB- -LSB-)) (NP (NP (NN 05/Feb/2004)) (NP (QP (CD :11:33:32) (CD +0000)) (-RRB- -RSB-)))))))
+
+root(ROOT-0, 127.0.0.1-1)
+dep(05/Feb/2004-5, -LSB--4)
+dep(127.0.0.1-1, 05/Feb/2004-5)
+number(+0000-7, :11:33:32-6)
+dep(05/Feb/2004-5, +0000-7)
+punct(+0000-7, -RSB--8)
+
+[/-LRB- ws00013.vfl.vodafone/NN //: sid/NN #/# 15d798/CD ]/-RRB- [/-LRB- rid/JJ #/# 1fac40/initial/redir/CD #/# 1/CD ]/-RRB- (/-LRB- 1/LS )/-RRB- pass/VB through/IN 
+
+(ROOT (FRAG (NP (-LRB- -LSB-) (NN ws00013.vfl.vodafone)) (: /) (S (NP (NP (NN sid)) (NP (# #) (CD 15d798))) (VP (-RRB- -RSB-) (VP (-LRB- -LSB-) (ADJP (JJ rid) (SBAR (S (NP (NP (# #) (CD 1fac40/initial/redir)) (ADJP (ADJP (QP (# #) (CD 1) (-RRB- -RSB-))) (PRN (-LRB- -LRB-) (NP (LS 1)) (-RRB- -RRB-)))) (VP (VB pass) (PP (IN through)))))))))))
+
+root(ROOT-0, ws00013.vfl.vodafone-2)
+punct(ws00013.vfl.vodafone-2, -LSB--1)
+punct(ws00013.vfl.vodafone-2, /-3)
+nsubj(rid-9, sid-4)
+dep(15d798-6, #-5)
+dep(sid-4, 15d798-6)
+punct(rid-9, -RSB--7)
+punct(rid-9, -LSB--8)
+dep(ws00013.vfl.vodafone-2, rid-9)
+dep(1fac40/initial/redir-11, #-10)
+nsubj(pass-18, 1fac40/initial/redir-11)
+number(1-13, #-12)
+amod(1fac40/initial/redir-11, 1-13)
+punct(1-13, -RSB--14)
+dep(1-13, 1-16)
+ccomp(rid-9, pass-18)
+prep(pass-18, through-19)
+
+//: error/error502/NN ./. 
+
+(ROOT (FRAG (: /) (VP (NN error/error502)) (. .)))
+
+root(ROOT-0, error/error502-2)
+punct(error/error502-2, /-1)
+
+txt/NN 
+
+(ROOT (NP (NN txt)))
+
+root(ROOT-0, txt-1)
+
+I/PRP can/MD provide/VB full/JJ httpd.conf/NN and/CC sleep/VB cgi/NN if/IN needed/VBN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (MD can) (VP (VP (VB provide) (NP (JJ full) (NN httpd.conf))) (CC and) (VP (VB sleep) (NP (NN cgi)) (SBAR (IN if) (S (VP (VBN needed))))))) (. .)))
+
+root(ROOT-0, provide-3)
+nsubj(provide-3, I-1)
+nsubj(sleep-7, I-1)
+aux(provide-3, can-2)
+amod(httpd.conf-5, full-4)
+dobj(provide-3, httpd.conf-5)
+conj_and(provide-3, sleep-7)
+dobj(sleep-7, cgi-8)
+mark(needed-10, if-9)
+advcl(sleep-7, needed-10)
+

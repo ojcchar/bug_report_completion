@@ -1,0 +1,120 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 5.1/CD ;/: en-US/NN ;/: rv/NN :1.9/CD a1/NN )/-RRB- Gecko/20050909/NN Firefox/1/NN .6/CD a1/NN Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 5.1/CD ;/: en-US/NN ;/: rv/NN :1.9/CD a1/NN )/-RRB- Gecko/20050909/NN Firefox/1/NN .6/CD a1/NN 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NP (NP (NNP Windows)) (: ;) (NP (NNP U))) (: ;) (NP (NP (NNP Windows) (NNP NT)) (NP (CD 5.1))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NN rv)))) (NP (CD :1.9) (NN a1))) (-RRB- -RRB-)) (NP (NN Gecko/20050909) (NN Firefox/1))) (X (NP (NP (CD .6) (NN a1)) (NP (NP (NNP Build) (NNP Identifier)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NP (NP (NNP Windows)) (: ;) (NP (NNP U))) (: ;) (NP (NP (NNP Windows) (NNP NT)) (NP (CD 5.1))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NN rv)))) (NP (CD :1.9) (NN a1))) (-RRB- -RRB-))))) (NP (NN Gecko/20050909)) (NP (NP (NN Firefox/1)) (NP (CD .6) (NN a1))))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+dep(.0-4, Windows-6)
+dep(Windows-6, U-8)
+nn(NT-11, Windows-10)
+dep(Windows-6, NT-11)
+dep(NT-11, 5.1-12)
+dep(Windows-6, en-US-14)
+dep(en-US-14, rv-16)
+num(a1-18, :1.9-17)
+dep(Windows-6, a1-18)
+nn(Firefox/1-21, Gecko/20050909-20)
+dep(.0-4, Firefox/1-21)
+num(a1-23, .6-22)
+dep(Firefox/1-45, a1-23)
+nn(Identifier-25, Build-24)
+dep(a1-23, Identifier-25)
+nn(.0-28, Mozilla/5-27)
+dep(Identifier-25, .0-28)
+dep(.0-28, Windows-30)
+dep(Windows-30, U-32)
+nn(NT-35, Windows-34)
+dep(Windows-30, NT-35)
+dep(NT-35, 5.1-36)
+dep(Windows-30, en-US-38)
+dep(en-US-38, rv-40)
+num(a1-42, :1.9-41)
+dep(Windows-30, a1-42)
+dep(Firefox/1-45, Gecko/20050909-44)
+dep(User-Agent-1, Firefox/1-45)
+num(a1-47, .6-46)
+dep(Firefox/1-45, a1-47)
+
+The/DT shopping/NN cart/NN (/-LRB- green/JJ icon/NN )/-RRB- is/VBZ supposed/VBN to/TO be/VB after/IN the/DT letter/NN Z/NN but/CC it/PRP is/VBZ in/IN wrong/JJ place/NN 
+
+(ROOT (S (NP (NP (DT The) (NN shopping) (NN cart)) (PRN (-LRB- -LRB-) (NP (JJ green) (NN icon)) (-RRB- -RRB-))) (VP (VBZ is) (VP (VBN supposed) (S (VP (TO to) (VP (VB be) (PP (IN after) (NP (DT the) (NN letter) (NN Z))) (SBAR (CC but) (S (NP (PRP it)) (VP (VBZ is) (PP (IN in) (NP (JJ wrong) (NN place)))))))))))))
+
+root(ROOT-0, supposed-9)
+det(cart-3, The-1)
+nn(cart-3, shopping-2)
+nsubjpass(supposed-9, cart-3)
+amod(icon-6, green-5)
+appos(cart-3, icon-6)
+auxpass(supposed-9, is-8)
+aux(be-11, to-10)
+xcomp(supposed-9, be-11)
+det(Z-15, the-13)
+nn(Z-15, letter-14)
+prep_after(be-11, Z-15)
+cc(is-18, but-16)
+nsubj(is-18, it-17)
+ccomp(be-11, is-18)
+amod(place-21, wrong-20)
+prep_in(is-18, place-21)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/LS go/VB to/TO the/DT website/NN 
+
+(ROOT (S (LST (LS 1)) (VP (VB go) (PP (TO to) (NP (DT the)))) (NN website)))
+
+root(ROOT-0, go-2)
+dep(go-2, 1-1)
+prep_to(go-2, the-4)
+dep(go-2, website-5)
+
+2/CD 
+
+(ROOT (FRAG (NP (CD 2))))
+
+root(ROOT-0, 2-1)
+
+3/CD 
+
+(ROOT (FRAG (NP (CD 3))))
+
+root(ROOT-0, 3-1)
+
+Actual/JJ Results/NNS :/: shopping/NN cart/NN in/IN wrong/JJ place/NN 
+
+(ROOT (NP (NP (JJ Actual) (NNS Results)) (: :) (NP (NP (NN shopping) (NN cart)) (PP (IN in) (NP (JJ wrong) (NN place))))))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+nn(cart-5, shopping-4)
+dep(Results-2, cart-5)
+amod(place-8, wrong-7)
+prep_in(cart-5, place-8)
+
+Expected/VBN Results/NNS :/: cart/NN supposed/VBN to/TO be/VB after/IN letter/NN Z/NN 
+
+(ROOT (VP (VBN Expected) (NP (NP (NNS Results)) (: :) (NP (NP (NN cart)) (VP (VBN supposed) (S (VP (TO to) (VP (VB be) (PP (IN after) (NP (NN letter) (NN Z)))))))))))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Results-2)
+dep(Results-2, cart-4)
+vmod(cart-4, supposed-5)
+aux(be-7, to-6)
+xcomp(supposed-5, be-7)
+nn(Z-10, letter-9)
+prep_after(be-7, Z-10)
+

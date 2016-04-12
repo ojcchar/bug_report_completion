@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>336495</id>
+	<title>Download Actions UI is empty after adding new automatic helper application</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Adding a batch file (.</sentence>
+			<sentence id="2.2">bat) as a helper application seems to break the Download Actions component (in Tools | Options | Downloads | View &amp; Edit Actions).</sentence>
+			<sentence id="2.3">After adding it, the list of helper applications and actions is clear and all buttons are disabled.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In my case specifically, I encountered this with VMware Server's web management interface when I was trying to open a VMware Management Console session through an icon on the web page.</sentence>
+			<sentence id="3.2">When clicked, it wants to execute "vmware-console."</sentence>
+			<sentence id="3.3">It's MIME type was "application/x-vmware-console."</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">VMware said that for non-Microsoft browsers, you have to create a batch script to handle the request to open the console, and tell Mozilla, Firefox, Opera, etc. to open the batch script when you click the icon.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I first noticed this after I had the Adblock Plus, Filterset.G Updater, and Google Suggest Extensions added.</sentence>
+			<sentence id="5.2">Based on Mozilla's request, I also tried to replicate this in the newest nightly build, which was Minefield 3.0a1 (Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9a1) Gecko/20060503 Minefield/3.0a1).</sentence>
+			<sentence id="5.3">I uninstalled Firefox, installed Minefield, created a new test profile, and proceeded to test this immediately.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">In Minefield's case, the list did not empty as it does in Firefox 1.5.0.3.</sentence>
+			<sentence id="6.2">However, the newly added automatic action does not appear in the list of currently set automatic actions.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The actual result of clicking the icon on the web page to execute the batch script and open the VMware Management Console does in fact work as expected after the action is set up, it just seems to break functionality in Firefox.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Steps to Reproduce:</sentence>
+			<sentence id="9.2">1 Open the Tools menu.</sentence>
+			<sentence id="9.3">2 Click Options.</sentence>
+			<sentence id="9.4">3 Click the Downloads tab.</sentence>
+			<sentence id="9.5">4 Click View &amp; Edit Options.</sentence>
+			<sentence id="9.6">5 Verify that the Download Actions dialog contains many items and functioning buttons.</sentence>
+			<sentence id="9.7">6 Close all open Firefox dialog boxes</sentence>
+			<sentence id="9.8">7 Click on a web link to an item that Firefox does not know how to handle.</sentence>
+			<sentence id="9.9">8 Select Open With and press Browse.</sentence>
+			<sentence id="9.10">9 Locate the folder the .</sentence>
+			<sentence id="9.11">bat file is contained in.</sentence>
+			<sentence id="9.12">10.</sentence>
+			<sentence id="9.13">Type the name of the .</sentence>
+			<sentence id="9.14">bat file.</sentence>
+			<sentence id="9.15">11.</sentence>
+			<sentence id="9.16">Press Open.</sentence>
+			<sentence id="9.17">12.</sentence>
+			<sentence id="9.18">Check "Do this automatically for files like this from now on."</sentence>
+			<sentence id="9.19">13.</sentence>
+			<sentence id="9.20">Press OK.</sentence>
+			<sentence id="9.21">14.</sentence>
+			<sentence id="9.22">Open the Tools menu.</sentence>
+			<sentence id="9.23">15.</sentence>
+			<sentence id="9.24">Click Options.</sentence>
+			<sentence id="9.25">16.</sentence>
+			<sentence id="9.26">Click the Downloads tab.</sentence>
+			<sentence id="9.27">17.</sentence>
+			<sentence id="9.28">Click the View &amp; Edit Actions button.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Actual Results:  
+The Download Actions dialog displays an empty list, and all available buttons are disabled.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Expected Results:  
+The Download Actions dialog contains many items, including the newly added one, and functioning buttons.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Theme: default, no additional installed</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Extensions: First experienced with Google Suggest, Adblock Plus, and Filterset.G Updater, but also tried on fresh installs with no extensions of both Firefox 1.5.0.3 and Minefield 3.0a1.</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Other: The Choose Helper Application dialog box seems to only accept EXE and COM files as valid applications.</sentence>
+			<sentence id="14.2">It does not seem to want to allow you to choose a BAT file (the Files of Type drop-down only contains "Applications"), though you can type one in manually.</sentence>
+		</paragraph>
+	</description>
+</bug>

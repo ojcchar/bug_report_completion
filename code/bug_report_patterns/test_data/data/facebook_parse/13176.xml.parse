@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13176</id>
+	<title>stream.get used with a filter_key returns many posts with app_id null</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Go to the Old Rest API Console
+Go to stream.get at http://developers.facebook.com/docs/reference/rest/stream.get
+Select your application in the drop down list
+Enter a value such as app_XXXXXXXX for filtering the posts from a specific app
+Click on Call Method</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The Result:</sentence>
+			<sentence id="2.2">- posts created with app XXXXXXXX are returned</sentence>
+			<sentence id="2.3">- posts with an app_id equal to null are also returned (i.e.  app_id : null_ )</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The Problem:</sentence>
+			<sentence id="3.2">- posts with a null app_id should not be returned</sentence>
+		</paragraph>
+	</description>
+</bug>

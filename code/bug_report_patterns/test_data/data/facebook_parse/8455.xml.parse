@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8455</id>
+	<title>Facebook.streamPublish JS is encoding quotes twice</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Trying to publish through Facebook.streamPublish js call_ if the description includes quotes_ Facebook seems to be encoding the   into &amp;quot; and then escaping the &amp; afterwords.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">So_ in the html_ it looks like &amp;amp;quot; and in the news feed it looks like &amp;quot;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Example code:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">var attachment = {
+          caption  :  caption here _
+          description  :  quotes   here 
+};</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Facebook.streamPublish(  _ attachment_ null_ null_  Publish to your Wall.</sentence>
+			<sentence id="5.2">_null_false);</sentence>
+		</paragraph>
+	</description>
+</bug>

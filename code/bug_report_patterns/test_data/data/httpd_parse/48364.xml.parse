@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>48364</id>
+	<title>PHP-generated pages are not cached in spite of pertinent header entries</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Whereas Apache 2.2.x mod_cache (with mod_disk_cache) works with both static files and CGI scripts (including such with #!/path/to/php-cgi), I have never been able to cache output of PHP (5.2.x) scripts handled by the handler+action method. Of course, I added pertinent header entries (Last-Modified, Expires, Cache-Control) by the PHP function header(), which were correct as shown by network sniffing and caused the browser cache to behave as expected. But no cache files appeared in the CacheRoot directory. Also directives CacheIgnoreCacheControl On, CacheIgnoreNoLastMod On, CacheStoreNoStore On have been tried, with no effect.</sentence>
+			<sentence id="1.2">I did not use mod_php but one CGI and two FastCGI methods (alternatively) in the following ways (schematic):</sentence>
+			<sentence id="1.3"># Common</sentence>
+			<sentence id="1.4"> &lt;FilesMatch "\.php$"&gt;</sentence>
+			<sentence id="1.5">  SetHandler dophp</sentence>
+			<sentence id="1.6"> &lt;/FilesMatch&gt;</sentence>
+			<sentence id="1.7"> Action dophp /phpact</sentence>
+			<sentence id="1.8"> CacheRoot /somedir</sentence>
+			<sentence id="1.9"> CacheEnable disk /</sentence>
+			<sentence id="1.10"># For CGI:</sentence>
+			<sentence id="1.11"> ScriptAlias /phpact /path/to/php-cgi</sentence>
+			<sentence id="1.12"># For FastCGI with mod_fastcgi:</sentence>
+			<sentence id="1.13"> ScriptAlias /phpact /path/to/php-fcgi</sentence>
+			<sentence id="1.14"> FastCgiIpcDir /otherdir</sentence>
+			<sentence id="1.15"> FastCgiServer /path/to/php-fcgi further_arguments</sentence>
+			<sentence id="1.16"># For FastCGI with mod_proxy_fcgi (php-fcgi started separately with -b 54321):</sentence>
+			<sentence id="1.17"> ProxyRequests Off</sentence>
+			<sentence id="1.18"> ProxyPassMatch ^/phpact/(.+)$ fcgi://localhost:54321/$1</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Note that PHP as such works perfectly in all three configurations (with cgi.fix_pathinfo=1 and cgi.force_redirect=1).</sentence>
+			<sentence id="2.2">I searched the bug database and the documentation but could not find any hint.</sentence>
+		</paragraph>
+	</description>
+</bug>

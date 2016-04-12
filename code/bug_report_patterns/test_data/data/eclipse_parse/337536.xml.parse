@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>337536</id>
+	<title>[remoteserviceadmin] RemoteReferenceNotFoundException</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This Exception is with my use case of RSA (three provider/consumer on one machine).</sentence>
+			<sentence id="1.2">Will have a look at it later.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">[log;+0100 2011.02.18 10:50:35:759;WARNING;org.eclipse.ecf.osgi.services.remoteserviceadmin;org.eclipse.core.runtime.Status[plugin=org.eclipse.ecf.osgi.services.remoteserviceadmin;code=2;message=org.eclipse.ecf.osgi.services.remoteserviceadmin.RemoteServiceAdmin:doImportService:getRemoteServiceReferences return null for targetID=r-osgi://jumper:9280,idFilter=[Lorg.eclipse.ecf.core.identity.ID;@1520a48c,intf=devsosgi.simulator.ISimulator,rsFilter=(&amp;(ecf.rsvc.id=69)) on rsContainerID=r-osgi://jumper:9279;severity2;exception=null;children=[]]]</sentence>
+			<sentence id="2.2">[log;+0100 2011.02.18 10:50:35:760;ERROR;org.eclipse.ecf.osgi.services.remoteserviceadmin;org.eclipse.core.runtime.Status[plugin=org.eclipse.ecf.osgi.services.remoteserviceadmin;code=4;message=org.eclipse.ecf.osgi.services.remoteserviceadmin.RemoteServiceAdmin:importService:selectRemoteServiceReference returned null for rsRefs=[],targetID=r-osgi://jumper:9280,idFilter=[Lorg.eclipse.ecf.core.identity.ID;@1520a48c,interfaces=[devsosgi.simulator.ISimulator, devsosgi.simulator.IAtomicSimulator],rsFilter=(&amp;(ecf.rsvc.id=69)),rsContainerID=r-osgi://jumper:9279;severity4;exception=RemoteReferenceNotFoundException[targetID=r-osgi://jumper:9280, idFilter=[r-osgi://jumper:9279], interfaces=[devsosgi.simulator.ISimulator, devsosgi.simulator.IAtomicSimulator], rsFilter=(&amp;(ecf.rsvc.id=69))];children=[]]]</sentence>
+			<sentence id="2.3">RemoteReferenceNotFoundException[targetID=r-osgi://jumper:9280, idFilter=[r-osgi://jumper:9279], interfaces=[devsosgi.simulator.ISimulator, devsosgi.simulator.IAtomicSimulator], rsFilter=(&amp;(ecf.rsvc.id=69))]</sentence>
+			<sentence id="2.4">	at org.eclipse.ecf.osgi.services.remoteserviceadmin.RemoteServiceAdmin.importService(RemoteServiceAdmin.java:1862)</sentence>
+			<sentence id="2.5">	at org.eclipse.ecf.osgi.services.remoteserviceadmin.RemoteServiceAdmin.importService(RemoteServiceAdmin.java:295)</sentence>
+			<sentence id="2.6">	at org.eclipse.ecf.osgi.services.remoteserviceadmin.AbstractTopologyManager.handleEndpointAdded(AbstractTopologyManager.java:207)</sentence>
+			<sentence id="2.7">	at org.eclipse.ecf.internal.osgi.services.distribution.BasicTopologyManager.endpointAdded(BasicTopologyManager.java:45)</sentence>
+			<sentence id="2.8">	at org.eclipse.ecf.osgi.services.remoteserviceadmin.EndpointDescriptionLocator$1.dispatchEvent(EndpointDescriptionLocator.java:149)</sentence>
+			<sentence id="2.9">	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:227)</sentence>
+			<sentence id="2.10">	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:337)</sentence>
+			<sentence id="2.11">[log;+0100 2011.02.18 10:50:35:772;ERROR;org.eclipse.ecf.osgi.services.remoteserviceadmin;org.eclipse.core.runtime.Status[plugin=org.eclipse.ecf.osgi.services.remoteserviceadmin;code=4;message=org.eclipse.ecf.internal.osgi.services.distribution.BasicTopologyManager:handleInvalidImportRegistration:importRegistration=ImportRegistration[importEndpoint=ImportEndpoint[rsReference=null, proxyRegistration=null, importReference=null]];severity4;exception=RemoteReferenceNotFoundException[targetID=r-osgi://jumper:9280, idFilter=[r-osgi://jumper:9279], interfaces=[devsosgi.simulator.ISimulator, devsosgi.simulator.IAtomicSimulator], rsFilter=(&amp;(ecf.rsvc.id=69))];children=[]]]</sentence>
+			<sentence id="2.12">RemoteReferenceNotFoundException[targetID=r-osgi://jumper:9280, idFilter=[r-osgi://jumper:9279], interfaces=[devsosgi.simulator.ISimulator, devsosgi.simulator.IAtomicSimulator], rsFilter=(&amp;(ecf.rsvc.id=69))]</sentence>
+			<sentence id="2.13">	at org.eclipse.ecf.osgi.services.remoteserviceadmin.RemoteServiceAdmin.importService(RemoteServiceAdmin.java:1862)</sentence>
+			<sentence id="2.14">	at org.eclipse.ecf.osgi.services.remoteserviceadmin.RemoteServiceAdmin.importService(RemoteServiceAdmin.java:295)</sentence>
+			<sentence id="2.15">	at org.eclipse.ecf.osgi.services.remoteserviceadmin.AbstractTopologyManager.handleEndpointAdded(AbstractTopologyManager.java:207)</sentence>
+			<sentence id="2.16">	at org.eclipse.ecf.internal.osgi.services.distribution.BasicTopologyManager.endpointAdded(BasicTopologyManager.java:45)</sentence>
+			<sentence id="2.17">	at org.eclipse.ecf.osgi.services.remoteserviceadmin.EndpointDescriptionLocator$1.dispatchEvent(EndpointDescriptionLocator.java:149)</sentence>
+			<sentence id="2.18">	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:227)</sentence>
+			<sentence id="2.19">	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:337)</sentence>
+		</paragraph>
+	</description>
+</bug>

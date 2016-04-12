@@ -1,0 +1,132 @@
+Situation/NN :/: Below/NNP is/VBZ ./. 
+
+(ROOT (FRAG (NP (NN Situation)) (: :) (S (NP (NNP Below)) (VP (VBZ is))) (. .)))
+
+root(ROOT-0, Situation-1)
+nsubj(is-4, Below-3)
+dep(Situation-1, is-4)
+
+htaccess/NN 
+
+(ROOT (NP (NN htaccess)))
+
+root(ROOT-0, htaccess-1)
+
+AuthUserFile/NNP ./. 
+
+(ROOT (FRAG (NP (NNP AuthUserFile)) (. .)))
+
+root(ROOT-0, AuthUserFile-1)
+
+htpasswd/NN AuthName/NNP "/`` Authorization/NNP Required/NNP "/'' AuthType/NNP Basic/NNP require/VB valid-user/NN ExpiresActive/NN on/IN ExpiresDefault/NNP "/`` access/NN plus/CC 2/CD hours/NNS "/'' 
+
+(ROOT (FRAG (NP (NP (NN htpasswd) (NNP AuthName) (`` ``) (NNP Authorization) (NNP Required) ('' '')) (SBAR (S (NP (NNP AuthType) (NNP Basic)) (VP (VB require) (NP (NN valid-user) (NN ExpiresActive)) (PP (IN on) (NP (NP (NNP ExpiresDefault)) (`` ``) (NP (NP (NN access)) (PP (CC plus) (NP (CD 2) (NNS hours)))) ('' '')))))))))
+
+root(ROOT-0, Required-5)
+nn(Required-5, htpasswd-1)
+nn(Required-5, AuthName-2)
+nn(Required-5, Authorization-4)
+nn(Basic-8, AuthType-7)
+nsubj(require-9, Basic-8)
+rcmod(Required-5, require-9)
+nn(ExpiresActive-11, valid-user-10)
+dobj(require-9, ExpiresActive-11)
+prep_on(require-9, ExpiresDefault-13)
+dep(ExpiresDefault-13, access-15)
+prep(access-15, plus-16)
+num(hours-18, 2-17)
+pobj(plus-16, hours-18)
+
+But/CC "/`` expires/VBZ "/'' module/NN isnt/NN enabled/VBD in/IN the/DT host/NN ,/, and/CC therefore/RB results/VBZ in/IN "/`` 500/CD Internal/JJ Server/NN error/NN "/'' when/WRB url/NN is/VBZ accessed/VBN via/IN browser/NN ./. 
+
+(ROOT (S (CC But) (S (VP (`` ``) (VBZ expires) ('' ''))) (S (NP (NN module) (NN isnt)) (VP (VBD enabled) (PP (IN in) (NP (DT the) (NN host))))) (, ,) (CC and) (ADVP (RB therefore)) (S (VP (VBZ results) (PP (IN in) (NP (`` ``) (NP (CD 500) (JJ Internal) (NN Server) (NN error)) ('' '') (SBAR (WHADVP (WRB when)) (S (NP (NN url)) (VP (VBZ is) (VP (VBN accessed) (PP (IN via) (NP (NN browser))))))))))) (. .)))
+
+root(ROOT-0, expires-3)
+nn(isnt-6, module-5)
+nsubj(enabled-7, isnt-6)
+ccomp(expires-3, enabled-7)
+det(host-10, the-9)
+prep_in(enabled-7, host-10)
+advmod(results-14, therefore-13)
+conj_and(expires-3, results-14)
+num(error-20, 500-17)
+amod(error-20, Internal-18)
+nn(error-20, Server-19)
+prep_in(results-14, error-20)
+advmod(accessed-25, when-22)
+nsubjpass(accessed-25, url-23)
+auxpass(accessed-25, is-24)
+rcmod(error-20, accessed-25)
+prep_via(accessed-25, browser-27)
+
+However/RB configtest/NN gives/VBZ OK/JJ #/# apache2ctl/NN configtest/NN Syntax/NN OK/JJ 
+
+(ROOT (FRAG (ADVP (RB However)) (NP (NP (NN configtest)) (SBAR (S (VP (VBZ gives) (S (ADJP (JJ OK)) (NP (NP (# #) (NN apache2ctl)) (ADJP (NN configtest) (NN Syntax) (JJ OK))))))))))
+
+root(ROOT-0, configtest-2)
+dep(configtest-2, However-1)
+rcmod(configtest-2, gives-3)
+acomp(gives-3, OK-4)
+dep(apache2ctl-6, #-5)
+dep(OK-4, apache2ctl-6)
+npadvmod(OK-9, configtest-7)
+npadvmod(OK-9, Syntax-8)
+amod(apache2ctl-6, OK-9)
+
+This/DT should/MD fail/VB and/CC if/IN possible/JJ throw/VBP out/RP which/WDT module/NN isnt/NN enabled/VBD ./. 
+
+(ROOT (S (NP (DT This)) (VP (VP (MD should) (VP (VB fail))) (CC and) (VP (SBAR (IN if) (S (NP (JJ possible)) (VP (VBP throw) (PRT (RP out)) (SBAR (WHNP (WDT which)) (S (NP (NN module) (NN isnt)) (VP (VBD enabled))))))))) (. .)))
+
+root(ROOT-0, fail-3)
+nsubj(fail-3, This-1)
+aux(fail-3, should-2)
+mark(throw-7, if-5)
+nsubj(throw-7, possible-6)
+conj_and(fail-3, throw-7)
+prt(throw-7, out-8)
+dobj(enabled-12, which-9)
+nn(isnt-11, module-10)
+nsubj(enabled-12, isnt-11)
+ccomp(throw-7, enabled-12)
+
+In/IN other/JJ words/NNS ,/, configtest/NN should/MD parse/VB and/CC check/VB if/IN modules/NNS are/VBP enabled/VBN and/CC throw/VB out/RP appropriate/JJ failure/NN message/NN ./. 
+
+(ROOT (S (PP (IN In) (NP (JJ other) (NNS words))) (, ,) (NP (NN configtest)) (VP (MD should) (VP (VP (VB parse) (CC and) (VB check) (SBAR (IN if) (S (NP (NNS modules)) (VP (VBP are) (VP (VBN enabled)))))) (CC and) (VP (VB throw) (PRT (RP out)) (NP (JJ appropriate) (NN failure) (NN message))))) (. .)))
+
+root(ROOT-0, parse-7)
+amod(words-3, other-2)
+prep_in(parse-7, words-3)
+nsubj(parse-7, configtest-5)
+nsubj(check-9, configtest-5)
+nsubj(throw-15, configtest-5)
+aux(parse-7, should-6)
+conj_and(parse-7, check-9)
+mark(enabled-13, if-10)
+nsubjpass(enabled-13, modules-11)
+auxpass(enabled-13, are-12)
+advcl(parse-7, enabled-13)
+conj_and(parse-7, throw-15)
+prt(throw-15, out-16)
+amod(message-19, appropriate-17)
+nn(message-19, failure-18)
+dobj(throw-15, message-19)
+
+#/# apache2/SYM -/: v/LS Server/NN version/NN :/: Apache/2/NN .2.8/CD (/-LRB- Ubuntu/NN )/-RRB- Server/NN built/VBN :/: Jun/NN 18/CD 2010/CD 11:04:08/CD 
+
+(ROOT (NP (NP-TMP (NP (# #) (SYM apache2)) (VP (PRN (: -) (NP (NP (LS v) (NN Server) (NN version)) (: :) (NP (NP (NN Apache/2) (CD .2.8)) (PRN (-LRB- -LRB-) (NP (NN Ubuntu)) (-RRB- -RRB-)) (NP (NN Server))))) (VBN built))) (: :) (NP (NP (NN Jun) (CD 18)) (NP (CD 2010) (CD 11:04:08)))))
+
+root(ROOT-0, #-1)
+dep(#-1, apache2-2)
+dep(version-6, v-4)
+nn(version-6, Server-5)
+dep(built-14, version-6)
+dep(version-6, Apache/2-8)
+num(Apache/2-8, .2.8-9)
+appos(Apache/2-8, Ubuntu-11)
+dep(Apache/2-8, Server-13)
+vmod(#-1, built-14)
+dep(#-1, Jun-16)
+num(Jun-16, 18-17)
+num(11:04:08-19, 2010-18)
+dep(Jun-16, 11:04:08-19)
+

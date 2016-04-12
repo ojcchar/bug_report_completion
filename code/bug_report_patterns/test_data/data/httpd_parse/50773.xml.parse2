@@ -1,0 +1,234 @@
+Created/VBN attachment/NN 26653/CD Patch/NNP for/IN httpd/NN 2.2.17/CD 
+
+(ROOT (VP (VBN Created) (NP (NP (NN attachment) (CD 26653) (NNP Patch)) (PP (IN for) (NP (NN httpd) (CD 2.2.17))))))
+
+root(ROOT-0, Created-1)
+nn(Patch-4, attachment-2)
+num(Patch-4, 26653-3)
+dobj(Created-1, Patch-4)
+prep_for(Patch-4, httpd-6)
+num(httpd-6, 2.2.17-7)
+
+I/PRP have/VBP a/DT database/NN corruption/NN (/-LRB- with/IN error/NN 500/CD )/-RRB- if/IN I/PRP do/VBP the/DT following/NN :/: 
+
+(ROOT (S (NP (PRP I)) (VP (VBP have) (NP (NP (DT a) (NN database) (NN corruption)) (PRN (-LRB- -LRB-) (PP (IN with) (NP (NN error) (CD 500))) (-RRB- -RRB-)) (SBAR (IN if) (S (NP (PRP I)) (VP (VBP do) (NP (DT the) (NN following))))))) (: :)))
+
+root(ROOT-0, have-2)
+nsubj(have-2, I-1)
+det(corruption-5, a-3)
+nn(corruption-5, database-4)
+dobj(have-2, corruption-5)
+prep_with(corruption-5, error-8)
+num(error-8, 500-9)
+mark(do-13, if-11)
+nsubj(do-13, I-12)
+dep(corruption-5, do-13)
+det(following-15, the-14)
+dobj(do-13, following-15)
+
+-/: lock/VB a/DT collection/NN with/IN DEPTH/NN Infinity/NN and/CC a/DT Timeout/NN (/-LRB- exemple/NN 20/CD seconds/NNS )/-RRB- (/-LRB- the/DT collection/NN must/MD have/VB sub/JJ collections/NNS )/-RRB- :/: exemple/NN :/: LOCK/VB //: myCollection/NN //: 
+
+(ROOT (PRN (: -) (S (VP (VP (VB lock) (NP (DT a) (NN collection)) (PP (IN with) (NP (NP (NN DEPTH) (NN Infinity)) (CC and) (NP (NP (DT a) (NN Timeout)) (PRN (-LRB- -LRB-) (NP (NP (NN exemple)) (NP (CD 20) (NNS seconds))) (-RRB- -RRB-))))) (PRN (-LRB- -LRB-) (S (NP (DT the) (NN collection)) (VP (MD must) (VP (VB have) (NP (JJ sub) (NNS collections))))) (-RRB- -RRB-))) (: :) (NP (NP (NN exemple)) (: :) (VP (VB LOCK) (PRN (: /) (NP (NN myCollection)) (: /))))))))
+
+root(ROOT-0, lock-2)
+det(collection-4, a-3)
+dobj(lock-2, collection-4)
+nn(Infinity-7, DEPTH-6)
+prep_with(lock-2, Infinity-7)
+det(Timeout-10, a-9)
+prep_with(lock-2, Timeout-10)
+conj_and(Infinity-7, Timeout-10)
+dep(Timeout-10, exemple-12)
+num(seconds-14, 20-13)
+dep(exemple-12, seconds-14)
+det(collection-18, the-17)
+nsubj(have-20, collection-18)
+aux(have-20, must-19)
+parataxis(lock-2, have-20)
+amod(collections-22, sub-21)
+dobj(have-20, collections-22)
+dobj(lock-2, exemple-25)
+dep(exemple-25, LOCK-27)
+punct(myCollection-29, /-28)
+dep(LOCK-27, myCollection-29)
+punct(myCollection-29, /-30)
+
+-/: Put/VB a/DT file/NN in/IN an/DT existing/VBG sub/NN collection/NN of/IN the/DT locked/VBN collection/NN (/-LRB- using/VBG a/DT If/IN header/NN )/-RRB- :/: exemple/NN :/: PUT/NN //: myCollection/mySubCollection/file/NN ./. 
+
+(ROOT (VP (: -) (VB Put) (NP (DT a) (NN file)) (PP (IN in) (NP (NP (NP (NP (DT an) (VBG existing) (NN sub) (NN collection)) (PP (IN of) (NP (DT the) (ADJP (VBN locked)) (NN collection)))) (PRN (-LRB- -LRB-) (S (VP (VBG using) (S (NP (DT a)) (PP (IN If) (NP (NN header)))))) (-RRB- -RRB-))) (: :) (NP (NP (NN exemple)) (PRN (: :) (NP (NN PUT)) (: /)) (NP (NN myCollection/mySubCollection/file))))) (. .)))
+
+root(ROOT-0, Put-2)
+det(file-4, a-3)
+dobj(Put-2, file-4)
+det(collection-9, an-6)
+amod(collection-9, existing-7)
+nn(collection-9, sub-8)
+prep_in(Put-2, collection-9)
+det(collection-13, the-11)
+amod(collection-13, locked-12)
+prep_of(collection-9, collection-13)
+dep(collection-9, using-15)
+dep(using-15, a-16)
+dep(a-16, If-17)
+pobj(If-17, header-18)
+dep(collection-9, exemple-21)
+dep(exemple-21, PUT-23)
+punct(PUT-23, /-24)
+dep(exemple-21, myCollection/mySubCollection/file-25)
+
+txt/NN 
+
+(ROOT (NP (NN txt)))
+
+root(ROOT-0, txt-1)
+
+-/: Wait/VB until/IN the/DT lock/NN timeout/NN is/VBZ elapsed/VBN 
+
+(ROOT (PRN (: -) (S (VP (VB Wait) (SBAR (IN until) (S (NP (DT the) (NN lock) (NN timeout)) (VP (VBZ is) (VP (VBN elapsed)))))))))
+
+root(ROOT-0, Wait-2)
+mark(elapsed-8, until-3)
+det(timeout-6, the-4)
+nn(timeout-6, lock-5)
+nsubjpass(elapsed-8, timeout-6)
+auxpass(elapsed-8, is-7)
+advcl(Wait-2, elapsed-8)
+
+-/: lock/NN again/RB the/DT collection/NN :/: exemple/VB LOCK/NN //: myCollection/NN //: 
+
+(ROOT (PRN (: -) (NP (NP (NN lock)) (SBAR (S (VP (NP (NP (RB again) (DT the) (NN collection)) (: :) (VP (VB exemple) (NP (NN LOCK)))) (PRN (: /) (NP (NN myCollection)) (: /))))))))
+
+root(ROOT-0, lock-2)
+advmod(collection-5, again-3)
+det(collection-5, the-4)
+rcmod(lock-2, collection-5)
+dep(collection-5, exemple-7)
+dobj(exemple-7, LOCK-8)
+punct(myCollection-10, /-9)
+dep(collection-5, myCollection-10)
+punct(myCollection-10, /-11)
+
+=/JJ >/JJR there/EX we/PRP get/VBP an/DT error/NN 500/CD 
+
+(ROOT (FRAG (NP (NP (JJ =) (JJR >)) (SBAR (S (NP (EX there)) (ADVP (PRP we)) (VP (VBP get) (NP (DT an) (NN error) (CD 500))))))))
+
+root(ROOT-0, >-2)
+amod(>-2, =-1)
+expl(get-5, there-3)
+advmod(get-5, we-4)
+rcmod(>-2, get-5)
+det(error-7, an-6)
+dobj(get-5, error-7)
+num(error-7, 500-8)
+
+It/PRP 's/VBZ seem/VBP that/IN the/DT bug/NN is/VBZ comming/VBG from/IN method/NN dav_fs_get_locks/NNS in/IN file/NN modules/dav/fs/NNS //: lock.c/NN ./. 
+
+(ROOT (S (NP (PRP It)) (VP (VBZ 's) (VP (VBP seem) (SBAR (IN that) (S (NP (DT the) (NN bug)) (VP (VBZ is) (VP (VBG comming) (PP (IN from) (NP (NP (NN method) (NNS dav_fs_get_locks)) (PP (IN in) (NP (NP (NN file) (NNS modules/dav/fs)) (PRN (: /) (NP (NN lock.c))))))))))))) (. .)))
+
+root(ROOT-0, seem-3)
+nsubj(seem-3, It-1)
+aux(seem-3, 's-2)
+mark(comming-8, that-4)
+det(bug-6, the-5)
+nsubj(comming-8, bug-6)
+aux(comming-8, is-7)
+ccomp(seem-3, comming-8)
+nn(dav_fs_get_locks-11, method-10)
+prep_from(comming-8, dav_fs_get_locks-11)
+nn(modules/dav/fs-14, file-13)
+prep_in(dav_fs_get_locks-11, modules/dav/fs-14)
+punct(lock.c-16, /-15)
+dep(modules/dav/fs-14, lock.c-16)
+
+When/WRB the/DT lock/NN is/VBZ applicated/VBN to/TO the/DT new/JJ file/NN (/-LRB- inherited/VBN from/IN parent/NN )/-RRB- ,/, the/DT timeout/NN is/VBZ setted/VBN to/TO 0/CD (/-LRB- because/IN of/IN partial/JJ request/NN )/-RRB- ./. 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (NP (DT the) (NN lock)) (VP (VBZ is) (VP (VBN applicated) (PP (TO to) (NP (NP (DT the) (JJ new) (NN file)) (PRN (-LRB- -LRB-) (VP (VBN inherited) (PP (IN from) (NP (NN parent)))) (-RRB- -RRB-)))))))) (, ,) (NP (DT the) (NN timeout)) (VP (VBZ is) (VP (VBN setted) (PP (TO to) (NP (CD 0))) (PRN (-LRB- -LRB-) (PP (IN because) (PP (IN of) (NP (JJ partial) (NN request)))) (-RRB- -RRB-)))) (. .)))
+
+root(ROOT-0, setted-19)
+advmod(applicated-5, When-1)
+det(lock-3, the-2)
+nsubjpass(applicated-5, lock-3)
+auxpass(applicated-5, is-4)
+advcl(setted-19, applicated-5)
+det(file-9, the-7)
+amod(file-9, new-8)
+prep_to(applicated-5, file-9)
+dep(file-9, inherited-11)
+prep_from(inherited-11, parent-13)
+det(timeout-17, the-16)
+nsubjpass(setted-19, timeout-17)
+auxpass(setted-19, is-18)
+prep_to(setted-19, 0-21)
+prepc_because_of(setted-19, of-24)
+amod(request-26, partial-25)
+pobj(setted-19, request-26)
+
+Then/RB when/WRB trying/VBG to/TO lock/VB again/RB ,/, the/DT indirect/JJ lock/NN of/IN the/DT file/NN seem/VBP to/TO be/VB valid/JJ (/-LRB- no/DT timeout/NN )/-RRB- but/CC the/DT direct/JJ lock/NN related/JJ is/VBZ not/RB ./. 
+
+(ROOT (S (S (RB Then) (SBAR (WHADVP (WRB when)) (S (VP (VBG trying) (S (VP (TO to) (VP (VB lock) (ADVP (RB again)))))))) (, ,) (NP (NP (DT the) (JJ indirect) (NN lock)) (PP (IN of) (NP (DT the) (NN file)))) (VP (VBP seem) (S (VP (TO to) (VP (VB be) (ADJP (JJ valid)) (PRN (-LRB- -LRB-) (NP (DT no) (NN timeout)) (-RRB- -RRB-))))))) (CC but) (S (NP (NP (DT the) (JJ direct) (NN lock)) (ADJP (JJ related))) (VP (VBZ is) (RB not))) (. .)))
+
+root(ROOT-0, seem-14)
+advmod(seem-14, Then-1)
+advmod(trying-3, when-2)
+advcl(seem-14, trying-3)
+aux(lock-5, to-4)
+xcomp(trying-3, lock-5)
+advmod(lock-5, again-6)
+det(lock-10, the-8)
+amod(lock-10, indirect-9)
+nsubj(seem-14, lock-10)
+det(file-13, the-12)
+prep_of(lock-10, file-13)
+aux(valid-17, to-15)
+cop(valid-17, be-16)
+xcomp(seem-14, valid-17)
+neg(timeout-20, no-19)
+dep(valid-17, timeout-20)
+det(lock-25, the-23)
+amod(lock-25, direct-24)
+nsubj(is-27, lock-25)
+amod(lock-25, related-26)
+conj_but(seem-14, is-27)
+neg(is-27, not-28)
+
+I/PRP looked/VBD for/IN a/DT correction/NN in/IN httpd/NN 2.2.17/CD (/-LRB- just/RB by/IN reading/VBG the/DT sources/NNS )/-RRB- and/CC I/PRP did/VBD n't/RB found/VBN any/DT ./. 
+
+(ROOT (S (S (NP (PRP I)) (VP (VBD looked) (PP (IN for) (NP (DT a) (NN correction))) (PP (IN in) (NP (NN httpd) (CD 2.2.17))) (PRN (-LRB- -LRB-) (PP (RB just) (IN by) (S (VP (VBG reading) (NP (DT the) (NNS sources))))) (-RRB- -RRB-)))) (CC and) (S (NP (PRP I)) (VP (VBD did) (RB n't) (VP (VBN found) (NP (DT any))))) (. .)))
+
+root(ROOT-0, looked-2)
+nsubj(looked-2, I-1)
+det(correction-5, a-4)
+prep_for(looked-2, correction-5)
+prep_in(looked-2, httpd-7)
+num(httpd-7, 2.2.17-8)
+advmod(by-11, just-10)
+dep(looked-2, by-11)
+pcomp(by-11, reading-12)
+det(sources-14, the-13)
+dobj(reading-12, sources-14)
+nsubj(found-20, I-17)
+aux(found-20, did-18)
+neg(found-20, n't-19)
+conj_and(looked-2, found-20)
+dobj(found-20, any-21)
+
+When/WRB I/PRP change/VBP the/DT sources/NNS like/IN the/DT patch/NN in/IN attachement/NN ,/, I/PRP have/VBP no/DT error/NN 500/CD any/DT more/RBR ./. 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (NP (PRP I)) (VP (VBP change) (NP (DT the) (NNS sources)) (PP (IN like) (NP (NP (DT the) (NN patch)) (PP (IN in) (NP (NN attachement)))))))) (, ,) (NP (PRP I)) (VP (VBP have) (NP (DT no) (NN error) (CD 500)) (ADVP (DT any) (RBR more))) (. .)))
+
+root(ROOT-0, have-13)
+advmod(change-3, When-1)
+nsubj(change-3, I-2)
+advcl(have-13, change-3)
+det(sources-5, the-4)
+dobj(change-3, sources-5)
+det(patch-8, the-7)
+prep_like(change-3, patch-8)
+prep_in(patch-8, attachement-10)
+nsubj(have-13, I-12)
+neg(error-15, no-14)
+dobj(have-13, error-15)
+num(error-15, 500-16)
+dep(more-18, any-17)
+advmod(have-13, more-18)
+

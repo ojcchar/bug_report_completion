@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>39369</id>
+	<title>timefmt config not working in SSI when using INCLUDES output filter and XBitHack On</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Using the following setup:
+in apache2.conf, default setting for handling shtml files):
+&lt;FilesMatch "\.</sentence>
+			<sentence id="1.2">shtml(\.</sentence>
+			<sentence id="1.3">.</sentence>
+			<sentence id="1.4">+)?</sentence>
+			<sentence id="1.5">$"&gt;
+    SetOutputFilter INCLUDES
+&lt;/FilesMatch&gt;</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">in Directory directive:
+        &lt;Directory /var/www/test&gt;
+                Options +Includes
+                XBitHack On
+        &lt;/Directory&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">following SSI code on a webpage:
+cat /var/www/test/foo.shtml
+&lt;!</sentence>
+			<sentence id="3.2">--#config timefmt="%Y" --&gt;
+Today is &lt;!</sentence>
+			<sentence id="3.3">--#echo var="DATE_LOCAL" --&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Web page is called .</sentence>
+			<sentence id="4.2">shtml and is executable:
+chmod +x /var/www/test/foo.shtml</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Output of this command is:
+Today is Thursday, 20-Apr-2006 12:34:11 PDT</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">instead of correct
+Today is 2006</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Thus, SSI statements are parsed but timefmt is ignored.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Potential workarounds:</sentence>
+			<sentence id="8.2">- Remove XBitHack On</sentence>
+			<sentence id="8.3">- Replace shtml handling in apache2.conf with</sentence>
+			<sentence id="8.4">AddHandler server-parsed .</sentence>
+			<sentence id="8.5">shtml</sentence>
+			<sentence id="8.6">- Remove executable flag on web page</sentence>
+			<sentence id="8.7">- Rename web page to .</sentence>
+			<sentence id="8.8">html</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Note:
+The settings depend on the name of file containing the timefmt statement
+but the x bit of the file referenced in the URI.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Example:
+User goes to http://localhost/test/foo2.html
+foo2.html has x bit set
+foo2.html contains: &lt;!</sentence>
+			<sentence id="10.2">--#include virtual="foo.shtml" --&gt;
+foo.shtml contains above example code but does NOT have the x bit set
+Problem still appears</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Note:
+Found one reference to the same or similar problem here:
+http://www.columbia.edu/acis/dev/unixdev/doc/www2-transition-issues.shtml#config</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,90 @@
+Go/VB to/TO the/DT Old/NNP Rest/VB API/NNP Console/NNP Go/VB to/TO stream.get/VB at/IN http://developers.facebook.com/docs/reference/rest/stream.get/NNP Select/NNP your/PRP$ application/NN in/IN the/DT drop/NN down/RP list/NN Enter/VB a/DT value/NN such/JJ as/IN app_XXXXXXXX/NN for/IN filtering/VBG the/DT posts/NNS from/IN a/DT specific/JJ app/NN Click/VB on/IN Call/NN Method/NN 
+
+(ROOT (S (VP (VB Go) (PP (TO to) (NP (DT the) (NNP Old))) (S (VP (VB Rest) (S (NP (NNP API) (NNP Console)) (VP (VB Go) (S (VP (TO to) (VP (VB stream.get) (PP (IN at) (NP (NNP http://developers.facebook.com/docs/reference/rest/stream.get) (NNP Select))) (NP (NP (PRP$ your) (NN application)) (PP (IN in) (NP (DT the) (NN drop) (RP down))) (SBAR (S (NP (NN list)) (VP (VB Enter) (S (NP (NP (DT a) (NN value)) (PP (JJ such) (IN as) (NP (NP (NN app_XXXXXXXX)) (PP (IN for) (S (VP (VBG filtering) (NP (DT the) (NNS posts)) (PP (IN from) (NP (DT a) (JJ specific) (NN app))))))))) (VP (VB Click) (PP (IN on) (NP (NN Call) (NN Method)))))))))))))))))))
+
+root(ROOT-0, Go-1)
+det(Old-4, the-3)
+prep_to(Go-1, Old-4)
+ccomp(Go-1, Rest-5)
+nn(Console-7, API-6)
+nsubj(Go-8, Console-7)
+ccomp(Rest-5, Go-8)
+aux(stream.get-10, to-9)
+xcomp(Go-8, stream.get-10)
+nn(Select-13, http://developers.facebook.com/docs/reference/rest/stream.get-12)
+prep_at(stream.get-10, Select-13)
+poss(application-15, your-14)
+dobj(stream.get-10, application-15)
+det(drop-18, the-17)
+prep_in(application-15, drop-18)
+dep(drop-18, down-19)
+nsubj(Enter-21, list-20)
+rcmod(application-15, Enter-21)
+det(value-23, a-22)
+nsubj(Click-35, value-23)
+prep_such_as(value-23, app_XXXXXXXX-26)
+prepc_for(app_XXXXXXXX-26, filtering-28)
+det(posts-30, the-29)
+dobj(filtering-28, posts-30)
+det(app-34, a-32)
+amod(app-34, specific-33)
+prep_from(filtering-28, app-34)
+ccomp(Enter-21, Click-35)
+nn(Method-38, Call-37)
+prep_on(Click-35, Method-38)
+
+The/DT Result/NN :/: 
+
+(ROOT (NP (NP (DT The) (NN Result)) (: :)))
+
+root(ROOT-0, Result-2)
+det(Result-2, The-1)
+
+-/: posts/NNS created/VBN with/IN app/NN XXXXXXXX/NN are/VBP returned/VBN 
+
+(ROOT (PRN (: -) (NP (NP (NNS posts)) (VP (VBN created) (PP (IN with) (NP (NP (NN app) (NN XXXXXXXX)) (SBAR (S (VP (VBP are) (VP (VBN returned)))))))))))
+
+root(ROOT-0, posts-2)
+vmod(posts-2, created-3)
+nn(XXXXXXXX-6, app-5)
+prep_with(created-3, XXXXXXXX-6)
+auxpass(returned-8, are-7)
+rcmod(XXXXXXXX-6, returned-8)
+
+-/: posts/NNS with/IN an/DT app_id/NN equal/JJ to/TO null/NN are/VBP also/RB returned/VBN (/-LRB- i.e./FW app_id/FW :/: null/JJ _/NN )/-RRB- 
+
+(ROOT (PRN (: -) (S (NP (NP (NNS posts)) (PP (IN with) (NP (NP (DT an) (NN app_id)) (ADJP (JJ equal) (PP (TO to) (NP (NN null))))))) (VP (VBP are) (ADVP (RB also)) (VP (VBN returned) (PRN (-LRB- -LRB-) (NP (NP (FW i.e.) (FW app_id)) (: :) (NP (JJ null) (NN _))) (-RRB- -RRB-)))))))
+
+root(ROOT-0, returned-11)
+nsubjpass(returned-11, posts-2)
+det(app_id-5, an-4)
+prep_with(posts-2, app_id-5)
+amod(app_id-5, equal-6)
+prep_to(equal-6, null-8)
+auxpass(returned-11, are-9)
+advmod(returned-11, also-10)
+nn(app_id-14, i.e.-13)
+dep(returned-11, app_id-14)
+amod(_-17, null-16)
+dep(app_id-14, _-17)
+
+The/DT Problem/NNP :/: 
+
+(ROOT (NP (DT The) (NNP Problem) (: :)))
+
+root(ROOT-0, Problem-2)
+det(Problem-2, The-1)
+
+-/: posts/NNS with/IN a/DT null/JJ app_id/NN should/MD not/RB be/VB returned/VBN 
+
+(ROOT (PRN (: -) (S (NP (NP (NNS posts)) (PP (IN with) (NP (DT a) (JJ null) (NN app_id)))) (VP (MD should) (RB not) (VP (VB be) (VP (VBN returned)))))))
+
+root(ROOT-0, returned-10)
+nsubjpass(returned-10, posts-2)
+det(app_id-6, a-4)
+amod(app_id-6, null-5)
+prep_with(posts-2, app_id-6)
+aux(returned-10, should-7)
+neg(returned-10, not-8)
+auxpass(returned-10, be-9)
+

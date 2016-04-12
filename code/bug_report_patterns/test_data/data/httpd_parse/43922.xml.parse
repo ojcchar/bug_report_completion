@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>43922</id>
+	<title>CustomLog entry in httpd-vhosts.conf.in is incorrect.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">CustomLog Entry in httpd-vhosts.</sentence>
+			<sentence id="1.2">conf.in is defined as
+CustomLog "@rel_logfiledir@/dummy-host.</sentence>
+			<sentence id="1.3">example.com-access_log common"</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The correct format is :
+CustomLog "@rel_logfiledir@/dummy-host.</sentence>
+			<sentence id="2.2">example.com-access_log" common</sentence>
+		</paragraph>
+	</description>
+</bug>

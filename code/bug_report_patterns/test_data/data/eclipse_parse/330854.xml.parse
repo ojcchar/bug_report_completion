@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>330854</id>
+	<title>Support "Scrollwhell drag to pan"</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In reference to this bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=142336</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">* scrollwheel drag (or middle drag, or Ctrl-left drag) to pan.</sentence>
+			<sentence id="2.2">As the user</sentence>
+			<sentence id="2.3">drags, whatever was under the pointer at the time the drag was initiated would</sentence>
+			<sentence id="2.4">remain under the pointer throughought the drag until, of course, the drag was</sentence>
+			<sentence id="2.5">released.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I search a little into it, it seems to me that there is a missing capture a event combination:
+in org.eclipse.gef.ui.parts.DomainEventDispatcher, in the method dispatchMouseMoved(org.eclipse.swt.events.MouseEvent me), it doesn't detect that the scrollwheel is pushed.</sentence>
+			<sentence id="3.2">The state mask seems to not be properly updated during dispatchMousepressed(org.eclipse.swt.events.MouseEvent me).</sentence>
+		</paragraph>
+	</description>
+</bug>

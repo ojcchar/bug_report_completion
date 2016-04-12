@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>668</id>
+	<title>publishTemplatizedAction aggregation behavior (feed story templates)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This is a feature request for publishTemplatizedAction aggregation behavior.</sentence>
+			<sentence id="1.2">Currently_ the documentation states the following:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In order for two stories to be aggregated together_ the title_template and body_template markup strings must be identical_ the target_ids must be the same_ and the associative arrays given by title_data and body_data must also contain identical keys and values.</sentence>
+			<sentence id="2.2">(These pieces of data used to generate a unique identifier for this particular story.)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In reality_ I think you should only consider the associative arrays containing the keys that are used when the story is rendered with &lt;fb:if-multiple-actors&gt; returning true.</sentence>
+			<sentence id="3.2">So if a title_data key is only used inside an &lt;fb:else&gt; that appears inside &lt;fb:if-multiple-actors&gt;_ it would be trimmed from the associative array when considering whether to aggregate stories.</sentence>
+			<sentence id="3.3">The following is an example usage that would be beneficial to my application_ but there are potentially other uses as well.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Quick Example
+An example of desired behavior would be a photo app_ where you might want to do:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">{actor} &lt;fb:if-multiple-actors&gt;added a photo&lt;fb:else&gt;&lt;a href= {photourl} &gt;added a photo&lt;/a&gt;&lt;/fb:else&gt;&lt;/fb:if-multiple-actors&gt;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">In this case_ if the feed story is only rendered for one actor_ it links to the photo the actor has added.</sentence>
+			<sentence id="6.2">If it is rendered for multiple users and aggregated_ it simply lists the actors that have added a photo and there is no specific link.</sentence>
+			<sentence id="6.3">The user can click on individual user identities to see what photos may have been added.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Detailed example
+I currently attempt to track how users discover the application via feed story links by attaching a user id to the URL to my application.</sentence>
+			<sentence id="7.2">Granted_ this doesn t work perfectly (if the user decides to click the about page before adding the app_ etc.)_ but it does work some of the time.</sentence>
+			<sentence id="7.3">The new feed method behavior would never aggregate my stories_ because I would end up having to do something like:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">{actor} just &lt;a href= {appurl} &gt;did something&lt;/a&gt;.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">And if I wanted to track how the user found it_ I would need to pass:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">appurl  =&gt;  http://apps.facebook.com/myapp?referuid=###</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Since that appurl would be different for all users_ they would never get aggregated.</sentence>
+			<sentence id="11.2">However_ what if instead_ for determining whether to aggregate feed stories_ it first parsed it for multiple actors and any title_data attributes that are not used with multiple actors are cast out.</sentence>
+			<sentence id="11.3">I could then do:</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">{actor} just &lt;a href= {appurl}&lt;fb:if-multiple-actors&gt;&lt;fb:else&gt;{referer}&lt;/fb:else&gt;&lt;/fb:if-multiple-actors&gt; &gt;did something&lt;/a&gt;</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">I would set the following in title_data:</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">appurl  =&gt;  http://apps.facebook.com/myapp _
+ referer  =&gt;  ?</sentence>
+			<sentence id="14.2">referuid=###</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Now_ if this story is published to multiple actors_ it would currently not be aggregated because my title_data doesn t match.</sentence>
+			<sentence id="15.2">However_ if you render for aggregation and discard those keys that are within &lt;fb:else&gt; tags within &lt;fb:if-multiple-actors&gt;_ you will find that referer is no longer needed (since we can t track the click back to a single user if story is aggregated) and so we can discard referer from title_data and find that now the stories from multiple actors combine flawlessly.</sentence>
+		</paragraph>
+	</description>
+</bug>

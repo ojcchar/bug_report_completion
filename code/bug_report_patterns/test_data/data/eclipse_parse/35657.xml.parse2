@@ -1,0 +1,211 @@
+Overview/NN Description/NN :/: For/IN any/DT Chinese/JJ locale/NN on/IN Sun/NNP Solaris/NNP 9/CD ,/, Eclipse/NNP will/MD crash/VB and/CC throw/VB a/DT null/JJ pointer/NN exception/NN when/WRB the/DT user/NN attempts/VBZ to/TO start/VB Eclipse/NNP in/IN that/IN environment/NN ./. 
+
+(ROOT (FRAG (NP (NN Overview) (NN Description)) (: :) (S (PP (IN For) (NP (NP (DT any) (JJ Chinese) (NN locale)) (PP (IN on) (NP (NNP Sun) (NNP Solaris) (CD 9))))) (, ,) (NP (NNP Eclipse)) (VP (MD will) (VP (VB crash) (CC and) (VB throw) (NP (DT a) (JJ null) (NN pointer) (NN exception)) (SBAR (WHADVP (WRB when)) (S (NP (DT the) (NN user)) (VP (VBZ attempts) (S (VP (TO to) (VP (VB start) (NP (NNP Eclipse)) (PP (IN in) (PP (IN that) (NP (NN environment))))))))))))) (. .)))
+
+root(ROOT-0, Description-2)
+nn(Description-2, Overview-1)
+det(locale-7, any-5)
+amod(locale-7, Chinese-6)
+prep_for(crash-15, locale-7)
+nn(Solaris-10, Sun-9)
+prep_on(locale-7, Solaris-10)
+num(Solaris-10, 9-11)
+nsubj(crash-15, Eclipse-13)
+nsubj(throw-17, Eclipse-13)
+aux(crash-15, will-14)
+dep(Description-2, crash-15)
+dep(Description-2, throw-17)
+conj_and(crash-15, throw-17)
+det(exception-21, a-18)
+amod(exception-21, null-19)
+nn(exception-21, pointer-20)
+dobj(crash-15, exception-21)
+advmod(attempts-25, when-22)
+det(user-24, the-23)
+nsubj(attempts-25, user-24)
+advcl(crash-15, attempts-25)
+aux(start-27, to-26)
+xcomp(attempts-25, start-27)
+dobj(start-27, Eclipse-28)
+prep(start-27, in-29)
+pcomp(in-29, that-30)
+pobj(that-30, environment-31)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD Log/NN into/IN Solaris/NNP using/VBG any/DT Chinese/JJ locale/NN (/-LRB- e.g./FW ,/, zh_TW/NN ./. 
+
+(ROOT (NP (NP (NP (CD 1) (NN Log)) (PP (IN into) (NP (NNP Solaris)))) (VP (VBG using) (NP (DT any) (NP (NP (JJ Chinese) (NN locale)) (-LRB- -LRB-) (NP (NP (FW e.g.)) (, ,) (NP (NN zh_TW)))))) (. .)))
+
+root(ROOT-0, Log-2)
+num(Log-2, 1-1)
+prep_into(Log-2, Solaris-4)
+vmod(Log-2, using-5)
+det(locale-8, any-6)
+amod(locale-8, Chinese-7)
+dobj(using-5, locale-8)
+dep(locale-8, e.g.-10)
+appos(e.g.-10, zh_TW-12)
+
+BIG5/NN ,/, zh_CN/NN ./. 
+
+(ROOT (NP (NP (NN BIG5)) (, ,) (NP (NN zh_CN)) (. .)))
+
+root(ROOT-0, BIG5-1)
+appos(BIG5-1, zh_CN-3)
+
+GB18030/NN ,/, zh/NN )/-RRB- ./. 
+
+(ROOT (NP (NP (NN GB18030)) (, ,) (NP (NN zh) (-RRB- -RRB-)) (. .)))
+
+root(ROOT-0, GB18030-1)
+appos(GB18030-1, zh-3)
+
+2/CD Open/VB a/DT terminal/JJ session/NN and/CC start/VB Eclipse/NNP ./. 
+
+(ROOT (S (NP (CD 2)) (VP (VP (VB Open) (NP (DT a) (ADJP (JJ terminal)) (NN session))) (CC and) (VP (VB start) (NP (NNP Eclipse)))) (. .)))
+
+root(ROOT-0, Open-2)
+nsubj(Open-2, 2-1)
+nsubj(start-7, 2-1)
+det(session-5, a-3)
+amod(session-5, terminal-4)
+dobj(Open-2, session-5)
+conj_and(Open-2, start-7)
+dobj(start-7, Eclipse-8)
+
+Expected/VBN Results/NNS :/: Eclipse/NNP should/MD start/VB normally/RB ./. 
+
+(ROOT (S (S (VP (VBN Expected) (NP (NNS Results)))) (: :) (S (NP (NNP Eclipse)) (VP (MD should) (VP (VB start) (ADVP (RB normally))))) (. .)))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Results-2)
+nsubj(start-6, Eclipse-4)
+aux(start-6, should-5)
+parataxis(Expected-1, start-6)
+advmod(start-6, normally-7)
+
+I/PRP have/VBP tested/VBN this/DT with/IN a/DT Japanese/JJ locale/NN (/-LRB- ja_JP/NN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP have) (VP (VBN tested) (NP (DT this)) (PP (IN with) (NP (NP (DT a) (JJ Japanese) (NN locale)) (PP (-LRB- -LRB-) (NP (NN ja_JP))))))) (. .)))
+
+root(ROOT-0, tested-3)
+nsubj(tested-3, I-1)
+aux(tested-3, have-2)
+dobj(tested-3, this-4)
+det(locale-8, a-6)
+amod(locale-8, Japanese-7)
+prep_with(tested-3, locale-8)
+prep(locale-8, ja_JP-10)
+
+eucJP/NN )/-RRB- ,/, and/CC Eclipse/NNP started/VBD normally/RB ./. 
+
+(ROOT (S (S (NP (NN eucJP)) (VP (-RRB- -RRB-))) (, ,) (CC and) (S (NP (NNP Eclipse)) (VP (VBD started) (ADVP (RB normally)))) (. .)))
+
+nsubj(-RRB--2, eucJP-1)
+nsubj(started-6, Eclipse-5)
+conj_and(-RRB--2, started-6)
+advmod(started-6, normally-7)
+
+Note/VB that/IN no/DT Eclipse/NNP language/NN packs/NNS were/VBD installed/VBN ,/, as/IN my/PRP$ intention/NN was/VBD only/RB to/TO test/VB the/DT functionality/NN of/IN an/DT English/JJ version/NN of/IN Eclipse/NNP in/IN a/DT different/JJ locale/NN ./. 
+
+(ROOT (S (VP (VB Note) (SBAR (IN that) (S (NP (DT no) (NNP Eclipse) (NN language) (NNS packs)) (VP (VBD were) (VP (VBN installed) (, ,) (SBAR (IN as) (S (NP (PRP$ my) (NN intention)) (VP (VBD was) (ADVP (RB only)) (S (VP (TO to) (VP (VB test) (NP (NP (DT the) (NN functionality)) (PP (IN of) (NP (NP (DT an) (JJ English) (NN version)) (PP (IN of) (NP (NNP Eclipse)))))) (PP (IN in) (NP (DT a) (JJ different) (NN locale)))))))))))))) (. .)))
+
+root(ROOT-0, Note-1)
+mark(installed-8, that-2)
+neg(packs-6, no-3)
+nn(packs-6, Eclipse-4)
+nn(packs-6, language-5)
+nsubjpass(installed-8, packs-6)
+auxpass(installed-8, were-7)
+ccomp(Note-1, installed-8)
+mark(was-13, as-10)
+poss(intention-12, my-11)
+nsubj(was-13, intention-12)
+advcl(installed-8, was-13)
+advmod(was-13, only-14)
+aux(test-16, to-15)
+xcomp(was-13, test-16)
+det(functionality-18, the-17)
+dobj(test-16, functionality-18)
+det(version-22, an-20)
+amod(version-22, English-21)
+prep_of(functionality-18, version-22)
+prep_of(version-22, Eclipse-24)
+det(locale-28, a-26)
+amod(locale-28, different-27)
+prep_in(test-16, locale-28)
+
+Build/VB Date/NNP &/CC Platform/NNP :/: Build/VB 200303202147/CD (/-LRB- RC3a/NN )/-RRB- on/IN Sun/NNP Solaris/NNP 9/CD 
+
+(ROOT (S (VP (VB Build) (NP (NP (NNP Date) (CC &) (NNP Platform)) (: :) (VP (VB Build) (NP (NP (CD 200303202147) (-LRB- -LRB-) (NN RC3a) (-RRB- -RRB-)) (PP (IN on) (NP (NNP Sun) (NNP Solaris) (CD 9)))))))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, Date-2)
+dobj(Build-1, Platform-4)
+conj_and(Date-2, Platform-4)
+dep(Date-2, Build-6)
+num(RC3a-9, 200303202147-7)
+dobj(Build-6, RC3a-9)
+nn(Solaris-13, Sun-12)
+prep_on(RC3a-9, Solaris-13)
+num(Solaris-13, 9-14)
+
+Additional/JJ Builds/NNPS and/CC Platforms/NNPS :/: 
+
+(ROOT (NP (NP (NP (JJ Additional) (NNPS Builds)) (CC and) (NP (NNPS Platforms))) (: :)))
+
+root(ROOT-0, Builds-2)
+amod(Builds-2, Additional-1)
+conj_and(Builds-2, Platforms-4)
+
+-/: Also/RB Occurs/VBZ On/IN 
+
+(ROOT (PRN (: -) (S (VP (ADVP (RB Also)) (VBZ Occurs) (PP (IN On))))))
+
+root(ROOT-0, Occurs-3)
+advmod(Occurs-3, Also-2)
+prep(Occurs-3, On-4)
+
+Build/VB 200211071448/CD (/-LRB- 2.0.2/CD )/-RRB- on/IN Sun/NNP Solaris/NNP 9/CD 
+
+(ROOT (S (VP (VB Build) (NP (NP (NP (CD 200211071448)) (PRN (-LRB- -LRB-) (NP (CD 2.0.2)) (-RRB- -RRB-))) (PP (IN on) (NP (NNP Sun) (NNP Solaris) (CD 9)))))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, 200211071448-2)
+appos(200211071448-2, 2.0.2-4)
+nn(Solaris-8, Sun-7)
+prep_on(200211071448-2, Solaris-8)
+num(Solaris-8, 9-9)
+
+However/RB ,/, on/IN Eclipse/NNP 2.0.2/CD ,/, a/DT different/JJ exception/NN is/VBZ thrown/VBN ,/, and/CC instead/RB of/IN crashing/VBG ,/, Eclipse/NNP hangs/VBZ ./. 
+
+(ROOT (S (ADVP (RB However)) (, ,) (S (PP (IN on) (NP (NNP Eclipse) (CD 2.0.2))) (, ,) (NP (DT a) (JJ different) (NN exception)) (VP (VBZ is) (VP (VBN thrown)))) (, ,) (CC and) (S (PP (RB instead) (IN of) (S (VP (VBG crashing)))) (, ,) (NP (NNP Eclipse)) (VP (VBZ hangs))) (. .)))
+
+root(ROOT-0, thrown-11)
+advmod(thrown-11, However-1)
+prep_on(thrown-11, Eclipse-4)
+num(Eclipse-4, 2.0.2-5)
+det(exception-9, a-7)
+amod(exception-9, different-8)
+nsubjpass(thrown-11, exception-9)
+auxpass(thrown-11, is-10)
+prepc_instead_of(hangs-19, crashing-16)
+nsubj(hangs-19, Eclipse-18)
+conj_and(thrown-11, hangs-19)
+
+Here/RB is/VBZ the/DT exception/NN :/: 
+
+(ROOT (SINV (ADVP (RB Here)) (VP (VBZ is)) (NP (DT the) (NN exception)) (: :)))
+
+root(ROOT-0, is-2)
+advmod(is-2, Here-1)
+det(exception-4, the-3)
+nsubj(is-2, exception-4)
+

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>41859</id>
+	<title>Troubles with compiling mod_fastcgi-2.4.2 in Apache after 2.2</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When I'm compiling 'mod_fastcgi-2.4.2' in any Apache v2.2+, I'm getting error
+messages in 'mod_fastcgi.</sentence>
+			<sentence id="1.2">c' like this -&gt; 'mod_fastcgi.</sentence>
+			<sentence id="1.3">c:270: error
+`ap_null_cleanup' undeclared (first use in this function)'.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I know, this isn't an Apache problem, but I can write solution only here,
+because many people can get this trouble.</sentence>
+			<sentence id="2.2">I believe it is suitable for inclusion
+in the official code base.</sentence>
+			<sentence id="2.3">Restore definitions, I guess is a most suitable way
+to do this.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Solution.</sentence>
+			<sentence id="3.2">=========</sentence>
+			<sentence id="3.3">As I see, in Apache 2.2 and later, previously (in 2.0) deprecated definitions</sentence>
+			<sentence id="3.4">was dropped.</sentence>
+			<sentence id="3.5">But, in the same time, 'mod_fastcgi-2.4.2' still need it.</sentence>
+			<sentence id="3.6">I solved a problem bay adding following lines in 'fcgi.h' in source code of</sentence>
+			<sentence id="3.7">'mod_fastcgi'.</sentence>
+			<sentence id="3.8">You should paste this lines from line 75, after '#define</sentence>
+			<sentence id="3.9">ap_unblock_alarms()' in the block of obsolete function definitions.</sentence>
+			<sentence id="3.10">------------ cut here --------------</sentence>
+			<sentence id="3.11">#ifndef ap_copy_table</sentence>
+			<sentence id="3.12">#define ap_copy_table apr_table_copy</sentence>
+			<sentence id="3.13">#define ap_cpystrn apr_cpystrn</sentence>
+			<sentence id="3.14">#define ap_destroy_pool apr_pool_destroy</sentence>
+			<sentence id="3.15">#define ap_isspace apr_isspace</sentence>
+			<sentence id="3.16">#define ap_make_array apr_array_make</sentence>
+			<sentence id="3.17">#define ap_make_table apr_table_make</sentence>
+			<sentence id="3.18">#define ap_null_cleanup apr_pool_cleanup_null</sentence>
+			<sentence id="3.19">#define ap_palloc apr_palloc</sentence>
+			<sentence id="3.20">#define ap_pcalloc apr_pcalloc</sentence>
+			<sentence id="3.21">#define ap_psprintf apr_psprintf</sentence>
+			<sentence id="3.22">#define ap_pstrcat apr_pstrcat</sentence>
+			<sentence id="3.23">#define ap_pstrdup apr_pstrdup</sentence>
+			<sentence id="3.24">#define ap_pstrndup apr_pstrndup</sentence>
+			<sentence id="3.25">#define ap_push_array apr_array_push</sentence>
+			<sentence id="3.26">#define ap_register_cleanup apr_pool_cleanup_register</sentence>
+			<sentence id="3.27">#define ap_snprintf apr_snprintf</sentence>
+			<sentence id="3.28">#define ap_table_add apr_table_add</sentence>
+			<sentence id="3.29">#define ap_table_do apr_table_do</sentence>
+			<sentence id="3.30">#define ap_table_get apr_table_get</sentence>
+			<sentence id="3.31">#define ap_table_set apr_table_set</sentence>
+			<sentence id="3.32">#define ap_table_setn apr_table_setn</sentence>
+			<sentence id="3.33">#define ap_table_unset apr_table_unset</sentence>
+			<sentence id="3.34">#endif</sentence>
+			<sentence id="3.35">------------ cut here -------------</sentence>
+		</paragraph>
+	</description>
+</bug>

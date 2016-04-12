@@ -1,0 +1,225 @@
+Example/NN :/: 
+
+(ROOT (NP (NN Example) (: :)))
+
+root(ROOT-0, Example-1)
+
+http://localhost/~alex/testsite/blahblahblah/NN 
+
+(ROOT (NP (NN http://localhost/~alex/testsite/blahblahblah)))
+
+root(ROOT-0, http://localhost/~alex/testsite/blahblahblah-1)
+
+I/PRP have/VBP a/DT ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP have) (NP (DT a))) (. .)))
+
+root(ROOT-0, have-2)
+nsubj(have-2, I-1)
+dobj(have-2, a-3)
+
+htaccess/NN file/NN in/IN //: home/alex/public/JJ _/CD html/testsite/NN that/WDT reads/VBZ :/: 
+
+(ROOT (NP (NP (NN htaccess) (NN file)) (PP (IN in) (NP (PRN (: /) (NP (NP (JJ home/alex/public)) (NP (CD _)))) (NN html/testsite))) (SBAR (WHNP (WDT that)) (S (VP (VBZ reads)))) (: :)))
+
+root(ROOT-0, file-2)
+nn(file-2, htaccess-1)
+punct(home/alex/public-5, /-4)
+dep(html/testsite-7, home/alex/public-5)
+dep(home/alex/public-5, _-6)
+prep_in(file-2, html/testsite-7)
+nsubj(reads-9, that-8)
+rcmod(file-2, reads-9)
+
+RewriteEngine/NNP On/IN #RewriteBase/NN //: ~/CD alex/testsite/JJ RewriteRule/NNP ^/NN (/-LRB- ./. 
+
+(ROOT (FRAG (FRAG (NP (NNP RewriteEngine)) (PP (IN On) (NP (NN #RewriteBase)))) (: /) (FRAG (NP (NP (CD ~) (JJ alex/testsite) (NNP RewriteRule) (NN ^)) (ADVP (-LRB- -LRB-))) (. .))))
+
+root(ROOT-0, RewriteEngine-1)
+prep_on(RewriteEngine-1, #RewriteBase-3)
+punct(RewriteEngine-1, /-4)
+num(^-8, ~-5)
+amod(^-8, alex/testsite-6)
+nn(^-8, RewriteRule-7)
+dep(RewriteEngine-1, ^-8)
+
+*/SYM ?/. )/-RRB- 
+
+(ROOT (PRN (SYM *) (. ?) (-RRB- -RRB-)))
+
+root(ROOT-0, *-1)
+
+$/$ url-handler/JJ ./. 
+
+(ROOT (FRAG (ADJP ($ $) (JJ url-handler)) (. .)))
+
+root(ROOT-0, $-1)
+dep($-1, url-handler-2)
+
+php/NN 
+
+(ROOT (NP (NN php)))
+
+root(ROOT-0, php-1)
+
+Now/RB according/VBG to/TO the/DT manual/NN :/: 
+
+(ROOT (X (NP (RB Now)) (PP (VBG according) (PP (TO to) (NP (DT the) (NN manual)))) (: :)))
+
+root(ROOT-0, Now-1)
+prepc_according_to(Now-1, to-3)
+det(manual-5, the-4)
+pobj(Now-1, manual-5)
+
+"/`` The/DT RewriteBase/NN directive/NN explicitly/RB sets/VBZ the/DT base/NN URL/NN for/IN per-directory/JJ rewrites/NNS ./. 
+
+(ROOT (S (`` ``) (NP (DT The) (NN RewriteBase) (NN directive)) (ADVP (RB explicitly)) (VP (VBZ sets) (NP (NP (DT the) (NN base) (NN URL)) (PP (IN for) (NP (JJ per-directory) (NNS rewrites))))) (. .)))
+
+root(ROOT-0, sets-6)
+det(directive-4, The-2)
+nn(directive-4, RewriteBase-3)
+nsubj(sets-6, directive-4)
+advmod(sets-6, explicitly-5)
+det(URL-9, the-7)
+nn(URL-9, base-8)
+dobj(sets-6, URL-9)
+amod(rewrites-12, per-directory-11)
+prep_for(URL-9, rewrites-12)
+
+As/IN you/PRP will/MD see/VB below/RB ,/, RewriteRule/NNP can/MD be/VB used/VBN in/IN per-directory/JJ config/NN files/NNS (/-LRB- ./. 
+
+(ROOT (S (SBAR (IN As) (S (NP (PRP you)) (VP (MD will) (VP (VB see) (ADVP (RB below)))))) (, ,) (NP (NNP RewriteRule)) (VP (MD can) (VP (VB be) (VP (VBN used) (PP (IN in) (NP (JJ per-directory) (NN config) (NNS files))) (ADVP (-LRB- -LRB-))))) (. .)))
+
+root(ROOT-0, used-10)
+mark(see-4, As-1)
+nsubj(see-4, you-2)
+aux(see-4, will-3)
+advcl(used-10, see-4)
+advmod(see-4, below-5)
+nsubjpass(used-10, RewriteRule-7)
+aux(used-10, can-8)
+auxpass(used-10, be-9)
+amod(files-14, per-directory-12)
+nn(files-14, config-13)
+prep_in(used-10, files-14)
+
+htaccess/NN )/-RRB- ./. 
+
+(ROOT (S (NP (NN htaccess)) (VP (-RRB- -RRB-)) (. .)))
+
+nsubj(-RRB--2, htaccess-1)
+
+There/EX it/PRP will/MD act/VB locally/RB ,/, i.e./FW ,/, the/DT local/JJ directory/NN prefix/NN is/VBZ stripped/VBN at/IN this/DT stage/NN of/IN processing/NN and/CC your/PRP$ rewriting/VBG rules/NNS act/VBP only/RB on/IN the/DT remainder/NN ./. 
+
+(ROOT (S (NP (EX There)) (PRN (S (NP (PRP it)) (VP (MD will) (VP (VB act) (S (ADVP (RB locally)) (, ,) (NP (FW i.e.)) (, ,) (NP (DT the) (JJ local) (NN directory) (NN prefix)) (VP (VBZ is) (VP (VBN stripped) (PP (IN at) (NP (NP (DT this) (NN stage)) (PP (IN of) (NP (NP (NN processing)) (CC and) (NP (PRP$ your) (VBG rewriting) (NNS rules))))))))))))) (VP (VBP act) (ADVP (RB only)) (PP (IN on) (NP (DT the) (NN remainder)))) (. .)))
+
+root(ROOT-0, act-24)
+expl(act-24, There-1)
+nsubj(act-4, it-2)
+aux(act-4, will-3)
+parataxis(act-24, act-4)
+advmod(stripped-14, locally-5)
+nsubjpass(stripped-14, i.e.-7)
+det(prefix-12, the-9)
+amod(prefix-12, local-10)
+nn(prefix-12, directory-11)
+nsubjpass(stripped-14, prefix-12)
+auxpass(stripped-14, is-13)
+ccomp(act-4, stripped-14)
+det(stage-17, this-16)
+prep_at(stripped-14, stage-17)
+prep_of(stage-17, processing-19)
+poss(rules-23, your-21)
+amod(rules-23, rewriting-22)
+prep_of(stage-17, rules-23)
+conj_and(processing-19, rules-23)
+advmod(act-24, only-25)
+det(remainder-28, the-27)
+prep_on(act-24, remainder-28)
+
+At/IN the/DT end/NN it/PRP is/VBZ automatically/RB added/VBN back/RB to/TO the/DT path/NN ./. "/'' 
+
+(ROOT (S (PP (IN At) (NP (DT the) (NN end))) (NP (PRP it)) (VP (VBZ is) (ADVP (RB automatically)) (VP (VBN added) (ADVP (RB back)) (PP (TO to) (NP (DT the) (NN path))))) (. .) ('' '')))
+
+root(ROOT-0, added-7)
+det(end-3, the-2)
+prep_at(added-7, end-3)
+nsubjpass(added-7, it-4)
+auxpass(added-7, is-5)
+advmod(added-7, automatically-6)
+advmod(added-7, back-8)
+det(path-11, the-10)
+prep_to(added-7, path-11)
+
+If/IN I/PRP leave/VBP the/DT RewriteBase/NN uncommented/JJ ,/, I/PRP get/VBP this/DT :/: "/`` The/DT requested/VBN URL/NN //: home/alex/public/JJ _/NN html/testsite/url-handler/NN ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (PRP I)) (VP (VBP leave) (S (NP (DT the) (NN RewriteBase)) (ADJP (JJ uncommented)))))) (, ,) (NP (PRP I)) (VP (VBP get) (NP (NP (DT this)) (: :) (`` ``) (NP (DT The) (NX (NX (VBN requested) (NN URL)) (PRN (: /) (NP (NP (JJ home/alex/public) (NN _)) (NP (NN html/testsite/url-handler)))))))) (. .)))
+
+root(ROOT-0, get-9)
+mark(leave-3, If-1)
+nsubj(leave-3, I-2)
+advcl(get-9, leave-3)
+det(RewriteBase-5, the-4)
+nsubj(uncommented-6, RewriteBase-5)
+xcomp(leave-3, uncommented-6)
+nsubj(get-9, I-8)
+dobj(get-9, this-10)
+det(URL-15, The-13)
+amod(URL-15, requested-14)
+dep(this-10, URL-15)
+punct(_-18, /-16)
+amod(_-18, home/alex/public-17)
+dep(URL-15, _-18)
+dep(_-18, html/testsite/url-handler-19)
+
+php/NN was/VBD not/RB found/VBN on/IN this/DT server/NN ./. "/'' 
+
+(ROOT (S (NP (NN php)) (VP (VBD was) (RB not) (VP (VBN found) (PP (IN on) (NP (DT this) (NN server))))) (. .) ('' '')))
+
+root(ROOT-0, found-4)
+nsubjpass(found-4, php-1)
+auxpass(found-4, was-2)
+neg(found-4, not-3)
+det(server-7, this-6)
+prep_on(found-4, server-7)
+
+Seems/VBZ like/IN some/DT funny/JJ behaviour/NN ./. 
+
+(ROOT (S (VP (VBZ Seems) (PP (IN like) (NP (DT some) (JJ funny) (NN behaviour)))) (. .)))
+
+root(ROOT-0, Seems-1)
+det(behaviour-5, some-3)
+amod(behaviour-5, funny-4)
+prep_like(Seems-1, behaviour-5)
+
+Please/VB correct/VB me/PRP if/IN I/PRP am/VBP wrong/JJ but/CC this/DT setup/NN works/VBZ flawlessly/RB with/IN addresses/NNS without/IN the/DT ~/NN as/IN far/RB as/IN I/PRP can/MD tell/VB ./. 
+
+(ROOT (S (S (INTJ (VB Please)) (VP (VB correct) (NP (PRP me)) (SBAR (IN if) (S (S (NP (PRP I)) (VP (VBP am) (ADJP (JJ wrong)))) (CC but) (S (NP (DT this) (NN setup)) (VP (VBZ works) (ADVP (RB flawlessly)) (PP (IN with) (NP (NNS addresses))) (PP (IN without) (NP (NP (DT the) (NN ~)) (ADJP (IN as) (RB far) (PP (IN as) (NP (PRP I)))))))))))) (VP (MD can) (VP (VB tell))) (. .)))
+
+root(ROOT-0, tell-23)
+discourse(correct-2, Please-1)
+csubj(tell-23, correct-2)
+dobj(correct-2, me-3)
+mark(wrong-7, if-4)
+nsubj(wrong-7, I-5)
+cop(wrong-7, am-6)
+advcl(correct-2, wrong-7)
+det(setup-10, this-9)
+nsubj(works-11, setup-10)
+advcl(correct-2, works-11)
+conj_but(wrong-7, works-11)
+advmod(works-11, flawlessly-12)
+prep_with(works-11, addresses-14)
+det(~-17, the-16)
+prep_without(works-11, ~-17)
+dep(far-19, as-18)
+amod(~-17, far-19)
+prep_as(far-19, I-21)
+aux(tell-23, can-22)
+
+Cheers/NNP 
+
+(ROOT (NP (NNP Cheers)))
+
+root(ROOT-0, Cheers-1)
+

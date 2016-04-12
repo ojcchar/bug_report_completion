@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>622283</id>
+	<title>When there is a contenteditable element in the document, all input have spellcheck entries in the context menu</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 500529
+Testcase</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">For the moment, &lt;input type='password'&gt; and when bug 558651 will be fixed all input types except 'text' and 'search' should not have the spellcheck options.</sentence>
+			<sentence id="2.2">However, when there is a contenteditable element, these options appear.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The reason is because |editingSession.windowIsEditable(win)| [1] seems to return true as soon as there is a contenteditable in the document.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">[1] https://mxr.mozilla.org/mozilla-central/source/browser/base/content/nsContextMenu.js#608</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">In the test case, when loading it, you should not have spellcheck entries in the context menu in the first input.</sentence>
+			<sentence id="5.2">However, in the iframe, where there is a editable div, they appear.</sentence>
+			<sentence id="5.3">If you click the checkbox, it inserts an edtiable div in the document and the entries will now be available in the first input.</sentence>
+			<sentence id="5.4">Both input are type='password'.</sentence>
+		</paragraph>
+	</description>
+</bug>

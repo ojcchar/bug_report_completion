@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>49766</id>
+	<title>POST request on CGI script generating empty body closes connection</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I just installed a fresh apache2 (2.2.14) on Ubuntu Lucid.</sentence>
+			<sentence id="1.2">I wrote a small CGI script for test purpose:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">~# cat /usr/lib/cgi-bin/test
+#!</sentence>
+			<sentence id="2.2">/usr/bin/perl</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">print "Content-length: 0\r\n";
+print "Content-type: text/plain\r\n\r\n";
+~#</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Here is my test:
+~$ telnet 0 80
+Trying 0.0.0.0...
+Connected to 0.</sentence>
+			<sentence id="4.2">Escape character is '^]'.</sentence>
+			<sentence id="4.3">POST /cgi-bin/test HTTP/1.1
+Host: localhost
+Content-Length: 20</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">aaaaaaaaaaaaaaaaaa
+Connection closed by foreign host.</sentence>
+			<sentence id="5.2">~$</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Connection is immediately closed without any response!</sentence>
+			<sentence id="6.2">In the logs, I can see the following:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">~# tail /var/log/apache2/access.log
+127.0.0.1 - - [17/Aug/2010:19:03:10 +0200] "POST /cgi-bin/test HTTP/1.1" 200 0 "-" "-"
+~# tail /var/log/apache2/error.log
+[Tue Aug 17 19:03:10 2010] [error] [client 127.0.0.1] (104)Connection reset by peer: ap_content_length_filter: apr_bucket_read() failed</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Clearly the connection is not 'reset by peer'</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Please advise...</sentence>
+		</paragraph>
+	</description>
+</bug>

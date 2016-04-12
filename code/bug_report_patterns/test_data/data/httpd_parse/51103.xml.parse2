@@ -1,0 +1,420 @@
+Overview/NN 
+
+(ROOT (NP (NN Overview)))
+
+root(ROOT-0, Overview-1)
+
+--------/CD 
+
+(ROOT (FRAG (NP (CD --------))))
+
+root(ROOT-0, ---------1)
+
+The/DT mod_reqtimeout/NN module/NN is/VBZ not/RB dropping/VBG connections/NNS and/CC returning/VBG 408/CD when/WRB dealing/VBG with/IN "/`` slow/JJ http/NN header/NN "/'' or/CC "/`` slow/JJ http/NN body/NN "/'' requests/NNS ./. 
+
+(ROOT (S (NP (DT The) (NN mod_reqtimeout) (NN module)) (VP (VBZ is) (RB not) (VP (VP (VBG dropping) (NP (NNS connections))) (CC and) (VP (VBG returning) (NP (CD 408)) (SBAR (WHADVP (WRB when)) (S (VP (VBG dealing) (PP (IN with) (NP (`` ``) (NP (JJ slow) (NN http) (NN header)) ('' '') (CC or) (`` ``) (NP (JJ slow) (NN http) (NN body) ('' '') (NNS requests)))))))))) (. .)))
+
+root(ROOT-0, dropping-6)
+det(module-3, The-1)
+nn(module-3, mod_reqtimeout-2)
+nsubj(dropping-6, module-3)
+nsubj(returning-9, module-3)
+aux(dropping-6, is-4)
+neg(dropping-6, not-5)
+dobj(dropping-6, connections-7)
+conj_and(dropping-6, returning-9)
+dobj(returning-9, 408-10)
+advmod(dealing-12, when-11)
+advcl(returning-9, dealing-12)
+amod(header-17, slow-15)
+nn(header-17, http-16)
+prep_with(dealing-12, header-17)
+amod(requests-25, slow-21)
+nn(requests-25, http-22)
+nn(requests-25, body-23)
+prep_with(dealing-12, requests-25)
+conj_or(header-17, requests-25)
+
+Instead/RB ,/, it/PRP is/VBZ either/RB truncating/JJ the/DT request/NN and/CC handling/VBG it/PRP ,/, or/CC dropping/VBG the/DT request/NN with/IN a/DT 400/CD status/NN code/NN ./. 
+
+(ROOT (S (ADVP (RB Instead)) (, ,) (NP (PRP it)) (VP (VBZ is) (ADJP (RB either) (JJ truncating)) (UCP (NP (DT the) (NN request)) (CC and) (S (VP (VP (VBG handling) (NP (PRP it))) (, ,) (CC or) (VP (VBG dropping) (NP (DT the) (NN request)) (PP (IN with) (NP (DT a) (CD 400) (NN status) (NN code)))))))) (. .)))
+
+root(ROOT-0, truncating-6)
+advmod(truncating-6, Instead-1)
+nsubj(truncating-6, it-3)
+cop(truncating-6, is-4)
+advmod(truncating-6, either-5)
+det(request-8, the-7)
+dep(truncating-6, request-8)
+dep(truncating-6, handling-10)
+conj_and(request-8, handling-10)
+dobj(handling-10, it-11)
+conj_and(request-8, dropping-14)
+conj_or(handling-10, dropping-14)
+det(request-16, the-15)
+dobj(dropping-14, request-16)
+det(code-21, a-18)
+num(code-21, 400-19)
+nn(code-21, status-20)
+prep_with(dropping-14, code-21)
+
+Steps/NNS to/TO reproduce/VB (/-LRB- A/NN )/-RRB- 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB reproduce) (-LRB- -LRB-) (NP (NN A)) (-RRB- -RRB-)))))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+dobj(reproduce-3, A-5)
+
+----------------------/CD 
+
+(ROOT (FRAG (NP (CD ----------------------))))
+
+root(ROOT-0, -----------------------1)
+
+1/CD Launch/VB a/DT slow-post/JJ attack/NN using/VBG the/DT OWASP/NNP HTTP/NNP DoS/NNP tool/NN (/-LRB- http://code.google.com/p/owasp-dos-http-post/downloads/list/NN )/-RRB- 
+
+(ROOT (FRAG (NP (CD 1)) (VP (VB Launch) (NP (NP (DT a) (JJ slow-post) (NN attack)) (VP (VBG using) (NP (NP (DT the) (NNP OWASP) (NNP HTTP) (NNP DoS) (NN tool)) (PRN (-LRB- -LRB-) (NP (NN http://code.google.com/p/owasp-dos-http-post/downloads/list)) (-RRB- -RRB-))))))))
+
+root(ROOT-0, 1-1)
+dep(1-1, Launch-2)
+det(attack-5, a-3)
+amod(attack-5, slow-post-4)
+dobj(Launch-2, attack-5)
+vmod(attack-5, using-6)
+det(tool-11, the-7)
+nn(tool-11, OWASP-8)
+nn(tool-11, HTTP-9)
+nn(tool-11, DoS-10)
+dobj(using-6, tool-11)
+appos(tool-11, http://code.google.com/p/owasp-dos-http-post/downloads/list-13)
+
+http_dos_cli/NNS --/: host/NN 1.2.3.4/CD --/: port/JJ 80/CD --/: path/NN //: server-status/NN --/: slow-post/JJ --/: post-field/JJ j_username/NN --/: connections/NNS 1000/CD --/: rate/NN 1000/CD --/: timeout/NN 5/CD 
+
+(ROOT (NP (NP (NNS http_dos_cli)) (: --) (NP (NP (NP (NN host)) (NP (CD 1.2.3.4))) (: --) (NP (NP (JJ port)) (NP (CD 80))) (: --) (NP (NP (NN path)) (PRN (: /) (NP (NP (NN server-status)) (: --) (NP (JJ slow-post))) (: --)) (NP (JJ post-field) (NN j_username))) (: --) (NP (NP (NNS connections)) (NP (CD 1000))) (: --) (NP (NP (NN rate)) (NP (CD 1000))) (: --) (NP (NP (NN timeout)) (NP (CD 5))))))
+
+root(ROOT-0, http_dos_cli-1)
+dep(http_dos_cli-1, host-3)
+dep(host-3, 1.2.3.4-4)
+dep(host-3, port-6)
+dep(port-6, 80-7)
+dep(host-3, path-9)
+punct(server-status-11, /-10)
+dep(path-9, server-status-11)
+dep(server-status-11, slow-post-13)
+amod(j_username-16, post-field-15)
+dep(path-9, j_username-16)
+dep(host-3, connections-18)
+dep(connections-18, 1000-19)
+dep(host-3, rate-21)
+dep(rate-21, 1000-22)
+dep(host-3, timeout-24)
+dep(timeout-24, 5-25)
+
+2/CD Sniff/NN network/NN traffic/NN using/VBG Wireshark/NNP ,/, observe/VBP requests/NNS being/VBG truncated/VBN and/CC handled/VBN ,/, resulting/VBG in/IN a/DT 200/CD return/NN code/NN ./. 
+
+(ROOT (S (NP (NP (CD 2) (NN Sniff) (NN network) (NN traffic)) (VP (VBG using) (NP (NNP Wireshark)))) (, ,) (VP (VBP observe) (NP (NP (NNS requests)) (VP (VBG being) (VP (VBN truncated) (CC and) (VBN handled) (, ,) (S (VP (VBG resulting) (PP (IN in) (NP (DT a) (CD 200) (NN return) (NN code))))))))) (. .)))
+
+root(ROOT-0, observe-8)
+num(traffic-4, 2-1)
+nn(traffic-4, Sniff-2)
+nn(traffic-4, network-3)
+nsubj(observe-8, traffic-4)
+vmod(traffic-4, using-5)
+dobj(using-5, Wireshark-6)
+dobj(observe-8, requests-9)
+auxpass(truncated-11, being-10)
+vmod(requests-9, truncated-11)
+vmod(requests-9, handled-13)
+conj_and(truncated-11, handled-13)
+xcomp(truncated-11, resulting-15)
+det(code-20, a-17)
+num(code-20, 200-18)
+nn(code-20, return-19)
+prep_in(resulting-15, code-20)
+
+Steps/NNS to/TO reproduce/VB (/-LRB- B/NN )/-RRB- 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB reproduce) (-LRB- -LRB-) (NP (NN B)) (-RRB- -RRB-)))))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+dobj(reproduce-3, B-5)
+
+----------------------/CD 
+
+(ROOT (FRAG (NP (CD ----------------------))))
+
+root(ROOT-0, -----------------------1)
+
+1/CD Launch/VB a/DT slow-headers/JJ attack/NN 
+
+(ROOT (FRAG (NP (CD 1)) (VP (VB Launch) (NP (DT a) (JJ slow-headers) (NN attack)))))
+
+root(ROOT-0, 1-1)
+dep(1-1, Launch-2)
+det(attack-5, a-3)
+amod(attack-5, slow-headers-4)
+dobj(Launch-2, attack-5)
+
+2/CD Sniff/NN network/NN trafic/NN using/VBG Wireshark/NNP ,/, observe/VBP requests/NNS being/VBG dropped/VBN with/IN a/DT 400/CD code/NN being/VBG returned/VBN ./. 
+
+(ROOT (S (NP (NP (CD 2) (NN Sniff) (NN network) (NN trafic)) (VP (VBG using) (NP (NNP Wireshark)))) (, ,) (VP (VBP observe) (NP (NP (NNS requests)) (VP (VBG being) (VP (VBN dropped) (PP (IN with) (NP (NP (DT a) (CD 400) (NN code)) (VP (VBG being) (VP (VBN returned))))))))) (. .)))
+
+root(ROOT-0, observe-8)
+num(trafic-4, 2-1)
+nn(trafic-4, Sniff-2)
+nn(trafic-4, network-3)
+nsubj(observe-8, trafic-4)
+vmod(trafic-4, using-5)
+dobj(using-5, Wireshark-6)
+dobj(observe-8, requests-9)
+auxpass(dropped-11, being-10)
+vmod(requests-9, dropped-11)
+det(code-15, a-13)
+num(code-15, 400-14)
+prep_with(dropped-11, code-15)
+auxpass(returned-17, being-16)
+vmod(code-15, returned-17)
+
+Expected/VBN behavior/NN 
+
+(ROOT (VP (VBN Expected) (NP (NN behavior))))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, behavior-2)
+
+-----------------/CD 
+
+(ROOT (FRAG (NP (CD -----------------))))
+
+root(ROOT-0, ------------------1)
+
+Request/NN is/VBZ dropped/VBN and/CC a/DT 408/CD status/NN code/NN is/VBZ returned/VBN ./. 
+
+(ROOT (S (S (NP (NN Request)) (VP (VBZ is) (VP (VBN dropped)))) (CC and) (S (NP (DT a) (CD 408) (NN status) (NN code)) (VP (VBZ is) (VP (VBN returned)))) (. .)))
+
+root(ROOT-0, dropped-3)
+nsubjpass(dropped-3, Request-1)
+auxpass(dropped-3, is-2)
+det(code-8, a-5)
+num(code-8, 408-6)
+nn(code-8, status-7)
+nsubjpass(returned-10, code-8)
+auxpass(returned-10, is-9)
+conj_and(dropped-3, returned-10)
+
+Actual/JJ behavior/NN 
+
+(ROOT (NP (JJ Actual) (NN behavior)))
+
+root(ROOT-0, behavior-2)
+amod(behavior-2, Actual-1)
+
+---------------/CD 
+
+(ROOT (FRAG (NP (CD ---------------))))
+
+root(ROOT-0, ----------------1)
+
+Request/NN is/VBZ dropped/VBN and/CC a/DT 400/CD status/NN code/NN is/VBZ returned/VBN OR/NN request/NN is/VBZ truncated/VBN and/CC handled/VBN normally/RB ./. 
+
+(ROOT (S (S (NP (NN Request)) (VP (VBZ is) (VP (VBN dropped)))) (CC and) (S (NP (DT a) (CD 400) (NN status) (NN code)) (VP (VBZ is) (VP (VBN returned) (SBAR (S (NP (NN OR) (NN request)) (VP (VBZ is) (VP (VBN truncated) (CC and) (VBN handled) (ADVP (RB normally))))))))) (. .)))
+
+root(ROOT-0, dropped-3)
+nsubjpass(dropped-3, Request-1)
+auxpass(dropped-3, is-2)
+det(code-8, a-5)
+num(code-8, 400-6)
+nn(code-8, status-7)
+nsubjpass(returned-10, code-8)
+auxpass(returned-10, is-9)
+conj_and(dropped-3, returned-10)
+nn(request-12, OR-11)
+nsubjpass(truncated-14, request-12)
+nsubjpass(handled-16, request-12)
+auxpass(truncated-14, is-13)
+ccomp(returned-10, truncated-14)
+ccomp(returned-10, handled-16)
+conj_and(truncated-14, handled-16)
+advmod(truncated-14, normally-17)
+
+Platform/NN 
+
+(ROOT (NP (NN Platform)))
+
+root(ROOT-0, Platform-1)
+
+--------/CD 
+
+(ROOT (FRAG (NP (CD --------))))
+
+root(ROOT-0, ---------1)
+
+Software/NNP :/: Apache/NNP 2.2.17/CD (/-LRB- MPM-worker/NN )/-RRB- 
+
+(ROOT (NP (NP (NNP Software)) (: :) (NP (NP (NNP Apache) (CD 2.2.17)) (PRN (-LRB- -LRB-) (NP (NN MPM-worker)) (-RRB- -RRB-)))))
+
+root(ROOT-0, Software-1)
+dep(Software-1, Apache-3)
+num(Apache-3, 2.2.17-4)
+appos(Apache-3, MPM-worker-6)
+
+OS/NNP :/: Solaris/NNP 5.10/CD 32-bit/JJ 
+
+(ROOT (NP (NP (NNP OS)) (: :) (NP (NP (NNP Solaris) (CD 5.10)) (NP (JJ 32-bit)))))
+
+root(ROOT-0, OS-1)
+dep(OS-1, Solaris-3)
+num(Solaris-3, 5.10-4)
+dep(Solaris-3, 32-bit-5)
+
+Hardware/NN :/: Sun/NNP SPARC/NNP 
+
+(ROOT (NP (NP (NN Hardware)) (: :) (NP (NNP Sun) (NNP SPARC))))
+
+root(ROOT-0, Hardware-1)
+nn(SPARC-4, Sun-3)
+dep(Hardware-1, SPARC-4)
+
+Additional/JJ information/NN 
+
+(ROOT (NP (JJ Additional) (NN information)))
+
+root(ROOT-0, information-2)
+amod(information-2, Additional-1)
+
+----------------------/CD 
+
+(ROOT (FRAG (NP (CD ----------------------))))
+
+root(ROOT-0, -----------------------1)
+
+mod_reqtimeout/NN configuration/NN RequestReadTimeout/NN header/NN =/JJ 10-20/CD ,/, MinRate/NN =/JJ 500/CD body/NN =/JJ 10-20/CD ,/, MinRate/NN =/JJ 500/CD 
+
+(ROOT (NP (NP (NN mod_reqtimeout) (NN configuration) (NN RequestReadTimeout) (NN header)) (NP (NP (UCP (ADJP (JJ =) (NP-TMP (CD 10-20))) (, ,) (NP (NP (NN MinRate)) (NP (NP (ADJP (JJ =) (NP-TMP (CD 500))) (NN body)) (ADJP (JJ =) (NP-TMP (CD 10-20))))) (, ,)) (NN MinRate)) (ADJP (JJ =) (NP-TMP (CD 500))))))
+
+root(ROOT-0, header-4)
+nn(header-4, mod_reqtimeout-1)
+nn(header-4, configuration-2)
+nn(header-4, RequestReadTimeout-3)
+amod(MinRate-15, =-5)
+tmod(=-5, 10-20-6)
+dep(=-5, MinRate-8)
+amod(body-11, =-9)
+tmod(=-9, 500-10)
+dep(MinRate-8, body-11)
+amod(body-11, =-12)
+tmod(=-12, 10-20-13)
+dep(header-4, MinRate-15)
+amod(MinRate-15, =-16)
+tmod(=-16, 500-17)
+
+ModSecurity/NNP 2.5.13/CD is/VBZ also/RB configured/VBN ./. 
+
+(ROOT (S (NP (NNP ModSecurity) (CD 2.5.13)) (VP (VBZ is) (ADVP (RB also)) (VP (VBN configured))) (. .)))
+
+root(ROOT-0, configured-5)
+nsubjpass(configured-5, ModSecurity-1)
+num(ModSecurity-1, 2.5.13-2)
+auxpass(configured-5, is-3)
+advmod(configured-5, also-4)
+
+Apache/NNP debug/VB logs/NNS show/VBP that/IN incoming/JJ requests/NNS time/NN out/RP :/: 
+
+(ROOT (S (SBAR (S (NP (NNP Apache)) (VP (VB debug)))) (NP (NNS logs)) (VP (VBP show) (PP (IN that) (NP (JJ incoming) (NNS requests) (NN time))) (ADVP (RP out))) (: :)))
+
+root(ROOT-0, show-4)
+nsubj(debug-2, Apache-1)
+advcl(show-4, debug-2)
+nsubj(show-4, logs-3)
+amod(time-8, incoming-6)
+nn(time-8, requests-7)
+prep_that(show-4, time-8)
+advmod(show-4, out-9)
+
+[/-LRB- Tue/NNP Apr/NNP 19/CD 08:55:09/CD 2011/CD ]/-RRB- [/-LRB- info/NN ]/-RRB- [/-LRB- client/NN 5.6.7.8/CD ]/-RRB- Request/NNP header/NN read/VBD timeout/NN [/-LRB- Tue/NN Apr/NN 19/CD 08:55:09/CD 2011/CD ]/-RRB- [/-LRB- error/NN ]/-RRB- [/-LRB- client/NN 5.6.7.8/CD ]/-RRB- request/NN failed/VBD :/: error/NN reading/VBG the/DT headers/NNS 
+
+(ROOT (S (NP (-LRB- -LSB-) (NNP Tue) (NNP Apr) (CD 19) (CD 08:55:09) (CD 2011) (-RRB- -RSB-) (-LRB- -LSB-) (NN info) (-RRB- -RSB-) (-LRB- -LSB-) (NN client) (CD 5.6.7.8) (-RRB- -RSB-) (NNP Request) (NN header)) (VP (VBD read) (SBAR (S (NP (NN timeout) (-LRB- -LSB-) (NN Tue) (NN Apr) (CD 19) (CD 08:55:09) (CD 2011) (-RRB- -RSB-) (-LRB- -LSB-) (NN error) (-RRB- -RSB-) (-LRB- -LSB-) (NN client) (CD 5.6.7.8) (-RRB- -RSB-) (NN request)) (VP (VBD failed) (: :) (S (NP (NN error)) (VP (VBG reading) (NP (DT the) (NNS headers))))))))))
+
+root(ROOT-0, read-17)
+punct(header-16, -LSB--1)
+nn(header-16, Tue-2)
+nn(header-16, Apr-3)
+num(header-16, 19-4)
+num(header-16, 08:55:09-5)
+num(header-16, 2011-6)
+punct(header-16, -RSB--7)
+punct(header-16, -LSB--8)
+nn(header-16, info-9)
+punct(header-16, -RSB--10)
+punct(header-16, -LSB--11)
+nn(header-16, client-12)
+num(header-16, 5.6.7.8-13)
+punct(header-16, -RSB--14)
+nn(header-16, Request-15)
+nsubj(read-17, header-16)
+nn(request-33, timeout-18)
+punct(request-33, -LSB--19)
+nn(request-33, Tue-20)
+nn(request-33, Apr-21)
+num(request-33, 19-22)
+num(request-33, 08:55:09-23)
+num(request-33, 2011-24)
+punct(request-33, -RSB--25)
+punct(request-33, -LSB--26)
+nn(request-33, error-27)
+punct(request-33, -RSB--28)
+punct(request-33, -LSB--29)
+nn(request-33, client-30)
+num(request-33, 5.6.7.8-31)
+punct(request-33, -RSB--32)
+nsubj(failed-34, request-33)
+ccomp(read-17, failed-34)
+nsubj(reading-37, error-36)
+parataxis(failed-34, reading-37)
+det(headers-39, the-38)
+dobj(reading-37, headers-39)
+
+OR/NN 
+
+(ROOT (NP (NN OR)))
+
+root(ROOT-0, OR-1)
+
+[/-LRB- Tue/NNP Apr/NNP 19/CD 09:01:20/CD 2011/CD ]/-RRB- [/-LRB- info/NN ]/-RRB- [/-LRB- client/NN 5.6.7.8/CD ]/-RRB- Request/NNP body/NN read/VBD timeout/NN 
+
+(ROOT (S (NP (-LRB- -LSB-) (NNP Tue) (NNP Apr) (CD 19) (CD 09:01:20) (CD 2011) (-RRB- -RSB-) (-LRB- -LSB-) (NN info) (-RRB- -RSB-) (-LRB- -LSB-) (NN client) (CD 5.6.7.8) (-RRB- -RSB-) (NNP Request) (NN body)) (VP (VBD read) (NP (NN timeout)))))
+
+root(ROOT-0, read-17)
+punct(body-16, -LSB--1)
+nn(body-16, Tue-2)
+nn(body-16, Apr-3)
+num(body-16, 19-4)
+num(body-16, 09:01:20-5)
+num(body-16, 2011-6)
+punct(body-16, -RSB--7)
+punct(body-16, -LSB--8)
+nn(body-16, info-9)
+punct(body-16, -RSB--10)
+punct(body-16, -LSB--11)
+nn(body-16, client-12)
+num(body-16, 5.6.7.8-13)
+punct(body-16, -RSB--14)
+nn(body-16, Request-15)
+nsubj(read-17, body-16)
+dobj(read-17, timeout-18)
+
+--/: 
+
+(ROOT (NP (: --)))
+
+
+Thanks/NNS !/. 
+
+(ROOT (NP (NNS Thanks) (. !)))
+
+root(ROOT-0, Thanks-1)
+

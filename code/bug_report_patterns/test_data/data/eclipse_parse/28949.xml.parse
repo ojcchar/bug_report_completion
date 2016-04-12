@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>28949</id>
+	<title>[find/replace] retain caps when replacing</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">often it happens that you want to change a word that appears throughout the 
+code (or documentation) in different caps, an example:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">MyWord word = null;
+MyWord currentWord = null;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">when performing a replace now, say, "word" by "phrase", you get:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Myphrase phrase = null;
+Myphrase currentphrase = null;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This is definitely not what you'd like it to become...
+When using case sensitive replacement, the second 'word' does not get replaced, 
+resulting in the following piece of code:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">MyPhrase word = null;
+MyPhrase currentPhrase = null;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I'd like to see a 'retain-caps-while-replacing option' that cause that replaces 
+the first character's caps of the replacing word if required; if the first 
+letter of the substring to be replaced is a capital, then make the first 
+character of the replacing string a capital, if it is a smallcap, make it a 
+smallcap.</sentence>
+			<sentence id="7.2">This results in the desired piece of code:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">MyPhrase phrase = null;
+MyPhrase currentPhrase = null;</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">remark: the second 'word' has been replaced by 'phrase' as we hoped it to be.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">thanks!</sentence>
+		</paragraph>
+	</description>
+</bug>

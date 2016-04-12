@@ -1,0 +1,128 @@
+User-Agent/NNP :/: Mozilla/4/NN .0/NN (/-LRB- compatible/JJ ;/: MSIE/NN 8.0/CD ;/: Windows/NNP NT/NNP 6.1/CD ;/: Trident/4/NN .0/NN ;/: SLCC2/NN ;/: ./. 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NN Mozilla/4) (NN .0)) (-LRB- -LRB-) (NP (NP (NP (JJ compatible)) (: ;) (NP (NN MSIE) (CD 8.0))) (: ;) (NP (NP (NNP Windows) (NNP NT)) (NP (CD 6.1))) (: ;) (NP (NP (NN Trident/4) (NN .0)) (: ;) (NP (NN SLCC2)))) (: ;)) (. .)))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/4-3)
+dep(User-Agent-1, .0-4)
+dep(.0-4, compatible-6)
+dep(compatible-6, MSIE-8)
+num(MSIE-8, 8.0-9)
+nn(NT-12, Windows-11)
+dep(compatible-6, NT-12)
+dep(NT-12, 6.1-13)
+nn(.0-16, Trident/4-15)
+dep(compatible-6, .0-16)
+dep(.0-16, SLCC2-18)
+
+NET/NNP CLR/NNP 2.0.50727/CD ;/: ./. 
+
+(ROOT (NP (NP (NP (NNP NET)) (SBAR (S (NP (NP (NNP CLR)) (NP (QP (CD 2.0.50727))) (: ;))))) (. .)))
+
+root(ROOT-0, NET-1)
+rcmod(NET-1, CLR-2)
+dep(CLR-2, 2.0.50727-3)
+
+NET/NNP CLR/NNP 3.5.30729/CD ;/: ./. 
+
+(ROOT (NP (NP (NP (NNP NET)) (SBAR (S (NP (NP (NNP CLR)) (NP (QP (CD 3.5.30729))) (: ;))))) (. .)))
+
+root(ROOT-0, NET-1)
+rcmod(NET-1, CLR-2)
+dep(CLR-2, 3.5.30729-3)
+
+NET/NNP CLR/NNP 3.0.30729/CD ;/: Media/NNP Center/NNP PC/NNP 6.0/CD ;/: InfoPath/NNP .2/NN )/-RRB- Build/VBP Identifier/NNP :/: 
+
+(ROOT (NP (NP (NP (NP (NNP NET) (NNP CLR)) (NP (CD 3.0.30729))) (: ;) (NP (NP (NNP Media) (NNP Center) (NNP PC)) (SBAR (S (NP (NP (CD 6.0)) (: ;) (NP (NNP InfoPath) (NN .2)) (-RRB- -RRB-)) (VP (VBP Build) (NP (NNP Identifier))))))) (: :)))
+
+root(ROOT-0, CLR-2)
+nn(CLR-2, NET-1)
+dep(CLR-2, 3.0.30729-3)
+nn(PC-7, Media-5)
+nn(PC-7, Center-6)
+dep(CLR-2, PC-7)
+nsubj(Build-13, 6.0-8)
+nn(.2-11, InfoPath-10)
+dep(6.0-8, .2-11)
+rcmod(PC-7, Build-13)
+dobj(Build-13, Identifier-14)
+
+input/NN nothing/NN in/IN the/DT Unverified/NNP Task/NNP Info/NNP page/NN and/CC click/VB "/`` edit/VB "/'' it/PRP will/MD exception/NN occur/VB 
+
+(ROOT (S (NP (NP (NN input) (NN nothing)) (PP (IN in) (NP (NP (DT the) (NNP Unverified) (NNP Task) (NNP Info) (NN page)) (CC and) (S (VP (VB click) (VP (`` ``) (VB edit) ('' '') (NP (PRP it)))))))) (VP (MD will) (ADVP (NN exception)) (VP (VB occur)))))
+
+root(ROOT-0, occur-17)
+nn(nothing-2, input-1)
+nsubj(occur-17, nothing-2)
+det(page-8, the-4)
+nn(page-8, Unverified-5)
+nn(page-8, Task-6)
+nn(page-8, Info-7)
+prep_in(nothing-2, page-8)
+prep_in(nothing-2, click-10)
+conj_and(page-8, click-10)
+xcomp(click-10, edit-12)
+dobj(edit-12, it-14)
+aux(occur-17, will-15)
+advmod(occur-17, exception-16)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD input/NN nothing/NN 
+
+(ROOT (NP (NP (CD 1) (NN input)) (NP (NN nothing))))
+
+root(ROOT-0, input-2)
+num(input-2, 1-1)
+dep(input-2, nothing-3)
+
+2/CD click/VBP on/IN "/`` edit/VB "/'' 
+
+(ROOT (S (NP (CD 2)) (VP (VBP click) (ADVP (IN on)) (VP (`` ``) (VB edit) ('' '')))))
+
+root(ROOT-0, click-2)
+nsubj(click-2, 2-1)
+advmod(click-2, on-3)
+dep(click-2, edit-5)
+
+Actual/JJ Results/NNS :/: exception/NN occur/VBP 
+
+(ROOT (FRAG (NP (JJ Actual) (NNS Results)) (: :) (S (NP (NN exception)) (VP (VBP occur)))))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+nsubj(occur-5, exception-4)
+dep(Results-2, occur-5)
+
+Expected/VBN Results/NNS :/: Pop/VB up/RP a/DT message/NN box/NN to/TO prompt/VB the/DT user/NN that/WDT error/NN occur/VBP ./. 
+
+(ROOT (S (VP (VBN Expected) (NP (NP (NNS Results)) (: :) (VP (VB Pop) (PRT (RP up)) (NP (DT a) (NN message) (NN box)))) (S (VP (TO to) (VP (VB prompt) (NP (NP (DT the) (NN user)) (SBAR (WHNP (WDT that)) (S (NP (NN error)) (VP (VBP occur))))))))) (. .)))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Results-2)
+dep(Results-2, Pop-4)
+prt(Pop-4, up-5)
+det(box-8, a-6)
+nn(box-8, message-7)
+dobj(Pop-4, box-8)
+aux(prompt-10, to-9)
+xcomp(Expected-1, prompt-10)
+det(user-12, the-11)
+dobj(prompt-10, user-12)
+dobj(occur-15, that-13)
+nsubj(occur-15, error-14)
+rcmod(user-12, occur-15)
+

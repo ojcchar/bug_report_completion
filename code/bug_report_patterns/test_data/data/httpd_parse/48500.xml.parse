@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>48500</id>
+	<title>mod_mbox mishandles right-click to open msg in new tab</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">(I have not tested this with trunk httpd, only the httpd running on apache.org right now.)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">To reproduce, visit</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">http://mail-archives.apache.org/mod_mbox/subversion-dev/201001.mbox/browser</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">and right-click on one of the messages (picking one at random below) to
+open it in a new tab:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">http://mail-archives.apache.org/mod_mbox/subversion-dev/201001.mbox/ajax/%3C4B42936D.10107@mark.mielke.cc%3E</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">(One of Mark Mielke's messages in the "Re: Subversion in 2010" thread.)</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The message is displayed in a horribly broken way in the browser.</sentence>
+			<sentence id="7.2">At
+the top, the browser shows a warning bar that says "This XML file does
+not appear to have any style information associated with it.</sentence>
+			<sentence id="7.3">The
+document tree is shown below."</sentence>
+			<sentence id="7.4">.</sentence>
+			<sentence id="7.5">Below that, it... shows the document
+tree, complete with angle brackets and attributes and everything.</sentence>
+			<sentence id="7.6">The
+body of the message is visible, sort of, but this is surely not the
+intended UI :-).</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Apparently, the javascript only overrides "onclick", but does not
+override "right click".</sentence>
+			<sentence id="8.2">So a regular click would be handled properly,
+but a right click to open a new window is not -- it does not execute the
+JavaScript.</sentence>
+			<sentence id="8.3">Thus the page defaults to the raw href, which is pretty
+useless without a style sheet.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I did this in Firefox 3.5.6, by the way, but I doubt the browser version
+matters.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">HTH,</sentence>
+			<sentence id="10.2">-Karl</sentence>
+		</paragraph>
+	</description>
+</bug>

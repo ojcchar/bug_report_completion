@@ -1,0 +1,150 @@
+This/DT problem/NN seems/VBZ similiar/JJ to/TO bug/NN 159938/CD ,/, however/RB there/EX is/VBZ one/CD major/JJ difference/NN ./. 
+
+(ROOT (S (S (NP (DT This) (NN problem)) (VP (VBZ seems) (NP (JJ similiar)) (PP (TO to) (NP (NN bug) (CD 159938))))) (, ,) (ADVP (RB however)) (S (NP (EX there)) (VP (VBZ is) (NP (CD one) (JJ major) (NN difference)))) (. .)))
+
+root(ROOT-0, seems-3)
+det(problem-2, This-1)
+nsubj(seems-3, problem-2)
+xcomp(seems-3, similiar-4)
+prep_to(seems-3, bug-6)
+num(bug-6, 159938-7)
+advmod(is-11, however-9)
+expl(is-11, there-10)
+parataxis(seems-3, is-11)
+num(difference-14, one-12)
+amod(difference-14, major-13)
+nsubj(is-11, difference-14)
+
+The/DT profiling/JJ output/NN does/VBZ not/RB show/VB up/RP on/IN the/DT client/NN workbench/NN ,/, however/RB ,/, the/DT output/NN is/VBZ displayed/VBN on/IN the/DT terminal/NN of/IN the/DT remote/JJ machine/NN ./. 
+
+(ROOT (S (S (NP (DT The) (JJ profiling) (NN output)) (VP (VBZ does) (RB not) (VP (VB show) (PRT (RP up)) (PP (IN on) (NP (DT the) (NN client) (NN workbench))) (, ,) (ADVP (RB however))))) (, ,) (NP (DT the) (NN output)) (VP (VBZ is) (VP (VBN displayed) (PP (IN on) (NP (NP (DT the) (NN terminal)) (PP (IN of) (NP (DT the) (JJ remote) (NN machine))))))) (. .)))
+
+root(ROOT-0, displayed-18)
+det(output-3, The-1)
+amod(output-3, profiling-2)
+nsubj(show-6, output-3)
+aux(show-6, does-4)
+neg(show-6, not-5)
+ccomp(displayed-18, show-6)
+prt(show-6, up-7)
+det(workbench-11, the-9)
+nn(workbench-11, client-10)
+prep_on(show-6, workbench-11)
+advmod(show-6, however-13)
+det(output-16, the-15)
+nsubjpass(displayed-18, output-16)
+auxpass(displayed-18, is-17)
+det(terminal-21, the-20)
+prep_on(displayed-18, terminal-21)
+det(machine-25, the-23)
+amod(machine-25, remote-24)
+prep_of(terminal-21, machine-25)
+
+The/DT profiler/NN is/VBZ behaving/VBG as/IN if/IN it/PRP was/VBD being/VBG run/VBN in/IN standalone/JJ mode/NN ./. 
+
+(ROOT (S (NP (DT The) (NN profiler)) (VP (VBZ is) (VP (VBG behaving) (SBAR (IN as) (IN if) (S (NP (PRP it)) (VP (VBD was) (VP (VBG being) (VP (VBN run) (PP (IN in) (NP (JJ standalone) (NN mode)))))))))) (. .)))
+
+root(ROOT-0, behaving-4)
+det(profiler-2, The-1)
+nsubj(behaving-4, profiler-2)
+aux(behaving-4, is-3)
+mark(run-10, as-5)
+mark(run-10, if-6)
+nsubjpass(run-10, it-7)
+aux(run-10, was-8)
+auxpass(run-10, being-9)
+advcl(behaving-4, run-10)
+amod(mode-13, standalone-12)
+prep_in(run-10, mode-13)
+
+But/CC in/IN the/DT meantime/NN the/DT client/NN workbench/NN is/VBZ waiting/VBG for/IN data/NNS from/IN the/DT server/NN ./. 
+
+(ROOT (S (CC But) (PP (IN in) (NP (DT the) (NN meantime))) (NP (DT the) (NN client) (NN workbench)) (VP (VBZ is) (VP (VBG waiting) (PP (IN for) (NP (NP (NNS data)) (PP (IN from) (NP (DT the) (NN server))))))) (. .)))
+
+root(ROOT-0, waiting-9)
+cc(waiting-9, But-1)
+det(meantime-4, the-3)
+prep_in(waiting-9, meantime-4)
+det(workbench-7, the-5)
+nn(workbench-7, client-6)
+nsubj(waiting-9, workbench-7)
+aux(waiting-9, is-8)
+prep_for(waiting-9, data-11)
+det(server-14, the-13)
+prep_from(data-11, server-14)
+
+Build/VB :/: TPTP/NN 4.2.1/CD GA/NN 
+
+(ROOT (SINV (VP (VB Build) (: :) (NP (NN TPTP))) (NP (CD 4.2.1) (NN GA))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, TPTP-3)
+num(GA-5, 4.2.1-4)
+nsubj(Build-1, GA-5)
+
+Steps/NNS to/TO reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB reproduce))) (: :)))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+
+1/LS Install/VB the/DT RAC/NN on/IN Linux390/NN machine/NN 
+
+(ROOT (NP (NP (LST (LS 1) (VB Install)) (NP (DT the) (NN RAC)) (PP (IN on) (NP (NN Linux390)))) (NP (NN machine))))
+
+root(ROOT-0, RAC-4)
+dep(RAC-4, 1-1)
+dep(1-1, Install-2)
+det(RAC-4, the-3)
+prep_on(RAC-4, Linux390-6)
+dep(RAC-4, machine-7)
+
+2/CD Enable/JJ security/NN 
+
+(ROOT (NP (NP (CD 2)) (NP (JJ Enable) (NN security))))
+
+root(ROOT-0, 2-1)
+amod(security-3, Enable-2)
+dep(2-1, security-3)
+
+3/CD Start/NNP the/DT RAC/NN 
+
+(ROOT (NP (NP (CD 3)) (NP (NNP Start)) (NP (DT the) (NN RAC))))
+
+root(ROOT-0, 3-1)
+appos(3-1, Start-2)
+det(RAC-4, the-3)
+dep(3-1, RAC-4)
+
+4/CD Try/VB to/TO profile/VB a/DT simple/JJ java/NN application/NN (/-LRB- InOut.java/NN )/-RRB- from/IN the/DT workbench/NN 
+
+(ROOT (FRAG (NP (CD 4)) (VP (VB Try) (S (VP (TO to) (VP (VB profile) (NP (NP (DT a) (JJ simple) (NN java) (NN application)) (PRN (-LRB- -LRB-) (NP (NN InOut.java)) (-RRB- -RRB-))) (PP (IN from) (NP (DT the) (NN workbench)))))))))
+
+root(ROOT-0, 4-1)
+dep(4-1, Try-2)
+aux(profile-4, to-3)
+xcomp(Try-2, profile-4)
+det(application-8, a-5)
+amod(application-8, simple-6)
+nn(application-8, java-7)
+dobj(profile-4, application-8)
+appos(application-8, InOut.java-10)
+det(workbench-14, the-13)
+prep_from(profile-4, workbench-14)
+
+Observer/NNP the/DT behaviour/NN of/IN the/DT workbench/NN and/CC the/DT server/NN 's/POS terminal/NN ./. 
+
+(ROOT (NP (NP (NNP Observer)) (NP (NP (DT the) (NN behaviour)) (PP (IN of) (NP (NP (DT the) (NN workbench)) (CC and) (NP (NP (DT the) (NN server) (POS 's)) (NN terminal))))) (. .)))
+
+root(ROOT-0, Observer-1)
+det(behaviour-3, the-2)
+dep(Observer-1, behaviour-3)
+det(workbench-6, the-5)
+prep_of(behaviour-3, workbench-6)
+det(server-9, the-8)
+poss(terminal-11, server-9)
+prep_of(behaviour-3, terminal-11)
+conj_and(workbench-6, terminal-11)
+

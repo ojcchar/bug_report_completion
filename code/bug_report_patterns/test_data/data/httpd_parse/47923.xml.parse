@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>47923</id>
+	<title>Apache 2.2.11 mod_proxy_balancer looses stickiness if a subdirectory is proxied to backend</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The stickiness of mod_proxy_balancer works fine, if all content is proxied to backend.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;Proxy balancer://mycluster&gt;
+BalancerMember http://160.50.216.29:3080 route=0
+BalancerMember http://160.50.216.28:3080 route=1
+&lt;/Proxy&gt;
+ProxyPass / balancer://mycluster/ stickysession=JSESSIONID|jsessionid nofailover=Off</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">If I try to proxy only a specified subdirectory, the stickiness cannot be preserved.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&lt;Proxy balancer://mycluster/subdir&gt;
+BalancerMember http://160.50.216.29:3080 route=0
+BalancerMember http://160.50.216.28:3080 route=1
+&lt;/Proxy&gt;
+ProxyPass / balancer://mycluster/subdir stickysession=JSESSIONID|jsessionid  nofailover=Off</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">There aren't any error entries in log files.</sentence>
+		</paragraph>
+	</description>
+</bug>

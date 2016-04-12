@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>453787</id>
+	<title>&lt;object&gt; with pdf inside div crashes firefox on div remove from dom/tab close/navigation (adobe 8.21 or 9.x plugin)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; hu; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The error occurs when the plugin is closing.</sentence>
+			<sentence id="2.2">The test HTML is (Info.pdf is valid, displayable, crashfree when I click on it inside firefox):</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;html&gt;
+  &lt;head&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;OBJECT DATA=".</sentence>
+			<sentence id="3.2">/info.pdf" TYPE="application/pdf" WIDTH="100%" HEIGHT="100%"&gt;
+        Please install pdf plugin or download the file... &lt;a href=".</sentence>
+			<sentence id="3.3">/info.pdf"&gt;here&lt;/a&gt;
+      &lt;/OBJECT&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Steps to Reproduce:</sentence>
+			<sentence id="5.2">1 Open the html page with the contents in the details field</sentence>
+			<sentence id="5.3">2 Navigate back/forward, or remove the div any other ways from the page.</sentence>
+			<sentence id="5.4">3 Crash.</sentence>
+			<sentence id="5.5">Actual Results:</sentence>
+			<sentence id="5.6">The crash handler appeared :)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Expected Results:  
+I expect to use the browser to look at more pdfs and maybe other websites also.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Default installation, adobe 8.21 or 9.x plugin.</sentence>
+			<sentence id="7.2">(here 8.21)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Add-ons: {CAFEEFAC-0016-0000-0003-ABCDEFFEDCBA}:6.0.03,{c45c406e-ab73-11d8-be73-000a95be3b12}:1.1.6,{972ce4c6-7e08-4474-a285-3208198ce6fd}:3.0.1
+BuildID: 2008070208
+CrashTime: 1220603121
+Email: fabalint@gmail.com
+InstallTime: 1220601266
+ProductName: Firefox
+SecondsSinceLastCrash: 849
+StartupTime: 1220603111
+Theme: classic/1.0
+UserID: ff36c4f2-3440-46dd-9614-27aa54c862f0
+Vendor: Mozilla
+Version: 3.0.1</sentence>
+		</paragraph>
+	</description>
+</bug>

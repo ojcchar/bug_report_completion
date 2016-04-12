@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>38606</id>
+	<title>List constructor with SWT.SIMPLE | SWT.MULTI style parameters behaves incorrectly (BBAWT)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If you create a list using the List(Shell, SWT.MUlTI|SWT.SIMPLE) constructor, it
+will not correctly handle events in Motif.</sentence>
+			<sentence id="1.2">In the following example, events on the list are reported to the terminal by GTK
+but NOT by Motif.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">public class SWTListTest {
+	Display display;
+	Shell shell;
+	List list;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">	public void run() {</sentence>
+			<sentence id="4.2">		display = new Display();</sentence>
+			<sentence id="4.3">		shell = new Shell(display, SWT.SHELL_TRIM);</sentence>
+			<sentence id="4.4">		shell.setSize(400,400);</sentence>
+			<sentence id="4.5">		shell.setLayout(new FillLayout());</sentence>
+			<sentence id="4.6">		list = new List(shell, SWT.MULTI | SWT.SIMPLE);</sentence>
+			<sentence id="4.7">		list.add("item 1");</sentence>
+			<sentence id="4.8">		list.add("item 2");</sentence>
+			<sentence id="4.9">		list.add("item 3");</sentence>
+			<sentence id="4.10">		Listener l = new Listener(){</sentence>
+			<sentence id="4.11">			public void handleEvent(Event event) {</sentence>
+			<sentence id="4.12">				if(event.type == SWT.Selection){</sentence>
+			<sentence id="4.13">					int selected = (list.getSelectionIndices()).length;</sentence>
+			<sentence id="4.14">					System.out.println("selected = " + selected);</sentence>
+			<sentence id="4.15">				}</sentence>
+			<sentence id="4.16">			}</sentence>
+			<sentence id="4.17">		};			</sentence>
+			<sentence id="4.18">		list.addListener(SWT.Selection, l);</sentence>
+			<sentence id="4.19">		list.addListener(SWT.DefaultSelection, l);</sentence>
+			<sentence id="4.20">		shell.open();</sentence>
+			<sentence id="4.21">		</sentence>
+			<sentence id="4.22">		while (!shell.isDisposed()) {</sentence>
+			<sentence id="4.23">			display.readAndDispatch();</sentence>
+			<sentence id="4.24">			display.sleep();</sentence>
+			<sentence id="4.25">		}</sentence>
+			<sentence id="4.26">		display.dispose();		</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">public static void main(String[] args) {
+		new SWTListTest().</sentence>
+			<sentence id="6.2">run();
+	}
+}</sentence>
+		</paragraph>
+	</description>
+</bug>

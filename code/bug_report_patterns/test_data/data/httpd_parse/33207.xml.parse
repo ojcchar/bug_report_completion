@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>33207</id>
+	<title>Results of my suexec.c code audit</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I've done a code audit of the suexec.c file just for fun.</sentence>
+			<sentence id="1.2">Here are my results:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">* you will have problems when sizeof(uid_t) &gt; sizeof(int).</sentence>
+			<sentence id="2.2">(consider 64 bit uid_t and 32 bit int; therefore don't use atoi(3).)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">* you will have problems when sizeof(gid_t) &gt; sizeof(int).</sentence>
+			<sentence id="3.2">(consider 64 bit gid_t and 32 bit int; therefore don't use atoi(3).)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">* you did not check for NULL returns of strdup.</sentence>
+			<sentence id="4.2">Fixed in the patch.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">* you had a possible ("compile time") buffer overflow.</sentence>
+			<sentence id="5.2">As long as AP_SAFE_PATH is a string literal (which it should really be),</sentence>
+			<sentence id="5.3">the patched version is faster and occupied less memory.</sentence>
+			<sentence id="5.4">Fixed in the patch.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">* you had an unused variable (main:prog) in the code.</sentence>
+			<sentence id="6.2">Fixed in the patch.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">* you are still not able to report the failure of execv to the logfile.</sentence>
+			<sentence id="7.2">See the other bug reports.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Index: suexec.c</sentence>
+			<sentence id="8.2">===================================================================</sentence>
+			<sentence id="8.3">--- suexec.c	(revision 126209)</sentence>
+			<sentence id="8.4">+++ suexec.c	(working copy)</sentence>
+			<sentence id="8.5">@@ -200,9 +200,19 @@</sentence>
+			<sentence id="8.6">return;</sentence>
+			<sentence id="8.7">}</sentence>
+			<sentence id="8.8">+static char *xstrdup(const char *s)</sentence>
+			<sentence id="8.9">+{</sentence>
+			<sentence id="8.10">+    char *result;</sentence>
+			<sentence id="8.11">+</sentence>
+			<sentence id="8.12">+    if ( (result = strdup(s)) == NULL) {</sentence>
+			<sentence id="8.13">+        log_err("out of memory\n");</sentence>
+			<sentence id="8.14">+        exit(1);</sentence>
+			<sentence id="8.15">+    }</sentence>
+			<sentence id="8.16">+    return result;</sentence>
+			<sentence id="8.17">+}</sentence>
+			<sentence id="8.18">+</sentence>
+			<sentence id="8.19">static void clean_env(void)</sentence>
+			<sentence id="8.20">{</sentence>
+			<sentence id="8.21">-    char pathbuf[512];</sentence>
+			<sentence id="8.22">char **cleanenv;</sentence>
+			<sentence id="8.23">char **ep;</sentence>
+			<sentence id="8.24">int cidx = 0;</sentence>
+			<sentence id="8.25">@@ -224,8 +234,7 @@</sentence>
+			<sentence id="8.26">exit(120);</sentence>
+			<sentence id="8.27">}</sentence>
+			<sentence id="8.28">-    sprintf(pathbuf, "PATH=%s", AP_SAFE_PATH);</sentence>
+			<sentence id="8.29">-    cleanenv[cidx] = strdup(pathbuf);</sentence>
+			<sentence id="8.30">+    cleanenv[cidx] = "PATH=" AP_SAFE_PATH;</sentence>
+			<sentence id="8.31">cidx++;</sentence>
+			<sentence id="8.32">for (ep = envp; *ep &amp;&amp; cidx &lt; AP_ENVBUF-1; ep++) {</sentence>
+			<sentence id="8.33">@@ -254,7 +263,6 @@</sentence>
+			<sentence id="8.34">char *target_homedir;   /* target home directory     */</sentence>
+			<sentence id="8.35">char *actual_uname;     /* actual user name          */</sentence>
+			<sentence id="8.36">char *actual_gname;     /* actual group name         */</sentence>
+			<sentence id="8.37">-    char *prog;             /* name of this program      */</sentence>
+			<sentence id="8.38">char *cmd;              /* command to be executed    */</sentence>
+			<sentence id="8.39">char cwd[AP_MAXPATH];   /* current working directory */</sentence>
+			<sentence id="8.40">char dwd[AP_MAXPATH];   /* docroot working directory */</sentence>
+			<sentence id="8.41">@@ -268,7 +276,6 @@</sentence>
+			<sentence id="8.42">*/</sentence>
+			<sentence id="8.43">clean_env();</sentence>
+			<sentence id="8.44">-    prog = argv[0];</sentence>
+			<sentence id="8.45">/*</sentence>
+			<sentence id="8.46">* Check existence/validity of the UID of the user</sentence>
+			<sentence id="8.47">* running this program.</sentence>
+			<sentence id="8.48">Error out if invalid.</sentence>
+			<sentence id="8.49">@@ -395,11 +402,11 @@</sentence>
+			<sentence id="8.50">exit(106);</sentence>
+			<sentence id="8.51">}</sentence>
+			<sentence id="8.52">gid = gr-&gt;gr_gid;</sentence>
+			<sentence id="8.53">-        actual_gname = strdup(gr-&gt;gr_name);</sentence>
+			<sentence id="8.54">+        actual_gname = xstrdup(gr-&gt;gr_name);</sentence>
+			<sentence id="8.55">}</sentence>
+			<sentence id="8.56">else {</sentence>
+			<sentence id="8.57">gid = atoi(target_gname);</sentence>
+			<sentence id="8.58">-        actual_gname = strdup(target_gname);</sentence>
+			<sentence id="8.59">+        actual_gname = xstrdup(target_gname);</sentence>
+			<sentence id="8.60">}</sentence>
+			<sentence id="8.61">#ifdef _OSD_POSIX</sentence>
+			<sentence id="8.62">@@ -433,8 +440,8 @@</sentence>
+			<sentence id="8.63">* Save these for later since initgroups will hose the struct</sentence>
+			<sentence id="8.64">*/</sentence>
+			<sentence id="8.65">uid = pw-&gt;pw_uid;</sentence>
+			<sentence id="8.66">-    actual_uname = strdup(pw-&gt;pw_name);</sentence>
+			<sentence id="8.67">-    target_homedir = strdup(pw-&gt;pw_dir);</sentence>
+			<sentence id="8.68">+    actual_uname = xstrdup(pw-&gt;pw_name);</sentence>
+			<sentence id="8.69">+    target_homedir = xstrdup(pw-&gt;pw_dir);</sentence>
+			<sentence id="8.70">/*</sentence>
+			<sentence id="8.71">* Log the transaction here to be sure we have an open log</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>41459</id>
+	<title>Extensive number of "HTTP spoken on HTTPS port" info messages for IPv6</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">After having migrated from Apache 2.0.x to Apache 2.2.3 (and 2.2.4), I get a lot
+of these error messages in the error log:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">---8&lt;---</sentence>
+			<sentence id="2.2">[Mon Jan 22 01:02:13 2007] [info] [client 2001:6b0:b:2::27] Connection to child</sentence>
+			<sentence id="2.3">12 established (server www.anst.uu.se:443)</sentence>
+			<sentence id="2.4">[Mon Jan 22 01:02:13 2007] [info] Seeding PRNG with 136 bytes of entropy</sentence>
+			<sentence id="2.5">[Mon Jan 22 01:02:13 2007] [info] [client 2001:6b0:b:2::27] SSL handshake</sentence>
+			<sentence id="2.6">failed: HTTP spoken on HTTPS port; trying to send HTML error page</sentence>
+			<sentence id="2.7">[Mon Jan 22 01:02:13 2007] [info] SSL Library Error: 336027804</sentence>
+			<sentence id="2.8">error:1407609C:lib(20):func(118):reason(156)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">[Mon Jan 22 01:02:14 2007] [info] [client 2001:6b0:b:2::27] Connection to child</sentence>
+			<sentence id="3.2">2 established (server www.anst.uu.se:443)</sentence>
+			<sentence id="3.3">[Mon Jan 22 01:02:14 2007] [info] Seeding PRNG with 136 bytes of entropy</sentence>
+			<sentence id="3.4">[Mon Jan 22 01:02:14 2007] [info] [client 2001:6b0:b:2::27] SSL handshake</sentence>
+			<sentence id="3.5">failed: HTTP spoken on HTTPS port; trying to send HTML error page</sentence>
+			<sentence id="3.6">[Mon Jan 22 01:02:14 2007] [info] SSL Library Error: 336027804</sentence>
+			<sentence id="3.7">error:1407609C:lib(20):func(118):reason(156)</sentence>
+			<sentence id="3.8">---&gt;8---</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">...where the server appears to connect to its own IPv6 address and apparently
+attempts to speak HTTP to the HTTPS port.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The access log shows:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">---8&lt;---</sentence>
+			<sentence id="6.2">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:12 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.3">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:13 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.4">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:14 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.5">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:15 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.6">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:16 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.7">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:17 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.8">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:18 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.9">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:19 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.10">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:21 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.11">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:22 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.12">2001:6b0:b:2::27 - - [22/Jan/2007:01:02:23 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.13">2001:6b0:b:2::27 - - [22/Jan/2007:09:46:32 +0100] "GET /" 400 571 "-" "-" "-"</sentence>
+			<sentence id="6.14">---&gt;8---</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">On a busy server, I get a lot of these after reloading, restarting or starting
+the server, but also during normal operation.</sentence>
+			<sentence id="7.2">And they usually come in "chunks"
+like this.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">What could be the reason for this?</sentence>
+		</paragraph>
+	</description>
+</bug>

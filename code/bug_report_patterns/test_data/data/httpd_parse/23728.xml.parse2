@@ -1,0 +1,810 @@
+Hi/NN ,/, 
+
+(ROOT (FRAG (PP (NN Hi)) (, ,)))
+
+root(ROOT-0, Hi-1)
+
+Summary/NNP :/: 
+
+(ROOT (NP (NNP Summary) (: :)))
+
+root(ROOT-0, Summary-1)
+
+I/PRP wish/VBP to/TO build/VB Apache/NNP 2.0.47/CD for/IN Red/NNP Hat/NNP 9/CD as/IN it/PRP contains/VBZ mod_ldap/NN and/CC mod_auth_ldap/NN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP wish) (S (VP (TO to) (VP (VB build) (NP (NP (NNP Apache) (CD 2.0.47)) (PP (IN for) (NP (NNP Red) (NNP Hat) (CD 9)))) (SBAR (IN as) (S (NP (PRP it)) (VP (VBZ contains) (NP (NN mod_ldap) (CC and) (NN mod_auth_ldap))))))))) (. .)))
+
+root(ROOT-0, wish-2)
+nsubj(wish-2, I-1)
+aux(build-4, to-3)
+xcomp(wish-2, build-4)
+dobj(build-4, Apache-5)
+num(Apache-5, 2.0.47-6)
+nn(Hat-9, Red-8)
+prep_for(Apache-5, Hat-9)
+num(Hat-9, 9-10)
+mark(contains-13, as-11)
+nsubj(contains-13, it-12)
+advcl(build-4, contains-13)
+dobj(contains-13, mod_ldap-14)
+dobj(contains-13, mod_auth_ldap-16)
+conj_and(mod_ldap-14, mod_auth_ldap-16)
+
+I/PRP initially/RB tried/VBD to/TO simply/RB :/: 
+
+(ROOT (S (NP (PRP I)) (ADVP (RB initially)) (VP (VBD tried) (PP (TO to) (ADVP (RB simply)))) (: :)))
+
+root(ROOT-0, tried-3)
+nsubj(tried-3, I-1)
+advmod(tried-3, initially-2)
+prep(tried-3, to-4)
+pcomp(to-4, simply-5)
+
+rpmbuild/NN -/: ta/NN httpd-2/NN .0.47/CD ./. 
+
+(ROOT (NP (NP (NN rpmbuild)) (: -) (NP (NP (NN ta) (NN httpd-2)) (NP (CD .0.47))) (. .)))
+
+root(ROOT-0, rpmbuild-1)
+nn(httpd-2-4, ta-3)
+dep(rpmbuild-1, httpd-2-4)
+dep(httpd-2-4, .0.47-5)
+
+tar.gz/IN 
+
+(ROOT (PP (IN tar.gz)))
+
+root(ROOT-0, tar.gz-1)
+
+but/CC this/DT does/VBZ not/RB work/VB as/IN db3-devel/NN is/VBZ required/VBN but/CC Red/JJ Hat/NN has/VBZ moved/VBN on/IN ,/, it/PRP seems/VBZ ,/, and/CC now/RB only/RB db4-devel/JJ is/VBZ available/JJ ./. 
+
+(ROOT (S (CC but) (S (NP (DT this)) (VP (VBZ does) (RB not) (VP (VB work) (SBAR (IN as) (S (NP (NN db3-devel)) (VP (VBZ is) (VP (VBN required) (SBAR (CC but) (S (NP (JJ Red) (NN Hat)) (VP (VBZ has) (VP (VBN moved) (PP (IN on))))))))))))) (PRN (, ,) (S (NP (PRP it)) (VP (VBZ seems))) (, ,)) (CC and) (ADVP (RB now)) (S (NP (RB only) (JJ db4-devel)) (VP (VBZ is) (ADJP (JJ available)))) (. .)))
+
+root(ROOT-0, work-5)
+nsubj(work-5, this-2)
+aux(work-5, does-3)
+neg(work-5, not-4)
+mark(required-9, as-6)
+nsubjpass(required-9, db3-devel-7)
+auxpass(required-9, is-8)
+advcl(work-5, required-9)
+cc(moved-14, but-10)
+amod(Hat-12, Red-11)
+nsubj(moved-14, Hat-12)
+aux(moved-14, has-13)
+ccomp(required-9, moved-14)
+prep(moved-14, on-15)
+nsubj(seems-18, it-17)
+dep(work-5, seems-18)
+advmod(available-25, now-21)
+advmod(db4-devel-23, only-22)
+nsubj(available-25, db4-devel-23)
+cop(available-25, is-24)
+conj_and(work-5, available-25)
+
+I/PRP edited/VBD the/DT httpd.spec/NN to/TO reflect/VB this/DT and/CC it/PRP proceeded/VBD to/TO build/VB the/DT package/NN with/IN "/`` rpmbuild/NN -/: ba/NN httpd.spec/NN "/'' from/IN within/IN the/DT source/NN tree/NN ./. 
+
+(ROOT (S (S (NP (PRP I)) (VP (VBD edited) (NP (DT the) (NN httpd.spec) (S (VP (TO to) (VP (VB reflect) (NP (DT this)))))))) (CC and) (S (NP (PRP it)) (VP (VBD proceeded) (S (VP (TO to) (VP (VB build) (NP (DT the) (NN package)) (PP (IN with) (NP (`` ``) (NP (NN rpmbuild)) (: -) (NP (NN ba) (NN httpd.spec)) ('' '') (PP (IN from) (PP (IN within) (NP (DT the) (NN source) (NN tree))))))))))) (. .)))
+
+root(ROOT-0, edited-2)
+nsubj(edited-2, I-1)
+det(httpd.spec-4, the-3)
+dobj(edited-2, httpd.spec-4)
+aux(reflect-6, to-5)
+vmod(httpd.spec-4, reflect-6)
+dobj(reflect-6, this-7)
+nsubj(proceeded-10, it-9)
+conj_and(edited-2, proceeded-10)
+aux(build-12, to-11)
+xcomp(proceeded-10, build-12)
+det(package-14, the-13)
+dobj(build-12, package-14)
+prep_with(build-12, rpmbuild-17)
+nn(httpd.spec-20, ba-19)
+dep(rpmbuild-17, httpd.spec-20)
+prep(rpmbuild-17, from-22)
+pcomp(from-22, within-23)
+det(tree-26, the-24)
+nn(tree-26, source-25)
+pobj(within-23, tree-26)
+
+Then/RB when/WRB it/PRP was/VBD putting/VBG together/RP the/DT file/NN list/NN the/DT following/NN was/VBD printed/VBN out/RP :/: 
+
+(ROOT (S (RB Then) (ADVP (WRB when)) (NP (PRP it)) (VP (VBD was) (VP (VBG putting) (PRT (RP together)) (NP (NP (DT the) (NN file) (NN list)) (SBAR (S (NP (DT the) (NN following)) (VP (VBD was) (VP (VBN printed) (PRT (RP out))))))))) (: :)))
+
+root(ROOT-0, putting-5)
+advmod(putting-5, Then-1)
+advmod(putting-5, when-2)
+nsubj(putting-5, it-3)
+aux(putting-5, was-4)
+prt(putting-5, together-6)
+det(list-9, the-7)
+nn(list-9, file-8)
+dobj(putting-5, list-9)
+det(following-11, the-10)
+nsubjpass(printed-13, following-11)
+auxpass(printed-13, was-12)
+rcmod(list-9, printed-13)
+prt(printed-13, out-14)
+
+error/NN :/: Installed/VBN (/-LRB- but/CC unpackaged/JJ )/-RRB- file/NN (/-LRB- s/NNS )/-RRB- found/VBN :/: //: usr/lib/libapr/JJ -0/CD ./. 
+
+(ROOT (S (VP (NP (NP (NN error)) (PRN (: :) (VP (VBN Installed) (PRN (-LRB- -LRB-) (PP (CC but) (NP (JJ unpackaged))) (-RRB- -RRB-)) (SBAR (WHNP (NP (NN file)) (PRN (-LRB- -LRB-) (NP (NNS s)) (-RRB- -RRB-))) (S (VP (VBN found))))) (: :))) (PRN (: /) (NP (NP (JJ usr/lib/libapr)) (NP (CD -0))))) (. .)))
+
+root(ROOT-0, error-1)
+dep(error-1, Installed-3)
+dep(Installed-3, but-5)
+pobj(but-5, unpackaged-6)
+nsubj(found-12, file-8)
+appos(file-8, s-10)
+ccomp(Installed-3, found-12)
+punct(usr/lib/libapr-15, /-14)
+dep(error-1, usr/lib/libapr-15)
+dep(usr/lib/libapr-15, -0-16)
+
+a/DT //: usr/lib/libapr/JJ -0/CD ./. 
+
+(ROOT (FRAG (FRAG (DT a)) (: /) (FRAG (ADJP (JJ usr/lib/libapr) (NP-TMP (CD -0))) (. .))))
+
+root(ROOT-0, a-1)
+punct(a-1, /-2)
+dep(a-1, usr/lib/libapr-3)
+tmod(usr/lib/libapr-3, -0-4)
+
+la/DT //: usr/lib/libaprutil/NN -0/CD ./. 
+
+(ROOT (FRAG (NP (DT la)) (: /) (FRAG (NP (NN usr/lib/libaprutil)) (NP (CD -0))) (. .)))
+
+root(ROOT-0, la-1)
+punct(la-1, /-2)
+dep(la-1, usr/lib/libaprutil-3)
+dep(usr/lib/libaprutil-3, -0-4)
+
+a/DT //: usr/lib/libaprutil/NN -0/CD ./. 
+
+(ROOT (FRAG (NP (DT a)) (: /) (FRAG (NP (NN usr/lib/libaprutil)) (NP (CD -0))) (. .)))
+
+root(ROOT-0, a-1)
+punct(a-1, /-2)
+dep(a-1, usr/lib/libaprutil-3)
+dep(usr/lib/libaprutil-3, -0-4)
+
+la/DT //: usr/share/man/JJ //: man8/apachectl/NN .8/CD ./. 
+
+(ROOT (NP (NP (NP (DT la)) (PRN (: /) (ADJP (JJ usr/share/man)) (: /))) (NP (NP (NN man8/apachectl)) (NP (CD .8))) (. .)))
+
+root(ROOT-0, la-1)
+punct(usr/share/man-3, /-2)
+dep(la-1, usr/share/man-3)
+punct(usr/share/man-3, /-4)
+dep(la-1, man8/apachectl-5)
+dep(man8/apachectl-5, .8-6)
+
+gz/NN //: usr/share/man/JJ //: man8/httpd/NN .8/CD ./. 
+
+(ROOT (NP (NP (NP (NN gz)) (PRN (: /) (ADJP (JJ usr/share/man)) (: /))) (NP (NP (NN man8/httpd)) (NP (CD .8))) (. .)))
+
+root(ROOT-0, gz-1)
+punct(usr/share/man-3, /-2)
+dep(gz-1, usr/share/man-3)
+punct(usr/share/man-3, /-4)
+dep(gz-1, man8/httpd-5)
+dep(man8/httpd-5, .8-6)
+
+gz/NN //: var/www/error/NN //: README/NNP 
+
+(ROOT (NP (NP (NN gz)) (PRN (: /) (NP (NN var/www/error)) (: /)) (NP (NNP README))))
+
+root(ROOT-0, gz-1)
+punct(var/www/error-3, /-2)
+dep(gz-1, var/www/error-3)
+punct(var/www/error-3, /-4)
+dep(gz-1, README-5)
+
+RPM/NNP build/VB errors/NNS :/: File/VB listed/VBN twice/RB :/: //: etc/httpd/conf/FW //: ssl.conf/NN Installed/VBN (/-LRB- but/CC unpackaged/JJ )/-RRB- file/NN (/-LRB- s/NNS )/-RRB- found/VBN :/: //: usr/lib/libapr/JJ -0/CD ./. 
+
+(ROOT (S (NP (NNP RPM)) (VP (VB build) (NP (NP (NNS errors)) (PRN (: :) (S (VP (VB File) (VP (VBN listed) (FRAG (ADVP (RB twice) (: :)))))) (: /)) (SBAR (S (VP (NP (NP (FW etc/httpd/conf)) (PRN (: /) (NP (NP (NN ssl.conf)) (VP (VBN Installed) (PRN (-LRB- -LRB-) (PP (CC but) (NP (JJ unpackaged))) (-RRB- -RRB-)) (SBAR (WHNP (NP (NN file)) (PRN (-LRB- -LRB-) (NP (NNS s)) (-RRB- -RRB-))) (S (VP (VBN found)))))) (: :))) (PRN (: /) (NP (NP (JJ usr/lib/libapr)) (NP (CD -0))))))))) (. .)))
+
+root(ROOT-0, build-2)
+nsubj(build-2, RPM-1)
+dobj(build-2, errors-3)
+dep(errors-3, File-5)
+dep(File-5, listed-6)
+dep(listed-6, twice-7)
+punct(File-5, /-9)
+rcmod(errors-3, etc/httpd/conf-10)
+punct(ssl.conf-12, /-11)
+dep(etc/httpd/conf-10, ssl.conf-12)
+vmod(ssl.conf-12, Installed-13)
+dep(Installed-13, but-15)
+pobj(but-15, unpackaged-16)
+nsubj(found-22, file-18)
+appos(file-18, s-20)
+ccomp(Installed-13, found-22)
+punct(usr/lib/libapr-25, /-24)
+dep(etc/httpd/conf-10, usr/lib/libapr-25)
+dep(usr/lib/libapr-25, -0-26)
+
+a/DT //: usr/lib/libapr/JJ -0/CD ./. 
+
+(ROOT (FRAG (FRAG (DT a)) (: /) (FRAG (ADJP (JJ usr/lib/libapr) (NP-TMP (CD -0))) (. .))))
+
+root(ROOT-0, a-1)
+punct(a-1, /-2)
+dep(a-1, usr/lib/libapr-3)
+tmod(usr/lib/libapr-3, -0-4)
+
+la/DT //: usr/lib/libaprutil/NN -0/CD ./. 
+
+(ROOT (FRAG (NP (DT la)) (: /) (FRAG (NP (NN usr/lib/libaprutil)) (NP (CD -0))) (. .)))
+
+root(ROOT-0, la-1)
+punct(la-1, /-2)
+dep(la-1, usr/lib/libaprutil-3)
+dep(usr/lib/libaprutil-3, -0-4)
+
+a/DT //: usr/lib/libaprutil/NN -0/CD ./. 
+
+(ROOT (FRAG (NP (DT a)) (: /) (FRAG (NP (NN usr/lib/libaprutil)) (NP (CD -0))) (. .)))
+
+root(ROOT-0, a-1)
+punct(a-1, /-2)
+dep(a-1, usr/lib/libaprutil-3)
+dep(usr/lib/libaprutil-3, -0-4)
+
+la/DT //: usr/share/man/JJ //: man8/apachectl/NN .8/CD ./. 
+
+(ROOT (NP (NP (NP (DT la)) (PRN (: /) (ADJP (JJ usr/share/man)) (: /))) (NP (NP (NN man8/apachectl)) (NP (CD .8))) (. .)))
+
+root(ROOT-0, la-1)
+punct(usr/share/man-3, /-2)
+dep(la-1, usr/share/man-3)
+punct(usr/share/man-3, /-4)
+dep(la-1, man8/apachectl-5)
+dep(man8/apachectl-5, .8-6)
+
+gz/NN //: usr/share/man/JJ //: man8/httpd/NN .8/CD ./. 
+
+(ROOT (NP (NP (NP (NN gz)) (PRN (: /) (ADJP (JJ usr/share/man)) (: /))) (NP (NP (NN man8/httpd)) (NP (CD .8))) (. .)))
+
+root(ROOT-0, gz-1)
+punct(usr/share/man-3, /-2)
+dep(gz-1, usr/share/man-3)
+punct(usr/share/man-3, /-4)
+dep(gz-1, man8/httpd-5)
+dep(man8/httpd-5, .8-6)
+
+gz/NN //: var/www/error/NN //: README/NNP 
+
+(ROOT (NP (NP (NN gz)) (PRN (: /) (NP (NN var/www/error)) (: /)) (NP (NNP README))))
+
+root(ROOT-0, gz-1)
+punct(var/www/error-3, /-2)
+dep(gz-1, var/www/error-3)
+punct(var/www/error-3, /-4)
+dep(gz-1, README-5)
+
+Here/RB is/VBZ a/DT diff/NN (/-LRB- diff/NN -/: u/NN )/-RRB- of/IN the/DT changes/NNS I/PRP had/VBD to/TO make/VB to/TO get/VB it/PRP to/TO build/VB :/: 
+
+(ROOT (SINV (ADVP (RB Here)) (VP (VBZ is)) (NP (NP (NP (DT a) (NN diff)) (PRN (-LRB- -LRB-) (NP (NP (NN diff)) (: -) (NP (NN u))) (-RRB- -RRB-))) (PP (IN of) (NP (NP (DT the) (NNS changes)) (SBAR (S (NP (PRP I)) (VP (VBD had) (S (VP (TO to) (VP (VB make) (S (VP (TO to) (VP (VB get) (S (NP (PRP it)) (VP (TO to) (VP (VB build)))))))))))))))) (: :)))
+
+root(ROOT-0, is-2)
+advmod(is-2, Here-1)
+det(diff-4, a-3)
+nsubj(is-2, diff-4)
+dep(diff-4, diff-6)
+dep(diff-6, u-8)
+det(changes-12, the-11)
+prep_of(diff-4, changes-12)
+nsubj(had-14, I-13)
+rcmod(changes-12, had-14)
+aux(make-16, to-15)
+xcomp(had-14, make-16)
+aux(get-18, to-17)
+xcomp(make-16, get-18)
+dobj(get-18, it-19)
+aux(build-21, to-20)
+xcomp(get-18, build-21)
+
+--/: httpd.spec/NN 2003-07-07/CD 15:52:14.000000000/CD +0100/CD 
+
+(ROOT (PRN (: --) (NP (NP (NN httpd.spec) (CD 2003-07-07)) (NP (CD 15:52:14.000000000) (CD +0100)))))
+
+root(ROOT-0, httpd.spec-2)
+num(httpd.spec-2, 2003-07-07-3)
+num(+0100-5, 15:52:14.000000000-4)
+dep(httpd.spec-2, +0100-5)
+
++/CC +/CC +/CC //: tmp/httpd/NN ./. 
+
+(ROOT (S (NP (CC +)) (VP (NP (NP (CC +) (CC +)) (PRN (: /) (NP (NN tmp/httpd))))) (. .)))
+
+root(ROOT-0, +-2)
+nsubj(+-2, +-1)
+cc(+-2, +-3)
+punct(tmp/httpd-5, /-4)
+dep(+-2, tmp/httpd-5)
+
+spec/NN 2003-10-10/CD 14:02:17.000000000/CD +0100/CD 
+
+(ROOT (NP (NP (NN spec)) (NP (NP (CD 2003-10-10)) (NP (QP (CD 14:02:17.000000000) (CD +0100))))))
+
+root(ROOT-0, spec-1)
+dep(spec-1, 2003-10-10-2)
+number(+0100-4, 14:02:17.000000000-3)
+dep(2003-10-10-2, +0100-4)
+
+@@/NN -17,7/CD +17,7/CD @@/NN 
+
+(ROOT (NP (NP (NN @@)) (NP (CD -17,7)) (NP (CD +17,7) (NN @@))))
+
+root(ROOT-0, @@-1)
+dep(@@-1, -17,7-2)
+num(@@-4, +17,7-3)
+dep(@@-1, @@-4)
+
+License/NN :/: Apache/NNP Software/NNP License/NNP 
+
+(ROOT (NP (NP (NN License)) (: :) (NP (NNP Apache) (NNP Software) (NNP License))))
+
+root(ROOT-0, License-1)
+nn(License-5, Apache-3)
+nn(License-5, Software-4)
+dep(License-1, License-5)
+
+Group/NNP :/: System/NNP Environment/Daemons/NNP 
+
+(ROOT (NP (NP (NNP Group)) (: :) (NP (NNP System) (NNP Environment/Daemons))))
+
+root(ROOT-0, Group-1)
+nn(Environment/Daemons-4, System-3)
+dep(Group-1, Environment/Daemons-4)
+
+BuildRoot/NNP :/: %/NN {/-LRB- _/NN tmppath/NN }/-RRB- //: %/NN {/-LRB- name/NN }/-RRB- -/: root/NN 
+
+(ROOT (NP (NP (NNP BuildRoot)) (: :) (NP (NP (NP (NP (NN %)) (-LRB- -LCB-) (NP (NN _) (NN tmppath)) (-RRB- -RCB-)) (PRN (: /) (NP (NP (NN %)) (NP (-LRB- -LCB-) (NN name) (-RRB- -RCB-))) (: -))) (NP (NN root)))))
+
+root(ROOT-0, BuildRoot-1)
+dep(BuildRoot-1, %-3)
+nn(tmppath-6, _-5)
+dep(%-3, tmppath-6)
+punct(%-9, /-8)
+dep(%-3, %-9)
+appos(%-9, name-11)
+dep(%-3, root-14)
+
+-/: BuildPrereq/NNP :/: openldap-devel/JJ ,/, db3-devel/JJ ,/, expat-devel/JJ ,/, findutils/NNS ,/, perl/NN ,/, pkgconfig/NN 
+
+(ROOT (PRN (: -) (NP (NP (NNP BuildPrereq)) (: :) (NP (JJ openldap-devel) (, ,) (JJ db3-devel) (, ,) (JJ expat-devel) (, ,) (NNS findutils) (, ,) (NN perl) (, ,) (NN pkgconfig)))))
+
+root(ROOT-0, BuildPrereq-2)
+amod(pkgconfig-14, openldap-devel-4)
+amod(pkgconfig-14, db3-devel-6)
+amod(pkgconfig-14, expat-devel-8)
+dep(pkgconfig-14, findutils-10)
+dep(pkgconfig-14, perl-12)
+dep(BuildPrereq-2, pkgconfig-14)
+
++/CC BuildPrereq/NNP :/: openldap-devel/JJ ,/, db4-devel/JJ ,/, expat-devel/JJ ,/, findutils/NNS ,/, perl/NN ,/, pkgconfig/NN 
+
+(ROOT (S (NP (CC +)) (VP (NP (NP (NP (NNP BuildPrereq)) (PRN (: :) (NP (JJ openldap-devel))) (, ,) (NP (JJ db4-devel))) (, ,) (ADJP (JJ expat-devel))) (, ,) (NP (NP (NNS findutils) (, ,) (NN perl) (, ,)) (NN pkgconfig)))))
+
+root(ROOT-0, BuildPrereq-2)
+nsubj(BuildPrereq-2, +-1)
+dep(BuildPrereq-2, openldap-devel-4)
+appos(BuildPrereq-2, db4-devel-6)
+amod(BuildPrereq-2, expat-devel-8)
+nn(perl-12, findutils-10)
+nn(pkgconfig-14, perl-12)
+dobj(BuildPrereq-2, pkgconfig-14)
+
+Requires/VBZ :/: gawk/VB ,/, //: usr/share/magic/JJ ./. 
+
+(ROOT (FRAG (VP (VBZ Requires) (: :) (FRAG (FRAG (PP (VB gawk)) (, ,)) (: /) (FRAG (ADJP (JJ usr/share/magic)) (. .))))))
+
+root(ROOT-0, Requires-1)
+dep(Requires-1, gawk-3)
+punct(gawk-3, /-5)
+dep(gawk-3, usr/share/magic-6)
+
+mime/NN ,/, //: usr/bin/find/NN ,/, openldap/NN 
+
+(ROOT (FRAG (NP (NP (NN mime)) (, ,) (NP (: /) (NN usr/bin/find)) (, ,) (NP (NN openldap)))))
+
+root(ROOT-0, mime-1)
+punct(usr/bin/find-4, /-3)
+appos(mime-1, usr/bin/find-4)
+appos(mime-1, openldap-6)
+
+Prereq/NNP :/: //: sbin/chkconfig/NN ,/, //: bin/mktemp/NN ,/, //: bin/rm/NN ,/, //: bin/mv/NN 
+
+(ROOT (NP (NP (NNP Prereq)) (: :) (NP (NP (NP (NP (: /)) (NP (NN sbin/chkconfig)) (, ,) (PRN (: /) (NP (NN bin/mktemp)))) (, ,) (PRN (: /) (NP (NN bin/rm)))) (, ,) (PRN (: /) (NP (NN bin/mv))))))
+
+root(ROOT-0, Prereq-1)
+dep(Prereq-1, /-3)
+dep(/-3, sbin/chkconfig-4)
+punct(bin/mktemp-7, /-6)
+dep(/-3, bin/mktemp-7)
+punct(bin/rm-10, /-9)
+dep(/-3, bin/rm-10)
+punct(bin/mv-13, /-12)
+dep(/-3, bin/mv-13)
+
+Prereq/NNP :/: sh-utils/NNS ,/, textutils/NNS ,/, //: usr/sbin/useradd/NN 
+
+(ROOT (NP (NP (NNP Prereq)) (: :) (NP (NP (NNS sh-utils)) (, ,) (NP (NNS textutils)) (, ,) (PRN (: /) (NP (NN usr/sbin/useradd))))))
+
+root(ROOT-0, Prereq-1)
+dep(Prereq-1, sh-utils-3)
+appos(sh-utils-3, textutils-5)
+punct(usr/sbin/useradd-8, /-7)
+dep(sh-utils-3, usr/sbin/useradd-8)
+
+@@/NN -318,8/CD +318,8/CD @@/NN 
+
+(ROOT (NP (NP (NN @@)) (NP (CD -318,8)) (NP (CD +318,8) (NN @@))))
+
+root(ROOT-0, @@-1)
+dep(@@-1, -318,8-2)
+num(@@-4, +318,8-3)
+dep(@@-1, @@-4)
+
+%/NN {/-LRB- _/NN sbindir/NN }/-RRB- //: rotatelogs/NNS 
+
+(ROOT (NP (NP (NP (NN %)) (-LRB- -LCB-) (NP (NN _) (NN sbindir)) (-RRB- -RCB-)) (: /) (NP (NNS rotatelogs))))
+
+root(ROOT-0, %-1)
+nn(sbindir-4, _-3)
+dep(%-1, sbindir-4)
+punct(%-1, /-6)
+dep(%-1, rotatelogs-7)
+
+%/NN attr/NN (/-LRB- 4510/CD ,/, root/NN ,/, %/NN {/-LRB- suexec_caller/NN }/-RRB- )/-RRB- %/NN {/-LRB- _/NN sbindir/NN }/-RRB- //: suexec/NN 
+
+(ROOT (NP (NP (NP (NN %) (NN attr)) (PRN (-LRB- -LRB-) (NP (NP (CD 4510)) (, ,) (NP (NN root) (, ,) (NN %) (-LRB- -LCB-) (NN suexec_caller) (-RRB- -RCB-))) (-RRB- -RRB-))) (NP (NP (NP (NN %)) (-LRB- -LCB-) (NP (NN _) (NN sbindir)) (-RRB- -RCB-)) (PRN (: /) (NP (NN suexec))))))
+
+root(ROOT-0, attr-2)
+nn(attr-2, %-1)
+dep(attr-2, 4510-4)
+nn(suexec_caller-10, root-6)
+dep(suexec_caller-10, %-8)
+appos(4510-4, suexec_caller-10)
+dep(attr-2, %-13)
+nn(sbindir-16, _-15)
+dep(%-13, sbindir-16)
+punct(suexec-19, /-18)
+dep(%-13, suexec-19)
+
+-/: %/NN {/-LRB- _/NN libdir/NN }/-RRB- //: libapr-0/NN ./. 
+
+(ROOT (NP (: -) (NP (NN %)) (PRN (-LRB- -LCB-) (NP (NN _) (NN libdir)) (-RRB- -RCB-)) (PP (: /) (NP (NN libapr-0))) (. .)))
+
+root(ROOT-0, %-2)
+nn(libdir-5, _-4)
+appos(%-2, libdir-5)
+punct(libapr-0-8, /-7)
+prep(%-2, libapr-0-8)
+
+so/RB ./. 
+
+(ROOT (FRAG (ADVP (RB so)) (. .)))
+
+root(ROOT-0, so-1)
+
+*/SYM 
+
+(ROOT (X (SYM *)))
+
+root(ROOT-0, *-1)
+
+-/: %/NN {/-LRB- _/NN libdir/NN }/-RRB- //: libaprutil-0/NN ./. 
+
+(ROOT (NP (: -) (NP (NN %)) (PRN (-LRB- -LCB-) (NP (NN _) (NN libdir)) (-RRB- -RCB-)) (PP (: /) (NP (NN libaprutil-0))) (. .)))
+
+root(ROOT-0, %-2)
+nn(libdir-5, _-4)
+appos(%-2, libdir-5)
+punct(libaprutil-0-8, /-7)
+prep(%-2, libaprutil-0-8)
+
+so/RB ./. 
+
+(ROOT (FRAG (ADVP (RB so)) (. .)))
+
+root(ROOT-0, so-1)
+
+*/SYM 
+
+(ROOT (X (SYM *)))
+
+root(ROOT-0, *-1)
+
++/CC %/NN {/-LRB- _/NN libdir/NN }/-RRB- //: libapr-0/JJ */SYM 
+
+(ROOT (S (VP (CC +) (NP (NP (NP (NP (NN %)) (-LRB- -LCB-) (NP (NN _) (NN libdir)) (-RRB- -RCB-)) (PRN (: /) (NP (JJ libapr-0)))) (X (SYM *))))))
+
+root(ROOT-0, %-2)
+cc(%-2, +-1)
+nn(libdir-5, _-4)
+dep(%-2, libdir-5)
+punct(libapr-0-8, /-7)
+dep(%-2, libapr-0-8)
+dep(%-2, *-9)
+
++/CC %/NN {/-LRB- _/NN libdir/NN }/-RRB- //: libaprutil-0/JJ */SYM 
+
+(ROOT (S (VP (CC +) (NP (NP (NP (NP (NN %)) (-LRB- -LCB-) (NP (NN _) (NN libdir)) (-RRB- -RCB-)) (PRN (: /) (NP (JJ libaprutil-0)))) (X (SYM *))))))
+
+root(ROOT-0, %-2)
+cc(%-2, +-1)
+nn(libdir-5, _-4)
+dep(%-2, libdir-5)
+punct(libaprutil-0-8, /-7)
+dep(%-2, libaprutil-0-8)
+dep(%-2, *-9)
+
+%/NN dir/CD %/NN {/-LRB- _/NN libdir/NN }/-RRB- //: httpd/NN 
+
+(ROOT (NP (NP (NN %)) (NP (NP (NP (CD dir) (NN %)) (-LRB- -LCB-) (NP (NN _) (NN libdir)) (-RRB- -RCB-)) (PRN (: /) (NP (NN httpd))))))
+
+root(ROOT-0, %-1)
+num(%-3, dir-2)
+dep(%-1, %-3)
+nn(libdir-6, _-5)
+dep(%-3, libdir-6)
+punct(httpd-9, /-8)
+dep(%-3, httpd-9)
+
+%/NN dir/CD %/NN {/-LRB- _/NN libdir/NN }/-RRB- //: httpd/modules/NNS 
+
+(ROOT (NP (NP (NN %)) (NP (NP (NP (CD dir) (NN %)) (-LRB- -LCB-) (NP (NN _) (NN libdir)) (-RRB- -RCB-)) (PRN (: /) (NP (NNS httpd/modules))))))
+
+root(ROOT-0, %-1)
+num(%-3, dir-2)
+dep(%-1, %-3)
+nn(libdir-6, _-5)
+dep(%-3, libdir-6)
+punct(httpd/modules-9, /-8)
+dep(%-3, httpd/modules-9)
+
+@@/NN -333,6/CD +333,7/CD @@/NN 
+
+(ROOT (NP (NP (NN @@)) (NP (CD -333,6)) (NP (CD +333,7) (NN @@))))
+
+root(ROOT-0, @@-1)
+dep(@@-1, -333,6-2)
+num(@@-4, +333,7-3)
+dep(@@-1, @@-4)
+
+%/NN dir/CD %/NN {/-LRB- contentdir/NN }/-RRB- //: html/NN 
+
+(ROOT (FRAG (X (X (NN %)) (NP (NP (CD dir) (NN %)) (NP (-LRB- -LCB-) (NN contentdir) (-RRB- -RCB-)))) (: /) (NP (NN html))))
+
+root(ROOT-0, html-8)
+dep(%-3, %-1)
+num(%-3, dir-2)
+dep(html-8, %-3)
+appos(%-3, contentdir-5)
+punct(html-8, /-7)
+
+%/NN dir/CD %/NN {/-LRB- contentdir/NN }/-RRB- //: icons/NNS 
+
+(ROOT (FRAG (X (X (NN %)) (NP (NP (CD dir) (NN %)) (NP (-LRB- -LCB-) (NN contentdir) (-RRB- -RCB-)))) (: /) (NP (NNS icons))))
+
+root(ROOT-0, icons-8)
+dep(%-3, %-1)
+num(%-3, dir-2)
+dep(icons-8, %-3)
+appos(%-3, contentdir-5)
+punct(icons-8, /-7)
+
+%/NN dir/CD %/NN {/-LRB- contentdir/NN }/-RRB- //: error/NN 
+
+(ROOT (FRAG (X (X (NN %)) (NP (NP (CD dir) (NN %)) (NP (-LRB- -LCB-) (NN contentdir) (-RRB- -RCB-)))) (: /) (NP (NN error))))
+
+root(ROOT-0, error-8)
+dep(%-3, %-1)
+num(%-3, dir-2)
+dep(error-8, %-3)
+appos(%-3, contentdir-5)
+punct(error-8, /-7)
+
++/CC %/NN {/-LRB- contentdir/NN }/-RRB- //: error/README/NN 
+
+(ROOT (NP (NP (CC +) (NN %)) (NP (NP (-LRB- -LCB-) (NN contentdir) (-RRB- -RCB-)) (PRN (: /) (NP (NN error/README))))))
+
+root(ROOT-0, %-2)
+cc(%-2, +-1)
+dep(%-2, contentdir-4)
+punct(error/README-7, /-6)
+dep(contentdir-4, error/README-7)
+
+%/NN dir/CD %/NN {/-LRB- contentdir/NN }/-RRB- //: error/include/NN 
+
+(ROOT (FRAG (X (X (NN %)) (NP (NP (CD dir) (NN %)) (NP (-LRB- -LCB-) (NN contentdir) (-RRB- -RCB-)))) (: /) (NP (NN error/include))))
+
+root(ROOT-0, error/include-8)
+dep(%-3, %-1)
+num(%-3, dir-2)
+dep(error/include-8, %-3)
+appos(%-3, contentdir-5)
+punct(error/include-8, /-7)
+
+%/NN {/-LRB- contentdir/NN }/-RRB- //: icons/NNS //: */SYM 
+
+(ROOT (S (VP (NN %) (NP (NP (NP (-LRB- -LCB-) (NN contentdir) (-RRB- -RCB-)) (PRN (: /) (NP (NNS icons)) (: /))) (X (SYM *))))))
+
+root(ROOT-0, %-1)
+dobj(%-1, contentdir-3)
+punct(icons-6, /-5)
+dep(contentdir-3, icons-6)
+punct(icons-6, /-7)
+dep(contentdir-3, *-8)
+
+%/NN config/NN (/-LRB- noreplace/NN )/-RRB- %/NN {/-LRB- contentdir/NN }/-RRB- //: error/NN //: */SYM ./. 
+
+(ROOT (S (NP (NN %)) (VP (NN config) (PRN (-LRB- -LRB-) (NP (NN noreplace)) (-RRB- -RRB-)) (NP (NP (NP (NP (NN %)) (-LRB- -LCB-) (NP (NN contentdir)) (-RRB- -RCB-)) (PRN (: /) (NP (NN error)) (: /))) (X (SYM *)))) (. .)))
+
+root(ROOT-0, config-2)
+nsubj(config-2, %-1)
+dep(config-2, noreplace-4)
+dobj(config-2, %-6)
+dep(%-6, contentdir-8)
+punct(error-11, /-10)
+dep(%-6, error-11)
+punct(error-11, /-12)
+dep(%-6, *-13)
+
+var/NN 
+
+(ROOT (NP (NN var)))
+
+root(ROOT-0, var-1)
+
+@@/NN -346,6/CD +347,8/CD @@/NN 
+
+(ROOT (NP (NP (NN @@)) (NP (CD -346,6)) (NP (CD +347,8) (NN @@))))
+
+root(ROOT-0, @@-1)
+dep(@@-1, -346,6-2)
+num(@@-4, +347,8-3)
+dep(@@-1, @@-4)
+
+%/NN {/-LRB- _/CD mandir/NN }/-RRB- //: man8/rotatelogs/NNS */SYM %/NN {/-LRB- _/CD mandir/NN }/-RRB- //: man8/suexec/JJ */NN +/CC %/NN {/-LRB- _/CD mandir/NN }/-RRB- //: man8/apachectl/NN */NN +/CC %/NN {/-LRB- _/CD mandir/NN }/-RRB- //: man8/httpd/NN */SYM 
+
+(ROOT (NP (NP (NP (NP (NN %)) (-LRB- -LCB-) (NP (CD _) (NN mandir)) (-RRB- -RCB-)) (PRN (: /) (NP (NP (NP (NP (NP (NNS man8/rotatelogs)) (SBAR (S (VP (SYM *) (NP (NN %)))))) (-LRB- -LCB-) (NP (CD _) (NN mandir)) (-RRB- -RCB-)) (PRN (: /) (NP (NP (JJ man8/suexec) (NN *)) (NP (NP (CC +) (NN %)) (PRN (-LRB- -LCB-) (NP (CD _) (NN mandir)) (-RRB- -RCB-)))) (: /))) (NP (NN man8/apachectl))))) (NP (NP (NN *)) (SBAR (S (VP (NP (NP (NP (NP (CC +) (NN %)) (-LRB- -LCB-) (NP (CD _) (NN mandir)) (-RRB- -RCB-)) (PRN (: /) (NP (NN man8/httpd)))) (X (SYM *)))))))))
+
+root(ROOT-0, %-1)
+num(mandir-4, _-3)
+dep(%-1, mandir-4)
+punct(man8/rotatelogs-7, /-6)
+dep(%-1, man8/rotatelogs-7)
+dep(%-9, *-8)
+rcmod(man8/rotatelogs-7, %-9)
+num(mandir-12, _-11)
+dep(man8/rotatelogs-7, mandir-12)
+punct(*-16, /-14)
+amod(*-16, man8/suexec-15)
+dep(man8/rotatelogs-7, *-16)
+cc(%-18, +-17)
+dep(*-16, %-18)
+num(mandir-21, _-20)
+appos(%-18, mandir-21)
+punct(*-16, /-23)
+dep(man8/rotatelogs-7, man8/apachectl-24)
+dep(%-1, *-25)
+cc(%-27, +-26)
+rcmod(*-25, %-27)
+num(mandir-30, _-29)
+dep(%-27, mandir-30)
+punct(man8/httpd-33, /-32)
+dep(%-27, man8/httpd-33)
+dep(%-27, *-34)
+
+%/NN files/NNS manual/JJ %/NN defattr/NN (/-LRB- -/: ,/, root/NN ,/, root/NN )/-RRB- 
+
+(ROOT (NP (NP (NN %) (NNS files)) (NP (NP (JJ manual) (NN %) (NN defattr)) (PRN (-LRB- -LRB-) (NP (: -) (, ,) (NN root) (, ,) (NN root)) (-RRB- -RRB-)))))
+
+root(ROOT-0, files-2)
+nn(files-2, %-1)
+amod(defattr-5, manual-3)
+nn(defattr-5, %-4)
+dep(files-2, defattr-5)
+dep(root-11, root-9)
+appos(defattr-5, root-11)
+
+The/DT package/NN then/RB built/VBD without/IN any/DT problems/NNS ./. 
+
+(ROOT (S (NP (DT The) (NN package)) (ADVP (RB then)) (VP (VBD built) (PP (IN without) (NP (DT any) (NNS problems)))) (. .)))
+
+root(ROOT-0, built-4)
+det(package-2, The-1)
+nsubj(built-4, package-2)
+advmod(built-4, then-3)
+det(problems-7, any-6)
+prep_without(built-4, problems-7)
+
+I/PRP installed/VBD it/PRP and/CC tested/VBN it/PRP briefly/RB (/-LRB- seemed/VBD to/TO work/VB )/-RRB- with/IN ssl/NN as/RB well/RB ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VP (VBD installed) (NP (PRP it))) (CC and) (VP (VP (VBN tested) (S (NP (PRP it)) (ADVP (RB briefly)))) (PRN (-LRB- -LRB-) (S (VP (VBD seemed) (S (VP (TO to) (VP (VB work)))))) (-RRB- -RRB-)) (PP (IN with) (NP (NP (NN ssl)) (ADVP (RB as) (RB well)))))) (. .)))
+
+root(ROOT-0, installed-2)
+nsubj(installed-2, I-1)
+nsubj(tested-5, I-1)
+dobj(installed-2, it-3)
+conj_and(installed-2, tested-5)
+dep(tested-5, it-6)
+advmod(it-6, briefly-7)
+parataxis(tested-5, seemed-9)
+aux(work-11, to-10)
+xcomp(seemed-9, work-11)
+prep_with(tested-5, ssl-14)
+advmod(well-16, as-15)
+advmod(ssl-14, well-16)
+
+But/CC ,/, of/IN course/NN ,/, this/DT does/VBZ not/RB take/VB into/IN account/NN all/PDT the/DT module/NN packages/NNS that/WDT depend/VBP on/IN the/DT earlier/JJR release/NN so/IN some/DT additional/JJ rebuilding/NN of/IN packages/NNS will/MD be/VB required/VBN in/IN order/NN to/TO use/VB the/DT generated/VBN RPM/NN ./. 
+
+(ROOT (S (CC But) (, ,) (PP (IN of) (NP (NN course))) (, ,) (NP (DT this)) (VP (VBZ does) (RB not) (VP (VB take) (PP (IN into) (NP (NN account))) (NP (NP (PDT all) (DT the) (NN module) (NNS packages)) (SBAR (WHNP (WDT that)) (S (VP (VBP depend) (PP (IN on) (NP (DT the) (JJR earlier) (NN release))) (SBAR (IN so) (S (NP (NP (DT some) (JJ additional) (NN rebuilding)) (PP (IN of) (NP (NNS packages)))) (VP (MD will) (VP (VB be) (VP (VBN required) (PP (IN in) (NP (NN order))) (S (VP (TO to) (VP (VB use) (NP (DT the) (VBN generated) (NN RPM)))))))))))))))) (. .)))
+
+root(ROOT-0, take-9)
+cc(take-9, But-1)
+prep_of(take-9, course-4)
+nsubj(take-9, this-6)
+aux(take-9, does-7)
+neg(take-9, not-8)
+prep_into(take-9, account-11)
+predet(packages-15, all-12)
+det(packages-15, the-13)
+nn(packages-15, module-14)
+dobj(take-9, packages-15)
+nsubj(depend-17, that-16)
+rcmod(packages-15, depend-17)
+det(release-21, the-19)
+amod(release-21, earlier-20)
+prep_on(depend-17, release-21)
+mark(required-30, so-22)
+det(rebuilding-25, some-23)
+amod(rebuilding-25, additional-24)
+nsubjpass(required-30, rebuilding-25)
+prep_of(rebuilding-25, packages-27)
+aux(required-30, will-28)
+auxpass(required-30, be-29)
+advcl(depend-17, required-30)
+prep_in(required-30, order-32)
+aux(use-34, to-33)
+xcomp(required-30, use-34)
+det(RPM-37, the-35)
+amod(RPM-37, generated-36)
+dobj(use-34, RPM-37)
+
+I/PRP modified/VBD the/DT actual/JJ httpd.spec/NN but/CC one/CD would/MD should/MD really/RB modify/VB build/rpm/httpd/NN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBD modified) (SBAR (S (NP (NP (DT the) (JJ actual) (NN httpd.spec)) (PP (CC but) (NP (CD one)))) (VP (MD would) (VP (MD should) (ADVP (RB really)) (VP (VB modify) (NP (NN build/rpm/httpd)))))))) (. .)))
+
+root(ROOT-0, modified-2)
+nsubj(modified-2, I-1)
+det(httpd.spec-5, the-3)
+amod(httpd.spec-5, actual-4)
+nsubj(modify-11, httpd.spec-5)
+prep(httpd.spec-5, but-6)
+pobj(but-6, one-7)
+aux(modify-11, would-8)
+aux(modify-11, should-9)
+advmod(modify-11, really-10)
+ccomp(modified-2, modify-11)
+dobj(modify-11, build/rpm/httpd-12)
+
+spec.in/NN and/CC re-run/NN "/`` buildconf/NN "/'' ./. 
+
+(ROOT (NP (NP (NN spec.in) (CC and) (NN re-run)) (NP (`` ``) (NN buildconf) ('' '')) (. .)))
+
+root(ROOT-0, spec.in-1)
+conj_and(spec.in-1, re-run-3)
+dep(spec.in-1, buildconf-5)
+
+Cheers/NNP ,/, Fred/NNP ./. 
+
+(ROOT (NP (NP (NNP Cheers)) (, ,) (NP (NNP Fred)) (. .)))
+
+root(ROOT-0, Cheers-1)
+appos(Cheers-1, Fred-3)
+

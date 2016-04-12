@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>428886</id>
+	<title>enhancement: don't ignore newlines in HTML tooltips</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.12) Gecko/20060601 Firefox/2.0.0.12 (Ubuntu-edgy)
+Build Identifier: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9b3pre) Gecko/2008011304 Minefield/3.0b3pre</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">According to the HTML standard, in the TITLE attribute, CRs should be converted to spaces while LFs should be discarded.</sentence>
+			<sentence id="2.2">This has been implemented in trunk (bug 218223).</sentence>
+			<sentence id="2.3">However, I propose to ignore the standard this time because:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">(1 this causes documents that are identical except for newline conventions (LF or CR/LF) to appear differently -- doesn't make sense</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">(2 it causes words that are separated by whitespace in the source to be not separated in the rendered document -- also doesn't make sense</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">So I'm asking that LF characters be converted to spaces along with the other whitespace chars.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Example:
+&lt;a title="simple
+test"&gt;test&lt;/a&gt;
+shows as "simpletest" with UNIX newlines and "simple test" with DOS newlines.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Reproducible: Always</sentence>
+		</paragraph>
+	</description>
+</bug>

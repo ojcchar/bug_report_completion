@@ -1,0 +1,138 @@
+example/NN :/: 
+
+(ROOT (NP (NN example) (: :)))
+
+root(ROOT-0, example-1)
+
+vulnerable/JJ URL/NN :/: http://lameserver.hu/ssi.html?$/NN (/-LRB- ls/NNS )/-RRB- 
+
+(ROOT (NP (NP (JJ vulnerable) (NN URL)) (: :) (NP (NP (NN http://lameserver.hu/ssi.html?$)) (PRN (-LRB- -LRB-) (NP (NNS ls)) (-RRB- -RRB-)))))
+
+root(ROOT-0, URL-2)
+amod(URL-2, vulnerable-1)
+dep(URL-2, http://lameserver.hu/ssi.html?$-4)
+appos(http://lameserver.hu/ssi.html?$-4, ls-6)
+
+-/: rwxr-xr-x/NN ssi.html/NN as/IN follows/VBZ :/: 
+
+(ROOT (S (: -) (NP (NN rwxr-xr-x) (NN ssi.html)) (ADVP (IN as)) (VP (VBZ follows)) (: :)))
+
+root(ROOT-0, follows-5)
+nn(ssi.html-3, rwxr-xr-x-2)
+nsubj(follows-5, ssi.html-3)
+advmod(follows-5, as-4)
+
+</JJR !/. 
+
+(ROOT (FRAG (ADJP (JJR <)) (. !)))
+
+root(ROOT-0, <-1)
+
+--/: #exec/NN cmd/NN =/JJ "/'' //: scriptDir/vulnerable/NN ./. 
+
+(ROOT (S (: --) (S (NP (NN #exec) (NN cmd)) (ADJP (JJ =) ('' '') (S (VP (: /) (NP (NN scriptDir/vulnerable)))))) (. .)))
+
+root(ROOT-0, =-4)
+nn(cmd-3, #exec-2)
+dep(=-4, cmd-3)
+punct(scriptDir/vulnerable-7, /-6)
+dep(=-4, scriptDir/vulnerable-7)
+
+bash/VB $/$ QUERY_STRING/CD ;/: "/'' --/: >/JJR 
+
+(ROOT (S (VP (VB bash) (S (NP (NP ($ $) (CD QUERY_STRING)) (: ;) (ADVP ('' '')) (: --)) (ADJP (JJR >))))))
+
+root(ROOT-0, bash-1)
+nsubj(>-7, $-2)
+num($-2, QUERY_STRING-3)
+xcomp(bash-1, >-7)
+
+//: scriptDir/vulnerable/NN ./. 
+
+(ROOT (FRAG (: /) (VP (NN scriptDir/vulnerable)) (. .)))
+
+root(ROOT-0, scriptDir/vulnerable-2)
+punct(scriptDir/vulnerable-2, /-1)
+
+bash/NN should/MD be/VB :/: #/# !/. 
+
+(ROOT (FRAG (NP (NP (NN bash)) (SBAR (S (VP (MD should) (VP (VB be)))))) (: :) (VP (# #)) (. !)))
+
+root(ROOT-0, bash-1)
+aux(be-3, should-2)
+rcmod(bash-1, be-3)
+dep(bash-1, #-5)
+
+//: bin/ANYsh/NNP echo/VBP "/`` $/$ 1/CD "/'' 
+
+(ROOT (PRN (: /) (S (NP (NNP bin/ANYsh)) (VP (VBP echo) (`` ``) (NP ($ $) (CD 1)) ('' '')))))
+
+root(ROOT-0, echo-3)
+punct(echo-3, /-1)
+nsubj(echo-3, bin/ANYsh-2)
+dobj(echo-3, $-5)
+num($-5, 1-6)
+
+result/NN :/: "/`` $/$ 1/CD "/'' would/MD expand/VB to/TO any/DT command/NN in/IN braces/NNS ./. 
+
+(ROOT (S (FRAG (NP (NN result))) (: :) (S (`` ``) (NP ($ $) (CD 1)) ('' '') (VP (MD would) (VP (VB expand) (PP (TO to) (NP (NP (DT any) (NN command)) (PP (IN in) (NP (NNS braces)))))))) (. .)))
+
+root(ROOT-0, expand-8)
+dep(expand-8, result-1)
+nsubj(expand-8, $-4)
+num($-4, 1-5)
+aux(expand-8, would-7)
+det(command-11, any-10)
+prep_to(expand-8, command-11)
+prep_in(command-11, braces-13)
+
+This/DT example/NN ,/, displays/VBZ a/DT directory/NN listing/NN instead/RB of/IN the/DT string/NN '/'' $/$ (/-LRB- ls/NNS )/-RRB- '/'' 
+
+(ROOT (S (NP (DT This) (NN example)) (PRN (, ,) (SINV (VP (VBZ displays)) (NP (DT a) (NN directory)))) (NP (NP (NN listing)) (PP (RB instead) (IN of) (NP (DT the) (NN string))) ('' ')) (VP ($ $) (NP (-LRB- -LRB-) (NNS ls) (-RRB- -RRB-))) ('' ')))
+
+root(ROOT-0, ls-15)
+det(example-2, This-1)
+nsubj(ls-15, example-2)
+parataxis(ls-15, displays-4)
+det(directory-6, a-5)
+nsubj(displays-4, directory-6)
+nsubj(ls-15, listing-7)
+det(string-11, the-10)
+prep_instead_of(listing-7, string-11)
+dep(ls-15, $-13)
+
+Apache/NNP does/VBZ not/RB escapes/VBZ the/DT dollar/NN sign/NN in/IN query/NN strings/NNS ./. 
+
+(ROOT (S (NP (NNP Apache)) (VP (VP (VBZ does)) (RB not) (VP (VBZ escapes) (NP (DT the) (NN dollar) (NN sign)) (PP (IN in) (NP (NN query) (NNS strings))))) (. .)))
+
+root(ROOT-0, does-2)
+nsubj(does-2, Apache-1)
+neg(does-2, not-3)
+dep(does-2, escapes-4)
+det(sign-7, the-5)
+nn(sign-7, dollar-6)
+dobj(escapes-4, sign-7)
+nn(strings-10, query-9)
+prep_in(escapes-4, strings-10)
+
+Try/VB :/: http://apache.org/?$/NN (/-LRB- ls/NNS )/-RRB- 
+
+(ROOT (VP (VP (VB Try)) (: :) (NP (NP (NN http://apache.org/?$)) (PRN (-LRB- -LRB-) (NP (NNS ls)) (-RRB- -RRB-)))))
+
+root(ROOT-0, Try-1)
+dobj(Try-1, http://apache.org/?$-3)
+appos(http://apache.org/?$-3, ls-5)
+
+Suggestion/NNP :/: avoid/VB using/VBG args/NNS in/IN "/`` exec/FW cmd/FW "/'' SSI/NNP scripts/NNS 
+
+(ROOT (NP (NP (NNP Suggestion)) (: :) (S (VP (VB avoid) (S (VP (VBG using) (S (NP (NP (NNS args)) (PP (IN in) (`` ``) (NP (FW exec) (FW cmd)) ('' ''))) (NP (NNP SSI) (NNS scripts)))))))))
+
+root(ROOT-0, Suggestion-1)
+dep(Suggestion-1, avoid-3)
+xcomp(avoid-3, using-4)
+nsubj(scripts-12, args-5)
+nn(cmd-9, exec-8)
+prep_in(args-5, cmd-9)
+nn(scripts-12, SSI-11)
+xcomp(using-4, scripts-12)
+

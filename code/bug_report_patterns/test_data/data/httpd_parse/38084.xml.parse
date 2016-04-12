@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>38084</id>
+	<title>mod_authn_dbd's document has a wrong Configuration Example about postgresql</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">http://httpd.apache.org/docs/2.2/en/mod/mod_authn_dbd.html
+contains the following example:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&gt; #Use the PostgreSQL driver
+&gt; DBDriver pgsql
+&gt; #Connection string: database name and login credentials
+&gt; DBDParams "dbname=htpasswd user=apache pass=xxxxxx"</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Unfortunately, this doesn't work properly.</sentence>
+			<sentence id="3.2">We should write "password" instead of "pass" in this case.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The DBDParams depend on the postgresql API.</sentence>
+			<sentence id="4.2">The API is described in the
+following site:
+http://www.postgresql.org/docs/7.4/static/libpq.html#LIBPQ-CONNECT
+http://www.postgresql.org/docs/8.1/static/libpq.html#LIBPQ-CONNECT</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I think these references are necessary in addition to fixing "pass".</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>531433</id>
+	<title>[FF3.6b4] Problem with favicon in extension window element opened in new tab.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2b4) Gecko/20091124 Firefox/3.6b4
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2b4) Gecko/20091124 Firefox/3.6b4</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Within the addon named Firemath we use the scheme described at
+https://developer.mozilla.org/en/XUL/window#User_Notes
+to add a favicon to a window element opened in a new tab.</sentence>
+			<sentence id="2.2">This works in FF3.5.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In FF3.6b4 a warning is shown in the error console saying "XUL box for window element contained an inline link child, forcing all its children to be wrapped in a block".</sentence>
+			<sentence id="3.2">What is worse is that the rendering of the window contents is broken.</sentence>
+			<sentence id="3.3">Removing the line starting with "&lt;html:link..." the rendering works and the warning is not shown, but the favicon does not appear.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Reproducible: Always</sentence>
+		</paragraph>
+	</description>
+</bug>

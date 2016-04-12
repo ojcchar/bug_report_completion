@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9088</id>
+	<title>Fb:js-string variables undefined</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Any fbjs functions utilizing fb:js-string tags as variables no longer work and I get an js undefined error for the fb:js-string variable name.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">For example:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;script type= text/javascript  charset= utf-8 &gt;
+\tfunction openPopup(title_ url_ data)
+\t{
+\t\tvar ajax = new Ajax();
+\t\tajax.responseType = Ajax.FBML;
+\t\tajax.ondone = function(data)
+\t\t{  
+\t\t\tdocument.getElementById( dialog_content ).</sentence>
+			<sentence id="3.2">setInnerFBML(data);
+\t\t};
+\t\tnew Dialog(Dialog.DIALOG_POP).</sentence>
+			<sentence id="3.3">showMessage(title_ dialogText _  Close );
+\t    ajax.post(url_ data);
+\t\treturn false;
+\t}
+&lt;/script&gt;
+&lt;a href= #  onclick= return openPopup( Test _  http://www.test.com _ {}); &gt;Test&lt;/a&gt;
+&lt;fb:js-string var= dialogText &gt;
+\t&lt;div id= dialog_content &gt;
+\t\t&lt;div class= dialog_loading &gt;Loading...&lt;/div&gt;
+\t&lt;/div&gt;
+&lt;/fb:js-string&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">no longer works...</sentence>
+		</paragraph>
+	</description>
+</bug>

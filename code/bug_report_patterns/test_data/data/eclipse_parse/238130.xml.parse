@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>238130</id>
+	<title>file name not included on parse errors</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When reading persistence.xml/orm.xml we do not include the file-name when an error occurs.</sentence>
+			<sentence id="1.2">This gives very poor usability.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1"></sentence>
+			<sentence id="2.2">Caused by: java.lang.RuntimeException: Exception [EclipseLink-25004] (Eclipse Persistence Services - @VERSION@ (Build @BUILD_NUMBER@)): org.eclipse.persistence.exceptions.XMLMarshalException</sentence>
+			<sentence id="2.3">Exception Description: An error occurred unmarshalling the document</sentence>
+			<sentence id="2.4">Internal Exception: Exception [EclipseLink-27101] (Eclipse Persistence Services - @VERSION@ (Build @BUILD_NUMBER@)): org.eclipse.persistence.platform.xml.XMLPlatformException</sentence>
+			<sentence id="2.5">Exception Description: An error occurred while parsing the document.</sentence>
+			<sentence id="2.6">Internal Exception: oracle.xml.parser.v2.XMLParseException: Element 'property' not expected.</sentence>
+			<sentence id="2.7">	at org.eclipse.persistence.internal.jpa.metadata.xml.XMLEntityMappingsReader.read(XMLEntityMappingsReader.java:67)</sentence>
+			<sentence id="2.8">	at org.eclipse.persistence.internal.jpa.metadata.xml.XMLEntityMappingsReader.read(XMLEntityMappingsReader.java:105)</sentence>
+			<sentence id="2.9">	at org.eclipse.persistence.internal.jpa.metadata.MetadataProcessor.loadStandardMappingFiles(MetadataProcessor.java:343)</sentence>
+			<sentence id="2.10">	at org.eclipse.persistence.internal.jpa.metadata.MetadataProcessor.loadMappingFiles(MetadataProcessor.java:284)</sentence>
+			<sentence id="2.11">	at org.eclipse.persistence.internal.jpa.deployment.PersistenceUnitProcessor.buildPersistentClassSetFromXMLDocuments(PersistenceUnitProcessor.java:128)</sentence>
+			<sentence id="2.12">	at org.eclipse.persistence.internal.jpa.deployment.PersistenceUnitProcessor.buildClassSet(PersistenceUnitProcessor.java:91)</sentence>
+			<sentence id="2.13">	at org.eclipse.persistence.internal.jpa.deployment.JPAInitializer.callPredeploy(JPAInitializer.java:83)</sentence>
+			<sentence id="2.14">	at org.eclipse.persistence.internal.jpa.deployment.JPAInitializer.initPersistenceUnits(JPAInitializer.java:149)</sentence>
+			<sentence id="2.15">	at org.eclipse.persistence.internal.jpa.deployment.JPAInitializer.initialize(JPAInitializer.java:135)</sentence>
+			<sentence id="2.16">	at org.eclipse.persistence.internal.jpa.deployment.JavaSECMPInitializer.initializeFromAgent(JavaSECMPInitializer.java:145)</sentence>
+			<sentence id="2.17">	... 11 more</sentence>
+		</paragraph>
+	</description>
+</bug>

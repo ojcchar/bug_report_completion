@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>41836</id>
+	<title>Override and Commit of conflicting additions and binary files</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I peformed the following steps:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">1 disconnected a project from CVS control, purging the CVS info</sentence>
+			<sentence id="2.2">2 Shared the project with CVS</sentence>
+			<sentence id="2.3">3 Performed an Override and Commit in the new Synchronize view</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The commit failed because the command claimed that several files were not up-
+to-date.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The files involved where tagged as binary in the repository but were being 
+committed as text.</sentence>
+			<sentence id="4.2">It appears that the remote tree does not contain the proper 
+substitution mode.</sentence>
+			<sentence id="4.3">However, this used to work in 2.X so something has changed.</sentence>
+		</paragraph>
+	</description>
+</bug>

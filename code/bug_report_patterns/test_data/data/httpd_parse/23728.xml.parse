@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>23728</id>
+	<title>httpd.spec and Red Hat 9.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Summary:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I wish to build Apache 2.0.47 for Red Hat 9 as it contains mod_ldap and
+mod_auth_ldap.</sentence>
+			<sentence id="3.2">I initially tried to simply:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">rpmbuild -ta httpd-2.0.47.</sentence>
+			<sentence id="4.2">tar.gz</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">but this does not work as db3-devel is required but Red Hat has moved on, it
+seems, and now only db4-devel is available.</sentence>
+			<sentence id="5.2">I edited the httpd.spec to reflect
+this and it proceeded to build the package with "rpmbuild -ba httpd.spec" from
+within the source tree.</sentence>
+			<sentence id="5.3">Then when it was putting together the file list the
+following was printed out:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">error: Installed (but unpackaged) file(s) found:
+   /usr/lib/libapr-0.</sentence>
+			<sentence id="6.2">a
+   /usr/lib/libapr-0.</sentence>
+			<sentence id="6.3">la
+   /usr/lib/libaprutil-0.</sentence>
+			<sentence id="6.4">a
+   /usr/lib/libaprutil-0.</sentence>
+			<sentence id="6.5">la
+   /usr/share/man/man8/apachectl.8.</sentence>
+			<sentence id="6.6">gz
+   /usr/share/man/man8/httpd.8.</sentence>
+			<sentence id="6.7">gz
+   /var/www/error/README</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">RPM build errors:
+    File listed twice: /etc/httpd/conf/ssl.conf
+    Installed (but unpackaged) file(s) found:
+   /usr/lib/libapr-0.</sentence>
+			<sentence id="7.2">a
+   /usr/lib/libapr-0.</sentence>
+			<sentence id="7.3">la
+   /usr/lib/libaprutil-0.</sentence>
+			<sentence id="7.4">a
+   /usr/lib/libaprutil-0.</sentence>
+			<sentence id="7.5">la
+   /usr/share/man/man8/apachectl.8.</sentence>
+			<sentence id="7.6">gz
+   /usr/share/man/man8/httpd.8.</sentence>
+			<sentence id="7.7">gz
+   /var/www/error/README</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Here is a diff (diff -u) of the changes I had to make to get it to build:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">--- httpd.spec  2003-07-07 15:52:14.000000000 +0100</sentence>
+			<sentence id="9.2">+++ /tmp/httpd.</sentence>
+			<sentence id="9.3">spec     2003-10-10 14:02:17.000000000 +0100</sentence>
+			<sentence id="9.4">@@ -17,7 +17,7 @@</sentence>
+			<sentence id="9.5">License: Apache Software License</sentence>
+			<sentence id="9.6">Group: System Environment/Daemons</sentence>
+			<sentence id="9.7">BuildRoot: %{_tmppath}/%{name}-root</sentence>
+			<sentence id="9.8">-BuildPrereq: openldap-devel, db3-devel, expat-devel, findutils, perl, pkgconfig</sentence>
+			<sentence id="9.9">+BuildPrereq: openldap-devel, db4-devel, expat-devel, findutils, perl, pkgconfig</sentence>
+			<sentence id="9.10">Requires: gawk, /usr/share/magic.</sentence>
+			<sentence id="9.11">mime, /usr/bin/find, openldap</sentence>
+			<sentence id="9.12">Prereq: /sbin/chkconfig, /bin/mktemp, /bin/rm, /bin/mv</sentence>
+			<sentence id="9.13">Prereq: sh-utils, textutils, /usr/sbin/useradd</sentence>
+			<sentence id="9.14">@@ -318,8 +318,8 @@</sentence>
+			<sentence id="9.15">%{_sbindir}/rotatelogs</sentence>
+			<sentence id="9.16">%attr(4510,root,%{suexec_caller}) %{_sbindir}/suexec</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">-%{_libdir}/libapr-0.</sentence>
+			<sentence id="10.2">so.</sentence>
+			<sentence id="10.3">*</sentence>
+			<sentence id="10.4">-%{_libdir}/libaprutil-0.</sentence>
+			<sentence id="10.5">so.</sentence>
+			<sentence id="10.6">*</sentence>
+			<sentence id="10.7">+%{_libdir}/libapr-0*</sentence>
+			<sentence id="10.8">+%{_libdir}/libaprutil-0*</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">%dir %{_libdir}/httpd</sentence>
+			<sentence id="11.2">%dir %{_libdir}/httpd/modules</sentence>
+			<sentence id="11.3">@@ -333,6 +333,7 @@</sentence>
+			<sentence id="11.4">%dir %{contentdir}/html</sentence>
+			<sentence id="11.5">%dir %{contentdir}/icons</sentence>
+			<sentence id="11.6">%dir %{contentdir}/error</sentence>
+			<sentence id="11.7">+%{contentdir}/error/README</sentence>
+			<sentence id="11.8">%dir %{contentdir}/error/include</sentence>
+			<sentence id="11.9">%{contentdir}/icons/*</sentence>
+			<sentence id="11.10">%config(noreplace) %{contentdir}/error/*.</sentence>
+			<sentence id="11.11">var</sentence>
+			<sentence id="11.12">@@ -346,6 +347,8 @@</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">%{_mandir}/man8/rotatelogs*
+ %{_mandir}/man8/suexec*
++%{_mandir}/man8/apachectl*
++%{_mandir}/man8/httpd*</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">%files manual
+ %defattr(-,root,root)</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">The package then built without any problems.</sentence>
+			<sentence id="14.2">I installed it and tested it
+briefly (seemed to work) with ssl as well.</sentence>
+			<sentence id="14.3">But, of course, this does not take
+into account all the module packages that depend on the earlier release so some
+additional rebuilding of packages will be required in order to use the generated
+RPM.</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">I modified the actual httpd.spec but one would should really modify
+build/rpm/httpd.</sentence>
+			<sentence id="15.2">spec.in and re-run "buildconf".</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">Cheers, Fred.</sentence>
+		</paragraph>
+	</description>
+</bug>

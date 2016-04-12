@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>20402</id>
+	<title>Bug in CGI environment variable</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">For this url above:
+http://tombo.miniasp.com/cgi-bin/b2g_bug.cgi/http://www.ep66.idv.tw</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The SCRIPT_NAME variable should be /cgi-bin/b2g_bug.cgi , but the mod_cgi send 
+me "/cgi-bin/b2g_bug.cgi/http:".</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The PATH_INFO variable also wrong.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The PATH_INFO should be "/http://www.ep66.idv.tw" , but the mod_cgi send 
+me "/http:/www.ep66.idv.tw".</sentence>
+			<sentence id="4.2">It strip away one slash(/).</sentence>
+		</paragraph>
+	</description>
+</bug>

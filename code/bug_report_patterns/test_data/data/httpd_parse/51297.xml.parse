@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>51297</id>
+	<title>Improve error handling during "UNLOCK"</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">While unlocking a file forcibly using subversion client, and if the unlock is blocked by pre-unlock hook script, the client is getting "500 Internal Server Error" instead of the error message sent by the subversion server.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Simple reproduction recipe:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">1 Lock a file.</sentence>
+			<sentence id="3.2">"svn lock testfile.txt --username user1"</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">2 Make pre-unlock hook script to fail.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">3 Try to unlock the file forcibly as a different user.</sentence>
+			<sentence id="5.2">"svn unlock testfile.txt --force --username user2"</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">step 3 fails with "500 Internal Server Error" message.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Whenever the pre-unlock hook fails, Subversion server sends the error message "Unlock blocked by pre-unlock hook (exit 
+code 1)...." to mod_dav.</sentence>
+			<sentence id="7.2">But mod_dav is not handling the error and it is not sending any error messages to 
+client side, instead it sends only HTTP_STATUS code alone(confirmed it with the following codepath).</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">From dav/main/mod_dav.c: dav_method_unlock(),
+&lt;snip&gt;</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">if ((result = dav_unlock(r, resource, locktoken)) !</sentence>
+			<sentence id="9.2">= OK) {
+        return result;
+    }</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">&lt;/snip&gt;
+From dav/main/util_lock.c: dav_unlock(),
+&lt;snip&gt;</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">err = (*repos_hooks-&gt;walk)(&amp;ctx.w, DAV_INFINITY, &amp;multi_status);</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">/* ### fix this!</sentence>
+			<sentence id="12.2">*/</sentence>
+			<sentence id="12.3">/* ### do something with multi_status */</sentence>
+			<sentence id="12.4">result = err == NULL ?</sentence>
+			<sentence id="12.5">OK : err-&gt;status;</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">(*hooks-&gt;close_lockdb)(lockdb);</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">return result;</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">&lt;/snip&gt;</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">This walk() method finds out the resource to unlock and walker callback functin dav_unlock_walker() removes lock from that resource.</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">From dav/main/util_lock.c: dav_unlock_walker(),
+&lt;snip&gt;</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">if ((err = (*ctx-&gt;w.lockdb-&gt;hooks-&gt;remove_lock)(ctx-&gt;w.lockdb,</sentence>
+			<sentence id="18.2">wres-&gt;resource,</sentence>
+			<sentence id="18.3">ctx-&gt;locktoken)) !</sentence>
+			<sentence id="18.4">= NULL) {</sentence>
+			<sentence id="18.5">/* ### should we stop or return a multistatus?</sentence>
+			<sentence id="18.6">looks like STOP */</sentence>
+			<sentence id="18.7">/* ### add a higher-level description?</sentence>
+			<sentence id="18.8">*/</sentence>
+			<sentence id="18.9">return err;</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">&lt;/snip&gt;</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">In this case, unlock is blocked by pre-unlock hook, subvesion server marshalls the error back to mod_dav, mod_dav's dav_unlock_walker() returns the error sent by svn server, but dav_unlock() returns only the HTTP_STATUS code(err-&gt;status) and the error message is *lost* there.</sentence>
+		</paragraph>
+	</description>
+</bug>

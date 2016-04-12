@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>44962</id>
+	<title>crash on file_get_contents using localhost url</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Apache crashes if a lot of file_get_contents of a localhost file are done.</sentence>
+			<sentence id="1.2">The following PHP script reproduces the problem:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;?</sentence>
+			<sentence id="2.2">php
+echo '&lt;pre&gt;';
+for ($i=1;;$i++)
+{ echo $i."\n";
+  flush();ob_flush();
+  $contents = file_get_contents('http://localhost/test.htm');
+}
+?</sentence>
+			<sentence id="2.3">&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">After 203 iterations the Apache server crashes and has to be stopped and started (a restart does not get the server working again, only a stop and start works).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The error.log only contains this (I guess this just confirms that the Apache server has crashed and no longer responds):
+[Fri May 09 12:15:04 2008] [error] [client 192.168.0.1] PHP Warning:  file_get_contents(http://localhost/test.htm) [&lt;a href='function.file-get-contents'&gt;function.file-get-contents&lt;/a&gt;]: failed to open stream: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.</sentence>
+			<sentence id="4.2">\r\n in C:\\Andre\\Apache\\test.php on line 6</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The problem depends on the contents of the test.htm file.</sentence>
+			<sentence id="5.2">If it only contains</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">&lt;html&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">the script runs until it reaches the max execution time.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">If the localhost is replaced with the IP address or domain name the problem does not occur (but the script becomes much slower due to the network access).</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">The test.htm that reproduces the problem contains:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">&lt;html&gt;</sentence>
+			<sentence id="10.2">&lt;head&gt;</sentence>
+			<sentence id="10.3">&lt;link rel="stylesheet" href="/systeem/style/style.css"&gt;</sentence>
+			<sentence id="10.4">&lt;title&gt;V.V. De Meern&lt;/title&gt;</sentence>
+			<sentence id="10.5">&lt;meta name="description" content="V.V. De Meern"&gt;</sentence>
+			<sentence id="10.6">&lt;meta name="robots" content="index,follow"&gt;</sentence>
+			<sentence id="10.7">&lt;script src="/beheer/include/header.js"&gt;&lt;/script&gt;</sentence>
+			<sentence id="10.8">&lt;/head&gt;</sentence>
+			<sentence id="10.9">&lt;body&gt;</sentence>
+			<sentence id="10.10">&lt;script src="menu.js"&gt;&lt;/script&gt;</sentence>
+			<sentence id="10.11">&lt;a href="menu.html"&gt;&lt;/a&gt;</sentence>
+			<sentence id="10.12">&lt;h1&gt;Home pagina A1&lt;/h1&gt;</sentence>
+			<sentence id="10.13">&lt;p&gt;&lt;img src="a1.jpg" border="0" alt="" /&gt;&lt;/p&gt;</sentence>
+			<sentence id="10.14">&lt;h1&gt;Spelers&lt;/h1&gt;</sentence>
+			<sentence id="10.15">&lt;p&gt;Nicky Vermeulen, Jon Gruters, Jerryl Smeenk, Bram van Wiggen, Rolf van Elderen, Sander van der Woude, Melvin van Nood, Jorgos Katsivilis, Leo Wakelkamp, Chen Margolin, Luis Plein, Danny Berkhouwer, Whaheed Khodabaks, Alessandro Damen, Thomas van Amerongen&lt;/p&gt;</sentence>
+			<sentence id="10.16">&lt;h1&gt;Leiders&lt;/h1&gt;</sentence>
+			<sentence id="10.17">&lt;p&gt;John Dunsbergen, Joost Satink, Lex van der Woude&lt;/p&gt;</sentence>
+			<sentence id="10.18">&lt;script src="/beheer/include/footer.js"&gt;&lt;/script&gt;</sentence>
+			<sentence id="10.19">&lt;/body&gt;</sentence>
+			<sentence id="10.20">&lt;/html&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,146 @@
+Build/VB Identifier/NNP :/: I20100608-0911/NN 
+
+(ROOT (S (VP (VB Build) (NP (NP (NNP Identifier)) (: :) (NP (NN I20100608-0911))))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, Identifier-2)
+dep(Identifier-2, I20100608-0911-4)
+
+The/DT XmlConstraintProvider/NNP used/VBN when/WRB a/DT constraint/NN is/VBZ defined/VBN inside/IN plugin.xml/JJ filters/NNS the/DT constraints/NNS returned/VBN by/IN getBatchConstraints/NNS (/-LRB- )/-RRB- by/IN invoking/VBG IConstraintDescriptor.targetsTypeOf/NN (/-LRB- EObject/NN )/-RRB- ./. 
+
+(ROOT (S (NP (DT The) (NNP XmlConstraintProvider)) (VP (VBN used) (SBAR (WHADVP (WRB when)) (S (NP (DT a) (NN constraint)) (VP (VBZ is) (VP (VBN defined) (PP (IN inside) (NP (JJ plugin.xml) (NNS filters))) (PRN (S (NP (DT the) (NNS constraints)) (VP (VBN returned) (PP (IN by) (NP (NNS getBatchConstraints) (-LRB- -LRB-))))) (-RRB- -RRB-)) (PP (IN by) (S (VP (VBG invoking) (NP (NP (NN IConstraintDescriptor.targetsTypeOf)) (PRN (-LRB- -LRB-) (NP (NN EObject)) (-RRB- -RRB-))))))))))) (. .)))
+
+root(ROOT-0, used-3)
+det(XmlConstraintProvider-2, The-1)
+nsubj(used-3, XmlConstraintProvider-2)
+advmod(defined-8, when-4)
+det(constraint-6, a-5)
+nsubjpass(defined-8, constraint-6)
+auxpass(defined-8, is-7)
+advcl(used-3, defined-8)
+amod(filters-11, plugin.xml-10)
+prep_inside(defined-8, filters-11)
+det(constraints-13, the-12)
+nsubj(returned-14, constraints-13)
+parataxis(defined-8, returned-14)
+prep_by(returned-14, getBatchConstraints-16)
+agent(defined-8, invoking-20)
+dobj(invoking-20, IConstraintDescriptor.targetsTypeOf-21)
+appos(IConstraintDescriptor.targetsTypeOf-21, EObject-23)
+
+ModeledConstraintProvider/NNP does/VBZ not/RB perform/VB this/DT filtering/VBG ,/, as/IN a/DT result/NN modeled/VBD constraints/NNS are/VBP evaluated/VBN against/IN all/PDT the/DT model/NN elements/NNS instead/RB of/IN the/DT targeted/JJ types/NNS ./. 
+
+(ROOT (S (NP (NNP ModeledConstraintProvider)) (VP (VBZ does) (RB not) (VP (VB perform) (NP (NP (DT this) (VBG filtering)) (, ,) (SBAR (IN as) (S (NP (DT a) (NN result)) (VP (VBD modeled) (SBAR (S (NP (NNS constraints)) (VP (VBP are) (VP (VBN evaluated) (PP (IN against) (NP (NP (PDT all) (DT the) (NN model) (NNS elements)) (PP (RB instead) (IN of) (NP (DT the) (JJ targeted) (NNS types))))))))))))))) (. .)))
+
+root(ROOT-0, perform-4)
+nsubj(perform-4, ModeledConstraintProvider-1)
+aux(perform-4, does-2)
+neg(perform-4, not-3)
+dobj(perform-4, this-5)
+amod(this-5, filtering-6)
+mark(modeled-11, as-8)
+det(result-10, a-9)
+nsubj(modeled-11, result-10)
+dep(this-5, modeled-11)
+nsubjpass(evaluated-14, constraints-12)
+auxpass(evaluated-14, are-13)
+ccomp(modeled-11, evaluated-14)
+predet(elements-19, all-16)
+det(elements-19, the-17)
+nn(elements-19, model-18)
+prep_against(evaluated-14, elements-19)
+det(types-24, the-22)
+amod(types-24, targeted-23)
+prep_instead_of(elements-19, types-24)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD Create/VB a/DT targeted/VBN Java/NNP constraint/NN and/CC set/VBD a/DT breakpoint/NN on/IN its/PRP$ validate/NN (/-LRB- IValidationContext/NN )/-RRB- method/NN 
+
+(ROOT (FRAG (NP (CD 1)) (S (VP (VP (VB Create) (NP (DT a) (ADJP (VBN targeted)) (NNP Java) (NN constraint))) (CC and) (VP (VBD set) (NP (DT a) (NN breakpoint)) (PP (IN on) (NP (PRP$ its) (NN validate) (PRN (-LRB- -LRB-) (NP (NN IValidationContext)) (-RRB- -RRB-)) (NN method))))))))
+
+root(ROOT-0, 1-1)
+dep(1-1, Create-2)
+det(constraint-6, a-3)
+amod(constraint-6, targeted-4)
+nn(constraint-6, Java-5)
+dobj(Create-2, constraint-6)
+dep(1-1, set-8)
+conj_and(Create-2, set-8)
+det(breakpoint-10, a-9)
+dobj(set-8, breakpoint-10)
+poss(method-17, its-12)
+nn(method-17, validate-13)
+appos(method-17, IValidationContext-15)
+prep_on(set-8, method-17)
+
+2/CD Add/VB a/DT reference/NN to/TO the/DT Java/NNP constraint/NN inside/IN plugin.xml/NN ,/, note/VBP that/IN context.getTarget/NN (/-LRB- )/-RRB- returns/VBZ an/DT EObject/NN of/IN the/DT expected/VBN EClass/NN and/CC the/DT breakpoint/NN is/VBZ only/RB executed/VBN once/RB 
+
+(ROOT (S (NP (NP (CD 2)) (SBAR (S (VP (VB Add) (NP (DT a) (NN reference)) (PP (TO to) (NP (NP (DT the) (NNP Java) (NN constraint)) (PP (IN inside) (NP (NN plugin.xml))))))))) (, ,) (VP (VBP note) (SBAR (IN that) (S (NP (NP (NN context.getTarget)) (SBAR (S (-LRB- -LRB-) (NP (-RRB- -RRB-)) (VP (VBZ returns) (NP (NP (DT an) (NN EObject)) (PP (IN of) (NP (NP (DT the) (VBN expected) (NN EClass)) (CC and) (NP (DT the) (NN breakpoint))))))))) (VP (VBZ is) (ADVP (RB only)) (VP (VBN executed) (ADVP (RB once)))))))))
+
+root(ROOT-0, note-12)
+nsubj(note-12, 2-1)
+rcmod(2-1, Add-2)
+det(reference-4, a-3)
+dobj(Add-2, reference-4)
+det(constraint-8, the-6)
+nn(constraint-8, Java-7)
+prep_to(Add-2, constraint-8)
+prep_inside(constraint-8, plugin.xml-10)
+mark(executed-29, that-13)
+nsubjpass(executed-29, context.getTarget-14)
+rcmod(context.getTarget-14, returns-17)
+det(EObject-19, an-18)
+dobj(returns-17, EObject-19)
+det(EClass-23, the-21)
+amod(EClass-23, expected-22)
+prep_of(EObject-19, EClass-23)
+det(breakpoint-26, the-25)
+prep_of(EObject-19, breakpoint-26)
+conj_and(EClass-23, breakpoint-26)
+auxpass(executed-29, is-27)
+advmod(executed-29, only-28)
+ccomp(note-12, executed-29)
+advmod(executed-29, once-30)
+
+3/CD Add/VB a/DT reference/NN to/TO the/DT Java/NNP constraint/NN in/IN a/DT model.validation/NN ,/, note/VBP that/IN context.getTarget/NN (/-LRB- )/-RRB- returns/NNS every/DT model/NN element/NN and/CC the/DT breakpoint/NN is/VBZ reached/VBN multiple/JJ times/NNS 
+
+(ROOT (S (NP (NP (CD 3)) (SBAR (S (VP (VB Add) (NP (DT a) (NN reference)) (PP (TO to) (NP (NP (DT the) (NNP Java) (NN constraint)) (PP (IN in) (NP (DT a) (NN model.validation))))))))) (, ,) (VP (VBP note) (SBAR (IN that) (S (S (NP (NN context.getTarget) (-LRB- -LRB-) (-RRB- -RRB-) (NNS returns)) (NP (DT every) (NN model) (NN element))) (CC and) (S (NP (DT the) (NN breakpoint)) (VP (VBZ is) (VP (VBN reached) (NP-TMP (JJ multiple) (NNS times))))))))))
+
+root(ROOT-0, note-13)
+nsubj(note-13, 3-1)
+rcmod(3-1, Add-2)
+det(reference-4, a-3)
+dobj(Add-2, reference-4)
+det(constraint-8, the-6)
+nn(constraint-8, Java-7)
+prep_to(Add-2, constraint-8)
+det(model.validation-11, a-10)
+prep_in(constraint-8, model.validation-11)
+mark(element-21, that-14)
+nn(returns-18, context.getTarget-15)
+dep(element-21, returns-18)
+det(element-21, every-19)
+nn(element-21, model-20)
+ccomp(note-13, element-21)
+det(breakpoint-24, the-23)
+nsubjpass(reached-26, breakpoint-24)
+auxpass(reached-26, is-25)
+ccomp(note-13, reached-26)
+conj_and(element-21, reached-26)
+amod(times-28, multiple-27)
+tmod(reached-26, times-28)
+

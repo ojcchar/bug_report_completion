@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>353</id>
+	<title>FB:Dialog with mock-AJAX does not obey  close_dialog  parameter</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">fb:dialog-button with mock-ajax does not obey  close_dialog  parameter.</sentence>
+			<sentence id="1.2">There does not seem to be  a way to close the dialog after the user clicks the button.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Sample code:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;fb:dialog id= my_dialog &gt;
+&lt;fb:dialog-title&gt;My Little Dialog&lt;/fb:dialog-title&gt;
+&lt;fb:dialog-content&gt;&lt;form id= my_form &gt;Do you like my little dialog?</sentence>
+			<sentence id="3.2">&lt;/form&gt;&lt;/fb:dialog-content&gt;
+&lt;fb:dialog-button type= submit  value= AJAX  clickrewriteurl= http://74.86.142.203/~tearswep/humanpets/ajaxTest.php  clickrewriteid= my_dialog2  clickrewriteform= my_form  close_dialog=  1  /&gt;
+&lt;fb:dialog-button type= button  value= Close  close_dialog= 1  /&gt;
+&lt;/fb:dialog&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&lt;div id= my_dialog2 &gt;This needs to be rewritten by mock-ajax&lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&lt;a href= #  clicktoshowdialog= my_dialog  style= border-top: solid 1px &gt;Show Dialog&lt;/a&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

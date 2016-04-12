@@ -1,0 +1,315 @@
+If/IN my/PRP$ application/NN receives/VBZ an/DT access/NN token/JJ after/IN being/VBG granted/VBN the/DT offline_access/JJ permission/NN _/NN then/RB this/DT token/JJ will/MD not/RB expire/VB ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (PRP$ my) (NN application)) (VP (VBZ receives) (NP (DT an) (NN access) (JJ token)) (PP (IN after) (S (VP (VBG being) (VP (VBN granted) (NP (DT the) (JJ offline_access) (NN permission) (NN _)) (ADVP (RB then))))))))) (NP (DT this) (JJ token)) (VP (MD will) (RB not) (VP (VB expire))) (. .)))
+
+root(ROOT-0, expire-20)
+mark(receives-4, If-1)
+poss(application-3, my-2)
+nsubj(receives-4, application-3)
+advcl(expire-20, receives-4)
+det(access-6, an-5)
+dobj(receives-4, access-6)
+amod(access-6, token-7)
+auxpass(granted-10, being-9)
+prepc_after(receives-4, granted-10)
+det(_-14, the-11)
+amod(_-14, offline_access-12)
+nn(_-14, permission-13)
+dobj(granted-10, _-14)
+advmod(granted-10, then-15)
+det(token-17, this-16)
+nsubj(expire-20, token-17)
+aux(expire-20, will-18)
+neg(expire-20, not-19)
+
+However/RB _/CD when/WRB the/DT php/NN sdk/NN sets/VBZ the/DT cookie/NN with/IN the/DT session/NN on/IN the/DT user/NN s/VBZ browser/NN _/IN the/DT expiration/NN time/NN is/VBZ immediately/RB after/IN closing/VBG the/DT browser/NN window/NN ./. 
+
+(ROOT (S (ADVP (RB However)) (NP (NP (CD _)) (SBAR (WHADVP (WRB when)) (S (NP (DT the) (NN php) (NN sdk)) (VP (VBZ sets) (SBAR (S (NP (NP (DT the) (NN cookie)) (PP (IN with) (NP (NP (DT the) (NN session)) (PP (IN on) (NP (DT the) (NN user)))))) (VP (VBZ s) (NP (NP (NN browser)) (PP (IN _) (NP (DT the) (NN expiration) (NN time))))))))))) (VP (VBZ is) (ADVP (RB immediately)) (PP (IN after) (S (VP (VBG closing) (NP (DT the) (NN browser) (NN window)))))) (. .)))
+
+root(ROOT-0, is-22)
+advmod(is-22, However-1)
+nsubj(is-22, _-2)
+advmod(sets-7, when-3)
+det(sdk-6, the-4)
+nn(sdk-6, php-5)
+nsubj(sets-7, sdk-6)
+rcmod(_-2, sets-7)
+det(cookie-9, the-8)
+nsubj(browser-17, cookie-9)
+det(session-12, the-11)
+prep_with(cookie-9, session-12)
+det(user-15, the-14)
+prep_on(session-12, user-15)
+cop(browser-17, s-16)
+ccomp(sets-7, browser-17)
+det(time-21, the-19)
+nn(time-21, expiration-20)
+prep__(browser-17, time-21)
+advmod(is-22, immediately-23)
+prepc_after(is-22, closing-25)
+det(window-28, the-26)
+nn(window-28, browser-27)
+dobj(closing-25, window-28)
+
+The/DT result/NN is/VBZ that/IN a/DT user/NN that/WDT grants/VBZ offline_access/JJ permission/NN but/CC still/RB will/MD be/VB required/VBN to/TO re-authenticate/VB with/IN Facebook/NNP after/IN closing/VBG and/CC reopening/VBG the/DT browser/NN window/NN ./. 
+
+(ROOT (S (NP (DT The) (NN result)) (VP (VBZ is) (SBAR (IN that) (S (NP (NP (DT a) (NN user)) (SBAR (WHNP (WDT that)) (S (VP (VBZ grants) (NP (JJ offline_access) (NN permission)) (PRN (CC but) (ADVP (RB still))))))) (VP (MD will) (VP (VB be) (VP (VBN required) (S (VP (TO to) (VP (VB re-authenticate) (PP (IN with) (NP (NNP Facebook))) (PP (IN after) (S (VP (VBG closing) (CC and) (VBG reopening) (NP (DT the) (NN browser) (NN window)))))))))))))) (. .)))
+
+root(ROOT-0, is-3)
+det(result-2, The-1)
+nsubj(is-3, result-2)
+mark(required-15, that-4)
+det(user-6, a-5)
+nsubjpass(required-15, user-6)
+nsubj(grants-8, that-7)
+rcmod(user-6, grants-8)
+amod(permission-10, offline_access-9)
+dobj(grants-8, permission-10)
+cc(still-12, but-11)
+dep(grants-8, still-12)
+aux(required-15, will-13)
+auxpass(required-15, be-14)
+ccomp(is-3, required-15)
+aux(re-authenticate-17, to-16)
+xcomp(required-15, re-authenticate-17)
+prep_with(re-authenticate-17, Facebook-19)
+prepc_after(re-authenticate-17, closing-21)
+prepc_after(re-authenticate-17, reopening-23)
+conj_and(closing-21, reopening-23)
+det(window-26, the-24)
+nn(window-26, browser-25)
+dobj(closing-21, window-26)
+
+Steps/NNS to/TO reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB reproduce))) (: :)))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+
+1/CD Authenticate/NN the/DT user/NN on/IN a/DT web/NN site/NN and/CC request/NN offline_access/NN using/VBG PHP/NNP SDK/NNP 
+
+(ROOT (NP (NP (CD 1) (NN Authenticate)) (PP (NP (DT the) (NN user)) (IN on) (NP (NP (DT a) (NN web) (NN site) (CC and) (NN request) (NN offline_access)) (VP (VBG using) (NP (NNP PHP) (NNP SDK)))))))
+
+root(ROOT-0, Authenticate-2)
+num(Authenticate-2, 1-1)
+det(user-4, the-3)
+npadvmod(Authenticate-2, user-4)
+det(site-8, a-6)
+nn(site-8, web-7)
+prep_on(Authenticate-2, site-8)
+nn(offline_access-11, request-10)
+prep_on(Authenticate-2, offline_access-11)
+conj_and(site-8, offline_access-11)
+vmod(site-8, using-12)
+nn(SDK-14, PHP-13)
+dobj(using-12, SDK-14)
+
+2/CD The/DT user/NN is/VBZ logged/VBN onto/IN Facebook/NNP ./. 
+
+(ROOT (S (NP (NP (CD 2)) (NP (DT The) (NN user))) (VP (VBZ is) (VP (VBN logged) (PP (IN onto) (NP (NNP Facebook))))) (. .)))
+
+root(ROOT-0, logged-5)
+nsubjpass(logged-5, 2-1)
+det(user-3, The-2)
+dep(2-1, user-3)
+auxpass(logged-5, is-4)
+prep_onto(logged-5, Facebook-7)
+
+The/DT web/NN site/NN should/MD be/VB able/JJ to/TO read/VB that/IN the/DT user/NN is/VBZ logged/VBN in/IN ./. 
+
+(ROOT (S (NP (DT The) (NN web) (NN site)) (VP (MD should) (VP (VB be) (ADJP (JJ able) (S (VP (TO to) (VP (VB read) (SBAR (IN that) (S (NP (DT the) (NN user)) (VP (VBZ is) (VP (VBN logged) (PP (IN in)))))))))))) (. .)))
+
+root(ROOT-0, able-6)
+det(site-3, The-1)
+nn(site-3, web-2)
+nsubj(able-6, site-3)
+aux(able-6, should-4)
+cop(able-6, be-5)
+aux(read-8, to-7)
+xcomp(able-6, read-8)
+mark(logged-13, that-9)
+det(user-11, the-10)
+nsubjpass(logged-13, user-11)
+auxpass(logged-13, is-12)
+ccomp(read-8, logged-13)
+prep(logged-13, in-14)
+
+3/CD The/DT user/NN closes/VBZ the/DT browser/NN window/NN ./. 
+
+(ROOT (S (NP (NP (CD 3)) (NP (DT The) (NN user))) (VP (VBZ closes) (NP (DT the) (NN browser) (NN window))) (. .)))
+
+root(ROOT-0, closes-4)
+nsubj(closes-4, 3-1)
+det(user-3, The-2)
+dep(3-1, user-3)
+det(window-7, the-5)
+nn(window-7, browser-6)
+dobj(closes-4, window-7)
+
+4/CD The/DT user/NN reopens/VBZ the/DT browser/NN window/NN and/CC logs/NNS into/IN facebook/NN ./. 
+
+(ROOT (S (NP (NP (CD 4)) (NP (DT The) (NN user))) (VP (VBZ reopens) (NP (DT the) (NN browser) (NN window) (CC and) (NNS logs)) (PP (IN into) (NP (NN facebook)))) (. .)))
+
+root(ROOT-0, reopens-4)
+nsubj(reopens-4, 4-1)
+det(user-3, The-2)
+dep(4-1, user-3)
+det(window-7, the-5)
+nn(window-7, browser-6)
+dobj(reopens-4, window-7)
+dobj(reopens-4, logs-9)
+conj_and(window-7, logs-9)
+prep_into(reopens-4, facebook-11)
+
+5/CD The/DT user/NN goes/VBZ back/RB to/TO the/DT web/NN site/NN that/WDT has/VBZ the/DT offline_access/NN token/JJ ./. 
+
+(ROOT (S (NP (NP (CD 5)) (NP (DT The) (NN user))) (VP (VBZ goes) (ADVP (RB back)) (PP (TO to) (NP (NP (DT the) (NN web) (NN site)) (SBAR (WHNP (WDT that)) (S (VP (VBZ has) (NP (DT the) (NN offline_access) (JJ token)))))))) (. .)))
+
+root(ROOT-0, goes-4)
+nsubj(goes-4, 5-1)
+det(user-3, The-2)
+dep(5-1, user-3)
+advmod(goes-4, back-5)
+det(site-9, the-7)
+nn(site-9, web-8)
+prep_to(goes-4, site-9)
+nsubj(has-11, that-10)
+rcmod(site-9, has-11)
+det(offline_access-13, the-12)
+dobj(has-11, offline_access-13)
+amod(offline_access-13, token-14)
+
+Expected/VBN result/NN :/: Web/NN site/NN can/MD detect/VB that/IN the/DT user/NN is/VBZ logged/VBN in/IN 
+
+(ROOT (VP (VBN Expected) (NP (NP (NN result)) (: :) (S (NP (NN Web) (NN site)) (VP (MD can) (VP (VB detect) (SBAR (IN that) (S (NP (DT the) (NN user)) (VP (VBZ is) (VP (VBN logged) (PP (IN in))))))))))))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, result-2)
+nn(site-5, Web-4)
+nsubj(detect-7, site-5)
+aux(detect-7, can-6)
+dep(result-2, detect-7)
+mark(logged-12, that-8)
+det(user-10, the-9)
+nsubjpass(logged-12, user-10)
+auxpass(logged-12, is-11)
+ccomp(detect-7, logged-12)
+prep(logged-12, in-13)
+
+Actual/JJ Result/NN :/: The/DT web/NN site/NN is/VBZ unable/JJ to/TO detect/VB that/IN the/DT user/NN is/VBZ logged/VBN in/IN ./. 
+
+(ROOT (NP (NP (JJ Actual) (NN Result)) (: :) (S (NP (DT The) (NN web) (NN site)) (VP (VBZ is) (ADJP (JJ unable) (S (VP (TO to) (VP (VB detect) (SBAR (IN that) (S (NP (DT the) (NN user)) (VP (VBZ is) (VP (VBN logged) (PP (IN in)))))))))))) (. .)))
+
+root(ROOT-0, Result-2)
+amod(Result-2, Actual-1)
+det(site-6, The-4)
+nn(site-6, web-5)
+nsubj(unable-8, site-6)
+cop(unable-8, is-7)
+dep(Result-2, unable-8)
+aux(detect-10, to-9)
+xcomp(unable-8, detect-10)
+mark(logged-15, that-11)
+det(user-13, the-12)
+nsubjpass(logged-15, user-13)
+auxpass(logged-15, is-14)
+ccomp(detect-10, logged-15)
+prep(logged-15, in-16)
+
+I/PRP believe/VBP I/PRP found/VBD the/DT reason/NN for/IN this/DT ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP believe) (SBAR (S (NP (PRP I)) (VP (VBD found) (NP (DT the) (NN reason)) (PP (IN for) (NP (DT this))))))) (. .)))
+
+root(ROOT-0, believe-2)
+nsubj(believe-2, I-1)
+nsubj(found-4, I-3)
+ccomp(believe-2, found-4)
+det(reason-6, the-5)
+dobj(found-4, reason-6)
+prep_for(found-4, this-8)
+
+In/IN the/DT php/NN sdk/NN facebook.php/NN file/NN _/NN in/IN Facebook/NNP :/: :/: setCookieFromSession/NN (/-LRB- )/-RRB- there/EX s/VBZ a/DT line/NN that/WDT sets/VBZ the/DT expiry/NN time/NN :/: 
+
+(ROOT (PP (IN In) (NP (NP (NP (DT the) (NN php) (NN sdk) (NN facebook.php) (NN file) (NN _)) (PP (IN in) (NP (NNP Facebook)) (: :))) (: :) (NP (NP (NN setCookieFromSession)) (-LRB- -LRB-) (SBAR (-RRB- -RRB-) (S (NP (EX there)) (VP (VBZ s) (NP (NP (DT a) (NN line)) (SBAR (WHNP (WDT that)) (S (VP (VBZ sets) (NP (DT the) (NN expiry) (NN time))))))))) (: :)))))
+
+root(ROOT-0, In-1)
+det(_-7, the-2)
+nn(_-7, php-3)
+nn(_-7, sdk-4)
+nn(_-7, facebook.php-5)
+nn(_-7, file-6)
+pobj(In-1, _-7)
+prep_in(_-7, Facebook-9)
+dep(_-7, setCookieFromSession-12)
+expl(s-16, there-15)
+dep(setCookieFromSession-12, s-16)
+det(line-18, a-17)
+nsubj(s-16, line-18)
+nsubj(sets-20, that-19)
+rcmod(line-18, sets-20)
+det(time-23, the-21)
+nn(time-23, expiry-22)
+dobj(sets-20, time-23)
+
+$/$ expires/VBZ =/JJ $/$ session/NN [/-LRB- expires/VBZ ]/-RRB- ;/: 
+
+(ROOT (S (NP (NP ($ $) (VBZ expires)) (PRN (ADVP (JJ =)) (NP ($ $) (QP (NN session) (-LRB- -LSB-))))) (VP (VBZ expires) (ADVP (-RRB- -RSB-))) (: ;)))
+
+root(ROOT-0, expires-7)
+nsubj(expires-7, $-1)
+dep($-1, expires-2)
+dep($-4, =-3)
+dep($-1, $-4)
+num($-4, session-5)
+punct(session-5, -LSB--6)
+advmod(expires-7, -RSB--8)
+
+This/DT works/VBZ unless/IN offline_access/NN has/VBZ been/VBN granted/VBN _/RB in/IN which/WDT case/NN $/$ session/NN [/-LRB- expires/VBZ ]/-RRB- is/VBZ set/VBN to/TO 0/CD ./. 
+
+(ROOT (S (NP (DT This)) (VP (VBZ works) (SBAR (IN unless) (S (NP (NN offline_access)) (VP (VBZ has) (VP (VBN been) (VP (VBN granted) (ADVP (RB _)) (SBAR (WHPP (IN in) (WHNP (WDT which) (NN case))) (S (NP (NP ($ $) (QP (NN session) (-LRB- -LSB-))) (VP (VBZ expires))) (-RRB- -RSB-) (VP (VBZ is) (VP (VBN set) (PP (TO to) (NP (CD 0))))))))))))) (. .)))
+
+root(ROOT-0, works-2)
+nsubj(works-2, This-1)
+mark(granted-7, unless-3)
+nsubjpass(granted-7, offline_access-4)
+aux(granted-7, has-5)
+auxpass(granted-7, been-6)
+advcl(works-2, granted-7)
+advmod(granted-7, _-8)
+det(case-11, which-10)
+prep_in(set-18, case-11)
+nsubjpass(set-18, $-12)
+num($-12, session-13)
+punct(session-13, -LSB--14)
+dep($-12, expires-15)
+punct(set-18, -RSB--16)
+auxpass(set-18, is-17)
+ccomp(granted-7, set-18)
+prep_to(set-18, 0-20)
+
+However/RB _/CD setting/VBG a/DT cookie/NN to/TO expire/VB to/TO 0/CD is/VBZ equivalent/JJ to/TO having/VBG the/DT cookie/NN expire/VB when/WRB the/DT browser/NN window/NN closes/VBZ ./. 
+
+(ROOT (S (ADVP (RB However)) (NP (NP (CD _)) (VP (VBG setting) (NP (DT a) (NN cookie) (S (VP (TO to) (VP (VB expire) (PP (TO to) (NP (CD 0))))))))) (VP (VBZ is) (ADJP (JJ equivalent) (PP (TO to) (S (VP (VBG having) (S (NP (DT the) (NN cookie)) (VP (VB expire) (SBAR (WHADVP (WRB when)) (S (NP (DT the) (NN browser) (NN window)) (VP (VBZ closes))))))))))) (. .)))
+
+root(ROOT-0, equivalent-11)
+advmod(equivalent-11, However-1)
+nsubj(equivalent-11, _-2)
+vmod(_-2, setting-3)
+det(cookie-5, a-4)
+dobj(setting-3, cookie-5)
+aux(expire-7, to-6)
+vmod(cookie-5, expire-7)
+prep_to(expire-7, 0-9)
+cop(equivalent-11, is-10)
+prepc_to(equivalent-11, having-13)
+det(cookie-15, the-14)
+nsubj(expire-16, cookie-15)
+ccomp(having-13, expire-16)
+advmod(closes-21, when-17)
+det(window-20, the-18)
+nn(window-20, browser-19)
+nsubj(closes-21, window-20)
+advcl(expire-16, closes-21)
+

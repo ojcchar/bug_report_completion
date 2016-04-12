@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>145877</id>
+	<title>Need pre / post hooks for Transaction execution</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Scenario in GMF:</sentence>
+			<sentence id="1.2">- Outside client is executing a job on a worker thread.</sentence>
+			<sentence id="1.3">- GMF UI is still enabled while worker thread is executed - potentially causing updates to occur which will ask for a lock of the editing domain.</sentence>
+			<sentence id="1.4">Since transaction is executing on another thread, the UI will lock.</sentence>
+			<sentence id="1.5">- Notifications are received by GMF on the worker thread.</sentence>
+			<sentence id="1.6">- GMF needs to synchronously send the notifications to the UI thread to respect the transaction api contract using the Priveledged runnable.</sentence>
+			<sentence id="1.7">- Synch exec tries to obtain a lock, but UI has lock already --&gt; DEADLOCK...</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">GMF needs to be able to turn off display updates while the transaction is in progress.</sentence>
+			<sentence id="2.2">A hook at the beginning of the transaction and at the end of the transaction would satisfy this.</sentence>
+			<sentence id="2.3">The hook needs to be on the same thread as the transaction will be executed on.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">GMF can workaround this by dynamically querying the state of the transaction, but some cases might not allow updates to turn back on right away - if the write transaction didn't modify any resource and/or in rollback scenarios.</sentence>
+		</paragraph>
+	</description>
+</bug>

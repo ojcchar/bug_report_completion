@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>47344</id>
+	<title>[FEATURE REQUEST] RedirectCanonicalName</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'd like a new argument to UseCanonicalName.</sentence>
+			<sentence id="1.2">The current syntax of UseCanonicalName is:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">UseCanonicalName On|Off|DNS</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I'd like a fourth option, 'Redirect', which would do the same thing as:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">RewriteRule (.</sentence>
+			<sentence id="4.2">*) http://$SERVERNAME/$1 [R,L]</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">That is, any request that's received on a ServerAlias will be immediately redirected to the canonical ServerName value.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">The justifications for this are numerous, from preserving the right hostname in cookies, to ensuring the right hostname for SSL certificates, to the eternal (if occasionally misguided) quest for SEO brownie points.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">This also goes under the general heading of my quest to see mod_rewrite become unnecessary except for the gravest situations.</sentence>
+			<sentence id="7.2">:-)</sentence>
+		</paragraph>
+	</description>
+</bug>

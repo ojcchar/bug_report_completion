@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>40952</id>
+	<title>Error page wrongly encodes URL</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I've been getting a few error messages from mod_proxy as such:</sentence>
+			<sentence id="2.2">---snip---</sentence>
+			<sentence id="2.3">Proxy Error</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The proxy server received an invalid response from an upstream server.</sentence>
+			<sentence id="3.2">The proxy server could not handle the request GET
+http://bcm-specs.sipsolutions.net/Sending?action=edit.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Reason: DNS lookup failure for: bcm-specs.</sentence>
+			<sentence id="4.2">sipsolutions.net</sentence>
+			<sentence id="4.3">---snip---</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Now I tried clicking on that URL but that made me go to the URL
+http://bcm-specs.sipsolutions.net/Sending%3faction=edit</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Notice how the questionmark was URL-encoded.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Looking at the source code of the error message reveals:
+&lt;a
+href="http://bcm-specs.sipsolutions.net/Sending%3faction=edit"&gt;GET&amp;nbsp;http://bcm-specs.sipsolutions.net/Sending?action=edit&lt;/a&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">The URL inside the href="..." shouldn't be URL-encoded, it should be HTML
+encoded: stuff like "&gt;" should be replaced with "&amp;gt;" etc.</sentence>
+		</paragraph>
+	</description>
+</bug>

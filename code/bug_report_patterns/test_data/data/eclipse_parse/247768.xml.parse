@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>247768</id>
+	<title>CDT refuses to respect options on a configuration</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Build ID:  I20080617-2000</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps To Reproduce:</sentence>
+			<sentence id="2.2">1 CDT project, GNU toolchain on Linux</sentence>
+			<sentence id="2.3">2 All source code in subdirectory.</sentence>
+			<sentence id="2.4">3 Create new configuration called 'Debug'</sentence>
+			<sentence id="2.5">4 In configuration, set optimization level to 0, add a -D to the preprocessor.</sentence>
+			<sentence id="2.6">5 Discover that subdir.mk still says -O2 and no -D.</sentence>
+			<sentence id="2.7">6 See that the dialog box still thinks that the -D is in there, but -O0 has flipped back to -O2.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">More information:
+A sort of workaround is to turn off auto-generation and turn it back on again.</sentence>
+		</paragraph>
+	</description>
+</bug>

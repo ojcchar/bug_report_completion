@@ -1,0 +1,291 @@
+My/PRP$ Config/NNP :/: 
+
+(ROOT (NP (NP (PRP$ My) (NNP Config)) (: :)))
+
+root(ROOT-0, Config-2)
+poss(Config-2, My-1)
+
+LoadModule/NNP authz_user_module/JJ modules/mod/NN _/CD authz_user/NN ./. 
+
+(ROOT (NP (NP (NNP LoadModule) (JJ authz_user_module) (NN modules/mod)) (NP (CD _) (NN authz_user)) (. .)))
+
+root(ROOT-0, modules/mod-3)
+nn(modules/mod-3, LoadModule-1)
+amod(modules/mod-3, authz_user_module-2)
+num(authz_user-5, _-4)
+dep(modules/mod-3, authz_user-5)
+
+so/RB LoadModule/JJ ldap_module/NN modules/mod/NN _/CD ldap.so/NN LoadModule/NN authnz_ldap_module/NN modules/mod/NN _/CD authnz_ldap/NN ./. 
+
+(ROOT (NP (NP (ADJP (RB so) (JJ LoadModule)) (NN ldap_module) (NN modules/mod)) (NP (NP (CD _) (NN ldap.so) (NN LoadModule) (NN authnz_ldap_module)) (NP (NN modules/mod) (CD _) (NN authnz_ldap))) (. .)))
+
+root(ROOT-0, modules/mod-4)
+advmod(LoadModule-2, so-1)
+amod(modules/mod-4, LoadModule-2)
+nn(modules/mod-4, ldap_module-3)
+num(authnz_ldap_module-8, _-5)
+nn(authnz_ldap_module-8, ldap.so-6)
+nn(authnz_ldap_module-8, LoadModule-7)
+dep(modules/mod-4, authnz_ldap_module-8)
+nn(authnz_ldap-11, modules/mod-9)
+num(authnz_ldap-11, _-10)
+dep(authnz_ldap_module-8, authnz_ldap-11)
+
+so/RB 
+
+(ROOT (ADVP (RB so)))
+
+root(ROOT-0, so-1)
+
+</JJR Location/NNP //: ldap2/NN >/JJR AuthBasicProvider/NN ldap/NN AuthType/NN Basic/JJ AuthName/NN "/`` LDAP/NNP secure2/NN "/'' AuthLDAPBindDN/NN "/`` testdomain2/NN \/CD \/CD Administrator/NNP "/'' AuthLDAPBindPassword/NNP password/NN AuthLDAPUrl/NN "/`` ldap/NN :/: //: //: server/NN :389/CD //: OU/NN =/JJ Test/NN Users/NNS ,/, DC/NN =/JJ testdomain2/NN ,/, DC/NN =/JJ local?sAMAccountName/NN "/'' AuthzLDAPAuthoritative/NNP off/IN require/VBP valid-user/NN </JJR //: Location/NNP >/JJR 
+
+(ROOT (SINV (ADJP (JJR <)) (VP (ADVP (NP (NP (NNP Location)) (PRN (: /) (NP (NP (NN ldap2)) (NP (NP (NP (JJR >) (NN AuthBasicProvider) (NN ldap) (NN AuthType)) (JJ Basic) (NN AuthName)) (`` ``) (NP (NP (NP (NNP LDAP)) (NP (NN secure2) ('' '') (NN AuthLDAPBindDN))) (NP (NP (`` ``) (NN testdomain2) (CD \)) (NP (NP (CD \) (NNP Administrator) ('' '') (NNP AuthLDAPBindPassword)) (VP (NN password) (NP (NP (NN AuthLDAPUrl)) (`` ``) (NP (NN ldap)) (: :)))))))) (: /)) (PRN (: /) (FRAG (FRAG (NP (NN server)) (NP (CD :389))) (: /) (FRAG (NP (NN OU)) (NP (NP (JJ =) (NN Test) (NNS Users)) (, ,) (NP (NN DC) (JJ =) (NN testdomain2)) (, ,) (NP (NP (NN DC)) (NP (JJ =) (NN local?sAMAccountName) ('' '') (NNP AuthzLDAPAuthoritative)))))))) (IN off)) (VBP require)) (NP (NP (NN valid-user)) (ADJP (ADJP (JJR <)) (PRN (: /) (S (NP (NNP Location)) (ADJP (JJR >))))))))
+
+root(ROOT-0, require-48)
+dep(require-48, <-1)
+npadvmod(off-47, Location-2)
+punct(ldap2-4, /-3)
+dep(Location-2, ldap2-4)
+amod(AuthType-8, >-5)
+nn(AuthType-8, AuthBasicProvider-6)
+nn(AuthType-8, ldap-7)
+nn(AuthName-10, AuthType-8)
+amod(AuthName-10, Basic-9)
+dep(ldap2-4, AuthName-10)
+dep(AuthName-10, LDAP-12)
+nn(AuthLDAPBindDN-15, secure2-13)
+dep(LDAP-12, AuthLDAPBindDN-15)
+dep(LDAP-12, testdomain2-17)
+num(testdomain2-17, \-18)
+num(AuthLDAPBindPassword-22, \-19)
+nn(AuthLDAPBindPassword-22, Administrator-20)
+dep(testdomain2-17, AuthLDAPBindPassword-22)
+dep(AuthLDAPBindPassword-22, password-23)
+dobj(password-23, AuthLDAPUrl-24)
+dep(AuthLDAPUrl-24, ldap-26)
+punct(ldap2-4, /-28)
+punct(server-30, /-29)
+dep(Location-2, server-30)
+dep(server-30, :389-31)
+punct(server-30, /-32)
+dep(server-30, OU-33)
+amod(Users-36, =-34)
+nn(Users-36, Test-35)
+dep(OU-33, Users-36)
+nn(testdomain2-40, DC-38)
+amod(testdomain2-40, =-39)
+appos(Users-36, testdomain2-40)
+appos(Users-36, DC-42)
+amod(AuthzLDAPAuthoritative-46, =-43)
+nn(AuthzLDAPAuthoritative-46, local?sAMAccountName-44)
+dep(DC-42, AuthzLDAPAuthoritative-46)
+advmod(require-48, off-47)
+nsubj(require-48, valid-user-49)
+amod(valid-user-49, <-50)
+punct(>-53, /-51)
+dep(>-53, Location-52)
+dep(<-50, >-53)
+
+I/PRP 'm/VBP authenticating/VBG against/IN an/DT Active/JJ Directory/NNP ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP 'm) (VP (VBG authenticating) (PP (IN against) (NP (DT an) (JJ Active) (NNP Directory))))) (. .)))
+
+root(ROOT-0, authenticating-3)
+nsubj(authenticating-3, I-1)
+aux(authenticating-3, 'm-2)
+det(Directory-7, an-5)
+amod(Directory-7, Active-6)
+prep_against(authenticating-3, Directory-7)
+
+I/PRP observe/VBP that/IN if/IN I/PRP enter/VBP a/DT correct/JJ user/NN name/NN but/CC incorrect/JJ password/NN I/PRP am/VBP not/RB asked/VBN to/TO reauthenticate/NN ,/, I/PRP just/RB get/VBP an/DT internal/JJ server/NN error/NN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP observe) (SBAR (IN that) (S (SBAR (IN if) (S (S (NP (PRP I)) (VP (VBP enter) (NP (DT a) (JJ correct) (NN user) (NN name)))) (CC but) (S (NP-TMP (JJ incorrect) (NN password)) (NP (PRP I)) (VP (VBP am) (RB not) (VP (VBN asked) (PP (TO to) (NP (NN reauthenticate)))))))) (, ,) (NP (PRP I)) (ADVP (RB just)) (VP (VBP get) (NP (DT an) (JJ internal) (NN server) (NN error)))))) (. .)))
+
+root(ROOT-0, observe-2)
+nsubj(observe-2, I-1)
+mark(get-23, that-3)
+mark(enter-6, if-4)
+nsubj(enter-6, I-5)
+advcl(get-23, enter-6)
+det(name-10, a-7)
+amod(name-10, correct-8)
+nn(name-10, user-9)
+dobj(enter-6, name-10)
+amod(password-13, incorrect-12)
+tmod(asked-17, password-13)
+nsubjpass(asked-17, I-14)
+auxpass(asked-17, am-15)
+neg(asked-17, not-16)
+conj_but(enter-6, asked-17)
+advcl(get-23, asked-17)
+prep_to(asked-17, reauthenticate-19)
+nsubj(get-23, I-21)
+advmod(get-23, just-22)
+ccomp(observe-2, get-23)
+det(error-27, an-24)
+amod(error-27, internal-25)
+nn(error-27, server-26)
+dobj(get-23, error-27)
+
+This/DT is/VBZ due/JJ to/TO this/DT piece/NN of/IN code/NN :/: 
+
+(ROOT (S (NP (DT This)) (VP (VBZ is) (ADJP (JJ due) (PP (TO to) (NP (NP (DT this) (NN piece)) (PP (IN of) (NP (NN code))))))) (: :)))
+
+root(ROOT-0, due-3)
+nsubj(due-3, This-1)
+cop(due-3, is-2)
+det(piece-6, this-5)
+prep_to(due-3, piece-6)
+prep_of(piece-6, code-8)
+
+mod_authnz_ldap/NN ./. 
+
+(ROOT (NP (NN mod_authnz_ldap) (. .)))
+
+root(ROOT-0, mod_authnz_ldap-1)
+
+c/NN 
+
+(ROOT (NP (NN c)))
+
+root(ROOT-0, c-1)
+
+static/JJ authn_status/NN authn_ldap_check_password/NN (/-LRB- request_rec/JJ */SYM r/NN ,/, const/NN char/NN */SYM user/NN ,/, const/NN char/NN */SYM password/NN )/-RRB- {/-LRB- . . ./: return/NN (/-LRB- LDAP_NO_SUCH_OBJECT/NN ==/CD result/NN )/-RRB- ?/. 
+
+(ROOT (NP (NP (JJ static) (NN authn_status) (NN authn_ldap_check_password) (PRN (-LRB- -LRB-) (NP (NP (NP (JJ request_rec)) (SBAR (S (VP (SYM *) (NP (NN r)))))) (, ,) (NP (NP (NN const) (NN char)) (SBAR (S (VP (SYM *) (NP (NN user)))))) (, ,) (NP (NP (NN const) (NN char)) (SBAR (S (VP (SYM *) (NP (NN password))))))) (-RRB- -RRB-)) (-LRB- -LCB-)) (: ...) (NP (NP (NN return)) (PRN (-LRB- -LRB-) (NP (NP (NN LDAP_NO_SUCH_OBJECT)) (NP (CD ==) (NN result))) (-RRB- -RRB-))) (. ?)))
+
+root(ROOT-0, authn_ldap_check_password-3)
+amod(authn_ldap_check_password-3, static-1)
+nn(authn_ldap_check_password-3, authn_status-2)
+dep(authn_ldap_check_password-3, request_rec-5)
+dep(r-7, *-6)
+rcmod(request_rec-5, r-7)
+nn(char-10, const-9)
+appos(request_rec-5, char-10)
+dep(user-12, *-11)
+rcmod(char-10, user-12)
+nn(char-15, const-14)
+appos(request_rec-5, char-15)
+dep(password-17, *-16)
+rcmod(char-15, password-17)
+dep(authn_ldap_check_password-3, return-21)
+dep(return-21, LDAP_NO_SUCH_OBJECT-23)
+num(result-25, ==-24)
+dep(LDAP_NO_SUCH_OBJECT-23, result-25)
+
+AUTH_USER_NOT_FOUND/NN #ifdef/NN LDAP_SECURITY_ERROR/NN :/: (/-LRB- LDAP_SECURITY_ERROR/NN (/-LRB- result/NN )/-RRB- )/-RRB- ?/. 
+
+(ROOT (NP (NP (NP (NP (NN AUTH_USER_NOT_FOUND)) (SBAR (S (NP (NP (NN #ifdef)) (NP (ADJP (NN LDAP_SECURITY_ERROR))) (: :))))) (PRN (-LRB- -LRB-) (NP (NP (NN LDAP_SECURITY_ERROR)) (NP (-LRB- -LRB-) (NN result) (-RRB- -RRB-))) (-RRB- -RRB-))) (. ?)))
+
+root(ROOT-0, AUTH_USER_NOT_FOUND-1)
+rcmod(AUTH_USER_NOT_FOUND-1, #ifdef-2)
+dep(#ifdef-2, LDAP_SECURITY_ERROR-3)
+appos(AUTH_USER_NOT_FOUND-1, LDAP_SECURITY_ERROR-6)
+appos(LDAP_SECURITY_ERROR-6, result-8)
+
+AUTH_DENIED/NN #endif/NN :/: AUTH_GENERAL_ERROR/NN ;/: . . ./: }/-RRB- 
+
+(ROOT (NP (NP (NN AUTH_DENIED) (NN #endif)) (: :) (NP (NP (NN AUTH_GENERAL_ERROR)) (PRN (: ;) (NP (: ...))) (-RRB- -RCB-))))
+
+root(ROOT-0, #endif-2)
+nn(#endif-2, AUTH_DENIED-1)
+dep(#endif-2, AUTH_GENERAL_ERROR-4)
+
+LDAP_SECURITY_ERROR/NN is/VBZ not/RB defined/VBN in/IN the/DT winldap/NN SDK/NN (/-LRB- nor/CC the/DT Sun/NNP ONE/CD sdk/NN )/-RRB- -/: I/PRP presume/VBP it/PRP is/VBZ an/DT OpenLDAP/NN addition/NN ./. 
+
+(ROOT (S (S (NP (NN LDAP_SECURITY_ERROR)) (VP (VBZ is) (RB not) (VP (VBN defined) (PP (IN in) (NP (NP (DT the) (NN winldap) (NN SDK)) (PRN (-LRB- -LRB-) (S (NP (CC nor) (NP (NP (DT the) (NNP Sun)) (NP (CD ONE)))) (NP (NN sdk))) (-RRB- -RRB-))))))) (: -) (S (NP (PRP I)) (VP (VBP presume) (SBAR (S (NP (PRP it)) (VP (VBZ is) (NP (DT an) (NN OpenLDAP) (NN addition))))))) (. .)))
+
+root(ROOT-0, defined-4)
+nsubjpass(defined-4, LDAP_SECURITY_ERROR-1)
+auxpass(defined-4, is-2)
+neg(defined-4, not-3)
+det(SDK-8, the-6)
+nn(SDK-8, winldap-7)
+prep_in(defined-4, SDK-8)
+cc(Sun-12, nor-10)
+det(Sun-12, the-11)
+dep(sdk-14, Sun-12)
+dep(Sun-12, ONE-13)
+dep(SDK-8, sdk-14)
+nsubj(presume-18, I-17)
+parataxis(defined-4, presume-18)
+nsubj(addition-23, it-19)
+cop(addition-23, is-20)
+det(addition-23, an-21)
+nn(addition-23, OpenLDAP-22)
+ccomp(presume-18, addition-23)
+
+This/DT results/VBZ in/IN any/DT error/NN other/JJ than/IN an/DT invalid/JJ object/NN being/VBG treated/VBN as/IN an/DT internal/JJ server/NN error/NN ./. 
+
+(ROOT (S (NP (DT This)) (VP (VBZ results) (PP (IN in) (NP (NP (DT any) (NN error)) (PP (JJ other) (IN than) (NP (NP (DT an) (JJ invalid) (NN object)) (VP (VBG being) (VP (VBN treated) (PP (IN as) (NP (DT an) (JJ internal) (NN server) (NN error)))))))))) (. .)))
+
+root(ROOT-0, results-2)
+nsubj(results-2, This-1)
+det(error-5, any-4)
+prep_in(results-2, error-5)
+dep(error-5, other-6)
+det(object-10, an-8)
+amod(object-10, invalid-9)
+prep_than(error-5, object-10)
+auxpass(treated-12, being-11)
+vmod(object-10, treated-12)
+det(error-17, an-14)
+amod(error-17, internal-15)
+nn(error-17, server-16)
+prep_as(treated-12, error-17)
+
+This/DT can/MD be/VB corrected/VBN by/IN modifying/VBG to/TO :/: 
+
+(ROOT (S (NP (DT This)) (VP (MD can) (VP (VB be) (VP (VBN corrected) (PP (IN by) (S (VP (VBG modifying) (PP (TO to)))))))) (: :)))
+
+root(ROOT-0, corrected-4)
+nsubjpass(corrected-4, This-1)
+aux(corrected-4, can-2)
+auxpass(corrected-4, be-3)
+agent(corrected-4, modifying-6)
+prep(modifying-6, to-7)
+
+#ifdef/NN LDAP_SECURITY_ERROR/NN :/: (/-LRB- LDAP_SECURITY_ERROR/NN (/-LRB- result/NN )/-RRB- )/-RRB- ?/. 
+
+(ROOT (S (NP (NN #ifdef)) (VP (NN LDAP_SECURITY_ERROR) (: :) (PRN (-LRB- -LRB-) (NP (NP (NN LDAP_SECURITY_ERROR)) (NP (-LRB- -LRB-) (NN result) (-RRB- -RRB-))) (-RRB- -RRB-))) (. ?)))
+
+root(ROOT-0, LDAP_SECURITY_ERROR-2)
+nsubj(LDAP_SECURITY_ERROR-2, #ifdef-1)
+dep(LDAP_SECURITY_ERROR-2, LDAP_SECURITY_ERROR-5)
+appos(LDAP_SECURITY_ERROR-5, result-7)
+
+AUTH_DENIED/NN #else/NN :/: LDAP_INAPPROPRIATE_AUTH/NN ==/CD result/NN ?/. 
+
+(ROOT (NP (NP (NN AUTH_DENIED) (NN #else)) (: :) (NP (NN LDAP_INAPPROPRIATE_AUTH) (CD ==) (NN result)) (. ?)))
+
+root(ROOT-0, #else-2)
+nn(#else-2, AUTH_DENIED-1)
+nn(result-6, LDAP_INAPPROPRIATE_AUTH-4)
+num(result-6, ==-5)
+dep(#else-2, result-6)
+
+AUTH_DENIED/NNP :/: LDAP_INVALID_CREDENTIALS/NN ==/CD result/NN ?/. 
+
+(ROOT (NP (NP (NNP AUTH_DENIED)) (: :) (NP (NN LDAP_INVALID_CREDENTIALS) (CD ==) (NN result)) (. ?)))
+
+root(ROOT-0, AUTH_DENIED-1)
+nn(result-5, LDAP_INVALID_CREDENTIALS-3)
+num(result-5, ==-4)
+dep(AUTH_DENIED-1, result-5)
+
+AUTH_DENIED/NNP :/: LDAP_INSUFFICIENT_RIGHTS/NN ==/CD result/NN ?/. 
+
+(ROOT (NP (NP (NNP AUTH_DENIED)) (: :) (NP (NN LDAP_INSUFFICIENT_RIGHTS) (CD ==) (NN result)) (. ?)))
+
+root(ROOT-0, AUTH_DENIED-1)
+nn(result-5, LDAP_INSUFFICIENT_RIGHTS-3)
+num(result-5, ==-4)
+dep(AUTH_DENIED-1, result-5)
+
+AUTH_DENIED/NN #endif/NN 
+
+(ROOT (NP (NN AUTH_DENIED) (NN #endif)))
+
+root(ROOT-0, #endif-2)
+nn(#endif-2, AUTH_DENIED-1)
+

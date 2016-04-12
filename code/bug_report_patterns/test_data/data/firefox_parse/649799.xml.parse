@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>649799</id>
+	<title>Errors in Javascript Event Handlers do not show in either the Error console or Firebug's console</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0) Gecko/20100101 Firefox/4.0
+Build Identifier: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0) Gecko/20100101 Firefox/4.0</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Javascript applications have most of their code in event handlers.</sentence>
+			<sentence id="2.2">When one of these handlers have some sort of error it's important to be alerted to the fact.</sentence>
+			<sentence id="2.3">Currently in Firefox an error in an event handler is not shown in the Error Console or in firebugs error console.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Why this is Critical for Firefox:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I use Firefox as my main development browser, I like it.</sentence>
+			<sentence id="4.2">It's no longer telling me about errors in my code, where as other browsers are.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Steps to Reproduce:</sentence>
+			<sentence id="6.2">1 Load the above url</sentence>
+			<sentence id="6.3">2 look at the Main menu &gt; Tools &gt; Error Console</sentence>
+			<sentence id="6.4">3 Note the lack of an error.</sentence>
+			<sentence id="6.5">Actual Results:</sentence>
+			<sentence id="6.6">No error.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Expected Results:  
+An error is shown in the Error Console.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Here is the html source of the url I gave.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;ARGH&lt;/title&gt;
+&lt;/head&gt;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">&lt;body&gt;</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">&lt;script&gt;
+var erroringHandler = function(event) {
+  alert('you should see this');
+  window.monkey();
+  alert('you will not see this');
+};</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">var responder = function(event) {
+  if (event.eventName == 'test:monkey') {
+    erroringHandler(event);
+  }
+};</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">document.addEventListener('dataavailable', responder, false);</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">var event = document.createEvent('HTMLEvents');
+event.initEvent('dataavailable', true, true);
+event.eventName = 'test:monkey';
+document.dispatchEvent(event);
+&lt;/script&gt;</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">&lt;/body&gt;</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">&lt;/html&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>44402</id>
+	<title>Worker mpm crashes (SEGV) under stress with static workload</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I am running specweb99 static content workload with httpd 2.2.6 on Solaris
+nevada (snv_79).</sentence>
+			<sentence id="1.2">I am seeing several crashes.</sentence>
+			<sentence id="1.3">Typically crash do reproduce in
+10 minutes.</sentence>
+			<sentence id="1.4">Here are the details :
+Apache version : httpd-2.2.6
+Simultaneous connection : 1000
+Hardware : X4100 Server (4 core 2.8 GHz)
+CPU : Only single core is enabled
+Architecture : x86_64</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">httpd.conf contains :
+&lt;IfModule worker.c&gt;
+ListenBackLog     50000
+StartServers         2
+ThreadLimit        500
+ThreadsPerChild    500
+MinSpareThreads    100
+MaxSpareThreads    100
+ThreadsPerChild    500
+MaxClients        1000
+MaxRequestsPerChild  0
+&lt;/IfModule&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Listen 192.168.21.1:80
+Listen 192.168.22.1:80</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Here is the most common stack trace.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Configure option :</sentence>
+			<sentence id="5.2">CFLAGS="-g -mt -m64 -KPIC " .</sentence>
+			<sentence id="5.3">/configure --prefix=&lt;prefix_path&gt; --with-mpm=worker</sentence>
+			<sentence id="5.4">--enable-modules=all --with-ssl=/usr/sfw --enable-mods-shared=all --enable-cgi</sentence>
+			<sentence id="5.5">--enable-threads &amp;&amp; gmake &amp;&amp; gmake install</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Crash 1 :</sentence>
+			<sentence id="6.2">(dbx) where</sentence>
+			<sentence id="6.3">current thread: t@76</sentence>
+			<sentence id="6.4">=&gt;[1] allocator_free(allocator = 0x101f870, node = (nil)), line 331 in "apr_pools.c"</sentence>
+			<sentence id="6.5">  [2] apr_pool_clear(pool = 0x102fb88), line 710 in "apr_pools.c"</sentence>
+			<sentence id="6.6">  [3] ap_core_output_filter(f = 0x1020550, b = 0x101f9e8), line 899 in</sentence>
+			<sentence id="6.7">"core_filters.c"</sentence>
+			<sentence id="6.8">  [4] ap_pass_brigade(next = 0x1020550, bb = 0x101f9e8), line 526 in "util_filter.c"</sentence>
+			<sentence id="6.9">  [5] logio_out_filter(f = 0x10204e0, bb = 0x101f9e8), line 135 in "mod_logio.c"</sentence>
+			<sentence id="6.10">  [6] ap_pass_brigade(next = 0x10204e0, bb = 0x101f9e8), line 526 in "util_filter.c"</sentence>
+			<sentence id="6.11">  [7] ap_flush_conn(c = 0x101fd00), line 84 in "connection.c"</sentence>
+			<sentence id="6.12">  [8] ap_lingering_close(c = 0x101fd00), line 123 in "connection.c"</sentence>
+			<sentence id="6.13">  [9] process_socket(p = 0x101f968, sock = 0x101f9e8, my_child_num = 1,</sentence>
+			<sentence id="6.14">my_thread_num = 227, bucket_alloc = 0x1029a88), line 545 in "worker.c"</sentence>
+			<sentence id="6.15">  [10] worker_thread(thd = 0x5bed38, dummy = 0x6dbac0), line 894 in "worker.c"</sentence>
+			<sentence id="6.16">  [11] dummy_worker(opaque = 0x5bed38), line 142 in "thread.c"</sentence>
+			<sentence id="6.17">  [12] _thr_setup(0x0, 0x0, 0x0, 0x0, 0x0, 0x0), at 0xfffffd7ffef5d8f7</sentence>
+			<sentence id="6.18">  [13] _lwp_start(0x0, 0x0, 0x0, 0x0, 0x0, 0x0), at 0xfffffd7ffef5dba0</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Crash 2 :</sentence>
+			<sentence id="7.2">(dbx) where</sentence>
+			<sentence id="7.3">current thread: t@363</sentence>
+			<sentence id="7.4">=&gt;[1] apr_palloc(pool = 0x21680007952225ff, size = 18446744073323675656U), line</sentence>
+			<sentence id="7.5">601 in "apr_pools.c"</sentence>
+			<sentence id="7.6">  [2] apr_sockaddr_ip_get(addr = 0xcda3d0, sockaddr = 0x42d790), line 104 in</sentence>
+			<sentence id="7.7">"sockaddr.c"</sentence>
+			<sentence id="7.8">  [3] core_create_conn(ptrans = 0xcda2d8, server = 0x4bf600, csd = 0xcda358, id</sentence>
+			<sentence id="7.9">= 360, sbh = 0xcda378, alloc = 0xd147e8), line 3895 in "core.c"</sentence>
+			<sentence id="7.10">  [4] ap_run_create_connection(0x0, 0x0, 0x0, 0x0, 0x0, 0x0), at 0x45fe03</sentence>
+			<sentence id="7.11">  [5] process_socket(p = 0xcda2d8, sock = 0xcda358, my_child_num = 0,</sentence>
+			<sentence id="7.12">my_thread_num = 360, bucket_alloc = 0xd147e8), line 542 in "worker.c"</sentence>
+			<sentence id="7.13">  [6] worker_thread(thd = 0x7192f8, dummy = 0x7e45a0), line 894 in "worker.c"</sentence>
+			<sentence id="7.14">  [7] dummy_worker(opaque = 0x7192f8), line 142 in "thread.c"</sentence>
+			<sentence id="7.15">  [8] _thr_setup(0x0, 0x0, 0x0, 0x0, 0x0, 0x0), at 0xfffffd7ffef5d8f7</sentence>
+			<sentence id="7.16">  [9] _lwp_start(0x0, 0x0, 0x0, 0x0, 0x0, 0x0), at 0xfffffd7ffef5dba0</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I tried httpd-2.2.8 too but got the similar crash :</sentence>
+			<sentence id="8.2">Crash 3 (with httpd-2.2.8):</sentence>
+			<sentence id="8.3">=&gt;[1] apr_palloc(pool = 0x226800079e7a25ff, size = 18446744073323675656U), line</sentence>
+			<sentence id="8.4">630 in "apr_pools.c"</sentence>
+			<sentence id="8.5">  [2] apr_sockaddr_ip_get(addr = 0xc57060, sockaddr = 0x42dab8), line 104 in</sentence>
+			<sentence id="8.6">"sockaddr.c"</sentence>
+			<sentence id="8.7">  [3] core_create_conn(ptrans = 0xc56f68, server = 0x4c0378, csd = 0xc56fe8, id</sentence>
+			<sentence id="8.8">= 951, sbh = 0xc57008, alloc = 0xc58f78), line 3895 in "core.c"</sentence>
+			<sentence id="8.9">  [4] ap_run_create_connection(0x0, 0x0, 0x0, 0x0, 0x0, 0x0), at 0x4604e3</sentence>
+			<sentence id="8.10">  [5] process_socket(p = 0xc56f68, sock = 0xc56fe8, my_child_num = 1,</sentence>
+			<sentence id="8.11">my_thread_num = 451, bucket_alloc = 0xc58f78), line 542 in "worker.c"</sentence>
+			<sentence id="8.12">  [6] worker_thread(thd = 0x870c88, dummy = 0x7e7e30), line 894 in "worker.c"</sentence>
+			<sentence id="8.13">  [7] dummy_worker(opaque = 0x870c88), line 142 in "thread.c"</sentence>
+			<sentence id="8.14">  [8] _thr_setup(0x0, 0x0, 0x0, 0x0, 0x0, 0x0), at 0xfffffd7ffef5d8f7</sentence>
+			<sentence id="8.15">  [9] _lwp_start(0x0, 0x0, 0x0, 0x0, 0x0, 0x0), at 0xfffffd7ffef5dba0</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">prefork mpm works just fine.</sentence>
+		</paragraph>
+	</description>
+</bug>

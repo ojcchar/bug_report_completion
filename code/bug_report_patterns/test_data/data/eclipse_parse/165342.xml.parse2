@@ -1,0 +1,157 @@
+The/DT setup/NN :/: new/JJ technology/NN Agent/NNP Controller/NNP (/-LRB- release/NN 4.3.0-200610310100/CD )/-RRB- on/IN a/DT Linux/NNP machine/NN ,/, Agent/NNP Controller/NNP client/NN (/-LRB- using/VBG tptpcore.jar/JJ )/-RRB- on/IN Windows/NNP ,/, Agent/NNP Controller/NNP client/NN (/-LRB- using/VBG tptpcore.jar/JJ )/-RRB- on/IN Linux/NN ./. 
+
+(ROOT (NP (NP (DT The) (NN setup)) (: :) (NP (NP (NP (JJ new) (NN technology) (NNP Agent) (NNP Controller)) (PRN (-LRB- -LRB-) (NP (NN release) (CD 4.3.0-200610310100)) (-RRB- -RRB-))) (PP (IN on) (NP (NP (NP (DT a) (NNP Linux) (NN machine)) (, ,) (NP (NNP Agent) (NNP Controller) (NN client))) (PRN (-LRB- -LRB-) (VP (VBG using) (ADJP (JJ tptpcore.jar))) (-RRB- -RRB-)) (PP (IN on) (NP (NP (NP (NNP Windows)) (, ,) (NP (NNP Agent) (NNP Controller) (NN client)) (PRN (-LRB- -LRB-) (VP (VBG using) (ADJP (JJ tptpcore.jar))) (-RRB- -RRB-))) (PP (IN on) (NP (NN Linux)))))))) (. .)))
+
+root(ROOT-0, setup-2)
+det(setup-2, The-1)
+amod(Controller-7, new-4)
+nn(Controller-7, technology-5)
+nn(Controller-7, Agent-6)
+dep(setup-2, Controller-7)
+appos(Controller-7, release-9)
+num(release-9, 4.3.0-200610310100-10)
+det(machine-15, a-13)
+nn(machine-15, Linux-14)
+prep_on(Controller-7, machine-15)
+nn(client-19, Agent-17)
+nn(client-19, Controller-18)
+appos(machine-15, client-19)
+dep(machine-15, using-21)
+acomp(using-21, tptpcore.jar-22)
+prep_on(machine-15, Windows-25)
+nn(client-29, Agent-27)
+nn(client-29, Controller-28)
+appos(Windows-25, client-29)
+dep(Windows-25, using-31)
+acomp(using-31, tptpcore.jar-32)
+prep_on(Windows-25, Linux-35)
+
+Both/DT clients/NNS call/VBP '/`` getAgent/NN '/'' on/IN the/DT AgentController/NNP class/NN in/IN a/DT loop/NN ./. 
+
+(ROOT (S (NP (DT Both) (NNS clients)) (VP (VBP call) (NP (`` `) (NP (NN getAgent)) ('' ') (PP (IN on) (NP (DT the) (NNP AgentController) (NN class)))) (PP (IN in) (NP (DT a) (NN loop)))) (. .)))
+
+root(ROOT-0, call-3)
+det(clients-2, Both-1)
+nsubj(call-3, clients-2)
+dobj(call-3, getAgent-5)
+det(class-10, the-8)
+nn(class-10, AgentController-9)
+prep_on(getAgent-5, class-10)
+det(loop-13, a-12)
+prep_in(call-3, loop-13)
+
+The/DT client/NN on/IN Windows/NNP works/VBZ fine/NN ./. 
+
+(ROOT (S (NP (NP (DT The) (NN client)) (PP (IN on) (NP (NNP Windows)))) (VP (VBZ works) (NP (NN fine))) (. .)))
+
+root(ROOT-0, works-5)
+det(client-2, The-1)
+nsubj(works-5, client-2)
+prep_on(client-2, Windows-4)
+dobj(works-5, fine-6)
+
+The/DT client/NN on/IN Linux/NNP prints/VBZ the/DT following/VBG stacktrace/NN on/IN the/DT console/NN :/: 
+
+(ROOT (S (NP (NP (DT The) (NN client)) (PP (IN on) (NP (NNP Linux)))) (VP (VBZ prints) (NP (NP (DT the) (VBG following) (NN stacktrace)) (PP (IN on) (NP (DT the) (NN console))))) (: :)))
+
+root(ROOT-0, prints-5)
+det(client-2, The-1)
+nsubj(prints-5, client-2)
+prep_on(client-2, Linux-4)
+det(stacktrace-8, the-6)
+amod(stacktrace-8, following-7)
+dobj(prints-5, stacktrace-8)
+det(console-11, the-10)
+prep_on(stacktrace-8, console-11)
+
+After/IN investigating/VBG ,/, I/PRP narrowed/VBD the/DT problem/NN to/TO the/DT '/`` readTPTPCmdStringFromBuffer/NN '/'' method/NN in/IN TPTPMessageUtil.java/NN ./. 
+
+(ROOT (S (PP (IN After) (S (VP (VBG investigating)))) (, ,) (NP (PRP I)) (VP (VBD narrowed) (NP (DT the) (NN problem)) (PP (TO to) (NP (NP (DT the) (`` `) (NN readTPTPCmdStringFromBuffer) ('' ') (NN method)) (PP (IN in) (NP (NN TPTPMessageUtil.java)))))) (. .)))
+
+root(ROOT-0, narrowed-5)
+prepc_after(narrowed-5, investigating-2)
+nsubj(narrowed-5, I-4)
+det(problem-7, the-6)
+dobj(narrowed-5, problem-7)
+det(method-13, the-9)
+nn(method-13, readTPTPCmdStringFromBuffer-11)
+prep_to(narrowed-5, method-13)
+prep_in(method-13, TPTPMessageUtil.java-15)
+
+The/DT problem/NN is/VBZ that/IN the/DT position/NN of/IN the/DT command/NN in/IN the/DT binary/JJ buffer/NN is/VBZ not/RB correctly/RB calculated/VBN ./. 
+
+(ROOT (S (NP (DT The) (NN problem)) (VP (VBZ is) (SBAR (IN that) (S (NP (NP (DT the) (NN position)) (PP (IN of) (NP (NP (DT the) (NN command)) (PP (IN in) (NP (DT the) (JJ binary) (NN buffer)))))) (VP (VBZ is) (RB not) (VP (ADVP (RB correctly)) (VBN calculated)))))) (. .)))
+
+root(ROOT-0, is-3)
+det(problem-2, The-1)
+nsubj(is-3, problem-2)
+mark(calculated-17, that-4)
+det(position-6, the-5)
+nsubjpass(calculated-17, position-6)
+det(command-9, the-8)
+prep_of(position-6, command-9)
+det(buffer-13, the-11)
+amod(buffer-13, binary-12)
+prep_in(command-9, buffer-13)
+auxpass(calculated-17, is-14)
+neg(calculated-17, not-15)
+advmod(calculated-17, correctly-16)
+ccomp(is-3, calculated-17)
+
+It/PRP is/VBZ not/RB appropriate/JJ to/TO use/VB lengths/NNS calculated/VBN on/IN the/DT character/NN representation/NN to/TO reason/NN about/IN the/DT binary/JJ buffer/NN ,/, because/IN some/DT characters/NNS (/-LRB- such/JJ as/IN new/JJ lines/NNS )/-RRB- may/MD be/VB represented/VBN in/IN a/DT different/JJ amount/NN of/IN bytes/NNS ./. 
+
+(ROOT (S (NP (PRP It)) (VP (VBZ is) (RB not) (ADJP (JJ appropriate) (S (VP (TO to) (VP (VB use) (NP (NP (NNS lengths)) (VP (VBN calculated) (PP (IN on) (NP (DT the) (NN character) (NN representation))) (PP (TO to) (NP (NP (NN reason)) (PP (IN about) (NP (DT the) (JJ binary) (NN buffer))))))))))) (, ,) (SBAR (IN because) (S (NP (NP (DT some) (NNS characters)) (PRN (-LRB- -LRB-) (PP (JJ such) (IN as) (NP (JJ new) (NNS lines))) (-RRB- -RRB-))) (VP (MD may) (VP (VB be) (VP (VBN represented) (PP (IN in) (NP (NP (DT a) (JJ different) (NN amount)) (PP (IN of) (NP (NNS bytes))))))))))) (. .)))
+
+root(ROOT-0, appropriate-4)
+nsubj(appropriate-4, It-1)
+cop(appropriate-4, is-2)
+neg(appropriate-4, not-3)
+aux(use-6, to-5)
+xcomp(appropriate-4, use-6)
+dobj(use-6, lengths-7)
+vmod(lengths-7, calculated-8)
+det(representation-12, the-10)
+nn(representation-12, character-11)
+prep_on(calculated-8, representation-12)
+prep_to(calculated-8, reason-14)
+det(buffer-18, the-16)
+amod(buffer-18, binary-17)
+prep_about(reason-14, buffer-18)
+mark(represented-31, because-20)
+det(characters-22, some-21)
+nsubjpass(represented-31, characters-22)
+amod(lines-27, new-26)
+prep_such_as(characters-22, lines-27)
+aux(represented-31, may-29)
+auxpass(represented-31, be-30)
+advcl(appropriate-4, represented-31)
+det(amount-35, a-33)
+amod(amount-35, different-34)
+prep_in(represented-31, amount-35)
+prep_of(amount-35, bytes-37)
+
+I/PRP implemented/VBD a/DT quick/JJ and/CC dirty/JJ fix/NN ,/, which/WDT happens/VBZ to/TO work/VB :/: 
+
+(ROOT (S (NP (PRP I)) (VP (VBD implemented) (NP (NP (DT a) (ADJP (JJ quick) (CC and) (JJ dirty)) (NN fix)) (, ,) (SBAR (WHNP (WDT which)) (S (VP (VBZ happens) (S (VP (TO to) (VP (VB work))))))))) (: :)))
+
+root(ROOT-0, implemented-2)
+nsubj(implemented-2, I-1)
+det(fix-7, a-3)
+amod(fix-7, quick-4)
+conj_and(quick-4, dirty-6)
+amod(fix-7, dirty-6)
+dobj(implemented-2, fix-7)
+nsubj(happens-10, which-9)
+rcmod(fix-7, happens-10)
+aux(work-12, to-11)
+xcomp(happens-10, work-12)
+
+return/NN offset/VBD +/CC commandLengthInBytes/NNS ;/: }/-RRB- 
+
+(ROOT (PRN (S (NP (NN return)) (VP (VBD offset) (PP (CC +) (NP (NP (NNS commandLengthInBytes)) (: ;))))) (-RRB- -RCB-)))
+
+root(ROOT-0, offset-2)
+nsubj(offset-2, return-1)
+prep(offset-2, +-3)
+pobj(+-3, commandLengthInBytes-4)
+

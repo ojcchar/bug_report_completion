@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>30025</id>
+	<title>error: `CFLAGS' has changed since the previous run</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When rolling my own rpm of Apache, the way I like it, I hit the error below:</sentence>
+			<sentence id="1.2">updating cache config.cache</sentence>
+			<sentence id="1.3">configuring package in srclib/apr now</sentence>
+			<sentence id="1.4">configure: loading cache /usr/src/RPM/BUILD/httpd-2.0.50/prefork/config.</sentence>
+			<sentence id="1.5">cache</sentence>
+			<sentence id="1.6">configure: error: `CFLAGS' has changed since the previous run:</sentence>
+			<sentence id="1.7">configure:   former value:  -O2 -mieee -mcpu=ev5 -pipe</sentence>
+			<sentence id="1.8">configure:   current value: -O2 -mieee -mcpu=ev5 -pipe</sentence>
+			<sentence id="1.9">configure: error: changes in the environment can compromise the build</sentence>
+			<sentence id="1.10">configure: error: run `make distclean' and/or `rm /usr/src/RPM/BUILD/httpd-</sentence>
+			<sentence id="1.11">2 0.50/prefork/config.</sentence>
+			<sentence id="1.12">cache' and start over</sentence>
+			<sentence id="1.13">configure failed for srclib/apr</sentence>
+			<sentence id="1.14">error: Bad exit status from /var/tmp/rpm-tmp.36570 (%build)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">For one reason or another, spaces are being stripped from the enviro string and 
+the config script is wigging out on the minor change.</sentence>
+			<sentence id="2.2">I was wondering is there 
+a work around for this?</sentence>
+			<sentence id="2.3">This is actually an old issue with rpmbuild and apache.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I managed to find work around for RPM-4.2's little bug-a-boo's now I hit a road 
+block with this one... Thanks, Will L G</sentence>
+		</paragraph>
+	</description>
+</bug>

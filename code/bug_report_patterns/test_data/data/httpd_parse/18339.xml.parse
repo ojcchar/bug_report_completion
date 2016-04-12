@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>18339</id>
+	<title>[patch] Handling of SSL errors on non-HTTP connections</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm developing an Apache 2.0 module for EPP (see
+http://sourceforge.net/projects/aepps), which also utilizes mod_ssl.</sentence>
+			<sentence id="1.2">The calling
+patters thus are likely to be different than with HTTP.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Problem description: When the SSL-negotiation fails (missing client cert, server
+config error, ...), the connection is closed TCP-wise, but this is not
+communicated to the connection handler, and any further reads (i.e.
+ap_get_brigade) will cause a core dump.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I've nailed the problem down to the state-handling of an abandoned connection.</sentence>
+			<sentence id="3.2">In ssl_io_filter_input there is the following code-fragment:</sentence>
+			<sentence id="3.3">if (f-&gt;c-&gt;aborted) {</sentence>
+			<sentence id="3.4">/* XXX: Ok, if we aborted, we ARE at the EOS.</sentence>
+			<sentence id="3.5">We also have</sentence>
+			<sentence id="3.6">* aborted.</sentence>
+			<sentence id="3.7">This 'double protection' is probably redundant,</sentence>
+			<sentence id="3.8">* but also effective against just about anything.</sentence>
+			<sentence id="3.9">*/</sentence>
+			<sentence id="3.10">which makes a lot of sense.</sentence>
+			<sentence id="3.11">I seem to run into a case where c-&gt;aborted is not</sentence>
+			<sentence id="3.12">set even though the connection has been aborted.</sentence>
+			<sentence id="3.13">The error seems to be within</sentence>
+			<sentence id="3.14">ssl_filter_io_shutdown, where c-&gt;aborted is *not* touched (in my case, nobody is</sentence>
+			<sentence id="3.15">setting c-&gt;aborted to true).</sentence>
+			<sentence id="3.16">The following patch seems to fix the problem for me:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">--- httpd-2.0.44/modules/ssl/ssl_engine_io.</sentence>
+			<sentence id="4.2">c    Mon Jan 13 18:35:22 2003</sentence>
+			<sentence id="4.3">+++ httpd-2.0.44/modules/ssl/ssl_engine_io.</sentence>
+			<sentence id="4.4">c.new        Tue Mar 25 21:07:47 2003</sentence>
+			<sentence id="4.5">@@ -997,6 +997,7 @@</sentence>
+			<sentence id="4.6">SSL_free(ssl);</sentence>
+			<sentence id="4.7">sslconn-&gt;ssl = NULL;</sentence>
+			<sentence id="4.8">filter_ctx-&gt;pssl = NULL; /* so filters know we've been shutdown */</sentence>
+			<sentence id="4.9">+    c-&gt;aborted = 1;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">return APR_SUCCESS;
+ }</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Please apply it (or anything you think is more appropriate) against the CVS.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Thanks.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">/ol</sentence>
+		</paragraph>
+	</description>
+</bug>

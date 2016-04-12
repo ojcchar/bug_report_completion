@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>125350</id>
+	<title>[OpenGL] GlCanvas missing gdk_flush in resize?</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm using SWT 3.2M4, trying out the opengl support.</sentence>
+			<sentence id="1.2">Particularly, I'm using the org.eclipse.swt.opengl.GLCanvas widget with the org.eclipse.opengl 0.5.0 release on top of gtk/glx.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In my app, I noticed a quirk with resize particularly when windows are maximized and de-maximized.</sentence>
+			<sentence id="2.2">Under these situations, the resize event comes in to SWT as expected, but the actual rendering appears to occur in a window which is actually the previous size.</sentence>
+			<sentence id="2.3">When I maximize, I get a rendering which is the same size as the previous window size, in the upper left corner of the maximized window.</sentence>
+			<sentence id="2.4">Similarly, when I de-maximize, I see the upper left corner of a too-large rendering.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I looked at the GLCanvas code, and found this codelistening on the Resize event in GLCanvas.java:
+	case SWT.Resize:
+		Rectangle clientArea = getClientArea();
+		OS.gdk_window_move (glWindow, clientArea.x, clientArea.y);
+		OS.gdk_window_resize (glWindow, clientArea.width,clientArea.height);
+		break;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I'm not an X/gtk/glx expert, but I think what's happening is the gdk commands aren't actually making it to the xserver before my client code Paint code is called.</sentence>
+			<sentence id="4.2">Since the rendering goes through a DRI path, not the xserver command queue, it's a race condition, and the maximize latency is long enough that I lose.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">To make a long story shorter, adding a OS.gdk_flush() after the OS.gdk_window_resize() fixes my app.</sentence>
+			<sentence id="5.2">Not being a GDK guru, I don't know if unconditionally calling the flush works on all platforms, but I think something like that is needed on X at least.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Digging</sentence>
+		</paragraph>
+	</description>
+</bug>

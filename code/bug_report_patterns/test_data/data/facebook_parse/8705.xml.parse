@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8705</id>
+	<title>strpos/upper in FQL stopped working - throwing exception</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">My application used to run queries that searches albums containing a name such as:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">SELECT aid_ cover_pid_ name_ description_ link_ size_ visible_ owner_ created FROM album WHERE owner IN (SELECT uid2 FROM friend WHERE uid1 = XXX) AND (strpos(upper(name)_  PARTY ) &gt;= 0 OR strpos(upper(description)_  PARTY ) &gt;= 0) ORDER BY created DESC LIMIT 300</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">It used to work great.</sentence>
+			<sentence id="3.2">For the last couple of days we started getting this error when running that query:
+(Code: 605)   is not valid in table album</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I tried to remove the name search from this query and it worked_ so this is definetly related to the strpos(upper(name)_ PARTY )).</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Please advise_</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Lior</sentence>
+		</paragraph>
+	</description>
+</bug>

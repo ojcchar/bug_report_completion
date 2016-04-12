@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17337</id>
+	<title>HTTP_REFERER doesn't always work</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have notices that apache2 doesn't generate http_referer for logs and scripts
+if I'm using Mozilla, IE or Lynx.</sentence>
+			<sentence id="1.2">If I telnet to http-port and manually enter
+the refererer, it works OK.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I have checked with Ethereal that Moz and IE use the referer and it is correct
+and sent to server, but Apache just ignores it.</sentence>
+			<sentence id="2.2">Maybe those other fields that
+browsers  send confuse Apache?</sentence>
+			<sentence id="2.3">The referer isn't shown in logs (empty referer
+there) or in any php script I try.</sentence>
+			<sentence id="2.4">Other environment variables (that I've tried)
+work just fine.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I'm using Apache 2.0.4 and PHP 4.3.0</sentence>
+		</paragraph>
+	</description>
+</bug>

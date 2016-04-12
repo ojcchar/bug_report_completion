@@ -1,0 +1,67 @@
+I/PRP get/VBP an/DT exception/NN when/WRB removing/VBG a/DT resource/NN and/CC then/RB adding/VBG a/DT new/JJ with/IN the/DT same/JJ path/NN :/: 
+
+(ROOT (S (NP (PRP I)) (VP (VBP get) (NP (NP (DT an) (NN exception)) (SBAR (WHADVP (WRB when)) (S (S (VP (VBG removing) (NP (DT a) (NN resource)))) (CC and) (S (ADVP (RB then)) (VP (VBG adding) (NP (DT a) (JJ new)) (PP (IN with) (NP (DT the) (JJ same) (NN path))))))))) (: :)))
+
+root(ROOT-0, get-2)
+nsubj(get-2, I-1)
+det(exception-4, an-3)
+dobj(get-2, exception-4)
+advmod(removing-6, when-5)
+rcmod(exception-4, removing-6)
+det(resource-8, a-7)
+dobj(removing-6, resource-8)
+advmod(adding-11, then-10)
+rcmod(exception-4, adding-11)
+conj_and(removing-6, adding-11)
+det(new-13, a-12)
+dobj(adding-11, new-13)
+det(path-17, the-15)
+amod(path-17, same-16)
+prep_with(adding-11, path-17)
+
+CDOResource/NN cdoResource/NN =/JJ transaction.getOrCreateResource/NN (/-LRB- "/'' //: model1/NN "/'' )/-RRB- ;/: transaction.commit/NN (/-LRB- )/-RRB- ;/: cdoResource.getContents/NNS (/-LRB- )/-RRB- ./. 
+
+(ROOT (NP (NP (NP (NN CDOResource) (NN cdoResource)) (NP (NP (JJ =) (NN transaction.getOrCreateResource)) (PRN (-LRB- -LRB-) ('' '') (NP (: /) (NN model1)) ('' '') (-RRB- -RRB-)))) (: ;) (NP (NP (NN transaction.commit)) (PRN (-LRB- -LRB-) (NP (NP (-RRB- -RRB-)) (: ;) (NP (NNS cdoResource.getContents) (-LRB- -LRB-))) (-RRB- -RRB-))) (. .)))
+
+root(ROOT-0, cdoResource-2)
+nn(cdoResource-2, CDOResource-1)
+amod(transaction.getOrCreateResource-4, =-3)
+dep(cdoResource-2, transaction.getOrCreateResource-4)
+punct(model1-8, /-7)
+dep(transaction.getOrCreateResource-4, model1-8)
+dep(cdoResource-2, transaction.commit-12)
+dep(-RRB--14, cdoResource.getContents-16)
+
+clear/JJ (/-LRB- )/-RRB- ;/: transaction.getResourceSet/NN (/-LRB- )/-RRB- ./. 
+
+(ROOT (NP (NP (JJ clear)) (PRN (-LRB- -LRB-) (NP (NP (-RRB- -RRB-)) (: ;) (NP (NN transaction.getResourceSet) (-LRB- -LRB-))) (-RRB- -RRB-)) (. .)))
+
+root(ROOT-0, clear-1)
+dep(-RRB--3, transaction.getResourceSet-5)
+
+getResources/NNS (/-LRB- )/-RRB- ./. 
+
+(ROOT (S (NP (NNS getResources)) (VP (-LRB- -LRB-)) (-RRB- -RRB-) (. .)))
+
+nsubj(-LRB--2, getResources-1)
+
+remove/VB (/-LRB- cdoResource/NN )/-RRB- ;/: transaction.commit/NN (/-LRB- )/-RRB- ;/: CDOResourceNode/NN resourceNode/NN =/JJ transaction.getResourceNode/NN (/-LRB- "/'' //: model1/NN "/'' )/-RRB- ;/: CDOResource/NN resource/NN =/JJ transaction.getResource/NN (/-LRB- "/'' //: model1/NN "/'' )/-RRB- ;/: 
+
+(ROOT (S (VP (VB remove) (S (NP (NP (-LRB- -LRB-) (NN cdoResource) (-RRB- -RRB-)) (PRN (: ;) (NP (NP (NP (NP (NN transaction.commit)) (-LRB- -LRB-) (PP (-RRB- -RRB-) (PRN (: ;) (FRAG (NP (NN CDOResourceNode) (NN resourceNode)) (NP (JJ =) (NN transaction.getResourceNode) (-LRB- -LRB-) ('' ''))) (: /)) (NP (NN model1) ('' ''))) (-RRB- -RRB-)) (: ;) (NP (NP (NN CDOResource)) (NP (NN resource)))) (NP (JJ =) (NN transaction.getResource) (-LRB- -LRB-) ('' ''))) (: /)) (NP (NN model1) ('' '')) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, remove-1)
+dep(remove-1, cdoResource-3)
+dep(cdoResource-3, transaction.commit-6)
+nn(resourceNode-11, CDOResourceNode-10)
+prep(transaction.commit-6, resourceNode-11)
+amod(transaction.getResourceNode-13, =-12)
+dep(resourceNode-11, transaction.getResourceNode-13)
+punct(resourceNode-11, /-16)
+dep(resourceNode-11, model1-17)
+dep(transaction.commit-6, CDOResource-21)
+dep(CDOResource-21, resource-22)
+amod(transaction.getResource-24, =-23)
+dep(transaction.commit-6, transaction.getResource-24)
+punct(transaction.commit-6, /-27)
+dep(cdoResource-3, model1-28)
+

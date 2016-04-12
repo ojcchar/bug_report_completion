@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>272668</id>
+	<title>Selection issue when switching between Structure Merge Viewers</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">With adding an option to switch between available Structure Merge Viewers (bug 220457) an issue with keeping the selection came up.</sentence>
+			<sentence id="1.2">Currently, the bottom part of the Compare Editor, the Content Merge Viewer displays what has been selected in the upper part, the Structure Merge Viewer (if available).</sentence>
+			<sentence id="1.3">If nothing has been selected, full content of the comparison participants is displayed.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Let's use an example here.</sentence>
+			<sentence id="2.2">Consider comparing two Java files.</sentence>
+			<sentence id="2.3">Selecting a node in the Structure Compare pane (a changed method for instance) will result in narrowing the bottom part to that method only.</sentence>
+			<sentence id="2.4">Unselecting the node (clearing selection on the tree) will display full content of the files again.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The problem arises when, after a node has been selected and displayed, the user switches to an alternative structure merge viewer.</sentence>
+			<sentence id="3.2">The new viewer will display its own hierarchical view of changes.</sentence>
+			<sentence id="3.3">The new tree will have no selection, so the bottom part should display full content.</sentence>
+			<sentence id="3.4">However, the bottom part sticks to the previously selected method.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">We should consider resetting the viewport of the bottom part on each structure viewer switch.</sentence>
+		</paragraph>
+	</description>
+</bug>

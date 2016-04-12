@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>38923</id>
+	<title>mod_speling incorrectly escapes linked URLs</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Given a misspelled request with more than one likely correct spelling,
+mod_speling returns a list of variant spellings to the client.</sentence>
+			<sentence id="1.2">When it does, it
+may produce incorrect and/or broken links due to incorrect escaping of its
+output.</sentence>
+			<sentence id="1.3">For example:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">[build (with --enable-speling) and install httpd-2.2.0]
+[set "CheckSpelling On" in httpd.conf, and run httpd]
+cd $PREFIX/htdocs
+touch "lamp making"
+touch "ramp making"
+touch "&amp;amp making"
+[visit /camp%20making in a browser (tested with Firefox)]
+[note the broken link to "&amp; making"]</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">So mod_speling fails to perform html escaping on the uri-escaped filenames.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Not only that, it incorrectly escapes the "?"</sentence>
+			<sentence id="4.2">and contents of the query string
+in variant spellings if a query string is included in the original request.</sentence>
+			<sentence id="4.3">For
+example:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">touch foo
+touch goo
+[visit /yoo?hoo=%3f in a browser]
+[note the broken links to "foo%3fhoo=%253f" and "goo%3fhoo=%253f"]</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">So it needs to perform uri escaping only on the filename part of each URL and
+then add the "?"</sentence>
+			<sentence id="6.2">and query string to produce the link.</sentence>
+			<sentence id="6.3">Plus html-escaping the
+whole thing (see first example).</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">As well, mod_speling output may include a link to the referring page.</sentence>
+			<sentence id="7.2">This link
+needs to be html-escaped instead of being uri-escaped as it is now.</sentence>
+			<sentence id="7.3">It is
+normally already uri-escaped by the browser, and double-escaping it will break
+the link.</sentence>
+			<sentence id="7.4">For example, a referer URL of "http://example.com/foo?bar=%3f" becomes
+"http://example.com/foo%3fbar=%253f", which refers to a resource named
+"foo?bar=%3f" rather than a resource named "foo" plus a query string as
+intended.</sentence>
+			<sentence id="7.5">If the browser isn't already sending properly escaped referer URLs,
+then it probably deserves to be broken.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">As best I can tell, these bugs are also present in the 1.3.x and 2.0.x versions
+of mod_speling.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I'll plan to work on a patch later today unless someone else wants to do it.</sentence>
+		</paragraph>
+	</description>
+</bug>

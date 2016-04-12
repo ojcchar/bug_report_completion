@@ -1,0 +1,226 @@
+I/PRP just/RB installed/VBD a/DT fresh/JJ apache2/NN (/-LRB- 2.2.14/CD )/-RRB- on/IN Ubuntu/NNP Lucid/NNP ./. 
+
+(ROOT (S (NP (PRP I)) (ADVP (RB just)) (VP (VBD installed) (NP (NP (DT a) (JJ fresh) (NN apache2)) (PRN (-LRB- -LRB-) (NP (CD 2.2.14)) (-RRB- -RRB-))) (PP (IN on) (NP (NNP Ubuntu) (NNP Lucid)))) (. .)))
+
+root(ROOT-0, installed-3)
+nsubj(installed-3, I-1)
+advmod(installed-3, just-2)
+det(apache2-6, a-4)
+amod(apache2-6, fresh-5)
+dobj(installed-3, apache2-6)
+appos(apache2-6, 2.2.14-8)
+nn(Lucid-12, Ubuntu-11)
+prep_on(installed-3, Lucid-12)
+
+I/PRP wrote/VBD a/DT small/JJ CGI/NN script/NN for/IN test/NN purpose/NN :/: 
+
+(ROOT (S (NP (PRP I)) (VP (VBD wrote) (NP (DT a) (JJ small) (NN CGI) (NN script)) (PP (IN for) (NP (NN test) (NN purpose)))) (: :)))
+
+root(ROOT-0, wrote-2)
+nsubj(wrote-2, I-1)
+det(script-6, a-3)
+amod(script-6, small-4)
+nn(script-6, CGI-5)
+dobj(wrote-2, script-6)
+nn(purpose-9, test-8)
+prep_for(wrote-2, purpose-9)
+
+~/NN #/# cat/NN //: usr/lib/cgi-bin/JJ //: test/NN #/# !/. 
+
+(ROOT (S (NP (NP (NN ~) (# #)) (NN cat) (PRN (: /) (ADJP (JJ usr/lib/cgi-bin)) (: /)) (NN test)) (VP (# #)) (. !)))
+
+root(ROOT-0, #-8)
+nn(test-7, ~-1)
+dep(~-1, #-2)
+nn(test-7, cat-3)
+punct(usr/lib/cgi-bin-5, /-4)
+dep(test-7, usr/lib/cgi-bin-5)
+punct(usr/lib/cgi-bin-5, /-6)
+nsubj(#-8, test-7)
+
+//: usr/bin/perl/NN 
+
+(ROOT (NP (: /) (NN usr/bin/perl)))
+
+root(ROOT-0, usr/bin/perl-2)
+punct(usr/bin/perl-2, /-1)
+
+print/NN "/`` Content-length/NN :/: 0/CD \/CD r/NN \/NN n/NN "/'' ;/: print/NN "/`` Content-type/JJ :/: text/plain/NN \/NN r/NN \/CD n/NN \/NN r/NN \/CD n/NN "/'' ;/: ~/CD #/# 
+
+(ROOT (FRAG (NP (NN print)) (NP (NP (`` ``) (NN Content-length)) (: :) (NP (NP (QP (CD 0) (CD \)) (NN r) (NN \) (NN n) ('' '')) (: ;) (NP (NP (NN print)) (`` ``) (NP (JJ Content-type))) (: :) (NP (NP (NN text/plain) (NN \) (NN r)) (NP (CD \)) (NP (NN n) (NN \) (NN r) (CD \) (NN n) ('' '')))) (: ;) (NP (CD ~) (# #)))))
+
+root(ROOT-0, print-1)
+dep(print-1, Content-length-3)
+number(\-6, 0-5)
+num(n-9, \-6)
+nn(n-9, r-7)
+nn(n-9, \-8)
+dep(Content-length-3, n-9)
+dep(n-9, print-12)
+dep(print-12, Content-type-14)
+nn(r-18, text/plain-16)
+nn(r-18, \-17)
+dep(n-9, r-18)
+dep(r-18, \-19)
+nn(n-24, n-20)
+nn(n-24, \-21)
+nn(n-24, r-22)
+num(n-24, \-23)
+dep(r-18, n-24)
+dep(Content-length-3, ~-27)
+dep(~-27, #-28)
+
+Here/RB is/VBZ my/PRP$ test/NN :/: ~/CD $/$ telnet/JJ 0/CD 80/CD Trying/VBG 0.0.0.0/CD . . ./: Connected/VBN to/TO 0/CD ./. 
+
+(ROOT (S (S (ADVP (RB Here)) (VP (VBZ is) (NP (NP (PRP$ my) (NN test)) (: :) (NP (NP (CD ~)) (ADJP ($ $) (JJ telnet))))) (NP (NP (CD 0) (CD 80)) (VP (VBG Trying) (NP (CD 0.0.0.0))))) (: ...) (S (VP (VBN Connected) (PP (TO to) (NP (CD 0))))) (. .)))
+
+root(ROOT-0, test-4)
+advmod(test-4, Here-1)
+cop(test-4, is-2)
+poss(test-4, my-3)
+dep(test-4, ~-6)
+amod(~-6, $-7)
+dep($-7, telnet-8)
+num(80-10, 0-9)
+dep(test-4, 80-10)
+vmod(80-10, Trying-11)
+dobj(Trying-11, 0.0.0.0-12)
+parataxis(test-4, Connected-14)
+prep_to(Connected-14, 0-16)
+
+Escape/NN character/NN is/VBZ '/'' ^/NN ]/-RRB- '/'' ./. 
+
+(ROOT (S (NP (NN Escape) (NN character)) (VP (VBZ is) (VP ('' ') (NP-TMP (NN ^) (-RRB- -RSB-)))) ('' ') (. .)))
+
+root(ROOT-0, is-3)
+nn(character-2, Escape-1)
+nsubj(is-3, character-2)
+tmod(is-3, ^-5)
+punct(^-5, -RSB--6)
+
+POST/NN //: cgi-bin/test/JJ HTTP/1/NN .1/CD Host/NNP :/: localhost/FW Content-Length/NNP :/: 20/CD 
+
+(ROOT (NP (NP (NN POST)) (PRN (: /) (FRAG (NP (JJ cgi-bin/test) (NN HTTP/1)) (NP (NP (CD .1) (NNP Host)) (: :) (NP (NP (FW localhost)) (NP (NNP Content-Length))) (: :) (NP (CD 20)))))))
+
+root(ROOT-0, POST-1)
+punct(HTTP/1-4, /-2)
+amod(HTTP/1-4, cgi-bin/test-3)
+dep(POST-1, HTTP/1-4)
+num(Host-6, .1-5)
+dep(HTTP/1-4, Host-6)
+dep(Host-6, localhost-8)
+appos(localhost-8, Content-Length-9)
+dep(Host-6, 20-11)
+
+aaaaaaaaaaaaaaaaaa/JJ Connection/NN closed/VBN by/IN foreign/JJ host/NN ./. 
+
+(ROOT (S (NP (JJ aaaaaaaaaaaaaaaaaa) (NN Connection)) (VP (VBN closed) (PP (IN by) (NP (JJ foreign) (NN host)))) (. .)))
+
+root(ROOT-0, closed-3)
+amod(Connection-2, aaaaaaaaaaaaaaaaaa-1)
+nsubj(closed-3, Connection-2)
+amod(host-6, foreign-5)
+prep_by(closed-3, host-6)
+
+~/RB $/$ 
+
+(ROOT (FRAG (ADVP (RB ~)) (ADVP ($ $))))
+
+root(ROOT-0, ~-1)
+dep(~-1, $-2)
+
+Connection/NN is/VBZ immediately/RB closed/VBN without/IN any/DT response/NN !/. 
+
+(ROOT (S (NP (NN Connection)) (VP (VBZ is) (ADVP (RB immediately)) (VP (VBN closed) (PP (IN without) (NP (DT any) (NN response))))) (. !)))
+
+root(ROOT-0, closed-4)
+nsubjpass(closed-4, Connection-1)
+auxpass(closed-4, is-2)
+advmod(closed-4, immediately-3)
+det(response-7, any-6)
+prep_without(closed-4, response-7)
+
+In/IN the/DT logs/NNS ,/, I/PRP can/MD see/VB the/DT following/NN :/: 
+
+(ROOT (S (PP (IN In) (NP (DT the) (NNS logs))) (, ,) (NP (PRP I)) (VP (MD can) (VP (VB see) (NP (DT the) (NN following)))) (: :)))
+
+root(ROOT-0, see-7)
+det(logs-3, the-2)
+prep_in(see-7, logs-3)
+nsubj(see-7, I-5)
+aux(see-7, can-6)
+det(following-9, the-8)
+dobj(see-7, following-9)
+
+~/NN #/# tail/NN //: var/log/apache2/NN //: access.log/NN 127.0.0.1/CD -/: -/: [/-LRB- 17/Aug/2010/NN :19:03:10/CD +0200/CD ]/-RRB- "/`` POST/NN //: cgi-bin/test/JJ HTTP/1/NN .1/NN "/'' 200/CD 0/CD "/'' -/: "/'' "/'' -/: "/'' ~/NN #/# tail/NN //: var/log/apache2/NN //: error.log/NN [/-LRB- Tue/NN Aug/NN 17/CD 19:03:10/CD 2010/CD ]/-RRB- [/-LRB- error/NN ]/-RRB- [/-LRB- client/NN 127.0.0.1/CD ]/-RRB- (/-LRB- 104/CD )/-RRB- Connection/NN reset/NN by/IN peer/VB :/: ap_content_length_filter/NN :/: apr_bucket_read/NN (/-LRB- )/-RRB- failed/VBD 
+
+(ROOT (S (S (NP (NN ~)) (VP (# #) (NP (NP (NN tail)) (PRN (: /) (NP (NP (NP (NP (NN var/log/apache2)) (PRN (: /) (NP (NN access.log) (CD 127.0.0.1)) (: -))) (: -) (NP (-LRB- -LSB-) (NN 17/Aug/2010) (QP (CD :19:03:10) (CD +0200)))) (PP (-RRB- -RSB-) (`` ``) (NP (NP (NN POST)) (PRN (: /) (S (NP (JJ cgi-bin/test) (NN HTTP/1) (NN .1) ('' '')) (NP (NP (CD 200)) (NP (CD 0)))))) ('' ''))) (: -)))) ('' '') ('' '')) (: -) ('' '') (PRN (S (NP (NP (NN ~) (# #)) (NN tail) (PRN (: /) (NP (NN var/log/apache2)) (: /)) (NN error.log)) (VP (-LRB- -LSB-) (NP (NN Tue) (NN Aug)) (NP (QP (CD 17) (CD 19:03:10))) (NP (CD 2010)) (S (VP (-RRB- -RSB-) (VP (-LRB- -LSB-) (NP (NN error)))))))) (-RRB- -RSB-) (-LRB- -LSB-) (S (NP (NP (NN client) (CD 127.0.0.1)) (SBAR (S (NP (-RRB- -RSB-) (PRN (-LRB- -LRB-) (NP (CD 104)) (-RRB- -RRB-)) (NN Connection)) (VP (NN reset) (PP (IN by) (NP (S (VP (VB peer))) (: :) (NP (NP (NN ap_content_length_filter)) (: :) (NP (NP (NN apr_bucket_read)) (VP (-LRB- -LRB-))) (-RRB- -RRB-)))))))) (VP (VBD failed)))))
+
+root(ROOT-0, tail-3)
+nsubj(tail-3, ~-1)
+dep(tail-3, #-2)
+punct(var/log/apache2-5, /-4)
+dep(tail-3, var/log/apache2-5)
+punct(access.log-7, /-6)
+dep(var/log/apache2-5, access.log-7)
+num(access.log-7, 127.0.0.1-8)
+punct(17/Aug/2010-12, -LSB--11)
+dep(var/log/apache2-5, 17/Aug/2010-12)
+number(+0200-14, :19:03:10-13)
+num(17/Aug/2010-12, +0200-14)
+punct(POST-17, -RSB--15)
+prep(var/log/apache2-5, POST-17)
+punct(200-23, /-18)
+amod(.1-21, cgi-bin/test-19)
+nn(.1-21, HTTP/1-20)
+dep(200-23, .1-21)
+dep(POST-17, 200-23)
+dep(200-23, 0-24)
+nn(error.log-37, ~-31)
+dep(~-31, #-32)
+nn(error.log-37, tail-33)
+punct(var/log/apache2-35, /-34)
+dep(error.log-37, var/log/apache2-35)
+punct(var/log/apache2-35, /-36)
+nsubj(Aug-40, error.log-37)
+punct(Aug-40, -LSB--38)
+nn(Aug-40, Tue-39)
+dep(tail-3, Aug-40)
+number(19:03:10-42, 17-41)
+iobj(Aug-40, 19:03:10-42)
+dobj(Aug-40, 2010-43)
+punct(error-46, -RSB--44)
+punct(error-46, -LSB--45)
+dep(Aug-40, error-46)
+punct(tail-3, -RSB--47)
+punct(tail-3, -LSB--48)
+nsubj(failed-65, client-49)
+num(client-49, 127.0.0.1-50)
+punct(Connection-55, -RSB--51)
+appos(Connection-55, 104-53)
+nsubj(reset-56, Connection-55)
+rcmod(client-49, reset-56)
+dep(ap_content_length_filter-60, peer-58)
+prep_by(reset-56, ap_content_length_filter-60)
+dep(ap_content_length_filter-60, apr_bucket_read-62)
+parataxis(tail-3, failed-65)
+
+Clearly/RB the/DT connection/NN is/VBZ not/RB '/`` reset/VB by/IN peer/VB '/'' 
+
+(ROOT (FRAG (ADVP (RB Clearly)) (NP (DT the) (NN connection) (SBAR (S (VP (VBZ is) (RB not) (`` `) (S (VP (VB reset) (PP (IN by) (NP (VP (VB peer) ('' '))))))))))))
+
+root(ROOT-0, connection-3)
+dep(connection-3, Clearly-1)
+det(connection-3, the-2)
+ccomp(connection-3, is-4)
+neg(is-4, not-5)
+ccomp(is-4, reset-7)
+prep_by(reset-7, peer-9)
+
+Please/VB advise/VB . . ./: 
+
+(ROOT (S (VP (VB Please) (VP (VB advise))) (: ...)))
+
+root(ROOT-0, Please-1)
+xcomp(Please-1, advise-2)
+

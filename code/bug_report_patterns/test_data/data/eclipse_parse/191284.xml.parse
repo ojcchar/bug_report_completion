@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>191284</id>
+	<title>Confusing behaviour when editing a Readonly file.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I changed the Readonly properties of a file to Yes.</sentence>
+			<sentence id="1.2">Then I double clicked on the file to bring it up in the editor.</sentence>
+			<sentence id="1.3">When I tried to enter something in the editor, I got the message:
+File 'xxxx' is read-only.</sentence>
+			<sentence id="1.4">Do you wish to make it writable?</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I clicked Yes to dismiss the dialog.</sentence>
+			<sentence id="2.2">Then I was able to input in the editor.</sentence>
+			<sentence id="2.3">I did a Save on the file, and got error:
+Operation failed.</sentence>
+			<sentence id="2.4">File sytem input or output error.</sentence>
+			<sentence id="2.5">Details: Message report from file system: File filelist_ro cannot be saved on SLES8RM.</sentence>
+			<sentence id="2.6">You do not have write access to the file.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I clicked OK to dismiss the dialog.</sentence>
+			<sentence id="3.2">Close the editor (did not see a * which was used to mark the file is dirty in the editor tab).</sentence>
+			<sentence id="3.3">Opened it again.</sentence>
+			<sentence id="3.4">I could see the contents I just put in was there.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Refreshed this file in System View tree, but the read only property is still set to Yes.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">If I tried to edit the file again, I got the dialog 
+"File 'xxxx' is read-only.</sentence>
+			<sentence id="5.2">Do you wish to make it writable?"</sentence>
+			<sentence id="5.3">again.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">-----------Enter bugs above this line-----------</sentence>
+			<sentence id="6.2">TM 2.0M7 Testing</sentence>
+			<sentence id="6.3">installation : eclipse-platform-3.3M7 (I20070503-1400)</sentence>
+			<sentence id="6.4">RSE install  : RSE-SDK-2.0RC2.zip</sentence>
+			<sentence id="6.5">java.runtime : Sun 1.5.0_06-b05</sentence>
+			<sentence id="6.6">os.name:     : Windows XP 5.1, Service Pack 2</sentence>
+			<sentence id="6.7">------------------------------------------------</sentence>
+			<sentence id="6.8">systemtype   : Linux - DStore</sentence>
+			<sentence id="6.9">------------------------------------------------</sentence>
+		</paragraph>
+	</description>
+</bug>

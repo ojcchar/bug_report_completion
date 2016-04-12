@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16699</id>
+	<title>Page cannot be found / Network error when navigating to a page</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We have had a problem where a user clicks on a link and they get the following 
+errors (2 browsers tested - more prominent on Netscape):</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">1 On Internet Explorer 5.5 they get a "page cannot be found" page, yet</sentence>
+			<sentence id="2.2">sometimes if you hit the back button on the browser the page you were trying</sentence>
+			<sentence id="2.3">to navigate to is actually there in the cache!</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">2 If they are using Netscape 4.79 they get a "network error" OK dialog box</sentence>
+			<sentence id="3.2">come up,</sentence>
+			<sentence id="3.3">even though the page they were trying to navigate to actually comes up</sentence>
+			<sentence id="3.4">beneath.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I don't know much about the inner workings of clients/web servers but it's
+almost as if the client makes that initial "hello" contact with the web
+server, starts retrieving the document (and indeed often gets it) but there
+is no "there you are, you've got it now - goodbye" message back from the
+server and therefore the client thinks there was an error and throws up page
+cannot be found or network error.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The problem seems to happen more when the server is under heavier load but is 
+intermittent.</sentence>
+			<sentence id="5.2">It also seems to have only started happening since about Apache 
+version 2.035 or 2.036, though that may be coincidental.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">In the error logs, there are lots of (&gt;500 a day) lines like this:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">"[date/time] [warn] (xxxxxx)The specified network name is no longer 
+available.</sentence>
+			<sentence id="7.2">: winnt_accept: Asynchronous AcceptEx failed."</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">The server we use is a Pentium 4 2.2Ghz / 1 gig RAM system with a SCSI disk and 
+the O/S is Windows 2000 Server SP2.</sentence>
+			<sentence id="8.2">It's connected to a fast network which is 
+in turn connected to the net via a &gt;2Gb pipe.</sentence>
+		</paragraph>
+	</description>
+</bug>

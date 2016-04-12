@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12229</id>
+	<title>Apache 2 unable to start with php-4.2.2 as module</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Installing php-4.2.2 as a module runnig Apache 2.0.39 is working just fine.</sentence>
+			<sentence id="1.2">I copy the php4ts.dll to my windows/system32.</sentence>
+			<sentence id="1.3">I put these 2 lines into 
+httpd.conf:
+LoadModule php4_module c:/php-4.2.2-win32/sapi/php4apache2.</sentence>
+			<sentence id="1.4">dll
+AddType application/x-httpd-php .</sentence>
+			<sentence id="1.5">php
+Restart apache 2.0.39, and a test.php page is showing just fine.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I installed the new Apache 2.0.40, and when I try to restart the service I get 
+an error saying:
+Cannot load C:/php-4.2.2-Win32/sapi/php4apache2.</sentence>
+			<sentence id="2.2">dll into server: The specified 
+procedure could not be found.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">One of my coworkers has tried the same on an Windows 2000 platform, and the 
+result is the same.</sentence>
+			<sentence id="3.2">Apache 2.0.40 will not start if php is to be loaded as a 
+module.</sentence>
+		</paragraph>
+	</description>
+</bug>

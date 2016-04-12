@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>31848</id>
+	<title>SEGV ssl_hook_UserCheck (r=0x3c19c050) at ssl_engine_kernel.c:848</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Apache 2 (self-compiled) on OpenBSD 3.5</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The child process crashes when I try to access a password-protected (AuthType Digest, Require valid-
+user) area on a virtual host which also has SSLEngine on.</sentence>
+			<sentence id="2.2">The request that causes the crash need not be 
+over SSL.</sentence>
+			<sentence id="2.3">After the request, I get tons of the following messages in my error_log:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">[Wed Oct 20 23:33:02 2004] [notice] child pid 748 exit signal Segmentation fault (11)
+[Wed Oct 20 23:33:02 2004] [notice] child pid 21686 exit signal Segmentation fault (11)
+[Wed Oct 20 23:33:02 2004] [notice] child pid 11754 exit signal Segmentation fault (11)
+[Wed Oct 20 23:33:02 2004] [notice] child pid 25724 exit signal Segmentation fault (11)
+...</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I started Apache under gdb in -X mode and got the following back trace:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Program received signal SIGSEGV, Segmentation fault.</sentence>
+			<sentence id="5.2">0x1c0441d0 in ssl_hook_UserCheck (r=0x3c19c050) at ssl_engine_kernel.c:848</sentence>
+			<sentence id="5.3">848         if (!(sc-&gt;enabled &amp;&amp; sslconn-&gt;ssl &amp;&amp; sslconn-&gt;client_cert) ||</sentence>
+			<sentence id="5.4">(gdb) bt</sentence>
+			<sentence id="5.5">#0  0x1c0441d0 in ssl_hook_UserCheck (r=0x3c19c050) at ssl_engine_kernel.c:848</sentence>
+			<sentence id="5.6">#1  0x1c099c5b in ap_run_check_user_id (r=0x3c19c050) at request.c:69</sentence>
+			<sentence id="5.7">#2  0x1c09a5ed in ap_process_request_internal (r=0x3c19c050) at request.c:192</sentence>
+			<sentence id="5.8">#3  0x1c056d0f in ap_process_request (r=0x3c19c050) at http_request.c:244</sentence>
+			<sentence id="5.9">#4  0x1c051c3c in ap_process_http_connection (c=0x3c196128) at http_core.c:250</sentence>
+			<sentence id="5.10">#5  0x1c08de1b in ap_run_process_connection (c=0x3c196128) at connection.c:42</sentence>
+			<sentence id="5.11">#6  0x1c08e18d in ap_process_connection (c=0x3c196128, csd=0x3c196050)</sentence>
+			<sentence id="5.12">    at connection.c:175</sentence>
+			<sentence id="5.13">#7  0x1c081084 in child_main (child_num_arg=0) at prefork.c:609</sentence>
+			<sentence id="5.14">#8  0x1c081148 in make_child (s=0x3c0469e8, slot=0) at prefork.c:649</sentence>
+			<sentence id="5.15">#9  0x1c081257 in startup_children (number_to_start=5) at prefork.c:721</sentence>
+			<sentence id="5.16">#10 0x1c0815d2 in ap_mpm_run (_pconf=0x3c042018, plog=0x3c088018, s=0x3c0469e8)</sentence>
+			<sentence id="5.17">    at prefork.c:940</sentence>
+			<sentence id="5.18">#11 0x1c087e81 in main (argc=3, argv=0xcfbf7de8) at main.c:617</sentence>
+			<sentence id="5.19">#12 0x1c022671 in ___start ()</sentence>
+			<sentence id="5.20">#13 0x1c0225e7 in __start ()</sentence>
+			<sentence id="5.21">#14 0xcfbf7f5c in ?? ()</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Apache was configured like this:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">.</sentence>
+			<sentence id="7.2">/configure --prefix=/usr/local/apache2 --enable-ext-filter --enable-exp --enable-headers --
+enable-unique-id --enable-ssl --enable-dav --enable-speling --enable-rewrite --enable-info --
+enable-auth-digest --enable-deflate --enable-proxy --enable-expires --enable-so</sentence>
+		</paragraph>
+	</description>
+</bug>

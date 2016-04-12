@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>28529</id>
+	<title>acceptex used on win9x</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The following error is reported in the error log:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">[Thu Apr 22 00:28:21 2004] [error] (OS 10045)Operation not supported on socket:
+Child -380197: Encountered too many errors accepting client connections.</sentence>
+			<sentence id="2.2">Possible causes: Unknown.</sentence>
+			<sentence id="2.3">Try using the Win32DisableAcceptEx directive.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This is continually logged and essentially hangs the system on a new install.</sentence>
+			<sentence id="3.2">Even though I checked the install option for 'single user - manual start',
+the installation process starts apache with 250 child processes all reporting
+this error.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">After adding 'Win32DisableAcceptEx Off', apache is runs ok</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>15536</id>
+	<title>Grant access to users with the first 8 caracters of the password</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I had install a REDHAT 8.0 with version httpd-2.0.40-8 of apache.</sentence>
+			<sentence id="1.2">I have  a Direcory configured with this parameters:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;Directory /home/xxx/&gt;
+        order allow,deny
+        allow from all
+        AllowOverride All
+        Options Indexes
+        AuthName "xxx"
+AuthType Basic
+require group admin
+AuthUserFile /pathto/users
+AuthGroupFile /pathto/groups
+HeaderName /external/.</sentence>
+			<sentence id="2.2">HEADER.html
+&lt;/Directory&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I created some users with password with more the 8 caracters, the module
+mod_auth, grant access to user with the first 8 caracters of the password.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Adrian</sentence>
+		</paragraph>
+	</description>
+</bug>

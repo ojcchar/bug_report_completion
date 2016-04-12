@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>50109</id>
+	<title>HTTP 2.2.16 doesn't support IPv6 on Windows</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I downloaded Apache HTTP Server version 2.2.16 "httpd-2.2.16-win32-x86-openssl-0.9.8o.msi".</sentence>
+			<sentence id="1.2">The installation was successful and the web server can be accessed through 'http://localhost'.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">However, the local IPv6 address '::1' is not working.</sentence>
+			<sentence id="2.2">The browser reports 'connection failed' when accessing the web server through 'http://[::1]'.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I changed the 'Listen 80' statement to:
+Listen [::]:8080
+Listen 0.0.0.0:8080</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">After this change, the 'httpd.exe' reports the following errors:
+[Mon Oct 18 09:20:39 2010] [crit] (OS 11001)No such host is known.</sentence>
+			<sentence id="4.2">: alloc_listener: failed to set up sockaddr for [::]
+Syntax error on line 47 of D:/Program Files/Apache Software Foundation/Apache2.2/conf/httpd.</sentence>
+			<sentence id="4.3">conf:
+Listen setup failed</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">What has changed between version 2.2.15 and 2.2.16?</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">My environment is Windows XP with SP3 and IPv6 enabled.</sentence>
+			<sentence id="6.2">A ping6 to '::1' runs correct.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Thanks for your support.</sentence>
+		</paragraph>
+	</description>
+</bug>

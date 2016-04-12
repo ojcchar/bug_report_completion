@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10257</id>
+	<title>Comments not displayed on albums or photos.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Any call to Graph API over album or photo never returns the comment list_ and if you try to get it explicitly_ the answer is an empty data list.</sentence>
+			<sentence id="1.2">The same for the  likes  count.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The method used to retrieve data is a direct http connection with an appropriated access_token_ like:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">https://graph.facebook.com/106458239399236?access_token=...</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This ID can be a album ID or a photo ID_ the result is the same.</sentence>
+			<sentence id="4.2">you can also add the /comments query and the result is a empty data list.</sentence>
+			<sentence id="4.3">It happens the same with the like count in both objects.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This is a problem_ there is also the other problem that you can not access the user profile s photos from this API_ since the user profile s album share the id with the user.</sentence>
+		</paragraph>
+	</description>
+</bug>

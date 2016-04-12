@@ -1,0 +1,793 @@
+if/IN the/DT bucket/NN has/VBZ only/RB one/CD element/NN and/CC the/DT element/NN is/VBZ not/RB match/VB ,/, cause/VB entry_p/NN is/VBZ not/RB null/JJ and/CC entry_p/JJ -/: >/JJR te_next_p/NN is/VBZ null/JJ ,/, then/RB the/DT loop/NN is/VBZ not/RB excuted/VBN ,/, then/RB we/PRP get/VBP to/TO judge/VB whether/IN we/PRP find/VBP it/PRP ./. 
+
+(ROOT (S (SBAR (IN if) (S (S (NP (DT the) (NN bucket)) (VP (VBZ has) (NP (RB only) (CD one) (NN element)))) (CC and) (S (NP (DT the) (NN element)) (VP (VBZ is) (RB not) (VP (VB match)))))) (, ,) (VP (VB cause) (S (S (NP (NN entry_p)) (VP (VBZ is) (RB not) (ADJP (ADJP (JJ null) (CC and) (JJ entry_p)) (: -) (ADJP (JJR >) (SBAR (S (NP (NN te_next_p)) (VP (VBZ is) (ADJP (JJ null))))))))) (, ,) (ADVP (RB then)) (S (NP (DT the) (NN loop)) (VP (VBZ is) (RB not) (VP (VBN excuted)))) (, ,) (RB then) (S (NP (PRP we)) (VP (VBP get) (S (VP (TO to) (VP (VB judge) (SBAR (IN whether) (S (NP (PRP we)) (VP (VBP find) (NP (PRP it)))))))))))) (. .)))
+
+root(ROOT-0, cause-15)
+mark(has-4, if-1)
+det(bucket-3, the-2)
+nsubj(has-4, bucket-3)
+advcl(cause-15, has-4)
+advmod(element-7, only-5)
+num(element-7, one-6)
+dobj(has-4, element-7)
+det(element-10, the-9)
+nsubj(match-13, element-10)
+aux(match-13, is-11)
+neg(match-13, not-12)
+conj_and(has-4, match-13)
+advcl(cause-15, match-13)
+nsubj(null-19, entry_p-16)
+nsubj(entry_p-21, entry_p-16)
+cop(null-19, is-17)
+neg(null-19, not-18)
+dep(cause-15, null-19)
+dep(cause-15, entry_p-21)
+conj_and(null-19, entry_p-21)
+dep(null-19, >-23)
+nsubj(null-26, te_next_p-24)
+cop(null-26, is-25)
+ccomp(>-23, null-26)
+advmod(excuted-33, then-28)
+det(loop-30, the-29)
+nsubjpass(excuted-33, loop-30)
+auxpass(excuted-33, is-31)
+neg(excuted-33, not-32)
+parataxis(null-19, excuted-33)
+advmod(get-37, then-35)
+nsubj(get-37, we-36)
+parataxis(null-19, get-37)
+aux(judge-39, to-38)
+xcomp(get-37, judge-39)
+mark(find-42, whether-40)
+nsubj(find-42, we-41)
+ccomp(judge-39, find-42)
+dobj(find-42, it-43)
+
+it/PRP 's/VBZ a/DT bug/NN ,/, should/MD fix/VB as/IN follow/VB 
+
+(ROOT (S (NP (PRP it)) (VP (VBZ 's) (NP (NP (DT a) (NN bug)) (, ,) (SBAR (S (VP (MD should) (VP (VB fix) (SBAR (IN as) (S (VP (VB follow))))))))))))
+
+root(ROOT-0, bug-4)
+nsubj(bug-4, it-1)
+cop(bug-4, 's-2)
+det(bug-4, a-3)
+aux(fix-7, should-6)
+rcmod(bug-4, fix-7)
+mark(follow-9, as-8)
+advcl(fix-7, follow-9)
+
+//: */SYM look/VB for/IN the/DT entry/NN in/IN this/DT bucket/NN ,/, only/RB check/VB keys/NNS of/IN the/DT same/JJ size/NN */SYM //: 
+
+(ROOT (PRN (: /) (SBAR (X (SYM *)) (S (S (VP (VB look) (PP (IN for) (NP (NP (DT the) (NN entry)) (PP (IN in) (NP (DT this) (NN bucket))))))) (, ,) (S (VP (ADVP (RB only)) (VB check) (NP (NP (NP (NNS keys)) (PP (IN of) (NP (DT the) (JJ same) (NN size)))) (X (SYM *))))))) (: /)))
+
+root(ROOT-0, look-3)
+punct(look-3, /-1)
+dep(look-3, *-2)
+det(entry-6, the-5)
+prep_for(look-3, entry-6)
+det(bucket-9, this-8)
+prep_in(entry-6, bucket-9)
+advmod(check-12, only-11)
+parataxis(look-3, check-12)
+dobj(check-12, keys-13)
+det(size-17, the-15)
+amod(size-17, same-16)
+prep_of(keys-13, size-17)
+dep(keys-13, *-18)
+punct(look-3, /-19)
+
+last_p/NN =/JJ NULL/NN ;/: 
+
+(ROOT (NP (NP (NN last_p) (JJ =) (NN NULL)) (: ;)))
+
+root(ROOT-0, NULL-3)
+nn(NULL-3, last_p-1)
+amod(NULL-3, =-2)
+
+for/IN (/-LRB- entry_p/NN =/JJ table_p/NN -/: >/JJR ta_buckets/NNS [/-LRB- bucket/NN ]/-RRB- ;/: 
+
+(ROOT (FRAG (PP (IN for) (NP (PRN (-LRB- -LRB-) (NP (NP (NN entry_p) (JJ =) (NN table_p)) (: -) (NP (JJR >) (NNS ta_buckets))) (-LRB- -LSB-)) (NN bucket))) (NP-TMP (-RRB- -RSB-)) (: ;)))
+
+root(ROOT-0, -RSB--11)
+nn(table_p-5, entry_p-3)
+amod(table_p-5, =-4)
+dep(bucket-10, table_p-5)
+amod(ta_buckets-8, >-7)
+dep(table_p-5, ta_buckets-8)
+punct(table_p-5, -LSB--9)
+prep_for(-RSB--11, bucket-10)
+
+(/-LRB- entry_p/NN !/. 
+
+(ROOT (NP (-LRB- -LRB-) (NN entry_p) (. !)))
+
+root(ROOT-0, entry_p-2)
+
+=/JJ NULL/NN )/-RRB- &/CC &/CC (/-LRB- entry_p/NN -/: >/JJR te_next_p/NN !/. 
+
+(ROOT (NP (NP (JJ =) (NN NULL)) (NP (NP (NP (-RRB- -RRB-) (CC &)) (SBAR (S (NP (CC &))))) (PRN (-LRB- -LRB-) (UCP (ADJP (NN entry_p)) (: -) (NP (NP (JJR >)) (NP (NN te_next_p)))))) (. !)))
+
+root(ROOT-0, NULL-2)
+amod(NULL-2, =-1)
+dep(NULL-2, &-4)
+rcmod(&-4, &-5)
+dep(&-4, entry_p-7)
+dep(entry_p-7, >-9)
+dep(>-9, te_next_p-10)
+
+=/JJ last_p/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (JJ =) (NN last_p) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, last_p-2)
+amod(last_p-2, =-1)
+
+last_p/NN =/JJ entry_p/NN ,/, entry_p/NN =/JJ entry_p/NN -/: >/JJR te_next_p/NN )/-RRB- {/-LRB- 
+
+(ROOT (NP (NP (NN last_p) (JJ =) (NN entry_p)) (, ,) (NP (NP (NN entry_p)) (ADJP (ADJP (JJ =)) (PRN (NP (NP (NN entry_p)) (: -) (NP (JJR >) (NN te_next_p))) (-RRB- -RRB-)))) (-LRB- -LCB-)))
+
+root(ROOT-0, entry_p-3)
+nn(entry_p-3, last_p-1)
+amod(entry_p-3, =-2)
+appos(entry_p-3, entry_p-5)
+amod(entry_p-5, =-6)
+dep(=-6, entry_p-7)
+amod(te_next_p-10, >-9)
+dep(entry_p-7, te_next_p-10)
+
+if/IN (/-LRB- entry_p/NN -/: >/JJR te_key_size/JJ ==/NN ksize/NN 
+
+(ROOT (NP (NP (NP (IN if)) (-LRB- -LRB-) (NP (NP (NN entry_p)) (: -) (NP (JJR >) (JJ te_key_size) (NN ==)))) (NP (NN ksize))))
+
+root(ROOT-0, if-1)
+dep(if-1, entry_p-3)
+amod(==-7, >-5)
+amod(==-7, te_key_size-6)
+dep(entry_p-3, ==-7)
+dep(if-1, ksize-8)
+
+&/CC &/CC memcmp/NN (/-LRB- ENTRY_KEY_BUF/NN (/-LRB- entry_p/NN )/-RRB- ,/, key_buf/NN ,/, ksize/NN )/-RRB- ==/CD 0/CD )/-RRB- 
+
+(ROOT (PRN (S (NP (CC &) (NP (NP (CC &) (NN memcmp)) (PRN (-LRB- -LRB-) (NP (NP (NP (NN ENTRY_KEY_BUF)) (PRN (-LRB- -LRB-) (NP (NN entry_p)) (-RRB- -RRB-)) (, ,) (NP (NN key_buf))) (, ,) (ADVP (NN ksize))) (-RRB- -RRB-)))) (VP (CD ==) (NP (CD 0)))) (-RRB- -RRB-)))
+
+root(ROOT-0, 0-15)
+cc(memcmp-3, &-1)
+cc(memcmp-3, &-2)
+nsubj(0-15, memcmp-3)
+dep(memcmp-3, ENTRY_KEY_BUF-5)
+appos(ENTRY_KEY_BUF-5, entry_p-7)
+appos(ENTRY_KEY_BUF-5, key_buf-10)
+advmod(ENTRY_KEY_BUF-5, ksize-12)
+dep(0-15, ==-14)
+
+break/NN ;/: 
+
+(ROOT (NP (NN break) (: ;)))
+
+root(ROOT-0, break-1)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+//: */SYM did/VBD we/PRP find/VBP it/PRP ?/. 
+
+(ROOT (SQ (: /) (FRAG (X (SYM *)) (VP (VBD did) (SBAR (S (NP (PRP we)) (VP (VBP find) (NP (PRP it))))))) (. ?)))
+
+root(ROOT-0, did-3)
+punct(did-3, /-1)
+dep(did-3, *-2)
+nsubj(find-5, we-4)
+ccomp(did-3, find-5)
+dobj(find-5, it-6)
+
+then/RB we/PRP are/VBP in/IN replace/VB mode/NN ./. 
+
+(ROOT (S (ADVP (RB then)) (NP (PRP we)) (VP (VBP are) (PP (IN in) (S (VP (VB replace) (NP (NN mode)))))) (. .)))
+
+root(ROOT-0, are-3)
+advmod(are-3, then-1)
+nsubj(are-3, we-2)
+prepc_in(are-3, replace-5)
+dobj(replace-5, mode-6)
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+if/IN (/-LRB- entry_p/NN !/. 
+
+(ROOT (FRAG (IN if) (-LRB- -LRB-) (NP (NN entry_p)) (. !)))
+
+root(ROOT-0, if-1)
+dep(if-1, entry_p-3)
+
+=/JJ NULL/NN )/-RRB- {/-LRB- 
+
+(ROOT (VP (PRN (NP (NP (JJ =)) (NP (NN NULL))) (-RRB- -RRB-)) (-LRB- -LCB-)))
+
+root(ROOT-0, =-1)
+dep(=-1, NULL-2)
+
+//: */SYM can/MD we/PRP not/RB overwrite/VB existing/VBG data/NNS ?/. 
+
+(ROOT (FRAG (: /) (VP (SYM *) (SBAR (SINV (MD can) (NP (PRP we)) (VP (RB not) (S (VP (VB overwrite) (NP (VBG existing) (NNS data)))))))) (. ?)))
+
+root(ROOT-0, *-2)
+punct(*-2, /-1)
+aux(not-5, can-3)
+nsubj(not-5, we-4)
+advcl(*-2, not-5)
+ccomp(not-5, overwrite-6)
+amod(data-8, existing-7)
+dobj(overwrite-6, data-8)
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+if/IN (/-LRB- !/. 
+
+(ROOT (FRAG (IN if) (ADVP (-LRB- -LRB-) (. !))))
+
+root(ROOT-0, if-1)
+
+overwrite_b/NN )/-RRB- {/-LRB- 
+
+(ROOT (S (NP (NN overwrite_b)) (VP (-RRB- -RRB-)) (-LRB- -LCB-)))
+
+nsubj(-RRB--2, overwrite_b-1)
+
+if/IN (/-LRB- key_buf_p/NN !/. 
+
+(ROOT (FRAG (IN if) (-LRB- -LRB-) (NP (NN key_buf_p)) (. !)))
+
+root(ROOT-0, if-1)
+dep(if-1, key_buf_p-3)
+
+=/JJ NULL/NN )/-RRB- 
+
+(ROOT (PRN (NP (NP (JJ =)) (NP (NN NULL))) (-RRB- -RRB-)))
+
+root(ROOT-0, =-1)
+dep(=-1, NULL-2)
+
+*/SYM key_buf_p/NN =/JJ ENTRY_KEY_BUF/NN (/-LRB- entry_p/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (SYM *) (NN key_buf_p) (JJ =) (NN ENTRY_KEY_BUF)) (PRN (-LRB- -LRB-) (NP (NN entry_p)) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, ENTRY_KEY_BUF-4)
+dep(ENTRY_KEY_BUF-4, *-1)
+nn(ENTRY_KEY_BUF-4, key_buf_p-2)
+amod(ENTRY_KEY_BUF-4, =-3)
+appos(ENTRY_KEY_BUF-4, entry_p-6)
+
+if/IN (/-LRB- data_buf_p/NN !/. 
+
+(ROOT (FRAG (IN if) (-LRB- -LRB-) (NP (NN data_buf_p)) (. !)))
+
+root(ROOT-0, if-1)
+dep(if-1, data_buf_p-3)
+
+=/JJ NULL/NN )/-RRB- {/-LRB- 
+
+(ROOT (VP (PRN (NP (NP (JJ =)) (NP (NN NULL))) (-RRB- -RRB-)) (-LRB- -LCB-)))
+
+root(ROOT-0, =-1)
+dep(=-1, NULL-2)
+
+if/IN (/-LRB- entry_p/NN -/: >/JJR te_data_size/JJ ==/NN 0/CD )/-RRB- 
+
+(ROOT (FRAG (SBAR (IN if) (FRAG (-LRB- -LRB-) (NP (NN entry_p)) (: -) (NP (NP (JJR >) (JJ te_data_size) (NN ==)) (NP (CD 0))) (-RRB- -RRB-)))))
+
+root(ROOT-0, entry_p-3)
+mark(entry_p-3, if-1)
+amod(==-7, >-5)
+amod(==-7, te_data_size-6)
+dep(entry_p-3, ==-7)
+dep(==-7, 0-8)
+
+*/SYM data_buf_p/NN =/JJ NULL/NN ;/: 
+
+(ROOT (FRAG (X (SYM *)) (PP (NN data_buf_p) (NP (JJ =) (NN NULL)) (: ;))))
+
+root(ROOT-0, *-1)
+prep(*-1, data_buf_p-2)
+amod(NULL-4, =-3)
+dep(data_buf_p-2, NULL-4)
+
+else/RB {/-LRB- 
+
+(ROOT (FRAG (RB else) (ADVP (-LRB- -LCB-))))
+
+root(ROOT-0, else-1)
+
+if/IN (/-LRB- table_p/NN -/: >/JJR ta_data_align/JJ ==/NN 0/CD )/-RRB- 
+
+(ROOT (FRAG (SBAR (IN if) (FRAG (-LRB- -LRB-) (NP (NN table_p)) (: -) (NP (NP (JJR >) (JJ ta_data_align) (NN ==)) (NP (CD 0))) (-RRB- -RRB-)))))
+
+root(ROOT-0, table_p-3)
+mark(table_p-3, if-1)
+amod(==-7, >-5)
+amod(==-7, ta_data_align-6)
+dep(table_p-3, ==-7)
+dep(==-7, 0-8)
+
+*/SYM data_buf_p/NN =/JJ ENTRY_DATA_BUF/NN (/-LRB- table_p/NN ,/, entry_p/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (SYM *) (NN data_buf_p) (JJ =) (NN ENTRY_DATA_BUF)) (PRN (-LRB- -LRB-) (NP (NP (NN table_p)) (, ,) (NP (NN entry_p))) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, ENTRY_DATA_BUF-4)
+dep(ENTRY_DATA_BUF-4, *-1)
+nn(ENTRY_DATA_BUF-4, data_buf_p-2)
+amod(ENTRY_DATA_BUF-4, =-3)
+dep(ENTRY_DATA_BUF-4, table_p-6)
+appos(table_p-6, entry_p-8)
+
+else/RB 
+
+(ROOT (ADJP (RB else)))
+
+root(ROOT-0, else-1)
+
+*/SYM data_buf_p/NN =/JJ entry_data_buf/NN (/-LRB- table_p/NN ,/, entry_p/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (SYM *) (NN data_buf_p) (JJ =) (NN entry_data_buf)) (PRN (-LRB- -LRB-) (NP (NP (NN table_p)) (, ,) (NP (NN entry_p))) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, entry_data_buf-4)
+dep(entry_data_buf-4, *-1)
+nn(entry_data_buf-4, data_buf_p-2)
+amod(entry_data_buf-4, =-3)
+dep(entry_data_buf-4, table_p-6)
+appos(table_p-6, entry_p-8)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+return/NN TABLE_ERROR_OVERWRITE/NN ;/: 
+
+(ROOT (NP (NN return) (NN TABLE_ERROR_OVERWRITE) (: ;)))
+
+root(ROOT-0, TABLE_ERROR_OVERWRITE-2)
+nn(TABLE_ERROR_OVERWRITE-2, return-1)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+//: //: //: //: //: //: //: //: fix/NN 
+
+(ROOT (FRAG (FRAG (ADVP (: /)) (: /)) (: /) (FRAG (FRAG (ADVP (: /)) (: /)) (: /) (FRAG (X (: /)) (: /) (NP (NN fix))))))
+
+root(ROOT-0, /-1)
+punct(/-1, /-2)
+punct(/-1, /-3)
+dep(/-1, /-4)
+punct(/-4, /-5)
+punct(/-4, /-6)
+dep(fix-9, /-7)
+punct(fix-9, /-8)
+dep(/-4, fix-9)
+
+//: */SYM look/VB for/IN the/DT entry/NN in/IN this/DT bucket/NN ,/, only/RB check/VB keys/NNS of/IN the/DT same/JJ size/NN */SYM //: 
+
+(ROOT (PRN (: /) (SBAR (X (SYM *)) (S (S (VP (VB look) (PP (IN for) (NP (NP (DT the) (NN entry)) (PP (IN in) (NP (DT this) (NN bucket))))))) (, ,) (S (VP (ADVP (RB only)) (VB check) (NP (NP (NP (NNS keys)) (PP (IN of) (NP (DT the) (JJ same) (NN size)))) (X (SYM *))))))) (: /)))
+
+root(ROOT-0, look-3)
+punct(look-3, /-1)
+dep(look-3, *-2)
+det(entry-6, the-5)
+prep_for(look-3, entry-6)
+det(bucket-9, this-8)
+prep_in(entry-6, bucket-9)
+advmod(check-12, only-11)
+parataxis(look-3, check-12)
+dobj(check-12, keys-13)
+det(size-17, the-15)
+amod(size-17, same-16)
+prep_of(keys-13, size-17)
+dep(keys-13, *-18)
+punct(look-3, /-19)
+
+last_p/NN =/JJ NULL/NN ;/: 
+
+(ROOT (NP (NP (NN last_p) (JJ =) (NN NULL)) (: ;)))
+
+root(ROOT-0, NULL-3)
+nn(NULL-3, last_p-1)
+amod(NULL-3, =-2)
+
+for/IN (/-LRB- entry_p/NN =/JJ table_p/NN -/: >/JJR ta_buckets/NNS [/-LRB- bucket/NN ]/-RRB- ;/: 
+
+(ROOT (FRAG (PP (IN for) (NP (PRN (-LRB- -LRB-) (NP (NP (NN entry_p) (JJ =) (NN table_p)) (: -) (NP (JJR >) (NNS ta_buckets))) (-LRB- -LSB-)) (NN bucket))) (NP-TMP (-RRB- -RSB-)) (: ;)))
+
+root(ROOT-0, -RSB--11)
+nn(table_p-5, entry_p-3)
+amod(table_p-5, =-4)
+dep(bucket-10, table_p-5)
+amod(ta_buckets-8, >-7)
+dep(table_p-5, ta_buckets-8)
+punct(table_p-5, -LSB--9)
+prep_for(-RSB--11, bucket-10)
+
+(/-LRB- entry_p/NN !/. 
+
+(ROOT (NP (-LRB- -LRB-) (NN entry_p) (. !)))
+
+root(ROOT-0, entry_p-2)
+
+=/JJ NULL/NN )/-RRB- &/CC &/CC (/-LRB- entry_p/NN -/: >/JJR te_next_p/NN !/. 
+
+(ROOT (NP (NP (JJ =) (NN NULL)) (NP (NP (NP (-RRB- -RRB-) (CC &)) (SBAR (S (NP (CC &))))) (PRN (-LRB- -LRB-) (UCP (ADJP (NN entry_p)) (: -) (NP (NP (JJR >)) (NP (NN te_next_p)))))) (. !)))
+
+root(ROOT-0, NULL-2)
+amod(NULL-2, =-1)
+dep(NULL-2, &-4)
+rcmod(&-4, &-5)
+dep(&-4, entry_p-7)
+dep(entry_p-7, >-9)
+dep(>-9, te_next_p-10)
+
+=/JJ last_p/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (JJ =) (NN last_p) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, last_p-2)
+amod(last_p-2, =-1)
+
+last_p/NN =/JJ entry_p/NN ,/, entry_p/NN =/JJ entry_p/NN -/: >/JJR te_next_p/NN )/-RRB- {/-LRB- 
+
+(ROOT (NP (NP (NN last_p) (JJ =) (NN entry_p)) (, ,) (NP (NP (NN entry_p)) (ADJP (ADJP (JJ =)) (PRN (NP (NP (NN entry_p)) (: -) (NP (JJR >) (NN te_next_p))) (-RRB- -RRB-)))) (-LRB- -LCB-)))
+
+root(ROOT-0, entry_p-3)
+nn(entry_p-3, last_p-1)
+amod(entry_p-3, =-2)
+appos(entry_p-3, entry_p-5)
+amod(entry_p-5, =-6)
+dep(=-6, entry_p-7)
+amod(te_next_p-10, >-9)
+dep(entry_p-7, te_next_p-10)
+
+if/IN (/-LRB- entry_p/NN -/: >/JJR te_key_size/JJ ==/NN ksize/NN 
+
+(ROOT (NP (NP (NP (IN if)) (-LRB- -LRB-) (NP (NP (NN entry_p)) (: -) (NP (JJR >) (JJ te_key_size) (NN ==)))) (NP (NN ksize))))
+
+root(ROOT-0, if-1)
+dep(if-1, entry_p-3)
+amod(==-7, >-5)
+amod(==-7, te_key_size-6)
+dep(entry_p-3, ==-7)
+dep(if-1, ksize-8)
+
+&/CC &/CC memcmp/NN (/-LRB- ENTRY_KEY_BUF/NN (/-LRB- entry_p/NN )/-RRB- ,/, key_buf/NN ,/, ksize/NN )/-RRB- ==/CD 0/CD )/-RRB- 
+
+(ROOT (PRN (S (NP (CC &) (NP (NP (CC &) (NN memcmp)) (PRN (-LRB- -LRB-) (NP (NP (NP (NN ENTRY_KEY_BUF)) (PRN (-LRB- -LRB-) (NP (NN entry_p)) (-RRB- -RRB-)) (, ,) (NP (NN key_buf))) (, ,) (ADVP (NN ksize))) (-RRB- -RRB-)))) (VP (CD ==) (NP (CD 0)))) (-RRB- -RRB-)))
+
+root(ROOT-0, 0-15)
+cc(memcmp-3, &-1)
+cc(memcmp-3, &-2)
+nsubj(0-15, memcmp-3)
+dep(memcmp-3, ENTRY_KEY_BUF-5)
+appos(ENTRY_KEY_BUF-5, entry_p-7)
+appos(ENTRY_KEY_BUF-5, key_buf-10)
+advmod(ENTRY_KEY_BUF-5, ksize-12)
+dep(0-15, ==-14)
+
+break/NN ;/: 
+
+(ROOT (NP (NN break) (: ;)))
+
+root(ROOT-0, break-1)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+//: */SYM did/VBD we/PRP find/VBP it/PRP ?/. 
+
+(ROOT (SQ (: /) (FRAG (X (SYM *)) (VP (VBD did) (SBAR (S (NP (PRP we)) (VP (VBP find) (NP (PRP it))))))) (. ?)))
+
+root(ROOT-0, did-3)
+punct(did-3, /-1)
+dep(did-3, *-2)
+nsubj(find-5, we-4)
+ccomp(did-3, find-5)
+dobj(find-5, it-6)
+
+then/RB we/PRP are/VBP in/IN replace/VB mode/NN ./. 
+
+(ROOT (S (ADVP (RB then)) (NP (PRP we)) (VP (VBP are) (PP (IN in) (S (VP (VB replace) (NP (NN mode)))))) (. .)))
+
+root(ROOT-0, are-3)
+advmod(are-3, then-1)
+nsubj(are-3, we-2)
+prepc_in(are-3, replace-5)
+dobj(replace-5, mode-6)
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+//: //: if/IN entry_p/NN !/. 
+
+(ROOT (FRAG (NP (: /)) (: /) (FRAG (IN if) (NP (NN entry_p))) (. !)))
+
+root(ROOT-0, /-1)
+punct(/-1, /-2)
+dep(/-1, if-3)
+dep(if-3, entry_p-4)
+
+=/JJ NULL/NN and/CC last_p/NN !/. 
+
+(ROOT (NP (NP (NP (JJ =) (NN NULL)) (CC and) (NP (NN last_p))) (. !)))
+
+root(ROOT-0, NULL-2)
+amod(NULL-2, =-1)
+conj_and(NULL-2, last_p-4)
+
+=/JJ NULL/NN ,/, we/PRP find/VBP the/DT match/NN key/NN 
+
+(ROOT (NP (S (NP (JJ =) (NN NULL)) (, ,) (NP (PRP we)) (VP (VBP find) (NP (DT the) (NN match) (NN key))))))
+
+root(ROOT-0, find-5)
+amod(NULL-2, =-1)
+nsubj(find-5, NULL-2)
+nsubj(find-5, we-4)
+det(key-8, the-6)
+nn(key-8, match-7)
+dobj(find-5, key-8)
+
+//: //: otherwise/RB if/IN entry_p/NN !/. 
+
+(ROOT (PRN (: /) (FRAG (: /) (ADVP (RB otherwise)) (NP (NP (IN if)) (NP (NN entry_p)))) (. !)))
+
+root(ROOT-0, if-4)
+punct(if-4, /-1)
+punct(if-4, /-2)
+dep(if-4, otherwise-3)
+dep(if-4, entry_p-5)
+
+=/JJ NULL/NN and/CC last_p/JJ ==/NN NULL/NN and/CC entry_p/NN is/VBZ the/DT match/NN key/NN ,/, we/PRP also/RB find/VBP the/DT match/NN key/NN 
+
+(ROOT (S (S (NP (NP (JJ =) (NN NULL) (CC and) (JJ last_p) (NN ==) (NN NULL)) (CC and) (NP (NN entry_p))) (VP (VBZ is) (NP (DT the) (NN match) (NN key)))) (, ,) (NP (PRP we)) (ADVP (RB also)) (VP (VBP find) (NP (DT the) (NN match) (NN key)))))
+
+root(ROOT-0, find-16)
+amod(NULL-2, =-1)
+nsubj(key-12, NULL-2)
+amod(NULL-6, last_p-4)
+nn(NULL-6, ==-5)
+conj_and(NULL-2, NULL-6)
+nsubj(key-12, NULL-6)
+conj_and(NULL-2, entry_p-8)
+nsubj(key-12, entry_p-8)
+cop(key-12, is-9)
+det(key-12, the-10)
+nn(key-12, match-11)
+ccomp(find-16, key-12)
+nsubj(find-16, we-14)
+advmod(find-16, also-15)
+det(key-19, the-17)
+nn(key-19, match-18)
+dobj(find-16, key-19)
+
+if/IN (/-LRB- entry_p/NN !/. 
+
+(ROOT (FRAG (IN if) (-LRB- -LRB-) (NP (NN entry_p)) (. !)))
+
+root(ROOT-0, if-1)
+dep(if-1, entry_p-3)
+
+=/JJ NULL/NNP &/CC &/CC (/-LRB- last_p/NN !/. 
+
+(ROOT (NP (NP (JJ =)) (NP (NNP NULL) (CC &) (NP (CC &) (-LRB- -LRB-) (NN last_p))) (. !)))
+
+root(ROOT-0, =-1)
+dep(=-1, NULL-2)
+cc(last_p-6, &-4)
+dep(=-1, last_p-6)
+conj_and(NULL-2, last_p-6)
+
+=/JJ NULL/NNP |/CD |/NN (/-LRB- entry_p/NN -/: >/JJR te_key_size/JJ ==/NN ksize/NN 
+
+(ROOT (NP (NP (JJ =) (NNP NULL)) (NP (NP (CD |) (NN |)) (-LRB- -LRB-) (NP (NP (NN entry_p)) (: -) (NP (JJR >) (JJ te_key_size) (NN ==) (NN ksize))))))
+
+root(ROOT-0, NULL-2)
+amod(NULL-2, =-1)
+num(|-4, |-3)
+dep(NULL-2, |-4)
+dep(|-4, entry_p-6)
+amod(ksize-11, >-8)
+amod(ksize-11, te_key_size-9)
+nn(ksize-11, ==-10)
+dep(entry_p-6, ksize-11)
+
+&/CC &/CC memcmp/NN (/-LRB- ENTRY_KEY_BUF/NN (/-LRB- entry_p/NN )/-RRB- ,/, key_buf/NN ,/, ksize/NN )/-RRB- ==/CD 0/CD )/-RRB- )/-RRB- )/-RRB- {/-LRB- 
+
+(ROOT (S (NP (CC &) (NP (NP (CC &) (NN memcmp)) (PRN (-LRB- -LRB-) (NP (NP (NN ENTRY_KEY_BUF)) (NP (NP (-LRB- -LRB-) (NN entry_p) (-RRB- -RRB-)) (, ,) (NP (NP (NN key_buf)) (, ,) (NP (NP (NN ksize)) (PRN (-RRB- -RRB-) (NP (QP (CD ==) (CD 0))) (-RRB- -RRB-)) (-RRB- -RRB-))))) (-RRB- -RRB-)))) (ADJP (-LRB- -LCB-))))
+
+cc(memcmp-3, &-1)
+cc(memcmp-3, &-2)
+dep(-LCB--19, memcmp-3)
+dep(memcmp-3, ENTRY_KEY_BUF-5)
+dep(ENTRY_KEY_BUF-5, entry_p-7)
+appos(entry_p-7, key_buf-10)
+appos(key_buf-10, ksize-12)
+number(0-15, ==-14)
+dep(ksize-12, 0-15)
+
+//: */SYM can/MD we/PRP not/RB overwrite/VB existing/VBG data/NNS ?/. 
+
+(ROOT (FRAG (: /) (VP (SYM *) (SBAR (SINV (MD can) (NP (PRP we)) (VP (RB not) (S (VP (VB overwrite) (NP (VBG existing) (NNS data)))))))) (. ?)))
+
+root(ROOT-0, *-2)
+punct(*-2, /-1)
+aux(not-5, can-3)
+nsubj(not-5, we-4)
+advcl(*-2, not-5)
+ccomp(not-5, overwrite-6)
+amod(data-8, existing-7)
+dobj(overwrite-6, data-8)
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+if/IN (/-LRB- !/. 
+
+(ROOT (FRAG (IN if) (ADVP (-LRB- -LRB-) (. !))))
+
+root(ROOT-0, if-1)
+
+overwrite_b/NN )/-RRB- {/-LRB- 
+
+(ROOT (S (NP (NN overwrite_b)) (VP (-RRB- -RRB-)) (-LRB- -LCB-)))
+
+nsubj(-RRB--2, overwrite_b-1)
+
+if/IN (/-LRB- key_buf_p/NN !/. 
+
+(ROOT (FRAG (IN if) (-LRB- -LRB-) (NP (NN key_buf_p)) (. !)))
+
+root(ROOT-0, if-1)
+dep(if-1, key_buf_p-3)
+
+=/JJ NULL/NN )/-RRB- 
+
+(ROOT (PRN (NP (NP (JJ =)) (NP (NN NULL))) (-RRB- -RRB-)))
+
+root(ROOT-0, =-1)
+dep(=-1, NULL-2)
+
+*/SYM key_buf_p/NN =/JJ ENTRY_KEY_BUF/NN (/-LRB- entry_p/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (SYM *) (NN key_buf_p) (JJ =) (NN ENTRY_KEY_BUF)) (PRN (-LRB- -LRB-) (NP (NN entry_p)) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, ENTRY_KEY_BUF-4)
+dep(ENTRY_KEY_BUF-4, *-1)
+nn(ENTRY_KEY_BUF-4, key_buf_p-2)
+amod(ENTRY_KEY_BUF-4, =-3)
+appos(ENTRY_KEY_BUF-4, entry_p-6)
+
+if/IN (/-LRB- data_buf_p/NN !/. 
+
+(ROOT (FRAG (IN if) (-LRB- -LRB-) (NP (NN data_buf_p)) (. !)))
+
+root(ROOT-0, if-1)
+dep(if-1, data_buf_p-3)
+
+=/JJ NULL/NN )/-RRB- {/-LRB- 
+
+(ROOT (VP (PRN (NP (NP (JJ =)) (NP (NN NULL))) (-RRB- -RRB-)) (-LRB- -LCB-)))
+
+root(ROOT-0, =-1)
+dep(=-1, NULL-2)
+
+if/IN (/-LRB- entry_p/NN -/: >/JJR te_data_size/JJ ==/NN 0/CD )/-RRB- 
+
+(ROOT (FRAG (SBAR (IN if) (FRAG (-LRB- -LRB-) (NP (NN entry_p)) (: -) (NP (NP (JJR >) (JJ te_data_size) (NN ==)) (NP (CD 0))) (-RRB- -RRB-)))))
+
+root(ROOT-0, entry_p-3)
+mark(entry_p-3, if-1)
+amod(==-7, >-5)
+amod(==-7, te_data_size-6)
+dep(entry_p-3, ==-7)
+dep(==-7, 0-8)
+
+*/SYM data_buf_p/NN =/JJ NULL/NN ;/: 
+
+(ROOT (FRAG (X (SYM *)) (PP (NN data_buf_p) (NP (JJ =) (NN NULL)) (: ;))))
+
+root(ROOT-0, *-1)
+prep(*-1, data_buf_p-2)
+amod(NULL-4, =-3)
+dep(data_buf_p-2, NULL-4)
+
+else/RB {/-LRB- 
+
+(ROOT (FRAG (RB else) (ADVP (-LRB- -LCB-))))
+
+root(ROOT-0, else-1)
+
+if/IN (/-LRB- table_p/NN -/: >/JJR ta_data_align/JJ ==/NN 0/CD )/-RRB- 
+
+(ROOT (FRAG (SBAR (IN if) (FRAG (-LRB- -LRB-) (NP (NN table_p)) (: -) (NP (NP (JJR >) (JJ ta_data_align) (NN ==)) (NP (CD 0))) (-RRB- -RRB-)))))
+
+root(ROOT-0, table_p-3)
+mark(table_p-3, if-1)
+amod(==-7, >-5)
+amod(==-7, ta_data_align-6)
+dep(table_p-3, ==-7)
+dep(==-7, 0-8)
+
+*/SYM data_buf_p/NN =/JJ ENTRY_DATA_BUF/NN (/-LRB- table_p/NN ,/, entry_p/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (SYM *) (NN data_buf_p) (JJ =) (NN ENTRY_DATA_BUF)) (PRN (-LRB- -LRB-) (NP (NP (NN table_p)) (, ,) (NP (NN entry_p))) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, ENTRY_DATA_BUF-4)
+dep(ENTRY_DATA_BUF-4, *-1)
+nn(ENTRY_DATA_BUF-4, data_buf_p-2)
+amod(ENTRY_DATA_BUF-4, =-3)
+dep(ENTRY_DATA_BUF-4, table_p-6)
+appos(table_p-6, entry_p-8)
+
+else/RB 
+
+(ROOT (ADJP (RB else)))
+
+root(ROOT-0, else-1)
+
+*/SYM data_buf_p/NN =/JJ entry_data_buf/NN (/-LRB- table_p/NN ,/, entry_p/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (SYM *) (NN data_buf_p) (JJ =) (NN entry_data_buf)) (PRN (-LRB- -LRB-) (NP (NP (NN table_p)) (, ,) (NP (NN entry_p))) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, entry_data_buf-4)
+dep(entry_data_buf-4, *-1)
+nn(entry_data_buf-4, data_buf_p-2)
+amod(entry_data_buf-4, =-3)
+dep(entry_data_buf-4, table_p-6)
+appos(table_p-6, entry_p-8)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+return/NN TABLE_ERROR_OVERWRITE/NN ;/: 
+
+(ROOT (NP (NN return) (NN TABLE_ERROR_OVERWRITE) (: ;)))
+
+root(ROOT-0, TABLE_ERROR_OVERWRITE-2)
+nn(TABLE_ERROR_OVERWRITE-2, return-1)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+

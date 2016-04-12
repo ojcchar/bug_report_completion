@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>46616</id>
+	<title>rotatelogs -l uses UTC when calling strftime()</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When using "rotatelogs" with "-l" option and a "%" in filename (triggering calling strftime to get actual file name), the exploded time information passed to strftime is in UTC (because apr_time_exp_gmt() is called?)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">So using the following line "rotatelogs -l log/%Y-%m-%d 3600" creates log files properly following DST changes but the names of those files follow UTC values.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For instance in time zone "Europe/Paris" (GMT+1 with DST) the files end in localtime at 0:59:59 in winter and 1:59:59 in summer: thus starting today (in winter) httpd at 0:30:00 will output 30 minutes in a log named "yesterday" then switch at 1:00:00 to "today's" date.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Since using the "-l" option means something like "use localtime not GMT+offset" it would be neat to have the log name in localtime as well.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">***** rotatelogs.c</sentence>
+			<sentence id="5.2">246:</sentence>
+			<sentence id="5.3">247:                  apr_time_exp_gmt(&amp;e, tNow);</sentence>
+			<sentence id="5.4">248:                  apr_strftime(buf2, &amp;rs, sizeof(buf2), szLogRoot, &amp;e);</sentence>
+			<sentence id="5.5">***** rotatelogs.new.c</sentence>
+			<sentence id="5.6">246:</sentence>
+			<sentence id="5.7">247:                  if (use_localtime)</sentence>
+			<sentence id="5.8">248:                      apr_time_exp_lt(&amp;e, tNow);</sentence>
+			<sentence id="5.9">249:                  else</sentence>
+			<sentence id="5.10">250:                      apr_time_exp_gmt(&amp;e, tNow);</sentence>
+			<sentence id="5.11">251:                  apr_strftime(buf2, &amp;rs, sizeof(buf2), szLogRoot, &amp;e);</sentence>
+			<sentence id="5.12">*****</sentence>
+		</paragraph>
+	</description>
+</bug>

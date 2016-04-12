@@ -1,0 +1,266 @@
+My/PRP$ web/NN application/NN is/VBZ calling/VBG this/DT links.preview/NN method/NN using/VBG the/DT old/JJ rest/NN API/NN ./. 
+
+(ROOT (S (NP (PRP$ My) (NN web) (NN application)) (VP (VBZ is) (VP (VBG calling) (NP (DT this) (NN links.preview) (NN method)) (S (VP (VBG using) (NP (DT the) (JJ old) (NN rest) (NN API)))))) (. .)))
+
+root(ROOT-0, calling-5)
+poss(application-3, My-1)
+nn(application-3, web-2)
+nsubj(calling-5, application-3)
+aux(calling-5, is-4)
+det(method-8, this-6)
+nn(method-8, links.preview-7)
+dobj(calling-5, method-8)
+vmod(calling-5, using-9)
+det(API-13, the-10)
+amod(API-13, old-11)
+nn(API-13, rest-12)
+dobj(using-9, API-13)
+
+My/PRP$ code/NN is/VBZ as/IN follows/VBZ :/: 
+
+(ROOT (S (NP (PRP$ My) (NN code)) (VP (VBZ is) (SBAR (IN as) (S (VP (VBZ follows))))) (: :)))
+
+root(ROOT-0, is-3)
+poss(code-2, My-1)
+nsubj(is-3, code-2)
+mark(follows-5, as-4)
+advcl(is-3, follows-5)
+
+$/$ fbResponse/JJ =/JJ $/$ facebook/JJ -/: >/JJR api/NN (/-LRB- array/NN (/-LRB- method/NN =/JJ >/JJR links.preview/NN _/CD url/NN =/JJ >/JJR urlencode/NN (/-LRB- $/$ link/NN [/-LRB- url/NN ]/-RRB- )/-RRB- )/-RRB- )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (NP (ADJP ($ $) (JJ fbResponse)) (JJ =)) (ADJP ($ $) (JJ facebook))) (: -) (NP (NP (JJR >) (NN api)) (-LRB- -LRB-) (NP (NN array)) (PRN (-LRB- -LRB-) (NP (NP (NN method) (JJ =)) (NP (NP (JJR >) (NN links.preview)) (NP (NP (ADJP (CD _) (NN url) (JJ =)) (JJR >) (NN urlencode)) (PRN (-LRB- -LRB-) (NP ($ $) (QP (NP (NN link)) (-LRB- -LSB-) (NP (NN url) (-RRB- -RSB-)))) (-RRB- -RRB-))))) (-RRB- -RRB-)) (-RRB- -RRB-))) (: ;)))
+
+root(ROOT-0, $-1)
+dep($-1, fbResponse-2)
+amod($-1, =-3)
+amod($-1, $-4)
+dep($-4, facebook-5)
+amod(api-8, >-7)
+dep($-1, api-8)
+dep(api-8, array-10)
+dep(api-8, method-12)
+amod(method-12, =-13)
+amod(links.preview-15, >-14)
+dep(method-12, links.preview-15)
+number(=-18, _-16)
+npadvmod(=-18, url-17)
+amod(urlencode-20, =-18)
+amod(urlencode-20, >-19)
+dep(links.preview-15, urlencode-20)
+dep(urlencode-20, $-22)
+dep(url-25, link-23)
+punct(url-25, -LSB--24)
+num($-22, url-25)
+punct(url-25, -RSB--26)
+
+According/VBG to/TO the/DT documentation/NN _/CD http://wiki.developers.facebook.com/ind/NN . . ./: ks.preview/VB it/PRP says/VBZ This/DT function/NN does/VBZ not/RB require/VB a/DT session_key/JJ _/NN unless/IN it/PRP is/VBZ being/VBG called/VBN by/IN a/DT desktop/NN application/NN ./. 
+
+(ROOT (S (PP (VBG According) (PP (TO to) (NP (DT the) (NN documentation) (CD _) (NN http://wiki.developers.facebook.com/ind)))) (: ...) (S (S (VP (VB ks.preview) (NP (PRP it)))) (VP (VBZ says) (SBAR (S (NP (DT This) (NN function)) (VP (VBZ does) (RB not) (VP (VB require) (NP (DT a) (JJ session_key) (NN _)) (SBAR (IN unless) (S (NP (PRP it)) (VP (VBZ is) (VP (VBG being) (VP (VBN called) (PP (IN by) (NP (DT a) (NN desktop) (NN application)))))))))))))) (. .)))
+
+root(ROOT-0, says-10)
+prepc_according_to(says-10, to-2)
+det(http://wiki.developers.facebook.com/ind-6, the-3)
+nn(http://wiki.developers.facebook.com/ind-6, documentation-4)
+num(http://wiki.developers.facebook.com/ind-6, _-5)
+pobj(says-10, http://wiki.developers.facebook.com/ind-6)
+csubj(says-10, ks.preview-8)
+dobj(ks.preview-8, it-9)
+det(function-12, This-11)
+nsubj(require-15, function-12)
+aux(require-15, does-13)
+neg(require-15, not-14)
+ccomp(says-10, require-15)
+det(_-18, a-16)
+amod(_-18, session_key-17)
+dobj(require-15, _-18)
+mark(called-23, unless-19)
+nsubjpass(called-23, it-20)
+aux(called-23, is-21)
+auxpass(called-23, being-22)
+advcl(require-15, called-23)
+det(application-27, a-25)
+nn(application-27, desktop-26)
+agent(called-23, application-27)
+
+./. 
+
+(ROOT (NP (. .)))
+
+
+However/RB _/CD I/PRP have/VBP noticed/VBN that/IN if/IN a/DT user/NN is/VBZ not/RB logged/VBN into/IN facebook/NN _/CD it/PRP will/MD throw/VB this/DT error/NN :/: Fatal/JJ error/NN :/: Uncaught/NNP Exception/NNP :/: 453/CD :/: A/DT session/NN key/NN is/VBZ required/VBN for/IN calling/VBG this/DT method/NN thrown/VBN in/IN //: home/howl/public/JJ _/CD html/libs/facebook/NN ./. 
+
+(ROOT (S (ADVP (RB However)) (NP (NP (CD _)) (SBAR (S (NP (PRP I)) (VP (VBP have) (VP (VBN noticed) (SBAR (IN that) (S (SBAR (IN if) (S (NP (DT a) (NN user)) (VP (VBZ is) (RB not) (VP (VBN logged) (PP (IN into) (NP (NN facebook) (CD _))))))) (NP (PRP it)) (VP (MD will) (VP (VB throw) (NP (DT this) (NP (NN error)) (: :) (NP (JJ Fatal) (NN error)) (: :) (NP (NNP Uncaught) (NNP Exception)) (: :) (NP (CD 453)) (: :) (NP (DT A) (NN session) (NN key)))))))))))) (VP (VBZ is) (VP (VBN required) (PP (IN for) (S (VP (VBG calling) (NP (NP (DT this) (NN method)) (VP (VBN thrown) (PP (IN in) (PRN (: /) (NP (NP (JJ home/howl/public)) (NP (CD _) (NN html/libs/facebook)))))))))))) (. .)))
+
+root(ROOT-0, required-34)
+advmod(required-34, However-1)
+nsubjpass(required-34, _-2)
+nsubj(noticed-5, I-3)
+aux(noticed-5, have-4)
+rcmod(_-2, noticed-5)
+mark(throw-18, that-6)
+mark(logged-12, if-7)
+det(user-9, a-8)
+nsubjpass(logged-12, user-9)
+auxpass(logged-12, is-10)
+neg(logged-12, not-11)
+advcl(throw-18, logged-12)
+prep_into(logged-12, facebook-14)
+num(facebook-14, _-15)
+nsubj(throw-18, it-16)
+aux(throw-18, will-17)
+ccomp(noticed-5, throw-18)
+det(error-20, this-19)
+dobj(throw-18, error-20)
+amod(error-23, Fatal-22)
+dep(error-20, error-23)
+nn(Exception-26, Uncaught-25)
+dep(error-20, Exception-26)
+dep(error-20, 453-28)
+det(key-32, A-30)
+nn(key-32, session-31)
+dep(error-20, key-32)
+auxpass(required-34, is-33)
+prepc_for(required-34, calling-36)
+det(method-38, this-37)
+dobj(calling-36, method-38)
+vmod(method-38, thrown-39)
+prep(thrown-39, in-40)
+punct(home/howl/public-42, /-41)
+dep(in-40, home/howl/public-42)
+num(html/libs/facebook-44, _-43)
+dep(home/howl/public-42, html/libs/facebook-44)
+
+php/NN on/IN line/NN 413/CD ./. 
+
+(ROOT (NP (NP (NN php)) (PP (IN on) (NP (NN line) (CD 413))) (. .)))
+
+root(ROOT-0, php-1)
+prep_on(php-1, line-3)
+num(line-3, 413-4)
+
+Does/VBZ the/DT user/NN need/NN to/TO be/VB connected/VBN to/TO make/VB this/DT call/NN ?/. 
+
+(ROOT (S (VP (VBZ Does) (S (NP (DT the) (NN user) (NN need)) (VP (TO to) (VP (VB be) (VP (VBN connected) (S (VP (TO to) (VP (VB make) (NP (DT this) (NN call)))))))))) (. ?)))
+
+root(ROOT-0, Does-1)
+det(need-4, the-2)
+nn(need-4, user-3)
+dobj(Does-1, need-4)
+aux(connected-7, to-5)
+auxpass(connected-7, be-6)
+xcomp(Does-1, connected-7)
+aux(make-9, to-8)
+xcomp(connected-7, make-9)
+det(call-11, this-10)
+dobj(make-9, call-11)
+
+What/WP do/VBP I/PRP need/VB to/TO do/VB ?/. 
+
+(ROOT (SBARQ (WHNP (WP What)) (SQ (VBP do) (NP (PRP I)) (VP (VB need) (S (VP (TO to) (VP (VB do)))))) (. ?)))
+
+root(ROOT-0, need-4)
+dep(need-4, What-1)
+aux(need-4, do-2)
+nsubj(need-4, I-3)
+aux(do-6, to-5)
+xcomp(need-4, do-6)
+
+I/PRP also/RB noticed/VBD this/DT in/IN the/DT documentation/NN :/: 
+
+(ROOT (S (NP (PRP I)) (VP (ADVP (RB also)) (VBD noticed) (NP (NP (DT this)) (PP (IN in) (NP (DT the) (NN documentation))))) (: :)))
+
+root(ROOT-0, noticed-3)
+nsubj(noticed-3, I-1)
+advmod(noticed-3, also-2)
+dobj(noticed-3, this-4)
+det(documentation-7, the-6)
+prep_in(this-4, documentation-7)
+
+optional/JJ session_key/NN string/NN The/DT session/NN key/NN of/IN the/DT logged/VBN in/IN user/NN _/CD or/CC the/DT session/NN key/JJ provided/VBN when/WRB the/DT user/NN granted/VBN your/PRP$ application/NN the/DT offline_access/NN extended/VBD permission/NN ./. 
+
+(ROOT (S (NP (NP (JJ optional) (NN session_key) (NN string)) (SBAR (S (NP (NP (DT The) (NN session) (NN key)) (PP (IN of) (NP (DT the)))) (VP (VBN logged) (PP (IN in) (NP (NP (NN user) (CD _)) (CC or) (NP (DT the) (NN session) (JJ key)))))))) (VP (VBN provided) (SBAR (WHADVP (WRB when)) (S (NP (NP (DT the) (NN user)) (VP (VBN granted) (NP (PRP$ your) (NN application)) (NP (DT the) (NN offline_access)))) (VP (VBD extended) (NP (NN permission)))))) (. .)))
+
+root(ROOT-0, provided-17)
+amod(string-3, optional-1)
+nn(string-3, session_key-2)
+nsubj(provided-17, string-3)
+det(key-6, The-4)
+nn(key-6, session-5)
+nsubj(logged-9, key-6)
+prep_of(key-6, the-8)
+rcmod(string-3, logged-9)
+prep_in(logged-9, user-11)
+num(user-11, _-12)
+det(session-15, the-14)
+prep_in(logged-9, session-15)
+conj_or(user-11, session-15)
+amod(session-15, key-16)
+advmod(extended-26, when-18)
+det(user-20, the-19)
+nsubj(extended-26, user-20)
+vmod(user-20, granted-21)
+poss(application-23, your-22)
+dep(granted-21, application-23)
+det(offline_access-25, the-24)
+dobj(granted-21, offline_access-25)
+advcl(provided-17, extended-26)
+dobj(extended-26, permission-27)
+
+The/DT session/NN key/NN is/VBZ automatically/RB included/VBN by/IN our/PRP$ PHP/NNP client/NN ./. 
+
+(ROOT (S (NP (DT The) (NN session) (NN key)) (VP (VBZ is) (ADVP (RB automatically)) (VP (VBN included) (PP (IN by) (NP (PRP$ our) (NNP PHP) (NN client))))) (. .)))
+
+root(ROOT-0, included-6)
+det(key-3, The-1)
+nn(key-3, session-2)
+nsubjpass(included-6, key-3)
+auxpass(included-6, is-4)
+advmod(included-6, automatically-5)
+poss(client-10, our-8)
+nn(client-10, PHP-9)
+agent(included-6, client-10)
+
+How/WRB do/VBP I/PRP prevent/VB the/DT PHP/NNP client/NN from/IN sending/VBG a/DT session/NN key/NN ?/. 
+
+(ROOT (SBARQ (WHADVP (WRB How)) (SQ (VBP do) (NP (PRP I)) (VP (VB prevent) (NP (DT the) (NNP PHP) (NN client)) (PP (IN from) (S (VP (VBG sending) (NP (DT a) (NN session) (NN key))))))) (. ?)))
+
+root(ROOT-0, prevent-4)
+advmod(prevent-4, How-1)
+aux(prevent-4, do-2)
+nsubj(prevent-4, I-3)
+det(client-7, the-5)
+nn(client-7, PHP-6)
+dobj(prevent-4, client-7)
+prepc_from(prevent-4, sending-9)
+det(key-12, a-10)
+nn(key-12, session-11)
+dobj(sending-9, key-12)
+
+What/WDT kind/NN of/IN access/NN token/JJ do/VBP I/PRP need/VB if/IN I/PRP do/VBP not/RB want/VB to/TO authenticate/VB a/DT user/NN ?/. 
+
+(ROOT (SBARQ (WHNP (WHNP (WDT What) (NN kind)) (PP (IN of) (NP (NN access) (JJ token)))) (SQ (VBP do) (NP (PRP I)) (VP (VB need) (SBAR (IN if) (S (NP (PRP I)) (VP (VBP do) (RB not) (VP (VB want) (S (VP (TO to) (VP (VB authenticate) (NP (DT a) (NN user))))))))))) (. ?)))
+
+root(ROOT-0, need-8)
+det(kind-2, What-1)
+dobj(need-8, kind-2)
+prep_of(kind-2, access-4)
+amod(access-4, token-5)
+aux(need-8, do-6)
+nsubj(need-8, I-7)
+mark(want-13, if-9)
+nsubj(want-13, I-10)
+aux(want-13, do-11)
+neg(want-13, not-12)
+advcl(need-8, want-13)
+aux(authenticate-15, to-14)
+xcomp(want-13, authenticate-15)
+det(user-17, a-16)
+dobj(authenticate-15, user-17)
+
+Thank/VB you/PRP ./. 
+
+(ROOT (S (VP (VB Thank) (NP (PRP you))) (. .)))
+
+root(ROOT-0, Thank-1)
+dobj(Thank-1, you-2)
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>269970</id>
+	<title>Failure in wikitext ui doc build</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Building of the docs fails with:</sentence>
+			<sentence id="1.2"> plugin-docs:</sentence>
+			<sentence id="1.3">   [subant] Failure for target 'pre.build.jars' of: /home/akurtakov/work/fedora/eclipse-mylyn/devel/org.eclipse.mylyn/build/plugins/org.eclipse.mylyn.wikitext.ui/customBuildCallbacks.xml</sentence>
+			<sentence id="1.4">   [subant] The following error occurred while executing this line:</sentence>
+			<sentence id="1.5">   [subant] /home/akurtakov/work/fedora/eclipse-mylyn/devel/org.eclipse.mylyn/build/plugins/org.eclipse.mylyn.wikitext.ui/customBuildCallbacks.xml:31: The following error occurred while executing this line:</sentence>
+			<sentence id="1.6">   [subant] /home/akurtakov/work/fedora/eclipse-mylyn/devel/org.eclipse.mylyn/build/plugins/org.eclipse.mylyn.wikitext.ui/build-helper.xml:43: No parser available for markup language 'org.eclipse.mylyn.wikitext.textile.core.TextileLanguage'. There are no markup language parsers available on the current classpath.  Did you forget to add a jar file?</sentence>
+			<sentence id="1.7">   </sentence>
+			<sentence id="1.8">   I'm fixing it locally by making o.e.mylyn.wikitext.ui depend on o.e.mylyn.wikitext.textile.core, because there is no way to get the documentation fully builded without textile.core builded first.</sentence>
+		</paragraph>
+	</description>
+</bug>

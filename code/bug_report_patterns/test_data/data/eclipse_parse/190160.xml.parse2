@@ -1,0 +1,145 @@
+Build/VB ID/NNP :/: 2.1.2/CD 
+
+(ROOT (S (VP (VB Build) (NP (NP (NNP ID)) (: :) (NP (CD 2.1.2))))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, ID-2)
+dep(ID-2, 2.1.2-4)
+
+Steps/NNS To/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO To) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, To-2)
+
+I/PRP have/VBP been/VBN running/VBG Jtest/NNP 's/POS BugDetective/NNP feature/NN on/IN BIRT/NNP source/NN code/NN and/CC it/PRP reported/VBD a/DT few/JJ places/NNS where/WRB an/DT inefficient/JJ iteration/NN over/IN map/NN takes/VBZ place/NN ./. 
+
+(ROOT (S (S (NP (PRP I)) (VP (VBP have) (VP (VBN been) (VP (VBG running) (NP (NP (NP (NNP Jtest) (POS 's)) (NNP BugDetective) (NN feature)) (PP (IN on) (NP (NNP BIRT) (NN source) (NN code)))))))) (CC and) (S (NP (PRP it)) (VP (VBD reported) (NP (DT a) (JJ few) (NNS places)) (SBAR (WHADVP (WRB where)) (S (NP (NP (DT an) (JJ inefficient) (NN iteration)) (PP (IN over) (NP (NN map)))) (VP (VBZ takes) (NP (NN place))))))) (. .)))
+
+root(ROOT-0, running-4)
+nsubj(running-4, I-1)
+aux(running-4, have-2)
+aux(running-4, been-3)
+poss(feature-8, Jtest-5)
+nn(feature-8, BugDetective-7)
+dobj(running-4, feature-8)
+nn(code-12, BIRT-10)
+nn(code-12, source-11)
+prep_on(feature-8, code-12)
+nsubj(reported-15, it-14)
+conj_and(running-4, reported-15)
+det(places-18, a-16)
+amod(places-18, few-17)
+dobj(reported-15, places-18)
+advmod(takes-25, where-19)
+det(iteration-22, an-20)
+amod(iteration-22, inefficient-21)
+nsubj(takes-25, iteration-22)
+prep_over(iteration-22, map-24)
+advcl(reported-15, takes-25)
+dobj(takes-25, place-26)
+
+From/IN the/DT point/NN of/IN view/NN of/IN efficiency/NN it/PRP is/VBZ better/JJR to/TO iterate/VB over/IN the/DT set/NN of/IN map/NN entries/NNS rather/RB than/IN ,/, having/VBG obtained/VBN a/DT key/JJ set/NN ,/, extract/NN a/DT corresponding/JJ value/NN (/-LRB- which/WDT is/VBZ considered/VBN to/TO be/VB a/DT very/RB consuming/JJ operation/NN )/-RRB- at/IN every/DT single/JJ iteration/NN ./. 
+
+(ROOT (S (PP (IN From) (NP (NP (DT the) (NN point)) (PP (IN of) (NP (NP (NN view)) (PP (IN of) (NP (NN efficiency))))))) (NP (PRP it)) (VP (VBZ is) (ADJP (JJR better)) (S (VP (TO to) (VP (VP (VB iterate) (PP (IN over) (NP (NP (DT the) (NN set)) (PP (IN of) (NP (NN map) (NNS entries)))))) (CONJP (RB rather) (IN than)) (VP (, ,) (S (VP (VBG having) (VP (VBN obtained) (NP (NP (DT a) (JJ key) (NN set)) (, ,) (VP (NN extract) (NP (DT a) (JJ corresponding) (NN value)) (PRN (-LRB- -LRB-) (SBAR (WHNP (WDT which)) (S (VP (VBZ is) (VP (VBN considered) (S (VP (TO to) (VP (VB be) (NP (DT a) (ADJP (RB very) (JJ consuming)) (NN operation))))))))) (-RRB- -RRB-)) (PP (IN at) (NP (DT every) (JJ single) (NN iteration))))))))))))) (. .)))
+
+root(ROOT-0, better-10)
+det(point-3, the-2)
+prep_from(better-10, point-3)
+prep_of(point-3, view-5)
+prep_of(view-5, efficiency-7)
+nsubj(better-10, it-8)
+cop(better-10, is-9)
+aux(iterate-12, to-11)
+xcomp(better-10, iterate-12)
+det(set-15, the-14)
+prep_over(iterate-12, set-15)
+nn(entries-18, map-17)
+prep_of(set-15, entries-18)
+aux(obtained-23, having-22)
+xcomp(better-10, obtained-23)
+conj_negcc(iterate-12, obtained-23)
+det(set-26, a-24)
+amod(set-26, key-25)
+dobj(obtained-23, set-26)
+dep(set-26, extract-28)
+det(value-31, a-29)
+amod(value-31, corresponding-30)
+dobj(extract-28, value-31)
+nsubjpass(considered-35, which-33)
+auxpass(considered-35, is-34)
+parataxis(extract-28, considered-35)
+aux(operation-41, to-36)
+cop(operation-41, be-37)
+det(operation-41, a-38)
+advmod(consuming-40, very-39)
+amod(operation-41, consuming-40)
+xcomp(considered-35, operation-41)
+det(iteration-46, every-44)
+amod(iteration-46, single-45)
+prep_at(extract-28, iteration-46)
+
+Found/JJ places/NNS are/VBP :/: 
+
+(ROOT (NP (NP (JJ Found) (NNS places)) (VP (VBP are)) (: :)))
+
+root(ROOT-0, places-2)
+amod(places-2, Found-1)
+dep(places-2, are-3)
+
+1/CD org.eclipse.birt.chart.event.InteractionEvent.java/NN -/: see/VB the/DT screenshot/NN Efficiency-1/NN ;/: 
+
+(ROOT (NP (NP (NP (CD 1)) (PP (NP (NP (NN org.eclipse.birt.chart.event.InteractionEvent.java)) (: -)) (NP (NP (VB see)) (NP (DT the) (NN screenshot) (NN Efficiency-1))))) (: ;)))
+
+root(ROOT-0, 1-1)
+prep(1-1, org.eclipse.birt.chart.event.InteractionEvent.java-2)
+dep(org.eclipse.birt.chart.event.InteractionEvent.java-2, see-4)
+det(Efficiency-1-7, the-5)
+nn(Efficiency-1-7, screenshot-6)
+dep(see-4, Efficiency-1-7)
+
+2/CD org.eclipse.birt.core.util.IOUtil/NN -/: the/DT screenshot/NN Efficiency-2/NN ;/: 
+
+(ROOT (NP (NP (CD 2) (NN org.eclipse.birt.core.util.IOUtil)) (: -) (NP (DT the) (NN screenshot) (NN Efficiency-2)) (: ;)))
+
+root(ROOT-0, org.eclipse.birt.core.util.IOUtil-2)
+num(org.eclipse.birt.core.util.IOUtil-2, 2-1)
+det(Efficiency-2-6, the-4)
+nn(Efficiency-2-6, screenshot-5)
+dep(org.eclipse.birt.core.util.IOUtil-2, Efficiency-2-6)
+
+Please/VB let/VB me/PRP know/VB if/IN this/DT is/VBZ a/DT real/JJ problem/NN or/CC BugDetective/NN is/VBZ mistaken/JJ ./. 
+
+(ROOT (S (S (INTJ (VB Please)) (VP (VB let) (S (NP (PRP me)) (VP (VB know) (SBAR (IN if) (S (NP (DT this)) (VP (VBZ is) (NP (NP (DT a) (JJ real) (NN problem)) (CC or) (NP (NN BugDetective)))))))))) (VP (VBZ is) (ADJP (JJ mistaken))) (. .)))
+
+root(ROOT-0, mistaken-14)
+discourse(let-2, Please-1)
+csubj(mistaken-14, let-2)
+nsubj(know-4, me-3)
+ccomp(let-2, know-4)
+mark(problem-10, if-5)
+nsubj(problem-10, this-6)
+cop(problem-10, is-7)
+det(problem-10, a-8)
+amod(problem-10, real-9)
+advcl(know-4, problem-10)
+advcl(know-4, BugDetective-12)
+conj_or(problem-10, BugDetective-12)
+cop(mistaken-14, is-13)
+
+Thank/VB you/PRP !/. 
+
+(ROOT (S (VP (VB Thank) (NP (PRP you))) (. !)))
+
+root(ROOT-0, Thank-1)
+dobj(Thank-1, you-2)
+
+More/JJR information/NN :/: 
+
+(ROOT (NP (NP (JJR More) (NN information)) (: :)))
+
+root(ROOT-0, information-2)
+amod(information-2, More-1)
+

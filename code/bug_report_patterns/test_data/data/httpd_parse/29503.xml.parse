@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>29503</id>
+	<title>httpd segfault due to bad config file error handling</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">httpd 2.0.49 will segfault if you do not specify a Listen directive in the 
+configuration file.</sentence>
+			<sentence id="1.2">in previous versions there was a nice error message that 
+warned you of this and then exited.</sentence>
+			<sentence id="1.3">the segfault occurs in the 
+function "ap_listen_open" in server/listen.</sentence>
+			<sentence id="1.4">c, line 338.</sentence>
+			<sentence id="1.5">If there is no listen 
+statement in the config file, then ap_listen_open tries to walk thru the linked 
+list of listeners anyways.</sentence>
+			<sentence id="1.6">please add error handling for the case that this 
+directive isnt specified and add an assert to the function or change line 338 
+to "if (ap_listeners &amp;&amp; ap_listeners-&gt;next) {"</sentence>
+		</paragraph>
+	</description>
+</bug>

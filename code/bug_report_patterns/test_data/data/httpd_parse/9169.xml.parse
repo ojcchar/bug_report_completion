@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9169</id>
+	<title>worker MPM shutdown delays</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When shutting down httpd, there is a short delay, and the following is
+output to the error log:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">[Tue May 14 17:53:50 2002] [warn] child process 23303 still did not exit, sending a SIGTERM
+[Tue May 14 17:53:50 2002] [warn] child process 23304 still did not exit, sending a SIGTERM
+[Tue May 14 17:53:50 2002] [warn] child process 23303 still did not exit, sending a SIGTERM
+[Tue May 14 17:53:50 2002] [warn] child process 23304 still did not exit, sending a SIGTERM
+[Tue May 14 17:53:51 2002] [warn] child process 23303 still did not exit, sending a SIGTERM
+[Tue May 14 17:53:51 2002] [warn] child process 23304 still did not exit, sending a SIGTERM
+[Tue May 14 17:53:54 2002] [crit] the listener thread didn't exit</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This just started happening with 2.0.36, and was not present in 2.0.35.</sentence>
+		</paragraph>
+	</description>
+</bug>

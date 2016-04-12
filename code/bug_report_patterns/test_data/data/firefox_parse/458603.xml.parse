@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>458603</id>
+	<title>Firefox does not install as configured</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.3pre) Gecko/2008091617 Firefox/3.0.3pre
+Build Identifier: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.3pre) Gecko/2008091617 Firefox/3.0.3pre</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If I configure firefox with "--disable-strip" and "--disable-strip-libs" (and '--enable-optimize=-O2\ -g2') [note I am running configure directly, bypassing the convoluted .</sentence>
+			<sentence id="2.2">mozconfig] one would expect the *compiled* firefox to be compiled with debug symbols and installed with debug symbols (and this is what I believe happened with Firefox 2.0).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Now, installed Firefox 3.0 binaries are stripped of all symbols.</sentence>
+			<sentence id="3.2">I *do* not want my installed binaries stripped, I want them *exactly* as they are compiled and produced in the source directories.</sentence>
+			<sentence id="3.3">This change was apparently made back in April 2008, or maybe earlier, when toolkit/mozapps/installer/packager.mk was changed to create an alternate firefox-devel (sdkdir) directory in which the lib subdirectory contains exact copies of the .</sentence>
+			<sentence id="3.4">so libraries with debug symbols.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I do not want 2 copies of the Firefox libraries (one stripped and one unstripped) installed.</sentence>
+			<sentence id="4.2">I just want 1 single functional copy with debug symbols (as was the case in 2.0).</sentence>
+			<sentence id="4.3">The idea of wasting disk space with non-debug &amp; debug versions is silly.</sentence>
+			<sentence id="4.4">Or if you are going to do it require an explicit --enable-sdk option (default should be Firefox 2.0-like install with no stripping of the debug symbols).</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">It should be noted that even with the firefox-devel directory there is no unstripped firefox-bin!</sentence>
+			<sentence id="5.2">(despite the --disable-strip).</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">While I have managed to locate the "STRIP" definitions in autoconf.mk and rules.mk, both ENABLE_STRIP and PKG_SKIP_STRIP are undefined in my autoconf.mk file -- so I do not understand *where* the strip activity is taking place.</sentence>
+			<sentence id="6.2">Due to the excessively complicated Firefox install process (e.g. nsinstall?)</sentence>
+			<sentence id="6.3">there is no output in the make output files that can direct me to what make file or program file I must modify to terminate this improper strip activity.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Steps to Reproduce:</sentence>
+			<sentence id="8.2">1 Build firefox with config optiosn as outlined in Details section, disabling all strip activity.</sentence>
+			<sentence id="8.3">2 Install firefox (make install into /usr/local/lib/firefox-*)</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Show me the document where it the justification for this change in firefox install behavior is justified.</sentence>
+			<sentence id="9.2">Or is this simply creative thinking on the part of some developer attempting to see how much extra disk space around the world he can waste?</sentence>
+			<sentence id="9.3">Actual Results:  
+Striped firefox-bin and shared libraries end up in the firefox- directory while nonstriped shared libraries end up in the firefox-devel directory.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Expected Results:  
+As in previous versions of firefox the installed binary and shared libraries should contain all debug symbols.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">It would also be nice if when one included the "--enable-static" option one really ended up with a *STATIC* firefox (which would load faster than those that may require searching through many directories many times for shared object libraries).</sentence>
+			<sentence id="11.2">On all desktop systems (which generally have a single user) there may only be a single firefox process ever running.</sentence>
+			<sentence id="11.3">Such users may prefer faster startups rather than shared libraries (which are never shared).</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">On Gentoo Linux, it would be nice if firefox, mozilla, nvu (or kompozer), seamonkey, etc. would all "share" the shared libraries -- but that isn't the way the package management and install processes operate.</sentence>
+			<sentence id="12.2">So effectively all of the "shared libraries" are single-copy unshared libraries.</sentence>
+			<sentence id="12.3">I suspect this is true for other Linux versions as well.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">It is also worth noting that when "--enable-static" is used, the install process complains with at least 28 Warnings, e.g.
+Warning: package error or possible missing or unnecessary file: bin/defaults/existing-profile-defaults.</sentence>
+			<sentence id="13.2">js (packages-static, 18).</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">A proper install should not be issuing warnings of this nature.</sentence>
+		</paragraph>
+	</description>
+</bug>

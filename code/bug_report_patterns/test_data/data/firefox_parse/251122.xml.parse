@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>251122</id>
+	<title>Foldout Menus do not work and appear messy</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.6) Gecko/20040206 Firefox/0.8
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.6) Gecko/20040206 Firefox/0.8</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When viewing HTML pages with Javascript foldout menus, said menus appear very
+messy and dont open or close.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Reproducible: Always</sentence>
+			<sentence id="3.2">Steps to Reproduce:</sentence>
+			<sentence id="3.3">1 Open a HTML page with javascript foldout menus</sentence>
+			<sentence id="3.4">2</sentence>
+			<sentence id="3.5">3</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Actual Results:  
+Menus dont work and appear all squashed up against each other.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Expected Results:  
+Foldout menus should appear as one line that folds out when clicked to offer
+hyperlinks.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">HTML &amp; JAVASCRIPT CODE FOR PAGE EXAMPLE:
+===============================================================
+&lt;html&gt;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;head&gt;
+&lt;title&gt;Left hr&lt;/title&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">&lt;link rel="stylesheet" href="http://intranet/common/style.css"&gt;</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">&lt;style&gt;
+&lt;!</sentence>
+			<sentence id="9.2">--//</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">#divHome{position:absolute; left:0; top:3; height:40; width:210;}
+#divHm1{position:absolute; left:0; top:10; height:20; width:210;}</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">DIV.clTop{position:absolute; width:210}</sentence>
+			<sentence id="11.2">DIV.clSub{position:absolute; left:5; width:210}</sentence>
+			<sentence id="11.3">#divCont{position:relative; left:0; top:50; height:800; width:210;}</sentence>
+			<sentence id="11.4">A.clMain{font-family:Arial, Verdana, Helvetica, Helv; font-size:11px;</sentence>
+			<sentence id="11.5">text-decoration:none; font-weight:bold; color:#9999ff}</sentence>
+			<sentence id="11.6">A.clMain:hover {font-family:Arial, Verdana, Helvetica, Helv; font-size:11px;</sentence>
+			<sentence id="11.7">text-decoration:none; font-weight:bold; color:#ffffff}</sentence>
+			<sentence id="11.8">A.clSubb{font-family:Arial, Verdana, Helvetica, Helv; font-size:11px;</sentence>
+			<sentence id="11.9">font-weight:bold; text-decoration:none; color:#9999ff}</sentence>
+			<sentence id="11.10">A.clSubb:hover {font-family:Arial, Verdana, Helvetica, Helv; font-size:11px;</sentence>
+			<sentence id="11.11">text-decoration:none;font-weight:bold; color:#ffffff}</sentence>
+			<sentence id="11.12">#divMain{position:absolute}</sentence>
+			<sentence id="11.13">//--&gt;</sentence>
+			<sentence id="11.14">&lt;/style&gt;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">&lt;script language="JavaScript"&gt;</sentence>
+			<sentence id="12.2">&lt;!</sentence>
+			<sentence id="12.3">--//BEGIN Script</sentence>
+			<sentence id="12.4">/********************************************************************************</sentence>
+			<sentence id="12.5">Copyright (C) 1999 Thomas Brattli</sentence>
+			<sentence id="12.6">This script is made by and copyrighted to Thomas Brattli at www.bratta.com</sentence>
+			<sentence id="12.7">Visit for more great scripts.</sentence>
+			<sentence id="12.8">This may be used freely as long as this msg is intact!</sentence>
+			<sentence id="12.9">********************************************************************************/</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">/************************************************************************************</sentence>
+			<sentence id="13.2">This script is a "foldout" menu script, all the "foldouts" will</sentence>
+			<sentence id="13.3">stay outfolded in older browsers.</sentence>
+			<sentence id="13.4">Works in ie4+ and ns4+.</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">To change where the menu appears change the left and top values of the divCont</sentence>
+			<sentence id="14.2">in the stylesheets, it's currently placed relative so you can</sentence>
+			<sentence id="14.3">place this menu in tables or similar if you want.</sentence>
+			<sentence id="14.4">Change the</sentence>
+			<sentence id="14.5">text colors and size in the A.clMain and A.clSubb classes.</sentence>
+			<sentence id="14.6">************************************************************************************/</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">/************************************************************************************</sentence>
+			<sentence id="15.2">Change this to false if you want all the submenus to get unfold when you</sentence>
+			<sentence id="15.3">foldout a new one.</sentence>
+			<sentence id="15.4">************************************************************************************/</sentence>
+			<sentence id="15.5">var stayFolded=false;</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">/************************************************************************************</sentence>
+			<sentence id="16.2">Browsercheck</sentence>
+			<sentence id="16.3">************************************************************************************/</sentence>
+			<sentence id="16.4">var n = (document.layers) ?</sentence>
+			<sentence id="16.5">1:0;</sentence>
+			<sentence id="16.6">var ie = (document.all) ?</sentence>
+			<sentence id="16.7">1:0;</sentence>
+			<sentence id="16.8">var browser=((n || ie) &amp;&amp; parseInt(navigator.appVersion)&gt;=4)</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">/************************************************************************************</sentence>
+			<sentence id="17.2">Making cross-browser objects</sentence>
+			<sentence id="17.3">************************************************************************************/</sentence>
+			<sentence id="17.4">function makeMenu(obj,nest){</sentence>
+			<sentence id="17.5">nest=(!</sentence>
+			<sentence id="17.6">nest) ? ''</sentence>
+			<sentence id="17.7">:'document.'</sentence>
+			<sentence id="17.8">+nest+'.'</sentence>
+			<sentence id="17.9">this.css=(n) ?</sentence>
+			<sentence id="17.10">eval(nest+'document.'</sentence>
+			<sentence id="17.11">+obj):eval('document.all.'</sentence>
+			<sentence id="17.12">+obj+'.</sentence>
+			<sentence id="17.13">style')</sentence>
+			<sentence id="17.14">this.ref=(n) ?</sentence>
+			<sentence id="17.15">eval(nest+'document.'</sentence>
+			<sentence id="17.16">+obj+'.</sentence>
+			<sentence id="17.17">document'):eval('document');</sentence>
+			<sentence id="17.18">this.height=n?this.ref.height:eval(obj+'.</sentence>
+			<sentence id="17.19">offsetHeight')</sentence>
+			<sentence id="17.20">this.x=(n)?</sentence>
+			<sentence id="17.21">this.css.left:this.css.pixelLeft;this.y=(n)?</sentence>
+			<sentence id="17.22">this.css.top:this.css.pixelTop;</sentence>
+			<sentence id="17.23">this.hideIt=b_hideIt;   this.showIt=b_showIt; this.vis=b_vis;</sentence>
+			<sentence id="17.24">this.moveIt=b_moveIt</sentence>
+			<sentence id="17.25">return this</sentence>
+			<sentence id="17.26">}</sentence>
+			<sentence id="17.27">function b_showIt() {</sentence>
+			<sentence id="17.28">this.css.visibility="visible"</sentence>
+			<sentence id="17.29">}</sentence>
+			<sentence id="17.30">function b_hideIt() {</sentence>
+			<sentence id="17.31">this.css.visibility="hidden"</sentence>
+			<sentence id="17.32">}</sentence>
+			<sentence id="17.33">function b_vis() {</sentence>
+			<sentence id="17.34">if(this.css.visibility=="hidden" || this.css.visibility=="hide")</sentence>
+			<sentence id="17.35">return true;</sentence>
+			<sentence id="17.36">}</sentence>
+			<sentence id="17.37">function b_moveIt(x,y) {</sentence>
+			<sentence id="17.38">this.x=x;</sentence>
+			<sentence id="17.39">this.y=y;</sentence>
+			<sentence id="17.40">this.css.left=this.x;</sentence>
+			<sentence id="17.41">this.css.top=this.y</sentence>
+			<sentence id="17.42">}</sentence>
+			<sentence id="17.43">/************************************************************************************</sentence>
+			<sentence id="17.44">Initiating the page.</sentence>
+			<sentence id="17.45">Just add to the arrays here to get more menuitems</sentence>
+			<sentence id="17.46">and add divs in the page</sentence>
+			<sentence id="17.47">************************************************************************************/</sentence>
+			<sentence id="17.48">function init(){</sentence>
+			<sentence id="17.49">oTop=new Array()</sentence>
+			<sentence id="17.50">oTop[0]=new makeMenu('divTop1','divCont')</sentence>
+			<sentence id="17.51">oTop[1]=new makeMenu('divTop2','divCont')</sentence>
+			<sentence id="17.52">oTop[2]=new makeMenu('divTop3','divCont')</sentence>
+			<sentence id="17.53">oTop[3]=new makeMenu('divTop4','divCont')</sentence>
+			<sentence id="17.54">oTop[4]=new makeMenu('divTop5','divCont')</sentence>
+			<sentence id="17.55">oTop[5]=new makeMenu('divTop6','divCont')</sentence>
+			<sentence id="17.56">oTop[6]=new makeMenu('divTop7','divCont')</sentence>
+			<sentence id="17.57">oTop[7]=new makeMenu('divTop8','divCont')</sentence>
+			<sentence id="17.58">oTop[8]=new makeMenu('divTop9','divCont')</sentence>
+			<sentence id="17.59">oTop[9]=new makeMenu('divTop10','divCont')</sentence>
+			<sentence id="17.60">oTop[10]=new makeMenu('divTop11','divCont')</sentence>
+			<sentence id="17.61">oTop[11]=new makeMenu('divTop12','divCont')</sentence>
+			<sentence id="17.62">oTop[12]=new makeMenu('divTop13','divCont')</sentence>
+			<sentence id="17.63">/* next arr */</sentence>
+			<sentence id="17.64">oSub=new Array()</sentence>
+			<sentence id="17.65">oSub[0]=new makeMenu('divSub1','divCont.document.divTop1')</sentence>
+			<sentence id="17.66">oSub[1]=new makeMenu('divSub2','divCont.document.divTop2')</sentence>
+			<sentence id="17.67">oSub[2]=new makeMenu('divSub3','divCont.document.divTop3')</sentence>
+			<sentence id="17.68">oSub[3]=new makeMenu('divSub4','divCont.document.divTop4')</sentence>
+			<sentence id="17.69">oSub[4]=new makeMenu('divSub5','divCont.document.divTop5')</sentence>
+			<sentence id="17.70">oSub[5]=new makeMenu('divSub6','divCont.document.divTop6')</sentence>
+			<sentence id="17.71">oSub[6]=new makeMenu('divSub7','divCont.document.divTop7')</sentence>
+			<sentence id="17.72">oSub[7]=new makeMenu('divSub8','divCont.document.divTop8')</sentence>
+			<sentence id="17.73">oSub[8]=new makeMenu('divSub9','divCont.document.divTop9')</sentence>
+			<sentence id="17.74">oSub[9]=new makeMenu('divSub10','divCont.document.divTop10')</sentence>
+			<sentence id="17.75">oSub[10]=new makeMenu('divSub11','divCont.document.divTop11')</sentence>
+			<sentence id="17.76">oSub[11]=new makeMenu('divSub12','divCont.document.divTop12')</sentence>
+			<sentence id="17.77">oSub[12]=new makeMenu('divSub13','divCont.document.divTop13')</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">for(i=0;i&lt;oSub.length;i++){ oSub[i].</sentence>
+			<sentence id="18.2">hideIt() }</sentence>
+			<sentence id="18.3">for(i=1;i&lt;oTop.length;i++){ oTop[i].</sentence>
+			<sentence id="18.4">moveIt(0,oTop[i-1].</sentence>
+			<sentence id="18.5">y+oTop[i-1].</sentence>
+			<sentence id="18.6">height) }</sentence>
+			<sentence id="18.7">}</sentence>
+			<sentence id="18.8">/************************************************************************************</sentence>
+			<sentence id="18.9">This is the function that changes the sub menus to folded or unfolded state.</sentence>
+			<sentence id="18.10">************************************************************************************/</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">function menu(num) {</sentence>
+			<sentence id="19.2">if(browser){</sentence>
+			<sentence id="19.3">if(!</sentence>
+			<sentence id="19.4">stayFolded){</sentence>
+			<sentence id="19.5">for(i=0;i&lt;oSub.length;i++){</sentence>
+			<sentence id="19.6">if(i!</sentence>
+			<sentence id="19.7">=num) oSub[i].</sentence>
+			<sentence id="19.8">hideIt()</sentence>
+			<sentence id="19.9">}</sentence>
+			<sentence id="19.10">for(i=1;i&lt;oTop.length;i++){</sentence>
+			<sentence id="19.11">oTop[i].</sentence>
+			<sentence id="19.12">moveIt(0,oTop[i-1].</sentence>
+			<sentence id="19.13">y+oTop[i-1].</sentence>
+			<sentence id="19.14">height)</sentence>
+			<sentence id="19.15">}</sentence>
+			<sentence id="19.16">}</sentence>
+			<sentence id="19.17">oSub[num].</sentence>
+			<sentence id="19.18">vis()?</sentence>
+			<sentence id="19.19">oSub[num].</sentence>
+			<sentence id="19.20">showIt():oSub[num].</sentence>
+			<sentence id="19.21">hideIt()</sentence>
+			<sentence id="19.22">for(i=1;i&lt;oTop.length;i++){</sentence>
+			<sentence id="19.23">if(!</sentence>
+			<sentence id="19.24">oSub[i-1].</sentence>
+			<sentence id="19.25">vis())</sentence>
+			<sentence id="19.26">oTop[i].</sentence>
+			<sentence id="19.27">moveIt(0,oTop[i-1].</sentence>
+			<sentence id="19.28">y+oTop[i-1].</sentence>
+			<sentence id="19.29">height+oSub[i-1].</sentence>
+			<sentence id="19.30">height)</sentence>
+			<sentence id="19.31">else oTop[i].</sentence>
+			<sentence id="19.32">moveIt(0,oTop[i-1].</sentence>
+			<sentence id="19.33">y+oTop[i-1].</sentence>
+			<sentence id="19.34">height)</sentence>
+			<sentence id="19.35">}</sentence>
+			<sentence id="19.36">}</sentence>
+			<sentence id="19.37">}</sentence>
+			<sentence id="19.38">//Initiating the menus onload, if it's a 4.</sentence>
+			<sentence id="19.39">x+ browser.</sentence>
+			<sentence id="19.40">if(browser) onload=init;</sentence>
+			<sentence id="19.41">//--&gt;</sentence>
+			<sentence id="19.42">&lt;/script&gt;</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">&lt;/head&gt;</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">&lt;body leftmargin="3" topmargin="3" rightmargin="3" marginwidth="0"
+marginheight="0" BGCOLOR="#0C2D83"&gt;</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">&lt;div id="divHome" style="z-index: 0"&gt;</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">&lt;div id="divHome1"&gt;&lt;a href=".</sentence>
+			<sentence id="23.2">/hr_main.</sentence>
+			<sentence id="23.3">html" target="mainFrame"
+class="clMain"&gt;&amp;nbsp;HR Home&lt;/a&gt;
+&lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">&lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">&lt;!</sentence>
+			<sentence id="25.2">-- HR POLICIES AND PROCEDURES --&gt;</sentence>
+		</paragraph>
+		<paragraph id="26">
+			<sentence id="26.1">&lt;div id="divCont"&gt; 
+  &lt;div id="divTop1" class="clTop" style="z-index: 0"&gt;</sentence>
+		</paragraph>
+		<paragraph id="27">
+			<sentence id="27.1">&lt;a href="#" onclick="menu(0); return false" class="clMain"&gt;&amp;raquo;&amp;nbsp;HR
+Policies &amp;amp; Procedures&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub1" class="clSub"&gt;
+      &lt;a href="HRpolproc_intro.</sentence>
+			<sentence id="27.2">htm" target="mainFrame"
+class="clSubb"&gt;Introduction&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/privacy_policy.pdf" target="mainFrame"
+class="clSubb"&gt;Privacy Policy&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/WritingPositionDescriptions.</sentence>
+			<sentence id="27.3">doc" target="mainFrame"
+class="clSubb"&gt;Writing A Position Description&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/OH&amp;SPolicy.pdf" target="mainFrame" class="clSubb"&gt;OH&amp;S
+Policy&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="28">
+			<sentence id="28.1">      &lt;a href="docs/equalopp_col.pdf" target="mainFrame" class="clSubb"&gt;EEO and</sentence>
+			<sentence id="28.2">Harassment Policy&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="28.3">      &lt;a href="har_complaints.htm" target="mainFrame" class="clSubb"&gt;Harassment</sentence>
+			<sentence id="28.4">Complaints Procedure&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="28.5">      &lt;a href="docs/SPAMPOLICY310304.doc" target="mainFrame" class="clSubb"&gt;SPAM</sentence>
+			<sentence id="28.6">Policy&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="28.7">	  &lt;a href="SexualHarassmentPolicy.htm" target="mainFrame" class="clSubb"&gt;Sexual</sentence>
+			<sentence id="28.8">Harassment Policy&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="28.9">      &lt;a href="GiftsFavoursHospitality.htm" target="mainFrame"</sentence>
+			<sentence id="28.10">class="clSubb"&gt;Gifts, Favours and Hospitality&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="28.11">      &lt;a href="RecruitmentPolicy.htm" target="mainFrame"</sentence>
+			<sentence id="28.12">class="clSubb"&gt;Recruitment Policy&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="29">
+			<sentence id="29.1">      &lt;a href="RECRUITMENTPROCEDURE.htm" target="mainFrame"</sentence>
+			<sentence id="29.2">class="clSubb"&gt;Recruitment Procedure&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="29.3">      &lt;a href="Recruitmentchecklist.htm" target="mainFrame"</sentence>
+			<sentence id="29.4">class="clSubb"&gt;Recruitment Placement Checklist&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="29.5">      &lt;a href="fam_leavepol.html" target="mainFrame" class="clSubb"&gt;Family Leave</sentence>
+			<sentence id="29.6">Policy&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="29.7">      &lt;a href="leave_pol.htm" target="mainFrame" class="clSubb"&gt;Leave Policy&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="29.8">      &lt;a href="docs/Internal%20Disclosure%20Policy.pdf" target="mainFrame"</sentence>
+			<sentence id="29.9">class="clSubb"&gt;Complaints Regarding Financial and Accounting Matters&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="29.10">      &lt;a href="docs/FCPA%20Policy%207-7-03.pdf" target="mainFrame"</sentence>
+			<sentence id="29.11">class="clSubb"&gt;Foreign Corrupt Practices Act Compliance&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="30">
+			<sentence id="30.1">&lt;a href="docs/Insider%20Trading%20Compliance%20Policy.</sentence>
+			<sentence id="30.2">pdf"
+target="mainFrame" class="clSubb"&gt;Insider Trading Compliance&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/CounsellingForImprovedPerformancePolicy.</sentence>
+			<sentence id="30.3">doc"
+target="mainFrame" class="clSubb"&gt;Counselling For Improved Performance
+Policy&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/CounsellingForImprovedPerformanceProcedure.</sentence>
+			<sentence id="30.4">doc"
+target="mainFrame" class="clSubb"&gt;Counselling For Improved Performance
+Procedure&lt;/a&gt;&lt;br&gt;
+    &lt;/div&gt;
+    &lt;br&gt;
+  &lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="31">
+			<sentence id="31.1">&lt;!</sentence>
+			<sentence id="31.2">-- HR FORMS --&gt;</sentence>
+		</paragraph>
+		<paragraph id="32">
+			<sentence id="32.1">&lt;div id="divTop2" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(1); return false" class="clMain"&gt;&amp;raquo;&amp;nbsp;HR
+Forms&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub2" class="clSub"&gt;
+      &lt;a href="forms_intro.</sentence>
+			<sentence id="32.2">html" target="mainFrame" class="clSubb"&gt;Introduction
+&amp;amp; Forms&lt;/a&gt;&lt;br&gt;
+    &lt;/div&gt;
+    &lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="33">
+			<sentence id="33.1">&lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="34">
+			<sentence id="34.1">&lt;!</sentence>
+			<sentence id="34.2">-- OH&amp;S --&gt;</sentence>
+		</paragraph>
+		<paragraph id="35">
+			<sentence id="35.1">&lt;div id="divTop3" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(2); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;OH&amp;S&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub3" class="clSub"&gt;
+      &lt;a href="docs/OH&amp;SPolicy.pdf" target="mainFrame" class="clSubb"&gt;OH&amp;S
+Policy&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="36">
+			<sentence id="36.1">&lt;a href="docs/OHSConsulStatement.</sentence>
+			<sentence id="36.2">pdf" target="mainFrame"
+class="clSubb"&gt;OH&amp;S Consultation Statement (NSW Only)&lt;/a&gt;&lt;br&gt;
+      &lt;a href="ohsrep1003.htm" target="mainFrame" class="clSubb"&gt;OH&amp;amp;S Reps
+&amp;amp; Committee&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/OHS%20Minutes%2021%20Oct%202003.</sentence>
+			<sentence id="36.3">doc" target="mainFrame"
+class="clSubb"&gt;OH&amp;amp;S Minutes 21 Oct 2003&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/OHSHazardReport.</sentence>
+			<sentence id="36.4">doc" target="mainFrame"
+class="clSubb"&gt;OH&amp;amp;S Hazard Report&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="37">
+			<sentence id="37.1">&lt;a href="firstaidofficers.htm" target="mainFrame" class="clSubb"&gt;First Aid
+Officers&lt;/a&gt;&lt;br&gt;
+      &lt;a href="firewardens.htm" target="mainFrame" class="clSubb"&gt;Fire
+Wardens&lt;/a&gt;&lt;br&gt;
+      &lt;a href="issues.htm" target="mainFrame" class="clSubb"&gt;Issues Resolution
+Procedure&lt;/a&gt;&lt;br&gt;
+      &lt;a href=".</sentence>
+			<sentence id="37.2">/docs/issue_resproc.pdf" target="mainFrame"
+class="clSubb"&gt;Issues Resolution Flowchart&lt;/a&gt;&lt;br&gt;
+      &lt;a href="ifurinjured.htm" target="mainFrame" class="clSubb"&gt;If you are
+injured&lt;/a&gt;&lt;br&gt;
+      &lt;a href="rettowk_pol.</sentence>
+			<sentence id="37.3">htm" target="mainFrame" class="clSubb"&gt;Return to Work
+Program&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="38">
+			<sentence id="38.1">&lt;a href="docs/ErgonomicChecklist.</sentence>
+			<sentence id="38.2">doc" target="mainFrame"
+class="clSubb"&gt;Office Ergonomics&lt;/a&gt;&lt;br&gt;
+      &lt;a href="evac_proc.</sentence>
+			<sentence id="38.3">htm" target="mainFrame" class="clSubb"&gt;Emergency
+Procedures&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/Office%20Ergonomics.</sentence>
+			<sentence id="38.4">jpg" target="mainFrame"
+class="clSubb"&gt;Office Ergonomics - 2&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/Exercises%20for%20Office%20Workers.</sentence>
+			<sentence id="38.5">jpg" target="mainFrame"
+class="clSubb"&gt;Exercises for Office Workers&lt;/a&gt;&lt;br&gt;
+    &lt;/div&gt;
+    &lt;br&gt;
+  &lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="39">
+			<sentence id="39.1">&lt;!</sentence>
+			<sentence id="39.2">-- EMPLOYEE DEVELOPMENT --&gt;
+  
+  &lt;div id="divTop4" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(3); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Employee Development&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub4" class="clSub"&gt;
+      &lt;a href="employee_development_intro.</sentence>
+			<sentence id="39.3">htm" target="mainFrame"
+class="clSubb"&gt;Introduction&lt;/a&gt;&lt;br&gt;
+    &lt;/div&gt;
+    &lt;br&gt;
+  &lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="40">
+			<sentence id="40.1">&lt;!</sentence>
+			<sentence id="40.2">-- PERFORMANCE MANAGEMENT --&gt;</sentence>
+		</paragraph>
+		<paragraph id="41">
+			<sentence id="41.1">&lt;div id="divTop5" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(4); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Performance Management&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub5" class="clSub"&gt;
+      &lt;a href="performance_management_intro.</sentence>
+			<sentence id="41.2">htm" target="mainFrame"
+class="clSubb"&gt;Introduction&lt;/a&gt;&lt;br&gt;
+    &lt;/div&gt;
+    &lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="42">
+			<sentence id="42.1">&lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="43">
+			<sentence id="43.1">&lt;!</sentence>
+			<sentence id="43.2">-- EMPLOYEE RELATIONS --&gt;</sentence>
+		</paragraph>
+		<paragraph id="44">
+			<sentence id="44.1">&lt;div id="divTop6" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(5); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Employee Relations&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub6" class="clSub"&gt;
+      &lt;a href="eba2002.htm" target="_new" class="clSubb"&gt;EBA 2002 - 2004&lt;/a&gt;&lt;br&gt;
+      &lt;a href="PrimusCallCentreGuide2003.htm" target="_new"
+class="clSubb"&gt;Primus Call Centre Guide 2003&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="45">
+			<sentence id="45.1">&lt;a href="docs/Consultative%20Committee%20April%202003.</sentence>
+			<sentence id="45.2">doc"
+target="mainFrame" class="clSubb"&gt;Consultative Meeting Minutes - April 2003&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/PRIMUS%20CCMTG%20161203.</sentence>
+			<sentence id="45.3">doc" target="mainFrame"
+class="clSubb"&gt;Consultative Meeting Minutes - Dec 2003&lt;/a&gt;&lt;br&gt;
+    &lt;/div&gt;
+    &lt;br&gt;
+  &lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="46">
+			<sentence id="46.1">&lt;!</sentence>
+			<sentence id="46.2">-- RECRUITMENT --&gt;</sentence>
+		</paragraph>
+		<paragraph id="47">
+			<sentence id="47.1">&lt;div id="divTop7" class="clTop" style="z-index: 0"&gt;</sentence>
+		</paragraph>
+		<paragraph id="48">
+			<sentence id="48.1">&lt;a href="#" onclick="menu(6); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Recruitment&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub7" class="clSub"&gt; 
+      &lt;a href="RecruitmentPolicy.htm" target="mainFrame"
+class="clSubb"&gt;Recruitment Policy&lt;/a&gt;&lt;br&gt;
+      &lt;a href="RECRUITMENTPROCEDURE.htm" target="mainFrame"
+class="clSubb"&gt;Recruitment Procedure&lt;/a&gt;&lt;br&gt;
+      &lt;a href="Recruitmentchecklist.htm" target="mainFrame"
+class="clSubb"&gt;Recruitment Placement Checklist&lt;/a&gt;&lt;br&gt;  
+      &lt;a href=".</sentence>
+			<sentence id="48.2">/docs/hrforms/HR016InductionChecklist.</sentence>
+			<sentence id="48.3">doc" target="mainFrame"
+class="clSubb"&gt;Induction Checklist&lt;/a&gt;&lt;br&gt;
+    &lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="49">
+			<sentence id="49.1">&lt;br&gt;
+  &lt;/div&gt;
+  
+&lt;!</sentence>
+			<sentence id="49.2">-- POSITIONS VACANT --&gt;
+  
+  &lt;div id="divTop8" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(7); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Positions Vacant&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub8" class="clSub"&gt;
+      &lt;a href="job_introapp.</sentence>
+			<sentence id="49.3">htm" target="mainFrame" class="clSubb"&gt;Introduction
+and Applying&lt;/a&gt;&lt;br&gt;
+      &lt;a href="jb/jobs.</sentence>
+			<sentence id="49.4">asp" target="mainFrame" class="clSubb"&gt;Jobs Register&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="50">
+			<sentence id="50.1">&lt;!</sentence>
+			<sentence id="50.2">-- &lt;a href="job_register.</sentence>
+			<sentence id="50.3">htm" target="mainFrame" class="clSubb"&gt;Jobs
+Register&lt;/a&gt;&lt;br&gt; --&gt;
+    &lt;/div&gt;
+    &lt;br&gt;
+  &lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="51">
+			<sentence id="51.1">&lt;!</sentence>
+			<sentence id="51.2">-- PAYROLL --&gt;</sentence>
+		</paragraph>
+		<paragraph id="52">
+			<sentence id="52.1">&lt;div id="divTop9" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(8); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Payroll&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub9" class="clSub"&gt; 
+      &lt;a href="payroll_polintro.</sentence>
+			<sentence id="52.2">htm" target="mainFrame" class="clSubb"&gt;Payroll
+Policies &amp;amp; Procedures&lt;/a&gt;&lt;BR&gt;</sentence>
+		</paragraph>
+		<paragraph id="53">
+			<sentence id="53.1">&lt;/div&gt;
+    &lt;br&gt;
+  &lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="54">
+			<sentence id="54.1">&lt;!</sentence>
+			<sentence id="54.2">-- PAYROLL FORMS --&gt;</sentence>
+		</paragraph>
+		<paragraph id="55">
+			<sentence id="55.1">&lt;div id="divTop10" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(9); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Payroll Forms&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub10" class="clSub"&gt;
+      &lt;a href="payroll_intro.</sentence>
+			<sentence id="55.2">html" target="mainFrame" class="clSubb"&gt;Forms&lt;/a&gt;&lt;BR&gt;</sentence>
+		</paragraph>
+		<paragraph id="56">
+			<sentence id="56.1">&lt;/div&gt;
+    &lt;br&gt;
+  &lt;/div&gt;
+  
+&lt;!</sentence>
+			<sentence id="56.2">-- SUPERANNUATON --&gt;
+  
+  &lt;div id="divTop11" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(10); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Superannuation&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub11" class="clSub"&gt;
+      &lt;a href="super_intro.</sentence>
+			<sentence id="56.3">htm" target="mainFrame"
+class="clSubb"&gt;Introduction&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="57">
+			<sentence id="57.1">&lt;a href="SupSalContQA.htm" target="mainFrame"
+class="clSubb"&gt;Superannuation Salary&lt;br&gt; Continuance Q&amp;amp;A&lt;/a&gt;&lt;br&gt;
+      &lt;a href="super_reps.</sentence>
+			<sentence id="57.2">htm" target="mainFrame" class="clSubb"&gt;Committee Reps
+&amp;amp; Contacts&lt;/a&gt;&lt;br&gt;
+      &lt;a href="super_funds.</sentence>
+			<sentence id="57.3">htm" target="mainFrame" class="clSubb"&gt;Super Fund
+Performance&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/April%202004.</sentence>
+			<sentence id="57.4">pdf" target="mainFrame" class="clSubb"&gt;April
+2004 Super Update&lt;/a&gt;&lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="58">
+			<sentence id="58.1">&lt;/div&gt;
+    &lt;br&gt;
+  &lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="59">
+			<sentence id="59.1">&lt;!</sentence>
+			<sentence id="59.2">-- EMPLOYEE BENEFITS --&gt;</sentence>
+		</paragraph>
+		<paragraph id="60">
+			<sentence id="60.1">&lt;div id="divTop12" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(11); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Employee Benefits&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub12" class="clSub"&gt;</sentence>
+		</paragraph>
+		<paragraph id="61">
+			<sentence id="61.1">      &lt;a href="stock_plan.htm" target="mainFrame" class="clSubb"&gt;Employee Stock</sentence>
+			<sentence id="61.2">Purchase Plan&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="61.3">      &lt;a href="iprimus_access.htm" target="mainFrame" class="clSubb"&gt;iPrimus</sentence>
+			<sentence id="61.4">Access&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="61.5">      &lt;a href="social_club.htm" target="mainFrame" class="clSubb"&gt;Primus Social</sentence>
+			<sentence id="61.6">Club&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="61.7">      &lt;a href="casual_day.htm" target="mainFrame" class="clSubb"&gt;Casual Clothes</sentence>
+			<sentence id="61.8">Day&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="61.9">      &lt;a href="docs/Staff%20Plan%20Info.doc" target="mainFrame"</sentence>
+			<sentence id="61.10">class="clSubb"&gt;Staff ADSL Plans&lt;/a&gt;&lt;br&gt;</sentence>
+			<sentence id="61.11">      &lt;!--      &lt;a href="../StaffAdslDiscount/staff_broadband_1.htm"</sentence>
+			<sentence id="61.12">target="mainFrame" class="clSubb"&gt;Staff ADSL Plans&lt;/a&gt;&lt;br&gt; --&gt;</sentence>
+		</paragraph>
+		<paragraph id="62">
+			<sentence id="62.1">&lt;a href="docs/ChangestoyourADSL.</sentence>
+			<sentence id="62.2">doc" target="mainFrame"
+class="clSubb"&gt;Changes to your ADSL&lt;/a&gt;&lt;br&gt;
+      &lt;a href="familyandfriends/Friends &amp; Family Application Form.doc"
+target="mainFrame" class="clSubb"&gt;Friends and Famly Internet Plan&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/StaffDiscountplanform.</sentence>
+			<sentence id="62.3">pdf" target="mainFrame"
+class="clSubb"&gt;Staff Telephony Discount Plan&lt;/a&gt;&lt;br&gt;
+      &lt;a href="docs/StaffdiscountAppForm.</sentence>
+			<sentence id="62.4">pdf" target="mainFrame"
+class="clSubb"&gt;Application to Change Telephone Company&lt;/a&gt;&lt;br&gt;
+    &lt;/div&gt;
+    &lt;br&gt;
+  &lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="63">
+			<sentence id="63.1">&lt;!</sentence>
+			<sentence id="63.2">-- OPEN FORUM  --&gt;</sentence>
+		</paragraph>
+		<paragraph id="64">
+			<sentence id="64.1">&lt;div id="divTop13" class="clTop" style="z-index: 0"&gt;
+    &lt;a href="#" onclick="menu(12); return false"
+class="clMain"&gt;&amp;raquo;&amp;nbsp;Open Forum&lt;/a&gt;&lt;br&gt;
+    &lt;div id="divSub13" class="clSub"&gt;
+      &lt;a href="openforum.htm" target="mainFrame" class="clSubb"&gt;Introduction&lt;/a&gt;&lt;BR&gt;
+    &lt;/div&gt;
+    &lt;br&gt;</sentence>
+		</paragraph>
+		<paragraph id="65">
+			<sentence id="65.1">&lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="66">
+			<sentence id="66.1">&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>230933</id>
+	<title>Cleanup save action caused ISE</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 99117
+full log</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I20080502-0100 + ZRH plug-ins from 20080506_1900</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I saved a file, got a hot code replace error, deleted a method, saved, deleted a field, got an error dialog that a save action caused an exception.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">After this, the editor did not redraw any more.</sentence>
+			<sentence id="4.2">Trying to reproduce...</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Error
+Wed May 07 18:41:33 CEST 2008
+The save participant 'org.eclipse.jdt.ui.postsavelistener.cleanup' caused an exception: java.lang.IllegalStateException</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">java.lang.IllegalStateException</sentence>
+			<sentence id="6.2">at org.eclipse.jface.text.projection.ProjectionMapping.toImageLine(ProjectionMapping.java:479)</sentence>
+			<sentence id="6.3">at org.eclipse.jface.text.projection.ProjectionMapping.toClosestImageLine(ProjectionMapping.java:490)</sentence>
+			<sentence id="6.4">at org.eclipse.jface.text.TextViewer.getClosestWidgetLineForModelLine(TextViewer.java:5100)</sentence>
+			<sentence id="6.5">at org.eclipse.jface.text.TextViewer$ViewerState.updateViewport(TextViewer.java:1210)</sentence>
+			<sentence id="6.6">at org.eclipse.jface.text.TextViewer$ViewerState.restore(TextViewer.java:1190)</sentence>
+			<sentence id="6.7">at org.eclipse.jface.text.TextViewer.enabledRedrawing(TextViewer.java:4718)</sentence>
+			<sentence id="6.8">at org.eclipse.jface.text.TextViewer.enabledRedrawing(TextViewer.java:4693)</sentence>
+			<sentence id="6.9">at org.eclipse.jface.text.TextViewer.setRedraw(TextViewer.java:4780)</sentence>
+			<sentence id="6.10">at org.eclipse.jface.text.TextViewer.setRedraw(TextViewer.java:4752)</sentence>
+			<sentence id="6.11">at org.eclipse.jface.text.TextViewer$RewriteTarget.setRedraw(TextViewer.java:1050)</sentence>
+			<sentence id="6.12">at org.eclipse.jface.text.TextViewer$DocumentRewriteSessionListener.documentRewriteSessionChanged(TextViewer.java:1418)</sentence>
+			<sentence id="6.13">at org.eclipse.jface.text.AbstractDocument.fireRewriteSessionChanged(AbstractDocument.java:1515)</sentence>
+			<sentence id="6.14">at org.eclipse.jface.text.AbstractDocument.stopRewriteSession(AbstractDocument.java:1601)</sentence>
+			<sentence id="6.15">at org.eclipse.ltk.core.refactoring.TextChange.perform(TextChange.java:256)</sentence>
+			<sentence id="6.16">at org.eclipse.jdt.internal.corext.fix.CleanUpRefactoring$CleanUpChange.perform(CleanUpRefactoring.java:158)</sentence>
+			<sentence id="6.17">at org.eclipse.ltk.core.refactoring.PerformChangeOperation$1.run(PerformChangeOperation.java:260)</sentence>
+			<sentence id="6.18">at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:1800)</sentence>
+			<sentence id="6.19">at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:308)</sentence>
+			<sentence id="6.20">at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:109)</sentence>
+			<sentence id="6.21">at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:225)</sentence>
+			<sentence id="6.22">at org.eclipse.jdt.internal.corext.fix.CleanUpPostSaveListener.saved(CleanUpPostSaveListener.java:285)</sentence>
+			<sentence id="6.23">at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitDocumentProvider$5.run(CompilationUnitDocumentProvider.java:1539)</sentence>
+			<sentence id="6.24">at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)</sentence>
+			<sentence id="6.25">at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitDocumentProvider.notifyPostSaveListeners(CompilationUnitDocumentProvider.java:1534)</sentence>
+			<sentence id="6.26">at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitDocumentProvider.commitWorkingCopy(CompilationUnitDocumentProvider.java:1331)</sentence>
+			<sentence id="6.27">at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitDocumentProvider$4.execute(CompilationUnitDocumentProvider.java:1400)</sentence>
+			<sentence id="6.28">at org.eclipse.ui.editors.text.TextFileDocumentProvider$DocumentProviderOperation.run(TextFileDocumentProvider.java:130)</sentence>
+			<sentence id="6.29">at org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation.execute(WorkspaceModifyDelegatingOperation.java:68)</sentence>
+			<sentence id="6.30">at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:104)</sentence>
+			<sentence id="6.31">at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:1800)</sentence>
+			<sentence id="6.32">at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:116)</sentence>
+			<sentence id="6.33">at org.eclipse.ui.internal.editors.text.WorkspaceOperationRunner.run(WorkspaceOperationRunner.java:73)</sentence>
+			<sentence id="6.34">at org.eclipse.ui.internal.editors.text.WorkspaceOperationRunner.run(WorkspaceOperationRunner.java:63)</sentence>
+			<sentence id="6.35">at org.eclipse.ui.editors.text.TextFileDocumentProvider.executeOperation(TextFileDocumentProvider.java:450)</sentence>
+			<sentence id="6.36">at org.eclipse.ui.editors.text.TextFileDocumentProvider.saveDocument(TextFileDocumentProvider.java:766)</sentence>
+			<sentence id="6.37">at org.eclipse.ui.texteditor.AbstractTextEditor.performSave(AbstractTextEditor.java:4789)</sentence>
+			<sentence id="6.38">at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor.performSave(CompilationUnitEditor.java:1228)</sentence>
+			<sentence id="6.39">at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor.doSave(CompilationUnitEditor.java:1281)</sentence>
+			<sentence id="6.40">at org.eclipse.ui.texteditor.AbstractTextEditor$TextEditorSavable.doSave(AbstractTextEditor.java:6888)</sentence>
+			<sentence id="6.41">at org.eclipse.ui.Saveable.doSave(Saveable.java:212)</sentence>
+			<sentence id="6.42">at org.eclipse.ui.internal.SaveableHelper.doSaveModel(SaveableHelper.java:339)</sentence>
+			<sentence id="6.43">at org.eclipse.ui.internal.SaveableHelper$2.run(SaveableHelper.java:185)</sentence>
+			<sentence id="6.44">at org.eclipse.ui.internal.SaveableHelper$4.run(SaveableHelper.java:266)</sentence>
+			<sentence id="6.45">at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:444)</sentence>
+			<sentence id="6.46">at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:352)</sentence>
+			<sentence id="6.47">at org.eclipse.jface.window.ApplicationWindow$1.run(ApplicationWindow.java:758)</sentence>
+			<sentence id="6.48">at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)</sentence>
+			<sentence id="6.49">at org.eclipse.jface.window.ApplicationWindow.run(ApplicationWindow.java:755)</sentence>
+			<sentence id="6.50">at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2476)</sentence>
+			<sentence id="6.51">at org.eclipse.ui.internal.SaveableHelper.runProgressMonitorOperation(SaveableHelper.java:274)</sentence>
+			<sentence id="6.52">at org.eclipse.ui.internal.SaveableHelper.runProgressMonitorOperation(SaveableHelper.java:253)</sentence>
+			<sentence id="6.53">at org.eclipse.ui.internal.SaveableHelper.saveModels(SaveableHelper.java:196)</sentence>
+			<sentence id="6.54">at org.eclipse.ui.internal.SaveableHelper.savePart(SaveableHelper.java:136)</sentence>
+			<sentence id="6.55">at org.eclipse.ui.internal.EditorManager.savePart(EditorManager.java:1350)</sentence>
+			<sentence id="6.56">at org.eclipse.ui.internal.WorkbenchPage.savePart(WorkbenchPage.java:3255)</sentence>
+			<sentence id="6.57">at org.eclipse.ui.internal.WorkbenchPage.saveEditor(WorkbenchPage.java:3268)</sentence>
+			<sentence id="6.58">at org.eclipse.ui.texteditor.SaveAction.run(SaveAction.java:47)</sentence>
+			<sentence id="6.59">at org.eclipse.jface.action.Action.runWithEvent(Action.java:498)</sentence>
+			<sentence id="6.60">at org.eclipse.ui.commands.ActionHandler.execute(ActionHandler.java:185)</sentence>
+			<sentence id="6.61">at org.eclipse.ui.internal.handlers.LegacyHandlerWrapper.execute(LegacyHandlerWrapper.java:109)</sentence>
+			<sentence id="6.62">at org.eclipse.core.commands.Command.executeWithChecks(Command.java:476)</sentence>
+			<sentence id="6.63">at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:508)</sentence>
+			<sentence id="6.64">at org.eclipse.ui.internal.handlers.HandlerService.executeCommand(HandlerService.java:169)</sentence>
+			<sentence id="6.65">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.executeCommand(WorkbenchKeyboard.java:471)</sentence>
+			<sentence id="6.66">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.press(WorkbenchKeyboard.java:822)</sentence>
+			<sentence id="6.67">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.processKeyEvent(WorkbenchKeyboard.java:880)</sentence>
+			<sentence id="6.68">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.filterKeySequenceBindings(WorkbenchKeyboard.java:569)</sentence>
+			<sentence id="6.69">at org.eclipse.ui.internal.keys.WorkbenchKeyboard.access$3(WorkbenchKeyboard.java:511)</sentence>
+			<sentence id="6.70">at org.eclipse.ui.internal.keys.WorkbenchKeyboard$KeyDownFilter.handleEvent(WorkbenchKeyboard.java:126)</sentence>
+			<sentence id="6.71">at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)</sentence>
+			<sentence id="6.72">at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1162)</sentence>
+			<sentence id="6.73">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1001)</sentence>
+			<sentence id="6.74">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1026)</sentence>
+			<sentence id="6.75">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1011)</sentence>
+			<sentence id="6.76">at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1039)</sentence>
+			<sentence id="6.77">at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1035)</sentence>
+			<sentence id="6.78">at org.eclipse.swt.widgets.Widget.wmChar(Widget.java:1351)</sentence>
+			<sentence id="6.79">at org.eclipse.swt.widgets.Control.WM_CHAR(Control.java:3889)</sentence>
+			<sentence id="6.80">at org.eclipse.swt.widgets.Canvas.WM_CHAR(Canvas.java:338)</sentence>
+			<sentence id="6.81">at org.eclipse.swt.widgets.Control.windowProc(Control.java:3782)</sentence>
+			<sentence id="6.82">at org.eclipse.swt.widgets.Canvas.windowProc(Canvas.java:334)</sentence>
+			<sentence id="6.83">at org.eclipse.swt.widgets.Display.windowProc(Display.java:4487)</sentence>
+			<sentence id="6.84">at org.eclipse.swt.internal.win32.OS.$$YJP$$DispatchMessageW(Native Method)</sentence>
+			<sentence id="6.85">at org.eclipse.swt.internal.win32.OS.DispatchMessageW(OS.java)</sentence>
+			<sentence id="6.86">at org.eclipse.swt.internal.win32.OS.DispatchMessage(OS.java:2346)</sentence>
+			<sentence id="6.87">at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3379)</sentence>
+			<sentence id="6.88">at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2394)</sentence>
+			<sentence id="6.89">at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2358)</sentence>
+			<sentence id="6.90">at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2210)</sentence>
+			<sentence id="6.91">at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:494)</sentence>
+			<sentence id="6.92">at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:288)</sentence>
+			<sentence id="6.93">at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:489)</sentence>
+			<sentence id="6.94">at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)</sentence>
+			<sentence id="6.95">at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:112)</sentence>
+			<sentence id="6.96">at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:193)</sentence>
+			<sentence id="6.97">at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)</sentence>
+			<sentence id="6.98">at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)</sentence>
+			<sentence id="6.99">at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:379)</sentence>
+			<sentence id="6.100">at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)</sentence>
+			<sentence id="6.101">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="6.102">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="6.103">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="6.104">at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="6.105">at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:549)</sentence>
+			<sentence id="6.106">at org.eclipse.equinox.launcher.Main.basicRun(Main.java:504)</sentence>
+			<sentence id="6.107">at org.eclipse.equinox.launcher.Main.run(Main.java:1236)</sentence>
+			<sentence id="6.108">at org.eclipse.equinox.launcher.Main.main(Main.java:1212)</sentence>
+		</paragraph>
+	</description>
+</bug>

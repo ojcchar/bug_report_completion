@@ -1,0 +1,174 @@
+I/PRP have/VBP a/DT VHOST/NNP Configuration/NNP like/IN :/: 
+
+(ROOT (S (NP (PRP I)) (VP (VBP have) (NP (DT a) (NNP VHOST) (NNP Configuration)) (PP (IN like))) (: :)))
+
+root(ROOT-0, have-2)
+nsubj(have-2, I-1)
+det(Configuration-5, a-3)
+nn(Configuration-5, VHOST-4)
+dobj(have-2, Configuration-5)
+prep(have-2, like-6)
+
+</JJR VirtualHost/NNP . . ./: >/JJR ServerName/NNP MyServer.com/NNP ServerAlias/NNP test.MyServer.com/NNP debug.MyServer.com/NNP </JJR //: VirtualHost/NNP >/JJR 
+
+(ROOT (FRAG (NP-TMP (NP (JJR <)) (NP (NNP VirtualHost))) (: ...) (NP (NP (JJR >)) (NP (NP (NNP ServerName) (NNP MyServer.com) (NNP ServerAlias) (NNP test.MyServer.com) (NNP debug.MyServer.com)) (ADJP (ADJP (JJR <)) (PRN (: /) (S (NP (NNP VirtualHost)) (ADJP (JJR >)))))))))
+
+root(ROOT-0, <-1)
+appos(<-1, VirtualHost-2)
+dep(<-1, >-4)
+nn(debug.MyServer.com-9, ServerName-5)
+nn(debug.MyServer.com-9, MyServer.com-6)
+nn(debug.MyServer.com-9, ServerAlias-7)
+nn(debug.MyServer.com-9, test.MyServer.com-8)
+dep(>-4, debug.MyServer.com-9)
+amod(debug.MyServer.com-9, <-10)
+punct(>-13, /-11)
+dep(>-13, VirtualHost-12)
+dep(<-10, >-13)
+
+Under/IN Apache/NNP 1.3/CD i/FW get/VB in/IN the/DT env/NN ./. 
+
+(ROOT (FRAG (PP (IN Under) (NP (NP (NNP Apache) (CD 1.3)) (SBAR (S (NP (FW i)) (VP (VB get) (PP (IN in) (NP (DT the) (NN env)))))))) (. .)))
+
+root(ROOT-0, Under-1)
+pobj(Under-1, Apache-2)
+num(Apache-2, 1.3-3)
+nsubj(get-5, i-4)
+rcmod(Apache-2, get-5)
+det(env-8, the-7)
+prep_in(get-5, env-8)
+
+the/DT host/NN information/NN and/CC SERVER_NAME/NN and/CC its/PRP$ in/IN every/DT case/NN the/DT ServerName/NNP value/NN (/-LRB- MyServer.com/NN )/-RRB- This/DT is/VBZ also/RB the/DT ServerName/NNP where/WRB one/CD of/IN the/DT ServerAlias/NNP matches/NNS (/-LRB- debug.MyServer.com/NN )/-RRB- 
+
+(ROOT (FRAG (NP (DT the) (NN host) (SBAR (S (NP (NP (NN information) (CC and) (NN SERVER_NAME)) (CC and) (NP (NP (PRP$ its)) (PP (IN in) (NP (DT every) (NN case))))) (VP (NP (NP (DT the) (NNP ServerName) (NN value)) (PRN (-LRB- -LRB-) (NP (NN MyServer.com)) (-RRB- -RRB-)) (SBAR (S (NP (DT This)) (VP (VBZ is) (ADVP (RB also)) (NP (NP (DT the) (NNP ServerName)) (SBAR (WHADVP (WRB where)) (S (NP (CD one)) (PP (IN of) (NP (DT the) (NNP ServerAlias) (NNS matches)))))))))) (PRN (-LRB- -LRB-) (NP (NN debug.MyServer.com)) (-RRB- -RRB-))))))))
+
+root(ROOT-0, host-2)
+det(host-2, the-1)
+nsubj(value-13, information-3)
+conj_and(information-3, SERVER_NAME-5)
+nsubj(value-13, SERVER_NAME-5)
+conj_and(information-3, its-7)
+nsubj(value-13, its-7)
+det(case-10, every-9)
+prep_in(its-7, case-10)
+det(value-13, the-11)
+nn(value-13, ServerName-12)
+ccomp(host-2, value-13)
+appos(value-13, MyServer.com-15)
+nsubj(ServerName-21, This-17)
+cop(ServerName-21, is-18)
+advmod(ServerName-21, also-19)
+det(ServerName-21, the-20)
+rcmod(value-13, ServerName-21)
+advmod(one-23, where-22)
+rcmod(ServerName-21, one-23)
+dep(one-23, of-24)
+det(matches-27, the-25)
+nn(matches-27, ServerAlias-26)
+pobj(of-24, matches-27)
+dep(value-13, debug.MyServer.com-29)
+
+URI/NNP :/: http://www.MyServer.com/NNP SERVER_NAME/NNP =/JJ MyServer.com/NNP 
+
+(ROOT (NP (NP (NNP URI)) (: :) (S (NP (NNP http://www.MyServer.com) (NNP SERVER_NAME)) (VP (JJ =) (NP (NNP MyServer.com))))))
+
+root(ROOT-0, URI-1)
+nn(SERVER_NAME-4, http://www.MyServer.com-3)
+nsubj(=-5, SERVER_NAME-4)
+dep(URI-1, =-5)
+dobj(=-5, MyServer.com-6)
+
+URI/NNP :/: http://debug.MyServer.com/NNP SERVER_NAME/NNP =/JJ MyServer.com/NNP 
+
+(ROOT (NP (NP (NNP URI)) (: :) (S (NP (NNP http://debug.MyServer.com) (NNP SERVER_NAME)) (VP (JJ =) (NP (NNP MyServer.com))))))
+
+root(ROOT-0, URI-1)
+nn(SERVER_NAME-4, http://debug.MyServer.com-3)
+nsubj(=-5, SERVER_NAME-4)
+dep(URI-1, =-5)
+dobj(=-5, MyServer.com-6)
+
+URI/NNP :/: http://test.MyServer.com/NNP SERVER_NAME/NNP =/JJ MyServer.com/NNP 
+
+(ROOT (NP (NP (NNP URI)) (: :) (S (NP (NNP http://test.MyServer.com) (NNP SERVER_NAME)) (VP (JJ =) (NP (NNP MyServer.com))))))
+
+root(ROOT-0, URI-1)
+nn(SERVER_NAME-4, http://test.MyServer.com-3)
+nsubj(=-5, SERVER_NAME-4)
+dep(URI-1, =-5)
+dobj(=-5, MyServer.com-6)
+
+Under/IN Apache/NNP 2.2.x/CD its/PRP$ complete/JJ different/JJ ./. 
+
+(ROOT (FRAG (PP (IN Under) (NP (NP (NNP Apache) (CD 2.2.x)) (NP (PRP$ its) (JJ complete) (JJ different)))) (. .)))
+
+root(ROOT-0, Under-1)
+pobj(Under-1, Apache-2)
+num(Apache-2, 2.2.x-3)
+poss(different-6, its-4)
+amod(different-6, complete-5)
+dep(Apache-2, different-6)
+
+URI/NNP :/: http://www.MyServer.com/NNP SERVER_NAME/NNP =/JJ www.MyServer.com/NNP 
+
+(ROOT (NP (NP (NNP URI)) (: :) (S (NP (NNP http://www.MyServer.com) (NNP SERVER_NAME)) (VP (JJ =) (NP (NNP www.MyServer.com))))))
+
+root(ROOT-0, URI-1)
+nn(SERVER_NAME-4, http://www.MyServer.com-3)
+nsubj(=-5, SERVER_NAME-4)
+dep(URI-1, =-5)
+dobj(=-5, www.MyServer.com-6)
+
+URI/NNP :/: http://debug.MyServer.com/NNP SERVER_NAME/NNP =/JJ debug.MyServer.com/NNP 
+
+(ROOT (NP (NP (NNP URI)) (: :) (S (NP (NNP http://debug.MyServer.com) (NNP SERVER_NAME)) (VP (JJ =) (NP (NNP debug.MyServer.com))))))
+
+root(ROOT-0, URI-1)
+nn(SERVER_NAME-4, http://debug.MyServer.com-3)
+nsubj(=-5, SERVER_NAME-4)
+dep(URI-1, =-5)
+dobj(=-5, debug.MyServer.com-6)
+
+URI/NNP :/: http://test.MyServer.com/NNP SERVER_NAME/NNP =/JJ test.MyServer.com/NN 
+
+(ROOT (NP (NP (NNP URI)) (: :) (NP (NNP http://test.MyServer.com) (NNP SERVER_NAME) (JJ =) (NN test.MyServer.com))))
+
+root(ROOT-0, URI-1)
+nn(test.MyServer.com-6, http://test.MyServer.com-3)
+nn(test.MyServer.com-6, SERVER_NAME-4)
+amod(test.MyServer.com-6, =-5)
+dep(URI-1, test.MyServer.com-6)
+
+This/DT breaks/VBZ most/RBS SERVER_NAME/JJ based/VBN configurations/NNS ./. 
+
+(ROOT (S (NP (DT This)) (VP (VBZ breaks) (ADJP (RBS most) (JJ SERVER_NAME)) (PP (VBN based) (NP (NNS configurations)))) (. .)))
+
+root(ROOT-0, breaks-2)
+nsubj(breaks-2, This-1)
+advmod(SERVER_NAME-4, most-3)
+acomp(breaks-2, SERVER_NAME-4)
+prep(breaks-2, based-5)
+pobj(based-5, configurations-6)
+
+My/PRP$ Question/NN is/VBZ (/-LRB- if/IN this/DT isnt/NN a/DT bug/NN )/-RRB- how/WRB can/MD i/FW resolve/VB the/DT real/JJ ServerName/NNP for/IN the/DT VHOST/NNP ./. 
+
+(ROOT (S (NP (PRP$ My) (NN Question)) (VP (VBZ is) (PRN (-LRB- -LRB-) (FRAG (IN if) (NP (NP (DT this) (NN isnt)) (NP (DT a) (NN bug)))) (-RRB- -RRB-))) (SBAR (WHADVP (WRB how)) (S (VP (MD can) (NP (FW i)) (S (VP (VB resolve) (NP (DT the) (JJ real) (NNP ServerName)) (PP (IN for) (NP (DT the) (NNP VHOST)))))))) (. .)))
+
+root(ROOT-0, is-3)
+poss(Question-2, My-1)
+nsubj(is-3, Question-2)
+dep(is-3, if-5)
+det(isnt-7, this-6)
+dep(if-5, isnt-7)
+det(bug-9, a-8)
+dep(isnt-7, bug-9)
+advmod(can-12, how-11)
+dep(is-3, can-12)
+dobj(can-12, i-13)
+dep(can-12, resolve-14)
+det(ServerName-17, the-15)
+amod(ServerName-17, real-16)
+dobj(resolve-14, ServerName-17)
+det(VHOST-20, the-19)
+prep_for(resolve-14, VHOST-20)
+

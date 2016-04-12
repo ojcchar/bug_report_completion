@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>44262</id>
+	<title>AllowOverride Options= grants the permission of the 'All' option.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If one option is permitted, 'All' is permitted.</sentence>
+			<sentence id="1.2">Impact:
+The user can use CGI/SSI/Symlink from any place with own .</sentence>
+			<sentence id="1.3">htaccess.</sentence>
+			<sentence id="1.4">Example:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">httpd.conf:
+&lt;Directory "/home/*/public_html"&gt;
+    AllowOverride Options=Indexes
+    Options Indexes
+&lt;/Directory&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">/home/user/public_html/.</sentence>
+			<sentence id="3.2">htaccess:
+Options +All</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">source code:
+httpd-2.2.6/server/core.</sentence>
+			<sentence id="4.2">c line 1461:
+         if (!</sentence>
+			<sentence id="4.3">(cmd-&gt;override_opts &amp; opt) &amp;&amp; opt !</sentence>
+			<sentence id="4.4">= OPT_NONE) {</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">When opt contains two or more bits, override_opts passes any bits of opt.</sentence>
+			<sentence id="5.2">In 2.2.6 cases, OPT_ALL is defined 
+as "(OPT_INDEXES|OPT_INCLUDES|OPT_SYM_LINKS|OPT_EXECCGI)".</sentence>
+		</paragraph>
+	</description>
+</bug>

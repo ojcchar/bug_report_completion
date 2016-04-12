@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>41844</id>
+	<title>Apache 2.0.59 doesn't start with virtual host's document root on mount point</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hello,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">My problem was discovered when I attempt to start apache and when I run the
+apache configtest by command line.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I have a lot of virtual hosts placed on a partition mounted under /data and
+apache says that all the related documentroot doesn't exist except for the
+defaut virtual host which is a subdirectory of /.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">These virtual hosts are properly running on our production machine with apache</sentence>
+			<sentence id="4.2">2 0.54 and I did my own .</sentence>
+			<sentence id="4.3">spec file to compile apache as rpm.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">To be sure that my .</sentence>
+			<sentence id="5.2">spec is not affecting the behaviour of apache I did a</sentence>
+			<sentence id="5.3">compilation of versions 2.0.54 AND 2.0.59 and run the apachectl binaries.</sentence>
+			<sentence id="5.4">- In the case of apache 2.0.54, the configtest and the server run properly.</sentence>
+			<sentence id="5.5">I</sentence>
+			<sentence id="5.6">can access to my websites.</sentence>
+			<sentence id="5.7">- In the case of apache 2.0.59, the configtest fails and the server doesn't</sentence>
+			<sentence id="5.8">start.</sentence>
+			<sentence id="5.9">I have no access to the websites.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">A second set of tests conviced me that the problem is related to the mount point</sentence>
+			<sentence id="6.2">.</sentence>
+			<sentence id="6.3">I have placed a test directory tree on /data2/test.</sentence>
+			<sentence id="6.4">- When /data2/test is not a mount point, apache 2.0.59 starts and the configtest</sentence>
+			<sentence id="6.5">succeed.</sentence>
+			<sentence id="6.6">- When I use /data2 as a mount point, apache 2.0.59 doesn't start and the</sentence>
+			<sentence id="6.7">configtest fails.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">It is a strange behaviour when we know that a mount point should be transparent
+to the applications and is directly managed by the OS.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I am sorry if this bug was already solved but I didn't find anything on bugzilla.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Thanks for your help.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8300</id>
+	<title>FB.Loader component missing from FB.Share JavaScript</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Sometime in the past few days_ the JS for the external Share buttons was changed and it no longer fully works.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The file here: http://static.ak.fbcdn.net/connect.php/js/FB.Share</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Is the problem.</sentence>
+			<sentence id="3.2">If it s loaded_ it bails out on line 15 with the error (which you can see exhibited above or in site that s using the share button).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">TypeError: Result of expression  FB.Loader  [undefined] is not an object.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">It s also happening on HuffintonPost:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">http://www.huffingtonpost.com/2010/01/12/bank-lobby-ready-to-battl_n_419896.html</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">----</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">The problem lies in the fact that no FB.Loader module is defined in the FB.Share javascript file.</sentence>
+		</paragraph>
+	</description>
+</bug>

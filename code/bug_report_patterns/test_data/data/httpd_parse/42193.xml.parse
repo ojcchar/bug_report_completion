@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>42193</id>
+	<title>Headername file not shown when larger than 255 bytes</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I run a mirror for apache (ahum) at http://apache.belnet.be.</sentence>
+			<sentence id="2.2">Now for some time
+we already run version apache 2.2.4 (on solaris).</sentence>
+			<sentence id="2.3">Now the problem is that the
+headername directive causes the file HEADER.html to be prepended, but when this
+file is larger than 255 bytes, nothing is given back to HTTP/1.1 clients
+(HTTP/1.0 clients like dilo have no problems).</sentence>
+			<sentence id="2.4">It seems to be a problem with
+chunked encoding in the headername file handling, but I've no idea where to
+start looking for this.</sentence>
+			<sentence id="2.5">Doing a telnet reveals this:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1"># telnet apache.belnet.be 80
+Trying 193.190.198.20...
+Connected to apache.belnet.be (193.190.198.20).</sentence>
+			<sentence id="3.2">Escape character is '^]'.</sentence>
+			<sentence id="3.3">GET / HTTP/1.1
+Host: apache.belnet.be</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">HTTP/1.1 200 OK
+Date: Mon, 23 Apr 2007 09:24:59 GMT
+Server: Apache
+Transfer-Encoding: chunked
+Content-Type: text/html</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">0</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Connection closed by foreign host.</sentence>
+			<sentence id="6.2">#
+#</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Now it seems to me that "0" is not a correct response ...
+So any hints to what might go wrong here?</sentence>
+			<sentence id="7.2">Disabling keepalive doesn't change
+anything.</sentence>
+		</paragraph>
+	</description>
+</bug>

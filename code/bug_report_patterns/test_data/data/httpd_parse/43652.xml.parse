@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>43652</id>
+	<title>Suggest small change for big fix with SuExec &amp; Virtual Hosts</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Whether this is a "bug" or not depends on your point-of-view regarding suexec
+and common hosting configurations.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I commonly setup virtual hosts by creating a user account, then a 'public_html'
+directory in that user's home directory, and then finally mapping the Virtual
+Host document directory to that user's public_html directory.</sentence>
+			<sentence id="2.2">It makes
+everything nice and neat and simple for everybody-- everybody that is except
+people needing suexec.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I'm not putting home directories in the apache document root, it ain't gonna
+happen.</sentence>
+			<sentence id="3.2">Likewise, I'm not making the apache document root to be the base of the
+home directories.</sentence>
+			<sentence id="3.3">That's not going to happen either.</sentence>
+			<sentence id="3.4">Most users don't know about
+(and don't want to know about) the "~user" syntax, so effectively that's a
+non-starter as well.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">So if you're using suexec out of the box, you're pretty well hosed-up at this</sentence>
+			<sentence id="4.2">point. I've been studying the suexec.c utility and it seems pretty tight the way</sentence>
+			<sentence id="4.3">it is. I could hack it up but it seems a shame to have to resort to that. On the</sentence>
+			<sentence id="4.4">other hand, my opinion is that its become so locked-down (and for good reason)</sentence>
+			<sentence id="4.5">that people DO look for ways around it, or else to modify it, to support this</sentence>
+			<sentence id="4.6">one very common hosting configuration. Or else look for ways to "cheat" using</sentence>
+			<sentence id="4.7">suid programs and the like to dart in, create a file the user can use-- or some</sentence>
+			<sentence id="4.8">other trick, which likewise causes a number of security risks. So while its</sentence>
+			<sentence id="4.9">possible to modify suexec.c to shoe-horn in support for the userdir/public_html</sentence>
+			<sentence id="4.10">virtual host configuration, it doesn't seem to be the best solution available.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">However, in looking over the code, it seems that the "target_username" and
+"target_groupname" are GIVEN to suexec by apache (via mod_suexec) along with the
+target command.</sentence>
+			<sentence id="5.2">It goes through its various checks to determine whether or not
+blah blah blah is valid etc etc etc and finally deciding to accept or not accept
+the user/group/command combination.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Of course in the case of the configuration I'm describing, it will always be
+"not accept" -- bummer!</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">So here's the little change I was thinking of--- as I was musing over the best
+way to hack and slash suexec.c to shoe-horn in what I needed, it occurred to me
+(and I think this is true-- someone say otherwise if I'm wrong)-- that the only
+place the "SuexecUserGroup" construct (in the VirtualHost config) comes into
+play is when its given to the suexec program as a target username and groupname.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">However, it turns out that this bit is parsed by the apache program itself and</sentence>
+			<sentence id="8.2">it doesn't like it if its not a real "legitimate" user.</sentence>
+			<sentence id="8.3">But if (!!!)</sentence>
+			<sentence id="8.4">it were</sentence>
+			<sentence id="8.5">possible to persuade apache to not care so much if you specified "~username" and</sentence>
+			<sentence id="8.6">"~groupname" then THOSE names would get passed to the suexec program which (I</sentence>
+			<sentence id="8.7">*think*) would then treat them as the regular "~user" form that it already knows</sentence>
+			<sentence id="8.8">about and is willing to accept.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">IF apache needs the username/groupname for something else-- just let it notice
+the leading tildes and ignore them.</sentence>
+			<sentence id="9.2">But if its going to hand them to suexec,
+include them.</sentence>
+			<sentence id="9.3">Then I think everything works out for everybody and suexec does
+NOT need to be changed AND people who want to setup their virtual hosting in the
+manner I've described can do so, AND only a very tiny tweak to Apache
+(config-handling) is required to effect the change.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Opinions???</sentence>
+		</paragraph>
+	</description>
+</bug>

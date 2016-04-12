@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>38213</id>
+	<title>Segmentation Fault with multiple #include's</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I had a request to enable SSI on one of the domains I manage on a 2.0.55 server
+(built from source) on Debian Linux.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">SSI behavior can only be described as "odd".</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The developers have .</sentence>
+			<sentence id="3.2">shtml files that contain a number of &lt;!</sentence>
+			<sentence id="3.3">-- #include
+file="..." --&gt; directives.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Here is a real example:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&lt;!</sentence>
+			<sentence id="5.2">--#include file="struc/struc-01.</sentence>
+			<sentence id="5.3">html" --&gt;
+&lt;!</sentence>
+			<sentence id="5.4">--#include file="includes/menu-utility.</sentence>
+			<sentence id="5.5">html" --&gt;
+&lt;!</sentence>
+			<sentence id="5.6">--#include file="struc/struc-02.</sentence>
+			<sentence id="5.7">html" --&gt;
+&lt;!</sentence>
+			<sentence id="5.8">--#include file="includes/menu-pic-0.</sentence>
+			<sentence id="5.9">html" --&gt;
+and so on...</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I verified the existence and permission of all files.</sentence>
+			<sentence id="6.2">This causes a Seg Fault
+in the apache logs though:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">[Mon Jan 09 22:05:49 2006] [notice] child pid 10562 exit signal Segmentation
+fault (11)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">SSI seems to work ok in other situations though - I can display the current
+date/time without any issues.</sentence>
+			<sentence id="8.2">I can display the date then include a single file
+using one of the above directives, and vice versa (display date after an
+include), but the moment I do two #include's as above Apache chokes.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I enabled SSI by putting the following in a .</sentence>
+			<sentence id="9.2">htaccess in the top-level directory
+for the domain:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Options +Includes
+AddType text/html .</sentence>
+			<sentence id="10.2">shtml
+AddOutputFilter INCLUDES .</sentence>
+			<sentence id="10.3">shtml</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Apache was compiled with:</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">env CFLAGS="-O3 -march=i686 -funroll-loops -D_REENTRANT</sentence>
+			<sentence id="12.2">-D_SINGLE_LISTEN_UNSERIALIZED_ACCEPT -fPIC" \</sentence>
+			<sentence id="12.3">.</sentence>
+			<sentence id="12.4">/configure --prefix=/usr/local/apache-2.0.55 \</sentence>
+			<sentence id="12.5">--with-mpm=prefork \</sentence>
+			<sentence id="12.6">\</sentence>
+			<sentence id="12.7">--enable-access=shared \</sentence>
+			<sentence id="12.8">--enable-actions=shared \</sentence>
+			<sentence id="12.9">--enable-alias=shared \</sentence>
+			<sentence id="12.10">--enable-auth=shared \</sentence>
+			<sentence id="12.11">--enable-auth-dbm=shared \</sentence>
+			<sentence id="12.12">--enable-auth-digest=shared \</sentence>
+			<sentence id="12.13">--enable-autoindex=shared \</sentence>
+			<sentence id="12.14">--enable-cern-meta=shared \</sentence>
+			<sentence id="12.15">--enable-cgi=shared \</sentence>
+			<sentence id="12.16">--enable-cgid=shared \</sentence>
+			<sentence id="12.17">--enable-dav=shared \</sentence>
+			<sentence id="12.18">--enable-dav-fs=shared \</sentence>
+			<sentence id="12.19">--enable-dir=shared \</sentence>
+			<sentence id="12.20">--enable-env=shared \</sentence>
+			<sentence id="12.21">--enable-expires=shared \</sentence>
+			<sentence id="12.22">--enable-file-cache=shared \</sentence>
+			<sentence id="12.23">--enable-headers=shared \</sentence>
+			<sentence id="12.24">--enable-include=shared \</sentence>
+			<sentence id="12.25">--enable-log-config=shared \</sentence>
+			<sentence id="12.26">--enable-mime=shared \</sentence>
+			<sentence id="12.27">--enable-mime-magic=shared \</sentence>
+			<sentence id="12.28">--enable-negotiation=shared \</sentence>
+			<sentence id="12.29">--enable-rewrite=shared \</sentence>
+			<sentence id="12.30">--enable-setenvif=shared \</sentence>
+			<sentence id="12.31">--enable-speling=shared \</sentence>
+			<sentence id="12.32">--enable-ssl=shared \</sentence>
+			<sentence id="12.33">--enable-unique-id=shared \</sentence>
+			<sentence id="12.34">--enable-usertrack=shared \</sentence>
+			<sentence id="12.35">--enable-vhost-alias=shared \</sentence>
+			<sentence id="12.36">--enable-suexec=shared \</sentence>
+			<sentence id="12.37">\</sentence>
+			<sentence id="12.38">--with-suexec-caller=nobody \</sentence>
+			<sentence id="12.39">--with-suexec-docroot=/usr/local/apache/htdocs \</sentence>
+			<sentence id="12.40">--with-suexec-logfile=/var/log/apache/suexec.log \</sentence>
+			<sentence id="12.41">--with-suexec-bin=/usr/local/apache/bin/suexec \</sentence>
+			<sentence id="12.42">--with-suexec-uidmin=500 --with-suexec-gidmin=500 \</sentence>
+			<sentence id="12.43">\</sentence>
+			<sentence id="12.44">--enable-info=shared \</sentence>
+			<sentence id="12.45">--enable-imap=shared \</sentence>
+			<sentence id="12.46">--enable-proxy=shared \</sentence>
+			<sentence id="12.47">--enable-proxy-connect=shared \</sentence>
+			<sentence id="12.48">--enable-proxy-ftp=shared \</sentence>
+			<sentence id="12.49">--enable-proxy-http=shared \</sentence>
+			<sentence id="12.50">--enable-status=shared \</sentence>
+			<sentence id="12.51">--enable-disk-cache=shared \</sentence>
+			<sentence id="12.52">--enable-mem-cache=shared \</sentence>
+			<sentence id="12.53">--enable-cache=shared \</sentence>
+			<sentence id="12.54">--enable-deflate=shared \</sentence>
+			<sentence id="12.55">\</sentence>
+			<sentence id="12.56">--disable-auth-anon \</sentence>
+			<sentence id="12.57">--disable-charset-lite \</sentence>
+			<sentence id="12.58">--disable-ext-filter \</sentence>
+			<sentence id="12.59">--disable-case-filter \</sentence>
+			<sentence id="12.60">--disable-case-filter-in \</sentence>
+			<sentence id="12.61">--disable-example \</sentence>
+			<sentence id="12.62">--disable-asis \</sentence>
+			<sentence id="12.63">\</sentence>
+			<sentence id="12.64">--enable-userdir=shared \</sentence>
+			<sentence id="12.65">\</sentence>
+			<sentence id="12.66">--with-ssl \</sentence>
+			<sentence id="12.67">--with-z \</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Here is a gdb session from a core dump:</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">fastconcepts:/tmp# gdb /usr/local/apache/bin/httpd /tmp/core.</sentence>
+			<sentence id="14.2">ccr 
+GNU gdb 6.3-debian
+Copyright 2004 Free Software Foundation, Inc.</sentence>
+			<sentence id="14.3">GDB is free software, covered by the GNU General Public License, and you are
+welcome to change it and/or distribute copies of it under certain conditions.</sentence>
+			<sentence id="14.4">Type "show copying" to see the conditions.</sentence>
+			<sentence id="14.5">There is absolutely no warranty for GDB.</sentence>
+			<sentence id="14.6">Type "show warranty" for details.</sentence>
+			<sentence id="14.7">This GDB was configured as "i386-linux"...Using host libthread_db library
+"/lib/libthread_db.so.1".</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Core was generated by `/usr/local/apache-2.0.55/bin/httpd -D SSL -k start'.</sentence>
+			<sentence id="15.2">Program terminated with signal 11, Segmentation fault.</sentence>
+			<sentence id="15.3">Reading symbols from /usr/lib/libz.so.1...done.</sentence>
+			<sentence id="15.4">Loaded symbols for /usr/lib/libz.so.1</sentence>
+			<sentence id="15.5">Reading symbols from /usr/local/lib/libssl.so.0.9.8...done.</sentence>
+			<sentence id="15.6">Loaded symbols for /usr/local/lib/libssl.so.0.9.8</sentence>
+			<sentence id="15.7">Reading symbols from /usr/local/lib/libcrypto.so.0.9.8...done.</sentence>
+			<sentence id="15.8">Loaded symbols for /usr/local/lib/libcrypto.so.0.9.8</sentence>
+			<sentence id="15.9">Reading symbols from /usr/local/apache-2.0.55/lib/libaprutil-0.so.0...done.</sentence>
+			<sentence id="15.10">Loaded symbols for /usr/local/apache-2.0.55/lib/libaprutil-0.so.0</sentence>
+			<sentence id="15.11">Reading symbols from /usr/lib/libdb3.so.3...done.</sentence>
+			<sentence id="15.12">Loaded symbols for /usr/lib/libdb3.so.3</sentence>
+			<sentence id="15.13">Reading symbols from /usr/lib/libexpat.so.1...done.</sentence>
+			<sentence id="15.14">Loaded symbols for /usr/lib/libexpat.so.1</sentence>
+			<sentence id="15.15">Reading symbols from /usr/local/apache-2.0.55/lib/libapr-0.so.0...done.</sentence>
+			<sentence id="15.16">Loaded symbols for /usr/local/apache-2.0.55/lib/libapr-0.so.0</sentence>
+			<sentence id="15.17">Reading symbols from /lib/librt.so.1...done.</sentence>
+			<sentence id="15.18">Loaded symbols for /lib/librt.so.1</sentence>
+			<sentence id="15.19">Reading symbols from /lib/libm.so.6...done.</sentence>
+			<sentence id="15.20">Loaded symbols for /lib/libm.so.6</sentence>
+			<sentence id="15.21">Reading symbols from /lib/libcrypt.so.1...done.</sentence>
+			<sentence id="15.22">Loaded symbols for /lib/libcrypt.so.1</sentence>
+			<sentence id="15.23">Reading symbols from /lib/libnsl.so.1...done.</sentence>
+			<sentence id="15.24">Loaded symbols for /lib/libnsl.so.1</sentence>
+			<sentence id="15.25">Reading symbols from /lib/libpthread.so.0...done.</sentence>
+			<sentence id="15.26">Loaded symbols for /lib/libpthread.so.0</sentence>
+			<sentence id="15.27">Reading symbols from /lib/libdl.so.2...done.</sentence>
+			<sentence id="15.28">Loaded symbols for /lib/libdl.so.2</sentence>
+			<sentence id="15.29">Reading symbols from /lib/libc.so.6...done.</sentence>
+			<sentence id="15.30">Loaded symbols for /lib/libc.so.6</sentence>
+			<sentence id="15.31">Reading symbols from /lib/ld-linux.so.2...done.</sentence>
+			<sentence id="15.32">Loaded symbols for /lib/ld-linux.so.2</sentence>
+			<sentence id="15.33">Reading symbols from /lib/libnss_compat.so.2...done.</sentence>
+			<sentence id="15.34">Loaded symbols for /lib/libnss_compat.so.2</sentence>
+			<sentence id="15.35">Reading symbols from /lib/libnss_nis.so.2...done.</sentence>
+			<sentence id="15.36">Loaded symbols for /lib/libnss_nis.so.2</sentence>
+			<sentence id="15.37">Reading symbols from /lib/libnss_files.so.2...done.</sentence>
+			<sentence id="15.38">Loaded symbols for /lib/libnss_files.so.2</sentence>
+			<sentence id="15.39">Reading symbols from /usr/local/apache-2.0.55/modules/mod_access.so...done.</sentence>
+			<sentence id="15.40">Loaded symbols for /usr/local/apache/modules/mod_access.so</sentence>
+			<sentence id="15.41">Reading symbols from /usr/local/apache-2.0.55/modules/mod_auth.so...done.</sentence>
+			<sentence id="15.42">Loaded symbols for /usr/local/apache/modules/mod_auth.so</sentence>
+			<sentence id="15.43">Reading symbols from /usr/local/apache-2.0.55/modules/mod_auth_dbm.so...done.</sentence>
+			<sentence id="15.44">Loaded symbols for /usr/local/apache/modules/mod_auth_dbm.so</sentence>
+			<sentence id="15.45">Reading symbols from /usr/local/apache-2.0.55/modules/mod_auth_digest.so...done.</sentence>
+			<sentence id="15.46">Loaded symbols for /usr/local/apache/modules/mod_auth_digest.so</sentence>
+			<sentence id="15.47">Reading symbols from /usr/local/apache-2.0.55/modules/mod_file_cache.so...done.</sentence>
+			<sentence id="15.48">Loaded symbols for /usr/local/apache/modules/mod_file_cache.so</sentence>
+			<sentence id="15.49">Reading symbols from /usr/local/apache-2.0.55/modules/mod_cache.so...done.</sentence>
+			<sentence id="15.50">Loaded symbols for /usr/local/apache/modules/mod_cache.so</sentence>
+			<sentence id="15.51">Reading symbols from /usr/local/apache-2.0.55/modules/mod_disk_cache.so...done.</sentence>
+			<sentence id="15.52">Loaded symbols for /usr/local/apache/modules/mod_disk_cache.so</sentence>
+			<sentence id="15.53">Reading symbols from /usr/local/apache-2.0.55/modules/mod_mem_cache.so...done.</sentence>
+			<sentence id="15.54">Loaded symbols for /usr/local/apache/modules/mod_mem_cache.so</sentence>
+			<sentence id="15.55">Reading symbols from /usr/local/apache-2.0.55/modules/mod_include.so...done.</sentence>
+			<sentence id="15.56">Loaded symbols for /usr/local/apache/modules/mod_include.so</sentence>
+			<sentence id="15.57">Reading symbols from /usr/local/apache-2.0.55/modules/mod_log_config.so...done.</sentence>
+			<sentence id="15.58">Loaded symbols for /usr/local/apache/modules/mod_log_config.so</sentence>
+			<sentence id="15.59">Reading symbols from /usr/local/apache-2.0.55/modules/mod_env.so...done.</sentence>
+			<sentence id="15.60">Loaded symbols for /usr/local/apache/modules/mod_env.so</sentence>
+			<sentence id="15.61">Reading symbols from /usr/local/apache-2.0.55/modules/mod_mime_magic.so...done.</sentence>
+			<sentence id="15.62">Loaded symbols for /usr/local/apache/modules/mod_mime_magic.so</sentence>
+			<sentence id="15.63">Reading symbols from /usr/local/apache-2.0.55/modules/mod_cern_meta.so...done.</sentence>
+			<sentence id="15.64">Loaded symbols for /usr/local/apache/modules/mod_cern_meta.so</sentence>
+			<sentence id="15.65">Reading symbols from /usr/local/apache-2.0.55/modules/mod_expires.so...done.</sentence>
+			<sentence id="15.66">Loaded symbols for /usr/local/apache/modules/mod_expires.so</sentence>
+			<sentence id="15.67">Reading symbols from /usr/local/apache-2.0.55/modules/mod_headers.so...done.</sentence>
+			<sentence id="15.68">Loaded symbols for /usr/local/apache/modules/mod_headers.so</sentence>
+			<sentence id="15.69">Reading symbols from /usr/local/apache-2.0.55/modules/mod_usertrack.so...done.</sentence>
+			<sentence id="15.70">Loaded symbols for /usr/local/apache/modules/mod_usertrack.so</sentence>
+			<sentence id="15.71">Reading symbols from /usr/local/apache-2.0.55/modules/mod_setenvif.so...done.</sentence>
+			<sentence id="15.72">Loaded symbols for /usr/local/apache/modules/mod_setenvif.so</sentence>
+			<sentence id="15.73">Reading symbols from /usr/local/apache-2.0.55/modules/mod_proxy.so...done.</sentence>
+			<sentence id="15.74">Loaded symbols for /usr/local/apache/modules/mod_proxy.so</sentence>
+			<sentence id="15.75">Reading symbols from /usr/local/apache-2.0.55/modules/mod_proxy_connect.so...done.</sentence>
+			<sentence id="15.76">Loaded symbols for /usr/local/apache/modules/mod_proxy_connect.so</sentence>
+			<sentence id="15.77">Reading symbols from /usr/local/apache-2.0.55/modules/mod_proxy_ftp.so...done.</sentence>
+			<sentence id="15.78">Loaded symbols for /usr/local/apache/modules/mod_proxy_ftp.so</sentence>
+			<sentence id="15.79">Reading symbols from /usr/local/apache-2.0.55/modules/mod_proxy_http.so...done.</sentence>
+			<sentence id="15.80">Loaded symbols for /usr/local/apache/modules/mod_proxy_http.so</sentence>
+			<sentence id="15.81">Reading symbols from /usr/local/apache-2.0.55/modules/mod_ssl.so...done.</sentence>
+			<sentence id="15.82">Loaded symbols for /usr/local/apache/modules/mod_ssl.so</sentence>
+			<sentence id="15.83">Reading symbols from /usr/local/apache-2.0.55/modules/mod_mime.so...done.</sentence>
+			<sentence id="15.84">Loaded symbols for /usr/local/apache/modules/mod_mime.so</sentence>
+			<sentence id="15.85">Reading symbols from /usr/local/apache-2.0.55/modules/mod_dav.so...done.</sentence>
+			<sentence id="15.86">Loaded symbols for /usr/local/apache/modules/mod_dav.so</sentence>
+			<sentence id="15.87">Reading symbols from /usr/local/apache-2.0.55/modules/mod_status.so...done.</sentence>
+			<sentence id="15.88">Loaded symbols for /usr/local/apache/modules/mod_status.so</sentence>
+			<sentence id="15.89">Reading symbols from /usr/local/apache-2.0.55/modules/mod_autoindex.so...done.</sentence>
+			<sentence id="15.90">Loaded symbols for /usr/local/apache/modules/mod_autoindex.so</sentence>
+			<sentence id="15.91">Reading symbols from /usr/local/apache-2.0.55/modules/mod_info.so...done.</sentence>
+			<sentence id="15.92">Loaded symbols for /usr/local/apache/modules/mod_info.so</sentence>
+			<sentence id="15.93">Reading symbols from /usr/local/apache-2.0.55/modules/mod_suexec.so...done.</sentence>
+			<sentence id="15.94">Loaded symbols for /usr/local/apache/modules/mod_suexec.so</sentence>
+			<sentence id="15.95">Reading symbols from /usr/local/apache-2.0.55/modules/mod_cgi.so...done.</sentence>
+			<sentence id="15.96">Loaded symbols for /usr/local/apache/modules/mod_cgi.so</sentence>
+			<sentence id="15.97">Reading symbols from /usr/local/apache-2.0.55/modules/mod_cgid.so...done.</sentence>
+			<sentence id="15.98">Loaded symbols for /usr/local/apache/modules/mod_cgid.so</sentence>
+			<sentence id="15.99">Reading symbols from /usr/local/apache-2.0.55/modules/mod_dav_fs.so...done.</sentence>
+			<sentence id="15.100">Loaded symbols for /usr/local/apache/modules/mod_dav_fs.so</sentence>
+			<sentence id="15.101">Reading symbols from /usr/local/apache-2.0.55/modules/mod_vhost_alias.so...done.</sentence>
+			<sentence id="15.102">Loaded symbols for /usr/local/apache/modules/mod_vhost_alias.so</sentence>
+			<sentence id="15.103">Reading symbols from /usr/local/apache-2.0.55/modules/mod_negotiation.so...done.</sentence>
+			<sentence id="15.104">Loaded symbols for /usr/local/apache/modules/mod_negotiation.so</sentence>
+			<sentence id="15.105">Reading symbols from /usr/local/apache-2.0.55/modules/mod_dir.so...done.</sentence>
+			<sentence id="15.106">Loaded symbols for /usr/local/apache/modules/mod_dir.so</sentence>
+			<sentence id="15.107">Reading symbols from /usr/local/apache-2.0.55/modules/mod_imap.so...done.</sentence>
+			<sentence id="15.108">Loaded symbols for /usr/local/apache/modules/mod_imap.so</sentence>
+			<sentence id="15.109">Reading symbols from /usr/local/apache-2.0.55/modules/mod_actions.so...done.</sentence>
+			<sentence id="15.110">Loaded symbols for /usr/local/apache/modules/mod_actions.so</sentence>
+			<sentence id="15.111">Reading symbols from /usr/local/apache-2.0.55/modules/mod_speling.so...done.</sentence>
+			<sentence id="15.112">Loaded symbols for /usr/local/apache/modules/mod_speling.so</sentence>
+			<sentence id="15.113">Reading symbols from /usr/local/apache-2.0.55/modules/mod_alias.so...done.</sentence>
+			<sentence id="15.114">Loaded symbols for /usr/local/apache/modules/mod_alias.so</sentence>
+			<sentence id="15.115">Reading symbols from /usr/local/apache-2.0.55/modules/mod_rewrite.so...done.</sentence>
+			<sentence id="15.116">Loaded symbols for /usr/local/apache/modules/mod_rewrite.so</sentence>
+			<sentence id="15.117">Reading symbols from /usr/local/apache-2.0.55/modules/mod_deflate.so...done.</sentence>
+			<sentence id="15.118">Loaded symbols for /usr/local/apache/modules/mod_deflate.so</sentence>
+			<sentence id="15.119">Reading symbols from /usr/local/apache-2.0.55/modules/libphp4.so...done.</sentence>
+			<sentence id="15.120">Loaded symbols for /usr/local/apache/modules/libphp4.so</sentence>
+			<sentence id="15.121">Reading symbols from /usr/lib/libc-client.so.2001...done.</sentence>
+			<sentence id="15.122">Loaded symbols for /usr/lib/libc-client.so.2001</sentence>
+			<sentence id="15.123">Reading symbols from /usr/local/lib/libzzip-0.so.10...done.</sentence>
+			<sentence id="15.124">Loaded symbols for /usr/local/lib/libzzip-0.so.10</sentence>
+			<sentence id="15.125">Reading symbols from /usr/local/lib/libsablot.so.0...done.</sentence>
+			<sentence id="15.126">Loaded symbols for /usr/local/lib/libsablot.so.0</sentence>
+			<sentence id="15.127">Reading symbols from /usr/local/pgsql-8.1.0/lib/libpq.so.4...done.</sentence>
+			<sentence id="15.128">Loaded symbols for /usr/local/pgsql/lib/libpq.so.4</sentence>
+			<sentence id="15.129">Reading symbols from /usr/local/mysql-4.1.16/lib/mysql/libmysqlclient.so.14...done.</sentence>
+			<sentence id="15.130">Loaded symbols for /usr/local/mysql-4.1.16/lib/mysql/libmysqlclient.so.14</sentence>
+			<sentence id="15.131">Reading symbols from /usr/local/lib/libmhash.so.2...done.</sentence>
+			<sentence id="15.132">Loaded symbols for /usr/local/lib/libmhash.so.2</sentence>
+			<sentence id="15.133">Reading symbols from /usr/local/lib/libmcrypt.so.4...done.</sentence>
+			<sentence id="15.134">Loaded symbols for /usr/local/lib/libmcrypt.so.4</sentence>
+			<sentence id="15.135">Reading symbols from /usr/local/lib/libltdl.so.3...done.</sentence>
+			<sentence id="15.136">Loaded symbols for /usr/local/lib/libltdl.so.3</sentence>
+			<sentence id="15.137">Reading symbols from /usr/local/lib/libssl.so.0.9.7...done.</sentence>
+			<sentence id="15.138">Loaded symbols for /usr/local/lib/libssl.so.0.9.7</sentence>
+			<sentence id="15.139">Reading symbols from /usr/local/lib/libcrypto.so.0.9.7...done.</sentence>
+			<sentence id="15.140">Loaded symbols for /usr/local/lib/libcrypto.so.0.9.7</sentence>
+			<sentence id="15.141">Reading symbols from /lib/libpam.so.0...done.</sentence>
+			<sentence id="15.142">Loaded symbols for /lib/libpam.so.0</sentence>
+			<sentence id="15.143">Reading symbols from /usr/lib/libt1.so.1...done.</sentence>
+			<sentence id="15.144">Loaded symbols for /usr/lib/libt1.so.1</sentence>
+			<sentence id="15.145">Reading symbols from /usr/lib/libttf.so.2...done.</sentence>
+			<sentence id="15.146">Loaded symbols for /usr/lib/libttf.so.2</sentence>
+			<sentence id="15.147">Reading symbols from /usr/X11R6/lib/libX11.so.6...done.</sentence>
+			<sentence id="15.148">Loaded symbols for /usr/X11R6/lib/libX11.so.6</sentence>
+			<sentence id="15.149">Reading symbols from /usr/X11R6/lib/libXpm.so.4...done.</sentence>
+			<sentence id="15.150">Loaded symbols for /usr/X11R6/lib/libXpm.so.4</sentence>
+			<sentence id="15.151">Reading symbols from /usr/lib/libpng12.so.0...done.</sentence>
+			<sentence id="15.152">Loaded symbols for /usr/lib/libpng12.so.0</sentence>
+			<sentence id="15.153">Reading symbols from /usr/lib/libjpeg.so.62...done.</sentence>
+			<sentence id="15.154">Loaded symbols for /usr/lib/libjpeg.so.62</sentence>
+			<sentence id="15.155">Reading symbols from /usr/local/lib/libexslt.so.0...done.</sentence>
+			<sentence id="15.156">Loaded symbols for /usr/local/lib/libexslt.so.0</sentence>
+			<sentence id="15.157">Reading symbols from /usr/local/lib/libxslt.so.1...done.</sentence>
+			<sentence id="15.158">Loaded symbols for /usr/local/lib/libxslt.so.1</sentence>
+			<sentence id="15.159">Reading symbols from /usr/lib/libbz2.so.1.0...done.</sentence>
+			<sentence id="15.160">Loaded symbols for /usr/lib/libbz2.so.1.0</sentence>
+			<sentence id="15.161">Reading symbols from /lib/libresolv.so.2...done.</sentence>
+			<sentence id="15.162">Loaded symbols for /lib/libresolv.so.2</sentence>
+			<sentence id="15.163">Reading symbols from /usr/local/lib/libcurl.so.3...done.</sentence>
+			<sentence id="15.164">Loaded symbols for /usr/local/lib/libcurl.so.3</sentence>
+			<sentence id="15.165">Reading symbols from /usr/local/lib/libxml2.so.2...done.</sentence>
+			<sentence id="15.166">Loaded symbols for /usr/local/lib/libxml2.so.2</sentence>
+			<sentence id="15.167">Reading symbols from /usr/lib/libfreetype.so.6...done.</sentence>
+			<sentence id="15.168">Loaded symbols for /usr/lib/libfreetype.so.6</sentence>
+			<sentence id="15.169">Reading symbols from /usr/local/Zend/lib/ZendExtensionManager.so...done.</sentence>
+			<sentence id="15.170">Loaded symbols for /usr/local/Zend/lib/ZendExtensionManager.so</sentence>
+			<sentence id="15.171">Reading symbols from</sentence>
+			<sentence id="15.172">/usr/local/lib/php/extensions/no-debug-non-zts-20020429/fileinfo.so...done.</sentence>
+			<sentence id="15.173">Loaded symbols for</sentence>
+			<sentence id="15.174">/usr/local/lib/php/extensions/no-debug-non-zts-20020429/fileinfo.so</sentence>
+			<sentence id="15.175">Reading symbols from /usr/lib/libmagic.so.1...done.</sentence>
+			<sentence id="15.176">Loaded symbols for /usr/lib/libmagic.so.1</sentence>
+			<sentence id="15.177">Reading symbols from</sentence>
+			<sentence id="15.178">/usr/local/lib/php/extensions/no-debug-non-zts-20020429/java.so...done.</sentence>
+			<sentence id="15.179">Loaded symbols for /usr/local/lib/php/extensions/no-debug-non-zts-20020429/java.so</sentence>
+			<sentence id="15.180">Reading symbols from</sentence>
+			<sentence id="15.181">/usr/local/Zend/lib/Optimizer-2.5.7/php-4.3.x/ZendOptimizer.so...done.</sentence>
+			<sentence id="15.182">Loaded symbols for /usr/local/Zend/lib/Optimizer-2.5.7/php-4.3.x/ZendOptimizer.so</sentence>
+			<sentence id="15.183">#0  0x407c2ca3 in zend_hash_find (ht=0x409a8ed4, arKey=0x893bcb4</sentence>
+			<sentence id="15.184">"/usr/local/sites/www.coachingrelationships.com/web/devt/includes/menu-utility.html",</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">nKeyLength=83, pData=0xbfffe108) at
+/usr/local/source/web/php/php-4.3.11/Zend/zend_hash.c:895
+895                     if ((p-&gt;h == h) &amp;&amp; (p-&gt;nKeyLength == nKeyLength)) {
+(gdb) thread apply all bt full</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">Thread 1 (process 14516):
+#0  0x407c2ca3 in zend_hash_find (ht=0x409a8ed4, arKey=0x893bcb4
+"/usr/local/sites/www.coachingrelationships.com/web/devt/includes/menu-utility.html",</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">nKeyLength=83, pData=0xbfffe108) at</sentence>
+			<sentence id="18.2">/usr/local/source/web/php/php-4.3.11/Zend/zend_hash.c:895</sentence>
+			<sentence id="18.3">end = 0x3d6b9712 &lt;Address 0x3d6b9712 out of bounds&gt;</sentence>
+			<sentence id="18.4">idx = 143898492</sentence>
+			<sentence id="18.5">tmp = 0x2 &lt;Address 0x2 out of bounds&gt;</sentence>
+			<sentence id="18.6">nIndex = 2</sentence>
+			<sentence id="18.7">p = (Bucket *) 0x616f632e</sentence>
+			<sentence id="18.8">#1  0x407b0eca in zend_set_compiled_filename (</sentence>
+			<sentence id="18.9">new_compiled_filename=0x893bcb4</sentence>
+			<sentence id="18.10">"/usr/local/sites/www.coachingrelationships.com/web/devt/includes/menu-utility.html")</sentence>
+			<sentence id="18.11">at /usr/local/source/web/php/php-4.3.11/Zend/zend_compile.c:133</sentence>
+			<sentence id="18.12">pp = (char **) 0x0</sentence>
+			<sentence id="18.13">p = 0x0</sentence>
+			<sentence id="18.14">#2  0x412052f0 in ??</sentence>
+			<sentence id="18.15">() from</sentence>
+			<sentence id="18.16">/usr/local/Zend/lib/Optimizer-2.5.7/php-4.3.</sentence>
+			<sentence id="18.17">x/ZendOptimizer.</sentence>
+			<sentence id="18.18">so</sentence>
+			<sentence id="18.19">No symbol table info available.</sentence>
+			<sentence id="18.20">#3  0x0893bcb4 in ??</sentence>
+			<sentence id="18.21">()</sentence>
+			<sentence id="18.22">No symbol table info available.</sentence>
+			<sentence id="18.23">#4  0x00000000 in ??</sentence>
+			<sentence id="18.24">()</sentence>
+			<sentence id="18.25">No symbol table info available.</sentence>
+			<sentence id="18.26">#5  0x00000001 in ??</sentence>
+			<sentence id="18.27">()</sentence>
+			<sentence id="18.28">No symbol table info available.</sentence>
+			<sentence id="18.29">#6  0x412051c5 in ??</sentence>
+			<sentence id="18.30">() from</sentence>
+			<sentence id="18.31">/usr/local/Zend/lib/Optimizer-2.5.7/php-4.3.</sentence>
+			<sentence id="18.32">x/ZendOptimizer.</sentence>
+			<sentence id="18.33">so</sentence>
+			<sentence id="18.34">No symbol table info available.</sentence>
+			<sentence id="18.35">#7  0xbfffe3a0 in ??</sentence>
+			<sentence id="18.36">()</sentence>
+			<sentence id="18.37">No symbol table info available.</sentence>
+			<sentence id="18.38">#8  0x00000000 in ??</sentence>
+			<sentence id="18.39">()</sentence>
+			<sentence id="18.40">No symbol table info available.</sentence>
+			<sentence id="18.41">#9  0xbfffe2e0 in ??</sentence>
+			<sentence id="18.42">()</sentence>
+			<sentence id="18.43">No symbol table info available.</sentence>
+			<sentence id="18.44">#10 0xbfffe300 in ??</sentence>
+			<sentence id="18.45">()</sentence>
+			<sentence id="18.46">No symbol table info available.</sentence>
+			<sentence id="18.47">#11 0x00000000 in ??</sentence>
+			<sentence id="18.48">()</sentence>
+			<sentence id="18.49">No symbol table info available.</sentence>
+			<sentence id="18.50">#12 0xbfffe0c8 in ??</sentence>
+			<sentence id="18.51">()</sentence>
+			<sentence id="18.52">No symbol table info available.</sentence>
+			<sentence id="18.53">#13 0xbfffe260 in ??</sentence>
+			<sentence id="18.54">()</sentence>
+			<sentence id="18.55">No symbol table info available.</sentence>
+			<sentence id="18.56">#14 0xbfffe260 in ??</sentence>
+			<sentence id="18.57">()</sentence>
+			<sentence id="18.58">No symbol table info available.</sentence>
+			<sentence id="18.59">#15 0x00000000 in ??</sentence>
+			<sentence id="18.60">()</sentence>
+			<sentence id="18.61">No symbol table info available.</sentence>
+			<sentence id="18.62">#16 0x08121b58 in ??</sentence>
+			<sentence id="18.63">()</sentence>
+			<sentence id="18.64">No symbol table info available.</sentence>
+			<sentence id="18.65">---Type &lt;return&gt; to continue, or q &lt;return&gt; to quit---</sentence>
+			<sentence id="18.66">#17 0x08944348 in ??</sentence>
+			<sentence id="18.67">()</sentence>
+			<sentence id="18.68">No symbol table info available.</sentence>
+			<sentence id="18.69">#18 0x0897b2e8 in ??</sentence>
+			<sentence id="18.70">()</sentence>
+			<sentence id="18.71">No symbol table info available.</sentence>
+			<sentence id="18.72">#19 0x00000000 in ??</sentence>
+			<sentence id="18.73">()</sentence>
+			<sentence id="18.74">No symbol table info available.</sentence>
+			<sentence id="18.75">#20 0x00000000 in ??</sentence>
+			<sentence id="18.76">()</sentence>
+			<sentence id="18.77">No symbol table info available.</sentence>
+			<sentence id="18.78">#21 0x000008d0 in ??</sentence>
+			<sentence id="18.79">()</sentence>
+			<sentence id="18.80">No symbol table info available.</sentence>
+			<sentence id="18.81">#22 0x00000000 in ??</sentence>
+			<sentence id="18.82">()</sentence>
+			<sentence id="18.83">No symbol table info available.</sentence>
+			<sentence id="18.84">#23 0x00000000 in ??</sentence>
+			<sentence id="18.85">()</sentence>
+			<sentence id="18.86">No symbol table info available.</sentence>
+			<sentence id="18.87">#24 0x004ab348 in ??</sentence>
+			<sentence id="18.88">()</sentence>
+			<sentence id="18.89">No symbol table info available.</sentence>
+			<sentence id="18.90">#25 0x00000000 in ??</sentence>
+			<sentence id="18.91">()</sentence>
+			<sentence id="18.92">No symbol table info available.</sentence>
+			<sentence id="18.93">#26 0x00000001 in ??</sentence>
+			<sentence id="18.94">()</sentence>
+			<sentence id="18.95">No symbol table info available.</sentence>
+			<sentence id="18.96">#27 0x40330f7e in __pthread_alt_unlock () from /lib/libpthread.</sentence>
+			<sentence id="18.97">so.0</sentence>
+			<sentence id="18.98">No symbol table info available.</sentence>
+			<sentence id="18.99">#28 0x407be18d in zend_execute_scripts (type=2, retval=0x0, file_count=1) at</sentence>
+			<sentence id="18.100">/usr/local/source/web/php/php-4.3.11/Zend/zend.</sentence>
+			<sentence id="18.101">c:922</sentence>
+			<sentence id="18.102">files = 0x0</sentence>
+			<sentence id="18.103">i = 0</sentence>
+			<sentence id="18.104">file_handle = (zend_file_handle *) 0x0</sentence>
+			<sentence id="18.105">orig_op_array = (zend_op_array *) 0x0</sentence>
+			<sentence id="18.106">local_retval = (zval *) 0x0</sentence>
+			<sentence id="18.107">#29 0x407d0b50 in php_handler (r=0x897b310) at</sentence>
+			<sentence id="18.108">/usr/local/source/web/php/php-4.3.11/sapi/apache2handler/sapi_apache2.c:562</sentence>
+			<sentence id="18.109">zfd = {type = 2 '\002', filename = 0x893bcb4</sentence>
+			<sentence id="18.110">"/usr/local/sites/www.coachingrelationships.com/web/devt/includes/menu-utility.html",</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">opened_path = 0x893bcb4</sentence>
+			<sentence id="19.2">"/usr/local/sites/www.coachingrelationships.com/web/devt/includes/menu-utility.html",</sentence>
+			<sentence id="19.3">handle = {fd = 143900392, fp = 0x893bee8},</sentence>
+			<sentence id="19.4">free_filename = 0 '\0'}</sentence>
+			<sentence id="19.5">orig_bailout = {{__jmpbuf = {0, 0, 0, 0, 0, 0}, __mask_was_saved = 0,</sentence>
+			<sentence id="19.6">__saved_mask = {__val = {0 &lt;repeats 32 times&gt;}}}}</sentence>
+			<sentence id="19.7">ctx = (php_struct *) 0x89774d8</sentence>
+			<sentence id="19.8">conf = (void *) 0x893b77c</sentence>
+			<sentence id="19.9">brigade = (apr_bucket_brigade *) 0x8977550</sentence>
+			<sentence id="19.10">bucket = (apr_bucket *) 0x893b77c</sentence>
+			<sentence id="19.11">rv = 143898492</sentence>
+			<sentence id="19.12">parent_req = (request_rec *) 0x8974a50</sentence>
+			<sentence id="19.13">#30 0x0806acc8 in ap_run_handler ()</sentence>
+			<sentence id="19.14">No symbol table info available.</sentence>
+			<sentence id="19.15">#31 0x0806b166 in ap_invoke_handler ()</sentence>
+			<sentence id="19.16">No symbol table info available.</sentence>
+			<sentence id="19.17">#32 0x0808748d in ap_run_sub_req ()</sentence>
+			<sentence id="19.18">---Type &lt;return&gt; to continue, or q &lt;return&gt; to quit---</sentence>
+			<sentence id="19.19">No symbol table info available.</sentence>
+			<sentence id="19.20">#33 0x404cf094 in handle_include () from /usr/local/apache/modules/mod_include.so</sentence>
+			<sentence id="19.21">No symbol table info available.</sentence>
+			<sentence id="19.22">#34 0x404d1977 in send_parsed_content () from</sentence>
+			<sentence id="19.23">/usr/local/apache/modules/mod_include.so</sentence>
+			<sentence id="19.24">No symbol table info available.</sentence>
+			<sentence id="19.25">#35 0x08078cc4 in ap_pass_brigade ()</sentence>
+			<sentence id="19.26">No symbol table info available.</sentence>
+			<sentence id="19.27">#36 0x08082899 in default_handler ()</sentence>
+			<sentence id="19.28">No symbol table info available.</sentence>
+			<sentence id="19.29">#37 0x0806acc8 in ap_run_handler ()</sentence>
+			<sentence id="19.30">No symbol table info available.</sentence>
+			<sentence id="19.31">#38 0x0806b166 in ap_invoke_handler ()</sentence>
+			<sentence id="19.32">No symbol table info available.</sentence>
+			<sentence id="19.33">#39 0x080673ab in ap_process_request ()</sentence>
+			<sentence id="19.34">No symbol table info available.</sentence>
+			<sentence id="19.35">#40 0x0806133d in ap_process_http_connection ()</sentence>
+			<sentence id="19.36">No symbol table info available.</sentence>
+			<sentence id="19.37">#41 0x08076158 in ap_run_process_connection ()</sentence>
+			<sentence id="19.38">No symbol table info available.</sentence>
+			<sentence id="19.39">#42 0x08076648 in ap_process_connection ()</sentence>
+			<sentence id="19.40">No symbol table info available.</sentence>
+			<sentence id="19.41">#43 0x08069fab in child_main ()</sentence>
+			<sentence id="19.42">No symbol table info available.</sentence>
+			<sentence id="19.43">#44 0x08068fc9 in make_child ()</sentence>
+			<sentence id="19.44">No symbol table info available.</sentence>
+			<sentence id="19.45">#45 0x0806929f in perform_idle_server_maintenance ()</sentence>
+			<sentence id="19.46">No symbol table info available.</sentence>
+			<sentence id="19.47">#46 0x08068a6e in ap_mpm_run ()</sentence>
+			<sentence id="19.48">No symbol table info available.</sentence>
+			<sentence id="19.49">#47 0x08070910 in main ()</sentence>
+			<sentence id="19.50">No symbol table info available.</sentence>
+			<sentence id="19.51">(gdb)</sentence>
+		</paragraph>
+	</description>
+</bug>

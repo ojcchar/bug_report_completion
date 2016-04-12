@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>5603</id>
+	<title>TVT: Jar file export error message constructed incorrectly for NL (JarFileExportOperation.exportedWithCompile)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The message displayed when errors were found while exporting a class that 
+doesn't compile to a JAR file are incorrect.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The spanish text:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Exportado con compilación errores: ...</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">corresponds to the following properties file:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">eclipse\plugins\org.eclipse.jdt.ui\jdt_jar\org\eclipse\jdt\internal\ui\jarpackag
+er\JarPackagerMessages.properties</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">JarFileExportOperation.exportedWithCompile=Exportado con compilaci¢n
+JarFileExportOperation.notExportedDueToCompile=No exportado debido a la 
+compilaci¢n
+JarFileExportOperation.errors=\ errores: {0}
+JarFileExportOperation.warnings=\ avisos: {0}</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The english file is as following:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">JarFileExportOperation.exportedWithCompile=Exported with compile
+JarFileExportOperation.notExportedDueToCompile=Not exported due to compile
+JarFileExportOperation.errors=\ errors: {0}
+JarFileExportOperation.warnings=\ warnings: {0}</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">These 4 strings combine to form the following sentences:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Exported wth compile errors: {0}
+Exported with compile warnings: {0}
+Not exported due to compile errors: {0}
+Not exporte due to compile warnings: {0}</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">This string structure makes it impossible to obtain a good translation in 
+spanish because the translation of the word compile must be placed at the very 
+end of the sentence.</sentence>
+			<sentence id="11.2">I can make a workaround to this problem, but the strings 
+should be rewritten, either as the actual 4 sentences that appear or as only 
+two sentences replacing errors and warnings with a variable, i.e.:</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Exported with compile {1}: {0}
+Not exported due to compile {1}: {0}</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">In general, it is poor NL enablement practice to "construct" sentences.</sentence>
+			<sentence id="13.2">If you 
+must use such techniques, allow for substitution as described above.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,193 @@
+I/PRP am/VBP running/VBG specweb99/NN static/JJ content/NN workload/NN with/IN httpd/NN 2.2.6/CD on/IN Solaris/NNP nevada/NN (/-LRB- snv_79/NN )/-RRB- ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP am) (VP (VBG running) (NP (NP (NN specweb99) (JJ static) (NN content)) (NN workload) (PP (IN with) (NP (NN httpd) (CD 2.2.6))) (PP (IN on) (NP (NP (NNP Solaris) (NN nevada)) (PRN (-LRB- -LRB-) (NP (NN snv_79)) (-RRB- -RRB-))))))) (. .)))
+
+root(ROOT-0, running-3)
+nsubj(running-3, I-1)
+aux(running-3, am-2)
+nn(content-6, specweb99-4)
+amod(content-6, static-5)
+nn(workload-7, content-6)
+dobj(running-3, workload-7)
+prep_with(workload-7, httpd-9)
+num(httpd-9, 2.2.6-10)
+nn(nevada-13, Solaris-12)
+prep_on(workload-7, nevada-13)
+appos(nevada-13, snv_79-15)
+
+I/PRP am/VBP seeing/VBG several/JJ crashes/NNS ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP am) (VP (VBG seeing) (NP (JJ several) (NNS crashes)))) (. .)))
+
+root(ROOT-0, seeing-3)
+nsubj(seeing-3, I-1)
+aux(seeing-3, am-2)
+amod(crashes-5, several-4)
+dobj(seeing-3, crashes-5)
+
+Typically/RB crash/NN do/VBP reproduce/VB in/IN 10/CD minutes/NNS ./. 
+
+(ROOT (S (ADVP (RB Typically)) (NP (NN crash)) (VP (VBP do) (VP (VB reproduce) (PP (IN in) (NP (CD 10) (NNS minutes))))) (. .)))
+
+root(ROOT-0, reproduce-4)
+advmod(reproduce-4, Typically-1)
+nsubj(reproduce-4, crash-2)
+aux(reproduce-4, do-3)
+num(minutes-7, 10-6)
+prep_in(reproduce-4, minutes-7)
+
+Here/RB are/VBP the/DT details/NNS :/: Apache/NNP version/NN :/: httpd-2/NN .2.6/CD Simultaneous/JJ connection/NN :/: 1000/CD Hardware/NNP :/: X4100/NNP Server/NN (/-LRB- 4/CD core/NN 2.8/CD GHz/NN )/-RRB- CPU/NNP :/: Only/RB single/JJ core/NN is/VBZ enabled/VBN Architecture/NNP :/: x86_64/NN 
+
+(ROOT (SINV (ADVP (RB Here)) (VP (VBP are)) (NP (NP (NP (NP (DT the) (NNS details)) (: :) (NP (NNP Apache) (NN version))) (: :) (NP (NP (NN httpd-2)) (NP (CD .2.6) (JJ Simultaneous) (NN connection))) (: :) (NP (NP (CD 1000)) (NP (NNP Hardware))) (: :) (NP (NP (NNP X4100) (NN Server)) (PRN (-LRB- -LRB-) (NP (NP (CD 4) (NN core)) (NP (CD 2.8) (NN GHz))) (-RRB- -RRB-)) (NP (NNP CPU)))) (: :) (NP (NP (RB Only) (JJ single) (NN core)) (SBAR (S (VP (VBZ is) (VP (VBN enabled) (NP (NP (NNP Architecture)) (: :) (NP (NN x86_64)))))))))))
+
+root(ROOT-0, are-2)
+advmod(are-2, Here-1)
+det(details-4, the-3)
+nsubj(are-2, details-4)
+nn(version-7, Apache-6)
+dep(details-4, version-7)
+dep(details-4, httpd-2-9)
+num(connection-12, .2.6-10)
+amod(connection-12, Simultaneous-11)
+dep(httpd-2-9, connection-12)
+dep(details-4, 1000-14)
+appos(1000-14, Hardware-15)
+nn(Server-18, X4100-17)
+dep(details-4, Server-18)
+num(core-21, 4-20)
+dep(Server-18, core-21)
+num(GHz-23, 2.8-22)
+dep(core-21, GHz-23)
+dep(Server-18, CPU-25)
+advmod(core-29, Only-27)
+amod(core-29, single-28)
+dep(details-4, core-29)
+auxpass(enabled-31, is-30)
+rcmod(core-29, enabled-31)
+dobj(enabled-31, Architecture-32)
+dep(Architecture-32, x86_64-34)
+
+httpd.conf/NN contains/VBZ :/: </JJR IfModule/NNP worker.c/NN >/JJR ListenBackLog/NNP 50000/CD StartServers/NNP 2/CD ThreadLimit/NNP 500/CD ThreadsPerChild/NNP 500/CD MinSpareThreads/NNPS 100/CD MaxSpareThreads/NNS 100/CD ThreadsPerChild/NNP 500/CD MaxClients/NNP 1000/CD MaxRequestsPerChild/NNP 0/CD </JJR //: IfModule/NN >/JJR 
+
+(ROOT (S (NP (NN httpd.conf)) (VP (VP (VBZ contains)) (: :) (NP (NP (NP (NP (JJR <) (NNP IfModule) (NN worker.c)) (JJR >)) (NP (NNP ListenBackLog) (CD 50000))) (X (NP (NP (NNP StartServers)) (NP (NP (CD 2) (NNP ThreadLimit) (CD 500) (NNP ThreadsPerChild)) (NP (CD 500) (NNPS MinSpareThreads)))) (NP (CD 100) (NNS MaxSpareThreads)) (NP (NP (CD 100) (NNP ThreadsPerChild) (CD 500) (NNP MaxClients)) (NP (NP (CD 1000) (NNP MaxRequestsPerChild) (CD 0)) (ADJP (ADJP (JJR <)) (PRN (: /) (S (NP (NN IfModule)) (ADJP (JJR >))))))))))))
+
+root(ROOT-0, contains-2)
+nsubj(contains-2, httpd.conf-1)
+amod(worker.c-6, <-4)
+nn(worker.c-6, IfModule-5)
+dep(>-7, worker.c-6)
+dobj(contains-2, >-7)
+dep(>-7, ListenBackLog-8)
+num(ListenBackLog-8, 50000-9)
+dep(MaxClients-22, StartServers-10)
+num(ThreadsPerChild-14, 2-11)
+nn(ThreadsPerChild-14, ThreadLimit-12)
+num(ThreadsPerChild-14, 500-13)
+dep(StartServers-10, ThreadsPerChild-14)
+num(MinSpareThreads-16, 500-15)
+dep(ThreadsPerChild-14, MinSpareThreads-16)
+num(MaxSpareThreads-18, 100-17)
+dep(MaxClients-22, MaxSpareThreads-18)
+num(MaxClients-22, 100-19)
+nn(MaxClients-22, ThreadsPerChild-20)
+num(MaxClients-22, 500-21)
+dep(>-7, MaxClients-22)
+num(MaxRequestsPerChild-24, 1000-23)
+dep(MaxClients-22, MaxRequestsPerChild-24)
+num(MaxRequestsPerChild-24, 0-25)
+amod(MaxRequestsPerChild-24, <-26)
+punct(>-29, /-27)
+dep(>-29, IfModule-28)
+dep(<-26, >-29)
+
+Listen/VB 192.168.21.1:80/CD Listen/VBP 192.168.22.1:80/CD 
+
+(ROOT (S (VP (VB Listen) (SBAR (S (NP (CD 192.168.21.1:80)) (VP (VBP Listen) (NP (CD 192.168.22.1:80))))))))
+
+root(ROOT-0, Listen-1)
+nsubj(Listen-3, 192.168.21.1:80-2)
+ccomp(Listen-1, Listen-3)
+dobj(Listen-3, 192.168.22.1:80-4)
+
+Here/RB is/VBZ the/DT most/RBS common/JJ stack/VBP trace/NN ./. 
+
+(ROOT (S (NP (RB Here)) (VP (VBZ is) (NP (NP (DT the) (RBS most) (JJ common)) (SBAR (S (VP (VBP stack) (NP (NN trace))))))) (. .)))
+
+root(ROOT-0, common-5)
+nsubj(common-5, Here-1)
+cop(common-5, is-2)
+det(common-5, the-3)
+advmod(common-5, most-4)
+rcmod(common-5, stack-6)
+dobj(stack-6, trace-7)
+
+Configure/VB option/NN :/: 
+
+(ROOT (S (VP (VB Configure) (NP (NN option))) (: :)))
+
+root(ROOT-0, Configure-1)
+dobj(Configure-1, option-2)
+
+CFLAGS/NN =/JJ "/'' -/: g/NN -/: mt/SYM -/: m64/SYM -/: KPIC/NN "/'' ./. 
+
+(ROOT (S (VP (NP (NP (NP (NN CFLAGS)) (ADJP (JJ =))) ('' '') (: -) (NP (NP (NP (NN g)) (PRN (: -) (FRAG (X (SYM mt)) (: -) (NP (SYM m64))))) (: -) (NP (NN KPIC) ('' ''))))) (. .)))
+
+root(ROOT-0, CFLAGS-1)
+amod(CFLAGS-1, =-2)
+dep(CFLAGS-1, g-5)
+dep(m64-9, mt-7)
+dep(g-5, m64-9)
+dep(g-5, KPIC-11)
+
+//: configure/VB --/: prefix/NN =/JJ </JJR prefix_path/CD >/JJR --/: with-mpm/NN =/JJ worker/NN 
+
+(ROOT (PRN (: /) (S (VP (VP (VB configure)) (: --) (VP (NN prefix) (NP (NP (NP (JJ =) (JJR <)) (NP (CD prefix_path) (JJR >))) (: --) (NP (NN with-mpm) (JJ =) (NN worker))))))))
+
+root(ROOT-0, configure-2)
+punct(configure-2, /-1)
+dep(configure-2, prefix-4)
+amod(<-6, =-5)
+dobj(prefix-4, <-6)
+num(>-8, prefix_path-7)
+dep(<-6, >-8)
+nn(worker-12, with-mpm-10)
+amod(worker-12, =-11)
+dep(<-6, worker-12)
+
+--/: enable-modules/NN =/JJ all/DT --/: with-ssl/NN =/JJ //: usr/sfw/NN --/: enable-mods-shared/JJ =/JJ all/DT --/: enable-cgi/JJ 
+
+(ROOT (PRN (: --) (S (NP (NP (NN enable-modules) (JJ =)) (ADJP (DT all) (PRN (: --) (S (NP (NP (NP (NN with-ssl) (JJ =)) (PRN (: /) (NP (NN usr/sfw)) (: --))) (ADJP (JJ enable-mods-shared) (JJ =))) (NP (DT all))) (: --)))) (ADJP (JJ enable-cgi)))))
+
+root(ROOT-0, enable-cgi-15)
+dep(enable-cgi-15, enable-modules-2)
+amod(enable-modules-2, =-3)
+amod(enable-modules-2, all-4)
+dep(all-13, with-ssl-6)
+amod(with-ssl-6, =-7)
+punct(usr/sfw-9, /-8)
+dep(with-ssl-6, usr/sfw-9)
+amod(=-12, enable-mods-shared-11)
+amod(with-ssl-6, =-12)
+dep(all-4, all-13)
+
+--/: enable-threads/NN &/CC &/CC gmake/NN &/CC &/CC gmake/NN install/VBP 
+
+(ROOT (PRN (: --) (NP (NP (NN enable-threads)) (SBAR (S (NP (CC &) (NP (CC &) (NN gmake)) (CC &) (NP (CC &) (NN gmake))) (VP (VBP install)))))))
+
+root(ROOT-0, enable-threads-2)
+nsubj(install-9, gmake-5)
+cc(gmake-8, &-7)
+conj_and(gmake-5, gmake-8)
+nsubj(install-9, gmake-8)
+rcmod(enable-threads-2, install-9)
+
+prefork/NN mpm/NN works/VBZ just/RB fine/JJ ./. 
+
+(ROOT (S (NP (NN prefork) (NN mpm)) (VP (VBZ works) (ADJP (RB just) (JJ fine))) (. .)))
+
+root(ROOT-0, works-3)
+nn(mpm-2, prefork-1)
+nsubj(works-3, mpm-2)
+advmod(fine-5, just-4)
+acomp(works-3, fine-5)
+

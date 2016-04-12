@@ -1,0 +1,108 @@
+Build/VB ID/NNP :/: I20070123-1030/NN 
+
+(ROOT (S (VP (VB Build) (NP (NP (NNP ID)) (: :) (NP (NN I20070123-1030))))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, ID-2)
+dep(ID-2, I20070123-1030-4)
+
+Steps/NNS To/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO To) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, To-2)
+
+This/DT is/VBZ a/DT regression/NN from/IN Eclipse/NNP 3.2.x/NN ./. 
+
+(ROOT (S (NP (DT This)) (VP (VBZ is) (NP (NP (DT a) (NN regression)) (PP (IN from) (NP (NNP Eclipse) (NN 3.2.x))))) (. .)))
+
+root(ROOT-0, regression-4)
+nsubj(regression-4, This-1)
+cop(regression-4, is-2)
+det(regression-4, a-3)
+nn(3.2.x-7, Eclipse-6)
+prep_from(regression-4, 3.2.x-7)
+
+(/-LRB- 1/CD Set/VB PROP_NOSHUTDOWN/NN to/TO true/JJ 
+
+(ROOT (NP (-LRB- -LRB-) (NP (CD 1) (VB Set) (NN PROP_NOSHUTDOWN)) (PP (TO to) (NP (JJ true)))))
+
+root(ROOT-0, PROP_NOSHUTDOWN-4)
+num(PROP_NOSHUTDOWN-4, 1-2)
+dep(PROP_NOSHUTDOWN-4, Set-3)
+prep_to(PROP_NOSHUTDOWN-4, true-6)
+
+(/-LRB- 2/CD Invoke/VB EclipseStarter.run/NN (/-LRB- ,/, ,/, )/-RRB- with/IN any/DT applicationID/NN 
+
+(ROOT (NP (-LRB- -LRB-) (NP (CD 2)) (PP (VB Invoke) (NP (NP (NP (NN EclipseStarter.run)) (PRN (-LRB- -LRB-) (FRAG (, ,) (NP (, ,))) (-RRB- -RRB-))) (PP (IN with) (NP (DT any) (NN applicationID)))))))
+
+root(ROOT-0, 2-2)
+prep(2-2, Invoke-3)
+dep(Invoke-3, EclipseStarter.run-4)
+det(applicationID-11, any-10)
+prep_with(EclipseStarter.run-4, applicationID-11)
+
+(/-LRB- 3/CD The/DT application/NN will/MD run/VB ,/, and/CC then/RB platform/NN will/MD remain/VB running/VBG ./. 
+
+(ROOT (S (-LRB- -LRB-) (NP (NP (CD 3)) (NP (DT The) (NN application))) (VP (MD will) (VP (VB run))) (, ,) (CC and) (S (ADVP (RB then)) (NP (NN platform)) (VP (MD will) (VP (VB remain) (S (VP (VBG running)))))) (. .)))
+
+root(ROOT-0, run-6)
+nsubj(run-6, 3-2)
+det(application-4, The-3)
+dep(3-2, application-4)
+aux(run-6, will-5)
+advmod(remain-12, then-9)
+nsubj(remain-12, platform-10)
+aux(remain-12, will-11)
+conj_and(run-6, remain-12)
+xcomp(remain-12, running-13)
+
+(/-LRB- 4/CD Invoke/VB EclipseStarter.run/NN (/-LRB- ,/, )/-RRB- and/CC the/DT application/NN launch/NN will/MD fail/VB with/IN . . ./: 
+
+(ROOT (S (-LRB- -LRB-) (NP (NP (NP (CD 4)) (S (VP (VB Invoke) (NP (NN EclipseStarter.run)))) (PRN (-LRB- -LRB-) (NP (, ,)) (-RRB- -RRB-))) (CC and) (NP (DT the) (NN application) (NN launch))) (VP (MD will) (VP (VB fail) (PP (IN with)))) (: ...)))
+
+root(ROOT-0, fail-13)
+nsubj(fail-13, 4-2)
+dep(4-2, Invoke-3)
+dobj(Invoke-3, EclipseStarter.run-4)
+det(launch-11, the-9)
+nn(launch-11, application-10)
+conj_and(4-2, launch-11)
+nsubj(fail-13, launch-11)
+aux(fail-13, will-12)
+prep(fail-13, with-14)
+
+This/DT used/VBN to/TO work/VB with/IN Eclipse/NNP 3.2.x/NN where/WRB I/PRP want/VBP to/TO invoke/VB multiple/JJ invocations/NNS of/IN an/DT application/NN without/IN it/PRP shutting/VBG down/RP each/DT time/NN ./. 
+
+(ROOT (S (NP (DT This)) (VP (VBN used) (S (VP (TO to) (VP (VB work) (PP (IN with) (NP (NNP Eclipse) (NN 3.2.x))) (SBAR (WHADVP (WRB where)) (S (NP (PRP I)) (VP (VBP want) (S (VP (TO to) (VP (VB invoke) (NP (NP (JJ multiple) (NNS invocations)) (PP (IN of) (NP (DT an) (NN application)))) (PP (IN without) (S (NP (PRP it)) (VP (VBG shutting) (PRT (RP down)) (NP (DT each) (NN time))))))))))))))) (. .)))
+
+root(ROOT-0, used-2)
+nsubj(used-2, This-1)
+aux(work-4, to-3)
+xcomp(used-2, work-4)
+nn(3.2.x-7, Eclipse-6)
+prep_with(work-4, 3.2.x-7)
+advmod(want-10, where-8)
+nsubj(want-10, I-9)
+advcl(work-4, want-10)
+aux(invoke-12, to-11)
+xcomp(want-10, invoke-12)
+amod(invocations-14, multiple-13)
+dobj(invoke-12, invocations-14)
+det(application-17, an-16)
+prep_of(invocations-14, application-17)
+nsubj(shutting-20, it-19)
+prepc_without(invoke-12, shutting-20)
+prt(shutting-20, down-21)
+det(time-23, each-22)
+dobj(shutting-20, time-23)
+
+More/JJR information/NN :/: 
+
+(ROOT (NP (NP (JJR More) (NN information)) (: :)))
+
+root(ROOT-0, information-2)
+amod(information-2, More-1)
+

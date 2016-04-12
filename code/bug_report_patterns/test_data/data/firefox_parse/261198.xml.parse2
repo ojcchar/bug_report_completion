@@ -1,0 +1,117 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 5.1/CD ;/: rv/NN :1.7.3/CD )/-RRB- Gecko/20040913/NN Firefox/0/NN .10/CD Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 5.1/CD ;/: rv/NN :1.7.3/CD )/-RRB- Gecko/20040913/NN Firefox/0/NN .10/CD 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NNP Windows)) (: ;) (NP (NP (NNP U)) (: ;) (NP (NP (NNP Windows) (NNP NT) (CD 5.1)) (: ;) (NP (NN rv) (CD :1.7.3)))) (-RRB- -RRB-)) (NP (NN Gecko/20040913) (NN Firefox/0))) (X (NP (NP (CD .10)) (NP (NP (NNP Build) (NNP Identifier)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NNP Windows)) (: ;) (NP (NP (NNP U)) (: ;) (NP (NP (NNP Windows) (NNP NT) (CD 5.1)) (: ;) (NP (NN rv) (CD :1.7.3)))) (-RRB- -RRB-))))) (NP (NN Gecko/20040913)) (NP (NP (NN Firefox/0)) (NP (CD .10))))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+dep(.0-4, Windows-6)
+dep(Windows-6, U-8)
+nn(NT-11, Windows-10)
+dep(U-8, NT-11)
+num(NT-11, 5.1-12)
+dep(NT-11, rv-14)
+num(rv-14, :1.7.3-15)
+nn(Firefox/0-18, Gecko/20040913-17)
+dep(.0-4, Firefox/0-18)
+dep(Firefox/0-38, .10-19)
+nn(Identifier-21, Build-20)
+dep(.10-19, Identifier-21)
+nn(.0-24, Mozilla/5-23)
+dep(Identifier-21, .0-24)
+dep(.0-24, Windows-26)
+dep(Windows-26, U-28)
+nn(NT-31, Windows-30)
+dep(U-28, NT-31)
+num(NT-31, 5.1-32)
+dep(NT-31, rv-34)
+num(rv-34, :1.7.3-35)
+dep(Firefox/0-38, Gecko/20040913-37)
+dep(User-Agent-1, Firefox/0-38)
+dep(Firefox/0-38, .10-39)
+
+misplace/NN command/NN bar/NN on/IN inbox/NN page/NN 
+
+(ROOT (NP (NP (NN misplace)) (NP (NP (NN command) (NN bar)) (PP (IN on) (NP (NN inbox) (NN page))))))
+
+root(ROOT-0, misplace-1)
+nn(bar-3, command-2)
+dep(misplace-1, bar-3)
+nn(page-6, inbox-5)
+prep_on(bar-3, page-6)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD http://email.indiatimes.com,create/VBP an/DT account/NN ,/, login/NN 
+
+(ROOT (S (NP (CD 1)) (VP (VBP http://email.indiatimes.com,create) (NP (NP (DT an) (NN account)) (, ,) (NP (NN login))))))
+
+root(ROOT-0, http://email.indiatimes.com,create-2)
+nsubj(http://email.indiatimes.com,create-2, 1-1)
+det(account-4, an-3)
+dobj(http://email.indiatimes.com,create-2, account-4)
+appos(account-4, login-6)
+
+2/CD click/VBP on/IN inbox/NN 
+
+(ROOT (S (NP (CD 2)) (VP (VBP click) (PP (IN on) (NP (NN inbox))))))
+
+root(ROOT-0, click-2)
+nsubj(click-2, 2-1)
+prep_on(click-2, inbox-4)
+
+3/CD 
+
+(ROOT (FRAG (NP (CD 3))))
+
+root(ROOT-0, 3-1)
+
+Actual/JJ Results/NNS :/: after/IN login/NN ,/, command/NN bar/NN is/VBZ misplaced/VBN on/IN the/DT inbox/NN page/NN down/IN the/DT display/NN area/NN from/IN top/NN of/IN the/DT frame/NN 
+
+(ROOT (FRAG (NP (JJ Actual) (NNS Results)) (: :) (S (PP (IN after) (NP (NN login))) (, ,) (NP (NN command) (NN bar)) (VP (VBZ is) (VP (VBN misplaced) (PP (IN on) (NP (DT the) (NN inbox) (NN page))) (PP (IN down) (NP (DT the) (NN display) (NN area))) (PP (IN from) (NP (NP (NN top)) (PP (IN of) (NP (DT the) (NN frame))))))))))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+prep_after(misplaced-10, login-5)
+nn(bar-8, command-7)
+nsubjpass(misplaced-10, bar-8)
+auxpass(misplaced-10, is-9)
+dep(Results-2, misplaced-10)
+det(page-14, the-12)
+nn(page-14, inbox-13)
+prep_on(misplaced-10, page-14)
+det(area-18, the-16)
+nn(area-18, display-17)
+prep_down(misplaced-10, area-18)
+prep_from(misplaced-10, top-20)
+det(frame-23, the-22)
+prep_of(top-20, frame-23)
+
+Expected/VBN Results/NNS :/: bar/NN should/MD have/VB been/VBN on/IN top/NN of/IN frame/NN as/IN in/IN ie/FW 
+
+(ROOT (VP (VBN Expected) (NP (NP (NNS Results)) (: :) (S (NP (NN bar)) (VP (MD should) (VP (VB have) (VP (VBN been) (PP (IN on) (NP (NP (NN top)) (PP (IN of) (NP (NN frame))))) (PP (IN as) (PP (IN in) (NP (FW ie)))))))))))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Results-2)
+nsubj(been-7, bar-4)
+aux(been-7, should-5)
+aux(been-7, have-6)
+dep(Results-2, been-7)
+prep_on_top_of(been-7, frame-11)
+prep(been-7, as-12)
+pcomp(as-12, in-13)
+pobj(in-13, ie-14)
+

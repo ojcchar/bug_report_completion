@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>28166</id>
+	<title>2.0.49 Won't build with Solaris 2.9, and GNU gcc / make.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have confirmed that I can build 2.0.48 with out a problem on the same box!</sentence>
+			<sentence id="1.2">I can provide more info if needed.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">make[2]: Entering directory `/export/home1/users/daveg/NEW/httpd-2.0.49/server'</sentence>
+			<sentence id="2.2">/export/home1/users/daveg/NEW/httpd-2.0.49/srclib/apr/libtool --silent</sentence>
+			<sentence id="2.3">--mode=compile gcc  -g -O2 -pthreads    -DSOLARIS2=9 -D_POSIX_PTHREAD_SEMANTICS</sentence>
+			<sentence id="2.4">-D_REENTRANT -DAP_HAVE_DESIGNATED_INITIALIZER</sentence>
+			<sentence id="2.5">-I/export/home1/users/daveg/NEW/httpd-2.0.49/srclib/apr/include</sentence>
+			<sentence id="2.6">-I/users/daveg/NEW/httpd-2.0.49/srclib/apr/include</sentence>
+			<sentence id="2.7">-I/export/home1/users/daveg/NEW/httpd-2.0.49/srclib/apr-util/include</sentence>
+			<sentence id="2.8">-I/users/daveg/NEW/httpd-2.0.49/srclib/apr-util/include</sentence>
+			<sentence id="2.9">-I/users/daveg/NEW/httpd-2.0.49/srclib/apr-util/xml/expat/lib -I.</sentence>
+			<sentence id="2.10">-I/users/daveg/NEW/httpd-2.0.49/os/unix</sentence>
+			<sentence id="2.11">-I/users/daveg/NEW/httpd-2.0.49/server/mpm/prefork</sentence>
+			<sentence id="2.12">-I/users/daveg/NEW/httpd-2.0.49/modules/http</sentence>
+			<sentence id="2.13">-I/users/daveg/NEW/httpd-2.0.49/modules/filters</sentence>
+			<sentence id="2.14">-I/users/daveg/NEW/httpd-2.0.49/modules/proxy</sentence>
+			<sentence id="2.15">-I/users/daveg/NEW/httpd-2.0.49/include</sentence>
+			<sentence id="2.16">-I/users/daveg/NEW/httpd-2.0.49/modules/generators</sentence>
+			<sentence id="2.17">-I/users/daveg/NEW/httpd-2.0.49/modules/dav/main -prefer-non-pic -static -c</sentence>
+			<sentence id="2.18">exports.c &amp;&amp; touch exports.lo</sentence>
+			<sentence id="2.19">exports.c:1572: error: redefinition of `ap_hack_apr_base64_encode_len'</sentence>
+			<sentence id="2.20">exports.c:177: error: `ap_hack_apr_base64_encode_len' previously defined here</sentence>
+			<sentence id="2.21">exports.c:1573: error: redefinition of `ap_hack_apr_base64_encode'</sentence>
+			<sentence id="2.22">exports.c:178: error: `ap_hack_apr_base64_encode' previously defined here</sentence>
+			<sentence id="2.23">exports.c:1574: error: redefinition of `ap_hack_apr_base64_encode_binary'</sentence>
+			<sentence id="2.24">exports.c:179: error: `ap_hack_apr_base64_encode_binary' previously defined here</sentence>
+			<sentence id="2.25">exports.c:1575: error: redefinition of `ap_hack_apr_base64_decode_len'</sentence>
+			<sentence id="2.26">exports.c:180: error: `ap_hack_apr_base64_decode_len' previously defined here</sentence>
+			<sentence id="2.27">exports.c:1576: error: redefinition of `ap_hack_apr_base64_decode'</sentence>
+			<sentence id="2.28">exports.c:181: error: `ap_hack_apr_base64_decode' previously defined here</sentence>
+			<sentence id="2.29">exports.c:1577: error: redefinition of `ap_hack_apr_base64_decode_binary'</sentence>
+			<sentence id="2.30">exports.c:182: error: `ap_hack_apr_base64_decode_binary' previously defined here</sentence>
+			<sentence id="2.31">exports.c:1582: error: redefinition of `ap_hack_apr_brigade_create'</sentence>
+			<sentence id="2.32">exports.c:187: error: `ap_hack_apr_brigade_create' previously defined here</sentence>
+			<sentence id="2.33">exports.c:1583: error: redefinition of `ap_hack_apr_brigade_destroy'</sentence>
+			<sentence id="2.34">exports.c:188: error: `ap_hack_apr_brigade_destroy' previously defined here</sentence>
+			<sentence id="2.35">exports.c:1584: error: redefinition of `ap_hack_apr_brigade_cleanup'</sentence>
+			<sentence id="2.36">exports.c:189: error: `ap_hack_apr_brigade_cleanup' previously defined here</sentence>
+			<sentence id="2.37">exports.c:1585: error: redefinition of `ap_hack_apr_brigade_split'</sentence>
+			<sentence id="2.38">exports.c:190: error: `ap_hack_apr_brigade_split' previously defined here</sentence>
+			<sentence id="2.39">exports.c:1586: error: redefinition of `ap_hack_apr_brigade_partition'</sentence>
+			<sentence id="2.40">exports.c:191: error: `ap_hack_apr_brigade_partition' previously defined here</sentence>
+			<sentence id="2.41">exports.c:1590: error: redefinition of `ap_hack_apr_brigade_length'</sentence>
+			<sentence id="2.42">exports.c:195: error: `ap_hack_apr_brigade_length' previously defined here</sentence>
+			<sentence id="2.43">exports.c:1591: error: redefinition of `ap_hack_apr_brigade_flatten'</sentence>
+			<sentence id="2.44">exports.c:196: error: `ap_hack_apr_brigade_flatten' previously defined here</sentence>
+		</paragraph>
+	</description>
+</bug>

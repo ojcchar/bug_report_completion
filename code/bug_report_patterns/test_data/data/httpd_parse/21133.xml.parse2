@@ -1,0 +1,165 @@
+System/NNP ./. 
+
+(ROOT (FRAG (NP (NNP System)) (. .)))
+
+root(ROOT-0, System-1)
+
+Redhat-7/NN .3/NN -/: x86/NN ./. 
+
+(ROOT (NP (NP (NN Redhat-7) (NN .3)) (: -) (NP (NN x86)) (. .)))
+
+root(ROOT-0, .3-2)
+nn(.3-2, Redhat-7-1)
+dep(.3-2, x86-4)
+
+Using/VBG wildcard/JJ DNS/NN ./. 
+
+(ROOT (S (VP (VBG Using) (NP (JJ wildcard) (NN DNS))) (. .)))
+
+root(ROOT-0, Using-1)
+amod(DNS-3, wildcard-2)
+dobj(Using-1, DNS-3)
+
+Vhost/FW entry/NN </JJR VirtualHost/NNP 10.5.3.18/CD >/JJR DocumentRoot/NNP //: var/www/html/NN //: thorpe_cms/NNS ServerName/NNP thorpe_cms/NNS ./. 
+
+(ROOT (NP (NP (FW Vhost)) (NP (NP (ADJP (NP (NN entry)) (JJR <)) (ADJP (NP (NNP VirtualHost) (CD 10.5.3.18)) (JJR >)) (NNP DocumentRoot) (PRN (: /) (NP (NN var/www/html)) (: /)) (NNS thorpe_cms)) (NP (NNP ServerName) (NNS thorpe_cms))) (. .)))
+
+root(ROOT-0, Vhost-1)
+npadvmod(<-3, entry-2)
+amod(thorpe_cms-11, <-3)
+dep(>-6, VirtualHost-4)
+num(VirtualHost-4, 10.5.3.18-5)
+amod(thorpe_cms-11, >-6)
+nn(thorpe_cms-11, DocumentRoot-7)
+punct(var/www/html-9, /-8)
+dep(thorpe_cms-11, var/www/html-9)
+punct(var/www/html-9, /-10)
+dep(Vhost-1, thorpe_cms-11)
+nn(thorpe_cms-13, ServerName-12)
+dep(thorpe_cms-11, thorpe_cms-13)
+
+ratbox.ops.au.XXX.com/NNP ServerAlias/NNP thorpe_cms/NNS ./. 
+
+(ROOT (NP (NP (NNP ratbox.ops.au.XXX.com) (NNP ServerAlias)) (NP (NNS thorpe_cms)) (. .)))
+
+root(ROOT-0, ServerAlias-2)
+nn(ServerAlias-2, ratbox.ops.au.XXX.com-1)
+dep(ServerAlias-2, thorpe_cms-3)
+
+ratbox/NN php_value/NN include_path/NN ./. 
+
+(ROOT (NP (NP (NN ratbox)) (NP (NN php_value) (NN include_path)) (. .)))
+
+root(ROOT-0, ratbox-1)
+nn(include_path-3, php_value-2)
+dep(ratbox-1, include_path-3)
+
+:/: //: var/www/html/NN //: thorpe_cms/NNS //: lib/NN :/: //: var/www/i7lib/NN </JJR //: VirtualHost/NNP >/JJR 
+
+(ROOT (PRN (: :) (S (NP (NP (NP (NP (PRN (: /) (NP (NN var/www/html)) (: /)) (NNS thorpe_cms)) (PRN (: /) (NP (NN lib)) (: :))) (PRN (: /) (S (NP (NN var/www/i7lib)) (ADJP (JJR <))) (: /))) (NP (NNP VirtualHost))) (ADJP (JJR >)))))
+
+root(ROOT-0, >-14)
+punct(var/www/html-3, /-2)
+dep(thorpe_cms-5, var/www/html-3)
+punct(var/www/html-3, /-4)
+dep(>-14, thorpe_cms-5)
+punct(lib-7, /-6)
+dep(thorpe_cms-5, lib-7)
+punct(<-11, /-9)
+dep(<-11, var/www/i7lib-10)
+dep(thorpe_cms-5, <-11)
+punct(<-11, /-12)
+appos(thorpe_cms-5, VirtualHost-13)
+
+I/PRP foolishly/RB used/VBD an/DT underscore/VBP in/IN the/DT ServerName/NNP parameter/NN which/WDT had/VBD me/PRP beating/VBG my/PRP$ head/NN against/IN a/DT brink/NN wall/NN as/IN IE/NN was/VBD giving/VBG mr/NN grief/NN about/IN session/NN cookies/NNS ./. 
+
+(ROOT (S (NP (PRP I)) (ADVP (RB foolishly)) (VP (VBD used) (SBAR (S (NP (DT an)) (VP (VBP underscore) (PP (IN in) (NP (NP (DT the) (NNP ServerName) (NN parameter)) (SBAR (WHNP (WDT which)) (S (VP (VBD had) (S (NP (PRP me)) (VP (VBG beating) (NP (PRP$ my) (NN head)) (PP (IN against) (NP (DT a) (NN brink) (NN wall))))) (SBAR (IN as) (S (NP (NN IE)) (VP (VBD was) (VP (VBG giving) (NP (NN mr) (NN grief)) (PP (IN about) (NP (NN session) (NNS cookies)))))))))))))))) (. .)))
+
+root(ROOT-0, used-3)
+nsubj(used-3, I-1)
+advmod(used-3, foolishly-2)
+nsubj(underscore-5, an-4)
+ccomp(used-3, underscore-5)
+det(parameter-9, the-7)
+nn(parameter-9, ServerName-8)
+prep_in(underscore-5, parameter-9)
+nsubj(had-11, which-10)
+rcmod(parameter-9, had-11)
+nsubj(beating-13, me-12)
+ccomp(had-11, beating-13)
+poss(head-15, my-14)
+dobj(beating-13, head-15)
+det(wall-19, a-17)
+nn(wall-19, brink-18)
+prep_against(beating-13, wall-19)
+mark(giving-23, as-20)
+nsubj(giving-23, IE-21)
+aux(giving-23, was-22)
+advcl(had-11, giving-23)
+nn(grief-25, mr-24)
+dobj(giving-23, grief-25)
+nn(cookies-28, session-27)
+prep_about(giving-23, cookies-28)
+
+This/DT was/VBD n't/RB picked/VBN up/RP by/IN bind/NN because/IN of/IN the/DT wildcard/JJ DNS/NN ./. 
+
+(ROOT (S (NP (DT This)) (VP (VBD was) (RB n't) (VP (VBN picked) (PRT (RP up)) (PP (IN by) (NP (NN bind))) (PP (IN because) (PP (IN of) (NP (DT the) (JJ wildcard) (NN DNS)))))) (. .)))
+
+root(ROOT-0, picked-4)
+nsubjpass(picked-4, This-1)
+auxpass(picked-4, was-2)
+neg(picked-4, n't-3)
+prt(picked-4, up-5)
+agent(picked-4, bind-7)
+prepc_because_of(picked-4, of-9)
+det(DNS-12, the-10)
+amod(DNS-12, wildcard-11)
+pobj(picked-4, DNS-12)
+
+Should/MD apache/VB check/NN that/IN the/DT DNS/NNP name/NN passes/VBZ some/DT basic/JJ checks/NNS ?/. 
+
+(ROOT (S (VP (MD Should) (VP (VB apache) (NP (NN check)) (SBAR (IN that) (S (NP (DT the) (NNP DNS) (NN name)) (VP (VBZ passes) (NP (DT some) (JJ basic) (NNS checks))))))) (. ?)))
+
+root(ROOT-0, apache-2)
+aux(apache-2, Should-1)
+dobj(apache-2, check-3)
+mark(passes-8, that-4)
+det(name-7, the-5)
+nn(name-7, DNS-6)
+nsubj(passes-8, name-7)
+ccomp(apache-2, passes-8)
+det(checks-11, some-9)
+amod(checks-11, basic-10)
+dobj(passes-8, checks-11)
+
+I/PRP appreciate/VBP that/IN the/DT rules/NNS around/IN DNS/NNS are/VBP complex/JJ but/CC perhaps/RB a/DT few/JJ basic/JJ checks/NNS might/MD help/VB out/RP brain/NN dead/JJ people/NNS like/IN myself/PRP who/WP forgot/VBD about/IN the/DT underscore/VBP rule/NN ./. 
+
+(ROOT (S (S (NP (PRP I)) (VP (VBP appreciate) (SBAR (IN that) (S (NP (NP (DT the) (NNS rules)) (PP (IN around) (NP (NNS DNS)))) (VP (VBP are) (ADJP (JJ complex))))))) (CC but) (S (NP (RB perhaps) (DT a) (JJ few) (JJ basic) (NNS checks)) (VP (MD might) (VP (VB help) (PRT (RP out)) (NP (NP (NN brain) (JJ dead) (NNS people)) (PP (IN like) (NP (PRP myself))) (SBAR (WHNP (WP who)) (S (VP (VBD forgot) (SBAR (IN about) (S (NP (DT the)) (VP (VBP underscore) (NP (NN rule)))))))))))) (. .)))
+
+root(ROOT-0, appreciate-2)
+nsubj(appreciate-2, I-1)
+mark(complex-9, that-3)
+det(rules-5, the-4)
+nsubj(complex-9, rules-5)
+prep_around(rules-5, DNS-7)
+cop(complex-9, are-8)
+ccomp(appreciate-2, complex-9)
+advmod(checks-15, perhaps-11)
+det(checks-15, a-12)
+amod(checks-15, few-13)
+amod(checks-15, basic-14)
+nsubj(help-17, checks-15)
+aux(help-17, might-16)
+conj_but(appreciate-2, help-17)
+prt(help-17, out-18)
+nn(people-21, brain-19)
+amod(people-21, dead-20)
+dobj(help-17, people-21)
+prep_like(people-21, myself-23)
+nsubj(forgot-25, who-24)
+rcmod(people-21, forgot-25)
+mark(underscore-28, about-26)
+nsubj(underscore-28, the-27)
+advcl(forgot-25, underscore-28)
+dobj(underscore-28, rule-29)
+

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22437</id>
+	<title>htpasswd  Segment Fault</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I compiled apache without any config option.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When I ran htpasswd a Segment Fault occurr.</sentence>
+			<sentence id="2.2">Then I ran that:</sentence>
+			<sentence id="2.3"># strace htpasswd -c teste.pw teste</sentence>
+			<sentence id="2.4">Output is above:</sentence>
+			<sentence id="2.5">-----</sentence>
+			<sentence id="2.6">execve("/usr/local/bin/htpasswd", ["htpasswd", "-c", "teste.pw", "teste"], [/*</sentence>
+			<sentence id="2.7">29 vars */]) = 0</sentence>
+			<sentence id="2.8">uname({sys="Linux", node="servidor.midiaweb.com.br", ...}) = 0</sentence>
+			<sentence id="2.9">brk(0)                                  = 0x804b558</sentence>
+			<sentence id="2.10">old_mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) =</sentence>
+			<sentence id="2.11">0x40016000</sentence>
+			<sentence id="2.12">open("/etc/ld.</sentence>
+			<sentence id="2.13">so.preload", O_RDONLY)    = -1 ENOENT (No such file or directory)</sentence>
+			<sentence id="2.14">open("/usr/local/apache/lib/i686/mmx/libaprutil-0.</sentence>
+			<sentence id="2.15">so.0", O_RDONLY) = -1 ENOENT</sentence>
+			<sentence id="2.16">(No such file or directory)</sentence>
+			<sentence id="2.17">stat64("/usr/local/apache/lib/i686/mmx", 0xbfffea7c) = -1 ENOSYS (Function not</sentence>
+			<sentence id="2.18">implemented)</sentence>
+			<sentence id="2.19">stat("/usr/local/apache/lib/i686/mmx", 0xbfffe99c) = -1 ENOENT (No such file or</sentence>
+			<sentence id="2.20">directory)</sentence>
+			<sentence id="2.21">open("/usr/local/apache/lib/i686/libaprutil-0.</sentence>
+			<sentence id="2.22">so.0", O_RDONLY) = -1 ENOENT (No</sentence>
+			<sentence id="2.23">such file or directory)</sentence>
+			<sentence id="2.24">stat("/usr/local/apache/lib/i686", 0xbfffe99c) = -1 ENOENT (No such file or</sentence>
+			<sentence id="2.25">directory)</sentence>
+			<sentence id="2.26">open("/usr/local/apache/lib/mmx/libaprutil-0.</sentence>
+			<sentence id="2.27">so.0", O_RDONLY) = -1 ENOENT (No</sentence>
+			<sentence id="2.28">such file or directory)</sentence>
+			<sentence id="2.29">stat("/usr/local/apache/lib/mmx", 0xbfffe99c) = -1 ENOENT (No such file or</sentence>
+			<sentence id="2.30">directory)</sentence>
+			<sentence id="2.31">open("/usr/local/apache/lib/libaprutil-0.</sentence>
+			<sentence id="2.32">so.0", O_RDONLY) = 3</sentence>
+			<sentence id="2.33">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\320P\0"..., 1024) =</sentence>
+			<sentence id="2.34">1024</sentence>
+			<sentence id="2.35">fstat(3, {st_mode=S_IFREG|0700, st_size=403927, ...}) = 0</sentence>
+			<sentence id="2.36">old_mmap(NULL, 80864, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x40017000</sentence>
+			<sentence id="2.37">mprotect(0x4002a000, 3040, PROT_NONE)   = 0</sentence>
+			<sentence id="2.38">old_mmap(0x4002a000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.39">0x12000) = 0x4002a000</sentence>
+			<sentence id="2.40">close(3)                                = 0</sentence>
+			<sentence id="2.41">open("/usr/local/apache/lib/libgdbm.</sentence>
+			<sentence id="2.42">so.2", O_RDONLY) = -1 ENOENT (No such file</sentence>
+			<sentence id="2.43">or directory)</sentence>
+			<sentence id="2.44">open("/etc/ld.</sentence>
+			<sentence id="2.45">so.cache", O_RDONLY)      = 3</sentence>
+			<sentence id="2.46">fstat(3, {st_mode=S_IFREG|0644, st_size=38229, ...}) = 0</sentence>
+			<sentence id="2.47">old_mmap(NULL, 38229, PROT_READ, MAP_PRIVATE, 3, 0) = 0x4002b000</sentence>
+			<sentence id="2.48">close(3)                                = 0</sentence>
+			<sentence id="2.49">open("/usr/lib/libgdbm.</sentence>
+			<sentence id="2.50">so.2", O_RDONLY) = 3</sentence>
+			<sentence id="2.51">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\360\24"..., 1024) =</sentence>
+			<sentence id="2.52">1024</sentence>
+			<sentence id="2.53">fstat(3, {st_mode=S_IFREG|0755, st_size=29050, ...}) = 0</sentence>
+			<sentence id="2.54">old_mmap(NULL, 24260, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x40035000</sentence>
+			<sentence id="2.55">mprotect(0x4003a000, 3780, PROT_NONE)   = 0</sentence>
+			<sentence id="2.56">old_mmap(0x4003a000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.57">0x4000) = 0x4003a000</sentence>
+			<sentence id="2.58">close(3)                                = 0</sentence>
+			<sentence id="2.59">open("/usr/local/apache/lib/libdb.</sentence>
+			<sentence id="2.60">so.2", O_RDONLY) = -1 ENOENT (No such file or</sentence>
+			<sentence id="2.61">directory)</sentence>
+			<sentence id="2.62">open("/usr/lib/libdb.</sentence>
+			<sentence id="2.63">so.2", O_RDONLY)   = 3</sentence>
+			<sentence id="2.64">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\0\24\0"..., 1024) =</sentence>
+			<sentence id="2.65">1024</sentence>
+			<sentence id="2.66">fstat(3, {st_mode=S_IFREG|0755, st_size=60752, ...}) = 0</sentence>
+			<sentence id="2.67">old_mmap(NULL, 53360, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x4003b000</sentence>
+			<sentence id="2.68">mprotect(0x40047000, 4208, PROT_NONE)   = 0</sentence>
+			<sentence id="2.69">old_mmap(0x40047000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.70">0xb000) = 0x40047000</sentence>
+			<sentence id="2.71">close(3)                                = 0</sentence>
+			<sentence id="2.72">open("/usr/local/apache/lib/libexpat.</sentence>
+			<sentence id="2.73">so.0", O_RDONLY) = 3</sentence>
+			<sentence id="2.74">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\360\37"..., 1024) =</sentence>
+			<sentence id="2.75">1024</sentence>
+			<sentence id="2.76">fstat(3, {st_mode=S_IFREG|0755, st_size=283990, ...}) = 0</sentence>
+			<sentence id="2.77">old_mmap(NULL, 114044, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x40049000</sentence>
+			<sentence id="2.78">mprotect(0x40063000, 7548, PROT_NONE)   = 0</sentence>
+			<sentence id="2.79">old_mmap(0x40063000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.80">0x19000) = 0x40063000</sentence>
+			<sentence id="2.81">close(3)                                = 0</sentence>
+			<sentence id="2.82">open("/usr/local/apache/lib/libapr-0.</sentence>
+			<sentence id="2.83">so.0", O_RDONLY) = 3</sentence>
+			<sentence id="2.84">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0`\204\0"..., 1024) =</sentence>
+			<sentence id="2.85">1024</sentence>
+			<sentence id="2.86">fstat(3, {st_mode=S_IFREG|0700, st_size=643673, ...}) = 0</sentence>
+			<sentence id="2.87">old_mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) =</sentence>
+			<sentence id="2.88">0x40065000</sentence>
+			<sentence id="2.89">old_mmap(NULL, 117808, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x40066000</sentence>
+			<sentence id="2.90">mprotect(0x40082000, 3120, PROT_NONE)   = 0</sentence>
+			<sentence id="2.91">old_mmap(0x40082000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.92">0x1b000) = 0x40082000</sentence>
+			<sentence id="2.93">close(3)                                = 0</sentence>
+			<sentence id="2.94">open("/usr/local/apache/lib/libpthread.</sentence>
+			<sentence id="2.95">so.0", O_RDONLY) = -1 ENOENT (No such</sentence>
+			<sentence id="2.96">file or directory)</sentence>
+			<sentence id="2.97">open("/lib/libpthread.</sentence>
+			<sentence id="2.98">so.0", O_RDONLY)  = 3</sentence>
+			<sentence id="2.99">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\360O\0"..., 1024) =</sentence>
+			<sentence id="2.100">1024</sentence>
+			<sentence id="2.101">fstat(3, {st_mode=S_IFREG|0755, st_size=557647, ...}) = 0</sentence>
+			<sentence id="2.102">old_mmap(NULL, 90460, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x40083000</sentence>
+			<sentence id="2.103">mprotect(0x40092000, 29020, PROT_NONE)  = 0</sentence>
+			<sentence id="2.104">old_mmap(0x40092000, 28672, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.105">0xe000) = 0x40092000</sentence>
+			<sentence id="2.106">old_mmap(0x40099000, 348, PROT_READ|PROT_WRITE,</sentence>
+			<sentence id="2.107">MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x40099000</sentence>
+			<sentence id="2.108">close(3)                                = 0</sentence>
+			<sentence id="2.109">open("/usr/local/apache/lib/librt.</sentence>
+			<sentence id="2.110">so.1", O_RDONLY) = -1 ENOENT (No such file or</sentence>
+			<sentence id="2.111">directory)</sentence>
+			<sentence id="2.112">open("/lib/librt.</sentence>
+			<sentence id="2.113">so.1", O_RDONLY)       = 3</sentence>
+			<sentence id="2.114">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\340!</sentence>
+			<sentence id="2.115">\0"..., 1024) =</sentence>
+			<sentence id="2.116">1024</sentence>
+			<sentence id="2.117">fstat(3, {st_mode=S_IFREG|0755, st_size=165899, ...}) = 0</sentence>
+			<sentence id="2.118">old_mmap(NULL, 70548, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x4009a000</sentence>
+			<sentence id="2.119">mprotect(0x400a0000, 45972, PROT_NONE)  = 0</sentence>
+			<sentence id="2.120">old_mmap(0x400a0000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.121">0x5000) = 0x400a0000</sentence>
+			<sentence id="2.122">old_mmap(0x400a1000, 41876, PROT_READ|PROT_WRITE,</sentence>
+			<sentence id="2.123">MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x400a1000</sentence>
+			<sentence id="2.124">close(3)                                = 0</sentence>
+			<sentence id="2.125">open("/usr/local/apache/lib/libm.</sentence>
+			<sentence id="2.126">so.6", O_RDONLY) = -1 ENOENT (No such file or</sentence>
+			<sentence id="2.127">directory)</sentence>
+			<sentence id="2.128">open("/lib/libm.</sentence>
+			<sentence id="2.129">so.6", O_RDONLY)        = 3</sentence>
+			<sentence id="2.130">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\320H\0"..., 1024) =</sentence>
+			<sentence id="2.131">1024</sentence>
+			<sentence id="2.132">fstat(3, {st_mode=S_IFREG|0755, st_size=615842, ...}) = 0</sentence>
+			<sentence id="2.133">old_mmap(NULL, 138964, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x400ac000</sentence>
+			<sentence id="2.134">mprotect(0x400cd000, 3796, PROT_NONE)   = 0</sentence>
+			<sentence id="2.135">old_mmap(0x400cd000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.136">0x20000) = 0x400cd000</sentence>
+			<sentence id="2.137">close(3)                                = 0</sentence>
+			<sentence id="2.138">open("/usr/local/apache/lib/libcrypt.</sentence>
+			<sentence id="2.139">so.1", O_RDONLY) = -1 ENOENT (No such file</sentence>
+			<sentence id="2.140">or directory)</sentence>
+			<sentence id="2.141">open("/lib/libcrypt.</sentence>
+			<sentence id="2.142">so.1", O_RDONLY)    = 3</sentence>
+			<sentence id="2.143">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0@\17\0\000"..., 1024) =</sentence>
+			<sentence id="2.144">1024</sentence>
+			<sentence id="2.145">fstat(3, {st_mode=S_IFREG|0755, st_size=87119, ...}) = 0</sentence>
+			<sentence id="2.146">old_mmap(NULL, 184188, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x400ce000</sentence>
+			<sentence id="2.147">mprotect(0x400d3000, 163708, PROT_NONE) = 0</sentence>
+			<sentence id="2.148">old_mmap(0x400d3000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.149">0x4000) = 0x400d3000</sentence>
+			<sentence id="2.150">old_mmap(0x400d4000, 159612, PROT_READ|PROT_WRITE,</sentence>
+			<sentence id="2.151">MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x400d4000</sentence>
+			<sentence id="2.152">close(3)                                = 0</sentence>
+			<sentence id="2.153">open("/usr/local/apache/lib/libnsl.</sentence>
+			<sentence id="2.154">so.1", O_RDONLY) = -1 ENOENT (No such file</sentence>
+			<sentence id="2.155">or directory)</sentence>
+			<sentence id="2.156">open("/lib/libnsl.</sentence>
+			<sentence id="2.157">so.1", O_RDONLY)      = 3</sentence>
+			<sentence id="2.158">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0p?</sentence>
+			<sentence id="2.159">\0\000"..., 1024) =</sentence>
+			<sentence id="2.160">1024</sentence>
+			<sentence id="2.161">fstat(3, {st_mode=S_IFREG|0755, st_size=448401, ...}) = 0</sentence>
+			<sentence id="2.162">old_mmap(NULL, 91964, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x400fb000</sentence>
+			<sentence id="2.163">mprotect(0x4010e000, 14140, PROT_NONE)  = 0</sentence>
+			<sentence id="2.164">old_mmap(0x4010e000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.165">0x12000) = 0x4010e000</sentence>
+			<sentence id="2.166">old_mmap(0x40110000, 5948, PROT_READ|PROT_WRITE,</sentence>
+			<sentence id="2.167">MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x40110000</sentence>
+			<sentence id="2.168">close(3)                                = 0</sentence>
+			<sentence id="2.169">open("/usr/local/apache/lib/libdl.</sentence>
+			<sentence id="2.170">so.2", O_RDONLY) = -1 ENOENT (No such file or</sentence>
+			<sentence id="2.171">directory)</sentence>
+			<sentence id="2.172">open("/lib/libdl.</sentence>
+			<sentence id="2.173">so.2", O_RDONLY)       = 3</sentence>
+			<sentence id="2.174">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\200\35"..., 1024) =</sentence>
+			<sentence id="2.175">1024</sentence>
+			<sentence id="2.176">fstat(3, {st_mode=S_IFREG|0755, st_size=65417, ...}) = 0</sentence>
+			<sentence id="2.177">old_mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) =</sentence>
+			<sentence id="2.178">0x40112000</sentence>
+			<sentence id="2.179">old_mmap(NULL, 12532, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x40113000</sentence>
+			<sentence id="2.180">mprotect(0x40115000, 4340, PROT_NONE)   = 0</sentence>
+			<sentence id="2.181">old_mmap(0x40115000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.182">0x1000) = 0x40115000</sentence>
+			<sentence id="2.183">close(3)                                = 0</sentence>
+			<sentence id="2.184">open("/usr/local/apache/lib/libc.</sentence>
+			<sentence id="2.185">so.6", O_RDONLY) = -1 ENOENT (No such file or</sentence>
+			<sentence id="2.186">directory)</sentence>
+			<sentence id="2.187">open("/lib/libc.</sentence>
+			<sentence id="2.188">so.6", O_RDONLY)        = 3</sentence>
+			<sentence id="2.189">read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\360\303"..., 1024) =</sentence>
+			<sentence id="2.190">1024</sentence>
+			<sentence id="2.191">fstat(3, {st_mode=S_IFREG|0755, st_size=5725295, ...}) = 0</sentence>
+			<sentence id="2.192">old_mmap(NULL, 1265832, PROT_READ|PROT_EXEC, MAP_PRIVATE, 3, 0) = 0x40117000</sentence>
+			<sentence id="2.193">mprotect(0x40243000, 37032, PROT_NONE)  = 0</sentence>
+			<sentence id="2.194">old_mmap(0x40243000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED, 3,</sentence>
+			<sentence id="2.195">0x12b000) = 0x40243000</sentence>
+			<sentence id="2.196">old_mmap(0x40248000, 16552, PROT_READ|PROT_WRITE,</sentence>
+			<sentence id="2.197">MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x40248000</sentence>
+			<sentence id="2.198">close(3)                                = 0</sentence>
+			<sentence id="2.199">--- SIGSEGV (Segmentation fault) ---</sentence>
+			<sentence id="2.200">+++ killed by SIGSEGV +++</sentence>
+		</paragraph>
+	</description>
+</bug>

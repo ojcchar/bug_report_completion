@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>33724</id>
+	<title>apache didn't get uri arguments (utf8 problem)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">apache can't get UTF-8 get string when i request with &lt;img 
+src="http://a.com/bbsdata/ÇÑ±ÛÆÄÀÏ.jpg"&gt; tag.</sentence>
+			<sentence id="1.2">(test2.html is a request document which data contains metatag set to utf-8)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">belown is error log
+[Thu Feb 24 17:44:48 2005] [error] [client 192.168.0.1] Attempt to serve 
+directory: D:/slrclub/bbsdata/pds2/, referer: http://www.slrclub.com/test2.html</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">test2.html calls image source reference from img01.slrclub.com</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">we founding this problem on apache 2.0.53 win32 version (binary package)
+another base apache works well, such like as linux or bsd</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">also, apache needs uri header conversation module
+(i'm korean, and this is most korean server needs)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">korea using EUC-KR and UTF-8 both.</sentence>
+			<sentence id="6.2">basically we used euc-kr, almost user turn off url transfering to UTF-8 
+setting on IE.</sentence>
+			<sentence id="6.3">cause of some server didn't parsing UTF-8 naming.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">so we using mod_url module.</sentence>
+			<sentence id="7.2">(it converting EUC-&gt;UTF8 UTF8-&gt;EUC)
+http://cvs.kldp.net/cgi-bin/cvsweb.cgi/mod_url/apache2/mod_url.c?cvsroot=modurl</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">it matter on japan, korea, china some kinds of nation which using multi-byte 
+language.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">now we try to changing apache to iis server.</sentence>
+			<sentence id="9.2">test.html &amp; test2.html will working</sentence>
+		</paragraph>
+	</description>
+</bug>

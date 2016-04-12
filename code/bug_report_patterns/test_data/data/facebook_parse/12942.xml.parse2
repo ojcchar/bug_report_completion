@@ -1,0 +1,67 @@
+Requesting/VBG likes/NN for/IN a/DT page/NN will/MD return/VB a/DT blank/JJ JSON/NN object/NN :/: 
+
+(ROOT (S (NP (NP (VBG Requesting) (NN likes)) (PP (IN for) (NP (DT a) (NN page)))) (VP (MD will) (VP (VB return) (NP (DT a) (JJ blank) (NN JSON) (NN object)))) (: :)))
+
+root(ROOT-0, return-7)
+amod(likes-2, Requesting-1)
+nsubj(return-7, likes-2)
+det(page-5, a-4)
+prep_for(likes-2, page-5)
+aux(return-7, will-6)
+det(object-11, a-8)
+amod(object-11, blank-9)
+nn(object-11, JSON-10)
+dobj(return-7, object-11)
+
+Request/NN :/: https://graph.facebook.com/cocacola/likes/NNS 
+
+(ROOT (NP (NP (NN Request)) (: :) (NP (NNS https://graph.facebook.com/cocacola/likes))))
+
+root(ROOT-0, Request-1)
+dep(Request-1, https://graph.facebook.com/cocacola/likes-3)
+
+Actual/NNP Response/NN :/: {/-LRB- data/NNS :/: [/-LRB- ]/-RRB- }/-RRB- 
+
+(ROOT (S (NP (NNP Actual)) (VP (NN Response) (: :) (PRN (-LRB- -LCB-) (NP (NP (NNS data)) (: :) (NP (-LRB- -LSB-) (-RRB- -RSB-))) (-RRB- -RCB-)))))
+
+root(ROOT-0, Response-2)
+nsubj(Response-2, Actual-1)
+dep(Response-2, data-5)
+appos(data-5, -LSB--7)
+punct(-LSB--7, -RSB--8)
+
+Expect/VB Response/NN :/: {/-LRB- data/NNS :/: [/-LRB- {/-LRB- id/NN :/: 54915724627/CD created_time/NN :/: 2010-09-30T02/NN :45:57/CD +0000/CD }/-RRB- ]/-RRB- }/-RRB- 
+
+(ROOT (S (VP (VB Expect) (NP (NP (NN Response)) (: :) (NP (PRN (-LRB- -LCB-) (NP (NP (NNS data)) (: :) (NP (NP (NP (-LRB- -LSB-) (-LRB- -LCB-) (NN id)) (: :) (NP (CD 54915724627) (NN created_time))) (: :) (NP (NP (NN 2010-09-30T02)) (NP (QP (CD :45:57) (CD +0000)))))) (-RRB- -RCB-)) (-RRB- -RSB-)) (-RRB- -RCB-)))))
+
+root(ROOT-0, Expect-1)
+dobj(Expect-1, Response-2)
+dep(Response-2, data-5)
+punct(id-9, -LSB--7)
+dep(data-5, id-9)
+num(created_time-12, 54915724627-11)
+dep(id-9, created_time-12)
+dep(id-9, 2010-09-30T02-14)
+number(+0000-16, :45:57-15)
+dep(2010-09-30T02-14, +0000-16)
+punct(data-5, -RSB--18)
+
+Note/VB :/: This/DT bug/NN is/VBZ very/RB similar/JJ but/CC could/MD be/VB unrelated/JJ to/TO the/DT following/VBG bug/NN :/: http://bugs.developers.facebook.net/show_bug.cgi?id=12880/NN 
+
+(ROOT (S (VP (VP (VB Note)) (: :) (NP (NP (DT This) (NN bug)) (SBAR (S (VP (VP (VBZ is) (ADJP (RB very) (JJ similar))) (CC but) (VP (MD could) (VP (VB be) (ADJP (JJ unrelated) (PP (TO to) (NP (DT the) (VBG following) (NN bug))))))))) (: :) (NP (NN http://bugs.developers.facebook.net/show_bug.cgi?id=12880))))))
+
+root(ROOT-0, Note-1)
+det(bug-4, This-3)
+dobj(Note-1, bug-4)
+cop(similar-7, is-5)
+advmod(similar-7, very-6)
+rcmod(bug-4, similar-7)
+aux(unrelated-11, could-9)
+cop(unrelated-11, be-10)
+rcmod(bug-4, unrelated-11)
+conj_but(similar-7, unrelated-11)
+det(bug-15, the-13)
+amod(bug-15, following-14)
+prep_to(unrelated-11, bug-15)
+dep(bug-4, http://bugs.developers.facebook.net/show_bug.cgi?id=12880-17)
+

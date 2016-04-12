@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7341</id>
+	<title>Fecebook integration w/ Yahoo Frontpage - access token changed to 24hrs</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">A couple of us have noticed that we have to re-click on the padlock icon on the FB module in order to re-authorize the Facebook app on Yahoo Frontpage (Metro).</sentence>
+			<sentence id="1.2">This suggests that permanent/persistent sessions are expiring on the FB side.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The session data that Facebook is passing back to metro however looks like:
+(
+[session_key] =&gt; 3.</sentence>
+			<sentence id="2.2">PyguzQO_YHPBsYG7lFsjuQ__.86400.1256749200-567484313
+[uid] =&gt; 567484313
+[expires] =&gt; 1256749200
+[secret] =&gt; QaWWNUiui_zHPZMn6n3JvA__
+[base_domain] =&gt; www.yahoo.com &lt;http://www.yahoo.com&gt; 
+[sig] =&gt; 67834f2210ecd8179343621371695862
+)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The session key and expires indicate that this is a 24hr access token NOT and permanent session.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Therefore_ Facebooks new single auth step is not returning the permanent session key and this is why we re getting people being asked to refresh their sessions.</sentence>
+		</paragraph>
+	</description>
+</bug>

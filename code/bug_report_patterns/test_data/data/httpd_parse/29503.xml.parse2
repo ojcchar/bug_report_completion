@@ -1,0 +1,119 @@
+httpd/NN 2.0.49/CD will/MD segfault/VB if/IN you/PRP do/VBP not/RB specify/VB a/DT Listen/VB directive/NN in/IN the/DT configuration/NN file/NN ./. 
+
+(ROOT (S (NP (NN httpd) (CD 2.0.49)) (VP (MD will) (VP (VB segfault) (SBAR (IN if) (S (NP (PRP you)) (VP (VBP do) (RB not) (VP (VB specify) (S (NP (DT a)) (VP (VB Listen) (NP (NN directive)) (PP (IN in) (NP (DT the) (NN configuration) (NN file))))))))))) (. .)))
+
+root(ROOT-0, segfault-4)
+nsubj(segfault-4, httpd-1)
+num(httpd-1, 2.0.49-2)
+aux(segfault-4, will-3)
+mark(specify-9, if-5)
+nsubj(specify-9, you-6)
+aux(specify-9, do-7)
+neg(specify-9, not-8)
+advcl(segfault-4, specify-9)
+nsubj(Listen-11, a-10)
+ccomp(specify-9, Listen-11)
+dobj(Listen-11, directive-12)
+det(file-16, the-14)
+nn(file-16, configuration-15)
+prep_in(Listen-11, file-16)
+
+in/IN previous/JJ versions/NNS there/EX was/VBD a/DT nice/JJ error/NN message/NN that/WDT warned/VBD you/PRP of/IN this/DT and/CC then/RB exited/VBD ./. 
+
+(ROOT (S (PP (IN in) (NP (JJ previous) (NNS versions))) (NP (EX there)) (VP (VBD was) (NP (NP (DT a) (JJ nice) (NN error) (NN message)) (SBAR (WHNP (WDT that)) (S (VP (VP (VBD warned) (NP (PRP you)) (PP (IN of) (NP (DT this)))) (CC and) (ADVP (RB then)) (VP (VBD exited))))))) (. .)))
+
+root(ROOT-0, was-5)
+amod(versions-3, previous-2)
+prep_in(was-5, versions-3)
+expl(was-5, there-4)
+det(message-9, a-6)
+amod(message-9, nice-7)
+nn(message-9, error-8)
+nsubj(was-5, message-9)
+nsubj(warned-11, that-10)
+nsubj(exited-17, that-10)
+rcmod(message-9, warned-11)
+dobj(warned-11, you-12)
+prep_of(warned-11, this-14)
+advmod(exited-17, then-16)
+rcmod(message-9, exited-17)
+conj_and(warned-11, exited-17)
+
+the/DT segfault/NN occurs/VBZ in/IN the/DT function/NN "/`` ap_listen_open/NN "/'' in/IN server/listen/NN ./. 
+
+(ROOT (S (NP (DT the) (NN segfault)) (VP (VBZ occurs) (PP (IN in) (NP (NP (DT the) (NN function) (`` ``) (NN ap_listen_open) ('' '')) (PP (IN in) (NP (NN server/listen)))))) (. .)))
+
+root(ROOT-0, occurs-3)
+det(segfault-2, the-1)
+nsubj(occurs-3, segfault-2)
+det(ap_listen_open-8, the-5)
+nn(ap_listen_open-8, function-6)
+prep_in(occurs-3, ap_listen_open-8)
+prep_in(ap_listen_open-8, server/listen-11)
+
+c/NN ,/, line/NN 338/CD ./. 
+
+(ROOT (NP (NP (NN c)) (, ,) (NP (NN line) (CD 338)) (. .)))
+
+root(ROOT-0, c-1)
+appos(c-1, line-3)
+num(line-3, 338-4)
+
+If/IN there/EX is/VBZ no/DT listen/VBP statement/NN in/IN the/DT config/NN file/NN ,/, then/RB ap_listen_open/RB tries/VBZ to/TO walk/VB thru/IN the/DT linked/VBN list/NN of/IN listeners/NNS anyways/RB ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (EX there)) (VP (VBZ is) (NP (NP (DT no)) (SBAR (S (VP (VBP listen) (NP (NP (NN statement)) (PP (IN in) (NP (DT the) (NN config) (NN file))))))))))) (, ,) (NP (RB then)) (ADVP (RB ap_listen_open)) (VP (VBZ tries) (S (VP (TO to) (VP (VB walk) (NP (PP (IN thru) (NP (NP (DT the) (VBN linked) (NN list)) (PP (IN of) (NP (NNS listeners))) (ADVP (RB anyways))))))))) (. .)))
+
+root(ROOT-0, tries-14)
+mark(is-3, If-1)
+expl(is-3, there-2)
+advcl(tries-14, is-3)
+nsubj(is-3, no-4)
+rcmod(no-4, listen-5)
+dobj(listen-5, statement-6)
+det(file-10, the-8)
+nn(file-10, config-9)
+prep_in(statement-6, file-10)
+nsubj(tries-14, then-12)
+advmod(tries-14, ap_listen_open-13)
+aux(walk-16, to-15)
+xcomp(tries-14, walk-16)
+dobj(walk-16, thru-17)
+det(list-20, the-18)
+amod(list-20, linked-19)
+pobj(thru-17, list-20)
+prep_of(list-20, listeners-22)
+advmod(list-20, anyways-23)
+
+please/VB add/VB error/NN handling/VBG for/IN the/DT case/NN that/IN this/DT directive/NN isnt/NN specified/VBN and/CC add/VB an/DT assert/VB to/TO the/DT function/NN or/CC change/NN line/NN 338/CD to/TO "/`` if/IN (/-LRB- ap_listeners/NNPS &/CC &/CC ap_listeners/SYM -/: >/JJR next/JJ )/-RRB- {/-LRB- "/'' 
+
+(ROOT (S (VP (VB please) (VP (VB add) (NP (NP (NN error)) (VP (VBG handling) (PP (IN for) (NP (NP (DT the) (NN case)) (PP (IN that) (NP (NP (DT this) (NN directive) (NN isnt)) (VP (VP (VBN specified)) (CC and) (VP (VB add) (S (NP (DT an)) (VP (VB assert) (PP (TO to) (NP (NP (DT the) (NN function) (CC or) (NN change) (NN line)) (NP (CD 338)))) (PP (TO to) (`` ``) (NP (NP (NP (IN if)) (-LRB- -LRB-) (NP (NP (NNPS ap_listeners)) (SBAR (S (NP (CC &)))))) (SBAR (S (NP (CC &)) (VP (X (SYM ap_listeners)) (: -) (VP (PRN (NP (NP (JJR >)) (NP (JJ next))) (-RRB- -RRB-)) (-LRB- -LCB-))))))))))))) ('' '')))))))))
+
+root(ROOT-0, please-1)
+xcomp(please-1, add-2)
+dobj(add-2, error-3)
+vmod(error-3, handling-4)
+det(case-7, the-6)
+prep_for(handling-4, case-7)
+det(isnt-11, this-9)
+nn(isnt-11, directive-10)
+prep_that(case-7, isnt-11)
+dep(isnt-11, specified-12)
+dep(isnt-11, add-14)
+conj_and(specified-12, add-14)
+nsubj(assert-16, an-15)
+ccomp(add-14, assert-16)
+det(line-22, the-18)
+nn(line-22, function-19)
+conj_or(function-19, change-21)
+nn(line-22, change-21)
+prep_to(assert-16, line-22)
+dep(line-22, 338-23)
+prep(assert-16, to-24)
+pobj(to-24, if-26)
+dep(if-26, ap_listeners-28)
+rcmod(ap_listeners-28, &-29)
+nsubj(>-33, &-30)
+dep(>-33, ap_listeners-31)
+rcmod(if-26, >-33)
+dep(>-33, next-34)
+

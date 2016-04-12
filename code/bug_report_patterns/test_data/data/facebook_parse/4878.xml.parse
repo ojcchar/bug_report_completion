@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4878</id>
+	<title>fn:intl tag parsing is broken</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The following fbml taken from the developer wiki:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;fb:tag name= div &gt;
+   &lt;fb:tag-attribute name= class &gt;user_info&lt;/fb:tag-attribute&gt;
+   &lt;fb:tag-attribute name= title &gt;
+      &lt;fb:intl&gt;
+         &lt;fb:name uid= 12345 /&gt; has {number} friends.</sentence>
+			<sentence id="2.2">&lt;fb:intl-token name= number &gt;15&lt;/fb:intl-token&gt;
+      &lt;/fb:intl&gt;
+   &lt;/fb:tag-attribute&gt;
+   &lt;fb:tag-body&gt;
+      &lt;fb:intl&gt;
+         &lt;fb:name uid= 12345 /&gt; is in first place.</sentence>
+			<sentence id="2.3">&lt;/fb:intl&gt;
+   &lt;/fb:tag-body&gt;
+&lt;/fb:tag&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">results in the following html:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&lt;div class= user_info  title= </sentence>
+			<sentence id="4.2">      </sentence>
+			<sentence id="4.3">         &amp;lt;a href=&amp;quot;http://www.facebook.com/s.php?k=100000080&amp;amp;id=12345&amp;quot; onclick=&amp;quot;(new Image()).src = &amp;#039;/ajax/ct.php?app_id=12291189380&amp;amp;action_type=3&amp;amp;post_form_id=56a367e62c7fa6cb983811dd8c3bb46a&amp;amp;position=3&amp;amp;&amp;#039; + Math.random();return true;&amp;quot;&amp;gt;Eli Richlin&amp;lt;/a&amp;gt; has 15&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;</sentence>
+			<sentence id="4.4">var app_12291189380 = new fbjs_sandbox(&amp;quot;12291189380&amp;quot;).setBridgeHash(&amp;quot;&amp;quot;);app_12291189380.validation_vars = {&amp;quot;fb_sig_locale&amp;quot;:&amp;quot;en_US&amp;quot;_&amp;quot;fb_sig_in_new_facebook&amp;quot;:1_&amp;quot;fb_sig_time&amp;quot;:&amp;quot;1238751792.0677&amp;quot;_&amp;quot;fb_sig_added&amp;quot;:1_&amp;quot;fb_sig_profile_update_time&amp;quot;:1238441357_&amp;quot;fb_sig_expires&amp;quot;:1238756400_&amp;quot;fb_sig_user&amp;quot;:6015552_&amp;quot;fb_sig_session_key&amp;quot;:&amp;quot;2.gqYdx7BYskFM_OQkqZfgwA__.3600.1238756400-6015552&amp;quot;_&amp;quot;fb_sig_api_key&amp;quot;:&amp;quot;b756b512585266a3c855775ce1fc3252&amp;quot;_&amp;quot;fb_sig_app_id&amp;quot;:12291189380_&amp;quot;fb_sig&amp;quot;:&amp;quot;630e09f349ca01b2d643d132075e0309&amp;quot;};app_12291189380.context = &amp;quot;361d24393dba&amp;quot;;app_12291189380.contextd = &amp;quot;O:16:\&amp;quot;CanvasFBMLFlavor\&amp;quot;:1:{s:9:\&amp;quot;_fbml_env\&amp;quot;;a:16:{s:4:\&amp;quot;user\&amp;quot;;i:6015552;s:6:\&amp;quot;app_id\&amp;quot;;i:12291189380;s:10:\&amp;quot;fb_page_id\&amp;quot;;i:0;s:10:\&amp;quot;canvas_url\&amp;quot;;s:49:\&amp;quot;http:\/\/apps.facebook.com\/rohiths_ffs\/users\/show\/2\&amp;quot;;s:10:\&amp;quot;source_url\&amp;quot;;s:51:\&amp;quot;http:\/\/rohith.seriousbusiness.com:3333\/users\/show\/2\&amp;quot;;s:9:\&amp;quot;loggedout\&amp;quot;;b:0;s:7:\&amp;quot;non-tos\&amp;quot;;b:0;s:11:\&amp;quot;flavor_code\&amp;quot;;i:3;s:14:\&amp;quot;on_canvas_info\&amp;quot;;b:0;s:8:\&amp;quot;is_tosed\&amp;quot;;b:1;s:8:\&amp;quot;fb_frame\&amp;quot;;s:11:\&amp;quot;rohiths_ffs\&amp;quot;;s:13:\&amp;quot;is_translator\&amp;quot;;b:0;s:14:\&amp;quot;intl_tag_depth\&amp;quot;;i:0;s:15:\&amp;quot;intl_node_cache\&amp;quot;;a:2:{s:31:\&amp;quot;&amp;lt;fb:name uid=\&amp;quot;12345\&amp;quot;&amp;gt;&amp;lt;\/fb:name&amp;gt;\&amp;quot;;s:5:\&amp;quot;name1\&amp;quot;;s:104:\&amp;quot;&amp;lt;fb:name uid=\&amp;quot;7944643\&amp;quot; firstnameonly=\&amp;quot;true\&amp;quot; linked=\&amp;quot;false\&amp;quot; useyou=\&amp;quot;false\&amp;quot; ifcantsee=\&amp;quot;private\&amp;quot;&amp;gt;&amp;lt;\/fb:name&amp;gt;\&amp;quot;;s:5:\&amp;quot;name1\&amp;quot;;}s:12:\&amp;quot;translations\&amp;quot;;a:0:{}s:17:\&amp;quot;non_underlineable\&amp;quot;;a:2:{s:32:\&amp;quot;7e604cd3bc4731238837fe0d53479c24\&amp;quot;;i:1;s:32:\&amp;quot;1978d4cee032736422e94d1b2a209c77\&amp;quot;;i:1;}}}&amp;quot;;app_12291189380.data = {&amp;quot;user&amp;quot;:6015552_&amp;quot;installed&amp;quot;:true};app_12291189380.bootstrap();</sentence>
+			<sentence id="4.5">&amp;lt;/script&amp;gt;</sentence>
+			<sentence id="4.6">&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;http://apps.facebook.com/fbml_static_get.php?src=http%3A%2F%2Frohith.seriousbusiness.com%3A3333%2Fjavascripts%2Ffq-core.min.js%3F1225489268&amp;amp;appid=12291189380&amp;amp;pv=1&amp;amp;sig=b6fd19e783a4899dc28d8144a2db088d&amp;amp;filetype=js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;http://apps.facebook.com/fbml_static_get.php?src=http%3A%2F%2Frohith.seriousbusiness.com%3A3333%2Fjavascripts%2Ffq-extensions.min.js%3F1225489268&amp;amp;appid=12291189380&amp;amp;pv=1&amp;amp;sig=4369128f0a307c41faf426f7b8946542&amp;amp;filetype=js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;http://apps.facebook.com/fbml_static_get.php?src=http%3A%2F%2Frohith.seriousbusiness.com%3A3333%2Fjavascripts%2Fapplication.js%3F1238708435&amp;amp;appid=12291189380&amp;amp;pv=1&amp;amp;sig=1a35d600abbd54f4901cb74cd193f2d9&amp;amp;filetype=js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;</sentence>
+			<sentence id="4.7">  </sentence>
+			<sentence id="4.8">  a12291189380_AJAX_HOST = &amp;quot;http:\/\/rohith.seriousbusiness.com:3333\/&amp;quot;;</sentence>
+			<sentence id="4.9">  </sentence>
+			<sentence id="4.10">  var a12291189380_test = &amp;quot;what&amp;#039;s happenin&amp;quot;</sentence>
+			<sentence id="4.11">  </sentence>
+			<sentence id="4.12">  //</sentence>
+			<sentence id="4.13">  a12291189380_ajax_dialog.buttonCancel = a12291189380_$(&amp;quot;#translated__364600144&amp;quot;).attr(&amp;#039;value&amp;#039;);</sentence>
+			<sentence id="4.14">  a12291189380_CommentBox.defaultText = a12291189380_$(&amp;quot;#translated__822047139&amp;quot;).attr(&amp;#039;value&amp;#039;);</sentence>
+			<sentence id="4.15">  </sentence>
+			<sentence id="4.16">  a12291189380_distance_of_time_in_words.translatedStrings = {};</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&amp;lt;/script&amp;gt;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">friends.</sentence>
+			<sentence id="6.2">&gt;
+      
+         &lt;a href= http://www.facebook.com/s.php?k=100000080&amp;amp;id=12345  onclick= (new Image()).</sentence>
+			<sentence id="6.3">src = &amp;#039;/ajax/ct.</sentence>
+			<sentence id="6.4">php?app_id=12291189380&amp;amp;action_type=3&amp;amp;post_form_id=56a367e62c7fa6cb983811dd8c3bb46a&amp;amp;position=3&amp;amp;&amp;#039; + Math.random();return true; &gt;Eli Richlin&lt;/a&gt; is in first place.</sentence>
+			<sentence id="6.5">&lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">You can see that the title attribute pulls in javascript from elsewhere on the page.</sentence>
+		</paragraph>
+	</description>
+</bug>

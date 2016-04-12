@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>583557</id>
+	<title>Cookies are reset every time Firefox is closed.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; Windows NT 6.1; WOW64; rv:2.0b3pre) Gecko/20100731 Minefield/4.0b3pre
+Build Identifier: Mozilla/5.0 (Windows; Windows NT 6.1; WOW64; rv:2.0b3pre) Gecko/20100731 Minefield/4.0b3pre</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Whenever I quit Firefox then execute it again, all my cookies appear to be reset.</sentence>
+			<sentence id="2.2">I've checked the options for handling cookies and I've made sure that the browser does not automatically delete them upon being shut down, however the problem still persists, and I have to log into sites once again.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Steps to Reproduce:</sentence>
+			<sentence id="4.2">1 Open Firefox.</sentence>
+			<sentence id="4.3">2 Login to any site that requires user login.</sentence>
+			<sentence id="4.4">3 Quit Firefox.</sentence>
+			<sentence id="4.5">4 Reopen Firefox and go to the sites that you are logged in at and check if you are still logged in.</sentence>
+			<sentence id="4.6">Actual Results:</sentence>
+			<sentence id="4.7">I was logged out of any sites I was logged in to.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Expected Results:  
+Firefox should have kept me logged into the sites that I had logged in to, as it had been configured to keep cookies until they expired.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">about:buildconfig
+Source</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Built from http://hg.mozilla.org/mozilla-central/rev/f73e5032cfad
+Build platform
+target
+i686-pc-mingw32
+Build tools
+Compiler 	Version 	Compiler flags
+cl 	14.00.50727.762 	-TC -nologo -W3 -Gy -Fdgenerated.pdb -DNDEBUG -DTRIMMED -Zi -Zi -UDEBUG -DNDEBUG -GL -wd4624 -wd4952 -O1
+cl 	14.00.50727.762 	-GR- -TP -nologo -Zc:wchar_t- -W3 -Gy -Fdgenerated.pdb -wd4800 -DNDEBUG -DTRIMMED -Zi -Zi -UDEBUG -DNDEBUG -GL -wd4624 -wd4952 -O1
+Configure arguments</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">--enable-application=browser --enable-update-channel=nightly --enable-update-packaging --enable-jemalloc --enable-tests</sentence>
+		</paragraph>
+	</description>
+</bug>

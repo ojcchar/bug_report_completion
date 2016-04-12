@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>35556</id>
+	<title>CRL files not re-read by HUP</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have a CentOS 4.1 server running httpd-2.0.52-12.</sentence>
+			<sentence id="1.2">ent.centos4 using client
+certificates for authentication.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">We have an internal CA that regenerates CRLs every hour, and they are signed as
+being valid for 24 hours.</sentence>
+			<sentence id="2.2">We have an automated process for pushing those CRL
+files out to Web servers and other devices that need them.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">On this 2.0.52 server, the revocation data is referenced via:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">SSLCARevocationFile /etc/httpd/conf/ssl.crl/Our-CA.</sentence>
+			<sentence id="4.2">crl</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">What is happening is that even though that file is being updated with a new CRL
+file every hour, only a full restart (stop, start) of Apache makes it re-read
+the CRL!</sentence>
+			<sentence id="5.2">If we send a HUP, it doesn't re-read it.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">At that stage you see the "Found CRL is expired - revoking all certificates
+until you get updated CRL" error message and noone can access the server via
+certs any more.</sentence>
+		</paragraph>
+	</description>
+</bug>

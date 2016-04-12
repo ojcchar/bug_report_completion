@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8453</id>
+	<title>apxs uses wrong path-variable for build-dir</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I am trying to install php 4.2.0 as a DSO-modul for apache 2.0.35.</sentence>
+			<sentence id="1.2">The 
+configure-script of php fails with</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">cannot open /usr/local/build/config_vars.</sentence>
+			<sentence id="2.2">mk: No such file or directory at 
+.</sentence>
+			<sentence id="2.3">/apxs line 248.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I tracked the error down to the apxs script.</sentence>
+			<sentence id="3.2">In line 69:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">get_config_vars("$prefix/build/config_vars.mk",\%config_vars);</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I am using the GNU layout.</sentence>
+			<sentence id="5.2">In this layout the build-directory is under 
+"/usr/local/share/apache2/build" and the prefix is "/usr/local/"</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">If I change that to the right path (/usr/local/share/apache2/build/" it works 
+and I can compile php.</sentence>
+			<sentence id="6.2">But when i try to make "make install" I get the 
+following:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">/usr/local/sbin/apxs -i -a -n php4 libphp4.la
+/usr/local/build/instdso.sh SH_LIBTOOL='/usr/local/build/libtool' libphp4.la 
+/usr/local/libexec
+sh: /usr/local/build/instdso.sh: No such file or directory
+apxs:Error: Command failed with rc=8323072</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">It seems thap apxs uses in the lines 418, 443 and 474 the wrong path-variable.</sentence>
+			<sentence id="8.2">I think it should be the variable (or path) "$installbuilddir" from the file 
+config.layout  in case of "$prefix/build" ???</sentence>
+			<sentence id="8.3">I do not know how to access that 
+variable or how I should do it right, because I am not so familiar with the 
+code-structurof apache.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I configured php with following command:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">.</sentence>
+			<sentence id="10.2">/configure --with-tsrm-pthreads --with-mysql=/usr/local</sentence>
+			<sentence id="10.3">--with-imap-ssl=/usr/local --with-gettext --with-imap=/Source/imap-2001a</sentence>
+			<sentence id="10.4">--with-gd --with-openssl=/usr/local --with-apxs2=/usr/local/sbin/apxs</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">and apache 2.0.35 with the following:</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">.</sentence>
+			<sentence id="12.2">/configure --enable-layout=GNU  --enable-info --with-ssl=/usr/local</sentence>
+			<sentence id="12.3">--enable-so</sentence>
+		</paragraph>
+	</description>
+</bug>

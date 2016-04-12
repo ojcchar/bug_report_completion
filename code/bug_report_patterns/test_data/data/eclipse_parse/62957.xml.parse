@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>62957</id>
+	<title>Linux/390: RAC goes into a weird state all by itself when left running for a long time</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm not sure about the reproducibility of this bug, so I'm only marking it as
+normal severity.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Basically, the RAC (RAServer process) had been left running for a while on our
+Linux_390 machine (enwlinx1) and when I went to do the latest M9 testing, I
+found it in an extremely weird state.</sentence>
+			<sentence id="2.2">If you did a 'ps -eaf' to list the
+processes, it wasn't listed in there by name, but was instead replaced by a
+whole bunch of processes whose  name was "&lt;phi&gt;X" (where &lt;phi&gt; is replaced by
+the ASCII extended symbol for phi).</sentence>
+			<sentence id="2.3">I'm attaching the servicelog (zipped up).</sentence>
+			<sentence id="2.4">It
+looks like the RAC got into some infinite loop given the long string of repeated
+messages.</sentence>
+		</paragraph>
+	</description>
+</bug>

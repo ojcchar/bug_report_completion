@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>26682</id>
+	<title>ErrorDocument 502 does not work with mod_rewrite with proxied requests</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This my httpd.conf configuration:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Timeout 10
+ProxyTimeout 3
+ErrorDocument 502 /error/error502.</sentence>
+			<sentence id="2.2">txt
+RewriteEngine on
+RewriteRule ^/sleep$ http://ws00013/cgi-bin/sleep [P]</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The page times out after 10 seconds (instead of 3 seconds with ProxyTimeout).</sentence>
+			<sentence id="3.2">And the error that is sent back instead the default ErrorDocument (although the
+log shows that the ErrorDocument handler is in some way executed:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">=================================
+502 Bad Gateway
+Connection: close
+Date: Thu, 05 Feb 2004 11:33:22 GMT
+Accept-Ranges: bytes
+ETag: "a2a1d-a-408ddc40"
+Server: Apache/2.0.48 (Unix)
+Content-Length: 10
+Content-Type: text/plain
+Last-Modified: Thu, 05 Feb 2004 11:29:45 GMT
+Client-Date: Thu, 05 Feb 2004 11:33:32 GMT
+Client-Response-Num: 1</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&lt;HTML&gt;
+&lt;HEAD&gt;&lt;TITLE&gt;An Error Occurred&lt;/TITLE&gt;&lt;/HEAD&gt;
+&lt;BODY&gt;
+&lt;H1&gt;An Error Occurred&lt;/H1&gt;
+502 Bad Gateway
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+=================================</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">But the logs show the following:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">error_log:</sentence>
+			<sentence id="7.2">----------</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">[Thu Feb 05 11:33:32 2004] [error] [client 127.0.0.1] proxy: error reading
+status line from remote server ws00013
+[Thu Feb 05 11:33:32 2004] [error] [client 127.0.0.1] proxy: Error reading from
+remote server returned by /sleep</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">access_log:</sentence>
+			<sentence id="9.2">-----------</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">127.0.0.1 - - [05/Feb/2004:11:33:22 +0000] "ws00013.vfl.vodafone GET /sleep
+HTTP/1.1" 502 10 "-" "lwp-request/2.01"
+/apps/apache/2.0.48/htdocs/error/error502.</sentence>
+			<sentence id="10.2">txt -
+10.99.148.170 - - [05/Feb/2004:11:33:22 +0000] "ws00013.vfl.vodafone GET
+/cgi-bin/sleep HTTP/1.1" 200 26 "-" "lwp-request/2.01"
+/apps/apache/2.0.48/cgi-bin/sleep</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">rewrite_log:</sentence>
+			<sentence id="11.2">------------</sentence>
+			<sentence id="11.3">127.0.0.1 - - [05/Feb/2004:11:33:32 +0000]</sentence>
+			<sentence id="11.4">[ws00013.vfl.vodafone/sid#15d798][rid#1fac40/initial/redir#1] (2) init rewrite</sentence>
+			<sentence id="11.5">engine with requested uri /error/error502.</sentence>
+			<sentence id="11.6">txt</sentence>
+			<sentence id="11.7">127.0.0.1 - - [05/Feb/2004:11:33:32 +0000]</sentence>
+			<sentence id="11.8">[ws00013.vfl.vodafone/sid#15d798][rid#1fac40/initial/redir#1] (3) applying</sentence>
+			<sentence id="11.9">pattern '^/sleep$' to uri '/error/error502.</sentence>
+			<sentence id="11.10">txt'</sentence>
+			<sentence id="11.11">127.0.0.1 - - [05/Feb/2004:11:33:32 +0000]</sentence>
+			<sentence id="11.12">[ws00013.vfl.vodafone/sid#15d798][rid#1fac40/initial/redir#1] (1) pass through</sentence>
+			<sentence id="11.13">/error/error502.</sentence>
+			<sentence id="11.14">txt</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">I can provide full httpd.conf and sleep cgi if needed.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1896</id>
+	<title>HTML entity references go unresoved in video_src link</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The page I am posing a Share link to a page that contains the following tag:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;link rel= video_src  href= http://www.necodo.com/media/link/?type=album_widget&amp;amp;release_id=6AD8A3CD-EDBE-43DA-A6BE-837FE54FD2D0&amp;amp;play=1 /&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&amp;  characters in the attribute value (the url) are HTML encoded_ per HTML spec.</sentence>
+			<sentence id="3.2">These should be resolved back to  &amp;  by the Facebook s XML parser extracting the metadata.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">What really happens is - Flash movie is loaded from the URL still containing unresolved  &amp;amp;  references.</sentence>
+			<sentence id="4.2">Our server than cannot properly extract parameters from the query string.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I believe this to be a regression.</sentence>
+			<sentence id="5.2">This worked fine in the past.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Full the linked page source at_ but you have to be kind of quick and click STOP before the client-side redirect:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">http://www.necodo.com/link/?type=release&amp;id=6ad8a3cd-edbe-43da-a6be-837fe54fd2d0.</sentence>
+		</paragraph>
+	</description>
+</bug>

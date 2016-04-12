@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>14452</id>
+	<title>posting pictures to feed fails with query parameter</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">when attempting to create a new picture post to a users feed_ if the picture url has a query parameter_ facebook does not accept it</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">for example:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">curl -F  access_token=...  \</sentence>
+			<sentence id="3.2">-F  message=Check out this funny article  \</sentence>
+			<sentence id="3.3">-F  link=http://www.example.com/article.html  \</sentence>
+			<sentence id="3.4">-F  picture=http://www.example.com/article-thumbnail.jpg  \</sentence>
+			<sentence id="3.5">-F  name=Article Title  \</sentence>
+			<sentence id="3.6">-F  caption=Caption for the link  \</sentence>
+			<sentence id="3.7">-F  description=Longer description of the link  \</sentence>
+			<sentence id="3.8">-F  actions={ name :  View on Zombo _  link :  http://www.zombo.com }  \</sentence>
+			<sentence id="3.9">-F  privacy={ value :  ALL_FRIENDS }  \</sentence>
+			<sentence id="3.10">-F  targeting= { countries : US _ regions : 6_53 _ locales : 6 }  \</sentence>
+			<sentence id="3.11">https://graph.facebook.com/me/feed</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">(taken from the documentation: http://developers.facebook.com/docs/reference/api/post/)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">will create a picture post_ but if you change the picture url to:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">http://www.example.com/article-thumbnail.jpg?query=true</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">then no picture is included in the post</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">this is an issue for me because i host all my pictures on amazon aws_ so a picture link will look like:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">http://s3.amazonaws.com/starglueImages/1290475127pXLoZLv.o.png?AWSAccessKeyId=AKIAJFMTMNCRCQXP7KRQ&amp;Expires=1293824019&amp;Signature=QFRVD0W2lHb%2BoB%2FhAYLBtZW4u%2FI%3D</sentence>
+		</paragraph>
+	</description>
+</bug>

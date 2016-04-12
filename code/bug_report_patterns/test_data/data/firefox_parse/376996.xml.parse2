@@ -1,0 +1,101 @@
+This/DT bug/NN can/MD also/RB be/VB reproduced/VBN for/IN Firefox/NNP trunk/NN nightly/JJ build/VB on/IN S10u4_04/NN wos/NNS ./. 
+
+(ROOT (S (NP (DT This) (NN bug)) (VP (MD can) (ADVP (RB also)) (VP (VB be) (VP (VBN reproduced) (PP (IN for) (NP (NP (NNP Firefox)) (SBAR (S (NP (NN trunk) (JJ nightly)) (VP (VB build) (PP (IN on) (NP (NN S10u4_04) (NNS wos))))))))))) (. .)))
+
+root(ROOT-0, reproduced-6)
+det(bug-2, This-1)
+nsubjpass(reproduced-6, bug-2)
+aux(reproduced-6, can-3)
+advmod(reproduced-6, also-4)
+auxpass(reproduced-6, be-5)
+prep_for(reproduced-6, Firefox-8)
+nsubj(build-11, trunk-9)
+amod(trunk-9, nightly-10)
+rcmod(Firefox-8, build-11)
+nn(wos-14, S10u4_04-13)
+prep_on(build-11, wos-14)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD Remove/VB ./. 
+
+(ROOT (S (NP (CD 1)) (VP (VB Remove)) (. .)))
+
+root(ROOT-0, Remove-2)
+nsubj(Remove-2, 1-1)
+
+mozilla/NN 
+
+(ROOT (NP (NN mozilla)))
+
+root(ROOT-0, mozilla-1)
+
+2/CD Launch/VB Mozilla1/NN .7/NN and/CC load/NN www.sun.com/NN 
+
+(ROOT (FRAG (NP (CD 2)) (VP (VB Launch) (NP (NP (NN Mozilla1) (NN .7)) (CC and) (NP (NN load) (NN www.sun.com))))))
+
+root(ROOT-0, 2-1)
+dep(2-1, Launch-2)
+nn(.7-4, Mozilla1-3)
+dobj(Launch-2, .7-4)
+nn(www.sun.com-7, load-6)
+dobj(Launch-2, www.sun.com-7)
+conj_and(.7-4, www.sun.com-7)
+
+3/CD Launch/VB Firefox2.0.x/NN and/CC migrate/VB data/NNS from/IN Mozilla1/NN .7/CD 
+
+(ROOT (FRAG (NP (CD 3)) (VP (VP (VB Launch) (NP (NN Firefox2.0.x))) (CC and) (VP (VB migrate) (NP (NNS data)) (PP (IN from) (NP (NN Mozilla1) (CD .7)))))))
+
+root(ROOT-0, 3-1)
+dep(3-1, Launch-2)
+dobj(Launch-2, Firefox2.0.x-3)
+dep(3-1, migrate-5)
+conj_and(Launch-2, migrate-5)
+dobj(migrate-5, data-6)
+prep_from(migrate-5, Mozilla1-8)
+num(Mozilla1-8, .7-9)
+
+Actual/JJ result/NN :/: Compare/VB with/IN the/DT cookies/NNS in/IN Mozilla/NNP and/CC Firefox/NNP ,/, all/PDT the/DT cookies/NNS that/WDT site/NN name/NN is/VBZ sun.com/NNP can/MD not/RB be/VB migrated/VBN ./. 
+
+(ROOT (FRAG (NP (JJ Actual) (NN result)) (: :) (S (S (VP (VB Compare) (PP (IN with) (NP (NP (DT the) (NNS cookies)) (PP (IN in) (NP (NNP Mozilla) (CC and) (NNP Firefox))))))) (, ,) (NP (NP (PDT all) (DT the) (NNS cookies)) (SBAR (WHNP (WDT that) (NN site) (NN name)) (S (VP (VBZ is) (NP (NNP sun.com)))))) (VP (MD can) (RB not) (VP (VB be) (VP (VBN migrated))))) (. .)))
+
+root(ROOT-0, result-2)
+amod(result-2, Actual-1)
+ccomp(migrated-24, Compare-4)
+det(cookies-7, the-6)
+prep_with(Compare-4, cookies-7)
+prep_in(cookies-7, Mozilla-9)
+prep_in(cookies-7, Firefox-11)
+conj_and(Mozilla-9, Firefox-11)
+predet(cookies-15, all-13)
+det(cookies-15, the-14)
+nsubjpass(migrated-24, cookies-15)
+det(name-18, that-16)
+nn(name-18, site-17)
+nsubj(sun.com-20, name-18)
+cop(sun.com-20, is-19)
+rcmod(cookies-15, sun.com-20)
+aux(migrated-24, can-21)
+neg(migrated-24, not-22)
+auxpass(migrated-24, be-23)
+dep(result-2, migrated-24)
+
+Expected/VBN result/NN :/: All/DT cookies/NNS are/VBP be/VB migrated/VBN correctly/RB ./. 
+
+(ROOT (S (S (VP (VBN Expected) (NP (NN result)))) (: :) (S (NP (DT All) (NNS cookies)) (VP (VBP are) (S (VP (VB be) (VP (VBN migrated) (ADVP (RB correctly))))))) (. .)))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, result-2)
+det(cookies-5, All-4)
+nsubj(are-6, cookies-5)
+parataxis(Expected-1, are-6)
+auxpass(migrated-8, be-7)
+ccomp(are-6, migrated-8)
+advmod(migrated-8, correctly-9)
+

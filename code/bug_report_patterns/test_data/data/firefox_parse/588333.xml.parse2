@@ -1,0 +1,116 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 6.1/CD ;/: en-US/NN ;/: rv/NN :1.9.2.8/CD )/-RRB- Gecko/20100722/NN Firefox/3/NN .6.8/CD Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 6.1/CD ;/: en-US/NN ;/: rv/NN :1.9.2.8/CD )/-RRB- Gecko/20100722/NN Firefox/3/NN .6.8/CD 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NNP Windows)) (: ;) (NP (NP (NNP U)) (: ;) (NP (NP (NP (NNP Windows) (NNP NT)) (NP (CD 6.1))) (: ;) (NP (NP (NP (NP (NN en-US)) (: ;) (NP (NP (NN rv)) (NP (CD :1.9.2.8))) (-RRB- -RRB-)) (NP (NN Gecko/20100722) (NN Firefox/3))) (NP (CD .6.8) (NNP Build) (NNP Identifier))) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (-LRB- -LRB-) (NP (NP (NNP Windows)) (: ;) (NP (NNP U)))) (: ;) (NP (NP (NNP Windows) (NNP NT)) (NP (CD 6.1))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NN rv) (CD :1.9.2.8))))) (-RRB- -RRB-)) (NP (NN Gecko/20100722) (NN Firefox/3))) (NP (CD .6.8)))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+dep(.0-4, Windows-6)
+dep(Windows-6, U-8)
+nn(NT-11, Windows-10)
+dep(U-8, NT-11)
+dep(NT-11, 6.1-12)
+dep(NT-11, en-US-14)
+dep(en-US-14, rv-16)
+dep(rv-16, :1.9.2.8-17)
+nn(Firefox/3-20, Gecko/20100722-19)
+dep(en-US-14, Firefox/3-20)
+num(Identifier-23, .6.8-21)
+nn(Identifier-23, Build-22)
+dep(en-US-14, Identifier-23)
+nn(.0-26, Mozilla/5-25)
+dep(NT-11, .0-26)
+dep(.0-26, Windows-28)
+dep(Windows-28, U-30)
+nn(NT-33, Windows-32)
+dep(NT-11, NT-33)
+dep(NT-33, 6.1-34)
+dep(NT-11, en-US-36)
+dep(en-US-36, rv-38)
+num(rv-38, :1.9.2.8-39)
+nn(Firefox/3-42, Gecko/20100722-41)
+dep(.0-4, Firefox/3-42)
+dep(.0-4, .6.8-43)
+
+Firefox/NNP crashes/NNS when/WRB I/PRP type/NN the/DT word/NN "/`` the/DT "/'' in/IN the/DT address/NN bar/NN ,/, It/PRP does/VBZ it/PRP every/DT time/NN ./. 
+
+(ROOT (S (NP (NNP Firefox) (NNS crashes)) (SBAR (WHADVP (WRB when)) (S (S (NP (NP (PRP I) (NN type)) (NP (DT the) (NN word)) (NP (`` ``) (NP (DT the)) ('' '') (PP (IN in) (NP (DT the) (NN address) (NN bar)))))) (, ,) (NP (PRP It)) (VP (VBZ does) (NP (PRP it)) (NP-TMP (DT every) (NN time))))) (. .)))
+
+root(ROOT-0, does-17)
+nn(crashes-2, Firefox-1)
+dep(does-17, crashes-2)
+advmod(does-17, when-3)
+dep(type-5, I-4)
+ccomp(does-17, type-5)
+det(word-7, the-6)
+dep(type-5, word-7)
+dep(type-5, the-9)
+det(bar-14, the-12)
+nn(bar-14, address-13)
+prep_in(the-9, bar-14)
+nsubj(does-17, It-16)
+dobj(does-17, it-18)
+det(time-20, every-19)
+tmod(does-17, time-20)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD Type/NN "/`` the/DT "/'' without/IN quotes/NNS in/IN address/NN bar/NN 
+
+(ROOT (NP (NP (CD 1) (NN Type)) (NP (`` ``) (NP (DT the)) ('' '') (PP (IN without) (NP (NP (NNS quotes)) (PP (IN in) (NP (NN address) (NN bar))))))))
+
+root(ROOT-0, Type-2)
+num(Type-2, 1-1)
+dep(Type-2, the-4)
+prep_without(the-4, quotes-7)
+nn(bar-10, address-9)
+prep_in(quotes-7, bar-10)
+
+2/CD 
+
+(ROOT (FRAG (NP (CD 2))))
+
+root(ROOT-0, 2-1)
+
+3/CD 
+
+(ROOT (FRAG (NP (CD 3))))
+
+root(ROOT-0, 3-1)
+
+Actual/JJ Results/NNS :/: 
+
+(ROOT (NP (JJ Actual) (NNS Results) (: :)))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+
+firefox/NN closes/VBZ 
+
+(ROOT (S (NP (NN firefox)) (VP (VBZ closes))))
+
+root(ROOT-0, closes-2)
+nsubj(closes-2, firefox-1)
+
+Expected/VBN Results/NNS :/: firefox/NNS closed/VBD 
+
+(ROOT (VP (VBN Expected) (NP (NP (NNS Results)) (: :) (S (NP (NNS firefox)) (VP (VBD closed))))))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Results-2)
+nsubj(closed-5, firefox-4)
+dep(Results-2, closed-5)
+

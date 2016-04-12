@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>457260</id>
+	<title>Increasing font-size on &lt;body&gt; doesn't resize content in a 'position: fixed' div correctly.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.1.17) Gecko/20080829 Firefox/2.0.0.17
+Build Identifier: Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.1.17) Gecko/20080829 Firefox/2.0.0.17</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I have a page containing a &lt;div&gt; with style set to either 'position: fixed;' or 'position: absolute;'.</sentence>
+			<sentence id="2.2">When I increase the font-size on the &lt;body&gt; using javascript, the text increases in size but the containing &lt;div&gt; does not.</sentence>
+			<sentence id="2.3">If I change the the &lt;div&gt; to 'position: relative;', then everything resizes the way I would expect.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Steps to Reproduce:</sentence>
+			<sentence id="4.2">1 Load the attached html test case.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">2 Click the "Increase" button which increases the font-size on the &lt;body&gt; element.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Actual Results:  
+The section at the bottom of the html test case which is using 'position: fixed' does not resize correctly.</sentence>
+			<sentence id="6.2">All of the text starts to overlap and extend outside the boundaries of the &lt;div&gt;.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Expected Results:  
+If you look at the top section of the html test case which is not using positioning you will see the results I expect.</sentence>
+			<sentence id="7.2">The text should have increased in size as well as the &lt;div&gt; containing the text.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>47417</id>
+	<title>Apache Web Server 2.2.11 Incomplete HTTP Header Resource Exhaustion Vulnerability</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This alleged vulnerability was reported to us by our internal security group.</sentence>
+			<sentence id="1.2">Apparently, all versions of Apache 2.2, including the latest version 2.2.11 are affected by a bug that can cause DoS attacks to be made very trivially.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">While there are a lot of DoS tools available today, this one is particularly interesting because it holds the connection open while sending incomplete HTTP requests to the server.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In this case, the server will open the connection and wait for the complete header to be received.</sentence>
+			<sentence id="3.2">However, the client (the DoS tool) will not send it and will instead keep sending bogus header lines which will keep the connection allocated.</sentence>
+			<sentence id="3.3">The initial part of the HTTP request is completely legitimate:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">GET / HTTP/1.1\r\n
+Host: host\r\n
+User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .</sentence>
+			<sentence id="4.2">NET CLR 1.1.4322; .</sentence>
+			<sentence id="4.3">NET CLR 2.0.503l3; .</sentence>
+			<sentence id="4.4">NET CLR 3.0.4506.2152; .</sentence>
+			<sentence id="4.5">NET CLR 3.5.30729; MSOffice 12)\r\n
+Content-Length: 42\r\n</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">After sending this the client waits for certain time – notice that it is missing one CRLF to finish the header which is otherwise completely legitimate.</sentence>
+			<sentence id="5.2">The bogus header line the tools sends is currently:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">X-a: b\r\n</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Which obviously doesn't mean anything to the server so it keeps waiting for the rest of the header to arrive.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">This link at iDefense labs has the code required to run teh exploit: https://ialert.idefense.com/idcontent/2009/exploit_code/487469-Web_Server_HTTP_Header_DoS.php.txt</sentence>
+		</paragraph>
+	</description>
+</bug>

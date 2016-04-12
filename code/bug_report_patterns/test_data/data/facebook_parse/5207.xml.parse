@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>5207</id>
+	<title>showFeedDialog inexplicably does not work for a specific user</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have a button which invokes a javascript function on my canvas page.</sentence>
+			<sentence id="1.2">The purpose of the button is to open a newfeed publish dialog.</sentence>
+			<sentence id="1.3">For some reason_ this does not work for a SPECIFIC person.</sentence>
+			<sentence id="1.4">I do not get a Javascript error... it just doesn t work.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Here s an example of the code that WORKS_ taken from inside my javascript function that handles clicks on my button:</sentence>
+			<sentence id="2.2">============================</sentence>
+			<sentence id="2.3">...... {</sentence>
+			<sentence id="2.4">var continuation = function() {};</sentence>
+			<sentence id="2.5">Facebook.showFeedDialog(84287237166_ { status : status _ dayname :  _ forecast :  _ city : test _ images :[{ src : http:\/\/facebook.weatherpoke.com\/images\/weathericons\/weather.com\/93x93\/28.png _ href : http:\/\/test.com\/ }]_ emotion : test _ currenttemp : 1234 _ currentcond : test }_   _ 1389210996_ continuation_  This is a sample. _ { value :  test1234 });</sentence>
+			<sentence id="2.6">}</sentence>
+			<sentence id="2.7">Here s an example of the code that DOESN T WORK:</sentence>
+			<sentence id="2.8">============================</sentence>
+			<sentence id="2.9">.... {</sentence>
+			<sentence id="2.10">var continuation = function() {};</sentence>
+			<sentence id="2.11">Facebook.showFeedDialog(84287237166_ { status : status _ dayname :  _ forecast :  _ city : test _ images :[{ src : http:\/\/facebook.weatherpoke.com\/images\/weathericons\/weather.com\/93x93\/28.png _ href : http:\/\/test.com\/ }]_ emotion : test _ currenttemp : 1234 _ currentcond : test }_   _ 14061_ continuation_  This is a sample. _ { value :  test1234 });</sentence>
+			<sentence id="2.12">}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The ONLY difference is the facebook ID that I m trying to target.</sentence>
+			<sentence id="3.2">I am friends with both of the users.</sentence>
+			<sentence id="3.3">No newsfeed publish dialog opens.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Please advise!</sentence>
+			<sentence id="4.2">Thank you_
+Jon</sentence>
+		</paragraph>
+	</description>
+</bug>

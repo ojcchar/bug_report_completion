@@ -1,0 +1,178 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Macintosh/NNP ;/: Intel/NNP Mac/NNP OS/NNP X/NN 10.6/CD ;/: rv/NN :2.0/CD )/-RRB- Gecko/20100101/NN Firefox/4/NN .0/CD Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Macintosh/NNP ;/: Intel/NNP Mac/NNP OS/NNP X/NN 10.6/CD ;/: rv/NN :2.0/CD )/-RRB- Gecko/20100101/NN Firefox/4/NN .0/CD 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NNP Macintosh)) (: ;) (NP (NP (NNP Intel) (NNP Mac) (NNP OS) (NN X) (CD 10.6)) (: ;) (NP (NN rv) (CD :2.0))) (-RRB- -RRB-)) (NP (NN Gecko/20100101) (NN Firefox/4))) (X (NP (NP (CD .0)) (NP (NP (NNP Build) (NNP Identifier)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NNP Macintosh)) (: ;) (NP (NP (NNP Intel) (NNP Mac) (NNP OS) (NN X) (CD 10.6)) (: ;) (NP (NN rv) (CD :2.0))) (-RRB- -RRB-))))) (NP (NN Gecko/20100101)) (NP (NP (NN Firefox/4)) (NP (CD .0))))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+dep(.0-4, Macintosh-6)
+nn(X-11, Intel-8)
+nn(X-11, Mac-9)
+nn(X-11, OS-10)
+dep(Macintosh-6, X-11)
+num(X-11, 10.6-12)
+dep(X-11, rv-14)
+num(rv-14, :2.0-15)
+nn(Firefox/4-18, Gecko/20100101-17)
+dep(.0-4, Firefox/4-18)
+dep(Firefox/4-38, .0-19)
+nn(Identifier-21, Build-20)
+dep(.0-19, Identifier-21)
+nn(.0-24, Mozilla/5-23)
+dep(Identifier-21, .0-24)
+dep(.0-24, Macintosh-26)
+nn(X-31, Intel-28)
+nn(X-31, Mac-29)
+nn(X-31, OS-30)
+dep(Macintosh-26, X-31)
+num(X-31, 10.6-32)
+dep(X-31, rv-34)
+num(rv-34, :2.0-35)
+dep(Firefox/4-38, Gecko/20100101-37)
+dep(User-Agent-1, Firefox/4-38)
+dep(Firefox/4-38, .0-39)
+
+If/IN you/PRP load/VBP a/DT page/NN which/WDT brings/VBZ up/RP the/DT unresponsive/JJ script/NN warning/NN ,/, "/`` Stop/VB script/NN "/'' and/CC reload/VB the/DT same/JJ page/NN ,/, then/RB the/DT second/JJ time/NN will/MD just/RB hang/VB Firefox/NNP and/CC not/RB trigger/VB the/DT warning/NN dialog/NN ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (PRP you)) (VP (VBP load) (NP (NP (DT a) (NN page)) (SBAR (WHNP (WDT which)) (S (VP (VBZ brings) (PRT (RP up)) (NP (DT the) (JJ unresponsive) (NN script) (NN warning)))))) (, ,) (S (`` ``) (VP (VP (VB Stop) (NP (NN script))) ('' '') (CC and) (VP (VB reload) (NP (DT the) (JJ same) (NN page)))))))) (, ,) (NP (RB then) (DT the) (JJ second) (NN time)) (VP (MD will) (ADVP (RB just)) (VP (VP (VB hang) (NP (NNP Firefox))) (CC and) (RB not) (VP (VB trigger) (NP (DT the) (NN warning) (NN dialog))))) (. .)))
+
+root(ROOT-0, hang-30)
+mark(load-3, If-1)
+nsubj(load-3, you-2)
+advcl(hang-30, load-3)
+det(page-5, a-4)
+dobj(load-3, page-5)
+nsubj(brings-7, which-6)
+rcmod(page-5, brings-7)
+prt(brings-7, up-8)
+det(warning-12, the-9)
+amod(warning-12, unresponsive-10)
+nn(warning-12, script-11)
+dobj(brings-7, warning-12)
+dep(load-3, Stop-15)
+dobj(Stop-15, script-16)
+dep(load-3, reload-19)
+conj_and(Stop-15, reload-19)
+det(page-22, the-20)
+amod(page-22, same-21)
+dobj(reload-19, page-22)
+advmod(time-27, then-24)
+det(time-27, the-25)
+amod(time-27, second-26)
+nsubj(hang-30, time-27)
+nsubj(trigger-34, time-27)
+aux(hang-30, will-28)
+advmod(hang-30, just-29)
+dobj(hang-30, Firefox-31)
+neg(trigger-34, not-33)
+conj_and(hang-30, trigger-34)
+det(dialog-37, the-35)
+nn(dialog-37, warning-36)
+dobj(trigger-34, dialog-37)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD Load/NN page/NN known/VBN to/TO trigger/VB the/DT unresponsive/JJ script/NN warning/NN ./. 
+
+(ROOT (S (NP (CD 1) (NN Load) (NN page)) (VP (VBN known) (S (VP (TO to) (VP (VB trigger) (NP (DT the) (ADJP (JJ unresponsive)) (NN script) (NN warning)))))) (. .)))
+
+root(ROOT-0, known-4)
+num(page-3, 1-1)
+nn(page-3, Load-2)
+nsubj(known-4, page-3)
+aux(trigger-6, to-5)
+xcomp(known-4, trigger-6)
+det(warning-10, the-7)
+amod(warning-10, unresponsive-8)
+nn(warning-10, script-9)
+dobj(trigger-6, warning-10)
+
+2/CD Click/VB "/`` Stop/VB script/NN "/'' when/WRB warning/VBG dialog/NN appears/VBZ ./. 
+
+(ROOT (S (NP (CD 2)) (VP (VB Click) (S (VP (`` ``) (VB Stop) (NP (NN script)) ('' ''))) (SBAR (WHADVP (WRB when)) (S (NP (VBG warning) (NN dialog)) (VP (VBZ appears))))) (. .)))
+
+root(ROOT-0, Click-2)
+nsubj(Click-2, 2-1)
+ccomp(Click-2, Stop-4)
+dobj(Stop-4, script-5)
+advmod(appears-10, when-7)
+amod(dialog-9, warning-8)
+nsubj(appears-10, dialog-9)
+advcl(Click-2, appears-10)
+
+3/CD Reload/NNP same/JJ page/NN and/CC wait/VB for/IN warning/VBG dialog/NN to/TO appear/VB again/RB ./. 
+
+(ROOT (S (S (NP (CD 3) (NNP Reload) (JJ same) (NN page))) (CC and) (S (VP (VB wait) (PP (IN for) (S (VP (VBG warning) (NP (NN dialog)) (S (VP (TO to) (VP (VB appear) (ADVP (RB again)))))))))) (. .)))
+
+root(ROOT-0, page-4)
+num(page-4, 3-1)
+nn(page-4, Reload-2)
+amod(page-4, same-3)
+conj_and(page-4, wait-6)
+prepc_for(wait-6, warning-8)
+dobj(warning-8, dialog-9)
+aux(appear-11, to-10)
+vmod(warning-8, appear-11)
+advmod(appear-11, again-12)
+
+4/LS Force-quit/NN Firefox/NNP because/IN dialog/NN does/VBZ not/RB show/VB up/RP ./. 
+
+(ROOT (NP (NP (LST (LS 4)) (NP (NN Force-quit) (NNP Firefox)) (PP (IN because) (NP (NN dialog)))) (SBAR (S (VP (VBZ does) (RB not) (VP (VB show) (PRT (RP up)))))) (. .)))
+
+root(ROOT-0, Firefox-3)
+dep(Firefox-3, 4-1)
+nn(Firefox-3, Force-quit-2)
+prep_because(Firefox-3, dialog-5)
+aux(show-8, does-6)
+neg(show-8, not-7)
+rcmod(Firefox-3, show-8)
+prt(show-8, up-9)
+
+Actual/JJ Results/NNS :/: 
+
+(ROOT (NP (JJ Actual) (NNS Results) (: :)))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+
+Firefox/NNP hangs/VBZ on/IN the/DT unresponsive/JJ script/NN after/IN the/DT second/JJ page/NN load/NN ./. 
+
+(ROOT (S (NP (NNP Firefox)) (VP (VBZ hangs) (PP (IN on) (NP (DT the) (JJ unresponsive) (NN script))) (PP (IN after) (NP (DT the) (JJ second) (NN page) (NN load)))) (. .)))
+
+root(ROOT-0, hangs-2)
+nsubj(hangs-2, Firefox-1)
+det(script-6, the-4)
+amod(script-6, unresponsive-5)
+prep_on(hangs-2, script-6)
+det(load-11, the-8)
+amod(load-11, second-9)
+nn(load-11, page-10)
+prep_after(hangs-2, load-11)
+
+Expected/VBN Results/NNS :/: Firefox/NNP should/MD display/VB the/DT unresponsive/JJ script/NN dialog/NN ./. 
+
+(ROOT (S (S (VP (VBN Expected) (NP (NNS Results)))) (: :) (S (NP (NNP Firefox)) (VP (MD should) (VP (VB display) (NP (DT the) (ADJP (JJ unresponsive)) (NN script) (NN dialog))))) (. .)))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Results-2)
+nsubj(display-6, Firefox-4)
+aux(display-6, should-5)
+parataxis(Expected-1, display-6)
+det(dialog-10, the-7)
+amod(dialog-10, unresponsive-8)
+nn(dialog-10, script-9)
+dobj(display-6, dialog-10)
+

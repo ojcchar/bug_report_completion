@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>39313</id>
+	<title>RewriteOption Inherit adds global rules AFTER local rules. You may want the other odrer.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When you use RewriteOptions Inherit inside a VirtualHost or Directory which also has 
+local rules, the global rules are added at the end of the local rules list.</sentence>
+			<sentence id="1.2">As a 
+result, local rules are first applied, and then, global rules are applied after local 
+rules.</sentence>
+			<sentence id="1.3">Since rules ordering in important, you may want to apply global rules first, 
+and then local rules.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I propose a patch to fullfill this functionality :</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">- I added a new parameter "Before" to the RewriteOptions directive.</sentence>
+			<sentence id="3.2">You can write the</sentence>
+			<sentence id="3.3">following in a VirtualHost or Directory block in httpd.conf :</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">RewriteOptions Inherit Before</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">which means that global rules will be applied before local rules.</sentence>
+			<sentence id="5.2">The default will 
+still be after.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">This patch modifies modules/mappers/mod_rewrite.h as follows :</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1"># diff -c mod_rewrite.</sentence>
+			<sentence id="7.2">h.old mod_rewrite.</sentence>
+			<sentence id="7.3">h</sentence>
+			<sentence id="7.4">*** mod_rewrite.</sentence>
+			<sentence id="7.5">h.old   Fri Feb  4 21:21:18 2005</sentence>
+			<sentence id="7.6">--- mod_rewrite.</sentence>
+			<sentence id="7.7">h       Fri Apr 14 10:52:34 2006</sentence>
+			<sentence id="7.8">***************</sentence>
+			<sentence id="7.9">*** 138,143 ****</sentence>
+			<sentence id="7.10">--- 138,144 ----</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">#define OPTION_NONE                 1&lt;&lt;0
+  #define OPTION_INHERIT              1&lt;&lt;1
++ #define OPTION_INHERIT_BEFORE       1&lt;&lt;2</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">#define CACHEMODE_TS                1&lt;&lt;0
+  #define CACHEMODE_TTL               1&lt;&lt;1</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">And modifies modules/mappers/mod_rewrite.c as follows (based on 2.0.55) :</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1"># diff -c mod_rewrite.</sentence>
+			<sentence id="11.2">c.old mod_rewrite.</sentence>
+			<sentence id="11.3">c</sentence>
+			<sentence id="11.4">*** mod_rewrite.</sentence>
+			<sentence id="11.5">c.old   Wed May 25 20:05:05 2005</sentence>
+			<sentence id="11.6">--- mod_rewrite.</sentence>
+			<sentence id="11.7">c       Fri Apr 14 10:52:39 2006</sentence>
+			<sentence id="11.8">***************</sentence>
+			<sentence id="11.9">*** 212,223 ****</sentence>
+			<sentence id="11.10">a-&gt;rewritelogfp    = overrides-&gt;rewritelogfp !</sentence>
+			<sentence id="11.11">= NULL</sentence>
+			<sentence id="11.12">?</sentence>
+			<sentence id="11.13">overrides-&gt;rewritelogfp</sentence>
+			<sentence id="11.14">: base-&gt;rewritelogfp;</sentence>
+			<sentence id="11.15">!</sentence>
+			<sentence id="11.16">a-&gt;rewritemaps     = apr_array_append(p, overrides-&gt;rewritemaps,</sentence>
+			<sentence id="11.17">!</sentence>
+			<sentence id="11.18">base-&gt;rewritemaps);</sentence>
+			<sentence id="11.19">!</sentence>
+			<sentence id="11.20">a-&gt;rewriteconds    = apr_array_append(p, overrides-&gt;rewriteconds,</sentence>
+			<sentence id="11.21">!</sentence>
+			<sentence id="11.22">base-&gt;rewriteconds);</sentence>
+			<sentence id="11.23">!</sentence>
+			<sentence id="11.24">a-&gt;rewriterules    = apr_array_append(p, overrides-&gt;rewriterules,</sentence>
+			<sentence id="11.25">!</sentence>
+			<sentence id="11.26">base-&gt;rewriterules);</sentence>
+			<sentence id="11.27">}</sentence>
+			<sentence id="11.28">else {</sentence>
+			<sentence id="11.29">/*</sentence>
+			<sentence id="11.30">--- 212,233 ----</sentence>
+			<sentence id="11.31">a-&gt;rewritelogfp    = overrides-&gt;rewritelogfp !</sentence>
+			<sentence id="11.32">= NULL</sentence>
+			<sentence id="11.33">?</sentence>
+			<sentence id="11.34">overrides-&gt;rewritelogfp</sentence>
+			<sentence id="11.35">: base-&gt;rewritelogfp;</sentence>
+			<sentence id="11.36">!</sentence>
+			<sentence id="11.37">if (a-&gt;options &amp; OPTION_INHERIT_BEFORE) {</sentence>
+			<sentence id="11.38">!</sentence>
+			<sentence id="11.39">a-&gt;rewritemaps     = apr_array_append(p, base-&gt;rewritemaps,</sentence>
+			<sentence id="11.40">!</sentence>
+			<sentence id="11.41">overrides-&gt;rewritemaps);</sentence>
+			<sentence id="11.42">!</sentence>
+			<sentence id="11.43">a-&gt;rewriteconds    = apr_array_append(p, base-&gt;rewriteconds,</sentence>
+			<sentence id="11.44">!</sentence>
+			<sentence id="11.45">overrides-&gt;rewriteconds);</sentence>
+			<sentence id="11.46">!</sentence>
+			<sentence id="11.47">a-&gt;rewriterules    = apr_array_append(p, base-&gt;rewriterules,</sentence>
+			<sentence id="11.48">!</sentence>
+			<sentence id="11.49">overrides-&gt;rewriterules);</sentence>
+			<sentence id="11.50">!         }</sentence>
+			<sentence id="11.51">!</sentence>
+			<sentence id="11.52">else {</sentence>
+			<sentence id="11.53">!</sentence>
+			<sentence id="11.54">a-&gt;rewritemaps     = apr_array_append(p, overrides-&gt;rewritemaps,</sentence>
+			<sentence id="11.55">!</sentence>
+			<sentence id="11.56">base-&gt;rewritemaps);</sentence>
+			<sentence id="11.57">!</sentence>
+			<sentence id="11.58">a-&gt;rewriteconds    = apr_array_append(p, overrides-&gt;rewriteconds,</sentence>
+			<sentence id="11.59">!</sentence>
+			<sentence id="11.60">base-&gt;rewriteconds);</sentence>
+			<sentence id="11.61">!</sentence>
+			<sentence id="11.62">a-&gt;rewriterules    = apr_array_append(p, overrides-&gt;rewriterules,</sentence>
+			<sentence id="11.63">!</sentence>
+			<sentence id="11.64">base-&gt;rewriterules);</sentence>
+			<sentence id="11.65">!         }</sentence>
+			<sentence id="11.66">}</sentence>
+			<sentence id="11.67">else {</sentence>
+			<sentence id="11.68">/*</sentence>
+			<sentence id="11.69">***************</sentence>
+			<sentence id="11.70">*** 289,298 ****</sentence>
+			<sentence id="11.71">: base-&gt;redirect_limit;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">if (a-&gt;options &amp; OPTION_INHERIT) {</sentence>
+			<sentence id="12.2">!</sentence>
+			<sentence id="12.3">a-&gt;rewriteconds = apr_array_append(p, overrides-&gt;rewriteconds,</sentence>
+			<sentence id="12.4">!</sentence>
+			<sentence id="12.5">base-&gt;rewriteconds);</sentence>
+			<sentence id="12.6">!</sentence>
+			<sentence id="12.7">a-&gt;rewriterules = apr_array_append(p, overrides-&gt;rewriterules,</sentence>
+			<sentence id="12.8">!</sentence>
+			<sentence id="12.9">base-&gt;rewriterules);</sentence>
+			<sentence id="12.10">}</sentence>
+			<sentence id="12.11">else {</sentence>
+			<sentence id="12.12">a-&gt;rewriteconds = overrides-&gt;rewriteconds;</sentence>
+			<sentence id="12.13">--- 299,316 ----</sentence>
+			<sentence id="12.14">: base-&gt;redirect_limit;</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">if (a-&gt;options &amp; OPTION_INHERIT) {</sentence>
+			<sentence id="13.2">!</sentence>
+			<sentence id="13.3">if (a-&gt;options &amp; OPTION_INHERIT_BEFORE) {</sentence>
+			<sentence id="13.4">!</sentence>
+			<sentence id="13.5">a-&gt;rewriteconds = apr_array_append(p, base-&gt;rewriteconds,</sentence>
+			<sentence id="13.6">!</sentence>
+			<sentence id="13.7">overrides-&gt;rewriteconds);</sentence>
+			<sentence id="13.8">!</sentence>
+			<sentence id="13.9">a-&gt;rewriterules = apr_array_append(p, base-&gt;rewriterules,</sentence>
+			<sentence id="13.10">!</sentence>
+			<sentence id="13.11">overrides-&gt;rewriterules);</sentence>
+			<sentence id="13.12">!         }</sentence>
+			<sentence id="13.13">!</sentence>
+			<sentence id="13.14">else {</sentence>
+			<sentence id="13.15">!</sentence>
+			<sentence id="13.16">a-&gt;rewriteconds = apr_array_append(p, overrides-&gt;rewriteconds,</sentence>
+			<sentence id="13.17">!</sentence>
+			<sentence id="13.18">base-&gt;rewriteconds);</sentence>
+			<sentence id="13.19">!</sentence>
+			<sentence id="13.20">a-&gt;rewriterules = apr_array_append(p, overrides-&gt;rewriterules,</sentence>
+			<sentence id="13.21">!</sentence>
+			<sentence id="13.22">base-&gt;rewriterules);</sentence>
+			<sentence id="13.23">!         }</sentence>
+			<sentence id="13.24">}</sentence>
+			<sentence id="13.25">else {</sentence>
+			<sentence id="13.26">a-&gt;rewriteconds = overrides-&gt;rewriteconds;</sentence>
+			<sentence id="13.27">***************</sentence>
+			<sentence id="13.28">*** 339,344 ****</sentence>
+			<sentence id="13.29">--- 357,365 ----</sentence>
+			<sentence id="13.30">if (!</sentence>
+			<sentence id="13.31">strcasecmp(w, "inherit")) {</sentence>
+			<sentence id="13.32">options |= OPTION_INHERIT;</sentence>
+			<sentence id="13.33">}</sentence>
+			<sentence id="13.34">+         else if (!</sentence>
+			<sentence id="13.35">strcasecmp(w, "before")) {</sentence>
+			<sentence id="13.36">+             options |= OPTION_INHERIT_BEFORE;</sentence>
+			<sentence id="13.37">+         }</sentence>
+			<sentence id="13.38">else if (!</sentence>
+			<sentence id="13.39">strncasecmp(w, "MaxRedirects=", 13)) {</sentence>
+			<sentence id="13.40">limit = atoi(&amp;w[13]);</sentence>
+			<sentence id="13.41">if (limit &lt;= 0) {</sentence>
+		</paragraph>
+	</description>
+</bug>

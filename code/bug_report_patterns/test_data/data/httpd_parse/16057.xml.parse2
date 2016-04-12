@@ -1,0 +1,97 @@
+While/IN porting/VBG mod_watch/NN to/TO Apache/NNP 2.0/CD ,/, I/PRP looked/VBD at/IN mod_auth_digest/JJ as/IN an/DT example/NN of/IN a/DT module/NN using/VBG shared/VBN memory/NN and/CC mutexes/NNS ./. 
+
+(ROOT (S (SBAR (IN While) (S (VP (VBG porting) (NP (NN mod_watch)) (PP (TO to) (NP (NNP Apache) (CD 2.0)))))) (, ,) (NP (PRP I)) (VP (VBD looked) (PP (IN at) (ADJP (JJ mod_auth_digest))) (PP (IN as) (NP (NP (DT an) (NN example)) (PP (IN of) (NP (NP (DT a) (NN module)) (VP (VBG using) (NP (NP (VBN shared) (NN memory)) (CC and) (NP (NNS mutexes))))))))) (. .)))
+
+root(ROOT-0, looked-9)
+mark(porting-2, While-1)
+advcl(looked-9, porting-2)
+dobj(porting-2, mod_watch-3)
+prep_to(porting-2, Apache-5)
+num(Apache-5, 2.0-6)
+nsubj(looked-9, I-8)
+prep_at(looked-9, mod_auth_digest-11)
+det(example-14, an-13)
+prep_as(looked-9, example-14)
+det(module-17, a-16)
+prep_of(example-14, module-17)
+vmod(module-17, using-18)
+amod(memory-20, shared-19)
+dobj(using-18, memory-20)
+dobj(using-18, mutexes-22)
+conj_and(memory-20, mutexes-22)
+
+While/IN looking/VBG at/IN it/PRP I/PRP found/VBD what/WP I/PRP would/MD consider/VB to/TO be/VB some/DT serious/JJ problems/NNS with/IN the/DT code/NN :/: 
+
+(ROOT (S (SBAR (S (SBAR (IN While) (S (VP (VBG looking) (PP (IN at) (NP (PRP it)))))) (NP (PRP I)) (VP (VBD found) (NP (WP what))))) (NP (PRP I)) (VP (MD would) (VP (VB consider) (S (VP (TO to) (VP (VB be) (NP (NP (DT some) (JJ serious) (NNS problems)) (PP (IN with) (NP (DT the) (NN code))))))))) (: :)))
+
+root(ROOT-0, consider-10)
+mark(looking-2, While-1)
+advcl(found-6, looking-2)
+prep_at(looking-2, it-4)
+nsubj(found-6, I-5)
+advcl(consider-10, found-6)
+dobj(found-6, what-7)
+nsubj(consider-10, I-8)
+aux(consider-10, would-9)
+aux(problems-15, to-11)
+cop(problems-15, be-12)
+det(problems-15, some-13)
+amod(problems-15, serious-14)
+xcomp(consider-10, problems-15)
+det(code-18, the-17)
+prep_with(problems-15, code-18)
+
+a/DT )/-RRB- No/DT where/WRB in/IN the/DT module/NN is/VBZ client_rmm/JJ initialised/VBN before/IN being/VBG used/VBN ./. 
+
+(ROOT (S (NP (NP (DT a) (-RRB- -RRB-) (DT No)) (SBAR (WHADVP (WRB where)) (S (PP (IN in) (NP (DT the) (NN module))) (VP (VBZ is) (ADJP (JJ client_rmm)))))) (VP (VBN initialised) (PP (IN before) (S (VP (VBG being) (VP (VBN used)))))) (. .)))
+
+root(ROOT-0, initialised-10)
+dep(No-3, a-1)
+nsubj(initialised-10, No-3)
+advmod(client_rmm-9, where-4)
+det(module-7, the-6)
+prep_in(client_rmm-9, module-7)
+cop(client_rmm-9, is-8)
+rcmod(No-3, client_rmm-9)
+auxpass(used-13, being-12)
+prepc_before(initialised-10, used-13)
+
+b/NN )/-RRB- Line/NN 1103/CD has/VBZ the/DT following/NN :/: 
+
+(ROOT (S (NP (NP (NN b)) (PP (-RRB- -RRB-) (NP (NN Line) (CD 1103)))) (VP (VBZ has) (NP (DT the) (NN following))) (: :)))
+
+root(ROOT-0, has-5)
+nsubj(has-5, b-1)
+prep(b-1, Line-3)
+num(Line-3, 1103-4)
+det(following-7, the-6)
+dobj(has-5, following-7)
+
+apr_global_mutex_lock/NN (/-LRB- opaque_lock/NN )/-RRB- ;/: op/NN =/JJ (/-LRB- */SYM opaque_cntr/NN )/-RRB- +/CC +/CC ;/: apr_global_mutex_lock/NN (/-LRB- opaque_lock/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (NP (NP (NP (NN apr_global_mutex_lock)) (PRN (-LRB- -LRB-) (NP (NN opaque_lock)) (-RRB- -RRB-))) (PRN (: ;) (NP (NN op)))) (SBAR (WHNP (WHNP (JJ =)) (PRN (-LRB- -LRB-) (FRAG (X (SYM *)) (NP (NN opaque_cntr))) (-RRB- -RRB-))) (S (NP (CC +)) (NP (CC +))))) (: ;) (NP (NP (NN apr_global_mutex_lock)) (PRN (-LRB- -LRB-) (NP (NN opaque_lock)) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, apr_global_mutex_lock-1)
+appos(apr_global_mutex_lock-1, opaque_lock-3)
+dep(apr_global_mutex_lock-1, op-6)
+dep(+-13, =-7)
+dep(opaque_cntr-10, *-9)
+dep(=-7, opaque_cntr-10)
+dep(+-13, +-12)
+rcmod(apr_global_mutex_lock-1, +-13)
+dep(apr_global_mutex_lock-1, apr_global_mutex_lock-15)
+appos(apr_global_mutex_lock-15, opaque_lock-17)
+
+I/PRP think/VBP the/DT second/JJ apr_global_mutex_lock/NN (/-LRB- )/-RRB- should/MD be/VB apr_global_mutex_unlock/JJ (/-LRB- )/-RRB- ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP think) (NP (NP (DT the) (JJ second) (NN apr_global_mutex_lock)) (PRN (-LRB- -LRB-) (S (NP (-RRB- -RRB-)) (VP (MD should) (VP (VB be) (NP (JJ apr_global_mutex_unlock) (-LRB- -LRB-))))) (-RRB- -RRB-)))) (. .)))
+
+root(ROOT-0, think-2)
+nsubj(think-2, I-1)
+det(apr_global_mutex_lock-5, the-3)
+amod(apr_global_mutex_lock-5, second-4)
+dobj(think-2, apr_global_mutex_lock-5)
+aux(apr_global_mutex_unlock-10, should-8)
+cop(apr_global_mutex_unlock-10, be-9)
+dep(apr_global_mutex_lock-5, apr_global_mutex_unlock-10)
+

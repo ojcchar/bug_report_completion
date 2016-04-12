@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>39499</id>
+	<title>error reading status line, reverse proxy, broken pipe</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I am running a reverse proxy server.</sentence>
+			<sentence id="1.2">Since I upgraded to Apache 2.2.0
+(and 2.2.2) I have had a lot of errors: "error reading status line"</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The relevant part of the config file is:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;VirtualHost *:80&gt;
+    ServerName  www.ku.dk
+ProxyPass             /   http://malamute.adm.ku.dk/
+ProxyPassReverse      /   http://malamute.adm.ku.dk/
+&lt;/VirtualHost&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">With "debug" I get the following error_log:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">[Sat May 06 13:52:12 2006] [debug] mod_proxy_http.c(54): proxy: HTTP: </sentence>
+			<sentence id="5.2">canonicalising URL //malamute.adm.ku.dk/net</sentence>
+			<sentence id="5.3">[Sat May 06 13:52:12 2006] [debug] proxy_util.c(1378): [client </sentence>
+			<sentence id="5.4">2001:878:100:14::134] proxy: http: found worker http://malamute.adm.ku.dk/ for </sentence>
+			<sentence id="5.5">http://malamute.adm.ku.dk/net</sentence>
+			<sentence id="5.6">[Sat May 06 13:52:12 2006] [debug] mod_proxy.c(756): Running scheme http </sentence>
+			<sentence id="5.7">handler (attempt 0)</sentence>
+			<sentence id="5.8">[Sat May 06 13:52:12 2006] [debug] mod_proxy_http.c(1662): proxy: HTTP: </sentence>
+			<sentence id="5.9">serving URL http://malamute.adm.ku.dk/net</sentence>
+			<sentence id="5.10">[Sat May 06 13:52:12 2006] [debug] proxy_util.c(1798): proxy: HTTP: has </sentence>
+			<sentence id="5.11">acquired connection for (malamute.adm.ku.dk)</sentence>
+			<sentence id="5.12">[Sat May 06 13:52:12 2006] [debug] proxy_util.c(1858): proxy: connecting </sentence>
+			<sentence id="5.13">http://malamute.adm.ku.dk/net to malamute.adm.ku.dk:80</sentence>
+			<sentence id="5.14">[Sat May 06 13:52:12 2006] [debug] proxy_util.c(1951): proxy: connected /net </sentence>
+			<sentence id="5.15">to malamute.adm.ku.dk:80</sentence>
+			<sentence id="5.16">[Sat May 06 13:52:12 2006] [debug] proxy_util.c(2141): proxy: HTTP: connection </sentence>
+			<sentence id="5.17">complete to 130.225.126.178:80 (malamute.adm.ku.dk)</sentence>
+			<sentence id="5.18">[Sat May 06 13:52:12 2006] [info] [client 130.225.126.178] (32)Broken pipe: </sentence>
+			<sentence id="5.19">core_output_filter: writing data to the network</sentence>
+			<sentence id="5.20">[Sat May 06 13:52:12 2006] [error] [client 2001:878:100:14::134] proxy: error </sentence>
+			<sentence id="5.21">reading status line from remote server malamute.adm.ku.dk</sentence>
+			<sentence id="5.22">[Sat May 06 13:52:12 2006] [error] [client 2001:878:100:14::134] proxy: Error </sentence>
+			<sentence id="5.23">reading from remote server returned by /net</sentence>
+			<sentence id="5.24">[Sat May 06 13:52:12 2006] [debug] proxy_util.c(1816): proxy: HTTP: has </sentence>
+			<sentence id="5.25">released connection for (malamute.adm.ku.dk)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Here I have used IPv6 between the client and proxy server, and IPv4 between 
+the proxy server and the backend server.</sentence>
+			<sentence id="6.2">However, I observe the same error 
+with pure IPv4.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The error occur very often (every 2-5 minutes) during light load of the proxy 
+server.</sentence>
+			<sentence id="7.2">During moderate load the error is very seldom (every 60-120 minutes).</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Linux proxy4.adm.ku.dk 2.6.12-18mdk #1 Wed Mar 15 13:15:23 MST 2006 i686 Intel
+(R) Pentium(R) 4 CPU 3.20GHz unknown GNU/Linux</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Jan P. Sorensen</sentence>
+		</paragraph>
+	</description>
+</bug>

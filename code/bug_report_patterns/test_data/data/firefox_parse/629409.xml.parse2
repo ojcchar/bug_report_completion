@@ -1,0 +1,120 @@
+Build/VB Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP NT/NNP 6.1/CD ;/: WOW64/NN ;/: rv/NN :2.0/CD b11pre/NN )/-RRB- Gecko/20110127/NN Firefox/4/NN .0/CD b11pre/NN ID/NN :20110127030333/CD 
+
+(ROOT (SINV (VP (VB Build) (NP (NP (NNP Identifier)) (: :) (NP (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (FRAG (NP-TMP (NP (NNP Windows) (NNP NT)) (NP (CD 6.1))) (: ;) (NP (NP (NN WOW64)) (: ;) (NP (NN rv) (CD :2.0) (NN b11pre)))) (-RRB- -RRB-)) (NP (NN Gecko/20110127) (NN Firefox/4))) (NP (CD .0) (NN b11pre) (NN ID))))) (NP (CD :20110127030333))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, Identifier-2)
+nn(.0-5, Mozilla/5-4)
+dep(Identifier-2, .0-5)
+nn(NT-8, Windows-7)
+dep(.0-5, NT-8)
+dep(NT-8, 6.1-9)
+dep(NT-8, WOW64-11)
+nn(b11pre-15, rv-13)
+num(b11pre-15, :2.0-14)
+dep(WOW64-11, b11pre-15)
+nn(Firefox/4-18, Gecko/20110127-17)
+dep(.0-5, Firefox/4-18)
+num(ID-21, .0-19)
+nn(ID-21, b11pre-20)
+dep(.0-5, ID-21)
+nsubj(Build-1, :20110127030333-22)
+
+[/-LRB- Firefox/NNP button/NN ]/-RRB- "/`` Edit/NNP "/'' menuitem/NN is/VBZ always/RB disable/JJ state/NN even/RB if/IN text/NN is/VBZ selected/VBN or/CC textbox/NN is/VBZ focused/VBN with/IN clipboard/NN text/NN ./. 
+
+(ROOT (S (NP (NP (-LRB- -LSB-) (NNP Firefox) (NN button) (-RRB- -RSB-)) (`` ``) (NAC (NNP Edit)) ('' '') (NN menuitem)) (VP (VBZ is) (ADVP (RB always)) (NP (JJ disable) (NN state)) (SBAR (RB even) (IN if) (S (S (NP (NN text)) (VP (VBZ is) (VP (VBN selected)))) (CC or) (S (NP (NN textbox)) (VP (VBZ is) (VP (VBN focused) (PP (IN with) (NP (NN clipboard) (NN text))))))))) (. .)))
+
+root(ROOT-0, state-12)
+punct(button-3, -LSB--1)
+nn(button-3, Firefox-2)
+nn(menuitem-8, button-3)
+punct(button-3, -RSB--4)
+dep(menuitem-8, Edit-6)
+nsubj(state-12, menuitem-8)
+cop(state-12, is-9)
+advmod(state-12, always-10)
+amod(state-12, disable-11)
+advmod(selected-17, even-13)
+mark(selected-17, if-14)
+nsubjpass(selected-17, text-15)
+auxpass(selected-17, is-16)
+advcl(state-12, selected-17)
+nsubjpass(focused-21, textbox-19)
+auxpass(focused-21, is-20)
+advcl(state-12, focused-21)
+conj_or(selected-17, focused-21)
+nn(text-24, clipboard-23)
+prep_with(focused-21, text-24)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD Start/NNP Minefield/NNP with/IN new/JJ profile/NN 
+
+(ROOT (NP (NP (CD 1)) (NP (NP (NNP Start) (NNP Minefield)) (PP (IN with) (NP (JJ new) (NN profile))))))
+
+root(ROOT-0, 1-1)
+nn(Minefield-3, Start-2)
+dep(1-1, Minefield-3)
+amod(profile-6, new-5)
+prep_with(Minefield-3, profile-6)
+
+2/CD Select/NNP text/NN 
+
+(ROOT (NP (NP (CD 2)) (NP (NNP Select)) (NP (NN text))))
+
+root(ROOT-0, 2-1)
+appos(2-1, Select-2)
+dep(2-1, text-3)
+
+3/CD Click/VB Firefox/NNP button/NN 
+
+(ROOT (FRAG (NP (CD 3)) (VP (VB Click) (NP (NNP Firefox) (NN button)))))
+
+root(ROOT-0, 3-1)
+dep(3-1, Click-2)
+nn(button-4, Firefox-3)
+dobj(Click-2, button-4)
+
+Actual/JJ Results/NNS :/: "/`` Edit/NNP "/'' menuitem/NN is/VBZ always/RB disable/JJ state/NN 
+
+(ROOT (NP (NP (JJ Actual) (NNS Results)) (: :) (NP (NP (`` ``) (NNP Edit) ('' '') (NN menuitem)) (SBAR (S (VP (VBZ is) (ADVP (RB always)) (NP (JJ disable) (NN state))))))))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+nn(menuitem-7, Edit-5)
+dep(Results-2, menuitem-7)
+cop(state-11, is-8)
+advmod(state-11, always-9)
+amod(state-11, disable-10)
+rcmod(menuitem-7, state-11)
+
+Expected/VBN Results/NNS :/: "/`` Edit/NNP "/'' menuitem/NN should/MD be/VB enabled/VBN if/IN one/CD of/IN cut/copy/paste/NN is/VBZ available/JJ ./. 
+
+(ROOT (S (S (VP (VBN Expected) (NP (NP (NNS Results)) (: :) (NP (`` ``) (NNP Edit) ('' '') (NN menuitem))))) (VP (MD should) (VP (VB be) (VP (VBN enabled) (SBAR (IN if) (S (NP (NP (CD one)) (PP (IN of) (NP (NN cut/copy/paste)))) (VP (VBZ is) (ADJP (JJ available)))))))) (. .)))
+
+root(ROOT-0, enabled-10)
+csubjpass(enabled-10, Expected-1)
+dobj(Expected-1, Results-2)
+nn(menuitem-7, Edit-5)
+dep(Results-2, menuitem-7)
+aux(enabled-10, should-8)
+auxpass(enabled-10, be-9)
+mark(available-16, if-11)
+nsubj(available-16, one-12)
+prep_of(one-12, cut/copy/paste-14)
+cop(available-16, is-15)
+advcl(enabled-10, available-16)
+

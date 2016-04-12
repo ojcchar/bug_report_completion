@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>228607</id>
+	<title>Links randomely cause zombie thread which must be killed with Task Manager</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.6b) Gecko/20031208 Firebird/0.7+
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.6b) Gecko/20031208 Firebird/0.7+</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The behavior seems to have become worse a few weeks ago. If I click on a link</sentence>
+			<sentence id="2.2">(or open a bookmark, or allow SessionSaver to restore a link, etc.) and it does</sentence>
+			<sentence id="2.3">not resolve (Correctly? In time? ???), the throbber and the spinner on the tab</sentence>
+			<sentence id="2.4">continue to spin forever. (What used to happen was the link was unavailable</sentence>
+			<sentence id="2.5">until you reloaded the page. However, all other links worked normally.) If you</sentence>
+			<sentence id="2.6">click another link, or hit STOP, or hit RELOAD, you are hosed becaue no other</sentence>
+			<sentence id="2.7">link will work until you restart the browser. All menus work and respond</sentence>
+			<sentence id="2.8">normally. If you click on the "Red X" to close Firebird, the window closes</sentence>
+			<sentence id="2.9">immediately. However, if you attempt to restart Firebird, you get an error that</sentence>
+			<sentence id="2.10">someone is already using your profile. You must use Task Manager to kill the</sentence>
+			<sentence id="2.11">zombie Mozilla thread. Now you can restart Firebird.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I am using a P4 with HyperThreading turned on.</sentence>
+			<sentence id="3.2">I cannot find it now, but I saw
+an entry in a thread on Mozillazine where someone suggested the zombie thread
+might be caused by a problem with hyperthreading.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Reproducible: Sometimes</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Steps to Reproduce:</sentence>
+			<sentence id="5.2">There is no known reliable way to reproduce the problem.</sentence>
+			<sentence id="5.3">It *seems* to be</sentence>
+			<sentence id="5.4">related to network load.</sentence>
+			<sentence id="5.5">The behavior is as if a link is unable to resolve or</sentence>
+			<sentence id="5.6">load correctly (or in time).</sentence>
+			<sentence id="5.7">However, this exact same link and page will load</sentence>
+			<sentence id="5.8">correctly most of the time.</sentence>
+			<sentence id="5.9">Very frustrating.</sentence>
+			<sentence id="5.10">Actual Results:</sentence>
+			<sentence id="5.11">When the bug does happen, the throbber and tab spinner continue to animate</sentence>
+			<sentence id="5.12">forever.</sentence>
+			<sentence id="5.13">Clicking on any link, selecting a bookmark, clicking on STOP or</sentence>
+			<sentence id="5.14">RELOAD, does nothing to resolve the problem.</sentence>
+			<sentence id="5.15">No matter what you do (even if you</sentence>
+			<sentence id="5.16">have multiple Firebird windows open) will allow you to browse to any other page.</sentence>
+			<sentence id="5.17">You must close Firebird and then kill the zombie thread before you can restart</sentence>
+			<sentence id="5.18">Firebird.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Expected Results:  
+If a link cannot be resolved correct, an error should be generated.</sentence>
+			<sentence id="6.2">If a link cannot be resolved in time, an error should be generated.</sentence>
+			<sentence id="6.3">Regardless of cause, the user should be able to click on any other link, select
+a bookmard, or RELOAD the page successfully.</sentence>
+			<sentence id="6.4">When Firebird is closed, there
+should be no remaining zombie threads.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">At times, the problem happens more frequently.</sentence>
+			<sentence id="7.2">It is possible this is due to
+network load on my PC.</sentence>
+			<sentence id="7.3">The problem eventually happens EVERY TIME I try to use
+Firebird.</sentence>
+			<sentence id="7.4">I have tried many different versions (both standard and optimized)
+and the problem remains.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Could this be related to P4 HyperThreading???</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">(No other application has this problem.)</sentence>
+		</paragraph>
+	</description>
+</bug>

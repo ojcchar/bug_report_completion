@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>400216</id>
+	<title>Context menus always appear as if they are on a 4:3 screen</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (X11; U; Linux x86_64; en-GB; rv:1.8.1.6) Gecko/20071008 Ubuntu/7.10 (gutsy) Firefox/2.0.0.6
+Build Identifier: Mozilla/5.0 (X11; U; Linux x86_64; en-GB; rv:1.8.1.6) Gecko/20071008 Ubuntu/7.10 (gutsy) Firefox/2.0.0.6</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The context menu appears with the top-left corner at the mouse coordinates, except where this will cause the menu to overflow the available screen area.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">On a 16080x1050 screen, the menu seems only to consider the area it would have if the screen was a 4:3 screen instead of a 16:10.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">i.e. - drag window against the right screen edge.</sentence>
+			<sentence id="4.2">Right-click near the edge.</sentence>
+			<sentence id="4.3">The menu appears some distance to the left.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This is using the nvidia glx driver, with t</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Steps to Reproduce:</sentence>
+			<sentence id="7.2">nvidia-glx driver, 100 series.</sentence>
+			<sentence id="7.3">Screen is using metamodes option</sentence>
+			<sentence id="7.4">"metamodes" "DFP-1:1680x1050, CRT-0:1280x1024"</sentence>
+			<sentence id="7.5">"TwinViewOrientation" "CRT-0 RightOf DFP-1"</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">1 Drag window to right hand side of wide screen</sentence>
+			<sentence id="8.2">2 Right click near the right edge</sentence>
+			<sentence id="8.3">3 Observe the menu appear some distance to the left</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Expected Results:  
+Menu should appear closer to, or at, the mouse pointer.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,105 @@
+The/DT following/VBG code/NN was/VBD sent/VBN to/TO me/PRP as/IN a/DT test/NN case/NN ./. 
+
+(ROOT (S (NP (DT The) (VBG following) (NN code)) (VP (VBD was) (VP (VBN sent) (PP (TO to) (NP (PRP me))) (PP (IN as) (NP (DT a) (NN test) (NN case))))) (. .)))
+
+root(ROOT-0, sent-5)
+det(code-3, The-1)
+amod(code-3, following-2)
+nsubjpass(sent-5, code-3)
+auxpass(sent-5, was-4)
+prep_to(sent-5, me-7)
+det(case-11, a-9)
+nn(case-11, test-10)
+prep_as(sent-5, case-11)
+
+It/PRP blocks/VBZ for/IN a/DT long/JJ time/NN !/. 
+
+(ROOT (S (NP (PRP It)) (VP (VBZ blocks) (PP (IN for) (NP (DT a) (JJ long) (NN time)))) (. !)))
+
+root(ROOT-0, blocks-2)
+nsubj(blocks-2, It-1)
+det(time-6, a-4)
+amod(time-6, long-5)
+prep_for(blocks-2, time-6)
+
+int/NN test/NN (/-LRB- request_rec/JJ */SYM r/LS )/-RRB- {/-LRB- ap_log_error/NN (/-LRB- APLOG_MARK/NN ,/, APLOG_NOTICE/NNP |/CD APLOG_NOERRNO/NNP ,/, 0/CD ,/, r/SYM -/: >/JJR server/NN ,/, "/`` Return/NN an/DT error/NN "/'' )/-RRB- ;/: return/NN HTTP_FORBIDDEN/NN ;/: }/-RRB- static/JJ void/NN register_hooks/NNS (/-LRB- apr_pool_t/JJ */SYM p/NN )/-RRB- {/-LRB- ap_hook_post_read_request/NN (/-LRB- test/NN ,/, NULL/NNP ,/, NULL/NNP ,/, APR_HOOK_MIDDLE/NNP )/-RRB- ;/: }/-RRB- When/WRB run/NN ,/, it/PRP blocks/VBZ in/IN ap_discard_request_body/NN ,/, called/VBN from/IN ap_die/JJ ./. 
+
+(ROOT (S (NP (NP (NN int) (NN test)) (-LRB- -LRB-) (PP (NP (NP (JJ request_rec)) (X (SYM *))) (NP (NP (LST (LS r) (-RRB- -RRB-)) (-LRB- -LCB-) (NP (NP (NN ap_log_error)) (PRN (-LRB- -LRB-) (NP (NP (NN APLOG_MARK)) (, ,) (NP (NP (NNP APLOG_NOTICE) (CD |)) (NP (NP (NNP APLOG_NOERRNO)) (, ,) (NP (CD 0)) (, ,) (NP (NP (NP (SYM r)) (: -) (NP (NP (NP (JJR >)) (NP (NN server)) (, ,) (NP (NP (`` ``) (NN Return)) (NP (DT an) (NN error) ('' ''))) (-RRB- -RRB-)) (PRN (: ;) (NP (NN return) (NN HTTP_FORBIDDEN)) (: ;))) (-RRB- -RCB-)) (NP (NP (NP (JJ static) (NN void) (NNS register_hooks)) (-LRB- -LRB-) (NP (NP (JJ apr_pool_t)) (SBAR (S (VP (SYM *) (NP (NN p)))))) (-RRB- -RRB-)) (PRN (-LRB- -LCB-) (NP (NP (NP (NN ap_hook_post_read_request)) (PRN (-LRB- -LRB-) (NP (NN test)) (, ,) (NP (NNP NULL) (, ,) (NNP NULL)))) (, ,) (NP (NNP APR_HOOK_MIDDLE))) (-RRB- -RRB-)))) (: ;)))) (-RRB- -RCB-)) (SBAR (S (SBAR (WHADVP (WRB When)) (FRAG (NP (NN run)))) (, ,) (NP (PRP it)) (VP (VBZ blocks)))))) (PP (IN in) (NP (NN ap_discard_request_body))))) (, ,)) (VP (VBN called) (PP (IN from) (ADJP (JJ ap_die)))) (. .)))
+
+root(ROOT-0, called-64)
+nn(test-2, int-1)
+nsubj(called-64, test-2)
+prep(test-2, request_rec-4)
+dep(request_rec-4, *-5)
+dep(ap_log_error-9, r-6)
+dep(request_rec-4, ap_log_error-9)
+dep(ap_log_error-9, APLOG_MARK-11)
+appos(APLOG_MARK-11, APLOG_NOTICE-13)
+num(APLOG_NOTICE-13, |-14)
+dep(APLOG_NOTICE-13, APLOG_NOERRNO-15)
+amod(APLOG_NOERRNO-15, 0-17)
+appos(APLOG_NOERRNO-15, r-19)
+dep(r-19, >-21)
+dep(>-21, server-22)
+appos(>-21, Return-25)
+det(error-27, an-26)
+dep(Return-25, error-27)
+nn(HTTP_FORBIDDEN-32, return-31)
+dep(>-21, HTTP_FORBIDDEN-32)
+amod(register_hooks-37, static-35)
+nn(register_hooks-37, void-36)
+dep(r-19, register_hooks-37)
+dep(register_hooks-37, apr_pool_t-39)
+dep(p-41, *-40)
+rcmod(apr_pool_t-39, p-41)
+dep(register_hooks-37, ap_hook_post_read_request-44)
+dep(ap_hook_post_read_request-44, test-46)
+nn(NULL-50, NULL-48)
+dep(test-46, NULL-50)
+appos(ap_hook_post_read_request-44, APR_HOOK_MIDDLE-52)
+advmod(run-57, When-56)
+advcl(blocks-60, run-57)
+nsubj(blocks-60, it-59)
+rcmod(ap_log_error-9, blocks-60)
+prep_in(ap_log_error-9, ap_discard_request_body-62)
+prep_from(called-64, ap_die-66)
+
+The/DT bug/NN seems/VBZ to/TO be/VB that/IN it/PRP 's/VBZ trying/VBG to/TO read/VB input/NN before/IN attaching/VBG the/DT HTTP_IN/NN filter/NN ./. 
+
+(ROOT (S (NP (DT The) (NN bug)) (VP (VBZ seems) (S (VP (TO to) (VP (VB be) (SBAR (IN that) (S (NP (PRP it)) (VP (VBZ 's) (VP (VBG trying) (S (VP (TO to) (VP (VB read) (NP (NN input)) (PP (IN before) (S (VP (VBG attaching) (NP (DT the) (NN HTTP_IN) (NN filter)))))))))))))))) (. .)))
+
+root(ROOT-0, seems-3)
+det(bug-2, The-1)
+nsubj(seems-3, bug-2)
+aux(be-5, to-4)
+xcomp(seems-3, be-5)
+mark(trying-9, that-6)
+nsubj(trying-9, it-7)
+aux(trying-9, 's-8)
+ccomp(be-5, trying-9)
+aux(read-11, to-10)
+xcomp(trying-9, read-11)
+dobj(read-11, input-12)
+prepc_before(read-11, attaching-14)
+det(filter-17, the-15)
+nn(filter-17, HTTP_IN-16)
+dobj(attaching-14, filter-17)
+
+The/DT patch/NN attached/VBN fixes/NNS it/PRP ,/, though/IN I/PRP 'm/VBP not/RB sure/JJ it/PRP 's/VBZ optimal/JJ ./. 
+
+(ROOT (S (NP (DT The) (NN patch)) (VP (VP (VBN attached) (S (NP (NNS fixes)) (NP (PRP it)))) (, ,) (SBAR (IN though) (S (NP (PRP I)) (VP (VBP 'm) (RB not) (ADJP (JJ sure) (SBAR (S (NP (PRP it)) (VP (VBZ 's) (ADJP (JJ optimal)))))))))) (. .)))
+
+root(ROOT-0, attached-3)
+det(patch-2, The-1)
+nsubj(attached-3, patch-2)
+nsubj(it-5, fixes-4)
+xcomp(attached-3, it-5)
+mark(sure-11, though-7)
+nsubj(sure-11, I-8)
+cop(sure-11, 'm-9)
+neg(sure-11, not-10)
+advcl(attached-3, sure-11)
+nsubj(optimal-14, it-12)
+cop(optimal-14, 's-13)
+ccomp(sure-11, optimal-14)
+

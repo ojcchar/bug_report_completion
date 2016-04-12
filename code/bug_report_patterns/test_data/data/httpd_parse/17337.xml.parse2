@@ -1,0 +1,133 @@
+I/PRP have/VBP notices/NNS that/WDT apache2/RB does/VBZ n't/RB generate/VB http_referer/NN for/IN logs/NNS and/CC scripts/NNS if/IN I/PRP 'm/VBP using/VBG Mozilla/NNP ,/, IE/JJ or/CC Lynx/NNP ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP have) (NP (NP (NNS notices)) (SBAR (WHNP (WDT that)) (S (ADVP (RB apache2)) (VP (VBZ does) (RB n't) (VP (VB generate) (NP (NN http_referer)) (PP (IN for) (NP (NNS logs) (CC and) (NNS scripts)))))))) (SBAR (IN if) (S (NP (PRP I)) (VP (VBP 'm) (VP (VBG using) (NP (NP (NNP Mozilla)) (, ,) (NP (JJ IE)) (CC or) (NP (NNP Lynx)))))))) (. .)))
+
+root(ROOT-0, have-2)
+nsubj(have-2, I-1)
+dobj(have-2, notices-3)
+nsubj(generate-8, that-4)
+advmod(generate-8, apache2-5)
+aux(generate-8, does-6)
+neg(generate-8, n't-7)
+rcmod(notices-3, generate-8)
+dobj(generate-8, http_referer-9)
+prep_for(generate-8, logs-11)
+prep_for(generate-8, scripts-13)
+conj_and(logs-11, scripts-13)
+mark(using-17, if-14)
+nsubj(using-17, I-15)
+aux(using-17, 'm-16)
+advcl(have-2, using-17)
+dobj(using-17, Mozilla-18)
+dobj(using-17, IE-20)
+conj_or(Mozilla-18, IE-20)
+dobj(using-17, Lynx-22)
+conj_or(Mozilla-18, Lynx-22)
+
+If/IN I/PRP telnet/VBP to/TO http-port/NN and/CC manually/RB enter/VB the/DT refererer/NN ,/, it/PRP works/VBZ OK/UH ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (PRP I)) (VP (VP (VBP telnet) (PP (TO to) (NP (NN http-port)))) (CC and) (ADVP (RB manually)) (VP (VB enter) (NP (DT the) (NN refererer)))))) (, ,) (NP (PRP it)) (VP (VBZ works) (ADVP (UH OK))) (. .)))
+
+root(ROOT-0, works-13)
+mark(telnet-3, If-1)
+nsubj(telnet-3, I-2)
+nsubj(enter-8, I-2)
+advcl(works-13, telnet-3)
+prep_to(telnet-3, http-port-5)
+advmod(enter-8, manually-7)
+conj_and(telnet-3, enter-8)
+advcl(works-13, enter-8)
+det(refererer-10, the-9)
+dobj(enter-8, refererer-10)
+nsubj(works-13, it-12)
+advmod(works-13, OK-14)
+
+I/PRP have/VBP checked/VBN with/IN Ethereal/NNP that/WDT Moz/NNP and/CC IE/JJ use/NN the/DT referer/NN and/CC it/PRP is/VBZ correct/JJ and/CC sent/VBN to/TO server/NN ,/, but/CC Apache/NNP just/RB ignores/VBZ it/PRP ./. 
+
+(ROOT (S (S (NP (PRP I)) (VP (VBP have) (VP (VP (VBN checked) (PP (IN with) (NP (NP (NNP Ethereal)) (SBAR (WHNP (WDT that)) (S (S (NP (NP (NNP Moz)) (CC and) (NP (JJ IE) (NN use))) (NP (DT the) (NN referer))) (CC and) (S (NP (PRP it)) (VP (VBZ is) (ADJP (JJ correct))))))))) (CC and) (VP (VBN sent) (PP (TO to) (NP (NN server))))))) (, ,) (CC but) (S (NP (NNP Apache)) (ADVP (RB just)) (VP (VBZ ignores) (NP (PRP it)))) (. .)))
+
+root(ROOT-0, checked-3)
+nsubj(checked-3, I-1)
+nsubj(sent-18, I-1)
+aux(checked-3, have-2)
+prep_with(checked-3, Ethereal-5)
+dep(referer-12, that-6)
+dep(referer-12, Moz-7)
+amod(use-10, IE-9)
+conj_and(Moz-7, use-10)
+dep(referer-12, use-10)
+det(referer-12, the-11)
+rcmod(Ethereal-5, referer-12)
+nsubj(correct-16, it-14)
+cop(correct-16, is-15)
+rcmod(Ethereal-5, correct-16)
+conj_and(referer-12, correct-16)
+conj_and(checked-3, sent-18)
+prep_to(sent-18, server-20)
+nsubj(ignores-25, Apache-23)
+advmod(ignores-25, just-24)
+conj_but(checked-3, ignores-25)
+dobj(ignores-25, it-26)
+
+Maybe/RB those/DT other/JJ fields/NNS that/WDT browsers/NNS send/VBP confuse/VB Apache/NNP ?/. 
+
+(ROOT (FRAG (ADVP (RB Maybe)) (NP (NP (DT those) (JJ other) (NNS fields)) (SBAR (WHNP (WDT that)) (S (NP (NNS browsers)) (VP (VBP send) (VP (VB confuse) (NP (NNP Apache))))))) (. ?)))
+
+root(ROOT-0, fields-4)
+dep(fields-4, Maybe-1)
+det(fields-4, those-2)
+amod(fields-4, other-3)
+dobj(send-7, that-5)
+nsubj(send-7, browsers-6)
+rcmod(fields-4, send-7)
+xcomp(send-7, confuse-8)
+dobj(confuse-8, Apache-9)
+
+The/DT referer/NN is/VBZ n't/RB shown/VBN in/IN logs/NNS (/-LRB- empty/JJ referer/NN there/RB )/-RRB- or/CC in/IN any/DT php/NN script/NN I/PRP try/VBP ./. 
+
+(ROOT (S (NP (DT The) (NN referer)) (VP (VBZ is) (RB n't) (VP (VBN shown) (PP (PP (IN in) (NP (NP (NNS logs)) (PRN (-LRB- -LRB-) (NP (NP (JJ empty) (NN referer)) (NP-TMP (RB there))) (-RRB- -RRB-)))) (CC or) (PP (IN in) (NP (NP (DT any) (NN php) (NN script)) (SBAR (S (NP (PRP I)) (VP (VBP try))))))))) (. .)))
+
+root(ROOT-0, shown-5)
+det(referer-2, The-1)
+nsubjpass(shown-5, referer-2)
+auxpass(shown-5, is-3)
+neg(shown-5, n't-4)
+prep_in(shown-5, logs-7)
+amod(referer-10, empty-9)
+dep(logs-7, referer-10)
+tmod(referer-10, there-11)
+det(script-17, any-15)
+nn(script-17, php-16)
+prep_in(shown-5, script-17)
+conj_or(logs-7, script-17)
+nsubj(try-19, I-18)
+rcmod(script-17, try-19)
+
+Other/JJ environment/NN variables/NNS (/-LRB- that/IN I/PRP 've/VBP tried/VBN )/-RRB- work/NN just/RB fine/JJ ./. 
+
+(ROOT (S (VP (NP (NP (NP (JJ Other) (NN environment)) (NP (NNS variables))) (PRN (-LRB- -LRB-) (SBAR (IN that) (S (NP (PRP I)) (VP (VBP 've) (VP (VBN tried))))) (-RRB- -RRB-)) (NP (NP (NN work)) (ADJP (RB just) (JJ fine))))) (. .)))
+
+root(ROOT-0, environment-2)
+amod(environment-2, Other-1)
+dep(environment-2, variables-3)
+mark(tried-8, that-5)
+nsubj(tried-8, I-6)
+aux(tried-8, 've-7)
+dep(environment-2, tried-8)
+dep(environment-2, work-10)
+advmod(fine-12, just-11)
+amod(work-10, fine-12)
+
+I/PRP 'm/VBP using/VBG Apache/NNP 2.0.4/CD and/CC PHP/NNP 4.3.0/CD 
+
+(ROOT (S (NP (PRP I)) (VP (VBP 'm) (VP (VBG using) (NP (NP (NNP Apache) (CD 2.0.4)) (CC and) (NP (NNP PHP) (CD 4.3.0)))))))
+
+root(ROOT-0, using-3)
+nsubj(using-3, I-1)
+aux(using-3, 'm-2)
+dobj(using-3, Apache-4)
+num(Apache-4, 2.0.4-5)
+dobj(using-3, PHP-7)
+conj_and(Apache-4, PHP-7)
+num(PHP-7, 4.3.0-8)
+

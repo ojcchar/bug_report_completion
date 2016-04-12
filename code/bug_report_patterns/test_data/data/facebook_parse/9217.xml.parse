@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9217</id>
+	<title>HTML namespace check in Internet Explorer is invalid</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In FBBootstrap.</sentence>
+			<sentence id="1.2">_detectDocumentNamespaces a check is made against the .</sentence>
+			<sentence id="1.3">item property of the namespace collection as if it were an object.</sentence>
+			<sentence id="1.4">The current check always fails:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">if(document.namespaces &amp;&amp; !</sentence>
+			<sentence id="2.2">document.namespaces.item[ fb ])</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The correct syntax is probably to call .</sentence>
+			<sentence id="3.2">item( fb ) instead:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">if(document.namespaces &amp;&amp; !</sentence>
+			<sentence id="4.2">document.namespaces.item( fb ) )</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13432</id>
+	<title>email contact importer flow does not produce a game bookmark</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When users register for a new FB account via invite sent from the email contact importer flow in-game_ no game bookmark appears upon completion of registration.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Repro steps:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">From active FB account:</sentence>
+			<sentence id="3.2">1 Play game with email contact importer feature turned on</sentence>
+			<sentence id="3.3">2 Send a gift/friend request via MFS flow</sentence>
+			<sentence id="3.4">3 When email importer popup appears_ opt-in to send FB invite to email contacts</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">From invite receiving email account:</sentence>
+			<sentence id="4.2">1 Click on link in email to sign up for Facebook</sentence>
+			<sentence id="4.3">2 Follow steps to complete new registration</sentence>
+			<sentence id="4.4">3 Notice upon completion_ no game bookmark appears on homepage</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Could this be due to the new bookmarking framework?</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Additional implementation issue:
+Devs also seeing issues when the importer tries to access a user’s email - the popup sends an ajax call to FB and the response is being blocked by the browser.</sentence>
+			<sentence id="6.2">At first_ it appears the process is just hanging_ but after putting the ajax URL into the browser directly it appears to be a browser security issue.</sentence>
+			<sentence id="6.3">When entering it directly_ a firefox popup appears saying it is an untrusted site.</sentence>
+			<sentence id="6.4">Once adding to the browser’s exceptions list_ the ajax calls from the scraper works properly.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Can you provide any insight into why this is happening and how we can get the FB URL to be considered a trusted site?</sentence>
+		</paragraph>
+	</description>
+</bug>

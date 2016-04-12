@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>43275</id>
+	<title>Remove avoidable network transactions in mod_proxy_ftp</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When a directory or a file is requested in mod_proxy_ftp, and the user has not
+hinted what kind of resource it is(usual), the ftp client in mod_proxy_ftp tries
+the command SIZE first, and depending on its output, CWD or RETR.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This is not required.</sentence>
+			<sentence id="2.2">instead, the CWD command can be used to test if the entity
+is directory or not, Reducing the number of network transactions required for a
+directory listing.</sentence>
+			<sentence id="2.3">This will not impact the normal RETR either.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Moreover SIZE command, though widely implemented, is not part of the original
+FTP RFC 959.</sentence>
+		</paragraph>
+	</description>
+</bug>

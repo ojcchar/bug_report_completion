@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7970</id>
+	<title>Configure script does not pass arguments.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">loading cache /root/httpd-2.0.35/.</sentence>
+			<sentence id="1.2">/config.cache
+checking host system type... configure: error: can not guess host type; you 
+must specify one
+configure failed for xml/expat
+configure failed for srclib/apr-util</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Even when I specify:</sentence>
+			<sentence id="2.2">--build=powerpc-apple-bsd --host=powerpc-apple-bsd</sentence>
+			<sentence id="2.3">to the main configure script, it does not pass these along to the apr-util</sentence>
+			<sentence id="2.4">configure script.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I created a workaround by editing line 1947 of the main configure script.</sentence>
+			<sentence id="3.2">All I did was add the two switches to that line so that when the main 
+configure script call the apr-util configure, the values got passed.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Once this was done, the main configure worked fine.</sentence>
+			<sentence id="4.2">Apace 2.0.35 
+compiled fine on my 10.1.2 and runs great.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Matthew</sentence>
+		</paragraph>
+	</description>
+</bug>

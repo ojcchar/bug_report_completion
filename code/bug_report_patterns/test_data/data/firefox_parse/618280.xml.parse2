@@ -1,0 +1,119 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP NT/NNP 6.1/CD ;/: rv/NN :2.0/CD b8pre/NN )/-RRB- Gecko/20101210/NN Firefox/4/NN .0/CD b8pre/NN Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP NT/NNP 6.1/CD ;/: rv/NN :2.0/CD b8pre/NN )/-RRB- Gecko/20101210/NN Firefox/4/NN .0/CD b8pre/NN 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NNP Windows) (NNP NT) (CD 6.1)) (: ;) (NP (NN rv) (CD :2.0) (NN b8pre))) (-RRB- -RRB-)) (NP (NN Gecko/20101210) (NN Firefox/4))) (X (NP (NP (CD .0) (NN b8pre)) (NP (NP (NNP Build) (NNP Identifier)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NNP Windows) (NNP NT) (CD 6.1)) (: ;) (NP (NN rv) (CD :2.0) (NN b8pre))) (-RRB- -RRB-))))) (NP (NN Gecko/20101210)) (NP (NP (NN Firefox/4)) (NP (CD .0) (NN b8pre))))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+nn(NT-7, Windows-6)
+dep(.0-4, NT-7)
+num(NT-7, 6.1-8)
+nn(b8pre-12, rv-10)
+num(b8pre-12, :2.0-11)
+dep(NT-7, b8pre-12)
+nn(Firefox/4-15, Gecko/20101210-14)
+dep(.0-4, Firefox/4-15)
+num(b8pre-17, .0-16)
+dep(Firefox/4-33, b8pre-17)
+nn(Identifier-19, Build-18)
+dep(b8pre-17, Identifier-19)
+nn(.0-22, Mozilla/5-21)
+dep(Identifier-19, .0-22)
+nn(NT-25, Windows-24)
+dep(.0-22, NT-25)
+num(NT-25, 6.1-26)
+nn(b8pre-30, rv-28)
+num(b8pre-30, :2.0-29)
+dep(NT-25, b8pre-30)
+dep(Firefox/4-33, Gecko/20101210-32)
+dep(User-Agent-1, Firefox/4-33)
+num(b8pre-35, .0-34)
+dep(Firefox/4-33, b8pre-35)
+
+Bug/NN 616014/CD introduces/VBZ a/DT close/JJ button/NN to/TO the/DT Addon/NNP Bar/NNP ./. 
+
+(ROOT (S (NP (NN Bug) (CD 616014)) (VP (VBZ introduces) (NP (DT a) (JJ close) (NN button)) (PP (TO to) (NP (DT the) (NNP Addon) (NNP Bar)))) (. .)))
+
+root(ROOT-0, introduces-3)
+nsubj(introduces-3, Bug-1)
+num(Bug-1, 616014-2)
+det(button-6, a-4)
+amod(button-6, close-5)
+dobj(introduces-3, button-6)
+det(Bar-10, the-8)
+nn(Bar-10, Addon-9)
+prep_to(introduces-3, Bar-10)
+
+This/DT should/MD be/VB removable/JJ ./. 
+
+(ROOT (S (NP (DT This)) (VP (MD should) (VP (VB be) (ADJP (JJ removable)))) (. .)))
+
+root(ROOT-0, removable-4)
+nsubj(removable-4, This-1)
+aux(removable-4, should-2)
+cop(removable-4, be-3)
+
+The/DT Addon/NNP Bar/NNP was/VBD designed/VBN to/TO act/VB like/IN any/DT other/JJ toolbar/NN ,/, so/IN the/DT Navigation/NNP Bar/NNP and/CC the/DT Tab/NNP Bar/NNP ,/, neither/DT of/IN which/WDT feature/VBP a/DT close/JJ button/NN ./. 
+
+(ROOT (S (S (NP (DT The) (NNP Addon) (NNP Bar)) (VP (VBD was) (VP (VBN designed) (S (VP (TO to) (VP (VB act) (PP (IN like) (NP (DT any) (JJ other) (NN toolbar))))))))) (, ,) (IN so) (S (S (NP (NP (DT the) (NNP Navigation) (NNP Bar)) (CC and) (NP (DT the) (NNP Tab) (NNP Bar)))) (, ,) (NP (NP (DT neither)) (WHPP (IN of) (WHNP (WDT which)))) (VP (VBP feature) (NP (DT a) (JJ close) (NN button)))) (. .)))
+
+root(ROOT-0, designed-5)
+det(Bar-3, The-1)
+nn(Bar-3, Addon-2)
+nsubjpass(designed-5, Bar-3)
+auxpass(designed-5, was-4)
+aux(act-7, to-6)
+xcomp(designed-5, act-7)
+det(toolbar-11, any-9)
+amod(toolbar-11, other-10)
+prep_like(act-7, toolbar-11)
+dep(designed-5, so-13)
+det(Bar-16, the-14)
+nn(Bar-16, Navigation-15)
+ccomp(feature-25, Bar-16)
+det(Bar-20, the-18)
+nn(Bar-20, Tab-19)
+conj_and(Bar-16, Bar-20)
+ccomp(feature-25, Bar-20)
+nsubj(feature-25, neither-22)
+prep_of(neither-22, which-24)
+parataxis(designed-5, feature-25)
+det(button-28, a-26)
+amod(button-28, close-27)
+dobj(feature-25, button-28)
+
+For/IN users/NNS that/WDT use/VBP the/DT Addon/NNP Bar/NNP all/PDT the/DT time/NN ,/, the/DT close/JJ button/NN is/VBZ more/JJR of/IN a/DT hindrance/NN than/IN a/DT help/NN and/CC as/IN such/JJ should/MD be/VB removable/JJ ./. 
+
+(ROOT (S (PP (IN For) (NP (NP (NNS users)) (SBAR (WHNP (WDT that)) (S (VP (VBP use) (NP (DT the) (NNP Addon) (NNP Bar)) (NP-TMP (PDT all) (DT the) (NN time))))))) (, ,) (NP (DT the) (JJ close) (NN button)) (VP (VBZ is) (UCP (NP (NP (JJR more)) (PP (IN of) (NP (NP (DT a) (NN hindrance)) (PP (IN than) (NP (DT a) (NN help)))))) (CC and) (SBAR (IN as) (S (NP (JJ such)) (VP (MD should) (VP (VB be) (ADJP (JJ removable)))))))) (. .)))
+
+root(ROOT-0, more-16)
+prep_for(more-16, users-2)
+nsubj(use-4, that-3)
+rcmod(users-2, use-4)
+det(Bar-7, the-5)
+nn(Bar-7, Addon-6)
+dobj(use-4, Bar-7)
+predet(time-10, all-8)
+det(time-10, the-9)
+tmod(use-4, time-10)
+det(button-14, the-12)
+amod(button-14, close-13)
+nsubj(more-16, button-14)
+cop(more-16, is-15)
+det(hindrance-19, a-18)
+prep_of(more-16, hindrance-19)
+det(help-22, a-21)
+prep_than(hindrance-19, help-22)
+mark(removable-28, as-24)
+nsubj(removable-28, such-25)
+aux(removable-28, should-26)
+cop(removable-28, be-27)
+conj_and(more-16, removable-28)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+

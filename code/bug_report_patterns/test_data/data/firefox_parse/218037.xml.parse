@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>218037</id>
+	<title>Extra white line between DIVs</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.5a) Gecko/20030728 Mozilla Firebird/0.6.1
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.5a) Gecko/20030728 Mozilla Firebird/0.6.1</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In the attached HTML file, there are three DIVs with colored backgrounds.</sentence>
+			<sentence id="2.2">Firebird shows a white horizontal line between the second and third DIV.</sentence>
+			<sentence id="2.3">Changing almost anything about the style sheet (size of text, etc.) makes this
+white line go away.</sentence>
+			<sentence id="2.4">It does not show up in Internet Explorer.</sentence>
+			<sentence id="2.5">See attached
+image for what it looks like.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Steps to Reproduce:</sentence>
+			<sentence id="4.2">Load attached HTML file.</sentence>
+			<sentence id="4.3">Actual Results:</sentence>
+			<sentence id="4.4">See extra white line.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Expected Results:  
+Not shown white line.</sentence>
+			<sentence id="5.2">The three DIVs should all be stuck together.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Mozilla Bug&lt;/title&gt;
+        &lt;style type="text/css"&gt;
+            body {
+                background-color: white;
+                font-size: 82%;
+            }</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">#upperMenuBar {
+                height: 2.1em;
+                background-color: #87dc64;
+                color: white;
+            }</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">#header {
+                color: #4e9027;
+                background-color: #aae68c;
+                font-size: 400%;
+                padding-bottom: .1em;
+            }</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">#lowerMenuBar {
+                height: 1.55em;
+                background-color: #339900;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">&lt;body&gt;
+        &lt;div id="upperMenuBar"&gt;&lt;/div&gt;
+        &lt;div id="header"&gt;Mozilla Bug&lt;/div&gt;
+        &lt;div id="lowerMenuBar"&gt;&lt;/div&gt;</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">&lt;p&gt;There should not be a one-pixel white line between the second
+        and third green bar above.</sentence>
+			<sentence id="11.2">&lt;/p&gt;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">&lt;p&gt;Seen with Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US;
+        rv:1.5a) Gecko/20030728 Mozilla Firebird/0.6.1&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

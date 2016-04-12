@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>11192</id>
+	<title>4k / request leak</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm running a fairly simple setup,
+and just noticed apache was 140M.</sentence>
+			<sentence id="1.2">I restarted it (2.7M), and see the
+process grows by 4k every request.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I have the following modules loaded:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">auth
+log_config
+proxy (proxypass via rewriteaction [P])
+proxy_http
+rewrite
+worker</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">kernel 2.4.18, gcc 3.0.4, glibc 2.2.4</sentence>
+		</paragraph>
+	</description>
+</bug>

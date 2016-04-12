@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>44925</id>
+	<title>mod_rewrite external map program runs out of sync after reading response longer 2047 bytes</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">mod_rewrite external map program runs out of sync
+after reading response longer than LONG_STRING_LEN-1 (2047 bytes)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Reading from fpout terminates after reading an '\n' character
+if the response is shorter than LONG_STRING_LEN-1.</sentence>
+			<sentence id="2.2">But if not, reading stops after 2047 bytes and the remaining characters 
+are left in the fpout pipe.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Steps to reproduce:
+write an external rewriting program returning reponses longer than 2048 Bytes</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Actual Results:
+fpout pipe runs out of sync and the next call of the filter returns 
+the remaining bytes as response.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Workaround: 
+limit output length in external rewriting program</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Expected:</sentence>
+			<sentence id="6.2">- an error log entry if LONG_STRING_LEN-1 is reached while reading</sentence>
+			<sentence id="6.3">- hint in the documentation of external rewrite program regarding this size limit</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Optional:
+read the remaining bytes into a dummy buffer until '\n' is reached 
+add dynamic buffers for the response read</sentence>
+		</paragraph>
+	</description>
+</bug>

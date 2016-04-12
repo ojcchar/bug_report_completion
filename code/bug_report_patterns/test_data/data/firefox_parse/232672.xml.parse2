@@ -1,0 +1,122 @@
+User-Agent/NNP :/: Build/VB Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 5.0/CD ;/: en-US/NN ;/: rv/NN :1.7/CD a/DT )/-RRB- Gecko/20040128/NN Firebird/0/NN .8.0/CD +/CC 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (S (VP (VB Build) (NP (NP (NNP Identifier)) (: :) (NP (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NNP Windows)) (: ;) (NP (NP (NNP U)) (: ;) (NP (NP (NP (NNP Windows) (NNP NT)) (NP (CD 5.0))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NP (NN rv) (CD :1.7)) (NP (DT a)))))) (-RRB- -RRB-)) (NP (NN Gecko/20040128) (NN Firebird/0))) (NP (CD .8.0) (CC +))))))))
+
+root(ROOT-0, User-Agent-1)
+dep(User-Agent-1, Build-3)
+dobj(Build-3, Identifier-4)
+nn(.0-7, Mozilla/5-6)
+dep(Identifier-4, .0-7)
+dep(.0-7, Windows-9)
+dep(Windows-9, U-11)
+nn(NT-14, Windows-13)
+dep(U-11, NT-14)
+dep(NT-14, 5.0-15)
+dep(NT-14, en-US-17)
+dep(en-US-17, rv-19)
+num(rv-19, :1.7-20)
+dep(rv-19, a-21)
+nn(Firebird/0-24, Gecko/20040128-23)
+dep(.0-7, Firebird/0-24)
+dep(.0-7, .8.0-25)
+cc(.8.0-25, +-26)
+
+./. 
+
+(ROOT (NP (. .)))
+
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/LS go/VB to/TO http://weblogs.mozillazine.org/asa//NN ./. 
+
+(ROOT (S (LST (LS 1)) (VP (VB go) (PP (TO to) (NP (NN http://weblogs.mozillazine.org/asa/)))) (. .)))
+
+root(ROOT-0, go-2)
+dep(go-2, 1-1)
+prep_to(go-2, http://weblogs.mozillazine.org/asa/-4)
+
+2/CD click/VBP a/DT link/NN before/IN it/PRP is/VBZ fully/RB loaded/VBN ./. 
+
+(ROOT (S (NP (CD 2)) (VP (VBP click) (NP (DT a) (NN link)) (SBAR (IN before) (S (NP (PRP it)) (VP (VBZ is) (ADJP (RB fully) (VBN loaded)))))) (. .)))
+
+root(ROOT-0, click-2)
+nsubj(click-2, 2-1)
+det(link-4, a-3)
+dobj(click-2, link-4)
+mark(loaded-9, before-5)
+nsubjpass(loaded-9, it-6)
+auxpass(loaded-9, is-7)
+advmod(loaded-9, fully-8)
+advcl(click-2, loaded-9)
+
+3/CD popup/NN control/NN icon/NN should/MD be/VB exist/VB in/IN the/DT left/NN of/IN status/NN bar/NN ./. 
+
+(ROOT (S (NP (CD 3) (NN popup) (NN control) (NN icon)) (VP (MD should) (VP (VB be) (VP (VB exist) (PP (IN in) (NP (NP (DT the) (NN left)) (PP (IN of) (NP (NN status) (NN bar)))))))) (. .)))
+
+root(ROOT-0, exist-7)
+num(icon-4, 3-1)
+nn(icon-4, popup-2)
+nn(icon-4, control-3)
+nsubj(exist-7, icon-4)
+aux(exist-7, should-5)
+aux(exist-7, be-6)
+det(left-10, the-9)
+prep_in(exist-7, left-10)
+nn(bar-13, status-12)
+prep_of(left-10, bar-13)
+
+4/CD right/JJ click/VBP it/PRP ./. 
+
+(ROOT (S (NP (CD 4)) (ADVP (JJ right)) (VP (VBP click) (NP (PRP it))) (. .)))
+
+root(ROOT-0, click-3)
+nsubj(click-3, 4-1)
+advmod(click-3, right-2)
+dobj(click-3, it-4)
+
+5/CD The/DT popup/NN control/NN dialog/NN is/VBZ shown/VBN ./. 
+
+(ROOT (S (NP (NP (CD 5)) (NP (DT The) (NN popup) (NN control) (NN dialog))) (VP (VBZ is) (VP (VBN shown))) (. .)))
+
+root(ROOT-0, shown-7)
+nsubjpass(shown-7, 5-1)
+det(dialog-5, The-2)
+nn(dialog-5, popup-3)
+nn(dialog-5, control-4)
+dep(5-1, dialog-5)
+auxpass(shown-7, is-6)
+
+6/CD close/RB the/DT dialog/NN ./. 
+
+(ROOT (FRAG (ADVP (NP (CD 6)) (RB close)) (NP (DT the) (NN dialog)) (. .)))
+
+root(ROOT-0, dialog-4)
+npadvmod(close-2, 6-1)
+dep(dialog-4, close-2)
+det(dialog-4, the-3)
+
+7/CD the/DT toolbar/NN contextmenu/NN is/VBZ shown/VBN ./. 
+
+(ROOT (S (NP (NP (CD 7)) (NP (DT the) (NN toolbar) (NN contextmenu))) (VP (VBZ is) (VP (VBN shown))) (. .)))
+
+root(ROOT-0, shown-6)
+nsubjpass(shown-6, 7-1)
+det(contextmenu-4, the-2)
+nn(contextmenu-4, toolbar-3)
+dep(7-1, contextmenu-4)
+auxpass(shown-6, is-5)
+

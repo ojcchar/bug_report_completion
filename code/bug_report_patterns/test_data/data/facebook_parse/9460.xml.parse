@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9460</id>
+	<title>Breaking change: stream.publish with action link doesn t update status</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">According to the docs_ calling Stream.publish without  attachments  should update a user s status.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">As of approximately April 2nd_ statuses aren t updated if Stream.publish is called with action links_ even if there are no attachments.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This is a breaking change and is causing users of our application (Status Shuffle_ app ID 8109791468) to complain non-stop.</sentence>
+			<sentence id="3.2">We re one of the largest apps on the platform which means we ve been getting hundreds of complaints about this every day :(</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I can only hope someone can look into this before our application suffers irreparable damage.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">To reproduce:</sentence>
+			<sentence id="6.1">$actionLinks = array( array( text  =&gt;  test _   href  =&gt;  http://www.example.com )); 
+$res = $facebook-&gt;api_client-&gt;stream_publish( hello _ null /* attachment */_ $actionLinks_ null /* to */_ $uid);</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Expected:
+User s status should be set to  hello  (i.e.  hello  should appear near the user s name on the profile page)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Actual:
+Only a feed entry is created.</sentence>
+			<sentence id="8.2">The status remains unchanged.</sentence>
+		</paragraph>
+	</description>
+</bug>

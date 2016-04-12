@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>30223</id>
+	<title>Adding period bypasses URI match</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When my configuration settings where:
+&lt;Location /administrator/stats&gt;
+   AuthName "Statistics" 
+   AuthType Basic 
+   AuthUserFile conf/access
+   Require valid-user
+   DirectoryIndex index.php
+&lt;/Location&gt;</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I noticed loading http://dwatson.ath.cx/administrator/stats.</sentence>
+			<sentence id="2.2">or 
+http://dwatson.ath.cx/administrator/stats./ would result in bypassing the 
+authentication requirements.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I fixed the problem by using &lt;Directory 
+D:\dwatson.ath.cx\htdocs\administrator\stats&gt;, however I believe this to be a 
+fault in the Location due to Microsoft mapping of "directory."</sentence>
+			<sentence id="3.2">(and "directory.</sentence>
+			<sentence id="3.3">."</sentence>
+			<sentence id="3.4">etc) to "directory", and should be fixed by mapping 
+directories with suffixed periods to a 404 error document.</sentence>
+		</paragraph>
+	</description>
+</bug>

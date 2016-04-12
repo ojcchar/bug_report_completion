@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>50884</id>
+	<title>Compiler crashes without a trace in the log leaving workspace in unhappy state</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Compiling the attached project silently crashes in I20040128-16??.</sentence>
+			<sentence id="1.3">There are 
+no enries in the log, no info for the user.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">org.eclipse.jdt.internal.compiler.problem.AbortCompilation</sentence>
+			<sentence id="2.2">        at </sentence>
+			<sentence id="2.3">org.eclipse.jdt.internal.compiler.ast.AbstractMethodDeclaration.abort</sentence>
+			<sentence id="2.4">(AbstractMethodDeclaration.java:62)</sentence>
+			<sentence id="2.5">        at org.eclipse.jdt.internal.compiler.problem.ProblemHandler.handle</sentence>
+			<sentence id="2.6">(ProblemHandler.java:126)</sentence>
+			<sentence id="2.7">        at org.eclipse.jdt.internal.compiler.problem.ProblemReporter.handle</sentence>
+			<sentence id="2.8">(ProblemReporter.java:1038)</sentence>
+			<sentence id="2.9">        at </sentence>
+			<sentence id="2.10">org.eclipse.jdt.internal.compiler.problem.ProblemReporter.isClassPathCorrect</sentence>
+			<sentence id="2.11">(ProblemReporter.java:2114)</sentence>
+			<sentence id="2.12">        at </sentence>
+			<sentence id="2.13">org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve</sentence>
+			<sentence id="2.14">(UnresolvedReferenceBinding.java:37)</sentence>
+			<sentence id="2.15">        at </sentence>
+			<sentence id="2.16">org.eclipse.jdt.internal.compiler.lookup.PackageBinding.getTypeOrPackage</sentence>
+			<sentence id="2.17">(PackageBinding.java:163)</sentence>
+			<sentence id="2.18">        at </sentence>
+			<sentence id="2.19">org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.findOnDemandImpor</sentence>
+			<sentence id="2.20">t(CompilationUnitScope.java:361)</sentence>
+			<sentence id="2.21">        at </sentence>
+			<sentence id="2.22">org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.findSingleTypeImp</sentence>
+			<sentence id="2.23">ort(CompilationUnitScope.java:420)</sentence>
+			<sentence id="2.24">        at </sentence>
+			<sentence id="2.25">org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.faultInImports</sentence>
+			<sentence id="2.26">(CompilationUnitScope.java:297)</sentence>
+			<sentence id="2.27">        at </sentence>
+			<sentence id="2.28">org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.faultInTypes</sentence>
+			<sentence id="2.29">(CompilationUnitScope.java:347)</sentence>
+			<sentence id="2.30">        at org.eclipse.jdt.internal.compiler.Compiler.process</sentence>
+			<sentence id="2.31">(Compiler.java:508)</sentence>
+			<sentence id="2.32">        at org.eclipse.jdt.internal.compiler.Compiler.compile</sentence>
+			<sentence id="2.33">(Compiler.java:328)</sentence>
+			<sentence id="2.34">        at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile</sentence>
+			<sentence id="2.35">(AbstractImageBuilder.java:205)</sentence>
+			<sentence id="2.36">        at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile</sentence>
+			<sentence id="2.37">(AbstractImageBuilder.java:155)</sentence>
+			<sentence id="2.38">        at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build</sentence>
+			<sentence id="2.39">(BatchImageBuilder.java:49)</sentence>
+			<sentence id="2.40">        at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll</sentence>
+			<sentence id="2.41">(JavaBuilder.java:213)</sentence>
+			<sentence id="2.42">        at org.eclipse.jdt.internal.core.builder.JavaBuilder.build</sentence>
+			<sentence id="2.43">(JavaBuilder.java:136)</sentence>
+			<sentence id="2.44">        at org.eclipse.core.internal.events.BuildManager$2.run</sentence>
+			<sentence id="2.45">(BuildManager.java:493)</sentence>
+			<sentence id="2.46">        at org.eclipse.core.internal.runtime.InternalPlatform.run</sentence>
+			<sentence id="2.47">(InternalPlatform.java:820)</sentence>
+			<sentence id="2.48">        at org.eclipse.core.runtime.Platform.run(Platform.java:471)</sentence>
+			<sentence id="2.49">        at org.eclipse.core.internal.events.BuildManager.basicBuild</sentence>
+			<sentence id="2.50">(BuildManager.java:138)</sentence>
+			<sentence id="2.51">        at org.eclipse.core.internal.events.BuildManager.basicBuild</sentence>
+			<sentence id="2.52">(BuildManager.java:209)</sentence>
+			<sentence id="2.53">        at org.eclipse.core.internal.events.BuildManager.basicBuild</sentence>
+			<sentence id="2.54">(BuildManager.java:164)</sentence>
+			<sentence id="2.55">        at org.eclipse.core.internal.events.BuildManager$1.run</sentence>
+			<sentence id="2.56">(BuildManager.java:190)</sentence>
+			<sentence id="2.57">        at org.eclipse.core.internal.runtime.InternalPlatform.run</sentence>
+			<sentence id="2.58">(InternalPlatform.java:820)</sentence>
+			<sentence id="2.59">        at org.eclipse.core.runtime.Platform.run(Platform.java:471)</sentence>
+			<sentence id="2.60">        at org.eclipse.core.internal.events.BuildManager.basicBuild</sentence>
+			<sentence id="2.61">(BuildManager.java:193)</sentence>
+			<sentence id="2.62">        at org.eclipse.core.internal.events.BuildManager.build</sentence>
+			<sentence id="2.63">(BuildManager.java:282)</sentence>
+			<sentence id="2.64">        at org.eclipse.core.internal.resources.Project.build(Project.java:87)</sentence>
+			<sentence id="2.65">        at org.eclipse.ui.actions.BuildAction.invokeOperation</sentence>
+			<sentence id="2.66">(BuildAction.java:159)</sentence>
+			<sentence id="2.67">        at org.eclipse.ui.actions.WorkspaceAction.execute</sentence>
+			<sentence id="2.68">(WorkspaceAction.java:123)</sentence>
+			<sentence id="2.69">        at org.eclipse.ui.actions.WorkspaceAction$1.execute</sentence>
+			<sentence id="2.70">(WorkspaceAction.java:280)</sentence>
+			<sentence id="2.71">        at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run</sentence>
+			<sentence id="2.72">(WorkspaceModifyOperation.java:91)</sentence>
+			<sentence id="2.73">        at org.eclipse.core.internal.resources.Workspace.run</sentence>
+			<sentence id="2.74">(Workspace.java:1567)</sentence>
+			<sentence id="2.75">        at org.eclipse.ui.actions.WorkspaceModifyOperation.run</sentence>
+			<sentence id="2.76">(WorkspaceModifyOperation.java:105)</sentence>
+			<sentence id="2.77">        at org.eclipse.jface.operation.ModalContext$ModalContextThread.run</sentence>
+			<sentence id="2.78">(ModalContext.java:101)</sentence>
+		</paragraph>
+	</description>
+</bug>

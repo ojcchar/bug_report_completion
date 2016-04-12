@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>25124</id>
+	<title>AST: IllegalArgumentException on creation</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">20021018
+When building an AST from the following code, an IllegalArgumentException is 
+thrown.</sentence>
+			<sentence id="1.2">(note that there are syntax errors in the code)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">public class A {
+	public static void collectCorrections() {
+		processors= null;
+	}		
+		try {
+			int id= 2;
+		} catch (CoreException e) {
+		}
+	}
+}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">java.lang.IllegalArgumentException</sentence>
+			<sentence id="3.2">	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java</sentence>
+			<sentence id="3.3">(Compiled Code))</sentence>
+			<sentence id="3.4">	at </sentence>
+			<sentence id="3.5">org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration</sentence>
+			<sentence id="3.6">(ASTConverter.java:246)</sentence>
+			<sentence id="3.7">	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations</sentence>
+			<sentence id="3.8">(ASTConverter.java:224)</sentence>
+			<sentence id="3.9">	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:169)</sentence>
+			<sentence id="3.10">	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:69)</sentence>
+			<sentence id="3.11">	at org.eclipse.jdt.core.dom.AST.parseCompilationUnit(AST.java:241)</sentence>
+			<sentence id="3.12">	at </sentence>
+			<sentence id="3.13">org.eclipse.jdt.internal.ui.text.correction.UnresolvedElementsSubProcessor.getVa</sentence>
+			<sentence id="3.14">riableProposals(UnresolvedElementsSubProcessor.java:43)</sentence>
+			<sentence id="3.15">	at </sentence>
+			<sentence id="3.16">org.eclipse.jdt.internal.ui.text.correction.JavaCorrectionProcessor.collectCorre</sentence>
+			<sentence id="3.17">ctions(JavaCorrectionProcessor.java:216)</sentence>
+			<sentence id="3.18">	at </sentence>
+			<sentence id="3.19">org.eclipse.jdt.internal.ui.text.correction.JavaCorrectionProcessor.processProbl</sentence>
+			<sentence id="3.20">emAnnotations(JavaCorrectionProcessor.java:169)</sentence>
+			<sentence id="3.21">	at </sentence>
+			<sentence id="3.22">org.eclipse.jdt.internal.ui.text.correction.JavaCorrectionProcessor.computeCompl</sentence>
+			<sentence id="3.23">etionProposals(JavaCorrectionProcessor.java:141)</sentence>
+			<sentence id="3.24">	at </sentence>
+			<sentence id="3.25">org.eclipse.jface.text.contentassist.ContentAssistant.computeCompletionProposals</sentence>
+			<sentence id="3.26">(ContentAssistant.java:1279)</sentence>
+			<sentence id="3.27">	at </sentence>
+			<sentence id="3.28">org.eclipse.jface.text.contentassist.CompletionProposalPopup.computeProposals</sentence>
+			<sentence id="3.29">(CompletionProposalPopup.java:177)</sentence>
+			<sentence id="3.30">	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.access$7</sentence>
+			<sentence id="3.31">(CompletionProposalPopup.java:176)</sentence>
+			<sentence id="3.32">	at org.eclipse.jface.text.contentassist.CompletionProposalPopup$3.run</sentence>
+			<sentence id="3.33">(CompletionProposalPopup.java:138)</sentence>
+			<sentence id="3.34">	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java</sentence>
+			<sentence id="3.35">(Compiled Code))</sentence>
+			<sentence id="3.36">	at </sentence>
+			<sentence id="3.37">org.eclipse.jface.text.contentassist.CompletionProposalPopup.showProposals</sentence>
+			<sentence id="3.38">(CompletionProposalPopup.java:133)</sentence>
+			<sentence id="3.39">	at </sentence>
+			<sentence id="3.40">org.eclipse.jface.text.contentassist.ContentAssistant.showPossibleCompletions</sentence>
+			<sentence id="3.41">(ContentAssistant.java:1199)</sentence>
+			<sentence id="3.42">	at </sentence>
+			<sentence id="3.43">org.eclipse.jdt.internal.ui.text.correction.JavaCorrectionSourceViewer.doOperati</sentence>
+			<sentence id="3.44">on(JavaCorrectionSourceViewer.java:47)</sentence>
+			<sentence id="3.45">	at </sentence>
+			<sentence id="3.46">org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor$AdaptedSourceViewer</sentence>
+			<sentence id="3.47">.doOperation(CompilationUnitEditor.java:237)</sentence>
+			<sentence id="3.48">	at org.eclipse.ui.texteditor.TextOperationAction$1.run</sentence>
+			<sentence id="3.49">(TextOperationAction.java:119)</sentence>
+			<sentence id="3.50">	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java</sentence>
+			<sentence id="3.51">(Compiled Code))</sentence>
+			<sentence id="3.52">	at org.eclipse.ui.texteditor.TextOperationAction.run</sentence>
+			<sentence id="3.53">(TextOperationAction.java:117)</sentence>
+			<sentence id="3.54">	at org.eclipse.ui.internal.WWinKeyBindingService.invoke</sentence>
+			<sentence id="3.55">(WWinKeyBindingService.java:134)</sentence>
+			<sentence id="3.56">	at org.eclipse.ui.internal.WWinKeyBindingService.pressed</sentence>
+			<sentence id="3.57">(WWinKeyBindingService.java:109)</sentence>
+			<sentence id="3.58">	at org.eclipse.ui.internal.WWinKeyBindingService$5.widgetSelected</sentence>
+			<sentence id="3.59">(WWinKeyBindingService.java:325)</sentence>
+			<sentence id="3.60">	at org.eclipse.ui.internal.AcceleratorMenu$2.handleEvent</sentence>
+			<sentence id="3.61">(AcceleratorMenu.java:53)</sentence>
+			<sentence id="3.62">	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java</sentence>
+			<sentence id="3.63">(Compiled Code))</sentence>
+			<sentence id="3.64">	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java</sentence>
+			<sentence id="3.65">(Compiled Code))</sentence>
+			<sentence id="3.66">	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java</sentence>
+			<sentence id="3.67">(Compiled Code))</sentence>
+			<sentence id="3.68">	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java</sentence>
+			<sentence id="3.69">(Compiled Code))</sentence>
+			<sentence id="3.70">	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java</sentence>
+			<sentence id="3.71">(Compiled Code))</sentence>
+			<sentence id="3.72">	at org.eclipse.ui.internal.Workbench.run(Workbench.java:1403)</sentence>
+			<sentence id="3.73">	at org.eclipse.core.internal.boot.InternalBootLoader.run</sentence>
+			<sentence id="3.74">(InternalBootLoader.java:775)</sentence>
+			<sentence id="3.75">	at org.eclipse.core.boot.BootLoader.run(BootLoader.java:462)</sentence>
+			<sentence id="3.76">	at java.lang.reflect.Method.invoke(Native Method)</sentence>
+			<sentence id="3.77">	at org.eclipse.core.launcher.Main.basicRun(Main.java:247)</sentence>
+			<sentence id="3.78">	at org.eclipse.core.launcher.Main.run(Main.java:703)</sentence>
+			<sentence id="3.79">	at org.eclipse.core.launcher.Main.main(Main.java:539)</sentence>
+		</paragraph>
+	</description>
+</bug>

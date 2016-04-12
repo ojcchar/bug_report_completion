@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>44346</id>
+	<title>integer overflow in ab</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If I benchmark a local apache-2.2.8 installation under a stable Gentoo, I used
+this command</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">n22 /var/www/localhost/htdocs/public # dd if=/dev/urandom of=urand400K bs=1024
+count=400
+400+0 records in
+400+0 records out
+409600 bytes (410 kB) copied, 0.357657 s, 1.1 MB/s</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">to create a dummy file, after that I used ab to get some results:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">n22 /var/www/localhost/htdocs/public # ab -q -n 10000 http://n22/public/urand400K
+This is ApacheBench, Version 2.0.40-dev &lt;$Revision: 1.146 $&gt; apache-2.0
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Copyright 2006 The Apache Software Foundation, http://www.apache.org/</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Benchmarking n22 (be patient).....done</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Server Software:        Apache
+Server Hostname:        n22
+Server Port:            80</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Document Path:          /public/urand400K
+Document Length:        409600 bytes</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Concurrency Level:      1
+Time taken for tests:   12.913905 seconds
+Complete requests:      10000
+Failed requests:        0
+Write errors:           0
+Total transferred:      -196517296 bytes
+HTML transferred:       -198967296 bytes
+Requests per second:    774.36 [#/sec] (mean)
+Time per request:       1.291 [ms] (mean)
+Time per request:       1.291 [ms] (mean, across all concurrent requests)
+Transfer rate:          -14860.80 [Kbytes/sec] received</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0      11
+Processing:     0    1   1.8      1      61
+Waiting:        0    0   0.1      0       4
+Total:          0    1   1.8      1      61</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Percentage of the requests served within a certain time (ms)
+  50%      1
+  66%      1
+  75%      1
+  80%      1
+  90%      1
+  95%      1
+  98%      2
+  99%      3
+ 100%     61 (longest request)</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">I'm wondering about the negative values which only happens for a 400 KB file,
+but not for a 100KB file for 10000 requests.</sentence>
+			<sentence id="11.2">With 40000 requests and a 100 KB dummy file I get negative values too.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Seems to be a simple overflow of an integer, isn't it ?</sentence>
+		</paragraph>
+	</description>
+</bug>

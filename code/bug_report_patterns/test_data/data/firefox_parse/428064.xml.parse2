@@ -1,0 +1,177 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 5.1/CD ;/: en-US/NN ;/: rv/NN :1.8.1.13/CD )/-RRB- Gecko/20080311/NN Firefox/2/NN .0.0.13/CD Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 5.1/CD ;/: en-US/NN ;/: rv/NN :1.8.1.13/CD )/-RRB- Gecko/20080311/NN Firefox/2/NN .0.0.13/CD 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NNP Windows)) (: ;) (NP (NP (NNP U)) (: ;) (NP (NP (NP (NNP Windows) (NNP NT)) (NP (CD 5.1))) (: ;) (NP (NP (NP (NP (NN en-US)) (: ;) (NP (NP (NN rv)) (NP (CD :1.8.1.13))) (-RRB- -RRB-)) (NP (NN Gecko/20080311) (NN Firefox/2))) (NP (CD .0.0.13) (NNP Build) (NNP Identifier))) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (-LRB- -LRB-) (NP (NP (NNP Windows)) (: ;) (NP (NNP U)))) (: ;) (NP (NP (NNP Windows) (NNP NT)) (NP (CD 5.1))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NN rv) (CD :1.8.1.13))))) (-RRB- -RRB-)) (NP (NN Gecko/20080311) (NN Firefox/2))) (NP (CD .0.0.13)))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+dep(.0-4, Windows-6)
+dep(Windows-6, U-8)
+nn(NT-11, Windows-10)
+dep(U-8, NT-11)
+dep(NT-11, 5.1-12)
+dep(NT-11, en-US-14)
+dep(en-US-14, rv-16)
+dep(rv-16, :1.8.1.13-17)
+nn(Firefox/2-20, Gecko/20080311-19)
+dep(en-US-14, Firefox/2-20)
+num(Identifier-23, .0.0.13-21)
+nn(Identifier-23, Build-22)
+dep(en-US-14, Identifier-23)
+nn(.0-26, Mozilla/5-25)
+dep(NT-11, .0-26)
+dep(.0-26, Windows-28)
+dep(Windows-28, U-30)
+nn(NT-33, Windows-32)
+dep(NT-11, NT-33)
+dep(NT-33, 5.1-34)
+dep(NT-11, en-US-36)
+dep(en-US-36, rv-38)
+num(rv-38, :1.8.1.13-39)
+nn(Firefox/2-42, Gecko/20080311-41)
+dep(.0-4, Firefox/2-42)
+dep(.0-4, .0.0.13-43)
+
+with/IN :/: var/NN d/NN =/JJ new/JJ Date/NN (/-LRB- )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (IN with)) (: :) (NP (NP (NN var) (NN d)) (NP (JJ =) (JJ new) (NN Date) (-LRB- -LRB-))) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, with-1)
+nn(d-4, var-3)
+dep(with-1, d-4)
+amod(Date-7, =-5)
+amod(Date-7, new-6)
+dep(d-4, Date-7)
+
+d.getYear/NN (/-LRB- )/-RRB- returns/NNS 108/CD (/-LRB- instead/RB of/IN 2008/CD )/-RRB- 
+
+(ROOT (NP (NP (NN d.getYear)) (PRN (-LRB- -LRB-) (S (NP (-RRB- -RRB-) (NNS returns)) (NP (NP (CD 108)) (-LRB- -LRB-) (PP (RB instead) (IN of) (NP (CD 2008))))) (-RRB- -RRB-))))
+
+root(ROOT-0, d.getYear-1)
+dep(108-5, returns-4)
+dep(d.getYear-1, 108-5)
+prep_instead_of(108-5, 2008-9)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD declare/VB the/DT var/NN :/: var/NN d/NN =/JJ newDate/NN (/-LRB- )/-RRB- 
+
+(ROOT (FRAG (NP (CD 1)) (VP (VB declare) (NP (NP (DT the) (NN var)) (: :) (NP (ADJP (NN var) (NN d)) (JJ =) (NN newDate) (-LRB- -LRB-)) (-RRB- -RRB-)))))
+
+root(ROOT-0, 1-1)
+dep(1-1, declare-2)
+det(var-4, the-3)
+dobj(declare-2, var-4)
+dep(d-7, var-6)
+amod(newDate-9, d-7)
+amod(newDate-9, =-8)
+dep(var-4, newDate-9)
+
+2/CD call/NN d.getYear/NN (/-LRB- )/-RRB- 
+
+(ROOT (NP (NP (CD 2) (NN call) (NN d.getYear)) (PP (-LRB- -LRB-)) (-RRB- -RRB-)))
+
+root(ROOT-0, d.getYear-3)
+num(d.getYear-3, 2-1)
+nn(d.getYear-3, call-2)
+
+3/CD or/CC paste/VB the/DT following/VBG lines/NNS :/: 
+
+(ROOT (NP (NP (NP (CD 3)) (CC or) (S (VP (VB paste) (NP (DT the) (VBG following) (NNS lines))))) (: :)))
+
+root(ROOT-0, 3-1)
+conj_or(3-1, paste-3)
+det(lines-6, the-4)
+amod(lines-6, following-5)
+dobj(paste-3, lines-6)
+
+</JJR SCRIPT/NN LANGUAGE/NN =/JJ "/`` JavaScript/NNP "/'' >/JJR 
+
+(ROOT (NP (NP (NP (JJR <) (NN SCRIPT) (NN LANGUAGE)) (SBAR (S (NP (NP (JJ =)) (`` ``) (NP (NNP JavaScript)) ('' ''))))) (NP (JJR >))))
+
+root(ROOT-0, LANGUAGE-3)
+amod(LANGUAGE-3, <-1)
+nn(LANGUAGE-3, SCRIPT-2)
+rcmod(LANGUAGE-3, =-4)
+dep(=-4, JavaScript-6)
+dep(LANGUAGE-3, >-8)
+
+</JJR !/. 
+
+(ROOT (FRAG (ADJP (JJR <)) (. !)))
+
+root(ROOT-0, <-1)
+
+--/: 
+
+(ROOT (NP (: --)))
+
+
+var/NN d/NN =/JJ new/JJ Date/NN (/-LRB- )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (NN var)) (VP (NN d) (NP (JJ =) (JJ new) (NN Date) (-LRB- -LRB-) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, var-1)
+dep(var-1, d-2)
+amod(Date-5, =-3)
+amod(Date-5, new-4)
+dobj(d-2, Date-5)
+
+document.write/NN (/-LRB- d.getYear/NN (/-LRB- )/-RRB- )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (NN document.write)) (PRN (-LRB- -LRB-) (NP (NN d.getYear) (-LRB- -LRB-)) (-RRB- -RRB-)) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, document.write-1)
+appos(document.write-1, d.getYear-3)
+
+//: //: --/: >/JJR </JJR //: SCRIPT/NN >/JJR 
+
+(ROOT (FRAG (FRAG (ADVP (: /)) (: /)) (: --) (FRAG (FRAG (ADJP (JJR >)) (ADJP (JJR <))) (: /) (FRAG (ADJP (NN SCRIPT)) (ADJP (JJR >))))))
+
+root(ROOT-0, /-1)
+punct(/-1, /-2)
+dep(/-1, >-4)
+dep(>-4, <-5)
+punct(>-4, /-6)
+dep(>-4, SCRIPT-7)
+dep(SCRIPT-7, >-8)
+
+Actual/JJ Results/NNS :/: 
+
+(ROOT (NP (JJ Actual) (NNS Results) (: :)))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+
+d.getYear/NN gives/VBZ 108/CD 
+
+(ROOT (S (NP (NN d.getYear)) (VP (VBZ gives) (NP (CD 108)))))
+
+root(ROOT-0, gives-2)
+nsubj(gives-2, d.getYear-1)
+dobj(gives-2, 108-3)
+
+Expected/VBN Results/NNS :/: the/DT year/NN is/VBZ 2008/CD :/: )/-RRB- 
+
+(ROOT (PP (VBN Expected) (NP (NP (NNS Results)) (: :) (NP (NP (DT the) (NN year)) (SBAR (S (VP (VBZ is) (NP (CD 2008))) (: :)))) (-RRB- -RRB-))))
+
+root(ROOT-0, Expected-1)
+pobj(Expected-1, Results-2)
+det(year-5, the-4)
+dep(Results-2, year-5)
+cop(2008-7, is-6)
+rcmod(year-5, 2008-7)
+

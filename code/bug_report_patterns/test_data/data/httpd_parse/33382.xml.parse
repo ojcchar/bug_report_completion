@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>33382</id>
+	<title>mod_proxy and MS streaming server memory leak ?</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hello Apache developers,
+I try to use mod_proxy (mod_proxy_http) on APACHE 2.0.52 to proxy a Windows 
+Media streaming services 9 on HTTP protocol.</sentence>
+			<sentence id="1.2">It works OK, but when stream 
+duration is long (minutes) APACHE2 start to eat server memory slowly and its 
+unlimited process.</sentence>
+			<sentence id="1.3">Memory is cleaned if I restart APACHE2.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I try to emulate more users with MS media load test software and for 100 users 
+its eat 100KB each 10 seconds.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I tried both patch from BUG 31952 and Chunked content encoding patch from 
+http://www.apache.org/~trawick page.</sentence>
+			<sentence id="3.2">No success.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This is the header from stream with data:</sentence>
+			<sentence id="4.2">-----------------------------------------</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">HTTP/1.1 200 OK
+Content-Type: application/x-mms-framed
+Server: Cougar/9.00.00.3380
+Date: Tue, 01 Feb 2005 13:32:19 GMT
+Pragma: no-cache, client-id=841485782, features="broadcast", timeout=60000, 
+AccelBW=0, AccelDuration=0, Speed=1.000
+Cache-Control: no-cache, x-wms-event-subscription="remote-log", x-wms-stream-
+type="broadcast"
+Last-Modified: Sat, 30 Dec 1899 00:00:00 GMT
+Transfer-Encoding: chunked
+Supported: com.microsoft.wm.srvppair, com.microsoft.wm.sswitch, 
+com.microsoft.wm.predstrm, com.microsoft.wm.fastcache</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">-----------------------------------------------------</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">If you need more info or test I can help.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Thanks for help 
+Rudolf</sentence>
+		</paragraph>
+	</description>
+</bug>

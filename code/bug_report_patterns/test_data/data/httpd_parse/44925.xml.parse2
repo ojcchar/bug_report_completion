@@ -1,0 +1,166 @@
+mod_rewrite/JJ external/JJ map/NN program/NN runs/VBZ out/IN of/IN sync/NN after/IN reading/VBG response/NN longer/JJR than/IN LONG_STRING_LEN-1/NN (/-LRB- 2047/CD bytes/NNS )/-RRB- 
+
+(ROOT (S (NP (JJ mod_rewrite) (JJ external) (NN map) (NN program)) (VP (VBZ runs) (ADVP (IN out) (PP (IN of) (NP (NN sync)))) (PP (IN after) (S (VP (VBG reading) (NP (NN response)) (ADVP (JJR longer)) (PP (IN than) (NP (NP (NN LONG_STRING_LEN-1)) (PRN (-LRB- -LRB-) (NP (CD 2047) (NNS bytes)) (-RRB- -RRB-))))))))))
+
+root(ROOT-0, runs-5)
+amod(program-4, mod_rewrite-1)
+amod(program-4, external-2)
+nn(program-4, map-3)
+nsubj(runs-5, program-4)
+prep_out_of(runs-5, sync-8)
+prepc_after(runs-5, reading-10)
+dobj(reading-10, response-11)
+advmod(reading-10, longer-12)
+prep_than(reading-10, LONG_STRING_LEN-1-14)
+num(bytes-17, 2047-16)
+appos(LONG_STRING_LEN-1-14, bytes-17)
+
+Reading/VBG from/IN fpout/NN terminates/VBZ after/IN reading/VBG an/DT '/'' \/CD n/NN '/'' character/NN if/IN the/DT response/NN is/VBZ shorter/JJR than/IN LONG_STRING_LEN-1/NN ./. 
+
+(ROOT (S (S (VP (VBG Reading) (PP (IN from) (NP (NN fpout))))) (VP (VBZ terminates) (PP (IN after) (S (VP (VBG reading) (NP (DT an)) ('' ') (SBAR (NP (NP (CD \)) (NP (NN n) ('' ') (NN character))) (IN if) (S (NP (DT the) (NN response)) (VP (VBZ is) (ADJP (ADJP (JJR shorter)) (PP (IN than) (NP (NN LONG_STRING_LEN-1))))))))))) (. .)))
+
+root(ROOT-0, terminates-4)
+csubj(terminates-4, Reading-1)
+prep_from(Reading-1, fpout-3)
+prepc_after(terminates-4, reading-6)
+dobj(reading-6, an-7)
+dep(shorter-17, \-9)
+nn(character-12, n-10)
+dep(\-9, character-12)
+mark(shorter-17, if-13)
+det(response-15, the-14)
+nsubj(shorter-17, response-15)
+cop(shorter-17, is-16)
+advcl(reading-6, shorter-17)
+prep_than(shorter-17, LONG_STRING_LEN-1-19)
+
+But/CC if/IN not/RB ,/, reading/VBG stops/NNS after/IN 2047/CD bytes/NNS and/CC the/DT remaining/VBG characters/NNS are/VBP left/VBN in/IN the/DT fpout/NN pipe/NN ./. 
+
+(ROOT (S (CC But) (ADJP (IN if) (RB not)) (, ,) (NP (NP (NP (VBG reading) (NNS stops)) (PP (IN after) (NP (CD 2047) (NNS bytes)))) (CC and) (NP (DT the) (VBG remaining) (NNS characters))) (VP (VBP are) (VP (VBN left) (PP (IN in) (NP (DT the) (NN fpout) (NN pipe))))) (. .)))
+
+root(ROOT-0, left-15)
+cc(left-15, But-1)
+dep(not-3, if-2)
+dep(left-15, not-3)
+amod(stops-6, reading-5)
+nsubjpass(left-15, stops-6)
+num(bytes-9, 2047-8)
+prep_after(stops-6, bytes-9)
+det(characters-13, the-11)
+amod(characters-13, remaining-12)
+conj_and(stops-6, characters-13)
+nsubjpass(left-15, characters-13)
+auxpass(left-15, are-14)
+det(pipe-19, the-17)
+nn(pipe-19, fpout-18)
+prep_in(left-15, pipe-19)
+
+Steps/NNS to/TO reproduce/VB :/: write/VB an/DT external/JJ rewriting/VBG program/NN returning/VBG reponses/NNS longer/RBR than/IN 2048/CD Bytes/NNS 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VP (VB reproduce)) (: :) (VP (VB write) (NP (NP (DT an) (JJ external) (VBG rewriting) (NN program)) (VP (VBG returning) (NP (NNS reponses)) (ADVP (RBR longer)) (PP (IN than) (NP (CD 2048) (NNS Bytes))))))))))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+dep(reproduce-3, write-5)
+det(program-9, an-6)
+amod(program-9, external-7)
+amod(program-9, rewriting-8)
+dobj(write-5, program-9)
+vmod(program-9, returning-10)
+dobj(returning-10, reponses-11)
+advmod(returning-10, longer-12)
+num(Bytes-15, 2048-14)
+prep_than(returning-10, Bytes-15)
+
+Actual/JJ Results/NNS :/: fpout/NN pipe/NN runs/VBZ out/IN of/IN sync/NN and/CC the/DT next/JJ call/NN of/IN the/DT filter/NN returns/VBZ the/DT remaining/VBG bytes/NNS as/IN response/NN ./. 
+
+(ROOT (NP (NP (JJ Actual) (NNS Results)) (: :) (S (S (NP (NN fpout) (NN pipe)) (VP (VBZ runs) (PRT (IN out)) (PP (IN of) (NP (NN sync))))) (CC and) (S (NP (NP (DT the) (JJ next) (NN call)) (PP (IN of) (NP (DT the) (NN filter)))) (VP (VBZ returns) (NP (NP (DT the) (VBG remaining) (NNS bytes)) (PP (IN as) (NP (NN response))))))) (. .)))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+nn(pipe-5, fpout-4)
+nsubj(runs-6, pipe-5)
+dep(Results-2, runs-6)
+prep_out_of(runs-6, sync-9)
+det(call-13, the-11)
+amod(call-13, next-12)
+nsubj(returns-17, call-13)
+det(filter-16, the-15)
+prep_of(call-13, filter-16)
+dep(Results-2, returns-17)
+conj_and(runs-6, returns-17)
+det(bytes-20, the-18)
+amod(bytes-20, remaining-19)
+dobj(returns-17, bytes-20)
+prep_as(bytes-20, response-22)
+
+Workaround/NNP :/: limit/NN output/NN length/NN in/IN external/JJ rewriting/VBG program/NN 
+
+(ROOT (FRAG (NP (NP (NNP Workaround)) (: :) (NP (NN limit) (NN output) (NN length))) (PP (IN in) (NP (NP (JJ external) (VBG rewriting)) (NP (NN program))))))
+
+root(ROOT-0, Workaround-1)
+nn(length-5, limit-3)
+nn(length-5, output-4)
+dep(Workaround-1, length-5)
+prep_in(Workaround-1, external-7)
+amod(external-7, rewriting-8)
+dep(external-7, program-9)
+
+Expected/VBN :/: 
+
+(ROOT (NP (VBN Expected) (: :)))
+
+root(ROOT-0, Expected-1)
+
+-/: an/DT error/NN log/NN entry/NN if/IN LONG_STRING_LEN-1/NN is/VBZ reached/VBN while/IN reading/VBG 
+
+(ROOT (PRN (: -) (NP (NP (DT an) (NN error) (NN log) (NN entry)) (SBAR (IN if) (S (NP (NN LONG_STRING_LEN-1)) (VP (VBZ is) (VP (VBN reached) (PP (IN while) (S (VP (VBG reading)))))))))))
+
+root(ROOT-0, entry-5)
+det(entry-5, an-2)
+nn(entry-5, error-3)
+nn(entry-5, log-4)
+mark(reached-9, if-6)
+nsubjpass(reached-9, LONG_STRING_LEN-1-7)
+auxpass(reached-9, is-8)
+dep(entry-5, reached-9)
+prepc_while(reached-9, reading-11)
+
+-/: hint/NN in/IN the/DT documentation/NN of/IN external/JJ rewrite/VBP program/NN regarding/VBG this/DT size/NN limit/NN 
+
+(ROOT (PRN (: -) (S (NP (NP (NN hint)) (PP (IN in) (NP (NP (DT the) (NN documentation)) (PP (IN of) (NP (JJ external)))))) (VP (VBP rewrite) (NP (NP (NN program)) (PP (VBG regarding) (NP (DT this) (NN size) (NN limit))))))))
+
+root(ROOT-0, rewrite-8)
+nsubj(rewrite-8, hint-2)
+det(documentation-5, the-4)
+prep_in(hint-2, documentation-5)
+prep_of(documentation-5, external-7)
+dobj(rewrite-8, program-9)
+det(limit-13, this-11)
+nn(limit-13, size-12)
+prep_regarding(program-9, limit-13)
+
+Optional/JJ :/: read/VB the/DT remaining/VBG bytes/NNS into/IN a/DT dummy/NN buffer/NN until/IN '/'' \/CD n/NN '/'' is/VBZ reached/VBN add/VBP dynamic/JJ buffers/NNS for/IN the/DT response/NN read/VBD 
+
+(ROOT (NP (NP (JJ Optional)) (: :) (S (VP (VB read) (NP (DT the) (VBG remaining) (NNS bytes)) (PP (IN into) (NP (NP (DT a) (NN dummy) (NN buffer)) (PP (IN until) ('' ') (NP (CD \) (NN n))) ('' ') (SBAR (S (VP (VBZ is) (VP (VBN reached) (SBAR (S (VP (VBP add) (SBAR (S (NP (NP (JJ dynamic) (NNS buffers)) (PP (IN for) (NP (DT the) (NN response)))) (VP (VBD read)))))))))))))))))
+
+root(ROOT-0, Optional-1)
+dep(Optional-1, read-3)
+det(bytes-6, the-4)
+amod(bytes-6, remaining-5)
+dobj(read-3, bytes-6)
+det(buffer-10, a-8)
+nn(buffer-10, dummy-9)
+prep_into(read-3, buffer-10)
+num(n-14, \-13)
+prep_until(buffer-10, n-14)
+auxpass(reached-17, is-16)
+rcmod(buffer-10, reached-17)
+ccomp(reached-17, add-18)
+amod(buffers-20, dynamic-19)
+nsubj(read-24, buffers-20)
+det(response-23, the-22)
+prep_for(buffers-20, response-23)
+ccomp(add-18, read-24)
+

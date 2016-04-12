@@ -1,0 +1,185 @@
+I/PRP have/VBP a/DT CentOS/NN 4.1/CD server/NN running/VBG httpd-2/NN .0.52/CD -12/CD ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP have) (NP (NP (DT a) (NN CentOS) (CD 4.1) (NN server)) (VP (VBG running) (NP (NP (NN httpd-2)) (NP (CD .0.52) (CD -12)))))) (. .)))
+
+root(ROOT-0, have-2)
+nsubj(have-2, I-1)
+det(server-6, a-3)
+nn(server-6, CentOS-4)
+num(server-6, 4.1-5)
+dobj(have-2, server-6)
+vmod(server-6, running-7)
+dobj(running-7, httpd-2-8)
+num(-12-10, .0.52-9)
+dep(httpd-2-8, -12-10)
+
+ent.centos4/NN using/VBG client/NN certificates/NNS for/IN authentication/NN ./. 
+
+(ROOT (NP (NP (NN ent.centos4)) (VP (VBG using) (NP (NN client) (NNS certificates)) (PP (IN for) (NP (NN authentication)))) (. .)))
+
+root(ROOT-0, ent.centos4-1)
+vmod(ent.centos4-1, using-2)
+nn(certificates-4, client-3)
+dobj(using-2, certificates-4)
+prep_for(using-2, authentication-6)
+
+We/PRP have/VBP an/DT internal/JJ CA/NNP that/IN regenerates/VBZ CRLs/NNS every/DT hour/NN ,/, and/CC they/PRP are/VBP signed/VBN as/IN being/VBG valid/JJ for/IN 24/CD hours/NNS ./. 
+
+(ROOT (S (S (NP (PRP We)) (VP (VBP have) (NP (NP (DT an) (JJ internal) (NNP CA)) (SBAR (WHNP (IN that)) (S (VP (VBZ regenerates) (NP (NP (NNS CRLs)) (NP (DT every) (NN hour))))))))) (, ,) (CC and) (S (NP (PRP they)) (VP (VBP are) (VP (VBN signed) (PP (IN as) (S (VP (VBG being) (ADJP (JJ valid) (PP (IN for) (NP (CD 24) (NNS hours)))))))))) (. .)))
+
+root(ROOT-0, have-2)
+nsubj(have-2, We-1)
+det(CA-5, an-3)
+amod(CA-5, internal-4)
+dobj(have-2, CA-5)
+nsubj(regenerates-7, that-6)
+rcmod(CA-5, regenerates-7)
+dobj(regenerates-7, CRLs-8)
+det(hour-10, every-9)
+dep(CRLs-8, hour-10)
+nsubjpass(signed-15, they-13)
+auxpass(signed-15, are-14)
+conj_and(have-2, signed-15)
+cop(valid-18, being-17)
+prepc_as(signed-15, valid-18)
+num(hours-21, 24-20)
+prep_for(valid-18, hours-21)
+
+We/PRP have/VBP an/DT automated/JJ process/NN for/IN pushing/VBG those/DT CRL/NNP files/VBZ out/IN to/TO Web/NN servers/NNS and/CC other/JJ devices/NNS that/WDT need/VBP them/PRP ./. 
+
+(ROOT (S (NP (PRP We)) (VP (VBP have) (NP (NP (DT an) (JJ automated) (NN process)) (PP (IN for) (S (VP (VBG pushing) (SBAR (S (NP (DT those) (NNP CRL)) (VP (VBZ files) (ADVP (IN out) (PP (TO to) (NP (NP (NN Web) (NNS servers)) (CC and) (NP (NP (JJ other) (NNS devices)) (SBAR (WHNP (WDT that)) (S (VP (VBP need) (NP (PRP them))))))))))))))))) (. .)))
+
+root(ROOT-0, have-2)
+nsubj(have-2, We-1)
+det(process-5, an-3)
+amod(process-5, automated-4)
+dobj(have-2, process-5)
+prepc_for(process-5, pushing-7)
+det(CRL-9, those-8)
+nsubj(files-10, CRL-9)
+ccomp(pushing-7, files-10)
+advmod(files-10, out-11)
+nn(servers-14, Web-13)
+prep_to(out-11, servers-14)
+amod(devices-17, other-16)
+prep_to(out-11, devices-17)
+conj_and(servers-14, devices-17)
+nsubj(need-19, that-18)
+rcmod(devices-17, need-19)
+dobj(need-19, them-20)
+
+On/IN this/DT 2.0.52/CD server/NN ,/, the/DT revocation/NN data/NNS is/VBZ referenced/VBN via/IN :/: 
+
+(ROOT (S (PP (IN On) (NP (DT this) (CD 2.0.52) (NN server))) (, ,) (NP (DT the) (NN revocation) (NNS data)) (VP (VBZ is) (VP (VBN referenced) (PP (IN via)))) (: :)))
+
+root(ROOT-0, referenced-10)
+det(server-4, this-2)
+num(server-4, 2.0.52-3)
+prep_on(referenced-10, server-4)
+det(data-8, the-6)
+nn(data-8, revocation-7)
+nsubjpass(referenced-10, data-8)
+auxpass(referenced-10, is-9)
+prep(referenced-10, via-11)
+
+SSLCARevocationFile/NN //: etc/httpd/conf/FW //: ssl.crl/JJ //: Our-CA/NN ./. 
+
+(ROOT (NP (NP (NN SSLCARevocationFile)) (PRN (: /) (S (NP (NP (FW etc/httpd/conf)) (PRN (: /) (ADJP (JJ ssl.crl)) (: /))) (NP (NN Our-CA)))) (. .)))
+
+root(ROOT-0, SSLCARevocationFile-1)
+punct(Our-CA-7, /-2)
+dep(Our-CA-7, etc/httpd/conf-3)
+punct(ssl.crl-5, /-4)
+dep(etc/httpd/conf-3, ssl.crl-5)
+punct(ssl.crl-5, /-6)
+dep(SSLCARevocationFile-1, Our-CA-7)
+
+crl/NN 
+
+(ROOT (NP (NN crl)))
+
+root(ROOT-0, crl-1)
+
+What/WP is/VBZ happening/VBG is/VBZ that/IN even/RB though/IN that/DT file/NN is/VBZ being/VBG updated/VBN with/IN a/DT new/JJ CRL/NNP file/NN every/DT hour/NN ,/, only/RB a/DT full/JJ restart/VB (/-LRB- stop/NN ,/, start/NN )/-RRB- of/IN Apache/NNP makes/VBZ it/PRP re-read/VB the/DT CRL/NNP !/. 
+
+(ROOT (S (SBAR (WHNP (WP What)) (S (VP (VBZ is) (VP (VBG happening))))) (VP (VBZ is) (SBAR (IN that) (S (SBAR (RB even) (IN though) (S (NP (DT that) (NN file)) (VP (VBZ is) (VP (VBG being) (VP (VBN updated) (PP (IN with) (NP (NP (DT a) (JJ new) (NNP CRL) (NN file)) (NP (DT every) (NN hour))))))))) (, ,) (NP (NP (NP (RB only) (DT a) (JJ full)) (S (VP (VB restart))) (PRN (-LRB- -LRB-) (NP (NP (NN stop)) (, ,) (NP (NN start))) (-RRB- -RRB-))) (PP (IN of) (NP (NNP Apache)))) (VP (VBZ makes) (S (NP (PRP it)) (VP (VB re-read) (NP (DT the) (NNP CRL)))))))) (. !)))
+
+root(ROOT-0, is-4)
+nsubj(happening-3, What-1)
+aux(happening-3, is-2)
+csubj(is-4, happening-3)
+mark(makes-32, that-5)
+advmod(updated-12, even-6)
+mark(updated-12, though-7)
+det(file-9, that-8)
+nsubjpass(updated-12, file-9)
+aux(updated-12, is-10)
+auxpass(updated-12, being-11)
+advcl(makes-32, updated-12)
+det(file-17, a-14)
+amod(file-17, new-15)
+nn(file-17, CRL-16)
+prep_with(updated-12, file-17)
+det(hour-19, every-18)
+dep(file-17, hour-19)
+advmod(full-23, only-21)
+det(full-23, a-22)
+nsubj(makes-32, full-23)
+dep(full-23, restart-24)
+dep(full-23, stop-26)
+appos(stop-26, start-28)
+prep_of(full-23, Apache-31)
+ccomp(is-4, makes-32)
+nsubj(re-read-34, it-33)
+ccomp(makes-32, re-read-34)
+det(CRL-36, the-35)
+dobj(re-read-34, CRL-36)
+
+If/IN we/PRP send/VBP a/DT HUP/NN ,/, it/PRP does/VBZ n't/RB re-read/VB it/PRP ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (PRP we)) (VP (VBP send) (NP (DT a) (NN HUP))))) (, ,) (NP (PRP it)) (VP (VBZ does) (RB n't) (VP (VB re-read) (NP (PRP it)))) (. .)))
+
+root(ROOT-0, re-read-10)
+mark(send-3, If-1)
+nsubj(send-3, we-2)
+advcl(re-read-10, send-3)
+det(HUP-5, a-4)
+dobj(send-3, HUP-5)
+nsubj(re-read-10, it-7)
+aux(re-read-10, does-8)
+neg(re-read-10, n't-9)
+dobj(re-read-10, it-11)
+
+At/IN that/DT stage/NN you/PRP see/VBP the/DT "/`` Found/JJ CRL/NN is/VBZ expired/VBN -/: revoking/VBG all/DT certificates/NNS until/IN you/PRP get/VBP updated/VBN CRL/NNP "/'' error/NN message/NN and/CC noone/NN can/MD access/VB the/DT server/NN via/IN certs/NNS any/DT more/RBR ./. 
+
+(ROOT (S (PP (IN At) (NP (DT that) (NN stage))) (NP (PRP you)) (VP (VBP see) (NP (NP (DT the) (`` ``) (S (NP (JJ Found) (NN CRL)) (VP (VBZ is) (VP (VBN expired) (PRN (: -) (S (VP (VBG revoking) (NP (DT all) (NNS certificates))))) (SBAR (IN until) (S (NP (PRP you)) (VP (VBP get) (S (NP (VBN updated) (NNP CRL))))))))) ('' '') (NN error)) (SBAR (S (NP (NN message) (CC and) (NN noone)) (VP (MD can) (VP (VB access) (NP (NP (DT the) (NN server)) (PP (IN via) (NP (NNS certs)))) (ADVP (DT any) (RBR more)))))))) (. .)))
+
+root(ROOT-0, see-5)
+det(stage-3, that-2)
+prep_at(see-5, stage-3)
+nsubj(see-5, you-4)
+det(error-22, the-6)
+amod(CRL-9, Found-8)
+nsubjpass(expired-11, CRL-9)
+auxpass(expired-11, is-10)
+dep(error-22, expired-11)
+parataxis(expired-11, revoking-13)
+det(certificates-15, all-14)
+dobj(revoking-13, certificates-15)
+mark(get-18, until-16)
+nsubj(get-18, you-17)
+advcl(expired-11, get-18)
+amod(CRL-20, updated-19)
+dep(get-18, CRL-20)
+dobj(see-5, error-22)
+nsubj(access-27, message-23)
+conj_and(message-23, noone-25)
+nsubj(access-27, noone-25)
+aux(access-27, can-26)
+rcmod(error-22, access-27)
+det(server-29, the-28)
+dobj(access-27, server-29)
+prep_via(server-29, certs-31)
+dep(more-33, any-32)
+advmod(access-27, more-33)
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9260</id>
+	<title>FQL Queries not working as expected</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I ve tested this in my app as well as in the API test console</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This returns 369 posts from my stream (regardless of the actor):
+SELECT source_id_actor_id_ message FROM stream WHERE source_id IN (33500490)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This returns MY most recent post from each stream (the first is my wall_ the second is a page of which I m a fan):
+SELECT source_id_actor_id_ message FROM stream WHERE source_id IN (33500490_35238121606)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This returns MY two most recent posts from my stream_ and the most recent post from the fan page:
+SELECT source_id_actor_id_ message FROM stream WHERE source_id IN (33500490_35238121606) LIMIT 100</sentence>
+		</paragraph>
+	</description>
+</bug>

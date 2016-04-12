@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>42767</id>
+	<title>SERVER_NAME behavior changed since apache 1.3</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have a VHOST Configuration like:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;VirtualHost ...&gt;
+  ServerName MyServer.com
+  ServerAlias test.MyServer.com debug.MyServer.com
+&lt;/VirtualHost&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Under Apache 1.3 i get in the env.</sentence>
+			<sentence id="3.2">the host information and SERVER_NAME
+and its in every case the ServerName value (MyServer.com)
+This is also the ServerName where one of the ServerAlias matches
+(debug.MyServer.com)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">URI: http://www.MyServer.com
+SERVER_NAME = MyServer.com</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">URI: http://debug.MyServer.com
+SERVER_NAME = MyServer.com</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">URI: http://test.MyServer.com
+SERVER_NAME = MyServer.com</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Under Apache 2.2.x its complete different.</sentence>
+			<sentence id="7.2">URI: http://www.MyServer.com
+SERVER_NAME = www.MyServer.com</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">URI: http://debug.MyServer.com
+SERVER_NAME = debug.MyServer.com</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">URI: http://test.MyServer.com
+SERVER_NAME = test.MyServer.com</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">This breaks most SERVER_NAME based configurations.</sentence>
+			<sentence id="10.2">My Question is (if this isnt
+a bug) how can i resolve the real ServerName for the VHOST.</sentence>
+		</paragraph>
+	</description>
+</bug>

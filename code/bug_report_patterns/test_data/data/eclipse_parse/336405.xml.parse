@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>336405</id>
+	<title>Local variables not shown in Variables Window when -O2 used</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">1 Create the default executable Hello World program (Managed Make).</sentence>
+			<sentence id="1.2">2 Edit the program as follows:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">int main(void) {
+   int a = 3;
+   puts("Hello World");
+   printf("a is %d\n", a);
+   return 0;
+}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">3 Go the Project-&gt;Properties-&gt;C/C++ Build-&gt;Settings and change the optimization</sentence>
+			<sentence id="3.2">level to -O2 instead of -O0.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">4 Build the project and debug using gdb/mi.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The first line it can stop at is the "puts" line as the int a = 3 line is
+   optimized away.</sentence>
+			<sentence id="5.2">This is expected.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Note that the variable a does not appear in the Variables window.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">5 click on the gdb executable and in the Console window type: print a</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">6 Click back on the debugging executable and hover over the variable a</sentence>
+			<sentence id="8.2">in the source window.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">7 Step to the printf line where a is actually used.</sentence>
+			<sentence id="9.2">Again, note that</sentence>
+			<sentence id="9.3">a is not shown in the Variables Window.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">In steps 5 and 6, gdb knows the value of a is 3 and so does the debug hover somehow, yet the variable a never gets shown in the Variables window.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">This problem was discovered by the Autotools plug-in because the default compilation options chosen by autotools are: "-g -O2".</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">The problem occurs for CDI as well as DSF so the problem could exist in the gdb/mi protocol itself.</sentence>
+			<sentence id="12.2">It also occurs in 7.0.2.</sentence>
+		</paragraph>
+	</description>
+</bug>

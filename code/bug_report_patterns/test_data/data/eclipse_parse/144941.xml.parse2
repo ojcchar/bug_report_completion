@@ -1,0 +1,192 @@
+1/CD Create/VB a/DT Java/NNP Project/NNP JavaProj/NNP 
+
+(ROOT (FRAG (NP (CD 1)) (VP (VB Create) (NP (DT a) (NNP Java) (NNP Project) (NNP JavaProj)))))
+
+root(ROOT-0, 1-1)
+dep(1-1, Create-2)
+det(JavaProj-6, a-3)
+nn(JavaProj-6, Java-4)
+nn(JavaProj-6, Project-5)
+dobj(Create-2, JavaProj-6)
+
+2/CD Create/VB a/DT Java/NNP Class/NNP JC1/NNP in/IN Package/NNP P1/NN 
+
+(ROOT (FRAG (NP (CD 2)) (VP (VB Create) (NP (NP (DT a) (NNP Java) (NNP Class) (NNP JC1)) (PP (IN in) (NP (NNP Package) (NN P1)))))))
+
+root(ROOT-0, 2-1)
+dep(2-1, Create-2)
+det(JC1-6, a-3)
+nn(JC1-6, Java-4)
+nn(JC1-6, Class-5)
+dobj(Create-2, JC1-6)
+nn(P1-9, Package-8)
+prep_in(JC1-6, P1-9)
+
+3/CD Create/VB a/DT basic/JJ Project/NN NonJavaProj/NNP 
+
+(ROOT (FRAG (NP (CD 3)) (VP (VB Create) (NP (DT a) (JJ basic) (NN Project) (NNP NonJavaProj)))))
+
+root(ROOT-0, 3-1)
+dep(3-1, Create-2)
+det(NonJavaProj-6, a-3)
+amod(NonJavaProj-6, basic-4)
+nn(NonJavaProj-6, Project-5)
+dobj(Create-2, NonJavaProj-6)
+
+4/CD Select/NNP JC1.java/NN in/IN the/DT Package/NNP Explorer/NNP and/CC Refactor/NNP . . ./: Move/VB it/PRP using/VBG the/DT context/NN menu/NN 
+
+(ROOT (NP (NP (CD 4) (NNP Select) (NN JC1.java)) (PP (IN in) (NP (NP (NP (DT the) (NNP Package) (NNP Explorer)) (CC and) (NP (NNP Refactor))) (: ...) (S (VP (VB Move) (S (NP (PRP it)) (VP (VBG using) (NP (DT the) (NN context) (NN menu))))))))))
+
+root(ROOT-0, JC1.java-3)
+num(JC1.java-3, 4-1)
+nn(JC1.java-3, Select-2)
+det(Explorer-7, the-5)
+nn(Explorer-7, Package-6)
+prep_in(JC1.java-3, Explorer-7)
+prep_in(JC1.java-3, Refactor-9)
+conj_and(Explorer-7, Refactor-9)
+dep(Explorer-7, Move-11)
+nsubj(using-13, it-12)
+dep(Move-11, using-13)
+det(menu-16, the-14)
+nn(menu-16, context-15)
+dobj(using-13, menu-16)
+
+5/CD On/IN the/DT Move/VBP wizard/NN ,/, select/JJ NonJavaProj/NNP as/IN the/DT destination/NN ./. 
+
+(ROOT (S (NP (CD 5)) (PP (IN On) (NP (DT the))) (VP (VBP Move) (NP (NP (NN wizard) (, ,) (JJ select) (NNP NonJavaProj)) (PP (IN as) (NP (DT the) (NN destination))))) (. .)))
+
+root(ROOT-0, Move-4)
+nsubj(Move-4, 5-1)
+prep_on(Move-4, the-3)
+nn(NonJavaProj-8, wizard-5)
+amod(NonJavaProj-8, select-7)
+dobj(Move-4, NonJavaProj-8)
+det(destination-11, the-10)
+prep_as(NonJavaProj-8, destination-11)
+
+6/CD Check/VB the/DT "/`` Update/NNP fully/RB qualified/VBD names/NNS in/IN non-Java/JJ text/NN files/NNS (/-LRB- forces/NNS preview/NN )/-RRB- "/'' option/NN and/CC click/VB Preview/NNP ./. 
+
+(ROOT (S (NP (CD 6)) (VP (VP (VB Check) (NP (NP (NP (DT the) (`` ``) (NNP Update)) (ADJP (RB fully) (VBD qualified))) (NP (NP (NP (NNS names)) (PP (IN in) (NP (NP (JJ non-Java) (NN text) (NNS files)) (PRN (-LRB- -LRB-) (NP (NP (NNS forces)) (NP (NN preview))) (-RRB- -RRB-)))) ('' '')) (NP (NN option))))) (CC and) (VP (VB click) (NP (NNP Preview)))) (. .)))
+
+root(ROOT-0, Check-2)
+nsubj(Check-2, 6-1)
+nsubj(click-20, 6-1)
+det(Update-5, the-3)
+dobj(Check-2, Update-5)
+advmod(qualified-7, fully-6)
+amod(Update-5, qualified-7)
+dep(Update-5, names-8)
+amod(files-12, non-Java-10)
+nn(files-12, text-11)
+prep_in(names-8, files-12)
+dep(files-12, forces-14)
+dep(forces-14, preview-15)
+dep(names-8, option-18)
+conj_and(Check-2, click-20)
+dobj(click-20, Preview-21)
+
+RESULT/NN :/: Exceptions/NNS thrown/VBN ./. 
+
+(ROOT (NP (NP (NN RESULT)) (: :) (NP (NP (NNS Exceptions)) (VP (VBN thrown))) (. .)))
+
+root(ROOT-0, RESULT-1)
+dep(RESULT-1, Exceptions-3)
+vmod(Exceptions-3, thrown-4)
+
+If/IN we/PRP do/VBP not/RB perform/VB Step/NN 6/CD and/CC still/RB go/VB to/TO the/DT preview/NN page/NN ,/, things/NNS are/VBP fine/JJ and/CC the/DT refactoring/NN completes/VBZ successfully/RB ./. 
+
+(ROOT (S (S (SBAR (IN If) (S (NP (PRP we)) (VP (VBP do) (RB not) (VP (VP (VB perform) (NP (NN Step) (CD 6))) (CC and) (ADVP (RB still)) (VP (VB go) (PP (TO to) (NP (DT the) (NN preview) (NN page)))))))) (, ,) (NP (NNS things)) (VP (VBP are) (ADJP (JJ fine)))) (CC and) (S (NP (DT the) (NN refactoring)) (VP (VBZ completes) (ADVP (RB successfully)))) (. .)))
+
+root(ROOT-0, fine-18)
+mark(perform-5, If-1)
+nsubj(perform-5, we-2)
+nsubj(go-10, we-2)
+aux(perform-5, do-3)
+neg(perform-5, not-4)
+advcl(fine-18, perform-5)
+dobj(perform-5, Step-6)
+num(Step-6, 6-7)
+advmod(go-10, still-9)
+conj_and(perform-5, go-10)
+advcl(fine-18, go-10)
+det(page-14, the-12)
+nn(page-14, preview-13)
+prep_to(go-10, page-14)
+nsubj(fine-18, things-16)
+cop(fine-18, are-17)
+det(refactoring-21, the-20)
+nsubj(completes-22, refactoring-21)
+conj_and(fine-18, completes-22)
+advmod(completes-22, successfully-23)
+
+Q1/NN ./. 
+
+(ROOT (NP (NN Q1) (. .)))
+
+root(ROOT-0, Q1-1)
+
+Do/VB we/PRP want/VBP to/TO allow/VB moving/VBG Java/NNP classes/NNS to/TO non-Java/JJ Projects/NNPS ??/SYM 
+
+(ROOT (S (VP (VB Do) (SBAR (S (NP (PRP we)) (VP (VBP want) (S (VP (TO to) (VP (VB allow) (S (VP (VBG moving) (NP (NNP Java) (NNS classes)) (PP (TO to) (NP (NP (JJ non-Java) (NNPS Projects)) (X (SYM ??)))))))))))))))
+
+root(ROOT-0, Do-1)
+nsubj(want-3, we-2)
+ccomp(Do-1, want-3)
+aux(allow-5, to-4)
+xcomp(want-3, allow-5)
+xcomp(allow-5, moving-6)
+nn(classes-8, Java-7)
+dobj(moving-6, classes-8)
+amod(Projects-11, non-Java-10)
+prep_to(moving-6, Projects-11)
+dep(Projects-11, ??-12)
+
+Q1a/NN ./. 
+
+(ROOT (NP (NN Q1a) (. .)))
+
+root(ROOT-0, Q1a-1)
+
+If/IN yes/UH then/RB the/DT behavior/NN should/MD be/VB consistent/JJ irrespective/JJ of/IN whether/IN the/DT user/NN performs/VBZ Step/NN 6/CD or/CC not/RB ./. 
+
+(ROOT (S (SBAR (IN If) (S (INTJ (UH yes)) (NP (RB then) (DT the) (NN behavior)) (VP (MD should) (VP (VB be) (ADJP (JJ consistent)))))) (NP (NP (JJ irrespective)) (PP (IN of) (NP (IN whether) (NP (DT the) (NN user))))) (VP (VBZ performs) (NP (NN Step)) (FRAG (NP (CD 6)) (CC or) (RB not))) (. .)))
+
+root(ROOT-0, performs-14)
+mark(consistent-8, If-1)
+discourse(consistent-8, yes-2)
+advmod(behavior-5, then-3)
+det(behavior-5, the-4)
+nsubj(consistent-8, behavior-5)
+aux(consistent-8, should-6)
+cop(consistent-8, be-7)
+advcl(performs-14, consistent-8)
+nsubj(performs-14, irrespective-9)
+amod(user-13, whether-11)
+det(user-13, the-12)
+prep_of(irrespective-9, user-13)
+dobj(performs-14, Step-15)
+dep(performs-14, 6-16)
+cc(6-16, or-17)
+neg(6-16, not-18)
+
+Ideally/RB ,/, I/PRP would/MD prefer/VB if/IN this/DT Refactoring/NN was/VBD disallowed/VBN in/IN the/DT main/JJ Move/VB Wizard/NNP page/NN itself/PRP ./. 
+
+(ROOT (S (ADVP (RB Ideally)) (, ,) (NP (PRP I)) (VP (MD would) (VP (VB prefer) (SBAR (IN if) (S (NP (DT this) (NN Refactoring)) (VP (VBD was) (VP (VBN disallowed) (PP (IN in) (NP (DT the) (JJ main))) (S (VP (VB Move) (S (NP (NNP Wizard) (NN page)) (NP (PRP itself))))))))))) (. .)))
+
+root(ROOT-0, prefer-5)
+advmod(prefer-5, Ideally-1)
+nsubj(prefer-5, I-3)
+aux(prefer-5, would-4)
+mark(disallowed-10, if-6)
+det(Refactoring-8, this-7)
+nsubjpass(disallowed-10, Refactoring-8)
+auxpass(disallowed-10, was-9)
+advcl(prefer-5, disallowed-10)
+det(main-13, the-12)
+prep_in(disallowed-10, main-13)
+ccomp(disallowed-10, Move-14)
+nn(page-16, Wizard-15)
+nsubj(itself-17, page-16)
+xcomp(Move-14, itself-17)
+

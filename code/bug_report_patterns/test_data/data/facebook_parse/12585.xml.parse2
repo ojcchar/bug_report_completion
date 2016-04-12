@@ -1,0 +1,91 @@
+Repro/NNP steps/NNS :/: 
+
+(ROOT (NP (NNP Repro) (NNS steps) (: :)))
+
+root(ROOT-0, steps-2)
+nn(steps-2, Repro-1)
+
+1/CD Log/NN in/IN Facebook/NNP client/NN 
+
+(ROOT (NP (NP (CD 1) (NN Log)) (PP (IN in) (NP (NNP Facebook) (NN client)))))
+
+root(ROOT-0, Log-2)
+num(Log-2, 1-1)
+nn(client-5, Facebook-4)
+prep_in(Log-2, client-5)
+
+2/CD Albums/NNS >/JJR Profile/NNP Pictures/NNP >/JJR Edit/NNP Album/NNP 
+
+(ROOT (NP (NP (CD 2) (NNS Albums)) (NP (NP (JJR >)) (NP (NP (NNP Profile) (NNP Pictures)) (JJR >))) (NP (NNP Edit) (NNP Album))))
+
+root(ROOT-0, Albums-2)
+num(Albums-2, 2-1)
+dep(Albums-2, >-3)
+nn(Pictures-5, Profile-4)
+dep(>-6, Pictures-5)
+dep(>-3, >-6)
+nn(Album-8, Edit-7)
+dep(Albums-2, Album-8)
+
+3/CD Edit/NNP the/DT name/NN and/CC update/VBP 
+
+(ROOT (S (NP (NP (CD 3) (NNP Edit)) (UCP (NP (DT the) (NN name)) (CC and) (S (VP (VBP update)))))))
+
+root(ROOT-0, Edit-2)
+num(Edit-2, 3-1)
+det(name-4, the-3)
+dep(Edit-2, name-4)
+dep(Edit-2, update-6)
+conj_and(name-4, update-6)
+
+4/CD Show/NN update/VBP successfully/RB 
+
+(ROOT (S (NP (CD 4) (NN Show)) (VP (VBP update) (ADVP (RB successfully)))))
+
+root(ROOT-0, update-3)
+num(Show-2, 4-1)
+nsubj(update-3, Show-2)
+advmod(update-3, successfully-4)
+
+5/CD Back/RB to/TO album/NN 
+
+(ROOT (FRAG (ADVP (NP (CD 5)) (RB Back)) (PP (TO to) (NP (NN album)))))
+
+root(ROOT-0, Back-2)
+npadvmod(Back-2, 5-1)
+prep_to(Back-2, album-4)
+
+Expected/VBN :/: The/DT profile/NN pictures/NNS album/NN is/VBZ renamed/VBN 
+
+(ROOT (VP (VBN Expected) (: :) (NP (NP (DT The) (NN profile) (NNS pictures) (NN album)) (SBAR (S (VP (VBZ is) (VP (VBN renamed))))))))
+
+root(ROOT-0, Expected-1)
+det(album-6, The-3)
+nn(album-6, profile-4)
+nn(album-6, pictures-5)
+dobj(Expected-1, album-6)
+auxpass(renamed-8, is-7)
+rcmod(album-6, renamed-8)
+
+Result/NN :/: It/PRP is/VBZ not/RB renamed/VBN 
+
+(ROOT (FRAG (NP (NN Result)) (: :) (S (NP (PRP It)) (VP (VBZ is) (RB not) (VP (VBN renamed))))))
+
+root(ROOT-0, Result-1)
+nsubjpass(renamed-6, It-3)
+auxpass(renamed-6, is-4)
+neg(renamed-6, not-5)
+dep(Result-1, renamed-6)
+
+Client/NN :/: v1/NN .3.2/CD OS/NNP :/: Android/NNP 2.2/CD Froyo/NNP 
+
+(ROOT (NP (NP (NN Client)) (: :) (NP (NP (NN v1) (CD .3.2) (NNP OS)) (: :) (NP (NP (NNP Android) (CD 2.2)) (NP (NNP Froyo))))))
+
+root(ROOT-0, Client-1)
+nn(OS-5, v1-3)
+num(OS-5, .3.2-4)
+dep(Client-1, OS-5)
+dep(OS-5, Android-7)
+num(Android-7, 2.2-8)
+appos(Android-7, Froyo-9)
+

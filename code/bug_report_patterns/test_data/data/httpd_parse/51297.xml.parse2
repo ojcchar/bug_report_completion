@@ -1,0 +1,492 @@
+While/IN unlocking/VBG a/DT file/NN forcibly/RB using/VBG subversion/NN client/NN ,/, and/CC if/IN the/DT unlock/NN is/VBZ blocked/VBN by/IN pre-unlock/JJ hook/NN script/NN ,/, the/DT client/NN is/VBZ getting/VBG "/`` 500/CD Internal/JJ Server/NN Error/NN "/'' instead/RB of/IN the/DT error/NN message/NN sent/VBN by/IN the/DT subversion/NN server/NN ./. 
+
+(ROOT (S (SBAR (SBAR (IN While) (S (VP (VBG unlocking) (NP (NP (DT a) (NN file)) (VP (ADVP (RB forcibly)) (VBG using) (NP (NN subversion) (NN client))))))) (, ,) (CC and) (SBAR (IN if) (S (NP (DT the) (NN unlock)) (VP (VBZ is) (VP (VBN blocked) (PP (IN by) (NP (JJ pre-unlock) (NN hook) (NN script)))))))) (, ,) (NP (DT the) (NN client)) (VP (VBZ is) (VP (VBG getting) (NP (`` ``) (NP (CD 500) (JJ Internal) (NN Server) (NN Error)) ('' '') (PP (RB instead) (IN of) (NP (NP (DT the) (NN error) (NN message)) (VP (VBN sent) (PP (IN by) (NP (DT the) (NN subversion) (NN server))))))))) (. .)))
+
+root(ROOT-0, getting-24)
+mark(unlocking-2, While-1)
+advcl(getting-24, unlocking-2)
+det(file-4, a-3)
+dobj(unlocking-2, file-4)
+advmod(using-6, forcibly-5)
+vmod(file-4, using-6)
+nn(client-8, subversion-7)
+dobj(using-6, client-8)
+mark(blocked-15, if-11)
+det(unlock-13, the-12)
+nsubjpass(blocked-15, unlock-13)
+auxpass(blocked-15, is-14)
+conj_and(unlocking-2, blocked-15)
+advcl(getting-24, blocked-15)
+amod(script-19, pre-unlock-17)
+nn(script-19, hook-18)
+agent(blocked-15, script-19)
+det(client-22, the-21)
+nsubj(getting-24, client-22)
+aux(getting-24, is-23)
+num(Error-29, 500-26)
+amod(Error-29, Internal-27)
+nn(Error-29, Server-28)
+dobj(getting-24, Error-29)
+det(message-35, the-33)
+nn(message-35, error-34)
+prep_instead_of(Error-29, message-35)
+vmod(message-35, sent-36)
+det(server-40, the-38)
+nn(server-40, subversion-39)
+agent(sent-36, server-40)
+
+Simple/JJ reproduction/NN recipe/NN :/: 
+
+(ROOT (NP (NP (JJ Simple) (NN reproduction) (NN recipe)) (: :)))
+
+root(ROOT-0, recipe-3)
+amod(recipe-3, Simple-1)
+nn(recipe-3, reproduction-2)
+
+1/CD Lock/NN a/DT file/NN ./. 
+
+(ROOT (NP (NP (CD 1) (NN Lock)) (NP (DT a) (NN file)) (. .)))
+
+root(ROOT-0, Lock-2)
+num(Lock-2, 1-1)
+det(file-4, a-3)
+dep(Lock-2, file-4)
+
+"/`` svn/NN lock/NN testfile.txt/NN --/: username/JJ user1/NN "/'' 
+
+(ROOT (NP (NP (`` ``) (NN svn)) (NP (NP (NN lock) (NN testfile.txt)) (: --) (NP (JJ username) (NN user1) ('' '')))))
+
+root(ROOT-0, svn-2)
+nn(testfile.txt-4, lock-3)
+dep(svn-2, testfile.txt-4)
+amod(user1-7, username-6)
+dep(testfile.txt-4, user1-7)
+
+2/CD Make/NNP pre-unlock/JJ hook/NN script/NN to/TO fail/VB ./. 
+
+(ROOT (NP (NP (NP (CD 2)) (SBAR (S (VP (NNP Make) (NP (JJ pre-unlock) (NN hook) (NN script)))))) (SBAR (S (VP (TO to) (VP (VB fail))))) (. .)))
+
+root(ROOT-0, 2-1)
+dep(script-5, Make-2)
+amod(script-5, pre-unlock-3)
+nn(script-5, hook-4)
+rcmod(2-1, script-5)
+aux(fail-7, to-6)
+vmod(2-1, fail-7)
+
+3/CD Try/VB to/TO unlock/VB the/DT file/NN forcibly/RB as/IN a/DT different/JJ user/NN ./. 
+
+(ROOT (S (NP (CD 3)) (VP (VB Try) (S (VP (TO to) (VP (VB unlock) (NP (DT the) (NN file)) (ADVP (RB forcibly)) (PP (IN as) (NP (DT a) (JJ different) (NN user))))))) (. .)))
+
+root(ROOT-0, Try-2)
+nsubj(Try-2, 3-1)
+aux(unlock-4, to-3)
+xcomp(Try-2, unlock-4)
+det(file-6, the-5)
+dobj(unlock-4, file-6)
+advmod(unlock-4, forcibly-7)
+det(user-11, a-9)
+amod(user-11, different-10)
+prep_as(unlock-4, user-11)
+
+"/`` svn/NN unlock/NN testfile.txt/NN --/: force/NN --/: username/JJ user2/NN "/'' 
+
+(ROOT (FRAG (NP-TMP (NP (`` ``) (NN svn)) (NP (NN unlock) (NN testfile.txt))) (: --) (NP (NP (NN force)) (: --) (NP (JJ username) (NN user2) ('' '')))))
+
+root(ROOT-0, svn-2)
+nn(testfile.txt-4, unlock-3)
+dep(svn-2, testfile.txt-4)
+dep(svn-2, force-6)
+amod(user2-9, username-8)
+dep(force-6, user2-9)
+
+step/NN 3/CD fails/VBZ with/IN "/`` 500/CD Internal/JJ Server/NN Error/NN "/'' message/NN ./. 
+
+(ROOT (S (NP (NN step) (CD 3)) (VP (VBZ fails) (PP (IN with) (`` ``) (NP (NP (CD 500)) (NP (JJ Internal) (NN Server) (NN Error) ('' '') (NN message))))) (. .)))
+
+root(ROOT-0, fails-3)
+nsubj(fails-3, step-1)
+num(step-1, 3-2)
+prep_with(fails-3, 500-6)
+amod(message-11, Internal-7)
+nn(message-11, Server-8)
+nn(message-11, Error-9)
+dep(500-6, message-11)
+
+Whenever/NNP the/DT pre-unlock/JJ hook/NN fails/VBZ ,/, Subversion/NNP server/NN sends/VBZ the/DT error/NN message/NN "/`` Unlock/NN blocked/VBN by/IN pre-unlock/JJ hook/NN (/-LRB- exit/NN code/NN 1/CD )/-RRB- . . ./: "/'' to/TO mod_dav/VB ./. 
+
+(ROOT (S (S (NP (NP (NNP Whenever)) (NP (DT the) (JJ pre-unlock) (NN hook))) (VP (VBZ fails) (, ,) (SBAR (S (NP (NNP Subversion) (NN server)) (VP (VBZ sends) (NP (DT the) (NN error) (NN message)) (`` ``) (S (NP (NN Unlock)) (VP (VBN blocked) (PP (IN by) (NP (JJ pre-unlock) (NN hook))) (PRN (-LRB- -LRB-) (NP (NP (NN exit) (NN code)) (NP (CD 1))) (-RRB- -RRB-))))))))) (: ...) ('' '') (PRN (S (VP (TO to) (VP (VB mod_dav))))) (. .)))
+
+root(ROOT-0, fails-5)
+nsubj(fails-5, Whenever-1)
+det(hook-4, the-2)
+amod(hook-4, pre-unlock-3)
+dep(Whenever-1, hook-4)
+nn(server-8, Subversion-7)
+nsubj(sends-9, server-8)
+ccomp(fails-5, sends-9)
+det(message-12, the-10)
+nn(message-12, error-11)
+dobj(sends-9, message-12)
+nsubj(blocked-15, Unlock-14)
+dep(sends-9, blocked-15)
+amod(hook-18, pre-unlock-17)
+prep_by(blocked-15, hook-18)
+nn(code-21, exit-20)
+dep(blocked-15, code-21)
+dep(code-21, 1-22)
+aux(mod_dav-27, to-26)
+dep(fails-5, mod_dav-27)
+
+But/CC mod_dav/NNP is/VBZ not/RB handling/VBG the/DT error/NN and/CC it/PRP is/VBZ not/RB sending/VBG any/DT error/NN messages/NNS to/TO client/NN side/NN ,/, instead/RB it/PRP sends/VBZ only/RB HTTP_STATUS/JJ code/NN alone/RB (/-LRB- confirmed/VBD it/PRP with/IN the/DT following/VBG codepath/NN )/-RRB- ./. 
+
+(ROOT (S (CC But) (S (NP (NNP mod_dav)) (VP (VBZ is) (RB not) (VP (VBG handling) (NP (DT the) (NN error))))) (CC and) (S (S (NP (PRP it)) (VP (VBZ is) (RB not) (VP (VBG sending) (NP (DT any) (NN error) (NNS messages)) (PP (TO to) (NP (NN client) (NN side)))))) (, ,) (ADVP (RB instead)) (S (NP (PRP it)) (VP (VBZ sends) (NP (NP (RB only) (JJ HTTP_STATUS) (NN code) (RB alone)) (PRN (-LRB- -LRB-) (VP (VBD confirmed) (NP (PRP it)) (PP (IN with) (NP (DT the) (VBG following) (NN codepath)))) (-RRB- -RRB-)))))) (. .)))
+
+root(ROOT-0, handling-5)
+nsubj(handling-5, mod_dav-2)
+aux(handling-5, is-3)
+neg(handling-5, not-4)
+det(error-7, the-6)
+dobj(handling-5, error-7)
+nsubj(sending-12, it-9)
+aux(sending-12, is-10)
+neg(sending-12, not-11)
+conj_and(handling-5, sending-12)
+det(messages-15, any-13)
+nn(messages-15, error-14)
+dobj(sending-12, messages-15)
+nn(side-18, client-17)
+prep_to(sending-12, side-18)
+advmod(sends-22, instead-20)
+nsubj(sends-22, it-21)
+parataxis(sending-12, sends-22)
+advmod(code-25, only-23)
+amod(code-25, HTTP_STATUS-24)
+dobj(sends-22, code-25)
+advmod(code-25, alone-26)
+dep(code-25, confirmed-28)
+dobj(confirmed-28, it-29)
+det(codepath-33, the-31)
+amod(codepath-33, following-32)
+prep_with(confirmed-28, codepath-33)
+
+From/IN dav/main/mod/NN _/CD dav.c/NN :/: dav_method_unlock/NN (/-LRB- )/-RRB- ,/, </JJR snip/CD >/JJR 
+
+(ROOT (FRAG (PP (IN From) (NP (NN dav/main/mod))) (NP (NP (CD _) (NN dav.c)) (: :) (NP (NP (NP (NN dav_method_unlock)) (-LRB- -LRB-) (NP (-RRB- -RRB-)) (, ,) (ADJP (JJR <))) (ADJP (CD snip) (JJR >))))))
+
+root(ROOT-0, dav.c-4)
+prep_from(dav.c-4, dav/main/mod-2)
+num(dav.c-4, _-3)
+dep(dav.c-4, dav_method_unlock-6)
+amod(dav_method_unlock-6, <-10)
+number(>-12, snip-11)
+amod(dav_method_unlock-6, >-12)
+
+if/IN (/-LRB- (/-LRB- result/NN =/JJ dav_unlock/NN (/-LRB- r/NN ,/, resource/NN ,/, locktoken/NN )/-RRB- )/-RRB- !/. 
+
+(ROOT (FRAG (SBAR (IN if) (S (VP (-LRB- -LRB-) (PRN (-LRB- -LRB-) (NP (NP (NN result)) (NP (NP (JJ =) (NN dav_unlock)) (PRN (-LRB- -LRB-) (NP (NN r) (, ,) (NN resource) (, ,) (NN locktoken)) (-RRB- -RRB-)))) (-RRB- -RRB-))))) (. !)))
+
+root(ROOT-0, result-4)
+mark(result-4, if-1)
+amod(dav_unlock-6, =-5)
+dep(result-4, dav_unlock-6)
+nn(locktoken-12, r-8)
+dep(locktoken-12, resource-10)
+appos(dav_unlock-6, locktoken-12)
+
+=/JJ OK/JJ )/-RRB- {/-LRB- return/NN result/NN ;/: }/-RRB- 
+
+(ROOT (PRN (NP (NP (JJ =)) (NP (NP (JJ OK)) (NP (NP (-RRB- -RRB-)) (-LRB- -LCB-) (NP (NP (NN return)) (NP (NN result))) (: ;)))) (-RRB- -RCB-)))
+
+root(ROOT-0, =-1)
+dep(=-1, OK-2)
+dep(-RRB--3, return-5)
+dep(return-5, result-6)
+
+</JJR //: snip/NN >/JJR From/IN dav/main/util/NN _/CD lock.c/NN :/: dav_unlock/NN (/-LRB- )/-RRB- ,/, </JJR snip/CD >/JJR 
+
+(ROOT (NP (NP (JJR <)) (PRN (: /) (S (NP (NN snip)) (ADJP (ADJP (ADJP (JJR >) (PP (IN From) (NP (NN dav/main/util)))) (PRN (NP (NP (CD _) (NN lock.c)) (: :) (NP (NN dav_unlock) (-LRB- -LRB-))) (-RRB- -RRB-))) (, ,) (ADJP (JJR <))))) (NP (CD snip) (JJR >))))
+
+root(ROOT-0, <-1)
+punct(>-4, /-2)
+dep(>-4, snip-3)
+dep(<-1, >-4)
+prep_from(>-4, dav/main/util-6)
+num(lock.c-8, _-7)
+dep(>-4, lock.c-8)
+dep(lock.c-8, dav_unlock-10)
+dep(>-4, <-14)
+num(>-16, snip-15)
+dep(<-1, >-16)
+
+err/VB =/JJ (/-LRB- */SYM repos_hooks/SYM -/: >/JJR walk/NN )/-RRB- (/-LRB- &/CC ctx.w/NN ,/, DAV_INFINITY/NN ,/, &/CC multi_status/NNS )/-RRB- ;/: 
+
+(ROOT (S (VP (VB err) (NP (NP (NP (JJ =)) (PRN (-LRB- -LRB-) (FRAG (FRAG (X (SYM *)) (NP (SYM repos_hooks))) (: -) (FRAG (ADJP (JJR >)) (ADJP (NN walk)))) (-RRB- -RRB-))) (PRN (-LRB- -LRB-) (S (NP (CC &)) (NP (NP (NN ctx.w) (, ,) (NN DAV_INFINITY) (, ,)) (CC &) (NP (NNS multi_status)))) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, err-1)
+dobj(err-1, =-2)
+dep(repos_hooks-5, *-4)
+dep(=-2, repos_hooks-5)
+dep(repos_hooks-5, >-7)
+dep(>-7, walk-8)
+dep(DAV_INFINITY-14, &-11)
+nn(DAV_INFINITY-14, ctx.w-12)
+dep(=-2, DAV_INFINITY-14)
+dep(=-2, multi_status-17)
+conj_and(DAV_INFINITY-14, multi_status-17)
+
+//: */SYM ###/CD fix/NN this/DT !/. 
+
+(ROOT (PRN (: /) (FRAG (X (X (SYM *)) (NP (CD ###) (NN fix))) (NP (DT this))) (. !)))
+
+root(ROOT-0, this-5)
+punct(this-5, /-1)
+dep(fix-4, *-2)
+num(fix-4, ###-3)
+dep(this-5, fix-4)
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+//: */SYM ###/CD do/VBP something/NN with/IN multi_status/JJ */SYM //: 
+
+(ROOT (PRN (: /) (SBAR (X (SYM *)) (S (NP (CD ###)) (VP (VBP do) (NP (NP (NP (NN something)) (PP (IN with) (ADJP (JJ multi_status)))) (X (SYM *)))))) (: /)))
+
+root(ROOT-0, do-4)
+punct(do-4, /-1)
+dep(do-4, *-2)
+nsubj(do-4, ###-3)
+dobj(do-4, something-5)
+prep_with(something-5, multi_status-7)
+dep(something-5, *-8)
+punct(do-4, /-9)
+
+result/NN =/JJ err/VBP ==/CD NULL/NNP ?/. 
+
+(ROOT (S (NP (NN result) (JJ =)) (VP (VBP err) (NP (CD ==) (NNP NULL))) (. ?)))
+
+root(ROOT-0, err-3)
+nsubj(err-3, result-1)
+amod(result-1, =-2)
+num(NULL-5, ==-4)
+dobj(err-3, NULL-5)
+
+OK/JJ :/: err/VB -/: >/JJR status/NN ;/: 
+
+(ROOT (NP (NP (JJ OK)) (: :) (NP (NP (VB err)) (PRN (: -) (NP (NP (JJR >)) (NP (NN status))) (: ;)))))
+
+root(ROOT-0, OK-1)
+dep(OK-1, err-3)
+dep(err-3, >-5)
+dep(>-5, status-6)
+
+(/-LRB- */SYM hooks/NNS -/: >/JJR close_lockdb/NN )/-RRB- (/-LRB- lockdb/NN )/-RRB- ;/: 
+
+(ROOT (S (-LRB- -LRB-) (VP (SYM *) (NP (NP (NP (NNS hooks)) (: -) (NP (NP (JJR >)) (NP (NN close_lockdb))) (-RRB- -RRB-)) (PRN (-LRB- -LRB-) (NP (NN lockdb)) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, hooks-3)
+dep(hooks-3, *-2)
+dep(hooks-3, >-5)
+dep(>-5, close_lockdb-6)
+appos(hooks-3, lockdb-9)
+
+return/NN result/NN ;/: 
+
+(ROOT (NP (NN return) (NN result) (: ;)))
+
+root(ROOT-0, result-2)
+nn(result-2, return-1)
+
+</JJR //: snip/NN >/JJR 
+
+(ROOT (NP (NP (JJR <)) (PRN (: /) (S (NP (NN snip)) (ADJP (JJR >))))))
+
+root(ROOT-0, <-1)
+punct(>-4, /-2)
+dep(>-4, snip-3)
+dep(<-1, >-4)
+
+This/DT walk/NN (/-LRB- )/-RRB- method/NN finds/VBZ out/RP the/DT resource/NN to/TO unlock/NN and/CC walker/NN callback/NN functin/NN dav_unlock_walker/NN (/-LRB- )/-RRB- removes/VBZ lock/NN from/IN that/DT resource/NN ./. 
+
+(ROOT (S (NP (DT This) (NN walk)) (PRN (-LRB- -LRB-) (S (NP (-RRB- -RRB-) (NN method)) (VP (VBZ finds) (PRT (RP out)) (NP (DT the) (NN resource)) (PP (TO to) (NP (NN unlock) (CC and) (NN walker) (NN callback) (NN functin) (NN dav_unlock_walker) (-LRB- -LRB-))))) (-RRB- -RRB-)) (VP (VBZ removes) (NP (NN lock)) (PP (IN from) (NP (DT that) (NN resource)))) (. .)))
+
+root(ROOT-0, removes-19)
+det(walk-2, This-1)
+nsubj(removes-19, walk-2)
+nsubj(finds-6, method-5)
+parataxis(removes-19, finds-6)
+prt(finds-6, out-7)
+det(resource-9, the-8)
+dobj(finds-6, resource-9)
+nn(dav_unlock_walker-16, unlock-11)
+conj_and(unlock-11, walker-13)
+nn(dav_unlock_walker-16, walker-13)
+nn(dav_unlock_walker-16, callback-14)
+nn(dav_unlock_walker-16, functin-15)
+prep_to(finds-6, dav_unlock_walker-16)
+dobj(removes-19, lock-20)
+det(resource-23, that-22)
+prep_from(removes-19, resource-23)
+
+From/IN dav/main/util/NN _/CD lock.c/NN :/: dav_unlock_walker/NN (/-LRB- )/-RRB- ,/, </JJR snip/CD >/JJR 
+
+(ROOT (FRAG (PP (IN From) (NP (NN dav/main/util))) (NP (NP (CD _) (NN lock.c)) (: :) (NP (NP (NP (NN dav_unlock_walker)) (-LRB- -LRB-) (NP (-RRB- -RRB-)) (, ,) (ADJP (JJR <))) (ADJP (CD snip) (JJR >))))))
+
+root(ROOT-0, lock.c-4)
+prep_from(lock.c-4, dav/main/util-2)
+num(lock.c-4, _-3)
+dep(lock.c-4, dav_unlock_walker-6)
+amod(dav_unlock_walker-6, <-10)
+number(>-12, snip-11)
+amod(dav_unlock_walker-6, >-12)
+
+if/IN (/-LRB- (/-LRB- err/VB =/JJ (/-LRB- */SYM ctx/SYM -/: >/JJR w.lockdb/NN -/: >/JJR hooks/NNS -/: >/JJR remove_lock/NN )/-RRB- (/-LRB- ctx/SYM -/: >/JJR w.lockdb/NN ,/, 
+
+(ROOT (SBAR (IN if) (S (-LRB- -LRB-) (VP (-LRB- -LRB-) (VP (VB err) (NP (NP (NP (JJ =)) (PRN (-LRB- -LRB-) (FRAG (FRAG (X (SYM *)) (NP (SYM ctx))) (: -) (FRAG (NP-TMP (NP (JJR >)) (NP (NN w.lockdb))) (: -) (NP (NP (JJR >) (NNS hooks)) (: -) (NP (JJR >) (NN remove_lock))))) (-RRB- -RRB-))) (PRN (-LRB- -LRB-) (ADVP (SYM ctx) (: -)) (NP (NP (JJR >)) (NP (NN w.lockdb))) (, ,))))))))
+
+root(ROOT-0, err-4)
+mark(err-4, if-1)
+dobj(err-4, =-5)
+dep(ctx-8, *-7)
+dep(=-5, ctx-8)
+dep(ctx-8, >-10)
+dep(>-10, w.lockdb-11)
+amod(hooks-14, >-13)
+dep(>-10, hooks-14)
+amod(remove_lock-17, >-16)
+dep(hooks-14, remove_lock-17)
+dep(>-22, ctx-20)
+dep(=-5, >-22)
+dep(>-22, w.lockdb-23)
+
+wres/SYM -/: >/JJR resource/NN ,/, 
+
+(ROOT (FRAG (NP (NP (SYM wres)) (: -) (NP (JJR >) (NN resource)) (, ,))))
+
+root(ROOT-0, wres-1)
+amod(resource-4, >-3)
+dep(wres-1, resource-4)
+
+ctx/SYM -/: >/JJR locktoken/NN )/-RRB- )/-RRB- !/. 
+
+(ROOT (S (VP (X (SYM ctx)) (: -) (VP (PRN (NP (NP (JJR >)) (NP (NN locktoken))) (-RRB- -RRB-)) (-RRB- -RRB-))) (. !)))
+
+root(ROOT-0, >-3)
+dep(>-3, ctx-1)
+dep(>-3, locktoken-4)
+
+=/JJ NULL/NN )/-RRB- {/-LRB- 
+
+(ROOT (VP (PRN (NP (NP (JJ =)) (NP (NN NULL))) (-RRB- -RRB-)) (-LRB- -LCB-)))
+
+root(ROOT-0, =-1)
+dep(=-1, NULL-2)
+
+//: */SYM ###/CD should/MD we/PRP stop/VB or/CC return/VB a/DT multistatus/NN ?/. 
+
+(ROOT (S (NP (PRN (: /) (FRAG (X (SYM *)) (NP (CD ###))))) (VP (MD should) (NP (PRP we)) (S (VP (VB stop) (CC or) (VB return) (NP (DT a) (NN multistatus))))) (. ?)))
+
+root(ROOT-0, should-4)
+punct(###-3, /-1)
+dep(###-3, *-2)
+nsubj(should-4, ###-3)
+dobj(should-4, we-5)
+dep(should-4, stop-6)
+dep(should-4, return-8)
+conj_or(stop-6, return-8)
+det(multistatus-10, a-9)
+dobj(stop-6, multistatus-10)
+
+looks/NNS like/IN STOP/NN */SYM //: 
+
+(ROOT (NP (NP (NNS looks)) (PP (IN like) (NP (NN STOP)) (X (SYM *))) (: /)))
+
+root(ROOT-0, looks-1)
+prep_like(looks-1, STOP-3)
+dep(looks-1, *-4)
+punct(looks-1, /-5)
+
+//: */SYM ###/CD add/VBP a/DT higher-level/JJ description/NN ?/. 
+
+(ROOT (S (NP (PRN (: /) (FRAG (X (SYM *)) (NP (CD ###))))) (VP (VBP add) (NP (DT a) (JJ higher-level) (NN description))) (. ?)))
+
+root(ROOT-0, add-4)
+punct(###-3, /-1)
+dep(###-3, *-2)
+nsubj(add-4, ###-3)
+det(description-7, a-5)
+amod(description-7, higher-level-6)
+dobj(add-4, description-7)
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+return/NN err/VB ;/: 
+
+(ROOT (NP (NP (NN return) (S (VP (VB err)))) (: ;)))
+
+root(ROOT-0, return-1)
+dep(return-1, err-2)
+
+</JJR //: snip/NN >/JJR 
+
+(ROOT (NP (NP (JJR <)) (PRN (: /) (S (NP (NN snip)) (ADJP (JJR >))))))
+
+root(ROOT-0, <-1)
+punct(>-4, /-2)
+dep(>-4, snip-3)
+dep(<-1, >-4)
+
+In/IN this/DT case/NN ,/, unlock/NN is/VBZ blocked/VBN by/IN pre-unlock/JJ hook/NN ,/, subvesion/NN server/NN marshalls/NNS the/DT error/NN back/RB to/TO mod_dav/NN ,/, mod_dav/NN 's/POS dav_unlock_walker/NN (/-LRB- )/-RRB- returns/VBZ the/DT error/NN sent/VBN by/IN svn/NN server/NN ,/, but/CC dav_unlock/NNP (/-LRB- )/-RRB- returns/NNS only/RB the/DT HTTP_STATUS/NN code/NN (/-LRB- err/VB -/: >/JJR status/NN )/-RRB- and/CC the/DT error/NN message/NN is/VBZ */SYM lost/VBD */SYM there/EX ./. 
+
+(ROOT (S (FRAG (S (PP (IN In) (NP (DT this) (NN case))) (, ,) (NP (NN unlock)) (VP (VBZ is) (VP (VBN blocked) (PP (IN by) (NP (JJ pre-unlock) (NN hook))))))) (, ,) (S (S (NP (NP (NN subvesion) (NN server) (NNS marshalls)) (PP (ADVP (NP (DT the) (NN error)) (RB back)) (TO to) (NP (NP (NN mod_dav)) (, ,) (NP (NP (NN mod_dav) (POS 's)) (NN dav_unlock_walker) (-LRB- -LRB-)) (-RRB- -RRB-)))) (VP (VBZ returns) (NP (NP (DT the) (NN error)) (VP (VBN sent) (PP (IN by) (NP (NN svn) (NN server))))))) (, ,) (CC but) (S (NP (NP (NP (NNP dav_unlock)) (PRN (-LRB- -LRB-) (SQ (-RRB- -RRB-) (NP (NP (NNS returns)) (NP (RB only) (DT the) (NN HTTP_STATUS) (NN code))) (VP (-LRB- -LRB-) (VB err) (: -) (NP (JJR >) (NN status)))) (-RRB- -RRB-))) (CC and) (NP (DT the) (NN error) (NN message))) (VP (VBZ is)))) (FRAG (X (SYM *)) (VP (VBD lost) (S (VP (SYM *) (NP (EX there)))))) (. .)))
+
+root(ROOT-0, returns-26)
+det(case-3, this-2)
+prep_in(blocked-7, case-3)
+nsubjpass(blocked-7, unlock-5)
+auxpass(blocked-7, is-6)
+dep(returns-26, blocked-7)
+amod(hook-10, pre-unlock-9)
+agent(blocked-7, hook-10)
+nn(marshalls-14, subvesion-12)
+nn(marshalls-14, server-13)
+nsubj(returns-26, marshalls-14)
+det(error-16, the-15)
+npadvmod(back-17, error-16)
+advmod(marshalls-14, back-17)
+prep_to(marshalls-14, mod_dav-19)
+poss(dav_unlock_walker-23, mod_dav-21)
+appos(mod_dav-19, dav_unlock_walker-23)
+det(error-28, the-27)
+dobj(returns-26, error-28)
+vmod(error-28, sent-29)
+nn(server-32, svn-31)
+agent(sent-29, server-32)
+nsubj(is-53, dav_unlock-35)
+nsubj(err-44, returns-38)
+advmod(code-42, only-39)
+det(code-42, the-40)
+nn(code-42, HTTP_STATUS-41)
+dep(returns-38, code-42)
+dep(dav_unlock-35, err-44)
+amod(status-47, >-46)
+dobj(err-44, status-47)
+det(message-52, the-50)
+nn(message-52, error-51)
+conj_and(dav_unlock-35, message-52)
+nsubj(is-53, message-52)
+conj_but(returns-26, is-53)
+dep(lost-55, *-54)
+dep(returns-26, lost-55)
+dep(there-57, *-56)
+ccomp(lost-55, there-57)
+

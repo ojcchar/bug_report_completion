@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>98971</id>
+	<title>(Plat) Fix problems in plugin translatability log</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">plugins/org.</sentence>
+			<sentence id="1.2">eclipse.tptp.platform.collection.framework/src-config/org/eclipse/tptp/platform/collection/framework/
+  SetConfig.properties  JAVA-PRB    115   (W) Questionable TM markup table:  
+OS2/OEM: IBMJDK11?</sentence>
+			<sentence id="1.3">, Windows/AIX/ISO: IBMAJDK1?</sentence>
+			<sentence id="1.4">, UTF-8: IBMUJDK1?</sentence>
+			<sentence id="1.5">920   (W) Unknown single quote handling for
+this file.</sentence>
+			<sentence id="1.6">Special NLS_MESSAGEFORMAT comment should be added.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">To fix the problems, please do the following:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">115: For files with a "115" error, add this comment to the start of the file
+# NLS_ENCODING=UTF-8</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">920: For files with a "920" error, add one of the following comments to the file</sentence>
+			<sentence id="4.2">to indicate what type of single quote handling should be used:</sentence>
+			<sentence id="4.3"># NLS_MESSAGEFORMAT_ALL </sentence>
+			<sentence id="4.4"># NLS_MESSAGEFORMAT_NONE</sentence>
+			<sentence id="4.5"># NLS_MESSAGEFORMAT_VAR</sentence>
+			<sentence id="4.6">Choose which comment to use based on this criteria:</sentence>
+			<sentence id="4.7">NLS_MESSAGEFORMAT_ALL</sentence>
+			<sentence id="4.8">    Each string is assumed to be processed by the java.text.MessageFormat class</sentence>
+			<sentence id="4.9">(single quote must be coded as 2 consecutive single quotes ''). </sentence>
+			<sentence id="4.10">NLS_MESSAGEFORMAT_NONE</sentence>
+			<sentence id="4.11">    All strings are assumed to NOT be processed by the java.text.MessageFormat</sentence>
+			<sentence id="4.12">class (single quote must be coded as 1 single quote '). </sentence>
+			<sentence id="4.13">NLS_MESSAGEFORMAT_VAR</sentence>
+			<sentence id="4.14">    Strings which contain replacement variables are processed by the</sentence>
+			<sentence id="4.15">MessageFormat class (single quote must be coded as 2 consecutive single quotes</sentence>
+			<sentence id="4.16">''). Strings which do NOT contain replacement variables are NOT processed by the</sentence>
+			<sentence id="4.17">MessageFormat class (single quote must be coded as 1 single quote ').</sentence>
+		</paragraph>
+	</description>
+</bug>

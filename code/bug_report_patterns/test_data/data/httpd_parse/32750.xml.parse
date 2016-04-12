@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>32750</id>
+	<title>mod_proxy + Win32DisableAcceptEx = memory leak</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Apache 2.0.49, Win2003
+modules: mod_proxy, mod_jk2, mod_rewrite, mod_ssl</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I enabled Win32DisableAcceptEx to clean up some errors in the logs and since
+then, my apache process has gone from its happy 40-60MB usage to 220MB in 3
+days.</sentence>
+			<sentence id="2.2">I restarted Apache and it is gaining about 20MB/hour and after one day was
+up to 140MB.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I removed the Win32DisableAcceptEx and it is back to its usual 40MB.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Some testing shows that mod_proxy requests cause memory to increase while static
+and jk2 requests do not.</sentence>
+			<sentence id="4.2">These requests were not SSL nor did they require
+authorization.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Proxy config:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">ProxyRequests Off
+    RewriteEngine on
+	ProxyPass / http://server:8080/
+	ProxyPassReverse / http://server:8080/
+    RewriteCond %{HTTP:Authorization} ^(.</sentence>
+			<sentence id="6.2">*)
+    RewriteRule .</sentence>
+			<sentence id="6.3">* - [E=HTTP_AUTHORIZATION:%1]
+    ProxyPreserveHost On</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Thanks,
+Charlie</sentence>
+		</paragraph>
+	</description>
+</bug>

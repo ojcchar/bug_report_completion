@@ -1,0 +1,103 @@
+Mozilla/5/NN .0/NN (/-LRB- Macintosh/NNP ;/: Intel/NNP Mac/NNP OS/NNP X/NN 10.6/CD ;/: rv/NN :2.0/CD b6pre/NN )/-RRB- Gecko/20100908/NN Firefox/4/NN .0/CD b6pre/NN 
+
+(ROOT (NP (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NNP Macintosh)) (: ;) (NP (NP (NNP Intel) (NNP Mac) (NNP OS) (NN X) (CD 10.6)) (: ;) (NP (NN rv) (CD :2.0) (NN b6pre))) (-RRB- -RRB-)) (NP (NN Gecko/20100908) (NN Firefox/4))) (NP (CD .0) (NN b6pre))))
+
+root(ROOT-0, .0-2)
+nn(.0-2, Mozilla/5-1)
+dep(.0-2, Macintosh-4)
+nn(X-9, Intel-6)
+nn(X-9, Mac-7)
+nn(X-9, OS-8)
+dep(Macintosh-4, X-9)
+num(X-9, 10.6-10)
+nn(b6pre-14, rv-12)
+num(b6pre-14, :2.0-13)
+dep(X-9, b6pre-14)
+nn(Firefox/4-17, Gecko/20100908-16)
+dep(.0-2, Firefox/4-17)
+num(b6pre-19, .0-18)
+dep(.0-2, b6pre-19)
+
+If/IN the/DT Add-ons/NNS Manager/NNP gets/VBZ opened/VBN in/IN a/DT popup/NN the/DT reaction/NN on/IN user/NN inputs/NNS is/VBZ extremely/RB slow/JJ ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (NP (DT the) (NNS Add-ons)) (SBAR (S (NP (NNP Manager)) (VP (VBZ gets))))) (VP (VBN opened) (PP (IN in) (NP (DT a) (NN popup)))))) (NP (NP (DT the) (NN reaction)) (PP (IN on) (NP (NN user) (NNS inputs)))) (VP (VBZ is) (ADJP (RB extremely) (JJ slow))) (. .)))
+
+root(ROOT-0, slow-17)
+mark(opened-6, If-1)
+det(Add-ons-3, the-2)
+nsubj(opened-6, Add-ons-3)
+nsubj(gets-5, Manager-4)
+rcmod(Add-ons-3, gets-5)
+advcl(slow-17, opened-6)
+det(popup-9, a-8)
+prep_in(opened-6, popup-9)
+det(reaction-11, the-10)
+nsubj(slow-17, reaction-11)
+nn(inputs-14, user-13)
+prep_on(reaction-11, inputs-14)
+cop(slow-17, is-15)
+advmod(slow-17, extremely-16)
+
+Steps/NNS :/: 
+
+(ROOT (NP (NNS Steps) (: :)))
+
+root(ROOT-0, Steps-1)
+
+1/CD Open/NNP http://hg.mozilla.org/qa/litmus-data/raw-file/tip/firefox/popups/popups_2.html/NN 
+
+(ROOT (NP (NP (CD 1)) (NP (NNP Open)) (NP (NN http://hg.mozilla.org/qa/litmus-data/raw-file/tip/firefox/popups/popups_2.html))))
+
+root(ROOT-0, 1-1)
+appos(1-1, Open-2)
+dep(1-1, http://hg.mozilla.org/qa/litmus-data/raw-file/tip/firefox/popups/popups_2.html-3)
+
+2/CD Let/VBD one/CD of/IN the/DT popups/NNS show/VBP 
+
+(ROOT (S (NP (CD 2)) (VP (VBD Let) (SBAR (S (NP (NP (CD one)) (PP (IN of) (NP (DT the) (NNS popups)))) (VP (VBP show)))))))
+
+root(ROOT-0, Let-2)
+nsubj(Let-2, 2-1)
+nsubj(show-7, one-3)
+det(popups-6, the-5)
+prep_of(one-3, popups-6)
+ccomp(Let-2, show-7)
+
+3/CD Press/NNP Cmd/Ctrl/NNP +/CC Shift/NN +/CC A/NN 
+
+(ROOT (NP (NP (CD 3)) (NP (NP (NNP Press) (NNP Cmd/Ctrl)) (CC +) (NP (NP (NN Shift)) (CC +) (NP (NN A))))))
+
+root(ROOT-0, 3-1)
+nn(Cmd/Ctrl-3, Press-2)
+dep(3-1, Cmd/Ctrl-3)
+dep(3-1, Shift-5)
+conj_+(Cmd/Ctrl-3, Shift-5)
+conj_+(Cmd/Ctrl-3, A-7)
+conj_+(Shift-5, A-7)
+
+4/LS Interact/VB with/IN the/DT Addons/NNP Manager/NNP 
+
+(ROOT (S (LST (LS 4)) (VP (VB Interact) (PP (IN with) (NP (DT the) (NNP Addons)))) (NNP Manager)))
+
+root(ROOT-0, Interact-2)
+dep(Interact-2, 4-1)
+det(Addons-5, the-4)
+prep_with(Interact-2, Addons-5)
+dep(Interact-2, Manager-6)
+
+With/IN step/NN 4/CD you/PRP will/MD notice/VB that/IN the/DT AOM/NNP is/VBZ not/RB usable/JJ ./. 
+
+(ROOT (S (PP (IN With) (NP (NN step) (CD 4))) (NP (PRP you)) (VP (MD will) (VP (VB notice) (SBAR (IN that) (S (NP (DT the) (NNP AOM)) (VP (VBZ is) (RB not) (ADJP (JJ usable))))))) (. .)))
+
+root(ROOT-0, notice-6)
+prep_with(notice-6, step-2)
+num(step-2, 4-3)
+nsubj(notice-6, you-4)
+aux(notice-6, will-5)
+mark(usable-12, that-7)
+det(AOM-9, the-8)
+nsubj(usable-12, AOM-9)
+cop(usable-12, is-10)
+neg(usable-12, not-11)
+ccomp(notice-6, usable-12)
+

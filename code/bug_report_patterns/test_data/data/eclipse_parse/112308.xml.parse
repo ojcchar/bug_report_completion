@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>112308</id>
+	<title>AssertionFailedException: Assertion failed</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I try to follow the Tutorial and I am at page 
+http://www.eclipse.org/birt/index.php?page=tutorial/basic/script05.html and the 
+Step "Test the Query" also worked.</sentence>
+			<sentence id="1.2">After I "Click OK to close the data set 
+editor."</sentence>
+			<sentence id="1.3">I then just doubled clicked the "Customers" node in the Data Explorer 
+and the following error appears:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">!ENTRY org.eclipse.jface 4 2 2005-10-12 11:26:30.386</sentence>
+			<sentence id="2.2">!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jface".</sentence>
+			<sentence id="2.3">!STACK 0</sentence>
+			<sentence id="2.4">org.eclipse.jface.text.Assert$AssertionFailedException: Assertion failed: </sentence>
+			<sentence id="2.5">	at org.eclipse.jface.text.Assert.isTrue(Assert.java:189)</sentence>
+			<sentence id="2.6">	at org.eclipse.jface.text.Assert.isTrue(Assert.java:174)</sentence>
+			<sentence id="2.7">	at org.eclipse.jface.text.source.LineNumberRulerColumn.getBaselineBias</sentence>
+			<sentence id="2.8">(LineNumberRulerColumn.java:815)</sentence>
+			<sentence id="2.9">	at org.eclipse.jface.text.source.LineNumberRulerColumn.doPaint</sentence>
+			<sentence id="2.10">(LineNumberRulerColumn.java:693)</sentence>
+			<sentence id="2.11">	at org.eclipse.jface.text.source.LineNumberRulerColumn.doubleBufferPaint</sentence>
+			<sentence id="2.12">(LineNumberRulerColumn.java:624)</sentence>
+			<sentence id="2.13">	at org.eclipse.jface.text.source.LineNumberRulerColumn.access$8</sentence>
+			<sentence id="2.14">(LineNumberRulerColumn.java:595)</sentence>
+			<sentence id="2.15">	at org.eclipse.jface.text.source.LineNumberRulerColumn$4.paintControl</sentence>
+			<sentence id="2.16">(LineNumberRulerColumn.java:541)</sentence>
+			<sentence id="2.17">	at org.eclipse.swt.widgets.TypedListener.handleEvent</sentence>
+			<sentence id="2.18">(TypedListener.java:83)</sentence>
+			<sentence id="2.19">	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:66)</sentence>
+			<sentence id="2.20">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:843)</sentence>
+			<sentence id="2.21">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:867)</sentence>
+			<sentence id="2.22">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:852)</sentence>
+			<sentence id="2.23">	at org.eclipse.swt.widgets.Composite.WM_PAINT(Composite.java:1153)</sentence>
+			<sentence id="2.24">	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3090)</sentence>
+			<sentence id="2.25">	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)</sentence>
+			<sentence id="2.26">	at org.eclipse.swt.internal.win32.OS.RedrawWindow(Native Method)</sentence>
+			<sentence id="2.27">	at org.eclipse.swt.widgets.Control.update(Control.java:2920)</sentence>
+			<sentence id="2.28">	at org.eclipse.swt.widgets.Display.update(Display.java:3588)</sentence>
+			<sentence id="2.29">	at org.eclipse.jface.window.Window.runEventLoop(Window.java:815)</sentence>
+			<sentence id="2.30">	at org.eclipse.jface.window.Window.open(Window.java:787)</sentence>
+			<sentence id="2.31">	at org.eclipse.jface.dialogs.ErrorDialog.open(ErrorDialog.java:274)</sentence>
+			<sentence id="2.32">	at org.eclipse.jface.dialogs.ErrorDialog.openError(ErrorDialog.java:338)</sentence>
+			<sentence id="2.33">	at org.eclipse.jface.dialogs.ErrorDialog.openError(ErrorDialog.java:303)</sentence>
+			<sentence id="2.34">	at </sentence>
+			<sentence id="2.35">org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler.handle</sentence>
+			<sentence id="2.36">(ExceptionHandler.java:128)</sentence>
+			<sentence id="2.37">	at </sentence>
+			<sentence id="2.38">org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler.handle</sentence>
+			<sentence id="2.39">(ExceptionHandler.java:105)</sentence>
+			<sentence id="2.40">	at </sentence>
+			<sentence id="2.41">org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction</sentence>
+			<sentence id="2.42">.handleException(AbstractElementAction.java:128)</sentence>
+			<sentence id="2.43">	at </sentence>
+			<sentence id="2.44">org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction</sentence>
+			<sentence id="2.45">.run(AbstractElementAction.java:87)</sentence>
+			<sentence id="2.46">	at </sentence>
+			<sentence id="2.47">org.eclipse.birt.report.designer.internal.ui.views.RenameListener.doubleClick</sentence>
+			<sentence id="2.48">(RenameListener.java:211)</sentence>
+			<sentence id="2.49">	at org.eclipse.jface.viewers.StructuredViewer$1.run</sentence>
+			<sentence id="2.50">(StructuredViewer.java:720)</sentence>
+			<sentence id="2.51">	at org.eclipse.core.internal.runtime.InternalPlatform.run</sentence>
+			<sentence id="2.52">(InternalPlatform.java:1044)</sentence>
+			<sentence id="2.53">	at org.eclipse.core.runtime.Platform.run(Platform.java:783)</sentence>
+			<sentence id="2.54">	at org.eclipse.ui.internal.JFaceUtil$1.run(JFaceUtil.java:44)</sentence>
+			<sentence id="2.55">	at org.eclipse.jface.util.SafeRunnable.run(SafeRunnable.java:148)</sentence>
+			<sentence id="2.56">	at org.eclipse.jface.viewers.StructuredViewer.fireDoubleClick</sentence>
+			<sentence id="2.57">(StructuredViewer.java:718)</sentence>
+			<sentence id="2.58">	at org.eclipse.jface.viewers.StructuredViewer.handleDoubleSelect</sentence>
+			<sentence id="2.59">(StructuredViewer.java:950)</sentence>
+			<sentence id="2.60">	at org.eclipse.jface.viewers.StructuredViewer$4.widgetDefaultSelected</sentence>
+			<sentence id="2.61">(StructuredViewer.java:1057)</sentence>
+			<sentence id="2.62">	at org.eclipse.jface.util.OpenStrategy.fireDefaultSelectionEvent</sentence>
+			<sentence id="2.63">(OpenStrategy.java:219)</sentence>
+			<sentence id="2.64">	at org.eclipse.jface.util.OpenStrategy.access$0(OpenStrategy.java:216)</sentence>
+			<sentence id="2.65">	at org.eclipse.jface.util.OpenStrategy$1.handleEvent</sentence>
+			<sentence id="2.66">(OpenStrategy.java:275)</sentence>
+			<sentence id="2.67">	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:66)</sentence>
+			<sentence id="2.68">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:843)</sentence>
+			<sentence id="2.69">	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:3080)</sentence>
+			<sentence id="2.70">	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2713)</sentence>
+			<sentence id="2.71">	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:1699)</sentence>
+			<sentence id="2.72">	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:1663)</sentence>
+			<sentence id="2.73">	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench</sentence>
+			<sentence id="2.74">(Workbench.java:367)</sentence>
+			<sentence id="2.75">	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:143)</sentence>
+			<sentence id="2.76">	at org.eclipse.ui.internal.ide.IDEApplication.run</sentence>
+			<sentence id="2.77">(IDEApplication.java:103)</sentence>
+			<sentence id="2.78">	at org.eclipse.core.internal.runtime.PlatformActivator$1.run</sentence>
+			<sentence id="2.79">(PlatformActivator.java:226)</sentence>
+			<sentence id="2.80">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run</sentence>
+			<sentence id="2.81">(EclipseStarter.java:376)</sentence>
+			<sentence id="2.82">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run</sentence>
+			<sentence id="2.83">(EclipseStarter.java:163)</sentence>
+			<sentence id="2.84">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="2.85">	at sun.reflect.NativeMethodAccessorImpl.invoke</sentence>
+			<sentence id="2.86">(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="2.87">	at sun.reflect.DelegatingMethodAccessorImpl.invoke</sentence>
+			<sentence id="2.88">(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="2.89">	at java.lang.reflect.Method.invoke(Method.java:585)</sentence>
+			<sentence id="2.90">	at org.eclipse.core.launcher.Main.invokeFramework(Main.java:334)</sentence>
+			<sentence id="2.91">	at org.eclipse.core.launcher.Main.basicRun(Main.java:278)</sentence>
+			<sentence id="2.92">	at org.eclipse.core.launcher.Main.run(Main.java:973)</sentence>
+			<sentence id="2.93">	at org.eclipse.core.launcher.Main.main(Main.java:948)</sentence>
+		</paragraph>
+	</description>
+</bug>

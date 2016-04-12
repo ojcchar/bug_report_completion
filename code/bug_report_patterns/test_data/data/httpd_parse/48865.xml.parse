@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>48865</id>
+	<title>proxy balancer maxattempts not 1 as default</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">http://httpd.apache.org/docs/2.2/mod/mod_proxy.html says:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Parameter  	Default  	Description
+maxattempts  	1  	Maximum number of failover attempts before giving up.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">But /balancer-manager shows different number for FailoverAttempts.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">And code says (/mod_proxy_balancer.</sentence>
+			<sentence id="4.2">c):</sentence>
+			<sentence id="4.3">/* Set default number of attempts to the number of</sentence>
+			<sentence id="4.4">* workers.</sentence>
+			<sentence id="4.5">*/</sentence>
+			<sentence id="4.6">if (!</sentence>
+			<sentence id="4.7">balancer-&gt;max_attempts_set &amp;&amp; balancer-&gt;workers-&gt;nelts &gt; 1) {</sentence>
+			<sentence id="4.8">balancer-&gt;max_attempts = balancer-&gt;workers-&gt;nelts - 1;</sentence>
+			<sentence id="4.9">balancer-&gt;max_attempts_set = 1;</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,405 @@
+Setup/NN :/: Apache2/NN .2.3/CD setup/NN as/IN a/DT reverse/JJ proxy/NN ,/, in/IN a/DT test/NN environment/NN ready/JJ to/TO replace/VB a/DT production/NN box/NN ./. 
+
+(ROOT (NP (NP (NN Setup)) (: :) (NP (NP (NN Apache2) (CD .2.3) (NN setup)) (PP (IN as) (NP (DT a) (JJ reverse) (NN proxy))) (, ,) (PP (IN in) (NP (NP (DT a) (NN test) (NN environment)) (ADJP (JJ ready) (S (VP (TO to) (VP (VB replace) (NP (DT a) (NN production) (NN box))))))))) (. .)))
+
+root(ROOT-0, Setup-1)
+nn(setup-5, Apache2-3)
+num(setup-5, .2.3-4)
+dep(Setup-1, setup-5)
+det(proxy-9, a-7)
+amod(proxy-9, reverse-8)
+prep_as(setup-5, proxy-9)
+det(environment-14, a-12)
+nn(environment-14, test-13)
+prep_in(setup-5, environment-14)
+amod(environment-14, ready-15)
+aux(replace-17, to-16)
+xcomp(ready-15, replace-17)
+det(box-20, a-18)
+nn(box-20, production-19)
+dobj(replace-17, box-20)
+
+Problem/NNP :/: Excessive/JJ '/`` If-Modified-Since/NN '/'' traffic/NN to/TO upstream/JJ server/NN ./. 
+
+(ROOT (NP (NP (NNP Problem)) (: :) (NP (JJ Excessive) (NP (NP (`` `) (NN If-Modified-Since) ('' ')) (NN traffic) (PP (TO to) (NP (JJ upstream) (NN server))))) (. .)))
+
+root(ROOT-0, Problem-1)
+amod(traffic-7, Excessive-3)
+nn(traffic-7, If-Modified-Since-5)
+dep(Problem-1, traffic-7)
+amod(server-10, upstream-9)
+prep_to(traffic-7, server-10)
+
+Cause/NN :/: Every/DT night/NN htcacheclean/NN is/VBZ run/VBN ./. 
+
+(ROOT (FRAG (NP (NN Cause)) (: :) (S (NP (DT Every) (NN night) (NN htcacheclean)) (VP (VBZ is) (VP (VBN run)))) (. .)))
+
+root(ROOT-0, Cause-1)
+det(htcacheclean-5, Every-3)
+nn(htcacheclean-5, night-4)
+nsubjpass(run-7, htcacheclean-5)
+auxpass(run-7, is-6)
+dep(Cause-1, run-7)
+
+A/DT returning/VBG Client/NN requests/NNS an/DT object/file/NN using/VBG '/`` If-Modifed-Since/NNP '/'' in/IN the/DT header/NN ,/, as/IN the/DT client/NN has/VBZ locally/RB cached/VBN copy/NN ./. 
+
+(ROOT (S (NP (NP (DT A) (VBG returning) (NN Client) (NNS requests)) (SBAR (S (NP (DT an) (NN object/file)) (VP (VBG using) (NP (`` `) (NP (NNP If-Modifed-Since)) ('' ') (PP (IN in) (NP (DT the) (NN header)))) (, ,) (PP (IN as) (NP (DT the) (NN client))))))) (VP (VBZ has) (ADVP (RB locally)) (VP (VBN cached) (NP (NN copy)))) (. .)))
+
+root(ROOT-0, cached-20)
+det(requests-4, A-1)
+amod(requests-4, returning-2)
+nn(requests-4, Client-3)
+nsubj(cached-20, requests-4)
+det(object/file-6, an-5)
+nsubj(using-7, object/file-6)
+rcmod(requests-4, using-7)
+dobj(using-7, If-Modifed-Since-9)
+det(header-13, the-12)
+prep_in(If-Modifed-Since-9, header-13)
+det(client-17, the-16)
+prep_as(using-7, client-17)
+aux(cached-20, has-18)
+advmod(cached-20, locally-19)
+dobj(cached-20, copy-21)
+
+Symptom/NN :/: Reverse/JJ proxy/NN makes/VBZ '/`` If-Modifed-Since/NNP '/'' request/NN to/TO upstream/JJ server/NN as/IN object/NN is/VBZ not/RB available/JJ in/IN cache/NN ./. 
+
+(ROOT (FRAG (NP (NN Symptom)) (: :) (S (NP (JJ Reverse) (NN proxy)) (VP (VBZ makes) (NP (NP (`` `) (NNP If-Modifed-Since) ('' ') (NN request)) (PP (TO to) (NP (JJ upstream) (NN server)))) (SBAR (IN as) (S (NP (NN object)) (VP (VBZ is) (RB not) (ADJP (JJ available) (PP (IN in) (NP (NN cache))))))))) (. .)))
+
+root(ROOT-0, Symptom-1)
+amod(proxy-4, Reverse-3)
+nsubj(makes-5, proxy-4)
+dep(Symptom-1, makes-5)
+nn(request-9, If-Modifed-Since-7)
+dobj(makes-5, request-9)
+amod(server-12, upstream-11)
+prep_to(request-9, server-12)
+mark(available-17, as-13)
+nsubj(available-17, object-14)
+cop(available-17, is-15)
+neg(available-17, not-16)
+advcl(makes-5, available-17)
+prep_in(available-17, cache-19)
+
+Upstream/NNP server/NN will/MD reply/VB with/IN '/'' 304/CD Not-Modifed/JJ '/'' ./. 
+
+(ROOT (S (NP (NNP Upstream) (NN server)) (VP (MD will) (VP (VB reply) (PP (IN with) ('' ') (NP (CD 304))) (ADJP (JJ Not-Modifed) ('' ')))) (. .)))
+
+root(ROOT-0, reply-4)
+nn(server-2, Upstream-1)
+nsubj(reply-4, server-2)
+aux(reply-4, will-3)
+prep_with(reply-4, 304-7)
+acomp(reply-4, Not-Modifed-8)
+
+Note/VB ,/, Proxy/NNP still/RB does/VBZ n't/RB have/VB a/DT copy/NN ./. 
+
+(ROOT (S (S (VP (VB Note))) (, ,) (NP (NNP Proxy)) (ADVP (RB still)) (VP (VBZ does) (RB n't) (VP (VB have) (NP (DT a) (NN copy)))) (. .)))
+
+root(ROOT-0, have-7)
+ccomp(have-7, Note-1)
+nsubj(have-7, Proxy-3)
+advmod(have-7, still-4)
+aux(have-7, does-5)
+neg(have-7, n't-6)
+det(copy-9, a-8)
+dobj(have-7, copy-9)
+
+The/DT expected/VBN action/NN would/MD be/VB for/IN the/DT proxy/NN to/TO get/VB the/DT object/NN ,/, and/CC report/NN '/'' 304/CD Not-Modifed/JJ '/'' to/TO the/DT client/NN ,/, so/RB that/IN the/DT next/JJ request/NN is/VBZ served/VBN out/IN of/IN cache/NN ,/, and/CC no/DT further/JJ traffic/NN occurs/VBZ between/IN proxy/NN and/CC upstream/JJ server/NN ./. 
+
+(ROOT (S (S (NP (DT The) (VBN expected) (NN action)) (VP (MD would) (VP (VB be) (PP (IN for) (NP (DT the) (NN proxy) (S (VP (TO to) (VP (VB get) (NP (NP (DT the) (NN object)) (, ,) (CC and) (NP (NP (NN report) ('' ')) (ADJP (NP (CD 304)) (JJ Not-Modifed))) ('' ')) (PP (TO to) (NP (DT the) (NN client))) (, ,) (SBAR (RB so) (IN that) (S (NP (DT the) (JJ next) (NN request)) (VP (VBZ is) (VP (VBN served) (PRT (IN out)) (PP (IN of) (NP (NN cache))))))))))))))) (, ,) (CC and) (S (NP (DT no) (JJ further) (NN traffic)) (VP (VBZ occurs) (PP (IN between) (NP (NP (NN proxy)) (CC and) (NP (JJ upstream) (NN server)))))) (. .)))
+
+root(ROOT-0, be-5)
+det(action-3, The-1)
+amod(action-3, expected-2)
+nsubj(be-5, action-3)
+aux(be-5, would-4)
+det(proxy-8, the-7)
+prep_for(be-5, proxy-8)
+aux(get-10, to-9)
+vmod(proxy-8, get-10)
+det(object-12, the-11)
+dobj(get-10, object-12)
+dobj(get-10, report-15)
+conj_and(object-12, report-15)
+npadvmod(Not-Modifed-18, 304-17)
+amod(report-15, Not-Modifed-18)
+det(client-22, the-21)
+prep_to(get-10, client-22)
+advmod(served-30, so-24)
+mark(served-30, that-25)
+det(request-28, the-26)
+amod(request-28, next-27)
+nsubjpass(served-30, request-28)
+auxpass(served-30, is-29)
+advcl(get-10, served-30)
+prep_out_of(served-30, cache-33)
+neg(traffic-38, no-36)
+amod(traffic-38, further-37)
+nsubj(occurs-39, traffic-38)
+conj_and(be-5, occurs-39)
+prep_between(occurs-39, proxy-41)
+amod(server-44, upstream-43)
+prep_between(occurs-39, server-44)
+conj_and(proxy-41, server-44)
+
+Observation/NN :/: If/IN the/DT clients/NNS cache/NN is/VBZ cleared/VBN ,/, the/DT next/JJ request/NN comes/VBZ from/IN the/DT upstream/JJ server/NN ,/, then/RB subsequent/JJ requests/NNS come/VBP from/IN the/DT proxy/NN 's/POS cache/NN ./. 
+
+(ROOT (NP (NP (NN Observation)) (: :) (S (S (SBAR (IN If) (S (NP (DT the) (NNS clients) (NN cache)) (VP (VBZ is) (VP (VBN cleared))))) (, ,) (NP (DT the) (JJ next) (NN request)) (VP (VBZ comes) (PP (IN from) (NP (DT the) (JJ upstream) (NN server))))) (, ,) (NP (RB then) (JJ subsequent) (NNS requests)) (VP (VBP come) (PP (IN from) (NP (NP (DT the) (NN proxy) (POS 's)) (NN cache))))) (. .)))
+
+root(ROOT-0, Observation-1)
+mark(cleared-8, If-3)
+det(cache-6, the-4)
+nn(cache-6, clients-5)
+nsubjpass(cleared-8, cache-6)
+auxpass(cleared-8, is-7)
+advcl(comes-13, cleared-8)
+det(request-12, the-10)
+amod(request-12, next-11)
+nsubj(comes-13, request-12)
+ccomp(come-22, comes-13)
+det(server-17, the-15)
+amod(server-17, upstream-16)
+prep_from(comes-13, server-17)
+advmod(requests-21, then-19)
+amod(requests-21, subsequent-20)
+nsubj(come-22, requests-21)
+dep(Observation-1, come-22)
+det(proxy-25, the-24)
+poss(cache-27, proxy-25)
+prep_from(come-22, cache-27)
+
+Hack/NN :/: In/IN mod-proxy-http/NN ./. 
+
+(ROOT (FRAG (NP (NN Hack)) (: :) (FRAG (PP (IN In)) (NP (NN mod-proxy-http))) (. .)))
+
+root(ROOT-0, Hack-1)
+prep(mod-proxy-http-4, In-3)
+dep(Hack-1, mod-proxy-http-4)
+
+c/NN we/PRP have/VBP removed/VBN the/DT test/NN '/`` if/IN r/SYM -/: >/JJR main/JJ '/'' check/NN (/-LRB- snippet/NN below/IN )/-RRB- ,/, which/WDT appears/VBZ to/TO remove/VB the/DT "/`` If/IN -/: */SYM "/'' headers/NNS to/TO the/DT upstream/JJ server/NN ,/, but/CC this/DT may/MD have/VB other/JJ side/JJ effects/NNS ,/, but/CC gives/VBZ us/PRP the/DT desired/VBN operation/NN ./. 
+
+(ROOT (NP (NP (NP (NN c)) (SBAR (S (NP (PRP we)) (VP (VBP have) (VP (VBN removed) (NP (DT the) (NN test)) (`` `) (PP (IN if) (NP (NP (SYM r)) (: -) (NP (JJR >) (JJ main)))) ('' ')))))) (NP (NP (NN check)) (PRN (-LRB- -LRB-) (NP (NP (NN snippet)) (PP (IN below))) (-RRB- -RRB-)) (, ,) (SBAR (WHNP (WDT which)) (S (VP (VBZ appears) (S (VP (TO to) (VP (VB remove) (NP (NP (DT the)) (`` ``) (ADJP (IN If))))) (: -) (SBAR (X (SYM *)) (S (SBAR (S (VP (VP (VP ('' '') (NP-TMP (NNS headers))) (PP (TO to) (NP (NP (DT the) (JJ upstream) (NN server)) (, ,)))) (CC but) (VP (ADVP (DT this)) (MD may) (VP (VB have) (NP (JJ other) (JJ side) (NNS effects))))))) (, ,) (NP (CC but)) (VP (VBZ gives) (S (NP (PRP us)) (NP (DT the) (VBN desired) (NN operation))))))))))) (. .)))
+
+root(ROOT-0, c-1)
+nsubj(removed-4, we-2)
+aux(removed-4, have-3)
+rcmod(c-1, removed-4)
+det(test-6, the-5)
+dobj(removed-4, test-6)
+prep_if(removed-4, r-9)
+dep(r-9, >-11)
+amod(>-11, main-12)
+dep(c-1, check-14)
+dep(check-14, snippet-16)
+prep(snippet-16, below-17)
+nsubj(appears-21, which-20)
+rcmod(check-14, appears-21)
+aux(remove-23, to-22)
+xcomp(appears-21, remove-23)
+dobj(remove-23, the-24)
+amod(the-24, If-26)
+dep(gives-45, *-28)
+advcl(gives-45, headers-30)
+det(server-34, the-32)
+amod(server-34, upstream-33)
+prep_to(headers-30, server-34)
+advmod(have-39, this-37)
+aux(have-39, may-38)
+conj_but(headers-30, have-39)
+advcl(gives-45, have-39)
+amod(effects-42, other-40)
+amod(effects-42, side-41)
+dobj(have-39, effects-42)
+nsubj(gives-45, but-44)
+parataxis(remove-23, gives-45)
+nsubj(operation-49, us-46)
+det(operation-49, the-47)
+amod(operation-49, desired-48)
+xcomp(gives-45, operation-49)
+
+//: */SYM for/IN sub-requests/NNS ,/, ignore/VBP freshness/expiry/JJ headers/NNS */SYM //: 
+
+(ROOT (PRN (: /) (SBAR (X (SYM *)) (S (S (PP (IN for) (NP (NNS sub-requests)))) (, ,) (VP (VBP ignore) (NP (NP (ADJP (JJ freshness/expiry)) (NNS headers)) (X (SYM *)))))) (: /)))
+
+root(ROOT-0, ignore-6)
+punct(ignore-6, /-1)
+dep(ignore-6, *-2)
+ccomp(ignore-6, for-3)
+pobj(for-3, sub-requests-4)
+amod(headers-8, freshness/expiry-7)
+dobj(ignore-6, headers-8)
+dep(headers-8, *-9)
+punct(ignore-6, /-10)
+
+//: //: CJW/SYM -/: Ignore/VB Freshness/NN on/IN requests/NNS 
+
+(ROOT (PRN (: /) (S (VP (VP (: /) (X (SYM CJW))) (: -) (NP (NP (VB Ignore) (NN Freshness)) (PP (IN on) (NP (NNS requests))))))))
+
+root(ROOT-0, CJW-3)
+punct(CJW-3, /-1)
+punct(CJW-3, /-2)
+dep(Freshness-6, Ignore-5)
+dobj(CJW-3, Freshness-6)
+prep_on(Freshness-6, requests-8)
+
+//: //: if/IN (/-LRB- r/SYM -/: >/JJR main/JJ )/-RRB- {/-LRB- 
+
+(ROOT (FRAG (: /) (VP (: /) (PP (IN if) (PRN (-LRB- -LRB-) (NP (NP (SYM r)) (: -) (NP (JJR >) (JJ main))) (-RRB- -RRB-)))) (-LRB- -LCB-)))
+
+root(ROOT-0, if-3)
+punct(if-3, /-1)
+punct(if-3, /-2)
+dep(if-3, r-5)
+dep(r-5, >-7)
+amod(>-7, main-8)
+
+if/IN (/-LRB- !/. 
+
+(ROOT (FRAG (IN if) (ADVP (-LRB- -LRB-) (. !))))
+
+root(ROOT-0, if-1)
+
+strcasecmp/NN (/-LRB- headers_in/NN [/-LRB- counter/NN ]/-RRB- ./. 
+
+(ROOT (NP (NP (NN strcasecmp)) (PRN (-LRB- -LRB-) (NP (NP (NN headers_in)) (-LRB- -LSB-) (NP (NN counter))) (-RRB- -RSB-)) (. .)))
+
+root(ROOT-0, strcasecmp-1)
+dep(strcasecmp-1, headers_in-3)
+punct(headers_in-3, -LSB--4)
+dep(headers_in-3, counter-5)
+punct(headers_in-3, -RSB--6)
+
+key/JJ ,/, "/`` If-Match/NNP "/'' )/-RRB- 
+
+(ROOT (PRN (NP (NP (JJ key)) (, ,) (NP (`` ``) (NNP If-Match) ('' ''))) (-RRB- -RRB-)))
+
+root(ROOT-0, key-1)
+appos(key-1, If-Match-4)
+
+|/NN |/CD !/. 
+
+(ROOT (NP (NP (NN |)) (NP (CD |)) (. !)))
+
+root(ROOT-0, |-1)
+dep(|-1, |-2)
+
+strcasecmp/NN (/-LRB- headers_in/NN [/-LRB- counter/NN ]/-RRB- ./. 
+
+(ROOT (NP (NP (NN strcasecmp)) (PRN (-LRB- -LRB-) (NP (NP (NN headers_in)) (-LRB- -LSB-) (NP (NN counter))) (-RRB- -RSB-)) (. .)))
+
+root(ROOT-0, strcasecmp-1)
+dep(strcasecmp-1, headers_in-3)
+punct(headers_in-3, -LSB--4)
+dep(headers_in-3, counter-5)
+punct(headers_in-3, -RSB--6)
+
+key/JJ ,/, "/`` If-Modified-Since/NNP "/'' )/-RRB- 
+
+(ROOT (PRN (NP (NP (JJ key)) (, ,) (NP (`` ``) (NNP If-Modified-Since) ('' ''))) (-RRB- -RRB-)))
+
+root(ROOT-0, key-1)
+appos(key-1, If-Modified-Since-4)
+
+|/NN |/CD !/. 
+
+(ROOT (NP (NP (NN |)) (NP (CD |)) (. !)))
+
+root(ROOT-0, |-1)
+dep(|-1, |-2)
+
+strcasecmp/NN (/-LRB- headers_in/NN [/-LRB- counter/NN ]/-RRB- ./. 
+
+(ROOT (NP (NP (NN strcasecmp)) (PRN (-LRB- -LRB-) (NP (NP (NN headers_in)) (-LRB- -LSB-) (NP (NN counter))) (-RRB- -RSB-)) (. .)))
+
+root(ROOT-0, strcasecmp-1)
+dep(strcasecmp-1, headers_in-3)
+punct(headers_in-3, -LSB--4)
+dep(headers_in-3, counter-5)
+punct(headers_in-3, -RSB--6)
+
+key/JJ ,/, "/`` If-Range/NNP "/'' )/-RRB- 
+
+(ROOT (PRN (NP (NP (JJ key)) (, ,) (NP (`` ``) (NNP If-Range) ('' ''))) (-RRB- -RRB-)))
+
+root(ROOT-0, key-1)
+appos(key-1, If-Range-4)
+
+|/NN |/CD !/. 
+
+(ROOT (NP (NP (NN |)) (NP (CD |)) (. !)))
+
+root(ROOT-0, |-1)
+dep(|-1, |-2)
+
+strcasecmp/NN (/-LRB- headers_in/NN [/-LRB- counter/NN ]/-RRB- ./. 
+
+(ROOT (NP (NP (NN strcasecmp)) (PRN (-LRB- -LRB-) (NP (NP (NN headers_in)) (-LRB- -LSB-) (NP (NN counter))) (-RRB- -RSB-)) (. .)))
+
+root(ROOT-0, strcasecmp-1)
+dep(strcasecmp-1, headers_in-3)
+punct(headers_in-3, -LSB--4)
+dep(headers_in-3, counter-5)
+punct(headers_in-3, -RSB--6)
+
+key/JJ ,/, "/`` If-Unmodified-Since/NNP "/'' )/-RRB- 
+
+(ROOT (PRN (NP (NP (JJ key)) (, ,) (NP (`` ``) (NNP If-Unmodified-Since) ('' ''))) (-RRB- -RRB-)))
+
+root(ROOT-0, key-1)
+appos(key-1, If-Unmodified-Since-4)
+
+|/NN |/CD !/. 
+
+(ROOT (NP (NP (NN |)) (NP (CD |)) (. !)))
+
+root(ROOT-0, |-1)
+dep(|-1, |-2)
+
+strcasecmp/NN (/-LRB- headers_in/NN [/-LRB- counter/NN ]/-RRB- ./. 
+
+(ROOT (NP (NP (NN strcasecmp)) (PRN (-LRB- -LRB-) (NP (NP (NN headers_in)) (-LRB- -LSB-) (NP (NN counter))) (-RRB- -RSB-)) (. .)))
+
+root(ROOT-0, strcasecmp-1)
+dep(strcasecmp-1, headers_in-3)
+punct(headers_in-3, -LSB--4)
+dep(headers_in-3, counter-5)
+punct(headers_in-3, -RSB--6)
+
+key/JJ ,/, "/`` If-None-Match/NNP "/'' )/-RRB- )/-RRB- {/-LRB- 
+
+(ROOT (S (S (ADJP (JJ key))) (, ,) (`` ``) (NP (NNP If-None-Match)) ('' '') (VP (-RRB- -RRB-)) (-RRB- -RRB-) (-LRB- -LCB-)))
+
+ccomp(-RRB--6, key-1)
+nsubj(-RRB--6, If-None-Match-4)
+
+continue/VB ;/: 
+
+(ROOT (S (VP (VB continue)) (: ;)))
+
+root(ROOT-0, continue-1)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+//: //: }/-RRB- 
+
+(ROOT (PRN (: /) (: /) (-RRB- -RCB-)))
+
+root(ROOT-0, /-1)
+punct(/-1, /-2)
+
+How/WRB should/MD this/DT senario/NN really/RB be/VB fixed/VBN ?/. 
+
+(ROOT (SBARQ (WHADVP (WRB How)) (SQ (MD should) (NP (DT this) (NN senario)) (ADVP (RB really)) (VP (VB be) (VP (VBN fixed)))) (. ?)))
+
+root(ROOT-0, fixed-7)
+advmod(fixed-7, How-1)
+aux(fixed-7, should-2)
+det(senario-4, this-3)
+nsubjpass(fixed-7, senario-4)
+advmod(fixed-7, really-5)
+auxpass(fixed-7, be-6)
+

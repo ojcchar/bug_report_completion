@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>44793</id>
+	<title>logical error with ssl_util_table.c</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">if the bucket has only one element and the element is not match, cause entry_p is not null and entry_p-&gt;te_next_p is null, then the loop is not excuted, then we   get to judge whether we find it.</sentence>
+			<sentence id="1.2">it's a bug,should fix as follow</sentence>
+			<sentence id="1.3">/* look for the entry in this bucket, only check keys of the same size */</sentence>
+			<sentence id="1.4">last_p = NULL;</sentence>
+			<sentence id="1.5">for (entry_p = table_p-&gt;ta_buckets[bucket];</sentence>
+			<sentence id="1.6">(entry_p !</sentence>
+			<sentence id="1.7">= NULL) &amp;&amp; (entry_p-&gt;te_next_p !</sentence>
+			<sentence id="1.8">= last_p);</sentence>
+			<sentence id="1.9">last_p = entry_p, entry_p = entry_p-&gt;te_next_p) {</sentence>
+			<sentence id="1.10">if (entry_p-&gt;te_key_size == ksize</sentence>
+			<sentence id="1.11">&amp;&amp; memcmp(ENTRY_KEY_BUF(entry_p), key_buf, ksize) == 0)</sentence>
+			<sentence id="1.12">break;</sentence>
+			<sentence id="1.13">}</sentence>
+			<sentence id="1.14">/* did we find it?</sentence>
+			<sentence id="1.15">then we are in replace mode.</sentence>
+			<sentence id="1.16">*/</sentence>
+			<sentence id="1.17">if (entry_p !</sentence>
+			<sentence id="1.18">= NULL) {</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">/* can we not overwrite existing data?</sentence>
+			<sentence id="2.2">*/</sentence>
+			<sentence id="2.3">if (!</sentence>
+			<sentence id="2.4">overwrite_b) {</sentence>
+			<sentence id="2.5">if (key_buf_p !</sentence>
+			<sentence id="2.6">= NULL)</sentence>
+			<sentence id="2.7">*key_buf_p = ENTRY_KEY_BUF(entry_p);</sentence>
+			<sentence id="2.8">if (data_buf_p !</sentence>
+			<sentence id="2.9">= NULL) {</sentence>
+			<sentence id="2.10">if (entry_p-&gt;te_data_size == 0)</sentence>
+			<sentence id="2.11">*data_buf_p = NULL;</sentence>
+			<sentence id="2.12">else {</sentence>
+			<sentence id="2.13">if (table_p-&gt;ta_data_align == 0)</sentence>
+			<sentence id="2.14">*data_buf_p = ENTRY_DATA_BUF(table_p, entry_p);</sentence>
+			<sentence id="2.15">else</sentence>
+			<sentence id="2.16">*data_buf_p = entry_data_buf(table_p, entry_p);</sentence>
+			<sentence id="2.17">}</sentence>
+			<sentence id="2.18">}</sentence>
+			<sentence id="2.19">return TABLE_ERROR_OVERWRITE;</sentence>
+			<sentence id="2.20">}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">////////fix</sentence>
+			<sentence id="3.2">/* look for the entry in this bucket, only check keys of the same size */</sentence>
+			<sentence id="3.3">last_p = NULL;</sentence>
+			<sentence id="3.4">for (entry_p = table_p-&gt;ta_buckets[bucket];</sentence>
+			<sentence id="3.5">(entry_p !</sentence>
+			<sentence id="3.6">= NULL) &amp;&amp; (entry_p-&gt;te_next_p !</sentence>
+			<sentence id="3.7">= last_p);</sentence>
+			<sentence id="3.8">last_p = entry_p, entry_p = entry_p-&gt;te_next_p) {</sentence>
+			<sentence id="3.9">if (entry_p-&gt;te_key_size == ksize</sentence>
+			<sentence id="3.10">&amp;&amp; memcmp(ENTRY_KEY_BUF(entry_p), key_buf, ksize) == 0)</sentence>
+			<sentence id="3.11">break;</sentence>
+			<sentence id="3.12">}</sentence>
+			<sentence id="3.13">/* did we find it?</sentence>
+			<sentence id="3.14">then we are in replace mode.</sentence>
+			<sentence id="3.15">*/</sentence>
+			<sentence id="3.16">// if entry_p !</sentence>
+			<sentence id="3.17">= NULL and last_p !</sentence>
+			<sentence id="3.18">= NULL, we find the match key</sentence>
+			<sentence id="3.19">// otherwise if entry_p !</sentence>
+			<sentence id="3.20">= NULL and last_p == NULL and entry_p is the match key, we also find the match key</sentence>
+			<sentence id="3.21">if (entry_p !</sentence>
+			<sentence id="3.22">= NULL &amp;&amp; (last_p !</sentence>
+			<sentence id="3.23">= NULL || (entry_p-&gt;te_key_size == ksize</sentence>
+			<sentence id="3.24">&amp;&amp; memcmp(ENTRY_KEY_BUF(entry_p), key_buf, ksize) == 0))) {</sentence>
+			<sentence id="3.25">/* can we not overwrite existing data?</sentence>
+			<sentence id="3.26">*/</sentence>
+			<sentence id="3.27">if (!</sentence>
+			<sentence id="3.28">overwrite_b) {</sentence>
+			<sentence id="3.29">if (key_buf_p !</sentence>
+			<sentence id="3.30">= NULL)</sentence>
+			<sentence id="3.31">*key_buf_p = ENTRY_KEY_BUF(entry_p);</sentence>
+			<sentence id="3.32">if (data_buf_p !</sentence>
+			<sentence id="3.33">= NULL) {</sentence>
+			<sentence id="3.34">if (entry_p-&gt;te_data_size == 0)</sentence>
+			<sentence id="3.35">*data_buf_p = NULL;</sentence>
+			<sentence id="3.36">else {</sentence>
+			<sentence id="3.37">if (table_p-&gt;ta_data_align == 0)</sentence>
+			<sentence id="3.38">*data_buf_p = ENTRY_DATA_BUF(table_p, entry_p);</sentence>
+			<sentence id="3.39">else</sentence>
+			<sentence id="3.40">*data_buf_p = entry_data_buf(table_p, entry_p);</sentence>
+			<sentence id="3.41">}</sentence>
+			<sentence id="3.42">}</sentence>
+			<sentence id="3.43">return TABLE_ERROR_OVERWRITE;</sentence>
+			<sentence id="3.44">}</sentence>
+		</paragraph>
+	</description>
+</bug>

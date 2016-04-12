@@ -1,0 +1,121 @@
+description/NN :/: NPE/NN thrown/VBN out/RP when/WRB preview/NN the/DT cascading/VBG parameter/NN group/NN which/WDT contains/VBZ a/DT static/JJ parameter/NN 
+
+(ROOT (FRAG (NP (NN description)) (: :) (S (NP (NN NPE)) (VP (VBN thrown) (PRT (RP out)) (SBAR (WHADVP (WRB when)) (S (VP (NN preview) (NP (NP (DT the) (VBG cascading) (NN parameter) (NN group)) (SBAR (WHNP (WDT which)) (S (VP (VBZ contains) (NP (DT a) (JJ static) (NN parameter)))))))))))))
+
+root(ROOT-0, description-1)
+nsubj(thrown-4, NPE-3)
+dep(description-1, thrown-4)
+prt(thrown-4, out-5)
+advmod(preview-7, when-6)
+advcl(thrown-4, preview-7)
+det(group-11, the-8)
+amod(group-11, cascading-9)
+nn(group-11, parameter-10)
+dobj(preview-7, group-11)
+nsubj(contains-13, which-12)
+rcmod(group-11, contains-13)
+det(parameter-16, a-14)
+amod(parameter-16, static-15)
+dobj(contains-13, parameter-16)
+
+steps/NNS to/TO reproduce/VB :/: 
+
+(ROOT (S (NP (NNS steps)) (VP (TO to) (VP (VB reproduce))) (: :)))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, steps-1)
+aux(reproduce-3, to-2)
+
+1/CD new/JJ a/DT cascading/VBG parameter/NN group/NN 
+
+(ROOT (FRAG (S (ADJP (CD 1) (JJ new)) (S (NP (DT a) (VBG cascading) (NN parameter) (NN group))))))
+
+root(ROOT-0, group-6)
+number(new-2, 1-1)
+dep(group-6, new-2)
+det(group-6, a-3)
+amod(group-6, cascading-4)
+nn(group-6, parameter-5)
+
+2/CD new/JJ a/DT static/JJ parameter/NN and/CC drag/VB the/DT static/JJ to/TO cascading/VBG parameter/NN group/NN 
+
+(ROOT (FRAG (S (ADJP (CD 2) (JJ new)) (S (UCP (NP (DT a) (JJ static) (NN parameter)) (CC and) (S (VP (VB drag) (NP (DT the) (JJ static)) (PP (TO to) (NP (VBG cascading) (NN parameter) (NN group))))))))))
+
+root(ROOT-0, parameter-5)
+number(new-2, 2-1)
+dep(parameter-5, new-2)
+det(parameter-5, a-3)
+amod(parameter-5, static-4)
+conj_and(parameter-5, drag-7)
+det(static-9, the-8)
+dobj(drag-7, static-9)
+amod(group-13, cascading-11)
+nn(group-13, parameter-12)
+prep_to(drag-7, group-13)
+
+3/CD preview/NN 
+
+(ROOT (NP (CD 3) (NN preview)))
+
+root(ROOT-0, preview-2)
+num(preview-2, 3-1)
+
+actual/JJ result/NN :/: NullPointerException/NN thrown/VBN out/RP 
+
+(ROOT (NP (NP (JJ actual) (NN result)) (: :) (NP (NP (NN NullPointerException)) (VP (VBN thrown) (PRT (RP out))))))
+
+root(ROOT-0, result-2)
+amod(result-2, actual-1)
+dep(result-2, NullPointerException-4)
+vmod(NullPointerException-4, thrown-5)
+prt(thrown-5, out-6)
+
+expected/VBN result/NN :/: The/DT same/JJ thing/NN happened/VBD when/WRB the/DT static/JJ parameter/NN 's/POS display/NN type/NN is/VBZ text/NN As/IN static/JJ parameter/NN ca/MD n't/RB bind/VB to/TO a/DT data/NN set/NN column/NN ,/, the/DT action/NN of/IN dragging/VBG static/JJ parameter/NN to/TO cascading/VBG parameter/NN group/NN should/MD be/VB forbidden/VBN Or/CC just/RB generate/VB a/DT binding/NN field/NN for/IN the/DT static/JJ parameter/NN 
+
+(ROOT (VP (VBN expected) (NP (NP (NN result)) (: :) (S (NP (DT The) (JJ same) (NN thing)) (VP (VBD happened) (SBAR (WHADVP (WRB when)) (S (NP (NP (DT the) (JJ static) (NN parameter) (POS 's)) (NN display) (NN type)) (VP (VBZ is) (NP (NP (NP (NN text)) (SBAR (S (SBAR (IN As) (S (NP (JJ static) (NN parameter)) (VP (MD ca) (RB n't) (VP (VB bind) (PP (TO to) (NP (DT a) (NN data) (NN set) (NN column))))))) (, ,) (NP (NP (DT the) (NN action)) (PP (IN of) (S (VP (VBG dragging) (NP (JJ static) (NN parameter)) (PP (TO to) (NP (VBG cascading) (NN parameter) (NN group))))))) (VP (MD should) (VP (VB be) (VP (VBN forbidden))))))) (CC Or) (RB just) (NP (VP (VB generate) (NP (DT a) (NN binding) (NN field))) (PP (IN for) (NP (DT the) (JJ static) (NN parameter)))))))))))))
+
+root(ROOT-0, expected-1)
+dobj(expected-1, result-2)
+det(thing-6, The-4)
+amod(thing-6, same-5)
+nsubj(happened-7, thing-6)
+dep(result-2, happened-7)
+advmod(text-16, when-8)
+det(parameter-11, the-9)
+amod(parameter-11, static-10)
+poss(type-14, parameter-11)
+nn(type-14, display-13)
+nsubj(text-16, type-14)
+cop(text-16, is-15)
+advcl(happened-7, text-16)
+mark(bind-22, As-17)
+amod(parameter-19, static-18)
+nsubj(bind-22, parameter-19)
+aux(bind-22, ca-20)
+neg(bind-22, n't-21)
+advcl(forbidden-41, bind-22)
+det(column-27, a-24)
+nn(column-27, data-25)
+nn(column-27, set-26)
+prep_to(bind-22, column-27)
+det(action-30, the-29)
+nsubjpass(forbidden-41, action-30)
+prepc_of(action-30, dragging-32)
+amod(parameter-34, static-33)
+dobj(dragging-32, parameter-34)
+amod(group-38, cascading-36)
+nn(group-38, parameter-37)
+prep_to(dragging-32, group-38)
+aux(forbidden-41, should-39)
+auxpass(forbidden-41, be-40)
+rcmod(text-16, forbidden-41)
+cc(text-16, Or-42)
+advmod(text-16, just-43)
+dep(text-16, generate-44)
+det(field-47, a-45)
+nn(field-47, binding-46)
+dobj(generate-44, field-47)
+det(parameter-51, the-49)
+amod(parameter-51, static-50)
+prep_for(generate-44, parameter-51)
+

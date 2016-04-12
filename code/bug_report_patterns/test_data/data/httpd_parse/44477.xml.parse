@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>44477</id>
+	<title>Apache accepts lowercase input</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">[Note that the case (ie UPPER- or lowercase) of text in "double quotes" should
+be paid attention to in this ticket.]</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Apache's directory redirection engine accepts lowercase input.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">To reproduce behavior (confirmed by one other person):</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">#1 Create the folder "/foo" (or whatever, the directory name doesn't matter) on</sentence>
+			<sentence id="4.2">any server.</sentence>
+			<sentence id="4.3">#2 Telnet or use "nc" to connect to your server.</sentence>
+			<sentence id="4.4">Be sure to specify port 80.</sentence>
+			<sentence id="4.5">#3 Send "get /foo" and Apache will return the standard 301 "this is located at</sentence>
+			<sentence id="4.6">/foo/" (note the trailing slash).</sentence>
+			<sentence id="4.7">#4 Now send "get /foo/" and notice how Apache sends a 501 - "Not Implemented."</sentence>
+			<sentence id="4.8">#5 Finally, send "GET /foo/" and you will recieve the correct response.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">To expound/recap/emphasize, the bug appears in #3, where Apache returns 301 -
+"Moved Permanently" after a lowercase command was sent, instead of returning
+501, which it should to be standards conformant.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Note that Apache will send a 501 if you send "get /thisdirdoesntexist", where
+'thisdirdoesntexist' is a directory on the server that, well, doesn't exist.</sentence>
+			<sentence id="6.2">This has only been tested on my system, and not tested elsewhere.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">-dav7</sentence>
+		</paragraph>
+	</description>
+</bug>

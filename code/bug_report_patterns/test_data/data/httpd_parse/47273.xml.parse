@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>47273</id>
+	<title>ReWrite Rule fails on possible "keywords"?!</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">My .</sentence>
+			<sentence id="1.2">htaccess contains following ReWrite rule:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;IfModule mod_rewrite.</sentence>
+			<sentence id="2.2">c&gt;
+	RewriteEngine On
+	RewriteBase /
+	RewriteRule ^acp/([\/-_a-z0-9\.]</sentence>
+			<sentence id="2.3">*)    /index.php/acp/$1   [NC,QSA,L]
+	RewriteRule ^news/([\/-_a-z0-9\.]</sentence>
+			<sentence id="2.4">*)    /index.php/news/$1    [NC,QSA,L]
+&lt;/IfModule&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">It works fine when I visit pages like:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">http://URL.com/acp/components/
+http://URL.com/acp/components/index.do
+http://URL.com/acp/components/index.do?arg=value
+http://URL.com/acp/components/register2.do</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">etc.</sentence>
+			<sentence id="5.2">However, 403 is issued when I try URL's such as these:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">http://URL.com/acp/components/register.do
+http://URL.com/acp/components/2register.do
+http://URL.com/acp/components/getregister.do</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">And when I go to:
+http://URL.com/acp/components/Register.do</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I get redirected by 301 here:
+http://URL.com/acp/index..do</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">IN ALL of my Apache conf files, there are no Aliases, VHosts or anything else related to the keyword "register".</sentence>
+			<sentence id="9.2">I had this problem with some other keywords as well, in the past, but I am afraid I don't remember them at this moment.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">ANY help, support, tip, suggestion to solve, or at least identify this problem is welcome!</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Shehi
+azerista-spam@yahoo.com [my public redundant email]</sentence>
+		</paragraph>
+	</description>
+</bug>

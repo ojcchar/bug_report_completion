@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>49512</id>
+	<title>PATCH unset environment var with RewriteRule</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We need to unset environment variables from RewriteRules.</sentence>
+			<sentence id="1.2">Attached is a patch against -trunk to do this.</sentence>
+			<sentence id="1.3">Example:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Configuration:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">RewriteEngine on
+LogLevel rewrite:trace5
+RewriteRule ^ - [E=pling:plong]
+RewriteRule ^ - [E=foo:boo,E=!</sentence>
+			<sentence id="3.2">pling]</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Test:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">$ GET http://localhost:8000/cgi-bin/printenv | egrep '(foo|pling)'
+foo="boo"</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Log:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">[Mon Jun 28 16:44:43.364112 2010] [trace2] [pid 516:tid 1153177920] mod_rewrite.c(447): [client 127.0.0.1:44518] 127.0.0.1 - - [localhost/sid#d5c9af8][rid#d6f4680/initial] init rewrite engine with requested uri /cgi-bin/printenv\n</sentence>
+			<sentence id="7.2">[Mon Jun 28 16:44:43.364157 2010] [trace3] [pid 516:tid 1153177920] mod_rewrite.c(447): [client 127.0.0.1:44518] 127.0.0.1 - - [localhost/sid#d5c9af8][rid#d6f4680/initial] applying pattern '^' to uri '/cgi-bin/printenv'\n</sentence>
+			<sentence id="7.3">[Mon Jun 28 16:44:43.364177 2010] [trace5] [pid 516:tid 1153177920] mod_rewrite.c(447): [client 127.0.0.1:44518] 127.0.0.1 - - [localhost/sid#d5c9af8][rid#d6f4680/initial] setting env variable 'pling' to 'plong'\n</sentence>
+			<sentence id="7.4">[Mon Jun 28 16:44:43.364187 2010] [trace3] [pid 516:tid 1153177920] mod_rewrite.c(447): [client 127.0.0.1:44518] 127.0.0.1 - - [localhost/sid#d5c9af8][rid#d6f4680/initial] applying pattern '^' to uri '/cgi-bin/printenv'\n</sentence>
+			<sentence id="7.5">[Mon Jun 28 16:44:43.364197 2010] [trace5] [pid 516:tid 1153177920] mod_rewrite.c(447): [client 127.0.0.1:44518] 127.0.0.1 - - [localhost/sid#d5c9af8][rid#d6f4680/initial] setting env variable 'foo' to 'boo'\n</sentence>
+			<sentence id="7.6">[Mon Jun 28 16:44:43.364207 2010] [trace5] [pid 516:tid 1153177920] mod_rewrite.c(447): [client 127.0.0.1:44518] 127.0.0.1 - - [localhost/sid#d5c9af8][rid#d6f4680/initial] unsetting env variable 'pling'\n</sentence>
+			<sentence id="7.7">[Mon Jun 28 16:44:43.364216 2010] [trace1] [pid 516:tid 1153177920] mod_rewrite.c(447): [client 127.0.0.1:44518] 127.0.0.1 - - [localhost/sid#d5c9af8][rid#d6f4680/initial] pass through /cgi-bin/printenv\n</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Obviously this'll be a problem for anyone who is setting environment variables with names starting with !</sentence>
+			<sentence id="8.2">.</sentence>
+			<sentence id="8.3">Hopefully this is uncommon.</sentence>
+		</paragraph>
+	</description>
+</bug>

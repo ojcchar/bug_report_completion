@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10321</id>
+	<title>Links.preview - session key exception</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">My web application is calling this links.preview method using the old rest API.</sentence>
+			<sentence id="1.2">My code is as follows:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">$fbResponse = $facebook-&gt;api(array( method =&gt; links.preview _ url =&gt;urlencode($link[ url ])));</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">According to the documentation_ http://wiki.developers.facebook.com/ind … ks.preview it says  This function does not require a session_key_ unless it is being called by a desktop application.</sentence>
+			<sentence id="3.2">.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">However_ I have noticed that if a user is not logged into facebook_ it will throw this error:  Fatal error: Uncaught Exception: 453: A session key is required for calling this method thrown in /home/howl/public_html/libs/facebook.</sentence>
+			<sentence id="4.2">php on line 413 .</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Does the user need to be  connected  to make this call?</sentence>
+			<sentence id="5.2">What do I need to do?</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I also noticed this in the documentation:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">optional     
+session_key    
+string     
+The session key of the logged in user_ or the session key provided when the user granted your application the offline_access extended permission.</sentence>
+			<sentence id="7.2">The session key is automatically included by our PHP client.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">How do I prevent the PHP client from sending a session key?</sentence>
+			<sentence id="8.2">What kind of access token do I need if I do not want to authenticate a user?</sentence>
+			<sentence id="8.3">Thank you.</sentence>
+		</paragraph>
+	</description>
+</bug>

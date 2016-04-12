@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13323</id>
+	<title>public open events requiring user access token for data retrieval</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">my app has made some events by impersonating a page: the page admin logged in_ allowed the  create_event  and  manage_pages  permissions_ and my app used the access token from /user_id/accounts for the page to create the *public* events.</sentence>
+			<sentence id="1.2">the app could also retrieve the event data with the application access token.</sentence>
+			<sentence id="1.3">all was good.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">then_ all of the sudden_ the events stop returning data for their event ids.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">when i query graph.facebook.com/event_id_ i now get  false _ literally.</sentence>
+			<sentence id="3.2">if i append an *application* access_token_ i also get  false .</sentence>
+			<sentence id="3.3">if i append a *user* access_token_ i can get the data.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">i see the same results for an FQL query_ and for events.get; except_ they return only  [] .</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">these are public open events and their data should be accessible without a user access token.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">here is an example (redacted access tokens):</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">works -
+https://graph.facebook.com/150658091636776?access_token=_____4275651930|e0ee69d9f65b990b71edf5ce-100000986376894|2mIFqs_xewxI1CRJuyCXjf_____</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">returns  false  -
+https://graph.facebook.com/150658091636776?access_token=_____4275651930|MqNrUo3qxwZFju-TmbJTuZ_____
+https://graph.facebook.com/150658091636776</sentence>
+		</paragraph>
+	</description>
+</bug>

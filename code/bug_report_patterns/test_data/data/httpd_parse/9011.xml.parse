@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9011</id>
+	<title>Worker-MPM error log: the listener thread didn't exit</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">With Worker-MPM on Solaris (both 2.6 and 8) I get error messages
+"[crit] the listener thread didn't exit" every few minutes.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The system was under heavy load (10-18 child processes)
+with (intentionally) non-keepalive requests.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">By adding traces I found that the dummy_signal_handler in worker.c 
+does get called 10 times for the correct thread, 
+but the function apr_proc_mutex_lock never returns.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I think this behaviour does not deserve a LOG_CRIT 
+which might unneccessarily alert the administrator
+as it can occur quite normally:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">According to the man page for pthread_mutex_lock:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">"If a signal is delivered to a thread waiting  for  a  mutex,
+ upon return from the signal handler the thread resumes wait-
+ ing for the mutex as if it was not interrupted."</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">And for other lock types which do not behave the same way
+proc_mutex.</sentence>
+			<sentence id="7.2">c simulates this behaviour by making a loop over EINTR.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">By the way, should proc_mutex.</sentence>
+			<sentence id="8.2">c set PTHREAD_MUTEX_RECURSIVE
+if such is defined on the system?</sentence>
+			<sentence id="8.3">The man page says the behaviour is undefined for default.</sentence>
+		</paragraph>
+	</description>
+</bug>

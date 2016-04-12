@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>32652</id>
+	<title>mod_ssl: match hostnames against subjectAltName DNS names too</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Contrary to popular believe and contrary to the apache documentation, it is
+currently possible to use name virual hosting over ssl as long as all virtual
+hosts share the same ssl-setup (server-certificate, client-certificates, etc).</sentence>
+			<sentence id="1.2">Using the subjectAltName extension of x509 v3 it is possible for this one
+server-certificate to be valid for all ssl-virtual hosts.</sentence>
+			<sentence id="1.3">subjectAltName is
+supported at least by current Mozilla browsers and Internet Explorer versions.</sentence>
+			<sentence id="1.4">Look at http://www.es.net/pub/esnet-doc/SubjectAltName.pdf (found via Google)
+for more details.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The setup works perfectly with Apache 2.0.52 (Debian Package), even though
+apache complains once per virtual host about the CN of the certificate not
+matching ServerName.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Please change the documentation or at least include a hint that subjectAltName
+exists, it could be very usefull for small sites.</sentence>
+			<sentence id="3.2">It could also stimulate
+browser support for subjectAltName if it became widly known.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">------------------------------------------------------------------------------</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">httpd.conf (only relevent parts)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">NameVirtualHost *:80</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;VirtualHost *:80&gt;
+  # Default
+&lt;VirtualHost&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">&lt;VirtualHost *:80&gt;
+  ServerName asdf.com
+&lt;/VirtualHost&gt;</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">SSLCipherSuite CipherSpec:foo
+SSLCertificateFile /path/to/CertificateFile
+SSLCertificateKeyFile /path/to/KeyFile
+# all the other common SSL options</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">NameVirtualHost *:443</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">&lt;VirtualHost *:443&gt;
+  # Default
+  SSLEngine on
+&lt;VirtualHost&gt;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">&lt;VirtualHost *:443&gt;
+  ServerName asdf.com
+  SSLEngine on
+&lt;/VirtualHost&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

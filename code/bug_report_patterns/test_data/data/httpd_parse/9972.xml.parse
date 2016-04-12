@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9972</id>
+	<title>Configure exits when using --enable-mods-shared=all on mod_auth_digest</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Using the following configure command:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">.</sentence>
+			<sentence id="2.2">/configure --prefix=/usr/opt/apache --enable-mods-shared=all --enable-ssl --
+with-ssl=/usr/opt/ssl</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">yeilds this error and configure exits:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">checking whether to enable mod_access... shared (all)
+checking whether to enable mod_auth... shared (all)
+checking whether to enable mod_auth_anon... shared (all)
+checking whether to enable mod_auth_dbm... shared (all)
+checking whether to enable mod_auth_digest... checking dependencies
+checking whether to enable mod_auth_digest... configure: error: mod_auth_digest 
+has been requested but can not be built due to prerequisite failures</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">It seems to be looking for a random number generator, but I can't seem to 
+figure out how to get it find one.</sentence>
+			<sentence id="5.2">(I do have prngd available.)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">This is on a Solaris 2.6/Sparc using gcc 3.1.</sentence>
+		</paragraph>
+	</description>
+</bug>

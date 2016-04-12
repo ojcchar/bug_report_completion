@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>32064</id>
+	<title>ContextMenuProvider should create menu lazily</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">ContextMenuProvider creates its menu immediately in the contructor.</sentence>
+			<sentence id="1.2">This only works if the EditPartViewer has already created its control.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">It is ok to create the MenuManager immediately, but not the Menu.</sentence>
+			<sentence id="2.2">Add public 
+API:
+Menu createMenu(Control control)
+to be called in AbstractEditPartViewer in hookControl(), I think</sentence>
+		</paragraph>
+	</description>
+</bug>

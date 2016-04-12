@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>307539</id>
+	<title>Customed display names of joint dataset output columns are erased on every update</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Build Identifier: 20100218-1602</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When working with joint data sets (via the data explorer view), if you manually update a column's display name, validate your change, and then go again in the "output column" section of the data editor, if you "validate" again (by clicking the "OK" button, whether of not you updated anything), the validation will erase your previous updates and the default display name will be set again.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Therefore there is NO WAY to set custom display names unless you set them once and never touch them ever again (at least by using the data editor only).</sentence>
+			<sentence id="3.2">Notes :</sentence>
+			<sentence id="3.3">- NOTICED ON SCRIPTED DATASETS, other dataset types not tested</sentence>
+			<sentence id="3.4">- Tested on both personnal build (Eclipse build "M20090917-0800", Birt engine v2.5.0) and latest build (as indicated in Build ID)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Steps to Reproduce:</sentence>
+			<sentence id="5.2">1 Create a new blank report</sentence>
+			<sentence id="5.3">2 Add a scripted data source, two scripted data sets (with at least one column each), and a joint data set built from those two data sets.</sentence>
+			<sentence id="5.4">3 Double-click the joint data set to enter the data editor.</sentence>
+			<sentence id="5.5">Go the to "output column" tab.</sentence>
+			<sentence id="5.6">4 Choose any column's DISPLAY NAME and update it (choose any value, blank included), validate your change by clicking the "OK" button.</sentence>
+			<sentence id="5.7">(You can visualize that your update has been taken into account in the data explorer interface)</sentence>
+			<sentence id="5.8">5 Enter the joint data set again, go to the "output column" section again (you can already see that the default value is being shawn in the display name column), and validate again.</sentence>
+			<sentence id="5.9">The default display name will be set again.</sentence>
+		</paragraph>
+	</description>
+</bug>

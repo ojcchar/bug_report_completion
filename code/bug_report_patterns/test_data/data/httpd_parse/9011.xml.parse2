@@ -1,0 +1,205 @@
+With/IN Worker-MPM/JJ on/IN Solaris/NNP (/-LRB- both/CC 2.6/CD and/CC 8/CD )/-RRB- I/PRP get/VBP error/NN messages/NNS "/'' [/-LRB- crit/NN ]/-RRB- the/DT listener/NN thread/NN did/VBD n't/RB exit/NN "/'' every/DT few/JJ minutes/NNS ./. 
+
+(ROOT (S (PP (IN With) (NP (NP (JJ Worker-MPM)) (PP (IN on) (NP (NP (NNP Solaris)) (PRN (-LRB- -LRB-) (PP (CC both) (NP (CD 2.6) (CC and) (CD 8))) (-RRB- -RRB-)))))) (NP (PRP I)) (VP (VBP get) (NP (NP (NN error) (NNS messages)) ('' '') (PP (-LRB- -LSB-) (NP (NN crit)))) (PP (-RRB- -RSB-) (NP (NP (DT the) (NN listener) (NN thread)) (SBAR (S (VP (VBD did) (RB n't) (NP (NN exit) ('' ''))))))) (NP-TMP (DT every) (JJ few) (NNS minutes))) (. .)))
+
+root(ROOT-0, get-12)
+prep_with(get-12, Worker-MPM-2)
+prep_on(Worker-MPM-2, Solaris-4)
+prep(Solaris-4, both-6)
+pobj(both-6, 2.6-7)
+pobj(both-6, 8-9)
+conj_and(2.6-7, 8-9)
+nsubj(get-12, I-11)
+nn(messages-14, error-13)
+dobj(get-12, messages-14)
+punct(crit-17, -LSB--16)
+prep(messages-14, crit-17)
+punct(thread-21, -RSB--18)
+det(thread-21, the-19)
+nn(thread-21, listener-20)
+prep(get-12, thread-21)
+rcmod(thread-21, did-22)
+neg(did-22, n't-23)
+dobj(did-22, exit-24)
+det(minutes-28, every-26)
+amod(minutes-28, few-27)
+tmod(get-12, minutes-28)
+
+The/DT system/NN was/VBD under/IN heavy/JJ load/NN (/-LRB- 10-18/CD child/NN processes/NNS )/-RRB- with/IN (/-LRB- intentionally/RB )/-RRB- non-keepalive/JJ requests/NNS ./. 
+
+(ROOT (S (NP (DT The) (NN system)) (VP (VBD was) (PP (IN under) (NP (NP (NP (JJ heavy) (NN load)) (-LRB- -LRB-) (NP (CD 10-18) (NN child) (NNS processes)) (-RRB- -RRB-)) (PP (IN with) (PRN (-LRB- -LRB-) (ADVP (RB intentionally)) (-RRB- -RRB-)) (NP (JJ non-keepalive) (NNS requests)))))) (. .)))
+
+root(ROOT-0, was-3)
+det(system-2, The-1)
+nsubj(was-3, system-2)
+amod(load-6, heavy-5)
+prep_under(was-3, load-6)
+num(processes-10, 10-18-8)
+nn(processes-10, child-9)
+dep(load-6, processes-10)
+dep(load-6, intentionally-14)
+amod(requests-17, non-keepalive-16)
+prep_with(load-6, requests-17)
+
+By/IN adding/VBG traces/NNS I/PRP found/VBD that/IN the/DT dummy_signal_handler/NN in/IN worker.c/NN does/VBZ get/VB called/VBN 10/CD times/NNS for/IN the/DT correct/JJ thread/NN ,/, but/CC the/DT function/NN apr_proc_mutex_lock/NN never/RB returns/VBZ ./. 
+
+(ROOT (S (S (PP (IN By) (S (VP (VBG adding) (NP (NNS traces))))) (NP (PRP I)) (VP (VBD found) (SBAR (IN that) (S (NP (NP (DT the) (NN dummy_signal_handler)) (PP (IN in) (NP (NN worker.c)))) (VP (VBZ does) (S (VP (VB get) (VP (VBN called) (NP-TMP (CD 10) (NNS times)) (PP (IN for) (NP (DT the) (JJ correct) (NN thread))))))))))) (, ,) (CC but) (S (NP (DT the) (NN function) (NN apr_proc_mutex_lock)) (ADVP (RB never)) (VP (VBZ returns))) (. .)))
+
+root(ROOT-0, found-5)
+prepc_by(found-5, adding-2)
+dobj(adding-2, traces-3)
+nsubj(found-5, I-4)
+mark(does-11, that-6)
+det(dummy_signal_handler-8, the-7)
+nsubj(does-11, dummy_signal_handler-8)
+prep_in(dummy_signal_handler-8, worker.c-10)
+ccomp(found-5, does-11)
+auxpass(called-13, get-12)
+ccomp(does-11, called-13)
+num(times-15, 10-14)
+tmod(called-13, times-15)
+det(thread-19, the-17)
+amod(thread-19, correct-18)
+prep_for(called-13, thread-19)
+det(apr_proc_mutex_lock-24, the-22)
+nn(apr_proc_mutex_lock-24, function-23)
+nsubj(returns-26, apr_proc_mutex_lock-24)
+neg(returns-26, never-25)
+conj_but(found-5, returns-26)
+
+I/PRP think/VBP this/DT behaviour/NN does/VBZ not/RB deserve/VB a/DT LOG_CRIT/NN which/WDT might/MD unneccessarily/RB alert/VB the/DT administrator/NN as/IN it/PRP can/MD occur/VB quite/RB normally/RB :/: 
+
+(ROOT (S (NP (PRP I)) (VP (VBP think) (SBAR (S (NP (DT this) (NN behaviour)) (VP (VBZ does) (RB not) (VP (VB deserve) (NP (NP (DT a) (NN LOG_CRIT)) (SBAR (WHNP (WDT which)) (S (VP (MD might) (ADVP (RB unneccessarily)) (VP (VB alert) (NP (DT the) (NN administrator)) (SBAR (IN as) (S (NP (PRP it)) (VP (MD can) (VP (VB occur) (ADVP (RB quite)) (ADVP (RB normally)))))))))))))))) (: :)))
+
+root(ROOT-0, think-2)
+nsubj(think-2, I-1)
+det(behaviour-4, this-3)
+nsubj(deserve-7, behaviour-4)
+aux(deserve-7, does-5)
+neg(deserve-7, not-6)
+ccomp(think-2, deserve-7)
+det(LOG_CRIT-9, a-8)
+dobj(deserve-7, LOG_CRIT-9)
+nsubj(alert-13, which-10)
+aux(alert-13, might-11)
+advmod(alert-13, unneccessarily-12)
+rcmod(LOG_CRIT-9, alert-13)
+det(administrator-15, the-14)
+dobj(alert-13, administrator-15)
+mark(occur-19, as-16)
+nsubj(occur-19, it-17)
+aux(occur-19, can-18)
+advcl(alert-13, occur-19)
+advmod(occur-19, quite-20)
+advmod(occur-19, normally-21)
+
+According/VBG to/TO the/DT man/NN page/NN for/IN pthread_mutex_lock/NN :/: 
+
+(ROOT (PP (VBG According) (PP (TO to) (NP (NP (DT the) (NN man) (NN page)) (PP (IN for) (NP (NN pthread_mutex_lock)) (: :))))))
+
+root(ROOT-0, According-1)
+pcomp(According-1, to-2)
+det(page-5, the-3)
+nn(page-5, man-4)
+pobj(to-2, page-5)
+prep_for(page-5, pthread_mutex_lock-7)
+
+"/`` If/IN a/DT signal/NN is/VBZ delivered/VBN to/TO a/DT thread/NN waiting/VBG for/IN a/DT mutex/NN ,/, upon/IN return/NN from/IN the/DT signal/NN handler/NN the/DT thread/NN resumes/VBZ wait/NN -/: ing/NN for/IN the/DT mutex/NN as/IN if/IN it/PRP was/VBD not/RB interrupted/JJ ./. "/'' 
+
+(ROOT (S (`` ``) (SBAR (IN If) (S (NP (DT a) (NN signal)) (VP (VBZ is) (VP (VBN delivered) (PP (TO to) (NP (DT a) (NN thread))) (S (VP (VBG waiting) (PP (IN for) (NP (DT a) (NN mutex))))) (, ,) (PP (IN upon) (NP (NP (NN return)) (PP (IN from) (NP (DT the) (NN signal) (NN handler))))))))) (NP (DT the) (NN thread)) (VP (VBZ resumes) (NP (NP (NN wait)) (: -) (NP (NP (NN ing)) (PP (IN for) (NP (DT the) (NN mutex))))) (SBAR (IN as) (IN if) (S (NP (PRP it)) (VP (VBD was) (RB not) (ADJP (JJ interrupted)))))) (. .) ('' '')))
+
+root(ROOT-0, resumes-23)
+mark(delivered-6, If-2)
+det(signal-4, a-3)
+nsubjpass(delivered-6, signal-4)
+auxpass(delivered-6, is-5)
+advcl(resumes-23, delivered-6)
+det(thread-9, a-8)
+prep_to(delivered-6, thread-9)
+xcomp(delivered-6, waiting-10)
+det(mutex-13, a-12)
+prep_for(waiting-10, mutex-13)
+prep_upon(delivered-6, return-16)
+det(handler-20, the-18)
+nn(handler-20, signal-19)
+prep_from(return-16, handler-20)
+det(thread-22, the-21)
+nsubj(resumes-23, thread-22)
+dobj(resumes-23, wait-24)
+dep(wait-24, ing-26)
+det(mutex-29, the-28)
+prep_for(ing-26, mutex-29)
+mark(interrupted-35, as-30)
+mark(interrupted-35, if-31)
+nsubj(interrupted-35, it-32)
+cop(interrupted-35, was-33)
+neg(interrupted-35, not-34)
+advcl(resumes-23, interrupted-35)
+
+And/CC for/IN other/JJ lock/JJ types/NNS which/WDT do/VBP not/RB behave/VB the/DT same/JJ way/NN proc_mutex/NN ./. 
+
+(ROOT (FRAG (CC And) (PP (IN for) (NP (NP (JJ other) (JJ lock) (NNS types)) (SBAR (WHNP (WDT which)) (S (VP (VBP do) (RB not) (VP (VB behave) (NP (DT the) (JJ same) (NN way) (NN proc_mutex))))))) (. .))))
+
+root(ROOT-0, And-1)
+amod(types-5, other-3)
+amod(types-5, lock-4)
+prep_for(And-1, types-5)
+nsubj(behave-9, which-6)
+aux(behave-9, do-7)
+neg(behave-9, not-8)
+rcmod(types-5, behave-9)
+det(proc_mutex-13, the-10)
+amod(proc_mutex-13, same-11)
+nn(proc_mutex-13, way-12)
+dobj(behave-9, proc_mutex-13)
+
+c/NN simulates/VBZ this/DT behaviour/NN by/IN making/VBG a/DT loop/NN over/IN EINTR/NN ./. 
+
+(ROOT (S (NP (NN c)) (VP (VBZ simulates) (NP (DT this) (NN behaviour)) (PP (IN by) (S (VP (VBG making) (NP (DT a) (NN loop)) (PP (IN over) (NP (NN EINTR))))))) (. .)))
+
+root(ROOT-0, simulates-2)
+nsubj(simulates-2, c-1)
+det(behaviour-4, this-3)
+dobj(simulates-2, behaviour-4)
+prepc_by(simulates-2, making-6)
+det(loop-8, a-7)
+dobj(making-6, loop-8)
+prep_over(making-6, EINTR-10)
+
+By/IN the/DT way/NN ,/, should/MD proc_mutex/VB ./. 
+
+(ROOT (S (PP (IN By) (NP (DT the) (NN way))) (, ,) (VP (MD should) (VP (VB proc_mutex))) (. .)))
+
+root(ROOT-0, proc_mutex-6)
+det(way-3, the-2)
+prep_by(proc_mutex-6, way-3)
+aux(proc_mutex-6, should-5)
+
+c/NN set/VBD PTHREAD_MUTEX_RECURSIVE/NNP if/IN such/JJ is/VBZ defined/VBN on/IN the/DT system/NN ?/. 
+
+(ROOT (S (NP (NN c)) (VP (VBD set) (NP (NNP PTHREAD_MUTEX_RECURSIVE)) (SBAR (IN if) (S (NP (JJ such)) (VP (VBZ is) (VP (VBN defined) (PP (IN on) (NP (DT the) (NN system)))))))) (. ?)))
+
+root(ROOT-0, set-2)
+nsubj(set-2, c-1)
+dobj(set-2, PTHREAD_MUTEX_RECURSIVE-3)
+mark(defined-7, if-4)
+nsubjpass(defined-7, such-5)
+auxpass(defined-7, is-6)
+advcl(set-2, defined-7)
+det(system-10, the-9)
+prep_on(defined-7, system-10)
+
+The/DT man/NN page/NN says/VBZ the/DT behaviour/NN is/VBZ undefined/JJ for/IN default/NN ./. 
+
+(ROOT (S (NP (DT The) (NN man) (NN page)) (VP (VBZ says) (SBAR (S (NP (DT the) (NN behaviour)) (VP (VBZ is) (ADJP (JJ undefined) (PP (IN for) (NP (NN default)))))))) (. .)))
+
+root(ROOT-0, says-4)
+det(page-3, The-1)
+nn(page-3, man-2)
+nsubj(says-4, page-3)
+det(behaviour-6, the-5)
+nsubj(undefined-8, behaviour-6)
+cop(undefined-8, is-7)
+ccomp(says-4, undefined-8)
+prep_for(undefined-8, default-10)
+

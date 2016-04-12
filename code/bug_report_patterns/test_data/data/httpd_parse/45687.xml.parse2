@@ -1,0 +1,332 @@
+Created/VBN attachment/NN 22480/CD Patch/NNP for/IN mod_charset_lite/NN ./. 
+
+(ROOT (S (VP (VBN Created) (NP (NP (NN attachment) (CD 22480) (NNP Patch)) (PP (IN for) (NP (NN mod_charset_lite))))) (. .)))
+
+root(ROOT-0, Created-1)
+nn(Patch-4, attachment-2)
+num(Patch-4, 22480-3)
+dobj(Created-1, Patch-4)
+prep_for(Patch-4, mod_charset_lite-6)
+
+c/NN 
+
+(ROOT (NP (NN c)))
+
+root(ROOT-0, c-1)
+
+With/IN mod_charset_lite/NN in/IN use/NN ,/, some/DT error/NN responses/NNS may/MD not/RB be/VB returned/VBN correctly/RB ./. 
+
+(ROOT (S (PP (IN With) (NP (NP (NN mod_charset_lite)) (PP (IN in) (NP (NN use))))) (, ,) (NP (DT some) (NN error) (NNS responses)) (VP (MD may) (RB not) (VP (VB be) (VP (VBN returned) (ADVP (RB correctly))))) (. .)))
+
+root(ROOT-0, returned-12)
+prep_with(returned-12, mod_charset_lite-2)
+prep_in(mod_charset_lite-2, use-4)
+det(responses-8, some-6)
+nn(responses-8, error-7)
+nsubjpass(returned-12, responses-8)
+aux(returned-12, may-9)
+neg(returned-12, not-10)
+auxpass(returned-12, be-11)
+advmod(returned-12, correctly-13)
+
+For/IN example/NN ,/, when/WRB a/DT request/NN body/NN exceeds/VBZ the/DT configured/VBN LimitRequestBody/NNP ,/, a/DT 413/CD should/MD be/VB returned/VBN ,/, but/CC with/IN mod_charset_lite/NN in/IN use/NN ,/, instead/RB a/DT 403/CD might/MD be/VB returned/VBN (/-LRB- if/IN the/DT URI/NNP is/VBZ forbidden/VBN )/-RRB- ./. 
+
+(ROOT (S (PP (IN For) (NP (NN example))) (, ,) (S (SBAR (WHADVP (WRB when)) (S (NP (DT a) (NN request) (NN body)) (VP (VBZ exceeds) (NP (NP (DT the)) (VP (VBN configured) (NP (NNP LimitRequestBody))))))) (, ,) (NP (QP (DT a) (CD 413))) (VP (MD should) (VP (VB be) (VP (VBN returned))))) (, ,) (CC but) (S (PP (IN with) (NP (NP (NN mod_charset_lite)) (PP (IN in) (NP (NN use))))) (, ,) (ADVP (RB instead)) (NP (DT a) (CD 403)) (VP (MD might) (VP (VB be) (VP (VBN returned) (PRN (-LRB- -LRB-) (SBAR (IN if) (S (NP (DT the) (NNP URI)) (VP (VBZ is) (VP (VBN forbidden))))) (-RRB- -RRB-)))))) (. .)))
+
+root(ROOT-0, returned-17)
+prep_for(returned-17, example-2)
+advmod(exceeds-8, when-4)
+det(body-7, a-5)
+nn(body-7, request-6)
+nsubj(exceeds-8, body-7)
+advcl(returned-17, exceeds-8)
+dobj(exceeds-8, the-9)
+vmod(the-9, configured-10)
+dobj(configured-10, LimitRequestBody-11)
+quantmod(413-14, a-13)
+nsubjpass(returned-17, 413-14)
+aux(returned-17, should-15)
+auxpass(returned-17, be-16)
+prep_with(returned-30, mod_charset_lite-21)
+prep_in(mod_charset_lite-21, use-23)
+advmod(403-27, instead-25)
+det(403-27, a-26)
+nsubjpass(returned-30, 403-27)
+aux(returned-30, might-28)
+auxpass(returned-30, be-29)
+conj_but(returned-17, returned-30)
+mark(forbidden-36, if-32)
+det(URI-34, the-33)
+nsubjpass(forbidden-36, URI-34)
+auxpass(forbidden-36, is-35)
+parataxis(returned-30, forbidden-36)
+
+To/TO reproduce/VB :/: 
+
+(ROOT (FRAG (PP (TO To)) (NP-TMP (VB reproduce)) (: :)))
+
+root(ROOT-0, reproduce-2)
+prep(reproduce-2, To-1)
+
+Build/VB with/IN mod_charset_lite/NN (/-LRB- I/PRP do/VBP n't/RB think/VB it/PRP gets/VBZ built/VBN by/IN default/NN except/IN on/IN z/OS/NN )/-RRB- ./. 
+
+(ROOT (S (VP (VB Build) (PP (IN with) (NP (NP (NN mod_charset_lite)) (PRN (-LRB- -LRB-) (S (NP (PRP I)) (VP (VBP do) (RB n't) (VP (VB think) (SBAR (S (NP (PRP it)) (VP (VBZ gets) (VP (VBN built) (PP (IN by) (NP (NN default))) (PP (IN except) (PP (IN on) (NP (NN z/OS))))))))))) (-RRB- -RRB-))))) (. .)))
+
+root(ROOT-0, Build-1)
+prep_with(Build-1, mod_charset_lite-3)
+nsubj(think-8, I-5)
+aux(think-8, do-6)
+neg(think-8, n't-7)
+dep(mod_charset_lite-3, think-8)
+nsubjpass(built-11, it-9)
+auxpass(built-11, gets-10)
+ccomp(think-8, built-11)
+agent(built-11, default-13)
+prep(built-11, except-14)
+pcomp(except-14, on-15)
+pobj(on-15, z/OS-16)
+
+Include/VB something/NN like/IN this/DT in/IN the/DT configuration/NN :/: 
+
+(ROOT (S (VP (VB Include) (NP (NN something)) (PP (IN like) (NP (NP (DT this)) (PP (IN in) (NP (DT the) (NN configuration)))))) (: :)))
+
+root(ROOT-0, Include-1)
+dobj(Include-1, something-2)
+prep_like(Include-1, this-4)
+det(configuration-7, the-6)
+prep_in(this-4, configuration-7)
+
+LoadModule/JJ charset_lite_module/NN modules/mod/NN _/CD charset_lite/NN ./. 
+
+(ROOT (NP (NP (JJ LoadModule) (NN charset_lite_module) (NN modules/mod)) (NP (CD _) (NN charset_lite)) (. .)))
+
+root(ROOT-0, modules/mod-3)
+amod(modules/mod-3, LoadModule-1)
+nn(modules/mod-3, charset_lite_module-2)
+num(charset_lite-5, _-4)
+dep(modules/mod-3, charset_lite-5)
+
+so/RB </JJR Location/NNP //: >/JJR CharsetSourceEnc/NN ISO8859-1/NN CharsetDefault/NNP ASCII/NNP LimitRequestBody/NNP 2048/CD </JJR //: Location/NNP >/JJR 
+
+(ROOT (FRAG (NP-TMP (NP (RB so) (JJR <)) (NP (NNP Location))) (: /) (NP (NP (JJR >) (NN CharsetSourceEnc) (NN ISO8859-1)) (NP (NP (NNP CharsetDefault) (NNP ASCII) (NNP LimitRequestBody)) (ADJP (ADJP (NP (CD 2048)) (JJR <)) (PRN (: /) (S (NP (NNP Location)) (ADJP (JJR >)))))))))
+
+root(ROOT-0, <-2)
+advmod(<-2, so-1)
+appos(<-2, Location-3)
+punct(<-2, /-4)
+amod(ISO8859-1-7, >-5)
+nn(ISO8859-1-7, CharsetSourceEnc-6)
+dep(<-2, ISO8859-1-7)
+nn(LimitRequestBody-10, CharsetDefault-8)
+nn(LimitRequestBody-10, ASCII-9)
+dep(ISO8859-1-7, LimitRequestBody-10)
+npadvmod(<-12, 2048-11)
+amod(LimitRequestBody-10, <-12)
+punct(>-15, /-13)
+dep(>-15, Location-14)
+dep(<-12, >-15)
+
+Submit/VB a/DT POST/NN with/IN a/DT body/NN over/IN 2048/CD bytes/NNS ./. 
+
+(ROOT (S (VP (VB Submit) (NP (DT a) (NN POST)) (PP (IN with) (NP (NP (DT a) (NN body)) (PP (IN over) (NP (CD 2048) (NNS bytes)))))) (. .)))
+
+root(ROOT-0, Submit-1)
+det(POST-3, a-2)
+dobj(Submit-1, POST-3)
+det(body-6, a-5)
+prep_with(Submit-1, body-6)
+num(bytes-9, 2048-8)
+prep_over(body-6, bytes-9)
+
+The/DT response/NN status/NN should/MD be/VB 413/CD ,/, but/CC it/PRP will/MD be/VB something/NN else/RB (/-LRB- e.g./FW 404/CD )/-RRB- ./. 
+
+(ROOT (S (S (NP (DT The) (NN response) (NN status)) (VP (MD should) (VP (VB be) (NP (CD 413))))) (, ,) (CC but) (S (NP (PRP it)) (VP (MD will) (VP (VB be) (NP (NP (NN something) (RB else)) (PRN (-LRB- -LRB-) (NP (NP (FW e.g.)) (NP (CD 404))) (-RRB- -RRB-)))))) (. .)))
+
+root(ROOT-0, 413-6)
+det(status-3, The-1)
+nn(status-3, response-2)
+nsubj(413-6, status-3)
+aux(413-6, should-4)
+cop(413-6, be-5)
+nsubj(something-12, it-9)
+aux(something-12, will-10)
+cop(something-12, be-11)
+conj_but(413-6, something-12)
+advmod(something-12, else-13)
+dep(something-12, e.g.-15)
+dep(e.g.-15, 404-16)
+
+The/DT underlying/VBG cause/NN is/VBZ mod_charset_lite/JJ not/RB treating/VBG metadata/JJ buckets/NNS specially/RB ./. 
+
+(ROOT (S (NP (DT The) (VBG underlying) (NN cause)) (VP (VBZ is) (ADJP (JJ mod_charset_lite) (S (RB not) (VP (VBG treating) (NP (JJ metadata) (NNS buckets)) (ADVP (RB specially)))))) (. .)))
+
+root(ROOT-0, mod_charset_lite-5)
+det(cause-3, The-1)
+amod(cause-3, underlying-2)
+nsubj(mod_charset_lite-5, cause-3)
+cop(mod_charset_lite-5, is-4)
+neg(treating-7, not-6)
+dep(mod_charset_lite-5, treating-7)
+amod(buckets-9, metadata-8)
+dobj(treating-7, buckets-9)
+advmod(treating-7, specially-10)
+
+When/WRB a/DT request/NN body/NN size/NN limit/NN is/VBZ exceeded/VBN ,/, for/IN example/NN ,/, the/DT error/NN code/NN is/VBZ communicated/VBN by/IN adding/VBG an/DT error/NN bucket/NN to/TO the/DT brigade/NN ./. 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (NP (DT a) (NN request) (NN body) (NN size) (NN limit)) (VP (VBZ is) (VP (VBN exceeded))))) (, ,) (PP (IN for) (NP (NN example))) (, ,) (NP (DT the) (NN error) (NN code)) (VP (VBZ is) (VP (VBN communicated) (PP (IN by) (S (VP (VBG adding) (NP (DT an) (NN error) (NN bucket)) (PP (TO to) (NP (DT the) (NN brigade)))))))) (. .)))
+
+root(ROOT-0, communicated-17)
+advmod(exceeded-8, When-1)
+det(limit-6, a-2)
+nn(limit-6, request-3)
+nn(limit-6, body-4)
+nn(limit-6, size-5)
+nsubjpass(exceeded-8, limit-6)
+auxpass(exceeded-8, is-7)
+advcl(communicated-17, exceeded-8)
+prep_for(communicated-17, example-11)
+det(code-15, the-13)
+nn(code-15, error-14)
+nsubjpass(communicated-17, code-15)
+auxpass(communicated-17, is-16)
+agent(communicated-17, adding-19)
+det(bucket-22, an-20)
+nn(bucket-22, error-21)
+dobj(adding-19, bucket-22)
+det(brigade-25, the-24)
+prep_to(adding-19, brigade-25)
+
+When/WRB it/PRP gets/VBZ to/TO mod_charset_lite/VB ,/, the/DT module/NN reads/VBZ the/DT data/NNS from/IN it/PRP (/-LRB- none/NN )/-RRB- and/CC discards/VBZ it/PRP ;/: thus/RB the/DT error/NN code/NN never/RB gets/VBZ to/TO the/DT end/NN of/IN the/DT filter/NN chain/NN and/CC is/VBZ not/RB sent/VBN back/RB to/TO the/DT client/NN ./. 
+
+(ROOT (S (S (SBAR (WHADVP (WRB When)) (S (NP (PRP it)) (VP (VBZ gets) (S (VP (TO to) (VP (VB mod_charset_lite))))))) (, ,) (NP (DT the) (NN module)) (VP (VP (VBZ reads) (NP (DT the) (NNS data)) (PP (IN from) (NP (NP (PRP it)) (PRN (-LRB- -LRB-) (NP (NN none)) (-RRB- -RRB-))))) (CC and) (VP (VBZ discards) (NP (PRP it))))) (: ;) (S (ADVP (RB thus)) (NP (DT the) (NN error) (NN code)) (VP (VP (ADVP (RB never)) (VBZ gets) (PP (TO to) (NP (NP (DT the) (NN end)) (PP (IN of) (NP (DT the) (NN filter) (NN chain)))))) (CC and) (VP (VBZ is) (RB not) (VP (VBN sent) (ADVP (RB back)) (PP (TO to) (NP (DT the) (NN client))))))) (. .)))
+
+root(ROOT-0, reads-9)
+advmod(gets-3, When-1)
+nsubj(gets-3, it-2)
+advcl(reads-9, gets-3)
+aux(mod_charset_lite-5, to-4)
+xcomp(gets-3, mod_charset_lite-5)
+det(module-8, the-7)
+nsubj(reads-9, module-8)
+nsubj(discards-18, module-8)
+det(data-11, the-10)
+dobj(reads-9, data-11)
+prep_from(reads-9, it-13)
+appos(it-13, none-15)
+conj_and(reads-9, discards-18)
+dobj(discards-18, it-19)
+advmod(gets-26, thus-21)
+det(code-24, the-22)
+nn(code-24, error-23)
+nsubj(gets-26, code-24)
+nsubjpass(sent-37, code-24)
+neg(gets-26, never-25)
+parataxis(reads-9, gets-26)
+det(end-29, the-28)
+prep_to(gets-26, end-29)
+det(chain-33, the-31)
+nn(chain-33, filter-32)
+prep_of(end-29, chain-33)
+auxpass(sent-37, is-35)
+neg(sent-37, not-36)
+parataxis(reads-9, sent-37)
+conj_and(gets-26, sent-37)
+advmod(sent-37, back-38)
+det(client-41, the-40)
+prep_to(sent-37, client-41)
+
+I/PRP 've/VBP confirmed/VBN the/DT problem/NN on/IN httpd-trunk/NN on/IN Linux/NNP ,/, revision/NN 688719/CD ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP 've) (VP (VBN confirmed) (NP (NP (DT the) (NN problem)) (PP (IN on) (NP (NN httpd-trunk)))) (PP (IN on) (NP (NP (NNP Linux)) (, ,) (NP (NN revision) (CD 688719)))))) (. .)))
+
+root(ROOT-0, confirmed-3)
+nsubj(confirmed-3, I-1)
+aux(confirmed-3, 've-2)
+det(problem-5, the-4)
+dobj(confirmed-3, problem-5)
+prep_on(problem-5, httpd-trunk-7)
+prep_on(confirmed-3, Linux-9)
+appos(Linux-9, revision-11)
+num(revision-11, 688719-12)
+
+It/PRP has/VBZ also/RB been/VBN seen/VBN on/IN older/JJR releases/NNS on/IN z/OS/NN ./. 
+
+(ROOT (S (NP (PRP It)) (VP (VBZ has) (ADVP (RB also)) (VP (VBN been) (VP (VBN seen) (PP (IN on) (NP (NP (JJR older) (NNS releases)) (PP (IN on) (NP (NN z/OS)))))))) (. .)))
+
+root(ROOT-0, seen-5)
+nsubjpass(seen-5, It-1)
+aux(seen-5, has-2)
+advmod(seen-5, also-3)
+auxpass(seen-5, been-4)
+amod(releases-8, older-7)
+prep_on(seen-5, releases-8)
+prep_on(releases-8, z/OS-10)
+
+It/PRP did/VBD not/RB show/VB up/RP in/IN a/DT bugzilla/NN search/NN ./. 
+
+(ROOT (S (NP (PRP It)) (VP (VBD did) (RB not) (VP (VB show) (PRT (RP up)) (PP (IN in) (NP (DT a) (NN bugzilla) (NN search))))) (. .)))
+
+root(ROOT-0, show-4)
+nsubj(show-4, It-1)
+aux(show-4, did-2)
+neg(show-4, not-3)
+prt(show-4, up-5)
+det(search-9, a-7)
+nn(search-9, bugzilla-8)
+prep_in(show-4, search-9)
+
+I/PRP 've/VBP come/VBN up/RP with/IN a/DT fix/NN ,/, and/CC verified/VBD that/IN it/PRP compiles/VBZ without/IN warning/VBG on/IN Linux/NNP and/CC solves/VBZ the/DT problem/NN ,/, so/RB that/IN a/DT 413/CD response/NN is/VBZ sent/VBN back/RB in/IN the/DT scenario/NN described/VBN above/IN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VP (VBP 've) (VP (VBN come) (PRT (RP up)) (PP (IN with) (NP (DT a) (NN fix))))) (, ,) (CC and) (VP (VBD verified) (SBAR (SBAR (IN that) (S (NP (PRP it)) (VP (VP (VBZ compiles) (PP (IN without) (S (VP (VBG warning) (PP (IN on) (NP (NNP Linux))))))) (CC and) (VP (VBZ solves) (NP (DT the) (NN problem)))))) (, ,) (RB so) (SBAR (IN that) (S (NP (DT a) (CD 413) (NN response)) (VP (VBZ is) (VP (VBN sent) (ADVP (RB back)) (PP (IN in) (NP (NP (DT the) (NN scenario)) (VP (VBN described) (PP (IN above)))))))))))) (. .)))
+
+root(ROOT-0, come-3)
+nsubj(come-3, I-1)
+nsubj(verified-10, I-1)
+aux(come-3, 've-2)
+prt(come-3, up-4)
+det(fix-7, a-6)
+prep_with(come-3, fix-7)
+conj_and(come-3, verified-10)
+mark(compiles-13, that-11)
+nsubj(compiles-13, it-12)
+nsubj(solves-19, it-12)
+dep(verified-10, compiles-13)
+prepc_without(compiles-13, warning-15)
+prep_on(warning-15, Linux-17)
+dep(verified-10, solves-19)
+conj_and(compiles-13, solves-19)
+det(problem-21, the-20)
+dobj(solves-19, problem-21)
+advmod(compiles-13, so-23)
+mark(sent-29, that-24)
+det(response-27, a-25)
+num(response-27, 413-26)
+nsubjpass(sent-29, response-27)
+auxpass(sent-29, is-28)
+dep(compiles-13, sent-29)
+advmod(sent-29, back-30)
+det(scenario-33, the-32)
+prep_in(sent-29, scenario-33)
+vmod(scenario-33, described-34)
+prep(described-34, above-35)
+
+A/DT patch/NN is/VBZ attached/VBN for/IN httpd-trunk/NN ./. 
+
+(ROOT (S (NP (DT A) (NN patch)) (VP (VBZ is) (VP (VBN attached) (PP (IN for) (NP (NN httpd-trunk))))) (. .)))
+
+root(ROOT-0, attached-4)
+det(patch-2, A-1)
+nsubjpass(attached-4, patch-2)
+auxpass(attached-4, is-3)
+prep_for(attached-4, httpd-trunk-6)
+
+I/PRP 'd/MD welcome/VB comments/NNS on/IN it/PRP ./. 
+
+(ROOT (S (NP (PRP I)) (VP (MD 'd) (VP (VB welcome) (NP (NNS comments)) (PP (IN on) (NP (PRP it))))) (. .)))
+
+root(ROOT-0, welcome-3)
+nsubj(welcome-3, I-1)
+aux(welcome-3, 'd-2)
+dobj(welcome-3, comments-4)
+prep_on(welcome-3, it-6)
+

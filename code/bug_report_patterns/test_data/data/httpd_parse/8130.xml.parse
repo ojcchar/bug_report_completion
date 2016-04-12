@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8130</id>
+	<title>Won't run on Solaris</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Apache won't start, due to a problem loading DSO's, apparently:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Configured as (since compilation fails when a layout file is supplied,
+but that Solaris "make all" compilation problem was closed after being
+mistaken for a Linux "make install" snitch):</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">.</sentence>
+			<sentence id="3.2">/configure  --prefix=/phil/sw/pkg/httpd-2.0.35 \</sentence>
+			<sentence id="3.3">--sysconfdir=/etc/phil/apache \</sentence>
+			<sentence id="3.4">--datadir=/etc/phil/apache2 \</sentence>
+			<sentence id="3.5">--localstatedir=/etc/phil/apache2 \</sentence>
+			<sentence id="3.6">--enable-modules=most \</sentence>
+			<sentence id="3.7">--enable-mods-shared=most</sentence>
+			<sentence id="3.8">make; make install</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Then, in that vanilla install:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">/phil/sw/pkg/httpd-2.0.35/bin/httpd
+Syntax error on line 222 of /etc/phil/apache2/httpd.conf:
+Cannot load /phil/sw/pkg/httpd-2.0.35/modules/mod_auth_digest.</sentence>
+			<sentence id="5.2">so into server: ld.so.1: /phil/sw/pkg/httpd-2.0.35/bin/httpd: fatal: relocation error: file /phil/sw/pkg/httpd-2.0.35/modules/mod_auth_digest.</sentence>
+			<sentence id="5.3">so: symbol __floatdidf: referenced symbol not found</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Compiler used: gcc 3.0.2.</sentence>
+			<sentence id="6.2">AFAIK, GNU's binutils cannot be blamed for it; they're absent.</sentence>
+		</paragraph>
+	</description>
+</bug>

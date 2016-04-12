@@ -1,0 +1,109 @@
+Here/RB is/VBZ a/DT small/JJ test/NN case/NN that/WDT illustrates/VBZ the/DT problem/NN I/PRP 'm/VBP seeing/VBG with/IN the/DT AspectJ/NN in/IN CVS/NNP HEAD/NN (/-LRB- it/PRP also/RB affects/VBZ 1.5.0/CD M2/NN )/-RRB- :/: 
+
+(ROOT (SINV (ADVP (RB Here)) (VP (VBZ is)) (NP (NP (DT a) (JJ small) (NN test) (NN case)) (SBAR (WHNP (WDT that)) (S (VP (VBZ illustrates) (NP (NP (DT the) (NN problem)) (SBAR (S (NP (PRP I)) (VP (VBP 'm) (VP (VBG seeing) (PP (IN with) (NP (NP (DT the) (NN AspectJ)) (PP (IN in) (NP (NNP CVS) (NN HEAD)))))))))) (PRN (-LRB- -LRB-) (S (NP (PRP it)) (VP (ADVP (RB also)) (VBZ affects) (NP (CD 1.5.0) (NN M2)))) (-RRB- -RRB-)))))) (: :)))
+
+root(ROOT-0, is-2)
+advmod(is-2, Here-1)
+det(case-6, a-3)
+amod(case-6, small-4)
+nn(case-6, test-5)
+nsubj(is-2, case-6)
+nsubj(illustrates-8, that-7)
+rcmod(case-6, illustrates-8)
+det(problem-10, the-9)
+dobj(illustrates-8, problem-10)
+nsubj(seeing-13, I-11)
+aux(seeing-13, 'm-12)
+rcmod(problem-10, seeing-13)
+det(AspectJ-16, the-15)
+prep_with(seeing-13, AspectJ-16)
+nn(HEAD-19, CVS-18)
+prep_in(AspectJ-16, HEAD-19)
+nsubj(affects-23, it-21)
+advmod(affects-23, also-22)
+parataxis(illustrates-8, affects-23)
+num(M2-25, 1.5.0-24)
+dobj(affects-23, M2-25)
+
+The/DT program/NN should/MD output/NN 1/CD but/CC it/PRP outputs/VBZ null/JJ instead/RB ./. 
+
+(ROOT (S (S (NP (DT The) (NN program)) (VP (MD should) (VP (NP (NN output) (CD 1))))) (CC but) (S (NP (PRP it)) (VP (VBZ outputs) (ADJP (JJ null)) (ADVP (RB instead)))) (. .)))
+
+root(ROOT-0, output-4)
+det(program-2, The-1)
+nsubj(output-4, program-2)
+aux(output-4, should-3)
+num(output-4, 1-5)
+nsubj(outputs-8, it-7)
+conj_but(output-4, outputs-8)
+acomp(outputs-8, null-9)
+advmod(outputs-8, instead-10)
+
+public/JJ aspect/NN AspectStatic/NNP {/-LRB- public/JJ interface/NN Iface/NNP {/-LRB- }/-RRB- 
+
+(ROOT (NP (NP (JJ public) (NN aspect) (NNP AspectStatic)) (PRN (-LRB- -LCB-) (NP (NP (JJ public) (NN interface)) (NP (NNP Iface) (-LRB- -LCB-))) (-RRB- -RCB-))))
+
+root(ROOT-0, AspectStatic-3)
+amod(AspectStatic-3, public-1)
+nn(AspectStatic-3, aspect-2)
+amod(interface-6, public-5)
+dep(AspectStatic-3, interface-6)
+dep(interface-6, Iface-7)
+
+private/JJ static/JJ Class/NN [/-LRB- ]/-RRB- managedInterfaces/NN =/JJ {/-LRB- Iface.class/JJ }/-RRB- ;/: private/JJ static/JJ Object/NNP assembler/NN =/JJ initAssembler/NN (/-LRB- )/-RRB- ;/: private/JJ static/JJ Object/NN initAssembler/NN (/-LRB- )/-RRB- {/-LRB- return/VB new/JJ Integer/NN (/-LRB- 1/CD )/-RRB- ;/: }/-RRB- 
+
+(ROOT (NP (NP (JJ private) (JJ static) (NN Class)) (-LRB- -LSB-) (NP (NP (NP (NP (-RRB- -RSB-) (NN managedInterfaces) (JJ =)) (-LRB- -LCB-) (NP (JJ Iface.class)) (-RRB- -RCB-)) (: ;) (NP (NP (JJ private) (JJ static) (NNP Object) (NN assembler) (JJ =) (NN initAssembler)) (PRN (-LRB- -LRB-) (NP (NP (-RRB- -RRB-)) (: ;) (NP (JJ private) (JJ static) (NN Object) (NN initAssembler) (-LRB- -LRB-))) (-RRB- -RRB-)))) (PRN (-LRB- -LCB-) (S (VP (VB return) (S (NP (NP (JJ new)) (NP (ADJP (ADJP (NN Integer)) (PRN (-LRB- -LRB-) (NP-TMP (CD 1)) (-RRB- -RRB-)))) (: ;))))) (-RRB- -RCB-)))))
+
+root(ROOT-0, Class-3)
+amod(Class-3, private-1)
+amod(Class-3, static-2)
+punct(Class-3, -LSB--4)
+punct(managedInterfaces-6, -RSB--5)
+dep(Class-3, managedInterfaces-6)
+amod(managedInterfaces-6, =-7)
+dep(managedInterfaces-6, Iface.class-9)
+amod(initAssembler-17, private-12)
+amod(initAssembler-17, static-13)
+nn(initAssembler-17, Object-14)
+nn(initAssembler-17, assembler-15)
+amod(initAssembler-17, =-16)
+dep(managedInterfaces-6, initAssembler-17)
+amod(initAssembler-24, private-21)
+amod(initAssembler-24, static-22)
+nn(initAssembler-24, Object-23)
+dep(-RRB--19, initAssembler-24)
+dep(managedInterfaces-6, return-28)
+dep(return-28, new-29)
+dep(new-29, Integer-30)
+dep(Integer-30, 1-32)
+
+public/JJ static/JJ void/NN main/JJ (/-LRB- String/NNP args/NNS [/-LRB- ]/-RRB- )/-RRB- {/-LRB- System.out.println/NN (/-LRB- "/`` test/NN =/JJ "/'' +/CC assembler/NN )/-RRB- ;/: }/-RRB- }/-RRB- 
+
+(ROOT (FRAG (NP (NP (JJ public) (JJ static) (NN void)) (NP (NP (JJ main)) (PRN (-LRB- -LRB-) (NP (NP (NNP String)) (NP (NP (NNS args)) (NP (NP (-LRB- -LSB-) (-RRB- -RSB-) (-RRB- -RRB-)) (-LRB- -LCB-) (NP (NP (NN System.out.println)) (PRN (-LRB- -LRB-) (NP (NP (`` ``) (NN test) (JJ =) ('' '')) (CC +) (NP (NN assembler))) (-RRB- -RRB-))) (: ;)))) (-RRB- -RCB-)) (-RRB- -RCB-)))))
+
+root(ROOT-0, void-3)
+amod(void-3, public-1)
+amod(void-3, static-2)
+dep(void-3, main-4)
+dep(main-4, String-6)
+dep(String-6, args-7)
+dep(args-7, -LSB--8)
+punct(-LSB--8, -RSB--9)
+dep(-LSB--8, System.out.println-12)
+dep(System.out.println-12, test-15)
+amod(test-15, =-16)
+dep(System.out.println-12, assembler-19)
+conj_+(test-15, assembler-19)
+
+aspect/NN StopsInit/NNP pertypewithin/NN (/-LRB- AspectStatic/JJ )/-RRB- {/-LRB- before/IN (/-LRB- )/-RRB- :/: staticinitialization/NN (/-LRB- */NN )/-RRB- {/-LRB- }/-RRB- }/-RRB- 
+
+(ROOT (NP (NP (NN aspect)) (NP (NP (NP (NP (NNP StopsInit) (NN pertypewithin)) (PRN (-LRB- -LRB-) (NP (JJ AspectStatic)) (-RRB- -RRB-))) (PRN (-LRB- -LCB-) (PP (IN before) (NP (-LRB- -LRB-))) (-RRB- -RRB-))) (: :) (NP (NP (NP (NN staticinitialization)) (PRN (-LRB- -LRB-) (X (NN *)) (-RRB- -RRB-))) (PRN (-LRB- -LCB-) (NP (-RRB- -RCB-)) (-RRB- -RCB-))))))
+
+root(ROOT-0, aspect-1)
+nn(pertypewithin-3, StopsInit-2)
+dep(aspect-1, pertypewithin-3)
+dep(pertypewithin-3, AspectStatic-5)
+prep(pertypewithin-3, before-8)
+dep(pertypewithin-3, staticinitialization-12)
+dep(staticinitialization-12, *-14)
+

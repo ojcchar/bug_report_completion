@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>298062</id>
+	<title>[language support] InferEngine could better detect fields</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,
+given following JavaScript code:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">(function () {
+a = 1; // window.a
+this.b = 2; // window.b
+window.c = 3; // window.c
+this["d"] = 4; // window.d
+})();
+e = 5; // window.e
+this.f = 6; // window.f
+window.g = 7; // window.g
+this["h"] = 8; // window.h</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">document.write("window.a "+ window.a+"\n"); // 1
+document.write("window.b "+ window.b+"\n"); // 2
+document.write("window.c "+ window.c+"\n"); // 3
+document.write("window.d "+ window.d+"\n"); // 4
+document.write("window.e "+ window.e+"\n"); // 5
+document.write("window.f "+ window.f+"\n"); // 6
+document.write("window.g "+ window.g+"\n"); // 7
+document.write("window.h "+ window.h+"\n"); // 8</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">JSDT's InferEngine produces following model:
+class Global {
+	b : Number
+}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Whereas one would expect at least:
+class Global {
+	a : Number
+	b : Number
+	d : Number
+	e : Number
+	f : Number
+	h : Number
+}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">or (knowing that global object is window) even:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">class window {
+	a : Number
+	b : Number
+	c : Number	
+	d : Number
+	e : Number
+	f : Number
+	g : Number
+	h : Number
+}</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">For example, in Mozilla above code prints following:
+window.a 1
+window.b 2
+window.c 3
+window.d 4
+window.e 5
+window.f 6
+window.g 7
+window.h 8</sentence>
+		</paragraph>
+	</description>
+</bug>

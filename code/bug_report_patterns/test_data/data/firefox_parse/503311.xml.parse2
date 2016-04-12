@@ -1,0 +1,140 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- X11/NN ;/: U/NNP ;/: Linux/NNP i686/NN ;/: en-US/NN ;/: rv/NN :1.9.1/NN )/-RRB- Gecko/20090624/NN Firefox/3/NN .5/CD Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- X11/NN ;/: U/NNP ;/: Linux/NNP i686/NN ;/: en-US/NN ;/: rv/NN :1.9.1/NN )/-RRB- Gecko/20090624/NN Firefox/3/NN .5/CD 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NN X11)) (: ;) (NP (NP (NP (NNP U)) (: ;) (NP (NNP Linux) (NN i686))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NN rv) (NN :1.9.1))))) (-RRB- -RRB-)) (NP (NN Gecko/20090624) (NN Firefox/3))) (X (NP (NP (CD .5)) (NP (NP (NNP Build) (NNP Identifier)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NN X11)) (: ;) (NP (NP (NP (NNP U)) (: ;) (NP (NNP Linux) (NN i686))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NN rv) (NN :1.9.1))))) (-RRB- -RRB-))))) (NP (NN Gecko/20090624)) (NP (NP (NN Firefox/3)) (NP (CD .5))))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+dep(.0-4, X11-6)
+dep(X11-6, U-8)
+nn(i686-11, Linux-10)
+dep(U-8, i686-11)
+dep(U-8, en-US-13)
+nn(:1.9.1-16, rv-15)
+dep(en-US-13, :1.9.1-16)
+nn(Firefox/3-19, Gecko/20090624-18)
+dep(.0-4, Firefox/3-19)
+dep(Firefox/3-40, .5-20)
+nn(Identifier-22, Build-21)
+dep(.5-20, Identifier-22)
+nn(.0-25, Mozilla/5-24)
+dep(Identifier-22, .0-25)
+dep(.0-25, X11-27)
+dep(X11-27, U-29)
+nn(i686-32, Linux-31)
+dep(U-29, i686-32)
+dep(U-29, en-US-34)
+nn(:1.9.1-37, rv-36)
+dep(en-US-34, :1.9.1-37)
+dep(Firefox/3-40, Gecko/20090624-39)
+dep(User-Agent-1, Firefox/3-40)
+dep(Firefox/3-40, .5-41)
+
+When/WRB I/PRP view/VBP this/DT url/NN in/IN print/NN preview/NN ,/, it/PRP only/RB shows/VBZ me/PRP the/DT first/JJ page/NN ./. 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (NP (PRP I)) (VP (VBP view) (NP (NP (DT this) (NN url)) (PP (IN in) (NP (NN print) (NN preview))))))) (, ,) (NP (PRP it)) (ADVP (RB only)) (VP (VBZ shows) (S (NP (PRP me)) (NP (DT the) (JJ first) (NN page)))) (. .)))
+
+root(ROOT-0, shows-12)
+advmod(view-3, When-1)
+nsubj(view-3, I-2)
+advcl(shows-12, view-3)
+det(url-5, this-4)
+dobj(view-3, url-5)
+nn(preview-8, print-7)
+prep_in(url-5, preview-8)
+nsubj(shows-12, it-10)
+advmod(shows-12, only-11)
+nsubj(page-16, me-13)
+det(page-16, the-14)
+amod(page-16, first-15)
+xcomp(shows-12, page-16)
+
+When/WRB I/PRP attempt/VBP to/TO print/VB all/PDT these/DT pages/NNS ,/, it/PRP only/RB prints/VBZ the/DT first/JJ page/NN ./. 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (NP (PRP I)) (VP (VBP attempt) (S (VP (TO to) (VP (VB print) (NP (PDT all) (DT these) (NNS pages)))))))) (, ,) (NP (PRP it)) (ADVP (RB only)) (VP (VBZ prints) (NP (DT the) (JJ first) (NN page))) (. .)))
+
+root(ROOT-0, prints-12)
+advmod(attempt-3, When-1)
+nsubj(attempt-3, I-2)
+advcl(prints-12, attempt-3)
+aux(print-5, to-4)
+xcomp(attempt-3, print-5)
+predet(pages-8, all-6)
+det(pages-8, these-7)
+dobj(print-5, pages-8)
+nsubj(prints-12, it-10)
+advmod(prints-12, only-11)
+det(page-15, the-13)
+amod(page-15, first-14)
+dobj(prints-12, page-15)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD Print/VB these/DT pages/NNS 
+
+(ROOT (FRAG (NP (CD 1)) (VP (VB Print) (NP (DT these) (NNS pages)))))
+
+root(ROOT-0, 1-1)
+dep(1-1, Print-2)
+det(pages-4, these-3)
+dobj(Print-2, pages-4)
+
+2/CD Or/CC view/VB them/PRP in/IN print/NN preview/NN 
+
+(ROOT (FRAG (NP (NP (CD 2)) (SBAR (FRAG (CC Or) (S (VP (VB view) (NP (PRP them)) (PP (IN in) (NP (NN print) (NN preview))))))))))
+
+root(ROOT-0, 2-1)
+cc(view-3, Or-2)
+dep(2-1, view-3)
+dobj(view-3, them-4)
+nn(preview-7, print-6)
+prep_in(view-3, preview-7)
+
+Actual/JJ Results/NNS :/: 
+
+(ROOT (NP (JJ Actual) (NNS Results) (: :)))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+
+Only/RB shows/prints/VBZ the/DT first/JJ page/NN 
+
+(ROOT (SINV (ADVP (RB Only)) (VP (VBZ shows/prints)) (NP (DT the) (JJ first) (NN page))))
+
+root(ROOT-0, shows/prints-2)
+advmod(shows/prints-2, Only-1)
+det(page-5, the-3)
+amod(page-5, first-4)
+nsubj(shows/prints-2, page-5)
+
+Expected/VBN Results/NNS :/: Print/VB or/CC show/VB all/DT pages/NNS when/WRB printing/NN or/CC in/IN print/NN preview/NN mode/NN 
+
+(ROOT (UCP (VP (VBN Expected) (NP (NP (NNS Results)) (: :) (VP (VP (VB Print)) (CC or) (VP (VB show) (NP (DT all) (NNS pages)) (SBAR (WHADVP (WRB when)) (FRAG (NP (NN printing)))))))) (CC or) (PP (IN in) (NP (NN print) (NN preview) (NN mode)))))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Results-2)
+dep(Results-2, Print-4)
+dep(Results-2, show-6)
+conj_or(Print-4, show-6)
+det(pages-8, all-7)
+dobj(show-6, pages-8)
+advmod(printing-10, when-9)
+advcl(show-6, printing-10)
+conj_or(Expected-1, in-12)
+nn(mode-15, print-13)
+nn(mode-15, preview-14)
+pobj(in-12, mode-15)
+

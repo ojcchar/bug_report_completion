@@ -1,0 +1,122 @@
+Steps/NNS :/: 
+
+(ROOT (NP (NNS Steps) (: :)))
+
+root(ROOT-0, Steps-1)
+
+1/CD open/JJ places/NNS 
+
+(ROOT (NP (NP (CD 1)) (NP (JJ open) (NNS places))))
+
+root(ROOT-0, 1-1)
+amod(places-3, open-2)
+dep(1-1, places-3)
+
+2/CD open/JJ a/DT link/NN (/-LRB- e.g./FW a/DT live/JJ bookmark/NN entry/NN from/IN the/DT "/`` latest/JJS headlines/NNS "/'' on/IN the/DT toolbar/NN )/-RRB- 
+
+(ROOT (NP (NP (CD 2)) (NP (NP (JJ open)) (NP (NP (DT a) (NN link)) (PRN (-LRB- -LRB-) (NP (NP (FW e.g.)) (NP (NP (DT a) (JJ live) (NN bookmark) (NN entry)) (PP (IN from) (NP (DT the) (NP (`` ``) (NP (JJS latest) (NNS headlines)) ('' '') (PP (IN on) (NP (DT the) (NN toolbar)))))))) (-RRB- -RRB-))))))
+
+root(ROOT-0, 2-1)
+dep(2-1, open-2)
+det(link-4, a-3)
+dep(open-2, link-4)
+dep(link-4, e.g.-6)
+det(entry-10, a-7)
+amod(entry-10, live-8)
+nn(entry-10, bookmark-9)
+dep(e.g.-6, entry-10)
+det(headlines-15, the-12)
+amod(headlines-15, latest-14)
+prep_from(entry-10, headlines-15)
+det(toolbar-19, the-18)
+prep_on(headlines-15, toolbar-19)
+
+3/CD click/VBP to/TO select/VB text/NN on/IN the/DT page/NN 
+
+(ROOT (S (NP (CD 3)) (VP (VBP click) (S (VP (TO to) (VP (VB select) (NP (NN text)) (PP (IN on) (NP (DT the) (NN page)))))))))
+
+root(ROOT-0, click-2)
+nsubj(click-2, 3-1)
+aux(select-4, to-3)
+xcomp(click-2, select-4)
+dobj(select-4, text-5)
+det(page-8, the-7)
+prep_on(select-4, page-8)
+
+Expected/VBN results/NNS 
+
+(ROOT (VP (VBN Expected) (NP (NNS results))))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, results-2)
+
+-/: text/NN is/VBZ selected/VBN ,/, no/DT spew/NN to/TO console/VB 
+
+(ROOT (PRN (: -) (S (NP (NN text)) (VP (VBZ is) (VP (VBN selected) (, ,) (NP (DT no) (NN spew) (S (VP (TO to) (VP (VB console))))))))))
+
+root(ROOT-0, selected-4)
+nsubjpass(selected-4, text-2)
+auxpass(selected-4, is-3)
+neg(spew-7, no-6)
+dobj(selected-4, spew-7)
+aux(console-9, to-8)
+vmod(spew-7, console-9)
+
+Actual/JJ results/NNS :/: 
+
+(ROOT (NP (JJ Actual) (NNS results) (: :)))
+
+root(ROOT-0, results-2)
+amod(results-2, Actual-1)
+
+-/: text/NN is/VBZ selected/VBN ,/, but/CC js/JJ errors/NNS :/: "/`` this/DT ./. 
+
+(ROOT (S (: -) (NP (NN text)) (VP (VBZ is) (VP (VP (VBN selected)) (, ,) (CC but) (VP (NP (NP (JJ js) (NNS errors)) (: :) (`` ``) (NP (DT this)))))) (. .)))
+
+root(ROOT-0, selected-4)
+nsubjpass(selected-4, text-2)
+auxpass(selected-4, is-3)
+amod(errors-8, js-7)
+conj_but(selected-4, errors-8)
+dep(errors-8, this-11)
+
+_/NN activeView.getResult/NN (/-LRB- )/-RRB- has/VBZ no/DT properties/NNS "/'' 
+
+(ROOT (FRAG (NP (NN _) (NN activeView.getResult)) (VP (-LRB- -LRB-) (-RRB- -RRB-) (NP (VBZ has) (NP (DT no) (NNS properties) ('' ''))))))
+
+root(ROOT-0, activeView.getResult-2)
+nn(activeView.getResult-2, _-1)
+dep(properties-7, has-5)
+neg(properties-7, no-6)
+dep(activeView.getResult-2, properties-7)
+
+Looks/VBZ like/IN the/DT command/NN updater/NN is/VBZ assuming/VBG the/DT activeView/NN will/MD always/RB have/VB a/DT result/NN -/: it/PRP not/RB necessarily/RB the/DT case/NN since/IN menuitems/NNS destroy/VBP theirs/PRP as/IN they/PRP disappear/VBP ./. 
+
+(ROOT (S (S (S (VP (VBZ Looks) (SBAR (IN like) (S (NP (DT the) (NN command) (NN updater)) (VP (VBZ is) (VP (VBG assuming) (NP (DT the) (NN activeView)))))))) (VP (MD will) (ADVP (RB always)) (VP (VB have) (NP (DT a) (NN result))))) (: -) (S (NP (PRP it)) (VP (ADVP (RB not) (NP (RB necessarily) (DT the) (NN case)) (PP (IN since) (NP (NNS menuitems)))) (VBP destroy) (NP (PRP theirs)) (SBAR (IN as) (S (NP (PRP they)) (VP (VBP disappear)))))) (. .)))
+
+root(ROOT-0, have-12)
+csubj(have-12, Looks-1)
+mark(assuming-7, like-2)
+det(updater-5, the-3)
+nn(updater-5, command-4)
+nsubj(assuming-7, updater-5)
+aux(assuming-7, is-6)
+advcl(Looks-1, assuming-7)
+det(activeView-9, the-8)
+dobj(assuming-7, activeView-9)
+aux(have-12, will-10)
+advmod(have-12, always-11)
+det(result-14, a-13)
+dobj(have-12, result-14)
+nsubj(destroy-23, it-16)
+neg(destroy-23, not-17)
+advmod(case-20, necessarily-18)
+det(case-20, the-19)
+dep(not-17, case-20)
+prep_since(not-17, menuitems-22)
+parataxis(have-12, destroy-23)
+dobj(destroy-23, theirs-24)
+mark(disappear-27, as-25)
+nsubj(disappear-27, they-26)
+advcl(destroy-23, disappear-27)
+

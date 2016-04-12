@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>299834</id>
+	<title>Rich text editors get blocked after hiding them</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (X11; U; Linux i686; ca-AD; rv:1.7.8) Gecko/20050511 Firefox/1.0.4
+Build Identifier: Mozilla/5.0 (X11; U; Linux i686; ca-AD; rv:1.7.8) Gecko/20050511 Firefox/1.0.4</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When a rich text editor is hidden and then shown again (the containing DIV or TD
+element is set to style.display=none) it gets blocked and you cannot do further
+editing.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">A message shows up in the javascript console:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Error: uncaught exception: [Exception... "Component returned failure code:
+0x80004005 (NS_ERROR_FAILURE) [nsIObserverService.removeObserver]"  nsresult:
+"0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame ::
+chrome://global/content/bindings/browser.xml :: destroy :: line 569"  data: no]</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This error has happened under firefox with all the rich text editor
+implementations i have tried:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">HTMLArea: http://www.dynarch.com/projects/htmlarea/
+FCKEditor: http://www.fckeditor.net/
+TinyMCE: http://tinymce.moxiecode.com/
+Xinha: http://xinha.python-hosting.com/</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">You can download my test page with the scripts in the following url:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">http://demo-dev.concatel.com/pfw_files/tpl/_alex/test.tar.gz</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Steps to Reproduce:</sentence>
+			<sentence id="10.2">1 write something in the rich text editor</sentence>
+			<sentence id="10.3">2 click on 'click me' button in order to hide it</sentence>
+			<sentence id="10.4">3 click again on 'click me' button in order to show the editor again</sentence>
+			<sentence id="10.5">4 try to write something in the editor</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Actual Results:  
+After hiding and showing again the editor, the editor is blocked and no longer
+editable.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Expected Results:  
+The editor should be operating normally.</sentence>
+		</paragraph>
+	</description>
+</bug>

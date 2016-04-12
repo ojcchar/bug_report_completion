@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>35083</id>
+	<title>Certificate validation problems trapping</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In case a SSL connection fails because a certificate is expired, or a CRL is
+unavailable, etc., the browser receives a SSL error that results in a cryptic
+technical error displayed to the user - sometimes only an error number like in
+Firefox.</sentence>
+			<sentence id="1.2">In such a situation, the SSL connection could be established, and an
+additional module could trap the exact SSL error and redirect to a page with the
+specific error message ("Your certificate is expired", "We cannot check the
+validity of the certificate - retry later", etc.).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I developed such a module, that I'll submit today: mod_ssl_error</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In order to let the module trap the code, we need, when the module is loaded, to
+accept to establish the connection in case of a certificate validation error:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">In ssl_io_filter_connect( ) - ssl_engine_io.</sentence>
+			<sentence id="4.2">c - we have 2 cases (at line 1147</sentence>
+			<sentence id="4.3">and 1173) where the connection may break because of certificates</sentence>
+			<sentence id="4.4">verification/validation problem:  ' return ssl_filter_io_shutdown(filter_ctx, c,</sentence>
+			<sentence id="4.5">1 ; '</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I would return only if the error trapping module (mod_ssl_error) is not loaded.</sentence>
+			<sentence id="5.2">If it is loaded, I would accept the certificate (continue the treatment and
+return DECLINED), as the error will be trapped later.</sentence>
+			<sentence id="5.3">So, replace
+    return ssl_filter_io_shutdown(filter_ctx, c, 1); 
+by
+     if ( !</sentence>
+			<sentence id="5.4">is_ssl_error_loaded ) return ssl_filter_io_shutdown(filter_ctx, c, 1);</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">In order to check if the module is loaded, I need a few lines at the beginning</sentence>
+			<sentence id="6.2">of the function - unless a function exists to check if a module is loaded ?</sentence>
+			<sentence id="6.3">Currently I coded it in the function:</sentence>
+			<sentence id="6.4">BOOL is_ssl_error_loaded = FALSE;</sentence>
+			<sentence id="6.5">{ /* Check if mod_ssl_error is loaded */</sentence>
+			<sentence id="6.6">extern AP_DECLARE_DATA module *ap_top_module;</sentence>
+			<sentence id="6.7">module *modp;</sentence>
+			<sentence id="6.8">for ( modp = ap_top_module; modp; modp = modp-&gt;next )</sentence>
+			<sentence id="6.9">if ( strcmp(modp-&gt;name, "mod_ssl_error.</sentence>
+			<sentence id="6.10">c") == 0 ) {</sentence>
+			<sentence id="6.11">is_ssl_error_loaded = TRUE;</sentence>
+			<sentence id="6.12">break;</sentence>
+			<sentence id="6.13">}</sentence>
+			<sentence id="6.14">}</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>191899</id>
+	<title>NPE during content assist</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">1 Generate a new message instance based on uk.gov.cfh.h3et.mim.6.1.02/Mif/COCD_TP146003UK03-AlcolholIntake.</sentence>
+			<sentence id="1.2">mif</sentence>
+			<sentence id="1.3">2 Switch to source view and double click AlcoholIntake/author/functionCode's code attribute ("OA")</sentence>
+			<sentence id="1.4">3 Invoke content assist</sentence>
+			<sentence id="1.5">4 Receive following NPE:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">java.lang.NullPointerException</sentence>
+			<sentence id="2.2">	at java.util.ArrayList.&lt;init&gt;(ArrayList.java:133)</sentence>
+			<sentence id="2.3">	at org.eclipse.ohf.h3et.instanceeditor.core.services.extended.TemplateQueryService.getContentChoice(TemplateQueryService.java:104)</sentence>
+			<sentence id="2.4">	at org.eclipse.ohf.h3et.instanceeditor.core.services.InstanceModelQuery.getContentChoiceFromServices(InstanceModelQuery.java:176)</sentence>
+			<sentence id="2.5">	at org.eclipse.ohf.h3et.instanceeditor.core.services.InstanceModelQuery.getContentChoice(InstanceModelQuery.java:138)</sentence>
+			<sentence id="2.6">	at org.eclipse.ohf.h3et.instanceeditor.ui.contentassist.MessageInstanceContentAssistProcessor.getProposals(MessageInstanceContentAssistProcessor.java:292)</sentence>
+			<sentence id="2.7">	at org.eclipse.ohf.h3et.instanceeditor.ui.contentassist.MessageInstanceContentAssistProcessor.addAttributeValueProposals(MessageInstanceContentAssistProcessor.java:256)</sentence>
+			<sentence id="2.8">	at org.eclipse.wst.xml.ui.internal.contentassist.AbstractContentAssistProcessor.computeAttributeValueProposals(AbstractContentAssistProcessor.java:1164)</sentence>
+			<sentence id="2.9">	at org.eclipse.wst.xml.ui.internal.contentassist.AbstractContentAssistProcessor.computeCompletionProposals(AbstractContentAssistProcessor.java:1198)</sentence>
+			<sentence id="2.10">	at org.eclipse.wst.xml.ui.internal.contentassist.XMLContentAssistProcessor.computeCompletionProposals(XMLContentAssistProcessor.java:102)</sentence>
+			<sentence id="2.11">	at org.eclipse.wst.xml.ui.internal.contentassist.AbstractContentAssistProcessor.computeCompletionProposals(AbstractContentAssistProcessor.java:1303)</sentence>
+			<sentence id="2.12">	at org.eclipse.wst.xml.ui.internal.contentassist.XMLContentAssistProcessor.computeCompletionProposals(XMLContentAssistProcessor.java:113)</sentence>
+			<sentence id="2.13">	at org.eclipse.wst.sse.ui.internal.contentassist.CompoundContentAssistProcessor.computeCompletionProposals(CompoundContentAssistProcessor.java:233)</sentence>
+			<sentence id="2.14">	at org.eclipse.jface.text.contentassist.ContentAssistant.computeCompletionProposals(ContentAssistant.java:1612)</sentence>
+			<sentence id="2.15">	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.computeProposals(CompletionProposalPopup.java:473)</sentence>
+			<sentence id="2.16">	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.access$16(CompletionProposalPopup.java:470)</sentence>
+			<sentence id="2.17">	at org.eclipse.jface.text.contentassist.CompletionProposalPopup$2.run(CompletionProposalPopup.java:405)</sentence>
+			<sentence id="2.18">	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)</sentence>
+			<sentence id="2.19">	at org.eclipse.jface.text.contentassist.CompletionProposalPopup.showProposals(CompletionProposalPopup.java:399)</sentence>
+			<sentence id="2.20">	at org.eclipse.jface.text.contentassist.ContentAssistant.showPossibleCompletions(ContentAssistant.java:1441)</sentence>
+			<sentence id="2.21">	at org.eclipse.wst.sse.ui.internal.StructuredTextViewer.doOperation(StructuredTextViewer.java:376)</sentence>
+			<sentence id="2.22">	at org.eclipse.ui.texteditor.TextOperationAction$1.run(TextOperationAction.java:131)</sentence>
+			<sentence id="2.23">	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)</sentence>
+			<sentence id="2.24">	at org.eclipse.ui.texteditor.TextOperationAction.run(TextOperationAction.java:129)</sentence>
+			<sentence id="2.25">	at org.eclipse.jface.action.Action.runWithEvent(Action.java:499)</sentence>
+			<sentence id="2.26">	at org.eclipse.ui.commands.ActionHandler.execute(ActionHandler.java:185)</sentence>
+			<sentence id="2.27">	at org.eclipse.ui.internal.handlers.LegacyHandlerWrapper.execute(LegacyHandlerWrapper.java:109)</sentence>
+			<sentence id="2.28">	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:461)</sentence>
+			<sentence id="2.29">	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:424)</sentence>
+			<sentence id="2.30">	at org.eclipse.ui.internal.handlers.HandlerService.executeCommand(HandlerService.java:160)</sentence>
+			<sentence id="2.31">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.executeCommand(WorkbenchKeyboard.java:466)</sentence>
+			<sentence id="2.32">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.press(WorkbenchKeyboard.java:799)</sentence>
+			<sentence id="2.33">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.processKeyEvent(WorkbenchKeyboard.java:846)</sentence>
+			<sentence id="2.34">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.filterKeySequenceBindings(WorkbenchKeyboard.java:564)</sentence>
+			<sentence id="2.35">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.access$3(WorkbenchKeyboard.java:506)</sentence>
+			<sentence id="2.36">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard$KeyDownFilter.handleEvent(WorkbenchKeyboard.java:122)</sentence>
+			<sentence id="2.37">	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:66)</sentence>
+			<sentence id="2.38">	at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1109)</sentence>
+			<sentence id="2.39">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1495)</sentence>
+			<sentence id="2.40">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1520)</sentence>
+			<sentence id="2.41">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1505)</sentence>
+			<sentence id="2.42">	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1557)</sentence>
+			<sentence id="2.43">	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1552)</sentence>
+			<sentence id="2.44">	at org.eclipse.swt.widgets.Control.kEventUnicodeKeyPressed(Control.java:1820)</sentence>
+			<sentence id="2.45">	at org.eclipse.swt.widgets.Composite.kEventUnicodeKeyPressed(Composite.java:583)</sentence>
+			<sentence id="2.46">	at org.eclipse.swt.widgets.Control.kEventTextInputUnicodeForKeyEvent(Control.java:1812)</sentence>
+			<sentence id="2.47">	at org.eclipse.swt.widgets.Widget.textInputProc(Widget.java:2000)</sentence>
+			<sentence id="2.48">	at org.eclipse.swt.widgets.Display.textInputProc(Display.java:3838)</sentence>
+			<sentence id="2.49">	at org.eclipse.swt.internal.carbon.OS.SendEventToEventTarget(Native Method)</sentence>
+			<sentence id="2.50">	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2910)</sentence>
+			<sentence id="2.51">	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:1930)</sentence>
+			<sentence id="2.52">	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:1894)</sentence>
+			<sentence id="2.53">	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:422)</sentence>
+			<sentence id="2.54">	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)</sentence>
+			<sentence id="2.55">	at org.eclipse.ui.internal.ide.IDEApplication.run(IDEApplication.java:95)</sentence>
+			<sentence id="2.56">	at org.eclipse.core.internal.runtime.PlatformActivator$1.run(PlatformActivator.java:78)</sentence>
+			<sentence id="2.57">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:92)</sentence>
+			<sentence id="2.58">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:68)</sentence>
+			<sentence id="2.59">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)</sentence>
+			<sentence id="2.60">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:177)</sentence>
+			<sentence id="2.61">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="2.62">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="2.63">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="2.64">	at java.lang.reflect.Method.invoke(Method.java:585)</sentence>
+			<sentence id="2.65">	at org.eclipse.core.launcher.Main.invokeFramework(Main.java:336)</sentence>
+			<sentence id="2.66">	at org.eclipse.core.launcher.Main.basicRun(Main.java:280)</sentence>
+			<sentence id="2.67">	at org.eclipse.core.launcher.Main.run(Main.java:977)</sentence>
+			<sentence id="2.68">	at org.eclipse.core.launcher.Main.main(Main.java:952)</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,98 @@
+Steps/NNS to/TO reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB reproduce))) (: :)))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+
+1/CD Focus/NN the/DT search/NN bar/NN ./. 
+
+(ROOT (NP (NP (CD 1) (NN Focus)) (NP (DT the) (NN search) (NN bar)) (. .)))
+
+root(ROOT-0, Focus-2)
+num(Focus-2, 1-1)
+det(bar-5, the-3)
+nn(bar-5, search-4)
+dep(Focus-2, bar-5)
+
+2/CD Type/NN "/`` pas/FW "/'' ./. 
+
+(ROOT (NP (NP (NP (CD 2)) (SBAR (S (NP (NP (NN Type)) (`` ``) (NP (FW pas)) ('' ''))))) (. .)))
+
+root(ROOT-0, 2-1)
+rcmod(2-1, Type-2)
+dep(Type-2, pas-4)
+
+Result/NN :/: The/DT autocomplete/JJ results/NNS and/CC suggestions/NNS are/VBP cut/VBN off/RP at/IN about/IN 12/CD characters/NNS ,/, using/VBG only/RB about/IN half/PDT the/DT width/NN available/JJ ./. 
+
+(ROOT (FRAG (NP (NN Result)) (: :) (S (NP (NP (DT The) (JJ autocomplete) (NNS results)) (CC and) (NP (NNS suggestions))) (VP (VBP are) (VP (VBN cut) (PRT (RP off)) (PP (IN at) (IN about) (NP (NP (CD 12) (NNS characters)) (, ,) (VP (VBG using) (ADVP (RB only)) (PP (IN about) (NP (NP (PDT half) (DT the) (NN width)) (ADJP (JJ available)))))))))) (. .)))
+
+root(ROOT-0, Result-1)
+det(results-5, The-3)
+amod(results-5, autocomplete-4)
+nsubjpass(cut-9, results-5)
+conj_and(results-5, suggestions-7)
+nsubjpass(cut-9, suggestions-7)
+auxpass(cut-9, are-8)
+dep(Result-1, cut-9)
+prt(cut-9, off-10)
+dep(cut-9, at-11)
+num(characters-14, 12-13)
+prep_about(cut-9, characters-14)
+vmod(characters-14, using-16)
+advmod(using-16, only-17)
+predet(width-21, half-19)
+det(width-21, the-20)
+prep_about(using-16, width-21)
+amod(width-21, available-22)
+
+It/PRP seems/VBZ that/IN they/PRP are/VBP constrained/VBN because/IN of/IN the/DT presence/NN of/IN the/DT word/NN "/`` Suggestions/NNS "/'' to/TO the/DT right/NN of/IN the/DT first/JJ suggestion/NN ./. 
+
+(ROOT (S (NP (PRP It)) (VP (VBZ seems) (SBAR (IN that) (S (NP (PRP they)) (VP (VBP are) (VP (VBN constrained) (PP (IN because) (IN of) (NP (NP (DT the) (NN presence)) (PP (IN of) (NP (NP (DT the) (NN word)) (`` ``) (NP (NNS Suggestions)) ('' ''))))) (PP (TO to) (NP (NP (DT the) (NN right)) (PP (IN of) (NP (DT the) (JJ first) (NN suggestion)))))))))) (. .)))
+
+root(ROOT-0, seems-2)
+nsubj(seems-2, It-1)
+mark(constrained-6, that-3)
+nsubjpass(constrained-6, they-4)
+auxpass(constrained-6, are-5)
+ccomp(seems-2, constrained-6)
+det(presence-10, the-9)
+prep_because_of(constrained-6, presence-10)
+det(word-13, the-12)
+prep_of(presence-10, word-13)
+dep(word-13, Suggestions-15)
+det(right-19, the-18)
+prep_to(constrained-6, right-19)
+det(suggestion-23, the-21)
+amod(suggestion-23, first-22)
+prep_of(right-19, suggestion-23)
+
+Expected/VBN :/: only/RB cut/VB off/RP the/DT suggestion/NN that/WDT 's/VBZ immediately/RB to/TO the/DT left/NN of/IN the/DT word/NN "/`` Suggestions/NNS "/'' ,/, or/CC give/VB the/DT word/NN "/`` Suggestions/NNS "/'' its/PRP$ own/JJ (/-LRB- non-selectable/JJ )/-RRB- row/NN ./. 
+
+(ROOT (NP (S (S (VP (VBN Expected))) (: :) (S (VP (VP (ADVP (RB only)) (VB cut) (PRT (RP off)) (NP (NP (DT the) (NN suggestion)) (SBAR (WHNP (WDT that)) (S (VP (VBZ 's) (ADVP (RB immediately)) (PP (TO to) (NP (NP (DT the) (NN left)) (PP (IN of) (NP (NP (DT the) (NN word)) (`` ``) (NP (NNS Suggestions)) ('' '')))))))))) (, ,) (CC or) (VP (VB give) (X (NP (NP (DT the) (NN word)) (NP (`` ``) (NNS Suggestions) ('' ''))) (NP (PRP$ its) (NP (JJ own) (PRN (-LRB- -LRB-) (ADJP (JJ non-selectable)) (-RRB- -RRB-)) (NN row))) (. .))))))))
+
+root(ROOT-0, Expected-1)
+advmod(cut-4, only-3)
+parataxis(Expected-1, cut-4)
+prt(cut-4, off-5)
+det(suggestion-7, the-6)
+dobj(cut-4, suggestion-7)
+nsubj('s-9, that-8)
+rcmod(suggestion-7, 's-9)
+advmod('s-9, immediately-10)
+det(left-13, the-12)
+prep_to('s-9, left-13)
+det(word-16, the-15)
+prep_of(left-13, word-16)
+dep(word-16, Suggestions-18)
+parataxis(Expected-1, give-22)
+conj_or(cut-4, give-22)
+det(word-24, the-23)
+dep(row-33, word-24)
+dep(word-24, Suggestions-26)
+poss(row-33, its-28)
+amod(row-33, own-29)
+dep(row-33, non-selectable-31)
+dep(give-22, row-33)
+

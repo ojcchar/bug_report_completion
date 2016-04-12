@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>428064</id>
+	<title>use of JavaScript date.getYear() returns 108 (instead of 2008)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">with:
+ var d = new Date();</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">d.getYear() returns 108 (instead of 2008)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Steps to Reproduce:</sentence>
+			<sentence id="5.2">1 declare the var : var d = newDate()</sentence>
+			<sentence id="5.3">2 call d.getYear()</sentence>
+			<sentence id="5.4">3 or paste the following lines:</sentence>
+			<sentence id="5.5">&lt;SCRIPT  LANGUAGE="JavaScript"&gt;</sentence>
+			<sentence id="5.6">&lt;!</sentence>
+			<sentence id="5.7">--</sentence>
+			<sentence id="5.8">var d = new Date();</sentence>
+			<sentence id="5.9">document.write(d.getYear());</sentence>
+			<sentence id="5.10">//--&gt;&lt;/SCRIPT&gt;</sentence>
+			<sentence id="5.11">Actual Results:</sentence>
+			<sentence id="5.12">d.getYear gives 108</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Expected Results:  
+the year is 2008  :)</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>18104</id>
+	<title>Cookie expiration does not mirror offline_access token expiration</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If my application receives an access token after being granted the offline_access permission_ then this token will not expire.</sentence>
+			<sentence id="1.2">However_ when the php sdk sets the cookie with the session on the user s browser_ the expiration time is immediately after closing the browser window.</sentence>
+			<sentence id="1.3">The result is that a user that grants offline_access permission but still will be required to re-authenticate with Facebook after closing and reopening the browser window.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps to reproduce:</sentence>
+			<sentence id="2.2">1 Authenticate the user on a web site and request offline_access using PHP SDK</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">2 The user is logged onto Facebook.</sentence>
+			<sentence id="3.2">The web site should be able to read that the user is logged in.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">3 The user closes the browser window.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">4 The user reopens the browser window and logs into facebook.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">5 The user goes back to the web site that has the offline_access token.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Expected result: Web site can detect that the user is logged in</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Actual Result: The web site is unable to detect that the user is logged in.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I believe I found the reason for this.</sentence>
+			<sentence id="9.2">In the php sdk facebook.php file_ in Facebook::setCookieFromSession() there s a line that sets the expiry time:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">$expires = $session[ expires ];</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">This works unless offline_access has been granted_ in which case $session[ expires ] is set to 0.</sentence>
+			<sentence id="11.2">However_ setting a cookie to expire to 0 is equivalent to having the cookie expire when the browser window closes.</sentence>
+		</paragraph>
+	</description>
+</bug>

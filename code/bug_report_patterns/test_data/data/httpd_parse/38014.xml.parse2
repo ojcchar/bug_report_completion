@@ -1,0 +1,463 @@
+In/IN the/DT case/NN of/IN keepalive/JJ the/DT request/NN body/NN will/MD be/VB discared/VBN in/IN '/`` ap_discard_request_body/JJ (/-LRB- ./. 
+
+(ROOT (S (PP (IN In) (NP (NP (DT the) (NN case)) (PP (IN of) (ADJP (JJ keepalive))))) (NP (DT the) (NN request) (NN body)) (VP (MD will) (VP (VB be) (VP (VBN discared) (PP (IN in) (`` `) (ADJP (JJ ap_discard_request_body)) (-LRB- -LRB-))))) (. .)))
+
+root(ROOT-0, discared-11)
+det(case-3, the-2)
+prep_in(discared-11, case-3)
+prep_of(case-3, keepalive-5)
+det(body-8, the-6)
+nn(body-8, request-7)
+nsubjpass(discared-11, body-8)
+aux(discared-11, will-9)
+auxpass(discared-11, be-10)
+prep_in(discared-11, ap_discard_request_body-14)
+
+./. )/-RRB- '/'' 
+
+(ROOT (S (VP (. .)) (-RRB- -RRB-) ('' ')))
+
+
+./. 
+
+(ROOT (NP (. .)))
+
+
+By/IN that/IN the/DT status/NN line/NN '/`` HTTP/1/NN .1/NN 100/CD Continue/NN '/'' will/MD be/VB sent/VBN after/IN the/DT final/JJ status/NN code/NN if/IN the/DT body/NN has/VBZ not/RB been/VBN consumed/VBN until/IN now/RB :/: 
+
+(ROOT (FRAG (ADVP (IN By)) (SBAR (IN that) (S (NP (NP (DT the) (NN status) (NN line)) (`` `) (NP (NP (NN HTTP/1) (NN .1)) (NP (CD 100) (NN Continue))) ('' ')) (VP (MD will) (VP (VB be) (VP (VBN sent) (PP (IN after) (NP (DT the) (JJ final) (NN status) (NN code))) (SBAR (IN if) (S (NP (DT the) (NN body)) (VP (VBZ has) (RB not) (VP (VBN been) (VP (VBN consumed) (PP (IN until) (NP (RB now)))))))))))) (: :))))
+
+root(ROOT-0, By-1)
+mark(sent-14, that-2)
+det(line-5, the-3)
+nn(line-5, status-4)
+nsubjpass(sent-14, line-5)
+nn(.1-8, HTTP/1-7)
+dep(line-5, .1-8)
+num(Continue-10, 100-9)
+dep(.1-8, Continue-10)
+aux(sent-14, will-12)
+auxpass(sent-14, be-13)
+dep(By-1, sent-14)
+det(code-19, the-16)
+amod(code-19, final-17)
+nn(code-19, status-18)
+prep_after(sent-14, code-19)
+mark(consumed-26, if-20)
+det(body-22, the-21)
+nsubjpass(consumed-26, body-22)
+aux(consumed-26, has-23)
+neg(consumed-26, not-24)
+auxpass(consumed-26, been-25)
+advcl(sent-14, consumed-26)
+prep(consumed-26, until-27)
+pobj(until-27, now-28)
+
+Another/DT point/NN is/VBZ that/IN it/PRP makes/VBZ no/DT sense/NN to/TO possibly/RB */SYM invite/VB */SYM the/DT client/NN for/IN sending/VBG the/DT body/NN just/RB to/TO discard/VB it/PRP ./. 
+
+(ROOT (S (NP (DT Another) (NN point)) (VP (VBZ is) (SBAR (IN that) (S (NP (PRP it)) (VP (VBZ makes) (NP (NP (NP (NP (DT no) (NN sense)) (SBAR (S (VP (TO to))))) (ADVP (RB possibly))) (X (SYM *))) (S (VP (VB invite) (S (NP (NP (FRAG (X (SYM *)) (NP (DT the) (NN client)))) (PP (IN for) (S (VP (VBG sending) (NP (DT the) (NN body)) (ADVP (RB just)))))) (VP (TO to) (VP (VB discard) (NP (PRP it))))))))))) (. .)))
+
+root(ROOT-0, is-3)
+det(point-2, Another-1)
+nsubj(is-3, point-2)
+mark(makes-6, that-4)
+nsubj(makes-6, it-5)
+ccomp(is-3, makes-6)
+neg(sense-8, no-7)
+dobj(makes-6, sense-8)
+vmod(sense-8, to-9)
+advmod(sense-8, possibly-10)
+dep(sense-8, *-11)
+dep(makes-6, invite-12)
+dep(client-15, *-13)
+det(client-15, the-14)
+dobj(invite-12, client-15)
+prepc_for(client-15, sending-17)
+det(body-19, the-18)
+dobj(sending-17, body-19)
+advmod(sending-17, just-20)
+aux(discard-22, to-21)
+xcomp(invite-12, discard-22)
+dobj(discard-22, it-23)
+
+The/DT fix/NN is/VBZ quite/RB small/JJ ,/, see/VB the/DT following/VBG patch/NN :/: 
+
+(ROOT (NP (NP (DT The) (NN fix)) (VP (VBZ is) (ADJP (RB quite) (JJ small)) (, ,) (S (VP (VB see) (NP (DT the) (VBG following) (NN patch))))) (: :)))
+
+root(ROOT-0, fix-2)
+det(fix-2, The-1)
+cop(small-5, is-3)
+advmod(small-5, quite-4)
+dep(fix-2, small-5)
+ccomp(small-5, see-7)
+det(patch-10, the-8)
+amod(patch-10, following-9)
+dobj(see-7, patch-10)
+
+Index/NN :/: server/protocol/NN ./. 
+
+(ROOT (NP (NP (NN Index)) (: :) (NP (NN server/protocol)) (. .)))
+
+root(ROOT-0, Index-1)
+dep(Index-1, server/protocol-3)
+
+c/NN 
+
+(ROOT (NP (NN c)))
+
+root(ROOT-0, c-1)
+
+===================================================================/NN 
+
+(ROOT (NP (NN ===================================================================)))
+
+root(ROOT-0, ===================================================================-1)
+
+RCS/NNS file/NN :/: 
+
+(ROOT (NP (NP (NNS RCS) (NN file)) (: :)))
+
+root(ROOT-0, file-2)
+nn(file-2, RCS-1)
+
+//: opt/projects/CVSROOT/NN //: navajo/src/org/NN //: apache/httpd/JJ -2.2/CD ./. 
+
+(ROOT (PRN (: /) (S (NP (NP (NP (NN opt/projects/CVSROOT)) (PRN (: /) (NP (NN navajo/src/org)) (: /))) (ADJP (JJ apache/httpd))) (NP (CD -2.2) (. .)))))
+
+root(ROOT-0, -2.2-7)
+punct(-2.2-7, /-1)
+dep(-2.2-7, opt/projects/CVSROOT-2)
+punct(navajo/src/org-4, /-3)
+dep(opt/projects/CVSROOT-2, navajo/src/org-4)
+punct(navajo/src/org-4, /-5)
+amod(opt/projects/CVSROOT-2, apache/httpd-6)
+
+X/server/protocol/NN ./. 
+
+(ROOT (NP (NN X/server/protocol) (. .)))
+
+root(ROOT-0, X/server/protocol-1)
+
+c/NN ,/, v/LS 
+
+(ROOT (INTJ (NN c) (, ,) (LS v)))
+
+root(ROOT-0, c-1)
+dep(c-1, v-3)
+
+retrieving/VBG revision/NN 1.1/CD 
+
+(ROOT (S (VP (VBG retrieving) (NP (NN revision) (CD 1.1)))))
+
+root(ROOT-0, retrieving-1)
+dobj(retrieving-1, revision-2)
+num(revision-2, 1.1-3)
+
+diff/SYM -/: c/SYM -/: r1/NN .1/CD protocol.c/NN 
+
+(ROOT (SINV (VP (SYM diff) (: -) (FRAG (X (SYM c)) (: -) (NP (NN r1)))) (NP (CD .1) (NN protocol.c))))
+
+root(ROOT-0, diff-1)
+dep(r1-5, c-3)
+dep(diff-1, r1-5)
+num(protocol.c-7, .1-6)
+nsubj(diff-1, protocol.c-7)
+
+***/CD server/protocol/NN ./. 
+
+(ROOT (NP (NP (CD ***)) (NP (NN server/protocol)) (. .)))
+
+root(ROOT-0, ***-1)
+dep(***-1, server/protocol-2)
+
+c/NN 2005/12/08/CD 14:51:37/CD 1.1/CD 
+
+(ROOT (NP (NP (NN c)) (NP (NP (CD 2005/12/08)) (NP (QP (CD 14:51:37) (CD 1.1))))))
+
+root(ROOT-0, c-1)
+dep(c-1, 2005/12/08-2)
+number(1.1-4, 14:51:37-3)
+dep(2005/12/08-2, 1.1-4)
+
+--/: server/protocol/NN ./. 
+
+(ROOT (NP (: --) (NN server/protocol) (. .)))
+
+root(ROOT-0, server/protocol-2)
+
+c/NN 2005/12/22/CD 19:14:56/CD 
+
+(ROOT (FRAG (NP (NN c)) (NP (CD 2005/12/22) (CD 19:14:56))))
+
+root(ROOT-0, c-1)
+num(19:14:56-3, 2005/12/22-2)
+dep(c-1, 19:14:56-3)
+
+***************/NN 
+
+(ROOT (NP (NN ***************)))
+
+root(ROOT-0, ***************-1)
+
+***/NN 1116,1122/CD ****/CD 
+
+(ROOT (FRAG (NP (NN ***)) (NP (CD 1116,1122) (CD ****))))
+
+root(ROOT-0, ***-1)
+num(****-3, 1116,1122-2)
+dep(***-1, ****-3)
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+AP_DECLARE/NN (/-LRB- void/NN )/-RRB- ap_finalize_request_protocol/NN (/-LRB- request_rec/JJ */SYM r/LS )/-RRB- 
+
+(ROOT (NP (NP (NN AP_DECLARE)) (NP (NP (-LRB- -LRB-) (NN void) (-RRB- -RRB-)) (NP (NP (NN ap_finalize_request_protocol)) (-LRB- -LRB-) (NP (NP (JJ request_rec)) (SBAR (S (VP (SYM *) (NP (LS r)))))) (-RRB- -RRB-)))))
+
+root(ROOT-0, AP_DECLARE-1)
+dep(AP_DECLARE-1, void-3)
+dep(void-3, ap_finalize_request_protocol-5)
+dep(ap_finalize_request_protocol-5, request_rec-7)
+dep(r-9, *-8)
+rcmod(request_rec-7, r-9)
+
+{/-LRB- 
+
+(ROOT (NP (-LRB- -LCB-)))
+
+
+!/. 
+
+(ROOT (NP (. !)))
+
+
+(/-LRB- void/NN )/-RRB- ap_discard_request_body/NN (/-LRB- r/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (-LRB- -LRB-) (NN void) (-RRB- -RRB-)) (NP (NP (NN ap_discard_request_body)) (PRN (-LRB- -LRB-) (NP (NN r)) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, void-2)
+dep(void-2, ap_discard_request_body-4)
+appos(ap_discard_request_body-4, r-6)
+
+//: */SYM tell/VB the/DT filter/NN chain/NN there/EX is/VBZ no/DT more/RBR content/JJ coming/VBG */SYM //: 
+
+(ROOT (PRN (: /) (SBAR (X (SYM *)) (S (S (VP (VB tell) (S (NP (DT the) (NN filter) (NN chain)) (NP (EX there))))) (VP (VBZ is) (NP (DT no) (ADJP (RBR more) (JJ content)) (VBG coming) (SYM *))))) (: /)))
+
+root(ROOT-0, is-8)
+punct(is-8, /-1)
+dep(is-8, *-2)
+csubj(is-8, tell-3)
+det(chain-6, the-4)
+nn(chain-6, filter-5)
+nsubj(there-7, chain-6)
+xcomp(tell-3, there-7)
+neg(content-11, no-9)
+advmod(content-11, more-10)
+dep(is-8, content-11)
+amod(content-11, coming-12)
+dep(content-11, *-13)
+punct(is-8, /-14)
+
+if/IN (/-LRB- !/. 
+
+(ROOT (FRAG (IN if) (ADVP (-LRB- -LRB-) (. !))))
+
+root(ROOT-0, if-1)
+
+r/SYM -/: >/JJR eos_sent/NN )/-RRB- {/-LRB- 
+
+(ROOT (NP (NP (SYM r)) (: -) (NP (JJR >) (NN eos_sent)) (-RRB- -RRB-) (-LRB- -LCB-)))
+
+root(ROOT-0, r-1)
+amod(eos_sent-4, >-3)
+dep(r-1, eos_sent-4)
+
+--/: 1116,1129/CD --/: 
+
+(ROOT (PRN (: --) (NP (CD 1116,1129)) (: --)))
+
+root(ROOT-0, 1116,1129-2)
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+AP_DECLARE/NN (/-LRB- void/NN )/-RRB- ap_finalize_request_protocol/NN (/-LRB- request_rec/JJ */SYM r/LS )/-RRB- 
+
+(ROOT (NP (NP (NN AP_DECLARE)) (NP (NP (-LRB- -LRB-) (NN void) (-RRB- -RRB-)) (NP (NP (NN ap_finalize_request_protocol)) (-LRB- -LRB-) (NP (NP (JJ request_rec)) (SBAR (S (VP (SYM *) (NP (LS r)))))) (-RRB- -RRB-)))))
+
+root(ROOT-0, AP_DECLARE-1)
+dep(AP_DECLARE-1, void-3)
+dep(void-3, ap_finalize_request_protocol-5)
+dep(ap_finalize_request_protocol-5, request_rec-7)
+dep(r-9, *-8)
+rcmod(request_rec-7, r-9)
+
+{/-LRB- 
+
+(ROOT (NP (-LRB- -LCB-)))
+
+
+!/. 
+
+(ROOT (NP (. !)))
+
+
+//: */SYM Avoid/VB sending/VBG '/`` HTTP/1/NN .1/NN 100/CD Continue/NN '/'' after/IN the/DT response/NN ./. 
+
+(ROOT (FRAG (: /) (VP (SYM *) (VP (VB Avoid) (S (VP (VBG sending) (`` `) (NP (NP (NN HTTP/1) (NN .1)) (NP (CD 100) (NN Continue))) ('' ') (PP (IN after) (NP (DT the) (NN response))))))) (. .)))
+
+root(ROOT-0, Avoid-3)
+punct(Avoid-3, /-1)
+dep(Avoid-3, *-2)
+xcomp(Avoid-3, sending-4)
+nn(.1-7, HTTP/1-6)
+dobj(sending-4, .1-7)
+num(Continue-9, 100-8)
+dep(.1-7, Continue-9)
+det(response-13, the-12)
+prep_after(sending-4, response-13)
+
+!/. 
+
+(ROOT (NP (. !)))
+
+
+If/IN the/DT client/NN is/VBZ waiting/VBG for/IN '/`` HTTP/1/NN .1/NN 100/CD Continue/NN '/'' before/IN 
+
+(ROOT (SBAR (IN If) (S (NP (DT the) (NN client)) (VP (VBZ is) (VP (VBG waiting) (PP (IN for) (`` `) (NP (NP (NN HTTP/1) (NN .1)) (NP (CD 100) (NN Continue))) ('' ')) (PP (IN before)))))))
+
+root(ROOT-0, waiting-5)
+mark(waiting-5, If-1)
+det(client-3, the-2)
+nsubj(waiting-5, client-3)
+aux(waiting-5, is-4)
+nn(.1-9, HTTP/1-8)
+prep_for(waiting-5, .1-9)
+num(Continue-11, 100-10)
+dep(.1-9, Continue-11)
+prep(waiting-5, before-13)
+
+!/. 
+
+(ROOT (NP (. !)))
+
+
+sending/VBG the/DT body/NN ,/, the/DT body/NN has/VBZ been/VBN already/RB sent/VBN ,/, or/CC will/MD never/RB be/VB ./. 
+
+(ROOT (S (S (VP (VBG sending) (NP (DT the) (NN body)))) (, ,) (NP (DT the) (NN body)) (VP (VP (VBZ has) (VP (VBN been) (VP (ADVP (RB already)) (VBN sent)))) (, ,) (CC or) (VP (MD will) (ADVP (RB never)) (VP (VB be)))) (. .)))
+
+root(ROOT-0, sent-10)
+vmod(sent-10, sending-1)
+det(body-3, the-2)
+dobj(sending-1, body-3)
+det(body-6, the-5)
+nsubjpass(sent-10, body-6)
+nsubj(be-15, body-6)
+aux(sent-10, has-7)
+auxpass(sent-10, been-8)
+advmod(sent-10, already-9)
+aux(be-15, will-13)
+neg(be-15, never-14)
+conj_or(sent-10, be-15)
+
+!/. 
+
+(ROOT (NP (. !)))
+
+
+(/-LRB- see/VB rfc/NN 2616/CD section/NN 8.2.3/CD )/-RRB- 
+
+(ROOT (PRN (-LRB- -LRB-) (S (VP (VB see) (S (NP (NN rfc) (CD 2616)) (NP (NN section) (CD 8.2.3))))) (-RRB- -RRB-)))
+
+root(ROOT-0, see-2)
+nsubj(section-5, rfc-3)
+num(rfc-3, 2616-4)
+xcomp(see-2, section-5)
+num(section-5, 8.2.3-6)
+
+!/. 
+
+(ROOT (NP (. !)))
+
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+!/. 
+
+(ROOT (NP (. !)))
+
+
+r/SYM -/: >/JJR expecting_100/NN =/JJ 0/CD ;/: 
+
+(ROOT (NP (NP (SYM r)) (: -) (NP (JJR >) (NN expecting_100)) (NP (JJ =) (CD 0)) (: ;)))
+
+root(ROOT-0, r-1)
+amod(expecting_100-4, >-3)
+dep(r-1, expecting_100-4)
+amod(0-6, =-5)
+dep(r-1, 0-6)
+
+!/. 
+
+(ROOT (NP (. !)))
+
+
+!/. 
+
+(ROOT (NP (. !)))
+
+
+(/-LRB- void/NN )/-RRB- ap_discard_request_body/NN (/-LRB- r/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (-LRB- -LRB-) (NN void) (-RRB- -RRB-)) (NP (NP (NN ap_discard_request_body)) (PRN (-LRB- -LRB-) (NP (NN r)) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, void-2)
+dep(void-2, ap_discard_request_body-4)
+appos(ap_discard_request_body-4, r-6)
+
+//: */SYM tell/VB the/DT filter/NN chain/NN there/EX is/VBZ no/DT more/RBR content/JJ coming/VBG */SYM //: 
+
+(ROOT (PRN (: /) (SBAR (X (SYM *)) (S (S (VP (VB tell) (S (NP (DT the) (NN filter) (NN chain)) (NP (EX there))))) (VP (VBZ is) (NP (DT no) (ADJP (RBR more) (JJ content)) (VBG coming) (SYM *))))) (: /)))
+
+root(ROOT-0, is-8)
+punct(is-8, /-1)
+dep(is-8, *-2)
+csubj(is-8, tell-3)
+det(chain-6, the-4)
+nn(chain-6, filter-5)
+nsubj(there-7, chain-6)
+xcomp(tell-3, there-7)
+neg(content-11, no-9)
+advmod(content-11, more-10)
+dep(is-8, content-11)
+amod(content-11, coming-12)
+dep(content-11, *-13)
+punct(is-8, /-14)
+
+if/IN (/-LRB- !/. 
+
+(ROOT (FRAG (IN if) (ADVP (-LRB- -LRB-) (. !))))
+
+root(ROOT-0, if-1)
+
+r/SYM -/: >/JJR eos_sent/NN )/-RRB- {/-LRB- 
+
+(ROOT (NP (NP (SYM r)) (: -) (NP (JJR >) (NN eos_sent)) (-RRB- -RRB-) (-LRB- -LCB-)))
+
+root(ROOT-0, r-1)
+amod(eos_sent-4, >-3)
+dep(r-1, eos_sent-4)
+

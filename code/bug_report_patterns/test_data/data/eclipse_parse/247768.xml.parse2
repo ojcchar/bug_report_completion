@@ -1,0 +1,127 @@
+Build/VB ID/NNP :/: I20080617-2000/NN 
+
+(ROOT (S (VP (VB Build) (NP (NP (NNP ID)) (: :) (NP (NN I20080617-2000))))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, ID-2)
+dep(ID-2, I20080617-2000-4)
+
+Steps/NNS To/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO To) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, To-2)
+
+1/LS CDT/NN project/NN ,/, GNU/NN toolchain/NN on/IN Linux/NN 
+
+(ROOT (NP (NP (LST (LS 1)) (NP (NN CDT)) (PP (PP (NP (NP (NN project)) (, ,)) (PP (ADVP (NN GNU)) (ADJP (NN toolchain)))) (PP (IN on)))) (NP (NN Linux))))
+
+root(ROOT-0, CDT-2)
+dep(CDT-2, 1-1)
+dep(GNU-5, project-3)
+prep(CDT-2, GNU-5)
+dep(GNU-5, toolchain-6)
+prep(GNU-5, on-7)
+dep(CDT-2, Linux-8)
+
+2/CD All/DT source/NN code/NN in/IN subdirectory/NN ./. 
+
+(ROOT (NP (NP (CD 2)) (NP (NP (DT All) (NN source) (NN code)) (PP (IN in) (NP (NN subdirectory)))) (. .)))
+
+root(ROOT-0, 2-1)
+det(code-4, All-2)
+nn(code-4, source-3)
+dep(2-1, code-4)
+prep_in(code-4, subdirectory-6)
+
+3/CD Create/VB new/JJ configuration/NN called/VBN '/`` Debug/NNP '/'' 
+
+(ROOT (FRAG (NP (CD 3)) (VP (VB Create) (NP (NP (JJ new) (NN configuration)) (VP (VBN called) (`` `) (NP (NNP Debug)) ('' '))))))
+
+root(ROOT-0, 3-1)
+dep(3-1, Create-2)
+amod(configuration-4, new-3)
+dobj(Create-2, configuration-4)
+vmod(configuration-4, called-5)
+dobj(called-5, Debug-7)
+
+4/CD In/IN configuration/NN ,/, set/VBN optimization/NN level/NN to/TO 0/CD ,/, add/VB a/SYM -/: D/NN to/TO the/DT preprocessor/NN ./. 
+
+(ROOT (S (NP (NP (CD 4)) (PP (IN In) (NP (NN configuration))) (, ,) (VP (VBN set) (NP (NN optimization) (NN level)) (PP (TO to) (NP (CD 0)))) (, ,)) (VP (VP (VB add) (X (SYM a))) (: -) (VP (NN D) (PP (TO to) (NP (DT the) (NN preprocessor))))) (. .)))
+
+root(ROOT-0, add-11)
+nsubj(add-11, 4-1)
+prep_in(4-1, configuration-3)
+vmod(4-1, set-5)
+nn(level-7, optimization-6)
+dobj(set-5, level-7)
+prep_to(set-5, 0-9)
+dep(add-11, a-12)
+dep(add-11, D-14)
+det(preprocessor-17, the-16)
+prep_to(D-14, preprocessor-17)
+
+5/CD Discover/NNP that/IN subdir.mk/NN still/RB says/VBZ -/: O2/CD and/CC no/DT -/: D./NNP 
+
+(ROOT (S (NP (CD 5)) (VP (NP (NP (NNP Discover)) (SBAR (IN that) (S (NP (NN subdir.mk)) (ADVP (RB still)) (VP (VBZ says))))) (PRN (: -) (NP (NP (CD O2) (CC and) (DT no)) (: -) (NP (NNP D.)))))))
+
+root(ROOT-0, Discover-2)
+nsubj(Discover-2, 5-1)
+mark(says-6, that-3)
+nsubj(says-6, subdir.mk-4)
+advmod(says-6, still-5)
+dep(Discover-2, says-6)
+dep(Discover-2, O2-8)
+dep(Discover-2, no-10)
+conj_and(O2-8, no-10)
+dep(O2-8, D.-12)
+
+6/CD See/VB that/IN the/DT dialog/NN box/NN still/RB thinks/VBZ that/IN the/DT -/: D/NN is/VBZ in/IN there/RB ,/, but/CC -/: O0/NN has/VBZ flipped/VBN back/RB to/TO -/: O2/CD ./. 
+
+(ROOT (S (S (NP (CD 6)) (VP (VB See) (SBAR (IN that) (S (NP (DT the) (NN dialog) (NN box)) (ADVP (RB still)) (VP (VBZ thinks) (SBAR (IN that) (S (NP (NP (DT the)) (: -) (NP (NN D))) (VP (VBZ is) (PP (IN in) (NP (NP (RB there)) (, ,) (ADVP (CC but)))))))))))) (: -) (S (NP (NN O0)) (VP (VBZ has) (VP (VBN flipped) (PP (RB back) (FRAG (X (TO to)) (: -) (NP (CD O2))))))) (. .)))
+
+root(ROOT-0, See-2)
+nsubj(See-2, 6-1)
+mark(thinks-8, that-3)
+det(box-6, the-4)
+nn(box-6, dialog-5)
+nsubj(thinks-8, box-6)
+advmod(thinks-8, still-7)
+ccomp(See-2, thinks-8)
+mark(is-13, that-9)
+nsubj(is-13, the-10)
+dep(the-10, D-12)
+ccomp(thinks-8, is-13)
+prep(is-13, in-14)
+pobj(in-14, there-15)
+advmod(there-15, but-17)
+nsubj(flipped-21, O0-19)
+aux(flipped-21, has-20)
+parataxis(See-2, flipped-21)
+prep(flipped-21, back-22)
+dep(O2-25, to-23)
+dep(back-22, O2-25)
+
+More/JJR information/NN :/: A/DT sort/NN of/IN workaround/NN is/VBZ to/TO turn/VB off/RP auto-generation/NN and/CC turn/VB it/PRP back/RB on/IN again/RB ./. 
+
+(ROOT (NP (NP (JJR More) (NN information)) (: :) (S (NP (NP (DT A) (NN sort)) (PP (IN of) (NP (NN workaround)))) (VP (VBZ is) (S (VP (TO to) (VP (VP (VB turn) (PRT (RP off)) (NP (NN auto-generation))) (CC and) (VP (VB turn) (NP (PRP it)) (ADVP (RB back) (PP (IN on) (ADVP (RB again)))))))))) (. .)))
+
+root(ROOT-0, information-2)
+amod(information-2, More-1)
+det(sort-5, A-4)
+nsubj(is-8, sort-5)
+prep_of(sort-5, workaround-7)
+dep(information-2, is-8)
+aux(turn-10, to-9)
+xcomp(is-8, turn-10)
+prt(turn-10, off-11)
+dobj(turn-10, auto-generation-12)
+xcomp(is-8, turn-14)
+conj_and(turn-10, turn-14)
+dobj(turn-14, it-15)
+advmod(turn-14, back-16)
+prep(back-16, on-17)
+pcomp(on-17, again-18)
+

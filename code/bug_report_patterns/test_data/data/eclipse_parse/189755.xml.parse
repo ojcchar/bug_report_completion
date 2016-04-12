@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>189755</id>
+	<title>"View report as .DOC" and "View report as .PPT" is not working</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">1 Create new report</sentence>
+			<sentence id="1.2">2 Create JDBC data source based on sample JDBC data in your report.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">driver class: org.eclipse.birt.report.data.oda.sampledb.Driver (Classic Models Inc.</sentence>
+			<sentence id="2.2">SampleDB Driver)
+Database URL: jdbc:classicmodels:sampledb</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">3 Create data set based on #2:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">query: select CLASSICMODELS.CUSTOMERS.CONTACTLASTNAME
+from CLASSICMODELS.CUSTOMERS</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">4 launch "View Report as .</sentence>
+			<sentence id="5.2">DOC"</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">5 Result: you get some 'garbage' text instead of expected results:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;?</sentence>
+			<sentence id="7.2">xml version="1.0" encoding="UTF-8"?</sentence>
+			<sentence id="7.3">&gt;
+&lt;?</sentence>
+			<sentence id="7.4">mso-application progid="Word.Document"?</sentence>
+			<sentence id="7.5">&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">&lt;w:wordDocument xmlns:w="http://schemas.microsoft.com/office/word/2003/wordml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:wx="http://schemas.microsoft.com/office/word/2003/auxHint" xmlns:aml="http://schemas.microsoft.com/aml/2001/core" xml:space="preserve"&gt;</sentence>
+			<sentence id="8.2">	&lt;w:styles&gt;</sentence>
+			<sentence id="8.3">		&lt;w:style w:type="paragraph"  w:styleId="4"&gt;</sentence>
+			<sentence id="8.4">			&lt;w:name w:val="toc 4"/&gt;</sentence>
+			<sentence id="8.5">			&lt;wx:uiName wx:val="catalog 4"/&gt;</sentence>
+			<sentence id="8.6">			&lt;w:autoRedefine/&gt;</sentence>
+			<sentence id="8.7">			&lt;w:semiHidden/&gt;</sentence>
+			<sentence id="8.8">			&lt;w:rsid w:val="009B3C8F"/&gt;</sentence>
+			<sentence id="8.9">			&lt;w:pPr&gt;</sentence>
+			<sentence id="8.10">				&lt;w:pStyle w:val="4"/&gt;</sentence>
+			<sentence id="8.11">			&lt;/w:pPr&gt;</sentence>
+			<sentence id="8.12">			&lt;w:rPr&gt;</sentence>
+			<sentence id="8.13">				&lt;wx:font wx:val="Times New Roman"/&gt;</sentence>
+			<sentence id="8.14">			&lt;/w:rPr&gt;</sentence>
+			<sentence id="8.15">		&lt;/w:style&gt;</sentence>
+			<sentence id="8.16">	&lt;/w:styles&gt;</sentence>
+			<sentence id="8.17">	&lt;w:displayBackgroundShape/&gt;</sentence>
+			<sentence id="8.18">	&lt;w:docPr&gt;</sentence>
+			<sentence id="8.19">		&lt;w:view w:val="print"/&gt;</sentence>
+			<sentence id="8.20">		&lt;w:zoom w:percent="100"/&gt;</sentence>
+			<sentence id="8.21">	&lt;/w:docPr&gt;</sentence>
+			<sentence id="8.22">	&lt;w:body&gt;</sentence>
+			<sentence id="8.23">		&lt;wx:sect&gt;</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">6 If you attempt to use "View report as .</sentence>
+			<sentence id="9.2">PPT"  on XML ODA driver based files it will cause BIRT to completely freeze/hang.</sentence>
+		</paragraph>
+	</description>
+</bug>

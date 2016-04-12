@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>45356</id>
+	<title>ab: optionally reduce resource usage (qsort and memory)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">1 qsort() CPU usage</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">At the end of a run, ab uses qsort() a couple of times to sort result data.</sentence>
+			<sentence id="2.2">This is only needed if one wants to get confidence data, or percentile data.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Modern machines easily handle millions of requests in a very few minutes.</sentence>
+			<sentence id="3.2">The qsort() processing time at the end of the run gets to long for such big numbers.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Add a flag to disable qsort runs (automatically also disables confidence and percentile data, since they rely on sorting the request data).</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">2 memory usage</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">ab saves detail data for each request in memory during the run.</sentence>
+			<sentence id="6.2">Again for huge numbers of requests, this gets expensive.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Add a flag to disable request data saving.</sentence>
+			<sentence id="7.2">All statistics, that are available via incremental computations still get produced (min/max/mean/total).</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">All patches are based on the final result of the patches in issue 45355.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">https://issues.apache.org/bugzilla/show_bug.cgi?id=45355</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">I can provide patches against trunk, but 45355 makes the changes nicer.</sentence>
+		</paragraph>
+	</description>
+</bug>

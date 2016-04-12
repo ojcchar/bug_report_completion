@@ -1,0 +1,1481 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>27510</id>
+	<title>The install of httpd-2.0.48 on BSD/OS 5.1 does not work</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Script started on Mon Feb 23 15:33:03 2004</sentence>
+			<sentence id="1.2">test51# make installl</sentence>
+			<sentence id="1.3">Making install in srclib</sentence>
+			<sentence id="1.4">Making install in apr</sentence>
+			<sentence id="1.5">Making all in strings</sentence>
+			<sentence id="1.6">Making all in passwd</sentence>
+			<sentence id="1.7">Making all in tables</sentence>
+			<sentence id="1.8">Making all in file_io/unix</sentence>
+			<sentence id="1.9">Making all in network_io/unix</sentence>
+			<sentence id="1.10">Making all in threadproc/unix</sentence>
+			<sentence id="1.11">Making all in misc/unix</sentence>
+			<sentence id="1.12">Making all in locks/unix</sentence>
+			<sentence id="1.13">Making all in time/unix</sentence>
+			<sentence id="1.14">Making all in mmap/unix</sentence>
+			<sentence id="1.15">Making all in shmem/unix</sentence>
+			<sentence id="1.16">Making all in user/unix</sentence>
+			<sentence id="1.17">Making all in memory/unix</sentence>
+			<sentence id="1.18">Making all in atomic/unix</sentence>
+			<sentence id="1.19">Making all in poll/unix</sentence>
+			<sentence id="1.20">Making all in support/unix</sentence>
+			<sentence id="1.21">Making all in dso/unix</sentence>
+			<sentence id="1.22">if [ !</sentence>
+			<sentence id="1.23">-d /usr/include/apache ]; then</sentence>
+			<sentence id="1.24">/usr/source/httpd-2.0.48/srclib/apr/build/mkdir.sh /usr/include/apache;  fi;</sentence>
+			<sentence id="1.25">cp -p /usr/source/httpd-2.0.48/srclib/apr/include/*.</sentence>
+			<sentence id="1.26">h /usr/include/apache;</sentence>
+			<sentence id="1.27">if test -n "/usr/source/httpd-2.0.48/srclib/apr"; then  cp -p</sentence>
+			<sentence id="1.28">/usr/source/httpd-2.0.48/srclib/apr/include/*.</sentence>
+			<sentence id="1.29">h /usr/include/apache;  fi;</sentence>
+			<sentence id="1.30">if [ !</sentence>
+			<sentence id="1.31">-d /usr/lib ]; then  /usr/source/httpd-2.0.48/srclib/apr/build/mkdir.sh</sentence>
+			<sentence id="1.32">/usr/lib;  fi;</sentence>
+			<sentence id="1.33">/bin/bash /usr/source/httpd-2.0.48/srclib/apr/libtool --mode=install cp</sentence>
+			<sentence id="1.34">libapr-0.</sentence>
+			<sentence id="1.35">la /usr/lib</sentence>
+			<sentence id="1.36">cp .</sentence>
+			<sentence id="1.37">libs/libapr-0.</sentence>
+			<sentence id="1.38">lai /usr/lib/libapr-0.</sentence>
+			<sentence id="1.39">la</sentence>
+			<sentence id="1.40">cp .</sentence>
+			<sentence id="1.41">libs/libapr-0.</sentence>
+			<sentence id="1.42">a /usr/lib/libapr-0.</sentence>
+			<sentence id="1.43">a</sentence>
+			<sentence id="1.44">ranlib /usr/lib/libapr-0.</sentence>
+			<sentence id="1.45">a</sentence>
+			<sentence id="1.46">chmod 644 /usr/lib/libapr-0.</sentence>
+			<sentence id="1.47">a</sentence>
+			<sentence id="1.48">----------------------------------------------------------------------</sentence>
+			<sentence id="1.49">Libraries have been installed in:</sentence>
+			<sentence id="1.50">/usr/lib</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="2.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="2.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="2.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="2.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="2.6">during linking</sentence>
+			<sentence id="2.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="2.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="2.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="3.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="3.3">----------------------------------------------------------------------</sentence>
+			<sentence id="3.4">/bin/bash /usr/source/httpd-2.0.48/srclib/apr/libtool --mode=install cp apr.exp</sentence>
+			<sentence id="3.5">/usr/lib</sentence>
+			<sentence id="3.6">cp apr.exp /usr/lib/apr.</sentence>
+			<sentence id="3.7">exp</sentence>
+			<sentence id="3.8">if [ !</sentence>
+			<sentence id="3.9">-d /var/www/build ]; then</sentence>
+			<sentence id="3.10">/usr/source/httpd-2.0.48/srclib/apr/build/mkdir.sh /var/www/build;  fi;</sentence>
+			<sentence id="3.11">if [ -f libtool ]; then  /bin/bash /usr/source/httpd-2.0.48/srclib/apr/libtool</sentence>
+			<sentence id="3.12">--mode=install cp libtool /var/www/build;  fi;</sentence>
+			<sentence id="3.13">cp libtool /var/www/build/libtool</sentence>
+			<sentence id="3.14">if [ -f shlibtool ]; then  /bin/bash /usr/source/httpd-2.0.48/srclib/apr/libtool</sentence>
+			<sentence id="3.15">--mode=install cp shlibtool /var/www/build;  fi;</sentence>
+			<sentence id="3.16">if [ -f build/apr_rules.mk ]; then  cp build/apr_rules.mk /var/www/build;  fi;</sentence>
+			<sentence id="3.17">if [ !</sentence>
+			<sentence id="3.18">-d /usr/bin ]; then  /usr/source/httpd-2.0.48/srclib/apr/build/mkdir.sh</sentence>
+			<sentence id="3.19">/usr/bin;  fi;</sentence>
+			<sentence id="3.20">/bin/bash /usr/source/httpd-2.0.48/srclib/apr/libtool --mode=install cp</sentence>
+			<sentence id="3.21">apr-config /usr/bin</sentence>
+			<sentence id="3.22">cp apr-config /usr/bin/apr-config</sentence>
+			<sentence id="3.23">chmod 755 /usr/bin/apr-config</sentence>
+			<sentence id="3.24">Making install in apr-util</sentence>
+			<sentence id="3.25">Making all in buckets</sentence>
+			<sentence id="3.26">Making all in crypto</sentence>
+			<sentence id="3.27">Making all in dbm</sentence>
+			<sentence id="3.28">Making all in sdbm</sentence>
+			<sentence id="3.29">Making all in .</sentence>
+			<sentence id="3.30">Making all in encoding</sentence>
+			<sentence id="3.31">Making all in hooks</sentence>
+			<sentence id="3.32">Making all in ldap</sentence>
+			<sentence id="3.33">Making all in uri</sentence>
+			<sentence id="3.34">Making all in xml</sentence>
+			<sentence id="3.35">Making all in expat</sentence>
+			<sentence id="3.36">Making all in misc</sentence>
+			<sentence id="3.37">Making all in strmatch</sentence>
+			<sentence id="3.38">Making all in xlate</sentence>
+			<sentence id="3.39">if [ !</sentence>
+			<sentence id="3.40">-d /usr/include/apache ]; then</sentence>
+			<sentence id="3.41">/usr/source/httpd-2.0.48/srclib/apr/build/mkdir.sh /usr/include/apache;  fi;</sentence>
+			<sentence id="3.42">cp -p /usr/source/httpd-2.0.48/srclib/apr-util/include/*.</sentence>
+			<sentence id="3.43">h /usr/include/apache</sentence>
+			<sentence id="3.44">if [ -n "/usr/source/httpd-2.0.48/srclib/apr-util" ]; then  cp -p</sentence>
+			<sentence id="3.45">/usr/source/httpd-2.0.48/srclib/apr-util/include/*.</sentence>
+			<sentence id="3.46">h /usr/include/apache;  fi;</sentence>
+			<sentence id="3.47">if [ !</sentence>
+			<sentence id="3.48">-d /usr/lib ]; then  /usr/source/httpd-2.0.48/srclib/apr/build/mkdir.sh</sentence>
+			<sentence id="3.49">/usr/lib;  fi;</sentence>
+			<sentence id="3.50">list='xml/expat'; for i in $list; do  ( cd $i ; make DESTDIR= install );  done</sentence>
+			<sentence id="3.51">/bin/bash</sentence>
+			<sentence id="3.52">/usr/source/httpd-2.0.48/srclib/apr-util/xml/expat/conftools/mkinstalldirs</sentence>
+			<sentence id="3.53">/usr/lib /usr/include/apache</sentence>
+			<sentence id="3.54">/bin/bash .</sentence>
+			<sentence id="3.55">.</sentence>
+			<sentence id="3.56">/libtool  --mode=install /usr/bin/install -c libexpat.la</sentence>
+			<sentence id="3.57">/usr/lib/libexpat.</sentence>
+			<sentence id="3.58">la</sentence>
+			<sentence id="3.59">/usr/bin/install -c .</sentence>
+			<sentence id="3.60">libs/libexpat.</sentence>
+			<sentence id="3.61">lai /usr/lib/libexpat.</sentence>
+			<sentence id="3.62">la</sentence>
+			<sentence id="3.63">/usr/bin/install -c .</sentence>
+			<sentence id="3.64">libs/libexpat.</sentence>
+			<sentence id="3.65">a /usr/lib/libexpat.</sentence>
+			<sentence id="3.66">a</sentence>
+			<sentence id="3.67">ranlib /usr/lib/libexpat.</sentence>
+			<sentence id="3.68">a</sentence>
+			<sentence id="3.69">chmod 644 /usr/lib/libexpat.</sentence>
+			<sentence id="3.70">a</sentence>
+			<sentence id="3.71">----------------------------------------------------------------------</sentence>
+			<sentence id="3.72">Libraries have been installed in:</sentence>
+			<sentence id="3.73">/usr/lib</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="4.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="4.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="4.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="4.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="4.6">during linking</sentence>
+			<sentence id="4.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="4.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="4.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="5.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="5.3">----------------------------------------------------------------------</sentence>
+			<sentence id="5.4">/usr/bin/install -c -m 644 expat.h /usr/include/apache</sentence>
+			<sentence id="5.5">/bin/bash /usr/source/httpd-2.0.48/srclib/apr/libtool --mode=install cp</sentence>
+			<sentence id="5.6">libaprutil-0.</sentence>
+			<sentence id="5.7">la /usr/lib</sentence>
+			<sentence id="5.8">cp .</sentence>
+			<sentence id="5.9">libs/libaprutil-0.</sentence>
+			<sentence id="5.10">lai /usr/lib/libaprutil-0.</sentence>
+			<sentence id="5.11">la</sentence>
+			<sentence id="5.12">cp .</sentence>
+			<sentence id="5.13">libs/libaprutil-0.</sentence>
+			<sentence id="5.14">a /usr/lib/libaprutil-0.</sentence>
+			<sentence id="5.15">a</sentence>
+			<sentence id="5.16">ranlib /usr/lib/libaprutil-0.</sentence>
+			<sentence id="5.17">a</sentence>
+			<sentence id="5.18">chmod 644 /usr/lib/libaprutil-0.</sentence>
+			<sentence id="5.19">a</sentence>
+			<sentence id="5.20">----------------------------------------------------------------------</sentence>
+			<sentence id="5.21">Libraries have been installed in:</sentence>
+			<sentence id="5.22">/usr/lib</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="6.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="6.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="6.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="6.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="6.6">during linking</sentence>
+			<sentence id="6.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="6.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="6.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="7.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="7.3">----------------------------------------------------------------------</sentence>
+			<sentence id="7.4">/bin/bash /usr/source/httpd-2.0.48/srclib/apr/libtool --mode=install cp</sentence>
+			<sentence id="7.5">aprutil.exp /usr/lib</sentence>
+			<sentence id="7.6">cp aprutil.exp /usr/lib/aprutil.</sentence>
+			<sentence id="7.7">exp</sentence>
+			<sentence id="7.8">if [ !</sentence>
+			<sentence id="7.9">-d /usr/bin ]; then  /usr/source/httpd-2.0.48/srclib/apr/build/mkdir.sh</sentence>
+			<sentence id="7.10">/usr/bin;  fi;</sentence>
+			<sentence id="7.11">/bin/bash /usr/source/httpd-2.0.48/srclib/apr/libtool --mode=install cp</sentence>
+			<sentence id="7.12">apu-config /usr/bin</sentence>
+			<sentence id="7.13">cp apu-config /usr/bin/apu-config</sentence>
+			<sentence id="7.14">chmod 755 /usr/bin/apu-config</sentence>
+			<sentence id="7.15">Making install in pcre</sentence>
+			<sentence id="7.16">Making install in os</sentence>
+			<sentence id="7.17">Making install in unix</sentence>
+			<sentence id="7.18">Making install in server</sentence>
+			<sentence id="7.19">Making install in mpm</sentence>
+			<sentence id="7.20">Making install in prefork</sentence>
+			<sentence id="7.21">Making install in modules</sentence>
+			<sentence id="7.22">Making install in aaa</sentence>
+			<sentence id="7.23">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="7.24">mod_access.</sentence>
+			<sentence id="7.25">la /usr/libexec/apache/</sentence>
+			<sentence id="7.26">----------------------------------------------------------------------</sentence>
+			<sentence id="7.27">Libraries have been installed in:</sentence>
+			<sentence id="7.28">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="8.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="8.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="8.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="8.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="8.6">during linking</sentence>
+			<sentence id="8.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="8.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="8.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="9.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="9.3">----------------------------------------------------------------------</sentence>
+			<sentence id="9.4">Warning!</sentence>
+			<sentence id="9.5">dlname not found in /usr/libexec/apache/mod_access.</sentence>
+			<sentence id="9.6">la.</sentence>
+			<sentence id="9.7">Assuming installing a .</sentence>
+			<sentence id="9.8">so rather than a libtool archive.</sentence>
+			<sentence id="9.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="9.10">mod_auth.</sentence>
+			<sentence id="9.11">la /usr/libexec/apache/</sentence>
+			<sentence id="9.12">----------------------------------------------------------------------</sentence>
+			<sentence id="9.13">Libraries have been installed in:</sentence>
+			<sentence id="9.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="10.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="10.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="10.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="10.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="10.6">during linking</sentence>
+			<sentence id="10.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="10.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="10.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="11.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="11.3">----------------------------------------------------------------------</sentence>
+			<sentence id="11.4">Warning!</sentence>
+			<sentence id="11.5">dlname not found in /usr/libexec/apache/mod_auth.</sentence>
+			<sentence id="11.6">la.</sentence>
+			<sentence id="11.7">Assuming installing a .</sentence>
+			<sentence id="11.8">so rather than a libtool archive.</sentence>
+			<sentence id="11.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="11.10">mod_auth_anon.</sentence>
+			<sentence id="11.11">la /usr/libexec/apache/</sentence>
+			<sentence id="11.12">----------------------------------------------------------------------</sentence>
+			<sentence id="11.13">Libraries have been installed in:</sentence>
+			<sentence id="11.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="12.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="12.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="12.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="12.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="12.6">during linking</sentence>
+			<sentence id="12.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="12.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="12.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="13.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="13.3">----------------------------------------------------------------------</sentence>
+			<sentence id="13.4">Warning!</sentence>
+			<sentence id="13.5">dlname not found in /usr/libexec/apache/mod_auth_anon.</sentence>
+			<sentence id="13.6">la.</sentence>
+			<sentence id="13.7">Assuming installing a .</sentence>
+			<sentence id="13.8">so rather than a libtool archive.</sentence>
+			<sentence id="13.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="13.10">mod_auth_dbm.</sentence>
+			<sentence id="13.11">la /usr/libexec/apache/</sentence>
+			<sentence id="13.12">----------------------------------------------------------------------</sentence>
+			<sentence id="13.13">Libraries have been installed in:</sentence>
+			<sentence id="13.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="14.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="14.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="14.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="14.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="14.6">during linking</sentence>
+			<sentence id="14.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="14.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="14.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="15.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="15.3">----------------------------------------------------------------------</sentence>
+			<sentence id="15.4">Warning!</sentence>
+			<sentence id="15.5">dlname not found in /usr/libexec/apache/mod_auth_dbm.</sentence>
+			<sentence id="15.6">la.</sentence>
+			<sentence id="15.7">Assuming installing a .</sentence>
+			<sentence id="15.8">so rather than a libtool archive.</sentence>
+			<sentence id="15.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="15.10">mod_auth_digest.</sentence>
+			<sentence id="15.11">la /usr/libexec/apache/</sentence>
+			<sentence id="15.12">----------------------------------------------------------------------</sentence>
+			<sentence id="15.13">Libraries have been installed in:</sentence>
+			<sentence id="15.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="16.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="16.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="16.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="16.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="16.6">during linking</sentence>
+			<sentence id="16.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="16.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="16.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="17.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="17.3">----------------------------------------------------------------------</sentence>
+			<sentence id="17.4">Warning!</sentence>
+			<sentence id="17.5">dlname not found in /usr/libexec/apache/mod_auth_digest.</sentence>
+			<sentence id="17.6">la.</sentence>
+			<sentence id="17.7">Assuming installing a .</sentence>
+			<sentence id="17.8">so rather than a libtool archive.</sentence>
+			<sentence id="17.9">Making install in cache</sentence>
+			<sentence id="17.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="17.11">mod_file_cache.</sentence>
+			<sentence id="17.12">la /usr/libexec/apache/</sentence>
+			<sentence id="17.13">----------------------------------------------------------------------</sentence>
+			<sentence id="17.14">Libraries have been installed in:</sentence>
+			<sentence id="17.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="18.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="18.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="18.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="18.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="18.6">during linking</sentence>
+			<sentence id="18.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="18.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="18.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="19.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="19.3">----------------------------------------------------------------------</sentence>
+			<sentence id="19.4">Warning!</sentence>
+			<sentence id="19.5">dlname not found in /usr/libexec/apache/mod_file_cache.</sentence>
+			<sentence id="19.6">la.</sentence>
+			<sentence id="19.7">Assuming installing a .</sentence>
+			<sentence id="19.8">so rather than a libtool archive.</sentence>
+			<sentence id="19.9">Making install in echo</sentence>
+			<sentence id="19.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="19.11">mod_echo.</sentence>
+			<sentence id="19.12">la /usr/libexec/apache/</sentence>
+			<sentence id="19.13">----------------------------------------------------------------------</sentence>
+			<sentence id="19.14">Libraries have been installed in:</sentence>
+			<sentence id="19.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="20.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="20.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="20.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="20.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="20.6">during linking</sentence>
+			<sentence id="20.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="20.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="20.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="21.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="21.3">----------------------------------------------------------------------</sentence>
+			<sentence id="21.4">Warning!</sentence>
+			<sentence id="21.5">dlname not found in /usr/libexec/apache/mod_echo.</sentence>
+			<sentence id="21.6">la.</sentence>
+			<sentence id="21.7">Assuming installing a .</sentence>
+			<sentence id="21.8">so rather than a libtool archive.</sentence>
+			<sentence id="21.9">Making install in experimental</sentence>
+			<sentence id="21.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="21.11">mod_charset_lite.</sentence>
+			<sentence id="21.12">la /usr/libexec/apache/</sentence>
+			<sentence id="21.13">----------------------------------------------------------------------</sentence>
+			<sentence id="21.14">Libraries have been installed in:</sentence>
+			<sentence id="21.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="22.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="22.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="22.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="22.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="22.6">during linking</sentence>
+			<sentence id="22.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="22.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="22.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="23.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="23.3">----------------------------------------------------------------------</sentence>
+			<sentence id="23.4">Warning!</sentence>
+			<sentence id="23.5">dlname not found in /usr/libexec/apache/mod_charset_lite.</sentence>
+			<sentence id="23.6">la.</sentence>
+			<sentence id="23.7">Assuming installing a .</sentence>
+			<sentence id="23.8">so rather than a libtool archive.</sentence>
+			<sentence id="23.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="23.10">mod_cache.</sentence>
+			<sentence id="23.11">la /usr/libexec/apache/</sentence>
+			<sentence id="23.12">----------------------------------------------------------------------</sentence>
+			<sentence id="23.13">Libraries have been installed in:</sentence>
+			<sentence id="23.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="24.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="24.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="24.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="24.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="24.6">during linking</sentence>
+			<sentence id="24.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="24.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="24.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="25.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="25.3">----------------------------------------------------------------------</sentence>
+			<sentence id="25.4">Warning!</sentence>
+			<sentence id="25.5">dlname not found in /usr/libexec/apache/mod_cache.</sentence>
+			<sentence id="25.6">la.</sentence>
+			<sentence id="25.7">Assuming installing a .</sentence>
+			<sentence id="25.8">so rather than a libtool archive.</sentence>
+			<sentence id="25.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="25.10">mod_disk_cache.</sentence>
+			<sentence id="25.11">la /usr/libexec/apache/</sentence>
+			<sentence id="25.12">----------------------------------------------------------------------</sentence>
+			<sentence id="25.13">Libraries have been installed in:</sentence>
+			<sentence id="25.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="26">
+			<sentence id="26.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="26.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="26.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="26.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="26.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="26.6">during linking</sentence>
+			<sentence id="26.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="26.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="26.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="27">
+			<sentence id="27.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="27.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="27.3">----------------------------------------------------------------------</sentence>
+			<sentence id="27.4">Warning!</sentence>
+			<sentence id="27.5">dlname not found in /usr/libexec/apache/mod_disk_cache.</sentence>
+			<sentence id="27.6">la.</sentence>
+			<sentence id="27.7">Assuming installing a .</sentence>
+			<sentence id="27.8">so rather than a libtool archive.</sentence>
+			<sentence id="27.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="27.10">mod_mem_cache.</sentence>
+			<sentence id="27.11">la /usr/libexec/apache/</sentence>
+			<sentence id="27.12">----------------------------------------------------------------------</sentence>
+			<sentence id="27.13">Libraries have been installed in:</sentence>
+			<sentence id="27.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="28">
+			<sentence id="28.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="28.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="28.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="28.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="28.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="28.6">during linking</sentence>
+			<sentence id="28.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="28.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="28.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="29">
+			<sentence id="29.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="29.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="29.3">----------------------------------------------------------------------</sentence>
+			<sentence id="29.4">Warning!</sentence>
+			<sentence id="29.5">dlname not found in /usr/libexec/apache/mod_mem_cache.</sentence>
+			<sentence id="29.6">la.</sentence>
+			<sentence id="29.7">Assuming installing a .</sentence>
+			<sentence id="29.8">so rather than a libtool archive.</sentence>
+			<sentence id="29.9">Making install in filters</sentence>
+			<sentence id="29.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="29.11">mod_ext_filter.</sentence>
+			<sentence id="29.12">la /usr/libexec/apache/</sentence>
+			<sentence id="29.13">----------------------------------------------------------------------</sentence>
+			<sentence id="29.14">Libraries have been installed in:</sentence>
+			<sentence id="29.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="30">
+			<sentence id="30.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="30.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="30.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="30.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="30.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="30.6">during linking</sentence>
+			<sentence id="30.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="30.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="30.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="31">
+			<sentence id="31.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="31.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="31.3">----------------------------------------------------------------------</sentence>
+			<sentence id="31.4">Warning!</sentence>
+			<sentence id="31.5">dlname not found in /usr/libexec/apache/mod_ext_filter.</sentence>
+			<sentence id="31.6">la.</sentence>
+			<sentence id="31.7">Assuming installing a .</sentence>
+			<sentence id="31.8">so rather than a libtool archive.</sentence>
+			<sentence id="31.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="31.10">mod_include.</sentence>
+			<sentence id="31.11">la /usr/libexec/apache/</sentence>
+			<sentence id="31.12">----------------------------------------------------------------------</sentence>
+			<sentence id="31.13">Libraries have been installed in:</sentence>
+			<sentence id="31.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="32">
+			<sentence id="32.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="32.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="32.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="32.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="32.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="32.6">during linking</sentence>
+			<sentence id="32.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="32.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="32.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="33">
+			<sentence id="33.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="33.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="33.3">----------------------------------------------------------------------</sentence>
+			<sentence id="33.4">Warning!</sentence>
+			<sentence id="33.5">dlname not found in /usr/libexec/apache/mod_include.</sentence>
+			<sentence id="33.6">la.</sentence>
+			<sentence id="33.7">Assuming installing a .</sentence>
+			<sentence id="33.8">so rather than a libtool archive.</sentence>
+			<sentence id="33.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="33.10">mod_deflate.</sentence>
+			<sentence id="33.11">la /usr/libexec/apache/</sentence>
+			<sentence id="33.12">----------------------------------------------------------------------</sentence>
+			<sentence id="33.13">Libraries have been installed in:</sentence>
+			<sentence id="33.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="34">
+			<sentence id="34.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="34.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="34.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="34.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="34.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="34.6">during linking</sentence>
+			<sentence id="34.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="34.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="34.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="35">
+			<sentence id="35.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="35.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="35.3">----------------------------------------------------------------------</sentence>
+			<sentence id="35.4">Warning!</sentence>
+			<sentence id="35.5">dlname not found in /usr/libexec/apache/mod_deflate.</sentence>
+			<sentence id="35.6">la.</sentence>
+			<sentence id="35.7">Assuming installing a .</sentence>
+			<sentence id="35.8">so rather than a libtool archive.</sentence>
+			<sentence id="35.9">Making install in loggers</sentence>
+			<sentence id="35.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="35.11">mod_log_config.</sentence>
+			<sentence id="35.12">la /usr/libexec/apache/</sentence>
+			<sentence id="35.13">----------------------------------------------------------------------</sentence>
+			<sentence id="35.14">Libraries have been installed in:</sentence>
+			<sentence id="35.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="36">
+			<sentence id="36.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="36.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="36.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="36.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="36.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="36.6">during linking</sentence>
+			<sentence id="36.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="36.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="36.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="37">
+			<sentence id="37.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="37.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="37.3">----------------------------------------------------------------------</sentence>
+			<sentence id="37.4">Warning!</sentence>
+			<sentence id="37.5">dlname not found in /usr/libexec/apache/mod_log_config.</sentence>
+			<sentence id="37.6">la.</sentence>
+			<sentence id="37.7">Assuming installing a .</sentence>
+			<sentence id="37.8">so rather than a libtool archive.</sentence>
+			<sentence id="37.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="37.10">mod_logio.</sentence>
+			<sentence id="37.11">la /usr/libexec/apache/</sentence>
+			<sentence id="37.12">----------------------------------------------------------------------</sentence>
+			<sentence id="37.13">Libraries have been installed in:</sentence>
+			<sentence id="37.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="38">
+			<sentence id="38.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="38.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="38.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="38.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="38.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="38.6">during linking</sentence>
+			<sentence id="38.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="38.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="38.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="39">
+			<sentence id="39.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="39.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="39.3">----------------------------------------------------------------------</sentence>
+			<sentence id="39.4">Warning!</sentence>
+			<sentence id="39.5">dlname not found in /usr/libexec/apache/mod_logio.</sentence>
+			<sentence id="39.6">la.</sentence>
+			<sentence id="39.7">Assuming installing a .</sentence>
+			<sentence id="39.8">so rather than a libtool archive.</sentence>
+			<sentence id="39.9">Making install in metadata</sentence>
+			<sentence id="39.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="39.11">mod_env.</sentence>
+			<sentence id="39.12">la /usr/libexec/apache/</sentence>
+			<sentence id="39.13">----------------------------------------------------------------------</sentence>
+			<sentence id="39.14">Libraries have been installed in:</sentence>
+			<sentence id="39.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="40">
+			<sentence id="40.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="40.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="40.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="40.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="40.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="40.6">during linking</sentence>
+			<sentence id="40.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="40.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="40.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="41">
+			<sentence id="41.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="41.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="41.3">----------------------------------------------------------------------</sentence>
+			<sentence id="41.4">Warning!</sentence>
+			<sentence id="41.5">dlname not found in /usr/libexec/apache/mod_env.</sentence>
+			<sentence id="41.6">la.</sentence>
+			<sentence id="41.7">Assuming installing a .</sentence>
+			<sentence id="41.8">so rather than a libtool archive.</sentence>
+			<sentence id="41.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="41.10">mod_mime_magic.</sentence>
+			<sentence id="41.11">la /usr/libexec/apache/</sentence>
+			<sentence id="41.12">----------------------------------------------------------------------</sentence>
+			<sentence id="41.13">Libraries have been installed in:</sentence>
+			<sentence id="41.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="42">
+			<sentence id="42.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="42.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="42.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="42.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="42.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="42.6">during linking</sentence>
+			<sentence id="42.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="42.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="42.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="43">
+			<sentence id="43.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="43.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="43.3">----------------------------------------------------------------------</sentence>
+			<sentence id="43.4">Warning!</sentence>
+			<sentence id="43.5">dlname not found in /usr/libexec/apache/mod_mime_magic.</sentence>
+			<sentence id="43.6">la.</sentence>
+			<sentence id="43.7">Assuming installing a .</sentence>
+			<sentence id="43.8">so rather than a libtool archive.</sentence>
+			<sentence id="43.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="43.10">mod_cern_meta.</sentence>
+			<sentence id="43.11">la /usr/libexec/apache/</sentence>
+			<sentence id="43.12">----------------------------------------------------------------------</sentence>
+			<sentence id="43.13">Libraries have been installed in:</sentence>
+			<sentence id="43.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="44">
+			<sentence id="44.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="44.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="44.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="44.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="44.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="44.6">during linking</sentence>
+			<sentence id="44.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="44.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="44.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="45">
+			<sentence id="45.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="45.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="45.3">----------------------------------------------------------------------</sentence>
+			<sentence id="45.4">Warning!</sentence>
+			<sentence id="45.5">dlname not found in /usr/libexec/apache/mod_cern_meta.</sentence>
+			<sentence id="45.6">la.</sentence>
+			<sentence id="45.7">Assuming installing a .</sentence>
+			<sentence id="45.8">so rather than a libtool archive.</sentence>
+			<sentence id="45.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="45.10">mod_expires.</sentence>
+			<sentence id="45.11">la /usr/libexec/apache/</sentence>
+			<sentence id="45.12">----------------------------------------------------------------------</sentence>
+			<sentence id="45.13">Libraries have been installed in:</sentence>
+			<sentence id="45.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="46">
+			<sentence id="46.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="46.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="46.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="46.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="46.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="46.6">during linking</sentence>
+			<sentence id="46.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="46.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="46.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="47">
+			<sentence id="47.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="47.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="47.3">----------------------------------------------------------------------</sentence>
+			<sentence id="47.4">Warning!</sentence>
+			<sentence id="47.5">dlname not found in /usr/libexec/apache/mod_expires.</sentence>
+			<sentence id="47.6">la.</sentence>
+			<sentence id="47.7">Assuming installing a .</sentence>
+			<sentence id="47.8">so rather than a libtool archive.</sentence>
+			<sentence id="47.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="47.10">mod_headers.</sentence>
+			<sentence id="47.11">la /usr/libexec/apache/</sentence>
+			<sentence id="47.12">----------------------------------------------------------------------</sentence>
+			<sentence id="47.13">Libraries have been installed in:</sentence>
+			<sentence id="47.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="48">
+			<sentence id="48.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="48.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="48.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="48.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="48.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="48.6">during linking</sentence>
+			<sentence id="48.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="48.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="48.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="49">
+			<sentence id="49.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="49.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="49.3">----------------------------------------------------------------------</sentence>
+			<sentence id="49.4">Warning!</sentence>
+			<sentence id="49.5">dlname not found in /usr/libexec/apache/mod_headers.</sentence>
+			<sentence id="49.6">la.</sentence>
+			<sentence id="49.7">Assuming installing a .</sentence>
+			<sentence id="49.8">so rather than a libtool archive.</sentence>
+			<sentence id="49.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="49.10">mod_usertrack.</sentence>
+			<sentence id="49.11">la /usr/libexec/apache/</sentence>
+			<sentence id="49.12">----------------------------------------------------------------------</sentence>
+			<sentence id="49.13">Libraries have been installed in:</sentence>
+			<sentence id="49.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="50">
+			<sentence id="50.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="50.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="50.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="50.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="50.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="50.6">during linking</sentence>
+			<sentence id="50.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="50.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="50.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="51">
+			<sentence id="51.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="51.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="51.3">----------------------------------------------------------------------</sentence>
+			<sentence id="51.4">Warning!</sentence>
+			<sentence id="51.5">dlname not found in /usr/libexec/apache/mod_usertrack.</sentence>
+			<sentence id="51.6">la.</sentence>
+			<sentence id="51.7">Assuming installing a .</sentence>
+			<sentence id="51.8">so rather than a libtool archive.</sentence>
+			<sentence id="51.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="51.10">mod_unique_id.</sentence>
+			<sentence id="51.11">la /usr/libexec/apache/</sentence>
+			<sentence id="51.12">----------------------------------------------------------------------</sentence>
+			<sentence id="51.13">Libraries have been installed in:</sentence>
+			<sentence id="51.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="52">
+			<sentence id="52.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="52.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="52.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="52.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="52.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="52.6">during linking</sentence>
+			<sentence id="52.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="52.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="52.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="53">
+			<sentence id="53.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="53.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="53.3">----------------------------------------------------------------------</sentence>
+			<sentence id="53.4">Warning!</sentence>
+			<sentence id="53.5">dlname not found in /usr/libexec/apache/mod_unique_id.</sentence>
+			<sentence id="53.6">la.</sentence>
+			<sentence id="53.7">Assuming installing a .</sentence>
+			<sentence id="53.8">so rather than a libtool archive.</sentence>
+			<sentence id="53.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="53.10">mod_setenvif.</sentence>
+			<sentence id="53.11">la /usr/libexec/apache/</sentence>
+			<sentence id="53.12">----------------------------------------------------------------------</sentence>
+			<sentence id="53.13">Libraries have been installed in:</sentence>
+			<sentence id="53.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="54">
+			<sentence id="54.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="54.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="54.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="54.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="54.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="54.6">during linking</sentence>
+			<sentence id="54.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="54.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="54.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="55">
+			<sentence id="55.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="55.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="55.3">----------------------------------------------------------------------</sentence>
+			<sentence id="55.4">Warning!</sentence>
+			<sentence id="55.5">dlname not found in /usr/libexec/apache/mod_setenvif.</sentence>
+			<sentence id="55.6">la.</sentence>
+			<sentence id="55.7">Assuming installing a .</sentence>
+			<sentence id="55.8">so rather than a libtool archive.</sentence>
+			<sentence id="55.9">Making install in ssl</sentence>
+			<sentence id="55.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="55.11">mod_ssl.</sentence>
+			<sentence id="55.12">la /usr/libexec/apache/</sentence>
+			<sentence id="55.13">----------------------------------------------------------------------</sentence>
+			<sentence id="55.14">Libraries have been installed in:</sentence>
+			<sentence id="55.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="56">
+			<sentence id="56.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="56.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="56.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="56.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="56.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="56.6">during linking</sentence>
+			<sentence id="56.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="56.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="56.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="57">
+			<sentence id="57.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="57.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="57.3">----------------------------------------------------------------------</sentence>
+			<sentence id="57.4">Warning!</sentence>
+			<sentence id="57.5">dlname not found in /usr/libexec/apache/mod_ssl.</sentence>
+			<sentence id="57.6">la.</sentence>
+			<sentence id="57.7">Assuming installing a .</sentence>
+			<sentence id="57.8">so rather than a libtool archive.</sentence>
+			<sentence id="57.9">Making install in test</sentence>
+			<sentence id="57.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="57.11">mod_bucketeer.</sentence>
+			<sentence id="57.12">la /usr/libexec/apache/</sentence>
+			<sentence id="57.13">----------------------------------------------------------------------</sentence>
+			<sentence id="57.14">Libraries have been installed in:</sentence>
+			<sentence id="57.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="58">
+			<sentence id="58.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="58.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="58.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="58.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="58.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="58.6">during linking</sentence>
+			<sentence id="58.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="58.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="58.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="59">
+			<sentence id="59.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="59.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="59.3">----------------------------------------------------------------------</sentence>
+			<sentence id="59.4">Warning!</sentence>
+			<sentence id="59.5">dlname not found in /usr/libexec/apache/mod_bucketeer.</sentence>
+			<sentence id="59.6">la.</sentence>
+			<sentence id="59.7">Assuming installing a .</sentence>
+			<sentence id="59.8">so rather than a libtool archive.</sentence>
+			<sentence id="59.9">Making install in http</sentence>
+			<sentence id="59.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="59.11">mod_mime.</sentence>
+			<sentence id="59.12">la /usr/libexec/apache/</sentence>
+			<sentence id="59.13">----------------------------------------------------------------------</sentence>
+			<sentence id="59.14">Libraries have been installed in:</sentence>
+			<sentence id="59.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="60">
+			<sentence id="60.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="60.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="60.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="60.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="60.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="60.6">during linking</sentence>
+			<sentence id="60.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="60.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="60.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="61">
+			<sentence id="61.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="61.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="61.3">----------------------------------------------------------------------</sentence>
+			<sentence id="61.4">Warning!</sentence>
+			<sentence id="61.5">dlname not found in /usr/libexec/apache/mod_mime.</sentence>
+			<sentence id="61.6">la.</sentence>
+			<sentence id="61.7">Assuming installing a .</sentence>
+			<sentence id="61.8">so rather than a libtool archive.</sentence>
+			<sentence id="61.9">Making install in dav/main</sentence>
+			<sentence id="61.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="61.11">mod_dav.</sentence>
+			<sentence id="61.12">la /usr/libexec/apache/</sentence>
+			<sentence id="61.13">----------------------------------------------------------------------</sentence>
+			<sentence id="61.14">Libraries have been installed in:</sentence>
+			<sentence id="61.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="62">
+			<sentence id="62.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="62.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="62.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="62.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="62.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="62.6">during linking</sentence>
+			<sentence id="62.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="62.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="62.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="63">
+			<sentence id="63.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="63.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="63.3">----------------------------------------------------------------------</sentence>
+			<sentence id="63.4">Warning!</sentence>
+			<sentence id="63.5">dlname not found in /usr/libexec/apache/mod_dav.</sentence>
+			<sentence id="63.6">la.</sentence>
+			<sentence id="63.7">Assuming installing a .</sentence>
+			<sentence id="63.8">so rather than a libtool archive.</sentence>
+			<sentence id="63.9">Making install in generators</sentence>
+			<sentence id="63.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="63.11">mod_status.</sentence>
+			<sentence id="63.12">la /usr/libexec/apache/</sentence>
+			<sentence id="63.13">----------------------------------------------------------------------</sentence>
+			<sentence id="63.14">Libraries have been installed in:</sentence>
+			<sentence id="63.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="64">
+			<sentence id="64.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="64.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="64.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="64.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="64.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="64.6">during linking</sentence>
+			<sentence id="64.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="64.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="64.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="65">
+			<sentence id="65.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="65.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="65.3">----------------------------------------------------------------------</sentence>
+			<sentence id="65.4">Warning!</sentence>
+			<sentence id="65.5">dlname not found in /usr/libexec/apache/mod_status.</sentence>
+			<sentence id="65.6">la.</sentence>
+			<sentence id="65.7">Assuming installing a .</sentence>
+			<sentence id="65.8">so rather than a libtool archive.</sentence>
+			<sentence id="65.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="65.10">mod_autoindex.</sentence>
+			<sentence id="65.11">la /usr/libexec/apache/</sentence>
+			<sentence id="65.12">----------------------------------------------------------------------</sentence>
+			<sentence id="65.13">Libraries have been installed in:</sentence>
+			<sentence id="65.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="66">
+			<sentence id="66.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="66.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="66.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="66.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="66.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="66.6">during linking</sentence>
+			<sentence id="66.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="66.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="66.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="67">
+			<sentence id="67.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="67.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="67.3">----------------------------------------------------------------------</sentence>
+			<sentence id="67.4">Warning!</sentence>
+			<sentence id="67.5">dlname not found in /usr/libexec/apache/mod_autoindex.</sentence>
+			<sentence id="67.6">la.</sentence>
+			<sentence id="67.7">Assuming installing a .</sentence>
+			<sentence id="67.8">so rather than a libtool archive.</sentence>
+			<sentence id="67.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="67.10">mod_asis.</sentence>
+			<sentence id="67.11">la /usr/libexec/apache/</sentence>
+			<sentence id="67.12">----------------------------------------------------------------------</sentence>
+			<sentence id="67.13">Libraries have been installed in:</sentence>
+			<sentence id="67.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="68">
+			<sentence id="68.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="68.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="68.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="68.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="68.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="68.6">during linking</sentence>
+			<sentence id="68.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="68.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="68.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="69">
+			<sentence id="69.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="69.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="69.3">----------------------------------------------------------------------</sentence>
+			<sentence id="69.4">Warning!</sentence>
+			<sentence id="69.5">dlname not found in /usr/libexec/apache/mod_asis.</sentence>
+			<sentence id="69.6">la.</sentence>
+			<sentence id="69.7">Assuming installing a .</sentence>
+			<sentence id="69.8">so rather than a libtool archive.</sentence>
+			<sentence id="69.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="69.10">mod_info.</sentence>
+			<sentence id="69.11">la /usr/libexec/apache/</sentence>
+			<sentence id="69.12">----------------------------------------------------------------------</sentence>
+			<sentence id="69.13">Libraries have been installed in:</sentence>
+			<sentence id="69.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="70">
+			<sentence id="70.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="70.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="70.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="70.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="70.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="70.6">during linking</sentence>
+			<sentence id="70.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="70.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="70.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="71">
+			<sentence id="71.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="71.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="71.3">----------------------------------------------------------------------</sentence>
+			<sentence id="71.4">Warning!</sentence>
+			<sentence id="71.5">dlname not found in /usr/libexec/apache/mod_info.</sentence>
+			<sentence id="71.6">la.</sentence>
+			<sentence id="71.7">Assuming installing a .</sentence>
+			<sentence id="71.8">so rather than a libtool archive.</sentence>
+			<sentence id="71.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="71.10">mod_suexec.</sentence>
+			<sentence id="71.11">la /usr/libexec/apache/</sentence>
+			<sentence id="71.12">----------------------------------------------------------------------</sentence>
+			<sentence id="71.13">Libraries have been installed in:</sentence>
+			<sentence id="71.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="72">
+			<sentence id="72.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="72.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="72.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="72.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="72.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="72.6">during linking</sentence>
+			<sentence id="72.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="72.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="72.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="73">
+			<sentence id="73.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="73.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="73.3">----------------------------------------------------------------------</sentence>
+			<sentence id="73.4">Warning!</sentence>
+			<sentence id="73.5">dlname not found in /usr/libexec/apache/mod_suexec.</sentence>
+			<sentence id="73.6">la.</sentence>
+			<sentence id="73.7">Assuming installing a .</sentence>
+			<sentence id="73.8">so rather than a libtool archive.</sentence>
+			<sentence id="73.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="73.10">mod_cgi.</sentence>
+			<sentence id="73.11">la /usr/libexec/apache/</sentence>
+			<sentence id="73.12">----------------------------------------------------------------------</sentence>
+			<sentence id="73.13">Libraries have been installed in:</sentence>
+			<sentence id="73.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="74">
+			<sentence id="74.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="74.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="74.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="74.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="74.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="74.6">during linking</sentence>
+			<sentence id="74.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="74.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="74.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="75">
+			<sentence id="75.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="75.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="75.3">----------------------------------------------------------------------</sentence>
+			<sentence id="75.4">Warning!</sentence>
+			<sentence id="75.5">dlname not found in /usr/libexec/apache/mod_cgi.</sentence>
+			<sentence id="75.6">la.</sentence>
+			<sentence id="75.7">Assuming installing a .</sentence>
+			<sentence id="75.8">so rather than a libtool archive.</sentence>
+			<sentence id="75.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="75.10">mod_cgid.</sentence>
+			<sentence id="75.11">la /usr/libexec/apache/</sentence>
+			<sentence id="75.12">----------------------------------------------------------------------</sentence>
+			<sentence id="75.13">Libraries have been installed in:</sentence>
+			<sentence id="75.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="76">
+			<sentence id="76.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="76.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="76.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="76.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="76.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="76.6">during linking</sentence>
+			<sentence id="76.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="76.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="76.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="77">
+			<sentence id="77.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="77.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="77.3">----------------------------------------------------------------------</sentence>
+			<sentence id="77.4">Warning!</sentence>
+			<sentence id="77.5">dlname not found in /usr/libexec/apache/mod_cgid.</sentence>
+			<sentence id="77.6">la.</sentence>
+			<sentence id="77.7">Assuming installing a .</sentence>
+			<sentence id="77.8">so rather than a libtool archive.</sentence>
+			<sentence id="77.9">Making install in dav/fs</sentence>
+			<sentence id="77.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="77.11">mod_dav_fs.</sentence>
+			<sentence id="77.12">la /usr/libexec/apache/</sentence>
+			<sentence id="77.13">----------------------------------------------------------------------</sentence>
+			<sentence id="77.14">Libraries have been installed in:</sentence>
+			<sentence id="77.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="78">
+			<sentence id="78.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="78.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="78.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="78.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="78.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="78.6">during linking</sentence>
+			<sentence id="78.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="78.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="78.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="79">
+			<sentence id="79.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="79.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="79.3">----------------------------------------------------------------------</sentence>
+			<sentence id="79.4">Warning!</sentence>
+			<sentence id="79.5">dlname not found in /usr/libexec/apache/mod_dav_fs.</sentence>
+			<sentence id="79.6">la.</sentence>
+			<sentence id="79.7">Assuming installing a .</sentence>
+			<sentence id="79.8">so rather than a libtool archive.</sentence>
+			<sentence id="79.9">Making install in mappers</sentence>
+			<sentence id="79.10">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="79.11">mod_vhost_alias.</sentence>
+			<sentence id="79.12">la /usr/libexec/apache/</sentence>
+			<sentence id="79.13">----------------------------------------------------------------------</sentence>
+			<sentence id="79.14">Libraries have been installed in:</sentence>
+			<sentence id="79.15">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="80">
+			<sentence id="80.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="80.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="80.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="80.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="80.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="80.6">during linking</sentence>
+			<sentence id="80.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="80.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="80.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="81">
+			<sentence id="81.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="81.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="81.3">----------------------------------------------------------------------</sentence>
+			<sentence id="81.4">Warning!</sentence>
+			<sentence id="81.5">dlname not found in /usr/libexec/apache/mod_vhost_alias.</sentence>
+			<sentence id="81.6">la.</sentence>
+			<sentence id="81.7">Assuming installing a .</sentence>
+			<sentence id="81.8">so rather than a libtool archive.</sentence>
+			<sentence id="81.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="81.10">mod_negotiation.</sentence>
+			<sentence id="81.11">la /usr/libexec/apache/</sentence>
+			<sentence id="81.12">----------------------------------------------------------------------</sentence>
+			<sentence id="81.13">Libraries have been installed in:</sentence>
+			<sentence id="81.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="82">
+			<sentence id="82.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="82.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="82.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="82.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="82.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="82.6">during linking</sentence>
+			<sentence id="82.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="82.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="82.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="83">
+			<sentence id="83.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="83.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="83.3">----------------------------------------------------------------------</sentence>
+			<sentence id="83.4">Warning!</sentence>
+			<sentence id="83.5">dlname not found in /usr/libexec/apache/mod_negotiation.</sentence>
+			<sentence id="83.6">la.</sentence>
+			<sentence id="83.7">Assuming installing a .</sentence>
+			<sentence id="83.8">so rather than a libtool archive.</sentence>
+			<sentence id="83.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="83.10">mod_dir.</sentence>
+			<sentence id="83.11">la /usr/libexec/apache/</sentence>
+			<sentence id="83.12">----------------------------------------------------------------------</sentence>
+			<sentence id="83.13">Libraries have been installed in:</sentence>
+			<sentence id="83.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="84">
+			<sentence id="84.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="84.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="84.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="84.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="84.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="84.6">during linking</sentence>
+			<sentence id="84.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="84.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="84.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="85">
+			<sentence id="85.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="85.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="85.3">----------------------------------------------------------------------</sentence>
+			<sentence id="85.4">Warning!</sentence>
+			<sentence id="85.5">dlname not found in /usr/libexec/apache/mod_dir.</sentence>
+			<sentence id="85.6">la.</sentence>
+			<sentence id="85.7">Assuming installing a .</sentence>
+			<sentence id="85.8">so rather than a libtool archive.</sentence>
+			<sentence id="85.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="85.10">mod_imap.</sentence>
+			<sentence id="85.11">la /usr/libexec/apache/</sentence>
+			<sentence id="85.12">----------------------------------------------------------------------</sentence>
+			<sentence id="85.13">Libraries have been installed in:</sentence>
+			<sentence id="85.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="86">
+			<sentence id="86.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="86.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="86.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="86.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="86.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="86.6">during linking</sentence>
+			<sentence id="86.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="86.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="86.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="87">
+			<sentence id="87.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="87.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="87.3">----------------------------------------------------------------------</sentence>
+			<sentence id="87.4">Warning!</sentence>
+			<sentence id="87.5">dlname not found in /usr/libexec/apache/mod_imap.</sentence>
+			<sentence id="87.6">la.</sentence>
+			<sentence id="87.7">Assuming installing a .</sentence>
+			<sentence id="87.8">so rather than a libtool archive.</sentence>
+			<sentence id="87.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="87.10">mod_actions.</sentence>
+			<sentence id="87.11">la /usr/libexec/apache/</sentence>
+			<sentence id="87.12">----------------------------------------------------------------------</sentence>
+			<sentence id="87.13">Libraries have been installed in:</sentence>
+			<sentence id="87.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="88">
+			<sentence id="88.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="88.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="88.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="88.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="88.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="88.6">during linking</sentence>
+			<sentence id="88.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="88.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="88.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="89">
+			<sentence id="89.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="89.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="89.3">----------------------------------------------------------------------</sentence>
+			<sentence id="89.4">Warning!</sentence>
+			<sentence id="89.5">dlname not found in /usr/libexec/apache/mod_actions.</sentence>
+			<sentence id="89.6">la.</sentence>
+			<sentence id="89.7">Assuming installing a .</sentence>
+			<sentence id="89.8">so rather than a libtool archive.</sentence>
+			<sentence id="89.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="89.10">mod_speling.</sentence>
+			<sentence id="89.11">la /usr/libexec/apache/</sentence>
+			<sentence id="89.12">----------------------------------------------------------------------</sentence>
+			<sentence id="89.13">Libraries have been installed in:</sentence>
+			<sentence id="89.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="90">
+			<sentence id="90.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="90.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="90.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="90.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="90.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="90.6">during linking</sentence>
+			<sentence id="90.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="90.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="90.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="91">
+			<sentence id="91.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="91.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="91.3">----------------------------------------------------------------------</sentence>
+			<sentence id="91.4">Warning!</sentence>
+			<sentence id="91.5">dlname not found in /usr/libexec/apache/mod_speling.</sentence>
+			<sentence id="91.6">la.</sentence>
+			<sentence id="91.7">Assuming installing a .</sentence>
+			<sentence id="91.8">so rather than a libtool archive.</sentence>
+			<sentence id="91.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="91.10">mod_userdir.</sentence>
+			<sentence id="91.11">la /usr/libexec/apache/</sentence>
+			<sentence id="91.12">----------------------------------------------------------------------</sentence>
+			<sentence id="91.13">Libraries have been installed in:</sentence>
+			<sentence id="91.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="92">
+			<sentence id="92.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="92.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="92.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="92.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="92.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="92.6">during linking</sentence>
+			<sentence id="92.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="92.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="92.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="93">
+			<sentence id="93.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="93.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="93.3">----------------------------------------------------------------------</sentence>
+			<sentence id="93.4">Warning!</sentence>
+			<sentence id="93.5">dlname not found in /usr/libexec/apache/mod_userdir.</sentence>
+			<sentence id="93.6">la.</sentence>
+			<sentence id="93.7">Assuming installing a .</sentence>
+			<sentence id="93.8">so rather than a libtool archive.</sentence>
+			<sentence id="93.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="93.10">mod_alias.</sentence>
+			<sentence id="93.11">la /usr/libexec/apache/</sentence>
+			<sentence id="93.12">----------------------------------------------------------------------</sentence>
+			<sentence id="93.13">Libraries have been installed in:</sentence>
+			<sentence id="93.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="94">
+			<sentence id="94.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="94.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="94.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="94.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="94.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="94.6">during linking</sentence>
+			<sentence id="94.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="94.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="94.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="95">
+			<sentence id="95.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="95.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="95.3">----------------------------------------------------------------------</sentence>
+			<sentence id="95.4">Warning!</sentence>
+			<sentence id="95.5">dlname not found in /usr/libexec/apache/mod_alias.</sentence>
+			<sentence id="95.6">la.</sentence>
+			<sentence id="95.7">Assuming installing a .</sentence>
+			<sentence id="95.8">so rather than a libtool archive.</sentence>
+			<sentence id="95.9">/usr/source/httpd-2.0.48/srclib/apr/libtool --silent --mode=install cp</sentence>
+			<sentence id="95.10">mod_rewrite.</sentence>
+			<sentence id="95.11">la /usr/libexec/apache/</sentence>
+			<sentence id="95.12">----------------------------------------------------------------------</sentence>
+			<sentence id="95.13">Libraries have been installed in:</sentence>
+			<sentence id="95.14">/usr/libexec/apache</sentence>
+		</paragraph>
+		<paragraph id="96">
+			<sentence id="96.1">If you ever happen to want to link against installed libraries</sentence>
+			<sentence id="96.2">in a given directory, LIBDIR, you must either use libtool, and</sentence>
+			<sentence id="96.3">specify the full pathname of the library, or use the `-LLIBDIR'</sentence>
+			<sentence id="96.4">flag during linking and do at least one of the following:</sentence>
+			<sentence id="96.5">- add LIBDIR to the `LD_RUN_PATH' environment variable</sentence>
+			<sentence id="96.6">during linking</sentence>
+			<sentence id="96.7">- use the `-Wl,--rpath -Wl,LIBDIR' linker flag</sentence>
+			<sentence id="96.8">- have your system administrator add LIBDIR to `/etc/ld.</sentence>
+			<sentence id="96.9">so.conf'</sentence>
+		</paragraph>
+		<paragraph id="97">
+			<sentence id="97.1">See any operating system documentation about shared libraries for</sentence>
+			<sentence id="97.2">more information, such as the ld(1) and ld.so(8) manual pages.</sentence>
+			<sentence id="97.3">----------------------------------------------------------------------</sentence>
+			<sentence id="97.4">Warning!</sentence>
+			<sentence id="97.5">dlname not found in /usr/libexec/apache/mod_rewrite.</sentence>
+			<sentence id="97.6">la.</sentence>
+			<sentence id="97.7">Assuming installing a .</sentence>
+			<sentence id="97.8">so rather than a libtool archive.</sentence>
+			<sentence id="97.9">Making install in support</sentence>
+		</paragraph>
+		<paragraph id="98">
+			<sentence id="98.1">Building shared: mod_access.la mod_auth.la mod_auth_anon.la mod_auth_dbm.la</sentence>
+			<sentence id="98.2">mod_auth_digest.la</sentence>
+			<sentence id="98.3">Building shared: mod_file_cache.la</sentence>
+			<sentence id="98.4">Building shared: mod_echo.la</sentence>
+			<sentence id="98.5">Building shared: mod_charset_lite.la mod_cache.la mod_disk_cache.la mod_mem_cache.la</sentence>
+			<sentence id="98.6">Building shared: mod_ext_filter.la mod_include.la mod_deflate.la</sentence>
+			<sentence id="98.7">Building shared: mod_log_config.la mod_logio.la</sentence>
+			<sentence id="98.8">Building shared: mod_env.la mod_mime_magic.la mod_cern_meta.la mod_expires.la</sentence>
+			<sentence id="98.9">mod_headers.la mod_usertrack.la mod_unique_id.la mod_setenvif.la</sentence>
+			<sentence id="98.10">Building shared: mod_ssl.la</sentence>
+			<sentence id="98.11">Building shared: mod_bucketeer.la</sentence>
+			<sentence id="98.12">Building shared: mod_mime.la</sentence>
+			<sentence id="98.13">Building shared: mod_dav.la</sentence>
+			<sentence id="98.14">Building shared: mod_status.la mod_autoindex.la mod_asis.la mod_info.la</sentence>
+			<sentence id="98.15">mod_suexec.la mod_cgi.la mod_cgid.la</sentence>
+			<sentence id="98.16">Building shared: mod_dav_fs.la</sentence>
+			<sentence id="98.17">Building shared: mod_vhost_alias.la mod_negotiation.la mod_dir.la mod_imap.la</sentence>
+			<sentence id="98.18">mod_actions.la mod_speling.la mod_userdir.la mod_alias.la mod_rewrite.la</sentence>
+		</paragraph>
+		<paragraph id="99">
+			<sentence id="99.1">cd support &amp;&amp; make suexec
+`suexec' is up to date.</sentence>
+			<sentence id="99.2">Installing configuration files
+[PRESERVING EXISTING HTDOCS SUBDIR: /var/www/htdocs]
+[PRESERVING EXISTING ERROR SUBDIR: /var/www/error]
+[PRESERVING EXISTING ICONS SUBDIR: /var/www/icons]
+[PRESERVING EXISTING CGI SUBDIR: /var/www/cgi-bin]
+Installing header files
+Installing man pages and online manual
+Installing build system files
+test51# exit
+test51# exit</sentence>
+		</paragraph>
+		<paragraph id="100">
+			<sentence id="100.1">Script done on Mon Feb 23 15:33:40 2004</sentence>
+		</paragraph>
+	</description>
+</bug>

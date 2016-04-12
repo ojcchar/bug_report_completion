@@ -1,0 +1,223 @@
+Build/VB version/NN :/: 2.1.2.v20070202-0700/JJ Build/NN </JJR 20070202-0700/CD >/JJR 
+
+(ROOT (S (VP (VB Build) (NP (NP (NN version)) (: :) (NP (NP (NP (JJ 2.1.2.v20070202-0700) (NN Build)) (JJR <)) (NP (CD 20070202-0700) (JJR >)))))))
+
+root(ROOT-0, Build-1)
+dobj(Build-1, version-2)
+amod(Build-5, 2.1.2.v20070202-0700-4)
+dep(<-6, Build-5)
+dep(version-2, <-6)
+num(>-8, 20070202-0700-7)
+dep(<-6, >-8)
+
+Description/NN :/: Eclipse/NNP will/MD hang/VB if/IN add/VB multiple/JJ drivers/NNS one/CD time/NN ./. 
+
+(ROOT (FRAG (NP (NN Description)) (: :) (S (NP (NNP Eclipse)) (VP (MD will) (VP (VB hang) (SBAR (IN if) (SINV (VP (VB add) (NP (JJ multiple) (NNS drivers))) (NP (CD one) (NN time))))))) (. .)))
+
+root(ROOT-0, Description-1)
+nsubj(hang-5, Eclipse-3)
+aux(hang-5, will-4)
+dep(Description-1, hang-5)
+dep(add-7, if-6)
+advcl(hang-5, add-7)
+amod(drivers-9, multiple-8)
+dobj(add-7, drivers-9)
+num(time-11, one-10)
+nsubj(add-7, time-11)
+
+Steps/NNS to/TO reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB reproduce))) (: :)))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+
+1/CD New/NNP a/DT datasource/NN ,/, select/JJ "/`` JDBC/NNP Data/NNP Source/NNP "/'' ./. 
+
+(ROOT (NP (NP (CD 1) (NNP New)) (NP (NP (DT a) (NN datasource)) (, ,) (NP (NP (JJ select)) (`` ``) (NP (NNP JDBC) (NNP Data) (NNP Source) ('' '')))) (. .)))
+
+root(ROOT-0, New-2)
+num(New-2, 1-1)
+det(datasource-4, a-3)
+dep(New-2, datasource-4)
+appos(datasource-4, select-6)
+nn(Source-10, JDBC-8)
+nn(Source-10, Data-9)
+dep(select-6, Source-10)
+
+2/CD Click/VB "/`` Manage/VB Drivers/NNS ./. 
+
+(ROOT (S (NP (CD 2)) (VP (VB Click) (NP (SBAR (`` ``) (S (VP (VB Manage) (NP (NNS Drivers))))))) (. .)))
+
+root(ROOT-0, Click-2)
+nsubj(Click-2, 2-1)
+dobj(Click-2, Manage-4)
+dobj(Manage-4, Drivers-5)
+
+./. "/'' 
+
+(ROOT (S (VP (. .) ('' ''))))
+
+
+,/, and/CC add/VB 6/CD drivers/NNS a/DT time/NN ./. 
+
+(ROOT (PRN (, ,) (S (NP (CC and)) (VP (VB add) (NP (NP (CD 6) (NNS drivers)) (FRAG (NP (DT a) (NN time) (. .))))))))
+
+root(ROOT-0, add-3)
+nsubj(add-3, and-2)
+num(drivers-5, 6-4)
+dobj(add-3, drivers-5)
+det(time-7, a-6)
+dep(drivers-5, time-7)
+
+Expected/VBN result/NN :/: It/PRP works/VBZ without/IN any/DT problem/NN ./. 
+
+(ROOT (S (S (VP (VBN Expected) (NP (NN result)))) (: :) (S (NP (PRP It)) (VP (VBZ works) (PP (IN without) (NP (DT any) (NN problem))))) (. .)))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, result-2)
+nsubj(works-5, It-4)
+parataxis(Expected-1, works-5)
+det(problem-8, any-7)
+prep_without(works-5, problem-8)
+
+Actual/JJ result/NN :/: Eclipse/NNP will/MD hanp/VB up/RP ,/, and/CC no/DT reponse/NN ./. 
+
+(ROOT (NP (NP (JJ Actual) (NN result)) (: :) (NP (NP (NP (NNP Eclipse)) (SBAR (S (VP (MD will) (VP (VB hanp) (PRT (RP up))))))) (, ,) (CC and) (NP (DT no) (NN reponse))) (. .)))
+
+root(ROOT-0, result-2)
+amod(result-2, Actual-1)
+dep(result-2, Eclipse-4)
+aux(hanp-6, will-5)
+rcmod(Eclipse-4, hanp-6)
+prt(hanp-6, up-7)
+neg(reponse-11, no-10)
+dep(result-2, reponse-11)
+conj_and(Eclipse-4, reponse-11)
+
+Error/NN log/NN generates/VBZ ./. 
+
+(ROOT (S (NP (NN Error) (NN log)) (VP (VBZ generates)) (. .)))
+
+root(ROOT-0, generates-3)
+nn(log-2, Error-1)
+nsubj(generates-3, log-2)
+
+Error/NN :/: 
+
+(ROOT (NP (NN Error) (: :)))
+
+root(ROOT-0, Error-1)
+
+An/DT unexpected/JJ exception/NN has/VBZ been/VBN detected/VBN in/IN native/JJ code/NN outside/IN the/DT VM/NNP ./. 
+
+(ROOT (S (NP (DT An) (JJ unexpected) (NN exception)) (VP (VBZ has) (VP (VBN been) (VP (VBN detected) (PP (IN in) (NP (NP (JJ native) (NN code)) (PP (IN outside) (NP (DT the) (NNP VM)))))))) (. .)))
+
+root(ROOT-0, detected-6)
+det(exception-3, An-1)
+amod(exception-3, unexpected-2)
+nsubjpass(detected-6, exception-3)
+aux(detected-6, has-4)
+auxpass(detected-6, been-5)
+amod(code-9, native-8)
+prep_in(detected-6, code-9)
+det(VM-12, the-11)
+prep_outside(code-9, VM-12)
+
+Unexpected/JJ Signal/NN :/: EXCEPTION_ACCESS_VIOLATION/NN (/-LRB- 0xc0000005/NN )/-RRB- occurred/VBD at/IN PC/NN =/JJ 0x2DA44A1/NN Function/NN =/JJ [/-LRB- Unknown/JJ ./. ]/-RRB- 
+
+(ROOT (S (NP (NP (NP (JJ Unexpected) (NN Signal)) (: :) (NP (NN EXCEPTION_ACCESS_VIOLATION))) (PRN (-LRB- -LRB-) (NP (NN 0xc0000005)) (-RRB- -RRB-))) (VP (VBD occurred) (PP (IN at) (NP (NN PC))) (NP (NP (JJ =) (NN 0x2DA44A1) (NN Function)) (ADJP (JJ =) (-LRB- -LSB-) (JJ Unknown)))) (. .) (-RRB- -RSB-)))
+
+root(ROOT-0, occurred-8)
+amod(Signal-2, Unexpected-1)
+nsubj(occurred-8, Signal-2)
+dep(Signal-2, EXCEPTION_ACCESS_VIOLATION-4)
+appos(Signal-2, 0xc0000005-6)
+prep_at(occurred-8, PC-10)
+amod(Function-13, =-11)
+nn(Function-13, 0x2DA44A1-12)
+dobj(occurred-8, Function-13)
+amod(Unknown-16, =-14)
+punct(Unknown-16, -LSB--15)
+amod(Function-13, Unknown-16)
+punct(occurred-8, -RSB--18)
+
+Library/NNP =/JJ C/NN :/: \/JJ WINDOWS/NNS \/VBP system32/NN \/CD micsupp.dll/NN 
+
+(ROOT (SINV (FRAG (NP (NP (NNP Library) (JJ =) (NN C)) (: :) (NP (JJ \) (NNS WINDOWS)))) (VP (VBP \) (NP (NN system32))) (NP (CD \) (NN micsupp.dll))))
+
+root(ROOT-0, \-7)
+nn(C-3, Library-1)
+amod(C-3, =-2)
+dep(\-7, C-3)
+amod(WINDOWS-6, \-5)
+dep(C-3, WINDOWS-6)
+dobj(\-7, system32-8)
+num(micsupp.dll-10, \-9)
+nsubj(\-7, micsupp.dll-10)
+
+NOTE/VB :/: We/PRP are/VBP unable/JJ to/TO locate/VB the/DT function/NN name/NN symbol/NN for/IN the/DT error/NN just/RB occurred/VBD ./. 
+
+(ROOT (NP (NP (VB NOTE)) (: :) (S (NP (PRP We)) (VP (VBP are) (ADJP (JJ unable) (S (VP (TO to) (VP (VB locate) (NP (DT the) (NN function) (NN name) (NN symbol)) (SBAR (IN for) (S (NP (DT the) (NN error)) (ADVP (RB just)) (VP (VBD occurred)))))))))) (. .)))
+
+root(ROOT-0, NOTE-1)
+nsubj(unable-5, We-3)
+cop(unable-5, are-4)
+dep(NOTE-1, unable-5)
+aux(locate-7, to-6)
+xcomp(unable-5, locate-7)
+det(symbol-11, the-8)
+nn(symbol-11, function-9)
+nn(symbol-11, name-10)
+dobj(locate-7, symbol-11)
+mark(occurred-16, for-12)
+det(error-14, the-13)
+nsubj(occurred-16, error-14)
+advmod(occurred-16, just-15)
+advcl(locate-7, occurred-16)
+
+Please/VB refer/VB to/TO release/VB documentation/NN for/IN possible/JJ reason/NN and/CC solutions/NNS ./. 
+
+(ROOT (S (VP (VB Please) (VP (VB refer) (S (VP (TO to) (VP (VB release) (NP (NN documentation)) (PP (IN for) (NP (JJ possible) (NN reason) (CC and) (NNS solutions)))))))) (. .)))
+
+root(ROOT-0, Please-1)
+xcomp(Please-1, refer-2)
+aux(release-4, to-3)
+xcomp(refer-2, release-4)
+dobj(release-4, documentation-5)
+amod(reason-8, possible-7)
+prep_for(release-4, reason-8)
+prep_for(release-4, solutions-10)
+conj_and(reason-8, solutions-10)
+
+Current/JJ Java/NNP thread/NN :/: 
+
+(ROOT (NP (NP (JJ Current) (NNP Java) (NN thread)) (: :)))
+
+root(ROOT-0, thread-3)
+amod(thread-3, Current-1)
+nn(thread-3, Java-2)
+
+-/: locked/VBN </JJR 0x11649a68/CD >/JJR (/-LRB- a/DT org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader/NN )/-RRB- 
+
+(ROOT (PRN (: -) (S (VP (VBN locked) (NP (NP (JJR <)) (ADJP (ADJP (NP (CD 0x11649a68)) (JJR >)) (PRN (-LRB- -LRB-) (NP (DT a) (NN org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader)) (-RRB- -RRB-))))))))
+
+root(ROOT-0, locked-2)
+dobj(locked-2, <-3)
+npadvmod(>-5, 0x11649a68-4)
+amod(<-3, >-5)
+det(org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader-8, a-7)
+dep(>-5, org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader-8)
+
+-/: locked/VBN </JJR 0x11649a68/CD >/JJR (/-LRB- a/DT org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader/NN )/-RRB- 
+
+(ROOT (PRN (: -) (S (VP (VBN locked) (NP (NP (JJR <)) (ADJP (ADJP (NP (CD 0x11649a68)) (JJR >)) (PRN (-LRB- -LRB-) (NP (DT a) (NN org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader)) (-RRB- -RRB-))))))))
+
+root(ROOT-0, locked-2)
+dobj(locked-2, <-3)
+npadvmod(>-5, 0x11649a68-4)
+amod(<-3, >-5)
+det(org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader-8, a-7)
+dep(>-5, org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader-8)
+

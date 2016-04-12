@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>90341</id>
+	<title>[Contributions] ViewerActionBuilder processes more config elements than it should</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">3 1 M6</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Tracing through ViewerActionBuilder.readViewerContributions (while looking at</sentence>
+			<sentence id="2.2">bug 78460), I found that it:</sentence>
+			<sentence id="2.3">- gets all popupMenus extensions</sentence>
+			<sentence id="2.4">- sorts them by plugin id</sentence>
+			<sentence id="2.5">- selects only the &lt;viewerContribution&gt; elements with a matching targetId</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">It would be faster to:</sentence>
+			<sentence id="3.2">- get all popupMenus extensions</sentence>
+			<sentence id="3.3">- select only the &lt;viewerContribution&gt; elements with a matching targetId</sentence>
+			<sentence id="3.4">- sorts them by plugin id</sentence>
+		</paragraph>
+	</description>
+</bug>

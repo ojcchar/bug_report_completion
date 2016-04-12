@@ -1,0 +1,104 @@
+If/IN you/PRP create/VBP a/DT list/NN using/VBG the/DT List/NN (/-LRB- Shell/NNP ,/, SWT.MUlTI/NNP |/CD SWT.SIMPLE/NN )/-RRB- constructor/NN ,/, it/PRP will/MD not/RB correctly/RB handle/VB events/NNS in/IN Motif/NN ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (PRP you)) (VP (VBP create) (S (NP (DT a) (NN list)) (VP (VBG using) (NP (DT the) (NN List) (PRN (-LRB- -LRB-) (NP (NP (NNP Shell)) (, ,) (NP (NNP SWT.MUlTI) (CD |) (NN SWT.SIMPLE))) (-RRB- -RRB-)) (NN constructor))))))) (, ,) (NP (PRP it)) (VP (MD will) (RB not) (ADVP (RB correctly)) (VP (VB handle) (NP (NNS events)) (PP (IN in) (NP (NN Motif))))) (. .)))
+
+root(ROOT-0, handle-22)
+mark(create-3, If-1)
+nsubj(create-3, you-2)
+advcl(handle-22, create-3)
+det(list-5, a-4)
+nsubj(using-6, list-5)
+dep(create-3, using-6)
+det(constructor-16, the-7)
+nn(constructor-16, List-8)
+dep(constructor-16, Shell-10)
+nn(SWT.SIMPLE-14, SWT.MUlTI-12)
+num(SWT.SIMPLE-14, |-13)
+appos(Shell-10, SWT.SIMPLE-14)
+dobj(using-6, constructor-16)
+nsubj(handle-22, it-18)
+aux(handle-22, will-19)
+neg(handle-22, not-20)
+advmod(handle-22, correctly-21)
+dobj(handle-22, events-23)
+prep_in(handle-22, Motif-25)
+
+In/IN the/DT following/VBG example/NN ,/, events/NNS on/IN the/DT list/NN are/VBP reported/VBN to/TO the/DT terminal/JJ by/IN GTK/NN but/CC NOT/RB by/IN Motif/NN ./. 
+
+(ROOT (S (PP (IN In) (NP (DT the) (VBG following) (NN example))) (, ,) (NP (NP (NNS events)) (PP (IN on) (NP (DT the) (NN list)))) (VP (VBP are) (VP (VBN reported) (PP (TO to) (NP (DT the) (UCP (ADJP (JJ terminal) (PP (IN by) (NP (NN GTK)))) (CC but) (PP (ADVP (RB NOT)) (IN by))) (NN Motif))))) (. .)))
+
+root(ROOT-0, reported-11)
+det(example-4, the-2)
+amod(example-4, following-3)
+prep_in(reported-11, example-4)
+nsubjpass(reported-11, events-6)
+det(list-9, the-8)
+prep_on(events-6, list-9)
+auxpass(reported-11, are-10)
+det(Motif-20, the-13)
+amod(Motif-20, terminal-14)
+prep_by(terminal-14, GTK-16)
+advmod(by-19, NOT-18)
+conj_but(terminal-14, by-19)
+amod(Motif-20, by-19)
+prep_to(reported-11, Motif-20)
+
+import/NN org.eclipse.swt.SWT/NN ;/: import/NN org.eclipse.swt.layout.FillLayout/NN ;/: import/NN org.eclipse.swt.widgets.Display/NN ;/: import/NN org.eclipse.swt.widgets.Event/NN ;/: import/NN org.eclipse.swt.widgets.List/NN ;/: import/NN org.eclipse.swt.widgets.Listener/NN ;/: import/NN org.eclipse.swt.widgets.Shell/NN ;/: 
+
+(ROOT (NP (NP (NN import) (NN org.eclipse.swt.SWT)) (: ;) (S (S (NP (NP (NN import) (NN org.eclipse.swt.layout.FillLayout)) (: ;) (NP (NN import) (NN org.eclipse.swt.widgets.Display)) (: ;)) (NP (NN import) (NN org.eclipse.swt.widgets.Event))) (: ;) (S (NP (NN import) (NN org.eclipse.swt.widgets.List)) (: ;) (NP (NP (NN import) (NN org.eclipse.swt.widgets.Listener)) (: ;) (NP (NN import) (NN org.eclipse.swt.widgets.Shell)) (: ;))))))
+
+root(ROOT-0, org.eclipse.swt.SWT-2)
+nn(org.eclipse.swt.SWT-2, import-1)
+nn(org.eclipse.swt.layout.FillLayout-5, import-4)
+dep(org.eclipse.swt.widgets.Event-11, org.eclipse.swt.layout.FillLayout-5)
+nn(org.eclipse.swt.widgets.Display-8, import-7)
+dep(org.eclipse.swt.layout.FillLayout-5, org.eclipse.swt.widgets.Display-8)
+nn(org.eclipse.swt.widgets.Event-11, import-10)
+dep(org.eclipse.swt.SWT-2, org.eclipse.swt.widgets.Event-11)
+nn(org.eclipse.swt.widgets.List-14, import-13)
+dep(org.eclipse.swt.widgets.Listener-17, org.eclipse.swt.widgets.List-14)
+nn(org.eclipse.swt.widgets.Listener-17, import-16)
+parataxis(org.eclipse.swt.widgets.Event-11, org.eclipse.swt.widgets.Listener-17)
+nn(org.eclipse.swt.widgets.Shell-20, import-19)
+dep(org.eclipse.swt.widgets.Listener-17, org.eclipse.swt.widgets.Shell-20)
+
+public/JJ class/NN SWTListTest/NN {/-LRB- Display/VB display/NN ;/: Shell/NNP shell/NN ;/: List/NN list/NN ;/: 
+
+(ROOT (NP (NP (NP (NP (JJ public) (NN class) (NN SWTListTest)) (-LRB- -LCB-) (NP (S (VP (VB Display) (NP (NN display)))) (: ;) (NP (NP (NNP Shell)) (NP (NN shell)))) (: ;)) (PRN (NP (NN List) (NN list)))) (: ;)))
+
+root(ROOT-0, SWTListTest-3)
+amod(SWTListTest-3, public-1)
+nn(SWTListTest-3, class-2)
+dep(Shell-8, Display-5)
+dobj(Display-5, display-6)
+dep(SWTListTest-3, Shell-8)
+dep(Shell-8, shell-9)
+nn(list-12, List-11)
+dep(SWTListTest-3, list-12)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+public/JJ static/JJ void/NN main/JJ (/-LRB- String/NNP [/-LRB- ]/-RRB- args/NNS )/-RRB- {/-LRB- new/JJ SWTListTest/NN (/-LRB- )/-RRB- ./. 
+
+(ROOT (NP (NP (JJ public) (JJ static) (NN void)) (NP (NP (NP (JJ main)) (PRN (-LRB- -LRB-) (NP (NNP String)) (-LRB- -LSB-) (NP (-RRB- -RSB-) (NNS args)) (-RRB- -RRB-))) (PRN (-LRB- -LCB-) (NP (JJ new) (NN SWTListTest) (-LRB- -LRB-)) (-RRB- -RRB-))) (. .)))
+
+root(ROOT-0, void-3)
+amod(void-3, public-1)
+amod(void-3, static-2)
+dep(void-3, main-4)
+appos(main-4, String-6)
+punct(String-6, -LSB--7)
+punct(args-9, -RSB--8)
+dep(String-6, args-9)
+amod(SWTListTest-13, new-12)
+appos(main-4, SWTListTest-13)
+
+run/NN (/-LRB- )/-RRB- ;/: }/-RRB- }/-RRB- 
+
+(ROOT (NP (NP (NN run)) (PRN (-LRB- -LRB-) (NP (NP (-RRB- -RRB-)) (: ;) (NP (-RRB- -RCB-))) (-RRB- -RCB-))))
+
+root(ROOT-0, run-1)
+

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>43533</id>
+	<title>Frequent crashes in mod_include's bndm()</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Over the past years Apache has crashed several times every hour.</sentence>
+			<sentence id="1.2">I've been running Apache 2 since 2.0.40 and now we're up at 2.0.61 and still
+experiencing these crashes so I guess it's about time I report this bug.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Our site heavily relies on SSI, in particular &lt;!</sentence>
+			<sentence id="2.2">--#include virtual=.</sentence>
+			<sentence id="2.3">.</sentence>
+			<sentence id="2.4">--&gt;
+(they're often nested aswell), and mod_rewrite.</sentence>
+			<sentence id="2.5">Output is compressed with
+mod_deflate.</sentence>
+			<sentence id="2.6">Often the crashdumps looks like this:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">crashdump[26541]: crashdump[26541]: Thread 20 Crashed:</sentence>
+			<sentence id="3.2">crashdump[26541]: 0   httpd                      0x000047a0 bndm + 120</sentence>
+			<sentence id="3.3">(mod_include.</sentence>
+			<sentence id="3.4">c:317)</sentence>
+			<sentence id="3.5">crashdump[26541]: 1   httpd                      0x0000a100 find_start_sequence</sentence>
+			<sentence id="3.6">+ 136 (mod_include.</sentence>
+			<sentence id="3.7">c:2388)</sentence>
+			<sentence id="3.8">crashdump[26541]: 2   httpd                      0x0000bad0 send_parsed_content</sentence>
+			<sentence id="3.9">+ 1288 (mod_include.</sentence>
+			<sentence id="3.10">c:3054)</sentence>
+			<sentence id="3.11">crashdump[26541]: 3   httpd                      0x0000dbf8 includes_filter +</sentence>
+			<sentence id="3.12">1468 (mod_include.</sentence>
+			<sentence id="3.13">c:3591)</sentence>
+			<sentence id="3.14">crashdump[26541]: 4   httpd                      0x00068e30 ap_pass_brigade +</sentence>
+			<sentence id="3.15">236 (util_filter.</sentence>
+			<sentence id="3.16">c:512)</sentence>
+			<sentence id="3.17">crashdump[26541]: 5   httpd                      0x0004a5c8 default_handler +</sentence>
+			<sentence id="3.18">1888 (core.c:3648)</sentence>
+			<sentence id="3.19">crashdump[26541]: 6   httpd                      0x00060038 ap_run_handler + 136</sentence>
+			<sentence id="3.20">(config.c:152)</sentence>
+			<sentence id="3.21">crashdump[26541]: 7   httpd                      0x00060d8c ap_invoke_handler +</sentence>
+			<sentence id="3.22">424 (config.c:364)</sentence>
+			<sentence id="3.23">crashdump[26541]: 8   httpd                      0x00051f98 ap_run_sub_req + 104</sentence>
+			<sentence id="3.24">(request.c:1855)</sentence>
+			<sentence id="3.25">crashdump[26541]: 9   httpd                      0x00005a68 handle_include + 968</sentence>
+			<sentence id="3.26">(mod_include.</sentence>
+			<sentence id="3.27">c:782)</sentence>
+			<sentence id="3.28">crashdump[26541]: 10  httpd                      0x0000cc80 send_parsed_content</sentence>
+			<sentence id="3.29">+ 5816 (mod_include.</sentence>
+			<sentence id="3.30">c:3309)</sentence>
+			<sentence id="3.31">crashdump[26541]: 11  httpd                      0x0000dbf8 includes_filter +</sentence>
+			<sentence id="3.32">1468 (mod_include.</sentence>
+			<sentence id="3.33">c:3591)</sentence>
+			<sentence id="3.34">crashdump[26541]: 12  httpd                      0x00068e30 ap_pass_brigade +</sentence>
+			<sentence id="3.35">236 (util_filter.</sentence>
+			<sentence id="3.36">c:512)</sentence>
+			<sentence id="3.37">crashdump[26541]: 13  httpd                      0x0004a5c8 default_handler +</sentence>
+			<sentence id="3.38">1888 (core.c:3648)</sentence>
+			<sentence id="3.39">crashdump[26541]: 14  httpd                      0x00060038 ap_run_handler + 136</sentence>
+			<sentence id="3.40">(config.c:152)</sentence>
+			<sentence id="3.41">crashdump[26541]: 15  httpd                      0x00060d8c ap_invoke_handler +</sentence>
+			<sentence id="3.42">424 (config.c:364)</sentence>
+			<sentence id="3.43">crashdump[26541]: 16  httpd                      0x0001d980 ap_process_request +</sentence>
+			<sentence id="3.44">148 (http_request.</sentence>
+			<sentence id="3.45">c:249)</sentence>
+			<sentence id="3.46">crashdump[26541]: 17  httpd                      0x000145a4</sentence>
+			<sentence id="3.47">ap_process_http_connection + 136 (http_core.</sentence>
+			<sentence id="3.48">c:255)</sentence>
+			<sentence id="3.49">crashdump[26541]: 18  httpd                      0x0006bcdc</sentence>
+			<sentence id="3.50">ap_run_process_connection + 136 (connection.c:43)</sentence>
+			<sentence id="3.51">crashdump[26541]: 19  httpd                      0x0006c318</sentence>
+			<sentence id="3.52">ap_process_connection + 132 (connection.c:178)</sentence>
+			<sentence id="3.53">crashdump[26541]: 20  httpd                      0x0003b408 process_socket + 196</sentence>
+			<sentence id="3.54">(worker.c:523)</sentence>
+			<sentence id="3.55">crashdump[26541]: 21  httpd                      0x0003befc worker_thread + 552</sentence>
+			<sentence id="3.56">(worker.c:843)</sentence>
+			<sentence id="3.57">crashdump[26541]: 22  libapr-0.0.</sentence>
+			<sentence id="3.58">dylib           0x003796f0 dummy_worker + 68</sentence>
+			<sentence id="3.59">(thread.c:105)</sentence>
+			<sentence id="3.60">crashdump[26541]: 23  libSystem.B.dylib          0x9002bd08 _pthread_body + 96</sentence>
+			<sentence id="3.61">--------------------------</sentence>
+			<sentence id="3.62">crashdump[4103]: crashdump[4103]: Thread 15 Crashed:</sentence>
+			<sentence id="3.63">crashdump[4103]: 0   httpd                       0x000047a0 bndm + 120</sentence>
+			<sentence id="3.64">(mod_include.</sentence>
+			<sentence id="3.65">c:317)</sentence>
+			<sentence id="3.66">crashdump[4103]: 1   httpd                       0x0000a100 find_start_sequence</sentence>
+			<sentence id="3.67">+ 136 (mod_include.</sentence>
+			<sentence id="3.68">c:2388)</sentence>
+			<sentence id="3.69">crashdump[4103]: 2   httpd                       0x0000bad0 send_parsed_content</sentence>
+			<sentence id="3.70">+ 1288 (mod_include.</sentence>
+			<sentence id="3.71">c:3054)</sentence>
+			<sentence id="3.72">crashdump[4103]: 3   httpd                       0x0000dbf8 includes_filter +</sentence>
+			<sentence id="3.73">1468 (mod_include.</sentence>
+			<sentence id="3.74">c:3591)</sentence>
+			<sentence id="3.75">crashdump[4103]: 4   httpd                       0x00068e30 ap_pass_brigade +</sentence>
+			<sentence id="3.76">236 (util_filter.</sentence>
+			<sentence id="3.77">c:512)</sentence>
+			<sentence id="3.78">crashdump[4103]: 5   httpd                       0x0004a5c8 default_handler +</sentence>
+			<sentence id="3.79">1888 (core.c:3648)</sentence>
+			<sentence id="3.80">crashdump[4103]: 6   httpd                       0x00060038 ap_run_handler + 136</sentence>
+			<sentence id="3.81">(config.c:152)</sentence>
+			<sentence id="3.82">crashdump[4103]: 7   httpd                       0x00060d8c ap_invoke_handler +</sentence>
+			<sentence id="3.83">424 (config.c:364)</sentence>
+			<sentence id="3.84">crashdump[4103]: 8   httpd                       0x00051f98 ap_run_sub_req + 104</sentence>
+			<sentence id="3.85">(request.c:1855)</sentence>
+			<sentence id="3.86">crashdump[4103]: 9   httpd                       0x00005a68 handle_include + 968</sentence>
+			<sentence id="3.87">(mod_include.</sentence>
+			<sentence id="3.88">c:782)</sentence>
+			<sentence id="3.89">crashdump[4103]: 10  httpd                       0x0000cc80 send_parsed_content</sentence>
+			<sentence id="3.90">+ 5816 (mod_include.</sentence>
+			<sentence id="3.91">c:3309)</sentence>
+			<sentence id="3.92">crashdump[4103]: 11  httpd                       0x0000dbf8 includes_filter +</sentence>
+			<sentence id="3.93">1468 (mod_include.</sentence>
+			<sentence id="3.94">c:3591)</sentence>
+			<sentence id="3.95">crashdump[4103]: 12  httpd                       0x00068e30 ap_pass_brigade +</sentence>
+			<sentence id="3.96">236 (util_filter.</sentence>
+			<sentence id="3.97">c:512)</sentence>
+			<sentence id="3.98">crashdump[4103]: 13  httpd                       0x0004a5c8 default_handler +</sentence>
+			<sentence id="3.99">1888 (core.c:3648)</sentence>
+			<sentence id="3.100">crashdump[4103]: 14  httpd                       0x00060038 ap_run_handler + 136</sentence>
+			<sentence id="3.101">(config.c:152)</sentence>
+			<sentence id="3.102">crashdump[4103]: 15  httpd                       0x00060d8c ap_invoke_handler +</sentence>
+			<sentence id="3.103">424 (config.c:364)</sentence>
+			<sentence id="3.104">crashdump[4103]: 16  httpd                       0x0001d980 ap_process_request +</sentence>
+			<sentence id="3.105">148 (http_request.</sentence>
+			<sentence id="3.106">c:249)</sentence>
+			<sentence id="3.107">crashdump[4103]: 17  httpd                       0x000145a4</sentence>
+			<sentence id="3.108">ap_process_http_connection + 136 (http_core.</sentence>
+			<sentence id="3.109">c:255)</sentence>
+			<sentence id="3.110">crashdump[4103]: 18  httpd                       0x0006bcdc</sentence>
+			<sentence id="3.111">ap_run_process_connection + 136 (connection.c:43)</sentence>
+			<sentence id="3.112">crashdump[4103]: 19  httpd                       0x0006c318</sentence>
+			<sentence id="3.113">ap_process_connection + 132 (connection.c:178)</sentence>
+			<sentence id="3.114">crashdump[4103]: 20  httpd                       0x0003b408 process_socket + 196</sentence>
+			<sentence id="3.115">(worker.c:523)</sentence>
+			<sentence id="3.116">crashdump[4103]: 21  httpd                       0x0003befc worker_thread + 552</sentence>
+			<sentence id="3.117">(worker.c:843)</sentence>
+			<sentence id="3.118">crashdump[4103]: 22  libapr-0.0.</sentence>
+			<sentence id="3.119">dylib            0x003796f0 dummy_worker + 68</sentence>
+			<sentence id="3.120">(thread.c:105)</sentence>
+			<sentence id="3.121">crashdump[4103]: 23  libSystem.B.dylib           0x9002bd08 _pthread_body + 96</sentence>
+			<sentence id="3.122">------------------</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I saw someone else having a similar problem here.</sentence>
+			<sentence id="4.2">There was an open bug about
+random crashes in crc32 and bndm, but with Apache 2.2.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I've tried to log the PID along with the HTTP requests into a logfile and
+grepping out the PID after the crash but I guess the thread crashes before the
+log is written since I'm not finding anything interesting there.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I've not been able to reproduce this but it keeps happening several times each
+hour.</sentence>
+			<sentence id="6.2">Since we've got a fair share of traffic to this host I can't really gdb
+Apache and wait for a crash and see what's going on.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">It might be a memory corruption since we're getting crashes in other places
+aswell.</sentence>
+			<sentence id="7.2">It's not likely to be a hardware problem since the box have been
+replaced two times already (for performance reasons) and the crashes have
+continued on the new hardware aswell.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Here's one of the other crashes we're getting quite frequently but not as</sentence>
+			<sentence id="8.2">frequently as with bndm():</sentence>
+			<sentence id="8.3">crashdump[14604]: crashdump[14604]: Thread 7 Crashed:</sentence>
+			<sentence id="8.4">crashdump[14604]: 0   httpd                      0x0000a6c0 find_directive + 284</sentence>
+			<sentence id="8.5">(mod_include.</sentence>
+			<sentence id="8.6">c:2552)</sentence>
+			<sentence id="8.7">crashdump[14604]: 1   httpd                      0x0000bf14 send_parsed_content</sentence>
+			<sentence id="8.8">+ 2380 (mod_include.</sentence>
+			<sentence id="8.9">c:3118)</sentence>
+			<sentence id="8.10">crashdump[14604]: 2   httpd                      0x0000dbf8 includes_filter +</sentence>
+			<sentence id="8.11">1468 (mod_include.</sentence>
+			<sentence id="8.12">c:3591)</sentence>
+			<sentence id="8.13">crashdump[14604]: 3   httpd                      0x00068e30 ap_pass_brigade +</sentence>
+			<sentence id="8.14">236 (util_filter.</sentence>
+			<sentence id="8.15">c:512)</sentence>
+			<sentence id="8.16">crashdump[14604]: 4   httpd                      0x0004a5c8 default_handler +</sentence>
+			<sentence id="8.17">1888 (core.c:3648)</sentence>
+			<sentence id="8.18">crashdump[14604]: 5   httpd                      0x00060038 ap_run_handler + 136</sentence>
+			<sentence id="8.19">(config.c:152)</sentence>
+			<sentence id="8.20">crashdump[14604]: 6   httpd                      0x00060d8c ap_invoke_handler +</sentence>
+			<sentence id="8.21">424 (config.c:364)</sentence>
+			<sentence id="8.22">crashdump[14604]: 7   httpd                      0x00051f98 ap_run_sub_req + 104</sentence>
+			<sentence id="8.23">(request.c:1855)</sentence>
+			<sentence id="8.24">crashdump[14604]: 8   httpd                      0x00005a68 handle_include + 968</sentence>
+			<sentence id="8.25">(mod_include.</sentence>
+			<sentence id="8.26">c:782)</sentence>
+			<sentence id="8.27">crashdump[14604]: 9   httpd                      0x0000cc80 send_parsed_content</sentence>
+			<sentence id="8.28">+ 5816 (mod_include.</sentence>
+			<sentence id="8.29">c:3309)</sentence>
+			<sentence id="8.30">crashdump[14604]: 10  httpd                      0x0000dbf8 includes_filter +</sentence>
+			<sentence id="8.31">1468 (mod_include.</sentence>
+			<sentence id="8.32">c:3591)</sentence>
+			<sentence id="8.33">crashdump[14604]: 11  httpd                      0x00068e30 ap_pass_brigade +</sentence>
+			<sentence id="8.34">236 (util_filter.</sentence>
+			<sentence id="8.35">c:512)</sentence>
+			<sentence id="8.36">crashdump[14604]: 12  httpd                      0x0004a5c8 default_handler +</sentence>
+			<sentence id="8.37">1888 (core.c:3648)</sentence>
+			<sentence id="8.38">crashdump[14604]: 13  httpd                      0x00060038 ap_run_handler + 136</sentence>
+			<sentence id="8.39">(config.c:152)</sentence>
+			<sentence id="8.40">crashdump[14604]: 14  httpd                      0x00060d8c ap_invoke_handler +</sentence>
+			<sentence id="8.41">424 (config.c:364)</sentence>
+			<sentence id="8.42">crashdump[14604]: 15  httpd                      0x00051f98 ap_run_sub_req + 104</sentence>
+			<sentence id="8.43">(request.c:1855)</sentence>
+			<sentence id="8.44">crashdump[14604]: 16  httpd                      0x00005a68 handle_include + 968</sentence>
+			<sentence id="8.45">(mod_include.</sentence>
+			<sentence id="8.46">c:782)</sentence>
+			<sentence id="8.47">crashdump[14604]: 17  httpd                      0x0000cc80 send_parsed_content</sentence>
+			<sentence id="8.48">+ 5816 (mod_include.</sentence>
+			<sentence id="8.49">c:3309)</sentence>
+			<sentence id="8.50">crashdump[14604]: 18  httpd                      0x0000dbf8 includes_filter +</sentence>
+			<sentence id="8.51">1468 (mod_include.</sentence>
+			<sentence id="8.52">c:3591)</sentence>
+			<sentence id="8.53">crashdump[14604]: 19  httpd                      0x00068e30 ap_pass_brigade +</sentence>
+			<sentence id="8.54">236 (util_filter.</sentence>
+			<sentence id="8.55">c:512)</sentence>
+			<sentence id="8.56">crashdump[14604]: 20  httpd                      0x0004a5c8 default_handler +</sentence>
+			<sentence id="8.57">1888 (core.c:3648)</sentence>
+			<sentence id="8.58">crashdump[14604]: 21  httpd                      0x00060038 ap_run_handler + 136</sentence>
+			<sentence id="8.59">(config.c:152)</sentence>
+			<sentence id="8.60">crashdump[14604]: 22  httpd                      0x00060d8c ap_invoke_handler +</sentence>
+			<sentence id="8.61">424 (config.c:364)</sentence>
+			<sentence id="8.62">crashdump[14604]: 23  httpd                      0x0001d980 ap_process_request +</sentence>
+			<sentence id="8.63">148 (http_request.</sentence>
+			<sentence id="8.64">c:249)</sentence>
+			<sentence id="8.65">crashdump[14604]: 24  httpd                      0x000145a4</sentence>
+			<sentence id="8.66">ap_process_http_connection + 136 (http_core.</sentence>
+			<sentence id="8.67">c:255)</sentence>
+			<sentence id="8.68">crashdump[14604]: 25  httpd                      0x0006bcdc</sentence>
+			<sentence id="8.69">ap_run_process_connection + 136 (connection.c:43)</sentence>
+			<sentence id="8.70">crashdump[14604]: 26  httpd                      0x0006c318</sentence>
+			<sentence id="8.71">ap_process_connection + 132 (connection.c:178)</sentence>
+			<sentence id="8.72">crashdump[14604]: 27  httpd                      0x0003b408 process_socket + 196</sentence>
+			<sentence id="8.73">(worker.c:523)</sentence>
+			<sentence id="8.74">crashdump[14604]: 28  httpd                      0x0003befc worker_thread + 552</sentence>
+			<sentence id="8.75">(worker.c:843)</sentence>
+			<sentence id="8.76">crashdump[14604]: 29  libapr-0.0.</sentence>
+			<sentence id="8.77">dylib           0x003796f0 dummy_worker + 68</sentence>
+			<sentence id="8.78">(thread.c:105)</sentence>
+			<sentence id="8.79">------</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">This problem has occured on Mac OS X 10.3 and up to 10.4.10, both Server
+versions.</sentence>
+			<sentence id="9.2">We've been running a broad list of different versions of Apache 2,
+from .40 to .61.</sentence>
+			<sentence id="9.3">This problem occurs with the threaded worker.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Does anyone have any idea what's going on here?</sentence>
+		</paragraph>
+	</description>
+</bug>

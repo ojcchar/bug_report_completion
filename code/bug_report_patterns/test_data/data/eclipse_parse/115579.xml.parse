@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>115579</id>
+	<title>[Help] Fail to launch Help System from CD</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We're going to lauch Help System from CD with the following script:
+@echo off
+if "%temp%" == "" .</sentence>
+			<sentence id="1.2">\jre\bin\java -classpath 
+eclipse\plugins\org.eclipse.help.base_3.0.1\helpbase.jar 
+org.eclipse.help.standalone.Help -eclipsehome eclipse -plugincustomization 
+plugins\com.ibm.help.hs.doc\plugin_customization.</sentence>
+			<sentence id="1.3">ini -command displayHelp -
+host 127.0.0.1 -noexec -data %tmp%\standalone
+if not "%temp%" == "" .</sentence>
+			<sentence id="1.4">\jre\bin\java -classpath 
+eclipse\plugins\org.eclipse.help.base_3.0.1\helpbase.jar 
+org.eclipse.help.standalone.Help -eclipsehome eclipse -plugincustomization 
+plugins\com.ibm.help.hs.doc\plugin_customization.</sentence>
+			<sentence id="1.5">ini -command displayHelp -
+host 127.0.0.1 -noexec -data %temp%\standalone</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When we runs the script from an existing dos window the command prompt returns 
+with no output.</sentence>
+			<sentence id="2.2">The Help System doesn't load.</sentence>
+			<sentence id="2.3">We got some error message in 
+the log file:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">!</sentence>
+			<sentence id="3.2">SESSION Nov 01, 2005 13:52:06.625 --------------------------------------------</sentence>
+			<sentence id="3.3">-</sentence>
+			<sentence id="3.4">eclipse.buildId=unknown</sentence>
+			<sentence id="3.5">java.fullversion=J2RE 1.4.2 IBM Windows 32 build cn142ifx-20041203 </sentence>
+			<sentence id="3.6">(142SR1+80507) (JIT enabled: jitc)</sentence>
+			<sentence id="3.7">BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US</sentence>
+			<sentence id="3.8">Command-line arguments: -application org.eclipse.help.base.helpApplication -</sentence>
+			<sentence id="3.9">plugincustomization plugins\com.ibm.cics.ts.doc\plugin_customization.</sentence>
+			<sentence id="3.10">ini</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">!ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.625</sentence>
+			<sentence id="4.2">!MESSAGE Application error</sentence>
+			<sentence id="4.3">!STACK 1</sentence>
+			<sentence id="4.4">java.lang.RuntimeException: </sentence>
+			<sentence id="4.5">Application "org.eclipse.help.base.helpApplication" could not be found in the </sentence>
+			<sentence id="4.6">registry. The applications available are: &lt;NONE&gt;.</sentence>
+			<sentence id="4.7">	at org.eclipse.core.internal.runtime.PlatformActivator$1.run(Unknown </sentence>
+			<sentence id="4.8">Source)</sentence>
+			<sentence id="4.9">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(Unknown Source)</sentence>
+			<sentence id="4.10">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(Unknown Source)</sentence>
+			<sentence id="4.11">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="4.12">	at sun.reflect.NativeMethodAccessorImpl.invoke</sentence>
+			<sentence id="4.13">(NativeMethodAccessorImpl.java:85)</sentence>
+			<sentence id="4.14">	at sun.reflect.NativeMethodAccessorImpl.invoke</sentence>
+			<sentence id="4.15">(NativeMethodAccessorImpl.java:58)</sentence>
+			<sentence id="4.16">	at sun.reflect.DelegatingMethodAccessorImpl.invoke</sentence>
+			<sentence id="4.17">(DelegatingMethodAccessorImpl.java:60)</sentence>
+			<sentence id="4.18">	at java.lang.reflect.Method.invoke(Method.java:391)</sentence>
+			<sentence id="4.19">	at org.eclipse.core.launcher.Main.basicRun(Main.java:185)</sentence>
+			<sentence id="4.20">	at org.eclipse.core.launcher.Main.run(Main.java:704)</sentence>
+			<sentence id="4.21">	at org.eclipse.core.launcher.Main.main(Main.java:688)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">!</sentence>
+			<sentence id="5.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.641
+!</sentence>
+			<sentence id="5.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.bac.doc_1.1.0/ [191] 
+was not resolved.</sentence>
+			<sentence id="5.4">!</sentence>
+			<sentence id="5.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.641
+!</sentence>
+			<sentence id="5.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">!</sentence>
+			<sentence id="6.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.641
+!</sentence>
+			<sentence id="6.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.bep.doc_1.2.0/ [192] 
+was not resolved.</sentence>
+			<sentence id="6.4">!</sentence>
+			<sentence id="6.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.641
+!</sentence>
+			<sentence id="6.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">!</sentence>
+			<sentence id="7.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.766
+!</sentence>
+			<sentence id="7.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.cm.doc_1.1.0/ [193] 
+was not resolved.</sentence>
+			<sentence id="7.4">!</sentence>
+			<sentence id="7.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.766
+!</sentence>
+			<sentence id="7.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">!</sentence>
+			<sentence id="8.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.766
+!</sentence>
+			<sentence id="8.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.ia.doc_1.2.0/ [194] 
+was not resolved.</sentence>
+			<sentence id="8.4">!</sentence>
+			<sentence id="8.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.766
+!</sentence>
+			<sentence id="8.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">!</sentence>
+			<sentence id="9.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.766
+!</sentence>
+			<sentence id="9.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.mqia.doc_6.0.1/ [195] 
+was not resolved.</sentence>
+			<sentence id="9.4">!</sentence>
+			<sentence id="9.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.766
+!</sentence>
+			<sentence id="9.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">!</sentence>
+			<sentence id="10.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.766
+!</sentence>
+			<sentence id="10.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.pa.doc_1.4.0/ [196] 
+was not resolved.</sentence>
+			<sentence id="10.4">!</sentence>
+			<sentence id="10.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.766
+!</sentence>
+			<sentence id="10.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">!</sentence>
+			<sentence id="11.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.781
+!</sentence>
+			<sentence id="11.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.pm.doc_1.2.0/ [197] 
+was not resolved.</sentence>
+			<sentence id="11.4">!</sentence>
+			<sentence id="11.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.781
+!</sentence>
+			<sentence id="11.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">!</sentence>
+			<sentence id="12.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.781
+!</sentence>
+			<sentence id="12.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.rexx.doc_1.1.0/ [198] 
+was not resolved.</sentence>
+			<sentence id="12.4">!</sentence>
+			<sentence id="12.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.781
+!</sentence>
+			<sentence id="12.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">!</sentence>
+			<sentence id="13.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.781
+!</sentence>
+			<sentence id="13.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.smr.doc_1.2.1/ [199] 
+was not resolved.</sentence>
+			<sentence id="13.4">!</sentence>
+			<sentence id="13.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.781
+!</sentence>
+			<sentence id="13.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">!</sentence>
+			<sentence id="14.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.781
+!</sentence>
+			<sentence id="14.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.vc.doc_1.1.2/ [201] 
+was not resolved.</sentence>
+			<sentence id="14.4">!</sentence>
+			<sentence id="14.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.781
+!</sentence>
+			<sentence id="14.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">!</sentence>
+			<sentence id="15.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.797
+!</sentence>
+			<sentence id="15.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.vr.doc_3.3.0/ [202] 
+was not resolved.</sentence>
+			<sentence id="15.4">!</sentence>
+			<sentence id="15.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.797
+!</sentence>
+			<sentence id="15.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">!</sentence>
+			<sentence id="16.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.797
+!</sentence>
+			<sentence id="16.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.vt.doc_1.2.0/ [203] 
+was not resolved.</sentence>
+			<sentence id="16.4">!</sentence>
+			<sentence id="16.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.797
+!</sentence>
+			<sentence id="16.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">!</sentence>
+			<sentence id="17.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.797
+!</sentence>
+			<sentence id="17.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cicstg600.doc/ [204] was 
+not resolved.</sentence>
+			<sentence id="17.4">!</sentence>
+			<sentence id="17.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.797
+!</sentence>
+			<sentence id="17.6">MESSAGE Missing required bundle org.eclipse.help_0.0.0.</sentence>
+			<sentence id="17.7">!</sentence>
+			<sentence id="17.8">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.797
+!</sentence>
+			<sentence id="17.9">MESSAGE Missing optionally required bundle org.eclipse.help.base_0.0.0.</sentence>
+			<sentence id="17.10">!</sentence>
+			<sentence id="17.11">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.797
+!</sentence>
+			<sentence id="17.12">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">!</sentence>
+			<sentence id="18.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.812
+!</sentence>
+			<sentence id="18.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cicsuc600.doc/ [205] was 
+not resolved.</sentence>
+			<sentence id="18.4">!</sentence>
+			<sentence id="18.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.812
+!</sentence>
+			<sentence id="18.6">MESSAGE Missing required bundle org.eclipse.help_0.0.0.</sentence>
+			<sentence id="18.7">!</sentence>
+			<sentence id="18.8">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.812
+!</sentence>
+			<sentence id="18.9">MESSAGE Missing optionally required bundle org.eclipse.help.base_0.0.0.</sentence>
+			<sentence id="18.10">!</sentence>
+			<sentence id="18.11">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.812
+!</sentence>
+			<sentence id="18.12">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">!</sentence>
+			<sentence id="19.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.812
+!</sentence>
+			<sentence id="19.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.cics.ts.doc_3.1.2/ [207] 
+was not resolved.</sentence>
+			<sentence id="19.4">!</sentence>
+			<sentence id="19.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.812
+!</sentence>
+			<sentence id="19.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">!</sentence>
+			<sentence id="20.2">ENTRY org.eclipse.osgi Nov 01, 2005 13:52:06.812
+!</sentence>
+			<sentence id="20.3">MESSAGE Bundle update@/D:/eclipse/plugins/com.ibm.support.cics.doc_3.1.2/ 
+[208] was not resolved.</sentence>
+			<sentence id="20.4">!</sentence>
+			<sentence id="20.5">SUBENTRY 1 org.eclipse.osgi Nov 01, 2005 13:52:06.812
+!</sentence>
+			<sentence id="20.6">MESSAGE Missing required bundle org.eclipse.core.runtime.compatibility_0.0.0.</sentence>
+		</paragraph>
+	</description>
+</bug>

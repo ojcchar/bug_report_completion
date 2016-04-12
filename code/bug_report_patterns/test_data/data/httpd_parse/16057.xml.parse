@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16057</id>
+	<title>module fails to init client_rmm and applies too many locks.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">While porting mod_watch to Apache 2.0, I looked at mod_auth_digest as an example
+of a module using shared memory and mutexes.</sentence>
+			<sentence id="1.2">While looking at it I found what I
+would consider to be some serious problems with the code:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">a) No where in the module is client_rmm initialised before being used.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">b) Line 1103 has the following:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">apr_global_mutex_lock(opaque_lock);
+    op = (*opaque_cntr)++;
+    apr_global_mutex_lock(opaque_lock);</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I think the second apr_global_mutex_lock() should be apr_global_mutex_unlock().</sentence>
+		</paragraph>
+	</description>
+</bug>

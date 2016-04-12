@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7786</id>
+	<title>ScriptInterpreterSource with non-ASCII command path/filenames broken</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">(under Windows 2000 RC2 of course)I tryed to add a cgi-bin directory by adding 
+the following lines to httpd.conf</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;Directory "c:/wwwroot/cgi-bin"&gt;
+    AllowOverride None
+    Options ExecCGI
+    ScriptInterpreterSource registry
+    Order allow,deny
+    Allow from all
+&lt;/Directory&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">But Apache is still trying to use the she-bang line.</sentence>
+			<sentence id="3.2">I made very sure I 
+had .</sentence>
+			<sentence id="3.3">cgi and .</sentence>
+			<sentence id="3.4">pl associated with perl.exe and it works fine if I change the she-
+bang to point to perl.exe.</sentence>
+			<sentence id="3.5">I also tried placing "ScriptInterpreterSource 
+registry" outside the &lt;Directory&gt; which made no difference.</sentence>
+		</paragraph>
+	</description>
+</bug>

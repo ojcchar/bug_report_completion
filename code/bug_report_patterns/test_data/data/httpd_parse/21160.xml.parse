@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>21160</id>
+	<title>SSL certificate chain handling suddenly fails to work properly</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">There is as yet not much information here, I will have to try a few things
+first (next week, not today it's about 05:00).</sentence>
+			<sentence id="1.2">But here is what happens:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Apache has been configured with three IP-based virtual servers on three
+different IP addresses.</sentence>
+			<sentence id="2.2">On each of these addresses, we have an SSL server, thus
+three SSL servers in total.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">One with a self-signed root CA certificate   ROOT-&gt;C1-&gt;SSL virtual host
+Two with an 'official' CA certificate        ROOT-&gt;C1-&gt;C2-&gt;SSL virtual host</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Everything has been configured, Apache has been happily chugging along...</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">But then...</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">After a restart, Apache goes through the SSL virtual servers and asks the
+password for each of the three private keys (good).</sentence>
+			<sentence id="6.2">After this, it fails (bad)
+with the following error in the error log:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">"Failed to configure CA certificate chain!"</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">(Some additional info would have been of use, too)</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">The weird thing is that the configuration for SSL had not changed at all.</sentence>
+			<sentence id="9.2">Thus
+the production server was suddenly dead in the water w/o reason.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Also, each of the SSL virtual servers work if they are the only ones in the
+config file.</sentence>
+			<sentence id="10.2">Certain pairs also work, but not all.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Finally, 'openssl verify' does not find anything amiss with the CA chains.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">So, that's all for now.</sentence>
+			<sentence id="12.2">More to follow (hopefully)</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">What is this server:</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Apache/2.0.45 + mod_ssl/2.0.45 + OpenSSL/0.9.7b</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">on a RH7.3 OS with gcc-2.96-110 and glibc-2.2.5-39</sentence>
+		</paragraph>
+	</description>
+</bug>

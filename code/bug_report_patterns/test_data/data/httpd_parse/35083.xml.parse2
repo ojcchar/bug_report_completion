@@ -1,0 +1,408 @@
+In/IN case/NN a/DT SSL/NN connection/NN fails/VBZ because/IN a/DT certificate/NN is/VBZ expired/VBN ,/, or/CC a/DT CRL/NNP is/VBZ unavailable/JJ ,/, etc./FW ,/, the/DT browser/NN receives/VBZ a/DT SSL/NN error/NN that/WDT results/VBZ in/IN a/DT cryptic/JJ technical/JJ error/NN displayed/VBD to/TO the/DT user/NN -/: sometimes/RB only/RB an/DT error/NN number/NN like/IN in/IN Firefox/NNP ./. 
+
+(ROOT (S (S (S (PP (IN In) (NP (NN case))) (NP (DT a) (NN SSL) (NN connection)) (VP (VBZ fails) (SBAR (IN because) (S (NP (DT a) (NN certificate)) (VP (VBZ is) (VP (VBN expired))))))) (, ,) (CC or) (S (NP (DT a) (NNP CRL)) (VP (VBZ is) (ADJP (JJ unavailable))))) (, ,) (NP (NP (FW etc.)) (, ,) (NP (DT the) (NN browser))) (VP (VBZ receives) (SBAR (S (NP (NP (DT a) (NN SSL) (NN error)) (SBAR (WHNP (WDT that)) (S (VP (VBZ results) (PP (IN in) (NP (DT a) (JJ cryptic) (JJ technical) (NN error))))))) (VP (VBD displayed) (PP (TO to) (NP (NP (DT the) (NN user)) (: -) (ADVP (RB sometimes)) (NP (RB only) (DT an) (NN error) (NN number)))) (PP (IN like) (PP (IN in) (NP (NNP Firefox)))))))) (. .)))
+
+root(ROOT-0, receives-23)
+prep_in(fails-6, case-2)
+det(connection-5, a-3)
+nn(connection-5, SSL-4)
+nsubj(fails-6, connection-5)
+ccomp(receives-23, fails-6)
+mark(expired-11, because-7)
+det(certificate-9, a-8)
+nsubjpass(expired-11, certificate-9)
+auxpass(expired-11, is-10)
+advcl(fails-6, expired-11)
+det(CRL-15, a-14)
+nsubj(unavailable-17, CRL-15)
+cop(unavailable-17, is-16)
+conj_or(fails-6, unavailable-17)
+ccomp(receives-23, unavailable-17)
+nsubj(receives-23, etc.-19)
+det(browser-22, the-21)
+appos(etc.-19, browser-22)
+det(error-26, a-24)
+nn(error-26, SSL-25)
+nsubj(displayed-34, error-26)
+nsubj(results-28, that-27)
+rcmod(error-26, results-28)
+det(error-33, a-30)
+amod(error-33, cryptic-31)
+amod(error-33, technical-32)
+prep_in(results-28, error-33)
+ccomp(receives-23, displayed-34)
+det(user-37, the-36)
+prep_to(displayed-34, user-37)
+advmod(user-37, sometimes-39)
+advmod(number-43, only-40)
+det(number-43, an-41)
+nn(number-43, error-42)
+dep(user-37, number-43)
+prep(displayed-34, like-44)
+pcomp(like-44, in-45)
+pobj(in-45, Firefox-46)
+
+In/IN such/PDT a/DT situation/NN ,/, the/DT SSL/NNP connection/NN could/MD be/VB established/VBN ,/, and/CC an/DT additional/JJ module/NN could/MD trap/NN the/DT exact/JJ SSL/NN error/NN and/CC redirect/VB to/TO a/DT page/NN with/IN the/DT specific/JJ error/NN message/NN (/-LRB- "/`` Your/PRP$ certificate/NN is/VBZ expired/VBN "/'' ,/, "/`` We/PRP can/MD not/RB check/VB the/DT validity/NN of/IN the/DT certificate/NN -/: retry/VB later/RB "/'' ,/, etc./FW )/-RRB- ./. 
+
+(ROOT (S (PP (IN In) (NP (PDT such) (DT a) (NN situation))) (, ,) (S (NP (DT the) (NNP SSL) (NN connection)) (VP (MD could) (VP (VB be) (VP (VBN established))))) (, ,) (CC and) (S (NP (DT an) (JJ additional) (NN module)) (VP (MD could) (VP (VP (NN trap) (NP (DT the) (JJ exact) (NN SSL) (NN error))) (CC and) (VP (VB redirect) (PP (TO to) (NP (NP (DT a) (NN page)) (PP (IN with) (NP (DT the) (JJ specific) (NN error) (NN message))) (PRN (-LRB- -LRB-) (SBAR (`` ``) (S (NP (PRP$ Your) (NN certificate)) (VP (VBZ is) (VP (VBN expired) ('' '') (SBAR (, ,) (`` ``) (S (NP (PRP We)) (VP (MD can) (RB not) (VP (VB check) (NP (NP (DT the) (NN validity)) (PP (IN of) (NP (NP (DT the) (NN certificate)) (: -) (S (VP (VB retry) (ADVP (RB later) ('' '')) (, ,) (NP (FW etc.))))))))))))))) (-RRB- -RRB-)))))))) (. .)))
+
+root(ROOT-0, established-11)
+predet(situation-4, such-2)
+det(situation-4, a-3)
+prep_in(established-11, situation-4)
+det(connection-8, the-6)
+nn(connection-8, SSL-7)
+nsubjpass(established-11, connection-8)
+aux(established-11, could-9)
+auxpass(established-11, be-10)
+det(module-16, an-14)
+amod(module-16, additional-15)
+nsubj(trap-18, module-16)
+nsubj(redirect-24, module-16)
+aux(trap-18, could-17)
+conj_and(established-11, trap-18)
+det(error-22, the-19)
+amod(error-22, exact-20)
+nn(error-22, SSL-21)
+dobj(trap-18, error-22)
+conj_and(established-11, redirect-24)
+conj_and(trap-18, redirect-24)
+det(page-27, a-26)
+prep_to(redirect-24, page-27)
+det(message-32, the-29)
+amod(message-32, specific-30)
+nn(message-32, error-31)
+prep_with(page-27, message-32)
+poss(certificate-36, Your-35)
+nsubjpass(expired-38, certificate-36)
+auxpass(expired-38, is-37)
+dep(page-27, expired-38)
+nsubj(check-45, We-42)
+aux(check-45, can-43)
+neg(check-45, not-44)
+ccomp(expired-38, check-45)
+det(validity-47, the-46)
+dobj(check-45, validity-47)
+det(certificate-50, the-49)
+prep_of(validity-47, certificate-50)
+dep(certificate-50, retry-52)
+advmod(retry-52, later-53)
+dobj(retry-52, etc.-56)
+
+I/PRP developed/VBD such/PDT a/DT module/NN ,/, that/IN I/PRP 'll/MD submit/VB today/NN :/: mod_ssl_error/NN 
+
+(ROOT (S (NP (PRP I)) (VP (VBD developed) (NP (PDT such) (DT a) (NN module)) (, ,) (SBAR (IN that) (S (NP (PRP I)) (VP (MD 'll) (VP (VB submit) (NP (NP (NN today)) (: :) (NP (NN mod_ssl_error))))))))))
+
+root(ROOT-0, developed-2)
+nsubj(developed-2, I-1)
+predet(module-5, such-3)
+det(module-5, a-4)
+dobj(developed-2, module-5)
+mark(submit-10, that-7)
+nsubj(submit-10, I-8)
+aux(submit-10, 'll-9)
+ccomp(developed-2, submit-10)
+dobj(submit-10, today-11)
+dep(today-11, mod_ssl_error-13)
+
+In/IN order/NN to/TO let/VB the/DT module/NN trap/NN the/DT code/NN ,/, we/PRP need/VBP ,/, when/WRB the/DT module/NN is/VBZ loaded/VBN ,/, to/TO accept/VB to/TO establish/VB the/DT connection/NN in/IN case/NN of/IN a/DT certificate/NN validation/NN error/NN :/: 
+
+(ROOT (S (SBAR (IN In) (NN order) (S (VP (TO to) (VP (VB let) (S (NP (DT the) (NN module)) (VP (NN trap) (NP (DT the) (NN code)))))))) (, ,) (NP (PRP we)) (VP (VP (VBP need)) (PRN (, ,) (SBAR (WHADVP (WRB when)) (S (NP (DT the) (NN module)) (VP (VBZ is) (ADJP (VBN loaded))))) (, ,)) (S (VP (TO to) (VP (VB accept) (S (VP (TO to) (VP (VB establish) (NP (DT the) (NN connection)) (PP (IN in) (NP (NP (NN case)) (PP (IN of) (NP (DT a) (NN certificate) (NN validation) (NN error)))))))))))) (: :)))
+
+root(ROOT-0, need-12)
+mark(let-4, In-1)
+dep(let-4, order-2)
+aux(let-4, to-3)
+advcl(need-12, let-4)
+det(module-6, the-5)
+nsubj(trap-7, module-6)
+ccomp(let-4, trap-7)
+det(code-9, the-8)
+dobj(trap-7, code-9)
+nsubj(need-12, we-11)
+advmod(loaded-18, when-14)
+det(module-16, the-15)
+nsubjpass(loaded-18, module-16)
+auxpass(loaded-18, is-17)
+parataxis(need-12, loaded-18)
+aux(accept-21, to-20)
+xcomp(need-12, accept-21)
+aux(establish-23, to-22)
+xcomp(accept-21, establish-23)
+det(connection-25, the-24)
+dobj(establish-23, connection-25)
+det(error-32, a-29)
+nn(error-32, certificate-30)
+nn(error-32, validation-31)
+prep_in_case_of(establish-23, error-32)
+
+In/IN ssl_io_filter_connect/NN (/-LRB- )/-RRB- -/: ssl_engine_io/NN ./. 
+
+(ROOT (FRAG (PP (IN In) (NP (NP (NN ssl_io_filter_connect)) (PP (-LRB- -LRB-)) (-RRB- -RRB-))) (: -) (NP (NN ssl_engine_io)) (. .)))
+
+root(ROOT-0, ssl_engine_io-6)
+prep_in(ssl_engine_io-6, ssl_io_filter_connect-2)
+
+c/SYM -/: we/PRP have/VBP 2/CD cases/NNS (/-LRB- at/IN line/NN 1147/CD 
+
+(ROOT (NP (NP (SYM c)) (: -) (NP (NP (PRP we)) (SBAR (S (VP (VBP have) (S (NP (NP (CD 2) (NNS cases)) (-LRB- -LRB-) (PP (IN at) (NP (NN line) (CD 1147)))))))))))
+
+root(ROOT-0, c-1)
+dep(c-1, we-3)
+rcmod(we-3, have-4)
+num(cases-6, 2-5)
+dep(have-4, cases-6)
+prep_at(cases-6, line-9)
+num(line-9, 1147-10)
+
+and/CC 1173/CD )/-RRB- where/WRB the/DT connection/NN may/MD break/VB because/IN of/IN certificates/NNS 
+
+(ROOT (FRAG (CC and) (ADVP (ADVP (NP (CD 1173)) (-RRB- -RRB-)) (SBAR (WHADVP (WRB where)) (S (NP (DT the) (NN connection)) (VP (MD may) (VP (VB break) (PP (IN because) (PP (IN of) (NP (NNS certificates)))))))))))
+
+root(ROOT-0, 1173-2)
+cc(1173-2, and-1)
+advmod(break-8, where-4)
+det(connection-6, the-5)
+nsubj(break-8, connection-6)
+aux(break-8, may-7)
+advcl(1173-2, break-8)
+prepc_because_of(break-8, of-10)
+pobj(break-8, certificates-11)
+
+verification/validation/NN problem/NN :/: '/'' return/NN ssl_filter_io_shutdown/NN (/-LRB- filter_ctx/NN ,/, c/NN ,/, 
+
+(ROOT (NP (NP (NN verification/validation) (NN problem)) (: :) (NP (NP ('' ') (NN return) (NN ssl_filter_io_shutdown)) (-LRB- -LRB-) (NP (NN filter_ctx)) (, ,) (NP (NN c)) (, ,))))
+
+root(ROOT-0, problem-2)
+nn(problem-2, verification/validation-1)
+nn(ssl_filter_io_shutdown-6, return-5)
+dep(problem-2, ssl_filter_io_shutdown-6)
+dep(ssl_filter_io_shutdown-6, filter_ctx-8)
+appos(ssl_filter_io_shutdown-6, c-10)
+
+1/CD ;/: '/'' 
+
+(ROOT (NP (NP (CD 1)) (: ;) (NP ('' '))))
+
+root(ROOT-0, 1-1)
+
+I/PRP would/MD return/VB only/RB if/IN the/DT error/NN trapping/NN module/NN (/-LRB- mod_ssl_error/NN )/-RRB- is/VBZ not/RB loaded/VBN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (MD would) (VP (VB return) (SBAR (RB only) (IN if) (S (NP (NP (DT the) (NN error) (NN trapping) (NN module)) (PRN (-LRB- -LRB-) (NP (NN mod_ssl_error)) (-RRB- -RRB-))) (VP (VBZ is) (RB not) (ADJP (VBN loaded))))))) (. .)))
+
+root(ROOT-0, return-3)
+nsubj(return-3, I-1)
+aux(return-3, would-2)
+advmod(loaded-15, only-4)
+mark(loaded-15, if-5)
+det(module-9, the-6)
+nn(module-9, error-7)
+nn(module-9, trapping-8)
+nsubjpass(loaded-15, module-9)
+appos(module-9, mod_ssl_error-11)
+auxpass(loaded-15, is-13)
+neg(loaded-15, not-14)
+advcl(return-3, loaded-15)
+
+If/IN it/PRP is/VBZ loaded/VBN ,/, I/PRP would/MD accept/VB the/DT certificate/NN (/-LRB- continue/VB the/DT treatment/NN and/CC return/NN DECLINED/VBD )/-RRB- ,/, as/IN the/DT error/NN will/MD be/VB trapped/VBN later/RB ./. 
+
+(ROOT (S (SBAR (IN If) (S (NP (PRP it)) (VP (VBZ is) (ADJP (VBN loaded))))) (, ,) (NP (PRP I)) (VP (MD would) (VP (VB accept) (NP (NP (DT the) (NN certificate)) (PRN (-LRB- -LRB-) (S (VP (VB continue) (SBAR (S (NP (DT the) (NN treatment) (CC and) (NN return)) (VP (VBD DECLINED)))))) (-RRB- -RRB-))) (, ,) (SBAR (IN as) (S (NP (DT the) (NN error)) (VP (MD will) (VP (VB be) (VP (VBN trapped) (ADVP (RB later))))))))) (. .)))
+
+root(ROOT-0, accept-8)
+mark(loaded-4, If-1)
+nsubjpass(loaded-4, it-2)
+auxpass(loaded-4, is-3)
+advcl(accept-8, loaded-4)
+nsubj(accept-8, I-6)
+aux(accept-8, would-7)
+det(certificate-10, the-9)
+dobj(accept-8, certificate-10)
+dep(certificate-10, continue-12)
+det(treatment-14, the-13)
+nsubj(DECLINED-17, treatment-14)
+conj_and(treatment-14, return-16)
+nsubj(DECLINED-17, return-16)
+ccomp(continue-12, DECLINED-17)
+mark(trapped-25, as-20)
+det(error-22, the-21)
+nsubjpass(trapped-25, error-22)
+aux(trapped-25, will-23)
+auxpass(trapped-25, be-24)
+advcl(accept-8, trapped-25)
+advmod(trapped-25, later-26)
+
+So/RB ,/, replace/VB return/NN ssl_filter_io_shutdown/NN (/-LRB- filter_ctx/NN ,/, c/NN ,/, 1/LS )/-RRB- ;/: by/IN if/IN (/-LRB- !/. 
+
+(ROOT (S (ADVP (RB So)) (, ,) (VP (VB replace) (NP (NP (NN return) (NN ssl_filter_io_shutdown)) (PRN (-LRB- -LRB-) (NP (NN filter_ctx) (, ,) (NN c) (, ,) (LS 1)) (-RRB- -RRB-)) (: ;) (PP (IN by) (SBAR (IN if) (S (VP (-LRB- -LRB-))))))) (. !)))
+
+root(ROOT-0, replace-3)
+advmod(replace-3, So-1)
+nn(ssl_filter_io_shutdown-5, return-4)
+dobj(replace-3, ssl_filter_io_shutdown-5)
+nn(c-9, filter_ctx-7)
+appos(ssl_filter_io_shutdown-5, c-9)
+dep(c-9, 1-11)
+prep(ssl_filter_io_shutdown-5, by-14)
+mark(-LRB--16, if-15)
+
+is_ssl_error_loaded/VBN )/-RRB- return/NN ssl_filter_io_shutdown/NN (/-LRB- filter_ctx/NN ,/, c/NN ,/, 1/LS )/-RRB- ;/: 
+
+(ROOT (S (NP (VBN is_ssl_error_loaded)) (VP (-RRB- -RRB-) (NP (NP (NN return) (NN ssl_filter_io_shutdown)) (PRN (-LRB- -LRB-) (NP (NN filter_ctx) (, ,) (NN c) (, ,) (LS 1)) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, ssl_filter_io_shutdown-4)
+nsubj(ssl_filter_io_shutdown-4, is_ssl_error_loaded-1)
+nn(ssl_filter_io_shutdown-4, return-3)
+nn(c-8, filter_ctx-6)
+appos(ssl_filter_io_shutdown-4, c-8)
+dep(c-8, 1-10)
+
+In/IN order/NN to/TO check/VB if/IN the/DT module/NN is/VBZ loaded/VBN ,/, I/PRP need/VBP a/DT few/JJ lines/NNS at/IN the/DT beginning/NN 
+
+(ROOT (S (SBAR (IN In) (NN order) (S (VP (TO to) (VP (VB check) (SBAR (IN if) (S (NP (DT the) (NN module)) (VP (VBZ is) (ADJP (VBN loaded))))))))) (, ,) (NP (PRP I)) (VP (VBP need) (NP (NP (DT a) (JJ few) (NNS lines)) (PP (IN at) (NP (DT the) (NN beginning)))))))
+
+root(ROOT-0, need-12)
+mark(check-4, In-1)
+dep(check-4, order-2)
+aux(check-4, to-3)
+advcl(need-12, check-4)
+mark(loaded-9, if-5)
+det(module-7, the-6)
+nsubjpass(loaded-9, module-7)
+auxpass(loaded-9, is-8)
+advcl(check-4, loaded-9)
+nsubj(need-12, I-11)
+det(lines-15, a-13)
+amod(lines-15, few-14)
+dobj(need-12, lines-15)
+det(beginning-18, the-17)
+prep_at(lines-15, beginning-18)
+
+of/IN the/DT function/NN -/: unless/IN a/DT function/NN exists/VBZ to/TO check/VB if/IN a/DT module/NN is/VBZ loaded/VBN ?/. 
+
+(ROOT (FRAG (ADVP (IN of) (NP (DT the) (NN function))) (: -) (SBAR (IN unless) (S (NP (DT a) (NN function)) (VP (VBZ exists) (S (VP (TO to) (VP (VB check) (SBAR (IN if) (S (NP (DT a) (NN module)) (VP (VBZ is) (ADJP (VBN loaded))))))))))) (. ?)))
+
+root(ROOT-0, of-1)
+det(function-3, the-2)
+pobj(of-1, function-3)
+mark(exists-8, unless-5)
+det(function-7, a-6)
+nsubj(exists-8, function-7)
+dep(of-1, exists-8)
+aux(check-10, to-9)
+xcomp(exists-8, check-10)
+mark(loaded-15, if-11)
+det(module-13, a-12)
+nsubjpass(loaded-15, module-13)
+auxpass(loaded-15, is-14)
+advcl(check-10, loaded-15)
+
+Currently/RB I/PRP coded/VBD it/PRP in/IN the/DT function/NN :/: 
+
+(ROOT (S (ADVP (RB Currently)) (ADVP (PRP I)) (VP (VBD coded) (NP (PRP it)) (PP (IN in) (NP (DT the) (NN function)))) (: :)))
+
+root(ROOT-0, coded-3)
+advmod(coded-3, Currently-1)
+advmod(coded-3, I-2)
+dobj(coded-3, it-4)
+det(function-7, the-6)
+prep_in(coded-3, function-7)
+
+BOOL/NN is_ssl_error_loaded/VBD =/JJ FALSE/NN ;/: 
+
+(ROOT (S (NP (NN BOOL)) (VP (VBD is_ssl_error_loaded) (NP (JJ =) (NN FALSE))) (: ;)))
+
+root(ROOT-0, is_ssl_error_loaded-2)
+nsubj(is_ssl_error_loaded-2, BOOL-1)
+amod(FALSE-4, =-3)
+dobj(is_ssl_error_loaded-2, FALSE-4)
+
+{/-LRB- //: */SYM Check/VB if/IN mod_ssl_error/NN is/VBZ loaded/VBN */SYM //: 
+
+(ROOT (VP (-LRB- -LCB-) (PRN (: /) (SBAR (X (SYM *)) (S (NP (NP (VB Check)) (SBAR (IN if) (S (NP (NN mod_ssl_error)) (VP (VBZ is) (ADJP (VBN loaded)))))) (VP (SYM *)))) (: /))))
+
+root(ROOT-0, *-9)
+punct(*-9, /-2)
+dep(*-9, *-3)
+nsubj(*-9, Check-4)
+mark(loaded-8, if-5)
+nsubjpass(loaded-8, mod_ssl_error-6)
+auxpass(loaded-8, is-7)
+dep(Check-4, loaded-8)
+punct(*-9, /-10)
+
+extern/JJ AP_DECLARE_DATA/NN module/NN */SYM ap_top_module/NN ;/: 
+
+(ROOT (NP (NP (NP (JJ extern) (NN AP_DECLARE_DATA) (NN module)) (SBAR (S (VP (SYM *) (NP (NN ap_top_module)))))) (: ;)))
+
+root(ROOT-0, module-3)
+amod(module-3, extern-1)
+nn(module-3, AP_DECLARE_DATA-2)
+dep(ap_top_module-5, *-4)
+rcmod(module-3, ap_top_module-5)
+
+module/NN */SYM modp/NN ;/: 
+
+(ROOT (NP (NP (NP (NN module)) (SBAR (S (VP (SYM *) (NP (NN modp)))))) (: ;)))
+
+root(ROOT-0, module-1)
+dep(modp-3, *-2)
+rcmod(module-1, modp-3)
+
+for/IN (/-LRB- modp/NN =/JJ ap_top_module/NN ;/: modp/NN ;/: modp/NN =/JJ modp/NN -/: >/JJR next/JJ )/-RRB- 
+
+(ROOT (NP (NP (IN for)) (PRN (-LRB- -LRB-) (FRAG (FRAG (NP-TMP (NP (NN modp)) (NP (JJ =) (NN ap_top_module))) (: ;) (NP (NP (NN modp)) (: ;) (NP (NN modp) (JJ =) (NN modp)))) (: -) (FRAG (ADJP (JJR >)) (ADJP (JJ next)))) (-RRB- -RRB-))))
+
+root(ROOT-0, for-1)
+dep(for-1, modp-3)
+amod(ap_top_module-5, =-4)
+dep(modp-3, ap_top_module-5)
+dep(modp-3, modp-7)
+nn(modp-11, modp-9)
+amod(modp-11, =-10)
+dep(modp-7, modp-11)
+dep(modp-3, >-13)
+dep(>-13, next-14)
+
+if/IN (/-LRB- strcmp/NN (/-LRB- modp/NN -/: >/JJR name/NN ,/, "/`` mod_ssl_error/NN ./. 
+
+(ROOT (NP (NP (NP (IN if)) (-LRB- -LRB-) (NP (NP (NN strcmp)) (-LRB- -LRB-) (NP (NP (NN modp)) (: -) (NP (NP (JJR >) (NN name)) (, ,) (NP (`` ``) (NN mod_ssl_error)))))) (. .)))
+
+root(ROOT-0, if-1)
+dep(if-1, strcmp-3)
+dep(strcmp-3, modp-5)
+amod(name-8, >-7)
+dep(modp-5, name-8)
+appos(name-8, mod_ssl_error-11)
+
+c/NN "/'' )/-RRB- ==/CD 0/CD )/-RRB- {/-LRB- 
+
+(ROOT (NP (NP (NN c) ('' '')) (PRN (-RRB- -RRB-) (NP (QP (CD ==) (CD 0))) (-RRB- -RRB-)) (-LRB- -LCB-)))
+
+root(ROOT-0, c-1)
+number(0-5, ==-4)
+dep(c-1, 0-5)
+
+is_ssl_error_loaded/VBN =/JJ TRUE/JJ ;/: 
+
+(ROOT (VP (VBN is_ssl_error_loaded) (S (NP (NP (JJ =)) (NP (ADJP (JJ TRUE))) (: ;)))))
+
+root(ROOT-0, is_ssl_error_loaded-1)
+dep(is_ssl_error_loaded-1, =-2)
+dep(=-2, TRUE-3)
+
+break/NN ;/: 
+
+(ROOT (NP (NN break) (: ;)))
+
+root(ROOT-0, break-1)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>154599</id>
+	<title>[project explorer] EJB jar groups in PX sorted inappropriately</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Opened for IBM:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I'm not sure wha the design is supposed to be here, but the current implemenation looks wrong.</sentence>
+			<sentence id="2.2">Create a new EJB project and then expand it in the Project Explorer.</sentence>
+			<sentence id="2.3">Under the deployment descriptor you will notice the following nodes in the following order:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Entity Beans
+Message Driven Beans
+Session Beans</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">However, if an adopter contributes a group starting with "Ma" for example, it will be placed right after Entity Beans.</sentence>
+			<sentence id="4.2">I realize it is the alpahbetical sorting, but it just seems like the 3 bean types ought to be grouped together and then adopter groups should be after them.</sentence>
+		</paragraph>
+	</description>
+</bug>

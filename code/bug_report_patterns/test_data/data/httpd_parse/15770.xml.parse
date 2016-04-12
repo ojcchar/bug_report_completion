@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>15770</id>
+	<title>All requests fail with 720064 through port-forwarded firewall</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have Apache up and running on my WinXP machine.</sentence>
+			<sentence id="1.2">The machine has a static,
+private IP address behind a LAN/WAN controller/firewall (Microsoft Broadband
+Wireless box).</sentence>
+			<sentence id="1.3">The LAN/WAN controller is hooked to a DSL modem for Internet
+access.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Apache is listening on port 80, all IP addresses.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The firewall is configured to port-forward WANIP:80 PRIVATEIP:80.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I can access the server with http://localhost or http://192.168.2.64.</sentence>
+			<sentence id="4.2">However,
+I can never access the server with http://WANIP.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Looking in the Apache error log, the following message appears every time
+I try to hit http://WANIP:
+[warn] (720064)The specified network name is no longer available.</sentence>
+			<sentence id="5.2">: 
+winnt_accept: Asynchronous AcceptEx failed.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Thanks for your help, --Marc Riehm.</sentence>
+		</paragraph>
+	</description>
+</bug>

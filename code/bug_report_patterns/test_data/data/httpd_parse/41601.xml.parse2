@@ -1,0 +1,425 @@
+Problem/NNP :/: With/IN Apache/NNP configured/VBD as/IN a/DT reverse/JJ HTTP/NNP proxy/NN ,/, when/WRB the/DT backend/JJ server/NN returns/VBZ a/DT redirect/NN ,/, any/DT output/NN headers/NNS (/-LRB- other/JJ than/IN Location/NNP )/-RRB- are/VBP getting/VBG lost/VBN ./. 
+
+(ROOT (FRAG (NP (NNP Problem)) (: :) (S (SBAR (IN With) (S (NP (NNP Apache)) (VP (VBD configured) (PP (IN as) (NP (NP (DT a) (JJ reverse) (NNP HTTP) (NN proxy)) (, ,) (SBAR (WHADVP (WRB when)) (S (NP (DT the) (JJ backend) (NN server)) (VP (VBZ returns) (NP (DT a) (NN redirect)))))))))) (, ,) (NP (NP (DT any) (NN output) (NNS headers)) (PRN (-LRB- -LRB-) (ADJP (JJ other) (PP (IN than) (NP (NNP Location)))) (-RRB- -RRB-))) (VP (VBP are) (VP (VBG getting) (S (VP (VBN lost)))))) (. .)))
+
+root(ROOT-0, Problem-1)
+mark(configured-5, With-3)
+nsubj(configured-5, Apache-4)
+advcl(getting-29, configured-5)
+det(proxy-10, a-7)
+amod(proxy-10, reverse-8)
+nn(proxy-10, HTTP-9)
+prep_as(configured-5, proxy-10)
+advmod(returns-16, when-12)
+det(server-15, the-13)
+amod(server-15, backend-14)
+nsubj(returns-16, server-15)
+rcmod(proxy-10, returns-16)
+det(redirect-18, a-17)
+dobj(returns-16, redirect-18)
+det(headers-22, any-20)
+nn(headers-22, output-21)
+nsubj(getting-29, headers-22)
+dep(headers-22, other-24)
+prep_than(other-24, Location-26)
+aux(getting-29, are-28)
+dep(Problem-1, getting-29)
+dep(getting-29, lost-30)
+
+I/PRP noticed/VBD and/CC reproduced/VBD this/DT with/IN Set-Cookie/NN but/CC it/PRP applies/VBZ to/TO others/NNS too/RB ./. 
+
+(ROOT (S (S (NP (PRP I)) (VP (VP (VBD noticed)) (CC and) (VP (VBD reproduced) (NP (DT this)) (PP (IN with) (NP (NN Set-Cookie)))))) (CC but) (S (NP (PRP it)) (VP (VBZ applies) (PP (TO to) (NP (NNS others))) (ADVP (RB too)))) (. .)))
+
+root(ROOT-0, noticed-2)
+nsubj(noticed-2, I-1)
+nsubj(reproduced-4, I-1)
+conj_and(noticed-2, reproduced-4)
+dobj(reproduced-4, this-5)
+prep_with(reproduced-4, Set-Cookie-7)
+nsubj(applies-10, it-9)
+conj_but(noticed-2, applies-10)
+prep_to(applies-10, others-12)
+advmod(applies-10, too-13)
+
+Cause/NN :/: What/WP 's/VBZ happening/VBG is/VBZ that/IN proxy_http_handler/NN (/-LRB- )/-RRB- in/IN modules/proxy/mod/NN _/CD proxy_http/NN ./. 
+
+(ROOT (NP (NP (NP (NP (NN Cause)) (: :) (SBAR (WHNP (WP What)) (S (VP (VBZ 's) (VP (VBG happening) (SBAR (S (VP (VBZ is) (SBAR (IN that) (S (NP (NN proxy_http_handler)) (VP (-LRB- -LRB-))))))))))) (-RRB- -RRB-)) (PP (IN in) (NP (NN modules/proxy/mod) (CD _) (NN proxy_http)))) (. .)))
+
+root(ROOT-0, Cause-1)
+nsubj(happening-5, What-3)
+aux(happening-5, 's-4)
+rcmod(Cause-1, happening-5)
+ccomp(happening-5, is-6)
+mark(-LRB--9, that-7)
+nsubj(-LRB--9, proxy_http_handler-8)
+nn(proxy_http-14, modules/proxy/mod-12)
+num(proxy_http-14, _-13)
+prep_in(Cause-1, proxy_http-14)
+
+c/NN is/VBZ returning/VBG an/DT error/NN state/NN (/-LRB- ie/FW :/: not/RB OK/JJ or/CC DONE/NN )/-RRB- to/TO ap_process_request/VB (/-LRB- )/-RRB- in/IN modules/http/http/NN _/CD request.c/NN ap_invoke_handler/NN (/-LRB- by/IN way/NN of/IN ap_invoke_handler/NN //: ap_run_handler/NN )/-RRB- ./. 
+
+(ROOT (S (NP (NN c)) (VP (VBZ is) (VP (VBG returning) (NP (NP (DT an) (NN error) (NN state)) (PRN (-LRB- -LRB-) (NP (NP (FW ie)) (: :) (NP (NP (RB not) (JJ OK)) (CC or) (NP (NN DONE)))) (-RRB- -RRB-))) (S (VP (TO to) (VP (VB ap_process_request) (PRN (-LRB- -LRB-) (FRAG (X (X (-RRB- -RRB-)) (PP (IN in) (NP (NP (NN modules/http/http) (CD _) (NN request.c) (NN ap_invoke_handler)) (-LRB- -LRB-) (PP (IN by) (NP (NN way))) (PP (IN of) (NP (NN ap_invoke_handler)))))) (: /) (NP (NN ap_run_handler))) (-RRB- -RRB-))))))) (. .)))
+
+root(ROOT-0, returning-3)
+nsubj(returning-3, c-1)
+aux(returning-3, is-2)
+det(state-6, an-4)
+nn(state-6, error-5)
+dobj(returning-3, state-6)
+dep(state-6, ie-8)
+neg(OK-11, not-10)
+dep(ie-8, OK-11)
+dep(ie-8, DONE-13)
+conj_or(OK-11, DONE-13)
+aux(ap_process_request-16, to-15)
+vmod(returning-3, ap_process_request-16)
+dep(ap_run_handler-30, in-19)
+nn(ap_invoke_handler-23, modules/http/http-20)
+num(ap_invoke_handler-23, _-21)
+nn(ap_invoke_handler-23, request.c-22)
+pobj(in-19, ap_invoke_handler-23)
+prep_by(ap_invoke_handler-23, way-26)
+prep_of(ap_invoke_handler-23, ap_invoke_handler-28)
+punct(ap_run_handler-30, /-29)
+dep(ap_process_request-16, ap_run_handler-30)
+
+This/DT causes/VBZ ap_die/NN (/-LRB- )/-RRB- to/TO be/VB invoked/VBN ,/, and/CC there/EX the/DT output/NN headers/NNS are/VBP replaced/VBN with/IN the/DT error/NN headers/NNS ./. 
+
+(ROOT (S (S (NP (DT This)) (VP (VBZ causes) (NP (NP (NP (NN ap_die)) (-LRB- -LRB-) (SBAR (WHNP (-RRB- -RRB-)) (S (VP (TO to) (VP (VB be) (VP (VBN invoked)))))) (, ,)) (CC and) (SBAR (S (NP (EX there))))))) (NP (DT the) (NN output) (NNS headers)) (VP (VBP are) (VP (VBN replaced) (PP (IN with) (NP (DT the) (NN error) (NNS headers))))) (. .)))
+
+root(ROOT-0, replaced-16)
+nsubj(causes-2, This-1)
+dep(replaced-16, causes-2)
+dobj(causes-2, ap_die-3)
+aux(invoked-8, to-6)
+auxpass(invoked-8, be-7)
+rcmod(ap_die-3, invoked-8)
+dobj(causes-2, there-11)
+conj_and(ap_die-3, there-11)
+det(headers-14, the-12)
+nn(headers-14, output-13)
+nsubjpass(replaced-16, headers-14)
+auxpass(replaced-16, are-15)
+det(headers-20, the-18)
+nn(headers-20, error-19)
+prep_with(replaced-16, headers-20)
+
+The/DT Location/NNP is/VBZ specifically/RB kept/VBN ./. 
+
+(ROOT (S (NP (DT The) (NNP Location)) (VP (VBZ is) (ADVP (RB specifically)) (VP (VBN kept))) (. .)))
+
+root(ROOT-0, kept-5)
+det(Location-2, The-1)
+nsubjpass(kept-5, Location-2)
+auxpass(kept-5, is-3)
+advmod(kept-5, specifically-4)
+
+The/DT body/NN is/VBZ also/RB potentially/RB stripped/VBN (/-LRB- though/IN for/IN most/JJS redirects/NNS this/DT is/VBZ not/RB an/DT issue/NN )/-RRB- ./. 
+
+(ROOT (S (NP (DT The) (NN body)) (VP (VBZ is) (ADVP (RB also)) (VP (VP (ADVP (RB potentially)) (VBN stripped)) (PRN (-LRB- -LRB-) (SBAR (IN though) (S (PP (IN for) (NP (JJS most) (NNS redirects))) (NP (DT this)) (VP (VBZ is) (RB not) (NP (DT an) (NN issue))))) (-RRB- -RRB-)))) (. .)))
+
+root(ROOT-0, stripped-6)
+det(body-2, The-1)
+nsubj(stripped-6, body-2)
+aux(stripped-6, is-3)
+advmod(stripped-6, also-4)
+advmod(stripped-6, potentially-5)
+mark(issue-16, though-8)
+amod(redirects-11, most-10)
+prep_for(issue-16, redirects-11)
+nsubj(issue-16, this-12)
+cop(issue-16, is-13)
+neg(issue-16, not-14)
+det(issue-16, an-15)
+parataxis(stripped-6, issue-16)
+
+The/DT bug/NN seems/VBZ to/TO be/VB that/IN ap_proxy_http_process_response/NN (/-LRB- )/-RRB- -/: called/VBN within/IN proxy_http_handler/NN (/-LRB- )/-RRB- -/: is/VBZ being/VBG too/RB restrictive/JJ in/IN what/WP HTTP/NNP status/NN code/NN it/PRP considers/VBZ to/TO be/VB "/`` not/RB an/DT error/NN "/'' when/WRB dealing/VBG with/IN its/PRP$ error-override/JJ logic/NN :/: 
+
+(ROOT (S (NP (DT The) (NN bug)) (VP (VBZ seems) (S (VP (TO to) (VP (VB be) (SBAR (IN that) (S (NP (NP (NN ap_proxy_http_process_response)) (PRN (-LRB- -LRB-) (SQ (-RRB- -RRB-) (: -) (S (VP (VBN called) (PP (IN within) (NP (NN proxy_http_handler) (-LRB- -LRB-)))))) (-RRB- -RRB-))) (: -) (VP (VBZ is) (VP (VBG being) (ADJP (RB too) (JJ restrictive)) (PP (IN in) (SBAR (WHNP (WP what)) (S (NP (NP (NNP HTTP) (NN status) (NN code)) (NP (PRP it))) (VP (VBZ considers) (S (VP (TO to) (VP (VB be) (`` ``) (ADJP (RB not) (NP (DT an) (NN error))) ('' '') (SBAR (WHADVP (WRB when)) (S (VP (VBG dealing) (PP (IN with) (NP (PRP$ its) (JJ error-override) (NN logic))))))))))))))))))))) (: :)))
+
+root(ROOT-0, seems-3)
+det(bug-2, The-1)
+nsubj(seems-3, bug-2)
+aux(be-5, to-4)
+xcomp(seems-3, be-5)
+mark(restrictive-20, that-6)
+nsubj(restrictive-20, ap_proxy_http_process_response-7)
+dep(ap_proxy_http_process_response-7, called-11)
+prep_within(called-11, proxy_http_handler-13)
+aux(restrictive-20, is-17)
+cop(restrictive-20, being-18)
+advmod(restrictive-20, too-19)
+ccomp(be-5, restrictive-20)
+dobj(considers-27, what-22)
+nn(code-25, HTTP-23)
+nn(code-25, status-24)
+nsubj(considers-27, code-25)
+dep(code-25, it-26)
+prepc_in(restrictive-20, considers-27)
+aux(not-31, to-28)
+cop(not-31, be-29)
+xcomp(considers-27, not-31)
+det(error-33, an-32)
+dep(not-31, error-33)
+advmod(dealing-36, when-35)
+advcl(not-31, dealing-36)
+poss(logic-40, its-38)
+amod(logic-40, error-override-39)
+prep_with(dealing-36, logic-40)
+
+if/IN (/-LRB- conf/NN -/: >/JJR error_override/NN )/-RRB- {/-LRB- 
+
+(ROOT (SBAR (IN if) (S (PRN (-LRB- -LRB-) (NP (NP (NN conf)) (: -) (NP (JJR >) (NN error_override))) (-RRB- -RRB-)) (VP (-LRB- -LCB-)))))
+
+mark(-LCB--8, if-1)
+dep(-LCB--8, conf-3)
+amod(error_override-6, >-5)
+dep(conf-3, error_override-6)
+
+//: */SYM the/DT code/NN above/IN this/DT checks/NNS for/IN '/`` OK/JJ '/'' which/WDT is/VBZ what/WP the/DT hook/NN expects/VBZ */SYM //: 
+
+(ROOT (PRN (: /) (SBAR (X (SYM *)) (S (NP (NP (DT the) (NN code)) (PP (IN above) (NP (NP (DT this) (NNS checks)) (PP (IN for) (ADJP (`` `) (JJ OK) ('' '))) (SBAR (WHNP (WDT which)) (S (VP (VBZ is) (SBAR (WHNP (WP what)) (S (NP (DT the) (NN hook)) (VP (VBZ expects)))))))))) (VP (SYM *)))) (: /)))
+
+root(ROOT-0, *-18)
+punct(*-18, /-1)
+dep(*-18, *-2)
+det(code-4, the-3)
+nsubj(*-18, code-4)
+det(checks-7, this-6)
+prep_above(code-4, checks-7)
+prep_for(checks-7, OK-10)
+nsubj(is-13, which-12)
+rcmod(checks-7, is-13)
+dobj(expects-17, what-14)
+det(hook-16, the-15)
+nsubj(expects-17, hook-16)
+ccomp(is-13, expects-17)
+punct(*-18, /-19)
+
+if/IN (/-LRB- ap_is_HTTP_SUCCESS/NN (/-LRB- r/NN -/: >/JJR status/NN )/-RRB- )/-RRB- 
+
+(ROOT (FRAG (IN if) (NP (NP (-LRB- -LRB-)) (NP (NP (NN ap_is_HTTP_SUCCESS)) (PRN (-LRB- -LRB-) (NP (NP (NN r)) (: -) (NP (JJR >) (NN status))) (-RRB- -RRB-)) (-RRB- -RRB-)))))
+
+root(ROOT-0, if-1)
+dep(-LRB--2, ap_is_HTTP_SUCCESS-3)
+dep(ap_is_HTTP_SUCCESS-3, r-5)
+amod(status-8, >-7)
+dep(r-5, status-8)
+
+return/NN OK/UH ;/: 
+
+(ROOT (NP (NP (NP (NN return)) (SBAR (S (VP (ADVP (UH OK)))))) (: ;)))
+
+root(ROOT-0, return-1)
+rcmod(return-1, OK-2)
+
+else/RB {/-LRB- 
+
+(ROOT (FRAG (RB else) (ADVP (-LRB- -LCB-))))
+
+root(ROOT-0, else-1)
+
+//: //: . . ./: stripped/VBD some/DT lines/NNS here/RB for/IN clarity/NN 
+
+(ROOT (PRN (: /) (S (VP (: /) (: ...) (SBAR (S (VP (VBD stripped) (NP (DT some) (NNS lines)) (ADVP (RB here)) (PP (IN for) (NP (NN clarity))))))))))
+
+root(ROOT-0, stripped-4)
+punct(stripped-4, /-1)
+punct(stripped-4, /-2)
+det(lines-6, some-5)
+dobj(stripped-4, lines-6)
+advmod(stripped-4, here-7)
+prep_for(stripped-4, clarity-9)
+
+return/NN r/SYM -/: >/JJR status/NN ;/: 
+
+(ROOT (FRAG (NP (NN return)) (NP (NP (SYM r)) (: -) (NP (JJR >) (NN status) (: ;)))))
+
+root(ROOT-0, return-1)
+dep(return-1, r-2)
+amod(status-5, >-4)
+dep(r-2, status-5)
+
+}/-RRB- 
+
+(ROOT (NP (-RRB- -RCB-)))
+
+
+}/-RRB- else/RB 
+
+(ROOT (FRAG (-RRB- -RCB-) (RB else)))
+
+root(ROOT-0, else-2)
+
+return/NN OK/UH ;/: 
+
+(ROOT (NP (NP (NP (NN return)) (SBAR (S (VP (ADVP (UH OK)))))) (: ;)))
+
+root(ROOT-0, return-1)
+rcmod(return-1, OK-2)
+
+So/RB if/IN you/PRP have/VBP '/`` ProxyErrorOverride/NNP On/NNP '/POS ,/, this/DT will/MD return/VB OK/JJ if/IN the/DT status/NN coming/VBG from/IN the/DT backend/JJ server/NN is/VBZ >/JJR =/JJ 200/CD or/CC </JJR 300/CD only/RB ./. 
+
+(ROOT (S (ADVP (RB So) (SBAR (IN if) (S (NP (PRP you)) (VP (VBP have) (`` `) (NP (NP (NNP ProxyErrorOverride) (NP (NNP On) (POS '))) (, ,)))))) (NP (DT this)) (VP (MD will) (VP (VB return) (ADJP (ADJP (JJ OK) (SBAR (IN if) (S (NP (NP (DT the) (NN status)) (VP (VBG coming) (PP (IN from) (NP (DT the) (JJ backend) (NN server))))) (VP (VBZ is) (NP (NP (JJR >)) (ADJP (JJ =) (NP-TMP (CD 200)))))))) (CC or) (ADJP (JJR <))) (ADVP (NP (CD 300)) (RB only)))) (. .)))
+
+root(ROOT-0, return-12)
+advmod(return-12, So-1)
+mark(have-4, if-2)
+nsubj(have-4, you-3)
+dep(So-1, have-4)
+dobj(have-4, ProxyErrorOverride-6)
+poss(ProxyErrorOverride-6, On-7)
+nsubj(return-12, this-10)
+aux(return-12, will-11)
+acomp(return-12, OK-13)
+mark(>-23, if-14)
+det(status-16, the-15)
+nsubj(>-23, status-16)
+vmod(status-16, coming-17)
+det(server-21, the-19)
+amod(server-21, backend-20)
+prep_from(coming-17, server-21)
+cop(>-23, is-22)
+ccomp(OK-13, >-23)
+amod(>-23, =-24)
+tmod(=-24, 200-25)
+acomp(return-12, <-27)
+conj_or(OK-13, <-27)
+npadvmod(only-29, 300-28)
+advmod(return-12, only-29)
+
+Obviously/RB redirects/VBZ (/-LRB- which/WDT are/VBP not/RB errors/NNS )/-RRB- fall/VBP outside/IN of/IN this/DT range/NN ./. 
+
+(ROOT (S (S (VP (ADVP (RB Obviously)) (VBZ redirects))) (PRN (-LRB- -LRB-) (SBAR (WHNP (WDT which)) (S (VP (VBP are) (RB not) (NP (NNS errors))))) (-RRB- -RRB-)) (VP (VBP fall) (ADVP (IN outside)) (PP (IN of) (NP (DT this) (NN range)))) (. .)))
+
+root(ROOT-0, fall-9)
+advmod(redirects-2, Obviously-1)
+csubj(fall-9, redirects-2)
+nsubj(errors-7, which-4)
+cop(errors-7, are-5)
+neg(errors-7, not-6)
+parataxis(fall-9, errors-7)
+det(range-13, this-12)
+prep_outside_of(fall-9, range-13)
+
+Fix/VB :/: the/DT check/NN here/RB needs/VBZ to/TO also/RB include/VB redirect/NN status/NN codes/NNS ./. 
+
+(ROOT (S (S (VP (VB Fix))) (: :) (S (NP (DT the) (NN check)) (ADVP (RB here)) (VP (VBZ needs) (S (VP (TO to) (VP (ADVP (RB also)) (VB include) (NP (NN redirect) (NN status) (NNS codes))))))) (. .)))
+
+root(ROOT-0, Fix-1)
+det(check-4, the-3)
+nsubj(needs-6, check-4)
+advmod(needs-6, here-5)
+parataxis(Fix-1, needs-6)
+aux(include-9, to-7)
+advmod(include-9, also-8)
+xcomp(needs-6, include-9)
+nn(codes-12, redirect-10)
+nn(codes-12, status-11)
+dobj(include-9, codes-12)
+
+Ie/NNP :/: use/VB ap_is_HTTP_REDIRECT/NN ./. 
+
+(ROOT (X (NP (NNP Ie)) (: :) (FRAG (VP (VB use) (NP (NN ap_is_HTTP_REDIRECT)))) (. .)))
+
+root(ROOT-0, Ie-1)
+dep(Ie-1, use-3)
+dobj(use-3, ap_is_HTTP_REDIRECT-4)
+
+There/EX is/VBZ a/DT similar/JJ check/NN futher/RBR up/RP in/IN the/DT same/JJ function/NN which/WDT also/RB needs/VBZ ammending/NN (/-LRB- that/IN deals/NNS with/IN passing/VBG the/DT body/NN through/IN )/-RRB- ./. 
+
+(ROOT (S (NP (EX There)) (VP (VBZ is) (NP (NP (DT a) (JJ similar) (NN check)) (ADJP (RBR futher))) (PP (RP up) (PP (IN in) (NP (NP (DT the) (JJ same) (NN function)) (SBAR (WHNP (WDT which)) (S (ADVP (RB also)) (VP (VBZ needs) (NP (NP (NN ammending)) (PRN (-LRB- -LRB-) (SBAR (IN that) (FRAG (NP (NP (NNS deals)) (PP (IN with) (S (VP (VBG passing) (NP (DT the) (NN body)) (PP (IN through)))))))) (-RRB- -RRB-)))))))))) (. .)))
+
+root(ROOT-0, is-2)
+expl(is-2, There-1)
+det(check-5, a-3)
+amod(check-5, similar-4)
+nsubj(is-2, check-5)
+amod(check-5, futher-6)
+prep(is-2, up-7)
+det(function-11, the-9)
+amod(function-11, same-10)
+prep_in(up-7, function-11)
+nsubj(needs-14, which-12)
+advmod(needs-14, also-13)
+rcmod(function-11, needs-14)
+dobj(needs-14, ammending-15)
+mark(deals-18, that-17)
+dep(ammending-15, deals-18)
+prepc_with(deals-18, passing-20)
+det(body-22, the-21)
+dobj(passing-20, body-22)
+prep(passing-20, through-23)
+
+This/DT bug/NN is/VBZ a/DT regression/NN in/IN behaviour/NN from/IN the/DT 2.0/CD branch/NN (/-LRB- currently/RB we/PRP run/VBP 
+
+(ROOT (S (NP (DT This) (NN bug)) (VP (VBZ is) (NP (NP (DT a) (NN regression)) (PP (IN in) (NP (NP (NN behaviour)) (PP (IN from) (NP (DT the) (CD 2.0) (NN branch))))) (SBAR (S (-LRB- -LRB-) (NP (RB currently) (PRP we)) (VP (VBP run))))))))
+
+root(ROOT-0, regression-5)
+det(bug-2, This-1)
+nsubj(regression-5, bug-2)
+cop(regression-5, is-3)
+det(regression-5, a-4)
+prep_in(regression-5, behaviour-7)
+det(branch-11, the-9)
+num(branch-11, 2.0-10)
+prep_from(behaviour-7, branch-11)
+advmod(we-14, currently-13)
+nsubj(run-15, we-14)
+rcmod(regression-5, run-15)
+
+2/CD 0.58/CD )/-RRB- ./. 
+
+(ROOT (S (NP (CD 2)) (VP (CD 0.58)) (-RRB- -RRB-) (. .)))
+
+root(ROOT-0, 0.58-2)
+nsubj(0.58-2, 2-1)
+
+Bug/NN discovered/VBD and/CC fix/VB tested/VBN with/IN 2.2.4/CD (/-LRB- will/MD attach/VB patch/NN )/-RRB- ./. 
+
+(ROOT (S (NP (NN Bug)) (VP (VP (VBD discovered)) (CC and) (VP (VB fix) (VP (VBN tested) (PP (IN with) (NP (CD 2.2.4))) (PRN (-LRB- -LRB-) (S (VP (MD will) (VP (VB attach) (NP (NN patch))))) (-RRB- -RRB-))))) (. .)))
+
+root(ROOT-0, discovered-2)
+nsubj(discovered-2, Bug-1)
+nsubj(fix-4, Bug-1)
+conj_and(discovered-2, fix-4)
+dep(fix-4, tested-5)
+prep_with(tested-5, 2.2.4-7)
+aux(attach-10, will-9)
+parataxis(tested-5, attach-10)
+dobj(attach-10, patch-11)
+
+Looking/VBG 
+
+(ROOT (S (VP (VBG Looking))))
+
+root(ROOT-0, Looking-1)
+
+at/IN SVN/NNP ,/, the/DT current/JJ behaviour/NN has/VBZ been/VBN in/IN the/DT 2.2/CD branch/NN since/IN before/IN 2.2.0/CD ,/, and/CC 
+
+(ROOT (S (PP (IN at) (NP (NNP SVN))) (, ,) (NP (DT the) (JJ current) (NN behaviour)) (VP (VBZ has) (VP (VBN been) (PP (IN in) (NP (DT the) (CD 2.2) (NN branch))) (PP (IN since) (PP (IN before) (NP (CD 2.2.0)))) (, ,) (ADVP (CC and))))))
+
+root(ROOT-0, been-8)
+prep_at(been-8, SVN-2)
+det(behaviour-6, the-4)
+amod(behaviour-6, current-5)
+nsubj(been-8, behaviour-6)
+aux(been-8, has-7)
+det(branch-12, the-10)
+num(branch-12, 2.2-11)
+prep_in(been-8, branch-12)
+prep(been-8, since-13)
+pcomp(since-13, before-14)
+pobj(before-14, 2.2.0-15)
+advmod(been-8, and-17)
+
+it/PRP is/VBZ also/RB in/IN current/JJ trunk/NN ./. 
+
+(ROOT (S (NP (PRP it)) (VP (VBZ is) (ADVP (RB also)) (PP (IN in) (NP (JJ current) (NN trunk)))) (. .)))
+
+root(ROOT-0, is-2)
+nsubj(is-2, it-1)
+advmod(is-2, also-3)
+amod(trunk-6, current-5)
+prep_in(is-2, trunk-6)
+

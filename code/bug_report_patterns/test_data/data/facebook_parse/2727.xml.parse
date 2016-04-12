@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2727</id>
+	<title>login.php unencodes the  next  parameter twice</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">login.php seems to be unencoding parameters twice_ so when it redirects to tos.php all parameters have lost their previous potential encoding.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Example:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">1 Consider the following URL:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">http://www.new.facebook.com/login.php?api_key=API_KEY&amp;next=%3Fparam1%3Dthis%2526that</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This URL has a parameter called  next .</sentence>
+			<sentence id="5.2">It is encoded_ but if we unencode it_ we ll see that its value is  ?</sentence>
+			<sentence id="5.3">param1=this%26that .</sentence>
+			<sentence id="5.4">As you can see_ the value for the embedded  param1  parameter is encoded as well.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">2 The login.php script redirects to the following URL:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">http://www.new.facebook.com/tos.php?api_key=API_KEY&amp;next=%3Fparam1%3Dthis%26that</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Let s now unencode the  next .</sentence>
+			<sentence id="8.2">This time_ its value is  ?</sentence>
+			<sentence id="8.3">param1=this&amp;that .</sentence>
+			<sentence id="8.4">As you can see_ the embedded  param1  parameter lost its encoded value.This happened because login.php double-decoded the value of the  next  parameter (I guess it does that will all other params).</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">This bug is affecting all users who are appending a  next  parameter to login.php and that it contains embedded encoded params.</sentence>
+			<sentence id="9.2">This bug wasn t affecting add.php_ but as add.php is now redirecting to login.php it s breaking a high number of apps.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">You should fix this as soon as possible.</sentence>
+			<sentence id="10.2">Meanwhile_ the workaround is to double-encode the  next  param appended to login.php.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Thanks!</sentence>
+		</paragraph>
+	</description>
+</bug>

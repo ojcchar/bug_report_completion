@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>282361</id>
+	<title>ClassCastException due to unknown reason</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I get this stacktrace in console:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1"></sentence>
+			<sentence id="2.2">java.lang.ClassCastException: org.eclipse.core.internal.resources.Folder</sentence>
+			<sentence id="2.3">	at java.util.TreeMap.compare(TreeMap.java:1093)</sentence>
+			<sentence id="2.4">	at java.util.TreeMap.put(TreeMap.java:465)</sentence>
+			<sentence id="2.5">	at java.util.TreeSet.add(TreeSet.java:210)</sentence>
+			<sentence id="2.6">	at org.eclipse.stp.sca.common.jdt.utils.filters.JavaProjectUtils.getBinaryFolders(JavaProjectUtils.java:80)</sentence>
+			<sentence id="2.7">	at org.eclipse.stp.sca.common.jdt.utils.filters.SkippedResources.getResourcesToSkip(SkippedResources.java:41)</sentence>
+			<sentence id="2.8">	at org.eclipse.stp.sca.common.jdt.utils.filters.SkippedResources.filterAllowedFiles(SkippedResources.java:76)</sentence>
+			<sentence id="2.9">	at org.eclipse.stp.sca.common.jdt.builder.ScaIncrementalBuilder.incrementalBuild(ScaIncrementalBuilder.java:233)</sentence>
+			<sentence id="2.10">	at org.eclipse.stp.sca.common.jdt.builder.ScaIncrementalBuilder.build(ScaIncrementalBuilder.java:139)</sentence>
+			<sentence id="2.11">	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:627)</sentence>
+			<sentence id="2.12">	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)</sentence>
+			<sentence id="2.13">	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:170)</sentence>
+			<sentence id="2.14">	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:201)</sentence>
+			<sentence id="2.15">	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:253)</sentence>
+			<sentence id="2.16">	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)</sentence>
+			<sentence id="2.17">	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:256)</sentence>
+			<sentence id="2.18">	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:315)</sentence>
+			<sentence id="2.19">	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:341)</sentence>
+			<sentence id="2.20">	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:140)</sentence>
+			<sentence id="2.21">	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:238)</sentence>
+			<sentence id="2.22">	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">-- Configuration Details --</sentence>
+			<sentence id="3.2">Product: Eclipse 1.2.0.20090619-0620 (org.eclipse.epp.package.java.product)</sentence>
+			<sentence id="3.3">Installed Features:</sentence>
+			<sentence id="3.4">org.eclipse.wst.xml_ui.feature 3.1.0.v200905240756-7H6FMVDxtkM-5OgPGKK4xQocS5AL</sentence>
+		</paragraph>
+	</description>
+</bug>

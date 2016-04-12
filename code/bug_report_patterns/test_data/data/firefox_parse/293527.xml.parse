@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>293527</id>
+	<title>"Save Image As" context menu allows to silently save executables instead of images</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.7) Gecko/20050414 Firefox/1.0.3
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.7) Gecko/20050414 Firefox/1.0.3</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The context menu option "Save Image As" does not validate if the src image is
+valid.</sentence>
+			<sentence id="2.2">By using absolute positioning and the moz-opacity filter an attacker can
+easily fool the user to think he is going to save a valid image but is
+downloading an executable file instead.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Since file extensions are default disabled on windows and an exe files can have
+any file icon - including the standard image icon - the user can only tell the
+difference when he recognizes that the save dialog file type drop down shows
+"Application" instead of an image file.</sentence>
+			<sentence id="3.2">Unlikely average users will see that or
+realize the consequences.</sentence>
+			<sentence id="3.3">Probably most poeple will just double-click the "image
+file" they downloaded when they are going to view it and will run the executable
+in that moment.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Steps to Reproduce:</sentence>
+			<sentence id="5.2">1 Open http://bugzilla:Ha8T4wc@www.mikx.de/firesaving/</sentence>
+			<sentence id="5.3">2 Follow instructions</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">It seems Firefox sometimes raises an "the web page might have been removed or
+its name changed" error when supplying a larger exe directly as an image source
+and then trying to save it (is that a bug or a security feature?)</sentence>
+			<sentence id="6.2">.</sentence>
+			<sentence id="6.3">Anyway, an
+attacker can work around this problem with a little php script like this:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">$fp = fopen("exe.exe", "rb");
+header("Content-Type: image/gif");
+header("Content-Disposition: inline; filename=booom.exe");
+fpassthru($fp);
+fclose($fp);</sentence>
+		</paragraph>
+	</description>
+</bug>

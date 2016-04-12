@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12155</id>
+	<title>[mod_rewrite] last character of request is stripped</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Under certain circumstances, mod_rewrite will delete the last charachter of a 
+request, resulting in a failure to retreive the resource.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Example: I use Serveralias *.</sentence>
+			<sentence id="2.2">domain.nl to foward all subdomains of a virtal 
+host.</sentence>
+			<sentence id="2.3">Through the .</sentence>
+			<sentence id="2.4">htaccess and the Rewriteengine I will distribute subdomains 
+to subdirs.</sentence>
+			<sentence id="2.5">Now, the indexfile in those subdirs is index.html.</sentence>
+			<sentence id="2.6">My 
+DirectoryIndex states index.html index.htm index.php index.cgi .</sentence>
+			<sentence id="2.7">See what 
+happens:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">(2 No such file or directory: file permissions deny server</sentence>
+			<sentence id="3.2">access: /usr/local/www/domain.nl/docs/directory/index.</sentence>
+			<sentence id="3.3">htm</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">A request directly to the subdir will succeed.</sentence>
+			<sentence id="4.2">Through subdomain.domain.nl it 
+will produce the above error.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">See also:
+http://citadelle.intrinsec.com/mailing/current/HTML/ml_apache-server-
+bugs/0588.</sentence>
+			<sentence id="5.2">html</sentence>
+		</paragraph>
+	</description>
+</bug>

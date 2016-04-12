@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>394249</id>
+	<title>document.domain script causes javascript to not render css or page properly</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; WOW64; SLCC1; .</sentence>
+			<sentence id="1.2">NET CLR 2.0.50727; .</sentence>
+			<sentence id="1.3">NET CLR 3.0.04506; InfoPath.2; .</sentence>
+			<sentence id="1.4">NET CLR 1.1.4322)
+Build Identifier: 2.0.0.6</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When you add this line of code</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;script language="Javascript"&gt;
+document.domain = "mydomain.com";
+&lt;/script&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">If causes the firefox browser to not render the page properly with CSS.</sentence>
+			<sentence id="4.2">Once this is taken out, it works.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Steps to Reproduce:</sentence>
+			<sentence id="6.2">1 insert the following code anywhere</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;script language="Javascript"&gt;</sentence>
+			<sentence id="7.2">document.domain = "mydomain.com";</sentence>
+			<sentence id="7.3">&lt;/script&gt;</sentence>
+			<sentence id="7.4">2</sentence>
+			<sentence id="7.5">3</sentence>
+		</paragraph>
+	</description>
+</bug>

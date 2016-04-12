@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>152809</id>
+	<title>Could not delete .../tmp0/.../something.jsp messages during publish</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">eclipse_3_2_WTP_1.5.1-200607272136</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I am using linux.</sentence>
+			<sentence id="2.2">I an getting could not delete error messages during some publish operations.</sentence>
+			<sentence id="2.3">This is usualy after renaming or deleting resources from the project with background automatic publish is running.</sentence>
+			<sentence id="2.4">I have checked the permissions and ownership of the files and they are correct.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">If I go to check the tmp0 deployed copy manually, I have found all cases where a single file was being moved to be bogus.</sentence>
+			<sentence id="3.2">The file it warned me about is not on the file system at the old location anymore.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">However when I moved a whole directory from one part of the webproject to another I found copies in place places, the new destination and the old source location.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The structure was like:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">WebContent/newPlace/
+WebContent/problemDirectory/
+WebContent/problemDirectory/SubDirOne
+WebContent/problemDirectory/SubDirOne/somefiles.jsp
+WebContent/problemDirectory/SubDirTwo
+WebContent/problemDirectory/SubDirTwo/somefiles.jsp
+WebContent/problemDirectory/file1.</sentence>
+			<sentence id="6.2">jsp
+WebContent/problemDirectory/file2.</sentence>
+			<sentence id="6.3">jsp
+WebContent/problemDirectory/file3.</sentence>
+			<sentence id="6.4">css</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I did a move operation from WebContent/problemDirectory/ to make it WebContent/newPlace/problemDirectory/</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Under what circumstances on Linux should I expect to see this error, is the message a result of an caught exception or false return value from Java API call for File.delete() ?</sentence>
+		</paragraph>
+	</description>
+</bug>

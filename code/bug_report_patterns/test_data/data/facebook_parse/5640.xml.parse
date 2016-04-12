@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>5640</id>
+	<title>showfeeddialog does not show the publish dialog when called from the login callback.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We allow users to post search results from bing.com to facebook.</sentence>
+			<sentence id="1.2">When the user logs in_ in the login callback_ we call showfeeddialog - the snippet is shown below:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This was working fine till a couple of days back.</sentence>
+			<sentence id="2.2">Now_ the showfeedialog is not shown after the login dialog.</sentence>
+			<sentence id="2.3">If you try again_ it works_ but it consistently fails the first time.</sentence>
+			<sentence id="2.4">This is a critical bug affecting our live site.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">try</sentence>
+			<sentence id="3.2">{</sentence>
+			<sentence id="3.3">FB.ensureInit</sentence>
+			<sentence id="3.4">(</sentence>
+			<sentence id="3.5">function()</sentence>
+			<sentence id="3.6">{</sentence>
+			<sentence id="3.7">--&gt; FAILS THE FIRST TIME</sentence>
+			<sentence id="3.8">bFeedSucceed = FB.Connect.showFeedDialog(templatBundleID_ template_data_ null_ null_ null_ FB.RequireConnect.require_ facebook_onfeed_ prompt_ userMessage);</sentence>
+			<sentence id="3.9">}</sentence>
+			<sentence id="3.10">);</sentence>
+			<sentence id="3.11">}</sentence>
+			<sentence id="3.12">catch(err)</sentence>
+			<sentence id="3.13">{</sentence>
+		</paragraph>
+	</description>
+</bug>

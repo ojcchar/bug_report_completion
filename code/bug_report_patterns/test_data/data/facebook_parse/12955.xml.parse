@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12955</id>
+	<title>Graph api returns false for existing objects.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We have see that when we get likes for a user _ there are some objects whose detailed information is not accessible.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This is the data we get for a test user.</sentence>
+			<sentence id="2.2">{
+    data : [
+      {
+          name :  Resident Evil Movie _
+          category :  Film _
+          id :  417038868708 _
+          created_time :  2010-10-13T18:45:02+0000 
+      }_
+      {
+          name :  Resident Evil _
+          category :  Film _
+          id :  143771155642026 _
+          created_time :  2010-10-13T18:44:28+0000 
+      }_
+      {
+          name :  The 40-Year-Old Virgin _
+          category :  Film _
+          id :  152049011493179 _
+          created_time :  2010-10-13T18:10:31+0000 
+      }
+   ]
+}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">And out of the three we have noticed that two of the object does not return any information when we use the graph api.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">when we do a api call to 
+http://graph.facebook.com/417038868708 or
+http://graph.facebook.com/152049011493179</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">we get false as a result.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">when we do a batch query.</sentence>
+			<sentence id="6.2">https://graph.facebook.com/?id=417038868708_152049011493179</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">we get 
+{
+    error : {
+       type :  OAuthException _
+       message :  (#803) Some of the aliases you requested do not exist: 417038868708_152049011493179 
+   }
+}</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">but the pages to these objects exists.</sentence>
+			<sentence id="8.2">417038868708 - http://www.facebook.com/ResidentEvilMovie
+152049011493179 - http://www.facebook.com/pages/The-40-Year-Old-Virgin/152049011493179</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>46678</id>
+	<title>Fixed Content-Length using mod_ext_filter with mode=input</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I wrote an input filter using mod_ext_filter.</sentence>
+			<sentence id="1.2">In the filter "implementation" I get the post data (from stdin) and modify it (to stdout) with no issues.</sentence>
+			<sentence id="1.3">However, after changing the post data, the Content-Length of the request still has the original value.</sentence>
+			<sentence id="1.4">For instance:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Original post data: param1=12345 with Content-Length: 12 
+Post data after filter: param1=abcdefghij with Content-Length: 12</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Then because the Content-Length is not changed, when the request post data is
+received after the filter, it will be truncated to the original Content-Length
+size (i.e. would get param1=abcde in the previous example).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The filter implementation is a Java program (speed is not an issue), and this is
+how the filter definition looks:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">ExtFilterDefine filtername mode=input cmd="/path_to_java/java.exe -classpath
+/path_to_java_app com.my.program.Filter"</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">As you can see, I am not using the PreservesContentLength flag.</sentence>
+			<sentence id="6.2">Also, this is
+running on Windows XP, and using Apache 2.2.10 (I already verified and 2.2.11
+does not mention anything like this in the release notes).</sentence>
+			<sentence id="6.3">I also tried setting the Content-Length using mod_headers but this cause another problem (would completely remove the post data).</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I am reporting this as a bug, as supposedly not using the PreservesContentLength flag should let the filter change the Content-Length.</sentence>
+		</paragraph>
+	</description>
+</bug>

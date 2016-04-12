@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>5545</id>
+	<title>XFBML wont render in Safari unless mimetype for the page is set Content-type text/html</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Safari would not render XFBML (e.g.: &lt;fb:login-button&gt;) until I stopped doing any content negotiation with the browser and /forced/ Content-type to  text/html .</sentence>
+			<sentence id="1.2">Safari was asking for  application/xhtml+xml  which is technically correct_ but Facebook s Java libs can t deal with that.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">For example_ Facebook s DOM parsing routines cannot find  head  when content type is set properly to XHTML_ because they are looking for upper-case  HEAD  as would be expected in an HTML document.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This affects all versions of Safari_ Chrome_ and FireFox 2.</sentence>
+		</paragraph>
+	</description>
+</bug>

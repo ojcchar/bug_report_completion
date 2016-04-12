@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>25701</id>
+	<title>AIX httpd 2.0.48 Build Error (xlate.c)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">OS level: AIX 5.2
+Compiler: C for AIX (xlc_r) version 6.0.0.0</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When doing a "make" on apache server 2.0.48 after running "configure", build 
+fails on following error trying to compile "xlate.c":</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">/bin/sh /opt/freeware/httpd-2.0.48/srclib/apr/libtool --silent --mode=compile</sentence>
+			<sentence id="3.2">xlc_r -g -qHALT=E -qfullpath -qinitauto=FE -qcheck=all -qinfo=pro   -</sentence>
+			<sentence id="3.3">DHAVE_CONFIG_H -U__STR__ -D_THREAD_SAFE -D_USE_IRS   -I/opt/freeware/httpd-</sentence>
+			<sentence id="3.4">2 0.48/srclib/apr-util/include -I/opt/freeware/httpd-2.0.48/srclib/apr-</sentence>
+			<sentence id="3.5">util/include/private  -I/opt/freeware/httpd-2.0.48/srclib/apr/include  -</sentence>
+			<sentence id="3.6">I/opt/freeware/httpd-2.0.48/srclib/apr-util/xml/expat/lib  -c xlate.c &amp;&amp; touch</sentence>
+			<sentence id="3.7">xlate.lo</sentence>
+			<sentence id="3.8">"xlate.c", line 158.38: 1506-280 (E) Function argument assignment between</sentence>
+			<sentence id="3.9">types "char**" and "const char**" is not allowed.</sentence>
+			<sentence id="3.10">"xlate.c", line 368.42: 1506-280 (E) Function argument assignment between</sentence>
+			<sentence id="3.11">types "char**" and "const char**" is not allowed.</sentence>
+			<sentence id="3.12">make: 1254-004 The error code from the last command is 1.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Stop.</sentence>
+			<sentence id="4.2">make: 1254-004 The error code from the last command is 1.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Stop.</sentence>
+		</paragraph>
+	</description>
+</bug>

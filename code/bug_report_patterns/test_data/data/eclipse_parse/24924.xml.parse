@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>24924</id>
+	<title>quick fix: strange method javadoc created [quick fix]</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">20021016
+public abstract class DD implements Comparator{		
+}
+class DDd extends DD implements Comparable{
+}</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">quick fix DDd to add unimplemented methods
+you get this: (javadoc for compare is incorrect - it should refer to 
+Comparable#compare)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">/**</sentence>
+			<sentence id="3.2">* @see jghj.DD#compare(java.lang.Object, java.lang.Object)</sentence>
+			<sentence id="3.3">*/</sentence>
+			<sentence id="3.4">public int compare(Object arg0, Object arg1) {</sentence>
+			<sentence id="3.5">return 0;</sentence>
+			<sentence id="3.6">}</sentence>
+			<sentence id="3.7">/**</sentence>
+			<sentence id="3.8">* @see java.lang.Comparable#compareTo(java.lang.Object)</sentence>
+			<sentence id="3.9">*/</sentence>
+			<sentence id="3.10">public int compareTo(Object arg0) {</sentence>
+			<sentence id="3.11">return 0;</sentence>
+			<sentence id="3.12">}</sentence>
+		</paragraph>
+	</description>
+</bug>

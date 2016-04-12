@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8890</id>
+	<title>ssl stop serving pages after a couple of minutes</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have reproduced this on 3 different computers running Linux kernel &gt;=2.4.17
+glibc &gt;=2.2.4
+It works for some time then suddenly it stops working and never seems to work
+again, the process doesn't seem to be hanged, no 100% cpu load.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I'm not used to debug stuff so please let me know if I can contribute with more
+info here's what I think is useful.</sentence>
+			<sentence id="2.2">.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">apache is configured with:
+CFLAGS="" .</sentence>
+			<sentence id="3.2">/configure --prefix=/opt/apache --enable-ssl --enable-maintainer-mode</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">sunkan:# tail /opt/apache/logs/ssl_engine_log</sentence>
+			<sentence id="4.2">[07/May/2002 22:33:42 23203] [info]  Subsequent (No.7) HTTPS request received</sentence>
+			<sentence id="4.3">for child 6 (server new.host.name:443)</sentence>
+			<sentence id="4.4">[07/May/2002 22:33:42 23203] [info]  Subsequent (No.8) HTTPS request received</sentence>
+			<sentence id="4.5">for child 6 (server new.host.name:443)</sentence>
+			<sentence id="4.6">[07/May/2002 22:33:57 23203] [info]  Connection to child 6 closed with standard</sentence>
+			<sentence id="4.7">shutdown(server new.host.name:443, client ::1)</sentence>
+			<sentence id="4.8">[07/May/2002 22:34:21 23195] [info]  Connection to child 1 established (server</sentence>
+			<sentence id="4.9">new.host.name:443, client ::1)</sentence>
+			<sentence id="4.10">[07/May/2002 22:34:21 23195] [info]  Seeding PRNG with 136 bytes of entropy</sentence>
+			<sentence id="4.11">[07/May/2002 22:34:21 23195] [warn]  Failed to acquire global mutex lock</sentence>
+			<sentence id="4.12">[07/May/2002 22:34:21 23195] [warn]  Failed to release global mutex lock</sentence>
+			<sentence id="4.13">sunkan:#</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">sunkan:# /opt/apache/bin/httpd -V</sentence>
+			<sentence id="5.2">Server version: Apache/2.0.36</sentence>
+			<sentence id="5.3">Server built:   May  7 2002 22:21:25</sentence>
+			<sentence id="5.4">Server's Module Magic Number: 20020329:1</sentence>
+			<sentence id="5.5">Architecture:   32-bit</sentence>
+			<sentence id="5.6">Server compiled with....</sentence>
+			<sentence id="5.7">-D APACHE_MPM_DIR="server/mpm/prefork"</sentence>
+			<sentence id="5.8">-D APR_HAS_SENDFILE</sentence>
+			<sentence id="5.9">-D APR_HAS_MMAP</sentence>
+			<sentence id="5.10">-D APR_HAVE_IPV6</sentence>
+			<sentence id="5.11">-D APR_USE_SYSVSEM_SERIALIZE</sentence>
+			<sentence id="5.12">-D APR_USE_PTHREAD_SERIALIZE</sentence>
+			<sentence id="5.13">-D SINGLE_LISTEN_UNSERIALIZED_ACCEPT</sentence>
+			<sentence id="5.14">-D APR_HAS_OTHER_CHILD</sentence>
+			<sentence id="5.15">-D AP_HAVE_RELIABLE_PIPED_LOGS</sentence>
+			<sentence id="5.16">-D HTTPD_ROOT="/opt/apache"</sentence>
+			<sentence id="5.17">-D SUEXEC_BIN="/opt/apache/bin/suexec"</sentence>
+			<sentence id="5.18">-D DEFAULT_ERRORLOG="logs/error_log"</sentence>
+			<sentence id="5.19">-D SERVER_CONFIG_FILE="conf/httpd.</sentence>
+			<sentence id="5.20">conf"</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">When the server stops serving ssl pages I used this method to try and find out
+which process is responsible for that connection.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">sunkan:# netstat -anp|grep ht
+tcp        0      0 :::80                   :::*                    LISTEN     
+23193/httpd         
+tcp        0      0 :::443                  :::*                    LISTEN     
+23193/httpd         
+tcp      645      0 ::1:443                 ::1:32969               ESTABLISHED
+23195/httpd</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">sunkan:# gdb /opt/apache/bin/httpd 23195</sentence>
+			<sentence id="8.2">0x402aa815 in sigsuspend () from /lib/libc.so.6</sentence>
+			<sentence id="8.3">(gdb) bt</sentence>
+			<sentence id="8.4">#0  0x402aa815 in sigsuspend () from /lib/libc.so.6</sentence>
+			<sentence id="8.5">#1  0x4026fd8b in __pthread_wait_for_restart_signal () from /lib/libpthread.so.0</sentence>
+			<sentence id="8.6">#2  0x402714bb in __pthread_alt_lock () from /lib/libpthread.so.0</sentence>
+			<sentence id="8.7">#3  0x4026e895 in pthread_mutex_lock () from /lib/libpthread.so.0</sentence>
+			<sentence id="8.8">#4  0x40047143 in apr_thread_mutex_lock (mutex=0x8130780) at thread_mutex.c:149</sentence>
+			<sentence id="8.9">#5  0x40045ae2 in apr_global_mutex_lock (mutex=0x81306f8) at global_mutex.c:130</sentence>
+			<sentence id="8.10">#6  0x0807b01f in ssl_mutex_on (s=0x8131e40) at ssl_engine_mutex.c:101</sentence>
+			<sentence id="8.11">#7  0x080818f1 in ssl_scache_dbm_store (s=0x8131e40, id=0x8174ff8 "\035@z&amp;#65533;&amp;#65533;&amp;#65533;\203</sentence>
+			<sentence id="8.12">\203&amp;#65533;0*&amp;#65533;c&amp;#65533;5\f&amp;#65533;&amp;#65533;\232&amp;#65533;&amp;#65533;\227&amp;#65533;\177&amp;#65533;&amp;#65533;&amp;#65533;&amp;#65533;L\e\036&amp;#65533; ", idlen=32, expiry=1020803961,</sentence>
+			<sentence id="8.13">sess=0x8174fb0) at ssl_scache_dbm.c:172</sentence>
+			<sentence id="8.14">#8  0x08081184 in ssl_scache_store (s=0x8131e40, id=0x8174ff8 "\035@z&amp;#65533;&amp;#65533;&amp;#65533;\203</sentence>
+			<sentence id="8.15">\203&amp;#65533;0*&amp;#65533;c&amp;#65533;5\f&amp;#65533;&amp;#65533;\232&amp;#65533;&amp;#65533;\227&amp;#65533;\177&amp;#65533;&amp;#65533;&amp;#65533;&amp;#65533;L\e\036&amp;#65533; ", idlen=32, expiry=1020803961,</sentence>
+			<sentence id="8.16">sess=0x8174fb0) at ssl_scache.c:127</sentence>
+			<sentence id="8.17">#9  0x0807a0cf in ssl_callback_NewSessionCacheEntry (ssl=0x813f5e8,</sentence>
+			<sentence id="8.18">session=0x8174fb0) at ssl_engine_kernel.c:1717</sentence>
+			<sentence id="8.19">#10 0x400daf7c in ssl_update_cache () from /usr/lib/libssl.so.0.9.6</sentence>
+			<sentence id="8.20">Cannot access memory at address 0x3</sentence>
+			<sentence id="8.21">(gdb)</sentence>
+		</paragraph>
+	</description>
+</bug>

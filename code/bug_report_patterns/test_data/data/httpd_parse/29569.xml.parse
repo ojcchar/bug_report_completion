@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>29569</id>
+	<title>POST over HTTPS with verify client certificate</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm using POST over HTTPS with verify client certificate and found possible bug.</sentence>
+			<sentence id="1.2">According to /CHANES:</sentence>
+			<sentence id="1.3">&gt;Changes with Apache 2.0.37</sentence>
+			<sentence id="1.4">&gt;</sentence>
+			<sentence id="1.5">&gt; *) allow POST method over SSL when per-directory client cert</sentence>
+			<sentence id="1.6">&gt;     authentication is used with 'SSLOptions +OptRenegotiate' enabled</sentence>
+			<sentence id="1.7">&gt;     and a client cert was found in the ssl session cache.</sentence>
+			<sentence id="1.8">But server still write to log:</sentence>
+			<sentence id="1.9">&gt;[error] SSL Re-negotiation in conjunction with POST method not supported!</sentence>
+			<sentence id="1.10">\nhint: try SSLOptions +OptRenegotiate</sentence>
+			<sentence id="1.11">Then I apply patch below feature will be worked rigth.</sentence>
+			<sentence id="1.12">### BEGIN DIFF ###</sentence>
+			<sentence id="1.13">--- modules/ssl/ssl_engine_kernel.</sentence>
+			<sentence id="1.14">c     Tue Jun 15 13:20:46 2004</sentence>
+			<sentence id="1.15">+++ modules/ssl/ssl_engine_kernel.</sentence>
+			<sentence id="1.16">c.orig        Tue Jun 15 13:38:17 2004</sentence>
+			<sentence id="1.17">@@ -549,7 +549,7 @@</sentence>
+			<sentence id="1.18">*</sentence>
+			<sentence id="1.19">* !!</sentence>
+			<sentence id="1.20">BUT ALL THIS IS STILL NOT RE-IMPLEMENTED FOR APACHE 2.0 !!</sentence>
+			<sentence id="1.21">*/</sentence>
+			<sentence id="1.22">-    if (!</sentence>
+			<sentence id="1.23">renegotiate &amp;&amp; !</sentence>
+			<sentence id="1.24">renegotiate_quick &amp;&amp; (r-&gt;method_number == M_POST)) {</sentence>
+			<sentence id="1.25">+    if (renegotiate &amp;&amp; !</sentence>
+			<sentence id="1.26">renegotiate_quick &amp;&amp; (r-&gt;method_number == M_POST)) {</sentence>
+			<sentence id="1.27">ap_log_error(APLOG_MARK, APLOG_ERR, 0, r-&gt;server,</sentence>
+			<sentence id="1.28">"SSL Re-negotiation in conjunction "</sentence>
+			<sentence id="1.29">"with POST method not supported!</sentence>
+			<sentence id="1.30">\n"</sentence>
+			<sentence id="1.31">### END DIFF ###</sentence>
+		</paragraph>
+	</description>
+</bug>

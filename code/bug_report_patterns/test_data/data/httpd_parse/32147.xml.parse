@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>32147</id>
+	<title>provide finer grained control over enabling/disabling cache logic</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This is undoubtably a corner-case, however I've experienced some flexibility
+issues configuring mod_cache to work well with a combination of mod_proxy
+and mod_rewrite.</sentence>
+			<sentence id="1.2">Specifically, the issue related to the inability
+(without resorting to cumbersome URI rewriting kludges) of mod_cache to be
+enabled/disabled on more than simply the basis of the leading portion of
+a URI path.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Additionally, due to the fact that mod_cache uses the quick_handler hook, it
+interrupts (if deciding to return cached content) most down-stream modules so
+that they cannot make decisions about caching or non-caching content.</sentence>
+			<sentence id="2.2">post_read_handler is the obvious exception, however due to the nearly
+unconditional way in which mod_cache intercepts requests, it's rather
+non-elegant to resort to intercept and avoidance trickery via post_read_handler
+algorithms.</sentence>
+			<sentence id="2.3">I do understand that using quick_handler, in the majority
+of minimal configuration caching needs, is a performance win.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Certainly, this could be worked around with subrequests, however I would
+prefer not to have to deal with the overhead of a subreq on every transaction
+(which is what would be necessary in _my_ particular case, others may have
+better solutions).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">With that being stated, the attached patch to 2.1-HEAD was my solution to
+this issue.</sentence>
+			<sentence id="4.2">The following are a list of changes, some of which may be beyond
+the scope of what was necessary and violate various development API
+integrity rules.</sentence>
+			<sentence id="4.3">If this is the case, I would be happy to remove/alter
+certain portions (and I'll mention some discomforts I have below as well).</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Changes:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">1 Added two optional hooks, cache_check_enabled and cache_check_disabled:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">A. cache_check_enabled is run from ap_cache_get_providers in order to
+   determine if a particular uri (or other condition) is cause to
+   enable caching.</sentence>
+			<sentence id="7.2">The default handler for this hook implements the
+   original functionality by iterating the cacheenable list and
+   adding each entry whose left-most portion of the uri path matches.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">B. cache_check_disabled is run from ap_cache_get_provider in order
+   to dermine if caching should be disabled.</sentence>
+			<sentence id="8.2">The first hook to return
+   DECLINED causes mod_cache to discontinue trying to find a provider.</sentence>
+			<sentence id="8.3">Again, the default handler performs the original functionality by
+   iterating the cachedisable list.</sentence>
+			<sentence id="8.4">In addition, a check_disable hook may
+   return CACHE_DEFER, which results in mod_cache refusing to return cached
+   content if in the quick_handler hook.</sentence>
+			<sentence id="8.5">Instead it tries again from a
+   regular content hook (see below).</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">2 New optional function: ap_cache_request_enable_provider.</sentence>
+			<sentence id="9.2">Intended</sentence>
+			<sentence id="9.3">to be used by those who hook check_enabled to add a provider name</sentence>
+			<sentence id="9.4">("type" seems to be the parlance in mod_cache at that level)</sentence>
+			<sentence id="9.5">and optional version number to the list of providers that</sentence>
+			<sentence id="9.6">ap_cache_get_providers() will try to lookup.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Using ap_cache_request_enable_provider is a module's way of telling
+   mod_cache to attempt caching.</sentence>
+			<sentence id="10.2">The func name is tad cumbersome,
+   the "request" is only in there to give some indication that it is
+   a per-request call, not a general-use function for enabling providers.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Perhaps this should be an optional, because it's functionally identical
+   to a normal API call.</sentence>
+			<sentence id="11.2">If that is the case, then check_enabled and
+   check_disabled shouldn't be optional hooks either.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">3 Added a content handler to mod_cache so that it (or others) can choose,</sentence>
+			<sentence id="12.2">selectively, to handle a request _after_ other modules have taken</sentence>
+			<sentence id="12.3">their turn.</sentence>
+			<sentence id="12.4">Particularly useful for mod_rewrite.</sentence>
+			<sentence id="12.5">Additionally, the</sentence>
+			<sentence id="12.6">request handler  must be set to "cache-server", which is done</sentence>
+			<sentence id="12.7">automatically if a check_disabled handler returns CACHE_DEFER inside</sentence>
+			<sentence id="12.8">the context of cache_url_handler.</sentence>
+			<sentence id="12.9">mod_rewrite can also enable caching</sentence>
+			<sentence id="12.10">this way by setting the content handler during a rewrite rule.</sentence>
+			<sentence id="12.11">In my case, this is useful for enabling both reverse proxy and</sentence>
+			<sentence id="12.12">caching for requests that meet certain header constraints.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">4 Added a new directive "CacheDefer", which when toggled on forces</sentence>
+			<sentence id="13.2">the above behavior (handling from the content_handler) to be the</sentence>
+			<sentence id="13.3">default.</sentence>
+			<sentence id="13.4">This was completely arbitrary, however it provided the</sentence>
+			<sentence id="13.5">functionality I needed and was useful for testing.</sentence>
+			<sentence id="13.6">Obviously,</sentence>
+			<sentence id="13.7">with the above changes this could be done from anywhere.</sentence>
+			<sentence id="13.8">Not crazy</sentence>
+			<sentence id="13.9">about the name either, it is .</sentence>
+			<sentence id="13.10">.</sentence>
+			<sentence id="13.11">non-intuitive for those unfamiliar</sentence>
+			<sentence id="13.12">with the code.</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">5 The majority of mod_cache.</sentence>
+			<sentence id="14.2">h internals were moved to cache_private.</sentence>
+			<sentence id="14.3">h, due</sentence>
+			<sentence id="14.4">to the fact that there now exist some intentionally public exports.</sentence>
+			<sentence id="14.5">The now highly minimalized mod_cache.</sentence>
+			<sentence id="14.6">h added to $top_srcdir/Makefile.in</sentence>
+			<sentence id="14.7">for the install-include target.</sentence>
+			<sentence id="14.8">All mod_cache related sources that</sentence>
+			<sentence id="14.9">previously referenced mod_cache.</sentence>
+			<sentence id="14.10">h changed to cache_private.</sentence>
+			<sentence id="14.11">h.</sentence>
+			<sentence id="14.12">Might need some dependancy fixups, I didn't go that far.</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Thank you for your time.</sentence>
+			<sentence id="15.2">I hope this will be of some use.</sentence>
+			<sentence id="15.3">If there are
+any questions or requested changes, please feel free to let me know
+(or just have bugzilla do it =P)</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">Jesse Sipprell</sentence>
+		</paragraph>
+	</description>
+</bug>

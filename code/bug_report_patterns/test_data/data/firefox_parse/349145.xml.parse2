@@ -1,0 +1,111 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 5.1/CD ;/: en-US/NN ;/: rv/NN :1.8.1/CD b2/NN )/-RRB- Gecko/20060818/NN BonEcho/2/NN .0/CD b2/NN Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- Windows/NNP ;/: U/NNP ;/: Windows/NNP NT/NNP 5.1/CD ;/: en-US/NN ;/: rv/NN :1.8.1/CD b2/NN )/-RRB- Gecko/20060818/NN BonEcho/2/NN .0/CD b2/NN 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NP (NP (NNP Windows)) (: ;) (NP (NNP U))) (: ;) (NP (NP (NNP Windows) (NNP NT)) (NP (CD 5.1))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NN rv)))) (NP (CD :1.8.1) (NN b2))) (-RRB- -RRB-)) (NP (NN Gecko/20060818) (NN BonEcho/2))) (X (NP (NP (CD .0) (NN b2)) (NP (NP (NNP Build) (NNP Identifier)) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NP (NP (NNP Windows)) (: ;) (NP (NNP U))) (: ;) (NP (NP (NNP Windows) (NNP NT)) (NP (CD 5.1))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NN rv)))) (NP (CD :1.8.1) (NN b2))) (-RRB- -RRB-))))) (NP (NN Gecko/20060818)) (NP (NP (NN BonEcho/2)) (NP (CD .0) (NN b2))))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+dep(.0-4, Windows-6)
+dep(Windows-6, U-8)
+nn(NT-11, Windows-10)
+dep(Windows-6, NT-11)
+dep(NT-11, 5.1-12)
+dep(Windows-6, en-US-14)
+dep(en-US-14, rv-16)
+num(b2-18, :1.8.1-17)
+dep(Windows-6, b2-18)
+nn(BonEcho/2-21, Gecko/20060818-20)
+dep(.0-4, BonEcho/2-21)
+num(b2-23, .0-22)
+dep(BonEcho/2-45, b2-23)
+nn(Identifier-25, Build-24)
+dep(b2-23, Identifier-25)
+nn(.0-28, Mozilla/5-27)
+dep(Identifier-25, .0-28)
+dep(.0-28, Windows-30)
+dep(Windows-30, U-32)
+nn(NT-35, Windows-34)
+dep(Windows-30, NT-35)
+dep(NT-35, 5.1-36)
+dep(Windows-30, en-US-38)
+dep(en-US-38, rv-40)
+num(b2-42, :1.8.1-41)
+dep(Windows-30, b2-42)
+dep(BonEcho/2-45, Gecko/20060818-44)
+dep(User-Agent-1, BonEcho/2-45)
+num(b2-47, .0-46)
+dep(BonEcho/2-45, b2-47)
+
+The/DT close/JJ buttons/NNS on/IN the/DT tabs/NNS stopped/VBD working/VBG with/IN this/DT nightly/JJ ./. 
+
+(ROOT (S (NP (NP (DT The) (JJ close) (NNS buttons)) (PP (IN on) (NP (DT the) (NNS tabs)))) (VP (VBD stopped) (S (VP (VBG working) (PP (IN with) (NP (DT this) (JJ nightly)))))) (. .)))
+
+root(ROOT-0, stopped-7)
+det(buttons-3, The-1)
+amod(buttons-3, close-2)
+nsubj(stopped-7, buttons-3)
+det(tabs-6, the-5)
+prep_on(buttons-3, tabs-6)
+xcomp(stopped-7, working-8)
+det(nightly-11, this-10)
+prep_with(working-8, nightly-11)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD open/JJ at/IN least/JJS two/CD tabs/NNS 
+
+(ROOT (NP (NP (CD 1)) (NP (NP (JJ open)) (NP (QP (IN at) (JJS least) (CD two)) (NNS tabs)))))
+
+root(ROOT-0, 1-1)
+dep(1-1, open-2)
+quantmod(two-5, at-3)
+mwe(at-3, least-4)
+num(tabs-6, two-5)
+dep(open-2, tabs-6)
+
+2/CD click/VBP on/IN close/JJ button/NN on/IN tab/NN 
+
+(ROOT (S (NP (CD 2)) (VP (VBP click) (PP (IN on) (NP (NP (JJ close) (NN button)) (PP (IN on) (NP (NN tab))))))))
+
+root(ROOT-0, click-2)
+nsubj(click-2, 2-1)
+amod(button-5, close-4)
+prep_on(click-2, button-5)
+prep_on(button-5, tab-7)
+
+Actual/JJ Results/NNS :/: The/DT tab/NN is/VBZ n't/RB closed/VBN ./. 
+
+(ROOT (NP (NP (JJ Actual) (NNS Results)) (: :) (S (NP (DT The) (NN tab)) (VP (VBZ is) (RB n't) (VP (VBN closed)))) (. .)))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+det(tab-5, The-4)
+nsubjpass(closed-8, tab-5)
+auxpass(closed-8, is-6)
+neg(closed-8, n't-7)
+dep(Results-2, closed-8)
+
+Expected/VBN Results/NNS :/: The/DT tab/NN gets/VBZ closed/VBN ./. 
+
+(ROOT (S (S (VP (VBN Expected) (NP (NNS Results)))) (: :) (S (NP (DT The) (NN tab)) (VP (VBZ gets) (ADJP (VBN closed)))) (. .)))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Results-2)
+det(tab-5, The-4)
+nsubjpass(closed-7, tab-5)
+auxpass(closed-7, gets-6)
+parataxis(Expected-1, closed-7)
+

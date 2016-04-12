@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>15121</id>
+	<title>Search not working for japanese content</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created an attachment (id=3604)
+Test for japanese Facebook search</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Hi_</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I posted a ticket recently regarding issue in japanese search
+http://bugs.developers.facebook.net/show_bug.cgi?id=13200</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I have been asked Facebook dev to provide step to reproduce bug and to reopen the ticket.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">But since I can not figure out how to reopen the ticket_ I am creating a new ticket.</sentence>
+			<sentence id="5.2">Sorry about that.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Please find below  a PHP code that can be execute to reproduce the issue (I also attached it).</sentence>
+			<sentence id="6.2">but be aware that since search history does not go longer than around 2 weeks_ the example will be deprecated after around the 20th of Febuary.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">This test aims to demonstrate that facebook search has missing results for japanese content.</sentence>
+			<sentence id="7.2">The test will search for some japanese terms taken from a specific post and show that the post may be missing from the results.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">&lt;?</sentence>
+			<sentence id="8.2">php</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">$post_id =  1822164058_144403055621560 ;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">echo  Lets considere the post ID   .</sentence>
+			<sentence id="10.2">$post_id .</sentence>
+			<sentence id="10.3">PHP_EOL;
+$post = call_api( graph.facebook.com/  .</sentence>
+			<sentence id="10.4">$post_id);</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">echo  This post is from {$post-&gt;from-&gt;name}_ has been created the {$post-&gt;created_time} and has the following message:   .</sentence>
+			<sentence id="11.2">PHP_EOL;
+echo $post-&gt;message .</sentence>
+			<sentence id="11.3">PHP_EOL .</sentence>
+			<sentence id="11.4">PHP_EOL;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">$terms = array( こんにちは _  sekai _  世界 );</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">foreach($terms as $term) if(!</sentence>
+			<sentence id="13.2">preg_match( /$term/iu _ $post-&gt;message)) { echo  Should not happen.</sentence>
+			<sentence id="13.3">; exit; }
+echo  Theses terms are in the post :   .</sentence>
+			<sentence id="13.4">implode( _ _ $terms) .</sentence>
+			<sentence id="13.5">PHP_EOL;</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">echo  Let search for each of them and see if the post is in the results.</sentence>
+			<sentence id="14.2">.</sentence>
+			<sentence id="14.3">PHP_EOL;</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">foreach($terms as $term) {</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">$results = call_api( graph.facebook.com/search?q=  .</sentence>
+			<sentence id="16.2">urlencode($term) .</sentence>
+			<sentence id="16.3">&amp;until=  .</sentence>
+			<sentence id="16.4">strtotime($post-&gt;created_time));
+  echo  Search for  $term  has returned   .</sentence>
+			<sentence id="16.5">count($results-&gt;data) .</sentence>
+			<sentence id="16.6">results.</sentence>
+			<sentence id="16.7">.</sentence>
+			<sentence id="16.8">PHP_EOL;
+  $post_found = has_post($results_ $post);
+  echo ($post_found ?</sentence>
+			<sentence id="16.9">post found  :  post not found ) .</sentence>
+			<sentence id="16.10">in the results.</sentence>
+			<sentence id="16.11">.</sentence>
+			<sentence id="16.12">PHP_EOL;  
+  
+}</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">function call_api($url) {
+  
+  echo  Calling API :   .</sentence>
+			<sentence id="17.2">urldecode($url) .</sentence>
+			<sentence id="17.3">PHP_EOL;
+  $ch = curl_init($url);
+  curl_setopt_array($ch_ array(CURLOPT_RETURNTRANSFER =&gt; true_ CURLOPT_HTTPHEADER =&gt; array( Accept-Language: en )));
+  return json_decode(curl_exec($ch));
+  
+}</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">function has_post($search_results_ $post) {
+  
+  $has_post = false;
+  
+  foreach($search_results-&gt;data as $p) {
+    
+    if($p-&gt;id == $post-&gt;id) {
+      
+      $has_post = true;
+      break;
+      
+    }
+       
+  }
+  
+  return $has_post;
+  
+}</sentence>
+		</paragraph>
+	</description>
+</bug>

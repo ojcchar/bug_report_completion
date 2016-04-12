@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10583</id>
+	<title>AJAX does not error or complete</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">My FBML Ajax calls do not come back as either onerror or ondone.</sentence>
+			<sentence id="1.2">My app is in  fbml  mode.</sentence>
+			<sentence id="1.3">I have set up a simplified test page to demonstrate_ which is accessible at http://apps.facebook.com/knightdaydev/test.php</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In test.php_ my code is relatively simple:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;?</sentence>
+			<sentence id="3.2">php
+require_once  .</sentence>
+			<sentence id="3.3">/facebook/facebook.</sentence>
+			<sentence id="3.4">php ;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">$appapikey =  c34cf0a1b982d0bfebf4bd7b8ce89ea6 ;
+$appsecret =  SECRET KEY HERE ;
+$facebook = new Facebook($appapikey_ $appsecret);
+$user = $facebook-&gt;require_login();</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">?</sentence>
+			<sentence id="5.2">&gt;
+&lt;span id= out &gt;init&lt;/span&gt;
+&lt;script&gt;
+&lt;!</sentence>
+			<sentence id="5.3">--</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">function test(){
+\t
+\tvar ajax = new Ajax();
+\t
+\tajax.responseType = Ajax.RAW;
+\tajax.requireLogin = 1;
+\t
+\tajax.ondone = function(data){
+\t\tnew Dialog().</sentence>
+			<sentence id="6.2">showMessage( Dialog _ data);
+\t\tif(data == 0){
+\t\t\tdocument.getElementById( out ).</sentence>
+			<sentence id="6.3">setTextValue( 0 );
+\t\t}else{
+\t\t\t
+\t\t\tdocument.getElementById( out ).</sentence>
+			<sentence id="6.4">setTextValue(data);
+\t\t}
+\t\t\t
+\t}
+\t
+\tajax.onerror = function(data){
+\t\tnew Dialog().</sentence>
+			<sentence id="6.5">showMessage( Error _ data);
+\t\tdocument.getElementById( out ).</sentence>
+			<sentence id="6.6">setTextValue( error );
+\t}
+\t
+\tajax.post( http://6string.com/knightdaydev/testAjax.php );
+}</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">test();
+?</sentence>
+			<sentence id="7.2">&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">My testAjax.php is as follows:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">&lt;?</sentence>
+			<sentence id="9.2">php</sentence>
+			<sentence id="9.3">require_once  .</sentence>
+			<sentence id="9.4">/facebook/facebook.</sentence>
+			<sentence id="9.5">php ;</sentence>
+			<sentence id="9.6">/*</sentence>
+			<sentence id="9.7">$appapikey =  c34cf0a1b982d0bfebf4bd7b8ce89ea6 ;</sentence>
+			<sentence id="9.8">$appsecret =  SECRET KEY HERE ;</sentence>
+			<sentence id="9.9">$facebook = new Facebook($appapikey_ $appsecret);</sentence>
+			<sentence id="9.10">*/</sentence>
+			<sentence id="9.11">$user = isset($_POST[ fb_sig_user ]) ?</sentence>
+			<sentence id="9.12">$_POST[ fb_sig_user ] : null;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">if($user){
+\techo $user;
+}else{
+\techo  0 ;
+}</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">?</sentence>
+			<sentence id="11.2">&gt;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">However_ in Firebug_ the calls return as follows:</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">for (;;);{ t : continue }</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">for (;;);{ t : refresh }</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">for (;;);{ error :0_ errorSummary :  _ errorDescription :  _ errorIsWarning :false_ silentError :0_ payload :{ user_channel : p_513735970 _ seq :0_ retry_interval :0_ host : 83.channel _ port :80_ path : \/iframe\/10?r=http%3A%2F%2Fstatic.ak.fbcdn.net%2Frsrc.php%2FzDZZ5%2Fhash%2Fcvgm40ab.js&amp;r=http%3A%2F%2Fstatic.ak.fbcdn.net%2Frsrc.php%2Fz6KZA%2Fp%2Fhash%2Fe730jygu.js&amp;r=http%3A%2F%2Fstatic.ak.fbcdn.net%2Frsrc.php%2FzA9GO%2Fp%2Fhash%2Fcwslizwp.js&amp;r=http%3A%2F%2Fstatic.ak.fbcdn.net%2Frsrc.php%2Fz4MWG%2Fp%2Fhash%2F1rlyly26.js _ visibility :false}_ resource_map :{ F+B8D :{ name : js\/19khsprwvtvokwow.pkg.js _ type : js _ permanent :false_ src : http:\/\/static.ak.fbcdn.net\/rsrc.php\/zDZZ5\/hash\/cvgm40ab.js }_ jgQvQ :{ name : js\/61bfs2705h4w4k0s.pkg.js _ type : js _ permanent :false_ src : http:\/\/static.ak.fbcdn.net\/rsrc.php\/z6KZA\/p\/hash\/e730jygu.js }_ +n5Q4 :{ name : js\/b221snuryts8w4oc.pkg.js _ type : js _ permanent :false_ src : http:\/\/static.ak.fbcdn.net\/rsrc.php\/zA9GO\/p\/hash\/cwslizwp.js }_ vh1ko :{ name : css\/7y4n3w6kqxc8gksc.pkg.css _ type : css _ permanent :true_ src : http:\/\/static.ak.fbcdn.net\/rsrc.php\/zEHFH\/hash\/es9nnt5s.css }_ 0ZgLV :{ name : js\/channel\/iframex.js _ type : js _ permanent :false_ src : http:\/\/static.ak.fbcdn.net\/rsrc.php\/z4MWG\/p\/hash\/1rlyly26.js }}}</sentence>
+		</paragraph>
+	</description>
+</bug>

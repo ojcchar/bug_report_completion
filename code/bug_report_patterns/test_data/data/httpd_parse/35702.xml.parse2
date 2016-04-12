@@ -1,0 +1,119 @@
+Because/IN of/IN historical/JJ apache/NN library/NN implementation/NN ,/, ab/NN does/VBZ apr_pollset_add/NN (/-LRB- )/-RRB- multiple/JJ times/NNS for/IN the/DT same/JJ port/NN ./. 
+
+(ROOT (S (PP (IN Because) (PP (IN of) (NP (JJ historical) (NN apache) (NN library) (NN implementation)))) (, ,) (NP (NN ab)) (VP (VBZ does) (NP (NP (NN apr_pollset_add)) (-LRB- -LRB-) (PP (-RRB- -RRB-) (NP (JJ multiple) (NNS times))) (PP (IN for) (NP (DT the) (JJ same) (NN port))))) (. .)))
+
+root(ROOT-0, does-9)
+prepc_because_of(does-9, of-2)
+amod(implementation-6, historical-3)
+nn(implementation-6, apache-4)
+nn(implementation-6, library-5)
+pobj(does-9, implementation-6)
+nsubj(does-9, ab-8)
+dobj(does-9, apr_pollset_add-10)
+amod(times-14, multiple-13)
+prep(apr_pollset_add-10, times-14)
+det(port-18, the-16)
+amod(port-18, same-17)
+prep_for(apr_pollset_add-10, port-18)
+
+It/PRP causes/VBZ some/DT confusion/NN and/CC inefficiency/NN inside/IN pollset/NN structure/NN ./. 
+
+(ROOT (S (NP (PRP It)) (VP (VBZ causes) (NP (NP (DT some) (NN confusion) (CC and) (NN inefficiency)) (PP (IN inside) (NP (NN pollset) (NN structure))))) (. .)))
+
+root(ROOT-0, causes-2)
+nsubj(causes-2, It-1)
+det(confusion-4, some-3)
+dobj(causes-2, confusion-4)
+dobj(causes-2, inefficiency-6)
+conj_and(confusion-4, inefficiency-6)
+nn(structure-9, pollset-8)
+prep_inside(confusion-4, structure-9)
+
+The/DT behavior/NN varies/VBZ by/IN the/DT operating/NN system/NN because/IN APR-1/NN ./. 
+
+(ROOT (S (NP (DT The) (NN behavior)) (VP (VBZ varies) (PP (IN by) (NP (DT the) (NN operating) (NN system))) (PP (IN because) (NP (NN APR-1)))) (. .)))
+
+root(ROOT-0, varies-3)
+det(behavior-2, The-1)
+nsubj(varies-3, behavior-2)
+det(system-7, the-5)
+nn(system-7, operating-6)
+prep_by(varies-3, system-7)
+prep_because(varies-3, APR-1-9)
+
+x/CC uses/VBZ different/JJ asynchronous/JJ I/O/NN by/IN operating/VBG systems/NNS ./. 
+
+(ROOT (S (NP (CC x)) (VP (VBZ uses) (NP (JJ different) (JJ asynchronous) (NN I/O)) (PP (IN by) (NP (VBG operating) (NNS systems)))) (. .)))
+
+root(ROOT-0, uses-2)
+nsubj(uses-2, x-1)
+amod(I/O-5, different-3)
+amod(I/O-5, asynchronous-4)
+dobj(uses-2, I/O-5)
+amod(systems-8, operating-7)
+prep_by(uses-2, systems-8)
+
+i.e./FW port.c/FW for/IN Solaris/NNP 10/CD ,/, epoll.c/NN for/IN Linux/NNP 2.6/CD ,/, and/CC kqueue.c/NN for/IN recent/JJ BSD/NNP ./. 
+
+(ROOT (NP (NP (FW i.e.) (FW port.c)) (PP (IN for) (NP (NNP Solaris) (CD 10))) (, ,) (NP (NP (NP (NN epoll.c)) (PP (IN for) (NP (NNP Linux) (CD 2.6)))) (, ,) (CC and) (NP (NP (NN kqueue.c)) (PP (IN for) (NP (JJ recent) (NNP BSD))))) (. .)))
+
+root(ROOT-0, port.c-2)
+nn(port.c-2, i.e.-1)
+prep_for(port.c-2, Solaris-4)
+num(Solaris-4, 10-5)
+appos(port.c-2, epoll.c-7)
+prep_for(epoll.c-7, Linux-9)
+num(Linux-9, 2.6-10)
+appos(port.c-2, kqueue.c-13)
+conj_and(epoll.c-7, kqueue.c-13)
+amod(BSD-16, recent-15)
+prep_for(kqueue.c-13, BSD-16)
+
+When/WRB I/PRP use/VBP ab/NN with/IN "/`` https/NNS :/: "/'' URL/NN ,/, ab/NN freezes/VBZ on/IN Solaris/NNP 10/CD while/IN it/PRP gets/VBZ SIGSEGV/NN on/IN Linux/NNP ./. 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (NP (PRP I)) (VP (VBP use) (S (NP (NP (NN ab)) (PP (IN with) (`` ``) (NP (NP (NNS https)) (: :)) ('' ''))) (ADJP (NN URL)))))) (, ,) (NP (NN ab)) (VP (VBZ freezes) (PP (IN on) (NP (NNP Solaris) (CD 10))) (SBAR (IN while) (S (NP (PRP it)) (VP (VBZ gets) (NP (NP (NN SIGSEGV)) (PP (IN on) (NP (NNP Linux)))))))) (. .)))
+
+root(ROOT-0, freezes-13)
+advmod(use-3, When-1)
+nsubj(use-3, I-2)
+advcl(freezes-13, use-3)
+nsubj(URL-10, ab-4)
+prep_with(ab-4, https-7)
+xcomp(use-3, URL-10)
+nsubj(freezes-13, ab-12)
+prep_on(freezes-13, Solaris-15)
+num(Solaris-15, 10-16)
+mark(gets-19, while-17)
+nsubj(gets-19, it-18)
+advcl(freezes-13, gets-19)
+dobj(gets-19, SIGSEGV-20)
+prep_on(SIGSEGV-20, Linux-22)
+
+There/EX is/VBZ another/DT problem/NN in/IN apr/poll/unix/JJ //: port.c/NN as/IN I/PRP reported/VBD on/IN bug/NN #/# 35701/CD ./. 
+
+(ROOT (FRAG (S (NP (EX There)) (VP (VBZ is) (NP (NP (DT another) (NN problem)) (PP (IN in) (NP (JJ apr/poll/unix)))))) (: /) (FRAG (NP (NN port.c)) (SBAR (IN as) (S (NP (PRP I)) (VP (VBD reported) (PP (IN on) (NP (NP (NN bug)) (NP (# #) (CD 35701)))))))) (. .)))
+
+root(ROOT-0, port.c-8)
+expl(is-2, There-1)
+dep(port.c-8, is-2)
+det(problem-4, another-3)
+nsubj(is-2, problem-4)
+prep_in(problem-4, apr/poll/unix-6)
+punct(port.c-8, /-7)
+mark(reported-11, as-9)
+nsubj(reported-11, I-10)
+dep(port.c-8, reported-11)
+prep_on(reported-11, bug-13)
+dep(35701-15, #-14)
+dep(bug-13, 35701-15)
+
+We/PRP have/VBP to/TO fix/VB both/DT ./. 
+
+(ROOT (S (NP (PRP We)) (VP (VBP have) (S (VP (TO to) (VP (VB fix) (NP (DT both)))))) (. .)))
+
+root(ROOT-0, have-2)
+nsubj(have-2, We-1)
+aux(fix-4, to-3)
+xcomp(have-2, fix-4)
+dobj(fix-4, both-5)
+

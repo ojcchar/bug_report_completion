@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>288017</id>
+	<title>Duplicate implementation of function in generated source file</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When I try to build my test program, I'm getting a compile error from the generated source file.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">[a0323840] messageQ&gt; xdc -ra all,64P</sentence>
+			<sentence id="2.2">making package.mak (because of package.bld) ...</sentence>
+			<sentence id="2.3">generating interfaces for package ti.sdo.syslink.samples.rtos.messageQ (because</sentence>
+			<sentence id="2.4">package/package.xdc.inc is older than package.xdc) ...</sentence>
+			<sentence id="2.5">configuring evm3530_dsp/debug/messageQ_dsp.x64P from package/cfg/evm3530_dsp/deb</sentence>
+			<sentence id="2.6">ug/messageQ_dsp_x64P.cfg ...</sentence>
+			<sentence id="2.7">cl64P package/cfg/evm3530_dsp/debug/messageQ_dsp_x64P.c ...</sentence>
+			<sentence id="2.8">"package/cfg/evm3530_dsp/debug/messageQ_dsp_x64P.c", line 25011: warning: functi</sentence>
+			<sentence id="2.9">on declared implicitly</sentence>
+			<sentence id="2.10">"package/cfg/evm3530_dsp/debug/messageQ_dsp_x64P.c", line 25017: warning: functi</sentence>
+			<sentence id="2.11">on declared implicitly</sentence>
+			<sentence id="2.12">"package/cfg/evm3530_dsp/debug/messageQ_dsp_x64P.c", line 25023: warning: functi</sentence>
+			<sentence id="2.13">on declared implicitly</sentence>
+			<sentence id="2.14">"package/cfg/evm3530_dsp/debug/messageQ_dsp_x64P.c", line 25093: error: function</sentence>
+			<sentence id="2.15"> "ti_sysbios_hal_Hwi_getHookContext__E" has already been defined</sentence>
+			<sentence id="2.16">"package/cfg/evm3530_dsp/debug/messageQ_dsp_x64P.c", line 25099: error: function</sentence>
+			<sentence id="2.17"> "ti_sysbios_hal_Hwi_setHookContext__E" has already been defined</sentence>
+			<sentence id="2.18">2 errors detected in the compilation of "package/cfg/evm3530_dsp/debug/messageQ_</sentence>
+			<sentence id="2.19">dsp_x64P.c".</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For some reason, the function ti_sysbios_hal_Hwi_getHookContext__E is being implemented twice in the generated source file.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I tracked down the following dependencies.</sentence>
+			<sentence id="4.2">When building the test program, I'm using xdctools 3.15.03.67.</sentence>
+			<sentence id="4.3">The package ti.sdo.ipc.notifyDrivers was built using xdctools 3.15.01.59.</sentence>
+			<sentence id="4.4">I then rebuilt this package with the newer xdctools.</sentence>
+			<sentence id="4.5">Once I did that, I was able to rebuild the test program without errors.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I guess this means that xdctools 3.15.03.67 is *not* compatible with xdctools 3.15.01.59.</sentence>
+			<sentence id="5.2">It is my understanding that all xdctools 3.15.</sentence>
+			<sentence id="5.3">xx.xx releases should be compatible.</sentence>
+		</paragraph>
+	</description>
+</bug>

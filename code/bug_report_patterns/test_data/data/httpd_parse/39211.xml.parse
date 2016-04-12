@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>39211</id>
+	<title>mod-auth-dbm (require group &lt;empty&gt;) doesn't work with fastcgi</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">when i have access control like
+&lt;LocationMatch ^/engine/request/&gt;
+    Order Deny,Allow
+    Allow from all</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Require user apeel vinita
+    Require group
+&lt;/LocationMatch&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">where group is empty, even though I'm(vinita) in the user list, I keep getting
+"user vinita not in right group" when fastcgi is loaded and using AuthDBMType SDBM</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">BUT, if don't load fastcgi, same access control works fine with mod-auth-dbm,
+also same access control with fastcgi works for mod-auth.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">apache configuration</sentence>
+			<sentence id="5.2">.</sentence>
+			<sentence id="5.3">/configure --prefix=/usr/local/apps/apache-2.0.55/ \</sentence>
+			<sentence id="5.4">--enable-so \</sentence>
+			<sentence id="5.5">--enable-ssl \</sentence>
+			<sentence id="5.6">--enable-dav=shared \</sentence>
+			<sentence id="5.7">--enable-rewrite=shared \</sentence>
+			<sentence id="5.8">--enable-proxy=shared \</sentence>
+			<sentence id="5.9">--enable-headers=shared \</sentence>
+			<sentence id="5.10">--enable-expires=shared \</sentence>
+			<sentence id="5.11">--enable-auth-dbm=shared \</sentence>
+			<sentence id="5.12">&gt; .</sentence>
+			<sentence id="5.13">.</sentence>
+			<sentence id="5.14">/log.configure 2&gt;&amp;1</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">fastcgi configuration
+cd /usr/local/apps/apache-2.0.55/src/mod_fastcgi-2.4.2
+cp Makefile.AP2 Makefile
+make top_dir=/usr/local/apps/apache-2.0.55 &gt; .</sentence>
+			<sentence id="6.2">.</sentence>
+			<sentence id="6.3">/log.make.fcgi 2&gt;&amp;1
+make top_dir=/usr/local/apps/apache-2.0.55 install &gt; .</sentence>
+			<sentence id="6.4">.</sentence>
+			<sentence id="6.5">/log.install.fcgi 2&gt;&amp;1</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">thanks
+vinita</sentence>
+		</paragraph>
+	</description>
+</bug>

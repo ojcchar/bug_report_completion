@@ -1,0 +1,161 @@
+User-Agent/NNP :/: Mozilla/5/NN .0/NN (/-LRB- X11/NN ;/: U/NNP ;/: Linux/NNP i686/NN ;/: en-US/NN ;/: rv/NN :1.7.5/CD )/-RRB- Gecko/20050117/NN Firefox/1/NN .0/CD Build/NNP Identifier/NNP :/: Mozilla/5/NN .0/NN (/-LRB- X11/NN ;/: U/NNP ;/: Linux/NNP i686/NN ;/: en-US/NN ;/: rv/NN :1.7.5/CD )/-RRB- Gecko/20050117/NN Firefox/1/NN .0/CD 
+
+(ROOT (NP (NP (NNP User-Agent)) (: :) (NP (NP (NP (NN Mozilla/5) (NN .0)) (PRN (-LRB- -LRB-) (NP (NP (NN X11)) (: ;) (NP (NP (NP (NNP U)) (: ;) (NP (NNP Linux) (NN i686))) (: ;) (NP (NP (NP (NP (NN en-US)) (: ;) (NP (NP (NN rv)) (NP (CD :1.7.5))) (-RRB- -RRB-)) (NP (NN Gecko/20050117) (NN Firefox/1))) (NP (CD .0) (NNP Build) (NNP Identifier))) (: :) (NP (NP (NN Mozilla/5) (NN .0)) (-LRB- -LRB-) (NP (NP (NN X11)) (: ;) (NP (NNP U)))) (: ;) (NP (NP (NNP Linux)) (NP (NN i686))) (: ;) (NP (NP (NN en-US)) (: ;) (NP (NN rv) (CD :1.7.5))))) (-RRB- -RRB-)) (NP (NN Gecko/20050117) (NN Firefox/1))) (NP (CD .0)))))
+
+root(ROOT-0, User-Agent-1)
+nn(.0-4, Mozilla/5-3)
+dep(User-Agent-1, .0-4)
+dep(.0-4, X11-6)
+dep(X11-6, U-8)
+nn(i686-11, Linux-10)
+dep(U-8, i686-11)
+dep(U-8, en-US-13)
+dep(en-US-13, rv-15)
+dep(rv-15, :1.7.5-16)
+nn(Firefox/1-19, Gecko/20050117-18)
+dep(en-US-13, Firefox/1-19)
+num(Identifier-22, .0-20)
+nn(Identifier-22, Build-21)
+dep(en-US-13, Identifier-22)
+nn(.0-25, Mozilla/5-24)
+dep(U-8, .0-25)
+dep(.0-25, X11-27)
+dep(X11-27, U-29)
+dep(U-8, Linux-31)
+dep(Linux-31, i686-32)
+dep(U-8, en-US-34)
+dep(en-US-34, rv-36)
+num(rv-36, :1.7.5-37)
+nn(Firefox/1-40, Gecko/20050117-39)
+dep(.0-4, Firefox/1-40)
+dep(.0-4, .0-41)
+
+When/WRB a/DT website/NN opens/VBZ a/DT new/JJ window/NN (/-LRB- by/IN javascript/NN )/-RRB- and/CC hides/VBZ the/DT tab/button/JJ bar/NN and/CC the/DT menu/NN bar/NN ,/, one/PRP can/MD open/VB 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (NP (DT a) (NN website)) (VP (VP (VBZ opens) (NP (NP (DT a) (JJ new) (NN window)) (PRN (-LRB- -LRB-) (PP (IN by) (NP (NN javascript))) (-RRB- -RRB-)))) (CC and) (VP (VBZ hides) (NP (NP (DT the) (JJ tab/button) (NN bar)) (CC and) (NP (DT the) (NN menu) (NN bar))))))) (, ,) (NP (PRP one)) (VP (MD can) (VP (VB open)))))
+
+root(ROOT-0, open-24)
+advmod(opens-4, When-1)
+det(website-3, a-2)
+nsubj(opens-4, website-3)
+nsubj(hides-13, website-3)
+advcl(open-24, opens-4)
+det(window-7, a-5)
+amod(window-7, new-6)
+dobj(opens-4, window-7)
+prep_by(window-7, javascript-10)
+conj_and(opens-4, hides-13)
+advcl(open-24, hides-13)
+det(bar-16, the-14)
+amod(bar-16, tab/button-15)
+dobj(hides-13, bar-16)
+det(bar-20, the-18)
+nn(bar-20, menu-19)
+dobj(hides-13, bar-20)
+conj_and(bar-16, bar-20)
+nsubj(open-24, one-22)
+aux(open-24, can-23)
+
+Reproducible/JJ :/: Always/RB 
+
+(ROOT (NP (NP (JJ Reproducible)) (: :) (NP (RB Always))))
+
+root(ROOT-0, Reproducible-1)
+dep(Reproducible-1, Always-3)
+
+Steps/NNS to/TO Reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB Reproduce))) (: :)))
+
+root(ROOT-0, Reproduce-3)
+nsubj(Reproduce-3, Steps-1)
+aux(Reproduce-3, to-2)
+
+1/CD Open/VB a/DT website/NN which/WDT hides/VBZ the/DT button/NN bar/NN and/CC menu/NN bar/NN 
+
+(ROOT (FRAG (NP (CD 1)) (VP (VB Open) (NP (NP (DT a) (NN website)) (SBAR (WHNP (WDT which)) (S (VP (VBZ hides) (NP (DT the) (NN button) (NN bar) (CC and) (NN menu) (NN bar)))))))))
+
+root(ROOT-0, 1-1)
+dep(1-1, Open-2)
+det(website-4, a-3)
+dobj(Open-2, website-4)
+nsubj(hides-6, which-5)
+rcmod(website-4, hides-6)
+det(bar-9, the-7)
+nn(bar-9, button-8)
+dobj(hides-6, bar-9)
+nn(bar-12, menu-11)
+dobj(hides-6, bar-12)
+conj_and(bar-9, bar-12)
+
+2/CD Hit/VBN ctrl-T/NN 
+
+(ROOT (SINV (NP (CD 2)) (VP (VBN Hit) (NP (NN ctrl-T)))))
+
+root(ROOT-0, Hit-2)
+nsubj(Hit-2, 2-1)
+dobj(Hit-2, ctrl-T-3)
+
+Actual/JJ Results/NNS :/: A/DT blank/JJ white/JJ page/NN opens/VBZ and/CC the/DT tab/NN switcher/NN and/CC menu/NN bar/NN are/VBP not/RB visible/JJ 
+
+(ROOT (FRAG (NP (JJ Actual) (NNS Results)) (: :) (S (NP (DT A) (JJ blank) (JJ white) (NN page)) (VP (VP (VBZ opens)) (CC and) (VP (NP (NP (DT the) (NN tab) (NN switcher) (CC and) (NN menu) (NN bar)) (SBAR (S (VP (VBP are) (RB not) (ADJP (JJ visible)))))))))))
+
+root(ROOT-0, Results-2)
+amod(Results-2, Actual-1)
+det(page-7, A-4)
+amod(page-7, blank-5)
+amod(page-7, white-6)
+nsubj(opens-8, page-7)
+dep(Results-2, opens-8)
+det(switcher-12, the-10)
+nn(switcher-12, tab-11)
+dep(Results-2, switcher-12)
+conj_and(opens-8, switcher-12)
+nn(bar-15, menu-14)
+conj_and(opens-8, bar-15)
+conj_and(switcher-12, bar-15)
+cop(visible-18, are-16)
+neg(visible-18, not-17)
+rcmod(switcher-12, visible-18)
+
+Expected/VBN Results/NNS :/: A/DT blank/JJ page/NN can/MD show/VB up/RP ,/, but/CC the/DT tab/NN bar/NN should/MD be/VB visible/JJ !/. 
+
+(ROOT (S (S (VP (VBN Expected) (NP (NNS Results)))) (: :) (S (S (NP (DT A) (JJ blank) (NN page)) (VP (MD can) (VP (VB show) (PRT (RP up))))) (, ,) (CC but) (S (NP (DT the) (NN tab) (NN bar)) (VP (MD should) (VP (VB be) (ADJP (JJ visible)))))) (. !)))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Results-2)
+det(page-6, A-4)
+amod(page-6, blank-5)
+nsubj(show-8, page-6)
+aux(show-8, can-7)
+parataxis(Expected-1, show-8)
+prt(show-8, up-9)
+det(bar-14, the-12)
+nn(bar-14, tab-13)
+nsubj(visible-17, bar-14)
+aux(visible-17, should-15)
+cop(visible-17, be-16)
+parataxis(Expected-1, visible-17)
+conj_but(show-8, visible-17)
+
+Novice/NN users/NNS would/MD not/RB realize/VB that/IN you/PRP would/MD have/VB to/TO hit/VB ctrl-w/NN to/TO close/VB the/DT tab/NN ./. 
+
+(ROOT (S (NP (NN Novice) (NNS users)) (VP (MD would) (RB not) (VP (VB realize) (SBAR (IN that) (S (NP (PRP you)) (VP (MD would) (VP (VB have) (S (VP (TO to) (VP (VB hit) (NP (NN ctrl-w)) (S (VP (TO to) (VP (VB close) (NP (DT the) (NN tab)))))))))))))) (. .)))
+
+root(ROOT-0, realize-5)
+nn(users-2, Novice-1)
+nsubj(realize-5, users-2)
+aux(realize-5, would-3)
+neg(realize-5, not-4)
+mark(have-9, that-6)
+nsubj(have-9, you-7)
+aux(have-9, would-8)
+ccomp(realize-5, have-9)
+aux(hit-11, to-10)
+xcomp(have-9, hit-11)
+dobj(hit-11, ctrl-w-12)
+aux(close-14, to-13)
+vmod(hit-11, close-14)
+det(tab-16, the-15)
+dobj(close-14, tab-16)
+

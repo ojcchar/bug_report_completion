@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>41599</id>
+	<title>403 and 404 pages display pic twice when using absolute paths to imgs rather than relative</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">set ErrorDocument in virtualHosts, then use a relative path within the error
+document say ,404 for this example, if you type in hostname/pagethatdoesntexist
+the custom error document wont show.</sentence>
+			<sentence id="1.2">type in
+hostname/folderthatdoesexist/pagethatdoesnt the custom error page will show.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">change the custom error page to relative paths, ie css and imgs, then
+hostname/pagethatdoesnt exist will show the custom error page.</sentence>
+			<sentence id="2.2">but when you type
+in hostname/folder/pagethatdoesntexist you will get your custom error page with
+two images instead of the one.</sentence>
+		</paragraph>
+	</description>
+</bug>

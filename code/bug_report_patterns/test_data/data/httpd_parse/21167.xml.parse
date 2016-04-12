@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>21167</id>
+	<title>SSLVerifyClient directive in location make posting with perl cgi script impossible</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Begin Configuration --------------------------</sentence>
+			<sentence id="1.2">&lt;VirtualHost 192.168.2.201:443&gt;</sentence>
+			<sentence id="1.3">  ServerAdmin webmaster@grantis.net</sentence>
+			<sentence id="1.4">  DocumentRoot /home/grantis</sentence>
+			<sentence id="1.5">  ServerName www.grantis.net:443</sentence>
+			<sentence id="1.6">  ErrorLog /home/grantis/logs/ssl_error_log</sentence>
+			<sentence id="1.7">  CustomLog /home/grantis/logs/ssl_access_log common</sentence>
+			<sentence id="1.8">  ScriptAlias /cgi-bin/ /home/grantis/cgi-bin/</sentence>
+			<sentence id="1.9">    SSLEngine on</sentence>
+			<sentence id="1.10">    SSLCertificateFile /home/grantis/ssl.crt/grantis.crt</sentence>
+			<sentence id="1.11">    SSLCertificateKeyFile /home/grantis/ssl.key/grantis_public.key</sentence>
+			<sentence id="1.12">    SSLCertificateChainFile /etc/grantisCA/public/grantisca_public.crt</sentence>
+			<sentence id="1.13">    SSLCARevocationFile /etc/grantisCA/crl/grantisca.crl</sentence>
+			<sentence id="1.14">    SSLCACertificateFile /etc/grantisCA/grantisca.crt</sentence>
+			<sentence id="1.15">    &lt;Location /cgi-bin/bypass&gt;</sentence>
+			<sentence id="1.16">         SSLVerifyClient require</sentence>
+			<sentence id="1.17">         SSLVerifyDepth 1</sentence>
+			<sentence id="1.18">         SSLOptions +OptRenegotiate</sentence>
+			<sentence id="1.19">    &lt;/Location&gt;</sentence>
+			<sentence id="1.20">&lt;/VirtualHost&gt;</sentence>
+			<sentence id="1.21">End Configuration --------------------------</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">With properly generated CA/Server/Client certificates POSTING is impossible.</sentence>
+			<sentence id="2.2">You receive the follow error:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Method not allowed!</sentence>
+			<sentence id="3.2">The POST method is not allowed for the requested URL.</sentence>
+			<sentence id="3.3">If you think this is a server error, please contact the webmaster 
+Error 405
+www.grantis.net 
+Sat 28 Jun 2003 08:10:59 PM CDT 
+Apache/2.0.40 (Red Hat Linux)</sentence>
+		</paragraph>
+	</description>
+</bug>

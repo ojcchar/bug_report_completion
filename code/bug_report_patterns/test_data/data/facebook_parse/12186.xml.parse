@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12186</id>
+	<title>HTTP DELETE fails with  200: This post wasn t created by the application </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Trying to delete a post from the feed fails with 500 Internal Server Error.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Repro Steps:</sentence>
+			<sentence id="2.2">1 Obtain a token with read_stream and publish_stream permissions.</sentence>
+			<sentence id="2.3">2 Get the list of posts by querying /me/feed</sentence>
+			<sentence id="2.4">3 Get the IDs of posts you want to delete and create a request in the following format: string.Format( https://graph.facebook.com/{0}?</sentence>
+			<sentence id="2.5">access_token={1} _ ID_ AccessToken)_ with request method set to DELETE.</sentence>
+			<sentence id="2.6">4 Response is a 500 Internal Server Error.</sentence>
+			<sentence id="2.7">The post is still not deleted.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Expected Result: It should delete the post and return success.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">More info:</sentence>
+			<sentence id="4.2">- The IDs I get back from /me/feed already includes user ID prepended to the post ID with an underscore.</sentence>
+			<sentence id="4.3">So_ trying to prepend it is not a valid workaround here.</sentence>
+			<sentence id="4.4">- I tried GET and POST with adding &amp;method=delete to the URL.</sentence>
+			<sentence id="4.5">It failed with the same error.</sentence>
+		</paragraph>
+	</description>
+</bug>

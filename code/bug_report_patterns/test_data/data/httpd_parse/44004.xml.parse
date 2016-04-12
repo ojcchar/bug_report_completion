@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>44004</id>
+	<title>rotatelogs patch: reduce apr_time_now(), atomicity, consistency</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">While I was looking at rotatelogs.c searching for the reason of the cryptic docs
+warning about using "-l", I had the idea for slight improvements.</sentence>
+			<sentence id="1.2">I'll attach a
+small patch, that includes:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">- when using "-l" reduce two consecutive calls to apr_time_now() to one.</sentence>
+			<sentence id="2.2">This will not change the logic if no "-l" gets used, and it will spare</sentence>
+			<sentence id="2.3">one call to apr_time_now() in case "-l" gets used and more important</sentence>
+			<sentence id="2.4">it gives the code better atomicity, because in fact between the two calls</sentence>
+			<sentence id="2.5">there is a slight change of jumping oder the DST boundary</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">- for historic reasons the same code block is used two times with a</sentence>
+			<sentence id="3.2">slightly different way of transforming apr_time_t to int</sentence>
+			<sentence id="3.3">(once division by APR_USEC_PER_SEC, once call to apr_time_sec()),</sentence>
+			<sentence id="3.4">so let's unify it.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">- finally move the block into a function, because it gets used already</sentence>
+			<sentence id="4.2">two times.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Note that the patch eliminates a side effect, namely in case use_localtime is
+true the global variable utc_offset could change in main().</sentence>
+			<sentence id="5.2">We now use
+utc_offset in main() only for the offset given by the command line flags, which
+is OK, because either use_localtime is true, or an offset can be given.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">The attached patch works for trunk (r596796) and the 2.2 branch (r598272),
+because at the moment both versions of rotatelogs.c are identical (recently
+backported).</sentence>
+		</paragraph>
+	</description>
+</bug>

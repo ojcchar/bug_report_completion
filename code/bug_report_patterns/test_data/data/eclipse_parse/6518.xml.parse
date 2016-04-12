@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>6518</id>
+	<title>Internal error while doing evaluation</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">While evaluating "fFull.size() == 100+size" in VectorTest.testCapacity(), the 
+following appeared in the console (looks like the variables view is attempting 
+to update while the evaluation is still in progress):</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Internal error logged from Debug UI:</sentence>
+			<sentence id="2.2">org.eclipse.debug.core.DebugException: Thread non suspended, stack frame unavail</sentence>
+			<sentence id="2.3">able.</sentence>
+			<sentence id="2.4">        at org.eclipse.jdt.internal.debug.core.JDIDebugElement.requestFailed(JDI</sentence>
+			<sentence id="2.5">DebugElement.java:170)</sentence>
+			<sentence id="2.6">        at org.eclipse.jdt.internal.debug.core.JDIStackFrame.getUnderlyingStackF</sentence>
+			<sentence id="2.7">rame(JDIStackFrame.java:842)</sentence>
+			<sentence id="2.8">        at org.eclipse.jdt.internal.debug.core.JDILocalVariable.retrieveValue(JD</sentence>
+			<sentence id="2.9">ILocalVariable.java:49)</sentence>
+			<sentence id="2.10">        at org.eclipse.jdt.internal.debug.core.JDIVariable.getCurrentValue(JDIVa</sentence>
+			<sentence id="2.11">riable.java:60)</sentence>
+			<sentence id="2.12">        at org.eclipse.jdt.internal.debug.core.JDIVariable.getValue(JDIVariable.</sentence>
+			<sentence id="2.13">java:82)</sentence>
+			<sentence id="2.14">        at org.eclipse.debug.internal.ui.VariablesContentProvider.doGetChildren(</sentence>
+			<sentence id="2.15">VariablesContentProvider.java:44)</sentence>
+			<sentence id="2.16">        at org.eclipse.debug.internal.ui.BasicContentProvider.hasChildren(BasicC</sentence>
+			<sentence id="2.17">ontentProvider.java:121)</sentence>
+			<sentence id="2.18">        at org.eclipse.jface.viewers.AbstractTreeViewer.isExpandable(AbstractTre</sentence>
+			<sentence id="2.19">eViewer.java:932)</sentence>
+			<sentence id="2.20">        at org.eclipse.jface.viewers.AbstractTreeViewer.updateChildren(AbstractT</sentence>
+			<sentence id="2.21">reeViewer.java:1167)</sentence>
+			<sentence id="2.22">        at org.eclipse.jface.viewers.AbstractTreeViewer.internalRefresh(Abstract</sentence>
+			<sentence id="2.23">TreeViewer.java:845)</sentence>
+			<sentence id="2.24">        at org.eclipse.jface.viewers.AbstractTreeViewer.internalRefresh(Abstract</sentence>
+			<sentence id="2.25">TreeViewer.java:854)</sentence>
+			<sentence id="2.26">        at org.eclipse.jface.viewers.AbstractTreeViewer.internalRefresh(Abstract</sentence>
+			<sentence id="2.27">TreeViewer.java:823)</sentence>
+			<sentence id="2.28">        at org.eclipse.jface.viewers.StructuredViewer$1.run(StructuredViewer.jav</sentence>
+			<sentence id="2.29">a:577)</sentence>
+			<sentence id="2.30">        at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(Struct</sentence>
+			<sentence id="2.31">uredViewer.java:547)</sentence>
+			<sentence id="2.32">        at org.eclipse.jface.viewers.StructuredViewer.refresh(StructuredViewer.j</sentence>
+			<sentence id="2.33">ava:575)</sentence>
+			<sentence id="2.34">        at org.eclipse.jface.viewers.StructuredViewer.refresh(StructuredViewer.j</sentence>
+			<sentence id="2.35">ava:567)</sentence>
+			<sentence id="2.36">        at org.eclipse.debug.internal.ui.BasicContentProvider.refresh(BasicConte</sentence>
+			<sentence id="2.37">ntProvider.java:68)</sentence>
+			<sentence id="2.38">        at org.eclipse.debug.internal.ui.VariablesContentProvider.doHandleDebugE</sentence>
+			<sentence id="2.39">vent(VariablesContentProvider.java:77)</sentence>
+			<sentence id="2.40">        at org.eclipse.debug.internal.ui.BasicContentProvider$1.run(BasicContent</sentence>
+			<sentence id="2.41">Provider.java:95)</sentence>
+			<sentence id="2.42">        at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:29)</sentence>
+			<sentence id="2.43">        at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.ja</sentence>
+			<sentence id="2.44">va(Compiled Code))</sentence>
+			<sentence id="2.45">        at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java(Compile</sentence>
+			<sentence id="2.46">d Code))</sentence>
+			<sentence id="2.47">        at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java(Compiled</sentence>
+			<sentence id="2.48"> Code))</sentence>
+			<sentence id="2.49">        at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:775)</sentence>
+			<sentence id="2.50">        at org.eclipse.ui.internal.Workbench.run(Workbench.java:758)</sentence>
+			<sentence id="2.51">        at org.eclipse.core.internal.boot.InternalBootLoader.run(InternalBootLoa</sentence>
+			<sentence id="2.52">der.java:820)</sentence>
+			<sentence id="2.53">        at org.eclipse.core.boot.BootLoader.run(BootLoader.java:285)</sentence>
+			<sentence id="2.54">        at java.lang.reflect.Method.invoke(Native Method)</sentence>
+			<sentence id="2.55">        at org.eclipse.core.launcher.Main.basicRun(Main.java:151)</sentence>
+			<sentence id="2.56">        at org.eclipse.core.launcher.Main.run(Main.java:502)</sentence>
+			<sentence id="2.57">        at org.eclipse.core.launcher.UIMain.main(UIMain.java:52)</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>47449</id>
+	<title>mod_mem_cache 2.0 memory leak</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 23900
+Fix memory leak in 2.0 mod_mem_cache</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In 2.0.x, mod_mem_cache has a memory leak.</sentence>
+			<sentence id="2.2">The attached patch
+corrects it.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The problem doesn't happen in 2.2 or trunk, since mod_mem_cache's
+memory management was completely re-written for 2.2.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The leak occurs when a cache entry expires, the cache determines that
+it is still valid, and updates the headers saved in the cache entry.</sentence>
+			<sentence id="4.2">The previously saved headers are never freed.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Simply adding free() calls before saving the new headers resulted in
+instability under load, as other threads might still be accessing the
+older saved headers.</sentence>
+			<sentence id="5.2">The patch looks at the reference count, and if
+it might not be safe to free the old headers yet, remembers the
+pointers to free them later.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Some alternative approaches would have been to use a process-wide lock
+to make sure no other thread could access the entry at the same time,
+but that would likely have had terrible effects on performance.</sentence>
+			<sentence id="6.2">Or a
+per-cache-entry lock might have been used, but managing those would
+require a pool for each cache entry, and by the time that was all
+done, we'd be half-way to the 2.2 code anyway.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I've run this for hours, and a slightly earlier version for
+days, under the same load that originally reproduced the memory leak
+and then the instability with the simple fix.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I don't know if mod_mem_cache in 2.0 is used widely enough to warrant
+fixing this.</sentence>
+			<sentence id="8.2">I'd rather just move to 2.2 myself, but couldn't in this
+case.</sentence>
+			<sentence id="8.3">But I wanted to at least provide the patch, in case someone
+else is running into the problem.</sentence>
+		</paragraph>
+	</description>
+</bug>

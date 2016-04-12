@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4327</id>
+	<title>share has problems with encoded values in the URL</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I am using the share feature to post the web version of newsletters we send for our clients.</sentence>
+			<sentence id="1.2">Our email platform uses an encoded value at the end of the URL to determine how to render the page.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">ex.</sentence>
+			<sentence id="2.2">http://km.email.samsungusa.com/samsung/?KL7G.LTElBflg435nclkKkxEGjuB5qRrK</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Facebook is able to browse the page and pull the data I put in the meta tags_ but when the link is created on the newsfeed_ an  =  sign is appended to the end of the URL_ which breaks the URL.</sentence>
+			<sentence id="3.2">Also_ if there is a  .</sentence>
+			<sentence id="3.3">in the string_ it is converted to a  _  character.</sentence>
+			<sentence id="3.4">This also breaks the URL.</sentence>
+			<sentence id="3.5">Encoding the URL doesn t fix either of these issues.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Here is how I am using the share function:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">http://www.facebook.com/share.php?u=http://km.email.samsungusa.com/samsung/?KL7G.LTElBflg435nclkKkxEGjuB5qRrK</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Again_ it posts to my wall_ but the link is broken because it adds an  =  to the end_ and changes the  . to a  _  in my URL.</sentence>
+		</paragraph>
+	</description>
+</bug>

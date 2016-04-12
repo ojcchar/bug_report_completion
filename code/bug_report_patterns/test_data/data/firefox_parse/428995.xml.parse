@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>428995</id>
+	<title>signed script gets Permission denied when calling javascript from IFRAME (unsigned) - works with older firefox2</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9pre) Gecko/2008041306 Minefield/3.0pre
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9pre) Gecko/2008041306 Minefield/3.0pre</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">web page is embedding FCKEditor in a separate IFRAME
+web application is signed (communicates with custom FF extension)
+fckeditor is wrapped in a simple html which contains several interface function to control the editor</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">when editor is required, IFRAME is created in DOM and loaded with this wrapper.html</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">subsequently, one of the interface functions is called, call looks like this:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">window.frames['acEditorIFrame'].</sentence>
+			<sentence id="5.2">fckCreateEditor(content, loc);</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">this call throws:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Error: Permission denied to get property Window.document
+Source File: jar:http://s0m3body:8180/autocost/html.jar!/autocost/js/acEditor.js?rel=2007_09_21_08_03
+Line: 21</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">in firefox 3, but works well with firefox 2</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Steps to Reproduce:</sentence>
+			<sentence id="10.2">1 go to www.autocost.de</sentence>
+			<sentence id="10.3">2 log in as mozillabug/mozillabug90505</sentence>
+			<sentence id="10.4">3 click on 'Params' (top menu bar)</sentence>
+			<sentence id="10.5">4 click on 'Edit' - in opened 'window'</sentence>
+			<sentence id="10.6">Actual Results:</sentence>
+			<sentence id="10.7">firefox2 opens window (IFRAME) with fckeditor</sentence>
+			<sentence id="10.8">firefox3 throws exception</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Expected Results:  
+firefox3 opens window with fckeditor</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">i have also tried enabling all sorts of privileges before calling:</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">window.frames['acEditorIFrame'].</sentence>
+			<sentence id="13.2">fckCreateEditor(content, loc);</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">but without success</sentence>
+		</paragraph>
+	</description>
+</bug>

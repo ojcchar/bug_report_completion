@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>39910</id>
+	<title>add possibility for defining "default" name-based virtual host</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hello,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">according to discuttion in apache-users beginning at: 
+http://mail-archives.apache.org/mod_mbox/httpd-users/200606.mbox/%3c20060626064242.GA11592@fantomas.sk%3e</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">it seems, that documentation does not completely reflect the name virtual
+hosting behaviour of apache 1.3 (I got a report that 2.0 has the same
+behaviour), or vice versa:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">NameVirtualHost 195.168.3.66:80</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&lt;VirtualHost 195.168.3.66:80&gt;
+ServerName default.fantomas.sk
+DocumentRoot /home/webs/default.</sentence>
+			<sentence id="5.2">fantomas.sk
+&lt;/VirtualHost&gt;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">&lt;VirtualHost 195.168.3.66:80&gt;
+ServerName fantomas.fantomas.sk
+DocumentRoot /home/webs/fantomas.</sentence>
+			<sentence id="6.2">fantomas.sk
+&lt;/VirtualHost&gt;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;VirtualHost 195.168.3.66:80&gt;
+ServerName 195.168.3.66
+DocumentRoot /home/webs/195.168.3.66
+&lt;/VirtualHost&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">According the documentation, requests for Host: 195.168.3.66 should fall in the
+third virtual host (ServerName 195.168.3.66), while requests for all undefined
+virtual hosts at IP 195.168.3.66  should go to first one.</sentence>
+			<sentence id="8.2">However it seems not
+to be the case.</sentence>
+			<sentence id="8.3">I tried to request each virtual host once:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">LogFormat "%{%s}t %v %V %{Host}o %{Host}i %a %h %&gt;s %b %T %u \"%U\"
+\"%{Referer}i\" \"%{User-Agent}i\"" testing</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">1151335141 default.fantomas.sk default.fantomas.sk - default.fantomas.sk
+195.168.3.66 fantomas.fantomas.sk 200 20 4 - "/" "-" "-"
+1151335149 default.fantomas.sk 195.168.3.66 - 195.168.3.66 195.168.3.66
+fantomas.fantomas.sk 200 20 4 - "/" "-" "-"
+1151335157 fantomas.fantomas.sk fantomas.fantomas.sk - fantomas.fantomas.sk
+195.168.3.66 fantomas.fantomas.sk 200 21 5 - "/" "-" "-"</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Defining &lt;VirtualHost *:80&gt; would cause the host to be defined on other
+addresses, where I run different virtual hosts (and do not want to run this one).</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">(I've tried to solve this ticket in bug 11890 some time ago, but I had some
+problems explaing it that time )</sentence>
+		</paragraph>
+	</description>
+</bug>

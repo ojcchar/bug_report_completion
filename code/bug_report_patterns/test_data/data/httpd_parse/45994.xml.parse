@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>45994</id>
+	<title>uldap_connection_init SEGFAULT if apr_ldap lib cannot be loaded</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">On line 248 uldap_connection_init in modules/ldap/util_ldap.c returns result-&gt;rc.</sentence>
+			<sentence id="1.2">That fails if apr_ldap cannot be loaded, because result is still NULL then.</sentence>
+		</paragraph>
+	</description>
+</bug>

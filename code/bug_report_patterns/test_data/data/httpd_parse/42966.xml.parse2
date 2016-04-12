@@ -1,0 +1,55 @@
+Hello/UH ./. 
+
+(ROOT (INTJ (UH Hello) (. .)))
+
+root(ROOT-0, Hello-1)
+
+I/PRP have/VBP Freebsd/NNP 6.2/CD and/CC apache-2/NN .2.4/CD _/NN 2/CD ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP have) (NP (NP (NNP Freebsd) (CD 6.2)) (CC and) (NP (NP (NN apache-2) (CD .2.4) (NN _)) (NP (CD 2))))) (. .)))
+
+root(ROOT-0, have-2)
+nsubj(have-2, I-1)
+dobj(have-2, Freebsd-3)
+num(Freebsd-3, 6.2-4)
+nn(_-8, apache-2-6)
+num(_-8, .2.4-7)
+dobj(have-2, _-8)
+conj_and(Freebsd-3, _-8)
+dep(_-8, 2-9)
+
+Apache/NNP work/NN very/RB good/JJ and/CC this/DT day/NN no/DT work/NN ./. 
+
+(ROOT (NP (NP (NNP Apache)) (NP (NP (NP (NN work)) (ADJP (RB very) (JJ good))) (CC and) (NP (NP (DT this) (NN day)) (NP (DT no) (NN work)))) (. .)))
+
+root(ROOT-0, Apache-1)
+dep(Apache-1, work-2)
+advmod(good-4, very-3)
+amod(work-2, good-4)
+det(day-7, this-6)
+dep(Apache-1, day-7)
+conj_and(work-2, day-7)
+neg(work-9, no-8)
+dep(day-7, work-9)
+
+Run/NNP apache/NNP :/: apachectl/NN start/NN log/NN dmesg/NN pid/NN 65774/CD (/-LRB- httpd/NN )/-RRB- ,/, uid/NN 0/CD :/: exited/VBN on/IN signal/NN 11/CD (/-LRB- core/NN dumped/VBN )/-RRB- 
+
+(ROOT (NP (NP (NNP Run) (NNP apache)) (: :) (NP (NP (NP (NP (NN apachectl) (NN start) (NN log) (NN dmesg) (NN pid) (CD 65774) (-LRB- -LRB-) (NN httpd) (-RRB- -RRB-)) (, ,) (NP (NN uid) (CD 0)) (: :)) (VP (VBN exited) (PP (IN on) (NP (NN signal) (CD 11))))) (PRN (-LRB- -LRB-) (NP (NP (NN core)) (VP (VBN dumped))) (-RRB- -RRB-)))))
+
+root(ROOT-0, apache-2)
+nn(apache-2, Run-1)
+nn(httpd-11, apachectl-4)
+nn(httpd-11, start-5)
+nn(httpd-11, log-6)
+nn(httpd-11, dmesg-7)
+nn(httpd-11, pid-8)
+num(httpd-11, 65774-9)
+dep(apache-2, httpd-11)
+appos(httpd-11, uid-14)
+num(uid-14, 0-15)
+vmod(httpd-11, exited-17)
+prep_on(exited-17, signal-19)
+num(signal-19, 11-20)
+dep(httpd-11, core-22)
+vmod(core-22, dumped-23)
+

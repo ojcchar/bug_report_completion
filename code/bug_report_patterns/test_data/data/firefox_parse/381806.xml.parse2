@@ -1,0 +1,125 @@
+Steps/NNS to/TO reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB reproduce))) (: :)))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+
+1/LS Invoke/VB orca/NN and/CC firefox/NN ./. 
+
+(ROOT (S (LST (LS 1)) (VP (VB Invoke) (NP (NN orca) (CC and) (NN firefox))) (. .)))
+
+root(ROOT-0, Invoke-2)
+dep(Invoke-2, 1-1)
+dobj(Invoke-2, orca-3)
+dobj(Invoke-2, firefox-5)
+conj_and(orca-3, firefox-5)
+
+2/CD Launch/VB firefox/NN help/NN ./. 
+
+(ROOT (S (NP (CD 2)) (VP (VB Launch) (NP (NN firefox) (NN help))) (. .)))
+
+root(ROOT-0, Launch-2)
+nsubj(Launch-2, 2-1)
+nn(help-4, firefox-3)
+dobj(Launch-2, help-4)
+
+3/CD Press/NNP Tab/NNP to/TO move/VB focus/NN onto/IN left/JJ content/NN tree/NN table/NN ./. 
+
+(ROOT (S (NP (NP (CD 3) (NNP Press) (NNP Tab)) (SBAR (S (VP (TO to) (VP (VB move)))))) (VP (NN focus) (PP (IN onto) (NP (JJ left) (NN content) (NN tree) (NN table)))) (. .)))
+
+root(ROOT-0, focus-6)
+num(Tab-3, 3-1)
+nn(Tab-3, Press-2)
+nsubj(focus-6, Tab-3)
+aux(move-5, to-4)
+vmod(Tab-3, move-5)
+amod(table-11, left-8)
+nn(table-11, content-9)
+nn(table-11, tree-10)
+prep_onto(focus-6, table-11)
+
+4/CD Press/NNP Arrow/NNP key/JJ continuously/RB to/TO browse/VB the/DT minefield/NN help/NN content/NN tree/NN ./. 
+
+(ROOT (NP (NP (CD 4) (NNP Press) (NNP Arrow)) (ADJP (JJ key) (RB continuously) (S (VP (TO to) (VP (VB browse) (NP (DT the) (NN minefield) (NN help) (NN content) (NN tree)))))) (. .)))
+
+root(ROOT-0, Arrow-3)
+num(Arrow-3, 4-1)
+nn(Arrow-3, Press-2)
+amod(Arrow-3, key-4)
+advmod(key-4, continuously-5)
+aux(browse-7, to-6)
+xcomp(key-4, browse-7)
+det(tree-12, the-8)
+nn(tree-12, minefield-9)
+nn(tree-12, help-10)
+nn(tree-12, content-11)
+dobj(browse-7, tree-12)
+
+Expected/VBN result/NN :/: Tree/NN table/NN should/MD be/VB accessible/JJ with/IN keyboard/NN navigation/NN ./. 
+
+(ROOT (S (S (VP (VBN Expected) (NP (NN result)))) (: :) (S (NP (NN Tree) (NN table)) (VP (MD should) (VP (VB be) (ADJP (JJ accessible) (PP (IN with) (NP (NN keyboard) (NN navigation))))))) (. .)))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, result-2)
+nn(table-5, Tree-4)
+nsubj(accessible-8, table-5)
+aux(accessible-8, should-6)
+cop(accessible-8, be-7)
+parataxis(Expected-1, accessible-8)
+nn(navigation-11, keyboard-10)
+prep_with(accessible-8, navigation-11)
+
+Actual/JJ result/NN :/: The/DT focus/NN will/MD be/VB put/VBN to/TO the/DT right/JJ content/NN pane/NN once/RB you/PRP change/VBP the/DT left/JJ content/NN tree/NN item/NN from/IN one/CD to/TO another/DT ./. 
+
+(ROOT (NP (NP (JJ Actual) (NN result)) (: :) (S (NP (DT The) (NN focus)) (VP (MD will) (VP (VB be) (VP (VBN put) (PP (TO to) (NP (DT the) (JJ right) (NN content) (NN pane))) (SBAR (RB once) (S (NP (PRP you)) (VP (VBP change) (NP (NP (DT the) (JJ left) (NN content) (NN tree) (NN item)) (PP (IN from) (NP (CD one)))) (PP (TO to) (NP (DT another)))))))))) (. .)))
+
+root(ROOT-0, result-2)
+amod(result-2, Actual-1)
+det(focus-5, The-4)
+nsubjpass(put-8, focus-5)
+aux(put-8, will-6)
+auxpass(put-8, be-7)
+dep(result-2, put-8)
+det(pane-13, the-10)
+amod(pane-13, right-11)
+nn(pane-13, content-12)
+prep_to(put-8, pane-13)
+advmod(change-16, once-14)
+nsubj(change-16, you-15)
+ccomp(put-8, change-16)
+det(item-21, the-17)
+amod(item-21, left-18)
+nn(item-21, content-19)
+nn(item-21, tree-20)
+dobj(change-16, item-21)
+prep_from(item-21, one-23)
+prep_to(change-16, another-25)
+
+Additional/JJ info/NN :/: This/DT bug/NN is/VBZ not/RB visible/JJ if/IN orca/NN is/VBZ not/RB running/VBG ./. 
+
+(ROOT (NP (NP (JJ Additional) (NN info)) (: :) (S (NP (DT This) (NN bug)) (VP (VBZ is) (RB not) (ADJP (JJ visible)) (SBAR (IN if) (S (NP (NN orca)) (VP (VBZ is) (RB not) (VP (VBG running))))))) (. .)))
+
+root(ROOT-0, info-2)
+amod(info-2, Additional-1)
+det(bug-5, This-4)
+nsubj(visible-8, bug-5)
+cop(visible-8, is-6)
+neg(visible-8, not-7)
+dep(info-2, visible-8)
+mark(running-13, if-9)
+nsubj(running-13, orca-10)
+aux(running-13, is-11)
+neg(running-13, not-12)
+advcl(visible-8, running-13)
+
+Filing/NN to/TO firefox/NN for/IN first/JJ investigation/NN ./. 
+
+(ROOT (NP (NP (NN Filing)) (PP (TO to) (NP (NN firefox))) (PP (IN for) (NP (JJ first) (NN investigation))) (. .)))
+
+root(ROOT-0, Filing-1)
+prep_to(Filing-1, firefox-3)
+amod(investigation-6, first-5)
+prep_for(Filing-1, investigation-6)
+

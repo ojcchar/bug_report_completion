@@ -1,0 +1,180 @@
+#/# This/DT is/VBZ the/DT build/install/NN sequence/NN I/PRP am/VBP trying/VBG to/TO use/VB 
+
+(ROOT (SBAR (# #) (S (NP (DT This)) (VP (VBZ is) (NP (NP (DT the) (NN build/install) (NN sequence)) (SBAR (S (NP (PRP I)) (VP (VBP am) (VP (VBG trying) (S (VP (TO to) (VP (VB use)))))))))))))
+
+root(ROOT-0, sequence-6)
+dep(sequence-6, #-1)
+nsubj(sequence-6, This-2)
+cop(sequence-6, is-3)
+det(sequence-6, the-4)
+nn(sequence-6, build/install-5)
+nsubj(trying-9, I-7)
+aux(trying-9, am-8)
+rcmod(sequence-6, trying-9)
+aux(use-11, to-10)
+xcomp(trying-9, use-11)
+
+make/VB clean/JJ 
+
+(ROOT (S (VP (VB make) (ADJP (JJ clean)))))
+
+root(ROOT-0, make-1)
+acomp(make-1, clean-2)
+
+./. 
+
+(ROOT (NP (. .)))
+
+
+//: configure/VB --/: enable-layout/NN =/JJ Mine/NNP --/: with-mpm/NN =/JJ worker/NN \/IN 
+
+(ROOT (PRN (: /) (S (VP (VB configure) (NP (NP (PRN (: --) (FRAG (NP (NN enable-layout)) (NP (NP (JJ =) (NNP Mine)) (: --) (NP (NN with-mpm))))) (JJ =) (NN worker)) (ADJP (IN \)))))))
+
+root(ROOT-0, configure-2)
+punct(configure-2, /-1)
+dep(worker-10, enable-layout-4)
+amod(Mine-6, =-5)
+dep(enable-layout-4, Mine-6)
+dep(Mine-6, with-mpm-8)
+amod(worker-10, =-9)
+dobj(configure-2, worker-10)
+amod(worker-10, \-11)
+
+--/: enable-mods-shared/JJ =/JJ most/RBS --/: enable-static-support/NN 
+
+(ROOT (PRN (: --) (S (NP (JJ enable-mods-shared) (JJ =)) (NP (NP (RBS most)) (: --) (NP (NN enable-static-support))))))
+
+root(ROOT-0, most-4)
+amod(=-3, enable-mods-shared-2)
+dep(most-4, =-3)
+dep(most-4, enable-static-support-6)
+
+make/VB 
+
+(ROOT (S (VP (VB make))))
+
+root(ROOT-0, make-1)
+
+make/VB install/VB 
+
+(ROOT (S (VP (VB make) (VP (VB install)))))
+
+root(ROOT-0, make-1)
+xcomp(make-1, install-2)
+
+Works/NNP fine/JJ except/IN that/IN the/DT apache/NN include/VBP files/NNS end/VB up/RP in/IN $/$ {/-LRB- prefix/NN }/-RRB- //: include/VBP rather/RB than/IN in/IN the/DT directory/NN specified/VBN by/IN the/DT layout/NN ./. 
+
+(ROOT (FRAG (NP (NP (NNP Works)) (SBAR (S (ADJP (JJ fine) (PP (IN except) (SBAR (IN that) (S (NP (DT the) (NN apache)) (VP (VBP include) (S (NP (NNS files)) (VP (VB end) (PRT (RP up)) (PP (IN in) (NP ($ $) (-LRB- -LCB-) (NN prefix) (-RRB- -RCB-))))))))))))) (: /) (VP (VBP include) (PP (CONJP (RB rather) (IN than)) (IN in) (NP (NP (DT the) (NN directory)) (VP (VBN specified) (PP (IN by) (NP (DT the) (NN layout))))))) (. .)))
+
+root(ROOT-0, Works-1)
+rcmod(Works-1, fine-2)
+mark(include-7, that-4)
+det(apache-6, the-5)
+nsubj(include-7, apache-6)
+prepc_except(fine-2, include-7)
+nsubj(end-9, files-8)
+ccomp(include-7, end-9)
+prt(end-9, up-10)
+dep(prefix-14, $-12)
+prep_in(end-9, prefix-14)
+punct(Works-1, /-16)
+dep(Works-1, include-17)
+cc(include-17, rather-18)
+det(directory-22, the-21)
+prep_in(include-17, directory-22)
+vmod(directory-22, specified-23)
+det(layout-26, the-25)
+agent(specified-23, layout-26)
+
+If/IN I/PRP add/VBP :/: 
+
+(ROOT (SBAR (IN If) (S (NP (PRP I)) (VP (VBP add))) (: :)))
+
+root(ROOT-0, add-3)
+mark(add-3, If-1)
+nsubj(add-3, I-2)
+
+--/: includedir/NN =/JJ //: home/apache/usr/NN //: include/apache/NN 
+
+(ROOT (PRN (: --) (S (NP (NP (NN includedir)) (ADJP (ADJP (JJ =)) (PRN (: /) (NP (NN home/apache/usr)) (: /)))) (NP (NN include/apache)))))
+
+root(ROOT-0, include/apache-7)
+dep(include/apache-7, includedir-2)
+amod(includedir-2, =-3)
+punct(home/apache/usr-5, /-4)
+dep(=-3, home/apache/usr-5)
+punct(home/apache/usr-5, /-6)
+
+to/TO the/DT ./. 
+
+(ROOT (FRAG (PP (TO to) (NP (DT the))) (. .)))
+
+root(ROOT-0, to-1)
+pobj(to-1, the-2)
+
+//: configure/VB command/NN then/RB the/DT include/VBP files/NNS end/VB up/RP 
+
+(ROOT (PRN (: /) (S (VP (VB configure) (NP (NN command)) (SBAR (S (NP (RB then) (DT the)) (VP (VBP include) (S (NP (NNS files)) (VP (VB end) (PRT (RP up)))))))))))
+
+root(ROOT-0, configure-2)
+punct(configure-2, /-1)
+dobj(configure-2, command-3)
+advmod(the-5, then-4)
+nsubj(include-6, the-5)
+dep(configure-2, include-6)
+nsubj(end-8, files-7)
+ccomp(include-6, end-8)
+prt(end-8, up-9)
+
+where/WRB they/PRP should/MD go/VB ./. 
+
+(ROOT (FRAG (SBAR (WHADVP (WRB where)) (S (NP (PRP they)) (VP (MD should) (VP (VB go))))) (. .)))
+
+root(ROOT-0, go-4)
+advmod(go-4, where-1)
+nsubj(go-4, they-2)
+aux(go-4, should-3)
+
+I/PRP set/VBP this/DT as/IN UNCONFIRMED/NNP as/IN I/PRP do/VBP not/RB know/VB enough/RB to/TO debug/VB the/DT configure/NN script/NN to/TO find/VB if/IN there/EX is/VBZ a/DT problem/NN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP set) (NP (DT this)) (PP (IN as) (NP (NNP UNCONFIRMED))) (SBAR (IN as) (S (NP (PRP I)) (VP (VBP do) (RB not) (VP (VB know) (ADVP (RB enough)) (S (VP (TO to) (VP (VB debug) (NP (DT the) (NN configure) (NN script)) (S (VP (TO to) (VP (VB find) (SBAR (IN if) (S (NP (EX there)) (VP (VBZ is) (NP (DT a) (NN problem)))))))))))))))) (. .)))
+
+root(ROOT-0, set-2)
+nsubj(set-2, I-1)
+dobj(set-2, this-3)
+prep_as(set-2, UNCONFIRMED-5)
+mark(know-10, as-6)
+nsubj(know-10, I-7)
+aux(know-10, do-8)
+neg(know-10, not-9)
+advcl(set-2, know-10)
+advmod(know-10, enough-11)
+aux(debug-13, to-12)
+xcomp(know-10, debug-13)
+det(script-16, the-14)
+nn(script-16, configure-15)
+dobj(debug-13, script-16)
+aux(find-18, to-17)
+vmod(debug-13, find-18)
+mark(is-21, if-19)
+expl(is-21, there-20)
+advcl(find-18, is-21)
+det(problem-23, a-22)
+nsubj(is-21, problem-23)
+
+Is/VBZ this/DT just/RB me/PRP ?/. 
+
+(ROOT (SQ (VBZ Is) (NP (DT this)) (ADVP (RB just)) (NP (PRP me)) (. ?)))
+
+root(ROOT-0, me-4)
+cop(me-4, Is-1)
+nsubj(me-4, this-2)
+advmod(me-4, just-3)
+
+Thanks/NNS ,/, Howard/NNP 
+
+(ROOT (NP (NP (NNS Thanks)) (, ,) (NP (NNP Howard))))
+
+root(ROOT-0, Thanks-1)
+appos(Thanks-1, Howard-3)
+

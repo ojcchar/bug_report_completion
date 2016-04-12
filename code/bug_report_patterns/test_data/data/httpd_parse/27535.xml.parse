@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>27535</id>
+	<title>libapr-0.la has not been installed</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I can't compile any branch of Apache 2 on Solaris 9 12/03 machine.</sentence>
+			<sentence id="1.2">It always
+hangs there:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">make[1]: Leaving directory `/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules'</sentence>
+			<sentence id="2.2">Making all in support</sentence>
+			<sentence id="2.3">make[1]: Entering directory `/usr/local/httpd-2.0-APACHE_2_0_BRANCH/support'</sentence>
+			<sentence id="2.4">make[2]: Entering directory `/usr/local/httpd-2.0-APACHE_2_0_BRANCH/support'</sentence>
+			<sentence id="2.5">/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr/libtool --silent</sentence>
+			<sentence id="2.6">--mode=compile gcc  -g -O2 -pthreads    -DSOLARIS2=9 -D_POSIX_PTHREAD_SEMANTICS</sentence>
+			<sentence id="2.7">-D_REENTRANT -DAP_HAVE_DESIGNATED_INITIALIZER</sentence>
+			<sentence id="2.8">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr/include</sentence>
+			<sentence id="2.9">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr-util/include</sentence>
+			<sentence id="2.10">-I/usr/local/include -I. -I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/os/unix</sentence>
+			<sentence id="2.11">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/server/mpm/experimental/leader</sentence>
+			<sentence id="2.12">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/http</sentence>
+			<sentence id="2.13">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/filters</sentence>
+			<sentence id="2.14">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/proxy</sentence>
+			<sentence id="2.15">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/include</sentence>
+			<sentence id="2.16">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/generators</sentence>
+			<sentence id="2.17">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/dav/main -prefer-non-pic</sentence>
+			<sentence id="2.18">-static -c htpasswd.c &amp;&amp; touch htpasswd.lo</sentence>
+			<sentence id="2.19">/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr/libtool --silent --mode=link</sentence>
+			<sentence id="2.20">gcc  -g -O2 -pthreads    -DSOLARIS2=9 -D_POSIX_PTHREAD_SEMANTICS -D_REENTRANT</sentence>
+			<sentence id="2.21">-DAP_HAVE_DESIGNATED_INITIALIZER</sentence>
+			<sentence id="2.22">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr/include</sentence>
+			<sentence id="2.23">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr-util/include</sentence>
+			<sentence id="2.24">-I/usr/local/include -I. -I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/os/unix</sentence>
+			<sentence id="2.25">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/server/mpm/experimental/leader</sentence>
+			<sentence id="2.26">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/http</sentence>
+			<sentence id="2.27">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/filters</sentence>
+			<sentence id="2.28">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/proxy</sentence>
+			<sentence id="2.29">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/include</sentence>
+			<sentence id="2.30">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/generators</sentence>
+			<sentence id="2.31">-I/usr/local/httpd-2.0-APACHE_2_0_BRANCH/modules/dav/main -export-dynamic</sentence>
+			<sentence id="2.32">-L/usr/local/lib   -o htpasswd  htpasswd.lo</sentence>
+			<sentence id="2.33">/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/pcre/libpcre.</sentence>
+			<sentence id="2.34">la</sentence>
+			<sentence id="2.35">/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr-util/libaprutil-0.</sentence>
+			<sentence id="2.36">la -lexpat</sentence>
+			<sentence id="2.37">/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr/libapr-0.</sentence>
+			<sentence id="2.38">la -lsendfile -lrt</sentence>
+			<sentence id="2.39">-lm -lsocket -lnsl -lresolv -lpthread -ldl</sentence>
+			<sentence id="2.40">Undefined                       first referenced</sentence>
+			<sentence id="2.41">symbol                             in file</sentence>
+			<sentence id="2.42">libiconv_close</sentence>
+			<sentence id="2.43">/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr-util/.</sentence>
+			<sentence id="2.44">libs/libaprutil-0.</sentence>
+			<sentence id="2.45">so</sentence>
+			<sentence id="2.46">libiconv</sentence>
+			<sentence id="2.47">/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr-util/.</sentence>
+			<sentence id="2.48">libs/libaprutil-0.</sentence>
+			<sentence id="2.49">so</sentence>
+			<sentence id="2.50">libiconv_open</sentence>
+			<sentence id="2.51">/usr/local/httpd-2.0-APACHE_2_0_BRANCH/srclib/apr-util/.</sentence>
+			<sentence id="2.52">libs/libaprutil-0.</sentence>
+			<sentence id="2.53">so</sentence>
+			<sentence id="2.54">ld: fatal: Symbol referencing errors.</sentence>
+			<sentence id="2.55">No output written to .</sentence>
+			<sentence id="2.56">libs/htpasswd</sentence>
+			<sentence id="2.57">collect2: ld returned 1 exit status</sentence>
+			<sentence id="2.58">make[2]: *** [htpasswd] Error 1</sentence>
+			<sentence id="2.59">make[2]: Leaving directory `/usr/local/httpd-2.0-APACHE_2_0_BRANCH/support'</sentence>
+			<sentence id="2.60">make[1]: *** [all-recursive] Error 1</sentence>
+			<sentence id="2.61">make[1]: Leaving directory `/usr/local/httpd-2.0-APACHE_2_0_BRANCH/support'</sentence>
+			<sentence id="2.62">make: *** [all-recursive] Error 1</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This machine has a freas installed Solaris 9 12/03 Sparc and patched mostly.</sentence>
+			<sentence id="3.2">My GNU packages like autoconf, gcc and libtool coming from
+http://www.blastwave.org/packages.php.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Thank you in advance!</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Regards, Jan</sentence>
+		</paragraph>
+	</description>
+</bug>

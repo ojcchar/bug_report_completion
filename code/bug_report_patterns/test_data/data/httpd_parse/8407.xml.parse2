@@ -1,0 +1,294 @@
+Hi/NN 
+
+(ROOT (NP (NN Hi)))
+
+root(ROOT-0, Hi-1)
+
+I/PRP have/VBP apache/JJ 2.0.35/CD configured/VBN as/IN front/JJ end/NN server/NN the/DT conf/NN looks/VBZ like/IN this/DT 
+
+(ROOT (S (NP (PRP I)) (VP (VBP have) (NP (NP (JJ apache) (CD 2.0.35)) (VP (VBN configured) (PP (IN as) (NP (NP (JJ front) (NN end) (NN server)) (SBAR (S (NP (DT the) (NN conf)) (VP (VBZ looks) (PP (IN like) (NP (DT this)))))))))))))
+
+root(ROOT-0, have-2)
+nsubj(have-2, I-1)
+amod(2.0.35-4, apache-3)
+dobj(have-2, 2.0.35-4)
+vmod(2.0.35-4, configured-5)
+amod(server-9, front-7)
+nn(server-9, end-8)
+prep_as(configured-5, server-9)
+det(conf-11, the-10)
+nsubj(looks-12, conf-11)
+rcmod(server-9, looks-12)
+prep_like(looks-12, this-14)
+
+standard/JJ d/NN :/: \/CD apache2/NN \/CD htdocs/NNS document/VBP root/NN for/IN front-end/JJ server/NN mod_rewrite/NN and/CC mod_proxy/NN loaded/VBD 
+
+(ROOT (FRAG (NP (JJ standard) (NN d)) (: :) (S (NP (NP (CD \) (NN apache2)) (NP (CD \) (NNS htdocs))) (VP (VBP document) (SBAR (S (NP (NP (NN root)) (PP (IN for) (NP (JJ front-end) (NN server) (NN mod_rewrite) (CC and) (NN mod_proxy)))) (VP (VBD loaded))))))))
+
+root(ROOT-0, d-2)
+amod(d-2, standard-1)
+num(apache2-5, \-4)
+nsubj(document-8, apache2-5)
+num(htdocs-7, \-6)
+dep(apache2-5, htdocs-7)
+dep(d-2, document-8)
+nsubj(loaded-16, root-9)
+amod(mod_rewrite-13, front-end-11)
+nn(mod_rewrite-13, server-12)
+prep_for(root-9, mod_rewrite-13)
+prep_for(root-9, mod_proxy-15)
+conj_and(mod_rewrite-13, mod_proxy-15)
+ccomp(document-8, loaded-16)
+
+#/# part/NN concerning/VBG reverse/JJ proxy/NN 
+
+(ROOT (FRAG (NP (# #) (NN part)) (PP (VBG concerning) (NP (JJ reverse) (NN proxy)))))
+
+root(ROOT-0, part-2)
+dep(part-2, #-1)
+amod(proxy-5, reverse-4)
+prep_concerning(part-2, proxy-5)
+
+#document/NN root/NN of/IN back-end/JJ server/NN ,/, supposed/VBN to/TO allow/VB by/IN default/NN </JJR directory/NN d/NN :/: //: apache/htdocs/NNS >/JJR order/NN deny/VBP ,/, allow/VBP </JJR //: directory/NN >/JJR 
+
+(ROOT (S (NP (NP (NN #document) (NN root)) (PP (IN of) (NP (JJ back-end) (NN server))) (, ,) (VP (VBN supposed) (S (VP (TO to) (VP (VB allow) (PP (IN by) (NP (NN default))) (NP (JJR <) (NN directory) (NN d)))) (: :) (SBAR (PRN (: /) (S (NP (NNS apache/htdocs)) (ADJP (JJR >)))) (S (NP (NN order)) (VP (VBP deny)))))) (, ,)) (VP (VBP allow) (ADJP (ADJP (JJR <)) (PRN (: /) (S (NP (NN directory)) (ADJP (JJR >))))))))
+
+root(ROOT-0, allow-22)
+nn(root-2, #document-1)
+nsubj(allow-22, root-2)
+amod(server-5, back-end-4)
+prep_of(root-2, server-5)
+vmod(root-2, supposed-7)
+aux(allow-9, to-8)
+xcomp(supposed-7, allow-9)
+prep_by(allow-9, default-11)
+amod(d-14, <-12)
+nn(d-14, directory-13)
+dobj(allow-9, d-14)
+punct(>-18, /-16)
+dep(>-18, apache/htdocs-17)
+dep(deny-20, >-18)
+nsubj(deny-20, order-19)
+parataxis(allow-9, deny-20)
+acomp(allow-22, <-23)
+punct(>-26, /-24)
+dep(>-26, directory-25)
+dep(<-23, >-26)
+
+ProxyRequests/NNP Off/IN 
+
+(ROOT (FRAG (NP (NNP ProxyRequests)) (PP (IN Off))))
+
+root(ROOT-0, ProxyRequests-1)
+prep(ProxyRequests-1, Off-2)
+
+ProxyPass/NNP //: stylesheets/NNS !/. 
+
+(ROOT (FRAG (NP (NNP ProxyPass)) (: /) (NP (NNS stylesheets)) (. !)))
+
+root(ROOT-0, ProxyPass-1)
+punct(ProxyPass-1, /-2)
+dep(ProxyPass-1, stylesheets-3)
+
+ProxyPass/NNP //: icons/NNS !/. 
+
+(ROOT (FRAG (NP (NNP ProxyPass)) (: /) (NP (NNS icons)) (. !)))
+
+root(ROOT-0, ProxyPass-1)
+punct(ProxyPass-1, /-2)
+dep(ProxyPass-1, icons-3)
+
+ProxyPass/NNP //: bis/FW http://localhost:8080/FW 
+
+(ROOT (NP (NP (NNP ProxyPass)) (PRN (: /) (NP (NP (FW bis)) (NP (FW http://localhost:8080))))))
+
+root(ROOT-0, ProxyPass-1)
+punct(bis-3, /-2)
+dep(ProxyPass-1, bis-3)
+dep(bis-3, http://localhost:8080-4)
+
+RewriteEngine/NNP On/IN RewriteRule/NNP (/-LRB- ^/CD ./. 
+
+(ROOT (NP (NP (NNP RewriteEngine)) (NP (IN On) (NP (NNP RewriteRule) (-LRB- -LRB-) (CD ^))) (. .)))
+
+root(ROOT-0, RewriteEngine-1)
+amod(RewriteRule-3, On-2)
+dep(RewriteEngine-1, RewriteRule-3)
+num(RewriteRule-3, ^-5)
+
+*/SYM \/NN ./. 
+
+(ROOT (FRAG (X (SYM *)) (VP (NN \)) (. .)))
+
+root(ROOT-0, \-2)
+dep(\-2, *-1)
+
+pl/NN )/-RRB- $/$ http://localhost:8080$1/CD [/-LRB- proxy/NN ,/, last/JJ ]/-RRB- 
+
+(ROOT (NP (LST (NN pl) (-RRB- -RRB-)) (NP ($ $) (CD http://localhost:8080$1) (-LRB- -LSB-) (NN proxy)) (, ,) (NP (JJ last)) (-RRB- -RSB-)))
+
+root(ROOT-0, proxy-6)
+dep(proxy-6, pl-1)
+dep(proxy-6, $-3)
+num(proxy-6, http://localhost:8080$1-4)
+punct(proxy-6, -LSB--5)
+appos(proxy-6, last-8)
+punct(proxy-6, -RSB--9)
+
+ProxyPassReverse/NNP //: http://localhost:8080//NN ProxyReceiveBufferSize/NNP 49152/CD 
+
+(ROOT (NP (NP (NNP ProxyPassReverse)) (PRN (: /) (NP (NN http://localhost:8080/))) (NP (NNP ProxyReceiveBufferSize) (CD 49152))))
+
+root(ROOT-0, ProxyPassReverse-1)
+punct(http://localhost:8080/-3, /-2)
+dep(ProxyPassReverse-1, http://localhost:8080/-3)
+dep(ProxyPassReverse-1, ProxyReceiveBufferSize-4)
+num(ProxyReceiveBufferSize-4, 49152-5)
+
+the/DT back/JJ end/NN server/NN is/VBZ apache/JJ 1.3.22/CD on/IN port/NN 8080/CD ,/, with/IN document/NN root/NN d/NN :/: \/NN apache/NN \/CD htdocs/NNS ./. 
+
+(ROOT (S (NP (DT the) (JJ back) (NN end) (NN server)) (VP (VBZ is) (ADJP (JJ apache) (NP-TMP (CD 1.3.22)) (PP (IN on) (NP (NN port) (CD 8080)))) (, ,) (PP (IN with) (NP (NP (NN document) (NN root) (NN d)) (: :) (NP (NP (NN \) (NN apache)) (NP (CD \) (NNS htdocs)))))) (. .)))
+
+root(ROOT-0, apache-6)
+det(server-4, the-1)
+amod(server-4, back-2)
+nn(server-4, end-3)
+nsubj(apache-6, server-4)
+cop(apache-6, is-5)
+tmod(apache-6, 1.3.22-7)
+prep_on(apache-6, port-9)
+num(port-9, 8080-10)
+nn(d-15, document-13)
+nn(d-15, root-14)
+prep_with(apache-6, d-15)
+nn(apache-18, \-17)
+dep(d-15, apache-18)
+num(htdocs-20, \-19)
+dep(apache-18, htdocs-20)
+
+adressing/VBG to/TO front/JJ end/NN server/NN is/VBZ ok/JJ if/IN not/RB proxy/NN involved/VBN addressing/VBG directly/RB to/TO back-end/JJ server/NN :8080/CD is/VBZ ok/JJ 
+
+(ROOT (SINV (VP (VBG adressing) (PP (TO to) (NP (JJ front) (NN end) (NN server)))) (VP (VBZ is) (ADJP (JJ ok) (SBAR (IN if) (S (NP (RB not) (NN proxy)) (VP (VBN involved) (S (VP (VBG addressing) (ADVP (RB directly)) (PP (TO to) (NP (JJ back-end) (NN server)))))))))) (NP (NP (CD :8080)) (SBAR (S (VP (VBZ is) (ADJP (JJ ok))))))))
+
+root(ROOT-0, adressing-1)
+amod(server-5, front-3)
+nn(server-5, end-4)
+prep_to(adressing-1, server-5)
+cop(ok-7, is-6)
+aux(adressing-1, ok-7)
+mark(involved-11, if-8)
+neg(proxy-10, not-9)
+nsubj(involved-11, proxy-10)
+ccomp(ok-7, involved-11)
+xcomp(involved-11, addressing-12)
+advmod(addressing-12, directly-13)
+amod(server-16, back-end-15)
+prep_to(addressing-12, server-16)
+nsubj(adressing-1, :8080-17)
+cop(ok-19, is-18)
+rcmod(:8080-17, ok-19)
+
+but/CC each/DT time/NN the/DT front-end/JJ server/NN is/VBZ to/TO rewrite/VB or/CC proxypass/VB the/DT url/NN i/FW get/VB a/DT FORBIDDEN/JJ response/NN ./. 
+
+(ROOT (S (CC but) (NP-TMP (DT each) (NN time)) (NP (DT the) (JJ front-end) (NN server)) (VP (VBZ is) (S (VP (TO to) (VP (VB rewrite) (CC or) (VB proxypass) (NP (NP (DT the) (NN url)) (SBAR (S (NP (FW i)) (VP (VB get) (NP (DT a) (JJ FORBIDDEN) (NN response)))))))))) (. .)))
+
+root(ROOT-0, is-7)
+cc(is-7, but-1)
+det(time-3, each-2)
+tmod(is-7, time-3)
+det(server-6, the-4)
+amod(server-6, front-end-5)
+nsubj(is-7, server-6)
+aux(rewrite-9, to-8)
+xcomp(is-7, rewrite-9)
+xcomp(is-7, proxypass-11)
+conj_or(rewrite-9, proxypass-11)
+det(url-13, the-12)
+dobj(rewrite-9, url-13)
+nsubj(get-15, i-14)
+rcmod(url-13, get-15)
+det(response-18, a-16)
+amod(response-18, FORBIDDEN-17)
+dobj(get-15, response-18)
+
+I/PRP guess/VBP this/DT is/VBZ a/DT question/NN of/IN access/NN rights/NNS but/CC this/DT is/VBZ very/RB allusive/JJ in/IN apache/NN docs/NNS ./. 
+
+(ROOT (S (S (NP (PRP I)) (VP (VBP guess) (SBAR (S (NP (DT this)) (VP (VBZ is) (NP (NP (DT a) (NN question)) (PP (IN of) (NP (NN access) (NNS rights))))))))) (CC but) (S (NP (DT this)) (VP (VBZ is) (ADJP (RB very) (JJ allusive) (PP (IN in) (NP (NN apache) (NNS docs)))))) (. .)))
+
+root(ROOT-0, guess-2)
+nsubj(guess-2, I-1)
+nsubj(question-6, this-3)
+cop(question-6, is-4)
+det(question-6, a-5)
+ccomp(guess-2, question-6)
+nn(rights-9, access-8)
+prep_of(question-6, rights-9)
+nsubj(allusive-14, this-11)
+cop(allusive-14, is-12)
+advmod(allusive-14, very-13)
+conj_but(guess-2, allusive-14)
+nn(docs-17, apache-16)
+prep_in(allusive-14, docs-17)
+
+I/PRP put/VBP allow/VB from/IN all/DT every/DT where/WRB I/PRP could/MD but/CC I/PRP consistently/RB get/VB return/VB FORBIDDEN/NNP 
+
+(ROOT (S (NP (PRP I)) (VP (VBP put) (VP (VB allow) (PP (IN from) (NP (DT all) (DT every))) (SBAR (WHADVP (WRB where)) (S (S (NP (PRP I)) (VP (MD could))) (CC but) (S (NP (PRP I)) (ADVP (RB consistently)) (VP (VB get) (VP (VB return) (NP (NNP FORBIDDEN)))))))))))
+
+root(ROOT-0, put-2)
+nsubj(put-2, I-1)
+xcomp(put-2, allow-3)
+dep(every-6, all-5)
+prep_from(allow-3, every-6)
+advmod(could-9, where-7)
+nsubj(could-9, I-8)
+advcl(allow-3, could-9)
+nsubj(return-14, I-11)
+advmod(return-14, consistently-12)
+aux(return-14, get-13)
+advcl(allow-3, return-14)
+conj_but(could-9, return-14)
+dobj(return-14, FORBIDDEN-15)
+
+so/IN I/PRP thought/VBD maybe/RB this/DT can/MD be/VB a/DT bug/NN . . ./: 
+
+(ROOT (SBAR (IN so) (S (NP (PRP I)) (VP (VBD thought) (ADVP (RB maybe)) (SBAR (S (NP (DT this)) (VP (MD can) (VP (VB be) (NP (DT a) (NN bug)))))))) (: ...)))
+
+root(ROOT-0, thought-3)
+mark(thought-3, so-1)
+nsubj(thought-3, I-2)
+advmod(thought-3, maybe-4)
+nsubj(bug-9, this-5)
+aux(bug-9, can-6)
+cop(bug-9, be-7)
+det(bug-9, a-8)
+ccomp(thought-3, bug-9)
+
+PS/NNP I/PRP posted/VBD to/TO users/NNS list/NN first/RB ,/, but/CC got/VBD no/DT response/NN so/RB far/RB ./. 
+
+(ROOT (S (NP (NNP PS) (PRP I)) (VP (VP (VBD posted) (PP (TO to) (NP (NNS users) (NN list))) (ADVP (RB first))) (, ,) (CC but) (VP (VBD got) (NP (DT no) (NN response)) (ADVP (RB so) (RB far)))) (. .)))
+
+root(ROOT-0, posted-3)
+nsubj(posted-3, PS-1)
+nsubj(got-10, PS-1)
+dep(PS-1, I-2)
+nn(list-6, users-5)
+prep_to(posted-3, list-6)
+advmod(posted-3, first-7)
+conj_but(posted-3, got-10)
+neg(response-12, no-11)
+dobj(got-10, response-12)
+advmod(far-14, so-13)
+advmod(got-10, far-14)
+
+thanks/NNS 
+
+(ROOT (NP (NNS thanks)))
+
+root(ROOT-0, thanks-1)
+
+pascal/NN 
+
+(ROOT (NP (NN pascal)))
+
+root(ROOT-0, pascal-1)
+

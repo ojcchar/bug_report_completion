@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>88869</id>
+	<title>[SSH2] IOException in TimeoutOutputStream</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I20050323-0842, Linux 2.6.10, GTK+ 2.6.2, KDE 3.3.2, X.org 6.8.2</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Switch editors rapidly (Ctrl+PageUp / Ctrl+PageDown) with the CVS resource
+history view visible and linked to the editor.</sentence>
+			<sentence id="2.2">After a while, a dialog appears
+saying multiple errors occurred.</sentence>
+			<sentence id="2.3">The following is in the log.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1"></sentence>
+			<sentence id="3.2">!ENTRY org.eclipse.team.cvs.core 4 0 2005-03-23 10:08:27.362</sentence>
+			<sentence id="3.3">!MESSAGE I/O exception occurred: Read end dead</sentence>
+			<sentence id="3.4">!STACK 0</sentence>
+			<sentence id="3.5">java.io.IOException: Read end dead</sentence>
+			<sentence id="3.6">	at java.io.PipedInputStream.checkStateForReceive(PipedInputStream.java:192)</sentence>
+			<sentence id="3.7">	at java.io.PipedInputStream.receive(PipedInputStream.java:133)</sentence>
+			<sentence id="3.8">	at java.io.PipedOutputStream.write(PipedOutputStream.java:103)</sentence>
+			<sentence id="3.9">	at java.io.FilterOutputStream.write(FilterOutputStream.java:60)</sentence>
+			<sentence id="3.10">	at java.io.FilterOutputStream.write(FilterOutputStream.java:108)</sentence>
+			<sentence id="3.11">	at java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:65)</sentence>
+			<sentence id="3.12">	at java.io.BufferedOutputStream.flush(BufferedOutputStream.java:123)</sentence>
+			<sentence id="3.13">	at</sentence>
+			<sentence id="3.14">org.eclipse.team.internal.core.streams.TimeoutOutputStream.writeUntilDone(TimeoutOutputStream.java:272)</sentence>
+			<sentence id="3.15">	at</sentence>
+			<sentence id="3.16">org.eclipse.team.internal.core.streams.TimeoutOutputStream.runThread(TimeoutOutputStream.java:195)</sentence>
+			<sentence id="3.17">	at</sentence>
+			<sentence id="3.18">org.eclipse.team.internal.core.streams.TimeoutOutputStream.access$0(TimeoutOutputStream.java:193)</sentence>
+			<sentence id="3.19">	at</sentence>
+			<sentence id="3.20">org.eclipse.team.internal.core.streams.TimeoutOutputStream$1.run(TimeoutOutputStream.java:66)</sentence>
+			<sentence id="3.21">	at java.lang.Thread.run(Thread.java:595)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">!ENTRY org.eclipse.team.cvs.core 4 0 2005-03-23 10:08:27.582</sentence>
+			<sentence id="4.2">!MESSAGE I/O exception occurred: Read end dead</sentence>
+			<sentence id="4.3">!STACK 0</sentence>
+			<sentence id="4.4">java.io.IOException: Read end dead</sentence>
+			<sentence id="4.5">	at java.io.PipedInputStream.checkStateForReceive(PipedInputStream.java:192)</sentence>
+			<sentence id="4.6">	at java.io.PipedInputStream.receive(PipedInputStream.java:133)</sentence>
+			<sentence id="4.7">	at java.io.PipedOutputStream.write(PipedOutputStream.java:103)</sentence>
+			<sentence id="4.8">	at java.io.FilterOutputStream.write(FilterOutputStream.java:60)</sentence>
+			<sentence id="4.9">	at java.io.FilterOutputStream.write(FilterOutputStream.java:108)</sentence>
+			<sentence id="4.10">	at java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:65)</sentence>
+			<sentence id="4.11">	at java.io.BufferedOutputStream.flush(BufferedOutputStream.java:123)</sentence>
+			<sentence id="4.12">	at</sentence>
+			<sentence id="4.13">org.eclipse.team.internal.core.streams.TimeoutOutputStream.writeUntilDone(TimeoutOutputStream.java:272)</sentence>
+			<sentence id="4.14">	at</sentence>
+			<sentence id="4.15">org.eclipse.team.internal.core.streams.TimeoutOutputStream.runThread(TimeoutOutputStream.java:195)</sentence>
+			<sentence id="4.16">	at</sentence>
+			<sentence id="4.17">org.eclipse.team.internal.core.streams.TimeoutOutputStream.access$0(TimeoutOutputStream.java:193)</sentence>
+			<sentence id="4.18">	at</sentence>
+			<sentence id="4.19">org.eclipse.team.internal.core.streams.TimeoutOutputStream$1.run(TimeoutOutputStream.java:66)</sentence>
+			<sentence id="4.20">	at java.lang.Thread.run(Thread.java:595)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">!ENTRY org.eclipse.team.cvs.core 4 0 2005-03-23 10:08:27.698</sentence>
+			<sentence id="5.2">!MESSAGE I/O exception occurred: Read end dead</sentence>
+			<sentence id="5.3">!STACK 0</sentence>
+			<sentence id="5.4">java.io.IOException: Read end dead</sentence>
+			<sentence id="5.5">	at java.io.PipedInputStream.checkStateForReceive(PipedInputStream.java:192)</sentence>
+			<sentence id="5.6">	at java.io.PipedInputStream.receive(PipedInputStream.java:133)</sentence>
+			<sentence id="5.7">	at java.io.PipedOutputStream.write(PipedOutputStream.java:103)</sentence>
+			<sentence id="5.8">	at java.io.FilterOutputStream.write(FilterOutputStream.java:60)</sentence>
+			<sentence id="5.9">	at java.io.FilterOutputStream.write(FilterOutputStream.java:108)</sentence>
+			<sentence id="5.10">	at java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:65)</sentence>
+			<sentence id="5.11">	at java.io.BufferedOutputStream.flush(BufferedOutputStream.java:123)</sentence>
+			<sentence id="5.12">	at</sentence>
+			<sentence id="5.13">org.eclipse.team.internal.core.streams.TimeoutOutputStream.writeUntilDone(TimeoutOutputStream.java:272)</sentence>
+			<sentence id="5.14">	at</sentence>
+			<sentence id="5.15">org.eclipse.team.internal.core.streams.TimeoutOutputStream.runThread(TimeoutOutputStream.java:195)</sentence>
+			<sentence id="5.16">	at</sentence>
+			<sentence id="5.17">org.eclipse.team.internal.core.streams.TimeoutOutputStream.access$0(TimeoutOutputStream.java:193)</sentence>
+			<sentence id="5.18">	at</sentence>
+			<sentence id="5.19">org.eclipse.team.internal.core.streams.TimeoutOutputStream$1.run(TimeoutOutputStream.java:66)</sentence>
+			<sentence id="5.20">	at java.lang.Thread.run(Thread.java:595)</sentence>
+		</paragraph>
+	</description>
+</bug>

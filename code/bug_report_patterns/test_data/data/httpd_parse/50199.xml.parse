@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>50199</id>
+	<title>ap_cache_liststr fails to parse quoted strings</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Several coadvisor tests fail due to quoted strings being mis-parsed as cache-control directives in ap_cache_liststr.</sentence>
+			<sentence id="1.2">These MUST be ignored (rfc2616#14.9.6).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Replacing ap_cache_liststr with ap_find_list_item almost fixes it, but can't return a token's value as required by mod_cache.</sentence>
+			<sentence id="2.2">Some rationalisation of this nearly-duplicated functionality would probably be a good idea.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">http://coad.measurement-factory.com/cgi-bin/coad/GraseInfoCgi?info_id=test_clause/rfc2616/ccExtension</sentence>
+		</paragraph>
+	</description>
+</bug>

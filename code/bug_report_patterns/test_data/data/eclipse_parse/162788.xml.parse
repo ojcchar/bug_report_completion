@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>162788</id>
+	<title>Shallow flag passed through on move</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If you call IFileStore.move and pass in the SHALLOW flag, it should be ignored.</sentence>
+			<sentence id="1.2">The LocalFile implementation of move sometimes calls super.copy and passes through the same arguments, so it's possible to get SHALLOW semantics during a copy.</sentence>
+			<sentence id="1.3">The shallow flag should not be propagated from move because it is not a valid parameter for the move method.</sentence>
+		</paragraph>
+	</description>
+</bug>

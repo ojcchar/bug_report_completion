@@ -1,0 +1,414 @@
+I/PRP 'm/VBP developing/VBG an/DT Apache/NNP 2.0/CD module/NN for/IN EPP/NN (/-LRB- see/VB http://sourceforge.net/projects/aepps/NNS )/-RRB- ,/, which/WDT also/RB utilizes/VBZ mod_ssl/NN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP 'm) (VP (VBG developing) (NP (NP (NP (DT an) (NNP Apache) (CD 2.0) (NN module)) (PP (IN for) (NP (NN EPP)))) (PRN (-LRB- -LRB-) (S (VP (VB see) (NP (NNS http://sourceforge.net/projects/aepps)))) (-RRB- -RRB-)) (, ,) (SBAR (WHNP (WDT which)) (S (ADVP (RB also)) (VP (VBZ utilizes) (NP (NN mod_ssl)))))))) (. .)))
+
+root(ROOT-0, developing-3)
+nsubj(developing-3, I-1)
+aux(developing-3, 'm-2)
+det(module-7, an-4)
+nn(module-7, Apache-5)
+num(module-7, 2.0-6)
+dobj(developing-3, module-7)
+prep_for(module-7, EPP-9)
+dep(module-7, see-11)
+dobj(see-11, http://sourceforge.net/projects/aepps-12)
+nsubj(utilizes-17, which-15)
+advmod(utilizes-17, also-16)
+rcmod(module-7, utilizes-17)
+dobj(utilizes-17, mod_ssl-18)
+
+The/DT calling/VBG patters/NNS thus/RB are/VBP likely/JJ to/TO be/VB different/JJ than/IN with/IN HTTP/NN ./. 
+
+(ROOT (S (NP (DT The) (VBG calling) (NNS patters)) (ADVP (RB thus)) (VP (VBP are) (ADJP (JJ likely) (S (VP (TO to) (VP (VB be) (ADJP (JJ different) (PP (IN than) (PP (IN with) (NP (NN HTTP)))))))))) (. .)))
+
+root(ROOT-0, likely-6)
+det(patters-3, The-1)
+amod(patters-3, calling-2)
+nsubj(likely-6, patters-3)
+advmod(likely-6, thus-4)
+cop(likely-6, are-5)
+aux(different-9, to-7)
+cop(different-9, be-8)
+xcomp(likely-6, different-9)
+prep(different-9, than-10)
+pcomp(than-10, with-11)
+pobj(with-11, HTTP-12)
+
+Problem/NNP description/NN :/: When/WRB the/DT SSL-negotiation/NN fails/VBZ (/-LRB- missing/VBG client/NN cert/NN ,/, server/NN config/NN error/NN ,/, . . ./: )/-RRB- ,/, the/DT connection/NN is/VBZ closed/VBN TCP-wise/JJ ,/, but/CC this/DT is/VBZ not/RB communicated/VBN to/TO the/DT connection/NN handler/NN ,/, and/CC any/DT further/JJ reads/VBZ (/-LRB- i.e./FW ap_get_brigade/FW )/-RRB- will/MD cause/VB a/DT core/NN dump/NN ./. 
+
+(ROOT (NP (NP (NNP Problem) (NN description)) (: :) (S (S (S (SBAR (WHADVP (WRB When)) (S (NP (DT the) (NN SSL-negotiation)) (VP (VP (VBZ fails)) (PRN (-LRB- -LRB-) (S (VP (VBG missing) (NP (NP (NN client) (NN cert)) (, ,) (NP (NP (NN server) (NN config)) (NP (NN error)) (, ,)) (: ...)))) (-RRB- -RRB-))))) (, ,) (NP (DT the) (NN connection)) (VP (VBZ is) (VP (VBN closed) (S (ADJP (JJ TCP-wise)))))) (, ,) (CC but) (S (NP (DT this)) (VP (VBZ is) (RB not) (VP (VBN communicated) (PP (TO to) (NP (DT the) (NN connection) (NN handler))))))) (, ,) (CC and) (S (NP (DT any) (NX (NX (NP (JJ further)) (VP (VBZ reads))) (PRN (-LRB- -LRB-) (ADVP (FW i.e.) (FW ap_get_brigade)) (-RRB- -RRB-)))) (VP (MD will) (VP (VB cause) (NP (DT a) (NN core) (NN dump)))))) (. .)))
+
+root(ROOT-0, description-2)
+nn(description-2, Problem-1)
+advmod(fails-7, When-4)
+det(SSL-negotiation-6, the-5)
+nsubj(fails-7, SSL-negotiation-6)
+advcl(closed-23, fails-7)
+parataxis(fails-7, missing-9)
+nn(cert-11, client-10)
+dobj(missing-9, cert-11)
+nn(config-14, server-13)
+appos(cert-11, config-14)
+dep(config-14, error-15)
+det(connection-21, the-20)
+nsubjpass(closed-23, connection-21)
+auxpass(closed-23, is-22)
+dep(description-2, closed-23)
+xcomp(closed-23, TCP-wise-24)
+nsubjpass(communicated-30, this-27)
+auxpass(communicated-30, is-28)
+neg(communicated-30, not-29)
+dep(description-2, communicated-30)
+conj_but(closed-23, communicated-30)
+det(handler-34, the-32)
+nn(handler-34, connection-33)
+prep_to(communicated-30, handler-34)
+det(further-38, any-37)
+nsubj(cause-45, further-38)
+dep(further-38, reads-39)
+nn(ap_get_brigade-42, i.e.-41)
+dep(further-38, ap_get_brigade-42)
+aux(cause-45, will-44)
+dep(description-2, cause-45)
+conj_and(closed-23, cause-45)
+det(dump-48, a-46)
+nn(dump-48, core-47)
+dobj(cause-45, dump-48)
+
+I/PRP 've/VBP nailed/VBD the/DT problem/NN down/IN to/TO the/DT state-handling/NN of/IN an/DT abandoned/VBN connection/NN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP 've) (VP (VBD nailed) (NP (DT the) (NN problem)) (ADVP (IN down) (PP (TO to) (NP (NP (DT the) (NN state-handling)) (PP (IN of) (NP (DT an) (VBN abandoned) (NN connection)))))))) (. .)))
+
+root(ROOT-0, nailed-3)
+nsubj(nailed-3, I-1)
+aux(nailed-3, 've-2)
+det(problem-5, the-4)
+dobj(nailed-3, problem-5)
+advmod(nailed-3, down-6)
+det(state-handling-9, the-8)
+prep_to(down-6, state-handling-9)
+det(connection-13, an-11)
+amod(connection-13, abandoned-12)
+prep_of(state-handling-9, connection-13)
+
+In/IN ssl_io_filter_input/NN there/EX is/VBZ the/DT following/VBG code-fragment/NN :/: 
+
+(ROOT (PP (IN In) (NP (NP (NN ssl_io_filter_input)) (SBAR (S (NP (EX there)) (VP (VBZ is) (NP (DT the) (VBG following) (NN code-fragment)))))) (: :)))
+
+root(ROOT-0, In-1)
+pobj(In-1, ssl_io_filter_input-2)
+expl(is-4, there-3)
+rcmod(ssl_io_filter_input-2, is-4)
+det(code-fragment-7, the-5)
+amod(code-fragment-7, following-6)
+nsubj(is-4, code-fragment-7)
+
+if/IN (/-LRB- f/SYM -/: >/JJR c/SYM -/: >/JJR aborted/JJ )/-RRB- {/-LRB- 
+
+(ROOT (SBAR (IN if) (S (PRN (-LRB- -LRB-) (NP (NP (SYM f)) (: -) (NP (NP (NP (JJR >)) (NP (SYM c))) (: -) (NP (JJR >) (JJ aborted)))) (-RRB- -RRB-)) (VP (-LRB- -LCB-)))))
+
+mark(-LCB--11, if-1)
+dep(-LCB--11, f-3)
+dep(f-3, >-5)
+dep(>-5, c-6)
+dep(>-5, >-8)
+amod(>-8, aborted-9)
+
+//: */SYM XXX/NNP :/: Ok/NNP ,/, if/IN we/PRP aborted/VBD ,/, we/PRP ARE/VBP at/IN the/DT EOS/NN ./. 
+
+(ROOT (S (SBAR (PRN (: /) (FRAG (X (SYM *)) (NP (NNP XXX))) (: :)) (S (NP (NP (NNP Ok)) (, ,) (SBAR (IN if) (S (NP (PRP we))))) (VP (VBD aborted)))) (, ,) (NP (PRP we)) (VP (VBP ARE) (PP (IN at) (NP (DT the) (NN EOS)))) (. .)))
+
+root(ROOT-0, ARE-12)
+punct(XXX-3, /-1)
+dep(XXX-3, *-2)
+dep(aborted-9, XXX-3)
+nsubj(aborted-9, Ok-5)
+mark(we-8, if-7)
+dep(Ok-5, we-8)
+advcl(ARE-12, aborted-9)
+nsubj(ARE-12, we-11)
+det(EOS-15, the-14)
+prep_at(ARE-12, EOS-15)
+
+We/PRP also/RB have/VBP 
+
+(ROOT (FRAG (S (NP (PRP We)) (ADVP (RB also)) (VP (VBP have)))))
+
+root(ROOT-0, have-3)
+nsubj(have-3, We-1)
+advmod(have-3, also-2)
+
+*/SYM aborted/VBN ./. 
+
+(ROOT (FRAG (X (SYM *)) (VP (VBN aborted)) (. .)))
+
+root(ROOT-0, aborted-2)
+dep(aborted-2, *-1)
+
+This/DT '/`` double/JJ protection/NN '/'' is/VBZ probably/RB redundant/JJ ,/, 
+
+(ROOT (S (NP (DT This) (`` `) (JJ double) (NN protection) ('' ')) (VP (VBZ is) (ADVP (RB probably)) (ADJP (JJ redundant))) (, ,)))
+
+root(ROOT-0, redundant-8)
+det(protection-4, This-1)
+amod(protection-4, double-3)
+nsubj(redundant-8, protection-4)
+cop(redundant-8, is-6)
+advmod(redundant-8, probably-7)
+
+*/SYM but/CC also/RB effective/JJ against/IN just/RB about/IN anything/NN ./. 
+
+(ROOT (FRAG (X (X (SYM *)) (PP (CC but) (NP (NP (RB also) (JJ effective)) (PP (IN against) (ADVP (RB just)))))) (PP (IN about) (NP (NN anything)) (. .))))
+
+root(ROOT-0, but-2)
+dep(but-2, *-1)
+advmod(effective-4, also-3)
+pobj(but-2, effective-4)
+prep(effective-4, against-5)
+pcomp(against-5, just-6)
+prep_about(but-2, anything-8)
+
+*/SYM //: 
+
+(ROOT (FRAG (X (SYM *)) (NP (: /))))
+
+root(ROOT-0, /-2)
+dep(/-2, *-1)
+
+which/WDT makes/VBZ a/DT lot/NN of/IN sense/NN ./. 
+
+(ROOT (S (NP (WDT which)) (VP (VBZ makes) (NP (NP (DT a) (NN lot)) (PP (IN of) (NP (NN sense))))) (. .)))
+
+root(ROOT-0, makes-2)
+nsubj(makes-2, which-1)
+det(lot-4, a-3)
+dobj(makes-2, lot-4)
+prep_of(lot-4, sense-6)
+
+I/PRP seem/VBP to/TO run/VB into/IN a/DT case/NN where/WRB c/SYM -/: >/JJR aborted/JJ is/VBZ not/RB 
+
+(ROOT (S (NP (PRP I)) (VP (VBP seem) (S (VP (TO to) (VP (VB run) (PP (IN into) (NP (DT a) (NN case))) (SBAR (WHADVP (WRB where)) (S (NP (NP (SYM c)) (: -) (NP (JJR >) (JJ aborted))) (VP (VBZ is) (RB not))))))))))
+
+root(ROOT-0, seem-2)
+nsubj(seem-2, I-1)
+aux(run-4, to-3)
+xcomp(seem-2, run-4)
+det(case-7, a-6)
+prep_into(run-4, case-7)
+advmod(is-13, where-8)
+nsubj(is-13, c-9)
+dep(c-9, >-11)
+amod(>-11, aborted-12)
+advcl(run-4, is-13)
+neg(is-13, not-14)
+
+set/VBN even/RB though/IN the/DT connection/NN has/VBZ been/VBN aborted/VBN ./. 
+
+(ROOT (S (VP (VBN set) (SBAR (RB even) (IN though) (S (NP (DT the) (NN connection)) (VP (VBZ has) (VP (VBN been) (VP (VBN aborted))))))) (. .)))
+
+root(ROOT-0, set-1)
+advmod(aborted-8, even-2)
+mark(aborted-8, though-3)
+det(connection-5, the-4)
+nsubjpass(aborted-8, connection-5)
+aux(aborted-8, has-6)
+auxpass(aborted-8, been-7)
+advcl(set-1, aborted-8)
+
+The/DT error/NN seems/VBZ to/TO be/VB within/IN 
+
+(ROOT (S (NP (DT The) (NN error)) (VP (VBZ seems) (S (VP (TO to) (VP (VB be) (PP (IN within))))))))
+
+root(ROOT-0, seems-3)
+det(error-2, The-1)
+nsubj(seems-3, error-2)
+aux(be-5, to-4)
+xcomp(seems-3, be-5)
+prep(be-5, within-6)
+
+ssl_filter_io_shutdown/NN ,/, where/WRB c/SYM -/: >/JJR aborted/JJ is/VBZ */SYM not/RB */SYM touched/VBN (/-LRB- in/IN my/PRP$ case/NN ,/, nobody/NN is/VBZ 
+
+(ROOT (FRAG (NP (NP (NN ssl_filter_io_shutdown)) (, ,) (SBAR (WHADVP (WRB where)) (S (NP (NP (SYM c)) (: -) (NP (NP (JJR >)) (SBAR (FRAG (NP (NP (JJ aborted)) (SBAR (S (VP (VBZ is) (S (VP (SYM *) (NP (RB not)))))))) (X (X (SYM *)) (PP (VBN touched) (NP (PRN (-LRB- -LRB-) (ADVP (IN in)) (NP (NP (PRP$ my)) (NP (NN case))) (, ,)) (NN nobody)))))))) (VP (VBZ is)))))))
+
+root(ROOT-0, ssl_filter_io_shutdown-1)
+advmod(is-19, where-3)
+nsubj(is-19, c-4)
+dep(c-4, >-6)
+dep(>-6, aborted-7)
+rcmod(aborted-7, is-8)
+dep(not-10, *-9)
+ccomp(is-8, not-10)
+dep(touched-12, *-11)
+dep(aborted-7, touched-12)
+dep(my-15, in-14)
+dep(nobody-18, my-15)
+dep(my-15, case-16)
+pobj(touched-12, nobody-18)
+rcmod(ssl_filter_io_shutdown-1, is-19)
+
+setting/VBG c/SYM -/: >/JJR aborted/JJ to/TO true/JJ )/-RRB- ./. 
+
+(ROOT (S (VP (VBG setting) (NP (NP (SYM c)) (: -) (NP (NP (JJR >)) (ADJP (JJ aborted) (TO to) (JJ true))) (-RRB- -RRB-))) (. .)))
+
+root(ROOT-0, setting-1)
+dobj(setting-1, c-2)
+dep(c-2, >-4)
+amod(true-7, aborted-5)
+dep(true-7, to-6)
+amod(>-4, true-7)
+
+The/DT following/VBG patch/NN seems/VBZ to/TO fix/VB the/DT problem/NN for/IN me/PRP :/: 
+
+(ROOT (S (NP (DT The) (VBG following) (NN patch)) (VP (VBZ seems) (S (VP (TO to) (VP (VB fix) (NP (NP (DT the) (NN problem)) (PP (IN for) (NP (PRP me)))))))) (: :)))
+
+root(ROOT-0, seems-4)
+det(patch-3, The-1)
+amod(patch-3, following-2)
+nsubj(seems-4, patch-3)
+aux(fix-6, to-5)
+xcomp(seems-4, fix-6)
+det(problem-8, the-7)
+dobj(fix-6, problem-8)
+prep_for(problem-8, me-10)
+
+--/: httpd-2/NN .0.44/CD //: modules/ssl/ssl/NN _/CD engine_io/NN ./. 
+
+(ROOT (PRN (: --) (FRAG (FRAG (NP (NN httpd-2)) (NP (CD .0.44))) (: /) (FRAG (NP (NN modules/ssl/ssl)) (NP (CD _) (NN engine_io)))) (. .)))
+
+root(ROOT-0, httpd-2-2)
+dep(httpd-2-2, .0.44-3)
+punct(httpd-2-2, /-4)
+dep(httpd-2-2, modules/ssl/ssl-5)
+num(engine_io-7, _-6)
+dep(modules/ssl/ssl-5, engine_io-7)
+
+c/NN Mon/NNP Jan/NNP 13/CD 18:35:22/CD 2003/CD 
+
+(ROOT (NP (NP (NN c) (NNP Mon) (NNP Jan)) (NP (NP (QP (CD 13) (CD 18:35:22))) (NP (CD 2003)))))
+
+root(ROOT-0, Jan-3)
+nn(Jan-3, c-1)
+nn(Jan-3, Mon-2)
+number(18:35:22-5, 13-4)
+dep(Jan-3, 18:35:22-5)
+dep(18:35:22-5, 2003-6)
+
++/CC +/CC +/CC httpd-2/NN .0.44/CD //: modules/ssl/ssl/NN _/CD engine_io/NN ./. 
+
+(ROOT (S (NP (CC +) (NP (CC +)) (CC +) (NP (NP (NN httpd-2) (CD .0.44)) (PRN (: /) (NP (NN modules/ssl/ssl) (CD _))))) (VP (NN engine_io)) (. .)))
+
+root(ROOT-0, engine_io-9)
+nsubj(engine_io-9, +-2)
+conj_+(+-2, httpd-2-4)
+nsubj(engine_io-9, httpd-2-4)
+num(httpd-2-4, .0.44-5)
+punct(modules/ssl/ssl-7, /-6)
+dep(httpd-2-4, modules/ssl/ssl-7)
+num(modules/ssl/ssl-7, _-8)
+
+c.new/VB Tue/NNP Mar/NNP 25/CD 21:07:47/CD 2003/CD 
+
+(ROOT (S (VP (VB c.new) (NP (NP (NNP Tue) (NNP Mar)) (NP (NP (QP (CD 25) (CD 21:07:47))) (NP (CD 2003)))))))
+
+root(ROOT-0, c.new-1)
+nn(Mar-3, Tue-2)
+dobj(c.new-1, Mar-3)
+number(21:07:47-5, 25-4)
+dep(Mar-3, 21:07:47-5)
+dep(21:07:47-5, 2003-6)
+
+@@/NN -997,6/CD +997,7/CD @@/NN 
+
+(ROOT (NP (NP (NN @@)) (NP (CD -997,6)) (NP (CD +997,7) (NN @@))))
+
+root(ROOT-0, @@-1)
+dep(@@-1, -997,6-2)
+num(@@-4, +997,7-3)
+dep(@@-1, @@-4)
+
+SSL_free/NN (/-LRB- ssl/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (NN SSL_free)) (PRN (-LRB- -LRB-) (NP (NN ssl)) (-RRB- -RRB-)) (: ;)))
+
+root(ROOT-0, SSL_free-1)
+appos(SSL_free-1, ssl-3)
+
+sslconn/NN -/: >/JJR ssl/NN =/JJ NULL/NN ;/: 
+
+(ROOT (NP (NP (NN sslconn)) (: -) (NP (JJR >) (NN ssl)) (NP (JJ =) (NN NULL)) (: ;)))
+
+root(ROOT-0, sslconn-1)
+amod(ssl-4, >-3)
+dep(sslconn-1, ssl-4)
+amod(NULL-6, =-5)
+dep(sslconn-1, NULL-6)
+
+filter_ctx/SYM -/: >/JJR pssl/NN =/JJ NULL/NN ;/: //: */SYM so/RB filters/NNS know/VBP we/PRP 've/VBP been/VBN shutdown/NN */SYM //: 
+
+(ROOT (VP (VP (SYM filter_ctx) (PRN (: -) (S (NP (JJR >) (NN pssl)) (ADJP (JJ =) (NN NULL))) (: ;))) (PRN (: /) (SBAR (X (SYM *)) (S (NP (RB so) (NNS filters)) (VP (VBP know) (SBAR (S (NP (PRP we)) (VP (VBP 've) (S (PP (VBN been) (NP (NP (NN shutdown)) (X (SYM *))))))))))) (: /))))
+
+root(ROOT-0, filter_ctx-1)
+amod(pssl-4, >-3)
+dep(NULL-6, pssl-4)
+dep(NULL-6, =-5)
+parataxis(filter_ctx-1, NULL-6)
+punct(know-12, /-8)
+dep(know-12, *-9)
+advmod(filters-11, so-10)
+nsubj(know-12, filters-11)
+parataxis(filter_ctx-1, know-12)
+nsubj('ve-14, we-13)
+ccomp(know-12, 've-14)
+prep('ve-14, been-15)
+pobj(been-15, shutdown-16)
+dep(shutdown-16, *-17)
+punct(know-12, /-18)
+
++/CC c/SYM -/: >/JJR aborted/JJ =/JJ 1/CD ;/: 
+
+(ROOT (S (VP (CC +) (NP (NP (SYM c)) (: -) (NP (NP (JJR >) (JJ aborted)) (ADJP (JJ =) (NP-TMP (CD 1)))))) (: ;)))
+
+root(ROOT-0, c-2)
+cc(c-2, +-1)
+dep(c-2, >-4)
+amod(>-4, aborted-5)
+amod(>-4, =-6)
+tmod(=-6, 1-7)
+
+return/NN APR_SUCCESS/NN ;/: }/-RRB- 
+
+(ROOT (NP (NP (NN return) (NN APR_SUCCESS)) (: ;) (NP (-RRB- -RCB-))))
+
+root(ROOT-0, APR_SUCCESS-2)
+nn(APR_SUCCESS-2, return-1)
+
+Please/VB apply/VB it/PRP (/-LRB- or/CC anything/NN you/PRP think/VBP is/VBZ more/RBR appropriate/JJ )/-RRB- against/IN the/DT CVS/NNP ./. 
+
+(ROOT (S (VP (VB Please) (VP (VB apply) (NP (NP (PRP it)) (PRN (-LRB- -LRB-) (CC or) (NP (NP (NN anything)) (SBAR (S (NP (PRP you)) (VP (VBP think) (SBAR (S (VP (VBZ is) (ADJP (RBR more) (JJ appropriate))))))))) (-RRB- -RRB-)) (PP (IN against) (NP (DT the) (NNP CVS)))))) (. .)))
+
+root(ROOT-0, Please-1)
+xcomp(Please-1, apply-2)
+dobj(apply-2, it-3)
+cc(anything-6, or-5)
+dep(it-3, anything-6)
+nsubj(think-8, you-7)
+rcmod(anything-6, think-8)
+cop(appropriate-11, is-9)
+advmod(appropriate-11, more-10)
+ccomp(think-8, appropriate-11)
+det(CVS-15, the-14)
+prep_against(it-3, CVS-15)
+
+Thanks/NNS ./. 
+
+(ROOT (NP (NNS Thanks) (. .)))
+
+root(ROOT-0, Thanks-1)
+
+//: ol/NN 
+
+(ROOT (NP (: /) (NN ol)))
+
+root(ROOT-0, ol-2)
+punct(ol-2, /-1)
+

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>157933</id>
+	<title>[discussion] Make it easy to build up the context for new tasks</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have created a small flash animation to show my workflow problem:
+  http://www.scharf.gr/eclipse/Probmens/Mylar/ContextProblem/</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Here's the text version:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">- I work on task FOO (let's say I implement a</sentence>
+			<sentence id="3.2">feature)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">- Now I see something in the code that I think</sentence>
+			<sentence id="4.2">should be refactored (not directly related to</sentence>
+			<sentence id="4.3">FOO), but because I am working on FOO, I create</sentence>
+			<sentence id="4.4">a new task FIXME to remind me to do this.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">- If I now switch to the newly created task FIXME,</sentence>
+			<sentence id="5.2">all my editors get closed.</sentence>
+			<sentence id="5.3">This makes sense if</sentence>
+			<sentence id="5.4">I switch to a task that has context, because</sentence>
+			<sentence id="5.5">mylar puts me in that context.</sentence>
+			<sentence id="5.6">But FIXME is</sentence>
+			<sentence id="5.7">a newly created task without context and I have</sentence>
+			<sentence id="5.8">to start building the context starting from zero.</sentence>
+			<sentence id="5.9">All my editors get closed and the expanded tree</sentence>
+			<sentence id="5.10">in the package explorer gets collapsed.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">- This is annoying, because I have now to navigate</sentence>
+			<sentence id="6.2">back to the file I have found the problem that</sentence>
+			<sentence id="6.3">made me creating the new task FIXME.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">- However.</sentence>
+			<sentence id="7.2">If I work with no task active, and I</sentence>
+			<sentence id="7.3">find something interesting and create a task</sentence>
+			<sentence id="7.4">FIXME, then I can activate FIXME a all my editors</sentence>
+			<sentence id="7.5">remain open.</sentence>
+			<sentence id="7.6">But working on no task is also annoying,</sentence>
+			<sentence id="7.7">because if I work on a task and I deactivate the</sentence>
+			<sentence id="7.8">task: BANG all my editors get closed.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Possible solutions:</sentence>
+			<sentence id="8.2">1 When switching off a task (going into normal</sentence>
+			<sentence id="8.3">mode), don't clear the context.</sentence>
+			<sentence id="8.4">Have an action</sentence>
+			<sentence id="8.5">clean everything when no task is active.</sentence>
+			<sentence id="8.6">This</sentence>
+			<sentence id="8.7">could be done in the active task context menu:</sentence>
+			<sentence id="8.8">"Deactivate without closing editors".</sentence>
+			<sentence id="8.9">I could</sentence>
+			<sentence id="8.10">close the stuff I don't want, before I activate</sentence>
+			<sentence id="8.11">my new empty Task.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">2 Have a button deactivate the current task</sentence>
+			<sentence id="9.2">without closing all editors.</sentence>
+			<sentence id="9.3">This could be</sentence>
+			<sentence id="9.4">done by a stop button in the task list.</sentence>
+			<sentence id="9.5">The</sentence>
+			<sentence id="9.6">only difference is that it deactivates the</sentence>
+			<sentence id="9.7">current task and does not close the open</sentence>
+			<sentence id="9.8">editors and the expanded items in the package</sentence>
+			<sentence id="9.9">explorer.</sentence>
+			<sentence id="9.10">Again, now I could close the stuff</sentence>
+			<sentence id="9.11">I don't want, before I activate my new empty Task.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">2 Switching to tasks without context never cleans</sentence>
+			<sentence id="10.2">the context (like it does if you have no task</sentence>
+			<sentence id="10.3">active)</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">3 Copy the context from the old task to the new</sentence>
+			<sentence id="11.2">task.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">My favorite is (1).</sentence>
+			<sentence id="12.2">Solution (20 is also good.</sentence>
+			<sentence id="12.3">Solution</sentence>
+			<sentence id="12.4">(3 would impact current users and solution (4) is</sentence>
+			<sentence id="12.5">not really helpful, because the I don't want the</sentence>
+			<sentence id="12.6">heritage of another task....</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Michael</sentence>
+		</paragraph>
+	</description>
+</bug>

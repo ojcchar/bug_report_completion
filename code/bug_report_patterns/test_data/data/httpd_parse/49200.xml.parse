@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>49200</id>
+	<title>mod_cache stores responses to requests containing Cache-Control: no-store</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 25363
+Patch against 2.2.14</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In violation of RFC 2616 section 14.9.2, mod_cache stores the responses to requests containing the "Cache-Control: no-store" directive.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I had a look at mod_cache from a few different versions, and saw no sign that this is a regression.</sentence>
+			<sentence id="3.2">The good news is that it seems simple to fix.</sentence>
+			<sentence id="3.3">I submit a patch which has been successfully tested.</sentence>
+		</paragraph>
+	</description>
+</bug>

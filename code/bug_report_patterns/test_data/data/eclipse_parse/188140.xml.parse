@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>188140</id>
+	<title>[ActivityD] Local Post-conditions should not turn into Pre-conditions and should not break model.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Build ID: I20061214-1445</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps To Reproduce:</sentence>
+			<sentence id="2.2">1 Create Activity diagram.</sentence>
+			<sentence id="2.3">Create local post condition.</sentence>
+			<sentence id="2.4">2 Create Activity and any Action in it.</sentence>
+			<sentence id="2.5">3 Create Constraint link from Action to Precondition</sentence>
+			<sentence id="2.6">4 Close diagram and simply open it again.</sentence>
+			<sentence id="2.7">There are two local _pre_ conditions, one with link.</sentence>
+			<sentence id="2.8">Diagram is marked as changed.</sentence>
+			<sentence id="2.9">After diagram save it is not possible to open model (.</sentence>
+			<sentence id="2.10">uml) file.</sentence>
+			<sentence id="2.11">Details in editor shows exception</sentence>
+			<sentence id="2.12">java.lang.UnsupportedOperationException</sentence>
+			<sentence id="2.13">	at org.eclipse.uml2.common.util.DerivedEObjectEList$DerivedListIterator.set(DerivedEObjectEList.java:270)</sentence>
+			<sentence id="2.14">	at java.util.AbstractSequentialList.set(AbstractSequentialList.java:100)</sentence>
+			<sentence id="2.15">	at org.eclipse.uml2.common.util.DerivedEObjectEList.setUnique(DerivedEObjectEList.java:735)</sentence>
+			<sentence id="2.16">	at org.eclipse.emf.ecore.xmi.impl.XMLHandler.handleForwardReferences(XMLHandler.java:1058)</sentence>
+			<sentence id="2.17">	at org.eclipse.emf.ecore.xmi.impl.XMLHandler.endDocument(XMLHandler.java:1158)</sentence>
+			<sentence id="2.18">	at org.eclipse.uml2.uml.internal.resource.UMLHandler.endDocument(UMLHandler.java:54)</sentence>
+			<sentence id="2.19">	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endDocument(AbstractSAXParser.java:737)</sentence>
+			<sentence id="2.20">	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:513)</sentence>
+			<sentence id="2.21">	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:807)</sentence>
+			<sentence id="2.22">	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:737)</sentence>
+			<sentence id="2.23">	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:107)</sentence>
+			<sentence id="2.24">	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1205)</sentence>
+			<sentence id="2.25">	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:522)</sentence>
+			<sentence id="2.26">	at javax.xml.parsers.SAXParser.parse(SAXParser.java:395)</sentence>
+			<sentence id="2.27">	at org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl.load(XMLLoadImpl.java:179)</sentence>
+			<sentence id="2.28">	at org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl.doLoad(XMLResourceImpl.java:180)</sentence>
+			<sentence id="2.29">	at org.eclipse.emf.ecore.resource.impl.ResourceImpl.load(ResourceImpl.java:1354)</sentence>
+			<sentence id="2.30">	at org.eclipse.emf.ecore.resource.impl.ResourceImpl.load(ResourceImpl.java:1155)</sentence>
+			<sentence id="2.31">	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoad(ResourceSetImpl.java:256)</sentence>
+			<sentence id="2.32">	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoadHelper(ResourceSetImpl.java:271)</sentence>
+			<sentence id="2.33">	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.getResource(ResourceSetImpl.java:398)</sentence>
+			<sentence id="2.34">	at org.eclipse.uml2.uml.editor.presentation.UMLEditor.createModelGen(UMLEditor.java:908)</sentence>
+			<sentence id="2.35">	at org.eclipse.uml2.uml.editor.presentation.UMLEditor.createModel(UMLEditor.java:941)</sentence>
+			<sentence id="2.36">	at org.eclipse.uml2.uml.editor.presentation.UMLEditor.createPages(UMLEditor.java:1039)</sentence>
+			<sentence id="2.37">	at org.eclipse.ui.part.MultiPageEditorPart.createPartControl(MultiPageEditorPart.java:283)</sentence>
+			<sentence id="2.38">	at org.eclipse.ui.internal.EditorReference.createPartHelper(EditorReference.java:663)</sentence>
+			<sentence id="2.39">	at org.eclipse.ui.internal.EditorReference.createPart(EditorReference.java:422)</sentence>
+			<sentence id="2.40">	at org.eclipse.ui.internal.WorkbenchPartReference.getPart(WorkbenchPartReference.java:592)</sentence>
+			<sentence id="2.41">	at org.eclipse.ui.internal.EditorReference.getEditor(EditorReference.java:259)</sentence>
+			<sentence id="2.42">	at org.eclipse.ui.internal.WorkbenchPage.busyOpenEditorBatched(WorkbenchPage.java:2639)</sentence>
+			<sentence id="2.43">	at org.eclipse.ui.internal.WorkbenchPage.busyOpenEditor(WorkbenchPage.java:2570)</sentence>
+			<sentence id="2.44">	at org.eclipse.ui.internal.WorkbenchPage.access$12(WorkbenchPage.java:2562)</sentence>
+			<sentence id="2.45">	at org.eclipse.ui.internal.WorkbenchPage$10.run(WorkbenchPage.java:2547)</sentence>
+			<sentence id="2.46">	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)</sentence>
+			<sentence id="2.47">	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2542)</sentence>
+			<sentence id="2.48">	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2526)</sentence>
+			<sentence id="2.49">	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2517)</sentence>
+			<sentence id="2.50">	at org.eclipse.ui.ide.IDE.openEditor(IDE.java:644)</sentence>
+			<sentence id="2.51">	at org.eclipse.ui.ide.IDE.openEditor(IDE.java:603)</sentence>
+			<sentence id="2.52">	at org.eclipse.jdt.internal.ui.javaeditor.EditorUtility.openInEditor(EditorUtility.java:285)</sentence>
+			<sentence id="2.53">	at org.eclipse.jdt.internal.ui.javaeditor.EditorUtility.openInEditor(EditorUtility.java:138)</sentence>
+			<sentence id="2.54">	at org.eclipse.jdt.ui.actions.OpenAction.run(OpenAction.java:194)</sentence>
+			<sentence id="2.55">	at org.eclipse.jdt.ui.actions.OpenAction.run(OpenAction.java:175)</sentence>
+			<sentence id="2.56">	at org.eclipse.jdt.ui.actions.SelectionDispatchAction.dispatchRun(SelectionDispatchAction.java:268)</sentence>
+			<sentence id="2.57">	at org.eclipse.jdt.ui.actions.SelectionDispatchAction.run(SelectionDispatchAction.java:244)</sentence>
+			<sentence id="2.58">	at org.eclipse.jdt.internal.ui.packageview.PackageExplorerActionGroup.handleOpen(PackageExplorerActionGroup.java:318)</sentence>
+			<sentence id="2.59">	at org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart$5.open(PackageExplorerPart.java:588)</sentence>
+			<sentence id="2.60">	at org.eclipse.jface.viewers.StructuredViewer$2.run(StructuredViewer.java:820)</sentence>
+			<sentence id="2.61">	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)</sentence>
+			<sentence id="2.62">	at org.eclipse.core.runtime.Platform.run(Platform.java:850)</sentence>
+			<sentence id="2.63">	at org.eclipse.ui.internal.JFaceUtil$1.run(JFaceUtil.java:45)</sentence>
+			<sentence id="2.64">	at org.eclipse.jface.util.SafeRunnable.run(SafeRunnable.java:153)</sentence>
+			<sentence id="2.65">	at org.eclipse.jface.viewers.StructuredViewer.fireOpen(StructuredViewer.java:818)</sentence>
+			<sentence id="2.66">	at org.eclipse.jface.viewers.StructuredViewer.handleOpen(StructuredViewer.java:1079)</sentence>
+			<sentence id="2.67">	at org.eclipse.jface.viewers.StructuredViewer$6.handleOpen(StructuredViewer.java:1178)</sentence>
+			<sentence id="2.68">	at org.eclipse.jface.util.OpenStrategy.fireOpenEvent(OpenStrategy.java:263)</sentence>
+			<sentence id="2.69">	at org.eclipse.jface.util.OpenStrategy.access$2(OpenStrategy.java:257)</sentence>
+			<sentence id="2.70">	at org.eclipse.jface.util.OpenStrategy$1.handleEvent(OpenStrategy.java:297)</sentence>
+			<sentence id="2.71">	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:66)</sentence>
+			<sentence id="2.72">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:938)</sentence>
+			<sentence id="2.73">	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:3673)</sentence>
+			<sentence id="2.74">	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3284)</sentence>
+			<sentence id="2.75">	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2337)</sentence>
+			<sentence id="2.76">	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2301)</sentence>
+			<sentence id="2.77">	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2176)</sentence>
+			<sentence id="2.78">	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:463)</sentence>
+			<sentence id="2.79">	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)</sentence>
+			<sentence id="2.80">	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:458)</sentence>
+			<sentence id="2.81">	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)</sentence>
+			<sentence id="2.82">	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:101)</sentence>
+			<sentence id="2.83">	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:146)</sentence>
+			<sentence id="2.84">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)</sentence>
+			<sentence id="2.85">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)</sentence>
+			<sentence id="2.86">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:356)</sentence>
+			<sentence id="2.87">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:171)</sentence>
+			<sentence id="2.88">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="2.89">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="2.90">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="2.91">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="2.92">	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:476)</sentence>
+			<sentence id="2.93">	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:416)</sentence>
+			<sentence id="2.94">	at org.eclipse.equinox.launcher.Main.run(Main.java:1141)</sentence>
+			<sentence id="2.95">	at org.eclipse.equinox.launcher.Main.main(Main.java:1116)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">More information:</sentence>
+		</paragraph>
+	</description>
+</bug>

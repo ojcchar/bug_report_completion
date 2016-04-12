@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17609</id>
+	<title>POST requests to facebook.com/plugins/serverfbml.php are redirecting to GET requests when secure browsing is enabled</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We render an inviter using fb:serverFbml.</sentence>
+			<sentence id="1.2">When the content length of the script tag is below some threshold_ the xFBML code uses a GET request.</sentence>
+			<sentence id="1.3">This works fine.</sentence>
+			<sentence id="1.4">When the content length is beyond some threshold_ the xFBML code uses a POST request.</sentence>
+			<sentence id="1.5">If the user has secure browsing enabled for Facebook_ the POST is redirected to an https GET request and the parameters are lost.</sentence>
+			<sentence id="1.6">This returns a 404 error and the inviter never renders.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>18492</id>
+	<title>Problem with upload of files.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have set up a really simple html file to upload a file.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;html&gt;
+&lt;head&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form method="POST" enctype="multipart/form-data" action="cgi-bin/env.</sentence>
+			<sentence id="2.2">cgi"&gt;
+File to upload: &lt;input type="file" name="upfile"&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=submit &gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This calls a very simple cgi script.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">#!</sentence>
+			<sentence id="4.2">/bin/bash
+echo "Content-type:text/html"
+echo ""
+echo '&lt;HTML&gt;&lt;BODY&gt;&lt;PRE&gt;'
+env
+echo "data"
+cat
+echo "done data"
+echo '&lt;/pre&gt;&lt;body&gt;&lt;/html&gt;'</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">These are about the simplest test case that I can imagine for this kind of
+thing.</sentence>
+			<sentence id="5.2">The "cat" command will simply print anything transmitted to standard
+out, and in turn back to the browser.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">However.</sentence>
+			<sentence id="6.2">.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Uploading a file results in an enormous wait time before the page actually
+returns, and the data that is displayed is only a very small fraction of the
+total data transmitted from the file.</sentence>
+			<sentence id="7.2">.</sentence>
+			<sentence id="7.3">The main file is about 500k, and the
+amount of data shown is probably in the vicinity of 2-3k.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Using TCP dump I can see that the browse (mozilla Version 1.3 final) does indeed
+transmit the amount of data, corresponding roughly, to the 500k that was
+intended to be transmitted.</sentence>
+			<sentence id="8.2">.</sentence>
+			<sentence id="8.3">However The application (cgi script) does not see
+all of the data.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">It may be a configuration issue, however, search as I may (www.google.com, and
+www.apache.org, for "file upload problem"), I find lots of examples on how to
+implement the server side code.</sentence>
+			<sentence id="9.2">All scripts, all attempts at performing the
+file upload results in the very same problem.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">1 it hangs for an extremely long time.</sentence>
+			<sentence id="10.2">2 When it finally returns (if it finally returns), only a part of the data is</sentence>
+			<sentence id="10.3">actually received by the CGI.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">The application that I intend to use is a perl script I found on the web, this
+script works fine in several other installations, however on my system it simply
+hangs forever.</sentence>
+			<sentence id="11.2">Trying to debug it, I reduced the cgi script, and the html page
+to their bare essentials, and the problem persists.</sentence>
+			<sentence id="11.3">.</sentence>
+			<sentence id="11.4">Initially I was using
+apache version 2.0.39, but upgraded to 2.0.44 hoping it may solve the problem,
+both seem to have the same problems.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">I have reverted the convfiguration file (httpd.conf) back to the original
+standard version that is distributed with the apache distribution, and have then
+added in the changes necessary to reference my web page...  However to no avail,
+the problem persists.</sentence>
+		</paragraph>
+	</description>
+</bug>

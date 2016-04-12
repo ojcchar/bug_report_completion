@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>40416</id>
+	<title>mod_proxy_ftp cannot connect under http load in forward proxy</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Using 2.2.3 on SUN/solaris and PC/suse-linux in a forward proxy configuration.</sentence>
+			<sentence id="1.2">Without other http connections the ftp functionality is fine.</sentence>
+			<sentence id="1.3">With other http
+connections the ftp starts to fail increasingly under http request load until it
+no longer functions.</sentence>
+			<sentence id="1.4">This is easily reproduced using one http connection/sec
+through the forward proxy.</sentence>
+			<sentence id="1.5">Although proxy_util.</sentence>
+			<sentence id="1.6">c(2141) says the connection is
+complete there are no connection attempts from the proxy to the destination
+server.</sentence>
+			<sentence id="1.7">This was checked with snoop/tcpdump.</sentence>
+			<sentence id="1.8">In the example below note the
+hostname as www.gatesec.net for the ftp.suse.org address (195.135.221.132).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Successful connections show this:
+Sep  5 23:34:48 hereford fproxy1: [Tue Sep 05 23:34:48 2006] [debug]
+mod_proxy_ftp.</sentence>
+			<sentence id="2.2">c(894): proxy: FTP: connecting ftp://ftp.suse.com/ to ftp.suse.com:21
+Sep  5 23:34:48 hereford fproxy1: [Tue Sep 05 23:34:48 2006] [debug]
+proxy_util.</sentence>
+			<sentence id="2.3">c(2141): proxy: FTP: connection complete to 195.135.221.132:21 ((null))</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Unsuccessful connections show this when using one connection/sec to</sentence>
+			<sentence id="3.2">http://www.gatesec.net:</sentence>
+			<sentence id="3.3">Sep  5 23:45:19 hereford fproxy1: [Tue Sep 05 23:45:19 2006] [debug]</sentence>
+			<sentence id="3.4">mod_proxy_ftp.c(894): proxy: FTP: connecting ftp://ftp.suse.com/ to ftp.suse.com:21</sentence>
+			<sentence id="3.5">Sep  5 23:45:19 hereford fproxy1: [Tue Sep 05 23:45:19 2006] [debug]</sentence>
+			<sentence id="3.6">proxy_util.c(2141): proxy: FTP: connection complete to 195.135.221.132:21</sentence>
+			<sentence id="3.7">(www.gatesec.net)</sentence>
+			<sentence id="3.8">Sep  5 23:45:19 hereford fproxy1: [Tue Sep 05 23:45:19 2006] [debug]</sentence>
+			<sentence id="3.9">mod_proxy_ftp.c(981): proxy: FTP: control connection complete</sentence>
+			<sentence id="3.10">Sep  5 23:45:21 hereford fproxy1: [Tue Sep 05 23:45:21 2006] [debug]</sentence>
+			<sentence id="3.11">mod_proxy_ftp.c(626): proxy:&lt;FTP: 4294967295 &lt;unable to read result&gt;</sentence>
+			<sentence id="3.12">Sep  5 23:45:21 hereford fproxy1: [Tue Sep 05 23:45:21 2006] [debug]</sentence>
+			<sentence id="3.13">proxy_util.c(1816): proxy: FTP: has released connection for (*)</sentence>
+			<sentence id="3.14">Sep  5 23:45:21 hereford fproxy1: [Tue Sep 05 23:45:21 2006] [error] [client</sentence>
+			<sentence id="3.15">127.0.0.1] proxy: Error reading from remote server returned by ftp://ftp.suse.com/</sentence>
+			<sentence id="3.16">Sep  5 23:45:21 hereford fproxy1: 127.0.0.1 - - [05/Sep/2006:23:45:19 +1000]</sentence>
+			<sentence id="3.17">"GET ftp://ftp.suse.com/ HTTP/1.1" 502 67 "-" "Mozilla/5.0 (X11; U; Linux i686;</sentence>
+			<sentence id="3.18">en-US; rv:1.8.0.5) Gecko/20060719 Firefox/1.5.0.5"</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">/opt/chroot/fproxy-2.2.3/bin/httpd -l
+Compiled in modules:
+  core.c
+  mod_authn_file.</sentence>
+			<sentence id="4.2">c
+  mod_authn_default.</sentence>
+			<sentence id="4.3">c
+  mod_authz_host.</sentence>
+			<sentence id="4.4">c
+  mod_authz_groupfile.</sentence>
+			<sentence id="4.5">c
+  mod_authz_user.</sentence>
+			<sentence id="4.6">c
+  mod_authz_default.</sentence>
+			<sentence id="4.7">c
+  mod_auth_basic.</sentence>
+			<sentence id="4.8">c
+  mod_include.</sentence>
+			<sentence id="4.9">c
+  mod_filter.</sentence>
+			<sentence id="4.10">c
+  mod_log_config.</sentence>
+			<sentence id="4.11">c
+  mod_logio.</sentence>
+			<sentence id="4.12">c
+  mod_env.</sentence>
+			<sentence id="4.13">c
+  mod_headers.</sentence>
+			<sentence id="4.14">c
+  mod_proxy.</sentence>
+			<sentence id="4.15">c
+  mod_proxy_connect.</sentence>
+			<sentence id="4.16">c
+  mod_proxy_ftp.</sentence>
+			<sentence id="4.17">c
+  mod_proxy_http.</sentence>
+			<sentence id="4.18">c
+  mod_proxy_ajp.</sentence>
+			<sentence id="4.19">c
+  mod_proxy_balancer.</sentence>
+			<sentence id="4.20">c
+  worker.c
+  http_core.</sentence>
+			<sentence id="4.21">c
+  mod_status.</sentence>
+			<sentence id="4.22">c
+  mod_cgid.</sentence>
+			<sentence id="4.23">c
+  mod_dir.</sentence>
+			<sentence id="4.24">c</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">/opt/chroot/fproxy-2.2.3/bin/httpd -V</sentence>
+			<sentence id="5.2">Server version: Apache/2.2.3</sentence>
+			<sentence id="5.3">Server built:   Sep  5 2006 22:33:20</sentence>
+			<sentence id="5.4">Server's Module Magic Number: 20051115:3</sentence>
+			<sentence id="5.5">Server loaded:  APR 1.2.7, APR-Util 1.2.7</sentence>
+			<sentence id="5.6">Compiled using: APR 1.2.7, APR-Util 1.2.7</sentence>
+			<sentence id="5.7">Architecture:   32-bit</sentence>
+			<sentence id="5.8">Server MPM:     Worker</sentence>
+			<sentence id="5.9">threaded:     yes (fixed thread count)</sentence>
+			<sentence id="5.10">forked:     yes (variable process count)</sentence>
+			<sentence id="5.11">Server compiled with....</sentence>
+			<sentence id="5.12">-D APACHE_MPM_DIR="server/mpm/worker"</sentence>
+			<sentence id="5.13">-D APR_HAS_SENDFILE</sentence>
+			<sentence id="5.14">-D APR_HAS_MMAP</sentence>
+			<sentence id="5.15">-D APR_HAVE_IPV6 (IPv4-mapped addresses enabled)</sentence>
+			<sentence id="5.16">-D APR_USE_SYSVSEM_SERIALIZE</sentence>
+			<sentence id="5.17">-D APR_USE_PTHREAD_SERIALIZE</sentence>
+			<sentence id="5.18">-D SINGLE_LISTEN_UNSERIALIZED_ACCEPT</sentence>
+			<sentence id="5.19">-D APR_HAS_OTHER_CHILD</sentence>
+			<sentence id="5.20">-D AP_HAVE_RELIABLE_PIPED_LOGS</sentence>
+			<sentence id="5.21">-D DYNAMIC_MODULE_LIMIT=128</sentence>
+			<sentence id="5.22">-D HTTPD_ROOT="/fproxy-2.2.3"</sentence>
+			<sentence id="5.23">-D SUEXEC_BIN="/fproxy-2.2.3/bin/suexec"</sentence>
+			<sentence id="5.24">-D DEFAULT_SCOREBOARD="logs/apache_runtime_status"</sentence>
+			<sentence id="5.25">-D DEFAULT_ERRORLOG="logs/error_log"</sentence>
+			<sentence id="5.26">-D AP_TYPES_CONFIG_FILE="conf/mime.</sentence>
+			<sentence id="5.27">types"</sentence>
+			<sentence id="5.28">-D SERVER_CONFIG_FILE="conf/httpd.</sentence>
+			<sentence id="5.29">conf"</sentence>
+		</paragraph>
+	</description>
+</bug>

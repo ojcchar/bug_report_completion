@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>545115</id>
+	<title>Firefox hangs when showing specific page when nvidia nView tool enabled</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; de-AT; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7 (.</sentence>
+			<sentence id="1.2">NET CLR 3.5.30729)
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; de-AT; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7 (.</sentence>
+			<sentence id="1.3">NET CLR 3.5.30729)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">My PC is running nView, a tool included in the nvidia graphics driver package.</sentence>
+			<sentence id="2.2">This tool seems to inject some code into every application running in the windows XP session.</sentence>
+			<sentence id="2.3">With this tool loaded, firefox crashes when displaying attached file demo_crash.</sentence>
+			<sentence id="2.4">htm and clicking the link on top of the page many times (5-7 times).</sentence>
+			<sentence id="2.5">The attached file demo_works.</sentence>
+			<sentence id="2.6">htm is almost the same but only one line of data in the table; is will not crash the browser.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I cannot find something wrong in the page.</sentence>
+			<sentence id="3.2">even the html validator http://validator.w3.org/ says it is ok.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">There is also another person here having the same problem, but running Seamonkey:
+Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.23) Gecko/20090825 SeaMonkey/1.1.18</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Reproducible: Always</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Steps to Reproduce:</sentence>
+			<sentence id="6.2">1 you need nview tool to be enabled (the additional symbols in window frame)</sentence>
+			<sentence id="6.3">1 open demo_crash.</sentence>
+			<sentence id="6.4">htm, stored locally or on a server</sentence>
+			<sentence id="6.5">2 click to the link on top of the page 5-8 times</sentence>
+			<sentence id="6.6">3 firefox hangs and uses 100% of one core of your cpu</sentence>
+			<sentence id="6.7">4 when killing firefox now by task manager, another process will take 100%</sentence>
+			<sentence id="6.8">5 you can loop step 4 forever, finally you will have to reboot your machine</sentence>
+			<sentence id="6.9">Actual Results:</sentence>
+			<sentence id="6.10">System is not useable anymore after doing this test until rebooting the system.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Expected Results:  
+Page should just display and not crash.</sentence>
+			<sentence id="7.2">Even in case there is an error in the page, the browser should not hang or crash but display some garbage or an error.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Version of my NVIDIA nView Desktop Manager is 6.14.10.11044, but had same problem also with an older version.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">The same test page in Internet Explorer 7 has no problems</sentence>
+		</paragraph>
+	</description>
+</bug>

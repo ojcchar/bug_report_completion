@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>330015</id>
+	<title>[api] provide support for constructing task list subtask hierarchy from inward task relations</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Using TaskRelation.parentTask (which is an INWARD containment) doesn't result in a sub/parent task structure in the task list.</sentence>
+			<sentence id="1.2">Only seems to be recognized by the quick outline.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Outward connections are handled in SynchronizeTasksJob#synchronizedTaskRelations while nobody references TaskRelation.INWARD.</sentence>
+			<sentence id="2.2">I currently see no workaround if your repository only provides you with the inward information.</sentence>
+			<sentence id="2.3">Any ideas?</sentence>
+		</paragraph>
+	</description>
+</bug>

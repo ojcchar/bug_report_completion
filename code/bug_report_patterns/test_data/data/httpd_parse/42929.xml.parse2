@@ -1,0 +1,551 @@
+Summary/NNP :/: With/IN a/DT certain/JJ configuration/NN of/IN Virtual/JJ hosts/NNS with/IN SSL/NNP Engine/NNP enabled/VBD ,/, Apache/NNP beliefs/NNS the/DT client/NN is/VBZ connecting/VBG to/TO server/NN port/NN 80/CD with/IN protocol/NN HTTP/NN ,/, while/IN in/IN reality/NN the/DT client/NN is/VBZ connected/VBN to/TO server/NN port/NN 443/CD with/IN protocol/NN HTTPS/NNS 
+
+(ROOT (FRAG (NP (NNP Summary)) (: :) (S (SBAR (IN With) (S (NP (NP (DT a) (JJ certain) (NN configuration)) (PP (IN of) (NP (NP (JJ Virtual) (NNS hosts)) (PP (IN with) (NP (NNP SSL) (NNP Engine)))))) (VP (VBD enabled)))) (, ,) (NP (NP (NNP Apache) (NNS beliefs)) (NP (DT the) (NN client))) (VP (VBZ is) (VP (VBG connecting) (PP (TO to) (NP (NN server) (NN port) (CD 80))) (PP (IN with) (NP (NN protocol) (NN HTTP))) (, ,) (SBAR (IN while) (S (PP (IN in) (NP (NN reality))) (NP (DT the) (NN client)) (VP (VBZ is) (VP (VBN connected) (PP (TO to) (NP (NN server) (NN port) (CD 443))) (PP (IN with) (NP (NN protocol) (NNS HTTPS))))))))))))
+
+root(ROOT-0, Summary-1)
+mark(enabled-13, With-3)
+det(configuration-6, a-4)
+amod(configuration-6, certain-5)
+nsubj(enabled-13, configuration-6)
+amod(hosts-9, Virtual-8)
+prep_of(configuration-6, hosts-9)
+nn(Engine-12, SSL-11)
+prep_with(hosts-9, Engine-12)
+advcl(connecting-20, enabled-13)
+nn(beliefs-16, Apache-15)
+nsubj(connecting-20, beliefs-16)
+det(client-18, the-17)
+dep(beliefs-16, client-18)
+aux(connecting-20, is-19)
+dep(Summary-1, connecting-20)
+nn(port-23, server-22)
+prep_to(connecting-20, port-23)
+num(port-23, 80-24)
+nn(HTTP-27, protocol-26)
+prep_with(connecting-20, HTTP-27)
+mark(connected-35, while-29)
+prep_in(connected-35, reality-31)
+det(client-33, the-32)
+nsubjpass(connected-35, client-33)
+auxpass(connected-35, is-34)
+advcl(connecting-20, connected-35)
+nn(port-38, server-37)
+prep_to(connected-35, port-38)
+num(port-38, 443-39)
+nn(HTTPS-42, protocol-41)
+prep_with(connected-35, HTTPS-42)
+
+Steps/NNS to/TO reproduce/VB :/: 
+
+(ROOT (S (NP (NNS Steps)) (VP (TO to) (VP (VB reproduce))) (: :)))
+
+root(ROOT-0, reproduce-3)
+nsubj(reproduce-3, Steps-1)
+aux(reproduce-3, to-2)
+
+1/CD Install/NNP apache/NN with/IN mod_ssl/NN and/CC mod_info/NN ./. 
+
+(ROOT (NP (NP (CD 1) (NNP Install) (NN apache)) (PP (IN with) (NP (NN mod_ssl) (CC and) (NN mod_info))) (. .)))
+
+root(ROOT-0, apache-3)
+num(apache-3, 1-1)
+nn(apache-3, Install-2)
+prep_with(apache-3, mod_ssl-5)
+prep_with(apache-3, mod_info-7)
+conj_and(mod_ssl-5, mod_info-7)
+
+2/CD Create/VB a/DT SSL/NN certificate/NN ./. 
+
+(ROOT (S (NP (CD 2)) (VP (VB Create) (NP (DT a) (NN SSL) (NN certificate))) (. .)))
+
+root(ROOT-0, Create-2)
+nsubj(Create-2, 2-1)
+det(certificate-5, a-3)
+nn(certificate-5, SSL-4)
+dobj(Create-2, certificate-5)
+
+If/IN you/PRP do/VBP it/PRP properly/RB ,/, create/VB one/CD with/IN two/CD 
+
+(ROOT (NP (S (SBAR (IN If) (S (NP (PRP you)) (VP (VBP do) (NP (PRP it)) (ADVP (RB properly))))) (, ,) (VP (VB create) (NP (CD one)) (PP (IN with) (NP (CD two)))))))
+
+root(ROOT-0, create-7)
+mark(do-3, If-1)
+nsubj(do-3, you-2)
+advcl(create-7, do-3)
+dobj(do-3, it-4)
+advmod(do-3, properly-5)
+dobj(create-7, one-8)
+prep_with(create-7, two-10)
+
+hostnames/NNS (/-LRB- using/VBG the/DT altSubjectName/NN x509/NN parameter/NN )/-RRB- ;/: however/RB ,/, if/IN you/PRP do/VBP n't/RB mind/VB 
+
+(ROOT (S (NP (NP (NP (NNS hostnames)) (PRN (-LRB- -LRB-) (VP (VBG using) (NP (DT the) (NN altSubjectName) (NN x509) (NN parameter))) (-RRB- -RRB-))) (PRN (: ;) (FRAG (ADVP (RB however)) (, ,) (ADVP (IN if)) (NP (PRP you))))) (VP (VBP do) (RB n't) (VP (VB mind)))))
+
+root(ROOT-0, mind-16)
+nsubj(mind-16, hostnames-1)
+dep(hostnames-1, using-3)
+det(parameter-7, the-4)
+nn(parameter-7, altSubjectName-5)
+nn(parameter-7, x509-6)
+dobj(using-3, parameter-7)
+dep(you-13, however-10)
+dep(you-13, if-12)
+dep(hostnames-1, you-13)
+aux(mind-16, do-14)
+neg(mind-16, n't-15)
+
+clicking/VBG "/`` yeah/JJ ,/, I/PRP trust/VBP it/PRP ,/, even/RB though/IN the/DT hostname/NN does/VBZ not/RB match/VB "/'' a/DT couple/NN of/IN 
+
+(ROOT (S (VP (VBG clicking) (ADJP (`` ``) (JJ yeah) (PRN (, ,) (S (NP (PRP I)) (VP (VBP trust) (NP (PRP it)))) (, ,)) (SBAR (RB even) (IN though) (S (NP (DT the) (NN hostname)) (VP (VBZ does) (RB not) (VP (VB match) ('' '') (NP (NP (DT a) (NN couple)) (PP (IN of)))))))))))
+
+root(ROOT-0, clicking-1)
+acomp(clicking-1, yeah-3)
+nsubj(trust-6, I-5)
+dep(yeah-3, trust-6)
+dobj(trust-6, it-7)
+advmod(match-15, even-9)
+mark(match-15, though-10)
+det(hostname-12, the-11)
+nsubj(match-15, hostname-12)
+aux(match-15, does-13)
+neg(match-15, not-14)
+ccomp(yeah-3, match-15)
+det(couple-18, a-17)
+dobj(match-15, couple-18)
+prep(couple-18, of-19)
+
+times/NNS ,/, you/PRP can/MD just/RB use/VB any/DT self-signed/JJ certificate/NN ./. 
+
+(ROOT (S (NP (NNS times)) (, ,) (NP (PRP you)) (VP (MD can) (ADVP (RB just)) (VP (VB use) (NP (DT any) (JJ self-signed) (NN certificate)))) (. .)))
+
+root(ROOT-0, use-6)
+nsubj(use-6, times-1)
+nsubj(use-6, you-3)
+aux(use-6, can-4)
+advmod(use-6, just-5)
+det(certificate-9, any-7)
+amod(certificate-9, self-signed-8)
+dobj(use-6, certificate-9)
+
+2/CD Configure/NNP httpd.conf/NN as/IN displayed/VBN in/IN the/DT attachment/NN ,/, httpd.error.conf/NN :/: 
+
+(ROOT (NP (NP (CD 2) (NNP Configure) (NN httpd.conf)) (VP (ADVP (IN as)) (VBN displayed) (PP (IN in) (NP (NP (DT the) (NN attachment)) (, ,) (NP (NN httpd.error.conf))))) (: :)))
+
+root(ROOT-0, httpd.conf-3)
+num(httpd.conf-3, 2-1)
+nn(httpd.conf-3, Configure-2)
+advmod(displayed-5, as-4)
+vmod(httpd.conf-3, displayed-5)
+det(attachment-8, the-7)
+prep_in(displayed-5, attachment-8)
+appos(attachment-8, httpd.error.conf-10)
+
+two/CD name-based/JJ virtual/JJ hosts/NNS ,/, listening/VBG on/IN port/NN 443/CD ./. 
+
+(ROOT (S (NP (NP (CD two)) (NP (JJ name-based) (JJ virtual) (NNS hosts))) (, ,) (VP (VBG listening) (PP (IN on) (NP (NN port) (CD 443)))) (. .)))
+
+root(ROOT-0, listening-6)
+nsubj(listening-6, two-1)
+amod(hosts-4, name-based-2)
+amod(hosts-4, virtual-3)
+dep(two-1, hosts-4)
+prep_on(listening-6, port-8)
+num(port-8, 443-9)
+
+The/DT first/JJ with/IN SSL/NN 
+
+(ROOT (X (DT The) (ADJP (JJ first) (PP (IN with) (NP (NN SSL))))))
+
+root(ROOT-0, first-2)
+det(first-2, The-1)
+prep_with(first-2, SSL-4)
+
+parameters/NNS ,/, the/DT second/JJ without/IN SSL/NN parameters/NNS ./. 
+
+(ROOT (NP (NP (NNS parameters)) (, ,) (NP (NP (DT the) (JJ second)) (PP (IN without) (NP (NN SSL) (NNS parameters)))) (. .)))
+
+root(ROOT-0, parameters-1)
+det(second-4, the-3)
+appos(parameters-1, second-4)
+nn(parameters-7, SSL-6)
+prep_without(second-4, parameters-7)
+
+3/CD For/IN debugging/NN ,/, add/VB SetHandler/NNP server-info/NN ./. 
+
+(ROOT (S (PP (NP (CD 3)) (IN For) (NP (NN debugging))) (, ,) (VP (VB add) (NP (NNP SetHandler) (NN server-info))) (. .)))
+
+root(ROOT-0, add-5)
+npadvmod(add-5, 3-1)
+prep_for(add-5, debugging-3)
+nn(server-info-7, SetHandler-6)
+dobj(add-5, server-info-7)
+
+4/LS Visit/NN the/DT URL/NN with/IN the/DT servername/NN in/IN the/DT second/JJ virtual/JJ hosts/NNS ./. 
+
+(ROOT (NP (LST (LS 4)) (NP (NN Visit)) (NP (NP (DT the) (NN URL)) (PP (IN with) (NP (DT the) (NN servername)))) (PP (IN in) (NP (DT the) (JJ second) (JJ virtual) (NNS hosts))) (. .)))
+
+root(ROOT-0, Visit-2)
+dep(Visit-2, 4-1)
+det(URL-4, the-3)
+dep(Visit-2, URL-4)
+det(servername-7, the-6)
+prep_with(URL-4, servername-7)
+det(hosts-12, the-9)
+amod(hosts-12, second-10)
+amod(hosts-12, virtual-11)
+prep_in(Visit-2, hosts-12)
+
+E.g./NNP 
+
+(ROOT (NP (NNP E.g.)))
+
+root(ROOT-0, E.g.-1)
+
+http://www2.example.org/server-info/NN if/IN you/PRP use/VBP the/DT names/NNS in/IN httpd.error.conf/NN 
+
+(ROOT (FRAG (NP (NN http://www2.example.org/server-info)) (SBAR (IN if) (S (NP (PRP you)) (VP (VBP use) (NP (NP (DT the) (NNS names)) (PP (IN in) (NP (NN httpd.error.conf)))))))))
+
+root(ROOT-0, http://www2.example.org/server-info-1)
+mark(use-4, if-2)
+nsubj(use-4, you-3)
+dep(http://www2.example.org/server-info-1, use-4)
+det(names-6, the-5)
+dobj(use-4, names-6)
+prep_in(names-6, httpd.error.conf-8)
+
+5/CD Read/NNP what/WP is/VBZ says/VBZ underneath/IN "/`` Server/NN Settings/NNS "/'' >/JJR "/`` Hostname/port/NNP "/'' 
+
+(ROOT (FRAG (NP (NP (CD 5) (NNP Read)) (SBAR (WHNP (WP what)) (S (VP (VBZ is) (VP (VBZ says) (PP (IN underneath) (`` ``) (NP (NN Server) (NNS Settings)) ('' '')) (NP (NP (JJR >)) (`` ``) (NP (NNP Hostname/port)) ('' '')))))))))
+
+root(ROOT-0, Read-2)
+num(Read-2, 5-1)
+nsubj(says-5, what-3)
+aux(says-5, is-4)
+rcmod(Read-2, says-5)
+nn(Settings-9, Server-8)
+prep_underneath(says-5, Settings-9)
+dobj(says-5, >-11)
+dep(>-11, Hostname/port-13)
+
+Expected/VBN result/NN :/: I/PRP expected/VBD it/PRP to/TO read/VB "/`` www2.example.org/NN :443/CD "/'' Or/CC I/PRP expected/VBD a/DT critical/JJ error/NN during/IN start/NN time/NN of/IN Apache/NNP because/IN the/DT configuration/NN file/NN is/VBZ arguably/RB inconsistent/JJ (/-LRB- see/VB below/IN )/-RRB- 
+
+(ROOT (VP (VBN Expected) (NP (NP (NN result)) (: :) (S (NP (PRP I)) (VP (VBD expected) (S (NP (PRP it)) (VP (TO to) (VP (VB read) (NP (`` ``) (NP (NN www2.example.org) (CD :443)) ('' '') (SBAR (S (S (CC Or) (NP (PRP I)) (VP (VBD expected) (NP (DT a) (JJ critical) (NN error)) (PP (IN during) (NP (NP (NN start) (NN time)) (PP (IN of) (NP (NNP Apache))))) (SBAR (IN because) (S (NP (DT the) (NN configuration) (NN file)) (VP (VBZ is) (ADJP (RB arguably) (JJ inconsistent))))))) (PRN (-LRB- -LRB-) (VP (VB see) (PP (IN below))) (-RRB- -RRB-)))))))))))))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, result-2)
+nsubj(expected-5, I-4)
+dep(result-2, expected-5)
+dobj(expected-5, it-6)
+aux(read-8, to-7)
+xcomp(expected-5, read-8)
+dobj(read-8, www2.example.org-10)
+num(www2.example.org-10, :443-11)
+cc(expected-15, Or-13)
+nsubj(expected-15, I-14)
+rcmod(www2.example.org-10, expected-15)
+det(error-18, a-16)
+amod(error-18, critical-17)
+dobj(expected-15, error-18)
+nn(time-21, start-20)
+prep_during(expected-15, time-21)
+prep_of(time-21, Apache-23)
+mark(inconsistent-30, because-24)
+det(file-27, the-25)
+nn(file-27, configuration-26)
+nsubj(inconsistent-30, file-27)
+cop(inconsistent-30, is-28)
+advmod(inconsistent-30, arguably-29)
+advcl(expected-15, inconsistent-30)
+dep(expected-15, see-32)
+prep(see-32, below-33)
+
+Actual/JJ result/NN :/: It/PRP reads/VBZ "/`` www2.example.org/NN :80/CD "/'' 
+
+(ROOT (FRAG (NP (JJ Actual) (NN result)) (: :) (S (NP (PRP It)) (VP (VBZ reads) (S (`` ``) (NP (NN www2.example.org) (CD :80)) ('' ''))))))
+
+root(ROOT-0, result-2)
+amod(result-2, Actual-1)
+nsubj(reads-5, It-4)
+dep(result-2, reads-5)
+dep(reads-5, www2.example.org-7)
+num(www2.example.org-7, :80-8)
+
+Notes/NNS :/: 
+
+(ROOT (NP (NNS Notes) (: :)))
+
+root(ROOT-0, Notes-1)
+
+*/SYM With/IN this/DT configuration/NN ,/, Apache/NNP is/VBZ not/RB even/RB listening/VBG to/TO port/NN 80/CD !/. 
+
+(ROOT (S (FRAG (X (SYM *)) (PP (IN With) (NP (DT this) (NN configuration)))) (, ,) (NP (NNP Apache)) (VP (VBZ is) (RB not) (ADVP (RB even)) (VP (VBG listening) (PP (TO to) (NP (NN port) (CD 80))))) (. !)))
+
+root(ROOT-0, listening-10)
+dep(listening-10, *-1)
+det(configuration-4, this-3)
+prep_with(*-1, configuration-4)
+nsubj(listening-10, Apache-6)
+aux(listening-10, is-7)
+neg(listening-10, not-8)
+advmod(listening-10, even-9)
+prep_to(listening-10, port-12)
+num(port-12, 80-13)
+
+*/SYM If/IN you/PRP would/MD include/VB mod_php/NN ,/, and/CC add/VB a/DT script/NN saying/VBG phpinfo/NN (/-LRB- )/-RRB- ;/: ,/, you/PRP will/MD see/VB 
+
+(ROOT (SBAR (X (SYM *)) (S (SBAR (IN If) (S (NP (PRP you)) (VP (MD would) (VP (VP (VB include) (NP (NN mod_php))) (, ,) (CC and) (VP (VB add) (NP (NP (DT a) (NN script)) (VP (VBG saying) (S (NP (NP (NN phpinfo)) (-LRB- -LRB-) (VP (-RRB- -RRB-)) (: ;)))))))))) (, ,) (NP (PRP you)) (VP (MD will) (VP (VB see))))))
+
+root(ROOT-0, see-20)
+dep(see-20, *-1)
+mark(include-5, If-2)
+nsubj(include-5, you-3)
+nsubj(add-9, you-3)
+aux(include-5, would-4)
+advcl(see-20, include-5)
+dobj(include-5, mod_php-6)
+conj_and(include-5, add-9)
+advcl(see-20, add-9)
+det(script-11, a-10)
+dobj(add-9, script-11)
+vmod(script-11, saying-12)
+dep(saying-12, phpinfo-13)
+nsubj(see-20, you-18)
+aux(see-20, will-19)
+
+that/IN the/DT HTTPS/NNP parameter/NN is/VBZ not/RB set/VBN ./. 
+
+(ROOT (FRAG (SBAR (IN that) (S (NP (DT the) (NNP HTTPS) (NN parameter)) (VP (VBZ is) (RB not) (VP (VBN set))))) (. .)))
+
+root(ROOT-0, set-7)
+mark(set-7, that-1)
+det(parameter-4, the-2)
+nn(parameter-4, HTTPS-3)
+nsubjpass(set-7, parameter-4)
+auxpass(set-7, is-5)
+neg(set-7, not-6)
+
+I/PRP expected/VBD it/PRP to/TO be/VB "/`` on/IN "/'' 
+
+(ROOT (S (NP (PRP I)) (VP (VBD expected) (NP (PRP it)) (S (VP (TO to) (VP (VB be) (`` ``) (PP (IN on)))) ('' '')))))
+
+root(ROOT-0, expected-2)
+nsubj(expected-2, I-1)
+dobj(expected-2, it-3)
+aux(be-5, to-4)
+xcomp(expected-2, be-5)
+prep(be-5, on-7)
+
+*/SYM This/DT "/`` identity/NN crisis/NN "/'' (/-LRB- wrong/JJ port/NN ,/, wrong/JJ protocol/NN )/-RRB- results/VBZ that/IN a/DT COPY/NN 
+
+(ROOT (SBAR (X (SYM *)) (S (NP (NP (DT This) (`` ``) (NN identity) (NN crisis) ('' '')) (PRN (-LRB- -LRB-) (NP (JJ wrong) (NN port)) (, ,) (NP (JJ wrong) (NN protocol)) (-RRB- -RRB-))) (VP (VBZ results) (ADVP (IN that) (NP (DT a) (NN COPY)))))))
+
+root(ROOT-0, results-14)
+dep(results-14, *-1)
+det(crisis-5, This-2)
+nn(crisis-5, identity-4)
+nsubj(results-14, crisis-5)
+amod(port-9, wrong-8)
+appos(crisis-5, port-9)
+amod(protocol-12, wrong-11)
+dep(port-9, protocol-12)
+advmod(results-14, that-15)
+det(COPY-17, a-16)
+pobj(that-15, COPY-17)
+
+request/NN for/IN webdav/JJ results/NNS in/IN a/DT 502/CD Bad/NNP Gateway/NNP error/NN ./. 
+
+(ROOT (NP (NP (NN request)) (PP (IN for) (NP (JJ webdav) (NNS results))) (PP (IN in) (NP (DT a) (CD 502) (NNP Bad) (NNP Gateway) (NN error))) (. .)))
+
+root(ROOT-0, request-1)
+amod(results-4, webdav-3)
+prep_for(request-1, results-4)
+det(error-10, a-6)
+num(error-10, 502-7)
+nn(error-10, Bad-8)
+nn(error-10, Gateway-9)
+prep_in(request-1, error-10)
+
+*/SYM Note/VB that/DT virtual/JJ hosts/NNS with/IN SSL/NN is/VBZ possible/JJ ,/, as/RB long/RB as/IN the/DT same/JJ certificate/NN 
+
+(ROOT (SBAR (X (SYM *)) (S (S (VP (VB Note) (NP (DT that) (JJ virtual) (NNS hosts)) (PP (IN with) (NP (NN SSL))))) (VP (VBZ is) (ADJP (JJ possible)) (, ,) (ADVP (RB as) (RB long)) (PP (IN as) (NP (DT the) (JJ same) (NN certificate)))))))
+
+root(ROOT-0, possible-9)
+dep(possible-9, *-1)
+csubj(possible-9, Note-2)
+det(hosts-5, that-3)
+amod(hosts-5, virtual-4)
+dobj(Note-2, hosts-5)
+prep_with(Note-2, SSL-7)
+cop(possible-9, is-8)
+advmod(long-12, as-11)
+advmod(possible-9, long-12)
+det(certificate-16, the-14)
+amod(certificate-16, same-15)
+prep_as(possible-9, certificate-16)
+
+is/VBZ used/VBN for/IN both/DT vhosts/NNS (/-LRB- as/IN in/IN this/DT case/NN ,/, using/VBG subjectAltName/NN )/-RRB- 
+
+(ROOT (FRAG (VP (VBZ is) (VP (VBN used) (PP (IN for) (NP (DT both) (NNS vhosts))) (PRN (-LRB- -LRB-) (ADVP (IN as) (PP (IN in) (NP (NP (DT this) (NN case)) (, ,) (VP (VBG using) (NP (NN subjectAltName)))))) (-RRB- -RRB-))))))
+
+root(ROOT-0, used-2)
+auxpass(used-2, is-1)
+det(vhosts-5, both-4)
+prep_for(used-2, vhosts-5)
+dep(used-2, as-7)
+det(case-10, this-9)
+prep_in(as-7, case-10)
+vmod(case-10, using-12)
+dobj(using-12, subjectAltName-13)
+
+Regression/NN :/: There/EX is/VBZ an/DT easy/JJ work-around/NN ./. 
+
+(ROOT (FRAG (NP (NN Regression)) (: :) (S (NP (EX There)) (VP (VBZ is) (NP (DT an) (JJ easy) (NN work-around)))) (. .)))
+
+root(ROOT-0, Regression-1)
+expl(is-4, There-3)
+dep(Regression-1, is-4)
+det(work-around-7, an-5)
+amod(work-around-7, easy-6)
+nsubj(is-4, work-around-7)
+
+The/DT "/`` correct/JJ "/'' configuration/NN is/VBZ listed/VBN in/IN the/DT attachment/NN "/`` httpd.good.conf/NN "/'' ./. 
+
+(ROOT (S (NP (DT The) (`` ``) (JJ correct) ('' '') (NN configuration)) (VP (VBZ is) (VP (VBN listed) (PP (IN in) (NP (DT the) (NN attachment) (`` ``) (NN httpd.good.conf) ('' ''))))) (. .)))
+
+root(ROOT-0, listed-7)
+det(configuration-5, The-1)
+amod(configuration-5, correct-3)
+nsubjpass(listed-7, configuration-5)
+auxpass(listed-7, is-6)
+det(httpd.good.conf-12, the-9)
+nn(httpd.good.conf-12, attachment-10)
+prep_in(listed-7, httpd.good.conf-12)
+
+In/IN here/RB ,/, both/DT VirtualHosts/NNS do/VBP have/VB "/`` SSLEngine/NN on/IN "/'' ,/, and/CC the/DT other/JJ SSL/NN parameters/NNS are/VBP shared/VBN among/IN all/DT vhosts/NNS instances/NNS (/-LRB- in/IN httpd.bad.conf/NN ,/, only/RB the/DT first/JJ vhost/NN had/VBD SSL/NNP parameters/NNS ,/, the/DT second/JJ had/VBD none/NN )/-RRB- ./. 
+
+(ROOT (S (PP (IN In) (NP (RB here))) (, ,) (S (NP (DT both) (NNS VirtualHosts)) (VP (VBP do) (VP (VB have) (NP (`` ``) (NP (NN SSLEngine)) (PP (IN on)) ('' ''))))) (, ,) (CC and) (S (NP (DT the) (JJ other) (NN SSL) (NNS parameters)) (VP (VBP are) (VP (VBN shared) (PP (IN among) (NP (NP (DT all) (NNS vhosts) (NNS instances)) (PRN (-LRB- -LRB-) (S (PP (IN in) (NP (NN httpd.bad.conf))) (, ,) (NP (RB only) (DT the) (JJ first) (NN vhost)) (VP (VBD had) (NP (NP (NNP SSL) (NNS parameters)) (, ,) (NP (NP (DT the) (JJ second)) (VP (VBD had) (NP (NN none))))))) (-RRB- -RRB-))))))) (. .)))
+
+root(ROOT-0, have-7)
+prep(have-7, In-1)
+pobj(In-1, here-2)
+det(VirtualHosts-5, both-4)
+nsubj(have-7, VirtualHosts-5)
+aux(have-7, do-6)
+dobj(have-7, SSLEngine-9)
+prep(SSLEngine-9, on-10)
+det(parameters-17, the-14)
+amod(parameters-17, other-15)
+nn(parameters-17, SSL-16)
+nsubjpass(shared-19, parameters-17)
+auxpass(shared-19, are-18)
+conj_and(have-7, shared-19)
+det(instances-23, all-21)
+nn(instances-23, vhosts-22)
+prep_among(shared-19, instances-23)
+prep_in(had-32, httpd.bad.conf-26)
+advmod(vhost-31, only-28)
+det(vhost-31, the-29)
+amod(vhost-31, first-30)
+nsubj(had-32, vhost-31)
+dep(instances-23, had-32)
+nn(parameters-34, SSL-33)
+dobj(had-32, parameters-34)
+det(second-37, the-36)
+appos(parameters-34, second-37)
+vmod(second-37, had-38)
+dobj(had-38, none-39)
+
+I/PRP fully/RB understand/VBP that/IN mod_ssl/NN does/VBZ not/RB have/VB knownledge/NN of/IN virtual/JJ hosts/NNS at/IN the/DT time/NN the/DT SSL/NN handshake/NN is/VBZ made/VBN ./. 
+
+(ROOT (S (NP (PRP I)) (ADVP (RB fully)) (VP (VBP understand) (SBAR (IN that) (S (NP (NN mod_ssl)) (VP (VBZ does) (RB not) (VP (VB have) (NP (NP (NN knownledge)) (PP (IN of) (NP (NP (JJ virtual) (NNS hosts)) (PP (IN at) (NP (NP (DT the) (NN time)) (SBAR (S (NP (DT the) (NN SSL) (NN handshake)) (VP (VBZ is) (VP (VBN made))))))))))))))) (. .)))
+
+root(ROOT-0, understand-3)
+nsubj(understand-3, I-1)
+advmod(understand-3, fully-2)
+mark(have-8, that-4)
+nsubj(have-8, mod_ssl-5)
+aux(have-8, does-6)
+neg(have-8, not-7)
+ccomp(understand-3, have-8)
+dobj(have-8, knownledge-9)
+amod(hosts-12, virtual-11)
+prep_of(knownledge-9, hosts-12)
+det(time-15, the-14)
+prep_at(hosts-12, time-15)
+det(handshake-18, the-16)
+nn(handshake-18, SSL-17)
+nsubjpass(made-20, handshake-18)
+auxpass(made-20, is-19)
+rcmod(time-15, made-20)
+
+Presumably/RB ,/, it/PRP decides/VBZ to/TO use/VB SSL/NN or/CC not/RB based/VBN on/IN the/DT first/JJ vhost/NN for/IN a/DT certain/JJ IP/NNP :/: port/NN combination/NN ./. 
+
+(ROOT (S (ADVP (RB Presumably)) (, ,) (NP (PRP it)) (VP (VBZ decides) (S (VP (TO to) (VP (VB use) (NP-TMP (NP (NN SSL)) (CC or) (RB not)) (PP (VBN based) (PP (IN on) (NP (NP (NP (DT the) (JJ first) (NN vhost)) (PP (IN for) (NP (DT a) (JJ certain) (NNP IP)))) (: :) (NP (NN port) (NN combination))))))))) (. .)))
+
+root(ROOT-0, decides-4)
+advmod(decides-4, Presumably-1)
+nsubj(decides-4, it-3)
+aux(use-6, to-5)
+xcomp(decides-4, use-6)
+tmod(use-6, SSL-7)
+tmod(use-6, not-9)
+conj_or(SSL-7, not-9)
+prepc_based_on(use-6, on-11)
+det(vhost-14, the-12)
+amod(vhost-14, first-13)
+pobj(use-6, vhost-14)
+det(IP-18, a-16)
+amod(IP-18, certain-17)
+prep_for(vhost-14, IP-18)
+nn(combination-21, port-20)
+dep(vhost-14, combination-21)
+
+That/DT is/VBZ fine/JJ ,/, and/CC I/PRP think/VBP perhaps/RB desirable/JJ behaviour/NN ./. 
+
+(ROOT (S (S (NP (DT That)) (VP (VBZ is) (ADJP (JJ fine)))) (, ,) (CC and) (S (NP (PRP I)) (VP (VBP think) (NP (RB perhaps) (JJ desirable) (NN behaviour)))) (. .)))
+
+root(ROOT-0, fine-3)
+nsubj(fine-3, That-1)
+cop(fine-3, is-2)
+nsubj(think-7, I-6)
+conj_and(fine-3, think-7)
+advmod(behaviour-10, perhaps-8)
+amod(behaviour-10, desirable-9)
+dobj(think-7, behaviour-10)
+
+What/WP is/VBZ undesirable/JJ that/IN if/IN port/NN 443/CD and/CC HTTPS/NNP is/VBZ used/VBN in/IN reality/NN ,/, Apache/NNP thinks/VBZ that/IN port/NN 80/CD and/CC HTTP/NNP is/VBZ used/VBN ./. 
+
+(ROOT (S (SBAR (WHNP (WP What)) (S (VP (VBZ is) (ADJP (JJ undesirable)) (SBAR (IN that) (IN if) (S (NP (NP (NN port) (CD 443)) (CC and) (NP (NNP HTTPS))) (VP (VBZ is) (VP (VBN used) (PP (IN in) (NP (NN reality)))))))))) (, ,) (NP (NNP Apache)) (VP (VBZ thinks) (SBAR (IN that) (S (NP (NP (NN port) (CD 80)) (CC and) (NP (NNP HTTP))) (VP (VBZ is) (VP (VBN used)))))) (. .)))
+
+root(ROOT-0, thinks-16)
+nsubj(undesirable-3, What-1)
+cop(undesirable-3, is-2)
+advcl(thinks-16, undesirable-3)
+mark(used-11, that-4)
+mark(used-11, if-5)
+nsubjpass(used-11, port-6)
+num(port-6, 443-7)
+conj_and(port-6, HTTPS-9)
+nsubjpass(used-11, HTTPS-9)
+auxpass(used-11, is-10)
+advcl(undesirable-3, used-11)
+prep_in(used-11, reality-13)
+nsubj(thinks-16, Apache-15)
+mark(used-23, that-17)
+nsubjpass(used-23, port-18)
+num(port-18, 80-19)
+conj_and(port-18, HTTP-21)
+nsubjpass(used-23, HTTP-21)
+auxpass(used-23, is-22)
+ccomp(thinks-16, used-23)
+
+That/DT should/MD always/RB be/VB consistent/JJ ./. 
+
+(ROOT (S (NP (DT That)) (VP (MD should) (ADVP (RB always)) (VP (VB be) (ADJP (JJ consistent)))) (. .)))
+
+root(ROOT-0, consistent-5)
+nsubj(consistent-5, That-1)
+aux(consistent-5, should-2)
+advmod(consistent-5, always-3)
+cop(consistent-5, be-4)
+

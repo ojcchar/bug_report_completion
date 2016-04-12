@@ -1,0 +1,206 @@
+Trying/VBG to/TO delete/VB a/DT post/NN from/IN the/DT feed/NN fails/VBZ with/IN 500/CD Internal/JJ Server/NN Error/NN ./. 
+
+(ROOT (SINV (VP (VBG Trying) (S (VP (TO to) (VP (VB delete) (NP (DT a) (NN post)) (PP (IN from) (NP (DT the) (NN feed))))))) (VP (VBZ fails) (PP (IN with))) (NP (CD 500) (JJ Internal) (NN Server) (NN Error)) (. .)))
+
+root(ROOT-0, Trying-1)
+aux(delete-3, to-2)
+xcomp(Trying-1, delete-3)
+det(post-5, a-4)
+dobj(delete-3, post-5)
+det(feed-8, the-7)
+prep_from(delete-3, feed-8)
+dep(Trying-1, fails-9)
+prep(fails-9, with-10)
+num(Error-14, 500-11)
+amod(Error-14, Internal-12)
+nn(Error-14, Server-13)
+nsubj(Trying-1, Error-14)
+
+Repro/NNP Steps/VBZ :/: 
+
+(ROOT (S (NP (NNP Repro)) (VP (VBZ Steps)) (: :)))
+
+root(ROOT-0, Steps-2)
+nsubj(Steps-2, Repro-1)
+
+1/CD Obtain/VB a/DT token/JJ with/IN read_stream/NN and/CC publish_stream/NN permissions/NNS ./. 
+
+(ROOT (S (NP (CD 1)) (VP (VB Obtain) (NP (DT a) (JJ token)) (PP (IN with) (NP (NN read_stream) (CC and) (NN publish_stream) (NNS permissions)))) (. .)))
+
+root(ROOT-0, Obtain-2)
+nsubj(Obtain-2, 1-1)
+det(token-4, a-3)
+dobj(Obtain-2, token-4)
+nn(permissions-9, read_stream-6)
+conj_and(read_stream-6, publish_stream-8)
+nn(permissions-9, publish_stream-8)
+prep_with(Obtain-2, permissions-9)
+
+2/CD Get/VB the/DT list/NN of/IN posts/NNS by/IN querying/VBG //: me/feed/NN 
+
+(ROOT (FRAG (NP (CD 2)) (VP (VB Get) (NP (NP (DT the) (NN list)) (PP (IN of) (NP (NNS posts)))) (PP (IN by) (NP (NP (VBG querying)) (PRN (: /) (NP (NN me/feed))))))))
+
+root(ROOT-0, 2-1)
+dep(2-1, Get-2)
+det(list-4, the-3)
+dobj(Get-2, list-4)
+prep_of(list-4, posts-6)
+prep_by(Get-2, querying-8)
+punct(me/feed-10, /-9)
+dep(querying-8, me/feed-10)
+
+3/CD Get/VB the/DT IDs/NNS of/IN posts/NNS you/PRP want/VBP to/TO delete/VB and/CC create/VB a/DT request/NN in/IN the/DT following/VBG format/NN :/: string.Format/NN (/-LRB- https://graph.facebook.com//NN {/-LRB- 0/CD }/-RRB- ?/. 
+
+(ROOT (NP (NP (NP (CD 3)) (SBAR (S (VP (VB Get) (NP (NP (DT the) (NNS IDs)) (PP (IN of) (NP (NP (NNS posts)) (SBAR (S (NP (PRP you)) (VP (VBP want) (S (VP (TO to) (VP (VB delete) (CC and) (VB create) (NP (NP (DT a) (NN request)) (PP (IN in) (NP (DT the) (VBG following) (NN format))))))))))))))))) (: :) (NP (NP (NN string.Format)) (-LRB- -LRB-) (NP (NP (NN https://graph.facebook.com/)) (PRN (-LRB- -LCB-) (NP (CD 0)) (-RRB- -RCB-)))) (. ?)))
+
+root(ROOT-0, 3-1)
+rcmod(3-1, Get-2)
+det(IDs-4, the-3)
+dobj(Get-2, IDs-4)
+prep_of(IDs-4, posts-6)
+nsubj(want-8, you-7)
+rcmod(posts-6, want-8)
+aux(delete-10, to-9)
+xcomp(want-8, delete-10)
+xcomp(want-8, create-12)
+conj_and(delete-10, create-12)
+det(request-14, a-13)
+dobj(delete-10, request-14)
+det(format-18, the-16)
+amod(format-18, following-17)
+prep_in(request-14, format-18)
+dep(3-1, string.Format-20)
+dep(string.Format-20, https://graph.facebook.com/-22)
+appos(https://graph.facebook.com/-22, 0-24)
+
+access_token/NN =/SYM {/-LRB- 1/CD }/-RRB- _/CD ID/NNP _/CD AccessToken/NNP )/-RRB- _/RB with/IN request/NN method/NN set/VBN to/TO DELETE/VB ./. 
+
+(ROOT (S (NP (NN access_token)) (SBAR (X (SYM =)) (S (NP (NP (-LRB- -LCB-) (QP (CD 1)) (-RRB- -RCB-)) (SBAR (WHNP (NP (CD _)) (PRN (NP (NP (NNP ID) (CD _)) (NP (NNP AccessToken))) (-RRB- -RRB-))) (S (VP (ADVP (ADVP (RB _)) (PP (IN with) (NP (NN request) (NN method)))) (VBN set))))) (VP (TO to) (VP (VB DELETE))))) (. .)))
+
+root(ROOT-0, DELETE-17)
+dep(DELETE-17, access_token-1)
+dep(DELETE-17, =-2)
+nsubj(DELETE-17, 1-4)
+nsubj(set-15, _-6)
+dep(_-6, ID-7)
+num(ID-7, _-8)
+appos(ID-7, AccessToken-9)
+advmod(set-15, _-11)
+nn(method-14, request-13)
+prep_with(_-11, method-14)
+rcmod(1-4, set-15)
+aux(DELETE-17, to-16)
+
+4/CD Response/NN is/VBZ a/DT 500/CD Internal/JJ Server/NN Error/NN ./. 
+
+(ROOT (S (NP (CD 4) (NN Response)) (VP (VBZ is) (NP (DT a) (ADJP (CD 500) (JJ Internal)) (NN Server) (NN Error))) (. .)))
+
+root(ROOT-0, Error-8)
+num(Response-2, 4-1)
+nsubj(Error-8, Response-2)
+cop(Error-8, is-3)
+det(Error-8, a-4)
+number(Internal-6, 500-5)
+amod(Error-8, Internal-6)
+nn(Error-8, Server-7)
+
+The/DT post/NN is/VBZ still/RB not/RB deleted/VBN ./. 
+
+(ROOT (S (NP (DT The) (NN post)) (VP (VBZ is) (ADVP (RB still)) (VP (RB not) (VBN deleted))) (. .)))
+
+root(ROOT-0, deleted-6)
+det(post-2, The-1)
+nsubjpass(deleted-6, post-2)
+auxpass(deleted-6, is-3)
+advmod(deleted-6, still-4)
+neg(deleted-6, not-5)
+
+Expected/VBN Result/NN :/: It/PRP should/MD delete/VB the/DT post/NN and/CC return/NN success/NN ./. 
+
+(ROOT (S (S (VP (VBN Expected) (NP (NN Result)))) (: :) (S (NP (PRP It)) (VP (MD should) (VP (VB delete) (NP (DT the) (NN post) (CC and) (NN return) (NN success))))) (. .)))
+
+root(ROOT-0, Expected-1)
+dobj(Expected-1, Result-2)
+nsubj(delete-6, It-4)
+aux(delete-6, should-5)
+parataxis(Expected-1, delete-6)
+det(success-11, the-7)
+nn(success-11, post-8)
+conj_and(post-8, return-10)
+nn(success-11, return-10)
+dobj(delete-6, success-11)
+
+More/RBR info/NN :/: 
+
+(ROOT (NP (NP (ADJP (RBR More)) (NN info)) (: :)))
+
+root(ROOT-0, info-2)
+amod(info-2, More-1)
+
+-/: The/DT IDs/NNS I/PRP get/VBP back/RB from/IN //: me/feed/NN already/RB includes/VBZ user/NN ID/NN prepended/VBD to/TO the/DT post/NN ID/NN with/IN an/DT underscore/VBP ./. 
+
+(ROOT (S (: -) (NP (NP (DT The) (NNS IDs)) (SBAR (S (NP (PRP I)) (VP (VBP get) (ADVP (RB back))))) (SBAR (FRAG (X (IN from)) (: /) (NP (NN me/feed)) (ADVP (RB already)) (VP (VBZ includes) (NP (NN user) (NN ID)))))) (VP (VBD prepended) (PP (TO to) (NP (DT the) (NN post) (NN ID))) (SBAR (IN with) (S (NP (DT an)) (VP (VBP underscore))))) (. .)))
+
+root(ROOT-0, prepended-14)
+det(IDs-3, The-2)
+nsubj(prepended-14, IDs-3)
+nsubj(get-5, I-4)
+rcmod(IDs-3, get-5)
+advmod(get-5, back-6)
+dep(me/feed-9, from-7)
+punct(me/feed-9, /-8)
+dep(IDs-3, me/feed-9)
+advmod(includes-11, already-10)
+dep(me/feed-9, includes-11)
+nn(ID-13, user-12)
+dobj(includes-11, ID-13)
+det(ID-18, the-16)
+nn(ID-18, post-17)
+prep_to(prepended-14, ID-18)
+mark(underscore-21, with-19)
+nsubj(underscore-21, an-20)
+advcl(prepended-14, underscore-21)
+
+So/RB _/CD trying/VBG to/TO prepend/VB it/PRP is/VBZ not/RB a/DT valid/JJ workaround/NN here/RB ./. 
+
+(ROOT (S (RB So) (NP (NP (CD _)) (VP (VBG trying) (S (VP (TO to) (VP (VB prepend) (NP (PRP it))))))) (VP (VBZ is) (RB not) (NP (DT a) (JJ valid) (NN workaround)) (ADVP (RB here))) (. .)))
+
+root(ROOT-0, workaround-11)
+advmod(workaround-11, So-1)
+nsubj(workaround-11, _-2)
+vmod(_-2, trying-3)
+aux(prepend-5, to-4)
+xcomp(trying-3, prepend-5)
+dobj(prepend-5, it-6)
+cop(workaround-11, is-7)
+neg(workaround-11, not-8)
+det(workaround-11, a-9)
+amod(workaround-11, valid-10)
+advmod(workaround-11, here-12)
+
+-/: I/PRP tried/VBD GET/VB and/CC POST/NN with/IN adding/VBG &/CC method/NN =/JJ delete/VBP to/TO the/DT URL/NN ./. 
+
+(ROOT (S (: -) (S (NP (PRP I)) (VP (VBD tried) (VP (VB GET)))) (CC and) (S (NP (NP (NN POST)) (PP (IN with) (S (VP (VBG adding) (NP (CC &) (NN method)) (ADJP (JJ =)))))) (VP (VBP delete) (PP (TO to) (NP (DT the) (NN URL))))) (. .)))
+
+root(ROOT-0, tried-3)
+nsubj(tried-3, I-2)
+xcomp(tried-3, GET-4)
+nsubj(delete-12, POST-6)
+prepc_with(POST-6, adding-8)
+cc(method-10, &-9)
+dobj(adding-8, method-10)
+acomp(adding-8, =-11)
+conj_and(tried-3, delete-12)
+det(URL-15, the-14)
+prep_to(delete-12, URL-15)
+
+It/PRP failed/VBD with/IN the/DT same/JJ error/NN ./. 
+
+(ROOT (S (NP (PRP It)) (VP (VBD failed) (PP (IN with) (NP (DT the) (JJ same) (NN error)))) (. .)))
+
+root(ROOT-0, failed-2)
+nsubj(failed-2, It-1)
+det(error-6, the-4)
+amod(error-6, same-5)
+prep_with(failed-2, error-6)
+

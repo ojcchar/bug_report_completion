@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9708</id>
+	<title>POST with keep-alive increases process size</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When sending many large (1MB+) POST requests over a keep-alive connection, the
+http process grows in size after each request.</sentence>
+			<sentence id="1.2">For example, after 1000 such
+requests, the process size may grow by 4MB.</sentence>
+			<sentence id="1.3">Without keep-alive, the processes do
+not grow.</sentence>
+			<sentence id="1.4">This occurs with CGI scripts and custom C modules in Apache 2.0.36.</sentence>
+			<sentence id="1.5">However, the memory is apparently not leaked -- running the same 1000 requests
+again does not cause the size to grow.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The following CGI script (post.cgi) can be used to accept the POST data:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">#!</sentence>
+			<sentence id="3.2">/usr/bin/perl -w
+use strict;
+my $len = 0;
+while(&lt;STDIN&gt;) {
+    $len += length($_);
+}
+my $msg = "Received $len bytes\n";
+printf "Content-Type: text/plain\nContent-Length: %d\n\n%s",
+        length($msg), $msg;
+exit;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Next, create a large file:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">$ dd if=/dev/zero of=big bs=1024 count=1024</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Then send many keep-alive requests to the server.</sentence>
+			<sentence id="6.2">This example uses 'curl':</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">$ curl -T big `perl -e 'print "http://localhost:8080/post.cgi " for (0.</sentence>
+			<sentence id="7.2">.999)'`</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Observe the large (7MB) process size:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">$ ps -aux | grep lt-http
+web  10917  0.0  0.0  3200 1576 ?</sentence>
+			<sentence id="9.2">S  07:53   0:00 lt-httpd 
+web  10918  0.8  0.0  3672 2072 ?</sentence>
+			<sentence id="9.3">S  07:53   0:01 lt-httpd 
+web  10919  4.4  0.1  7620 6016 ?</sentence>
+			<sentence id="9.4">S  07:53   0:06 lt-httpd</sentence>
+		</paragraph>
+	</description>
+</bug>

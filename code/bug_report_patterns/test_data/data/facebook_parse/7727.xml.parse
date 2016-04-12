@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7727</id>
+	<title>safe_image.php is showing blank image while source image is fine</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Our Stream.publish imgsrc shows up blank for
+users in certain regions of the US while others see it fine.</sentence>
+			<sentence id="1.2">Sometimes this
+just happens for 24 hours or so_ then the image may appear after a while.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">An example:
+http://external.ak.fbcdn.net/safe_image.php?d=543ede5ce084763f5d5594d434f159a0&amp;url=http%3A%2F%2Fplatform.ak.fbcdn.net%2Fwww%2Fapp_full_proxy.php%3Fapp%3D173481706996%26v%3D1%26size%3Dp%26cksum%3D8b86ffdceb12d7811376b08281b82af8%26src%3Dhttp%253A%252F%252Ffarm.sproutbuilder.com%252Fload%252FbABkiPtcG4I2bNRQ-135x135.png&amp;w=100&amp;h=100</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">which is a FB cache of</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">http://farm.sproutbuilder.com/load/bABkiPtcG4I2bNRQ-135x135.png</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">While hitting the safe_image.</sentence>
+			<sentence id="5.2">php I was getting a blank 1x1 image for about 5
+mins while in another tab I could verify that
+http://farm.sproutbuilder.com/load/bABkiPtcG4I2bNRQ-135x135.png existing before
+my initial request of the cache.</sentence>
+			<sentence id="5.3">Then_ I emptied my browser cache and refresh
+again later and the cached image resolved to the source image.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Are there current problems with safe_image.</sentence>
+			<sentence id="6.2">php caching?</sentence>
+		</paragraph>
+	</description>
+</bug>

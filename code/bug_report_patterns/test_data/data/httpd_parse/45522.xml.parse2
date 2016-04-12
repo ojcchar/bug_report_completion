@@ -1,0 +1,110 @@
+Created/VBN attachment/NN 22344/CD Proposed/VBN patch/NN 
+
+(ROOT (VP (VBN Created) (NP (NP (NN attachment) (CD 22344)) (VP (VBN Proposed) (NP (NN patch))))))
+
+root(ROOT-0, Created-1)
+dobj(Created-1, attachment-2)
+num(attachment-2, 22344-3)
+vmod(attachment-2, Proposed-4)
+dobj(Proposed-4, patch-5)
+
+When/WRB parsing/VBG OCSP/NN responder/NN URIs/NNS ,/, mod_ssl/NN currently/RB requires/VBZ them/PRP to/TO be/VB in/IN the/DT format/NN 
+
+(ROOT (SBARQ (WHADVP (WRB When)) (S (S (VP (VBG parsing) (NP (NN OCSP) (NN responder) (NNS URIs)))) (, ,) (NP (NN mod_ssl)) (VP (ADVP (RB currently)) (VBZ requires) (S (NP (PRP them)) (VP (TO to) (VP (VB be) (PP (IN in) (NP (DT the) (NN format))))))))))
+
+root(ROOT-0, requires-9)
+advmod(requires-9, When-1)
+vmod(requires-9, parsing-2)
+nn(URIs-5, OCSP-3)
+nn(URIs-5, responder-4)
+dobj(parsing-2, URIs-5)
+nsubj(requires-9, mod_ssl-7)
+advmod(requires-9, currently-8)
+dobj(requires-9, them-10)
+aux(be-12, to-11)
+xcomp(requires-9, be-12)
+det(format-15, the-14)
+prep_in(be-12, format-15)
+
+http://responder.example.com:8888/responder/NN 
+
+(ROOT (NP (NN http://responder.example.com:8888/responder)))
+
+root(ROOT-0, http://responder.example.com:8888/responder-1)
+
+Certificates/NNS from/IN public/JJ CAs/NNS frequently/RB omit/VBP both/CC the/DT port/NN number/NN and/CC the/DT url-path/JJ component/NN in/IN the/DT AIA/NNP extension/NN ,/, however/RB ./. 
+
+(ROOT (S (NP (NP (NNS Certificates)) (PP (IN from) (NP (JJ public) (NNS CAs)))) (ADVP (RB frequently)) (VP (VBP omit) (NP (CC both) (NP (DT the) (NN port) (NN number)) (CC and) (NP (DT the) (JJ url-path) (NN component))) (PP (IN in) (NP (DT the) (NNP AIA) (NN extension))) (, ,) (ADVP (RB however))) (. .)))
+
+root(ROOT-0, omit-6)
+nsubj(omit-6, Certificates-1)
+amod(CAs-4, public-3)
+prep_from(Certificates-1, CAs-4)
+advmod(omit-6, frequently-5)
+preconj(number-10, both-7)
+det(number-10, the-8)
+nn(number-10, port-9)
+dobj(omit-6, number-10)
+det(component-14, the-12)
+amod(component-14, url-path-13)
+dobj(omit-6, component-14)
+conj_and(number-10, component-14)
+det(extension-18, the-16)
+nn(extension-18, AIA-17)
+prep_in(omit-6, extension-18)
+advmod(omit-6, however-20)
+
+I.e./RB we/PRP normally/RB see/VBP certs/NNS with/IN OCSP/NN URIs/NNS such/JJ as/IN 
+
+(ROOT (ADJP (RB I.e.) (SBAR (S (NP (PRP we)) (ADVP (RB normally)) (VP (VBP see) (NP (NNS certs)) (PP (IN with) (NP (NP (NN OCSP) (NNS URIs)) (PP (JJ such) (PP (IN as))))))))))
+
+root(ROOT-0, I.e.-1)
+nsubj(see-4, we-2)
+advmod(see-4, normally-3)
+ccomp(I.e.-1, see-4)
+dobj(see-4, certs-5)
+nn(URIs-8, OCSP-7)
+prep_with(see-4, URIs-8)
+prep(URIs-8, such-9)
+prep(such-9, as-10)
+
+http://EVIntl-ocsp.verisign.com/NNP http://ocsp.entrust.net/NN http://ocsp.quovadisglobal.com/NN http://ocsp.comodoca.com/NN 
+
+(ROOT (NP (NP (NNP http://EVIntl-ocsp.verisign.com)) (NP (NN http://ocsp.entrust.net) (NN http://ocsp.quovadisglobal.com) (NN http://ocsp.comodoca.com))))
+
+root(ROOT-0, http://EVIntl-ocsp.verisign.com-1)
+nn(http://ocsp.comodoca.com-4, http://ocsp.entrust.net-2)
+nn(http://ocsp.comodoca.com-4, http://ocsp.quovadisglobal.com-3)
+dep(http://EVIntl-ocsp.verisign.com-1, http://ocsp.comodoca.com-4)
+
+etc./FW ./. 
+
+(ROOT (NP (FW etc.) (. .)))
+
+root(ROOT-0, etc.-1)
+
+With/IN the/DT attached/VBN patch/NN ,/, mod_ssl/NN will/MD use/VB the/DT default/NN port/NN for/IN HTTP/NNP and/CC "/'' //: "/'' as/IN the/DT url-path/NN for/IN these/DT "/`` short/JJ forms/NNS "/'' of/IN OCSP/NN responder/NN URIs/NNS ./. 
+
+(ROOT (S (PP (IN With) (NP (DT the) (VBN attached) (NN patch))) (, ,) (NP (NN mod_ssl)) (VP (MD will) (VP (VB use) (NP (NP (DT the) (NN default) (NN port)) (PP (IN for) (NP (NNP HTTP)))) (ADVP (CC and)) ('' '') (ADVP (: /)) ('' '') (PP (IN as) (NP (NP (DT the) (NN url-path)) (PP (IN for) (NP (NP (DT these) (`` ``) (JJ short) (NNS forms) ('' '')) (PP (IN of) (NP (NN OCSP) (NN responder) (NNS URIs))))))))) (. .)))
+
+root(ROOT-0, use-8)
+det(patch-4, the-2)
+amod(patch-4, attached-3)
+prep_with(use-8, patch-4)
+nsubj(use-8, mod_ssl-6)
+aux(use-8, will-7)
+det(port-11, the-9)
+nn(port-11, default-10)
+dobj(use-8, port-11)
+prep_for(port-11, HTTP-13)
+advmod(use-8, and-14)
+advmod(use-8, /-16)
+det(url-path-20, the-19)
+prep_as(use-8, url-path-20)
+det(forms-25, these-22)
+amod(forms-25, short-24)
+prep_for(url-path-20, forms-25)
+nn(URIs-30, OCSP-28)
+nn(URIs-30, responder-29)
+prep_of(forms-25, URIs-30)
+

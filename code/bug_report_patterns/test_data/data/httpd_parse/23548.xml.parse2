@@ -1,0 +1,292 @@
+We/PRP are/VBP running/VBG apache/NN 2.0.47/CD in/IN prefork/JJ model/NN on/IN solaris/NN 2.6/CD and/CC solaris/VBZ 2.8/CD ./. 
+
+(ROOT (S (NP (PRP We)) (VP (VP (VBP are) (VP (VBG running) (NP (NP (NN apache) (CD 2.0.47)) (PP (IN in) (NP (JJ prefork) (NN model)))) (PP (IN on) (NP (NN solaris) (CD 2.6))))) (CC and) (VP (VBZ solaris) (NP (CD 2.8)))) (. .)))
+
+root(ROOT-0, running-3)
+nsubj(running-3, We-1)
+nsubj(solaris-13, We-1)
+aux(running-3, are-2)
+dobj(running-3, apache-4)
+num(apache-4, 2.0.47-5)
+amod(model-8, prefork-7)
+prep_in(apache-4, model-8)
+prep_on(running-3, solaris-10)
+num(solaris-10, 2.6-11)
+conj_and(running-3, solaris-13)
+dobj(solaris-13, 2.8-14)
+
+We/PRP are/VBP using/VBG the/DT ldap/NN authenticator/NN which/WDT is/VBZ still/RB in/IN experimental/JJ mode/NN using/VBG the/DT NETSCAPE/NN C/NN libraries/NNS (/-LRB- without/IN SSL/NN )/-RRB- ./. 
+
+(ROOT (S (NP (PRP We)) (VP (VBP are) (VP (VBG using) (NP (NP (DT the) (NN ldap) (NN authenticator)) (SBAR (WHNP (WDT which)) (S (VP (VBZ is) (ADVP (RB still)) (PP (IN in) (NP (NP (JJ experimental) (NN mode)) (VP (VBG using) (NP (NP (DT the) (NN NETSCAPE) (NN C) (NNS libraries)) (PRN (-LRB- -LRB-) (PP (IN without) (NP (NN SSL))) (-RRB- -RRB-)))))))))))) (. .)))
+
+root(ROOT-0, using-3)
+nsubj(using-3, We-1)
+aux(using-3, are-2)
+det(authenticator-6, the-4)
+nn(authenticator-6, ldap-5)
+dobj(using-3, authenticator-6)
+nsubj(is-8, which-7)
+rcmod(authenticator-6, is-8)
+advmod(is-8, still-9)
+amod(mode-12, experimental-11)
+prep_in(is-8, mode-12)
+vmod(mode-12, using-13)
+det(libraries-17, the-14)
+nn(libraries-17, NETSCAPE-15)
+nn(libraries-17, C-16)
+dobj(using-13, libraries-17)
+prep_without(libraries-17, SSL-20)
+
+Authentication/NN to/TO ldap/NN using/VBG ./. 
+
+(ROOT (NP (NP (NP (NN Authentication)) (PP (TO to) (NP (NN ldap)))) (VP (VBG using)) (. .)))
+
+root(ROOT-0, Authentication-1)
+prep_to(Authentication-1, ldap-3)
+vmod(Authentication-1, using-4)
+
+htaccess/NN files/NNS occurs/VBZ flawlessly/RB ./. 
+
+(ROOT (S (NP (NN htaccess) (NNS files)) (VP (VBZ occurs) (ADVP (RB flawlessly))) (. .)))
+
+root(ROOT-0, occurs-3)
+nn(files-2, htaccess-1)
+nsubj(occurs-3, files-2)
+advmod(occurs-3, flawlessly-4)
+
+Each/DT apache/NN child/NN holds/VBZ open/VB a/DT connection/NN to/TO ldap/NN on/IN port/NN 389/CD for/IN the/DT specified/VBN length/NN of/IN time/NN ./. 
+
+(ROOT (S (NP (DT Each) (NN apache) (NN child)) (VP (VBZ holds) (VP (VB open) (NP (DT a) (NN connection)) (PP (TO to) (NP (NP (NN ldap)) (PP (IN on) (NP (NN port) (CD 389))))) (PP (IN for) (NP (NP (DT the) (VBN specified) (NN length)) (PP (IN of) (NP (NN time))))))) (. .)))
+
+root(ROOT-0, holds-4)
+det(child-3, Each-1)
+nn(child-3, apache-2)
+nsubj(holds-4, child-3)
+xcomp(holds-4, open-5)
+det(connection-7, a-6)
+dobj(open-5, connection-7)
+prep_to(open-5, ldap-9)
+prep_on(ldap-9, port-11)
+num(port-11, 389-12)
+det(length-16, the-14)
+amod(length-16, specified-15)
+prep_for(open-5, length-16)
+prep_of(length-16, time-18)
+
+However/RB ,/, when/WRB that/DT time/NN expires/VBZ or/CC the/DT port/NN 389/CD connection/NN is/VBZ closed/VBN ,/, the/DT apache/NN child/NN does/VBZ not/RB reap/VB the/DT connection/NN and/CC it/PRP remains/VBZ stuck/JJ in/IN close_wait/NN ./. 
+
+(ROOT (S (ADVP (RB However)) (, ,) (S (SBAR (WHADVP (WRB when)) (S (S (NP (DT that) (NN time)) (VP (VBZ expires))) (CC or) (S (NP (DT the) (NN port) (CD 389) (NN connection)) (VP (VBZ is) (VP (VBN closed)))))) (, ,) (NP (DT the) (NN apache) (NN child)) (VP (VBZ does) (RB not) (VP (VB reap) (NP (DT the) (NN connection))))) (CC and) (S (NP (PRP it)) (VP (VBZ remains) (ADJP (JJ stuck) (PP (IN in) (NP (NN close_wait)))))) (. .)))
+
+root(ROOT-0, reap-20)
+advmod(reap-20, However-1)
+advmod(expires-6, when-3)
+det(time-5, that-4)
+nsubj(expires-6, time-5)
+advcl(reap-20, expires-6)
+det(connection-11, the-8)
+nn(connection-11, port-9)
+num(connection-11, 389-10)
+nsubjpass(closed-13, connection-11)
+auxpass(closed-13, is-12)
+conj_or(expires-6, closed-13)
+advcl(reap-20, closed-13)
+det(child-17, the-15)
+nn(child-17, apache-16)
+nsubj(reap-20, child-17)
+aux(reap-20, does-18)
+neg(reap-20, not-19)
+det(connection-22, the-21)
+dobj(reap-20, connection-22)
+nsubj(remains-25, it-24)
+conj_and(reap-20, remains-25)
+acomp(remains-25, stuck-26)
+prep_in(stuck-26, close_wait-28)
+
+Eventually/RB Apache/NNP reaches/VBZ the/DT file/NN descriptor/NN limit/NN (/-LRB- set/NN to/TO 64/CD )/-RRB- and/CC stop/VB accepting/VBG new/JJ connections/NNS ./. 
+
+(ROOT (S (ADVP (RB Eventually)) (NP (NNP Apache)) (VP (VP (VBZ reaches) (NP (NP (DT the) (NN file) (NN descriptor) (NN limit)) (PRN (-LRB- -LRB-) (NP (NP (NN set)) (PP (TO to) (NP (CD 64)))) (-RRB- -RRB-)))) (CC and) (VP (VB stop) (S (VP (VBG accepting) (NP (JJ new) (NNS connections)))))) (. .)))
+
+root(ROOT-0, reaches-3)
+advmod(reaches-3, Eventually-1)
+nsubj(reaches-3, Apache-2)
+nsubj(stop-14, Apache-2)
+det(limit-7, the-4)
+nn(limit-7, file-5)
+nn(limit-7, descriptor-6)
+dobj(reaches-3, limit-7)
+dep(limit-7, set-9)
+prep_to(set-9, 64-11)
+conj_and(reaches-3, stop-14)
+xcomp(stop-14, accepting-15)
+amod(connections-17, new-16)
+dobj(accepting-15, connections-17)
+
+We/PRP do/VBP n't/RB want/VB to/TO raise/VB the/DT FD/NN limit/NN we/PRP would/MD like/VB to/TO get/VB to/TO the/DT root/NN cause/NN ./. 
+
+(ROOT (S (NP (PRP We)) (VP (VBP do) (RB n't) (VP (VB want) (S (VP (TO to) (VP (VB raise) (NP (NP (DT the) (NN FD) (NN limit)) (SBAR (S (NP (PRP we)) (VP (MD would) (VP (VB like) (S (VP (TO to) (VP (VB get) (PP (TO to) (NP (DT the) (NN root) (NN cause)))))))))))))))) (. .)))
+
+root(ROOT-0, want-4)
+nsubj(want-4, We-1)
+aux(want-4, do-2)
+neg(want-4, n't-3)
+aux(raise-6, to-5)
+xcomp(want-4, raise-6)
+det(limit-9, the-7)
+nn(limit-9, FD-8)
+dobj(raise-6, limit-9)
+nsubj(like-12, we-10)
+aux(like-12, would-11)
+rcmod(limit-9, like-12)
+aux(get-14, to-13)
+xcomp(like-12, get-14)
+det(cause-18, the-16)
+nn(cause-18, root-17)
+prep_to(get-14, cause-18)
+
+Any/DT ideas/NNS ?/. 
+
+(ROOT (NP (DT Any) (NNS ideas) (. ?)))
+
+root(ROOT-0, ideas-2)
+det(ideas-2, Any-1)
+
+We/PRP do/VBP not/RB see/VB this/DT on/IN solaris/NN 2.8/CD !/. 
+
+(ROOT (S (NP (PRP We)) (VP (VBP do) (RB not) (VP (VB see) (NP (NP (DT this)) (PP (IN on) (NP (NN solaris) (CD 2.8)))))) (. !)))
+
+root(ROOT-0, see-4)
+nsubj(see-4, We-1)
+aux(see-4, do-2)
+neg(see-4, not-3)
+dobj(see-4, this-5)
+prep_on(this-5, solaris-7)
+num(solaris-7, 2.8-8)
+
+APPENDIX/NN (/-LRB- error/NN log/NN ,/, truss/NN ,/, lsof/JJ output/NN from/IN parent/NN and/CC children/NNS )/-RRB- ./. 
+
+(ROOT (NP (NP (NN APPENDIX)) (PRN (-LRB- -LRB-) (NP (NP (NP (NN error) (NN log)) (, ,) (NP (NN truss))) (, ,) (NP (NP (JJ lsof) (NN output)) (PP (IN from) (NP (NN parent)))) (CC and) (NP (NNS children))) (-RRB- -RRB-)) (. .)))
+
+root(ROOT-0, APPENDIX-1)
+nn(log-4, error-3)
+dep(APPENDIX-1, log-4)
+appos(log-4, truss-6)
+amod(output-9, lsof-8)
+dep(APPENDIX-1, output-9)
+conj_and(log-4, output-9)
+prep_from(output-9, parent-11)
+dep(APPENDIX-1, children-13)
+conj_and(log-4, children-13)
+
+========/JJ ERROR/NN LOG/NN INDICATES/VBZ THE/DT SYMPTOM/NN :/: 
+
+(ROOT (S (NP (JJ ========) (NN ERROR) (NN LOG)) (VP (VBZ INDICATES) (NP (DT THE) (NN SYMPTOM))) (: :)))
+
+root(ROOT-0, INDICATES-4)
+amod(LOG-3, ========-1)
+nn(LOG-3, ERROR-2)
+nsubj(INDICATES-4, LOG-3)
+det(SYMPTOM-6, THE-5)
+dobj(INDICATES-4, SYMPTOM-6)
+
+Tue/NNP Sep/NNP 30/CD 18:40:48/CD 2003/CD ]/-RRB- [/-LRB- error/NN ]/-RRB- [/-LRB- client/NN 10.0.0.2/CD ]/-RRB- (/-LRB- 24/CD )/-RRB- Too/RB many/JJ open/JJ files/NNS 
+
+(ROOT (NP (NP (NNP Tue) (NNP Sep)) (NP (NP (NP (CD 30) (CD 18:40:48) (CD 2003) (-RRB- -RSB-)) (PP (-LRB- -LSB-) (NP (NP (NN error) (-RRB- -RSB-)) (PP (-LRB- -LSB-) (NP (NN client) (CD 10.0.0.2)))))) (-RRB- -RSB-) (PRN (-LRB- -LRB-) (NP (CD 24)) (-RRB- -RRB-)) (NP (ADJP (RB Too) (JJ many)) (JJ open) (NNS files)))))
+
+root(ROOT-0, Sep-2)
+nn(Sep-2, Tue-1)
+num(2003-5, 30-3)
+num(2003-5, 18:40:48-4)
+dep(Sep-2, 2003-5)
+punct(2003-5, -RSB--6)
+punct(error-8, -LSB--7)
+prep(2003-5, error-8)
+punct(error-8, -RSB--9)
+punct(client-11, -LSB--10)
+prep(error-8, client-11)
+num(client-11, 10.0.0.2-12)
+punct(2003-5, -RSB--13)
+appos(2003-5, 24-15)
+advmod(many-18, Too-17)
+amod(files-20, many-18)
+amod(files-20, open-19)
+dep(2003-5, files-20)
+
+TRUSS/NN of/IN parent/NN seems/VBZ normal/JJ :/: 
+
+(ROOT (S (NP (NP (NN TRUSS)) (PP (IN of) (NP (NN parent)))) (VP (VBZ seems) (ADJP (JJ normal))) (: :)))
+
+root(ROOT-0, seems-4)
+nsubj(seems-4, TRUSS-1)
+prep_of(TRUSS-1, parent-3)
+acomp(seems-4, normal-5)
+
+15598/CD :/: poll/NN (/-LRB- 0xEFFFDA90/NN ,/, 0/CD ,/, 1000/CD )/-RRB- =/JJ 0/CD 15598/CD :/: waitid/NN (/-LRB- 7/CD ,/, 0/CD ,/, 0xEFFFF9A0/NN ,/, 0107/CD )/-RRB- =/JJ 0/CD 15598/CD :/: siginfo/NN :/: SIG/NNP #/# 0/CD 15598/CD :/: poll/NN (/-LRB- 0xEFFFDA90/NN ,/, 0/CD ,/, 1000/CD )/-RRB- =/JJ 0/CD 15598/CD :/: waitid/NN (/-LRB- 7/CD ,/, 0/CD ,/, 0xEFFFF9A0/NN ,/, 0107/CD )/-RRB- =/JJ 0/CD 15598/CD :/: siginfo/NN :/: SIG/NNP #/# 0/CD 15598/CD :/: poll/NN (/-LRB- 0xEFFFDA90/NN ,/, 0/CD ,/, 1000/CD )/-RRB- =/JJ 0/CD 15598/CD :/: waitid/NN (/-LRB- 7/CD ,/, 0/CD ,/, 0xEFFFF9A0/NN ,/, 0107/CD )/-RRB- =/JJ 0/CD 15598/CD :/: siginfo/NN :/: SIG/NNP #/# 0/CD (/-LRB- SO/NNP ON/NNP AND/CC SO/NNP FORTH/NNP )/-RRB- 
+
+(ROOT (NP (NP (CD 15598)) (: :) (NP (NP (NP (NP (NP (NN poll)) (PRN (-LRB- -LRB-) (NP (NN 0xEFFFDA90)) (, ,) (NP (CD 0)) (, ,) (NP (CD 1000)) (-RRB- -RRB-))) (ADJP (JJ =) (NP-TMP (CD 0)))) (NP (CD 15598))) (: :) (NP (NP (NP (NP (NN waitid)) (PRN (-LRB- -LRB-) (NP (NP (CD 7)) (, ,) (NP (CD 0)) (, ,) (NP (NN 0xEFFFF9A0)) (, ,) (NP (CD 0107))) (-RRB- -RRB-))) (ADJP (JJ =) (NP-TMP (CD 0)))) (NP (CD 15598))) (: :) (NP (NP (NN siginfo)) (: :) (NP (NP (NNP SIG)) (NP (QP (# #) (CD 0) (CD 15598))))) (: :) (NP (NP (NP (NP (NN poll)) (PRN (-LRB- -LRB-) (NP (NN 0xEFFFDA90)) (, ,) (NP (CD 0)) (, ,) (NP (CD 1000)) (-RRB- -RRB-))) (ADJP (JJ =) (NP-TMP (CD 0)))) (NP (CD 15598))) (: :) (NP (NP (NP (NP (NN waitid)) (PRN (-LRB- -LRB-) (NP (NP (CD 7)) (, ,) (NP (CD 0)) (, ,) (NP (NN 0xEFFFF9A0)) (, ,) (NP (CD 0107))) (-RRB- -RRB-))) (ADJP (JJ =) (NP-TMP (CD 0)))) (NP (CD 15598))) (: :) (NP (NP (NN siginfo)) (: :) (NP (NP (NNP SIG)) (NP (QP (# #) (CD 0) (CD 15598))))) (: :) (NP (NP (NP (NP (NN poll)) (PRN (-LRB- -LRB-) (NP (NN 0xEFFFDA90)) (, ,) (NP (CD 0)) (, ,) (NP (CD 1000)) (-RRB- -RRB-))) (ADJP (JJ =) (NP-TMP (CD 0)))) (NP (CD 15598))) (: :) (NP (NP (NP (NP (NN waitid)) (PRN (-LRB- -LRB-) (NP (NP (CD 7)) (, ,) (NP (CD 0)) (, ,) (NP (NN 0xEFFFF9A0)) (, ,) (NP (CD 0107))) (-RRB- -RRB-))) (ADJP (JJ =) (NP-TMP (CD 0)))) (NP (CD 15598))) (: :) (NP (NP (NN siginfo)) (: :) (NP (NP (NNP SIG)) (NP (NP (# #) (CD 0)) (-LRB- -LRB-) (NP (NNP SO) (NNP ON) (CC AND) (NNP SO) (NNP FORTH)) (-RRB- -RRB-)))))))
+
+root(ROOT-0, 15598-1)
+dep(15598-1, poll-3)
+appos(poll-3, 0xEFFFDA90-5)
+dep(0xEFFFDA90-5, 0-7)
+dep(0xEFFFDA90-5, 1000-9)
+amod(poll-3, =-11)
+tmod(=-11, 0-12)
+dep(poll-3, 15598-13)
+dep(poll-3, waitid-15)
+dep(waitid-15, 7-17)
+amod(7-17, 0-19)
+appos(7-17, 0xEFFFF9A0-21)
+amod(7-17, 0107-23)
+amod(waitid-15, =-25)
+tmod(=-25, 0-26)
+dep(waitid-15, 15598-27)
+dep(poll-3, siginfo-29)
+dep(siginfo-29, SIG-31)
+number(15598-34, #-32)
+number(15598-34, 0-33)
+dep(SIG-31, 15598-34)
+dep(poll-3, poll-36)
+appos(poll-36, 0xEFFFDA90-38)
+dep(0xEFFFDA90-38, 0-40)
+dep(0xEFFFDA90-38, 1000-42)
+amod(poll-36, =-44)
+tmod(=-44, 0-45)
+dep(poll-36, 15598-46)
+dep(poll-3, waitid-48)
+dep(waitid-48, 7-50)
+amod(7-50, 0-52)
+appos(7-50, 0xEFFFF9A0-54)
+amod(7-50, 0107-56)
+amod(waitid-48, =-58)
+tmod(=-58, 0-59)
+dep(waitid-48, 15598-60)
+dep(poll-3, siginfo-62)
+dep(siginfo-62, SIG-64)
+number(15598-67, #-65)
+number(15598-67, 0-66)
+dep(SIG-64, 15598-67)
+dep(poll-3, poll-69)
+appos(poll-69, 0xEFFFDA90-71)
+dep(0xEFFFDA90-71, 0-73)
+dep(0xEFFFDA90-71, 1000-75)
+amod(poll-69, =-77)
+tmod(=-77, 0-78)
+dep(poll-69, 15598-79)
+dep(poll-3, waitid-81)
+dep(waitid-81, 7-83)
+amod(7-83, 0-85)
+appos(7-83, 0xEFFFF9A0-87)
+amod(7-83, 0107-89)
+amod(waitid-81, =-91)
+tmod(=-91, 0-92)
+dep(waitid-81, 15598-93)
+dep(poll-3, siginfo-95)
+dep(siginfo-95, SIG-97)
+dep(0-99, #-98)
+dep(SIG-97, 0-99)
+nn(ON-102, SO-101)
+dep(0-99, ON-102)
+nn(FORTH-105, SO-104)
+dep(0-99, FORTH-105)
+conj_and(ON-102, FORTH-105)
+

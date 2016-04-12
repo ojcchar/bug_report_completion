@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>283130</id>
+	<title>[Validation] Create a warning in editor if printed object does not override toString()</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Consider the following template:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">'The class of the element is &lt;&lt;element.eClass()&gt;&gt;.'</sentence>
+			<sentence id="2.2">.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This statement should create a warning, because EClassImpl has no meaningful toString() implementation.</sentence>
+			<sentence id="3.2">Instead the template should read (from a users point of view)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">'The class of the element is &lt;&lt;element.eClass().</sentence>
+			<sentence id="4.2">getName()&gt;&gt;.'</sentence>
+			<sentence id="4.3">.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This validation rule has to be configurable.</sentence>
+			<sentence id="5.2">Clients must be able to define a list baseclasses, that indeed override toString() but do not provide a meaningful output for common usecases in templates (EObjectImpl, AbstractList, ...).</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">This validation is enspecially useful in case of metamodel refactorings, e.g. replace the type String of property 'table' with a type 'Table'.</sentence>
+		</paragraph>
+	</description>
+</bug>

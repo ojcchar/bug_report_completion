@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>34421</id>
+	<title>mod_python 3.1.3 build failure</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We intend to build Apache 2.0.53 with mod_python 3.1.3 (Python 2.3.4) on Sun 
+Solars 8.</sentence>
+			<sentence id="1.2">We could successfully build this mod_python into Apache 2.0.52, but building 
+for Apache 2.0.53 failed.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">OS: Sun Solaris 8, 
+C compiler: gcc 3.4.3
+http : Apache 2.0.52 vs Apache 2.0.53
+Python: 2.3.4
+mod_python: 3.1.3</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This is the Apache 2.0.52 environment:
+$ /path_to_apache/2.0.52/bin/apxs -q CC
+/usr/local/gcc-3.4.3/bin/gcc</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">$ /path_to_python/bin/python
+Python 2.3.4 (#1, Apr 12 2005, 13:25:35)
+[GCC 3.4.3] on sunos5
+Type "help", "copyright", "credits" or "license" for more information.</sentence>
+			<sentence id="4.2">&gt;&gt;&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">mod_python 3.1.3 build successful.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">For Apache 2.0.53:
+$ /path_to_apache/2.0.53/bin/apxs -q CC
+/usr/local/gcc-3.4.3/bin/gcc</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Python is as above</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">mod_python configure:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">in_mod_python_src$ .</sentence>
+			<sentence id="9.2">/configure --with-apxs=/path_to_apache/2.0.53/bin/apxs --
+with-python=/path_to_python/bin/python</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">make command fails with</sentence>
+			<sentence id="10.2">/path_to_apache/2.0.53/build/libtool --silent --mode=link /usr/local/gcc-</sentence>
+			<sentence id="10.3">3 4.3/bin/gcc -o mod_python.</sentence>
+			<sentence id="10.4">la  -rpath /path_to_apache/2.0.53a/modules -module -</sentence>
+			<sentence id="10.5">avoid-version    hlistobject.lo hlist.lo filterobject.lo connobject.lo</sentence>
+			<sentence id="10.6">serverobject.lo util.lo tableobject.lo requestobject.lo _apachemodule.lo</sentence>
+			<sentence id="10.7">mod_python.</sentence>
+			<sentence id="10.8">lo -L/path_to_python/lib/python2.3/config -L/usr/local/lib -lm -</sentence>
+			<sentence id="10.9">lpython2.3 -lresolv -lsocket -lnsl -lrt -ldl -lpthread -lm</sentence>
+			<sentence id="10.10">Text relocation remains                         referenced</sentence>
+			<sentence id="10.11">against symbol                  offset      in file</sentence>
+			<sentence id="10.12">&lt;unknown&gt;</sentence>
+			<sentence id="10.13">0x3858      /path_to_python/lib/python2.3/config/libpython2.3.</sentence>
+			<sentence id="10.14">a(listobject.o)</sentence>
+			<sentence id="10.15">...etc.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">We have checked configure.in, Makefile.in, configure, Makefile within the 
+mod_python 3.1.3 src directory structure for both Apache 2.0.52 and 2.0.53, no 
+differencies were found.</sentence>
+			<sentence id="11.2">However, we found that the libtool (.</sentence>
+			<sentence id="11.3">/build/libtool) is differs for 2.0.53:</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">... 151312 Jan 24 17:01 /path_to_apache/2.0.52/build/libtool</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">... 212667 Apr 11 10:43 /path_to_apache/2.0.53/build/libtool</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Could somebody please let me know what I am doing wrong???</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Best Regards,
+Gyula Toke</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>45239</id>
+	<title>Incorrect display of listing of the catalogue.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 22146
+On the image wrong display of page is designated.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When at the catalogue there are files which names in other encodings, the apache incorrectly processes names of files and the file-list spoils.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">On a picture it is shown, how the apache cuts down names of files in the windows-1251 (cyrillic) encoding and spoils the table.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">#Fragment from a conf-file:
+Alias /upd/ "C:/Upd/" 
+&lt;Directory "C:/Upd/"&gt;
+    Options Indexes FollowSymLinks Includes
+    IndexOptions FancyIndexing SuppressHTMLPreamble XHTML FoldersFirst SuppressDescription 
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+    HeaderName /HEADER.shtml
+    ReadmeName /README.shtml
+&lt;/Directory&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

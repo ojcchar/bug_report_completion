@@ -1,0 +1,131 @@
+We/PRP need/VBP to/TO unset/JJ environment/NN variables/NNS from/IN RewriteRules/NNPS ./. 
+
+(ROOT (S (NP (PRP We)) (VP (VBP need) (PP (TO to) (NP (JJ unset) (NN environment) (NNS variables))) (PP (IN from) (NP (NNPS RewriteRules)))) (. .)))
+
+root(ROOT-0, need-2)
+nsubj(need-2, We-1)
+amod(variables-6, unset-4)
+nn(variables-6, environment-5)
+prep_to(need-2, variables-6)
+prep_from(need-2, RewriteRules-8)
+
+Attached/VBN is/VBZ a/DT patch/NN against/IN -/: trunk/NN to/TO do/VB this/DT ./. 
+
+(ROOT (S (S (VP (VBN Attached))) (VP (VBZ is) (NP (NP (DT a) (NN patch)) (PP (IN against) (: -) (NP (NN trunk) (S (VP (TO to) (VP (VB do) (NP (DT this))))))))) (. .)))
+
+root(ROOT-0, patch-4)
+csubj(patch-4, Attached-1)
+cop(patch-4, is-2)
+det(patch-4, a-3)
+prep_against(patch-4, trunk-7)
+aux(do-9, to-8)
+vmod(trunk-7, do-9)
+dobj(do-9, this-10)
+
+Example/NN :/: 
+
+(ROOT (NP (NN Example) (: :)))
+
+root(ROOT-0, Example-1)
+
+Configuration/NN :/: 
+
+(ROOT (NP (NN Configuration) (: :)))
+
+root(ROOT-0, Configuration-1)
+
+RewriteEngine/NN on/IN LogLevel/NNP rewrite/VB :/: trace5/NN RewriteRule/NN ^/SYM -/: [/-LRB- E/NN =/JJ pling/NN :/: plong/NN ]/-RRB- RewriteRule/NNP ^/SYM -/: [/-LRB- E/NN =/JJ foo/NN :/: boo/NN ,/, E/NN =/JJ !/. 
+
+(ROOT (S (S (NP (NP (NN RewriteEngine)) (PP (IN on) (NP (NNP LogLevel)))) (VP (VB rewrite))) (: :) (S (NP (NN trace5) (NN RewriteRule)) (VP (X (SYM ^)) (: -) (VP (-LRB- -LSB-) (NP (NP (NN E) (JJ =) (NN pling)) (: :) (NP (NP (NP (NN plong)) (PP (-RRB- -RSB-) (NP (NNP RewriteRule)) (X (SYM ^)))) (: -) (NP (NP (-LRB- -LSB-) (NN E)) (NP (JJ =) (NN foo))) (: :) (NP (NP (NN boo)) (, ,) (NP (NN E) (JJ =)))))))) (. !)))
+
+root(ROOT-0, rewrite-4)
+nsubj(rewrite-4, RewriteEngine-1)
+prep_on(RewriteEngine-1, LogLevel-3)
+nn(RewriteRule-7, trace5-6)
+nsubj(pling-13, RewriteRule-7)
+dep(pling-13, ^-8)
+punct(pling-13, -LSB--10)
+nn(pling-13, E-11)
+amod(pling-13, =-12)
+parataxis(rewrite-4, pling-13)
+dep(pling-13, plong-15)
+punct(RewriteRule-17, -RSB--16)
+prep(plong-15, RewriteRule-17)
+dep(RewriteRule-17, ^-18)
+punct(E-21, -LSB--20)
+dep(plong-15, E-21)
+amod(foo-23, =-22)
+dep(E-21, foo-23)
+dep(plong-15, boo-25)
+appos(boo-25, E-27)
+amod(E-27, =-28)
+
+pling/NN ]/-RRB- 
+
+(ROOT (NP (NN pling) (-RRB- -RSB-)))
+
+root(ROOT-0, pling-1)
+punct(pling-1, -RSB--2)
+
+Test/NN :/: 
+
+(ROOT (NP (NN Test) (: :)))
+
+root(ROOT-0, Test-1)
+
+$/$ GET/VBP http://localhost:8000/cgi-bin/printenv/JJ |/NN egrep/NN '/'' (/-LRB- foo/NN |/CD pling/NN )/-RRB- '/'' foo/NN =/JJ "/`` boo/FW "/'' 
+
+(ROOT (S (NP ($ $)) (VP (VP (VBP GET) (NP (NP (NP (NP (JJ http://localhost:8000/cgi-bin/printenv) (NN |)) (NP (NN egrep) ('' '))) (PRN (-LRB- -LRB-) (NP (NP (NN foo)) (NP (CD |) (NN pling))) (-RRB- -RRB-))) (VP ('' ') (NP-TMP (NN foo))))) (NP (NP (JJ =)) (`` ``) (NP (FW boo)) ('' '')))))
+
+root(ROOT-0, GET-2)
+nsubj(GET-2, $-1)
+amod(|-4, http://localhost:8000/cgi-bin/printenv-3)
+dobj(GET-2, |-4)
+dep(|-4, egrep-5)
+dep(|-4, foo-8)
+num(pling-10, |-9)
+dep(foo-8, pling-10)
+dep(|-4, foo-13)
+dobj(GET-2, =-14)
+dep(=-14, boo-16)
+
+Log/NN :/: 
+
+(ROOT (NP (NN Log) (: :)))
+
+root(ROOT-0, Log-1)
+
+Obviously/RB this/DT 'll/MD be/VB a/DT problem/NN for/IN anyone/NN who/WP is/VBZ setting/VBG environment/NN variables/NNS with/IN names/NNS starting/VBG with/IN !/. 
+
+(ROOT (S (ADVP (RB Obviously)) (NP (DT this)) (VP (MD 'll) (VP (VB be) (NP (NP (DT a) (NN problem)) (PP (IN for) (NP (NN anyone))) (SBAR (WHNP (WP who)) (S (VP (VBZ is) (VP (VBG setting) (NP (NN environment) (NNS variables)) (PP (IN with) (NP (NP (NNS names)) (VP (VBG starting) (PP (IN with)))))))))))) (. !)))
+
+root(ROOT-0, problem-6)
+advmod(problem-6, Obviously-1)
+nsubj(problem-6, this-2)
+aux(problem-6, 'll-3)
+cop(problem-6, be-4)
+det(problem-6, a-5)
+prep_for(problem-6, anyone-8)
+nsubj(setting-11, who-9)
+aux(setting-11, is-10)
+rcmod(problem-6, setting-11)
+nn(variables-13, environment-12)
+dobj(setting-11, variables-13)
+prep_with(setting-11, names-15)
+vmod(names-15, starting-16)
+prep(starting-16, with-17)
+
+./. 
+
+(ROOT (NP (. .)))
+
+
+Hopefully/RB this/DT is/VBZ uncommon/JJ ./. 
+
+(ROOT (S (ADVP (RB Hopefully)) (NP (DT this)) (VP (VBZ is) (ADJP (JJ uncommon))) (. .)))
+
+root(ROOT-0, uncommon-4)
+advmod(uncommon-4, Hopefully-1)
+nsubj(uncommon-4, this-2)
+cop(uncommon-4, is-3)
+

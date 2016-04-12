@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>235046</id>
+	<title>Setting non-resizable table column does not work</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">With the following snippet :</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">...
+Composite container = new Composite(parent,SWT.NULL);
+container.setLayoutData(GridDataFactory.fillDefaults().</sentence>
+			<sentence id="3.2">grab(true, true).</sentence>
+			<sentence id="3.3">minSize(SWT.DEFAULT, 100).</sentence>
+			<sentence id="3.4">create());</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">TableColumnLayout layout = new TableColumnLayout();
+container.setLayout(layout);</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">CheckboxTableViewer checkboxTableViewer = 
+new CheckboxTableViewer(new Table(container,SWT.CHECK));
+checkboxTableViewer.getTable().</sentence>
+			<sentence id="5.2">setHeaderVisible(true);</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">TableViewerColumn tableViewerColumn = new TableViewerColumn(checkboxTableViewer,SWT.NULL);
+tableViewerColumn.getColumn().</sentence>
+			<sentence id="6.2">setText("Parameter(s)");</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">layout.setColumnData(tableViewerColumn.getColumn(),new ColumnWeightData(100,false));</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">tableViewerColumn.getColumn().</sentence>
+			<sentence id="8.2">pack();
+...</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Notice the code that instantiate ColumnWeightData, eventhough I have set the resizable parameter to false, the column is still resizable.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Regards,</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Setya</sentence>
+		</paragraph>
+	</description>
+</bug>

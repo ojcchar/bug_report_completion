@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>33499</id>
+	<title>AddOutputFilterByType won't work reliably with PHP</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">PHP calls ap_set_content_type for generated content with an explicit content-type header.</sentence>
+			<sentence id="1.2">It calls it 
+once at the beginning of the handler in order to set the content-type to the default (usually text/html) 
+and then calls it again if the php script sends a Content-Type header.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">ap_set_content_type attaches filters configured by AddOutputFilterByType when it is called.</sentence>
+			<sentence id="2.2">Consequently, PHP generated pages will have both the text/html output filters and the output filters for 
+the actual content type added.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">As Nick Kew says in response to bug 31226, "AddOutputFilterbyType is known to be broken."</sentence>
+			<sentence id="3.2">Fixing 
+this problem does not appear to me to be easy; I would recommend documenting ap_set_content_type 
+in include/http_protocol.h to add a warning that ap_set_content_type should not be called twice for the 
+same request.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I'm submitting this bug by way of documentation.</sentence>
+		</paragraph>
+	</description>
+</bug>

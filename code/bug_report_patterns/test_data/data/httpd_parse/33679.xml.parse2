@@ -1,0 +1,301 @@
+I/PRP ran/VBD Apache/NNP after/IN the/DT RPM/NNP install/VB with/IN PHP/NN and/CC mod_ssl/NN on/IN Fedora/NNP Core/NNP 3/CD and/CC it/PRP worked/VBD great/JJ ./. 
+
+(ROOT (S (S (NP (PRP I)) (VP (VBD ran) (NP (NNP Apache)) (SBAR (IN after) (S (NP (DT the) (NNP RPM)) (VP (VB install) (PP (IN with) (NP (NN PHP) (CC and) (NN mod_ssl))) (PP (IN on) (NP (NNP Fedora) (NNP Core) (CD 3)))))))) (CC and) (S (NP (PRP it)) (VP (VBD worked) (ADJP (JJ great)))) (. .)))
+
+root(ROOT-0, ran-2)
+nsubj(ran-2, I-1)
+dobj(ran-2, Apache-3)
+mark(install-7, after-4)
+det(RPM-6, the-5)
+nsubj(install-7, RPM-6)
+advcl(ran-2, install-7)
+prep_with(install-7, PHP-9)
+prep_with(install-7, mod_ssl-11)
+conj_and(PHP-9, mod_ssl-11)
+nn(Core-14, Fedora-13)
+prep_on(install-7, Core-14)
+num(Core-14, 3-15)
+nsubj(worked-18, it-17)
+conj_and(ran-2, worked-18)
+acomp(worked-18, great-19)
+
+Then/RB I/PRP changed/VBD DocumentRoot/NNP and/CC the/DT related/JJ Directory/NNP to/TO //: public_html/NN //: www/NN and/CC attempted/VBN to/TO restart/VB the/DT server/NN ./. 
+
+(ROOT (S (RB Then) (NP (PRP I)) (VP (VP (VBD changed) (NP (NP (NNP DocumentRoot)) (CC and) (NP (DT the) (JJ related) (NNP Directory))) (PP (TO to) (NP (PRN (: /) (NP (NN public_html)) (: /)) (NN www)))) (CC and) (VP (VBN attempted) (S (VP (TO to) (VP (VB restart) (NP (DT the) (NN server))))))) (. .)))
+
+root(ROOT-0, changed-3)
+advmod(changed-3, Then-1)
+nsubj(changed-3, I-2)
+nsubj(attempted-15, I-2)
+dobj(changed-3, DocumentRoot-4)
+det(Directory-8, the-6)
+amod(Directory-8, related-7)
+dobj(changed-3, Directory-8)
+conj_and(DocumentRoot-4, Directory-8)
+punct(public_html-11, /-10)
+dep(www-13, public_html-11)
+punct(public_html-11, /-12)
+prep_to(changed-3, www-13)
+conj_and(changed-3, attempted-15)
+aux(restart-17, to-16)
+xcomp(attempted-15, restart-17)
+det(server-19, the-18)
+dobj(restart-17, server-19)
+
+Apache/NNP would/MD not/RB start/VB ./. 
+
+(ROOT (S (NP (NNP Apache)) (VP (MD would) (RB not) (VP (VB start))) (. .)))
+
+root(ROOT-0, start-4)
+nsubj(start-4, Apache-1)
+aux(start-4, would-2)
+neg(start-4, not-3)
+
+No/DT results/NNS from/IN the/DT lsof/NN -/: i/FW :80/FW command/NN ,/, and/CC no/DT httpd.pif/NN file/NN comfirmed/VBD that/IN ./. 
+
+(ROOT (S (NP (NP (DT No) (NNS results)) (PP (IN from) (NP (NP (DT the) (NN lsof)) (: -) (NP (FW i) (FW :80) (NN command)) (, ,) (CC and) (NP (DT no) (NN httpd.pif) (NN file))))) (VP (VBD comfirmed) (ADVP (IN that))) (. .)))
+
+root(ROOT-0, comfirmed-15)
+neg(results-2, No-1)
+nsubj(comfirmed-15, results-2)
+det(lsof-5, the-4)
+prep_from(results-2, lsof-5)
+nn(command-9, i-7)
+nn(command-9, :80-8)
+prep_from(results-2, command-9)
+conj_and(lsof-5, command-9)
+neg(file-14, no-12)
+nn(file-14, httpd.pif-13)
+prep_from(results-2, file-14)
+conj_and(lsof-5, file-14)
+advmod(comfirmed-15, that-16)
+
+No/DT error/NN log/NN is/VBZ produced/VBN and/CC no/DT error/NN message/NN appears/VBZ in/IN the/DT terminal/JJ ./. 
+
+(ROOT (S (S (NP (DT No) (NN error) (NN log)) (VP (VBZ is) (VP (VBN produced)))) (CC and) (S (NP (DT no) (NN error) (NN message)) (VP (VBZ appears) (PP (IN in) (NP (DT the) (ADJP (JJ terminal)))))) (. .)))
+
+root(ROOT-0, produced-5)
+neg(log-3, No-1)
+nn(log-3, error-2)
+nsubjpass(produced-5, log-3)
+auxpass(produced-5, is-4)
+neg(message-9, no-7)
+nn(message-9, error-8)
+nsubj(appears-10, message-9)
+conj_and(produced-5, appears-10)
+det(terminal-13, the-12)
+prep_in(appears-10, terminal-13)
+
+On/IN my/PRP$ machine/NN ,/, //: public_html/NN is/VBZ //: dev/sda1/NN (/-LRB- SATA/NN drive/NN )/-RRB- and/CC has/VBZ a/DT single/JJ partition/NN formatted/VBN as/IN ext3/NN and/CC mounted/VBD as/IN //: public_html/NN ./. 
+
+(ROOT (S (PP (IN On) (NP (PRP$ my) (NN machine))) (, ,) (PRN (: /) (S (NP (NN public_html)) (VP (VBZ is))) (: /)) (NP (NP (NN dev/sda1)) (PRN (-LRB- -LRB-) (NP (NN SATA) (NN drive)) (-RRB- -RRB-))) (VP (CC and) (VP (VBZ has) (NP (DT a) (JJ single) (NN partition)) (VP (VBN formatted) (PP (IN as) (NP (NN ext3))))) (CC and) (VP (VBD mounted) (NP (NP (IN as)) (PRN (: /) (NP (NN public_html)))))) (. .)))
+
+root(ROOT-0, formatted-19)
+poss(machine-3, my-2)
+prep_on(formatted-19, machine-3)
+punct(is-7, /-5)
+nsubj(is-7, public_html-6)
+parataxis(formatted-19, is-7)
+punct(is-7, /-8)
+nsubj(formatted-19, dev/sda1-9)
+nsubj(mounted-23, dev/sda1-9)
+nn(drive-12, SATA-11)
+appos(dev/sda1-9, drive-12)
+aux(formatted-19, has-15)
+det(partition-18, a-16)
+amod(partition-18, single-17)
+dobj(formatted-19, partition-18)
+prep_as(formatted-19, ext3-21)
+conj_and(formatted-19, mounted-23)
+dobj(mounted-23, as-24)
+punct(public_html-26, /-25)
+dep(as-24, public_html-26)
+
+//: public_html/NN and/CC //: public_html/NN //: www/NN both/CC have/VBP 755/CD as/IN permissions/NNS ./. 
+
+(ROOT (S (NP (PRN (: /) (S (NP (NP (NN public_html)) (PP (CC and) (NP (PRN (: /) (NP (NN public_html)) (: /)) (NN www)))) (NP (CC both))))) (VP (VBP have) (NP (CD 755)) (PP (IN as) (NP (NNS permissions)))) (. .)))
+
+root(ROOT-0, have-9)
+punct(both-8, /-1)
+dep(both-8, public_html-2)
+prep(public_html-2, and-3)
+punct(public_html-5, /-4)
+dep(www-7, public_html-5)
+punct(public_html-5, /-6)
+pobj(and-3, www-7)
+nsubj(have-9, both-8)
+dobj(have-9, 755-10)
+prep_as(have-9, permissions-12)
+
+Next/JJ I/PRP tried/VBD to/TO get/VB sneaky/JJ ./. 
+
+(ROOT (S (ADVP (JJ Next)) (NP (PRP I)) (VP (VBD tried) (S (VP (TO to) (VP (VB get) (NP (JJ sneaky)))))) (. .)))
+
+root(ROOT-0, tried-3)
+advmod(tried-3, Next-1)
+nsubj(tried-3, I-2)
+aux(get-5, to-4)
+xcomp(tried-3, get-5)
+dobj(get-5, sneaky-6)
+
+I/PRP changed/VBD the/DT DocumentRoot/NNP and/CC Directory/NNP back/RB to/TO //: var/www/html/NN (/-LRB- default/NN )/-RRB- ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBD changed) (NP (DT the) (NNP DocumentRoot) (CC and) (NNP Directory)) (PP (RB back) (FRAG (X (TO to)) (: /) (NP (NN var/www/html)))) (PRN (-LRB- -LRB-) (NP (NN default)) (-RRB- -RRB-))) (. .)))
+
+root(ROOT-0, changed-2)
+nsubj(changed-2, I-1)
+det(DocumentRoot-4, the-3)
+dobj(changed-2, DocumentRoot-4)
+dobj(changed-2, Directory-6)
+conj_and(DocumentRoot-4, Directory-6)
+prep(changed-2, back-7)
+dep(var/www/html-10, to-8)
+punct(var/www/html-10, /-9)
+dep(back-7, var/www/html-10)
+dep(changed-2, default-12)
+
+Then/RB I/PRP created/VBD //: var/www/html/NN ./. 
+
+(ROOT (S (VP (ADVP (RB Then)) (S (NP (NP (PRP I)) (SBAR (S (VP (VBD created)))) (PRN (: /) (NP (NN var/www/html)))))) (. .)))
+
+root(ROOT-0, Then-1)
+dep(Then-1, I-2)
+rcmod(I-2, created-3)
+punct(var/www/html-5, /-4)
+dep(I-2, var/www/html-5)
+
+link/NN ,/, which/WDT is/VBZ a/DT symbolic/JJ link/NN to/TO //: public_html/NN //: www/NN ./. 
+
+(ROOT (FRAG (NP (NN link)) (, ,) (SBAR (WHNP (WDT which)) (S (VP (VBZ is) (NP (NP (DT a) (JJ symbolic) (NN link)) (PP (TO to) (NP (PRN (: /) (NP (NN public_html)) (: /)) (NN www))))))) (. .)))
+
+root(ROOT-0, link-1)
+nsubj(link-7, which-3)
+cop(link-7, is-4)
+det(link-7, a-5)
+amod(link-7, symbolic-6)
+dep(link-1, link-7)
+punct(public_html-10, /-9)
+dep(www-12, public_html-10)
+punct(public_html-10, /-11)
+prep_to(link-7, www-12)
+
+Then/RB I/PRP ran/VBD apachectl/NN startssl/NN and/CC renamed/VBN //: var/www/html/NN ./. 
+
+(ROOT (S (RB Then) (NP (PRP I)) (VP (VBD ran) (NP (NP (NP (NN apachectl)) (UCP (NP (NN startssl)) (CC and) (VP (VBN renamed)))) (PRN (: /) (NP (NN var/www/html))))) (. .)))
+
+root(ROOT-0, ran-3)
+advmod(ran-3, Then-1)
+nsubj(ran-3, I-2)
+dobj(ran-3, apachectl-4)
+dep(apachectl-4, startssl-5)
+dep(apachectl-4, renamed-7)
+conj_and(startssl-5, renamed-7)
+punct(var/www/html-9, /-8)
+dep(apachectl-4, var/www/html-9)
+
+link/NN to/TO //: var/www/html/NN and/CC renamed/VBD the/DT actual/JJ folder/NN //: var/www/html/NN to/TO //: var/www/html/NN ./. 
+
+(ROOT (FRAG (NP (NP (NN link)) (PP (TO to))) (: /) (S (NP (NN var/www/html)) (ADVP (CC and)) (VP (VBD renamed) (NP (DT the) (JJ actual) (NN folder) (PRN (: /) (NP (NP (NN var/www/html)) (PP (TO to))) (: /)) (NN var/www/html)))) (. .)))
+
+root(ROOT-0, link-1)
+prep(link-1, to-2)
+punct(link-1, /-3)
+nsubj(renamed-6, var/www/html-4)
+advmod(renamed-6, and-5)
+dep(link-1, renamed-6)
+det(var/www/html-14, the-7)
+amod(var/www/html-14, actual-8)
+nn(var/www/html-14, folder-9)
+punct(var/www/html-11, /-10)
+dep(var/www/html-14, var/www/html-11)
+prep(var/www/html-11, to-12)
+punct(var/www/html-11, /-13)
+dobj(renamed-6, var/www/html-14)
+
+old/JJ ./. 
+
+(ROOT (FRAG (ADJP (JJ old)) (. .)))
+
+root(ROOT-0, old-1)
+
+Well/RB ,/, it/PRP was/VBD sneaky/JJ ,/, but/CC it/PRP did/VBD n't/RB work/VB ./. 
+
+(ROOT (S (S (INTJ (RB Well)) (, ,) (NP (PRP it)) (VP (VBD was) (ADJP (JJ sneaky)))) (, ,) (CC but) (S (NP (PRP it)) (VP (VBD did) (RB n't) (VP (VB work)))) (. .)))
+
+root(ROOT-0, sneaky-5)
+discourse(sneaky-5, Well-1)
+nsubj(sneaky-5, it-3)
+cop(sneaky-5, was-4)
+nsubj(work-11, it-8)
+aux(work-11, did-9)
+neg(work-11, n't-10)
+conj_but(sneaky-5, work-11)
+
+I/PRP got/VBD the/DT 403/CD error/NN with/IN "/`` You/PRP do/VBP n't/RB have/VB permission/NN to/TO access/NN //: on/IN this/DT server/NN ./. "/'' 
+
+(ROOT (S (NP (PRP I)) (VP (VBD got) (NP (DT the) (CD 403) (NN error)) (SBAR (IN with) (`` ``) (S (NP (PRP You)) (VP (VBP do) (RB n't) (VP (VB have) (NP (NN permission)) (PP (TO to) (NP (NP (NN access)) (PRN (: /) (PP (IN on) (NP (DT this) (NN server))))))))))) (. .) ('' '')))
+
+root(ROOT-0, got-2)
+nsubj(got-2, I-1)
+det(error-5, the-3)
+num(error-5, 403-4)
+dobj(got-2, error-5)
+mark(have-11, with-6)
+nsubj(have-11, You-8)
+aux(have-11, do-9)
+neg(have-11, n't-10)
+advcl(got-2, have-11)
+dobj(have-11, permission-12)
+prep_to(have-11, access-14)
+punct(access-14, /-15)
+det(server-18, this-17)
+prep_on(access-14, server-18)
+
+I/PRP am/VBP able/JJ to/TO change/VB the/DT DocumentRoot/NNP to/TO other/JJ directories/NNS under/IN //: var/NN ./. 
+
+(ROOT (S (NP (PRP I)) (VP (VBP am) (ADJP (JJ able) (S (VP (TO to) (VP (VB change) (NP (DT the) (NNP DocumentRoot)) (FRAG (X (X (TO to)) (NP (NP (JJ other) (NNS directories)) (PP (IN under)))) (: /) (NP (NN var)))))))) (. .)))
+
+root(ROOT-0, able-3)
+nsubj(able-3, I-1)
+cop(able-3, am-2)
+aux(change-5, to-4)
+xcomp(able-3, change-5)
+det(DocumentRoot-7, the-6)
+dobj(change-5, DocumentRoot-7)
+dep(directories-10, to-8)
+amod(directories-10, other-9)
+dep(var-13, directories-10)
+prep(directories-10, under-11)
+punct(var-13, /-12)
+dep(change-5, var-13)
+
+What/WP it/PRP seems/VBZ to/TO boil/VB down/RP to/TO is/VBZ that/IN I/PRP ca/MD n't/RB change/VB DocumentRoot/NNP to/TO a/DT location/NN on/IN a/DT partition/NN other/JJ than/IN the/DT one/CD where/WRB Apache/NNP is/VBZ installed/VBN ./. 
+
+(ROOT (S (SBAR (WHNP (WP What)) (S (NP (PRP it)) (VP (VBZ seems) (S (VP (TO to) (VP (VB boil) (PRT (RP down)) (PP (TO to)))))))) (VP (VBZ is) (SBAR (IN that) (S (NP (PRP I)) (VP (MD ca) (RB n't) (VP (VB change) (NP (NP (NNP DocumentRoot)) (PP (TO to) (NP (NP (DT a) (NN location)) (PP (IN on) (NP (DT a) (NN partition) (JJ other)))))) (PP (IN than) (NP (DT the) (CD one))) (SBAR (WHADVP (WRB where)) (S (NP (NNP Apache)) (VP (VBZ is) (VP (VBN installed)))))))))) (. .)))
+
+root(ROOT-0, is-8)
+dobj(seems-3, What-1)
+nsubj(seems-3, it-2)
+csubj(is-8, seems-3)
+aux(boil-5, to-4)
+xcomp(seems-3, boil-5)
+prt(boil-5, down-6)
+prep(boil-5, to-7)
+mark(change-13, that-9)
+nsubj(change-13, I-10)
+aux(change-13, ca-11)
+neg(change-13, n't-12)
+ccomp(is-8, change-13)
+dobj(change-13, DocumentRoot-14)
+det(location-17, a-16)
+prep_to(DocumentRoot-14, location-17)
+det(partition-20, a-19)
+prep_on(location-17, partition-20)
+amod(partition-20, other-21)
+det(one-24, the-23)
+prep_than(change-13, one-24)
+advmod(installed-28, where-25)
+nsubjpass(installed-28, Apache-26)
+auxpass(installed-28, is-27)
+advcl(change-13, installed-28)
+

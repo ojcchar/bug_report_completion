@@ -1,0 +1,135 @@
+When/WRB a/DT batch/NN file/NN is/VBZ executed/VBN via/IN CGI/NNP ,/, the/DT output/NN of/IN programs/NNS this/DT batch/NN file/NN calls/VBZ is/VBZ not/RB captured/VBN and/CC sent/VBN to/TO the/DT client/NN ./. 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (NP (DT a) (NN batch) (NN file)) (VP (VBZ is) (VP (VBN executed) (PP (IN via) (NP (NNP CGI))))))) (, ,) (NP (NP (DT the) (NN output)) (PP (IN of) (NP (NP (NNS programs)) (SBAR (S (NP (DT this) (NN batch) (NN file)) (VP (VBZ calls))))))) (VP (VBZ is) (RB not) (VP (VBN captured) (CC and) (VBN sent) (PP (TO to) (NP (DT the) (NN client))))) (. .)))
+
+root(ROOT-0, captured-20)
+advmod(executed-6, When-1)
+det(file-4, a-2)
+nn(file-4, batch-3)
+nsubjpass(executed-6, file-4)
+auxpass(executed-6, is-5)
+advcl(captured-20, executed-6)
+prep_via(executed-6, CGI-8)
+det(output-11, the-10)
+nsubjpass(captured-20, output-11)
+nsubjpass(sent-22, output-11)
+prep_of(output-11, programs-13)
+det(file-16, this-14)
+nn(file-16, batch-15)
+nsubj(calls-17, file-16)
+rcmod(programs-13, calls-17)
+auxpass(captured-20, is-18)
+neg(captured-20, not-19)
+conj_and(captured-20, sent-22)
+det(client-25, the-24)
+prep_to(captured-20, client-25)
+
+Example/NN :/: 
+
+(ROOT (NP (NN Example) (: :)))
+
+root(ROOT-0, Example-1)
+
+contents/NNS of/IN test.cmd/NN 
+
+(ROOT (NP (NP (NNS contents)) (PP (IN of) (NP (NN test.cmd)))))
+
+root(ROOT-0, contents-1)
+prep_of(contents-1, test.cmd-3)
+
+--------------------/CD 
+
+(ROOT (FRAG (NP (CD --------------------))))
+
+root(ROOT-0, ---------------------1)
+
+@echo/VB off/RP 
+
+(ROOT (S (VP (VB @echo) (PRT (RP off)))))
+
+root(ROOT-0, @echo-1)
+prt(@echo-1, off-2)
+
+echo/VB Content-type/JJ :/: text/plain/NN 
+
+(ROOT (S (VP (VB echo) (NP (NP (JJ Content-type)) (: :) (NP (NN text/plain))))))
+
+root(ROOT-0, echo-1)
+dobj(echo-1, Content-type-2)
+dep(Content-type-2, text/plain-4)
+
+echo/VB ./. 
+
+(ROOT (S (VP (VB echo)) (. .)))
+
+root(ROOT-0, echo-1)
+
+echo/VB pinging/VBG 192.168.0.160/CD 
+
+(ROOT (S (VP (VB echo) (NP (VBG pinging) (NP (CD 192.168.0.160))))))
+
+root(ROOT-0, echo-1)
+amod(192.168.0.160-3, pinging-2)
+dobj(echo-1, 192.168.0.160-3)
+
+ping.exe/NN 192.168.0.160/CD 
+
+(ROOT (NP (NN ping.exe) (CD 192.168.0.160)))
+
+root(ROOT-0, ping.exe-1)
+num(ping.exe-1, 192.168.0.160-2)
+
+echo/VB done/VBN 
+
+(ROOT (S (VP (VB echo) (VP (VBN done)))))
+
+root(ROOT-0, echo-1)
+dep(echo-1, done-2)
+
+--------------------/CD 
+
+(ROOT (FRAG (NP (CD --------------------))))
+
+root(ROOT-0, ---------------------1)
+
+The/DT host/NN is/VBZ pinged/VBN ,/, thus/RB the/DT ping.exe/NN is/VBZ executed/VBN (/-LRB- I/PRP can/MD see/VB the/DT ICMP/NN packets/NNS with/IN Ethereal/NNP ,/, but/CC the/DT output/NN of/IN the/DT ping/NN program/NN does/VBZ not/RB appear/VB in/IN the/DT browser/NN window/NN (/-LRB- only/RB the/DT text/NN '/`` pinging/VBG 192.168.2.160/CD '/'' and/CC '/`` done/VBN '/'' )/-RRB- ./. 
+
+(ROOT (S (S (NP (DT The) (NN host)) (VP (VBZ is) (VP (VBN pinged)))) (, ,) (RB thus) (S (NP (DT the) (NN ping.exe)) (VP (VBZ is) (VP (VBN executed) (PRN (-LRB- -LRB-) (S (S (NP (PRP I)) (VP (MD can) (VP (VB see) (NP (DT the) (NN ICMP) (NNS packets)) (PP (IN with) (NP (NNP Ethereal)))))) (, ,) (CC but) (S (NP (NP (DT the) (NN output)) (PP (IN of) (NP (DT the) (NN ping) (NN program)))) (VP (VBZ does) (RB not) (VP (VB appear) (PRT (IN in)) (NP (NP (DT the) (NN browser)) (SBAR (S (NP (NP (NN window)) (-LRB- -LRB-) (PP (RB only) (NP (DT the)))) (VP (NN text) (S (`` `) (S (VP (VBG pinging) (NP (CD 192.168.2.160)))) ('' ') (CC and) (`` `) (S (VP (VBN done)))))))) ('' '))))) (-RRB- -RRB-))))) (. .)))
+
+root(ROOT-0, pinged-4)
+det(host-2, The-1)
+nsubjpass(pinged-4, host-2)
+auxpass(pinged-4, is-3)
+advmod(pinged-4, thus-6)
+det(ping.exe-8, the-7)
+nsubjpass(executed-10, ping.exe-8)
+auxpass(executed-10, is-9)
+parataxis(pinged-4, executed-10)
+nsubj(see-14, I-12)
+aux(see-14, can-13)
+parataxis(executed-10, see-14)
+det(packets-17, the-15)
+nn(packets-17, ICMP-16)
+dobj(see-14, packets-17)
+prep_with(see-14, Ethereal-19)
+det(output-23, the-22)
+nsubj(appear-30, output-23)
+det(program-27, the-25)
+nn(program-27, ping-26)
+prep_of(output-23, program-27)
+aux(appear-30, does-28)
+neg(appear-30, not-29)
+parataxis(executed-10, appear-30)
+conj_but(see-14, appear-30)
+prt(appear-30, in-31)
+det(browser-33, the-32)
+dobj(appear-30, browser-33)
+nsubj(text-38, window-34)
+prep(window-34, only-36)
+pobj(only-36, the-37)
+rcmod(browser-33, text-38)
+dep(text-38, pinging-40)
+dobj(pinging-40, 192.168.2.160-41)
+dep(text-38, done-45)
+conj_and(pinging-40, done-45)
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>42731</id>
+	<title>mod_rewrite redirects weirdly or ignores [L]</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">.</sentence>
+			<sentence id="1.2">htaccess in root directory:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">RewriteEngine On
+RewriteBase /
+RewriteRule ^Admin$ admin.php [L]
+RewriteRule (.</sentence>
+			<sentence id="2.2">*) index.php?file=$1 [QSA,L]</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For testing purposes, index.php echoes the value of the 'file' param.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">If I try to access mydomain.tld/Admin now, I'm being redirected to
+mydomain.tld/Admin/?</sentence>
+			<sentence id="4.2">file=Admin (and the output of index.php is "Admin").</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I replaced the third line with the following:
+RewriteRule ^foo\.</sentence>
+			<sentence id="5.2">php$ admin.php [L]</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">For some reason, Apache ignored the "[L]" and continued with the second
+RewriteRule.</sentence>
+			<sentence id="6.2">The output of index.php was "admin.php".</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">It finally worked when I tried the following:
+RewriteRule ^admin\.php$ admin.php [L]</sentence>
+		</paragraph>
+	</description>
+</bug>

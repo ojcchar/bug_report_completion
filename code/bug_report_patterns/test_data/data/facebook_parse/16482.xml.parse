@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16482</id>
+	<title>migrations.getStatuses doesn t support OAuth</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I m trying to call migrations.getStatuses with the PHP SDK and I get back the following error:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Uncaught Exception: 15: The method you are calling must be called with an app secret signed session</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">According to http://developers.facebook.com/docs/reference/rest/migrations.getStatuses/ _  it seems that no one has updated this method to support OAuth as http://developers.facebook.com/docs/reference/rest/ indicates.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Here s the code I m using:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">$fb = new Facebook(array(
+\t appId   =&gt; $appid_
+\t secret  =&gt; $appsecret_
+\t cookie  =&gt; true_
+\t domain  =&gt; $cookiedomain
+));</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">$result = $fb-&gt;api(array(
+\t method  =&gt;  migrations.getStatuses 
+));</sentence>
+		</paragraph>
+	</description>
+</bug>

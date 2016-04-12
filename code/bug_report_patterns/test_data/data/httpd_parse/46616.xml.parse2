@@ -1,0 +1,252 @@
+When/WRB using/VBG "/`` rotatelogs/NNS "/'' with/IN "/'' -/: l/NN "/'' option/NN and/CC a/DT "/'' %/NN "/'' in/IN filename/NN (/-LRB- triggering/VBG calling/VBG strftime/NN to/TO get/VB actual/JJ file/NN name/NN )/-RRB- ,/, the/DT exploded/VBD time/NN information/NN passed/VBD to/TO strftime/NN is/VBZ in/IN UTC/NNP (/-LRB- because/IN apr_time_exp_gmt/NN (/-LRB- )/-RRB- is/VBZ called/VBN ?/. )/-RRB- 
+
+(ROOT (S (SBAR (WHADVP (WRB When)) (S (VP (VP (VBG using) (NP (NP (NP (`` ``) (NNS rotatelogs) ('' '')) (PP (IN with))) ('' '') (: -) (NP (NN l) ('' '') (NN option)) (CC and) (NP (DT a))) ('' '') (PP (NN %)) ('' '') (PP (IN in) (NP (NN filename)))) (PRN (-LRB- -LRB-) (S (VP (VBG triggering) (S (VP (VBG calling) (NP (NN strftime)) (S (VP (TO to) (VP (VB get) (NP (JJ actual) (NN file) (NN name))))))))) (-RRB- -RRB-))))) (, ,) (NP (DT the)) (VP (VBD exploded) (SBAR (S (NP (NN time) (NN information)) (VP (VBD passed) (PP (TO to) (NP (NP (NN strftime)) (SBAR (S (VP (VBZ is) (SBAR (IN in) (S (NP (NP (NNP UTC)) (PRN (-LRB- -LRB-) (PP (IN because) (NP (NN apr_time_exp_gmt) (-LRB- -LRB-))) (-RRB- -RRB-))) (VP (VBZ is) (VP (VBN called)))))))))))))) (. ?) (-RRB- -RRB-)))
+
+root(ROOT-0, exploded-31)
+advmod(using-2, When-1)
+advcl(exploded-31, using-2)
+dobj(using-2, rotatelogs-4)
+prep(rotatelogs-4, with-6)
+nn(option-11, l-9)
+dobj(using-2, option-11)
+conj_and(rotatelogs-4, option-11)
+dobj(using-2, a-13)
+conj_and(rotatelogs-4, a-13)
+prep(using-2, %-15)
+prep_in(using-2, filename-18)
+parataxis(using-2, triggering-20)
+vmod(triggering-20, calling-21)
+dobj(calling-21, strftime-22)
+aux(get-24, to-23)
+vmod(calling-21, get-24)
+amod(name-27, actual-25)
+nn(name-27, file-26)
+dobj(get-24, name-27)
+nsubj(exploded-31, the-30)
+nn(information-33, time-32)
+nsubj(passed-34, information-33)
+ccomp(exploded-31, passed-34)
+prep_to(passed-34, strftime-36)
+rcmod(strftime-36, is-37)
+mark(called-46, in-38)
+nsubjpass(called-46, UTC-39)
+prep_because(UTC-39, apr_time_exp_gmt-42)
+auxpass(called-46, is-45)
+advcl(is-37, called-46)
+
+So/RB using/VBG the/DT following/VBG line/NN "/`` rotatelogs/NNS -/: l/NN log/NN //: %/NN Y/NN -/: %/NN m/NN -/: %/NN d/NN 3600/CD "/'' creates/VBZ log/NN files/NNS properly/RB following/VBG DST/NNP changes/NNS but/CC the/DT names/NNS of/IN those/DT files/NNS follow/VBP UTC/NNP values/NNS ./. 
+
+(ROOT (S (S (RB So) (VP (VBG using) (NP (DT the) (VBG following) (NN line)))) (NP (`` ``) (NP (NNS rotatelogs)) (PRN (: -) (FRAG (NP-TMP (NP (NN l)) (NP (NN log))) (: /) (NP (NP (NN %) (NN Y)) (: -) (NP (NP (NN %)) (NP (NN m))) (: -) (NP (NN %) (NN d))))) (NP (CD 3600)) ('' '')) (VP (VBZ creates) (SBAR (S (NP (NP (NN log) (NNS files)) (PP (ADVP (RB properly)) (VBG following) (NP (NP (NNP DST) (NNS changes)) (PP (CC but) (NP (NP (DT the) (NNS names)) (PP (IN of) (NP (DT those) (NNS files)))))))) (VP (VBP follow) (NP (NNP UTC) (NNS values)))))) (. .)))
+
+root(ROOT-0, creates-22)
+advmod(using-2, So-1)
+dep(creates-22, using-2)
+det(line-5, the-3)
+amod(line-5, following-4)
+dobj(using-2, line-5)
+nsubj(creates-22, rotatelogs-7)
+dep(rotatelogs-7, l-9)
+dep(l-9, log-10)
+punct(l-9, /-11)
+nn(Y-13, %-12)
+dep(l-9, Y-13)
+dep(Y-13, %-15)
+dep(%-15, m-16)
+nn(d-19, %-18)
+dep(Y-13, d-19)
+dep(rotatelogs-7, 3600-20)
+nn(files-24, log-23)
+nsubj(follow-35, files-24)
+advmod(files-24, properly-25)
+nn(changes-28, DST-27)
+prep_following(files-24, changes-28)
+prep(changes-28, but-29)
+det(names-31, the-30)
+pobj(but-29, names-31)
+det(files-34, those-33)
+prep_of(names-31, files-34)
+ccomp(creates-22, follow-35)
+nn(values-37, UTC-36)
+dobj(follow-35, values-37)
+
+For/IN instance/NN in/IN time/NN zone/NN "/`` Europe/Paris/NNP "/'' (/-LRB- GMT/NNP +1/CD with/IN DST/NN )/-RRB- the/DT files/NNS end/NN in/IN localtime/NN at/IN 0:59:59/CD in/IN winter/NN and/CC 1:59:59/CD in/IN summer/NN :/: thus/RB starting/VBG today/NN (/-LRB- in/IN winter/NN )/-RRB- httpd/NN at/IN 0:30:00/CD will/MD output/NN 30/CD minutes/NNS in/IN a/DT log/NN named/VBN "/`` yesterday/NN "/'' then/RB switch/VB at/IN 1:00:00/CD to/TO "/`` today/NN 's/VBZ "/'' date/NN ./. 
+
+(ROOT (S (PP (IN For) (NP (NP (NN instance)) (PP (IN in) (NP (NP (NN time) (NN zone)) (PP (NP (`` ``) (NP (NNP Europe/Paris)) ('' '') (PRN (-LRB- -LRB-) (NP (NP (NNP GMT) (CD +1)) (PP (IN with) (NP (NN DST)))) (-RRB- -RRB-))) (NP (NP (DT the) (NNS files) (NN end)) (PP (IN in) (NP (NP (NP (NN localtime)) (PP (IN at) (NP (NP (NP (CD 0:59:59)) (PP (IN in) (NP (NN winter)))) (CC and) (NP (NP (CD 1:59:59)) (PP (IN in) (NP (NN summer))))))) (: :) (S (ADVP (RB thus)) (VP (VP (VBG starting) (NP-TMP (NN today))) (PRN (-LRB- -LRB-) (PP (IN in) (NP (NN winter))) (-RRB- -RRB-)))))))))))) (NP (NP (NN httpd)) (PP (IN at) (NP (CD 0:30:00)))) (VP (MD will) (X (NP (NN output)) (SBAR (NP (CD 30) (NNS minutes)) (IN in) (S (NP (DT a) (NN log)) (VP (VBN named) (S (NP (`` ``) (NN yesterday) ('' '')) (ADVP (RB then))))))) (VP (VB switch) (ADVP (IN at) (NP (CD 1:00:00)) (PP (TO to))) (NP (`` ``) (S (NP (NN today)) (VP (VBZ 's))) ('' '') (NN date)))) (. .)))
+
+root(ROOT-0, switch-51)
+prep_for(switch-51, instance-2)
+nn(zone-5, time-4)
+prep_in(instance-2, zone-5)
+prep(zone-5, Europe/Paris-7)
+dep(Europe/Paris-7, GMT-10)
+num(GMT-10, +1-11)
+prep_with(GMT-10, DST-13)
+det(end-17, the-15)
+nn(end-17, files-16)
+dep(Europe/Paris-7, end-17)
+prep_in(end-17, localtime-19)
+prep_at(localtime-19, 0:59:59-21)
+prep_in(0:59:59-21, winter-23)
+prep_at(localtime-19, 1:59:59-25)
+conj_and(0:59:59-21, 1:59:59-25)
+prep_in(1:59:59-25, summer-27)
+advmod(starting-30, thus-29)
+dep(localtime-19, starting-30)
+tmod(starting-30, today-31)
+dep(starting-30, in-33)
+pobj(in-33, winter-34)
+nsubj(switch-51, httpd-36)
+prep_at(httpd-36, 0:30:00-38)
+aux(switch-51, will-39)
+dep(switch-51, output-40)
+num(minutes-42, 30-41)
+dep(named-46, minutes-42)
+mark(named-46, in-43)
+det(log-45, a-44)
+nsubj(named-46, log-45)
+dep(output-40, named-46)
+dep(named-46, yesterday-48)
+advmod(yesterday-48, then-50)
+advmod(switch-51, at-52)
+pobj(at-52, 1:00:00-53)
+prep(at-52, to-54)
+nsubj('s-57, today-56)
+dep(date-59, 's-57)
+dobj(switch-51, date-59)
+
+Since/IN using/VBG the/DT "/'' -/: l/NN "/'' option/NN means/VBZ something/NN like/IN "/`` use/NN localtime/NN not/RB GMT/NNP +/CC offset/VBN "/'' it/PRP would/MD be/VB neat/JJ to/TO have/VB the/DT log/NN name/NN in/IN localtime/NN as/RB well/RB ./. 
+
+(ROOT (S (PP (IN Since) (S (VP (VP (VBG using) (NP (DT the)) ('' '')) (: -) (NP (NP (NN l)) ('' '') (SBAR (S (NP (NN option)) (VP (VBZ means) (NP (NN something)) (PP (IN like) (`` ``) (NP (NP (NN use) (NN localtime)) (SBAR (S (NP (RB not) (NNP GMT)) (VP (CC +) (VP (VBN offset)))))) ('' ''))))))))) (NP (PRP it)) (VP (MD would) (VP (VB be) (ADJP (JJ neat) (S (VP (TO to) (VP (VB have) (NP (NP (DT the) (NN log) (NN name)) (PP (IN in) (NP (NN localtime)))) (ADVP (RB as) (RB well)))))))) (. .)))
+
+root(ROOT-0, neat-23)
+prepc_since(neat-23, using-2)
+dobj(using-2, the-3)
+dobj(using-2, l-6)
+nsubj(means-9, option-8)
+rcmod(l-6, means-9)
+dobj(means-9, something-10)
+nn(localtime-14, use-13)
+prep_like(means-9, localtime-14)
+neg(GMT-16, not-15)
+nsubj(offset-18, GMT-16)
+cc(offset-18, +-17)
+rcmod(localtime-14, offset-18)
+nsubj(neat-23, it-20)
+aux(neat-23, would-21)
+cop(neat-23, be-22)
+aux(have-25, to-24)
+xcomp(neat-23, have-25)
+det(name-28, the-26)
+nn(name-28, log-27)
+dobj(have-25, name-28)
+prep_in(name-28, localtime-30)
+advmod(well-32, as-31)
+advmod(have-25, well-32)
+
+*****/NN rotatelogs.c/NN 
+
+(ROOT (NP (NN *****) (NN rotatelogs.c)))
+
+root(ROOT-0, rotatelogs.c-2)
+nn(rotatelogs.c-2, *****-1)
+
+246/CD :/: 
+
+(ROOT (NP (CD 246) (: :)))
+
+root(ROOT-0, 246-1)
+
+247/CD :/: apr_time_exp_gmt/NN (/-LRB- &/CC e/LS ,/, tNow/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (CD 247)) (: :) (NP (NP (NN apr_time_exp_gmt)) (PRN (-LRB- -LRB-) (NP (NP (CC &) (LS e)) (, ,) (NP (NN tNow))) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, 247-1)
+dep(247-1, apr_time_exp_gmt-3)
+dep(apr_time_exp_gmt-3, &-5)
+dep(&-5, e-6)
+appos(&-5, tNow-8)
+
+248/CD :/: apr_strftime/NN (/-LRB- buf2/NN ,/, &/CC rs/NNS ,/, sizeof/NN (/-LRB- buf2/NN )/-RRB- ,/, szLogRoot/NN ,/, &/CC e/LS )/-RRB- ;/: 
+
+(ROOT (NP (NP (CD 248)) (: :) (NP (NP (NN apr_strftime)) (-LRB- -LRB-) (NP (NP (NP (NN buf2)) (, ,) (CC &) (NP (NNS rs)) (, ,)) (NP (NP (NP (NN sizeof)) (PRN (-LRB- -LRB-) (NP (NN buf2)) (-RRB- -RRB-)) (, ,) (NP (NN szLogRoot))) (, ,) (CC &) (NP (LS e)) (-RRB- -RRB-))) (: ;))))
+
+root(ROOT-0, 248-1)
+dep(248-1, apr_strftime-3)
+dep(apr_strftime-3, buf2-5)
+dep(apr_strftime-3, rs-8)
+conj_and(buf2-5, rs-8)
+dep(buf2-5, sizeof-10)
+appos(sizeof-10, buf2-12)
+appos(sizeof-10, szLogRoot-15)
+dep(buf2-5, e-18)
+conj_and(sizeof-10, e-18)
+
+*****/NN rotatelogs.new.c/NN 
+
+(ROOT (NP (NN *****) (NN rotatelogs.new.c)))
+
+root(ROOT-0, rotatelogs.new.c-2)
+nn(rotatelogs.new.c-2, *****-1)
+
+246/CD :/: 
+
+(ROOT (NP (CD 246) (: :)))
+
+root(ROOT-0, 246-1)
+
+247/CD :/: if/IN (/-LRB- use_localtime/JJ )/-RRB- 
+
+(ROOT (NP (NP (CD 247)) (: :) (NP (NP (ADJP (IN if))) (PRN (-LRB- -LRB-) (ADJP (JJ use_localtime)) (-RRB- -RRB-)))))
+
+root(ROOT-0, 247-1)
+dep(247-1, if-3)
+dep(if-3, use_localtime-5)
+
+248/CD :/: apr_time_exp_lt/NN (/-LRB- &/CC e/LS ,/, tNow/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (CD 248)) (: :) (NP (NP (NN apr_time_exp_lt)) (PRN (-LRB- -LRB-) (NP (NP (CC &) (LS e)) (, ,) (NP (NN tNow))) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, 248-1)
+dep(248-1, apr_time_exp_lt-3)
+dep(apr_time_exp_lt-3, &-5)
+dep(&-5, e-6)
+appos(&-5, tNow-8)
+
+249/CD :/: else/RB 
+
+(ROOT (NP (NP (CD 249)) (: :) (NP (RB else))))
+
+root(ROOT-0, 249-1)
+dep(249-1, else-3)
+
+250/CD :/: apr_time_exp_gmt/NN (/-LRB- &/CC e/LS ,/, tNow/NN )/-RRB- ;/: 
+
+(ROOT (NP (NP (NP (CD 250)) (: :) (NP (NP (NN apr_time_exp_gmt)) (PRN (-LRB- -LRB-) (NP (NP (CC &) (LS e)) (, ,) (NP (NN tNow))) (-RRB- -RRB-)))) (: ;)))
+
+root(ROOT-0, 250-1)
+dep(250-1, apr_time_exp_gmt-3)
+dep(apr_time_exp_gmt-3, &-5)
+dep(&-5, e-6)
+appos(&-5, tNow-8)
+
+251/CD :/: apr_strftime/NN (/-LRB- buf2/NN ,/, &/CC rs/NNS ,/, sizeof/NN (/-LRB- buf2/NN )/-RRB- ,/, szLogRoot/NN ,/, &/CC e/LS )/-RRB- ;/: 
+
+(ROOT (NP (NP (CD 251)) (: :) (NP (NP (NN apr_strftime)) (-LRB- -LRB-) (NP (NP (NP (NN buf2)) (, ,) (CC &) (NP (NNS rs)) (, ,)) (NP (NP (NP (NN sizeof)) (PRN (-LRB- -LRB-) (NP (NN buf2)) (-RRB- -RRB-)) (, ,) (NP (NN szLogRoot))) (, ,) (CC &) (NP (LS e)) (-RRB- -RRB-))) (: ;))))
+
+root(ROOT-0, 251-1)
+dep(251-1, apr_strftime-3)
+dep(apr_strftime-3, buf2-5)
+dep(apr_strftime-3, rs-8)
+conj_and(buf2-5, rs-8)
+dep(buf2-5, sizeof-10)
+appos(sizeof-10, buf2-12)
+appos(sizeof-10, szLogRoot-15)
+dep(buf2-5, e-18)
+conj_and(sizeof-10, e-18)
+
+*****/NN 
+
+(ROOT (NP (NN *****)))
+
+root(ROOT-0, *****-1)
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>25025</id>
+	<title>config.layout change for RedHat 9</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The file config.layout needs to be updated to reflect the current structure of
+RedHat 9.</sentence>
+			<sentence id="1.2">This usually is not a problem except for the case where one builds an
+updated version of httpd with axps support.</sentence>
+			<sentence id="1.3">In this case, the installbuilddir
+is incorrect, making it impossible to build DSOs such as Mod_Python.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">config.layout needs to have the RedHat layout changed from</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">installbuilddir: ${datadir}/build</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">to</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">installbuilddir: ${libdir}/build</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">While we're at it, the entries which include apache2 as part of the path need to
+be changed to httpd:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">libexecdir:    ${prefix}/lib/httpd
+includedir:    ${prefix}/include/httpd
+logfiledir:    ${localstatedir}/log/httpd
+proxycachedir: ${localstatedir}/cache/httpd</sentence>
+		</paragraph>
+	</description>
+</bug>

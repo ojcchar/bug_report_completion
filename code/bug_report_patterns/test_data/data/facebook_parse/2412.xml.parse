@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2412</id>
+	<title>comment_text included in app_params twice</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">app_params =&gt;{ word =&gt; blue _  comment_text =&gt; boo hoo.</sentence>
+			<sentence id="1.2">boo_ boo_ hoo.</sentence>
+			<sentence id="1.3">_  6779372351_comment_text =&gt; boo hoo.</sentence>
+			<sentence id="1.4">boo_ boo_ hoo. }</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">looks like one of those scoping things you guys do re adding and stripping the app id from the form variables.</sentence>
+			<sentence id="2.2">It s getting stripped but then still included as the un-stripped version.</sentence>
+		</paragraph>
+	</description>
+</bug>

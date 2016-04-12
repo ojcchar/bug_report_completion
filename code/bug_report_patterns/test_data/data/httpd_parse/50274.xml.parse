@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>50274</id>
+	<title>always pass CONTENT_LENGTH to the application</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">FastCGI spec indicates that CONTENT_LENGTH will be provided to the
+app, even though the request body will be sent to the application in
+chunks.</sentence>
+			<sentence id="1.2">Furthermore, it suggests that the app could compare
+CONTENT_LENGTH with the actual length received to determine if the
+client aborted before sending the entire body.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">mod_fastcgi: as with mod_cgi/mod_cgid: the request fails with 411 if
+the client doesn't send content-length</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">mod_fcgid: request is fine if client doesn't send content-length, but
+application doesn't get CONTENT_LENGTH (bug)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">mod_fcgid spools the entire body to memory/disk before connecting to
+the app, so it should go ahead and pass over a computed CONTENT_LENGTH
+value; that would also resolve a Content-Length value from the client
+which becomes invalid because of a filter.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">http://mail-archives.apache.org/mod_mbox/httpd-users/201011.mbox/%3C4CE100C5.5030502@comp.lancs.ac.uk%3E</sentence>
+		</paragraph>
+	</description>
+</bug>

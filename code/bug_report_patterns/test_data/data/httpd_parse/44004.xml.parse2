@@ -1,0 +1,275 @@
+While/IN I/PRP was/VBD looking/VBG at/IN rotatelogs.c/NN searching/VBG for/IN the/DT reason/NN of/IN the/DT cryptic/JJ docs/NNS warning/VBG about/IN using/VBG "/'' -/: l/NN "/'' ,/, I/PRP had/VBD the/DT idea/NN for/IN slight/JJ improvements/NNS ./. 
+
+(ROOT (S (SBAR (IN While) (S (NP (PRP I)) (VP (VBD was) (VP (VBG looking) (PP (IN at) (NP (NP (NN rotatelogs.c)) (VP (VBG searching) (PP (IN for) (NP (NP (DT the) (NN reason)) (PP (IN of) (NP (NP (DT the) (JJ cryptic) (NNS docs)) (VP (VBG warning) (PP (IN about) (S (VP (VBG using) ('' ''))))) (: -) (NP (NN l)))) ('' '')))))))))) (, ,) (NP (PRP I)) (VP (VBD had) (NP (NP (DT the) (NN idea)) (PP (IN for) (NP (JJ slight) (NNS improvements))))) (. .)))
+
+root(ROOT-0, had-24)
+mark(looking-4, While-1)
+nsubj(looking-4, I-2)
+aux(looking-4, was-3)
+advcl(had-24, looking-4)
+prep_at(looking-4, rotatelogs.c-6)
+vmod(rotatelogs.c-6, searching-7)
+det(reason-10, the-9)
+prep_for(searching-7, reason-10)
+det(docs-14, the-12)
+amod(docs-14, cryptic-13)
+prep_of(reason-10, docs-14)
+vmod(docs-14, warning-15)
+prepc_about(warning-15, using-17)
+dep(docs-14, l-20)
+nsubj(had-24, I-23)
+det(idea-26, the-25)
+dobj(had-24, idea-26)
+amod(improvements-29, slight-28)
+prep_for(idea-26, improvements-29)
+
+I/PRP 'll/MD attach/VB a/DT small/JJ patch/NN ,/, that/WDT includes/VBZ :/: 
+
+(ROOT (S (NP (PRP I)) (VP (MD 'll) (VP (VB attach) (NP (NP (DT a) (JJ small) (NN patch)) (, ,) (SBAR (WHNP (WDT that)) (S (VP (VBZ includes))))))) (: :)))
+
+root(ROOT-0, attach-3)
+nsubj(attach-3, I-1)
+aux(attach-3, 'll-2)
+det(patch-6, a-4)
+amod(patch-6, small-5)
+dobj(attach-3, patch-6)
+nsubj(includes-9, that-8)
+rcmod(patch-6, includes-9)
+
+-/: when/WRB using/VBG "/'' -/: l/NN "/'' reduce/VB two/CD consecutive/JJ calls/NNS to/TO apr_time_now/NN (/-LRB- )/-RRB- to/TO one/CD ./. 
+
+(ROOT (S (: -) (S (SBAR (WHADVP (WRB when)) (S (VP (VBG using) ('' '')))) (: -) (S (NP (NP (NN l) ('' '')) (SBAR (S (VP (VB reduce) (NP (CD two) (JJ consecutive) (NNS calls))))))) (NP (TO to)) (VP (ADVP (NN apr_time_now)) (-LRB- -LRB-) (-RRB- -RRB-) (NP (PP (TO to)) (NP (CD one))))) (. .)))
+
+root(ROOT-0, one-17)
+advmod(using-3, when-2)
+advcl(one-17, using-3)
+parataxis(one-17, l-6)
+rcmod(l-6, reduce-8)
+num(calls-11, two-9)
+amod(calls-11, consecutive-10)
+dobj(reduce-8, calls-11)
+nsubj(one-17, to-12)
+advmod(one-17, apr_time_now-13)
+prep(one-17, to-16)
+
+This/DT will/MD not/RB change/VB the/DT logic/NN if/IN no/DT "/'' -/: l/NN "/'' gets/VBZ used/VBN ,/, and/CC it/PRP will/MD spare/VB 
+
+(ROOT (S (S (NP (DT This)) (VP (MD will) (RB not) (VP (VB change) (NP (DT the) (NN logic)) (ADVP (IN if) (DT no)) ('' '') (: -) (NP (NP (NN l)) ('' '') (SBAR (S (VP (VBZ gets) (VP (VBN used))))))))) (, ,) (CC and) (S (NP (PRP it)) (VP (MD will) (VP (VB spare))))))
+
+root(ROOT-0, change-4)
+nsubj(change-4, This-1)
+aux(change-4, will-2)
+neg(change-4, not-3)
+det(logic-6, the-5)
+dobj(change-4, logic-6)
+advmod(change-4, if-7)
+dep(if-7, no-8)
+parataxis(change-4, l-11)
+auxpass(used-14, gets-13)
+rcmod(l-11, used-14)
+nsubj(spare-19, it-17)
+aux(spare-19, will-18)
+conj_and(change-4, spare-19)
+
+one/CD call/NN to/TO apr_time_now/NN (/-LRB- )/-RRB- in/IN case/NN "/'' -/: l/NN "/'' gets/VBZ used/VBN and/CC more/RBR important/JJ 
+
+(ROOT (S (NP (NP (CD one) (NN call)) (PP (TO to) (NP (NP (NP (NN apr_time_now)) (-LRB- -LRB-) (NP (NP (-RRB- -RRB-)) (PP (IN in) (NP (NN case) ('' '')))) (: -)) (NP-TMP (NN l)))) ('' '')) (VP (VBZ gets) (UCP (VP (VBN used)) (CC and) (ADJP (RBR more) (JJ important))))))
+
+root(ROOT-0, gets-13)
+num(call-2, one-1)
+nsubj(gets-13, call-2)
+prep_to(call-2, apr_time_now-4)
+prep_in(-RRB--6, case-8)
+tmod(apr_time_now-4, l-11)
+dep(gets-13, used-14)
+advmod(important-17, more-16)
+dep(gets-13, important-17)
+conj_and(used-14, important-17)
+
+it/PRP gives/VBZ the/DT code/NN better/RBR atomicity/NN ,/, because/IN in/IN fact/NN between/IN the/DT two/CD calls/NNS 
+
+(ROOT (S (NP (PRP it)) (VP (VBZ gives) (NP (ADVP (NP (DT the) (NN code)) (RBR better)) (NN atomicity)) (, ,) (PP (IN because) (IN in) (NP (NP (NN fact)) (PP (IN between) (NP (DT the) (CD two) (NNS calls))))))))
+
+root(ROOT-0, gives-2)
+nsubj(gives-2, it-1)
+det(code-4, the-3)
+npadvmod(better-5, code-4)
+advmod(atomicity-6, better-5)
+dobj(gives-2, atomicity-6)
+mwe(gives-2, because-8)
+prep_in(gives-2, fact-10)
+det(calls-14, the-12)
+num(calls-14, two-13)
+prep_between(fact-10, calls-14)
+
+there/EX is/VBZ a/DT slight/JJ change/NN of/IN jumping/VBG oder/NN the/DT DST/NNP boundary/NN 
+
+(ROOT (S (NP (EX there)) (VP (VBZ is) (NP (NP (DT a) (JJ slight) (NN change)) (PP (IN of) (S (VP (VBG jumping) (S (NP (NN oder)) (NP (DT the) (NNP DST) (NN boundary))))))))))
+
+root(ROOT-0, is-2)
+expl(is-2, there-1)
+det(change-5, a-3)
+amod(change-5, slight-4)
+nsubj(is-2, change-5)
+prepc_of(change-5, jumping-7)
+nsubj(boundary-11, oder-8)
+det(boundary-11, the-9)
+nn(boundary-11, DST-10)
+xcomp(jumping-7, boundary-11)
+
+-/: for/IN historic/JJ reasons/NNS the/DT same/JJ code/NN block/NN is/VBZ used/VBN two/CD times/NNS with/IN a/DT 
+
+(ROOT (PRN (: -) (PP (IN for) (NP (NP (JJ historic) (NNS reasons)) (SBAR (S (NP (DT the) (JJ same) (NN code) (NN block)) (VP (VBZ is) (VP (VBN used) (NP-TMP (CD two) (NNS times)) (PP (IN with) (NP (DT a)))))))))))
+
+root(ROOT-0, for-2)
+amod(reasons-4, historic-3)
+pobj(for-2, reasons-4)
+det(block-8, the-5)
+amod(block-8, same-6)
+nn(block-8, code-7)
+nsubjpass(used-10, block-8)
+auxpass(used-10, is-9)
+rcmod(reasons-4, used-10)
+num(times-12, two-11)
+tmod(used-10, times-12)
+prep_with(used-10, a-14)
+
+slightly/RB different/JJ way/NN of/IN transforming/VBG apr_time_t/NN to/TO int/VB 
+
+(ROOT (FRAG (ADVP (RB slightly)) (NP (NP (JJ different) (NN way)) (PP (IN of) (S (VP (VBG transforming) (NP (NN apr_time_t)) (S (VP (TO to) (VP (VB int))))))))))
+
+root(ROOT-0, way-3)
+dep(way-3, slightly-1)
+amod(way-3, different-2)
+prepc_of(way-3, transforming-5)
+dobj(transforming-5, apr_time_t-6)
+aux(int-8, to-7)
+vmod(transforming-5, int-8)
+
+(/-LRB- once/RB division/NN by/IN APR_USEC_PER_SEC/NN ,/, once/RB call/VB to/TO apr_time_sec/NN (/-LRB- )/-RRB- )/-RRB- ,/, 
+
+(ROOT (NP (-LRB- -LRB-) (NP (RB once) (NN division)) (PP (PP (IN by) (NP (NN APR_USEC_PER_SEC))) (, ,) (RB once) (ADVP (VB call)) (PP (TO to) (NP (NP (NN apr_time_sec)) (PRN (-LRB- -LRB-) (NP (-RRB- -RRB-)) (-RRB- -RRB-)))) (, ,))))
+
+root(ROOT-0, division-3)
+advmod(division-3, once-2)
+prep_by(division-3, APR_USEC_PER_SEC-5)
+dep(division-3, once-7)
+dep(division-3, call-8)
+prep_to(division-3, apr_time_sec-10)
+
+so/RB let/VB 's/POS unify/VB it/PRP ./. 
+
+(ROOT (S (RB so) (VP (VB let) (S (NP (POS 's)) (VP (VB unify) (NP (PRP it))))) (. .)))
+
+root(ROOT-0, let-2)
+advmod(let-2, so-1)
+nsubj(unify-4, 's-3)
+ccomp(let-2, unify-4)
+dobj(unify-4, it-5)
+
+-/: finally/RB move/VB the/DT block/NN into/IN a/DT function/NN ,/, because/IN it/PRP gets/VBZ used/VBN already/RB 
+
+(ROOT (PRN (: -) (S (VP (ADVP (RB finally)) (VB move) (NP (NP (DT the) (NN block)) (PP (IN into) (NP (NP (DT a) (NN function)) (, ,) (SBAR (IN because) (S (NP (PRP it)) (VP (VBZ gets) (VP (VBN used) (ADVP (RB already)))))))))))))
+
+root(ROOT-0, move-3)
+advmod(move-3, finally-2)
+det(block-5, the-4)
+dobj(move-3, block-5)
+det(function-8, a-7)
+prep_into(block-5, function-8)
+mark(used-13, because-10)
+nsubjpass(used-13, it-11)
+auxpass(used-13, gets-12)
+rcmod(function-8, used-13)
+advmod(used-13, already-14)
+
+two/CD times/NNS ./. 
+
+(ROOT (NP (CD two) (NNS times) (. .)))
+
+root(ROOT-0, times-2)
+num(times-2, two-1)
+
+Note/VB that/IN the/DT patch/NN eliminates/VBZ a/DT side/JJ effect/NN ,/, namely/RB in/IN case/NN use_localtime/NN is/VBZ true/JJ the/DT global/JJ variable/JJ utc_offset/NN could/MD change/VB in/IN main/JJ (/-LRB- )/-RRB- ./. 
+
+(ROOT (S (NP (NP (VB Note)) (SBAR (IN that) (S (NP (DT the) (NN patch)) (VP (VBZ eliminates) (NP (DT a) (JJ side) (NN effect)) (, ,) (ADVP (RB namely)) (PP (IN in) (NP (NN case) (NN use_localtime))))))) (VP (VBZ is) (ADJP (JJ true) (SBAR (S (NP (DT the) (JJ global) (JJ variable) (NN utc_offset)) (VP (MD could) (VP (VB change) (PP (IN in) (NP (JJ main) (-LRB- -LRB-))))))))) (-RRB- -RRB-) (. .)))
+
+root(ROOT-0, true-15)
+nsubj(true-15, Note-1)
+mark(eliminates-5, that-2)
+det(patch-4, the-3)
+nsubj(eliminates-5, patch-4)
+dep(Note-1, eliminates-5)
+det(effect-8, a-6)
+amod(effect-8, side-7)
+dobj(eliminates-5, effect-8)
+advmod(eliminates-5, namely-10)
+nn(use_localtime-13, case-12)
+prep_in(eliminates-5, use_localtime-13)
+cop(true-15, is-14)
+det(utc_offset-19, the-16)
+amod(utc_offset-19, global-17)
+amod(utc_offset-19, variable-18)
+nsubj(change-21, utc_offset-19)
+aux(change-21, could-20)
+ccomp(true-15, change-21)
+prep_in(change-21, main-23)
+
+We/PRP now/RB use/VBP utc_offset/NN in/IN main/JJ (/-LRB- )/-RRB- only/RB for/IN the/DT offset/VBN given/VBN by/IN the/DT command/NN line/NN flags/NNS ,/, which/WDT is/VBZ OK/JJ ,/, because/IN either/CC use_localtime/NN is/VBZ true/JJ ,/, or/CC an/DT offset/VBN can/MD be/VB given/VBN ./. 
+
+(ROOT (S (S (NP (PRP We)) (ADVP (RB now)) (VP (VBP use) (NP (NP (NN utc_offset)) (PP (IN in) (NP (NP (JJ main)) (-LRB- -LRB-) (PP (-RRB- -RRB-) (NP (ADJP (RB only) (PP (IN for) (NP (NP (DT the)) (VP (VBN offset) (PP (VBN given) (PP (IN by) (NP (DT the) (NN command) (NN line)))))))) (NNS flags))) (, ,) (SBAR (WHNP (WDT which)) (S (VP (VBZ is) (ADJP (JJ OK)) (, ,) (SBAR (IN because) (S (NP (CC either) (NN use_localtime)) (VP (VBZ is) (ADJP (JJ true))))))))))))) (, ,) (CC or) (S (NP (DT an) (VBN offset)) (VP (MD can) (VP (VB be) (VP (VBN given))))) (. .)))
+
+root(ROOT-0, use-3)
+nsubj(use-3, We-1)
+advmod(use-3, now-2)
+dobj(use-3, utc_offset-4)
+prep_in(utc_offset-4, main-6)
+amod(flags-18, only-9)
+prep_for(only-9, the-11)
+vmod(the-11, offset-12)
+prep(offset-12, given-13)
+pcomp(given-13, by-14)
+det(line-17, the-15)
+nn(line-17, command-16)
+pobj(by-14, line-17)
+prep(main-6, flags-18)
+nsubj(OK-22, which-20)
+cop(OK-22, is-21)
+rcmod(main-6, OK-22)
+mark(true-28, because-24)
+dep(use_localtime-26, either-25)
+nsubj(true-28, use_localtime-26)
+cop(true-28, is-27)
+advcl(OK-22, true-28)
+nsubjpass(given-35, an-31)
+amod(an-31, offset-32)
+aux(given-35, can-33)
+auxpass(given-35, be-34)
+conj_or(use-3, given-35)
+
+The/DT attached/VBN patch/NN works/NNS for/IN trunk/NN (/-LRB- r596796/NN )/-RRB- and/CC the/DT 2.2/CD branch/NN (/-LRB- r598272/NN )/-RRB- ,/, because/RB at/IN the/DT moment/NN both/CC versions/NNS of/IN rotatelogs.c/NN are/VBP identical/JJ (/-LRB- recently/RB backported/VBN )/-RRB- ./. 
+
+(ROOT (NP (NP (DT The) (VBN attached) (NN patch) (NNS works)) (PP (PP (IN for) (NP (NP (NN trunk)) (PRN (-LRB- -LRB-) (NP (NN r596796)) (-RRB- -RRB-)) (CC and) (NP (DT the) (CD 2.2) (NN branch)) (PRN (-LRB- -LRB-) (NP (NN r598272)) (-RRB- -RRB-)))) (, ,) (RB because) (PP (IN at) (NP (NP (DT the) (NN moment)) (CC both) (NP (NNS versions))))) (PP (IN of) (NP (NP (NN rotatelogs.c)) (SBAR (S (VP (VBP are) (ADJP (JJ identical))))) (PRN (-LRB- -LRB-) (VP (ADVP (RB recently)) (VBN backported)) (-RRB- -RRB-)))) (. .)))
+
+root(ROOT-0, works-4)
+det(works-4, The-1)
+amod(works-4, attached-2)
+nn(works-4, patch-3)
+prep_for(works-4, trunk-6)
+appos(trunk-6, r596796-8)
+det(branch-13, the-11)
+num(branch-13, 2.2-12)
+prep_for(works-4, branch-13)
+conj_and(trunk-6, branch-13)
+appos(trunk-6, r598272-15)
+dep(works-4, because-18)
+det(moment-21, the-20)
+prep_at(works-4, moment-21)
+dep(moment-21, both-22)
+conj(moment-21, versions-23)
+prep_of(works-4, rotatelogs.c-25)
+cop(identical-27, are-26)
+rcmod(rotatelogs.c-25, identical-27)
+advmod(backported-30, recently-29)
+dep(rotatelogs.c-25, backported-30)
+

@@ -1,0 +1,217 @@
+Scenario/NN in/IN GMF/NNP :/: 
+
+(ROOT (NP (NP (NN Scenario)) (PP (IN in) (NP (NNP GMF))) (: :)))
+
+root(ROOT-0, Scenario-1)
+prep_in(Scenario-1, GMF-3)
+
+-/: Outside/JJ client/NN is/VBZ executing/VBG a/DT job/NN on/IN a/DT worker/NN thread/NN ./. 
+
+(ROOT (S (: -) (NP (JJ Outside) (NN client)) (VP (VBZ is) (VP (VBG executing) (NP (NP (DT a) (NN job)) (PP (IN on) (NP (DT a) (NN worker) (NN thread)))))) (. .)))
+
+root(ROOT-0, executing-5)
+amod(client-3, Outside-2)
+nsubj(executing-5, client-3)
+aux(executing-5, is-4)
+det(job-7, a-6)
+dobj(executing-5, job-7)
+det(thread-11, a-9)
+nn(thread-11, worker-10)
+prep_on(job-7, thread-11)
+
+-/: GMF/NN UI/NN is/VBZ still/RB enabled/VBN while/IN worker/NN thread/NN is/VBZ executed/VBN -/: potentially/RB causing/VBG updates/NNS to/TO occur/VB which/WDT will/MD ask/VB for/IN a/DT lock/NN of/IN the/DT editing/NN domain/NN ./. 
+
+(ROOT (S (: -) (S (NP (NN GMF) (NN UI)) (VP (VBZ is) (ADVP (RB still)) (VP (VBN enabled) (SBAR (IN while) (S (NP (NN worker) (NN thread)) (VP (VBZ is) (VP (VBN executed)))))))) (: -) (S (ADVP (RB potentially)) (VP (VBG causing) (NP (NNS updates)) (S (VP (TO to) (VP (VB occur) (SBAR (WHNP (WDT which)) (S (VP (MD will) (VP (VB ask) (PP (IN for) (NP (NP (DT a) (NN lock)) (PP (IN of) (NP (DT the) (NN editing) (NN domain)))))))))))))) (. .)))
+
+root(ROOT-0, enabled-6)
+nn(UI-3, GMF-2)
+nsubjpass(enabled-6, UI-3)
+auxpass(enabled-6, is-4)
+advmod(enabled-6, still-5)
+mark(executed-11, while-7)
+nn(thread-9, worker-8)
+nsubjpass(executed-11, thread-9)
+auxpass(executed-11, is-10)
+advcl(enabled-6, executed-11)
+advmod(causing-14, potentially-13)
+parataxis(enabled-6, causing-14)
+dobj(causing-14, updates-15)
+aux(occur-17, to-16)
+vmod(causing-14, occur-17)
+nsubj(ask-20, which-18)
+aux(ask-20, will-19)
+ccomp(occur-17, ask-20)
+det(lock-23, a-22)
+prep_for(ask-20, lock-23)
+det(domain-27, the-25)
+nn(domain-27, editing-26)
+prep_of(lock-23, domain-27)
+
+Since/IN transaction/NN is/VBZ executing/VBG on/IN another/DT thread/NN ,/, the/DT UI/NNP will/MD lock/VB ./. 
+
+(ROOT (S (SBAR (IN Since) (S (NP (NN transaction)) (VP (VBZ is) (VP (VBG executing) (PP (IN on) (NP (DT another) (NN thread))))))) (, ,) (NP (DT the) (NNP UI)) (VP (MD will) (VP (VB lock))) (. .)))
+
+root(ROOT-0, lock-12)
+mark(executing-4, Since-1)
+nsubj(executing-4, transaction-2)
+aux(executing-4, is-3)
+advcl(lock-12, executing-4)
+det(thread-7, another-6)
+prep_on(executing-4, thread-7)
+det(UI-10, the-9)
+nsubj(lock-12, UI-10)
+aux(lock-12, will-11)
+
+-/: Notifications/NNS are/VBP received/VBN by/IN GMF/NN on/IN the/DT worker/NN thread/NN ./. 
+
+(ROOT (S (: -) (NP (NNS Notifications)) (VP (VBP are) (VP (VBN received) (PP (IN by) (NP (NP (NN GMF)) (PP (IN on) (NP (DT the) (NN worker) (NN thread))))))) (. .)))
+
+root(ROOT-0, received-4)
+nsubjpass(received-4, Notifications-2)
+auxpass(received-4, are-3)
+agent(received-4, GMF-6)
+det(thread-10, the-8)
+nn(thread-10, worker-9)
+prep_on(GMF-6, thread-10)
+
+-/: GMF/NN needs/VBZ to/TO synchronously/RB send/VB the/DT notifications/NNS to/TO the/DT UI/NN thread/NN to/TO respect/VB the/DT transaction/NN api/NN contract/NN using/VBG the/DT Priveledged/JJ runnable/JJ ./. 
+
+(ROOT (S (: -) (NP (NN GMF)) (VP (VBZ needs) (S (VP (TO to) (VP (ADVP (RB synchronously)) (VB send) (NP (DT the) (NNS notifications)) (PP (TO to) (NP (DT the) (NN UI) (NN thread))) (S (VP (TO to) (VP (VB respect) (NP (NP (DT the) (NN transaction) (NN api) (NN contract)) (VP (VBG using) (NP (DT the) (JJ Priveledged) (JJ runnable))))))))))) (. .)))
+
+root(ROOT-0, needs-3)
+nsubj(needs-3, GMF-2)
+aux(send-6, to-4)
+advmod(send-6, synchronously-5)
+xcomp(needs-3, send-6)
+det(notifications-8, the-7)
+dobj(send-6, notifications-8)
+det(thread-12, the-10)
+nn(thread-12, UI-11)
+prep_to(send-6, thread-12)
+aux(respect-14, to-13)
+vmod(send-6, respect-14)
+det(contract-18, the-15)
+nn(contract-18, transaction-16)
+nn(contract-18, api-17)
+dobj(respect-14, contract-18)
+vmod(contract-18, using-19)
+det(runnable-22, the-20)
+amod(runnable-22, Priveledged-21)
+dobj(using-19, runnable-22)
+
+-/: Synch/NN exec/NN tries/VBZ to/TO obtain/VB a/DT lock/NN ,/, but/CC UI/NNP has/VBZ lock/NN already/RB --/: >/JJR DEADLOCK/NN . . ./: 
+
+(ROOT (PRN (: -) (S (S (NP (NN Synch) (NN exec)) (VP (VBZ tries) (S (VP (TO to) (VP (VB obtain) (NP (DT a) (NN lock))))))) (, ,) (CC but) (S (NP (NNP UI)) (VP (VBZ has) (NP (NP (NP (NN lock)) (ADVP (RB already))) (: --) (NP (JJR >) (NN DEADLOCK)) (: ...)))))))
+
+root(ROOT-0, tries-4)
+nn(exec-3, Synch-2)
+nsubj(tries-4, exec-3)
+aux(obtain-6, to-5)
+xcomp(tries-4, obtain-6)
+det(lock-8, a-7)
+dobj(obtain-6, lock-8)
+nsubj(has-12, UI-11)
+conj_but(tries-4, has-12)
+dobj(has-12, lock-13)
+advmod(lock-13, already-14)
+amod(DEADLOCK-17, >-16)
+dep(lock-13, DEADLOCK-17)
+
+GMF/NNP needs/VBZ to/TO be/VB able/JJ to/TO turn/VB off/RP display/NN updates/NNS while/IN the/DT transaction/NN is/VBZ in/IN progress/NN ./. 
+
+(ROOT (S (NP (NNP GMF)) (VP (VBZ needs) (S (VP (TO to) (VP (VB be) (ADJP (JJ able) (S (VP (TO to) (VP (VB turn) (PRT (RP off)) (NP (NN display) (NNS updates)))))) (SBAR (IN while) (S (NP (DT the) (NN transaction)) (VP (VBZ is) (PP (IN in) (NP (NN progress)))))))))) (. .)))
+
+root(ROOT-0, needs-2)
+nsubj(needs-2, GMF-1)
+aux(able-5, to-3)
+cop(able-5, be-4)
+xcomp(needs-2, able-5)
+aux(turn-7, to-6)
+xcomp(able-5, turn-7)
+prt(turn-7, off-8)
+nn(updates-10, display-9)
+dobj(turn-7, updates-10)
+mark(is-14, while-11)
+det(transaction-13, the-12)
+nsubj(is-14, transaction-13)
+advcl(able-5, is-14)
+prep_in(is-14, progress-16)
+
+A/DT hook/NN at/IN the/DT beginning/NN of/IN the/DT transaction/NN and/CC at/IN the/DT end/NN of/IN the/DT transaction/NN would/MD satisfy/VB this/DT ./. 
+
+(ROOT (S (NP (NP (DT A) (NN hook)) (PP (PP (IN at) (NP (NP (DT the) (NN beginning)) (PP (IN of) (NP (DT the) (NN transaction))))) (CC and) (PP (IN at) (NP (NP (DT the) (NN end)) (PP (IN of) (NP (DT the) (NN transaction))))))) (VP (MD would) (VP (VB satisfy) (NP (DT this)))) (. .)))
+
+root(ROOT-0, satisfy-17)
+det(hook-2, A-1)
+nsubj(satisfy-17, hook-2)
+det(beginning-5, the-4)
+prep_at(hook-2, beginning-5)
+det(transaction-8, the-7)
+prep_of(beginning-5, transaction-8)
+det(end-12, the-11)
+prep_at(hook-2, end-12)
+conj_and(beginning-5, end-12)
+det(transaction-15, the-14)
+prep_of(end-12, transaction-15)
+aux(satisfy-17, would-16)
+dobj(satisfy-17, this-18)
+
+The/DT hook/NN needs/VBZ to/TO be/VB on/IN the/DT same/JJ thread/NN as/IN the/DT transaction/NN will/MD be/VB executed/VBN on/IN ./. 
+
+(ROOT (S (NP (DT The) (NN hook)) (VP (VBZ needs) (S (VP (TO to) (VP (VB be) (PP (IN on) (NP (DT the) (JJ same) (NN thread))) (SBAR (IN as) (S (NP (DT the) (NN transaction)) (VP (MD will) (VP (VB be) (VP (VBN executed) (PP (IN on))))))))))) (. .)))
+
+root(ROOT-0, needs-3)
+det(hook-2, The-1)
+nsubj(needs-3, hook-2)
+aux(be-5, to-4)
+xcomp(needs-3, be-5)
+det(thread-9, the-7)
+amod(thread-9, same-8)
+prep_on(be-5, thread-9)
+mark(executed-15, as-10)
+det(transaction-12, the-11)
+nsubjpass(executed-15, transaction-12)
+aux(executed-15, will-13)
+auxpass(executed-15, be-14)
+advcl(be-5, executed-15)
+prep(executed-15, on-16)
+
+GMF/NNP can/MD workaround/VB this/DT by/IN dynamically/RB querying/VBG the/DT state/NN of/IN the/DT transaction/NN ,/, but/CC some/DT cases/NNS might/MD not/RB allow/VB updates/NNS to/TO turn/VB back/RP on/IN right/JJ away/RB -/: if/IN the/DT write/VB transaction/NN did/VBD n't/RB modify/VB any/DT resource/NN and/or/CC in/IN rollback/NN scenarios/NNS ./. 
+
+(ROOT (S (S (NP (NNP GMF)) (VP (MD can) (VP (VB workaround) (NP (DT this)) (PP (IN by) (S (ADVP (RB dynamically)) (VP (VBG querying) (NP (NP (DT the) (NN state)) (PP (IN of) (NP (DT the) (NN transaction)))))))))) (, ,) (CC but) (S (NP (DT some) (NNS cases)) (VP (MD might) (RB not) (VP (VB allow) (S (NP (NNS updates)) (VP (TO to) (VP (VB turn) (PRT (RP back)) (PP (IN on) (ADJP (JJ right))) (SBAR (ADVP (RB away) (: -)) (IN if) (S (NP (DT the)) (VP (VB write) (SBAR (S (NP (NN transaction)) (VP (VP (VBD did) (RB n't) (VP (VB modify) (NP (DT any) (NN resource)))) (CC and/or) (VP (ADVP (IN in)) (NP (NN rollback) (NNS scenarios))))))))))))))) (. .)))
+
+root(ROOT-0, workaround-3)
+nsubj(workaround-3, GMF-1)
+aux(workaround-3, can-2)
+dobj(workaround-3, this-4)
+advmod(querying-7, dynamically-6)
+prepc_by(workaround-3, querying-7)
+det(state-9, the-8)
+dobj(querying-7, state-9)
+det(transaction-12, the-11)
+prep_of(state-9, transaction-12)
+det(cases-16, some-15)
+nsubj(allow-19, cases-16)
+aux(allow-19, might-17)
+neg(allow-19, not-18)
+conj_but(workaround-3, allow-19)
+dobj(allow-19, updates-20)
+aux(turn-22, to-21)
+xcomp(allow-19, turn-22)
+prt(turn-22, back-23)
+prep_on(turn-22, right-25)
+advmod(write-30, away-26)
+mark(write-30, if-28)
+nsubj(write-30, the-29)
+advcl(turn-22, write-30)
+nsubj(modify-34, transaction-31)
+aux(modify-34, did-32)
+neg(modify-34, n't-33)
+ccomp(write-30, modify-34)
+det(resource-36, any-35)
+dobj(modify-34, resource-36)
+advmod(scenarios-40, in-38)
+nn(scenarios-40, rollback-39)
+ccomp(write-30, scenarios-40)
+conj_and/or(modify-34, scenarios-40)
+

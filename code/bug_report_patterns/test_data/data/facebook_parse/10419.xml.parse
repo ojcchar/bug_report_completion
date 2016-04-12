@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10419</id>
+	<title>Error on connect authentication</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Yesterday the connect authentication using the graph api worked perfectly when using the standard url https://graph.facebook.com/oauth/authorize?client_id=myclientidd&amp;redirect_uri=myredirecturi&amp;display=wap&amp;scope=email</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Today it fails with the error below</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">{
+     error : {
+         type :  OAuthException _
+         message :  
+        The OAuthUsername and Password Flow with scope is only supported withdisplay=wap if your application has enabled New Data Permissions.</sentence>
+			<sentence id="3.2">You can enable this in the Migrations tab in the App Settings Editor. 
+    }
+}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I enable the new migration settings as recommended and it fails with a</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">display type not supported error.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">So i change the display type to be touch (in the above url with the new data permission set)_ which redirects me to a correct looking mobile optimised pages but then redirects to my rediredt url with a auth_token and not the required code variable.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I then switch off the new data permission and and retry my authentication with the display=touch option.</sentence>
+			<sentence id="7.2">Now i dont get the mobile optimised version of the login screen but rather the PC version_ which works i.e redirect to my redirect url with the proper code variable.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Seems to be broken in so many ways...</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16911</id>
+	<title>FQL Returns deleted notifications</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When I run the following query</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">SELECT notification_id_ title_text_ body_text_ sender_id_ created_time_ href FROM notification WHERE recipient_id=me() AND is_unread = 1</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I get some notifications that are unaccessible from the site therefore I can never remove them as unread.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This happens when for example somebody posts something on my Wall_ and I delete his post.</sentence>
+			<sentence id="4.2">Then the notification is delete from the site_ however the above mentioned query continue to return me  bad  data</sentence>
+		</paragraph>
+	</description>
+</bug>

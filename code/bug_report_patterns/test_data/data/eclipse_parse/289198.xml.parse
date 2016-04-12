@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>289198</id>
+	<title>Exception when removing/reading resource with same path</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I get an exception when removing a resource and then adding a new with the same path:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">CDOResource cdoResource = transaction.getOrCreateResource("/model1");
+    transaction.commit();
+    cdoResource.getContents().</sentence>
+			<sentence id="2.2">clear();
+    transaction.getResourceSet().</sentence>
+			<sentence id="2.3">getResources().</sentence>
+			<sentence id="2.4">remove(cdoResource);
+    transaction.commit();
+    CDOResourceNode resourceNode = transaction.getResourceNode("/model1");
+    CDOResource resource = transaction.getResource("/model1");</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">    Stack trace:</sentence>
+			<sentence id="3.2">    Exception in thread "main" org.eclipse.emf.ecore.resource.impl.ResourceSetImpl$1DiagnosticWrappedException: org.eclipse.emf.cdo.util.InvalidURIException: Invalid URI "cdo://c3ca260d-b348-4a67-b99e-df64f6ef421f/model1": java.lang.IllegalStateException: Duplicate ID: CDOResource@OID4</sentence>
+			<sentence id="3.3">	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.handleDemandLoadException(ResourceSetImpl.java:315)</sentence>
+			<sentence id="3.4">	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoadHelper(ResourceSetImpl.java:274)</sentence>
+			<sentence id="3.5">	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.getResource(ResourceSetImpl.java:397)</sentence>
+			<sentence id="3.6">	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getResource(CDOViewImpl.java:632)</sentence>
+			<sentence id="3.7">	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getResource(CDOViewImpl.java:622)</sentence>
+			<sentence id="3.8">	at com.comsol.model.util.ModelUtil.create(ModelUtil.java:48)</sentence>
+			<sentence id="3.9">	at Main.main(Main.java:25)</sentence>
+			<sentence id="3.10">Caused by: org.eclipse.emf.cdo.util.InvalidURIException: Invalid URI "cdo://c3ca260d-b348-4a67-b99e-df64f6ef421f/model1": java.lang.IllegalStateException: Duplicate ID: CDOResource@OID4</sentence>
+			<sentence id="3.11">	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.registerProxyResource(CDOViewImpl.java:1059)</sentence>
+			<sentence id="3.12">	at org.eclipse.emf.cdo.eresource.impl.CDOResourceImpl.load(CDOResourceImpl.java:605)</sentence>
+			<sentence id="3.13">	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoad(ResourceSetImpl.java:255)</sentence>
+			<sentence id="3.14">	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoadHelper(ResourceSetImpl.java:270)</sentence>
+			<sentence id="3.15">	... 5 more</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7798</id>
+	<title>apachectl stop leaves processes running on OpenBSD 3.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I currently run Apache 1.3.24 without problems.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I compiled Apache 2.0.35 on OpenBSD 3.0, configured with these options:
+# .</sentence>
+			<sentence id="2.2">/configure  --enable-module=ssl --enable-module=auth_db --enable-
+module=proxy --enable-module=speling --enable-module=status --e
+nable-module=rewrite
+#</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">It compiled and installed without error.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I modified the default configs to point to my existing htdocs and cgi-bins,
+but using the default server root, to avoid conflict with the existing
+server.</sentence>
+			<sentence id="4.2">I shut down the existing server and started up Apache 2 with
+"apachectl startssl".</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This created a bunch of processes running with "-DSSL", but nothing listening
+on port 443.</sentence>
+			<sentence id="5.2">The appropriate SSL logs did not appear in the log dir.</sentence>
+			<sentence id="5.3">Going to 
+the main non-SSL page led to a 403 error, even though permissions are set 
+correctly and the server is running as user www group www, same as with 
+previous Apache.</sentence>
+			<sentence id="5.4">The server did not listen on port 443.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Attempting to abort with "apachectl stop" leaves all of the httpd processes 
+still running.</sentence>
+		</paragraph>
+	</description>
+</bug>

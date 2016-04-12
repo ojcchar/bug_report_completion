@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>76190</id>
+	<title>DCR AST: EnumDeclaration: Separate field and body statement lists</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">20041013</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The body of an EnumDeclaration is defined as</sentence>
+			<sentence id="2.2">*         &lt;b&gt;{&lt;/b&gt;</sentence>
+			<sentence id="2.3">*         [ EnumConstantDeclaration { &lt;b&gt;,&lt;/b&gt; EnumConstantDeclaration } ] [</sentence>
+			<sentence id="2.4">&lt;b&gt;,&lt;/b&gt; ]</sentence>
+			<sentence id="2.5">*         [ &lt;b&gt;;&lt;/b&gt; { ClassBodyDeclaration | &lt;b&gt;;&lt;/b&gt; } ]</sentence>
+			<sentence id="2.6">*         &lt;b&gt;}&lt;/b&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In the API of 'EnumDeclaration' the two lists (constants and classbody
+declaration) are modelled in one list (body declarations)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Wouldn't it be better to have this is two lists?</sentence>
+			<sentence id="4.2">I'm currently working on the
+AST rewriter and this gets quite tricky: The separator between the list nodes
+depends on the node type (separators are ',', ';' and new lines)
+Replacing a node can result in changing the separator before and after the node.</sentence>
+			<sentence id="4.3">This is of course all doable, but represents a special case, no other list of
+nodes is as complicated.</sentence>
+			<sentence id="4.4">Any chance that the lists can be separated?</sentence>
+			<sentence id="4.5">I also think the merging of the
+lists is also conceptionally a hack.</sentence>
+		</paragraph>
+	</description>
+</bug>

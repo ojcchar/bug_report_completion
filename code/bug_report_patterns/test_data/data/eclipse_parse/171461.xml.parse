@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>171461</id>
+	<title>IllegalStateException when launching headless app using PROP_NOSHUTDOWN option</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Build ID: I20070123-1030</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps To Reproduce:</sentence>
+			<sentence id="2.2">This is a regression from Eclipse 3.2.x.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">(1 Set PROP_NOSHUTDOWN to true</sentence>
+			<sentence id="3.2">(2 Invoke EclipseStarter.run(,,) with any applicationID</sentence>
+			<sentence id="3.3">(3 The application will run, and then platform will remain running.</sentence>
+			<sentence id="3.4">(4 Invoke EclipseStarter.run(,) and the application launch will fail with...</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Caused by: java.lang.IllegalStateException: Unable to acquire application service. Ensure that the org.eclipse.core.runtime bundle is resolved and started (see config.ini).</sentence>
+			<sentence id="4.2">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:70)</sentence>
+			<sentence id="4.3">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:354)</sentence>
+			<sentence id="4.4">	... 6 more</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This used to work with Eclipse 3.2.x where I want to invoke multiple invocations of an application without it shutting down each time.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">More information:</sentence>
+		</paragraph>
+	</description>
+</bug>
