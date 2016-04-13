@@ -1,6 +1,6 @@
 package seers.bugreppatterns.pattern;
 
-public abstract class StepsToReproductPatternMatcher extends PatternMatcher {
+public abstract class StepsToReproducePatternMatcher extends PatternMatcher {
 
 	@Override
 	public String getType() {
