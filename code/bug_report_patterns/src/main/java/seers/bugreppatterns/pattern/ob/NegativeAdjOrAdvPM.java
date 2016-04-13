@@ -17,7 +17,7 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 	final private static String[] NEGATIVE_ADJ = { "incorrect", "hard", "invalid", "inconsistent", "unclickable",
 			"empty", "off", "undefined", "slow", "untrusted", "bad", "corrupt", "wrong", "strange", "blank",
 			"undefined", "bloken", "infinite", "unstyled", "meaningless", "spurious", "inappropriate", "broken",
-			"weird", "down", "dirty", "expensive", "inaccessible" };
+			"weird", "down", "dirty", "expensive", "inaccessible", "unexpected" };
 
 	final private static String[] NEGATIVE_ADV = { "incorrectly", "randomly", "suddenly", "erroneously", "slow",
 			"indefinitely", "twice" };
@@ -122,7 +122,7 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 			return 1;
 		}
 
-		String str = TextProcessor.getStringFromSentence(sentence);
+		String str = TextProcessor.getStringFromLemmas(sentence);
 		if (str.contains("go cpu bind")) {
 			return 1;
 		}

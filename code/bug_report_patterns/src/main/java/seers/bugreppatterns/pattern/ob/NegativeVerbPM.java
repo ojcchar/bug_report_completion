@@ -29,7 +29,7 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 			return 1;
 		}
 
-		String txt = TextProcessor.getStringFromSentence(sentence);
+		String txt = TextProcessor.getStringFromLemmas(sentence);
 
 		if (Arrays.stream(OTHER_NEGATIVE_VERBS).anyMatch(p -> txt.contains(p))) {
 			return 1;

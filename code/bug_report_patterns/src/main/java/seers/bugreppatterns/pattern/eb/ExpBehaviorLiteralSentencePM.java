@@ -12,7 +12,7 @@ public class ExpBehaviorLiteralSentencePM extends ExpectedBehaviorPatternMatcher
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		String text = TextProcessor.getStringFromSentence(sentence);
+		String text = TextProcessor.getStringFromLemmas(sentence);
 
 		// ----------------
 

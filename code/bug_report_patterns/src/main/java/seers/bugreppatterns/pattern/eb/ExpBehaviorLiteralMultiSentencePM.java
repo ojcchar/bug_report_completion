@@ -23,7 +23,7 @@ public class ExpBehaviorLiteralMultiSentencePM extends ExpectedBehaviorPatternMa
 		if (sentences.size() > 1) {
 			Sentence sentence = sentences.get(0);
 
-			String text = TextProcessor.getStringFromSentence(sentence);
+			String text = TextProcessor.getStringFromLemmas(sentence);
 
 			// ----------------
 

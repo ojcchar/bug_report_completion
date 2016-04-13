@@ -123,7 +123,6 @@ public class BaseTest {
 
 			txt = txt.replaceFirst("(\\[.+\\] )(.+)", "$2");
 
-			System.out.print("Testing sentence (positive) " + i);
 			List<Sentence> sentences = TextProcessor.processText(txt);
 
 			Paragraph paragraph = new Paragraph("0");
@@ -132,10 +131,9 @@ public class BaseTest {
 			Sentence sentence = new Sentence("0", paragraph.getTokens());
 			int m = pm.matchSentence(sentence);
 			if (m != 1) {
-				System.out.println("\n Fail for: \"" + txt + "\"");
+				System.out.println("\n Fail for (" + i + "): \"" + txt + "\"");
 				// pm.matchSentence(sentence);
 			} else {
-				System.out.println(" PASSED");
 				numPasses++;
 			}
 		}

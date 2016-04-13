@@ -24,7 +24,7 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 			if (match == 0) {
 
-				String text = TextProcessor.getStringFromSentence(sentence);
+				String text = TextProcessor.getStringFromLemmas(sentence);
 
 				// ----------------
 
