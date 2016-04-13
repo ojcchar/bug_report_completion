@@ -18,6 +18,7 @@ import seers.bugreppatterns.main.MainHRClassifier;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
+import seers.textanalyzer.entity.Token;
 
 public abstract class TextInstanceProcessor extends ThreadProcessor {
 
@@ -85,17 +86,14 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 		if (elements != null) {
 			for (DescriptionSentence descSentence : elements) {
 
-				List<Sentence> sentences = TextProcessor.processText(descSentence.getValue());
+				String sentenceTxt = descSentence.getValue();
+				List<Sentence> sentences = TextProcessor.processText(sentenceTxt);
 
-				// if (sentences.size() > 1) {
-				// LOGGER.warn("[" + system + "] Sentence " +
-				// textElement.getId() +
-				// " of bug " + bugId
-				// + " can be processed into multiple sentences!");
-				// }
 				if (!sentences.isEmpty()) {
-					Sentence sentence = sentences.get(0);
-					sentence.setId(descSentence.getId());
+					List<Token> allTokens = TextProcessor.getAllTokens(sentences);
+
+					Sentence sentence = new Sentence(descSentence.getId(), allTokens);
+
 					par.addSentence(sentence);
 				}
 

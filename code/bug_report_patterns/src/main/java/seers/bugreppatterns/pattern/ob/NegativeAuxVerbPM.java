@@ -35,6 +35,10 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 					} else if (verbToken.getGeneralPos().equals("NN")
 							&& verbToken.getLemma().toLowerCase().endsWith("ing")) {
 						return 1;
+					} else if (verbToken.getGeneralPos().equals("RB")) {
+						if (tokens.get(not + 2).getGeneralPos().equals("VB")) {
+							return 1;
+						}
 					}
 
 				}

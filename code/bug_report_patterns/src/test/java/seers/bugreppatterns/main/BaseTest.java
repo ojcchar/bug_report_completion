@@ -68,6 +68,10 @@ public class BaseTest {
 
 		}
 
+		if (testDataParagraph.isEmpty() || testDataSentence.isEmpty()) {
+			System.err.println("No testing data for " + pm.getClass().getSimpleName());
+		}
+
 		// assertFalse("No testing data!", testDataParagraph.isEmpty());
 		// assertFalse("No testing data!", testDataSentence.isEmpty());
 	}
@@ -100,9 +104,17 @@ public class BaseTest {
 	@Test
 	public void testMatchSentence() throws Exception {
 
+		if (pm == null) {
+			return;
+		}
+
+		System.out.println("Testing pattern: " + pm.getClass().getSimpleName());
+
 		int numPasses = 0;
 		for (int i = 0; i < testDataSentence.size(); i++) {
 			String txt = testDataSentence.get(i);
+
+			txt = txt.replaceFirst("(\\[.+\\] )(.+)", "$2");
 
 			System.out.print("Testing (positive) " + i);
 			List<Sentence> sentences = TextProcessor.processText(txt);
