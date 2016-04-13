@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -18,16 +19,25 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 
 public class MainFeatures {
 
-	private static LinkedHashMap<String, Integer> featuresMap = new LinkedHashMap<>();
-	private static LinkedHashMap<String, Integer> featuresMap2 = new LinkedHashMap<>();
-
 	public static void main(String[] args) throws Exception {
 
-		String[] granularities = { "P", "S" };
+		String[] granularities = { "B", "P", "S" };
 
+		processGranularities(granularities);
+
+		System.out.println("Done!");
+
+	}
+
+	private static void processGranularities(String[] granularities) throws IOException {
 		for (String gran : granularities) {
+			System.out.println("doing " + gran);
+
 			File prefeaturesFile = new File("test_data/output/output-pre-features-" + gran + ".csv");
 			File goldSetFile = new File("gold-set-" + gran + ".csv");
+			if (gran.equals("B")) {
+				goldSetFile = new File("all_data_only_bugs.csv");
+			}
 
 			CsvWriter featuresEBWriter = new CsvWriterBuilder(new FileWriter("features-eb-" + gran + ".txt"))
 					.separator(' ').quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
@@ -37,28 +47,32 @@ public class MainFeatures {
 				File instancesFile = new File("instances-" + gran + ".txt");
 				instancesFile.delete();
 
-				List<List<String>> linesGoldSet = readGoldSetFile(goldSetFile);
-				List<List<String>> featuresLines = readPrefeaturesFile(featuresMap, prefeaturesFile);
+				HashMap<String, Integer> goldSetMap = new LinkedHashMap<>();
+				List<List<String>> linesGoldSet = readGoldSetFile2(goldSetMap, goldSetFile);
+				List<List<String>> featuresLines = readPrefeaturesFile2(prefeaturesFile);
 
-				for (List<String> lineGoldSet : linesGoldSet.subList(1, linesGoldSet.size())) {
-					String system = lineGoldSet.get(0);
-					String bugId = lineGoldSet.get(1);
-					String instanceId = lineGoldSet.get(2);
-					String eb = lineGoldSet.get(4);
-					String sr = lineGoldSet.get(5);
+				// --------------------------------------------
+
+				for (List<String> featureLine : featuresLines) {
+					String system = featureLine.get(0);
+					String bugId = featureLine.get(1);
+					String instanceId = featureLine.get(2);
+					List<String> featureList = featureLine.subList(3, featureLine.size());
 
 					// instance
 					String key = getKey(system, bugId, instanceId);
 					FileUtils.write(instancesFile, key + "\r\n", true);
 
-					// features
-					Integer i = featuresMap.get(key);
-					if (i == null) {
-						System.out.println(key + " is not in the features");
-						continue;
-					}
+					// classes
+					String eb = "";
+					String sr = "";
+					Integer i = goldSetMap.get(key);
+					if (i != null) {
+						List<String> goldSet = linesGoldSet.get(i);
 
-					List<String> feat = featuresLines.get(i);
+						eb = goldSet.get(4);
+						sr = goldSet.get(5);
+					}
 
 					// classes
 					String classEb = "2";
@@ -72,13 +86,14 @@ public class MainFeatures {
 
 					List<String> nextLine = new ArrayList<>();
 					nextLine.add(classEb);
-					nextLine.addAll(feat.subList(3, feat.size()));
+					nextLine.addAll(featureList);
 					featuresEBWriter.writeNext(nextLine);
 
 					nextLine = new ArrayList<>();
 					nextLine.add(classSr);
-					nextLine.addAll(feat.subList(3, feat.size()));
+					nextLine.addAll(featureList);
 					featuresSRWriter.writeNext(nextLine);
+
 				}
 			} finally {
 				featuresEBWriter.close();
@@ -86,72 +101,19 @@ public class MainFeatures {
 			}
 
 		}
-
-		// -----------------------
-		File prefeaturesFile = new File("test_data/output/output-pre-features-B.csv");
-		File goldSetFile = new File("all_data_only_bugs.csv");
-
-		CsvWriter featuresEBWriter = new CsvWriterBuilder(new FileWriter("features-eb-B.txt")).separator(' ')
-				.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
-		CsvWriter featuresSRWriter = new CsvWriterBuilder(new FileWriter("features-sr-B.txt")).separator(' ')
-				.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
-		try {
-			File instancesFile = new File("instances-B.txt");
-			instancesFile.delete();
-			List<List<String>> linesGoldSet = readGoldSetFile(goldSetFile);
-			List<List<String>> featuresLines = readPrefeaturesFile(featuresMap2, prefeaturesFile);
-
-			for (List<String> lineGoldSet : linesGoldSet.subList(1, linesGoldSet.size())) {
-				String system = lineGoldSet.get(0);
-				String bugId = lineGoldSet.get(1);
-				String eb = lineGoldSet.get(3);
-				String sr = lineGoldSet.get(4);
-
-				// instance
-				String key = getKey(system, bugId, "0");
-				FileUtils.write(instancesFile, key + "\r\n", true);
-
-				// features
-				Integer i = featuresMap2.get(key);
-				if (i == null) {
-					System.out.println(key + " is not in the features");
-					continue;
-				}
-
-				List<String> feat = featuresLines.get(i);
-
-				// classes
-				String classEb = "2";
-				if (!eb.trim().isEmpty()) {
-					classEb = "1";
-				}
-				String classSr = "2";
-				if (!sr.trim().isEmpty()) {
-					classSr = "1";
-				}
-
-				List<String> nextLine = new ArrayList<>();
-				nextLine.add(classEb);
-				nextLine.addAll(feat.subList(3, feat.size()));
-				featuresEBWriter.writeNext(nextLine);
-
-				nextLine = new ArrayList<>();
-				nextLine.add(classSr);
-				nextLine.addAll(feat.subList(3, feat.size()));
-				featuresSRWriter.writeNext(nextLine);
-			}
-		} finally {
-			featuresEBWriter.close();
-			featuresSRWriter.close();
-		}
-
 	}
 
-	private static List<List<String>> readPrefeaturesFile(LinkedHashMap<String, Integer> featuresMap,
-			File prefeaturesFile) throws IOException {
-
+	private static List<List<String>> readPrefeaturesFile2(File prefeaturesFile) throws IOException {
 		CsvParser csvParser = new CsvParserBuilder().separator(';').build();
 		try (CsvReader csvReader = new CsvReader(new FileReader(prefeaturesFile), csvParser)) {
+			return csvReader.readAll();
+		}
+	}
+
+	private static List<List<String>> readGoldSetFile2(HashMap<String, Integer> goldSetMap, File goldSetFile)
+			throws IOException {
+		CsvParser csvParser = new CsvParserBuilder().separator(';').build();
+		try (CsvReader csvReader = new CsvReader(new FileReader(goldSetFile), csvParser)) {
 			List<List<String>> lines = csvReader.readAll();
 			for (int i = 0; i < lines.size(); i++) {
 				List<String> line = lines.get(i);
@@ -161,7 +123,7 @@ public class MainFeatures {
 				String instanceId = line.get(2);
 
 				String key = getKey(system, bugId, instanceId);
-				featuresMap.put(key, i);
+				goldSetMap.put(key, i);
 			}
 			return lines;
 		}
@@ -170,14 +132,6 @@ public class MainFeatures {
 
 	private static String getKey(String system, String bugId, String instanceId) {
 		return system + "-" + bugId + "-" + instanceId;
-	}
-
-	private static List<List<String>> readGoldSetFile(File goldSetFile) throws IOException {
-		CsvParser csvParser = new CsvParserBuilder().separator(';').build();
-		try (CsvReader csvReader = new CsvReader(new FileReader(goldSetFile), csvParser)) {
-			return csvReader.readAll();
-		}
-
 	}
 
 }

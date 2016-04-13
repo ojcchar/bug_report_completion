@@ -23,6 +23,8 @@ import seers.textanalyzer.entity.Sentence;
 public class BaseTest {
 
 	protected PatternMatcher pm;
+	protected boolean testSentence = true;
+	protected boolean testParagraph = false;
 	protected String patternName;
 	protected List<String> testDataParagraph = new ArrayList<>();
 	protected List<String> testDataSentence = new ArrayList<>();
@@ -37,6 +39,11 @@ public class BaseTest {
 		if (patternName == null) {
 			findPatternName();
 			loadData();
+
+			if (patternName.startsWith("P_")) {
+				testSentence = false;
+				testParagraph = true;
+			}
 		}
 	}
 
@@ -104,7 +111,7 @@ public class BaseTest {
 	@Test
 	public void testMatchSentence() throws Exception {
 
-		if (pm == null) {
+		if (pm == null || !testSentence) {
 			return;
 		}
 
@@ -116,7 +123,7 @@ public class BaseTest {
 
 			txt = txt.replaceFirst("(\\[.+\\] )(.+)", "$2");
 
-			System.out.print("Testing (positive) " + i);
+			System.out.print("Testing sentence (positive) " + i);
 			List<Sentence> sentences = TextProcessor.processText(txt);
 
 			Paragraph paragraph = new Paragraph("0");
@@ -138,4 +145,39 @@ public class BaseTest {
 		}
 	}
 
+	@Test
+	public void testMatchParagraph() throws Exception {
+
+		if (pm == null || !testParagraph) {
+			return;
+		}
+
+		System.out.println("Testing pattern: " + pm.getClass().getSimpleName());
+
+		int numPasses = 0;
+		for (int i = 0; i < testDataParagraph.size(); i++) {
+			String txt = testDataParagraph.get(i);
+
+			txt = txt.replaceFirst("(\\[.+\\] )(.+)", "$2");
+
+			System.out.print("Testing paragraph (positive) " + i);
+			List<Sentence> sentences = TextProcessor.processText(txt);
+
+			Paragraph paragraph = new Paragraph("0");
+			paragraph.setSentences(sentences);
+
+			int m = pm.matchParagraph(paragraph);
+			if (m == 0) {
+				System.out.println("\n Fail for: \"" + txt + "\"");
+				// pm.matchSentence(sentence);
+			} else {
+				System.out.println(" PASSED");
+				numPasses++;
+			}
+		}
+
+		if (numPasses != testDataParagraph.size()) {
+			fail("Only " + numPasses + " out of " + testDataParagraph.size() + " tests passed!");
+		}
+	}
 }
