@@ -10,17 +10,16 @@ import seers.textanalyzer.entity.Token;
 
 public class CodeRefPM extends StepsToReproducePatternMatcher{
 
-	final static String[] NOUNS_TERM = {"snippet","code","sample","configuration","file","statement","example","script","line","command","case","test"};
+	final static String[] NOUNS_TERM = {"snippet","code","sample","configuration","statement","script","html/ssi","html/fbml"};
 	final static String[] ADV_LOCATION = {"here","below"};
 	final static String[] VERB_DEMO={"provide","enclose","follow","render"};
 	
 	public int matchSentence(Sentence sentence) throws Exception {
 		
+		String text = TextProcessor.getStringFromLemmas(sentence);
+		
 		List<Token> tokens=sentence.getTokens();
-		boolean b=existLocation(tokens);
-		if(b){
-			return 1;
-		}
+		
 		for(int i=0;i<tokens.size();i++){
 			Token token=tokens.get(i);
 			if (Arrays.stream(NOUNS_TERM).anyMatch(t -> token.getLemma().equals(t))){
@@ -29,10 +28,16 @@ public class CodeRefPM extends StepsToReproducePatternMatcher{
 				}
 			}
 		}
-		return 0;
+		if(text.matches(".*(command line|live example|test case|file in).*")){
+			return 1;
+		}else{
+			//return existLocation(tokens)?1:0;
+			return 0;
+		}
+		
 	}
 
-	private boolean existLocation(List<Token> tokens) {
+	/*private boolean existLocation(List<Token> tokens) {
 		boolean adverb=false;
 		for(int i=0;i<tokens.size();i++){
 			Token token = tokens.get(i);
@@ -51,5 +56,5 @@ public class CodeRefPM extends StepsToReproducePatternMatcher{
 
 		return false;
 	}
-
+*/
 }
