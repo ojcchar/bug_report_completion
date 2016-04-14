@@ -12,6 +12,7 @@ public class Paragraph {
 	private List<Sentence> sentences;
 
 	public Paragraph(String id) {
+		this.id = id;
 		sentences = new ArrayList<>();
 	}
 
@@ -48,6 +49,15 @@ public class Paragraph {
 
 		return tokens;
 
+	}
+
+	@Override
+	public String toString() {
+		return "Paragraph [id=" + id + ", sentences=" + sentences + "]";
+	}
+
+	public void addSentences(List<Sentence> sentences2) {
+		this.sentences.addAll(sentences2);
 	}
 
 }

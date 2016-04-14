@@ -12,12 +12,13 @@ import seers.textanalyzer.entity.Token;
 public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 
 	final private static String[] NEGATIVE_VERBS = { "truncate", "outdate", "lose", "go", "strip", "break", "block",
-			"add", "destroy", "reset" };
+			"add", "destroy", "reset", "mess" };
 
 	final private static String[] NEGATIVE_ADJ = { "incorrect", "hard", "invalid", "inconsistent", "unclickable",
 			"empty", "off", "undefined", "slow", "untrusted", "bad", "corrupt", "wrong", "strange", "blank",
 			"undefined", "bloken", "infinite", "unstyled", "meaningless", "spurious", "inappropriate", "broken",
-			"weird", "down", "dirty", "expensive", "inaccessible", "unexpected" };
+			"weird", "down", "dirty", "expensive", "inaccessible", "unexpected", "different", "duplicated", "unlimited",
+			"inconsitant", "multiple", "unusable" };
 
 	final private static String[] NEGATIVE_ADV = { "incorrectly", "randomly", "suddenly", "erroneously", "slow",
 			"indefinitely", "twice" };

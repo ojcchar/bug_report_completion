@@ -20,15 +20,27 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 		for (Integer not : nots) {
 
 			try {
-				Token auxToken = tokens.get(not - 1);
 				Token verbToken = tokens.get(not + 1);
 
-				if (isAuxToken(auxToken)
-				// && (verbToken.getGeneralPos().equals("VB")
-				// || verbToken.getGeneralPos().equals("JJ") ||
-				// verbToken.getGeneralPos().equals("RB"))
-				) {
-					return 1;
+				if (not != 0) {
+
+					Token auxToken = tokens.get(not - 1);
+					if (isAuxToken(auxToken)
+					// && (verbToken.getGeneralPos().equals("VB")
+					// || verbToken.getGeneralPos().equals("JJ") ||
+					// verbToken.getGeneralPos().equals("RB"))
+					) {
+						return 1;
+					} else if (verbToken.getGeneralPos().equals("VB")) {
+						return 1;
+					} else if (verbToken.getGeneralPos().equals("NN")
+							&& verbToken.getLemma().toLowerCase().endsWith("ing")) {
+						return 1;
+					} else if (verbToken.getGeneralPos().equals("RB")) {
+						if (tokens.get(not + 2).getGeneralPos().equals("VB")) {
+							return 1;
+						}
+					}
 				} else {
 					if (verbToken.getGeneralPos().equals("VB")) {
 						return 1;
@@ -47,18 +59,25 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 
 		}
 
-		try {
+		try
+
+		{
 			if (findAdditionalAuxVerbs(tokens)) {
 				return 1;
 			}
-		} catch (IndexOutOfBoundsException e) {
+		} catch (
+
+		IndexOutOfBoundsException e)
+
+		{
 		}
 
 		return 0;
 	}
 
 	final private static String[] ADDITIONAL_AUX_VERBS = { "didnt", "doesn t", "doen t", "dosent", "haven t", "dont",
-			"cant", "cannote", "don t", "s not", "can t", "wont", "isn t", "aren t", "ca not", "has no", "have no" };
+			"cant", "cannote", "don t", "s not", "can t", "wont", "isn t", "aren t", "ca not", "has no", "have no",
+			"didn t" };
 
 	private boolean findAdditionalAuxVerbs(List<Token> tokens) {
 

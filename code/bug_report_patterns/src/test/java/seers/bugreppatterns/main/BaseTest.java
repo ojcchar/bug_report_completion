@@ -123,10 +123,7 @@ public class BaseTest {
 
 			txt = txt.replaceFirst("(\\[.+\\] )(.+)", "$2");
 
-			List<Sentence> sentences = TextProcessor.processText(txt);
-
-			Paragraph paragraph = new Paragraph("0");
-			paragraph.setSentences(sentences);
+			Paragraph paragraph = parseParagraph(txt);
 
 			Sentence sentence = new Sentence("0", paragraph.getTokens());
 			int m = pm.matchSentence(sentence);
@@ -140,6 +137,8 @@ public class BaseTest {
 
 		if (numPasses != testDataSentence.size()) {
 			fail("Only " + numPasses + " out of " + testDataSentence.size() + " tests passed!");
+		} else {
+			System.out.println("Success: " + numPasses + " cases passed!");
 		}
 	}
 
@@ -158,24 +157,45 @@ public class BaseTest {
 
 			txt = txt.replaceFirst("(\\[.+\\] )(.+)", "$2");
 
-			System.out.print("Testing paragraph (positive) " + i);
-			List<Sentence> sentences = TextProcessor.processText(txt);
-
-			Paragraph paragraph = new Paragraph("0");
-			paragraph.setSentences(sentences);
+			Paragraph paragraph = parseParagraph(txt);
 
 			int m = pm.matchParagraph(paragraph);
 			if (m == 0) {
-				System.out.println("\n Fail for: \"" + txt + "\"");
+				System.out.println("\n Fail for (" + i + "): \"" + txt + "\"");
 				// pm.matchSentence(sentence);
 			} else {
-				System.out.println(" PASSED");
 				numPasses++;
 			}
 		}
 
 		if (numPasses != testDataParagraph.size()) {
 			fail("Only " + numPasses + " out of " + testDataParagraph.size() + " tests passed!");
+		} else {
+			System.out.println("Success: " + numPasses + " cases passed!");
 		}
+	}
+
+	private Paragraph parseParagraph(String txt) {
+
+		Paragraph paragraph = new Paragraph("0");
+		String[] lines = txt.split("\n");
+		for (String line : lines) {
+
+			if (line.isEmpty()) {
+				continue;
+			}
+
+			// bullets normalization
+			if (line.matches("(\\W*)\\d((\\.\\))|\\.|\\)|,|-)(.*)")) {
+				line = line.replaceFirst("((\\.\\))|\\.|\\)|,|-)\\s*", " ");
+			}
+
+			List<Sentence> sentences = TextProcessor.processText(line);
+
+			paragraph.addSentences(sentences);
+		}
+
+		return paragraph;
+
 	}
 }

@@ -24,12 +24,17 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 
 		for (Integer needTok : needTokens) {
 
-			try {
-				Token needToken = tokens.get(needTok);
-				if (needToken.getGeneralPos().equals("VB")) {
-					return 1;
+			Token needToken = tokens.get(needTok);
+			if (needToken.getGeneralPos().equals("VB")) {
+				return 1;
+			} else {
+				if (needTok + 1 < tokens.size()) {
+
+					Token nextToken = tokens.get(needTok + 1);
+					if (nextToken.getLemma().equals("to")) {
+						return 1;
+					}
 				}
-			} catch (IndexOutOfBoundsException e) {
 			}
 		}
 
@@ -40,7 +45,7 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 		List<Integer> needTokens = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getLemma().equalsIgnoreCase("need")) {
+			if (token.getLemma().equals("need")) {
 				needTokens.add(i);
 			}
 		}

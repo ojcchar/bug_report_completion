@@ -14,12 +14,13 @@ import seers.textanalyzer.entity.Token;
 
 public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
-	final private static String[] ERROR_TERMS = { "error", "warning", "bug", "violation", "exception", "problem", "npe",
-			"ise", "fault", "404" };
+	final public static String[] ERROR_TERMS = { "error", "warning", "bug", "violation", "exception", "problem", "npe",
+			"ise", "fault", "404", "issue", "typo", "crash", "glitch", "failure", "errore", "truncation", "loss",
+			"collision" };
 
 	final private static String[] VERB_TERMS = { "throw", "cause", "produce", "give", "receive", "generate", "get",
 			"got", "notice", "lead", "find", "return", "have", "consider", "respond", "authenticate", "be", "fail",
-			"observe", "terminate", "show" };
+			"observe", "terminate", "show", "experience" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -66,6 +67,7 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 		return verbs;
 	}
 
+	@SuppressWarnings("unused")
 	private int processSentence(Sentence sentence) {
 		String sentenceTxt = TextProcessor.getStringFromTerms(sentence);
 

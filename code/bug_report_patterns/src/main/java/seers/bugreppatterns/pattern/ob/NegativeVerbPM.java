@@ -12,12 +12,13 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 
 	final private static String[] NEGATIVE_VERBS = { "fail", "freeze", "hang", "disappear", "prohibit", "ignore",
 			"break", "bypass", "lose", "wipe", "interfere", "vanish", "stop", "truncate", "offset", "complain",
-			"delete", "remain", "cut", "crash", "forget", "block", "interrupt", "close", "failes", "overlap" };
+			"delete", "remain", "cut", "crash", "forget", "block", "interrupt", "close", "failes", "overlap", "kill",
+			"lack", "shift", "retain", "stick", };
 
 	final private static String[] OTHER_NEGATIVE_VERBS = { "strip away", "slow doen", "slow down", "get stick",
-			"stick up", "faile", "stucks up", "consume 100", "stick in", "get turn into" };
+			"stick up", "faile", "stucks up", "consume 100", "stick in", "get turn into", "output null", "be out of",
+			"pull out", "faul" };
 
-	// strip away, slows doen, slows down, get stuck, loses down, Stucks up
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 

@@ -53,10 +53,12 @@ public class ExpBehaviorLiteralMultiSentencePM extends ExpectedBehaviorPatternMa
 				// }
 				// }
 			}
-		} else {
-			ExpBehaviorLiteralSentencePM pmSent = new ExpBehaviorLiteralSentencePM();
-			return pmSent.matchSentence(sentences.get(0));
 		}
+		// else {
+		// ExpBehaviorLiteralSentencePM pmSent = new
+		// ExpBehaviorLiteralSentencePM();
+		// return pmSent.matchSentence(sentences.get(0));
+		// }
 		return 0;
 	}
 
