@@ -16,7 +16,7 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
 	final public static String[] ERROR_TERMS = { "error", "warning", "bug", "violation", "exception", "problem", "npe",
 			"ise", "fault", "404", "issue", "typo", "crash", "glitch", "failure", "errore", "truncation", "loss",
-			"collision" };
+			"collision", "leak" };
 
 	final private static String[] VERB_TERMS = { "throw", "cause", "produce", "give", "receive", "generate", "get",
 			"got", "notice", "lead", "find", "return", "have", "consider", "respond", "authenticate", "be", "fail",
