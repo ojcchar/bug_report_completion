@@ -27,8 +27,13 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 				sentence = sentences.get(1);
 				text = TextProcessor.getStringFromLemmas(sentence);
 			}
-			//boolean b = text.matches("((actual|observed|current) )?((result|behavior|description|situation))? ?(:|-+)?");
-			boolean b = ((text.matches(".*step.*"))||(text.matches(".*to reproduce.*"))||(text.matches("str :"))||(text.matches(".*try :")));
+			// boolean b =
+			// ((text.matches(".*step.*"))||(text.matches(".*to reproduce.*"))||(text.matches("str :"))||(text.matches(".*try :")));
+			boolean b = false;
+			b = (text.matches(".*(following|repro) step.*"))
+					|| (text.matches("(step)? ?to repro.*"))
+					|| (text.equals("step :")) || (text.equals("str :"))
+					|| (text.endsWith("have try :"));
 			if (b) {
 				for (Sentence sen : sentences) {
 					text = TextProcessor.getStringFromLemmas(sen);
