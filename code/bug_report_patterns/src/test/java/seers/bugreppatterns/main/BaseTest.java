@@ -38,12 +38,12 @@ public class BaseTest {
 
 		if (patternName == null) {
 			findPatternName();
-			loadData();
 
 			if (patternName.startsWith("P_")) {
 				testSentence = false;
 				testParagraph = true;
 			}
+			loadData();
 		}
 	}
 
@@ -61,14 +61,33 @@ public class BaseTest {
 				String pattern2 = sentence.get(9);
 				String pattern3 = sentence.get(10);
 
+				String noTesting = sentence.get(15);
+
+				boolean addSentence = true;
+				boolean addParagraph = true;
+				switch (noTesting) {
+				case "P":
+					addParagraph = false;
+					break;
+				case "S":
+					addSentence = false;
+					break;
+				default:
+					break;
+				}
+
 				// String instanceId = sentence.get(14);
 
 				if (patternName.equalsIgnoreCase(pattern1) || patternName.equalsIgnoreCase(pattern2)
 						|| patternName.equalsIgnoreCase(pattern3)) {
 					// no titles
 					// if (!instanceId.startsWith("0")) {
-					testDataParagraph.add(paragraphTxt);
-					testDataSentence.add(sentenceTxt);
+					if (addParagraph) {
+						testDataParagraph.add(paragraphTxt);
+					}
+					if (addSentence) {
+						testDataSentence.add(sentenceTxt);
+					}
 					// }
 				}
 			});

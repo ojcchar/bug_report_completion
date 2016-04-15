@@ -115,7 +115,7 @@ public class MainFeatures {
 		CsvParser csvParser = new CsvParserBuilder().separator(';').build();
 		try (CsvReader csvReader = new CsvReader(new FileReader(goldSetFile), csvParser)) {
 			List<List<String>> lines = csvReader.readAll();
-			for (int i = 0; i < lines.size(); i++) {
+			for (int i = 1; i < lines.size(); i++) {
 				List<String> line = lines.get(i);
 
 				String system = line.get(0);
