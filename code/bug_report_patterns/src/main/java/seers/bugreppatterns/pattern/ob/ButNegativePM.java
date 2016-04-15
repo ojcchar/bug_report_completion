@@ -11,7 +11,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 
-	final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(), new NoLongerPM(),
+	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(), new NoLongerPM(),
 			new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(), new VerbNoPM(),
 			new ProblemInPM(), new FrequencyAdverbPM() };
 
