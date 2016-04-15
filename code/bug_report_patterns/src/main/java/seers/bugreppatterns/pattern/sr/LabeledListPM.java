@@ -17,7 +17,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 	
 	@Override
 	public int matchParagraph(Paragraph paragraph) throws Exception {
-
+		
 		List<Sentence> sentences = paragraph.getSentences();
 		String text="";
 		int stepNumber=0;
