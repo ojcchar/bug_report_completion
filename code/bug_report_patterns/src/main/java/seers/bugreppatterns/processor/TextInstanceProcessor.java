@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import net.quux00.simplecsv.CsvWriter;
 import seers.appcore.threads.ThreadExecutor;
@@ -16,6 +15,8 @@ import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.entity.xml.DescriptionSentence;
 import seers.bugreppatterns.main.MainHRClassifier;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.pattern.predictor.LabelPredictor;
+import seers.bugreppatterns.pattern.predictor.Labels;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -29,6 +30,7 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 	protected String granularity;
 	protected String system;
 	private CsvWriter featuresWriter;
+	private LabelPredictor predictor;
 
 	public TextInstanceProcessor(ThreadParameters params) {
 		super(params);
@@ -40,27 +42,16 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 		granularity = params.getStringParam(MainHRClassifier.GRANULARITY);
 		system = params.getStringParam(MainHRClassifier.SYSTEM);
 		featuresWriter = params.getParam(CsvWriter.class, MainHRClassifier.FEATURES_WRITER);
+		predictor = params.getParam(LabelPredictor.class, MainHRClassifier.PREDICTOR);
 	}
 
 	protected void writePrediction(String bugRepId, String instanceId,
-			LinkedHashMap<PatternMatcher, Integer> patternMatches) {
-		Integer isEB = 0;
-		Integer isSR = 0;
+			LinkedHashMap<PatternMatcher, Integer> patternMatches) throws Exception {
 
-		List<PatternMatcher> patterns = patternMatches.keySet().stream()
-				.filter(p -> PatternMatcher.EB.equals(p.getType())).collect(Collectors.toList());
-		if (!patterns.isEmpty()) {
-			isEB = 1;
-		}
+		Labels labels = predictor.predictLabels(bugRepId, instanceId, patternMatches);
 
-		patterns = patternMatches.keySet().stream().filter(p -> PatternMatcher.SR.equals(p.getType()))
-				.collect(Collectors.toList());
-		if (!patterns.isEmpty()) {
-			isSR = 1;
-		}
-
-		List<String> nextLine = Arrays
-				.asList(new String[] { system + "-" + bugRepId + "-" + instanceId, isEB.toString(), isSR.toString() });
+		List<String> nextLine = Arrays.asList(
+				new String[] { system, bugRepId, instanceId, labels.getIsOB(), labels.getIsEB(), labels.getIsSR() });
 		predictionWriter.writeNext(nextLine);
 	}
 

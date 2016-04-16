@@ -5,7 +5,6 @@ library(pwr)
 
 #---------------------------------------
 
-
 input_file= 'C:/Users/ojcch/Documents/Projects/Bug_autocompletion/data/all_data.csv'
 out_folder = 'C:/Users/ojcch/Documents/Projects/Bug_autocompletion/data/sample/'
 out_file =paste(out_folder,'data_sample.csv', sep = "")

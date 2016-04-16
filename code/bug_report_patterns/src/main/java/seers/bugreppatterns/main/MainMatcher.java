@@ -81,12 +81,10 @@ public class MainMatcher {
 		matchedWriterParagraphs.writeNext(Arrays.asList(
 				new String[] { "system", "bug_id", "sentence_id", "parsed_paragraph_id", "is_ob", "is_eb", "is_sr" }));
 
-		goldSetWriterSentences.writeNext(
-				Arrays.asList(new String[] { "system", "bug_id", "sentence_id", "is_ob", "is_eb", "is_sr" }));
-		goldSetWriterParagraphs.writeNext(
-				Arrays.asList(new String[] { "system", "bug_id", "paragraph_id", "is_ob", "is_eb", "is_sr" }));
-		goldSetWriterDocuments
-				.writeNext(Arrays.asList(new String[] { "system", "bug_id", "dummy", "is_ob", "is_eb", "is_sr" }));
+		String[] title = new String[] { "system", "bug_id", "instance_id", "is_ob", "is_eb", "is_sr" };
+		goldSetWriterSentences.writeNext(Arrays.asList(title));
+		goldSetWriterParagraphs.writeNext(Arrays.asList(title));
+		goldSetWriterDocuments.writeNext(Arrays.asList(title));
 
 	}
 
