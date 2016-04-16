@@ -45,7 +45,7 @@ public class EvenIfPM extends ObservedBehaviorPatternMatcher{
 	}
 	
 	private int adverbIndex (List<Token> tokens){
-		for(int i=0;i<tokens.size();i++){
+		for(int i=0;i<(tokens.size()-2);i++){
 			Token t=tokens.get(i);
 			if(tokens.get(i).getLemma().equals("although")){
 				return i;
