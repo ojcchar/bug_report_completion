@@ -18,7 +18,7 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 			"empty", "off", "undefined", "slow", "untrusted", "bad", "corrupt", "wrong", "strange", "blank",
 			"undefined", "bloken", "infinite", "unstyled", "meaningless", "spurious", "inappropriate", "broken",
 			"weird", "down", "dirty", "expensive", "inaccessible", "unexpected", "different", "duplicated", "unlimited",
-			"inconsitant", "multiple", "unusable" };
+			"inconsitant", "multiple", "unusable", "duplicate" , "misplace"};
 
 	final public static String[] NEGATIVE_ADV = { "incorrectly", "randomly", "suddenly", "erroneously", "slow",
 			"indefinitely", "twice" };
