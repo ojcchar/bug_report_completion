@@ -17,7 +17,6 @@ import net.quux00.simplecsv.CsvParserBuilder;
 import net.quux00.simplecsv.CsvReader;
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
-import seers.bugreppatterns.pattern.ob.CauseNounAdjectivePM;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 
@@ -195,7 +194,7 @@ public class BaseTest {
 		}
 	}
 
-	private Paragraph parseParagraph(String txt) {
+	protected Paragraph parseParagraph(String txt) {
 
 		Paragraph paragraph = new Paragraph("0");
 		String[] lines = txt.split("\n");

@@ -20,10 +20,8 @@ public class TreePredictor extends LabelPredictor {
 		// if ("S".equals(granularity)) {
 		// return predictLabelsSentence(patternMatches);
 		// } else if ("P".equals(granularity)) {
-		//// return predictLabelsSentence(patternMatches);
 		// return predictLabelsParagraph(patternMatches);
 		// } else if ("B".equals(granularity)) {
-		//// return predictLabelsSentence(patternMatches);
 		// return predictLabelsBugs(patternMatches);
 		// }
 		// return null;
@@ -37,19 +35,49 @@ public class TreePredictor extends LabelPredictor {
 	private Labels predictLabelsParagraph(LinkedHashMap<PatternMatcher, Integer> patternMatches) {
 
 		List<Entry<PatternMatcher, Integer>> patterns = patternMatches.entrySet().stream()
-				.filter(p -> PatternMatcher.OB.equals(p.getKey().getType())).collect(Collectors.toList());
-		List<Entry<PatternMatcher, Integer>> topPatterns = getTopPatterns(patterns);
+				.filter(p -> PatternMatcher.EB.equals(p.getKey().getType()) && p.getKey().getName().startsWith("S_"))
+				.collect(Collectors.toList());
+		List<Entry<PatternMatcher, Integer>> topPatternsEB = getTopPatterns(patterns);
 
-		return new Labels("", "", "");
+		patterns = patternMatches.entrySet().stream()
+				.filter(p -> PatternMatcher.EB.equals(p.getKey().getType()) && p.getKey().getName().startsWith("P_"))
+				.collect(Collectors.toList());
+		topPatternsEB.addAll(getTopPatterns(patterns));
+
+		List<Entry<PatternMatcher, Integer>> patternsSR = patternMatches.entrySet().stream()
+				.filter(p -> PatternMatcher.SR.equals(p.getKey().getType()) && p.getKey().getName().startsWith("S_"))
+				.collect(Collectors.toList());
+		List<Entry<PatternMatcher, Integer>> topPatternsSR = getTopPatterns(patternsSR);
+
+		patternsSR = patternMatches.entrySet().stream()
+				.filter(p -> PatternMatcher.SR.equals(p.getKey().getType()) && p.getKey().getName().startsWith("P_"))
+				.collect(Collectors.toList());
+		topPatternsSR.addAll(getTopPatterns(patternsSR));
+
+		LinkedHashMap<PatternMatcher, Integer> newPatternMatches = new LinkedHashMap<>();
+		for (Entry<PatternMatcher, Integer> entry : topPatternsEB) {
+			newPatternMatches.put(entry.getKey(), entry.getValue());
+		}
+		for (Entry<PatternMatcher, Integer> entry : topPatternsSR) {
+			newPatternMatches.put(entry.getKey(), entry.getValue());
+		}
+
+		return predictLabelsSentence(newPatternMatches);
 	}
 
-	private List<Entry<PatternMatcher, Integer>> getTopPatterns(List<Entry<PatternMatcher, Integer>> patterns) {
-		patterns.sort((e1, e2) -> Integer.compare(e1.getValue(), e2.getValue()));
+	// private List<Entry<PatternMatcher, Integer>>
+	// getTopPatterns(List<Entry<PatternMatcher, Integer>> patterns) {
+	// return patterns;
+	// }
 
-		if (patterns.size() < 3) {
-			return new ArrayList<>(patterns);
+	private List<Entry<PatternMatcher, Integer>> getTopPatterns(List<Entry<PatternMatcher, Integer>> patterns) {
+		patterns.sort((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()));
+
+		int top = 1;
+		if (top <= patterns.size()) {
+			return patterns.subList(0, top);
 		} else {
-			return patterns.subList(0, 3);
+			return new ArrayList<>(patterns);
 		}
 	}
 

@@ -11,7 +11,8 @@ import seers.textanalyzer.entity.Token;
 public class WouldBeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 	final private static String[] MODALS = { "would", "might" };
-	final private static String[] ADJECTIVES = { "nice", "great", "super", "useful", "convenient", "ideal" };
+	final private static String[] ADJECTIVES = { "nice", "great", "super", "useful", "convenient", "ideal", "neat",
+			"better", "helpful" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

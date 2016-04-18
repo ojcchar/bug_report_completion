@@ -48,10 +48,11 @@ public class MainHRClassifier {
 		String[] systems = args[2].split(",");
 		String outputFolder = args[3];
 		Predictor predictionMethod = EnumUtils.getEnum(Predictor.class, args[4]);
+		String pathFilePatterns = args[5];
 
 		// ------------------------------------------
 
-		List<PatternMatcher> patterns = loadPatterns();
+		List<PatternMatcher> patterns = loadPatterns(new File(pathFilePatterns));
 
 		LOGGER.debug("#patterns: " + patterns.size());
 
@@ -104,10 +105,10 @@ public class MainHRClassifier {
 		return null;
 	}
 
-	private static List<PatternMatcher> loadPatterns()
+	private static List<PatternMatcher> loadPatterns(File filePatterns)
 			throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
-		List<String> allPatterns = FileUtils.readLines(new File("patterns.csv"));
+		List<String> allPatterns = FileUtils.readLines(filePatterns);
 
 		List<PatternMatcher> patterns = new ArrayList<>();
 

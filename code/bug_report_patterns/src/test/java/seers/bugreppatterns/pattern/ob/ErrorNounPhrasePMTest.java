@@ -2,9 +2,9 @@ package seers.bugreppatterns.pattern.ob;
 
 import seers.bugreppatterns.main.BaseTest;
 
-public class ErrorNounPhrasePMTest extends BaseTest{
+public class ErrorNounPhrasePMTest extends BaseTest {
 
-	public ErrorNounPhrasePMTest(){
+	public ErrorNounPhrasePMTest() {
 		pm = new ErrorNounPhrasePM();
 	}
 }

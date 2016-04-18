@@ -56,7 +56,7 @@ public class BugReportProcessor extends TextInstanceProcessor {
 		for (DescriptionParagraph par : paragraphs) {
 			Paragraph paragraph = parseParagraph(bugRep.getId(), par);
 			if (paragraph.isEmpty()) {
-				LOGGER.warn("[" + system + "] Bug " + bugRep.getId() + ", paragraph " + bugRep.getId()
+				LOGGER.warn("[" + system + "] Bug " + bugRep.getId() + ", paragraph " + paragraph.getId()
 						+ " is empty, skipping it!");
 				continue;
 			}

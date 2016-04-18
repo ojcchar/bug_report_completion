@@ -137,6 +137,13 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 				if (!sentences.isEmpty()) {
 					List<Token> allTokens = TextProcessor.getAllTokens(sentences);
 
+					// if (allTokens.isEmpty()) {
+					// LOGGER.debug("No tokens for bug: " + bugId + ", par.: " +
+					// par.getId() + ", sent: "
+					// + descSentence.getId());
+					// continue;
+					// }
+
 					Sentence sentence = new Sentence(descSentence.getId(), allTokens);
 
 					par.addSentence(sentence);

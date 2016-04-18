@@ -2,9 +2,9 @@ package seers.bugreppatterns.pattern.ob;
 
 import seers.bugreppatterns.main.BaseTest;
 
-public class ErrorTermSubjectPMTest extends BaseTest{
+public class ErrorTermSubjectPMTest extends BaseTest {
 
-	public ErrorTermSubjectPMTest(){
+	public ErrorTermSubjectPMTest() {
 		pm = new ErrorTermSubjectPM();
 	}
 }

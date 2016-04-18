@@ -2,9 +2,9 @@ package seers.bugreppatterns.pattern.ob;
 
 import seers.bugreppatterns.main.BaseTest;
 
-public class NegativeConditionalPMTest extends BaseTest{
+public class NegativeConditionalPMTest extends BaseTest {
 
-	public NegativeConditionalPMTest(){
+	public NegativeConditionalPMTest() {
 		pm = new NegativeConditionalPM();
 	}
 }

@@ -7,19 +7,20 @@ import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 
-public class DescriptionPM extends ObservedBehaviorPatternMatcher{
+public class DescriptionPM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		return 0;
 	}
-	
+
 	@Override
-	public int matchParagraph (Paragraph paragraph){
+	public int matchParagraph(Paragraph paragraph) {
 		List<Sentence> sentences = paragraph.getSentences();
 		Sentence sentence = sentences.get(0);
 		String text = TextProcessor.getStringFromLemmas(sentence);
-		if((text.startsWith("description :")||text.startsWith("problem description :"))&&(text.matches(".*description :.*"))){
+		if ((text.startsWith("description :") || text.startsWith("problem description :"))
+				&& (text.matches(".*description :.*"))) {
 			return 1;
 		}
 		return 0;

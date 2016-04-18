@@ -3,6 +3,8 @@ package seers.bugreppatterns.pattern.eb;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
+import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -13,14 +15,19 @@ public class ExpectSentencePM extends ExpectedBehaviorPatternMatcher {
 		ExpBehaviorLiteralSentencePM pm = new ExpBehaviorLiteralSentencePM();
 		int match = pm.matchSentence(sentence);
 
-		Sentence newSentence = sentence;
+		List<Token> tokens = sentence.getTokens();
+		// analyze the token after the label (e.g., expect. results: bla bla
+		// bla --> bla bla bla)
 		if (match > 0) {
-			List<Token> tokens = sentence.getTokens();
 			int i = findFirstToken(tokens, ":");
-			newSentence.setTokens(tokens.subList(i + 1, tokens.size()));
+			tokens = tokens.subList(i + 1, tokens.size());
 		}
 
-		List<Token> tokens = newSentence.getTokens();
+		String txt = TextProcessor.getStringFromLemmas(sentence);
+
+		if (!txt.endsWith("right ?") && SentenceUtils.isQuestion(sentence)) {
+			return 0;
+		}
 
 		boolean anyMatch = tokens.stream()
 				.anyMatch(t -> t.getLemma().equalsIgnoreCase("expect") && t.getGeneralPos().equals("VB"));
