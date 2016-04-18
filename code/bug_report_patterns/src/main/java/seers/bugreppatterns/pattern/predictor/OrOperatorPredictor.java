@@ -10,7 +10,7 @@ public class OrOperatorPredictor extends LabelPredictor {
 
 	@Override
 	public Labels predictLabels(String bugRepId, String instanceId,
-			LinkedHashMap<PatternMatcher, Integer> patternMatches) throws Exception {
+			LinkedHashMap<PatternMatcher, Integer> patternMatches, String granularity) throws Exception {
 		String isOB = "";
 		String isEB = "";
 		String isSR = "";

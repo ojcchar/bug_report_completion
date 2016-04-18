@@ -11,6 +11,7 @@ import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.entity.xml.BugReport;
 import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.pattern.predictor.Labels;
 
 public class BugReportProcessor extends TextInstanceProcessor {
 
@@ -36,8 +37,10 @@ public class BugReportProcessor extends TextInstanceProcessor {
 					}
 				}
 
+				Labels labels = predictor.predictLabels(bugRep.getId(), "0", patternMatches, granularity);
+
 				writeFeatures(bugRep.getId(), "0", patternMatches);
-				writePrediction(bugRep.getId(), "0", patternMatches);
+				writePrediction(bugRep.getId(), "0", labels);
 
 			} catch (Exception e) {
 				LOGGER.error("[" + system + "] Error for file: " + file + ", " + e.getClass().getSimpleName() + ": "

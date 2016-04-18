@@ -9,7 +9,7 @@ public class InsteadOfOBPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		String txt = TextProcessor.getStringFromLemmas(sentence);
-		if (txt.matches(".*(instead of|rather than).*")) {
+		if (txt.matches(".*(instead of|rather than|in lieu of).+")) {
 			return 1;
 		}
 

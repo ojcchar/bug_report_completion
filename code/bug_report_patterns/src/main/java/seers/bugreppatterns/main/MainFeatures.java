@@ -23,20 +23,25 @@ public class MainFeatures {
 
 		String[] granularities = { "B", "P", "S" };
 
-		processGranularities(granularities);
+		boolean ourData = false;
+		processGranularities(granularities, ourData);
 
 		System.out.println("Done!");
 
 	}
 
-	private static void processGranularities(String[] granularities) throws IOException {
+	private static void processGranularities(String[] granularities, boolean ourData) throws IOException {
 		for (String gran : granularities) {
 			System.out.println("doing " + gran);
 
 			File prefeaturesFile = new File("test_data/output/output-pre-features-" + gran + ".csv");
 			File goldSetFile = new File("gold-set-" + gran + ".csv");
 			if (gran.equals("B")) {
-				goldSetFile = new File("all_data_only_bugs.csv");
+				if (ourData) {
+					goldSetFile = new File("all_data_only_bugs_coded_data.csv");
+				} else {
+					goldSetFile = new File("all_data_only_bugs_davies.csv");
+				}
 			}
 
 			CsvWriter featuresEBWriter = new CsvWriterBuilder(new FileWriter("features-eb-" + gran + ".txt"))

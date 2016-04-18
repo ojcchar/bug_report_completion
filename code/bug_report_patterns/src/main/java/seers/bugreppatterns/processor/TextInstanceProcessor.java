@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.quux00.simplecsv.CsvWriter;
 import seers.appcore.threads.ThreadExecutor;
@@ -30,7 +31,8 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 	protected String granularity;
 	protected String system;
 	private CsvWriter featuresWriter;
-	private LabelPredictor predictor;
+	protected LabelPredictor predictor;
+	private CsvWriter featuresWriter2;
 
 	public TextInstanceProcessor(ThreadParameters params) {
 		super(params);
@@ -42,13 +44,11 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 		granularity = params.getStringParam(MainHRClassifier.GRANULARITY);
 		system = params.getStringParam(MainHRClassifier.SYSTEM);
 		featuresWriter = params.getParam(CsvWriter.class, MainHRClassifier.FEATURES_WRITER);
+		featuresWriter2 = params.getParam(CsvWriter.class, MainHRClassifier.FEATURES_WRITER2);
 		predictor = params.getParam(LabelPredictor.class, MainHRClassifier.PREDICTOR);
 	}
 
-	protected void writePrediction(String bugRepId, String instanceId,
-			LinkedHashMap<PatternMatcher, Integer> patternMatches) throws Exception {
-
-		Labels labels = predictor.predictLabels(bugRepId, instanceId, patternMatches);
+	protected void writePrediction(String bugRepId, String instanceId, Labels labels) throws Exception {
 
 		List<String> nextLine = Arrays.asList(
 				new String[] { system, bugRepId, instanceId, labels.getIsOB(), labels.getIsEB(), labels.getIsSR() });
@@ -67,6 +67,24 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 		});
 
 		featuresWriter.writeNext(nextLine);
+
+		// --------------------------
+
+		List<Entry<PatternMatcher, Integer>> entrySet = new ArrayList<>(patternMatches.entrySet());
+		entrySet.sort((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()));
+
+		List<String> nextLine2 = new ArrayList<>();
+		nextLine2.add(system);
+		nextLine2.add(bugRepId);
+		nextLine2.add(instanceId);
+
+		entrySet.forEach(e -> {
+			nextLine2.add(e.getKey().getName());
+			nextLine2.add(String.valueOf(e.getValue()));
+		});
+
+		featuresWriter2.writeNext(nextLine2);
+
 	}
 
 	protected Paragraph parseParagraph(String bugId, DescriptionParagraph paragraph) {
@@ -78,7 +96,43 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 			for (DescriptionSentence descSentence : elements) {
 
 				String sentenceTxt = descSentence.getValue();
-				List<Sentence> sentences = TextProcessor.processText(sentenceTxt);
+				String sentenceEscaped = sentenceTxt;
+				// -----------------------------------------
+
+				if ("firefox".equals(system)) {
+
+					// -----------------------------
+					if (sentenceTxt.matches("(?s)(?i)(actual)( (results|result))?:(.*)")) {
+						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(actual)( (results|result))?:(.*)", "$4");
+					} else if (sentenceTxt.matches("(?s)(?i)(actual)( (result|results))(.*)")) {
+						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(actual)( (results|result))(.*)", "$4");
+					} else
+					// -----------------------------
+
+					if (sentenceTxt.matches("(?s)(?i)(expected)( (results|result))?:(.*)")) {
+						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(expected)( (results|result))?:(.*)", "$4");
+					} else if (sentenceTxt.matches("(?s)(?i)(expected)( (results|result))?(.*)")) {
+						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(expected)( (results|result))?(.*)", "$4");
+					} else
+
+					// -----------------------------
+					if (sentenceTxt.matches("(?s)(?i)(str|((steps)( to reproduce)?)):(.*)")) {
+						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(str|((steps)( to reproduce)?)):(.*)", "$5");
+					} else if (sentenceTxt.matches("(?s)(?i)(str|((steps)( to reproduce)?))(.*)")) {
+						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(str|((steps)( to reproduce)?))(.*)", "$5");
+					}
+				}
+
+				// LOGGER.debug("STNC: " + sentenceTxt + " -> " +
+				// sentenceEscaped);
+
+				if (sentenceEscaped.trim().isEmpty()) {
+					continue;
+				}
+
+				// -----------------------------------------
+
+				List<Sentence> sentences = TextProcessor.processText(sentenceEscaped);
 
 				if (!sentences.isEmpty()) {
 					List<Token> allTokens = TextProcessor.getAllTokens(sentences);

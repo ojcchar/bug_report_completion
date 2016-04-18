@@ -10,6 +10,7 @@ import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.entity.xml.BugReport;
 import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.pattern.predictor.Labels;
 
 public class ParagraphProcessor extends TextInstanceProcessor {
 
@@ -33,6 +34,10 @@ public class ParagraphProcessor extends TextInstanceProcessor {
 
 					Paragraph parsedParagraph = parseParagraph(bugRep.getId(), paragraph);
 
+					if (parsedParagraph.isEmpty()) {
+						continue;
+					}
+
 					for (PatternMatcher patternMatcher : patterns) {
 						int numMatches = patternMatcher.matchParagraph(parsedParagraph);
 						if (numMatches > 0) {
@@ -40,11 +45,14 @@ public class ParagraphProcessor extends TextInstanceProcessor {
 						}
 					}
 
+					Labels labels = predictor.predictLabels(bugRep.getId(), paragraph.getId(), patternMatches,
+							granularity);
+
 					writeFeatures(bugRep.getId(), paragraph.getId(), patternMatches);
-					writePrediction(bugRep.getId(), paragraph.getId(), patternMatches);
+					writePrediction(bugRep.getId(), paragraph.getId(), labels);
 				}
 			} catch (Exception e) {
-				LOGGER.error("[" + system + "] Error for file: " + file);
+				LOGGER.error("[" + system + "] Error for file: " + file, e);
 			}
 		}
 

@@ -6,20 +6,12 @@
 		<paragraph id="1">
 			<sentence id="1.1">In httpd.h, arg1 of the ap_regexec function should be declared const.</sentence>
 			<sentence id="1.2">The code
-should change from:</sentence>
-		</paragraph>
-		<paragraph id="2">
-			<sentence id="2.1">AP_DECLARE(int)    ap_regexec(regex_t *preg, const char *string,
+should change from:
+AP_DECLARE(int)    ap_regexec(regex_t *preg, const char *string,
+                              size_t nmatch, regmatch_t pmatch[], int eflags);
+to:
+AP_DECLARE(int)    ap_regexec(const regex_t *preg, const char *string,
                               size_t nmatch, regmatch_t pmatch[], int eflags);</sentence>
-		</paragraph>
-		<paragraph id="3">
-			<sentence id="3.1">to:</sentence>
-		</paragraph>
-		<paragraph id="4">
-			<sentence id="4.1">AP_DECLARE(int)    ap_regexec(const regex_t *preg, const char *string,
-                              size_t nmatch, regmatch_t pmatch[], int eflags);</sentence>
-		</paragraph>
-		<paragraph id="5">
 			<sentence id="5.1">When executing a regular expression, the regex_t structure is not modified by
 regexec (see the regexec man page).</sentence>
 		</paragraph>

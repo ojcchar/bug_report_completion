@@ -33,32 +33,8 @@ public class ExpBehaviorLiteralMultiSentencePM extends ExpectedBehaviorPatternMa
 				if (tokens.get(0).getGeneralPos().equals("VB")) {
 					return 1;
 				}
-			} else {
-				// b = text.matches("expect , ((result|behavior) )?.+(:|-+)
-				// .+");
-				// if (b) {
-				// List<Token> tokens = TextProcessor.getAllTokens(stnces);
-				// if (tokens.get(0).getGeneralPos().equals("VB")) {
-				// return 1;
-				// }
-				// }
-
-				// else {
-				// b = text.matches("expect ((result|behavior) )?(:|-+)\r\n");
-				// if (b) {
-				// List<Token> tokens = TextProcessor.getAllTokens(stnces);
-				// if (tokens.get(0).getGeneralPos().equals("VB")) {
-				// return 1;
-				// }
-				// }
-				// }
 			}
 		}
-		// else {
-		// ExpBehaviorLiteralSentencePM pmSent = new
-		// ExpBehaviorLiteralSentencePM();
-		// return pmSent.matchSentence(sentences.get(0));
-		// }
 		return 0;
 	}
 

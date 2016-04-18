@@ -19,6 +19,7 @@ import seers.appcore.threads.processor.ThreadParameters;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
 import seers.bugreppatterns.pattern.predictor.OrOperatorPredictor;
+import seers.bugreppatterns.pattern.predictor.TreePredictor;
 import seers.bugreppatterns.processor.SystemProcessor;
 
 public class MainHRClassifier {
@@ -26,7 +27,7 @@ public class MainHRClassifier {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainHRClassifier.class);
 
 	public enum Predictor {
-		OR_OPER
+		OR_OPER, TREE
 	}
 
 	public static final String DATA_FOLDER = "DATA_FOLDER";
@@ -36,6 +37,7 @@ public class MainHRClassifier {
 	public static final String PATTERNS = "PATTERNS";
 	public static final String FEATURES_WRITER = "FEATURES_WRITER";
 	public static final String PREDICTOR = "PREDICTOR";
+	public static final String FEATURES_WRITER2 = "FEATURES_WRITER2";
 
 	public static void main(String[] args) throws Exception {
 
@@ -60,6 +62,9 @@ public class MainHRClassifier {
 						.separator(';').build();
 				CsvWriter csvw2 = new CsvWriterBuilder(
 						new FileWriter(outputFolder + File.separator + "output-pre-features-" + granularity + ".csv"))
+								.separator(';').build();
+				CsvWriter csvw3 = new CsvWriterBuilder(
+						new FileWriter(outputFolder + File.separator + "output-patterns-" + granularity + ".csv"))
 								.separator(';').build();) {
 
 			ThreadParameters params = new ThreadParameters();
@@ -68,6 +73,7 @@ public class MainHRClassifier {
 			params.addParam(PATTERNS, patterns);
 			params.addParam(GRANULARITY, granularity);
 			params.addParam(FEATURES_WRITER, csvw2);
+			params.addParam(FEATURES_WRITER2, csvw3);
 
 			LabelPredictor predictor = getPredictor(predictionMethod);
 			params.addParam(PREDICTOR, predictor);
@@ -90,6 +96,8 @@ public class MainHRClassifier {
 		switch (predictionMethod) {
 		case OR_OPER:
 			return new OrOperatorPredictor();
+		case TREE:
+			return new TreePredictor();
 		default:
 			break;
 		}

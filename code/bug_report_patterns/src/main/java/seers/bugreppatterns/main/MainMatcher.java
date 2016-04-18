@@ -48,9 +48,9 @@ public class MainMatcher {
 		matchedWriterParagraphs = new CsvWriterBuilder(new FileWriter("matched-coded-parsed-P.csv")).separator(';')
 				.build();
 
-		goldSetWriterSentences = new CsvWriterBuilder(new FileWriter("gold-set-S.csv")).separator(';').build();
-		goldSetWriterParagraphs = new CsvWriterBuilder(new FileWriter("gold-set-P.csv")).separator(';').build();
-		goldSetWriterDocuments = new CsvWriterBuilder(new FileWriter("gold-set-B.csv")).separator(';').build();
+		goldSetWriterSentences = new CsvWriterBuilder(new FileWriter("gold-set-S-matcher.csv")).separator(';').build();
+		goldSetWriterParagraphs = new CsvWriterBuilder(new FileWriter("gold-set-P-matcher.csv")).separator(';').build();
+		goldSetWriterDocuments = new CsvWriterBuilder(new FileWriter("gold-set-B-matcher.csv")).separator(';').build();
 
 		try {
 

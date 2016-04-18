@@ -8,9 +8,15 @@ public class Labels {
 
 	public Labels(String isOB, String isEB, String isSR) {
 		super();
-		this.isOB = isOB;
-		this.isEB = isEB;
-		this.isSR = isSR;
+		this.isOB = new String(isOB);
+		this.isEB = new String(isEB);
+		this.isSR = new String(isSR);
+	}
+
+	public Labels(Labels labels) {
+		this.isOB = new String(labels.isOB);
+		this.isEB = new String(labels.isEB);
+		this.isSR = new String(labels.isSR);
 	}
 
 	public String getIsOB() {

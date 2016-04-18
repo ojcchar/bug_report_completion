@@ -36,10 +36,7 @@ detail below.</sentence>
 			<sentence id="5.12">It builds and installs fine.</sentence>
 			<sentence id="5.13">When I start it in non-ssl mode, it also</sentence>
 			<sentence id="5.14">works fine.</sentence>
-			<sentence id="5.15">But when I try "apachectl startssl" I get the following</sentence>
-			<sentence id="5.16">output:</sentence>
-		</paragraph>
-		<paragraph id="6">
+			<sentence id="5.15">But when I try "apachectl startssl" I get the following output:</sentence>
 			<sentence id="6.1">Syntax error on line 220 of /local/opt/apache2/conf/httpd.</sentence>
 			<sentence id="6.2">conf:
   Cannot load /local/opt/apache2/modules/mod_ssl.so into server: ld.so.1:
@@ -47,11 +44,10 @@ detail below.</sentence>
 /local/opt/apache2/modules/mod_ssl.so: symbol X509_INFO_free: referenced
 symbol not found
   .</sentence>
-			<sentence id="6.3">/apachectl startssl: httpd could not be started
-  
-The syntax error it is complaining about is from the stock httpd.conf:</sentence>
-		</paragraph>
-		<paragraph id="7">
+			<sentence id="6.3">/apachectl startssl: httpd could not be started</sentence>
+  		</paragraph>
+		<paragraph id="17">
+<sentence id="17.1">The syntax error it is complaining about is from the stock httpd.conf:</sentence>
 			<sentence id="7.1">LoadModule ssl_module modules/mod_ssl.so</sentence>
 		</paragraph>
 		<paragraph id="8">
@@ -82,25 +78,21 @@ with the following configure:</sentence>
 			<sentence id="12.1">This builds and installs fine.</sentence>
 			<sentence id="12.2">However, when I try to start using 
 'apachectl startssl' I simply get the following:</sentence>
-		</paragraph>
-		<paragraph id="13">
 			<sentence id="13.1">Segmentation Fault
   .</sentence>
-			<sentence id="13.2">/apachectl startssl: httpd could not be started
-  
-When I try a plain 'apachectl start' I get the following message in 
+			<sentence id="13.2">/apachectl startssl: httpd could not be started</sentence>
+  		</paragraph>
+		<paragraph id="18">
+<sentence id="18.1">When I try a plain 'apachectl start' I get the following message in 
 the error_log:</sentence>
-		</paragraph>
-		<paragraph id="14">
 			<sentence id="14.1">[error] mod_ssl: Init: Failed to generate temporary 512 bit RSA private
-key
-  
-I found this message in the mod_ssl FAQ which basically says you can fix it 
+key</sentence>
+  		</paragraph>
+		<paragraph id="19">
+<sentence id="19.1">I found this message in the mod_ssl FAQ which basically says you can fix it 
 using SSLRandomKey directives.</sentence>
 			<sentence id="14.2">However, the default ssl.conf already has these 
 lines:</sentence>
-		</paragraph>
-		<paragraph id="15">
 			<sentence id="15.1">SSLRandomSeed startup builtin
   SSLRandomSeed connect builtin</sentence>
 		</paragraph>

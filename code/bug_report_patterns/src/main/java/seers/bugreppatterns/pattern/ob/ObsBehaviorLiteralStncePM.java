@@ -12,20 +12,20 @@ public class ObsBehaviorLiteralStncePM extends ObservedBehaviorPatternMatcher {
 
 		// ----------------
 
-		boolean b = text.matches("((actual|observed|current) )?((result|behavior|description|situation) )?(:|-+)?.+");
+		boolean b = text.matches("((actual|observed|current) )((result|behavior|description|situation) )?(:|-+).+");
 		if (b) {
-			// List<Token> tokens = sentence.getTokens();
-			// if (tokens.get(0).getGeneralPos().equals("VB")) {
 			return 1;
-			// }
+		} else {
+			b = text.matches("((actual|observed|current) )?((result|behavior|description|situation) )(:|-+).+");
+			if (b) {
+				return 1;
+			} else {
+				b = text.matches("((actual|observed|current) )((result|behavior|description|situation) )(:|-+)?.+");
+				if (b) {
+					return 1;
+				}
+			}
 		}
-		// else {
-		//
-		// b = text.matches("expectation :.+");
-		// if (b) {
-		// return 1;
-		// }
-		// }
 
 		return 0;
 	}

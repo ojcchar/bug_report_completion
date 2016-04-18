@@ -24,11 +24,27 @@ public class ObsBehaviorLiteralMultiStncePM extends ObservedBehaviorPatternMatch
 			String text = TextProcessor.getStringFromLemmas(sentence);
 
 			// ----------------
-
-			boolean b = text
-					.matches("((actual|observed|current) )?((result|behavior|description|situation))? ?(:|-+)?");
+			boolean matchLabel = false;
+			boolean b = text.matches("((actual|observed|current) )((result|behavior|description|situation) )?(:|-+)");
 			if (b) {
-				return 1;
+				matchLabel = true;
+			} else {
+				b = text.matches("((actual|observed|current) )?((result|behavior|description|situation) )(:|-+)");
+				if (b) {
+					matchLabel = true;
+				} else {
+					b = text.matches("((actual|observed|current) )((result|behavior|description|situation))( (:|-+))?");
+					if (b) {
+						matchLabel = true;
+					}
+				}
+			}
+
+			if (matchLabel) {
+				Sentence sentence2 = sentences2.get(1);
+				if (!sentence2.isEmpty()) {
+					return 1;
+				}
 			}
 		}
 		return 0;

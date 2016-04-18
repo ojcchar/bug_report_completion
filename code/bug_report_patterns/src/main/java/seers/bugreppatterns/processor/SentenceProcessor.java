@@ -10,6 +10,7 @@ import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.entity.xml.BugReport;
 import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.pattern.predictor.Labels;
 import seers.textanalyzer.entity.Sentence;
 
 public class SentenceProcessor extends TextInstanceProcessor {
@@ -29,9 +30,13 @@ public class SentenceProcessor extends TextInstanceProcessor {
 
 				for (DescriptionParagraph paragraph : paragraphs) {
 
-					Paragraph sentences = parseParagraph(bugRep.getId(), paragraph);
+					Paragraph par = parseParagraph(bugRep.getId(), paragraph);
 
-					for (Sentence sentence : sentences.getSentences()) {
+					if (par.isEmpty()) {
+						continue;
+					}
+
+					for (Sentence sentence : par.getSentences()) {
 
 						LinkedHashMap<PatternMatcher, Integer> patternMatches = new LinkedHashMap<>();
 
@@ -42,7 +47,10 @@ public class SentenceProcessor extends TextInstanceProcessor {
 							}
 						}
 
-						writePrediction(bugRep.getId(), sentence.getId(), patternMatches);
+						Labels labels = predictor.predictLabels(bugRep.getId(), sentence.getId(), patternMatches,
+								granularity);
+
+						writePrediction(bugRep.getId(), sentence.getId(), labels);
 						writeFeatures(bugRep.getId(), sentence.getId(), patternMatches);
 					}
 				}
