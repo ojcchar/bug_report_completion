@@ -22,8 +22,8 @@ public class CodeRefPM extends StepsToReproducePatternMatcher{
 		boolean isAdverb = false;
 		boolean isVerbAsAdjective=false;
 		boolean endsWith=false;
-		if(text.endsWith(":")||text.matches(".*from :.*")||text.endsWith("e.g.")){endsWith=true;}
-		if(text.matches(".*(command line|live example|test case|file in).*")){
+		if(text.endsWith(":")||text.matches("(?s).*from :.*")||text.endsWith("e.g.")){endsWith=true;}
+		if(text.matches("(?s).*(command line|live example|test case|file in).*")){
 			isNounTerm=true;
 		}
 		for(int i=0;i<tokens.size();i++){
