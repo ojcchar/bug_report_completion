@@ -48,7 +48,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 							if(isAnAction(tokens.get(1), tokens.get(2))|| isANounPhrase(tokens)||(startsWithNounPhrase(tokens.get(1), tokens.get(2)))) {
 								return 1;
 							}
-						}else if((isAnAction(tokens.get(1), tokens.get(2))|| isANounPhrase(tokens)||(startsWithNounPhrase(tokens.get(1), tokens.get(2))))){
+						}else if((isAnAction(tokens.get(0), tokens.get(1))|| isANounPhrase(tokens)||(startsWithNounPhrase(tokens.get(1), tokens.get(2))))){
 							return 1;
 						}
 					}
@@ -75,7 +75,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 		return 0;
 	}
 	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "stop",
-			"goto", "enter", "drag" ,"check","file","try","build","install","type"};
+			"goto", "enter", "drag" ,"check","file","try","build","install","type","use"};
 
 	public boolean isAnAction(Token firstToken, Token secondToken) {
 
