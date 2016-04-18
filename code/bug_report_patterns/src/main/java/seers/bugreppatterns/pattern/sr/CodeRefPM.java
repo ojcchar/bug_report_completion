@@ -10,9 +10,9 @@ import seers.textanalyzer.entity.Token;
 
 public class CodeRefPM extends StepsToReproducePatternMatcher{
 
-	final static String[] NOUNS_TERM = {"snippet","code","sample","configuration","statement","script","html/ssi","html/fbml","html"};
+	final static String[] NOUNS_TERM = {"snippet","code","sample","configuration","statement","script","html/ssi","html/fbml","html","trace",".htm"};
 	final static String[] ADV_LOCATION = {"here","below"};
-	final static String[] VERB_DEMO={"provide","enclose","follow","render"};
+	final static String[] VERB_DEMO={"provide","enclose","follow","render","attach"};
 	
 	public int matchSentence(Sentence sentence) throws Exception {
 		
@@ -23,7 +23,7 @@ public class CodeRefPM extends StepsToReproducePatternMatcher{
 		for(int i=0;i<tokens.size();i++){
 			Token token=tokens.get(i);
 			//exist a noun that refer to code such as code or snippet
-			if (Arrays.stream(NOUNS_TERM).anyMatch(t -> token.getLemma().equals(t))){
+			if (Arrays.stream(NOUNS_TERM).anyMatch(t -> token.getLemma().contains(t))){
 				if(token.getGeneralPos().equalsIgnoreCase("NN")){
 					return 1;
 				}
