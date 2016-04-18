@@ -5,11 +5,13 @@ library(pwr)
 
 #---------------------------------------
 granularities = c('B','P','S')
+granularities = c('B')
 
 for (granularity in granularities) {
      
-    
-    gs_file= 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/all_data_only_bugs_coded_data.csv'
+  
+    gs_file= 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/all_data_only_bugs_davies.csv'
+    #gs_file= 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/all_data_only_bugs_coded_data.csv'
     pr_file= paste('C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/test_data/output/output-prediction-',granularity,'.csv', sep = "")
     
     if(granularity != "B"){

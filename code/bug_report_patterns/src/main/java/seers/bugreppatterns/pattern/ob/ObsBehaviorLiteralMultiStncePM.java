@@ -25,15 +25,17 @@ public class ObsBehaviorLiteralMultiStncePM extends ObservedBehaviorPatternMatch
 
 			// ----------------
 			boolean matchLabel = false;
-			boolean b = text.matches("((actual|observed|current) )((result|behavior|description|situation) )?(:|-+)");
+			boolean b = text
+					.matches("(?s)((actual|observed|current) )((result|behavior|description|situation) )?(:|-+)");
 			if (b) {
 				matchLabel = true;
 			} else {
-				b = text.matches("((actual|observed|current) )?((result|behavior|description|situation) )(:|-+)");
+				b = text.matches("(?s)((actual|observed|current) )?((result|behavior|description|situation) )(:|-+)");
 				if (b) {
 					matchLabel = true;
 				} else {
-					b = text.matches("((actual|observed|current) )((result|behavior|description|situation))( (:|-+))?");
+					b = text.matches(
+							"(?s)((actual|observed|current) )((result|behavior|description|situation))( (:|-+))?");
 					if (b) {
 						matchLabel = true;
 					}

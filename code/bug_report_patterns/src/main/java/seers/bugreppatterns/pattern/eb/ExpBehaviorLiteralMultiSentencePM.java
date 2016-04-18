@@ -27,7 +27,7 @@ public class ExpBehaviorLiteralMultiSentencePM extends ExpectedBehaviorPatternMa
 
 			// ----------------
 
-			boolean b = text.matches("expect ((result|behavior) )?(:|-+)?.+");
+			boolean b = text.matches("(?s)expect ((result|behavior) )?(:|-+)?.+");
 			if (b) {
 				List<Token> tokens = sentence.getTokens();
 				if (tokens.get(0).getGeneralPos().equals("VB")) {
