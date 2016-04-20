@@ -11,11 +11,11 @@ public class ClassifierRunner {
 		// dataFolder = "test_data/data2";
 		// systems = "firefox";
 		// String[] grans = { "B", "P", "S" };
-		String[] grans = { "B" };
-		// String[] grans = { "P" };
-		Predictor predictionMethod = Predictor.TREE;
+		// String[] grans = { "B" };
+		String[] granularity = { "S" }; // paragraph
+		Predictor predictionMethod = Predictor.COMBIN;
 		String patternsFile = "patterns-prediction.csv";
-		for (String gran : grans) {
+		for (String gran : granularity) {
 			String[] args2 = { dataFolder, gran, systems, "test_data/output", predictionMethod.toString(),
 					patternsFile };
 			MainHRClassifier.main(args2);

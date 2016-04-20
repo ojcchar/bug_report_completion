@@ -18,8 +18,8 @@ import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
-import seers.bugreppatterns.pattern.predictor.OrOperatorPredictor;
-import seers.bugreppatterns.pattern.predictor.TreePredictor;
+import seers.bugreppatterns.pattern.predictor.AnyMatchPredictor;
+import seers.bugreppatterns.pattern.predictor.CombinationPredictor;
 import seers.bugreppatterns.processor.SystemProcessor;
 
 public class MainHRClassifier {
@@ -27,7 +27,7 @@ public class MainHRClassifier {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainHRClassifier.class);
 
 	public enum Predictor {
-		OR_OPER, TREE
+		ANY_MATCH, COMBIN
 	}
 
 	public static final String DATA_FOLDER = "DATA_FOLDER";
@@ -95,10 +95,10 @@ public class MainHRClassifier {
 
 	private static LabelPredictor getPredictor(Predictor predictionMethod) {
 		switch (predictionMethod) {
-		case OR_OPER:
-			return new OrOperatorPredictor();
-		case TREE:
-			return new TreePredictor();
+		case ANY_MATCH:
+			return new AnyMatchPredictor();
+		case COMBIN:
+			return new CombinationPredictor();
 		default:
 			break;
 		}

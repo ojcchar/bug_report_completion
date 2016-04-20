@@ -25,9 +25,6 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 		for (Sentence sentence : sentences) {
 			List<Token> tokens = sentence.getTokens();
 
-			if (tokens.isEmpty()) {
-				System.out.println("Empty!");
-			}
 			Token firstToken = tokens.get(0);
 			if (tokens.size() < 2) {
 				continue;

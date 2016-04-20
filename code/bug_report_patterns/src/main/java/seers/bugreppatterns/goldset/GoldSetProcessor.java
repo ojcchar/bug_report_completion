@@ -31,7 +31,7 @@ public class GoldSetProcessor extends ThreadProcessor {
 
 			String project = sentence.get(0);
 			String bugId = sentence.get(1);
-			String instanceId = sentence.get(14);
+			String instanceId = sentence.get(13);
 
 			// no titles
 			if (instanceId.startsWith("0")) {
@@ -42,10 +42,12 @@ public class GoldSetProcessor extends ThreadProcessor {
 			String eb = sentence.get(6);
 			String sr = sentence.get(7);
 
+			instanceId = instanceId.replace(",", ".");
+
 			TextInstance ins = new TextInstance(project, bugId, instanceId);
 			Labels label = new Labels(ob.toLowerCase(), eb.toLowerCase(), sr.toLowerCase());
 
-			boolean isSentence = instanceId.contains(".");
+			boolean isSentence = instanceId.matches("\\d+\\.\\d+");
 
 			// if sentence
 			if (isSentence) {

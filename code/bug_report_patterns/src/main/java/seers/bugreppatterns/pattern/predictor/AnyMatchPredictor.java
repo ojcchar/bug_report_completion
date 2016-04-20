@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import seers.bugreppatterns.pattern.PatternMatcher;
 
-public class OrOperatorPredictor extends LabelPredictor {
+public class AnyMatchPredictor extends LabelPredictor {
 
 	@Override
 	public Labels predictLabels(String bugRepId, String instanceId,

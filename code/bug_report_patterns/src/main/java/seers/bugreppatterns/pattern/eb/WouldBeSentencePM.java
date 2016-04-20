@@ -12,7 +12,7 @@ public class WouldBeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 	final private static String[] MODALS = { "would", "might" };
 	final private static String[] ADJECTIVES = { "nice", "great", "super", "useful", "convenient", "ideal", "neat",
-			"better", "helpful" };
+			"better", "helpful", "fine" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

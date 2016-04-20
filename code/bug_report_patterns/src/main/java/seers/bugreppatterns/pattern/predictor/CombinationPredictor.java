@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 
-public class TreePredictor extends LabelPredictor {
+public class CombinationPredictor extends LabelPredictor {
 
 	@Override
 	public Labels predictLabels(String bugRepId, String instanceId,

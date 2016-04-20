@@ -13,7 +13,7 @@ public class FeaturesRunner {
 		// String[] grans = { "B", "P", "S" };
 		String[] grans = { "B" };
 		// String[] grans = { "P" };
-		Predictor predictionMethod = Predictor.TREE;
+		Predictor predictionMethod = Predictor.COMBIN;
 		String patternsFile = "patterns.csv";
 		for (String gran : grans) {
 			String[] args2 = { dataFolder, gran, systems, "test_data/output", predictionMethod.toString(),
