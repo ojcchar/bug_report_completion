@@ -13,7 +13,7 @@ public class ExpBehaviorLiteralSentencePMTest extends BaseTest {
 	}
 
 	@Test
-	public void test() throws Exception {
+	public void testNegative() throws Exception {
 		String[] txts = {
 				"Expected Results:  \nshortened the box to fit within the viewable screen, or opened it in the other\ndirection (up).",
 				"Expected: Hit the space where the version inof is." };

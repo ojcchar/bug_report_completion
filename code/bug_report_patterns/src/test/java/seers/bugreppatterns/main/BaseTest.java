@@ -141,6 +141,8 @@ public class BaseTest {
 			String txt = testDataSentence.get(i);
 
 			txt = txt.replaceFirst("(\\[.+\\] )(.+)", "$2");
+			txt = txt.replace("\"\"", "\"").replace("&lt;", "<").replace("&gt;", ">").replace("&apos;", "'")
+					.replace("&amp;", "&").replace("&quot;", "\"");
 
 			Paragraph paragraph = parseParagraph(txt);
 
@@ -175,6 +177,8 @@ public class BaseTest {
 			String txt = testDataParagraph.get(i);
 
 			txt = txt.replaceFirst("(\\[.+\\] )(.+)", "$2");
+			txt = txt.replace("\"\"", "\"").replace("&lt;", "<").replace("&gt;", ">").replace("&apos;", "'")
+					.replace("&amp;", "&").replace("&quot;", "\"");
 
 			Paragraph paragraph = parseParagraph(txt);
 
