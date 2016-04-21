@@ -40,15 +40,18 @@ public class SimplePastParagraphPM extends StepsToReproducePatternMatcher {
 					}
 
 					// case: I have performed
-				} else if ((token.getPos().equals("VBP") || token.getPos().equals("VBZ"))
-						&& (token.getLemma().equals("have") || token.getLemma().equals("ve"))) {
-					if (verb - 1 >= 0) {
-						Token prevToken = tokens.get(verb - 1);
-						if (verb + 1 < tokens.size()) {
-							Token nextToken = tokens.get(verb + 1);
-							if (prevToken.getLemma().equals("i") || prevToken.getGeneralPos().equals("PRP")) {
-								if (nextToken.getPos().equals("VBN") || nextToken.getPos().equals("VB")) {
-									num++;
+				} else {
+					boolean isVerb = token.getPos().equals("VBP") || token.getPos().equals("VBZ");
+					boolean isHave = token.getLemma().equals("have");
+					if (isVerb && (isHave || token.getLemma().equals("ve"))) {
+						if (verb - 1 >= 0) {
+							Token prevToken = tokens.get(verb - 1);
+							if (verb + 1 < tokens.size()) {
+								Token nextToken = tokens.get(verb + 1);
+								if (prevToken.getLemma().equals("i") || prevToken.getGeneralPos().equals("PRP")) {
+									if (nextToken.getPos().equals("VBN") || nextToken.getPos().equals("VB")) {
+										num++;
+									}
 								}
 							}
 						}

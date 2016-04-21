@@ -17,7 +17,7 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 
 	final private static String[] OTHER_NEGATIVE_VERBS = { "strip away", "slow doen", "slow down", "get stick",
 			"stick up", "faile", "stucks up", "consume 100", "stick in", "get turn into", "output null", "be out of",
-			"pull out", "faul" };
+			"pull out", "faul", "hangs/get" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

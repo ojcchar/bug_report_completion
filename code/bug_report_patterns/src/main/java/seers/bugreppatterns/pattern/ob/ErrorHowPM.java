@@ -41,6 +41,16 @@ public class ErrorHowPM extends ObservedBehaviorPatternMatcher {
 							return 1;
 						}
 					}
+
+					// cases like "error comes up"
+				} else if (nextToken.getPos().equals("VBZ") || nextToken.getPos().equals("VBP")) {
+
+					if (errTerm + 2 < tokens.size()) {
+						Token nextToken2 = tokens.get(errTerm + 2);
+						if (nextToken2.getPos().equals("RP")) {
+							return 1;
+						}
+					}
 					// cases like "error thrown"
 				} else if (nextToken.getPos().equals("VBN")) {
 					return 1;

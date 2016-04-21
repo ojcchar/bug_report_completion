@@ -25,8 +25,9 @@ public class WouldBeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 			try {
 				Token modal = tokens.get(pronoun + 1);
-				if (modal.getPos().equals("MD")
-						&& Arrays.stream(MODALS).anyMatch(m -> modal.getLemma().equalsIgnoreCase(m))) {
+				if ((modal.getPos().equals("MD")
+						&& Arrays.stream(MODALS).anyMatch(m -> modal.getLemma().equalsIgnoreCase(m)))
+						|| modal.getLemma().equals("d")) {
 
 					Token advOrVerbToBe1 = tokens.get(pronoun + 2);
 

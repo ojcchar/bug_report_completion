@@ -61,7 +61,7 @@ public class BaseTest {
 				String pattern2 = sentence.get(9);
 				String pattern3 = sentence.get(10);
 
-				String noTesting = sentence.get(15);
+				String noTesting = sentence.get(14);
 
 				boolean addSentence = true;
 				boolean addParagraph = true;

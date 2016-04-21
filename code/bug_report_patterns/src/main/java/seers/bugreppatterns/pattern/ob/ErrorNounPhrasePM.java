@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -15,7 +14,6 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		String text = TextProcessor.getStringFromLemmas(sentence);
 		List<Token> tokens = sentence.getTokens();
 		ArrayList<Integer> indexVerb = new ArrayList<Integer>();
 		boolean noVerb = true;
