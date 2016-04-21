@@ -13,7 +13,7 @@ public class ClassifierRunner {
 		String outputFolder = "test_data" + File.separator + "output";
 		// systems = "firefox";
 		// String[] grans = { "B", "P", "S" };
-		String[] granularities = { "S" };
+		String[] granularities = { "P" };
 		Predictor predictionMethod = Predictor.COMBIN;
 		String patternsFile = "patterns-prediction.csv";
 		for (String gran : granularities) {

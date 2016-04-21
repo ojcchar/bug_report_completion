@@ -198,7 +198,7 @@ public class BaseTest {
 		}
 	}
 
-	protected Paragraph parseParagraph(String txt) {
+	public static Paragraph parseParagraph(String txt) {
 
 		Paragraph paragraph = new Paragraph("0");
 		String[] lines = txt.split("\n");

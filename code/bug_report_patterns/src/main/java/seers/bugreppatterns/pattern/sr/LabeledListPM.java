@@ -23,16 +23,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 		int numbActionNoLabel = 0;
 		boolean isLabeled = false;
 		if (sentences.size() > 1) {
-			for (int i = 0; (i < sentences.size() - 1); i++) {
-				String text = TextProcessor.getStringFromLemmas(sentences.get(i));
-				boolean b = (text.matches("(?s).*(following|repro) step.*"))
-						|| (text.matches("(?s).*?(step)? ?to repro.*")) || (text.equals("step :"))
-						|| (text.equals("str :")) || (text.endsWith("have try :"))
-						|| (text.contains("here be the step") || (text.matches("(?s).*reproduce as follow :")));
-				if (b) {
-					isLabeled = true;
-				}
-			}
+			isLabeled = isParagraphLabeled(sentences);
 
 			if (isLabeled) {
 				for (int i = 0; i < sentences.size(); i++) {
@@ -71,10 +62,23 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 		return 0;
 	}
 
+	public boolean isParagraphLabeled(List<Sentence> sentences) {
+		for (int i = 0; (i < sentences.size() - 1); i++) {
+			String text = TextProcessor.getStringFromLemmas(sentences.get(i));
+			boolean b = (text.matches("(?s).*(following|repro) step.*")) || (text.matches("(?s).*?(step)? ?to repro.*"))
+					|| (text.equals("step :")) || (text.equals("str :")) || (text.endsWith("have try :"))
+					|| (text.contains("here be the step") || (text.matches("(?s).*reproduce as follow :")));
+			if (b) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "stop",
 			"goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use" };
 
-	public boolean isAnAction(Token firstToken, Token secondToken) {
+	public static boolean isAnAction(Token firstToken, Token secondToken) {
 
 		if (firstToken.getGeneralPos().equals("VB") || firstToken.getPos().equals("VBP")
 				|| firstToken.getGeneralPos().equals("MD")) {
