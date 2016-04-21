@@ -20,7 +20,7 @@ public class TrySentencePM extends StepsToReproducePatternMatcher {
 			return 0;
 		}
 
-		List<Integer> tries = findMainElements(tokens);
+		List<Integer> tries = findMainTokens(tokens);
 		for (Integer tryTerm : tries) {
 			Token tryToken = tokens.get(tryTerm);
 			if (tryTerm - 1 >= 0) {
@@ -75,7 +75,7 @@ public class TrySentencePM extends StepsToReproducePatternMatcher {
 		return token.getGeneralPos().equals("PRP") && !token.getLemma().equals("it");
 	}
 
-	private List<Integer> findMainElements(List<Token> tokens) {
+	private List<Integer> findMainTokens(List<Token> tokens) {
 
 		List<Integer> elements = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
