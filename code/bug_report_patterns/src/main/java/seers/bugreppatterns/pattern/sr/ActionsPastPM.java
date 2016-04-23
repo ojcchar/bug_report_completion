@@ -77,7 +77,7 @@ public class ActionsPastPM extends StepsToReproducePatternMatcher {
 
 	}
 
-	private boolean isAnAction(Token firstToken, Token token2) {
+	public static boolean isAnAction(Token firstToken, Token token2) {
 		if (firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP")) {
 			return true;
 		}
