@@ -6,7 +6,7 @@ library(pwr)
 #----------- parameters ----------------------------
 
 granularities = c('B','P','S')
-granularities = c('S')
+granularities = c('B')
 
 project_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/'
 out_folder = paste(project_folder,'test_data/output/', sep = "")

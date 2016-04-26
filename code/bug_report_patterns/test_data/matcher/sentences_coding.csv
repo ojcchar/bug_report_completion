@@ -1,4 +1,4 @@
-project;bug_id;coded_sent_id;paragraph;sentence;is_obs_behavior;is_exp_behavior;is_steps_to_repr;pattern_code1;pattern_code2;pattern_code3;comments;main_coder;parsed_instance_id;no_testing;is_title?;sys-bug-ob;sys-bug-eb;sys-bug-sr;sys-bug;;;;
+S_OB_NEG_ADV_ADJ;bug_id;coded_sent_id;paragraph;sentence;is_obs_behavior;is_exp_behavior;is_steps_to_repr;pattern_code1;pattern_code2;pattern_code3;comments;main_coder;parsed_instance_id;no_testing;is_title?;sys-bug-ob;sys-bug-eb;sys-bug-sr;sys-bug;;;;
 eclipse;150;1;[Compare] Save of a conflict resolution shows no progress (1GF09LA);[Compare] Save of a conflict resolution shows no progress (1GF09LA);x;;;S_OB_VERB_NO;;;;Oscar;0.1;;y;eclipse150xy;eclipse150y;eclipse150y;eclipse150;;;;
 eclipse;150;2;"While merging changes from my stream into HEAD, I had to merge a couple of conflicts. When I was
 prompted to save, it took &gt;15 seconds to perform the save. The icon did not change to an hourglass
@@ -13,7 +13,17 @@ eclipse;3553;2;"1) Create a project
 	3) observe: there is a list letting you select ""referenced projects"".
 	4) goto the ""Projects"" tab of the Java Settings page.
 	5) observe: once again you can set ""referenced projects"".";;;;x;P_SR_LABELED_LIST;;;;Oscar;2;;;eclipse3553;eclipse3553;eclipse3553x;eclipse3553;;;;
-eclipse;3553;3;"Even if there may be technical reasons for this, it is quite confusing. We should use the core project
+eclipse;3553;3;"1) Create a project
+        2) Open the ""create java project"" wizard.
+        3) observe: there is a list letting you select ""referenced projects"".
+        4) goto the ""Projects"" tab of the Java Settings page.
+        5) observe: once again you can set ""referenced projects"".";"3) observe: there is a list letting you select ""referenced projects"".";x;;;S_OB_OBSERVE;;;;Laura;2.3;;;;;;;;;;
+eclipse;3553;4;"1) Create a project
+        2) Open the ""create java project"" wizard.
+        3) observe: there is a list letting you select ""referenced projects"".
+        4) goto the ""Projects"" tab of the Java Settings page.
+        5) observe: once again you can set ""referenced projects"".";"5) observe: once again you can set ""referenced projects"".";x;;;S_OB_OBSERVE;;;;Laura;2.5;;;;;;;;;;
+eclipse;3553;5;"Even if there may be technical reasons for this, it is quite confusing. We should use the core project
 	reference mechanism if possible.";"We should use the core project
 	reference mechanism if possible.";;x;;S_EB_SHOULD;;;;Oscar;3.2;;;eclipse3553;eclipse3553x;eclipse3553;eclipse3553;;;;
 eclipse;5820;1;Close all editors brings up hierarchy of object;Close all editors brings up hierarchy of object;x;;;S_OB_CAUSE_EFFECT_NO_NEG;;;;Oscar;0.1;;y;eclipse5820xy;eclipse5820y;eclipse5820y;eclipse5820;;;;
@@ -67,6 +77,7 @@ eclipse;16643;3;"Create new nevada site. Select it. In the Preview view, select 
 I have mozilla, and it tells me:
 ""The file /http://download.eclipse.org/updates/info/siteInfo.html cannote be
 found. Please check the location and try again.""";The file /http://download.eclipse.org/updates/info/siteInfo.html cannote be found;x;;;S_OB_NEG_AUX_VERB;;;Error message as a separate pattern?;Oscar;2.4;;;eclipse16643x;eclipse16643;eclipse16643;eclipse16643;;;;
+eclipse;16643;4;Note the leading '/' before the URL, it's obvously incorrect.;Note the leading '/' before the URL, it's obvously incorrect.;x;;;S_OB_NEG_ADV_ADJ;;;;Laura;3.1;;;;;;;;;;
 eclipse;17063;1;Mnemonic collision on File menu;Mnemonic collision on File menu;x;;;S_OB_PROBLEM_IN;;;;Oscar;0.1;;y;eclipse17063xy;eclipse17063y;eclipse17063y;eclipse17063;;;;
 eclipse;17740;1;"Select ""Help-&gt;Help Contents"" menu on Photon and the following
 is printed to the console:
@@ -110,6 +121,9 @@ compile-time error, which clearly indicates that something is wrong.";x;;;S_OB_C
 eclipse;53958;1;"I was starting a big workspace and I was wondering why it was taking time.
 Trying to find someone to blame ;-) I debugged and randomly stop and here is the
 capture of the stack at this point.";;;;x;P_SR_CONTINOUS_PRESENT;;;;Oscar;1;;;eclipse53958;eclipse53958;eclipse53958x;eclipse53958;;;;
+eclipse;53958;3;"I was starting a big workspace and I was wondering why it was taking time.
+Trying to find someone to blame ;-) I debugged and randomly stop and here is the
+capture of the stack at this point.";I was starting a big workspace and I was wondering why it was taking time.;x;;;S_OB_WHY_AFF;;;;Laura;1.1;;;;;;;;;;
 eclipse;53958;2;"Could not background jobs be used to do the filling, so that even if my
 workspace is big and I left it open on a package explorer it starts up faster?";"Could not background jobs be used to do the filling, so that even if my
 workspace is big and I left it open on a package explorer it starts up faster?";;x;;S_EB_COULD_QUESTION;;;I'm not sure this is expected behavior, sounds more like a suggestion of the solution;Oscar;3.1;;;eclipse53958;eclipse53958x;eclipse53958;eclipse53958;;;;
@@ -118,18 +132,21 @@ eclipse;57037;2;"When I try to checkout the batch folder from CVS OR if I try to
 batch module from Eclipse M8 I get an error reported from cvs server dialog
 whose details are:";"When I try to checkout the batch folder from CVS OR if I try to checkout the
 batch module from Eclipse M8 I get an error reported from cvs server dialog
-whose details are:";x;;;S_OB_COND_MULT_NEG;;;;Oscar;4.1;;;eclipse57037x;eclipse57037;eclipse57037;eclipse57037;;;;
+whose details are:";x;;x;S_OB_COND_MULT_NEG;S_SR_TRY;;;Oscar;4.1;;;eclipse57037x;eclipse57037;eclipse57037x;eclipse57037;;;;
 eclipse;60101;1;Sort by parent path should take method name into account;Sort by parent path should take method name into account;;x;;S_EB_SHOULD;;;;Oscar;0.1;;y;eclipse60101y;eclipse60101xy;eclipse60101y;eclipse60101;;;;
 eclipse;60101;2;"- I do a Java Search and sort the results by Parent Path
 - I believe the secondary sort consideration should be the method name
-- this would make the results sorted alphabetically";;;;x;P_SR_ACTIONS_PRESENT;;;;Oscar;2;;;eclipse60101;eclipse60101;eclipse60101x;eclipse60101;;;;
+- this would make the results sorted alphabetically";- I do a Java Search and sort the results by Parent Path;;;x;S_SR_SIMPLE_PRESENT_SUBORDINATES;;;;Oscar;2.1;;;eclipse60101;eclipse60101;eclipse60101x;eclipse60101;;;;
+eclipse;60101;4;"- I do a Java Search and sort the results by Parent Path
+- I believe the secondary sort consideration should be the method name
+- this would make the results sorted alphabetically";- I believe the secondary sort consideration should be the method name;;x;;S_EB_SHOULD;;;;Laura;2.2;;;;;;;;;;
 eclipse;60101;3;"Here are the currently results. Note I removed part of the package name to make
 the list clearer. (#addChild is out of order alphabetically) I'm not sure what
 order its listed in...#addChild is at the beginning of the java file so its not
 by order of appearance in the file.";;x;;;P_OB_CURRENT_RESULTS_NEG;;;;Oscar;3;;;eclipse60101x;eclipse60101;eclipse60101;eclipse60101;;;;
 eclipse;60657;1;Default size of Shell is too big in multi-monitors;Default size of Shell is too big in multi-monitors;x;;;S_OB_TOO;;;;Oscar;0.1;;y;eclipse60657xy;eclipse60657y;eclipse60657y;eclipse60657;;;;
 eclipse;60657;2;"The snippet below opens a shell that goes across multiple monitors when there 
-are multiple monitors installed.";The snippet below opens a shell that goes across multiple monitors when there are multiple monitors installed.;;;x;S_SR_CODE_REF;;;;Oscar;1.1;;;eclipse60657;eclipse60657;eclipse60657x;eclipse60657;;;;
+are multiple monitors installed.";The snippet below opens a shell that goes across multiple monitors when there are multiple monitors installed.;x;;x;S_SR_CODE_REF;S_OB_POS_COND;;;Oscar;1.1;;;eclipse60657x;eclipse60657;eclipse60657x;eclipse60657;;;;
 eclipse;69678;1;If mozilla is not installed, launching help internally throws an error;If mozilla is not installed, launching help internally throws an error;x;;;S_OB_COND_NEG;;;;Oscar;0.1;;y;eclipse69678xy;eclipse69678y;eclipse69678y;eclipse69678;;;;
 eclipse;69678;2;"If mozilla is not installed, launching help internally throws an error. I can 
 workaround it by entering an external browser. On linux platforms, it should 
@@ -183,6 +200,9 @@ Eclipse behaves different from normal Ant.";So Eclipse behaves different from no
 eclipse;99059;1;[Connection] Network connection problems being written to the Eclipse log;[Connection] Network connection problems being written to the Eclipse log;x;;;S_OB_BEING;;;;Oscar;0.1;;y;eclipse99059xy;eclipse99059y;eclipse99059y;eclipse99059;;;;
 eclipse;99059;2;"Found this in my log. This seems to be a normal network connection problem, not
 a bug in Eclipse. It should not be written to the log.";It should not be written to the log.;;x;;S_EB_SHOULD;;;;Oscar;2.3;;;eclipse99059;eclipse99059x;eclipse99059;eclipse99059;;;;
+eclipse;99059;;"Found this in my log. This seems to be a normal network connection problem, not
+a bug in Eclipse. It should not be written to the log.";" This seems to be a normal network connection problem, not
+a bug in Eclipse.";x;;;S_OB_APPEAR;;;;Laura;2.2;;;;;;;;;;
 eclipse;105368;1;Documentation for Running a test is outdated;Documentation for Running a test is outdated;x;;;S_OB_NEG_ADV_ADJ;;;;Oscar;0.1;;y;eclipse105368xy;eclipse105368y;eclipse105368y;eclipse105368;;;;
 eclipse;105368;2;"The page describes the Hyades URL Test and Hyades Manual Test launch 
 configurations which are not available in TPTP 4.0";"The page describes the Hyades URL Test and Hyades Manual Test launch 
@@ -213,6 +233,18 @@ the log file:";When we runs the script from an existing dos window the command p
 eclipse;115579;3;"When we runs the script from an existing dos window the command prompt returns 
 with no output.  The Help System doesn't load. We got some error message in 
 the log file:";The Help System doesn't load.;x;;;S_OB_NEG_AUX_VERB;;;;Oscar;2.2;;;eclipse115579x;eclipse115579;eclipse115579;eclipse115579;;;;
+eclipse;115579;4;"We're going to lauch Help System from CD with the following script:
+@echo off
+if ""%temp%"" == """" .\jre\bin\java -classpath 
+eclipse\plugins\org.eclipse.help.base_3.0.1\helpbase.jar 
+org.eclipse.help.standalone.Help -eclipsehome eclipse -plugincustomization 
+plugins\com.ibm.help.hs.doc\plugin_customization.ini -command displayHelp -
+host 127.0.0.1 -noexec -data %tmp%\standalone
+if not ""%temp%"" == """" .\jre\bin\java -classpath 
+eclipse\plugins\org.eclipse.help.base_3.0.1\helpbase.jar 
+org.eclipse.help.standalone.Help -eclipsehome eclipse -plugincustomization 
+plugins\com.ibm.help.hs.doc\plugin_customization.ini -command displayHelp -
+host 127.0.0.1 -noexec -data %temp%\standalone";We're going to lauch Help System from CD with the following script:;;;x;S_SR_CODE_REF;;;;Laura;1.1;;;;;;;;;;
 eclipse;116715;1;Undo is not available in library editor;Undo is not available in library editor;x;;;S_OB_NEG_ADV_ADJ;;;;Oscar;0.1;;y;eclipse116715xy;eclipse116715y;eclipse116715y;eclipse116715;;;;
 eclipse;116715;2;"Add an item to the library outline.
 Choose the edit menu.
@@ -240,6 +272,7 @@ The stacktrace below shows that some WM_COMMAND is being reinterpreted as typing
 eclipse;121640;3;This sure produces funny-looking results, since even if the Editable flag is false and the READ_ONLY property is true, the spurious characters are accepted into the Text and are displayed.;This sure produces funny-looking results, since even if the Editable flag is false and the READ_ONLY property is true, the spurious characters are accepted into the Text and are displayed.;x;;;S_OB_NEG_ADV_ADJ;;;;Oscar;2.1;;;eclipse121640x;eclipse121640;eclipse121640;eclipse121640;;;;
 eclipse;124036;1;"I think we shouldn't use the name of a facet as part of its definition unless we're unrolling an acronym (like EJB).  Dynamic Web Module is one of the worst in this case: ""Enables the project to be deployed as a dynamic web module.""  From what I've found on Google, WTP is the only place using that term aside from some consulting firms.  Can we instead describe the facets in a way that uses the corresponding J2EE/Web standards so that users new to WTP aren't left guessing?";I think we shouldn't use the name of a facet as part of its definition unless we're unrolling an acronym (like EJB).;;x;;S_EB_SHOULD;;;I think this issue is not a bug, it is more like an enhancement;Oscar;1.1;;;eclipse124036;eclipse124036x;eclipse124036;eclipse124036;;;;
 eclipse;124036;2;"I think we shouldn't use the name of a facet as part of its definition unless we're unrolling an acronym (like EJB).  Dynamic Web Module is one of the worst in this case: ""Enables the project to be deployed as a dynamic web module.""  From what I've found on Google, WTP is the only place using that term aside from some consulting firms.  Can we instead describe the facets in a way that uses the corresponding J2EE/Web standards so that users new to WTP aren't left guessing?";Can we instead describe the facets in a way that uses the corresponding J2EE/Web standards so that users new to WTP aren't left guessing?;;x;;S_EB_CAN_QUESTION;;;;Oscar;1.4;;;eclipse124036;eclipse124036x;eclipse124036;eclipse124036;;;;
+eclipse;124036;3;"I think we shouldn't use the name of a facet as part of its definition unless we're unrolling an acronym (like EJB).  Dynamic Web Module is one of the worst in this case: ""Enables the project to be deployed as a dynamic web module.""  From what I've found on Google, WTP is the only place using that term aside from some consulting firms.  Can we instead describe the facets in a way that uses the corresponding J2EE/Web standards so that users new to WTP aren't left guessing?";"Dynamic Web Module is one of the worst in this case: ""Enables the project to be deployed as a dynamic web module.""";x;;;S_OB_TOO;;;;Laura;1.2;;;;;;;;;;
 eclipse;125350;1;In my app, I noticed a quirk with resize particularly when windows are maximized and de-maximized.  Under these situations, the resize event comes in to SWT as expected, but the actual rendering appears to occur in a window which is actually the previous size.  When I maximize, I get a rendering which is the same size as the previous window size, in the upper left corner of the maximized window.  Similarly, when I de-maximize, I see the upper left corner of a too-large rendering.;In my app, I noticed a quirk with resize particularly when windows are maximized and de-maximized.;x;;;S_OB_NOTICE_NEG_SENT;;;;Oscar;2.1;;;eclipse125350x;eclipse125350;eclipse125350;eclipse125350;;;;
 eclipse;125350;2;In my app, I noticed a quirk with resize particularly when windows are maximized and de-maximized.  Under these situations, the resize event comes in to SWT as expected, but the actual rendering appears to occur in a window which is actually the previous size.  When I maximize, I get a rendering which is the same size as the previous window size, in the upper left corner of the maximized window.  Similarly, when I de-maximize, I see the upper left corner of a too-large rendering.;Under these situations, the resize event comes in to SWT as expected, but the actual rendering appears to occur in a window which is actually the previous size.;x;;;S_OB_BUT ;;;;Oscar;2.2;;;eclipse125350x;eclipse125350;eclipse125350;eclipse125350;;;;
 eclipse;125350;3;In my app, I noticed a quirk with resize particularly when windows are maximized and de-maximized.  Under these situations, the resize event comes in to SWT as expected, but the actual rendering appears to occur in a window which is actually the previous size.  When I maximize, I get a rendering which is the same size as the previous window size, in the upper left corner of the maximized window.  Similarly, when I de-maximize, I see the upper left corner of a too-large rendering.;Similarly, when I de-maximize, I see the upper left corner of a too-large rendering.;x;;;S_OB_TOO;;;;Oscar;2.4;;;eclipse125350x;eclipse125350;eclipse125350;eclipse125350;;;;
@@ -248,6 +281,7 @@ eclipse;127617;2;"Button, TabItem, Combo and other Composites does not has ""Mou
 eclipse;139083;1;Saving feature.xml with no version causes unexpected results;Saving feature.xml with no version causes unexpected results;x;;;S_OB_NEG_ADV_ADJ;;;;Oscar;0.1;;y;eclipse139083xy;eclipse139083y;eclipse139083y;eclipse139083;;;;
 eclipse;139083;2;Just for fun (seriously), I saved a feature editor with no version.  Closed the editor, and opened it again.  It appeared that the editor wrote the contents to the file system.  There were no errors during the process, nothing in the error log, and nothing in my problems view. ;;;;x;P_SR_SIMPLE_PAST;;;;Oscar;2;;;eclipse139083;eclipse139083;eclipse139083x;eclipse139083;;;;
 eclipse;139083;3;Upon opening the editor, the prior version showed back up.  I tried the same thing but added 3 plugins to the feature before saving.  When I opened the editor the second time, only the version were displayed on the editor.  ;When I opened the editor the second time, only the version were displayed on the editor.;x;;;S_OB_COND_ONLY_POSITIVE;;;;Oscar;3.3;;;eclipse139083x;eclipse139083;eclipse139083;eclipse139083;;;;
+eclipse;139083;4;But I think if this is an invalid use case, we should display and error/exception some where to inform the user.;But I think if this is an invalid use case, we should display and error/exception some where to inform the user.;;x;;S_EB_SHOULD;;;;Laura;4.2;;;;;;;;;;
 eclipse;148757;1;Chart filter expression is invalid, preview, sytem throws exception;Chart filter expression is invalid, preview, sytem throws exception;x;;;S_OB_NEG_ADV_ADJ;S_OB_VERB_ERROR;;;Oscar;0.1;;y;eclipse148757xy;eclipse148757y;eclipse148757y;eclipse148757;;;;
 eclipse;148757;2;"Steps:
 Data source: sample db
@@ -279,6 +313,12 @@ eclipse;155913;2;"- Typed in an identifier for an interface that didn't exist.
 - Within the editor, I couldn't open the new class but I could no longer create it again because it already existed
 - Checking the filesystem, the Java file was there
 - Deleting the file fixed the problem";;;;x;P_SR_ACTIONS_PAST;;;;Oscar;1;;;eclipse155913;eclipse155913;eclipse155913x;eclipse155913;;;;
+eclipse;155913;3;"- Typed in an identifier for an interface that didn't exist.
+- Quick Fix (Ctrl-1), accidentally chose Create Class
+- I'm pretty sure I hit Enter twice but then was able to select Cancel
+- Within the editor, I couldn't open the new class but I could no longer create it again because it already existed
+- Checking the filesystem, the Java file was there
+- Deleting the file fixed the problem";- Within the editor, I couldn't open the new class but I could no longer create it again because it already existed;x;;;S_OB_NO_LONGER;;;;Laura;1.4;;;;;;;;;;
 eclipse;157933;1;" - If I now switch to the newly created task FIXME,
   all my editors get closed. This makes sense if
  - I switch to a task that has context, because
@@ -298,7 +338,8 @@ unimplemented method stubs. Could you please change that?";"But this option is n
 unimplemented method stubs.";x;;;S_OB_BUT_NEG;;;;Oscar;1.2;;;eclipse164945x;eclipse164945;eclipse164945;eclipse164945;;;;
 eclipse;166937;1;source lookup (from clicking on log4j console printouts) failes in eclipse 3.2 when using brackets in log4j conversion pattern.;source lookup (from clicking on log4j console printouts) failes in eclipse 3.2 when using brackets in log4j conversion pattern.;x;;;S_OB_NEG_VERB;;;;Oscar;1.1;;;eclipse166937x;eclipse166937;eclipse166937;eclipse166937;;;;
 eclipse;169312;1;2.0M3 If a Node Mapping has two Feature Label Mappings, only the first is processed to resolve its View Pattern, the second retains its default text.;2.0M3 If a Node Mapping has two Feature Label Mappings, only the first is processed to resolve its View Pattern, the second retains its default text.;x;;;S_OB_COND_NEG;;;;Oscar;1.1;;;eclipse169312x;eclipse169312;eclipse169312;eclipse169312;;;;
-eclipse;171670;1;When I use Shift+Tab to decrease indentation level of selected C source lines, these selected C source lines are scrolled up or down (depends on its position on screen), why?;When I use Shift+Tab to decrease indentation level of selected C source lines, these selected C source lines are scrolled up or down (depends on its position on screen), why?;x;;;S_OB_COND_POS;;;;Oscar;2.1;;;eclipse171670x;eclipse171670;eclipse171670;eclipse171670;;;;
+eclipse;171670;1;When I use Shift+Tab to decrease indentation level of selected C source lines, these selected C source lines are scrolled up or down (depends on its position on screen), why?;When I use Shift+Tab to decrease indentation level of selected C source lines, these selected C source lines are scrolled up or down (depends on its position on screen), why?;x;;x;S_OB_COND_POS;S_SR_COND_AFF;;;Oscar;2.1;;;eclipse171670x;eclipse171670;eclipse171670x;eclipse171670;;;;
+eclipse;171670;2;Could you make possible to avoid this automatic scroll, please?;Could you make possible to avoid this automatic scroll, please?;;x;;S_EB_POSSIBLE_QUESTION;;;;Laura;4.1;;;;;;;;;;
 eclipse;172636;1;[2.1.2][Regression]Eclipse will hang if add multiple drivers at one time;[2.1.2][Regression]Eclipse will hang if add multiple drivers at one time;x;;;S_OB_NEG_VERB_CONDITIONAL;;;;Oscar;0.1;;y;eclipse172636xy;eclipse172636y;eclipse172636y;eclipse172636;;;;
 eclipse;172636;2;"Description:
 Eclipse will hang if add multiple drivers one time.";;x;;;P_OB_DESCRIPTION;;;;Oscar;2;;;eclipse172636x;eclipse172636;eclipse172636;eclipse172636;;;;
@@ -400,10 +441,10 @@ eclipse;246948;3;"1. The user starts Eclipse on a workspace which already has a 
 4. They go back into the wizard to create a new JPA project, but the connection still fails, with an error indicating the password wasn't specified.";4. They go back into the wizard to create a new JPA project, but the connection still fails, with an error indicating the password wasn't specified.;X;;;S_OB_BUT_NEG;;;;Oscar;4.7;;;eclipse246948X;eclipse246948;eclipse246948;eclipse246948;;;;
 eclipse;249668;1;ArrayIndexOutOfBoundsException from WebViewer for PDF output;ArrayIndexOutOfBoundsException from WebViewer for PDF output;x;;;S_OB_PROBLEM_IN;;;;Oscar;0.1;;y;eclipse249668xy;eclipse249668y;eclipse249668y;eclipse249668;;;;
 eclipse;249668;2;A report containing a hidden column having a footer in which all the cells are merged causes an ArrayIndexOutOfBoundsException when the report is viewed in PDF output. The report works fine from the preview and from the HTML view. Select to run the report from the Web Viewer and then select the print report icon. In the dialog that comes up, select the PDF print format option and select OK. This results in the ArrayIndexOutOfBoundsException. Attaching a sample report to illustrate the problem. This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;A report containing a hidden column having a footer in which all the cells are merged causes an ArrayIndexOutOfBoundsException when the report is viewed in PDF output.;x;;;S_OB_VERB_ERROR;;;;Oscar;2.1;;;eclipse249668x;eclipse249668;eclipse249668;eclipse249668;;;;
-eclipse;249668;3;A report containing a hidden column having a footer in which all the cells are merged causes an ArrayIndexOutOfBoundsException when the report is viewed in PDF output. The report works fine from the preview and from the HTML view. Select to run the report from the Web Viewer and then select the print report icon. In the dialog that comes up, select the PDF print format option and select OK. This results in the ArrayIndexOutOfBoundsException. Attaching a sample report to illustrate the problem. This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;The report works fine from the preview and from the HTML view.;x;;;S_EB_WORKS_FINE_WHEN;;;;Oscar;2.2;;;eclipse249668x;eclipse249668;eclipse249668;eclipse249668;;;;
+eclipse;249668;3;A report containing a hidden column having a footer in which all the cells are merged causes an ArrayIndexOutOfBoundsException when the report is viewed in PDF output. The report works fine from the preview and from the HTML view. Select to run the report from the Web Viewer and then select the print report icon. In the dialog that comes up, select the PDF print format option and select OK. This results in the ArrayIndexOutOfBoundsException. Attaching a sample report to illustrate the problem. This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;The report works fine from the preview and from the HTML view.;x;;;S_OB_WORKS_FINE_WHEN;;;;Oscar;2.2;;;eclipse249668x;eclipse249668;eclipse249668;eclipse249668;;;;
 eclipse;249668;4;A report containing a hidden column having a footer in which all the cells are merged causes an ArrayIndexOutOfBoundsException when the report is viewed in PDF output. The report works fine from the preview and from the HTML view. Select to run the report from the Web Viewer and then select the print report icon. In the dialog that comes up, select the PDF print format option and select OK. This results in the ArrayIndexOutOfBoundsException. Attaching a sample report to illustrate the problem. This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;;;;x;P_SR_ACTIONS_MULTI_OBS_BEHAVIOR;;;;Oscar;2;;;eclipse249668;eclipse249668;eclipse249668x;eclipse249668;;;;
 eclipse;249668;5;A report containing a hidden column having a footer in which all the cells are merged causes an ArrayIndexOutOfBoundsException when the report is viewed in PDF output. The report works fine from the preview and from the HTML view. Select to run the report from the Web Viewer and then select the print report icon. In the dialog that comes up, select the PDF print format option and select OK. This results in the ArrayIndexOutOfBoundsException. Attaching a sample report to illustrate the problem. This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;This results in the ArrayIndexOutOfBoundsException.;x;;;S_OB_RESULTS_IN;;;;Oscar;2.5;;;eclipse249668x;eclipse249668;eclipse249668;eclipse249668;;;;
-eclipse;249668;6;A report containing a hidden column having a footer in which all the cells are merged causes an ArrayIndexOutOfBoundsException when the report is viewed in PDF output. The report works fine from the preview and from the HTML view. Select to run the report from the Web Viewer and then select the print report icon. In the dialog that comes up, select the PDF print format option and select OK. This results in the ArrayIndexOutOfBoundsException. Attaching a sample report to illustrate the problem. This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;x;;;S_EB_WORKS_FINE_WHEN;S_OB_NEG_AUX_VERB;;;Oscar;2.7;;;eclipse249668x;eclipse249668;eclipse249668;eclipse249668;;;;
+eclipse;249668;6;A report containing a hidden column having a footer in which all the cells are merged causes an ArrayIndexOutOfBoundsException when the report is viewed in PDF output. The report works fine from the preview and from the HTML view. Select to run the report from the Web Viewer and then select the print report icon. In the dialog that comes up, select the PDF print format option and select OK. This results in the ArrayIndexOutOfBoundsException. Attaching a sample report to illustrate the problem. This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;x;;;S_OB_NEG_AUX_VERB;S_OB_WORKS_FINE_WHEN;;;Oscar;2.7;;;eclipse249668x;eclipse249668;eclipse249668;eclipse249668;;;;
 eclipse;249668;7;A report containing a hidden column having a footer in which all the cells are merged causes an ArrayIndexOutOfBoundsException when the report is viewed in PDF output. The report works fine from the preview and from the HTML view. Select to run the report from the Web Viewer and then select the print report icon. In the dialog that comes up, select the PDF print format option and select OK. This results in the ArrayIndexOutOfBoundsException. Attaching a sample report to illustrate the problem. This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1.;In the dialog that comes up, select the PDF print format option and select OK.;;;x;S_SR_MENU_SELECT;;;;Oscar;2.4;;;eclipse249668;eclipse249668;eclipse249668x;eclipse249668;;;;
 eclipse;258049;1;[formatter] Linebreak before trailing statement semicolon not preserved;[formatter] Linebreak before trailing statement semicolon not preserved;x;;;S_OB_NEG_ADV_ADJ;;;;Oscar;0.1;;y;eclipse258049xy;eclipse258049y;eclipse258049y;eclipse258049;;;;
 eclipse;258049;2;becomes:;;x;;;P_OB_BECOMES;;;;Oscar;5;;;eclipse258049x;eclipse258049;eclipse258049;eclipse258049;;;;
@@ -488,13 +529,16 @@ GTK 2.4+ installed.";99.1% of the users expecting the focus on the control itsel
 eclipse;306006;4;"The combo control does not receive the focus if editing support is disable but the control is enabled. 99.1% of the users expecting the focus on the control itself and not the handle button. The users expecting to press key UP/DOWN or Alt+DOWN to select an item. The code below breaks the standard usability. If the
 GTK 2.4+ installed.";The users expecting to press key UP/DOWN or Alt+DOWN to select an item. ;;x;;S_EB_EXPECTED;;;;Oscar;2.3;;;eclipse306006;eclipse306006x;eclipse306006;eclipse306006;;;;
 eclipse;306006;5;"The combo control does not receive the focus if editing support is disable but the control is enabled. 99.1% of the users expecting the focus on the control itself and not the handle button. The users expecting to press key UP/DOWN or Alt+DOWN to select an item. The code below breaks the standard usability. If the
-GTK 2.4+ installed.";The code below breaks the standard usability.;x;;X;S_OB_NEG_VERB;S_SR_CODE_REF;;;Oscar;2.4;;;eclipse306006x;eclipse306006;eclipse306006X;eclipse306006;;;;
+GTK 2.4+ installed.";The code below breaks the standard usability.;x;;x;S_OB_NEG_VERB;S_SR_CODE_REF;;;Oscar;2.4;;;eclipse306006x;eclipse306006;eclipse306006x;eclipse306006;;;;
 eclipse;306006;6;"Steps to Reproduce:
 see description above";;;;x;P_SR_LABELED_LIST;;;;Oscar;6;;;eclipse306006;eclipse306006;eclipse306006x;eclipse306006;;;;
 eclipse;313147;1;Some example bundles should be re-versioned to get source reference headers generated. In 3.6 RC1, I see the following bundles without headers:;Some example bundles should be re-versioned to get source reference headers generated.;;X;;S_EB_SHOULD;;;;Oscar;1.1;;;eclipse313147;eclipse313147X;eclipse313147;eclipse313147;;;;
 eclipse;313147;2;Some example bundles should be re-versioned to get source reference headers generated. In 3.6 RC1, I see the following bundles without headers:;In 3.6 RC1, I see the following bundles without headers:;X;;;S_OB_WITHOUT;;;;Oscar;1.2;;;eclipse313147X;eclipse313147;eclipse313147;eclipse313147;;;;
 eclipse;316459;1;Project plan is out-of date;Project plan is out-of date;X;;;S_OB_BE_OUT_OF;;;;Oscar;0.1;;y;eclipse316459Xy;eclipse316459y;eclipse316459y;eclipse316459;;;;
 eclipse;316459;2;I just stumbled over some apparently out-dated information:;I just stumbled over some apparently out-dated information:;X;;;S_OB_NEGATIVE_ADJECTIVE_CLAUSE;;;;Oscar;1.1;;;eclipse316459X;eclipse316459;eclipse316459;eclipse316459;;;;
+eclipse;316459;3;"I assume this wiki page just isn't maintained any more so maybe
+you want to link to a more recent plan?";"I assume this wiki page just isn't maintained any more so maybe
+you want to link to a more recent plan?";;x;;S_EB_WANT;;;;Laura;3.1;;;;;;;;;;
 eclipse;320785;1;Encoding is broken for diff in history view;Encoding is broken for diff in history view;X;;;S_OB_NEG_ADV_ADJ;;;;Oscar;0.1;;y;eclipse320785Xy;eclipse320785y;eclipse320785y;eclipse320785;;;;
 eclipse;320785;2;I have a project with texts in russian (encoding is UTF-8 and workspace default encoding is also UTF-8). The diff widget in egit history view displays russian texts incorrectly.;The diff widget in egit history view displays russian texts incorrectly.;X;;;S_OB_NEG_ADV_ADJ;;;;Oscar;1.2;;;eclipse320785X;eclipse320785;eclipse320785;eclipse320785;;;;
 eclipse;320785;3;See 2 attached screen shots - the first one is for egit (incorrect displaying) and the second one is gitX (correct displaying).;See 2 attached screen shots - the first one is for egit (incorrect displaying) and the second one is gitX (correct displaying).;x;;;S_OB_NEG_ADV_ADJ;;;;Oscar;2.1;;;eclipse320785x;eclipse320785;eclipse320785;eclipse320785;;;;
@@ -1995,7 +2039,7 @@ Opening by any shortcut should only open set homepage";;X;;S_EB_EXP_BEHAVIOR;;;;
 firefox;336495;1;Download Actions UI is empty after adding new automatic helper application;Download Actions UI is empty after adding new automatic helper application;x;;;S_OB_AFTER_EVENT_NEG;S_OB_NEG_ADV_ADJ;;;Oscar;0.1;;y;firefox336495xy;firefox336495y;firefox336495y;firefox336495;;;;
 firefox;336495;2;"Adding a batch file (.bat) as a helper application seems to break the Download Actions component (in Tools | Options | Downloads | View &amp; Edit Actions).  After adding it, the list of helper applications and actions is clear and all buttons are disabled.";"Adding a batch file (.bat) as a helper application seems to break the Download Actions component (in Tools | Options | Downloads | View &amp; Edit Actions).";x;;x;S_OB_APPEAR;S_SR_MENU_NAV;;;Oscar;2.1;;;firefox336495x;firefox336495;firefox336495x;firefox336495;;;;
 firefox;336495;3;In Minefield's case, the list did not empty as it does in Firefox 1.5.0.3.  However, the newly added automatic action does not appear in the list of currently set automatic actions.;However, the newly added automatic action does not appear in the list of currently set automatic actions.;x;;;S_OB_BUT_NEG;;;;Oscar;6.2;;;firefox336495x;firefox336495;firefox336495;firefox336495;;;;
-firefox;336495;4;The actual result of clicking the icon on the web page to execute the batch script and open the VMware Management Console does in fact work as expected after the action is set up, it just seems to break functionality in Firefox.;The actual result of clicking the icon on the web page to execute the batch script and open the VMware Management Console does in fact work as expected after the action is set up, it just seems to break functionality in Firefox.;x;x;;S_OB_ACTUAL_RESULT_START;S_OB_APPEAR;S_EB_WORKS_FINE_WHEN;;Oscar;7.1;;;firefox336495x;firefox336495x;firefox336495;firefox336495;;;;
+firefox;336495;4;The actual result of clicking the icon on the web page to execute the batch script and open the VMware Management Console does in fact work as expected after the action is set up, it just seems to break functionality in Firefox.;The actual result of clicking the icon on the web page to execute the batch script and open the VMware Management Console does in fact work as expected after the action is set up, it just seems to break functionality in Firefox.;x;;;S_OB_ACTUAL_RESULT_START;S_OB_APPEAR;;;Oscar;7.1;;;firefox336495x;firefox336495;firefox336495;firefox336495;;;;
 firefox;336495;5;"Steps to Reproduce:
 1. Open the Tools menu.
 2. Click Options.
@@ -2106,8 +2150,7 @@ firefox;379552;3;"actual results:
 firefox;379552;4;"expected results:
 
 1) title should be ""https://bugzilla.mozilla.org/attachment.cgi?id=262682""";;;x;;P_EB_EXP_BEHAVIOR_MULTI;;;;Oscar;6;;;firefox379552;firefox379552x;firefox379552;firefox379552;;;;
-firefox;381201;1;Running gmail - compose mail - attach file/browse - select a file and Mozilla closes;;;;x;P_SR_ACTIONS_DASH;;;;Oscar;0;;y;firefox381201y;firefox381201y;firefox381201xy;firefox381201;;;;
-firefox;381201;2;Running gmail - compose mail - attach file/browse - select a file and Mozilla closes;select a file and Mozilla closes;x;;;S_OB_NEG_VERB;;;;Oscar;0.1;;y;firefox381201xy;firefox381201y;firefox381201y;firefox381201;;;;
+firefox;381201;1;Running gmail - compose mail - attach file/browse - select a file and Mozilla closes;Running gmail - compose mail - attach file/browse - select a file and Mozilla closes;x;;x;S_SR_ACTIONS_SEPARATOR;S_OB_NEG_VERB;;;Oscar;0.1;;y;firefox381201xy;firefox381201y;firefox381201xy;firefox381201;;;;
 firefox;381201;3;When select a file to attach to my current gmail message, Mozilla closes immediately with no warning or message.  When I bring it back up, it shows the restore session option - everything restores including a draft version of the message I was working on, but try to attach a file and same thing happens.;When select a file to attach to my current gmail message, Mozilla closes immediately with no warning or message.;x;;;S_OB_COND_NEG;;;;Oscar;2.1;;;firefox381201x;firefox381201;firefox381201;firefox381201;;;;
 firefox;381201;4;When select a file to attach to my current gmail message, Mozilla closes immediately with no warning or message.  When I bring it back up, it shows the restore session option - everything restores including a draft version of the message I was working on, but try to attach a file and same thing happens.;When I bring it back up, it shows the restore session option - everything restores including a draft version of the message I was working on, but try to attach a file and same thing happens.;x;;;S_OB_BUT ;;;;Oscar;2.2;;;firefox381201x;firefox381201;firefox381201;firefox381201;;;;
 firefox;381453;1;in firefox 2, if I use http://webtools.mozilla.org/buster/random/random.html, the pages it loads in the frames don't show up in my history sidebar and history menu.;in firefox 2, if I use http://webtools.mozilla.org/buster/random/random.html, the pages it loads in the frames don't show up in my history sidebar and history menu.;x;;;S_OB_COND_NEG;;;;Oscar;2.1;;;firefox381453x;firefox381453;firefox381453;firefox381453;;;;
@@ -2187,13 +2230,6 @@ httpd;24219;2;"However, I've found that this leads to NO compression for IE(6). 
 last line to 
 BrowserMatch MSIE !no-gzip !gzip-only-text/html
 works. ";However, I've found that this leads to NO compression for IE(6). ;x;;;S_OB_BUT_NEG;;;;Oscar;6.1;;;httpd24219x;httpd24219;httpd24219;httpd24219;;;;
-httpd;24219;3;"However, I've found that this leads to NO compression for IE(6). Changing the 
-last line to 
-BrowserMatch MSIE !no-gzip !gzip-only-text/html
-works. ";"Changing the 
-last line to 
-BrowserMatch MSIE !no-gzip !gzip-only-text/html
-works. ";;x;;S_EB_WORKS_FINE;;;;Oscar;6.2;;;httpd24219;httpd24219x;httpd24219;httpd24219;;;;
 httpd;24750;1;Browser refresh causes a very slow response from the Reverse proxy;Browser refresh causes a very slow response from the Reverse proxy;x;;;S_OB_CAUSE_NOUN_ADJECTIVE;;;;Oscar;0.1;;y;httpd24750xy;httpd24750y;httpd24750y;httpd24750;;;;
 httpd;24750;2;"The Reverse proxy rewrites the rules to get pages from http backend server
 When calling a simple page throught the reverse proxy its working well.
@@ -2394,7 +2430,7 @@ no .htaccess file in that location. ";x;;;S_OB_TO_BE_NO;;;;Oscar;3.3;;;httpd3565
 httpd;35652;3;"The error message would be more helpful if it said:
 
 Permission denied: &lt;path&gt; pcfg_openfile: unable to check for existence of htaccess file or read it if it 
-does exist; make sure &lt;path&gt; is readable by httpd.";The error message would be more helpful if it said:;;x;;S_EB_WOULD_IF;;;;Oscar;4.1;;;httpd35652;httpd35652x;httpd35652;httpd35652;;;;
+does exist; make sure &lt;path&gt; is readable by httpd.";The error message would be more helpful if it said:;;x;;S_EB_WOULD_BE;;;;Oscar;4.1;;;httpd35652;httpd35652x;httpd35652;httpd35652;;;;
 httpd;35721;1;"I have normal APACHE2 and PHP as a module configuraion.
 But in the last days one problem appeared.
 I have 170 php_admin_values set within server-wide configuration.
@@ -3234,6 +3270,24 @@ Show in Package explorer, the narrator does not read out the name of the view
 (Package explorer view).  (NOT EXPECTED)
 Now turn on MS Jaws and show in Package explorer.  The MS Jaws also does not 
 read out the name of the view (Package explorer view).  (NOT EXPECTED)";;;;x;P_SR_ACTIONS_MULTI_OBS_BEHAVIOR;;;;Fiorella;1;;;eclipse72121;eclipse72121;eclipse72121x;eclipse72121;;;;
+eclipse;72121;3;"(by Crystal Xiao)
+Create a java project
+Create a java class
+Turn on narrator
+Show in Package explorer, the narrator does not read out the name of the view 
+(Package explorer view).  (NOT EXPECTED)
+Now turn on MS Jaws and show in Package explorer.  The MS Jaws also does not 
+read out the name of the view (Package explorer view).  (NOT EXPECTED)";"Show in Package explorer, the narrator does not read out the name of the view 
+(Package explorer view).  (NOT EXPECTED)";x;;;S_OB_NEG_AUX_VERB;;;;Laura;1.5;;;;;;;;;;
+eclipse;72121;4;"(by Crystal Xiao)
+Create a java project
+Create a java class
+Turn on narrator
+Show in Package explorer, the narrator does not read out the name of the view 
+(Package explorer view).  (NOT EXPECTED)
+Now turn on MS Jaws and show in Package explorer.  The MS Jaws also does not 
+read out the name of the view (Package explorer view).  (NOT EXPECTED)";"The MS Jaws also does not 
+read out the name of the view (Package explorer view).  (NOT EXPECTED)";x;;;S_OB_NEG_AUX_VERB;;;;Laura;1.7;;;;;;;;;;
 eclipse;78058;1;Errors in basebuilder/builderTemplate/build.xml;Errors in basebuilder/builderTemplate/build.xml;x;;;S_OB_PROBLEM_IN;;;;Fiorella;0.1;;y;eclipse78058xy;eclipse78058y;eclipse78058y;eclipse78058;;;;
 eclipse;78058;2;"The build.xml contains '<' and '>' within an XML argument. The attached patched will replace this with ""&lt;"" and ""&gt;"".</";"The build.xml contains '&lt;' and '&gt;' within an XML argument.";x;;;S_OB_SOFTWARE_TERM_POS;;;Oscar: this one is tricky;Fiorella;1.1;;;eclipse78058x;eclipse78058;eclipse78058;eclipse78058;;;;
 eclipse;86850;1;Console should scroll to last line, not end of document;Console should scroll to last line, not end of document;;x;;S_EB_SHOULD;;;;Fiorella;0.1;;y;eclipse86850y;eclipse86850xy;eclipse86850y;eclipse86850;;;;
@@ -3247,13 +3301,18 @@ eclipse;96887;2;"- platform-ui module loaded from head
 - a new editor is opened each time";;;;x;P_SR_LABELED_LIST;;;;Fiorella;2;;;eclipse96887;eclipse96887;eclipse96887x;eclipse96887;;;;
 eclipse;96887;3; It should reactivate any matching editor instead of opening a new one.; It should reactivate any matching editor instead of opening a new one.;x;x;;S_EB_SHOULD;S_EB_INSTEAD_OF_EXP_BEHAVIOR;S_OB_INSTEAD_OF;;Fiorella;3.1;;;eclipse96887x;eclipse96887x;eclipse96887;eclipse96887;;;;
 eclipse;98971;1;(Plat) Fix problems in plugin translatability log;(Plat) Fix problems in plugin translatability log;x;;;S_OB_PROBLEM_IN;;;;Fiorella;0.1;;y;eclipse98971xy;eclipse98971y;eclipse98971y;eclipse98971;;;;
+eclipse;98971;2;"plugins/org.eclipse.tptp.platform.collection.framework/src-config/org/eclipse/tptp/platform/collection/framework/
+  SetConfig.properties  JAVA-PRB    115   (W) Questionable TM markup table:  
+OS2/OEM: IBMJDK11?, Windows/AIX/ISO: IBMAJDK1?, UTF-8: IBMUJDK1?
+                                    920   (W) Unknown single quote handling for
+this file.  Special NLS_MESSAGEFORMAT comment should be added.";Special NLS_MESSAGEFORMAT comment should be added;;x;;S_EB_SHOULD;;;;Laura;1.6;;;;;;;;;;
 eclipse;102620;1;"CVS perspective's ""Compare With"" does not use synchronize view";"CVS perspective's ""Compare With"" does not use synchronize view";x;;;S_OB_NEG_AUX_VERB;;;;Fiorella;0.1;;y;eclipse102620xy;eclipse102620y;eclipse102620y;eclipse102620;;;;
 eclipse;102620;2;"In the CVS Repository Exploring perspective, if you select ""Compare With"" on a
 branch or version, it eventually opens a ""Structured Compare"" window showing all
 the changes. This means you cannot benefit from the Synchronize view's changeset
 support -- you can access diffs, but no commit log information.";"In the CVS Repository Exploring perspective, if you select ""Compare With"" on a
 branch or version, it eventually opens a ""Structured Compare"" window showing all
-the changes.";x;;;S_OB_COND_POS;;;;Fiorella;1.1;;;eclipse102620x;eclipse102620;eclipse102620;eclipse102620;;;;
+the changes.";x;;x;S_OB_COND_POS;S_SR_COND_AFF;;;Fiorella;1.1;;;eclipse102620x;eclipse102620;eclipse102620x;eclipse102620;;;;
 eclipse;102620;3;"""In the CVS Repository Exploring perspective, if you select """"Compare With"""" on a
 branch or version, it eventually opens a """"Structured Compare"""" window showing all
 the changes. This means you cannot benefit from the Synchronize view's changeset
@@ -3313,7 +3372,6 @@ eclipse;152809;1;Could not delete .../tmp0/.../something.jsp messages during pub
 eclipse;152809;2;I am using linux.  I an getting could not delete error messages during some publish operations.  This is usualy after renaming or deleting resources from the project with background automatic publish is running.  I have checked the permissions and ownership of the files and they are correct.;I an getting could not delete error messages during some publish operations.;x;;;S_OB_NEG_AUX_VERB;S_OB_VERB_ERROR;;;Fiorella;2.2;;;eclipse152809x;eclipse152809;eclipse152809;eclipse152809;;;;
 eclipse;152809;3;If I go to check the tmp0 deployed copy manually, I have found all cases where a single file was being moved to be bogus. The file it warned me about is not on the file system at the old location anymore.;The file it warned me about is not on the file system at the old location anymore.;x;;;S_OB_NEG_AUX_VERB;;;;Fiorella;3.2;;;eclipse152809x;eclipse152809;eclipse152809;eclipse152809;;;;
 eclipse;152809;4;However when I moved a whole directory from one part of the webproject to another I found copies in place places, the new destination and the old source location.;However when I moved a whole directory from one part of the webproject to another I found copies in place places, the new destination and the old source location.;x;;;S_OB_COND_POS;;;;Fiorella;4.1;;;eclipse152809x;eclipse152809;eclipse152809;eclipse152809;;;;
-eclipse;152809;5;Under what circumstances on Linux should I expect to see this error, is the message a result of an caught exception or false return value from Java API call for File.delete() ?;Under what circumstances on Linux should I expect to see this error, is the message a result of an caught exception or false return value from Java API call for File.delete() ?;;x;;S_EB_SHOULD;;;;Fiorella;8.1;;;eclipse152809;eclipse152809x;eclipse152809;eclipse152809;;;;
 eclipse;161472;1;Log file shows exception after loading a lib under cvs;Log file shows exception after loading a lib under cvs;x;;;S_OB_VERB_ERROR;S_OB_OUTPUT_VERB;;;Fiorella;0.1;;y;eclipse161472xy;eclipse161472y;eclipse161472y;eclipse161472;;;;
 eclipse;161472;2;The exception is due to failing to load config files under the CVS folder. It is correctly caught and handled. It is harmless. But better to fix it by skiping looking config files under the CVS folder.;The exception is due to failing to load config files under the CVS folder.;x;;;S_OB_ERROR_DUE;;;;Fiorella;1.2;;;eclipse161472x;eclipse161472;eclipse161472;eclipse161472;;;;
 eclipse;165342;1;org.xml.sax.SAXParseException: XML document structures must start and end within the same entity;org.xml.sax.SAXParseException: XML document structures must start and end within the same entity;;x;;S_EB_MUST;;;;Fiorella;4.1;;;eclipse165342;eclipse165342x;eclipse165342;eclipse165342;;;;
@@ -3341,9 +3399,23 @@ eclipse;189497;2;"Steps to reproduce:
 - in the view, disable the added breakpoint
 - click ""add a java exception breakpoint""
 - select NullPointerException, notice that an entry is not re-enabled.";;;;x;P_SR_LABELED_LIST;;;;Fiorella;3;;;eclipse189497;eclipse189497;eclipse189497x;eclipse189497;;;;
+eclipse;189497;3;"Steps to reproduce:
+- go to the breakpoints view
+- click ""add a java exception breakpoint""
+- select NullPointerException, notice that an entry is added to the view
+- in the view, disable the added breakpoint
+- click ""add a java exception breakpoint""
+- select NullPointerException, notice that an entry is not re-enabled.";- select NullPointerException, notice that an entry is added to the view;x;;;S_OB_NOTICE_POS_SENT;;;;Laura;3.4;;;;;;;;;;
+eclipse;189497;4;"Steps to reproduce:
+- go to the breakpoints view
+- click ""add a java exception breakpoint""
+- select NullPointerException, notice that an entry is added to the view
+- in the view, disable the added breakpoint
+- click ""add a java exception breakpoint""
+- select NullPointerException, notice that an entry is not re-enabled.";- select NullPointerException, notice that an entry is not re-enabled.;x;;;S_OB_NOTICE_POS_SENT;;;;Laura;3.7;;;;;;;;;;
 eclipse;189497;3;"This is pretty annoying since even though I may at one point have disabled the exception breakpoint, when I go back to the ""add a java exception breakpoint"", it is that I want this breakpoint to be enabled.";"This is pretty annoying since even though I may at one point have disabled the exception breakpoint, when I go back to the ""add a java exception breakpoint"", it is that I want this breakpoint to be enabled.";;x;;S_EB_WANT;;;;Fiorella;2.1;;;eclipse189497;eclipse189497x;eclipse189497;eclipse189497;;;;
 eclipse;201897;1;Focus on Active Task' and 'Link with editor' not working for *.htm;Focus on Active Task' and 'Link with editor' not working for *.htm;x;;;S_OB_NEG_AUX_VERB;;;;Fiorella;0.1;;y;eclipse201897xy;eclipse201897y;eclipse201897y;eclipse201897;;;;
-eclipse;201897;2;When using Mylyn, In the 'package explorer' pane, when I have enabled 'Focus on Active Task' and 'Link with Editor', the 'link with editor' feature does not work for htm files. It works fine for *.java though.</;When using Mylyn, In the 'package explorer' pane, when I have enabled 'Focus on Active Task' and 'Link with Editor', the 'link with editor' feature does not work for htm files. ;;;x;S_SR_COND_SEQUENCE;S_OB_NEG_AUX_VERB;;;Fiorella;1.1;;;eclipse201897;eclipse201897;eclipse201897x;eclipse201897;;;;
+eclipse;201897;2;When using Mylyn, In the 'package explorer' pane, when I have enabled 'Focus on Active Task' and 'Link with Editor', the 'link with editor' feature does not work for htm files. It works fine for *.java though.</;When using Mylyn, In the 'package explorer' pane, when I have enabled 'Focus on Active Task' and 'Link with Editor', the 'link with editor' feature does not work for htm files. ;x;;x;S_SR_COND_SEQUENCE;S_OB_NEG_AUX_VERB;;;Fiorella;1.1;;;eclipse201897x;eclipse201897;eclipse201897x;eclipse201897;;;;
 eclipse;225512;1;[hovering] No error hover on API tooling problem;[hovering] No error hover on API tooling problem;x;;;S_OB_NO_NOUN;;;;Fiorella;0.1;;y;eclipse225512xy;eclipse225512y;eclipse225512y;eclipse225512;;;;
 eclipse;225512;2;3.4 M5 Moving mouse over an API tooling problem in the editor does not show an error hover but the normal Javadoc hover See screenshot;3.4 M5 Moving mouse over an API tooling problem in the editor does not show an error hover but the normal Javadoc hover See screenshot;x;;;S_OB_NEG_AUX_VERB;S_OB_BUT ;;;Fiorella;1.1;;;eclipse225512x;eclipse225512;eclipse225512;eclipse225512;;;;
 eclipse;230933;1;Cleanup save action caused ISE;Cleanup save action caused ISE;x;;;S_OB_VERB_ERROR;;;;Fiorella;0.1;;y;eclipse230933xy;eclipse230933y;eclipse230933y;eclipse230933;;;;
@@ -3379,7 +3451,7 @@ eclipse;289198;2;"I get an exception when removing a resource and then adding a 
     transaction.getResourceSet().getResources().remove(cdoResource);
     transaction.commit();
     CDOResourceNode resourceNode = transaction.getResourceNode(""/model1"");
-    CDOResource resource = transaction.getResource(""/model1"");";I get an exception when removing a resource and then adding a new with the same path:;x;;;S_OB_ERROR_HOW;S_OB_VERB_ERROR;;;Fiorella;1.1;;;eclipse289198x;eclipse289198;eclipse289198;eclipse289198;;;;
+    CDOResource resource = transaction.getResource(""/model1"");";I get an exception when removing a resource and then adding a new with the same path:;x;;x;S_OB_ERROR_HOW;S_OB_VERB_ERROR;S_SR_COND_THEN_SEQ;;Fiorella;1.1;;;eclipse289198x;eclipse289198;eclipse289198x;eclipse289198;;;;
 eclipse;294983;1;Tell users that something is happening when queries take a long time;Tell users that something is happening when queries take a long time;;x;;S_EB_IMPERATIVE;;;;Fiorella;0.1;;y;eclipse294983y;eclipse294983xy;eclipse294983y;eclipse294983;;;;
 eclipse;294983;2;If I click any of the projects, it may take several seconds for the query to run.  If the database server is busy, it can take even longer.  During this time, I click on another project, which launches another query, which makes everything take even longer.;;;;x;P_SR_COND_SEQUENCE;;;;Fiorella;2;;;eclipse294983;eclipse294983;eclipse294983x;eclipse294983;;;;
 eclipse;294983;3;If I click any of the projects, it may take several seconds for the query to run.  If the database server is busy, it can take even longer.  During this time, I click on another project, which launches another query, which makes everything take even longer.;If I click any of the projects, it may take several seconds for the query to run.;x;;;S_OB_TIME_CONDITIONAL;;;;Fiorella;2.1;;;eclipse294983x;eclipse294983;eclipse294983;eclipse294983;;;;
@@ -3414,6 +3486,30 @@ eclipse;321564;2;"1) Enter ""read.ext<"" into the dialog
 
 3) Enter ""A.te<"" into the dialog
 ==> matches A.text, expected: no match";;;;x;P_SR_LABELED_LIST;;;;Fiorella;3;;;eclipse321564;eclipse321564;eclipse321564x;eclipse321564;;;;
+eclipse;321564;3;"1) Enter ""read.ext<"" into the dialog
+==> also matches reada.ext.
+
+2) Enter ""A.t<"" into the dialog
+==> matches more than just A.t
+
+3) Enter ""A.te<"" into the dialog
+==> matches A.text, expected: no match"; ==> also matches reada.ext.;x;;;S_OB_CHAR_THEN;;;;;3.2;;;;;;;;;;
+eclipse;321564;4;"1) Enter ""read.ext<"" into the dialog
+==> also matches reada.ext.
+
+2) Enter ""A.t<"" into the dialog
+==> matches more than just A.t
+
+3) Enter ""A.te<"" into the dialog
+==> matches A.text, expected: no match"; ==> matches more than just A.t;x;;;S_OB_CHAR_THEN;;;;;3.4;;;;;;;;;;
+eclipse;321564;5;"1) Enter ""read.ext<"" into the dialog
+==> also matches reada.ext.
+
+2) Enter ""A.t<"" into the dialog
+==> matches more than just A.t
+
+3) Enter ""A.te<"" into the dialog
+==> matches A.text, expected: no match"; ==> matches A.text, expected: no match;x;x;;S_OB_CHAR_THEN;S_EB_EXPECTED;;;;3.6;;;;;;;;;;
 eclipse;330015;1;[api] provide support for constructing task list subtask hierarchy from inward task relations;[api] provide support for constructing task list subtask hierarchy from inward task relations;;x;;S_EB_IMPERATIVE;;;;Fiorella;0.1;;y;eclipse330015y;eclipse330015xy;eclipse330015y;eclipse330015;;;;
 eclipse;330015;2;Using TaskRelation.parentTask (which is an INWARD containment) doesn't result in a sub/parent task structure in the task list. Only seems to be recognized by the quick outline.;Using TaskRelation.parentTask (which is an INWARD containment) doesn't result in a sub/parent task structure in the task list.;x;;;S_OB_NEG_AUX_VERB;;;;Fiorella;1.1;;;eclipse330015x;eclipse330015;eclipse330015;eclipse330015;;;;
 eclipse;330015;3;Using TaskRelation.parentTask (which is an INWARD containment) doesn't result in a sub/parent task structure in the task list. Only seems to be recognized by the quick outline.;Only seems to be recognized by the quick outline.;x;;;S_OB_APPEAR;;;;Fiorella;1.2;;;eclipse330015x;eclipse330015;eclipse330015;eclipse330015;;;;
@@ -3968,10 +4064,16 @@ eclipse;24924;2;"quick fix DDd to add unimplemented methods
 you get this: (javadoc for compare is incorrect - it should refer to 
 Comparable#compare)";"javadoc for compare is incorrect - it should refer to 
 Comparable#compare";x;x;;S_OB_NEG_ADV_ADJ;S_EB_SHOULD;;;Juan;2.1;;;eclipse24924x;eclipse24924x;eclipse24924;eclipse24924;;;;
+eclipse;24924;3;"quick fix DDd to add unimplemented methods
+you get this: (javadoc for compare is incorrect - it should refer to 
+Comparable#compare)";quick fix DDd to add unimplemented methods you get this:;;;x;P_SR_IMPERATIVE_OBS_BEHAVIOR;;;;Laura;2.1;;;;;;;;;;
 eclipse;33007;1;Adding new methods with Code Assist not always using method comment template;Adding new methods with Code Assist not always using method comment template;x;;;S_OB_NEG_AUX_VERB;;;[subject] (not) [gerund] [thing];Juan;0.1;;y;eclipse33007xy;eclipse33007y;eclipse33007y;eclipse33007;;;;
 eclipse;33007;2;"1. inside a method type ""new Runnable(""
 2. press Ctrl+SPACE
 ==&gt; no method comment for run()";;;;x;P_SR_LABELED_LIST;;;;Juan;2;;;eclipse33007;eclipse33007;eclipse33007x;eclipse33007;;;;
+eclipse;33007;3;"1. inside a method type ""new Runnable(""
+2. press Ctrl+SPACE
+==&gt; no method comment for run()";" ==&gt; no method comment for run()";x;;;S_OB_NO_NOUN;;;;Laura;2.3;;;;;;;;;;
 eclipse;40357;1;[reconciling] Reconcile with errors should tolerate internal exceptions;[reconciling] Reconcile with errors should tolerate internal exceptions;;x;;S_EB_SHOULD;;;;Juan;0.1;;y;eclipse40357y;eclipse40357xy;eclipse40357y;eclipse40357;;;;
 eclipse;40357;2;"If some compiler failure occurs during reconcile (see bug 40288), it seems that 
 the UI problem requestor will remain active. It should be protected with a 
@@ -3990,6 +4092,13 @@ I can't understand why the outgoing changes didn't appear in the first place
 since the files were decorated properly in the navigator.";"After killing and 
 restarting, the outgoing changes in one of the projects I was working on did 
 not appear in the view.";x;;;S_OB_AFTER_NEG_AUX;;;;Juan;1.2;;;eclipse41883x;eclipse41883;eclipse41883;eclipse41883;;;;
+eclipse;41883;3;"I was modifing some files when Eclipse crashed (dealock). After killing and 
+restarting, the outgoing changes in one of the projects I was working on did 
+not appear in the view. Refreshing the subscriber did not help (not 
+surprising). Selecting the refresh view from the view menu fixed the problem. 
+I can't understand why the outgoing changes didn't appear in the first place 
+since the files were decorated properly in the navigator.";"I can't understand why the outgoing changes didn't appear in the first place 
+since the files were decorated properly in the navigator.";;x;;S_EB_WHY_NEG;;;;Laura;1.5;;;;;;;;;;
 eclipse;48130;1;Breakpoint in renamed project leads to exception;Breakpoint in renamed project leads to exception;x;;;S_OB_VERB_ERROR;;;;Juan;0.1;;y;eclipse48130xy;eclipse48130y;eclipse48130y;eclipse48130;;;;
 eclipse;48130;2;"I ran into this originally in a more elaborate plugin development scenario on 
 2.1.1.
@@ -4027,6 +4136,11 @@ no enries in the log, no info for the user.";Compiling the attached project sile
 eclipse;50884;3;"Compiling the attached project silently crashes in I20040128-16??. There are 
 no enries in the log, no info for the user.";There are no enries in the log, no info for the user.;x;;;S_OB_TO_BE_NO;;;;Juan;1.3;;;eclipse50884x;eclipse50884;eclipse50884;eclipse50884;;;;
 eclipse;52985;1;Instance stat. view show wrong Instance numbers;Instance stat. view show wrong Instance numbers;x;;;S_OB_NEG_ADV_ADJ;;;;Juan;0.1;;y;eclipse52985xy;eclipse52985y;eclipse52985y;eclipse52985;;;;
+eclipse;52985;2;"In the Instance Statistic view. 
+The Total Instances and Live Instances are showning n-1 number of instances as 
+listed when you expend a class.
+screen cap follows.";"The Total Instances and Live Instances are showning n-1 number of instances as 
+listed when you expend a class.";x;;;S_OB_CONTINUOUS_COND;;;;Laura;1.2;;;;;;;;;;
 eclipse;63650;1;3.0M9 crashes when opening 3.0M8 workspace;3.0M9 crashes when opening 3.0M8 workspace;x;;;S_OB_NEG_VERB;;;;Juan;0.1;;y;eclipse63650xy;eclipse63650y;eclipse63650y;eclipse63650;;;;
 eclipse;63650;2;"I'm trying to open my old workspace with M9, but eclipse fails.
 Error message:
@@ -4058,7 +4172,21 @@ could attach the source.";;x;;S_EB_WOULD_BE;;;;Juan;3.2;;;eclipse73299;eclipse73
 eclipse;73299;3;"This would be especially useful if the .class file is present in multiple .jar
 files because it then would bring to the one implementation that gets really used.";"This would be especially useful if the .class file is present in multiple .jar
 files because it then would bring to the one implementation that gets really used.";;x;;S_EB_WOULD_BE;;;;Juan;4.1;;;eclipse73299;eclipse73299x;eclipse73299;eclipse73299;;;;
+eclipse;73299;2;"While for all the other source files, a double click brings me into the right
+place in the source file, understandably this doesn't happen for the ""Unknown
+Source"" case.
+However, it would be great if upon a double click there, the Project
+properties-Java Build Path-Libraries would open the concerned library where I
+could attach the source.";"While for all the other source files, a double click brings me into the right
+place in the source file, understandably this doesn't happen for the ""Unknown
+Source"" case.";x;;;S_OB_COND_NEG;;;;Laura;3.1;;;;;;;;;;
 eclipse;98780;1;Logging Examples fail in TPTP 4.0;Logging Examples fail in TPTP 4.0;x;;;S_OB_NEG_VERB;;;;Juan;0.1;;y;eclipse98780xy;eclipse98780y;eclipse98780y;eclipse98780;;;;
+eclipse;98780;2;"The following Examples fails in TPTP 4.0:
+ HyadesEMFCommonBaseEventv101Project
+ HyadesLoggingCommonsProject
+ HyadesLoggingJava14Project
+ HyadesLoggingLog4JProject";The following Examples fails in TPTP 4.0:;x;;;S_OB_NEG_VERB;;;;Laura;1.1;;;;;;;;;;
+eclipse;98780;3;EMF jar are no longer packaged in runtime folder;EMF jar are no longer packaged in runtime folder;x;;;S_OB_NO_LONGER;;;;Laura;3.1;;;;;;;;;;
 eclipse;108559;1;"When I run an sql query, I cant´t see the number of updated rows (in insert,
 update, delete) or the number of selected rows (in select). I think this
 enhacement would be very useful.";"When I run an sql query, I cant´t see the number of updated rows (in insert,
@@ -4082,6 +4210,7 @@ eclipse;119023;3;Try dragging them around, both on the left and to the bottom.  
 eclipse;119023;4;Try dragging them around, both on the left and to the bottom.  They'll generate NPEs in ActualTrimDropTarget (I've attached my log).;They'll generate NPEs in ActualTrimDropTarget (I've attached my log).;x;;;S_OB_VERB_ERROR;;;;Juan;2.2;;;eclipse119023x;eclipse119023;eclipse119023;eclipse119023;;;;
 eclipse;138514;1;1. Unmapped data is currently lost (left in the extension map) and could be preserved, say, by attaching it to the model using stereotypes.;1. Unmapped data is currently lost (left in the extension map) and could be preserved, say, by attaching it to the model using stereotypes.;x;;;S_OB_NEG_VERB;;;"""lost""";Juan;2.1;;;eclipse138514x;eclipse138514;eclipse138514;eclipse138514;;;;
 eclipse;138514;2;2. Migration of profile applications assumes the first segment of the profile proxy URI is the profile name - this is not always the case.;this is not always the case.;x;;;S_OB_NEG_AUX_VERB;;;;Juan;3.1;;;eclipse138514x;eclipse138514;eclipse138514;eclipse138514;;;;
+eclipse;138514;3;2. Migration of profile applications assumes the first segment of the profile proxy URI is the profile name - this is not always the case.; Migration of profile applications assumes the first segment of the profile proxy URI is the profile name;x;;;S_OB_ASSUME;;;;Laura;3.1;;;;;;;;;;
 eclipse;147649;1;[Regression]PDF generation does not complete;[Regression]PDF generation does not complete;x;;;S_OB_NEG_AUX_VERB;;;;Juan;0.1;;y;eclipse147649xy;eclipse147649y;eclipse147649y;eclipse147649;;;;
 eclipse;147649;2;"Step to reproduce:
   1. download the attachment https://bugs.eclipse.org/bugs/attachment.cgi?id=38860
@@ -4126,6 +4255,9 @@ eclipse;187284;3;"Problem description: translation of ""Manage configurations"" 
 eclipse;190160;1;"Steps To Reproduce:
 I have been running Jtest's BugDetective feature on BIRT source code and it reported a few places where an inefficient iteration over map takes place.
 From the point of view of efficiency it is better to iterate over the set of map entries rather than, having obtained a key set, extract a corresponding value (which is considered to be a very consuming operation) at every single iteration.";;;;x;P_SR_LABELED_PARAGRAPH;;;;Juan;2;;;eclipse190160;eclipse190160;eclipse190160x;eclipse190160;;;;
+eclipse;190160;2;"Steps To Reproduce:
+I have been running Jtest's BugDetective feature on BIRT source code and it reported a few places where an inefficient iteration over map takes place.
+From the point of view of efficiency it is better to iterate over the set of map entries rather than, having obtained a key set, extract a corresponding value (which is considered to be a very consuming operation) at every single iteration.";From the point of view of efficiency it is better to iterate over the set of map entries rather than, having obtained a key set, extract a corresponding value (which is considered to be a very consuming operation) at every single iteration.;x;x;;S_OB_INSTEAD_OF;S_EB_INSTEAD_OF_EXP_BEHAVIOR;;;Laura;2.3;;;;;;;;;;
 eclipse;199084;1;Variables view initially shows constants although option is off;Variables view initially shows constants although option is off;x;;;S_OB_EVEN_IF;;;;Juan;0.1;;y;eclipse199084xy;eclipse199084y;eclipse199084y;eclipse199084;;;;
 eclipse;199084;2;Sometimes, the Variables view shows constants although the option is turned off. It mostly happens just when I hit the first breakpoint. Unfortunately, I don't have steps to reproduce, since it does not happen every time.;Sometimes, the Variables view shows constants although the option is turned off.;x;;;S_OB_EVEN_IF;;;;Juan;2.1;;;eclipse199084x;eclipse199084;eclipse199084;eclipse199084;;;;
 eclipse;199084;3;As soon as I select the parent (local variable e in the screenshot), the constants disappear.;As soon as I select the parent (local variable e in the screenshot), the constants disappear.;x;;;S_OB_NEG_VERB;;;;Juan;3.1;;;eclipse199084x;eclipse199084;eclipse199084;eclipse199084;;;;
@@ -4139,11 +4271,11 @@ eclipse;228223;3;"1. Load the /org.eclipse.cosmos.rm.example.datacenter project 
 eclipse;247276;1;Refresh context menu action does not work on remote connections;Refresh context menu action does not work on remote connections;x;;;S_OB_NEG_AUX_VERB;;;;Juan;0.1;;y;eclipse247276xy;eclipse247276y;eclipse247276y;eclipse247276;;;;
 eclipse;247276;2;"Create a remote connection, open the connection, add a file from outside of geclipse's connections (e.g. using the terminal) to the directory, use the ""refresh"" action in the context menu on the connection - the busy cursor will show up for a short time but the content will not change. If the directory gets closed and opened again the right contents will show up.";"Create a remote connection, open the connection, add a file from outside of geclipse's connections (e.g. using the terminal) to the directory, use the ""refresh"" action in the context menu on the connection - the busy cursor will show up for a short time but the content will not change.";;;x;S_SR_IMPERATIVE_SUBORDINATES;;;Notice sentence separation is -;Juan;1.1;;;eclipse247276;eclipse247276;eclipse247276x;eclipse247276;;;;
 eclipse;247276;3;"Create a remote connection, open the connection, add a file from outside of geclipse's connections (e.g. using the terminal) to the directory, use the ""refresh"" action in the context menu on the connection - the busy cursor will show up for a short time but the content will not change. If the directory gets closed and opened again the right contents will show up.";the busy cursor will show up for a short time but the content will not change.;x;;;S_OB_BUT_NEG;;;;Juan;1.1;;;eclipse247276x;eclipse247276;eclipse247276;eclipse247276;;;;
-eclipse;247276;4;"Create a remote connection, open the connection, add a file from outside of geclipse's connections (e.g. using the terminal) to the directory, use the ""refresh"" action in the context menu on the connection - the busy cursor will show up for a short time but the content will not change. If the directory gets closed and opened again the right contents will show up.";If the directory gets closed and opened again the right contents will show up.;;x;;S_EB_COND_POS_ADJ;;;;Juan;1.2;;;eclipse247276;eclipse247276x;eclipse247276;eclipse247276;;;;
-eclipse;256474;1;"In the server editor under the Publishing section.  Consider renaming the ""Select enabled publishers"" label to ""Select publishing actions"".";"Consider renaming the ""Select enabled publishers"" label to ""Select publishing actions"".";;x;;S_EB_CONSIDER_DOING;;;;Juan;1.2;;;eclipse256474;eclipse256474x;eclipse256474;eclipse256474;;;;
+eclipse;247276;4;"Create a remote connection, open the connection, add a file from outside of geclipse's connections (e.g. using the terminal) to the directory, use the ""refresh"" action in the context menu on the connection - the busy cursor will show up for a short time but the content will not change. If the directory gets closed and opened again the right contents will show up.";If the directory gets closed and opened again the right contents will show up.;x;;;S_OB_COND_POS;;;;Juan;1.2;;;eclipse247276x;eclipse247276;eclipse247276;eclipse247276;;;;
+eclipse;256474;1;"In the server editor under the Publishing section.  Consider renaming the ""Select enabled publishers"" label to ""Select publishing actions"".";"Consider renaming the ""Select enabled publishers"" label to ""Select publishing actions"".";;x;;S_EB_CONSIDER_ACTION;;;;Juan;1.2;;;eclipse256474;eclipse256474x;eclipse256474;eclipse256474;;;;
 eclipse;282361;1;ClassCastException due to unknown reason;ClassCastException due to unknown reason;x;;;S_OB_ERROR_DUE;;;;Juan;0.1;;y;eclipse282361xy;eclipse282361y;eclipse282361y;eclipse282361;;;;
 eclipse;286568;1;@MappedSuperclass is broken without @DiscriminatorValue;@MappedSuperclass is broken without @DiscriminatorValue;x;;;S_OB_NEG_ADV_ADJ;;;;Juan;0.1;;y;eclipse286568xy;eclipse286568y;eclipse286568y;eclipse286568;;;;
-eclipse;286568;2;"I get a can't instantiate class exception when I run the query ""select o from Site o"" when I have the following";"I get a can't instantiate class exception when I run the query ""select o from Site o"" when I have the following";x;;;S_OB_VERB_ERROR;;;;Juan;1.1;;;eclipse286568x;eclipse286568;eclipse286568;eclipse286568;;;;
+eclipse;286568;2;"I get a can't instantiate class exception when I run the query ""select o from Site o"" when I have the following";"I get a can't instantiate class exception when I run the query ""select o from Site o"" when I have the following";x;;x;S_OB_VERB_ERROR;S_SR_COND_CODE;;;Juan;1.1;;;eclipse286568x;eclipse286568;eclipse286568x;eclipse286568;;;;
 eclipse;292443;1;NPE in ToolTipHelper;NPE in ToolTipHelper;x;;;S_OB_PROBLEM_IN;;;;Juan;0.1;;y;eclipse292443xy;eclipse292443y;eclipse292443y;eclipse292443;;;;
 eclipse;295138;1;Make Targets not automatically filled in for new Autotools project;Make Targets not automatically filled in for new Autotools project;;x;;S_EB_IMPERATIVE;;;;Juan;0.1;;y;eclipse295138y;eclipse295138xy;eclipse295138y;eclipse295138;;;;
 eclipse;295138;2;"Creating a new C++ Hello world project and clicking on Project -&gt; Make Targets -&gt; build shows nothing in the list.";"Creating a new C++ Hello world project and clicking on Project -&gt; Make Targets -&gt; build shows nothing in the list.";x;;x;S_OB_VERB_NO;S_SR_MENU_NAV;;;Juan;1.1;;;eclipse295138x;eclipse295138;eclipse295138x;eclipse295138;;;;
@@ -4163,7 +4295,7 @@ Type BBB, then double click on the matching result.
 The class name BBB is highlighted in editor correctly.
 Enter a few (10) new lines above class BBB body.
 Save the changes.
-Invoke again Open Type (Ctrl+Shift+T), type again BBB, then double click at the matched class BBB in the list of Open Type dialog.";The class name BBB is highlighted in editor correctly.;;x;;S_EB_PARTICIPLE_CORRECTLY;;;;Juan;4.2;;;eclipse317569;eclipse317569x;eclipse317569;eclipse317569;;;;
+Invoke again Open Type (Ctrl+Shift+T), type again BBB, then double click at the matched class BBB in the list of Open Type dialog.";The class name BBB is highlighted in editor correctly.;x;;;S_OB_PARTICIPLE_CORRECTLY;;;;Juan;4.2;;;eclipse317569x;eclipse317569;eclipse317569;eclipse317569;;;;
 eclipse;317569;5;"Expected:
 The class name BBB should be highlighted in editor.";"Expected:
 The class name BBB should be highlighted in editor.";;x;;S_EB_EXP_BEHAVIOR;;;;Juan;5.1;;;eclipse317569;eclipse317569x;eclipse317569;eclipse317569;;;;
@@ -4270,7 +4402,7 @@ facebook;8455;3;Example code:;Example code:;;;x;S_SR_CODE_REF;;;;Juan;3.1;;;face
 facebook;8944;1;Affiliation information is not returned (or retruned but outdated) when using API to get profile information;Affiliation information is not returned (or retruned but outdated) when using API to get profile information;x;;;S_OB_NEG_CONDITIONAL;;;;Juan;0.1;;y;facebook8944xy;facebook8944y;facebook8944y;facebook8944;;;;
 facebook;9708;1;Need a safe way to display items to only friends of the user on application tab;Need a safe way to display items to only friends of the user on application tab;;x;;S_EB_NEED_TO;;;;Juan;0.1;;y;facebook9708y;facebook9708xy;facebook9708y;facebook9708;;;;
 facebook;9708;2;I do not understand the thought process behind having the visible-to-connection tag display the contents at all times_ just in a visibility:hidden source.  Can we get a safe way to display information only to friends of a user within an application tab?  It would make the most sense if this tag and its contents simply disappeared when a non-friend/non-fan views an application tab.  This may be similar to bug 2814_ but I wasn t sure whether it is strictly a duplicate or not.;Can we get a safe way to display information only to friends of a user within an application tab?;;x;;S_EB_CAN_QUESTION;;;;Juan;1.2;;;facebook9708;facebook9708x;facebook9708;facebook9708;;;;
-facebook;9708;3;I do not understand the thought process behind having the visible-to-connection tag display the contents at all times_ just in a visibility:hidden source.  Can we get a safe way to display information only to friends of a user within an application tab?  It would make the most sense if this tag and its contents simply disappeared when a non-friend/non-fan views an application tab.  This may be similar to bug 2814_ but I wasn t sure whether it is strictly a duplicate or not.;It would make the most sense if this tag and its contents simply disappeared when a non-friend/non-fan views an application tab.;;x;;S_EB_WOULD_MAKE_SENSE;;;;Juan;1.3;;;facebook9708;facebook9708x;facebook9708;facebook9708;;;;
+facebook;9708;3;I do not understand the thought process behind having the visible-to-connection tag display the contents at all times_ just in a visibility:hidden source.  Can we get a safe way to display information only to friends of a user within an application tab?  It would make the most sense if this tag and its contents simply disappeared when a non-friend/non-fan views an application tab.  This may be similar to bug 2814_ but I wasn t sure whether it is strictly a duplicate or not.;It would make the most sense if this tag and its contents simply disappeared when a non-friend/non-fan views an application tab.;;x;;S_EB_MAKE_SENSE;;;;Juan;1.3;;;facebook9708;facebook9708x;facebook9708;facebook9708;;;;
 facebook;10537;1;Blank pages are coming up in Application canvas;Blank pages are coming up in Application canvas;x;;;S_OB_ERROR_TERM_SUBJECT;;;;Juan;0.1;;y;facebook10537xy;facebook10537y;facebook10537y;facebook10537;;;;
 facebook;10537;2;While accessing my application blank pages are coming up. Issue is with Facebook Api s only. How to solve this issue? Why only this particular application is getting affected? Try to solve this issue as soon as possible.;While accessing my application blank pages are coming up.;x;;;S_OB_ERROR_TERM_SUBJECT;;;;Juan;2.1;;;facebook10537x;facebook10537;facebook10537;facebook10537;;;;
 facebook;10689;1;Proxy does not load images on slower servers for application tabs;Proxy does not load images on slower servers for application tabs;x;;;S_OB_NEG_AUX_VERB;;;;Juan;0.1;;y;facebook10689xy;facebook10689y;facebook10689y;facebook10689;;;;
@@ -4842,14 +4974,6 @@ cache. This didn't use to happen. Several (maybe 6) months ago
 I noticed problems but wasn't sure if it was a configuration problem.
 The proxied ssl connections work (at least until all available server
 processes are locked up). I am using the prefork mpm.";This didn't use to happen.;x;;;S_OB_NEG_AUX_VERB;;;;Juan;1.5;;;httpd28582x;httpd28582;httpd28582;httpd28582;;;;
-httpd;28582;5;"I am using apache as a forward proxy at home and when I use ssl
-connections the httpd process(es) used go cpu bound. I refreshed
-from the development CVS today and the problem is still happening.
-I have a redhat 2.2.16-4 kernel. I am not using an ssl session
-cache. This didn't use to happen. Several (maybe 6) months ago
-I noticed problems but wasn't sure if it was a configuration problem.
-The proxied ssl connections work (at least until all available server
-processes are locked up). I am using the prefork mpm.";The proxied ssl connections work;;x;;S_EB_WORKS_FINE;;;;Juan;1.7;;;httpd28582;httpd28582x;httpd28582;httpd28582;;;;
 httpd;28942;1;functions are not exported from mod_ssl corectly for win32;functions are not exported from mod_ssl corectly for win32;x;;;S_OB_NEG_ADV_ADJ;S_OB_NEG_AUX_VERB;;;Juan;0.1;;y;httpd28942xy;httpd28942y;httpd28942y;httpd28942;;;;
 httpd;28942;2;"The functions and structures in mod_ssl's public API (mod_ssl.h) are not
 exported correctly using AP_DECLARE and AP_DECALRE_NONSTD for use on win32
@@ -4887,7 +5011,7 @@ httpd;30419;6;"1. If a cached document is outdated because it is expired, it wil
    two Set-Cookie headers, one from the cached headers (cross checked by a look
    to the .headers file) and one generated by the actual Tomcat request. The
    following excerpt from Mozilla's livehttpheaders shows this:";"1. If a cached document is outdated because it is expired, it will be requested
-   again from Tomcat, which is completely correct.";;x;;S_EB_COND_POS_ADJ;;;;Juan;17.1;;;httpd30419;httpd30419x;httpd30419;httpd30419;;;;
+   again from Tomcat, which is completely correct.";x;;;S_OB_COND_POS;;;;Juan;17.1;;;httpd30419x;httpd30419;httpd30419;httpd30419;;;;
 httpd;30419;7;"1. If a cached document is outdated because it is expired, it will be requested
    again from Tomcat, which is completely correct. But this response contains
    two Set-Cookie headers, one from the cached headers (cross checked by a look
@@ -4908,7 +5032,7 @@ httpd;30419;9;"mod_cache decides that the cached version of the document is not 
 httpd;30419;10;"mod_cache decides that the cached version of the document is not fresh
    and has to be retrived again from Tomcat. Only the next request to this
    URL works correctly and delivers the cached version of this document.";"Only the next request to this
-   URL works correctly and delivers the cached version of this document.";;x;;S_EB_WORKS_FINE;;;;Juan;24.2;;;httpd30419;httpd30419x;httpd30419;httpd30419;;;;
+   URL works correctly and delivers the cached version of this document.";x;;;S_OB_WORKS_FINE_WHEN;;;;Juan;24.2;;;httpd30419x;httpd30419;httpd30419;httpd30419;;;;
 httpd;30419;11;"So I set the Loglevel to debug and added the following temporary patch to
 cache_util.c to get a better picture of what is going on:";;;;x;P_SR_SIMPLE_PAST;;;;Juan;26;;;httpd30419;httpd30419;httpd30419x;httpd30419;;;;
 httpd;30419;12;This produced the following logging output:;This produced the following logging output:;x;;;S_OB_ATTATCHMENT_REF;;;;Juan;29.1;;;httpd30419x;httpd30419;httpd30419;httpd30419;;;;
@@ -4944,7 +5068,7 @@ worked great.  Then I changed DocumentRoot and the related Directory to
 /public_html/www and attempted to restart the server.  Apache would not start. 
 No results from the lsof -i:80 command, and no httpd.pif file comfirmed that. 
 No error log is produced and no error message appears in the terminal.";"I ran Apache after the RPM install with PHP and mod_ssl on Fedora Core 3 and it
-worked great.";;x;;S_EB_WORKS_FINE;;;;Juan;1.1;;;httpd33679;httpd33679x;httpd33679;httpd33679;;;;
+worked great.";x;;;S_OB_WORKS_FINE_WHEN;;;;Juan;1.1;;;httpd33679x;httpd33679;httpd33679;httpd33679;;;;
 httpd;33679;3;"I ran Apache after the RPM install with PHP and mod_ssl on Fedora Core 3 and it
 worked great.  Then I changed DocumentRoot and the related Directory to
 /public_html/www and attempted to restart the server.  Apache would not start. 
@@ -4977,9 +5101,6 @@ httpd;33679;9;"What it seems to boil down to is that I can't change DocumentRoot
 on a partition other than the one where Apache is installed.";"What it seems to boil down to is that I can't change DocumentRoot to a location
 on a partition other than the one where Apache is installed.";x;;;S_OB_APPEAR;S_OB_NEG_AUX_VERB;;;Juan;6.1;;;httpd33679x;httpd33679;httpd33679;httpd33679;;;;
 httpd;36509;1;I have a .htaccess file in /home/alex/public_html/testsite that reads:;I have a .htaccess file in /home/alex/public_html/testsite that reads:;;;x;S_SR_CODE_REF;;;;Juan;3.1;;;httpd36509;httpd36509;httpd36509x;httpd36509;;;;
-httpd;36509;2;"Seems like some funny behaviour. Please correct me if I am wrong but this setup
-works flawlessly with addresses without the ~ as far as I can tell.";"Please correct me if I am wrong but this setup
-works flawlessly with addresses without the ~ as far as I can tell.";;x;;S_EB_WORKS_FINE;;;;Juan;8.2;;;httpd36509;httpd36509x;httpd36509;httpd36509;;;;
 httpd;38009;1;Please add application/x-stuffitx mime type for .sitx StuffitX files;Please add application/x-stuffitx mime type for .sitx StuffitX files;;x;;S_EB_IMPERATIVE;;;;Juan;1.5;;;httpd38009;httpd38009x;httpd38009;httpd38009;;;;
 firefox;277487;1;"When I use the Google search in Firefox 1.7.5 (and 1.7.3 previous to my recent
 upgrade) I end up on a Simplified Chinese google search page with no search
@@ -5009,22 +5130,18 @@ the client.";"Apache should make an attempt to print the date in the language re
 the client.";;x;;S_EB_SHOULD;;;;Juan;3.1;;;httpd40431;httpd40431x;httpd40431;httpd40431;;;;
 httpd;41844;1;"My problem was discovered when I attempt to start apache and when I run the
 apache configtest by command line.";;;;x;P_SR_COND_SEQUENCE;;;;Juan;2;;;httpd41844;httpd41844;httpd41844x;httpd41844;;;;
-httpd;42731;1;"It finally worked when I tried the following:
-RewriteRule ^admin\.php$ admin.php [L]";"It finally worked when I tried the following:
-RewriteRule ^admin\.php$ admin.php [L]";;x;;S_EB_WORKS_FINE_WHEN;;;;Juan;7.1;;;httpd42731;httpd42731x;httpd42731;httpd42731;;;;
 httpd;43263;1;"All of the spanish (es) server error messages are 'semi' translated or textually
 translated, which should not be the case. As far as I would say, translations
 for errors should be made such that the end user can understand what is going
 on. So I am submitting translations that do exactly that.";"As far as I would say, translations
 for errors should be made such that the end user can understand what is going
 on.";;x;;S_EB_SHOULD;;;;Juan;1.2;;;httpd43263;httpd43263x;httpd43263;httpd43263;;;;
-httpd;44402;1;prefork mpm works just fine.;prefork mpm works just fine.;;x;;S_EB_WORKS_FINE;;;;Juan;9.1;;;httpd44402;httpd44402x;httpd44402;httpd44402;;;;
 httpd;46417;1;Load this modules in httpd.conf;Load this modules in httpd.conf;;;x;S_SR_IMPERATIVE_SUBORDINATES;;;;Juan;2.1;;;httpd46417;httpd46417;httpd46417x;httpd46417;;;;
 httpd;46616;1;"So using the following line ""rotatelogs -l log/%Y-%m-%d 3600"" creates log files properly following DST changes but the names of those files follow UTC values. ";"So using the following line ""rotatelogs -l log/%Y-%m-%d 3600"" creates log files properly following DST changes but the names of those files follow UTC values. ";x;;;S_OB_BUT ;;;;Juan;2.1;;;httpd46616x;httpd46616;httpd46616;httpd46616;;;;
 httpd;46773;1;The configuration directives for Directory containers are supposed to be processed in order of shortest to longest, to allow a general configuration to be overridden by more specific subdirectory directives.  In the configuration below I have specified 'SSLClientVerify require' globally.  In the registration directory, where we cannot yet have it protected, I have specified 'SSLClientVerify none'.  I expected that to override the higher level directive and allow this subdirectory to be accessed without a client certificate.  Instead, it still requires a certificate to be presented.;The configuration directives for Directory containers are supposed to be processed in order of shortest to longest, to allow a general configuration to be overridden by more specific subdirectory directives.;;x;;S_EB_SUPPOSED_TO;;;;Juan;1.1;;;httpd46773;httpd46773x;httpd46773;httpd46773;;;;
 httpd;46773;2;The configuration directives for Directory containers are supposed to be processed in order of shortest to longest, to allow a general configuration to be overridden by more specific subdirectory directives.  In the configuration below I have specified 'SSLClientVerify require' globally.  In the registration directory, where we cannot yet have it protected, I have specified 'SSLClientVerify none'.  I expected that to override the higher level directive and allow this subdirectory to be accessed without a client certificate.  Instead, it still requires a certificate to be presented.;In the configuration below I have specified 'SSLClientVerify require' globally.;;;x;S_SR_CODE_REF;;;;Juan;1.2;;;httpd46773;httpd46773;httpd46773x;httpd46773;;;;
 httpd;46773;3;The configuration directives for Directory containers are supposed to be processed in order of shortest to longest, to allow a general configuration to be overridden by more specific subdirectory directives.  In the configuration below I have specified 'SSLClientVerify require' globally.  In the registration directory, where we cannot yet have it protected, I have specified 'SSLClientVerify none'.  I expected that to override the higher level directive and allow this subdirectory to be accessed without a client certificate.  Instead, it still requires a certificate to be presented.;I expected that to override the higher level directive and allow this subdirectory to be accessed without a client certificate.;;x;;S_EB_EXPECTED;;;;Juan;1.4;;;httpd46773;httpd46773x;httpd46773;httpd46773;;;;
-httpd;47923;1;The stickiness of mod_proxy_balancer works fine, if all content is proxied to backend.;The stickiness of mod_proxy_balancer works fine, if all content is proxied to backend.;;x;;S_EB_WORKS_FINE_WHEN;;;;Juan;1.1;;;httpd47923;httpd47923x;httpd47923;httpd47923;;;;
+httpd;47923;1;The stickiness of mod_proxy_balancer works fine, if all content is proxied to backend.;The stickiness of mod_proxy_balancer works fine, if all content is proxied to backend.;x;;;S_OB_WORKS_FINE_WHEN;;;;Juan;1.1;;;httpd47923x;httpd47923;httpd47923;httpd47923;;;;
 httpd;50283;1;This should fail and if possible throw out which module isnt enabled. In other words, configtest should parse and check if modules are enabled and throw out appropriate failure message.;This should fail and if possible throw out which module isnt enabled.;;x;;S_EB_SHOULD;;;;Juan;5.1;;;httpd50283;httpd50283x;httpd50283;httpd50283;;;;
 httpd;50283;2;This should fail and if possible throw out which module isnt enabled. In other words, configtest should parse and check if modules are enabled and throw out appropriate failure message.;In other words, configtest should parse and check if modules are enabled and throw out appropriate failure message.;;x;;S_EB_SHOULD;;;;Juan;5.2;;;httpd50283;httpd50283x;httpd50283;httpd50283;;;;
 httpd;50711;1;"example: 
