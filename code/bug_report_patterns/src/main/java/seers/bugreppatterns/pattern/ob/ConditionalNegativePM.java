@@ -36,7 +36,7 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
-	private List<Integer> findConditionalTerms(List<Token> tokens) {
+	public static List<Integer> findConditionalTerms(List<Token> tokens) {
 
 		List<Integer> conds = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
