@@ -59,16 +59,18 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 	}
 
-	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post" };
+	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "load" };
 
 	public static int checkNormalCase(Token firstToken, Token secondToken) {
 
 		if (firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP")) {
 			return 1;
 		} else {
-			if (firstToken.getPos().equals("RB")
-					&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP"))) {
-				return 1;
+			if (secondToken != null) {
+				if (firstToken.getPos().equals("RB")
+						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP"))) {
+					return 1;
+				}
 			}
 			if (Arrays.stream(UNDETECTED_VERBS).anyMatch(p -> firstToken.getLemma().equals(p))) {
 				return 1;

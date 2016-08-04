@@ -9,8 +9,6 @@ import seers.textanalyzer.entity.Token;
 
 public class RequirePM extends ExpectedBehaviorPatternMatcher {
 
-	// ErrorHowPMTest
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
@@ -18,7 +16,8 @@ public class RequirePM extends ExpectedBehaviorPatternMatcher {
 
 		if (tokens.size() > 3) {
 
-			List<Integer> condTerms = ConditionalNegativePM.findConditionalTerms(tokens);
+			List<Integer> condTerms = ConditionalNegativePM.findConditionalTerms(tokens,
+					ConditionalNegativePM.CONDITIONAL_TERMS);
 
 			if (condTerms.isEmpty()) {
 				for (Token token : tokens) {

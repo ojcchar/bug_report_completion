@@ -17,7 +17,7 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		List<Token> tokens = sentence.getTokens();
-		List<Integer> conds = findConditionalTerms(tokens);
+		List<Integer> conds = findConditionalTerms(tokens, CONDITIONAL_TERMS);
 		for (Integer cond : conds) {
 
 			if (cond + 1 < tokens.size()) {
@@ -36,12 +36,12 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
-	public static List<Integer> findConditionalTerms(List<Token> tokens) {
+	public static List<Integer> findConditionalTerms(List<Token> tokens, String[] terms) {
 
 		List<Integer> conds = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(CONDITIONAL_TERMS).anyMatch(t -> t.equals(token.getLemma()))) {
+			if (Arrays.stream(terms).anyMatch(t -> t.equals(token.getLemma()))) {
 				conds.add(i);
 			}
 		}

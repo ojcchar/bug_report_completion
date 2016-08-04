@@ -55,7 +55,7 @@ public class SentenceProcessor extends TextInstanceProcessor {
 					}
 				}
 			} catch (Exception e) {
-				LOGGER.error("[" + system + "] Error for file: " + file);
+				LOGGER.error("[" + system + "] Error for file: " + file, e);
 			}
 		}
 

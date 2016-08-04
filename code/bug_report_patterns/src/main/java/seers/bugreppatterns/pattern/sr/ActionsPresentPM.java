@@ -31,7 +31,7 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 		int numSentences = 0;
 		for (int i = 0; i < sentences.size(); i++) {
 			Sentence sentence = sentences.get(i);
-			numSentences += isActionInPresent(sentence);
+			numSentences += isActionInPresent(sentence, false);
 		}
 
 		numSentences += isUsingWould(sentences.get(sentences.size() - 1));
@@ -80,9 +80,9 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 
 	final static String[] AUX_VERBS = { "do", "be", "have" };
 
-	private int isActionInPresent(Sentence sentence) {
+	public static int isActionInPresent(Sentence sentence, boolean noCheckForBullet) {
 		List<Token> tokens2 = sentence.getTokens();
-		if (isBullet(tokens2.get(0))) {
+		if (noCheckForBullet || isBullet(tokens2.get(0))) {
 			int i = getFirstPresentVerb(tokens2, 1);
 			// check the verb is at the beginning of the sentence
 			if (i != -1 && i < 5) {
@@ -98,7 +98,7 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 		return 0;
 	}
 
-	private int getFirstPresentVerb(List<Token> tokens, int j) {
+	private static int getFirstPresentVerb(List<Token> tokens, int j) {
 		for (int i = j; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getPos().equals("VBP") || token.getPos().equals("VBZ")) {
