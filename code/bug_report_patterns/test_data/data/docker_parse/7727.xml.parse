@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7727</id>
+	<title>Running `docker build` from a script</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I'm building a Docker container from a script.</sentence>
+			<sentence id="2.2">However:</sentence>
+			<sentence id="2.3">* `docker build` has no option that will give you the image id in a readable format; best you can do is parse the whole output on stdout with a regex.</sentence>
+			<sentence id="2.4">* `docker build`'s output really should be on stderr</sentence>
+			<sentence id="2.5">* I was expecting `--quiet` to suppress that output, but it only removes the output from commands run in containers, not the rest of the client's output.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">What I was expecting is all the current output to happen on stderr, unless an option silences it (`--quiet` is already taken, but that's really what it should do), and the new image id to be printed on stdout for script consumption (`my_shiny_image=$(docker build .2&gt;/dev/stderr)`).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The best I can do right now is redirect stderr and stdout to /dev/null to suppress them, and generate a unique tag name myself to pass in with `-t` (parsing stdout just doesn't make sense).</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">(version: 1.0.0, 63fe64c)</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>735</id>
+	<title>NPE saving post content</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I had switched to the Reader from the post list when this happened.</sentence>
+			<sentence id="1.2">```</sentence>
+			<sentence id="1.3">01-27 08:31:54.177 405-405/org.wordpress.android E/WordPress-POSTS﹕ End of input at character 0 of</sentence>
+			<sentence id="1.4"> org.json.JSONException: End of input at character 0 of</sentence>
+			<sentence id="1.5"> at org.json.JSONTokener.syntaxError(JSONTokener.java:446)</sentence>
+			<sentence id="1.6"> at org.json.JSONTokener.nextValue(JSONTokener.java:93)</sentence>
+			<sentence id="1.7"> at org.json.JSONArray.&lt;init&gt;(JSONArray.java:87)</sentence>
+			<sentence id="1.8"> at org.json.JSONArray.&lt;init&gt;(JSONArray.java:103)</sentence>
+			<sentence id="1.9"> at org.wordpress.android.models.Post.getJSONCategories(Post.java:169)</sentence>
+			<sentence id="1.10"> at org.wordpress.android.WordPressDB.updatePost(WordPressDB.java:942)</sentence>
+			<sentence id="1.11"> at org.wordpress.android.models.Post.update(Post.java:396)</sentence>
+			<sentence id="1.12"> at org.wordpress.android.ui.posts.EditPostContentFragment.savePostContent(EditPostContentFragment.java:599)</sentence>
+			<sentence id="1.13"> at org.wordpress.android.ui.posts.EditPostActivity.savePost(EditPostActivity.java:291)</sentence>
+			<sentence id="1.14"> at org.wordpress.android.ui.posts.EditPostActivity.access$400(EditPostActivity.java:29)</sentence>
+			<sentence id="1.15"> at org.wordpress.android.ui.posts.EditPostActivity$2.run(EditPostActivity.java:279)</sentence>
+			<sentence id="1.16">```</sentence>
+		</paragraph>
+	</description>
+</bug>

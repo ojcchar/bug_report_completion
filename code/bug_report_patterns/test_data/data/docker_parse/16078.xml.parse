@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16078</id>
+	<title>API returns nothing when I want container's stats</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hello, I have a problem with the Docker API, but first:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```bash
+$ docker version
+Client:
+ Version: 1.8.2-rc1
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: 28220ac
+ Built: Thu Sep 3 19:07:51 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Server:
+ Version: 1.8.2-rc1
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: 28220ac
+ Built: Thu Sep 3 19:07:51 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">$ docker info </sentence>
+			<sentence id="4.2">Containers: 17</sentence>
+			<sentence id="4.3">Images: 8</sentence>
+			<sentence id="4.4">Storage Driver: devicemapper</sentence>
+			<sentence id="4.5"> Pool Name: docker-254:0-1512633-pool</sentence>
+			<sentence id="4.6"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="4.7"> Backing Filesystem: extfs</sentence>
+			<sentence id="4.8"> Data file: /dev/loop0</sentence>
+			<sentence id="4.9"> Metadata file: /dev/loop1</sentence>
+			<sentence id="4.10"> Data Space Used: 3.557 GB</sentence>
+			<sentence id="4.11"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="4.12"> Data Space Available: 8.216 GB</sentence>
+			<sentence id="4.13"> Metadata Space Used: 7.848 MB</sentence>
+			<sentence id="4.14"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="4.15"> Metadata Space Available: 2.14 GB</sentence>
+			<sentence id="4.16"> Udev Sync Supported: true</sentence>
+			<sentence id="4.17"> Deferred Removal Enabled: false</sentence>
+			<sentence id="4.18"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="4.19"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="4.20"> Library Version: 1.02.104 (2015-08-10)</sentence>
+			<sentence id="4.21">Execution Driver: native-0.2</sentence>
+			<sentence id="4.22">Logging Driver: json-file</sentence>
+			<sentence id="4.23">Kernel Version: 4.1.0-1-amd64</sentence>
+			<sentence id="4.24">Operating System: Debian GNU/Linux stretch/sid</sentence>
+			<sentence id="4.25">CPUs: 8</sentence>
+			<sentence id="4.26">Total Memory: 15.65 GiB</sentence>
+			<sentence id="4.27">Name: n-pc</sentence>
+			<sentence id="4.28">ID: LWBS:FFUU:5FGD:UXXH:J5FB:G4WL:WUZM:RFS4:3TEC:3IGG:K7GU:YWBV</sentence>
+			<sentence id="4.29">WARNING: No memory limit support</sentence>
+			<sentence id="4.30">WARNING: No swap limit support</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">$ uname -a
+Linux n-pc 4.1.0-1-amd64 #1 SMP Debian 4.1.3-1 (2015-08-03) x86_64 GNU/Linux
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I am using the API with command line, and when I want to get a container's stats, the API returns nothing:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">```bash
+$ echo -e "GET /containers/57d3/stats?</sentence>
+			<sentence id="7.2">stream=0 HTTP/1.1
+" | nc -U /var/run/docker.</sentence>
+			<sentence id="7.3">sock 
+HTTP/1.1 200 OK
+Content-Type: application/json
+Server: Docker/1.8.2-rc1 (linux)
+Date: Fri, 04 Sep 2015 08:13:10 GMT
+Content-Length: 0
+```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">With the "docker" command I can get the stats, but I really need to use the API:
+```bash
+docker stats --no-stream 57d3
+CONTAINER CPU % MEM USAGE/LIMIT MEM % NET I/O
+57d3 1.16% 0 B/16.81 GB 0.00% 8.565 MB/1.499 MB
+```</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">However the API is working...
+```bash
+echo -e "GET /version HTTP/1.1
+" | nc -U /var/run/docker.</sentence>
+			<sentence id="9.2">sock | tail -1 | json
+{
+ "ApiVersion": "1.20",
+ "Arch": "amd64",
+ "BuildTime": "Thu Sep 3 19:07:51 UTC 2015",
+ "GitCommit": "28220ac",
+ "GoVersion": "go1.4.2",
+ "KernelVersion": "4.1.0-1-amd64",
+ "Os": "linux",
+ "Version": "1.8.2-rc1"
+}
+```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">What am I doing wrong please?</sentence>
+			<sentence id="10.2">Thank you!</sentence>
+		</paragraph>
+	</description>
+</bug>

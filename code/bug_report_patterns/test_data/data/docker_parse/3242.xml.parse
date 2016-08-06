@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3242</id>
+	<title>Mounting volumes does not work as advertised anymore</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">See [the docs](http://docs.docker.io/en/latest/use/working_with_volumes/).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Since 0.7.2 i am unable to use something as simple as</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+docker run -v /var/volume1 -v /var/volume2 shykes/couchdb
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">which will fail because `No such file or directory: /var/volume1`.</sentence>
+			<sentence id="4.2">In previous versions, docker would silently create /var/volume1 if it didn't exist.</sentence>
+			<sentence id="4.3">So it seems I have to create the mountpoints in the image, which makes mounts extremely tedious to use.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Is this a bug or intended?</sentence>
+			<sentence id="5.2">I think it's a quite big change for a minor version increment.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">System information: 
+Ubuntu 13.10 64-bit</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Docker version/info:
+```
+mriehl@host:~$ docker -v
+Docker version 0.7.2, build 28b162e
+mriehl@host:~$ docker info
+Containers: 3
+Images: 29
+Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Dirs: 176
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19576</id>
+	<title>On docker master seems like the iptables rule is removed when connecting to bridge network1.10.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1"></sentence>
+			<sentence id="1.2">There is another issue that I saw during testing with our current env... seems like the iptables rule is removed if you create the apache container with --net=some_overlay_network and after that you connect it to the default bridge network:</sentence>
+			<sentence id="1.3">```</sentence>
+			<sentence id="1.4"> sudo docker info</sentence>
+			<sentence id="1.5">Containers: 4</sentence>
+			<sentence id="1.6"> Running: 4</sentence>
+			<sentence id="1.7"> Paused: 0</sentence>
+			<sentence id="1.8"> Stopped: 0</sentence>
+			<sentence id="1.9">Images: 1260</sentence>
+			<sentence id="1.10">Server Version: 1.10.0-dev</sentence>
+			<sentence id="1.11">Storage Driver: overlay</sentence>
+			<sentence id="1.12"> Backing Filesystem: extfs</sentence>
+			<sentence id="1.13">Execution Driver: native-0.2</sentence>
+			<sentence id="1.14">Logging Driver: json-file</sentence>
+			<sentence id="1.15">Plugins: </sentence>
+			<sentence id="1.16"> Volume: local</sentence>
+			<sentence id="1.17"> Network: overlay host bridge null</sentence>
+			<sentence id="1.18">Kernel Version: 4.3.0-040300-generic</sentence>
+			<sentence id="1.19">Operating System: Ubuntu 14.04.3 LTS</sentence>
+			<sentence id="1.20">OSType: linux</sentence>
+			<sentence id="1.21">Architecture: x86_64</sentence>
+			<sentence id="1.22">CPUs: 8</sentence>
+			<sentence id="1.23">Total Memory: 7.706 GiB</sentence>
+			<sentence id="1.24">Name: seb</sentence>
+			<sentence id="1.25">ID: B2M7:KYAT:FVQA:TA6R:FLAN:DUF5:224N:JFD3:E4UF:KL2Y:FHDM:FPCI</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">$ sudo docker version
+Client:
+ Version: 1.10.0-dev
+ API version: 1.23
+ Go version: go1.5.3
+ Git commit: d2448a0
+ Built: Thu Jan 21 21:55:15 2016
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Server:
+ Version: 1.10.0-dev
+ API version: 1.23
+ Go version: go1.5.3
+ Git commit: d2448a0
+ Built: Thu Jan 21 21:55:15 2016
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">sudo docker run -td -p 443:443 --net=backbone httpd:2.4</sentence>
+			<sentence id="4.2">Unable to find image 'httpd:2.4' locally</sentence>
+			<sentence id="4.3">2 4: Pulling from library/httpd</sentence>
+			<sentence id="4.4">81cc5f26a6a0: Pull complete</sentence>
+			<sentence id="4.5">a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.6">2cafa9d3114f: Pull complete</sentence>
+			<sentence id="4.7">0f68bf4a5953: Pull complete</sentence>
+			<sentence id="4.8">89bb361acd38: Pull complete</sentence>
+			<sentence id="4.9">e9009f794b2d: Pull complete</sentence>
+			<sentence id="4.10">c9619c83d417: Pull complete</sentence>
+			<sentence id="4.11">Digest: sha256:9c6442bd4c0ed040a57a347cf94c734b320bc2601655af3697d6f516a811eec3</sentence>
+			<sentence id="4.12">Status: Downloaded newer image for httpd:2.4</sentence>
+			<sentence id="4.13">751acec9233e264d1a57bdef12969757530e14b532b7874751de380ae93dce08</sentence>
+			<sentence id="4.14">seb@seb:~/hgdata/sfdc-ops/scripts$ sudo docker ps</sentence>
+			<sentence id="4.15">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+			<sentence id="4.16">751acec9233e httpd:2.4 "httpd-foreground" 5 seconds ago Up 3 seconds 80/tcp, 0.0.0.0:443-&gt;443/tcp pedantic_lamarr</sentence>
+			<sentence id="4.17">seb@seb:~/hgdata/sfdc-ops/scripts$ sudo iptables --list</sentence>
+			<sentence id="4.18">Chain INPUT (policy ACCEPT)</sentence>
+			<sentence id="4.19">target prot opt source destination</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Chain FORWARD (policy ACCEPT)
+target prot opt source destination 
+DOCKER-ISOLATION all -- anywhere anywhere 
+DROP all -- 172-18-0-0.</sentence>
+			<sentence id="5.2">rdsnet.ro/16 static-172-17-0-0.</sentence>
+			<sentence id="5.3">rdsnet.ro/16 
+DROP all -- static-172-17-0-0.</sentence>
+			<sentence id="5.4">rdsnet.ro/16 172-18-0-0.</sentence>
+			<sentence id="5.5">rdsnet.ro/16 
+DOCKER all -- anywhere anywhere 
+ACCEPT all -- anywhere anywhere ctstate RELATED,ESTABLISHED
+ACCEPT all -- anywhere anywhere 
+ACCEPT all -- anywhere anywhere 
+DOCKER all -- anywhere anywhere 
+ACCEPT all -- anywhere anywhere ctstate RELATED,ESTABLISHED
+ACCEPT all -- anywhere anywhere 
+DROP all -- anywhere anywhere</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Chain OUTPUT (policy ACCEPT)
+target prot opt source destination</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Chain DOCKER (2 references)
+target prot opt source destination 
+ACCEPT tcp -- anywhere static-172-19-0-2.</sentence>
+			<sentence id="7.2">rdsnet.ro tcp dpt:https</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Chain DOCKER-ISOLATION (1 references)
+target prot opt source destination 
+DROP all -- anywhere anywhere 
+DROP all -- anywhere anywhere 
+RETURN all -- anywhere anywhere 
+seb@seb:~/hgdata/sfdc-ops/scripts$ sudo docker network connect bridge pedantic_lamarr
+seb@seb:~/hgdata/sfdc-ops/scripts$ sudo iptables --list
+Chain INPUT (policy ACCEPT)
+target prot opt source destination</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Chain FORWARD (policy ACCEPT)
+target prot opt source destination 
+DOCKER-ISOLATION all -- anywhere anywhere 
+DROP all -- 172-18-0-0.</sentence>
+			<sentence id="9.2">rdsnet.ro/16 static-172-17-0-0.</sentence>
+			<sentence id="9.3">rdsnet.ro/16 
+DROP all -- static-172-17-0-0.</sentence>
+			<sentence id="9.4">rdsnet.ro/16 172-18-0-0.</sentence>
+			<sentence id="9.5">rdsnet.ro/16 
+DOCKER all -- anywhere anywhere 
+ACCEPT all -- anywhere anywhere ctstate RELATED,ESTABLISHED
+ACCEPT all -- anywhere anywhere 
+ACCEPT all -- anywhere anywhere 
+DOCKER all -- anywhere anywhere 
+ACCEPT all -- anywhere anywhere ctstate RELATED,ESTABLISHED
+ACCEPT all -- anywhere anywhere 
+DROP all -- anywhere anywhere</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Chain OUTPUT (policy ACCEPT)
+target prot opt source destination</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Chain DOCKER (2 references)
+target prot opt source destination</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Chain DOCKER-ISOLATION (1 references)
+target prot opt source destination 
+DROP all -- anywhere anywhere 
+DROP all -- anywhere anywhere 
+RETURN all -- anywhere anywhere</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">```</sentence>
+		</paragraph>
+	</description>
+</bug>

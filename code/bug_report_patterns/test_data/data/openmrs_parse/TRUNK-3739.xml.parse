@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3739</id>
+	<title>Retrieving a ProgramWorkflow by name in a the ModuleActivator started method throws an error</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Not completely sure how to reproduce this in a unit test, but if you put this line in the started method of ModuleActivator, you get a LazyInitializationError like in the attached stack trace.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">ProgramWorkflow wf = Context.getProgramWorkflowService().</sentence>
+			<sentence id="2.2">getProgram(1).</sentence>
+			<sentence id="2.3">getWorkflowByName("HUMAN IMMUNODEFICIENCY VIRUS");</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">(This assumes that there is a program with id = 1 and a workflow within that program named "HUMAN IMMUNODEFICIENCY VIRUS").</sentence>
+		</paragraph>
+	</description>
+</bug>

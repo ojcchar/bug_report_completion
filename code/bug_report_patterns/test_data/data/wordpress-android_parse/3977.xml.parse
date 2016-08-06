@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3977</id>
+	<title>Obscur error message when replying to a closed thread</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">### Steps to reproduce the behavior</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">1 Go to the site Comments section</sentence>
+			<sentence id="2.2">1 Select a comment from a closed thread</sentence>
+			<sentence id="2.3">1 Try to reply and get a "Reply failed" toast</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">XMLRPC response is pretty clear:</sentence>
+			<sentence id="3.2">```</sentence>
+			<sentence id="3.3">04-15 09:25:24.599 1971-3601/org.wordpress.android.beta W/WordPress-API: Response document received from the server: &lt;?xml version="1.0" encoding="UTF-8"?&gt;</sentence>
+			<sentence id="3.4">&lt;methodResponse&gt;</sentence>
+			<sentence id="3.5"> &lt;fault&gt;</sentence>
+			<sentence id="3.6"> &lt;value&gt;</sentence>
+			<sentence id="3.7"> &lt;struct&gt;</sentence>
+			<sentence id="3.8"> &lt;member&gt;</sentence>
+			<sentence id="3.9"> &lt;name&gt;faultCode&lt;/name&gt;</sentence>
+			<sentence id="3.10"> &lt;value&gt;&lt;int&gt;403&lt;/int&gt;&lt;/value&gt;</sentence>
+			<sentence id="3.11"> &lt;/member&gt;</sentence>
+			<sentence id="3.12"> &lt;member&gt;</sentence>
+			<sentence id="3.13"> &lt;name&gt;faultString&lt;/name&gt;</sentence>
+			<sentence id="3.14"> &lt;value&gt;&lt;string&gt;Sorry, comments are closed for this item.&lt;/string&gt;&lt;/value&gt;</sentence>
+			<sentence id="3.15"> &lt;/member&gt;</sentence>
+			<sentence id="3.16"> &lt;/struct&gt;</sentence>
+			<sentence id="3.17"> &lt;/value&gt;</sentence>
+			<sentence id="3.18"> &lt;/fault&gt;</sentence>
+			<sentence id="3.19">&lt;/methodResponse&gt;</sentence>
+			<sentence id="3.20">04-15 09:25:24.599 1971-3601/org.wordpress.android.beta E/WordPress-COMMENTS: Error while sending the new comment</sentence>
+			<sentence id="3.21">org.xmlrpc.android.XMLRPCFault: Sorry, comments are closed for this item. [Code: 403]</sentence>
+			<sentence id="3.22"> at org.xmlrpc.android.XMLRPCClient.parseXMLRPCResponse(XMLRPCClient.java:334)</sentence>
+			<sentence id="3.23"> at org.xmlrpc.android.XMLRPCClient$Caller.callXMLRPC(XMLRPCClient.java:515)</sentence>
+			<sentence id="3.24"> at org.xmlrpc.android.XMLRPCClient$Caller.access$000(XMLRPCClient.java:430)</sentence>
+			<sentence id="3.25"> at org.xmlrpc.android.XMLRPCClient.call(XMLRPCClient.java:231)</sentence>
+			<sentence id="3.26"> at org.xmlrpc.android.XMLRPCClient.call(XMLRPCClient.java:215)</sentence>
+			<sentence id="3.27"> at org.wordpress.android.ui.comments.CommentActions$2.run(CommentActions.java:177)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```</sentence>
+		</paragraph>
+	</description>
+</bug>

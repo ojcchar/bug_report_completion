@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13052</id>
+	<title>docker exec does not exit when container process terminates</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Description of problem:</sentence>
+			<sentence id="1.2">----</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```docker exec``` does not exit when the container process terminates.</sentence>
+			<sentence id="2.2">This only happens when running in **interactive** but no with **no tty**.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">ie: 
+```bash
+docker exec -i &lt;container&gt; ps
+```
+hangs until Ctrl-C or Enter is pressed.</sentence>
+			<sentence id="3.2">It seems and input from STDIN is necessary for it to check the process state...</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">it works fine with ```docker exec -it &lt;container&gt; ps``` and ```docker exec &lt;container&gt; ps```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This is an issue when using it to run rsync or scp command through an ssh tunnel (key based forced commands).</sentence>
+			<sentence id="5.2">the sync / copy works fine but never exits...</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">**`docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">```
+Client version: 1.6.0
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): 4749651
+OS/Arch (client): linux/amd64
+Server version: 1.6.0
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): 4749651
+OS/Arch (server): linux/amd64
+```
+tested on 1.5 too</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">**`docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">```
+Containers: 6
+Images: 100
+Storage Driver: devicemapper
+ Pool Name: docker-202:81-917511-pool
+ Pool Blocksize: 65.54 kB
+ Backing Filesystem: extfs
+ Data file:
+ Metadata file:
+ Data Space Used: 3.734 GB
+ Data Space Total: 107.4 GB
+ Data Space Available: 103.6 GB
+ Metadata Space Used: 5.931 MB
+ Metadata Space Total: 2.147 GB
+ Metadata Space Available: 2.142 GB
+ Udev Sync Supported: false
+ Library Version: 1.02.82-git (2013-10-04)
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-44-generic
+Operating System: Ubuntu 14.04.1 LTS
+CPUs: 1
+Total Memory: 3.676 GiB
+Name: docker1
+ID: 645K:6725:O2Y7:Q5R4:5COY:353S:PX64:BUYO:6RTN:5YUS:R54G:QCDF
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">**`uname -a`:**</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">```
+Linux docker1 3.13.0-44-generic #73-Ubuntu SMP Tue Dec 16 00:22:43 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+````</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Steps to Reproduce:</sentence>
+			<sentence id="12.2">----</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">```docker exec -i &lt;container&gt; ps```</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Actual Results:</sentence>
+			<sentence id="14.2">----</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">process does not exit</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">Expected Results:</sentence>
+			<sentence id="16.2">----</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">process exits (returns to prompt)</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">Additional info:</sentence>
+			<sentence id="18.2">----</sentence>
+			<sentence id="18.3">hangs until Ctrl-C or Enter is pressed.</sentence>
+			<sentence id="18.4">It seems and input from STDIN is necessary for it to check the process state...</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">it works fine with ```docker exec -it &lt;container&gt; ps``` and ```docker exec &lt;container&gt; ps```</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">This is an issue when using it to run rsync or scp command through an ssh tunnel (key based forced commands).</sentence>
+			<sentence id="20.2">the sync / copy works fine but never exits...</sentence>
+		</paragraph>
+	</description>
+</bug>

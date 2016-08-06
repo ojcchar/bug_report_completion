@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-2235</id>
+	<title>Support for null map-keys in &lt;map&gt; mappings</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm not sure if I should file it as a bug.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Hibernate requires index column for &lt;map&gt; mappings to be not null.</sentence>
+			<sentence id="2.2">This is required by the code in AbstractCollectionPersister#readIndex(...), which raises exception if index column is null.</sentence>
+			<sentence id="2.3">However, when I override collection persister and force readIndex method to return null, everything seems to work fine.</sentence>
+			<sentence id="2.4">Hibernate allows me to work with maps using null value as a key.</sentence>
+			<sentence id="2.5">Though I havn't tested it extensivly yet.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">What is the reason for disallowing null values as a keys?</sentence>
+			<sentence id="3.2">If there are possible complicated error conditions, then this issue is a feature request for null-values support for &lt;map&gt; mappings.</sentence>
+			<sentence id="3.3">If there are no errors possible, then constraining such behavior is probably wrong.</sentence>
+		</paragraph>
+	</description>
+</bug>

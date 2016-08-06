@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-550</id>
+	<title>HQL parser loses parenthesis</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The HQL query is :</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">select ex from BPException ex where ((ex.bp1 = :bp1 and ex.bp2 = :bp2) or (ex.bp1 = :bp2 and ex.bp2 = :bp1))</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">bp1 and bp2 are just many-to-ones to the same class BusinessProcess</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">this query is translated to</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">select ex0_... from BP_EXCEPTION ex0_ where ex0_.</sentence>
+			<sentence id="5.2">bp1_id = ?</sentence>
+			<sentence id="5.3">and ex0_.</sentence>
+			<sentence id="5.4">bp2_id = ?</sentence>
+			<sentence id="5.5">or ex0_.</sentence>
+			<sentence id="5.6">bp1_id = ?</sentence>
+			<sentence id="5.7">and ex0_.</sentence>
+			<sentence id="5.8">bp2_id = ?</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">All the parenthesis are lost in the translation.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I don't think it is a duplicate of HB377.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">William</sentence>
+		</paragraph>
+	</description>
+</bug>

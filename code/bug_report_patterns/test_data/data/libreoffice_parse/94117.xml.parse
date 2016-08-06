@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>94117</id>
+	<title>Windows 64-bit and executable name of 64-bit build of ghostscript -- gswin64c.exe</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">LibreOffice for 64-bit Windows may require some additional work for executables (external helpers) that have both 32-bit and 64-bit implementations.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The Ghostscript 64-bit installation goes to C:\Program Files\gs\gs9.16\ as does the 32-bit build.</sentence>
+			<sentence id="2.2">However, the 64-bit executable is named "gswin64c.exe", the 32-bit is named "gswin32c.exe"</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">So while users can (and must) adjust their PATH environment to include external helpers--i.e. convert, pstoedit, and the Ghostscript installs--there is a hardcoded executable name of gswin32c in the source at:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">http://opengrok.libreoffice.org/xref/core/filter/source/graphicfilter/ieps/ieps.cxx#369</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">So, no way to run the 64-bit build of ghostscript that folks with 64-bit Windows would otherwise be installing.</sentence>
+			<sentence id="5.2">And, without gswin32c on PATH (have to test if symlink will work) the EPS gets mangled.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">So while this affect only handling of EPS, wonder what other gems might be hidden within #ifdef WNT flagged stanzas.</sentence>
+		</paragraph>
+	</description>
+</bug>

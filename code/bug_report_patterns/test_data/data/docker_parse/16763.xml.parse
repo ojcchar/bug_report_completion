@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16763</id>
+	<title>Docker fails to start with firewalld enabled on CentOS 7.1</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">###Description of problem:</sentence>
+			<sentence id="1.2">After installed docker with [Install with the script](https://docs.docker.com/installation/centos/#install-with-the-script) method on centos7 , I can't start docker daemon with command &lt;code&gt; systemctl start docker &lt;/code&gt;.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">###Information
+ docker version, docker info:
+ no result after execute these command.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">cat /etc/redhat-release
+ CentOS Linux release 7.1.1503 (Core)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">uname -a: 
+ Linux localhost.localdomain 3.10.0-229.14.1.</sentence>
+			<sentence id="4.2">el7.x86_64 #1 SMP Tue Sep 15 15:05:51 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Environment details:
+ VMWare workstation</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">###Steps to Reproduce:</sentence>
+			<sentence id="6.2">1 install docker</sentence>
+			<sentence id="6.3">curl -sSL https://get.docker.com/ | sh</sentence>
+			<sentence id="6.4">2 Start the Docker daemon.</sentence>
+			<sentence id="6.5">systemctl start docker 
+ Job for docker.service failed.</sentence>
+			<sentence id="6.6">See 'systemctl status docker.service' and 'journalctl -xn' for details.</sentence>
+			<sentence id="6.7">3 systemctl status docker:</sentence>
+			<sentence id="6.8">		docker.service - Docker Application Container Engine</sentence>
+			<sentence id="6.9">		 Loaded: loaded (/usr/lib/systemd/system/docker.service; disabled)</sentence>
+			<sentence id="6.10">		 Active: activating (start) since Mon 2015-10-05 04:43:17 EDT; 11s ago</sentence>
+			<sentence id="6.11">		 Docs: https://docs.docker.com</sentence>
+			<sentence id="6.12">		 Main PID: 30073 (docker)</sentence>
+			<sentence id="6.13">		 CGroup: /system.slice/docker.servic3</sentence>
+			<sentence id="6.14">		 &#x2514;&#x2500;30073 /usr/bin/docker daemon -H fd://</sentence>
+			<sentence id="6.15">		</sentence>
+			<sentence id="6.16">		Oct 05 04:43:17 localhost.localdomain systemd[1]: Failed to start Docker Application Container Engine.</sentence>
+			<sentence id="6.17">		Oct 05 04:43:17 localhost.localdomain systemd[1]: Unit docker.service entered failed state.</sentence>
+			<sentence id="6.18">		Oct 05 04:43:17 localhost.localdomain systemd[1]: Starting Docker Application Container Engine...</sentence>
+			<sentence id="6.19">		Oct 05 04:43:17 localhost.localdomain docker[30073]: time="2015-10-05T04:43:17.857494433-04:00" level=info msg="[graphdriver] using prior storage driver \"devicemapper\""</sentence>
+			<sentence id="6.20">		Oct 05 04:43:17 localhost.localdomain docker[30073]: time="2015-10-05T04:43:17.858169372-04:00" level=info msg="Option DefaultDriver: bridge"</sentence>
+			<sentence id="6.21">		Oct 05 04:43:17 localhost.localdomain docker[30073]: time="2015-10-05T04:43:17.858192797-04:00" level=info msg="Option DefaultNetwork: bridge"</sentence>
+			<sentence id="6.22">		Oct 05 04:43:17 localhost.localdomain docker[30073]: time="2015-10-05T04:43:17.867660517-04:00" level=warning msg="Running modprobe bridge nf_nat br_netfilter failed with message: modprobe: WARNING: Module br_netfilter not found.</sentence>
+			<sentence id="6.23">, error: exit status 1"</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">###**After I stop firewalld, Then docker daemon start sucessfully**</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">systemctl stop firewalld
+	systemctl start docker</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">docker version:
+	Client:
+	 Version: 1.8.2
+	 API version: 1.20
+	 Go version: go1.4.2
+	 Git commit: 0a8c2e3
+	 Built: Thu Sep 10 19:08:45 UTC 2015
+	 OS/Arch: linux/amd64
+	
+	Server:
+	 Version: 1.8.2
+	 API version: 1.20
+	 Go version: go1.4.2
+	 Git commit: 0a8c2e3
+	 Built: Thu Sep 10 19:08:45 UTC 2015
+	 OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1"></sentence>
+			<sentence id="10.2">	docker info:</sentence>
+			<sentence id="10.3">	ontainers: 0</sentence>
+			<sentence id="10.4">	Images: 0</sentence>
+			<sentence id="10.5">	Storage Driver: devicemapper</sentence>
+			<sentence id="10.6">	 Pool Name: docker-253:1-134960995-pool</sentence>
+			<sentence id="10.7">	 Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="10.8">	 Backing Filesystem: xfs</sentence>
+			<sentence id="10.9">	 Data file: /dev/loop0</sentence>
+			<sentence id="10.10">	 Metadata file: /dev/loop1</sentence>
+			<sentence id="10.11">	 Data Space Used: 1.821 GB</sentence>
+			<sentence id="10.12">	 Data Space Total: 107.4 GB</sentence>
+			<sentence id="10.13">	 Data Space Available: 34.22 GB</sentence>
+			<sentence id="10.14">	 Metadata Space Used: 1.479 MB</sentence>
+			<sentence id="10.15">	 Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="10.16">	 Metadata Space Available: 2.146 GB</sentence>
+			<sentence id="10.17">	 Udev Sync Supported: true</sentence>
+			<sentence id="10.18">	 Deferred Removal Enabled: false</sentence>
+			<sentence id="10.19">	 Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="10.20">	 Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="10.21">	 Library Version: 1.02.93-RHEL7 (2015-01-28)</sentence>
+			<sentence id="10.22">	Execution Driver: native-0.2</sentence>
+			<sentence id="10.23">	Logging Driver: json-file</sentence>
+			<sentence id="10.24">	Kernel Version: 3.10.0-229.14.1.el7.x86_64</sentence>
+			<sentence id="10.25">	Operating System: CentOS Linux 7 (Core)</sentence>
+			<sentence id="10.26">	CPUs: 1</sentence>
+			<sentence id="10.27">	Total Memory: 979.7 MiB</sentence>
+			<sentence id="10.28">	Name: localhost.localdomain</sentence>
+			<sentence id="10.29">	ID: APCF:P2ON:RANA:H3P3:TGHF:OBPC:2E3Y:JEDA:6PA4:GCJN:A74B:DRIN</sentence>
+			<sentence id="10.30">	WARNING: bridge-nf-call-iptables is disabled</sentence>
+			<sentence id="10.31">	WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+		</paragraph>
+	</description>
+</bug>

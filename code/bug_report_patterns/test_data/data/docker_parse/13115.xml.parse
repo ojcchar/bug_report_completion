@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13115</id>
+	<title>Unable push image to dockerhub</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">`docker push hike/statsd`
+```
+The push refers to a repository [hike/statsd] (len: 2)
+Sending image list
+FATA[0060]
+```
+`docker version`
+```
+Client version: 1.5.0
+Client API version: 1.17
+Go version (client): go1.4.1
+Git commit (client): a8a31ef
+OS/Arch (client): linux/amd64
+Server version: 1.5.0
+Server API version: 1.17
+Go version (server): go1.4.1
+Git commit (server): a8a31ef
+```</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">`docker info`
+```
+Containers: 187
+Images: 451
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 825
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-39-generic
+Operating System: Ubuntu 14.04.1 LTS
+CPUs: 4
+Total Memory: 14.69 GiB
+Name: ip-10-0-1-22
+ID: S4UN:3TJQ:KWV7:6Q7N:7PIW:2K5N:5NVZ:PNQU:EWPH:MK4P:S6YP:TV2G
+Username: hike
+Registry: [https://index.docker.io/v1/]
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">`uname -a`
+```
+Linux ip-10-0-1-22 3.13.0-39-generic #66-Ubuntu SMP Tue Oct 28 13:30:27 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+```
+</sentence>
+			<sentence id="3.2">I am able to build image from Dockerfile successfully using `docker build -t "hike/statsd" .` but unable to push it dockerhub.</sentence>
+			<sentence id="3.3">I am also able to login successfully.</sentence>
+		</paragraph>
+	</description>
+</bug>

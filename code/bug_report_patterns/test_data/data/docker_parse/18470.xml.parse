@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>18470</id>
+	<title>OOM of exec stops OOM detection for the PID1 container process and following execs</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">To reproduce:
+```
+rm -rf /tmp/oomeventstest &amp;&amp; \
+mkdir /tmp/oomeventstest &amp;&amp; \
+cd /tmp/oomeventstest &amp;&amp; \
+wget https://gist.githubusercontent.com/garagatyi/f3643cc448e1a7550853/raw/eb84488cf8efccf0fe1df5b47a54d28c30121183/Dockerfile &amp;&amp; \
+docker build .</sentence>
+			<sentence id="1.2">```
+Then in other terminal:
+```
+curl -s http://localhost:2375/events
+```</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When we get OOM of PID1 process only docker generates correct events.</sentence>
+			<sentence id="2.2">```</sentence>
+			<sentence id="2.3">docker run -m 64M -e "SLEEP_DELAY=10s" {imageID}</sentence>
+			<sentence id="2.4">WARNING: Your kernel does not support swap limit capabilities, memory limited without swap.</sentence>
+			<sentence id="2.5">sleep 10s</sentence>
+			<sentence id="2.6">begin allocating memory...</sentence>
+			<sentence id="2.7">```</sentence>
+			<sentence id="2.8">```</sentence>
+			<sentence id="2.9">{"status":"create","id":"36eb96d6c134895854e77f65ac47955b6ee08eb62bceee37cc605157f1c9482b","from":"9e0d5e071a2b","time":1449497856,"timeNano":1449497856620037149}</sentence>
+			<sentence id="2.10">{"status":"attach","id":"36eb96d6c134895854e77f65ac47955b6ee08eb62bceee37cc605157f1c9482b","from":"9e0d5e071a2b","time":1449497856,"timeNano":1449497856670112786}</sentence>
+			<sentence id="2.11">{"status":"start","id":"36eb96d6c134895854e77f65ac47955b6ee08eb62bceee37cc605157f1c9482b","from":"9e0d5e071a2b","time":1449497856,"timeNano":1449497856984903035}</sentence>
+			<sentence id="2.12">{"status":"oom","id":"36eb96d6c134895854e77f65ac47955b6ee08eb62bceee37cc605157f1c9482b","from":"9e0d5e071a2b","time":1449497871,"timeNano":1449497871593721048}</sentence>
+			<sentence id="2.13">{"status":"die","id":"36eb96d6c134895854e77f65ac47955b6ee08eb62bceee37cc605157f1c9482b","from":"9e0d5e071a2b","time":1449497871,"timeNano":1449497871701251889}</sentence>
+			<sentence id="2.14">```</sentence>
+			<sentence id="2.15">When we get OOM of exec and then get OOM of PID1 process docker doesn't send event about PID1 process OOM</sentence>
+			<sentence id="2.16">```</sentence>
+			<sentence id="2.17">docker run -m 64M -e "SLEEP_DELAY=3m" 9e0d5e071a2b </sentence>
+			<sentence id="2.18">WARNING: Your kernel does not support swap limit capabilities, memory limited without swap.</sentence>
+			<sentence id="2.19">sleep 3m</sentence>
+			<sentence id="2.20">```</sentence>
+			<sentence id="2.21">```</sentence>
+			<sentence id="2.22">docker exec -it ca1f50deaca6 bash</sentence>
+			<sentence id="2.23">root@ca1f50deaca6:/# export SLEEP_DELAY=1s</sentence>
+			<sentence id="2.24">root@ca1f50deaca6:/# /script.sh</sentence>
+			<sentence id="2.25">sleep 1s</sentence>
+			<sentence id="2.26">begin allocating memory...</sentence>
+			<sentence id="2.27">Killed</sentence>
+			<sentence id="2.28">```</sentence>
+			<sentence id="2.29">```</sentence>
+			<sentence id="2.30">{"status":"create","id":"ca1f50deaca6857da867e1abe47d0c338f2c9a478716245215e99804ebe38116","from":"9e0d5e071a2b","time":1449497892,"timeNano":1449497892815550422}</sentence>
+			<sentence id="2.31">{"status":"attach","id":"ca1f50deaca6857da867e1abe47d0c338f2c9a478716245215e99804ebe38116","from":"9e0d5e071a2b","time":1449497892,"timeNano":1449497892857804285}</sentence>
+			<sentence id="2.32">{"status":"start","id":"ca1f50deaca6857da867e1abe47d0c338f2c9a478716245215e99804ebe38116","from":"9e0d5e071a2b","time":1449497893,"timeNano":1449497893160319023}</sentence>
+			<sentence id="2.33">{"status":"exec_create: bash ","id":"ca1f50deaca6857da867e1abe47d0c338f2c9a478716245215e99804ebe38116","from":"9e0d5e071a2b","time":1449497912,"timeNano":1449497912019407009}</sentence>
+			<sentence id="2.34">{"status":"exec_start: bash ","id":"ca1f50deaca6857da867e1abe47d0c338f2c9a478716245215e99804ebe38116","from":"9e0d5e071a2b","time":1449497912,"timeNano":1449497912020034187}</sentence>
+			<sentence id="2.35">{"status":"oom","id":"ca1f50deaca6857da867e1abe47d0c338f2c9a478716245215e99804ebe38116","from":"9e0d5e071a2b","time":1449497946,"timeNano":1449497946969112286}</sentence>
+			<sentence id="2.36">{"status":"die","id":"ca1f50deaca6857da867e1abe47d0c338f2c9a478716245215e99804ebe38116","from":"9e0d5e071a2b","time":1449498204,"timeNano":1449498204305209257}</sentence>
+			<sentence id="2.37">```</sentence>
+			<sentence id="2.38">Delay between OOM and DIE events more than 4 minutes. It's because OOM event was generated for exec OOM only.</sentence>
+		</paragraph>
+	</description>
+</bug>

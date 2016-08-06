@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-591</id>
+	<title>Order by problem with ORACLE 7.3</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have the problem bellow.</sentence>
+			<sentence id="1.3">In short a have a Join entity and I am trying to do a order by and pagination.
+			</sentence>
+			<sentence id="1.2">The error is in the position of the order by in the sql query (I am using Oracle 7.3).
+			</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Please note that if the "order by" were outside the from select clause
+it works fine.
+			</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Hibernate version: 3.03
+Also using Spring, and WebWork
+			</sentence>
+		</paragraph>
+		<paragraph id="1">
+			<sentence id="4.1">Mapping documents:
+			</sentence>
+			<sentence id="4.2">
+&lt;hibernate-mapping schema="RCR" package="com.bcsinfo.tsheet.model"&gt;
+
+&lt;class name="com.bcsinfo.tsheet.model.TimeSheet" table="t_sheet"&gt;
+&lt;id name="Id" column="numero" type="java.lang.Long" length="12" &gt;
+&lt;generator class="native"&gt;
+&lt;param name="sequence"&gt;tsheet_numero_sq&lt;/param&gt;
+&lt;/generator&gt;
+&gt;/id&lt;
+
+&lt;many-to-one name="Professional" class="Professional" lazy="true"&gt;
+&lt;column name="COD_ADVG_REAL" not-null="true"/&gt;
+&lt;/many-to-one&gt;
+&lt;many-to-one name="Matter" class="Matter" lazy="true"&gt;
+&lt;column name="pasta" not-null="true"/&gt;
+&lt;column name="cod_cliente" not-null="true"/&gt;
+&lt;/many-to-one&gt;
+&lt;property name="Date" column="data" not-null="true"/&gt;
+
+&lt;join table="ativireal"&gt;
+&lt;key column="numero"/&gt;
+&lt;property name="IdAtiv" column="id_ativireal" not-null="true" unique="true"/&gt;
+
+&lt;many-to-one name="Activity" class="TSActivity" lazy="true"&gt;
+&lt;column name="codigo" not-null="true"/&gt;
+&lt;/many-to-one&gt;
+
+&lt;component name="UT" class="UT"&gt;
+&lt;property name="UT" column="TEMPO_REAL" type="int" not-null="true" length="3"/&gt;
+&lt;/component&gt;
+
+&lt;property name="CreationDate" column="DATA_INC" update="false" not-null="true"/&gt;
+&lt;property name="Description" column="COMPLEMENTO" not-null="true" length="2000"/&gt;
+&lt;/join&gt;
+
+&lt;/class&gt;
+
+&lt;query name="timesheet"&gt;from TimeSheet as t order by t.Date desc&lt;/query&gt;
+&lt;/hibernate-mapping&gt;
+			</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Code between sessionFactory.openSession() and session.close():
+			</sentence>
+			<sentence id="5.2">I just set the maxResults and FirstResult properties.
+			</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Full stack trace of any exception that occurs:
+			</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.2">&lt;log4j:event logger="org.hibernate.SQL" timestamp="1115757046226" level="DEBUG" thread="http-8084-Processor22"&gt;
+&lt;log4j:message&gt;&lt;![CDATA[select * from ( select timesheet0_.numero as numero, timesheet0_.COD_ADVG_REAL as COD2_12_, timesheet0_.pasta as pasta12_, timesheet0_.cod_cliente as cod4_12_, timesheet0_.data as data12_, timesheet0_1_.id_ativireal as id1_0_, timesheet0_1_.codigo as codigo0_, timesheet0_1_.TEMPO_REAL as TEMPO4_0_, timesheet0_1_.DATA_INC as DATA7_0_, timesheet0_1_.COMPLEMENTO as COMPLEME8_0_ from RCR.t_sheet timesheet0_, RCR.ativireal timesheet0_1_ where timesheet0_.numero=timesheet0_1_.numero order by timesheet0_.data desc ) where rownum &lt;= ?]]&gt;&lt;/log4j:message&gt;
+&lt;log4j:locationInfo class="org.hibernate.jdbc.AbstractBatcher" method="log" file="AbstractBatcher.java" line="311"/&gt;
+&lt;/log4j:event&gt;
+
+&lt;log4j:event logger="org.hibernate.util.JDBCExceptionReporter" timestamp="1115757046507" level="WARN" thread="http-8084-Processor22"&gt;
+&lt;log4j:message&gt;&lt;![CDATA[SQL Error: 907, SQLState: 42000]]&gt;&lt;/log4j:message&gt;
+&lt;log4j:locationInfo class="org.hibernate.util.JDBCExceptionReporter" method="logExceptions" file="JDBCExceptionReporter.java" line="71"/&gt;
+&lt;/log4j:event&gt;
+
+&lt;log4j:event logger="org.hibernate.util.JDBCExceptionReporter" timestamp="1115757046507" level="ERROR" thread="http-8084-Processor22"&gt;
+&lt;log4j:message&gt;&lt;![CDATA[ORA-00907: missing right parenthesis
+]]&gt;&lt;/log4j:message&gt;
+&lt;log4j:locationInfo class="org.hibernate.util.JDBCExceptionReporter" method="logExceptions" file="JDBCExceptionReporter.java" line="72"/&gt;
+&lt;/log4j:event&gt;
+
+&lt;log4j:event logger="com.opensymphony.webwork.dispatcher.ServletDispatcher" timestamp="1115757046538" level="ERROR" thread="http-8084-Processor22"&gt;
+&lt;log4j:message&gt;&lt;![CDATA[Could not execute action]]&gt;&lt;/log4j:message&gt;
+&lt;log4j:throwable&gt;&lt;![CDATA[org.springframework.jdbc.BadSqlGrammarException: Bad SQL grammar [] in task 'Hibernate operation'; nested exception is java.sql.SQLException: ORA-00907: missing right parenthesis
+
+java.sql.SQLException: ORA-00907: missing right parenthesis
+
+at oracle.jdbc.dbaccess.DBError.throwSqlException(DBError.java:168)
+at oracle.jdbc.ttc7.TTIoer.processError(TTIoer.java:208)
+at oracle.jdbc.ttc7.Oall7.receive(Oall7.java:543)
+at oracle.jdbc.ttc7.TTC7Protocol.doOall7(TTC7Protocol.java:1405)
+at oracle.jdbc.ttc7.TTC7Protocol.parseExecuteDescribe(TTC7Protocol.java:643)
+at oracle.jdbc.driver.OracleStatement.doExecuteQuery(OracleStatement.java:1674)
+at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1870)
+at oracle.jdbc.driver.OraclePreparedStatement.executeUpdate(OraclePreparedStatement.java:363)
+at oracle.jdbc.driver.OraclePreparedStatement.executeQuery(OraclePreparedStatement.java:314)
+at org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:92)
+at org.hibernate.jdbc.AbstractBatcher.getResultSet(AbstractBatcher.java:118)
+at org.hibernate.loader.Loader.getResultSet(Loader.java:1239)
+at org.hibernate.loader.Loader.doQuery(Loader.java:374)
+at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:210)
+at org.hibernate.loader.Loader.doList(Loader.java:1562)
+at org.hibernate.loader.Loader.list(Loader.java:1545)
+at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:375)
+at org.hibernate.hql.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:271)
+at org.hibernate.impl.SessionImpl.list(SessionImpl.java:840)
+at org.hibernate.impl.QueryImpl.list(QueryImpl.java:74)
+at com.bcsinfo.dao.hibernate.NamedQueryImpl$2.doInHibernate(NamedQueryImpl.java:232)
+at org.springframework.orm.hibernate3.HibernateTemplate.execute(HibernateTemplate.java:310)
+at org.springframework.orm.hibernate3.HibernateTemplate.executeFind(HibernateTemplate.java:291)
+at com.bcsinfo.dao.hibernate.NamedQueryImpl.getResultList(NamedQueryImpl.java:228)
+at com.bcsinfo.tsheet.wwactions.TSList.doIt(TSList.java:41)
+at com.bcsinfo.tsheet.wwactions.AbstractAction.execute(AbstractAction.java:54)
+at com.opensymphony.xwork.DefaultActionInvocation.invokeAction(DefaultActionInvocation.java:283)
+at com.opensymphony.xwork.DefaultActionInvocation.invoke(DefaultActionInvocation.java:166)
+at com.opensymphony.xwork.interceptor.AroundInterceptor.intercept(AroundInterceptor.java:35)
+at com.opensymphony.xwork.DefaultActionInvocation.invoke(DefaultActionInvocation.java:164)
+at com.opensymphony.xwork.interceptor.AroundInterceptor.intercept(AroundInterceptor.java:35)
+at com.opensymphony.xwork.DefaultActionInvocation.invoke(DefaultActionInvocation.java:164)
+at com.opensymphony.xwork.interceptor.AroundInterceptor.intercept(AroundInterceptor.java:35)
+at com.opensymphony.xwork.DefaultActionInvocation.invoke(DefaultActionInvocation.java:164)
+at com.opensymphony.xwork.interceptor.AroundInterceptor.intercept(AroundInterceptor.java:35)
+at com.opensymphony.xwork.DefaultActionInvocation.invoke(DefaultActionInvocation.java:164)
+at com.opensymphony.xwork.interceptor.AroundInterceptor.intercept(AroundInterceptor.java:35)
+at com.opensymphony.xwork.DefaultActionInvocation.invoke(DefaultActionInvocation.java:164)
+at com.opensymphony.xwork.DefaultActionProxy.execute(DefaultActionProxy.java:116)
+at com.opensymphony.webwork.dispatcher.ServletDispatcher.serviceAction(ServletDispatcher.java:272)
+at com.opensymphony.webwork.dispatcher.ServletDispatcher.service(ServletDispatcher.java:237)
+at javax.servlet.http.HttpServlet.service(HttpServlet.java:802)
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:252)
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)
+at org.netbeans.modules.web.monitor.server.MonitorFilter.doFilter(MonitorFilter.java:362)
+at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)
+at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:214)
+at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:178)
+at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:126)
+at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:105)
+at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:107)
+at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:148)
+at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:825)
+at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.processConnection(Http11Protocol.java:738)
+at org.apache.tomcat.util.net.PoolTcpEndpoint.processSocket(PoolTcpEndpoint.java:526)
+at org.apache.tomcat.util.net.LeaderFollowerWorkerThread.runIt(LeaderFollowerWorkerThread.java:80)
+at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684)
+at java.lang.Thread.run(Thread.java:595)
+]]&gt;&lt;/log4j:throwable&gt;
+&lt;log4j:locationInfo class="com.opensymphony.webwork.dispatcher.ServletDispatcher" method="serviceAction" file="ServletDispatcher.java" line="281"/&gt;
+&lt;/log4j:event&gt;
+			</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Name and version of the database you are using:
+ORACLE 7.3
+			</sentence>
+			<sentence id="7.2">The generated SQL (show_sql=true):
+select * from (
+
+
+select
+
+timesheet0_.numero as numero,
+timesheet0_.COD_ADVG_REAL as COD2_12_,
+timesheet0_.pasta as pasta12_,
+timesheet0_.cod_cliente as cod4_12_,
+timesheet0_.data as data12_,
+
+timesheet0_1_.id_ativireal as id1_0_,
+timesheet0_1_.codigo as codigo0_,
+timesheet0_1_.TEMPO_REAL as TEMPO4_0_,
+timesheet0_1_.DATA_INC as DATA7_0_,
+timesheet0_1_.COMPLEMENTO as COMPLEME8_0_
+
+from
+
+RCR.t_sheet timesheet0_,
+RCR.ativireal timesheet0_1_
+
+where timesheet0_.numero=timesheet0_1_.numero
+
+order by timesheet0_.data desc
+
+
+)
+
+where rownum &lt;= ?
+			</sentence>
+		</paragraph>
+		</description>
+</bug>
+		
+		
+		
+		
+		
+		

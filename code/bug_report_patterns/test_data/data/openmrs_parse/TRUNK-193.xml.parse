@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-193</id>
+	<title>HL7 Processor loops through infinite attempts to process after JDBC rollback exception.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When an exception in hl7 processor causes a JDBC rollback failure, the processor loops through infinite attempts to process the hl7_in_queue without gracefully failing and moving to the next in queue. The result seems to be that form entry processing also stops and openmrs memory consumption continues until the Tomcat process is killed.</sentence>
+			<sentence id="1.2">Two rows from the hl7_in_error table shows:</sentence>
+			<sentence id="1.3">hl7_in_error (first row) </sentence>
+			<sentence id="1.4">Exception while attempting to process HL7 In Queue</sentence>
+			<sentence id="1.5">Could not roll back Hibernate transaction; nested exception is org.hibernate.TransactionException: JDBC rollback failed</sentence>
+			<sentence id="1.6">hl7_in_error (next several hundred rows)</sentence>
+			<sentence id="1.7">Exception while attempting to process HL7 In Queue</sentence>
+			<sentence id="1.8">could not initialize proxy - no Session</sentence>
+		</paragraph>
+	</description>
+</bug>

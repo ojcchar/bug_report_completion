@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>81</id>
+	<title>Editing a Post with 'More' tag causes extra whitespace</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Unconfirmed, from user email:
+When editing a post with
+the --more-- tag in it, each time it's opened extra white space is added
+before and after.</sentence>
+			<sentence id="1.2">As this affects how the post is formatted when viewed in
+a browser, it has to be fixed every time a minor edit is done.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Tested this a bit.</sentence>
+			<sentence id="2.2">I'm not 100% sure this is what the user meant but I noticed that if I have a post content that looks like this in the web editor:</sentence>
+			<sentence id="2.3">This is some text before the more tag</sentence>
+			<sentence id="2.4">Test&lt;!--more--&gt; test</sentence>
+			<sentence id="2.5">This is some text after.</sentence>
+			<sentence id="2.6">it shows up like this in the Android editor:</sentence>
+			<sentence id="2.7">This is some text before the more tag</sentence>
+			<sentence id="2.8">Test</sentence>
+			<sentence id="2.9">&lt;!--more--&gt;</sentence>
+			<sentence id="2.10">test</sentence>
+			<sentence id="2.11">This is some text after.</sentence>
+			<sentence id="2.12">Publishing without removing the carriage returns changes the post layout.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3236</id>
+	<title>Unlocking account: number format exception when LockoutTimestamp set to blank</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">To reproduce:</sentence>
+			<sentence id="1.2">1 Log in (NOT as admin!)</sentence>
+			<sentence id="1.3">with a bad password until the account locks up.</sentence>
+			<sentence id="1.4">2 Log in as admin.</sentence>
+			<sentence id="1.5">Go to Administration &gt; Manage Users; type in the locked username, and click to view it.</sentence>
+			<sentence id="1.6">Click "show advanced options".</sentence>
+			<sentence id="1.7">Notice the lockout time and number of login attempts are set.</sentence>
+			<sentence id="1.8">3 Erase the value in lockout timestamp and save the user.</sentence>
+			<sentence id="1.9">4 Log in as the unlocked user.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Error on screen:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">An Internal Error has Occurred
+java.lang.NumberFormatException</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">For input string: ""</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Consult the help document.</sentence>
+			<sentence id="5.2">Contact your friendly neighborhood administrator if it cannot be resolved.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Show stack trace</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The following data will be submitted with the report to enable the team to resolve the problem.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">The error message and stack trace
+ OpenMRS version
+ Application server name and version
+ Username of the user currently logged in
+ The implementation id of this installation (if defined)
+ Names and versions of all installed modules</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">catalina.out says:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1"></sentence>
+			<sentence id="10.2">ERROR - AbstractReportsTask.run(38) |2012-03-30 16:09:20,207| An error occurred while running scheduled reporting task</sentence>
+			<sentence id="10.3">java.lang.NumberFormatException: For input string: ""</sentence>
+			<sentence id="10.4">	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:48)</sentence>
+			<sentence id="10.5">	at java.lang.Long.parseLong(Long.java:431)</sentence>
+			<sentence id="10.6">	at java.lang.Long.valueOf(Long.java:525)</sentence>
+			<sentence id="10.7">	at org.openmrs.api.db.hibernate.HibernateContextDAO.authenticate(HibernateContextDAO.java:110)</sentence>
+			<sentence id="10.8">	at sun.reflect.GeneratedMethodAccessor6122.invoke(Unknown Source)</sentence>
+			<sentence id="10.9">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="10.10">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="10.11">	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:309)</sentence>
+			<sentence id="10.12">	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183)</sentence>
+			<sentence id="10.13">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)</sentence>
+			<sentence id="10.14">	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:110)</sentence>
+			<sentence id="10.15">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="10.16">	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)</sentence>
+			<sentence id="10.17">	at $Proxy4492.authenticate(Unknown Source)</sentence>
+			<sentence id="10.18">	at org.openmrs.api.context.UserContext.authenticate(UserContext.java:100)</sentence>
+			<sentence id="10.19">	at org.openmrs.api.context.Context.authenticate(Context.java:296)</sentence>
+			<sentence id="10.20">	at org.openmrs.module.reporting.report.task.AbstractReportsTask.authenticate(AbstractReportsTask.java:55)</sentence>
+			<sentence id="10.21">	at org.openmrs.module.reporting.report.task.AbstractReportsTask.run(AbstractReportsTask.java:33)</sentence>
+			<sentence id="10.22">	at java.util.TimerThread.mainLoop(Timer.java:512)</sentence>
+			<sentence id="10.23">	at java.util.TimerThread.run(Timer.java:462)</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">The workaround is to enter 0 in the timestamp.</sentence>
+		</paragraph>
+	</description>
+</bug>

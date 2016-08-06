@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5307</id>
+	<title>"SettingsFactory" no longer checks for presence of "supportsGetGeneratedKeys" before calling it</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Same issue occured again like HHH-5017.</sentence>
+			<sentence id="1.2">The Hibernate version is 3.5.2.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When I am using DB2 type 2 driver, I will get the following error:
+ Initial SessionFactory Creaion Failed.java.lang.AbstractMethodError</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The temperate solution will add this property into xxx.cfg.xml file:
+hibernate.temp.use_jdbc_metadata_defaults= false.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">When you look at the source code for SettingsFactory, you can tell the supportsGetGeneratedKeys has never been checked before getting call.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">boolean useJdbcMetadata = PropertiesHelper.getBoolean( "hibernate.temp.use_jdbc_metadata_defaults", props, true );
+		if ( useJdbcMetadata ) {
+			try {
+				Connection conn = connections.getConnection();
+				try {
+					DatabaseMetaData meta = conn.getMetaData();
+					log.info( "RDBMS: " + meta.getDatabaseProductName() + ", version: " + meta.getDatabaseProductVersion() );
+					log.info( "JDBC driver: " + meta.getDriverName() + ", version: " + meta.getDriverVersion() );</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">dialect = DialectFactory.buildDialect( props, conn );
+					jdbcSupport = JdbcSupportLoader.loadJdbcSupport( conn );</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">metaSupportsScrollable = meta.supportsResultSetType( ResultSet.TYPE_SCROLL_INSENSITIVE );
+					metaSupportsBatchUpdates = meta.supportsBatchUpdates();
+					metaReportsDDLCausesTxnCommit = meta.dataDefinitionCausesTransactionCommit();
+					metaReportsDDLInTxnSupported = !</sentence>
+			<sentence id="7.2">meta.dataDefinitionIgnoredInTransactions();
+					metaSupportsGetGeneratedKeys = meta.supportsGetGeneratedKeys();
+				}
+				catch ( SQLException sqle ) {
+					log.warn( "Could not obtain connection metadata", sqle );
+				}
+				finally {
+					connections.closeConnection( conn );
+				}
+			}</sentence>
+		</paragraph>
+	</description>
+</bug>

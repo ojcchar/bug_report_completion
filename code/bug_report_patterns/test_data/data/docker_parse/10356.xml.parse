@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10356</id>
+	<title>Cannot remove an image when it's not being used</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Trying to remove an image which is not being used by a container.</sentence>
+			<sentence id="1.2">I keep getting an error which says "No such ID".</sentence>
+			<sentence id="1.3">The ID reported by the `docker rmi` command does not match that `docker images` shows</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">z0:~/abhi&gt; docker images</sentence>
+			<sentence id="2.3">REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE</sentence>
+			<sentence id="2.4">my-image latest d57666d6f7ac 2 days ago 2.052 GB</sentence>
+			<sentence id="2.5">&lt;none&gt; &lt;none&gt; 18e4b0c0ae6a 2 days ago 2.052 GB</sentence>
+			<sentence id="2.6">eci-galera latest 4990acbca9ef 6 days ago 384.2 MB</sentence>
+			<sentence id="2.7">&lt;none&gt; &lt;none&gt; db1166e39eb5 6 days ago 342.5 MB</sentence>
+			<sentence id="2.8">dockerfile/mariadb latest d56fc7f1b1cd 9 days ago 666.4 MB</sentence>
+			<sentence id="2.9">ubuntu 12.04 3e09053df658 9 days ago 131.4 MB</sentence>
+			<sentence id="2.10">&lt;none&gt; &lt;none&gt; d587e4533d09 3 weeks ago 2.023 GB</sentence>
+			<sentence id="2.11">&lt;none&gt; &lt;none&gt; 70fbcce30c8a 4 weeks ago 2.018 GB</sentence>
+			<sentence id="2.12">&lt;none&gt; &lt;none&gt; 5e952e9f6b6a 5 weeks ago 918.8 MB</sentence>
+			<sentence id="2.13">&lt;none&gt; &lt;none&gt; 0dfff0c6f8a4 5 weeks ago 911.7 MB</sentence>
+			<sentence id="2.14">&lt;none&gt; &lt;none&gt; a45045ac9b52 5 weeks ago 666.3 MB</sentence>
+			<sentence id="2.15">jpetazzo/nsenter latest 6ed3da1d7fa6 9 weeks ago 367.7 MB</sentence>
+			<sentence id="2.16">opensuse harlequin 8cf59041a8fc 12 weeks ago 622.7 MB</sentence>
+			<sentence id="2.17">opensuse latest 8cf59041a8fc 12 weeks ago 622.7 MB</sentence>
+			<sentence id="2.18">opensuse 13.2 8cf59041a8fc 12 weeks ago 622.7 MB</sentence>
+			<sentence id="2.19">&lt;none&gt; &lt;none&gt; 6b091d27aaef 3 months ago 1.339 GB</sentence>
+			<sentence id="2.20">opensuse bottle d68d272529be 3 months ago 598.4 MB</sentence>
+			<sentence id="2.21">opensuse 13.1 d68d272529be 3 months ago 598.4 MB</sentence>
+			<sentence id="2.22">z0:~/abhi&gt; docker rmi my-image</sentence>
+			<sentence id="2.23">Error response from daemon: No such id: eb2e1db470ad4623c706921081312f4e6f8acc39a85d14122be7deba3c2c339f</sentence>
+			<sentence id="2.24">2015/01/26 18:50:55 Error: failed to remove one or more images</sentence>
+			<sentence id="2.25">z0:~/abhi&gt; docker rmi d57666d6f7ac</sentence>
+			<sentence id="2.26">Error response from daemon: No such id: eb2e1db470ad4623c706921081312f4e6f8acc39a85d14122be7deba3c2c339f</sentence>
+			<sentence id="2.27">2015/01/26 18:51:02 Error: failed to remove one or more images</sentence>
+			<sentence id="2.28">z0:~/abhi&gt; docker ps</sentence>
+			<sentence id="2.29">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+			<sentence id="2.30">z0:~/abhi&gt; docker --version</sentence>
+			<sentence id="2.31">Docker version 1.3.2, build 39fa2fa</sentence>
+			<sentence id="2.32">```</sentence>
+		</paragraph>
+	</description>
+</bug>

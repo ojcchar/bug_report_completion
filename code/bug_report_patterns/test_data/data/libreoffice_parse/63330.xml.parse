@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>63330</id>
+	<title>wish for better CLI integration: when launched from command-line, please default to the presentation's directory for file browsers</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Summary: Please make use of the $PWD variable for file-picker defaults.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I tend to keep documents (especially presentations) well organised, in a deep directory structure, where each project is in its own directory, together the relevant files (pictures, videos, diagrams etc).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">So my workflow goes as follows (names changed for privacy):</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">0 I'm already at the command line.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">1 cd  Documents/consulting/projects/penguins/feeding/</sentence>
+			<sentence id="5.2">#I get here rapidly using tab-completion</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">2 libreoffice herring.odp</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">3 Now I start to work on the presentation.</sentence>
+			<sentence id="7.2">When I add files (insert pictures, or videos, or use file-&gt;open), Impress (or Writer) open the file picker in the *wrong* place; either in my home-directory, or the last place I was looking when I last used L.O. on a different project.</sentence>
+			<sentence id="7.3">Neither is helpful, and it's cognitively jarring to be put into the "wrong" context.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">It would be really useful if the file-picker would default to the same path that my presentation is in, rather than elsewhere.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Might I suggest a heuristic:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">1 The current behaviour is fine on Windows, (and maybe even on Linux when the program is launched from the graphical menu.)</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">2 When starting from the command-line [and especially when the user has changed directory to somewhere different, i.e. where   $PWD !</sentence>
+			<sentence id="11.2">= $HOME   ]</sentence>
+			<sentence id="11.3">then the file-open and insert-file dialogs should default to</sentence>
+			<sentence id="11.4">$(dirname herring.odp)         #or possibly $PWD.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">This would be a huge timesaver for programmers, and make LO work similarly to the way that other editors operate.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Thanks for your time.</sentence>
+		</paragraph>
+	</description>
+</bug>

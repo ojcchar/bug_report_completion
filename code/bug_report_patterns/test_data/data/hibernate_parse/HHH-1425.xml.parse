@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1425</id>
+	<title>Setting Projection for Criteria brake previously set Fetch mode.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">A criteria query:
+ Criteria cr = session.createCriteria(ApplicationBean.class);
+ cr.setFetchMode("categories", FetchMode.JOIN);
+ cr.add(Expression.sql("category_id=?"</sentence>
+			<sentence id="1.2">, "2", Hibernate.STRING));
+ cr.list();
+execute without an error, and produce proper sql and return expected results.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">But when I add projection right before list():
+ Criteria cr = session.createCriteria(ApplicationBean.class);
+ cr.setFetchMode("categories", FetchMode.JOIN);
+ cr.add(Expression.sql("category_id=?"</sentence>
+			<sentence id="2.2">, "2", Hibernate.STRING));
+ cr.setProjection(Projections.count("id"));
+ cr.list();
+Query produce an SQL without a join.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This issue has been discovered after upgrade from 3.0.5 to 3.1.2</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Mapping:</sentence>
+			<sentence id="4.2">&lt;hibernate-mapping package="a.b"&gt;</sentence>
+			<sentence id="4.3">&lt;class name="ApplicationBean" table="application"&gt;</sentence>
+			<sentence id="4.4">&lt;id name="id" column="id" type="long"&gt;</sentence>
+			<sentence id="4.5">&lt;generator class="identity"/&gt;</sentence>
+			<sentence id="4.6"></id></sentence>
+			<sentence id="4.7">...</sentence>
+			<sentence id="4.8">&lt;!-- Application categories --&gt;</sentence>
+			<sentence id="4.9">&lt;set name="categories" cascade="all-delete-orphan" lazy="true" table="application_category"&gt;</sentence>
+			<sentence id="4.10">&lt;key column="application_id"/&gt;</sentence>
+			<sentence id="4.11">&lt;composite-element class="a.b.ApplicationCategory"&gt;</sentence>
+			<sentence id="4.12">&lt;many-to-one name="category" class="a.b.CategoryBean" column="category_id" cascade="none"&gt;</sentence>
+			<sentence id="4.13">&lt;/many-to-one&gt;</sentence>
+			<sentence id="4.14">&lt;/composite-element&gt;</sentence>
+			<sentence id="4.15">&lt;/set&gt;</sentence>
+			<sentence id="4.16">&lt;/class&gt;</sentence>
+			<sentence id="4.17">&lt;/hibernate-mapping&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

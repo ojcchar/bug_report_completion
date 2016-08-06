@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-10499</id>
+	<title>Can't set ConnectionProvider instance, regression</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In AvailableSettings.java:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code:java}</sentence>
+			<sentence id="2.2">/**</sentence>
+			<sentence id="2.3">* Names the {@link org.hibernate.engine.jdbc.connections.spi.ConnectionProvider} to use for obtaining</sentence>
+			<sentence id="2.4">* JDBC connections.</sentence>
+			<sentence id="2.5">Can reference:&lt;ul&gt;</sentence>
+			<sentence id="2.6">*     &lt;li&gt;an instance of ConnectionProvider&lt;/li&gt;</sentence>
+			<sentence id="2.7">*     &lt;li&gt;a {@code Class&lt;?</sentence>
+			<sentence id="2.8">extends ConnectionProvider&gt;} reference&lt;/li&gt;</sentence>
+			<sentence id="2.9">*     &lt;li&gt;a {@code Class&lt;?</sentence>
+			<sentence id="2.10">extends ConnectionProvider&gt;} FQN&lt;/li&gt;</sentence>
+			<sentence id="2.11">* &lt;/ul&gt;</sentence>
+			<sentence id="2.12">* &lt;p/&gt;</sentence>
+			<sentence id="2.13">* The term {@code "class"} appears in the setting name due to legacy reasons; however it can accept instances.</sentence>
+			<sentence id="2.14">*/</sentence>
+			<sentence id="2.15">String CONNECTION_PROVIDER ="hibernate.connection.provider_class";</sentence>
+			<sentence id="2.16">{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The first two options are no longer supported with the "new" bootstrap code.</sentence>
+			<sentence id="3.2">It breaks because of this cast in ConnectionProviderInitiator.java:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">{code:java}
+		String providerName = (String) configurationValues.get( AvailableSettings.CONNECTION_PROVIDER );
+{code}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">And obviously the logic to handle an existing instance of the right type or a class reference is missing.</sentence>
+		</paragraph>
+	</description>
+</bug>

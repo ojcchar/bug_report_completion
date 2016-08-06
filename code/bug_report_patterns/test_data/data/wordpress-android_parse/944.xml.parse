@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>944</id>
+	<title>Crash on 2.6.1, NumberFormatException: Invalid int</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```</sentence>
+			<sentence id="1.2">java.lang.RuntimeException: An error occured while executing doInBackground()</sentence>
+			<sentence id="1.3">at android.os.AsyncTask$3.done(AsyncTask.java:299)</sentence>
+			<sentence id="1.4">at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:352)</sentence>
+			<sentence id="1.5">at java.util.concurrent.FutureTask.setException(FutureTask.java:219)</sentence>
+			<sentence id="1.6">at java.util.concurrent.FutureTask.run(FutureTask.java:239)</sentence>
+			<sentence id="1.7">at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:230)</sentence>
+			<sentence id="1.8">at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1080)</sentence>
+			<sentence id="1.9">at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:573)</sentence>
+			<sentence id="1.10">at java.lang.Thread.run(Thread.java:841)</sentence>
+			<sentence id="1.11">Caused by: java.lang.NumberFormatException: Invalid int: "12717584999"</sentence>
+			<sentence id="1.12">at java.lang.Integer.invalidInt(Integer.java:138)</sentence>
+			<sentence id="1.13">at java.lang.Integer.parse(Integer.java:378)</sentence>
+			<sentence id="1.14">at java.lang.Integer.parseInt(Integer.java:366)</sentence>
+			<sentence id="1.15">at java.lang.Integer.parseInt(Integer.java:332)</sentence>
+			<sentence id="1.16">at org.xmlrpc.android.ApiHelper.refreshComments(ApiHelper.java:326)</sentence>
+			<sentence id="1.17">at org.xmlrpc.android.ApiHelper$RefreshBlogContentTask.doInBackground(ApiHelper.java:275)</sentence>
+			<sentence id="1.18">at org.xmlrpc.android.ApiHelper$RefreshBlogContentTask.doInBackground(ApiHelper.java:180)</sentence>
+			<sentence id="1.19">at android.os.AsyncTask$2.call(AsyncTask.java:287)</sentence>
+			<sentence id="1.20">at java.util.concurrent.FutureTask.run(FutureTask.java:234)</sentence>
+			<sentence id="1.21">... 4 more</sentence>
+			<sentence id="1.22">```</sentence>
+		</paragraph>
+	</description>
+</bug>

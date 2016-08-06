@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3206</id>
+	<title>Files created into a host mounted directory are owned by root user</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When saving a file by running an application in a Docker container to an host mounted directory, that file results to be owned by the root user in the host file system.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">For example:</sentence>
+			<sentence id="2.2">docker run -v $PWD:/data ubuntu touch /data/hello</sentence>
+			<sentence id="2.3">ls -la</sentence>
+			<sentence id="2.4">drwxr-xr-x 2 pditommaso foo 4096 Dec 13 11:44 .</sentence>
+			<sentence id="2.5">drwxr-xr-x 3 pditommaso foo 4096 Dec 9 14:43 .</sentence>
+			<sentence id="2.6">.</sentence>
+			<sentence id="2.7">-rw-r--r-- 1 root root 0 Dec 13 12:30 hello</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The host OS is: CentOS release 6.5 (Final)
+Linux kernel: 2.6.32-431.</sentence>
+			<sentence id="3.2">el6.x86_64</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">docker version</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Client version: 0.7.0
+	Go version (client): go1.1.2
+	Git commit (client): 0ff9bc1/0.7.0
+	Server version: 0.7.0
+	Git commit (server): 0ff9bc1/0.7.0
+	Go version (server): go1.1.2
+	Last stable version: 0.7.1, please update docker</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">docker info</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Containers: 304
+	Images: 43
+	Driver: devicemapper
+	Pool Name: docker-253:0-1705509-pool
+	Data file: /var/lib/docker/devicemapper/devicemapper/data
+	Metadata file: /var/lib/docker/devicemapper/devicemapper/metadata
+	Data Space Used: 15837.8 Mb
+	Data Space Total: 102400.0 Mb
+	Metadata Space Used: 27.9 Mb
+	Metadata Space Total: 2048.0 Mb
+	Username: pditommaso
+	Registry: https://index.docker.io/v1/</sentence>
+		</paragraph>
+	</description>
+</bug>

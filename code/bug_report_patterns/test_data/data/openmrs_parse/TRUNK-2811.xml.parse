@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-2811</id>
+	<title>HL7 processor should not lose unbounded coded concepts answers in submitted forms</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I created a concept of class "Question" and type "Coded", and i never gave it any answers.</sentence>
+			<sentence id="1.2">Then on the form schema, i added this field to a form.</sentence>
+			<sentence id="1.3">I entered an answer concept (whose id was 797) for this field and then submit the form successfully.</sentence>
+			<sentence id="1.4">When i tried to view the data i submitted, i discovered that it was not saved in the database.</sentence>
+			<sentence id="1.5">Looking at the log file i saw this error message:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">ERROR - ORUR01Handler.getConcept(909) |2011-10-28 01:27:38,789| Unable to find concept with code: 797 and mapping: null in hl7 message with uid: mPWxvsBnZuy5vOhCr04C</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>6435</id>
+	<title>After restart containers not running but still in 'docker ps' output</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">After a system reboot, 3 out of 10 of my containers came back online in a state where the processes aren't running but they are listed in the 'docker ps' output.</sentence>
+			<sentence id="1.2">Oddly the docker ps listing for the containers doesn't show any port mappings even though there were before the reboot.</sentence>
+			<sentence id="1.3">I can't stop them, kill them or rm -f them because it gets a 'no such process' error.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This is on ubuntu 14.04 with docker info:
+Containers: 35
+Images: 231
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Dirs: 301
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-29-generic
+WARNING: No swap limit support</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">and docker version:
+Client version: 0.11.1
+Client API version: 1.11
+Go version (client): go1.2.1
+Git commit (client): fb99f99
+Server version: 0.11.1
+Server API version: 1.11
+Git commit (server): fb99f99
+Go version (server): go1.2.1
+Last stable version: 1.0.0, please update docker</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Here is an excerpt from my docker logs of me trying to stop kill and start one of these containers:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">2014/06/15 02:24:44 POST /v1.11/containers/nzbdrone/kill?signal=KILL</sentence>
+			<sentence id="5.2">[8327e6bc] +job kill(nzbdrone, KILL)</sentence>
+			<sentence id="5.3">Cannot kill container nzbdrone: no such process</sentence>
+			<sentence id="5.4">[8327e6bc] -job kill(nzbdrone, KILL) = ERR (1)</sentence>
+			<sentence id="5.5">[error] server.go:1011 Error: Cannot kill container nzbdrone: no such process</sentence>
+			<sentence id="5.6">[error] server.go:90 HTTP Error: statusCode=500 Cannot kill container nzbdrone: no such process</sentence>
+			<sentence id="5.7">2014/06/15 02:25:08 GET /v1.11/containers/json</sentence>
+			<sentence id="5.8">[8327e6bc] +job containers()</sentence>
+			<sentence id="5.9">[8327e6bc] -job containers() = OK (0)</sentence>
+			<sentence id="5.10">2014/06/15 02:25:20 POST /v1.11/containers/deluge/stop?t=10</sentence>
+			<sentence id="5.11">[8327e6bc] +job stop(deluge)</sentence>
+			<sentence id="5.12">2014/06/15 02:25:20 Failed to send SIGTERM to the process, force killing</sentence>
+			<sentence id="5.13">Cannot stop container deluge: no such process</sentence>
+			<sentence id="5.14">[8327e6bc] -job stop(deluge) = ERR (1)</sentence>
+			<sentence id="5.15">[error] server.go:1011 Error: Cannot stop container deluge: no such process</sentence>
+			<sentence id="5.16">[error] server.go:90 HTTP Error: statusCode=500 Cannot stop container deluge: no such process</sentence>
+			<sentence id="5.17">2014/06/15 02:25:24 POST /v1.11/containers/nzbdrone/stop?t=10</sentence>
+			<sentence id="5.18">[8327e6bc] +job stop(nzbdrone)</sentence>
+			<sentence id="5.19">2014/06/15 02:25:24 Failed to send SIGTERM to the process, force killing</sentence>
+			<sentence id="5.20">Cannot stop container nzbdrone: no such process</sentence>
+			<sentence id="5.21">[8327e6bc] -job stop(nzbdrone) = ERR (1)</sentence>
+			<sentence id="5.22">[error] server.go:1011 Error: Cannot stop container nzbdrone: no such process</sentence>
+			<sentence id="5.23">[error] server.go:90 HTTP Error: statusCode=500 Cannot stop container nzbdrone: no such process</sentence>
+			<sentence id="5.24">2014/06/15 02:25:37 POST /v1.11/containers/nzbdrone/start</sentence>
+			<sentence id="5.25">[8327e6bc] +job start(nzbdrone)</sentence>
+			<sentence id="5.26">[8327e6bc] -job start(nzbdrone) = OK (0)</sentence>
+			<sentence id="5.27">2014/06/15 02:25:41 GET /v1.11/containers/json</sentence>
+			<sentence id="5.28">[8327e6bc] +job containers()</sentence>
+			<sentence id="5.29">[8327e6bc] -job containers() = OK (0)</sentence>
+			<sentence id="5.30">2014/06/15 02:25:59 POST /v1.11/containers/nzbdrone/stop?t=10</sentence>
+			<sentence id="5.31">[8327e6bc] +job stop(nzbdrone)</sentence>
+			<sentence id="5.32">2014/06/15 02:25:59 Failed to send SIGTERM to the process, force killing</sentence>
+			<sentence id="5.33">Cannot stop container nzbdrone: no such process</sentence>
+			<sentence id="5.34">[8327e6bc] -job stop(nzbdrone) = ERR (1)</sentence>
+			<sentence id="5.35">[error] server.go:1011 Error: Cannot stop container nzbdrone: no such process</sentence>
+			<sentence id="5.36">[error] server.go:90 HTTP Error: statusCode=500 Cannot stop container nzbdrone: no such process</sentence>
+			<sentence id="5.37">2014/06/15 02:26:05 DELETE /v1.11/containers/nzbdrone</sentence>
+			<sentence id="5.38">[8327e6bc] +job container_delete(nzbdrone)</sentence>
+			<sentence id="5.39">Impossible to remove a running container, please stop it first or use -f</sentence>
+			<sentence id="5.40">[8327e6bc] -job container_delete(nzbdrone) = ERR (1)</sentence>
+			<sentence id="5.41">[error] server.go:1011 Error: Impossible to remove a running container, please stop it first or use -f</sentence>
+			<sentence id="5.42">[error] server.go:90 HTTP Error: statusCode=406 Impossible to remove a running container, please stop it first or use -f</sentence>
+			<sentence id="5.43">2014/06/15 02:26:10 DELETE /v1.11/containers/nzbdrone?force=1</sentence>
+			<sentence id="5.44">[8327e6bc] +job container_delete(nzbdrone)</sentence>
+			<sentence id="5.45">2014/06/15 02:26:10 Failed to send SIGTERM to the process, force killing</sentence>
+			<sentence id="5.46">Could not stop running container, cannot remove - no such process</sentence>
+			<sentence id="5.47">[8327e6bc] -job container_delete(nzbdrone) = ERR (1)</sentence>
+		</paragraph>
+	</description>
+</bug>

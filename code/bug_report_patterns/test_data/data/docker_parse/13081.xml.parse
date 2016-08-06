@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13081</id>
+	<title>shellcheck linting</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'd be up for picking through the various shellcheck nitpicks on docker's shell scripts if that would be of value.</sentence>
+			<sentence id="1.2">I created the following script to quickly identify files that could be affected:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```sh</sentence>
+			<sentence id="2.2">find .</sentence>
+			<sentence id="2.3">-name .</sentence>
+			<sentence id="2.4">git -prune -o \</sentence>
+			<sentence id="2.5">-type f -exec awk '</sentence>
+			<sentence id="2.6">NR==1&amp;&amp;/^#!</sentence>
+			<sentence id="2.7">.</sentence>
+			<sentence id="2.8">*(env |bin\/)(ba)?</sentence>
+			<sentence id="2.9">sh/{</sentence>
+			<sentence id="2.10">print FILENAME;</sentence>
+			<sentence id="2.11">exit</sentence>
+			<sentence id="2.12">}' {} \; |</sentence>
+			<sentence id="2.13">xargs -n1 -P6 sh -c '</sentence>
+			<sentence id="2.14">shellcheck "$1" &gt;/dev/null 2&gt;&amp;1 ||</sentence>
+			<sentence id="2.15">echo "$1"</sentence>
+			<sentence id="2.16">' _</sentence>
+			<sentence id="2.17">```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I am aware that there are some shell scripts that deliberately do behaviors flagged by shellcheck now, such as</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```</sentence>
+			<sentence id="4.2">In .</sentence>
+			<sentence id="4.3">/vendor/src/github.</sentence>
+			<sentence id="4.4">com/kr/pty/mktypes.bash line 6:</sentence>
+			<sentence id="4.5">echo 'undefined $GOOS_$GOARCH:' "$GOOSARCH" 1&gt;&amp;2</sentence>
+			<sentence id="4.6">^-- SC2016: Expressions don't expand in single quotes, use double quotes for that.</sentence>
+			<sentence id="4.7">```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">For now, I would just ignore those warnings.</sentence>
+			<sentence id="5.2">Is this something the Docker community would find helpful?</sentence>
+		</paragraph>
+	</description>
+</bug>

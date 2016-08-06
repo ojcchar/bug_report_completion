@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2942</id>
+	<title>[BUG] random corruption with docker 0.7.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I am trying to build this docker file:
+```
+FROM tianon/debian:sid</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">RUN apt-get update
+RUN apt-get dist-upgrade -y
+RUN apt-get install -y lighttpd</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">ADD cgit /usr/bin/cgit
+ADD cgit.css /var/www/cgit/cgit.css
+ADD cgit.png /var/www/cgit/cgit.png</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">ADD lighttpd-cgit.</sentence>
+			<sentence id="4.2">conf /etc/lighttpd/lighttpd-cgit.</sentence>
+			<sentence id="4.3">conf</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">ADD cgitrc /etc/cgitrc</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">EXPOSE 80
+ENTRYPOINT ["/usr/sbin/lighttpd", "-f", "/etc/lighttpd/lighttpd-cgit.</sentence>
+			<sentence id="6.2">conf", "-D"]
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">However, after running docker build (unsuccessfully!)</sentence>
+			<sentence id="7.2">, the existing tianon/debian:sid image is corrupted, I cannot even run apt-get anymore:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">```</sentence>
+			<sentence id="8.2">midna ~/dockerfiles/cgit $ sudo rm -rf /var/lib/docker</sentence>
+			<sentence id="8.3">midna ~/dockerfiles/cgit $ /tmp/tdock/docker build . </sentence>
+			<sentence id="8.4">midna ~/dockerfiles/cgit $ /tmp/tdock/docker run -t -i tianon/debian:sid /bin/sh</sentence>
+			<sentence id="8.5">2013/11/28 21:14:32 dial unix /var/run/docker.sock: permission denied</sentence>
+			<sentence id="8.6">midna ~/dockerfiles/cgit $ s chgrp staff /var/run/docker.sock </sentence>
+			<sentence id="8.7">midna ~/dockerfiles/cgit $ /tmp/tdock/docker run -t -i tianon/debian:sid /bin/sh</sentence>
+			<sentence id="8.8">Unable to find image 'tianon/debian:sid' (tag: sid) locally</sentence>
+			<sentence id="8.9">Pulling repository tianon/debian</sentence>
+			<sentence id="8.10">6bd626a5462b: Download complete</sentence>
+			<sentence id="8.11">511136ea3c5a: Download complete</sentence>
+			<sentence id="8.12">5e763de8e9b0: Download complete</sentence>
+			<sentence id="8.13"># apt-get9b0: Pulling metadata</sentence>
+			<sentence id="8.14">apt 0.9.12.1 for amd64 compiled on Oct 15 2013 21:27:01</sentence>
+			<sentence id="8.15">Usage: apt-get [options] command</sentence>
+			<sentence id="8.16"> apt-get [options] install|remove pkg1 [pkg2 ...]</sentence>
+			<sentence id="8.17"> apt-get [options] source pkg1 [pkg2 ...]</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">apt-get is a simple command line interface for downloading and
+installing packages.</sentence>
+			<sentence id="9.2">The most frequently used commands are update
+and install.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Commands:</sentence>
+			<sentence id="10.2"> update - Retrieve new lists of packages</sentence>
+			<sentence id="10.3"> upgrade - Perform an upgrade</sentence>
+			<sentence id="10.4"> install - Install new packages (pkg is libc6 not libc6.deb)</sentence>
+			<sentence id="10.5"> remove - Remove packages</sentence>
+			<sentence id="10.6"> autoremove - Remove automatically all unused packages</sentence>
+			<sentence id="10.7"> purge - Remove packages and config files</sentence>
+			<sentence id="10.8"> source - Download source archives</sentence>
+			<sentence id="10.9"> build-dep - Configure build-dependencies for source packages</sentence>
+			<sentence id="10.10"> dist-upgrade - Distribution upgrade, see apt-get(8)</sentence>
+			<sentence id="10.11"> dselect-upgrade - Follow dselect selections</sentence>
+			<sentence id="10.12"> clean - Erase downloaded archive files</sentence>
+			<sentence id="10.13"> autoclean - Erase old downloaded archive files</sentence>
+			<sentence id="10.14"> check - Verify that there are no broken dependencies</sentence>
+			<sentence id="10.15"> changelog - Download and display the changelog for the given package</sentence>
+			<sentence id="10.16"> download - Download the binary package into the current directory</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Options:</sentence>
+			<sentence id="11.2">-h This help text.</sentence>
+			<sentence id="11.3">-q Loggable output - no progress indicator</sentence>
+			<sentence id="11.4">-qq No output except for errors</sentence>
+			<sentence id="11.5">-d Download only - do NOT install or unpack archives</sentence>
+			<sentence id="11.6">-s No-act.</sentence>
+			<sentence id="11.7">Perform ordering simulation</sentence>
+			<sentence id="11.8">-y Assume Yes to all queries and do not prompt</sentence>
+			<sentence id="11.9">-f Attempt to correct a system with broken dependencies in place</sentence>
+			<sentence id="11.10">-m Attempt to continue if archives are unlocatable</sentence>
+			<sentence id="11.11">-u Show a list of upgraded packages as well</sentence>
+			<sentence id="11.12">-b Build the source package after fetching it</sentence>
+			<sentence id="11.13">-V Show verbose version numbers</sentence>
+			<sentence id="11.14">-c=?</sentence>
+			<sentence id="11.15">Read this configuration file</sentence>
+			<sentence id="11.16">-o=?</sentence>
+			<sentence id="11.17">Set an arbitrary configuration option, eg -o dir::cache=/tmp</sentence>
+			<sentence id="11.18">See the apt-get(8), sources.list(5) and apt.conf(5) manual</sentence>
+			<sentence id="11.19">pages for more information and options.</sentence>
+			<sentence id="11.20">This APT has Super Cow Powers.</sentence>
+			<sentence id="11.21">#</sentence>
+			<sentence id="11.22">/bin/sh: 1: Cannot set tty process group (No such process)</sentence>
+			<sentence id="11.23">midna ~/dockerfiles/cgit $ /tmp/tdock/docker build .</sentence>
+			<sentence id="11.24">Uploading context 42536960 bytes</sentence>
+			<sentence id="11.25">Step 1 : FROM tianon/debian:sid</sentence>
+			<sentence id="11.26">---&gt; 6bd626a5462b</sentence>
+			<sentence id="11.27">Step 2 : RUN apt-get update</sentence>
+			<sentence id="11.28">---&gt; Running in 598b40c1280d</sentence>
+			<sentence id="11.29">Get:1 http://http.debian.net sid InRelease [198 kB]</sentence>
+			<sentence id="11.30">Get:2 http://http.debian.net sid/main amd64 Packages/DiffIndex [7876 B]</sentence>
+			<sentence id="11.31">Get:3 http://http.debian.net sid/main Translation-en [4407 kB]</sentence>
+			<sentence id="11.32">Get:4 http://http.debian.net sid/main amd64 Packages [6639 kB]</sentence>
+			<sentence id="11.33">Fetched 11.3 MB in 11s (986 kB/s)</sentence>
+			<sentence id="11.34">Reading package lists...</sentence>
+			<sentence id="11.35">---&gt; 2a1cc2a9e137</sentence>
+			<sentence id="11.36">Step 3 : RUN apt-get dist-upgrade -y</sentence>
+			<sentence id="11.37">---&gt; Running in f827a83d1a40</sentence>
+			<sentence id="11.38">Reading package lists...</sentence>
+			<sentence id="11.39">Building dependency tree...</sentence>
+			<sentence id="11.40">The following packages will be upgraded:</sentence>
+			<sentence id="11.41">apt grep iproute iproute2 libapt-pkg4.12 libffi6 libusb-0.1-4</sentence>
+			<sentence id="11.42">7 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.</sentence>
+			<sentence id="11.43">Need to get 2555 kB of archives.</sentence>
+			<sentence id="11.44">After this operation, 162 kB of additional disk space will be used.</sentence>
+			<sentence id="11.45">Get:1 http://http.debian.net/debian/ sid/main grep amd64 2.15-2 [318 kB]</sentence>
+			<sentence id="11.46">Get:2 http://http.debian.net/debian/ sid/main libapt-pkg4.12 amd64 0.9.13 [725 kB]</sentence>
+			<sentence id="11.47">Get:3 http://http.debian.net/debian/ sid/main apt amd64 0.9.13 [1048 kB]</sentence>
+			<sentence id="11.48">Get:4 http://http.debian.net/debian/ sid/main libusb-0.1-4 amd64 2:0.1.12-23.3 [21.2 kB]</sentence>
+			<sentence id="11.49">Get:5 http://http.debian.net/debian/ sid/main libffi6 amd64 3.0.13-8 [19.3 kB]</sentence>
+			<sentence id="11.50">Get:6 http://http.debian.net/debian/ sid/main iproute2 amd64 3.12.0-1 [409 kB]</sentence>
+			<sentence id="11.51">Get:7 http://http.debian.net/debian/ sid/main iproute all 1:3.12.0-1 [15.1 kB]</sentence>
+			<sentence id="11.52">debconf: delaying package configuration, since apt-utils is not installed</sentence>
+			<sentence id="11.53">Fetched 2555 kB in 1s (1531 kB/s)</sentence>
+			<sentence id="11.54">(Reading database ... 6850 files and directories currently installed.)</sentence>
+			<sentence id="11.55">Preparing to replace grep 2.14-4 (using .../archives/grep_2.15-2_amd64.deb) ...</sentence>
+			<sentence id="11.56">Unpacking replacement grep ...</sentence>
+			<sentence id="11.57">Setting up grep (2.15-2) ...</sentence>
+			<sentence id="11.58">(Reading database ... 6850 files and directories currently installed.)</sentence>
+			<sentence id="11.59">Preparing to replace libapt-pkg4.12:amd64 0.9.12.1 (using .../libapt-pkg4.12_0.9.13_amd64.deb) ...</sentence>
+			<sentence id="11.60">Unpacking replacement libapt-pkg4.12:amd64 ...</sentence>
+			<sentence id="11.61">Setting up libapt-pkg4.12:amd64 (0.9.13) ...</sentence>
+			<sentence id="11.62">Processing triggers for libc-bin ...</sentence>
+			<sentence id="11.63">(Reading database ... 6850 files and directories currently installed.)</sentence>
+			<sentence id="11.64">Preparing to replace apt 0.9.12.1 (using .../archives/apt_0.9.13_amd64.deb) ...</sentence>
+			<sentence id="11.65">Unpacking replacement apt ...</sentence>
+			<sentence id="11.66">Setting up apt (0.9.13) ...</sentence>
+			<sentence id="11.67">Installing new version of config file /etc/cron.</sentence>
+			<sentence id="11.68">daily/apt ...</sentence>
+			<sentence id="11.69">(Reading database ... 6850 files and directories currently installed.)</sentence>
+			<sentence id="11.70">Preparing to replace libusb-0.1-4:amd64 2:0.1.12-23.2 (using .../libusb-0.1-4_2%3a0.1.12-23.3_amd64.deb) ...</sentence>
+			<sentence id="11.71">Unpacking replacement libusb-0.1-4:amd64 ...</sentence>
+			<sentence id="11.72">Setting up libusb-0.1-4:amd64 (2:0.1.12-23.3) ...</sentence>
+			<sentence id="11.73">Processing triggers for libc-bin ...</sentence>
+			<sentence id="11.74">(Reading database ... 6850 files and directories currently installed.)</sentence>
+			<sentence id="11.75">Preparing to replace libffi6:amd64 3.0.13-5 (using .../libffi6_3.0.13-8_amd64.deb) ...</sentence>
+			<sentence id="11.76">Unpacking replacement libffi6:amd64 ...</sentence>
+			<sentence id="11.77">Preparing to replace iproute2 3.11.0-1 (using .../iproute2_3.12.0-1_amd64.deb) ...</sentence>
+			<sentence id="11.78">Unpacking replacement iproute2 ...</sentence>
+			<sentence id="11.79">Preparing to replace iproute 1:3.11.0-1 (using .../iproute_1%3a3.12.0-1_all.deb) ...</sentence>
+			<sentence id="11.80">Unpacking replacement iproute ...</sentence>
+			<sentence id="11.81">Setting up libffi6:amd64 (3.0.13-8) ...</sentence>
+			<sentence id="11.82">Setting up iproute2 (3.12.0-1) ...</sentence>
+			<sentence id="11.83">Setting up iproute (1:3.12.0-1) ...</sentence>
+			<sentence id="11.84">Processing triggers for libc-bin ...</sentence>
+			<sentence id="11.85">---&gt; 62c247aadabd</sentence>
+			<sentence id="11.86">Step 4 : RUN apt-get install -y lighttpd</sentence>
+			<sentence id="11.87">---&gt; Running in 489761829f67</sentence>
+			<sentence id="11.88">Reading package lists...</sentence>
+			<sentence id="11.89">Building dependency tree...</sentence>
+			<sentence id="11.90">Reading state information...</sentence>
+			<sentence id="11.91">The following extra packages will be installed:</sentence>
+			<sentence id="11.92">adduser file ifupdown init-system-helpers isc-dhcp-client isc-dhcp-common</sentence>
+			<sentence id="11.93">libarchive-extract-perl libfam0 libgdbm3 libldap-2.4-2</sentence>
+			<sentence id="11.94">liblog-message-simple-perl libmagic1 libmodule-pluggable-perl</sentence>
+			<sentence id="11.95">libpod-latex-perl libsasl2-2 libsasl2-modules libsasl2-modules-db</sentence>
+			<sentence id="11.96">libssl1.0.0 libterm-readkey-perl libterm-readline-perl-perl libterm-ui-perl</sentence>
+			<sentence id="11.97">libtext-soundex-perl mime-support netbase perl perl-modules spawn-fcgi</sentence>
+			<sentence id="11.98">Suggested packages:</sentence>
+			<sentence id="11.99">ppp rdnssd net-tools resolvconf avahi-autoipd fam libsasl2-modules-otp</sentence>
+			<sentence id="11.100">libsasl2-modules-ldap libsasl2-modules-sql libsasl2-modules-gssapi-mit</sentence>
+			<sentence id="11.101">libsasl2-modules-gssapi-heimdal openssl rrdtool apache2-utils perl-doc make</sentence>
+			<sentence id="11.102">libb-lint-perl libcpanplus-dist-build-perl libcpanplus-perl</sentence>
+			<sentence id="11.103">libfile-checktree-perl liblog-message-perl libobject-accessor-perl</sentence>
+			<sentence id="11.104">The following NEW packages will be installed:</sentence>
+			<sentence id="11.105">adduser file ifupdown init-system-helpers isc-dhcp-client isc-dhcp-common</sentence>
+			<sentence id="11.106">libarchive-extract-perl libfam0 libgdbm3 libldap-2.4-2</sentence>
+			<sentence id="11.107">liblog-message-simple-perl libmagic1 libmodule-pluggable-perl</sentence>
+			<sentence id="11.108">libpod-latex-perl libsasl2-2 libsasl2-modules libsasl2-modules-db</sentence>
+			<sentence id="11.109">libssl1.0.0 libterm-readkey-perl libterm-readline-perl-perl libterm-ui-perl</sentence>
+			<sentence id="11.110">libtext-soundex-perl lighttpd mime-support netbase perl perl-modules</sentence>
+			<sentence id="11.111">spawn-fcgi</sentence>
+			<sentence id="11.112">0 upgraded, 28 newly installed, 0 to remove and 0 not upgraded.</sentence>
+			<sentence id="11.113">Need to get 9671 kB of archives.</sentence>
+			<sentence id="11.114">After this operation, 47.8 MB of additional disk space will be used.</sentence>
+			<sentence id="11.115">Get:1 http://http.debian.net/debian/ sid/main libgdbm3 amd64 1.8.3-12 [47.0 kB]</sentence>
+			<sentence id="11.116">Get:2 http://http.debian.net/debian/ sid/main libsasl2-modules-db amd64 2.1.25.dfsg1-17 [64.3 kB]</sentence>
+			<sentence id="11.117">Get:3 http://http.debian.net/debian/ sid/main libssl1.0.0 amd64 1.0.1e-4 [1003 kB]</sentence>
+			<sentence id="11.118">Get:4 http://http.debian.net/debian/ sid/main libsasl2-2 amd64 2.1.25.dfsg1-17 [101 kB]</sentence>
+			<sentence id="11.119">Get:5 http://http.debian.net/debian/ sid/main adduser all 3.113+nmu3 [264 kB]</sentence>
+			<sentence id="11.120">Get:6 http://http.debian.net/debian/ sid/main libldap-2.4-2 amd64 2.4.31-1+nmu2+b1 [208 kB]</sentence>
+			<sentence id="11.121">Get:7 http://http.debian.net/debian/ sid/main isc-dhcp-client amd64 4.2.4-7 [792 kB]</sentence>
+			<sentence id="11.122">Get:8 http://http.debian.net/debian/ sid/main libmagic1 amd64 1:5.14-2 [216 kB]</sentence>
+			<sentence id="11.123">Get:9 http://http.debian.net/debian/ sid/main ifupdown amd64 0.7.47.1 [64.5 kB]</sentence>
+			<sentence id="11.124">Get:10 http://http.debian.net/debian/ sid/main isc-dhcp-common amd64 4.2.4-7 [854 kB]</sentence>
+			<sentence id="11.125">Get:11 http://http.debian.net/debian/ sid/main file amd64 1:5.14-2 [54.0 kB]</sentence>
+			<sentence id="11.126">Get:12 http://http.debian.net/debian/ sid/main mime-support all 3.54 [36.4 kB]</sentence>
+			<sentence id="11.127">Get:13 http://http.debian.net/debian/ sid/main perl-modules all 5.18.1-4 [2723 kB]</sentence>
+			<sentence id="11.128">Get:14 http://http.debian.net/debian/ sid/main netbase all 5.1 [20.3 kB]</sentence>
+			<sentence id="11.129">Get:15 http://http.debian.net/debian/ sid/main perl amd64 5.18.1-4 [2631 kB]</sentence>
+			<sentence id="11.130">Get:16 http://http.debian.net/debian/ sid/main libarchive-extract-perl all 0.68-1 [26.8 kB]</sentence>
+			<sentence id="11.131">Get:17 http://http.debian.net/debian/ sid/main libfam0 amd64 2.7.0-17 [28.8 kB]</sentence>
+			<sentence id="11.132">Get:18 http://http.debian.net/debian/ sid/main libpod-latex-perl all 0.61-1 [34.7 kB]</sentence>
+			<sentence id="11.133">Get:19 http://http.debian.net/debian/ sid/main libterm-readkey-perl amd64 2.31-1 [27.5 kB]</sentence>
+			<sentence id="11.134">Get:20 http://http.debian.net/debian/ sid/main libterm-readline-perl-perl all 1.0303-1 [51.9 kB]</sentence>
+			<sentence id="11.135">Get:21 http://http.debian.net/debian/ sid/main init-system-helpers all 1.13 [12.5 kB]</sentence>
+			<sentence id="11.136">Get:22 http://http.debian.net/debian/ sid/main liblog-message-simple-perl all 0.10-1 [8186 B]</sentence>
+			<sentence id="11.137">Get:23 http://http.debian.net/debian/ sid/main libmodule-pluggable-perl all 4.8-1 [24.3 kB]</sentence>
+			<sentence id="11.138">Get:24 http://http.debian.net/debian/ sid/main libsasl2-modules amd64 2.1.25.dfsg1-17 [97.4 kB]</sentence>
+			<sentence id="11.139">Get:25 http://http.debian.net/debian/ sid/main lighttpd amd64 1.4.33-1+nmu2 [234 kB]</sentence>
+			<sentence id="11.140">Get:26 http://http.debian.net/debian/ sid/main libterm-ui-perl all 0.38-1 [18.9 kB]</sentence>
+			<sentence id="11.141">Get:27 http://http.debian.net/debian/ sid/main libtext-soundex-perl amd64 3.4-1+b1 [13.5 kB]</sentence>
+			<sentence id="11.142">Get:28 http://http.debian.net/debian/ sid/main spawn-fcgi amd64 1.6.3-1 [13.9 kB]</sentence>
+			<sentence id="11.143">debconf: delaying package configuration, since apt-utils is not installed</sentence>
+			<sentence id="11.144">Fetched 9671 kB in 7s (1227 kB/s)</sentence>
+			<sentence id="11.145">dpkg: could not open log '/var/log/dpkg.</sentence>
+			<sentence id="11.146">log': Input/output error</sentence>
+			<sentence id="11.147">Selecting previously unselected package libgdbm3:amd64.</sentence>
+			<sentence id="11.148">(Reading database ... 6850 files and directories currently installed.)</sentence>
+			<sentence id="11.149">Unpacking libgdbm3:amd64 (from .../libgdbm3_1.8.3-12_amd64.deb) ...</sentence>
+			<sentence id="11.150">Selecting previously unselected package libssl1.0.0:amd64.</sentence>
+			<sentence id="11.151">Unpacking libssl1.0.0:amd64 (from .../libssl1.0.0_1.0.1e-4_amd64.deb) ...</sentence>
+			<sentence id="11.152">Selecting previously unselected package libsasl2-modules-db:amd64.</sentence>
+			<sentence id="11.153">Unpacking libsasl2-modules-db:amd64 (from .../libsasl2-modules-db_2.1.25.</sentence>
+			<sentence id="11.154">dfsg1-17_amd64.</sentence>
+			<sentence id="11.155">deb) ...</sentence>
+			<sentence id="11.156">Selecting previously unselected package libsasl2-2:amd64.</sentence>
+			<sentence id="11.157">Unpacking libsasl2-2:amd64 (from .../libsasl2-2_2.1.25.</sentence>
+			<sentence id="11.158">dfsg1-17_amd64.</sentence>
+			<sentence id="11.159">deb) ...</sentence>
+			<sentence id="11.160">Selecting previously unselected package libldap-2.4-2:amd64.</sentence>
+			<sentence id="11.161">Unpacking libldap-2.4-2:amd64 (from .../libldap-2.4-2_2.4.31-1+nmu2+b1_amd64.</sentence>
+			<sentence id="11.162">deb) ...</sentence>
+			<sentence id="11.163">Selecting previously unselected package libmagic1:amd64.</sentence>
+			<sentence id="11.164">Unpacking libmagic1:amd64 (from .../libmagic1_1%3a5.14-2_amd64.deb) ...</sentence>
+			<sentence id="11.165">Selecting previously unselected package adduser.</sentence>
+			<sentence id="11.166">Unpacking adduser (from .../adduser_3.113+nmu3_all.</sentence>
+			<sentence id="11.167">deb) ...</sentence>
+			<sentence id="11.168">Selecting previously unselected package ifupdown.</sentence>
+			<sentence id="11.169">Unpacking ifupdown (from .../ifupdown_0.7.47.1_amd64.deb) ...</sentence>
+			<sentence id="11.170">Selecting previously unselected package isc-dhcp-common.</sentence>
+			<sentence id="11.171">Unpacking isc-dhcp-common (from .../isc-dhcp-common_4.2.4-7_amd64.deb) ...</sentence>
+			<sentence id="11.172">Selecting previously unselected package isc-dhcp-client.</sentence>
+			<sentence id="11.173">Unpacking isc-dhcp-client (from .../isc-dhcp-client_4.2.4-7_amd64.deb) ...</sentence>
+			<sentence id="11.174">Selecting previously unselected package netbase.</sentence>
+			<sentence id="11.175">Unpacking netbase (from .../archives/netbase_5.1_all.deb) ...</sentence>
+			<sentence id="11.176">Selecting previously unselected package file.</sentence>
+			<sentence id="11.177">Unpacking file (from .../file_1%3a5.14-2_amd64.deb) ...</sentence>
+			<sentence id="11.178">Selecting previously unselected package mime-support.</sentence>
+			<sentence id="11.179">Unpacking mime-support (from .../mime-support_3.54_all.deb) ...</sentence>
+			<sentence id="11.180">Selecting previously unselected package perl-modules.</sentence>
+			<sentence id="11.181">Unpacking perl-modules (from .../perl-modules_5.18.1-4_all.deb) ...</sentence>
+			<sentence id="11.182">dpkg: error processing /var/cache/apt/archives/perl-modules_5.18.1-4_all.deb (--unpack):</sentence>
+			<sentence id="11.183">unable to install new version of `/usr/share/perl/5.18.1/overload/numbers.</sentence>
+			<sentence id="11.184">pm': No such file or directory</sentence>
+			<sentence id="11.185">Selecting previously unselected package perl.</sentence>
+			<sentence id="11.186">Unpacking perl (from .../perl_5.18.1-4_amd64.deb) ...</sentence>
+			<sentence id="11.187">Selecting previously unselected package libarchive-extract-perl.</sentence>
+			<sentence id="11.188">Unpacking libarchive-extract-perl (from .../libarchive-extract-perl_0.68-1_all.deb) ...</sentence>
+			<sentence id="11.189">Selecting previously unselected package libfam0.</sentence>
+			<sentence id="11.190">Unpacking libfam0 (from .../libfam0_2.7.0-17_amd64.deb) ...</sentence>
+			<sentence id="11.191">Selecting previously unselected package liblog-message-simple-perl.</sentence>
+			<sentence id="11.192">Unpacking liblog-message-simple-perl (from .../liblog-message-simple-perl_0.10-1_all.deb) ...</sentence>
+			<sentence id="11.193">Selecting previously unselected package libmodule-pluggable-perl.</sentence>
+			<sentence id="11.194">Unpacking libmodule-pluggable-perl (from .../libmodule-pluggable-perl_4.8-1_all.deb) ...</sentence>
+			<sentence id="11.195">Selecting previously unselected package libpod-latex-perl.</sentence>
+			<sentence id="11.196">Unpacking libpod-latex-perl (from .../libpod-latex-perl_0.61-1_all.deb) ...</sentence>
+			<sentence id="11.197">Adding 'diversion of /usr/bin/pod2latex to /usr/bin/pod2latex.</sentence>
+			<sentence id="11.198">bundled by libpod-latex-perl'</sentence>
+			<sentence id="11.199">Adding 'diversion of /usr/share/man/man1/pod2latex.1.</sentence>
+			<sentence id="11.200">gz to /usr/share/man/man1/pod2latex.</sentence>
+			<sentence id="11.201">bundled.1.gz by libpod-latex-perl'</sentence>
+			<sentence id="11.202">Selecting previously unselected package libsasl2-modules:amd64.</sentence>
+			<sentence id="11.203">Unpacking libsasl2-modules:amd64 (from .../libsasl2-modules_2.1.25.</sentence>
+			<sentence id="11.204">dfsg1-17_amd64.</sentence>
+			<sentence id="11.205">deb) ...</sentence>
+			<sentence id="11.206">Selecting previously unselected package libterm-readkey-perl.</sentence>
+			<sentence id="11.207">Unpacking libterm-readkey-perl (from .../libterm-readkey-perl_2.31-1_amd64.deb) ...</sentence>
+			<sentence id="11.208">Selecting previously unselected package libterm-readline-perl-perl.</sentence>
+			<sentence id="11.209">Unpacking libterm-readline-perl-perl (from .../libterm-readline-perl-perl_1.0303-1_all.deb) ...</sentence>
+			<sentence id="11.210">Selecting previously unselected package libterm-ui-perl.</sentence>
+			<sentence id="11.211">Unpacking libterm-ui-perl (from .../libterm-ui-perl_0.38-1_all.deb) ...</sentence>
+			<sentence id="11.212">Selecting previously unselected package libtext-soundex-perl.</sentence>
+			<sentence id="11.213">Unpacking libtext-soundex-perl (from .../libtext-soundex-perl_3.4-1+b1_amd64.</sentence>
+			<sentence id="11.214">deb) ...</sentence>
+			<sentence id="11.215">Selecting previously unselected package init-system-helpers.</sentence>
+			<sentence id="11.216">Unpacking init-system-helpers (from .../init-system-helpers_1.13_all.deb) ...</sentence>
+			<sentence id="11.217">Selecting previously unselected package lighttpd.</sentence>
+			<sentence id="11.218">Unpacking lighttpd (from .../lighttpd_1.4.33-1+nmu2_amd64.</sentence>
+			<sentence id="11.219">deb) ...</sentence>
+			<sentence id="11.220">dpkg: error processing /var/cache/apt/archives/lighttpd_1.4.33-1+nmu2_amd64.</sentence>
+			<sentence id="11.221">deb (--unpack):</sentence>
+			<sentence id="11.222">error creating directory `.</sentence>
+			<sentence id="11.223">/var/log/lighttpd': Input/output error</sentence>
+			<sentence id="11.224">Selecting previously unselected package spawn-fcgi.</sentence>
+			<sentence id="11.225">Unpacking spawn-fcgi (from .../spawn-fcgi_1.6.3-1_amd64.deb) ...</sentence>
+			<sentence id="11.226">Errors were encountered while processing:</sentence>
+			<sentence id="11.227">/var/cache/apt/archives/perl-modules_5.18.1-4_all.deb</sentence>
+			<sentence id="11.228">/var/cache/apt/archives/lighttpd_1.4.33-1+nmu2_amd64.</sentence>
+			<sentence id="11.229">deb</sentence>
+			<sentence id="11.230">E: Directory '/var/log/apt/' missing</sentence>
+			<sentence id="11.231">E: Sub-process /usr/bin/dpkg returned an error code (1)</sentence>
+			<sentence id="11.232">Error build: The command [/bin/sh -c apt-get install -y lighttpd] returned a non-zero code: 100</sentence>
+			<sentence id="11.233">midna ~/dockerfiles/cgit $ /tmp/tdock/docker run -t -i tianon/debian:sid /bin/sh</sentence>
+			<sentence id="11.234"># apt-get</sentence>
+			<sentence id="11.235">apt-get: error while loading shared libraries: /usr/lib/x86_64-linux-gnu/libapt-pkg.</sentence>
+			<sentence id="11.236">so.4.12: invalid ELF header</sentence>
+			<sentence id="11.237">#</sentence>
+			<sentence id="11.238">/bin/sh: 1: Cannot set tty process group (No such process)</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">midna ~/dockerfiles/cgit $ /tmp/tdock/docker info </sentence>
+			<sentence id="12.2">Containers: 5</sentence>
+			<sentence id="12.3">Images: 5</sentence>
+			<sentence id="12.4">Driver: devicemapper</sentence>
+			<sentence id="12.5"> Pool Name: docker-253:0-4286655-pool</sentence>
+			<sentence id="12.6"> Data file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="12.7"> Metadata file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="12.8"> Data Space Used: 723.2 Mb</sentence>
+			<sentence id="12.9"> Data Space Total: 102400.0 Mb</sentence>
+			<sentence id="12.10"> Metadata Space Used: 1.6 Mb</sentence>
+			<sentence id="12.11"> Metadata Space Total: 2048.0 Mb</sentence>
+			<sentence id="12.12">Debug mode (server): true</sentence>
+			<sentence id="12.13">Debug mode (client): false</sentence>
+			<sentence id="12.14">Fds: 10</sentence>
+			<sentence id="12.15">Goroutines: 13</sentence>
+			<sentence id="12.16">LXC Version: 0.9.0.alpha3</sentence>
+			<sentence id="12.17">EventsListeners: 9</sentence>
+			<sentence id="12.18">Kernel Version: 3.8.3</sentence>
+			<sentence id="12.19">WARNING: No memory limit support</sentence>
+			<sentence id="12.20">WARNING: No swap limit support</sentence>
+			<sentence id="12.21">midna ~/dockerfiles/cgit $ /tmp/tdock/docker images -a</sentence>
+			<sentence id="12.22">REPOSITORY TAG IMAGE ID CREATED SIZE</sentence>
+			<sentence id="12.23">&lt;none&gt; &lt;none&gt; 62c247aadabd About a minute ago 30.82 MB (virtual 252.1 MB)</sentence>
+			<sentence id="12.24">&lt;none&gt; &lt;none&gt; 2a1cc2a9e137 About a minute ago 99 MB (virtual 221.3 MB)</sentence>
+			<sentence id="12.25">tianon/debian sid 6bd626a5462b 10 days ago 122.3 MB (virtual 122.3 MB)</sentence>
+			<sentence id="12.26">&lt;none&gt; &lt;none&gt; 5e763de8e9b0 2 weeks ago 0 B</sentence>
+			<sentence id="12.27">&lt;none&gt; &lt;none&gt; 511136ea3c5a 5 months ago 0 B</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">```</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">I tried this multiple times, and I get a different error message every time, but all of them are equally ridiculous and hint towards data corruption.</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Find the daemon debug log file at http://t.zekjur.net/docker.daemon.log</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">Any idea on what goes wrong here?</sentence>
+		</paragraph>
+	</description>
+</bug>

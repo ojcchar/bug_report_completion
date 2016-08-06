@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>899</id>
+	<title>App doesn't catch XML-RPC auth failure</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Steps to reproduce:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">* Login using an application password</sentence>
+			<sentence id="2.2">* Go to https://wordpress.com/settings/security/ and remove that password</sentence>
+			<sentence id="2.3">* All XML-RPC calls will now fail, but you won't be told it's due to an incorrect password (instead you see toasts like, "Posts couldn't be refreshed at this time")</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Note that the log shows the error "E/WordPress-API﹕ NETWORK_XMLRPC - XMLRPC Fault: Incorrect username or password.</sentence>
+			<sentence id="3.2">[code 403]"</sentence>
+		</paragraph>
+	</description>
+</bug>

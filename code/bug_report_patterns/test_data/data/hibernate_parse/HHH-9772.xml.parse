@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9772</id>
+	<title>annotation @ListIndexBase has no runtime retention, so it is not available through AnnotationBinder configuration</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">HHH-8163 replaces old hibernate-specific @IndexColumn annotation by use of JPA annotation @OrderColumn + hibernate-specific @ListIndexBase for list base collection relations of entities.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The ListIndexBase annotation is the only way to set an offset on the list-index position in the collection.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The annotation @ListIndexBase misses the @Retention(RUNTIME) annotation, so ListIndexBase is not available through java reflexion API and hence not available to AnnotationBinder.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">All the List collection are then 0-indexed base collections</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Find here a simplistic fix for this issue.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I have seen some tests taht are using this annotation, but don't know if they need to be updated to reflect this fix.</sentence>
+		</paragraph>
+	</description>
+</bug>

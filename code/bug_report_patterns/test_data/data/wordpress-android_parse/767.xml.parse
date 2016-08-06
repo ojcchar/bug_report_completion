@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>767</id>
+	<title>Run proguard for release builds</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Since the switch to gradle we haven't been running proguard on the release builds.</sentence>
+			<sentence id="1.2">I tried to enable it but ran into some issues with loading local images into a web view, like in the reader detail view where it loads the video play button overlay.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">We will need to make sure all the stuff we want to load from the file system is in the 'assets' folder, or if we want to use images with different densities, exclude the R class from proguard.</sentence>
+		</paragraph>
+	</description>
+</bug>

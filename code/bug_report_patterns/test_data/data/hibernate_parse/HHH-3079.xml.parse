@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3079</id>
+	<title>composite-id, sequence and merge call result in a NullPointerException</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I got problem during the migration process from HB 2 to 3.2.5.</sentence>
+			<sentence id="1.2">We use Oracle as DB, problem happens when calling merge on a persistent entity A.</sentence>
+			<sentence id="1.3">This instance A has a relation (one-to-many) to another entity B, this instance is transient and has a generated id (from an oracle sequence), it has also a one-to-many relation to a third entity C.</sentence>
+			<sentence id="1.4">This last one has a composite id that includes a reverse one-to-many link to B.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Here comes mapping definition, see attached eclipse project sample that runs with an Oracle XE :</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;!-- entity A --&gt;</sentence>
+			<sentence id="3.2">&lt;class name="EventImpl" table="EV_EVENT"&gt;</sentence>
+			<sentence id="3.3">&lt;id column="EVT_ID" name="id" type="java.lang.Long"&gt;</sentence>
+			<sentence id="3.4">&lt;generator class="sequence"&gt;</sentence>
+			<sentence id="3.5">&lt;param name="sequence"&gt;SEQ_EV_ID&lt;/param&gt;</sentence>
+			<sentence id="3.6">&lt;/generator&gt;</sentence>
+			<sentence id="3.7"></id></sentence>
+			<sentence id="3.8">&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&lt;!-- entity B --&gt;</sentence>
+			<sentence id="4.2">&lt;class name="ScheduleImpl" table="EV_SCHEDULE"&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&lt;!-- primary key --&gt;</sentence>
+			<sentence id="5.2">&lt;id column="SCH_ID" name="id" type="java.lang.Long"&gt;</sentence>
+			<sentence id="5.3">&lt;generator class="sequence"&gt;</sentence>
+			<sentence id="5.4">&lt;param name="sequence"&gt;SEQ_EV_ID&lt;/param&gt;</sentence>
+			<sentence id="5.5">&lt;/generator&gt;</sentence>
+			<sentence id="5.6"></id></sentence>
+			<sentence id="5.7">&lt;property column="LAB_ID" name="labId" not-null="true" type="java.lang.Long"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">&lt;set name="scheduleDetails" cascade="all-delete-orphan" lazy="false" inverse="true"&gt;
+ &lt;key column="SCH_ID"/&gt;
+ &lt;one-to-many class="ScheduleDetailImpl"/&gt;
+ &lt;/set&gt; 
+ &lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;!-- entity C --&gt;</sentence>
+			<sentence id="7.2">&lt;class name="ScheduleDetailImpl" table="EV_SCHEDULE_DETAIL"&gt;</sentence>
+			<sentence id="7.3">&lt;!-- Cache directive --&gt;</sentence>
+			<sentence id="7.4">&lt;cache usage="read-write" /&gt;</sentence>
+			<sentence id="7.5">&lt;!-- Composite primary key --&gt;</sentence>
+			<sentence id="7.6">&lt;composite-id name="id" class="ScheduleDetailImplPK"&gt;</sentence>
+			<sentence id="7.7">&lt;key-many-to-one</sentence>
+			<sentence id="7.8">class="com.cegedim.oneup.events.srv.domain.schedule.impl.ScheduleImpl"</sentence>
+			<sentence id="7.9">name="schedule"</sentence>
+			<sentence id="7.10">column="SCH_ID"</sentence>
+			<sentence id="7.11">/&gt;</sentence>
+			<sentence id="7.12">&lt;key-property</sentence>
+			<sentence id="7.13">column="LINE_RNK"</sentence>
+			<sentence id="7.14">name="lineRnk"</sentence>
+			<sentence id="7.15">type="java.lang.Long"</sentence>
+			<sentence id="7.16">/&gt;</sentence>
+			<sentence id="7.17">&lt;/composite-id&gt;</sentence>
+			<sentence id="7.18">&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">When calling merge on A i got this stacktrace, sounds like a bad propagation of the generated B PK during cascading.</sentence>
+			<sentence id="8.2">If i call saveOrUpdate all works fine, the HB2 code was calling the saveOrUpdateCopy and it worked fine.</sentence>
+			<sentence id="8.3">Does anybody got the same issue ?</sentence>
+			<sentence id="8.4">:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Exception in thread "main" java.lang.NullPointerException</sentence>
+			<sentence id="9.2"> at org.hibernate.type.AbstractType.getHashCode(AbstractType.java:112)</sentence>
+			<sentence id="9.3"> at org.hibernate.type.AbstractType.getHashCode(AbstractType.java:120)</sentence>
+			<sentence id="9.4"> at org.hibernate.type.EntityType.getHashCode(EntityType.java:279)</sentence>
+			<sentence id="9.5"> at org.hibernate.type.ComponentType.getHashCode(ComponentType.java:189)</sentence>
+			<sentence id="9.6"> at org.hibernate.engine.EntityKey.generateHashCode(EntityKey.java:104)</sentence>
+			<sentence id="9.7"> at org.hibernate.engine.EntityKey.&lt;init&gt;(EntityKey.java:48)</sentence>
+			<sentence id="9.8"> at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:100)</sentence>
+			<sentence id="9.9"> at org.hibernate.impl.SessionImpl.fireMerge(SessionImpl.java:687)</sentence>
+			<sentence id="9.10"> at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:669)</sentence>
+			<sentence id="9.11"> at org.hibernate.engine.CascadingAction$6.cascade(CascadingAction.java:245)</sentence>
+			<sentence id="9.12"> at org.hibernate.engine.Cascade.cascadeToOne(Cascade.java:268)</sentence>
+			<sentence id="9.13"> at org.hibernate.engine.Cascade.cascadeAssociation(Cascade.java:216)</sentence>
+			<sentence id="9.14"> at org.hibernate.engine.Cascade.cascadeProperty(Cascade.java:169)</sentence>
+			<sentence id="9.15"> at org.hibernate.engine.Cascade.cascadeCollectionElements(Cascade.java:296)</sentence>
+			<sentence id="9.16"> at org.hibernate.engine.Cascade.cascadeCollection(Cascade.java:242)</sentence>
+			<sentence id="9.17"> at org.hibernate.engine.Cascade.cascadeAssociation(Cascade.java:219)</sentence>
+			<sentence id="9.18"> at org.hibernate.engine.Cascade.cascadeProperty(Cascade.java:169)</sentence>
+			<sentence id="9.19"> at org.hibernate.engine.Cascade.cascade(Cascade.java:130)</sentence>
+			<sentence id="9.20"> at org.hibernate.event.def.AbstractSaveEventListener.cascadeAfterSave(AbstractSaveEventListener.java:456)</sentence>
+			<sentence id="9.21"> at org.hibernate.event.def.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:194)</sentence>
+			<sentence id="9.22"> at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:123)</sentence>
+			<sentence id="9.23"> at org.hibernate.impl.SessionImpl.fireMerge(SessionImpl.java:687)</sentence>
+			<sentence id="9.24"> at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:669)</sentence>
+			<sentence id="9.25"> at org.hibernate.engine.CascadingAction$6.cascade(CascadingAction.java:245)</sentence>
+			<sentence id="9.26"> at org.hibernate.engine.Cascade.cascadeToOne(Cascade.java:268)</sentence>
+			<sentence id="9.27"> at org.hibernate.engine.Cascade.cascadeAssociation(Cascade.java:216)</sentence>
+			<sentence id="9.28"> at org.hibernate.engine.Cascade.cascadeProperty(Cascade.java:169)</sentence>
+			<sentence id="9.29"> at org.hibernate.engine.Cascade.cascade(Cascade.java:130)</sentence>
+			<sentence id="9.30"> at org.hibernate.event.def.DefaultMergeEventListener.cascadeOnMerge(DefaultMergeEventListener.java:407)</sentence>
+			<sentence id="9.31"> at org.hibernate.event.def.DefaultMergeEventListener.entityIsPersistent(DefaultMergeEventListener.java:152)</sentence>
+			<sentence id="9.32"> at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:126)</sentence>
+			<sentence id="9.33"> at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:53)</sentence>
+			<sentence id="9.34"> at org.hibernate.impl.SessionImpl.fireMerge(SessionImpl.java:677)</sentence>
+			<sentence id="9.35"> at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:661)</sentence>
+			<sentence id="9.36"> at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:665)</sentence>
+			<sentence id="9.37"> at com.cegedim.oneup.events.srv.domain.Test.testMergeScheduleDetails(Test.java:67)</sentence>
+			<sentence id="9.38"> at com.cegedim.oneup.events.srv.domain.Test.run(Test.java:83)</sentence>
+			<sentence id="9.39"> at com.cegedim.oneup.events.srv.domain.Test.main(Test.java:126) </sentence>
+		</paragraph>
+	</description>
+</bug>

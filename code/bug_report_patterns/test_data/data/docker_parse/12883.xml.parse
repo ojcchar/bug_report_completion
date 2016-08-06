@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12883</id>
+	<title>When is container.UpdateDns ever set to true?</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Reference: https://github.com/docker/docker/blob/d2f0b9ed976987576483387bc919cb7ffbfa38e8/daemon/container.go#L1076</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The reason I ask is because on our docker 1.5.0, `/etc/resolv.</sentence>
+			<sentence id="2.2">conf` is never copied into the container directory.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">### Background Info</sentence>
+			<sentence id="3.2">**Docker Info**</sentence>
+			<sentence id="3.3">```</sentence>
+			<sentence id="3.4">Containers: 3</sentence>
+			<sentence id="3.5">Images: 94</sentence>
+			<sentence id="3.6">Storage Driver: btrfs</sentence>
+			<sentence id="3.7">Execution Driver: native-0.2</sentence>
+			<sentence id="3.8">Kernel Version: 3.10.0-123.</sentence>
+			<sentence id="3.9">el7.x86_64</sentence>
+			<sentence id="3.10">Operating System: CentOS Linux 7 (Core)</sentence>
+			<sentence id="3.11">CPUs: 40</sentence>
+			<sentence id="3.12">Total Memory: 125.7 GiB</sentence>
+			<sentence id="3.13">Name: chi-prod-docker-10.</sentence>
+			<sentence id="3.14">xxxxx.net</sentence>
+			<sentence id="3.15">ID: JIRM:P3MI:F7JI:ASMD:AROJ:PE2N:3H2O:DAYL:52H7:FLCP:ET7J:K2JA</sentence>
+			<sentence id="3.16">```</sentence>
+			<sentence id="3.17">**Docker Version**</sentence>
+			<sentence id="3.18">```</sentence>
+			<sentence id="3.19">Client version: 1.5.0</sentence>
+			<sentence id="3.20">Client API version: 1.17</sentence>
+			<sentence id="3.21">Go version (client): go1.3.3</sentence>
+			<sentence id="3.22">Git commit (client): a8a31ef/1.5.0</sentence>
+			<sentence id="3.23">OS/Arch (client): linux/amd64</sentence>
+			<sentence id="3.24">Server version: 1.5.0</sentence>
+			<sentence id="3.25">Server API version: 1.17</sentence>
+			<sentence id="3.26">Go version (server): go1.3.3</sentence>
+			<sentence id="3.27">Git commit (server): a8a31ef/1.5.0</sentence>
+			<sentence id="3.28">```</sentence>
+			<sentence id="3.29">**rpm -qa | grep docker**</sentence>
+			<sentence id="3.30">```</sentence>
+			<sentence id="3.31">docker-1.5.0-1.</sentence>
+			<sentence id="3.32">el7.x86_64</sentence>
+			<sentence id="3.33">```</sentence>
+			<sentence id="3.34">**uname -a**</sentence>
+			<sentence id="3.35">```</sentence>
+			<sentence id="3.36">Linux chi-prod-docker-10.</sentence>
+			<sentence id="3.37">xxxxx.net 3.10.0-123.</sentence>
+			<sentence id="3.38">el7.x86_64 #1 SMP Mon Jun 30 12:09:22 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+			<sentence id="3.39">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">### Environment details (AWS, VirtualBox, physical, etc.)
+Bare metal.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">### Reproduce Steps</sentence>
+			<sentence id="5.2">1 `watch cat /path/to/docker/containers/{sha}/resolv.conf` It's empty.</sentence>
+			<sentence id="5.3">2 Modify `/etc/resolv.</sentence>
+			<sentence id="5.4">conf` (add a nameserver for example).</sentence>
+			<sentence id="5.5">3 Notice that `/path/to/docker/containers/{sha}/resolv.conf` is still empty.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">### Have we tried to upgrade to Docker 1.6.0?</sentence>
+			<sentence id="6.2">Yes, we have.</sentence>
+			<sentence id="6.3">But Docker 1.6.0 has this blocker bug: https://github.com/docker/docker/issues/12595.</sentence>
+			<sentence id="6.4">That issue is breaking all of our Nagios checks.</sentence>
+		</paragraph>
+	</description>
+</bug>

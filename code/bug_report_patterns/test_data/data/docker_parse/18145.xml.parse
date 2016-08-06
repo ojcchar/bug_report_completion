@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>18145</id>
+	<title>Docker 1.9.1 breaks for custom bridges1.10.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Docker 1.9.1 doesn't assigns ip addresses correctly, including double assignment.</sentence>
+			<sentence id="1.2">Docker 1.9.0 doesn't have the problem.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+ /usr/bin/docker daemon --fixed-cidr=10.10.0.128/25 --bridge=cbr0 --iptables=false --ip-masq=false -H fd://
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+4: cbr0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default 
+ link/ether 08:00:27:62:93:d7 brd ff:ff:ff:ff:ff:ff
+ inet 10.10.0.3/24 brd 10.10.0.255 scope global cbr0
+ valid_lft forever preferred_lft forever
+ inet6 fe80::a00:27ff:fe62:93d7/64 scope link 
+ valid_lft forever preferred_lft forever
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>81807</id>
+	<title>Undo after pasting text leaves formatting behind at cursor</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">After pasting formatted text in Writer, then undoing, the format of the pasted text remains at the cursor</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps to reproduce</sentence>
+			<sentence id="2.2">1 Create two blank documents.</sentence>
+			<sentence id="2.3">In the first document, type "abc".</sentence>
+			<sentence id="2.4">In the second document, type "123", then apply a text highlight to the "123"</sentence>
+			<sentence id="2.5">2 Copy the "123" and paste it in the first document immediately after the "abc"</sentence>
+			<sentence id="2.6">3 Undo</sentence>
+			<sentence id="2.7">4 Type anything</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Result
+The newly typed text will be highlighted.</sentence>
+			<sentence id="3.2">The undo should also reset the format under the cursor</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I typically meet this issue when pasting text, then deciding I should have pasted as unformatted text, undoing, and pasting again as unformatted text - after which the pasted text still has the undesired formatting applied because it had become the current format under the cursor after the first paste</sentence>
+		</paragraph>
+	</description>
+</bug>

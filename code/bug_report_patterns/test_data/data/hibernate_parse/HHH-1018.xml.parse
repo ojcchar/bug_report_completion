@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1018</id>
+	<title>Duplicate insert in join table when calling session.flush() twice</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">see http://forums.hibernate.org/viewtopic.php?t=948463&amp;sid=a1a88b56a4e3062d5443e530e2c00ef4</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">My problem is that when I run the above code, I call flush() twice.</sentence>
+			<sentence id="2.2">The second time I call flush(), it correctly generates an update() statement, but also tries to insert a second identical row in the join table activity_deals, which fails due to a non-unique-key problem.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Why is Hibernate trying to insert the row twice?</sentence>
+			<sentence id="3.2">I've verified that after the first flush(), Activity and Deal are both persistent and have both been inserted into their respective tables, and join table.</sentence>
+		</paragraph>
+	</description>
+</bug>

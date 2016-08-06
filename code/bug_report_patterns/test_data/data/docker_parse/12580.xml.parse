@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12580</id>
+	<title>ADD/COPY file sets host UID/GID values if target directory does not yet exist</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">File copied using ADD/COPY to folder that does not exist in container results in UID:GID for that file set to host values</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">For example, dockerfile</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+FROM fedora:21
+MAINTAINER Xerkus</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">COPY testfile1 /app/</sentence>
+			<sentence id="4.2">COPY testfile2 /app/</sentence>
+			<sentence id="4.3">```</sentence>
+			<sentence id="4.4">results in:</sentence>
+			<sentence id="4.5">```</sentence>
+			<sentence id="4.6">$ docker run -i -t test ls -la /app</sentence>
+			<sentence id="4.7">total 16</sentence>
+			<sentence id="4.8">drwxr-xr-x.</sentence>
+			<sentence id="4.9">2 root root 4096 Apr 20 21:58 .</sentence>
+			<sentence id="4.10">drwxr-xr-x.</sentence>
+			<sentence id="4.11">19 root root 4096 Apr 20 21:58 .</sentence>
+			<sentence id="4.12">.</sentence>
+			<sentence id="4.13">-rw-rw-r--.</sentence>
+			<sentence id="4.14">1 1000 1000 50 Apr 10 04:35 testfile1</sentence>
+			<sentence id="4.15">-rw-rw-r--.</sentence>
+			<sentence id="4.16">1 root root 652 Apr 12 11:21 testfile2</sentence>
+			<sentence id="4.17">```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">If i create `/app` directory first, then uid:gid is 0:0 on both files as expected.</sentence>
+			<sentence id="5.2">Copying folder does not show such behavior and works as expected.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Docker from fedora 21 repo.</sentence>
+			<sentence id="6.2">```
+Client version: 1.5.0
+Client API version: 1.17
+Go version (client): go1.3.3
+Git commit (client): a8a31ef/1.5.0
+OS/Arch (client): linux/amd64
+Server version: 1.5.0
+Server API version: 1.17
+Go version (server): go1.3.3
+Git commit (server): a8a31ef/1.5.0</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Containers: 1</sentence>
+			<sentence id="7.2">Images: 5</sentence>
+			<sentence id="7.3">Storage Driver: devicemapper</sentence>
+			<sentence id="7.4"> Pool Name: docker-8:6-789271-pool</sentence>
+			<sentence id="7.5"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="7.6"> Backing Filesystem: extfs</sentence>
+			<sentence id="7.7"> Data file: /dev/loop0</sentence>
+			<sentence id="7.8"> Metadata file: /dev/loop1</sentence>
+			<sentence id="7.9"> Data Space Used: 588.8 MB</sentence>
+			<sentence id="7.10"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="7.11"> Metadata Space Used: 1.032 MB</sentence>
+			<sentence id="7.12"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="7.13"> Udev Sync Supported: true</sentence>
+			<sentence id="7.14"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="7.15"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="7.16"> Library Version: 1.02.93 (2015-01-30)</sentence>
+			<sentence id="7.17">Execution Driver: native-0.2</sentence>
+			<sentence id="7.18">Kernel Version: 3.19.3-200.fc21.x86_64</sentence>
+			<sentence id="7.19">Operating System: Fedora 21 (Twenty One)</sentence>
+			<sentence id="7.20">CPUs: 8</sentence>
+			<sentence id="7.21">Total Memory: 15.61 GiB</sentence>
+			<sentence id="7.22">Name: laptop</sentence>
+			<sentence id="7.23">ID: TO66:3GBF:AW6R:BVUS:FFND:VKHC:PIA5:2B7E:MKMS:M7PI:UJAC:2CU3</sentence>
+			<sentence id="7.24">Debug mode (server): false</sentence>
+			<sentence id="7.25">Debug mode (client): true</sentence>
+			<sentence id="7.26">Fds: 13</sentence>
+			<sentence id="7.27">Goroutines: 17</sentence>
+			<sentence id="7.28">EventsListeners: 0</sentence>
+			<sentence id="7.29">Init SHA1: 3bce65db65693827790a7e0c4574ff2105c6d5d2</sentence>
+			<sentence id="7.30">Init Path: /usr/libexec/docker/dockerinit</sentence>
+			<sentence id="7.31">Docker Root Dir: /var/lib/docker</sentence>
+			<sentence id="7.32">```</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2834</id>
+	<title>4.1 crash - NPE inflating options menu</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">[Looks like](https://github.com/wordpress-mobile/WordPress-Android/blob/4.1/WordPress/src/main/java/org/wordpress/android/ui/posts/EditPostActivity.java#L357) mTags isn't inflated yet.</sentence>
+			<sentence id="1.2">```</sentence>
+			<sentence id="1.3">java.lang.NullPointerException</sentence>
+			<sentence id="1.4"> at org.wordpress.android.ui.posts.EditPostActivity.onCreateOptionsMenu(EditPostActivity.java:357)</sentence>
+			<sentence id="1.5"> at android.app.Activity.onCreatePanelMenu(Activity.java:2546)</sentence>
+			<sentence id="1.6"> at android.support.v4.app.FragmentActivity.onCreatePanelMenu(FragmentActivity.java:275)</sentence>
+			<sentence id="1.7"> at android.support.v7.app.ActionBarActivity.superOnCreatePanelMenu(ActionBarActivity.java:276)</sentence>
+			<sentence id="1.8"> at android.support.v7.app.ActionBarActivityDelegate$1.onCreatePanelMenu(ActionBarActivityDelegate.java:79)</sentence>
+			<sentence id="1.9"> at android.support.v7.app.ActionBarActivityDelegateBase.preparePanel(ActionBarActivityDelegateBase.java:979)</sentence>
+			<sentence id="1.10"> at android.support.v7.app.ActionBarActivityDelegateBase.doInvalidatePanelMenu(ActionBarActivityDelegateBase.java:1182)</sentence>
+			<sentence id="1.11"> at android.support.v7.app.ActionBarActivityDelegateBase.access$100(ActionBarActivityDelegateBase.java:79)</sentence>
+			<sentence id="1.12"> at android.support.v7.app.ActionBarActivityDelegateBase$1.run(ActionBarActivityDelegateBase.java:118)</sentence>
+			<sentence id="1.13"> at android.os.Handler.handleCallback(Handler.java:733)</sentence>
+			<sentence id="1.14"> at android.os.Handler.dispatchMessage(Handler.java:95)</sentence>
+			<sentence id="1.15"> at android.os.Looper.loop(Looper.java:136)</sentence>
+			<sentence id="1.16"> at android.app.ActivityThread.main(ActivityThread.java:5097)</sentence>
+			<sentence id="1.17"> at java.lang.reflect.Method.invokeNative(Method.java)</sentence>
+			<sentence id="1.18"> at java.lang.reflect.Method.invoke(Method.java:515)</sentence>
+			<sentence id="1.19"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:785)</sentence>
+			<sentence id="1.20"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:601)</sentence>
+			<sentence id="1.21"> at dalvik.system.NativeStart.main(NativeStart.java)</sentence>
+			<sentence id="1.22">```</sentence>
+		</paragraph>
+	</description>
+</bug>

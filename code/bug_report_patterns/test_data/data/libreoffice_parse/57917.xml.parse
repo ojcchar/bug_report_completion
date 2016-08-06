@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>57917</id>
+	<title>--enable-ext-oooblogger does not work with Python 3</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">With LO 4 now using Python 3 by default, in an installation set built with --enable-ext-oooblogger, starting soffice for the first time (i.e., causing registration of bundled extensions) reports Python exceptions from registering the oooblogger extension (see below), and "Tools - Extension Manager..." lists the "Metaweblog support 0.1" extension as broken ("Error: The status of this extension is unknown").</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The easiest fix is probably to remove --enable-ext-oooblogger functionality completely, esp.</sentence>
+			<sentence id="2.2">since even distro-configs/OxygenOffice{Linux,Win32}.</sentence>
+			<sentence id="2.3">conf explicitly --disable-ext-oooblogger.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The list of problems contains, but is likely not limited to:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&gt; Python exception: &lt;class 'TabError'&gt;: inconsistent use of tabs and spaces in indentation (oooblogger.py, line 143), traceback follows
+&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.</sentence>
+			<sentence id="4.2">py:99 in function getModuleFromUrl() [codeobject = compile( src, encfile(filename), "exec" )]
+&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.</sentence>
+			<sentence id="4.3">py:146 in function writeRegistryInfo() [mod = self.getModuleFromUrl( locationUrl )]</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&gt; Python exception: &lt;class 'SyntaxError'&gt;: invalid syntax (oooblogger.py, line 151), traceback follows
+&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.</sentence>
+			<sentence id="5.2">py:99 in function getModuleFromUrl() [codeobject = compile( src, encfile(filename), "exec" )]
+&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.</sentence>
+			<sentence id="5.3">py:146 in function writeRegistryInfo() [mod = self.getModuleFromUrl( locationUrl )]</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">&gt; Python exception: &lt;class 'SyntaxError'&gt;: invalid token (oooblogger.py, line 868), traceback follows
+&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.</sentence>
+			<sentence id="6.2">py:99 in function getModuleFromUrl() [codeobject = compile( src, encfile(filename), "exec" )]
+&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.</sentence>
+			<sentence id="6.3">py:146 in function writeRegistryInfo() [mod = self.getModuleFromUrl( locationUrl )]</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&gt; Python exception: &lt;class 'ImportError'&gt;: No module named 'xmlrpclib', traceback follows</sentence>
+			<sentence id="7.2">&gt;   lo/core/solver/unxlngx6/installation/opt/program/uno.py:265 in function _uno_import() [return _g_delegatee( name, *optargs, **kwargs )]</sentence>
+			<sentence id="7.3">&gt;   lo/core/solver/unxlngx6/installation/opt/share/extensions/oooblogger/oooblogger.py:12 in function &lt;module&gt;() [import xmlrpclib, tempfile, urllib, urllib2, base64, httplib]</sentence>
+			<sentence id="7.4">&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.py:100 in function getModuleFromUrl() [exec(codeobject, mod.__dict__)]</sentence>
+			<sentence id="7.5">&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.py:146 in function writeRegistryInfo() [mod = self.getModuleFromUrl( locationUrl )]</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">&gt; Python exception: &lt;class 'ImportError'&gt;: No module named 'urllib2', traceback follows</sentence>
+			<sentence id="8.2">&gt;   lo/core/solver/unxlngx6/installation/opt/program/uno.py:265 in function _uno_import() [return _g_delegatee( name, *optargs, **kwargs )]</sentence>
+			<sentence id="8.3">&gt;   lo/core/solver/unxlngx6/installation/opt/share/extensions/oooblogger/oooblogger.py:12 in function &lt;module&gt;() [import xmlrpc.client, tempfile, urllib, urllib2, base64, httplib]</sentence>
+			<sentence id="8.4">&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.py:100 in function getModuleFromUrl() [exec(codeobject, mod.__dict__)]</sentence>
+			<sentence id="8.5">&gt;   lo/core/solver/unxlngx6/installation/opt/program/pythonloader.py:146 in function writeRegistryInfo() [mod = self.getModuleFromUrl( locationUrl )]</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>20731</id>
+	<title>Failed to build from source on Debian armhf</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">scaleway.com host
+Debian stretch/sid **armhf**
+Linux xx 4.1.6-249 #1 SMP Mon Aug 31 12:34:47 UTC 2015 armv7l GNU/Linux
+gcc version 5.3.1 20160220 (Debian 5.3.1-9)
+go version go1.5.3 linux/arm</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Debian has `docker.io` package 1.8.3~ds1-2:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+docker version
+Client:
+ Version: 1.8.3
+ API version: 1.20
+ Go version: go1.5.1
+ Git commit: f4bf5c7
+ Built: 
+ OS/Arch: linux/arm</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Server:
+ Version: 1.8.3
+ API version: 1.20
+ Go version: go1.5.1
+ Git commit: f4bf5c7
+ Built: 
+ OS/Arch: linux/arm
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+docker info
+Containers: 10
+Images: 70
+Storage Driver: overlay
+ Backing Filesystem: extfs
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 4.1.6-249
+Operating System: Debian GNU/Linux stretch/sid (containerized)
+CPUs: 4
+Total Memory: 1.975 GiB
+Name: 
+ID: EQRH:RQQ7:CKZN:KXGB:TML2:6462:C5X2:7FOT:OMTC:HTTT:DKMG:BJCC
+Username: rtsisyk
+Registry: https://index.docker.io/v1/
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I want to upgrade to the latest version (1.10 or newer), because Debian package has troubles when work with the Docker Hub registry.</sentence>
+			<sentence id="6.2">I was unable to find armhf packages, so I tried to build them on locally.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">First of all, I tried ```docker build -t docker -f Dockerfile.armhf .</sentence>
+			<sentence id="7.2">```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">The build failed on RUN .</sentence>
+			<sentence id="8.2">/contrib/download-frozen-image-v2.sh:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">```</sentence>
+			<sentence id="9.2">Step 31 : RUN ln -sv $PWD/contrib/completion/bash/docker /etc/bash_completion.d/docker</sentence>
+			<sentence id="9.3">---&gt; Using cache</sentence>
+			<sentence id="9.4">---&gt; 5bf03fd6aafd</sentence>
+			<sentence id="9.5">Step 32 : COPY contrib/download-frozen-image-v2.sh /go/src/github.</sentence>
+			<sentence id="9.6">com/docker/docker/contrib/</sentence>
+			<sentence id="9.7">---&gt; Using cache</sentence>
+			<sentence id="9.8">---&gt; 170fee5e0ab3</sentence>
+			<sentence id="9.9">Step 33 : RUN .</sentence>
+			<sentence id="9.10">/contrib/download-frozen-image-v2.sh /docker-frozen-images armhf/buildpack-deps:jessie@sha256:ca6cce8e5bf5c952129889b5cc15cd6aa8d995d77e55e3749bbaadae50e476cb armhf/busybox:latest@sha256:d98a7343ac750ffe387e3d514f8521ba69846c216778919b01414b8617cfb3d4 armhf/debian:jessie@sha256:4a2187483f04a84f9830910fe3581d69b3c985cc045d9f01d8e2f3795b28107b armhf/hello-world:latest@sha256:161dcecea0225975b2ad5f768058212c1e0d39e8211098666ffa1ac74cfb7791</sentence>
+			<sentence id="9.11">---&gt; Running in 4f11a2035e92</sentence>
+			<sentence id="9.12">error: /v2/armhf/buildpack-deps/manifests/sha256:ca6cce8e5bf5c952129889b5cc15cd6aa8d995d77e55e3749bbaadae50e476cb returned something unexpected:</sentence>
+			<sentence id="9.13">&lt;html&gt;&lt;body&gt;&lt;h1&gt;408 Request Time-out&lt;/h1&gt;</sentence>
+			<sentence id="9.14">Your browser didn't send a complete request in time.</sentence>
+			<sentence id="9.15">&lt;/body&gt;&lt;/html&gt;</sentence>
+			<sentence id="9.16">The command '/bin/sh -c .</sentence>
+			<sentence id="9.17">/contrib/download-frozen-image-v2.sh /docker-frozen-images armhf/buildpack-deps:jessie@sha256:ca6cce8e5bf5c952129889b5cc15cd6aa8d995d77e55e3749bbaadae50e476cb armhf/busybox:latest@sha256:d98a7343ac750ffe387e3d514f8521ba69846c216778919b01414b8617cfb3d4 armhf/debian:jessie@sha256:4a2187483f04a84f9830910fe3581d69b3c985cc045d9f01d8e2f3795b28107b armhf/hello-world:latest@sha256:161dcecea0225975b2ad5f768058212c1e0d39e8211098666ffa1ac74cfb7791' returned a non-zero code: 1</sentence>
+			<sentence id="9.18">```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">IMHO, it was worse idea to require Docker to build Docker.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Next, I installed Go and all dependencies on my host using `apt-get build-dep docker.io` and tried to build Docker without Docker:</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">```
+myhost# AUTO_GOPATH=1 .</sentence>
+			<sentence id="12.2">/hack/make.</sentence>
+			<sentence id="12.3">sh</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">[CUT]</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">---&gt; Making bundle: binary (in bundles/1.11.0-dev/binary)</sentence>
+			<sentence id="14.2">Building: bundles/1.11.0-dev/binary/docker-1.11.0-dev</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1"># _/home/roman/docker/docker
+/usr/lib/go/pkg/tool/linux_arm/link: running gcc failed: exit status 1
+/usr/bin/ld: cannot find -ldevmapper
+/usr/bin/ld: cannot find -ldevmapper
+collect2: error: ld returned 1 exit status
+```</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">```
+lrwxrwxrwx 1 root root 56 Feb 20 13:43 /usr/lib/arm-linux-gnueabihf/libdevmapper-event-lvm2.</sentence>
+			<sentence id="16.2">so -&gt; /lib/arm-linux-gnueabihf/libdevmapper-event-lvm2.</sentence>
+			<sentence id="16.3">so.2.02
+lrwxrwxrwx 1 root root 53 Feb 20 13:43 /usr/lib/arm-linux-gnueabihf/libdevmapper-event.</sentence>
+			<sentence id="16.4">so -&gt; /lib/arm-linux-gnueabihf/libdevmapper-event.</sentence>
+			<sentence id="16.5">so.1.02.1
+lrwxrwxrwx 1 root root 47 Feb 20 13:43 /usr/lib/arm-linux-gnueabihf/libdevmapper.so -&gt; /lib/arm-linux-gnueabihf/libdevmapper.</sentence>
+			<sentence id="16.6">so.1.02.1
+```</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">```
+dpkg --get-selections|grep devmapper
+libdevmapper-dev:armhf install
+libdevmapper-event1.02.1:armhf install
+libdevmapper1.02.1:armhf install
+```</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">How I can install Docker on my Debian?</sentence>
+		</paragraph>
+	</description>
+</bug>

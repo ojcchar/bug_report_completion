@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8173</id>
+	<title>AvailableSettings constants for javax.persistence.schema-generation contain space</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">None of these settings work, remove the whitespace at the end of the string.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}
+public static final String SCHEMA_GEN_CREATE_SOURCE = "javax.persistence.schema-generation.</sentence>
+			<sentence id="2.2">create-source ";
+public static final String SCHEMA_GEN_DROP_SOURCE = "javax.persistence.schema-generation.</sentence>
+			<sentence id="2.3">drop-source ";
+public static final String SCHEMA_GEN_CREATE_SCRIPT_SOURCE = "javax.persistence.schema-generation.</sentence>
+			<sentence id="2.4">create-script-source ";
+public static final String SCHEMA_GEN_DROP_SCRIPT_SOURCE = "javax.persistence.schema-generation.</sentence>
+			<sentence id="2.5">drop-script-source ";
+{code}</sentence>
+		</paragraph>
+	</description>
+</bug>

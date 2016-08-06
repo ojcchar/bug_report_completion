@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-6546</id>
+	<title>Properties annotated with ColumnTransformer will force table scans when included in where clauses</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have a column annotated with a ColumnTransformer as such:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}
+ @ColumnTransformer(read = "AES_DECRYPT(UNHEX(secret), 'password')", write = "HEX(AES_ENCRYPT(?</sentence>
+			<sentence id="2.2">, 'password'))")
+ private String secret;
+{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">If I use this column in a query then the following where predicate is generated:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">{code}
+where AES_DECRYPT(UNHEX(webuser0_.</sentence>
+			<sentence id="4.2">secret), 'password')=?</sentence>
+			<sentence id="4.3">{code}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This where is guaranteed to run a full table scan and execute the decrypt &amp; hex functions on every column.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">It would be better if the generated SQL were as follows:
+{code}
+where webuser0_.</sentence>
+			<sentence id="6.2">secret=HEX(AES_ENCRYPT(?</sentence>
+			<sentence id="6.3">, 'password'))
+{code}</sentence>
+		</paragraph>
+	</description>
+</bug>

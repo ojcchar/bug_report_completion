@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>20638</id>
+	<title>Exec start kills daemon with nil reference1.10.3</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Full stacktrace: https://gist.github.com/KostyaSha/849a2f21e017b7099685</sentence>
+			<sentence id="1.2">Piece of trace: </sentence>
+			<sentence id="1.3">```</sentence>
+			<sentence id="1.4">time="2016-02-23T23:24:49.983175708Z" level=debug msg="starting exec command 32872f2d97a44f6eb05f5051ba57ed4aebb6e44186dffd4e27165e97b6035d22 in container 9b8572202459e502251a08520102da2f17c2ec701279602b515a833b7468537c"</sentence>
+			<sentence id="1.5">time="2016-02-23T23:24:49.985347690Z" level=debug msg="attach: stdin: begin"</sentence>
+			<sentence id="1.6">time="2016-02-23T23:24:49.985669491Z" level=debug msg="Closing buffered stdin pipe"</sentence>
+			<sentence id="1.7">panic: runtime error: invalid memory address or nil pointer dereference</sentence>
+			<sentence id="1.8">[signal 0xb code=0x1 addr=0x20 pc=0x6b32e3]</sentence>
+			<sentence id="1.9">```</sentence>
+			<sentence id="1.10">docker-toolbox: `1.10.1-1.10.2`</sentence>
+			<sentence id="1.11">docker-version: </sentence>
+			<sentence id="1.12">```</sentence>
+			<sentence id="1.13">Client:</sentence>
+			<sentence id="1.14"> Version: 1.10.2</sentence>
+			<sentence id="1.15"> API version: 1.22</sentence>
+			<sentence id="1.16"> Go version: go1.5.3</sentence>
+			<sentence id="1.17"> Git commit: c3959b1</sentence>
+			<sentence id="1.18"> Built: Mon Feb 22 22:37:33 2016</sentence>
+			<sentence id="1.19"> OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Server:</sentence>
+			<sentence id="2.2">Version: 1.10.2</sentence>
+			<sentence id="2.3">API version: 1.22</sentence>
+			<sentence id="2.4">Go version: go1.5.3</sentence>
+			<sentence id="2.5">Git commit: c3959b1</sentence>
+			<sentence id="2.6">Built: Mon Feb 22 22:37:33 2016</sentence>
+			<sentence id="2.7">OS/Arch: linux/amd64</sentence>
+			<sentence id="2.8">```</sentence>
+			<sentence id="2.9">Localised example.</sentence>
+			<sentence id="2.10">Steps to reproduce:</sentence>
+			<sentence id="2.11">1 `docker run -itd busybox cat`</sentence>
+			<sentence id="2.12">2</sentence>
+			<sentence id="2.13">```</sentence>
+			<sentence id="2.14">curl --cert cert.pem --key key.pem --cacert ca.pem \</sentence>
+			<sentence id="2.15">https://192.168.99.100:2376/containers/${CONTAINER_ID}/exec \</sentence>
+			<sentence id="2.16">-H "Content-Type: application/json" \</sentence>
+			<sentence id="2.17">-X POST \</sentence>
+			<sentence id="2.18">--data @exec.</sentence>
+			<sentence id="2.19">json</sentence>
+			<sentence id="2.20">```</sentence>
+			<sentence id="2.21">exec.json:</sentence>
+			<sentence id="2.22">```</sentence>
+			<sentence id="2.23">{</sentence>
+			<sentence id="2.24">"AttachStderr": true,</sentence>
+			<sentence id="2.25">"AttachStdin": true,</sentence>
+			<sentence id="2.26">"AttachStdout": true,</sentence>
+			<sentence id="2.27">"Cmd": [</sentence>
+			<sentence id="2.28">"/bin/bash",</sentence>
+			<sentence id="2.29">"-cxe",</sentence>
+			<sentence id="2.30">"cat &lt;&lt; EOF &gt; /tmp/config.</sentence>
+			<sentence id="2.31">sh.tmp &amp;&amp; cd /tmp &amp;&amp; mv config.sh.tmp config.sh</sentence>
+			<sentence id="2.32">sdf</sentence>
+			<sentence id="2.33">EOF</sentence>
+			<sentence id="2.34">"</sentence>
+			<sentence id="2.35">]</sentence>
+			<sentence id="2.36">}</sentence>
+			<sentence id="2.37">```</sentence>
+			<sentence id="2.38">3</sentence>
+			<sentence id="2.39">```</sentence>
+			<sentence id="2.40">curl --cert cert.pem --key key.pem --cacert ca.pem \</sentence>
+			<sentence id="2.41">https://192.168.99.100:2376/exec/${EXEC_ID}/start \</sentence>
+			<sentence id="2.42">-H "Content-Type: application/json" \</sentence>
+			<sentence id="2.43">-X POST \</sentence>
+			<sentence id="2.44">--data @start.</sentence>
+			<sentence id="2.45">json</sentence>
+			<sentence id="2.46">```</sentence>
+			<sentence id="2.47">`start.json`:</sentence>
+			<sentence id="2.48">```</sentence>
+			<sentence id="2.49">{</sentence>
+			<sentence id="2.50">"Detach": true,</sentence>
+			<sentence id="2.51">"Tty": true</sentence>
+			<sentence id="2.52">}</sentence>
+			<sentence id="2.53">```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Combination may be crazy, but i expect that daemon should survive.</sentence>
+		</paragraph>
+	</description>
+</bug>

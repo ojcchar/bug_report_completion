@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>OTHER-5</id>
+	<title>Automated Error Report: NPE in Appointment Module search</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Version: 1.8.2 Build 21762
+Implementation ID: 
+User ID: admin
+Started Modules: appointment v1.0.5, serialization.xstream v0.2.5, logic v0.5, accesslogging v1.1.5, reporting v0.6.1, messaging v0.9.0-beta, htmlformentry v1.7.3, xforms v4.0.4, reportingcompatibility v1.5.4.1, formentry v4.5.9.2, htmlwidgets v1.5.6.2</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Summary:
+java.lang.NullPointerException</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Description:</sentence>
+			<sentence id="3.2">Stack trace:</sentence>
+			<sentence id="3.3">org.openmrs.module.appointment.web.controller.AppointmentSearchController.handleRequestInternal(AppointmentSearchController.java:90)</sentence>
+			<sentence id="3.4">	at [ignored] ...</sentence>
+			<sentence id="3.5">javax.servlet.http.HttpServlet.service(HttpServlet.java:617)</sentence>
+			<sentence id="3.6">javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+			<sentence id="3.7">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+			<sentence id="3.8">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.9">org.openmrs.module.web.filter.ForcePasswordChangeFilter.doFilter(ForcePasswordChangeFilter.java:65)</sentence>
+			<sentence id="3.10">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.11">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.12">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+			<sentence id="3.13">org.openmrs.module.xforms.web.XformsFilter.doFilter(XformsFilter.java:60)</sentence>
+			<sentence id="3.14">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:74)</sentence>
+			<sentence id="3.15">org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+			<sentence id="3.16">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.17">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.18">org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:112)</sentence>
+			<sentence id="3.19">	at [ignored] ...</sentence>
+			<sentence id="3.20">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.21">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.22">	at [ignored] ...</sentence>
+			<sentence id="3.23">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.24">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.25">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="3.26">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.27">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.28">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="3.29">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.30">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.31">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="3.32">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.33">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.34">	at [ignored] ...</sentence>
+			<sentence id="3.35">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.36">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.37">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+			<sentence id="3.38">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</sentence>
+			<sentence id="3.39">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</sentence>
+			<sentence id="3.40">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+			<sentence id="3.41">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+			<sentence id="3.42">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:298)</sentence>
+			<sentence id="3.43">org.apache.coyote.http11.Http11AprProcessor.process(Http11AprProcessor.java:861)</sentence>
+			<sentence id="3.44">org.apache.coyote.http11.Http11AprProtocol$Http11ConnectionHandler.process(Http11AprProtocol.java:579)</sentence>
+			<sentence id="3.45">org.apache.tomcat.util.net.AprEndpoint$Worker.run(AprEndpoint.java:1584)</sentence>
+			<sentence id="3.46">java.lang.Thread.run(Unknown Source)</sentence>
+		</paragraph>
+	</description>
+</bug>

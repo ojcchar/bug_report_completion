@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2578</id>
+	<title>Should runtime -p &lt;port&gt; override Dockerfile EXPOSE settings?</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi folks,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Apologies if this question has already been asked; I'm aware with the release of 0.6.5 and the breaking changes it introduced in this area there are numerous issues around the subject but none quite seem to explain what I'm experiencing.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">(FYI this issue discusses a combination of Dockerfiles which can be viewed at [makeusabrew/nodeflakes#feature/docker](https://github.com/makeusabrew/nodeflakes/tree/feature/docker/docker).)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I have a [Dockerfile](https://github.com/makeusabrew/nodeflakes/blob/feature/docker/docker/server/Dockerfile) which EXPOSEs port 5556.</sentence>
+			<sentence id="4.2">I consider this port 'internal' to the image's configuration; it's not something which I want a user at container runtime to have to worry about.</sentence>
+			<sentence id="4.3">This container (A) is intended to be passed as a `-link` when starting another [container](https://github.com/makeusabrew/nodeflakes/blob/feature/docker/docker/processor/Dockerfile) (B) which can then interrogate the relevant ENV var to get the details of A as per your docs &amp; redis example on linking.</sentence>
+			<sentence id="4.4">So far so good, and indeed `docker port &lt;A&gt; 5556` yields '5556'.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The problem comes if I run the container like so:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">`docker run -p 7979:7979 makeusabrew/nodeflakes/server`</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">At which point, my previously EXPOSEd port no longer works, and sure enough `docker port &lt;A&gt; 5556` yields '2013/11/06 19:15:44 Error: No private port '5556' allocated on A'</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">From all the reading I've done about the changes in 0.6.5, EXPOSE is predominantly meant for internal services and is exploited by linking containers.</sentence>
+			<sentence id="8.2">A runtime -p should still map a private port to the host (either a random or pre-determined host port), so I'm unsure why passing -p "overwrites" my EXPOSE setting.</sentence>
+			<sentence id="8.3">In my use case 5556 is a ZeroMQ port I, as a 'user' of this image don't care about, whereas 7979 is a web socket port I *do* care about mapping so that I can consistently connect to it on my local host environment.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I can circumvent the issue by running:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">`docker run -p 7979:7979 -expose 5556 makeusabrew/nodeflakes/server`</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">But this feels like as a user of this image I have to 'know' too much about its internals and of course if I get the -expose port wrong my app won't work (since another part of it looks for the SERVER_PORT_5556_* env vars).</sentence>
+			<sentence id="11.2">Granted if the user gets the private part of the -p remapping wrong things won't work either, but that's a part of the app they *should* configure so they can remap it to their host environment.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Sorry for such a lengthy report - I just can't quite get my head around why a runtime -p nukes my preconfigured EXPOSE.</sentence>
+			<sentence id="12.2">If this is desired behaviour I'd really appreciate a pointer (even to docs / another issue) as to why as clearly my mental model isn't quite right and renders my EXPOSE redundant when needing to remap another unrelated port to my host system.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Thanks for all the great work and double thanks for making it this far!</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Nick</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>30524</id>
+	<title>BASIC macro language is crippled.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Perhaps this can be fixed.</sentence>
+			<sentence id="1.2">Here's a script that looks like it should work, but it doesn't:
+========================
+function cell(sht,x,y)
+   cell = ThisComponent.Sheets.getByName(sht).</sentence>
+			<sentence id="1.3">getCellByPosition(x,y)
+end function</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">function simple(arg)
+   '' Just returns the arg
+   simple = arg
+end function</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">function call_it(fn)
+   call_it = fn("Hello!")</sentence>
+			<sentence id="3.2">end function</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">sub main
+   cell("Sheet1",0,0).</sentence>
+			<sentence id="4.2">String = call_it(simple)
+end sub
+=========================</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">When the "main" macro is run, the script fails while evaluating SIMPLE, complaining that "arg is not optional".</sentence>
+		</paragraph>
+	</description>
+</bug>

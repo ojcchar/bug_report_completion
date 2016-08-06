@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>23958</id>
+	<title>getting shim error: open pid: no such file or directory after upgrade to 1.12.0-rc21.12.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">&lt;!</sentence>
+			<sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+			<sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+			<sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+			<sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+			<sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">---------------------------------------------------</sentence>
+			<sentence id="4.2">BUG REPORT INFORMATION</sentence>
+			<sentence id="4.3">---------------------------------------------------</sentence>
+			<sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+			<sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+			<sentence id="4.6">--&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+Client:
+ Version: 1.12.0-rc2
+ API version: 1.24
+ Go version: go1.6.2
+ Git commit: 906eacd
+ Built: Fri Jun 17 21:02:41 2016
+ OS/Arch: linux/amd64
+ Experimental: true</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:
+ Version: 1.12.0-rc2
+ API version: 1.24
+ Go version: go1.6.2
+ Git commit: 906eacd
+ Built: Fri Jun 17 21:02:41 2016
+ OS/Arch: linux/amd64
+ Experimental: true
+```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">**Output of `docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">```</sentence>
+			<sentence id="9.2"># docker info</sentence>
+			<sentence id="9.3">Containers: 3</sentence>
+			<sentence id="9.4"> Running: 0</sentence>
+			<sentence id="9.5"> Paused: 0</sentence>
+			<sentence id="9.6"> Stopped: 3</sentence>
+			<sentence id="9.7">Images: 11</sentence>
+			<sentence id="9.8">Server Version: 1.12.0-rc2</sentence>
+			<sentence id="9.9">Storage Driver: aufs</sentence>
+			<sentence id="9.10"> Root Dir: /var/lib/docker/aufs</sentence>
+			<sentence id="9.11"> Backing Filesystem: extfs</sentence>
+			<sentence id="9.12"> Dirs: 108</sentence>
+			<sentence id="9.13"> Dirperm1 Supported: true</sentence>
+			<sentence id="9.14">Logging Driver: json-file</sentence>
+			<sentence id="9.15">Cgroup Driver: cgroupfs</sentence>
+			<sentence id="9.16">Plugins:</sentence>
+			<sentence id="9.17"> Volume: local</sentence>
+			<sentence id="9.18"> Network: overlay bridge host null</sentence>
+			<sentence id="9.19">Swarm: inactive</sentence>
+			<sentence id="9.20">Runtimes: default</sentence>
+			<sentence id="9.21">Default Runtime: default</sentence>
+			<sentence id="9.22">Security Options: apparmor seccomp</sentence>
+			<sentence id="9.23">Kernel Version: 3.19.0-26-generic</sentence>
+			<sentence id="9.24">Operating System: Ubuntu 14.04.3 LTS</sentence>
+			<sentence id="9.25">OSType: linux</sentence>
+			<sentence id="9.26">Architecture: x86_64</sentence>
+			<sentence id="9.27">CPUs: 1</sentence>
+			<sentence id="9.28">Total Memory: 993.2 MiB</sentence>
+			<sentence id="9.29">Name: dev1</sentence>
+			<sentence id="9.30">ID: OXRP:6VZL:PLXK:Y7SU:EFEI:2KF5:PILP:UKXH:35MK:CUC6:VOP4:G75Q</sentence>
+			<sentence id="9.31">Docker Root Dir: /var/lib/docker</sentence>
+			<sentence id="9.32">Debug Mode (client): false</sentence>
+			<sentence id="9.33">Debug Mode (server): true</sentence>
+			<sentence id="9.34"> File Descriptors: 17</sentence>
+			<sentence id="9.35"> Goroutines: 23</sentence>
+			<sentence id="9.36"> System Time: 2016-06-25T10:28:58.030664381-07:00</sentence>
+			<sentence id="9.37"> EventsListeners: 0</sentence>
+			<sentence id="9.38">Username: nicolaka</sentence>
+			<sentence id="9.39">Registry: https://index.docker.io/v1/</sentence>
+			<sentence id="9.40">WARNING: No swap limit support</sentence>
+			<sentence id="9.41">Experimental: true</sentence>
+			<sentence id="9.42">Insecure Registries:</sentence>
+			<sentence id="9.43"> 127.0.0.0/8</sentence>
+			<sentence id="9.44">```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">vagrant using virtualbox with ubuntu image</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="12.2">1 Upgrade from 1.11.2 to 1.12.0-rc2</sentence>
+			<sentence id="12.3">2</sentence>
+			<sentence id="12.4">3</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">**Describe the results you received:**</sentence>
+			<sentence id="13.2">```</sentence>
+			<sentence id="13.3"># docker run -itd busybox</sentence>
+			<sentence id="13.4">790841c4aa872069125e072f8afadc3e64b9e4db1632972984710a5161a7373a</sentence>
+			<sentence id="13.5">docker: Error response from daemon: shim error: open pid: no such file or directory.</sentence>
+			<sentence id="13.6">root@dev1:/home/vagrant# tail /var/log/upstart/docker.log</sentence>
+			<sentence id="13.7">time="2016-06-25T10:23:11.950408524-07:00" level=debug msg="Assigning addresses for endpoint furious_payne's interface on network bridge"</sentence>
+			<sentence id="13.8">time="2016-06-25T10:23:11.950968858-07:00" level=debug msg="RequestAddress(LocalDefault/2001:db8:cafe:1::/64, 2001:db8:cafe:1:0:242:ac11:2, map[])"</sentence>
+			<sentence id="13.9">time="2016-06-25T10:23:11.971242081-07:00" level=debug msg="Programming external connectivity on endpoint furious_payne (5601d3a1076057b06f59e66427280d223e2cd100add9ae2e0b8a28e3f6780fc9)"</sentence>
+			<sentence id="13.10">ERRO[0006] containerd: start container error=shim error: open pid: no such file or directory id=790841c4aa872069125e072f8afadc3e64b9e4db1632972984710a5161a7373a</sentence>
+			<sentence id="13.11">time="2016-06-25T10:23:12.011882294-07:00" level=error msg="Create container failed with error: shim error: open pid: no such file or directory"</sentence>
+			<sentence id="13.12">time="2016-06-25T10:23:12.014067070-07:00" level=debug msg="Revoking external connectivity on endpoint furious_payne (5601d3a1076057b06f59e66427280d223e2cd100add9ae2e0b8a28e3f6780fc9)"</sentence>
+			<sentence id="13.13">time="2016-06-25T10:23:12.035810308-07:00" level=debug msg="Releasing addresses for endpoint furious_payne's interface on network bridge"</sentence>
+			<sentence id="13.14">time="2016-06-25T10:23:12.035843643-07:00" level=debug msg="ReleaseAddress(LocalDefault/172.17.0.0/16, 172.17.0.2)"</sentence>
+			<sentence id="13.15">time="2016-06-25T10:23:12.035870020-07:00" level=debug msg="ReleaseAddress(LocalDefault/2001:db8:cafe:1::/64, 2001:db8:cafe:1:0:242:ac11:2)"</sentence>
+			<sentence id="13.16">time="2016-06-25T10:23:12.041521634-07:00" level=error msg="Handler for POST /v1.24/containers/790841c4aa872069125e072f8afadc3e64b9e4db1632972984710a5161a7373a/start returned error: shim error: open pid: no such file or directory"</sentence>
+			<sentence id="13.17">```</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">This also happened when i upgraded to 1.11.</sentence>
+			<sentence id="15.2">I think it could be related to apparmor but I disabled the `docker` apparmor profile with same results:</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">```</sentence>
+			<sentence id="16.2"># apparmor_status</sentence>
+			<sentence id="16.3">apparmor module is loaded.</sentence>
+			<sentence id="16.4">5 profiles are loaded.</sentence>
+			<sentence id="16.5">5 profiles are in enforce mode.</sentence>
+			<sentence id="16.6"> /sbin/dhclient</sentence>
+			<sentence id="16.7"> /usr/lib/NetworkManager/nm-dhcp-client.action</sentence>
+			<sentence id="16.8"> /usr/lib/connman/scripts/dhclient-script</sentence>
+			<sentence id="16.9"> /usr/sbin/ntpd</sentence>
+			<sentence id="16.10"> docker-default &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</sentence>
+			<sentence id="16.11">0 profiles are in complain mode.</sentence>
+			<sentence id="16.12">2 processes have profiles defined.</sentence>
+			<sentence id="16.13">2 processes are in enforce mode.</sentence>
+			<sentence id="16.14"> /sbin/dhclient (1451)</sentence>
+			<sentence id="16.15"> /usr/sbin/ntpd (5171)</sentence>
+			<sentence id="16.16">0 processes are in complain mode.</sentence>
+			<sentence id="16.17">0 processes are unconfined but have a profile defined.</sentence>
+			<sentence id="16.18"># ln -s /etc/apparmor.d/docker</sentence>
+			<sentence id="16.19">docker docker-engine</sentence>
+			<sentence id="16.20"># ln -s /etc/apparmor.d/docker /etc/apparmor.d/disable/</sentence>
+			<sentence id="16.21"># apparmor_parser -R /etc/apparmor.d/docker</sentence>
+			<sentence id="16.22"># aa-status</sentence>
+			<sentence id="16.23">apparmor module is loaded.</sentence>
+			<sentence id="16.24">4 profiles are loaded.</sentence>
+			<sentence id="16.25">4 profiles are in enforce mode.</sentence>
+			<sentence id="16.26"> /sbin/dhclient</sentence>
+			<sentence id="16.27"> /usr/lib/NetworkManager/nm-dhcp-client.action</sentence>
+			<sentence id="16.28"> /usr/lib/connman/scripts/dhclient-script</sentence>
+			<sentence id="16.29"> /usr/sbin/ntpd</sentence>
+			<sentence id="16.30">0 profiles are in complain mode.</sentence>
+			<sentence id="16.31">2 processes have profiles defined.</sentence>
+			<sentence id="16.32">2 processes are in enforce mode.</sentence>
+			<sentence id="16.33"> /sbin/dhclient (1451)</sentence>
+			<sentence id="16.34"> /usr/sbin/ntpd (5171)</sentence>
+			<sentence id="16.35">0 processes are in complain mode.</sentence>
+			<sentence id="16.36">0 processes are unconfined but have a profile defined.</sentence>
+			<sentence id="16.37"># service docker restart</sentence>
+			<sentence id="16.38">docker stop/waiting</sentence>
+			<sentence id="16.39">docker start/running, process 5715</sentence>
+			<sentence id="16.40"># docker run -itd busybox</sentence>
+			<sentence id="16.41">790841c4aa872069125e072f8afadc3e64b9e4db1632972984710a5161a7373a</sentence>
+			<sentence id="16.42">docker: Error response from daemon: shim error: open pid: no such file or directory.</sentence>
+			<sentence id="16.43">```</sentence>
+		</paragraph>
+	</description>
+</bug>

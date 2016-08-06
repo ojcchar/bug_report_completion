@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-631</id>
+	<title>Error with Synchronizing concepts on the PIH demo server</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">On the "Synchronize Concepts with Parent" page (http://demo.pih-emr.org:8080/openmrs/module/formimportexport/syncConceptsWithParent.form), check works, but not the synchronization.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I have only seen this error on the demo.pih-emr.</sentence>
+			<sentence id="2.2">org server (Last Build: Apr 29 2008 02:31 AM Version: 1.2.04 Build 4047 Database Version: 1.2.04 Form Import/Export module 1.4.2) although it was a problem with the previous WAR and database versions 1.2.02 and 1.2.03).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">NOTE: Dave has added lots of concepts to the demo server to work around this problem.</sentence>
+			<sentence id="3.2">There are a total of 225 concepts that show up as "modified on this server more recently than on the parent!"</sentence>
+			<sentence id="3.3">.</sentence>
+			<sentence id="3.4">I checked one of these concepts (ie.</sentence>
+			<sentence id="3.5">TRAC-2882) and the only difference appeared to be the date_created (one time was 2:44:26 PM *EST* and the other was 7:44:26 PM *GMT*).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">An Internal Error has Occured
+org.openmrs.api.APIException
+java.lang.RuntimeException: org.hibernate.exception.ConstraintViolationException: Could not execute JDBC batch update</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">org.openmrs.module.formimportexport.impl.FormImportExportServiceImpl.syncWithParent(FormImportExportServiceImpl.java:315)</sentence>
+			<sentence id="5.2">org.openmrs.module.formimportexport.impl.FormImportExportServiceImpl.syncWithParent(FormImportExportServiceImpl.java:300)</sentence>
+			<sentence id="5.3">sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="5.4">sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="5.5">sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="5.6">java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="5.7">org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:301)</sentence>
+			<sentence id="5.8">org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:182)</sentence>
+			<sentence id="5.9">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:149)</sentence>
+			<sentence id="5.10">org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:106)</sentence>
+			<sentence id="5.11">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)</sentence>
+			<sentence id="5.12">org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)</sentence>
+			<sentence id="5.13">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)</sentence>
+			<sentence id="5.14">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)</sentence>
+			<sentence id="5.15">$Proxy80.syncWithParent(Unknown Source)</sentence>
+			<sentence id="5.16">sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="5.17">sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="5.18">sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="5.19">java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="5.20">org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:301)</sentence>
+			<sentence id="5.21">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:198)</sentence>
+			<sentence id="5.22">$Proxy80.syncWithParent(Unknown Source)</sentence>
+			<sentence id="5.23">org.openmrs.module.formimportexport.web.controller.SyncConceptsWithParentController.onSubmit(SyncConceptsWithParentController.java:86)</sentence>
+			<sentence id="5.24">org.springframework.web.servlet.mvc.SimpleFormController.processFormSubmission(SimpleFormController.java:267)</sentence>
+			<sentence id="5.25">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:265)</sentence>
+		</paragraph>
+	</description>
+</bug>

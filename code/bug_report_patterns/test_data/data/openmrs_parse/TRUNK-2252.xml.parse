@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-2252</id>
+	<title>Additional validations required while creating patients.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Version: 1.9.0-SNAPSHOT
+Implementation ID: 
+User ID: admin
+Started Modules: logic v0.5, dataentrystatistics v1.3, metadatasharing v0.8.1.8</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">go to -&gt; admin -&gt; manage patients -&gt; create new patients -&gt; give name , birthdate , gender and press "create person" button -&gt; in the Patient form press save patient without entering anything.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Summary:
+java.lang.NullPointerException</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Description:</sentence>
+			<sentence id="4.2">Stack trace:</sentence>
+			<sentence id="4.3">org.openmrs.web.controller.patient.PatientFormController.processFormSubmission(PatientFormController.java:375)</sentence>
+			<sentence id="4.4">	at [ignored] ...</sentence>
+			<sentence id="4.5">javax.servlet.http.HttpServlet.service(HttpServlet.java:727)</sentence>
+			<sentence id="4.6">javax.servlet.http.HttpServlet.service(HttpServlet.java:820)</sentence>
+			<sentence id="4.7">org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:487)</sentence>
+			<sentence id="4.8">org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1093)</sentence>
+			<sentence id="4.9">org.openmrs.module.web.filter.ForcePasswordChangeFilter.doFilter(ForcePasswordChangeFilter.java:65)</sentence>
+			<sentence id="4.10">org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)</sentence>
+			<sentence id="4.11">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+			<sentence id="4.12">org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+			<sentence id="4.13">org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)</sentence>
+			<sentence id="4.14">org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:111)</sentence>
+			<sentence id="4.15">	at [ignored] ...</sentence>
+			<sentence id="4.16">org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)</sentence>
+			<sentence id="4.17">	at [ignored] ...</sentence>
+			<sentence id="4.18">org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)</sentence>
+			<sentence id="4.19">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="4.20">org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)</sentence>
+			<sentence id="4.21">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="4.22">org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)</sentence>
+			<sentence id="4.23">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="4.24">org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)</sentence>
+			<sentence id="4.25">	at [ignored] ...</sentence>
+			<sentence id="4.26">org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1084)</sentence>
+			<sentence id="4.27">org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:360)</sentence>
+			<sentence id="4.28">org.mortbay.jetty.security.SecurityHandler.handle(SecurityHandler.java:216)</sentence>
+			<sentence id="4.29">org.mortbay.jetty.servlet.SessionHandler.handle(SessionHandler.java:181)</sentence>
+			<sentence id="4.30">org.mortbay.jetty.handler.ContextHandler.handle(ContextHandler.java:726)</sentence>
+			<sentence id="4.31">org.mortbay.jetty.webapp.WebAppContext.handle(WebAppContext.java:405)</sentence>
+			<sentence id="4.32">org.mortbay.jetty.handler.ContextHandlerCollection.handle(ContextHandlerCollection.java:206)</sentence>
+			<sentence id="4.33">org.mortbay.jetty.handler.HandlerCollection.handle(HandlerCollection.java:114)</sentence>
+			<sentence id="4.34">org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)</sentence>
+			<sentence id="4.35">org.mortbay.jetty.Server.handle(Server.java:324)</sentence>
+			<sentence id="4.36">org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:505)</sentence>
+			<sentence id="4.37">org.mortbay.jetty.HttpConnection$RequestHandler.content(HttpConnection.java:843)</sentence>
+			<sentence id="4.38">org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:648)</sentence>
+			<sentence id="4.39">org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:211)</sentence>
+			<sentence id="4.40">org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:380)</sentence>
+			<sentence id="4.41">org.mortbay.io.nio.SelectChannelEndPoint.run(SelectChannelEndPoint.java:395)</sentence>
+			<sentence id="4.42">org.mortbay.thread.QueuedThreadPool$PoolThread.run(QueuedThreadPool.java:488)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This is because of not having patientIdentifierType, So if patientIdentifierType has not been created before saving patients, the UI should be able to display these as useful validation error messages</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">relate to : TRUNK-1441 / TRUNK-1257</sentence>
+		</paragraph>
+	</description>
+</bug>

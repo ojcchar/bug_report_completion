@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9565</id>
+	<title>EntityManager.merge(...) causes StackOverflowError on larger models</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When using a directed Graph structure model like this:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">- Graph, consists of set of nodes</sentence>
+			<sentence id="2.2">- Node, consists of set of neighbors</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">... and using it to create a sufficiently large closed Node Ring (about 3000 nodes), EntityManager.merge(graph) throws a StackOverflowError.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">EntityManager.persist(graph) works fine.</sentence>
+			<sentence id="4.2">Loading via HQL works as well, only EntityManager.merge(graph) seems to be affected.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I have attached a zipped, self-contained Eclipse Project that contains a minimal test case.</sentence>
+			<sentence id="5.2">Just run "src/test/java/test/JUnitTest.java" as a JUnit test.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">This is somewhat related to this closed bug: 
+https://hibernate.atlassian.net/browse/HHH-3046</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The repeating part of the Stack Trace is:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">	at org.hibernate.engine.spi.CascadingActions$6.cascade(CascadingActions.java:277)</sentence>
+			<sentence id="8.2">	at org.hibernate.engine.internal.Cascade.cascadeToOne(Cascade.java:350)</sentence>
+			<sentence id="8.3">	at org.hibernate.engine.internal.Cascade.cascadeAssociation(Cascade.java:293)</sentence>
+			<sentence id="8.4">	at org.hibernate.engine.internal.Cascade.cascadeProperty(Cascade.java:161)</sentence>
+			<sentence id="8.5">	at org.hibernate.engine.internal.Cascade.cascadeCollectionElements(Cascade.java:379)</sentence>
+			<sentence id="8.6">	at org.hibernate.engine.internal.Cascade.cascadeCollection(Cascade.java:319)</sentence>
+			<sentence id="8.7">	at org.hibernate.engine.internal.Cascade.cascadeAssociation(Cascade.java:296)</sentence>
+			<sentence id="8.8">	at org.hibernate.engine.internal.Cascade.cascadeProperty(Cascade.java:161)</sentence>
+			<sentence id="8.9">	at org.hibernate.engine.internal.Cascade.cascade(Cascade.java:118)</sentence>
+			<sentence id="8.10">	at org.hibernate.event.internal.AbstractSaveEventListener.cascadeAfterSave(AbstractSaveEventListener.java:460)</sentence>
+			<sentence id="8.11">	at org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:255)</sentence>
+			<sentence id="8.12">	at org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:317)</sentence>
+			<sentence id="8.13">	at org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:186)</sentence>
+			<sentence id="8.14">	at org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:886)</sentence>
+			<sentence id="8.15">	at org.hibernate.internal.SessionImpl.merge(SessionImpl.java:868)</sentence>
+		</paragraph>
+	</description>
+</bug>

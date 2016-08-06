@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>21595</id>
+	<title>API/CLI discrepancy on hostname validation</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In the CLI, running a container with a `--hostname` of more than 64 characters will fail:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+user@ubuntu:~$ docker run -it --net=f826338a441f2f8a4685630e4fd83ad3af78c0fc --hostname=f826338a441f2f8a4685630e4fd83ad3af78c0fc_go1.</sentence>
+			<sentence id="2.2">f826338a441f2f8a4685630e4fd83ad3af78c0fc --name=f826338a441f2f8a4685630e4fd83ad3af78c0fc_go1 golang
+docker: invalid hostname format for --hostname: f826338a441f2f8a4685630e4fd83ad3af78c0fc_go1.</sentence>
+			<sentence id="2.3">f826338a441f2f8a4685630e4fd83ad3af78c0fc.</sentence>
+			<sentence id="2.4">See 'docker run --help'.</sentence>
+			<sentence id="2.5">```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">However, this seems to be allowed through the API, and fails later down the road with:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+Error response from daemon: Cannot start container 353dc194a5cf9b34d9653b9828aa101f8f598fd2b91c4f3633ac1b5d86f4a72d: [9] System error: invalid argument
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">As far as I can tell, hostname validation happens in [`runconfig/opts/parse.</sentence>
+			<sentence id="5.2">go`](https://github.com/docker/docker/blob/master/runconfig/opts/parse.go#L249).</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Cc @calavera @MHBauer.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Indirectly reported in #21562.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-7187</id>
+	<title>hibernate-envers tests fail on databases other than H2</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">due to the change of HHH-7185, there are some failing tests:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{quote}
+All Failed Tests</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Test Name </sentence>
+			<sentence id="3.2">Duration </sentence>
+			<sentence id="3.3">Age </sentence>
+			<sentence id="3.4">&gt;&gt;&gt; org.hibernate.envers.test.integration.jta.JtaExceptionListener.testTransactionRollback[0] 	0.016	1</sentence>
+			<sentence id="3.5">&gt;&gt;&gt; org.hibernate.envers.test.integration.jta.JtaExceptionListener.testDataNotPersisted[0] 	0.084	1</sentence>
+			<sentence id="3.6">&gt;&gt;&gt; org.hibernate.envers.test.integration.jta.JtaExceptionListener.testTransactionRollback[1] 	0.01	1</sentence>
+			<sentence id="3.7">&gt;&gt;&gt; org.hibernate.envers.test.integration.jta.JtaExceptionListener.testDataNotPersisted[1] 	0.013	1</sentence>
+			<sentence id="3.8">&gt;&gt;&gt; org.hibernate.envers.test.integration.manytomany.unidirectional.M2MIndexedListNotAuditedTarget.initData[0] 	0.097	1</sentence>
+			<sentence id="3.9">&gt;&gt;&gt; org.hibernate.envers.test.integration.manytomany.unidirectional.M2MIndexedListNotAuditedTarget.testHistory1[0] 	0.0050	1</sentence>
+			<sentence id="3.10">&gt;&gt;&gt; org.hibernate.envers.test.integration.manytomany.unidirectional.M2MIndexedListNotAuditedTarget.testHistory2[0] 	0.0010	1</sentence>
+			<sentence id="3.11">&gt;&gt;&gt; org.hibernate.envers.test.integration.manytomany.unidirectional.M2MIndexedListNotAuditedTarget.testRevisionsCounts[0] 	0.0020	1</sentence>
+			<sentence id="3.12">&gt;&gt;&gt; org.hibernate.envers.test.integration.manytomany.unidirectional.M2MIndexedListNotAuditedTarget.initData[1] 	0.115	1</sentence>
+			<sentence id="3.13">&gt;&gt;&gt; org.hibernate.envers.test.integration.manytomany.unidirectional.M2MIndexedListNotAuditedTarget.testHistory1[1] 	0.0010	1</sentence>
+			<sentence id="3.14">&gt;&gt;&gt; org.hibernate.envers.test.integration.manytomany.unidirectional.M2MIndexedListNotAuditedTarget.testHistory2[1] 	0.0010	1</sentence>
+			<sentence id="3.15">&gt;&gt;&gt; org.hibernate.envers.test.integration.manytomany.unidirectional.M2MIndexedListNotAuditedTarget.testRevisionsCounts[1] 	0.0	1</sentence>
+			<sentence id="3.16">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.BasicNaming.testHistoryOfId1[0] 	0.048	1</sentence>
+			<sentence id="3.17">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.BasicNaming.testHistoryOfId2[0] 	0.029	1</sentence>
+			<sentence id="3.18">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.BasicNaming.testRevisionsCounts[0] 	0.016	1</sentence>
+			<sentence id="3.19">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.BasicNaming.testHistoryOfId1[1] 	0.041	1</sentence>
+			<sentence id="3.20">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.BasicNaming.testHistoryOfId2[1] 	0.025	1</sentence>
+			<sentence id="3.21">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.BasicNaming.testRevisionsCounts[1] 	0.03	1</sentence>
+			<sentence id="3.22">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.EstonianTableAlias.testAuditChildTableAlias[0] 	0.033	1</sentence>
+			<sentence id="3.23">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.EstonianTableAlias.testAuditChildTableAlias[1] 	0.044	1</sentence>
+			<sentence id="3.24">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.VersionsJoinTableNaming.testHistoryOfUniId1[0] 	0.108	1</sentence>
+			<sentence id="3.25">&gt;&gt;&gt; org.hibernate.envers.test.integration.naming.VersionsJoinTableNaming.testRevisionsCounts[0] 	0.031	1</sentence>
+			<sentence id="3.26">&gt;&gt;&gt; org.hibernate.envers.test.integration.readwriteexpression.ReadWriteExpressionChange.shouldRespectWriteExpression[0] 	0.0030	1</sentence>
+			<sentence id="3.27">&gt;&gt;&gt; org.hibernate.envers.test.integration.readwriteexpression.ReadWriteExpressionChange.shouldRespectWriteExpression[1] 	0.0040	1</sentence>
+			<sentence id="3.28">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testDatesForRevisions[0] 	0.0090	1</sentence>
+			<sentence id="3.29">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testFindRevision[0] 	0.0050	1</sentence>
+			<sentence id="3.30">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testRevisionsForDates[0] 	0.012	1</sentence>
+			<sentence id="3.31">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testTimestamps[0] 	0.0030	1</sentence>
+			<sentence id="3.32">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testTimestamps1[0] 	0.0040	1</sentence>
+			<sentence id="3.33">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testDatesForRevisions[1] 	0.0070	1</sentence>
+			<sentence id="3.34">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testFindRevision[1] 	0.0040	1</sentence>
+			<sentence id="3.35">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testRevisionsForDates[1] 	0.027	1</sentence>
+			<sentence id="3.36">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testTimestamps[1] 	0.014	1</sentence>
+			<sentence id="3.37">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.CustomDate.testTimestamps1[1] 	0.015	1</sentence>
+			<sentence id="3.38">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.DifferentDBSchemaTest.initData[0] 	0.0090	1</sentence>
+			<sentence id="3.39">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.DifferentDBSchemaTest.testHistoryOfId1[0] 	0.0010	1</sentence>
+			<sentence id="3.40">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.DifferentDBSchemaTest.testRevisionsCounts[0] 	0.0	1</sentence>
+			<sentence id="3.41">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.DifferentDBSchemaTest.initData[1] 	0.0060	1</sentence>
+			<sentence id="3.42">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.DifferentDBSchemaTest.testHistoryOfId1[1] 	0.0090	1</sentence>
+			<sentence id="3.43">&gt;&gt;&gt; org.hibernate.envers.test.integration.reventity.DifferentDBSchemaTest.testRevisionsCounts[1] 	0.0	1</sentence>
+			<sentence id="3.44">&gt;&gt;&gt; org.hibernate.envers.test.integration.strategy.ValidityAuditStrategyRevEndTsTest.testAllRevEndTimeStamps[0] 	0.145	1</sentence>
+			<sentence id="3.45">&gt;&gt;&gt; org.hibernate.envers.test.integration.strategy.ValidityAuditStrategyRevEndTsTest.testAllRevEndTimeStamps[1] 	0.173	1</sentence>
+			<sentence id="3.46">{quote}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">this is caused by the _org.hibernate.envers.test.EnversTestingJtaBootstrap#updateConfigAndCreateTM_, this class updates the db connection url and appends a `;AUTOCOMMIT=OFF`, but this property is only valid on H2</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">do tests using _org.hibernate.envers.test.EnversTestingJtaBootstrap_ are supposed only running on H2?</sentence>
+			<sentence id="5.2">if so, we need move those tests into _src/test/main_</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">or we need to fix these tests</sentence>
+		</paragraph>
+	</description>
+</bug>

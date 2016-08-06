@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3451</id>
+	<title>`no such file or directory` error after upgrading to 0.7.3</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi, sorry if this isn't the right place to report this or if it's already been reported, but after I upgraded from Docker 0.7.2 to 0.7.3, a [Dockerfile I'm working with](https://github.com/bamos/docker-llvm-polly-pocl/blob/master/llvm-3.4/Dockerfile) fails to run `apt-get update` with the following error message.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">docker-llvm-polly-pocl/llvm-3.4 [master] &#xBB; docker build .</sentence>
+			<sentence id="2.3">Uploading context 10.24 kB</sentence>
+			<sentence id="2.4">Uploading context</sentence>
+			<sentence id="2.5">Step 1 : FROM ubuntu:12.04</sentence>
+			<sentence id="2.6">Pulling repository ubuntu</sentence>
+			<sentence id="2.7">8dbd9e392a96: Download complete ---&gt; 8dbd9e392a96</sentence>
+			<sentence id="2.8">Step 2 : RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" &gt; /etc/apt/sources.</sentence>
+			<sentence id="2.9">list; apt-get update</sentence>
+			<sentence id="2.10">---&gt; Running in 44442b1b1e93</sentence>
+			<sentence id="2.11">Ign http://archive.ubuntu.com precise InRelease</sentence>
+			<sentence id="2.12">Hit http://archive.ubuntu.com precise Release.gpg</sentence>
+			<sentence id="2.13">Hit http://archive.ubuntu.com precise Release</sentence>
+			<sentence id="2.14">Hit http://archive.ubuntu.com precise/main amd64 Packages</sentence>
+			<sentence id="2.15">Get:1 http://archive.ubuntu.com precise/universe amd64 Packages [6167 kB]</sentence>
+			<sentence id="2.16">Get:2 http://archive.ubuntu.com precise/main i386 Packages [1641 kB]</sentence>
+			<sentence id="2.17">Get:3 http://archive.ubuntu.com precise/universe i386 Packages [6180 kB]</sentence>
+			<sentence id="2.18">Get:4 http://archive.ubuntu.com precise/main TranslationIndex [3706 B]</sentence>
+			<sentence id="2.19">Get:5 http://archive.ubuntu.com precise/universe TranslationIndex [2922 B]</sentence>
+			<sentence id="2.20">Get:6 http://archive.ubuntu.com precise/main Translation-en [893 kB]</sentence>
+			<sentence id="2.21">Get:7 http://archive.ubuntu.com precise/universe Translation-en [4133 kB]</sentence>
+			<sentence id="2.22">Fetched 19.0 MB in 51s (369 kB/s)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">2014/01/04 14:55:36 no such file or directory
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I'm running this in Arch Linux, and the Docker version for this was:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+Docker version 0.7.3, build 8502ad4
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">After downgrading back to:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">```
+Docker version 0.7.2, build 28b162e
+```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">this error doesn't occur.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Let me know if I can provide more info.</sentence>
+			<sentence id="9.2">Thanks!</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17126</id>
+	<title>cgroup-parent does not work with systemd cgroup driver1.10.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">$ cat /etc/lsb-release 
+DISTRIB_ID=CoreOS
+DISTRIB_RELEASE=835.1.0
+DISTRIB_CODENAME="Red Dog"
+DISTRIB_DESCRIPTION="CoreOS 835.1.0"
+$ docker -v
+Docker version 1.8.3, build cedd534-dirty</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps to repro:</sentence>
+			<sentence id="2.2">1 docker run --cgroup-parent=/ hello-world</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Expected results:
+hello-world should execute</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Observed:
+Error response from daemon: Cannot start container ab59989666093c50b0f0b137096ff562c2cdd94f162b351b57a5fcd0217c7682: [8] System error: Invalid unit type.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Docker tries to create a systemd unit named "/-&lt;name&gt;.</sentence>
+			<sentence id="5.2">scope" which is not a valid unit name.</sentence>
+		</paragraph>
+	</description>
+</bug>

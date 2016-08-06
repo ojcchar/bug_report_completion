@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>20628</id>
+	<title>timeouts pulling images</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">command: docker pull hello-word
+Result: Error parsing HTTP response: invalid character '&lt;' looking for beginning of value: "408 Request Time-out Your browser didn't send a complete request in time"</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Problem similar: https://github.com/docker/docker/issues/15949
+This problem still occurs to me.</sentence>
+			<sentence id="2.2">I changed the MTU to 1500 and not solved.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">docker --version
+Docker version 1.10.1, build 9e83765</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">docker info
+Containers: 0
+Running: 0
+Paused: 0
+Stopped: 0
+Images: 0
+Server Version: 1.10.1
+Storage Driver: aufs
+Root Dir: /var/lib/docker/aufs
+Backing Filesystem: extfs
+Dirs: 0
+Dirperm1 Supported: true
+Execution Driver: native-0.2
+Logging Driver: json-file
+Plugins: 
+Volume: local
+Network: bridge null host
+Kernel Version: 4.2.0-27-generic
+Operating System: Ubuntu 15.10
+OSType: linux
+Architecture: x86_64
+CPUs: 4
+Total Memory: 7.714 GiB
+Name: kevio
+ID: E26Z:TZU6:MAIS:RNVO:DLH4:MUKD:H3HQ:PRMR:C4YY:POKF:PQL7:KBZL
+WARNING: No swap limit support</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">uname -a
+Linux kevio 4.2.0-27-generic #32-Ubuntu SMP Fri Jan 22 04:49:08 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+ubuntu 15.10</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">ifconfig
+docker0 Link encap:Ethernet HWaddr 02:42:14:6b:72:6c</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">inet addr:172.17.0.1 Bcast:0.0.0.0 Mask:255.255.0.0
+UP BROADCAST MULTICAST MTU:1500 Metric:1
+RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:0 
+RX bytes:0 (0.0 B) TX bytes:0 (0.0 B)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">wlp1s0 Link encap:Ethernet HWaddr 94:65:9c:6f:68:4b</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">inet addr:192.168.7.107 Bcast:192.168.7.255 Mask:255.255.255.0
+inet6 addr: fe80::9665:9cff:fe6f:684b/64 Scope:Link
+UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1
+RX packets:47 errors:0 dropped:0 overruns:0 frame:0
+TX packets:104 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:1000 
+RX bytes:12517 (12.5 KB) TX bytes:15984 (15.9 KB)</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">lo Link encap:Local Loopback</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">inet addr:127.0.0.1 Mask:255.0.0.0
+inet6 addr: ::1/128 Scope:Host
+UP LOOPBACK RUNNING MTU:65536 Metric:1
+RX packets:254 errors:0 dropped:0 overruns:0 frame:0
+TX packets:254 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:0 
+RX bytes:22692 (22.6 KB) TX bytes:22692 (22.6 KB)</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3563</id>
+	<title>unable to use docker insert with a local file </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">this would be handy functionality to have.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+root@vagrant-ubuntu-precise-64:/vagrant# docker insert centos-6.4-test jdk-7u45-linux-x64.</sentence>
+			<sentence id="2.2">rpm /jdk-7u45-linux-x64.</sentence>
+			<sentence id="2.3">rpm
+2014/01/11 00:25:36 Error: Get jdk-7u45-linux-x64.</sentence>
+			<sentence id="2.4">rpm: unsupported protocol scheme ""
+```
+```
+root@vagrant-ubuntu-precise-64:/vagrant# docker insert centos-6.4-test file:///vagrant/jdk-7u45-linux-x64.</sentence>
+			<sentence id="2.5">rpm /jdk-7u45-linux-x64.</sentence>
+			<sentence id="2.6">rpm
+2014/01/11 00:24:51 Error: Get file:///vagrant/jdk-7u45-linux-x64.</sentence>
+			<sentence id="2.7">rpm: unsupported protocol scheme "file"
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

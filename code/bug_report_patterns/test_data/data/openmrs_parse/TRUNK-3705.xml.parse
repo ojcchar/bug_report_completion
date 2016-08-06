@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3705</id>
+	<title>getName(Locale locale, boolean exact) simply calls getName() if exact = false</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Not quite sure what the intention is here, but if you call getName(someLocale, false), this method just delegats to getName(), which seems wrong:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}</sentence>
+			<sentence id="2.2">public ConceptName getName(Locale locale, boolean exact) {</sentence>
+			<sentence id="2.3">		</sentence>
+			<sentence id="2.4">		// fail early if this concept has no names defined</sentence>
+			<sentence id="2.5">		if (getNames().size() == 0) {</sentence>
+			<sentence id="2.6">			if (log.isDebugEnabled())</sentence>
+			<sentence id="2.7">				log.debug("there are no names defined for: " + conceptId);</sentence>
+			<sentence id="2.8">			return null;</sentence>
+			<sentence id="2.9">		}</sentence>
+			<sentence id="2.10">		</sentence>
+			<sentence id="2.11">		if (log.isDebugEnabled())</sentence>
+			<sentence id="2.12">			log.debug("Getting conceptName for locale: " + locale);</sentence>
+			<sentence id="2.13">		if (exact &amp;&amp; locale != null) {</sentence>
+			<sentence id="2.14">			ConceptName preferredName = getPreferredName(locale);</sentence>
+			<sentence id="2.15">			if (preferredName != null)</sentence>
+			<sentence id="2.16">				return preferredName;</sentence>
+			<sentence id="2.17">			</sentence>
+			<sentence id="2.18">			ConceptName fullySpecifiedName = getFullySpecifiedName(locale);</sentence>
+			<sentence id="2.19">			if (fullySpecifiedName != null)</sentence>
+			<sentence id="2.20">				return fullySpecifiedName;</sentence>
+			<sentence id="2.21">			else if (getSynonyms(locale).size() &gt; 0)</sentence>
+			<sentence id="2.22">				return getSynonyms(locale).iterator().next();</sentence>
+			<sentence id="2.23">			</sentence>
+			<sentence id="2.24">			return null;</sentence>
+			<sentence id="2.25">			</sentence>
+			<sentence id="2.26">		} else {</sentence>
+			<sentence id="2.27">			//just get any name</sentence>
+			<sentence id="2.28">			return getName();</sentence>
+			<sentence id="2.29">		}</sentence>
+			<sentence id="2.30">	}</sentence>
+			<sentence id="2.31">{code}</sentence>
+		</paragraph>
+	</description>
+</bug>

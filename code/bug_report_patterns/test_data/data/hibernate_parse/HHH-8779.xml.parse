@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8779</id>
+	<title>Bundle symbolic name error - duplicate name</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The Bundle symbolic name for hibernate-osgi is wrong.</sentence>
+			<sentence id="1.2">Installing in Apaceh Karaf fails:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The command:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">install mvn:org.hibernate/hibernate-osgi/4.2.8.</sentence>
+			<sentence id="3.2">Final</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Gives:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Caused by: org.osgi.framework.BundleException: Cannot have multiple symbolic names: org.hibernate.osgi,org.hibernate.osgi</sentence>
+			<sentence id="5.2">	at org.apache.felix.framework.util.manifestparser.ManifestParser.parseBundleSymbolicName(ManifestParser.java:1241)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I've checked the META-INF/MANIFEST.</sentence>
+			<sentence id="6.2">MF file and the error checks.</sentence>
+			<sentence id="6.3">The problem affects 4.2.8 build .</sentence>
+		</paragraph>
+	</description>
+</bug>

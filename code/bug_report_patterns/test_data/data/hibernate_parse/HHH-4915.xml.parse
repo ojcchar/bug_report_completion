@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4915</id>
+	<title>&lt;list-index&gt; base attribute ignored on insert for a bidirectional association (one-to-many)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">My mapping looks like the following:
+{code:xml}
+&lt;hibernate-mapping&gt;</sentence>
+			<sentence id="2.1">&lt;class name="Parent"&gt;</sentence>
+			<sentence id="2.2">&lt;!-- SNIP --&gt;</sentence>
+			<sentence id="2.3">&lt;list name="children" table="CHILD" cascade="all-delete-orphan"&gt;</sentence>
+			<sentence id="2.4">&lt;key column="ID_PARENT" not-null="true" /&gt;</sentence>
+			<sentence id="2.5">&lt;list-index base="1"&gt;</sentence>
+			<sentence id="2.6">&lt;column name="IDX" check="IDX &gt; 0" /&gt;</sentence>
+			<sentence id="2.7">&lt;/list-index&gt;</sentence>
+			<sentence id="2.8">&lt;one-to-many class="Child" /&gt;</sentence>
+			<sentence id="2.9">&lt;/list&gt;</sentence>
+			<sentence id="3.1">&lt;/class&gt;
+ 
+ &lt;class name="Child"&gt;</sentence>
+			<sentence id="4.1">&lt;!-- SNIP --&gt;</sentence>
+			<sentence id="4.2">&lt;many-to-one name="parent" class="Parent" column="ID_PARENT"</sentence>
+			<sentence id="4.3">not-null="true" insert="false" update="false" /&gt;</sentence>
+			<sentence id="4.4">&lt;/class&gt;</sentence>
+			<sentence id="4.5">&lt;/hibernate-mapping&gt;</sentence>
+			<sentence id="4.6">{code}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">As you can see from the mapping, we have a parent entity ({{Parent}}) referring child entities ({{Child}} using the {{children}} accessor).</sentence>
+			<sentence id="5.2">The index column ({{ORDER}}) is not an attribute in the child entity, so I referred to the second use case in section _6.3.3.</sentence>
+			<sentence id="5.3">Bidirectional associations with indexed collections_ of the reference guide to do my mapping.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Everything works except for the index base, it is always 0 based on insert.</sentence>
+			<sentence id="6.2">I've tried both Hibernate 3.3.2GA and the latest development version (3.5.0-CR-1), the issue can be reproduced in both.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I've joined a test case to reproduce the problem.</sentence>
+			<sentence id="7.2">While working on it, I realized there are updates after the inserts setting the correct index.</sentence>
+			<sentence id="7.3">However, we cannot change the database schema and there's a constraint on the index column enforcing a value &gt; 0.</sentence>
+			<sentence id="7.4">So this issue is really important for us.</sentence>
+			<sentence id="7.5">I could manually handle the index values, but it would be so much easier to let Hibernate do it.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I've traced the problem and it seems that {{StatefulPersistenceContext#getIndexInParent(.</sentence>
+			<sentence id="8.2">.)}}</sentence>
+			<sentence id="8.3">does not considers the index base.</sentence>
+			<sentence id="8.4">Why are updates necessary after the inserts?</sentence>
+			<sentence id="8.5">It looks to me like Hibernate could correctly set the index parameter on the insert statements.</sentence>
+		</paragraph>
+	</description>
+</bug>

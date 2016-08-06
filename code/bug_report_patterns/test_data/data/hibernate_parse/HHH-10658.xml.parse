@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-10658</id>
+	<title>QueryException if TYPE() is used in WHERE condition on type with no subtype or supertype, ie. a single table (additional test case)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">As raised on HHH-10628, there is a problem doing non-polymorphic queries - specifying a single type does not work for a single subtype of a mapped superclass.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">That means to query single types (or in this case a single table) in general I need a separate type system to decide whether to include the TYPE condition or not (or I cannot generally know whether people add a subclass or not and I therefore need to scan the class path for subclasses, which is not efficient).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Running test case gives this error:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">*org.hibernate.QueryException: could not resolve property: class of: andersen.hibernatetest.Concrete2 [SELECT p FROM andersen.hibernatetest.Concrete2 p WHERE TYPE(p) = Concrete2]*</sentence>
+			<sentence id="4.2">	at org.hibernate.QueryException.generateQueryException(QueryException.java:120)</sentence>
+			<sentence id="4.3">	at org.hibernate.QueryException.wrapWithQueryString(QueryException.java:103)</sentence>
+			<sentence id="4.4">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:218)</sentence>
+			<sentence id="4.5">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:142)</sentence>
+			<sentence id="4.6">	at org.hibernate.engine.query.spi.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:115)</sentence>
+			<sentence id="4.7">	at org.hibernate.engine.query.spi.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:76)</sentence>
+			<sentence id="4.8">	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:150)</sentence>
+			<sentence id="4.9">	at org.hibernate.internal.NamedQueryRepository.checkNamedQueries(NamedQueryRepository.java:155)</sentence>
+			<sentence id="4.10">	at org.hibernate.internal.SessionFactoryImpl.checkNamedQueries(SessionFactoryImpl.java:769)</sentence>
+			<sentence id="4.11">	at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:484)</sentence>
+			<sentence id="4.12">	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:444)</sentence>
+			<sentence id="4.13">	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:879)</sentence>
+			<sentence id="4.14">	at org.hibernate.jpa.HibernatePersistenceProvider.createEntityManagerFactory(HibernatePersistenceProvider.java:58)</sentence>
+			<sentence id="4.15">	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:55)</sentence>
+			<sentence id="4.16">	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:39)</sentence>
+			<sentence id="4.17">	at andersen.hibernatetest.PolyTest.initEntityManager(PolyTest.java:22)</sentence>
+			<sentence id="4.18">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="4.19">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+			<sentence id="4.20">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+			<sentence id="4.21">	at java.lang.reflect.Method.invoke(Method.java:497)</sentence>
+			<sentence id="4.22">	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)</sentence>
+			<sentence id="4.23">	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)</sentence>
+			<sentence id="4.24">	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)</sentence>
+			<sentence id="4.25">	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)</sentence>
+			<sentence id="4.26">	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)</sentence>
+			<sentence id="4.27">	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)</sentence>
+			<sentence id="4.28">	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)</sentence>
+			<sentence id="4.29">	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)</sentence>
+			<sentence id="4.30">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)</sentence>
+			<sentence id="4.31">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)</sentence>
+			<sentence id="4.32">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)</sentence>
+			<sentence id="4.33">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)</sentence>
+			<sentence id="4.34">Caused by: org.hibernate.QueryException: could not resolve property: class of: andersen.hibernatetest.Concrete2</sentence>
+			<sentence id="4.35">	at org.hibernate.persister.entity.AbstractPropertyMapping.propertyException(AbstractPropertyMapping.java:62)</sentence>
+			<sentence id="4.36">	at org.hibernate.persister.entity.AbstractPropertyMapping.toType(AbstractPropertyMapping.java:56)</sentence>
+			<sentence id="4.37">	at org.hibernate.persister.entity.AbstractEntityPersister.getSubclassPropertyTableNumber(AbstractEntityPersister.java:1770)</sentence>
+			<sentence id="4.38">	at org.hibernate.persister.entity.BasicEntityPropertyMapping.toColumns(BasicEntityPropertyMapping.java:46)</sentence>
+			<sentence id="4.39">	at org.hibernate.persister.entity.AbstractEntityPersister.toColumns(AbstractEntityPersister.java:1745)</sentence>
+			<sentence id="4.40">	at org.hibernate.persister.entity.AbstractEntityPersister$3.getSqlFragment(AbstractEntityPersister.java:1822)</sentence>
+			<sentence id="4.41">	at org.hibernate.hql.internal.ast.tree.FromElement$TypeDiscriminatorMetadataImpl.getSqlFragment(FromElement.java:472)</sentence>
+			<sentence id="4.42">	at org.hibernate.hql.internal.ast.tree.MethodNode.typeDiscriminator(MethodNode.java:111)</sentence>
+			<sentence id="4.43">	at org.hibernate.hql.internal.ast.tree.MethodNode.resolve(MethodNode.java:80)</sentence>
+			<sentence id="4.44">	at org.hibernate.hql.internal.ast.HqlSqlWalker.processFunction(HqlSqlWalker.java:1074)</sentence>
+			<sentence id="4.45">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.functionCall(HqlSqlBaseWalker.java:2740)</sentence>
+			<sentence id="4.46">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.expr(HqlSqlBaseWalker.java:1358)</sentence>
+			<sentence id="4.47">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.exprOrSubquery(HqlSqlBaseWalker.java:4710)</sentence>
+			<sentence id="4.48">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.comparisonExpr(HqlSqlBaseWalker.java:4180)</sentence>
+			<sentence id="4.49">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.logicalExpr(HqlSqlBaseWalker.java:2127)</sentence>
+			<sentence id="4.50">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.whereClause(HqlSqlBaseWalker.java:810)</sentence>
+			<sentence id="4.51">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:605)</sentence>
+			<sentence id="4.52">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:309)</sentence>
+			<sentence id="4.53">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:257)</sentence>
+			<sentence id="4.54">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:262)</sentence>
+			<sentence id="4.55">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:190)</sentence>
+			<sentence id="4.56">... 29 more</sentence>
+		</paragraph>
+	</description>
+</bug>

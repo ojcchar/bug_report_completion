@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17826</id>
+	<title>Containers become invisible to each other after 1.9.0 update</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hello, after updating to `1.9.0` I have a problem of container's visibility.</sentence>
+			<sentence id="1.2">Before update I used `1.8.3` and everything works fine for me.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+$ docker version
+Client:
+ Version: 1.8.3
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: f4bf5c7
+ Built: Mon Oct 12 05:39:44 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Server:
+ Version: 1.8.3
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: f4bf5c7
+ Built: Mon Oct 12 05:39:44 UTC 2015
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+$ docker info
+Containers: 7
+Images: 160
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 174
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 3.19.0-31-generic
+Operating System: Ubuntu 15.04
+CPUs: 4
+Total Memory: 7.797 GiB
+Name: &lt;...&gt;
+ID: &lt;...&gt;
+Username: &lt;...&gt;
+Registry: https://index.docker.io/v1/
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">`uname -a`: `Linux lesnykh 3.19.0-31-generic #36-Ubuntu SMP Wed Oct 7 15:04:02 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux`</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">How reproducible: my `docker-compose.</sentence>
+			<sentence id="6.2">yml`</sentence>
+			<sentence id="6.3">```yaml</sentence>
+			<sentence id="6.4">app:</sentence>
+			<sentence id="6.5">container_name: project-dev</sentence>
+			<sentence id="6.6">build: .</sentence>
+			<sentence id="6.7">/build</sentence>
+			<sentence id="6.8">links:</sentence>
+			<sentence id="6.9">- redis</sentence>
+			<sentence id="6.10">- node</sentence>
+			<sentence id="6.11">redis:</sentence>
+			<sentence id="6.12">container_name: project-redis</sentence>
+			<sentence id="6.13">image: redis:3.0.5</sentence>
+			<sentence id="6.14">volumes:</sentence>
+			<sentence id="6.15">- /var/db/redis:/data</sentence>
+			<sentence id="6.16">node:</sentence>
+			<sentence id="6.17">container_name: project-node</sentence>
+			<sentence id="6.18">build: .</sentence>
+			<sentence id="6.19">/build-node</sentence>
+			<sentence id="6.20">volumes:</sentence>
+			<sentence id="6.21">- /var/log/project/nodejs:/app/log</sentence>
+			<sentence id="6.22">```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Steps to Reproduce:</sentence>
+			<sentence id="7.2">1 I run `docker-compose up -d` to up all containers;</sentence>
+			<sentence id="7.3">2 then run `docker exec -it project-node bash` to enter into nodejs container, which is linked to main (app) container;</sentence>
+			<sentence id="7.4">3 and after it in nodejs container I run `cat /etc/hosts`.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Expected Results:
+In version `1.8.3` I see all other containers:
+```
+root@665944c01a16:/# cat /etc/hosts
+172.17.0.2	665944c01a16
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.17.0.2	project-node
+172.17.0.2	project-node.</sentence>
+			<sentence id="8.2">bridge
+172.17.0.3	project-redis
+172.17.0.3	project-redis.</sentence>
+			<sentence id="8.3">bridge
+172.17.0.4	project-dev
+172.17.0.4	project-dev.</sentence>
+			<sentence id="8.4">bridge
+```</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Actual Results:
+But in `1.9.0` I see nothing.</sentence>
+			<sentence id="9.2">As I understand, I have to use `--net` parameter to make `bridge`, am I write?</sentence>
+			<sentence id="9.3">How can I do it with `--link`?</sentence>
+		</paragraph>
+	</description>
+</bug>

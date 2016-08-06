@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-2672</id>
+	<title>Optimize logging in ServiceContext.getRegisteredComponents()</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Change the line 
+{code:java}
+log.debug("getRegisteredComponents(" + context + ", " + type + ") = " + registeredComponents);
+{code}</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">to be a {{log.trace()}} and check for {{log.isTraceEnabled()}} before it.</sentence>
+		</paragraph>
+	</description>
+</bug>

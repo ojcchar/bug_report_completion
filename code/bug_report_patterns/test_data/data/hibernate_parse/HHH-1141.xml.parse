@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1141</id>
+	<title>informix Dialect bug</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">informix Database no support double data type</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">public InformixDialect() {
+ super();</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">registerColumnType(Types.BIGINT, "int8");
+ registerColumnType(Types.BINARY, "byte");
+ registerColumnType(Types.BIT, "smallint"); // Informix doesn't have a
+ // bit type
+ registerColumnType(Types.CHAR, "char($l)");
+ registerColumnType(Types.DATE, "date");
+ registerColumnType(Types.DECIMAL, "decimal");</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">// registerColumnType(Types.DOUBLE, "double"); ----- error</sentence>
+			<sentence id="4.2">-----&gt; registerColumnType(Types.DOUBLE, "float") or registerColumnType(Types.DOUBLE, "double precision") --- right ;</sentence>
+			<sentence id="4.3">registerColumnType(Types.FLOAT, "float");</sentence>
+			<sentence id="4.4">registerColumnType(Types.INTEGER, "integer");</sentence>
+			<sentence id="4.5">registerColumnType(Types.LONGVARBINARY, "blob"); // or BYTE</sentence>
+			<sentence id="4.6">registerColumnType(Types.LONGVARCHAR, "clob"); // or TEXT?</sentence>
+			<sentence id="4.7">registerColumnType(Types.NUMERIC, "decimal"); // or MONEY</sentence>
+			<sentence id="4.8">registerColumnType(Types.REAL, "smallfloat");</sentence>
+			<sentence id="4.9">registerColumnType(Types.SMALLINT, "smallint");</sentence>
+			<sentence id="4.10">registerColumnType(Types.TIMESTAMP, "datetime year to fraction(5)");</sentence>
+			<sentence id="4.11">registerColumnType(Types.TIME, "datetime hour to second");</sentence>
+			<sentence id="4.12">registerColumnType(Types.TINYINT, "smallint");</sentence>
+			<sentence id="4.13">registerColumnType(Types.VARBINARY, "byte");</sentence>
+			<sentence id="4.14">registerColumnType(Types.VARCHAR, "varchar($l)");</sentence>
+			<sentence id="4.15">}</sentence>
+		</paragraph>
+	</description>
+</bug>

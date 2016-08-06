@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5668</id>
+	<title>alias other than {this} does not work in sqlRestriction</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">DetachedCriteria c = .</sentence>
+			<sentence id="1.2">.</sentence>
+			<sentence id="1.3">c.createAlias("teacher","t").</sentence>
+			<sentence id="1.4">add(Restrictions.sqlRestriction("locate('abc', t.name)=2"));</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">it caused sql error.</sentence>
+			<sentence id="2.2">It allows {this} alias only.</sentence>
+			<sentence id="2.3">all aliases defined should be allowed in sql query.</sentence>
+		</paragraph>
+	</description>
+</bug>

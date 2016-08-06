@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12308</id>
+	<title>docker rm --link lacks sufficient error messages</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I created and linked to containers.</sentence>
+			<sentence id="1.2">When I try to remove a link as per the example here:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">https://docs.docker.com/reference/commandline/cli/#rm</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The example doesn't work.</sentence>
+			<sentence id="3.2">The example shows a leading slash but this appears to be problematic.</sentence>
+			<sentence id="3.3">Including the leading slash causes the command to return with and apparently remove the link.</sentence>
+			<sentence id="3.4">But it doesn't.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+$ docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+8e9c5dd470b7 training/webapp:latest "python app.py" 2 minutes ago Up 2 minutes 0.0.0.0:49159-&gt;5000/tcp web 
+5551a83d8f32 training/postgres:latest "su postgres -c '/us 2 minutes ago Up 2 minutes 5432/tcp db</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">mary at meepers in ~/repos/distribution on docs-part-two [!]</sentence>
+			<sentence id="5.2">$ docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+8e9c5dd470b7 training/webapp:latest "python app.py" 3 minutes ago Up 3 minutes 0.0.0.0:49159-&gt;5000/tcp web 
+5551a83d8f32 training/postgres:latest "su postgres -c '/us 3 minutes ago Up 3 minutes 5432/tcp db</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">mary at meepers in ~/repos/distribution on docs-part-two [!]</sentence>
+			<sentence id="6.2">$ docker inspect -f "{{ .</sentence>
+			<sentence id="6.3">HostConfig.Links }}" web
+[/db:/web/db]</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">mary at meepers in ~/repos/distribution on docs-part-two [!]</sentence>
+			<sentence id="7.2">$ docker rm --link /web/db
+/web/db</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">mary at meepers in ~/repos/distribution on docs-part-two [!]</sentence>
+			<sentence id="8.2">$ docker inspect -f "{{ .</sentence>
+			<sentence id="8.3">HostConfig.Links }}" web
+[/db:/web/db]</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">mary at meepers in ~/repos/distribution on docs-part-two [!]</sentence>
+			<sentence id="9.2">$ docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+8e9c5dd470b7 training/webapp:latest "python app.py" 4 minutes ago Up 4 minutes 0.0.0.0:49159-&gt;5000/tcp web 
+5551a83d8f32 training/postgres:latest "su postgres -c '/us 4 minutes ago Up 4 minutes 5432/tcp db 
+```
+Specifying a totally bogus link appears to work:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">```
+$ docker rm --link /web/df
+/web/df
+```
+But of course the link didn't exist:</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Here is the only command that works:
+```
+mary at meepers in ~/repos/distribution on docs-part-two [!]</sentence>
+			<sentence id="11.2">$ docker rm --link web/db
+web/db</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">mary at meepers in ~/repos/distribution on docs-part-two [!]</sentence>
+			<sentence id="12.2">$ docker inspect -f "{{ .</sentence>
+			<sentence id="12.3">HostConfig.Links }}" web
+&lt;no value&gt;
+```</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Here is how I think it should work:</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">- If a user specified a link that doesn't exist, we should tell them</sentence>
+			<sentence id="14.2">- If a user specifies the leading slash or not, we should remove the link -- the alternative is to return an error if the leading slash is include (or fix this command)</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8216</id>
+	<title>Please generate consistent name when create or recreate Unique Key</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I am using hibernate.hbm2ddl.auto=update in production environment,hibernate will generate a random name for every unique key,it will cerate a new unique key everytime when application started,It's stupid and break compatibility with previous version.please use UK_md5hex(column1[,column2[,column3...]]) as the key name,so the hibernate.schema_update.unique_constraint_strategy = RECREATE_QUIETLY will be the same behaviour as "create if not exists".</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3130</id>
+	<title>Unable to start openmrs as web daemon</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If there is an error at startup, the user sees this unhelpful message in the webapp:</sentence>
+			<sentence id="1.2">Unable to start openmrs as web daemon</sentence>
+			<sentence id="1.3">at org.openmrs.web.WebDaemon.startOpenmrs(WebDaemon.java:66)</sentence>
+			<sentence id="1.4">	at org.openmrs.web.Listener.contextInitialized(Listener.java:161)</sentence>
+			<sentence id="1.5">...</sentence>
+			<sentence id="1.6">...</sentence>
+			<sentence id="1.7">Caused by: org.openmrs.module.OpenmrsCoreModuleException: The following modules are marked as 'core' by OpenMRS but were unable to start: logic v0.5.2, </sentence>
+			<sentence id="1.8">	at org.openmrs.module.ModuleUtil.checkOpenmrsCoreModulesStarted(ModuleUtil.java:871)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The "Caused by" is the true error and is hidden.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7511</id>
+	<title>ADD and COPY does not work correctly with nested directory</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">ADD nested directory does not work well.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This is reproduce step:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Directory:
+```
+.</sentence>
+			<sentence id="3.2">&#x251C;&#x2500;&#x2500; Dockerfile
+&#x251C;&#x2500;&#x2500; parent-dir
+&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; child-dir
+&#x2502;&#xA0;&#xA0; &#x2502;&#xA0;&#xA0; &#x2514;&#x2500;&#x2500; child.txt
+&#x2502;&#xA0;&#xA0; &#x2514;&#x2500;&#x2500; parent.txt
+&#x2514;&#x2500;&#x2500; reproduce.txt
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This is Dockerfile:
+https://github.com/sanemat/copy-example/blob/e4d6e6ea67ed9e9274830e0d23539ee6b3467f7d/Dockerfile</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This is example repo https://github.com/sanemat/copy-example</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">How to reproduce:
+$ git clone https://github.com/sanemat/copy-example.git
+$ cd copy-example
+$ chmod -R go-rwx .</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">$ ls -alR</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">```text</sentence>
+			<sentence id="8.2">total 16</sentence>
+			<sentence id="8.3">drwx------ 7 sane staff 238 8 10 21:27 .</sentence>
+			<sentence id="8.4">drwxr-xr-x 5 sane staff 170 8 10 21:16 .</sentence>
+			<sentence id="8.5">.</sentence>
+			<sentence id="8.6">drwx------ 12 sane staff 408 8 10 21:27 .</sentence>
+			<sentence id="8.7">git</sentence>
+			<sentence id="8.8">drwx------ 10 sane staff 340 8 10 21:27 .</sentence>
+			<sentence id="8.9">idea</sentence>
+			<sentence id="8.10">-rw------- 1 sane staff 265 8 10 21:24 Dockerfile</sentence>
+			<sentence id="8.11">drwx------ 4 sane staff 136 8 10 21:17 parent-dir</sentence>
+			<sentence id="8.12">-rw------- 1 sane staff 29 8 10 21:27 reproduce.txt</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">(snip)</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">.</sentence>
+			<sentence id="10.2">/parent-dir:</sentence>
+			<sentence id="10.3">total 8</sentence>
+			<sentence id="10.4">drwx------ 4 sane staff 136 8 10 21:17 .</sentence>
+			<sentence id="10.5">drwx------ 7 sane staff 238 8 10 21:27 .</sentence>
+			<sentence id="10.6">.</sentence>
+			<sentence id="10.7">drwx------ 3 sane staff 102 8 10 21:18 child-dir</sentence>
+			<sentence id="10.8">-rw------- 1 sane staff 7 8 10 21:17 parent.txt</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">.</sentence>
+			<sentence id="11.2">/parent-dir/child-dir:</sentence>
+			<sentence id="11.3">total 8</sentence>
+			<sentence id="11.4">drwx------ 3 sane staff 102 8 10 21:18 .</sentence>
+			<sentence id="11.5">drwx------ 4 sane staff 136 8 10 21:17 .</sentence>
+			<sentence id="11.6">.</sentence>
+			<sentence id="11.7">-rw------- 1 sane staff 6 8 10 21:18 child.txt</sentence>
+			<sentence id="11.8">```</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">$ docker build -t sanemat/copy-example .</sentence>
+			<sentence id="12.2">$ docker run -t -i sanemat/copy-example:latest /bin/bash</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">% ls -alR /code/parent/</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">```text</sentence>
+			<sentence id="14.2">/code/parent/:</sentence>
+			<sentence id="14.3">total 16</sentence>
+			<sentence id="14.4">drwxrwxrwx 4 root root 4096 Aug 10 12:49 .</sentence>
+			<sentence id="14.5">drwxrwxrwx 4 root root 4096 Aug 10 12:49 .</sentence>
+			<sentence id="14.6">.</sentence>
+			<sentence id="14.7">drwxrwxrwx 2 root root 4096 Aug 10 12:49 child-dir</sentence>
+			<sentence id="14.8">-rwxrwxrwx 1 root root 7 Aug 10 12:48 parent.txt</sentence>
+			<sentence id="14.9">ls: cannot open directory /code/parent/child-dir: Permission denied</sentence>
+			<sentence id="14.10">```</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">% cd /code/parent/child-dir</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">```text
+bash: cd: /code/parent/child-dir: Permission denied
+```</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">My env:
+```text
+$ docker version
+Client version: 1.1.2
+Client API version: 1.13
+Go version (client): go1.2.1
+Git commit (client): d84a070
+Server version: 1.1.2
+Server API version: 1.13
+Go version (server): go1.2.1
+Git commit (server): d84a070</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">$ docker -D info
+Containers: 44
+Images: 157
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Dirs: 247
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-24-generic
+Debug mode (server): false
+Debug mode (client): true
+Fds: 29
+Goroutines: 67
+EventsListeners: 2
+Init Path: /usr/bin/docker
+Sockets: [unix:///var/run/docker.</sentence>
+			<sentence id="18.2">sock]
+WARNING: No swap limit support</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">$ uname -a
+Linux mouse.tachikoma.io 3.13.0-24-generic #46-Ubuntu SMP Thu Apr 10 19:11:08 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

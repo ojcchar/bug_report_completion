@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8374</id>
+	<title>v1.3.0 - error (?) with `docker exec`</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hey folks,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Just gave a shot at 1.3.0 built out of a clean checkout of @crosbymichael's `bump_v1.3.0` branch and I experienced a small issue with `docker exec`.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">To reproduce, first create a container with:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```sh
+docker run -ti --rm --name will-attach ubuntu:14.04 bash
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Then on another tab:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```sh
+docker exec -ti will-attach bash
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">With both bash sessions running, go back to the main container and `exit` it.</sentence>
+			<sentence id="7.2">Here's what I got:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">```
+root@8b926229d0d6:/# exit
+exit
+2014/10/03 00:22:25 Error response from daemon: Cannot destroy container 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b: Driver aufs failed to remove root filesystem 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b: rename /home/fabio/docker/aufs/diff/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b /home/fabio/docker/aufs/diff/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b-removing: device or resource busy
+```</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Logs tells me this:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">```</sentence>
+			<sentence id="10.2">[info] POST /v1.15/containers/create?name=will-attach</sentence>
+			<sentence id="10.3">[b0cbb60a] +job create(will-attach)</sentence>
+			<sentence id="10.4">[b0cbb60a] +job log(create, 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b, ubuntu:14.04)</sentence>
+			<sentence id="10.5">[b0cbb60a] -job log(create, 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b, ubuntu:14.04) = OK (0)</sentence>
+			<sentence id="10.6">[b0cbb60a] -job create(will-attach) = OK (0)</sentence>
+			<sentence id="10.7">[info] POST /v1.15/containers/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b/attach?stderr=1&amp;stdin=1&amp;stdout=1&amp;stream=1</sentence>
+			<sentence id="10.8">[b0cbb60a] +job container_inspect(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b)</sentence>
+			<sentence id="10.9">[b0cbb60a] -job container_inspect(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b) = OK (0)</sentence>
+			<sentence id="10.10">[b0cbb60a] +job attach(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b)</sentence>
+			<sentence id="10.11">[info] POST /v1.15/containers/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b/start</sentence>
+			<sentence id="10.12">[b0cbb60a] +job start(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b)</sentence>
+			<sentence id="10.13">[b0cbb60a] +job allocate_interface(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b)</sentence>
+			<sentence id="10.14">[b0cbb60a] -job allocate_interface(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b) = OK (0)</sentence>
+			<sentence id="10.15">[b0cbb60a] +job log(start, 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b, ubuntu:14.04)</sentence>
+			<sentence id="10.16">[b0cbb60a] -job log(start, 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b, ubuntu:14.04) = OK (0)</sentence>
+			<sentence id="10.17">[b0cbb60a] -job start(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b) = OK (0)</sentence>
+			<sentence id="10.18">[info] POST /v1.15/containers/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b/resize?h=37&amp;w=150</sentence>
+			<sentence id="10.19">[b0cbb60a] +job resize(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b, 37, 150)</sentence>
+			<sentence id="10.20">[b0cbb60a] -job resize(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b, 37, 150) = OK (0)</sentence>
+			<sentence id="10.21">[info] POST /v1.15/containers/will-attach/exec</sentence>
+			<sentence id="10.22">[b0cbb60a] +job execCreate(will-attach)</sentence>
+			<sentence id="10.23">[b0cbb60a] -job execCreate(will-attach) = OK (0)</sentence>
+			<sentence id="10.24">[info] POST /v1.15/exec/1474b1fc533703656ae2caad9688384b55adc7ea824c9e2e941a395fc2daa968/start</sentence>
+			<sentence id="10.25">[b0cbb60a] +job execStart(1474b1fc533703656ae2caad9688384b55adc7ea824c9e2e941a395fc2daa968)</sentence>
+			<sentence id="10.26">[info] POST /v1.15/exec/1474b1fc533703656ae2caad9688384b55adc7ea824c9e2e941a395fc2daa968/resize?h=37&amp;w=150</sentence>
+			<sentence id="10.27">[b0cbb60a] +job execResize(1474b1fc533703656ae2caad9688384b55adc7ea824c9e2e941a395fc2daa968, 37, 150)</sentence>
+			<sentence id="10.28">[b0cbb60a] -job execResize(1474b1fc533703656ae2caad9688384b55adc7ea824c9e2e941a395fc2daa968, 37, 150) = OK (0)</sentence>
+			<sentence id="10.29">[b0cbb60a] +job log(die, 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b, ubuntu:14.04)</sentence>
+			<sentence id="10.30">[b0cbb60a] -job log(die, 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b, ubuntu:14.04) = OK (0)</sentence>
+			<sentence id="10.31">[b0cbb60a] +job release_interface(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b)</sentence>
+			<sentence id="10.32">[b0cbb60a] -job release_interface(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b) = OK (0)</sentence>
+			<sentence id="10.33">[b0cbb60a] -job attach(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b) = OK (0)</sentence>
+			<sentence id="10.34">[info] POST /v1.15/containers/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b/wait</sentence>
+			<sentence id="10.35">[b0cbb60a] +job wait(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b)</sentence>
+			<sentence id="10.36">[b0cbb60a] -job wait(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b) = OK (0)</sentence>
+			<sentence id="10.37">[info] GET /v1.15/containers/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b/json</sentence>
+			<sentence id="10.38">[b0cbb60a] +job container_inspect(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b)</sentence>
+			<sentence id="10.39">[b0cbb60a] -job container_inspect(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b) = OK (0)</sentence>
+			<sentence id="10.40">[info] DELETE /v1.15/containers/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b?v=1</sentence>
+			<sentence id="10.41">[b0cbb60a] +job rm(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b)</sentence>
+			<sentence id="10.42">Cannot destroy container 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b: Driver aufs failed to remove root filesystem 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b: rename /home/fabio/docker/aufs/diff/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b /home/fabio/docker/aufs/diff/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b-removing: device or resource busy</sentence>
+			<sentence id="10.43">[b0cbb60a] -job rm(8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b) = ERR (1)</sentence>
+			<sentence id="10.44">[error] server.go:1209 Handler for DELETE /containers/{name:.*} returned error: Cannot destroy container 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b: Driver aufs failed to remove root filesystem 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b: rename /home/fabio/docker/aufs/diff/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b /home/fabio/docker/aufs/diff/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b-removing: device or resource busy</sentence>
+			<sentence id="10.45">[error] server.go:110 HTTP Error: statusCode=500 Cannot destroy container 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b: Driver aufs failed to remove root filesystem 8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b: rename /home/fabio/docker/aufs/diff/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b /home/fabio/docker/aufs/diff/8b926229d0d690fd520680731aa9eab41513e681fd68190373b395fabb89503b-removing: device or resource busy</sentence>
+			<sentence id="10.46">[b0cbb60a] -job execStart(1474b1fc533703656ae2caad9688384b55adc7ea824c9e2e941a395fc2daa968) = OK (0)</sentence>
+			<sentence id="10.47">2014/10/03 00:22:25 http: response.WriteHeader on hijacked connection</sentence>
+			<sentence id="10.48">```</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Apparently things are working fine apart from the message since `docker ps -a | grep attach` gives me back no results.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">-----------------------</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Not sure if I should look into something else as well, so please LMK if more info is needed!</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">```
+$ docker version
+Client version: 1.3.0
+Client API version: 1.15
+Go version (client): go1.3.2
+Git commit (client): d812f87
+OS/Arch (client): linux/amd64
+Server version: 1.3.0
+Server API version: 1.15
+Go version (server): go1.3.2
+Git commit (server): d812f87</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">$ docker info
+Containers: 8
+Images: 343
+Storage Driver: aufs
+ Root Dir: /home/fabio/docker/aufs
+ Dirs: 400
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-35-generic
+Operating System: Ubuntu 14.04.1 LTS
+Username: fgrehm
+Registry: [https://index.docker.io/v1/]
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

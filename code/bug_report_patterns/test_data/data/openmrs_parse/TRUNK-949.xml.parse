@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-949</id>
+	<title>Ensure a persisted de-identified ID for patient lookup</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">One of our epidemiologists just pointed out that Medical Record Numbers are actually considered identifying information, and that an IRB would not be cool with using them for any sort of results reporting or formal research.</sentence>
+			<sentence id="1.2">A quick google search shows that HIPAA explicitly mentions MRNs as identifying info.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The issue here is that if you want to do anything even vaguely research-related with a system, every patient should have a non-MRN ID that can be used to re-identify them later.</sentence>
+			<sentence id="2.2">Our epidemiologist had been using patientId for this purpose, but this number is not persisted when a patient is merged into another.</sentence>
+			<sentence id="2.3">This seems like something we need to fix.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I can see two ways to do this, both of which require some programming:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">(1 In the OpenMRS API, explicitly start keeping track of which patientIds have been merged into each existing patient record.</sentence>
+			<sentence id="4.2">Make sure never to reuse a patientId after it's 'disappeared' during a merge.</sentence>
+			<sentence id="4.3">Add an API function to search by patientId that will pick up merges.</sentence>
+			<sentence id="4.4">Advantage: automatic and invisible to the implementer</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">(2 In our installation, create a new patient identifier type.</sentence>
+			<sentence id="5.2">Probably add a feature to the OpenMRS API to mark this id type as required and generated as an autonumber.</sentence>
+			<sentence id="5.3">Advantage: potentially less code to write, less obtrusive to existing model</sentence>
+			<sentence id="5.4">Disadvantage: implementer would need to explicitly turn on this behavior.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">My instinct is to do !</sentence>
+			<sentence id="6.2">#1.</sentence>
+			<sentence id="6.3">But what do others think?</sentence>
+		</paragraph>
+	</description>
+</bug>

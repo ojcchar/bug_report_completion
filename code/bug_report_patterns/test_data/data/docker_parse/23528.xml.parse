@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>23528</id>
+	<title>Should sanitize docker labels/env when using as journald field names </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">&lt;!</sentence>
+			<sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+			<sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+			<sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+			<sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+			<sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">---------------------------------------------------</sentence>
+			<sentence id="4.2">BUG REPORT INFORMATION</sentence>
+			<sentence id="4.3">---------------------------------------------------</sentence>
+			<sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+			<sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+			<sentence id="4.6">--&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+Client:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.3
+ Git commit: 4419fdb-dirty
+ Built: Fri Dec 18 00:01:03 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.3
+ Git commit: 4419fdb-dirty
+ Built: Fri Dec 18 00:01:03 UTC 2015
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">**Output of `docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">```
+Containers: 26
+Images: 75
+Server Version: 1.9.1
+Storage Driver: overlay
+ Backing Filesystem: extfs
+Execution Driver: native-0.2
+Logging Driver: journald
+Kernel Version: 4.3.3-coreos
+Operating System: CoreOS 899.1.0
+CPUs: 16
+Total Memory: 62.91 GiB
+Name: ip-10-20-9-13.</sentence>
+			<sentence id="9.2">us-west-2.</sentence>
+			<sentence id="9.3">compute.internal
+ID: ZXQE:OKTS:EA6K:2F27:CYMJ:3GQJ:2V3B:CQMG:KIJG:5VW2:P6O3:4QLY
+```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">**Additional environment details (AWS, VirtualBox, physical, etc.):** AWS</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="11.2">1 Start docker daemon</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">```
+docker daemon --log-driver=journald --log-opt labels=io.kubernetes.pod.name
+ ```</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">2 Launch a container that has label `io.kubernetes.pod.name`.</sentence>
+			<sentence id="13.2">For example</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">```
+docker run -l io.kubernetes.pod.name=foo -d ubuntu bash -c "while true; do echo 'Hello World'; sleep 5; done"
+ ```</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">**Describe the results you received:**</sentence>
+			<sentence id="15.2">`io.kubernetes.pod.name=foo` passed to journald for the logs of this container, with the label name changed to `IO_KUBERNETES_POD_NAME` due to the requirements on the field names imposed by journald</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">**Describe the results you expected:**</sentence>
+			<sentence id="16.2">Getting `journal error: variable name contains invalid character, ignoring` in the docker daemon log.</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+			<sentence id="17.2">Seems related to this line: https://github.com/docker/docker/blob/11a24f19c2da88b6c3b50114863f24c06c5ce2fd/daemon/logger/journald/journald.go#L56</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">The `keyMod` function should change all letters to upper case, any non-alphanumeric character to underscores, and remove any leading underscores.</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">I couldn't find any definitive documentation on journald field name requirements, but found this: https://github.com/coreos/go-systemd/blob/master/journal/journal.go#L68</sentence>
+		</paragraph>
+	</description>
+</bug>

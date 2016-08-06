@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>51</id>
+	<title>Add an index to /var/lib/docker/containers</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Docker keeps a lot of data on the disk.</sentence>
+			<sentence id="1.2">Basically one directory per command.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">It's really important to hash the container directories in order to not reach a critical amount of directories inside /var/lib/docker/containers.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The problem with directory hashing is that it'll be more difficult to list the containers (without walking the whole filesystem).</sentence>
+			<sentence id="3.2">It's then mandatory to index the directories (using a sqlite db?)</sentence>
+			<sentence id="3.3">to keep the ps command fast (and to limit this command to a certain number of containers by default).</sentence>
+		</paragraph>
+	</description>
+</bug>

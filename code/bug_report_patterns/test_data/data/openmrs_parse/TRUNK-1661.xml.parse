@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-1661</id>
+	<title>isOpenmrsObjectCollection returns true for collections of non-OpenmrsObject </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">isOpenmrsObjectCollection is returning true for collections of objects that are not of type OpenmrsObject.</sentence>
+			<sentence id="1.2">This is causing attempts to load Save Handlers on commits to the DB (where the method name starts with 'save') on non OpenmrsObjects: this results in casting exceptions that will hault the thread in the AOP (RequiredDataAdvice) before the commit is ever executed.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">There is a test for this already:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">isOpenmrsObjectCollection_shouldReturnFalseIfFieldIsCollectionOfOtherObjects()</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">but there seems to be a problem with it.</sentence>
+			<sentence id="4.2">In my case I discovered the problem by passing a List&lt;RemoteDataTransferQueueItem&gt; object to the isOpenmrsObjectCollection method, which returned true (incorrectly).</sentence>
+			<sentence id="4.3">This error can be recreated by simply passing a List&lt;String&gt; object to the method for simplicity: again it will return true incorrectly.</sentence>
+		</paragraph>
+	</description>
+</bug>

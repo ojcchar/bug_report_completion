@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19214</id>
+	<title>API Documentation doesn't cover X-Registry-Auth format</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In the documentation we mention that AuthConfig objects are passed in the X-Registry-Auth header, but we never document the format of AuthConfig objects, or when/why they get passed.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If you've done a docker login, you'll get a base64 encoded json file which looks like:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">{"username":"pdevine","password":"mysecretpassword","auth":"","email":"pdevine@foo.com","serveraddress":"192.168.1.101"}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">If you then do a docker logout, you'll get:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">{"auth":"","email":""}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">If you're using passed tokens, you'll get something like:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">{"registrytoken": "foo"}</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">We should document:</sentence>
+			<sentence id="8.2">- each of the fields (I think the auth field is new and related to the recent authZ changes?)</sentence>
+			<sentence id="8.3">- when fields get omitted (not sure why we even pass anything back after a docker logout?)</sentence>
+		</paragraph>
+	</description>
+</bug>

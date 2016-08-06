@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-1509</id>
+	<title>Clean up formentry_queue and hl7_in_queue attributes</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">These attributes were part of the initial design, before _archive_ and _error_ tables were created.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">* (-) formentry_queue.</sentence>
+			<sentence id="2.2">status</sentence>
+			<sentence id="2.3">* (-) formentry_queue.</sentence>
+			<sentence id="2.4">date_processed</sentence>
+			<sentence id="2.5">* (-) formentry_queue.</sentence>
+			<sentence id="2.6">error_msg</sentence>
+			<sentence id="2.7">* (-) hl7_in_queue.</sentence>
+			<sentence id="2.8">state</sentence>
+			<sentence id="2.9">* (-) hl7_in_queue.</sentence>
+			<sentence id="2.10">date_processed</sentence>
+			<sentence id="2.11">* (-) hl7_in_queue.</sentence>
+			<sentence id="2.12">error_msg</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">NOTE: The code and hibernate mappings are already updated to ignore these attributes, so you can remove them from the data model without worrying about synchronizing these changes with the code.</sentence>
+		</paragraph>
+	</description>
+</bug>

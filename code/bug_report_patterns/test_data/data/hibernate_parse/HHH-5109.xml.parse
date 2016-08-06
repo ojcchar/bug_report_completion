@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5109</id>
+	<title>@OneToOne - too many joins</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">With classes like this:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">@Entity
+@Proxy(lazy=false)
+class Owner {
+ @javax.</sentence>
+			<sentence id="2.2">persistence.Id
+ @javax.</sentence>
+			<sentence id="2.3">persistence.Column(name = "ID", columnDefinition = "BIGINT")
+ public java.lang.Long getId() {
+ return this.id;
+ }
+ 
+ public void setId(java.lang.Long newValue) {
+ this.id = newValue;
+ }
+ 
+ private java.lang.Long id;
+ 
+ @javax.</sentence>
+			<sentence id="2.4">persistence.OneToOne(targetEntity = Owned.class)
+ @org.</sentence>
+			<sentence id="2.5">hibernate.annotations.Cascade( { org.hibernate.annotations.CascadeType.ALL })
+ @javax.</sentence>
+			<sentence id="2.6">persistence.PrimaryKeyJoinColumn
+ public Owned getOwned() {
+ return this.owned;
+ }
+ 
+ public void setOwned(Owned owned) {
+ this.owned = owned;
+ if (owned !</sentence>
+			<sentence id="2.7">= null) {
+ owned.setOwner(this);
+ }
+ }
+ 
+ private Owned owned;
+}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1"></sentence>
+			<sentence id="3.2">@Entity</sentence>
+			<sentence id="3.3">@Proxy(lazy=false)</sentence>
+			<sentence id="3.4">class Owned {</sentence>
+			<sentence id="3.5"> private java.lang.Long id;</sentence>
+			<sentence id="3.6"> </sentence>
+			<sentence id="3.7"> @javax.persistence.Id</sentence>
+			<sentence id="3.8"> @javax.persistence.GeneratedValue(generator = "foreign")</sentence>
+			<sentence id="3.9"> @org.hibernate.annotations.GenericGenerator(</sentence>
+			<sentence id="3.10"> name = "foreign", </sentence>
+			<sentence id="3.11"> strategy = "foreign", </sentence>
+			<sentence id="3.12"> parameters = { @org.hibernate.annotations.Parameter(name = "property", value = "owner") })</sentence>
+			<sentence id="3.13"> @javax.persistence.Column(name = "ID", columnDefinition = "BIGINT")</sentence>
+			<sentence id="3.14"> public java.lang.Long getId() {</sentence>
+			<sentence id="3.15"> return this.id;</sentence>
+			<sentence id="3.16"> }</sentence>
+			<sentence id="3.17"> </sentence>
+			<sentence id="3.18"> public void setId(java.lang.Long newValue) {</sentence>
+			<sentence id="3.19"> this.id = newValue;</sentence>
+			<sentence id="3.20"> }</sentence>
+			<sentence id="3.21"> </sentence>
+			<sentence id="3.22"> @javax.persistence.OneToOne(targetEntity = Owner.class, mappedBy = "owned")</sentence>
+			<sentence id="3.23"> @javax.persistence.PrimaryKeyJoinColumn</sentence>
+			<sentence id="3.24"> public Owner getOwner() {</sentence>
+			<sentence id="3.25"> return this.owner;</sentence>
+			<sentence id="3.26"> }</sentence>
+			<sentence id="3.27"> </sentence>
+			<sentence id="3.28"> public void setOwner(Owner owner) {</sentence>
+			<sentence id="3.29"> this.owner = owner;</sentence>
+			<sentence id="3.30"> }</sentence>
+			<sentence id="3.31"> </sentence>
+			<sentence id="3.32"> private Owner owner;</sentence>
+			<sentence id="3.33">}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Idea is to have one to one relation between Owner and Owned mapped by "id" properties in both entities.</sentence>
+			<sentence id="4.2">So for each pair owner.id == owned.id.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">code:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">session.load(Owner.class, 1L)</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">turns into SQL:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">select owner0_.</sentence>
+			<sentence id="8.2">ID as ID0_2_, owned1_.</sentence>
+			<sentence id="8.3">ID as ID1_0_, owner2_.</sentence>
+			<sentence id="8.4">ID as ID0_1_
+from Owner owner0_ left outer
+ join Owned owned1_ on owner0_.</sentence>
+			<sentence id="8.5">ID=owned1_.</sentence>
+			<sentence id="8.6">ID 
+ left outer join Owner owner2_ on owned1_.</sentence>
+			<sentence id="8.7">ID=owner2_.</sentence>
+			<sentence id="8.8">ID 
+where owner0_.</sentence>
+			<sentence id="8.9">ID=?</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Isn't it wrong?</sentence>
+			<sentence id="9.2">@OneToOne annotation on getOwner() has mappedBy="owned" property, so I would expect this code to generate SQL with only one join (only "owner join owned").</sentence>
+			<sentence id="9.3">If this is correct H3 behaviour in this case, then write what should I change in annotations to get described behaviour, please.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">I've attached maven project with one test encapsulating this issue.</sentence>
+		</paragraph>
+	</description>
+</bug>

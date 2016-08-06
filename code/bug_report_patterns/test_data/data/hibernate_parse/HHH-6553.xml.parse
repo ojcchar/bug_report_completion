@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-6553</id>
+	<title>validate issue - char converted to varchar2(255) in Oracle</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Deployment in Tomcat I get this issue with one of my persistent object, deployment issue 'Wrong column type FGTADM.CABIN_CLASSES for column class_code.</sentence>
+			<sentence id="1.2">Found: char, expected: varchar2(255 char).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I think the issue is with the Oracle dialect and how it converts a java String type to varchar2(255); regardless of what is on set on the @Column annotation; in particular the columnDefinition='char' setting is ignored.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Currently the class that errors on deployment is annotated like this:
+public class CabinClass extends FareGateObject {</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@Id
+ @Column(name = "class_code", length=1, columnDefinition = "char")
+ private String classCode;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The Oracle cabin_class table is structured like this:
+COLUMN_NAME	TYPE_NAME	COLUMN_SIZE
+CLASS_CODE	CHAR	 1
+CLASS_NAME	VARCHAR2	15
+DESCRIPTION	VARCHAR2	200</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Any help appreciated.</sentence>
+			<sentence id="6.2">Do I need to upgrade hibernate?</sentence>
+			<sentence id="6.3">Is the @Column annotation definition correct?</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">regards
+geoffpowdrell</sentence>
+		</paragraph>
+	</description>
+</bug>

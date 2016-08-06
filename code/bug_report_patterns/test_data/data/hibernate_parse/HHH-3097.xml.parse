@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3097</id>
+	<title>org.hibernate.engine.query.sql.NativeSQLQueryScalarReturn not serializable</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In my domain class I've NamedNativeQuery:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">@SqlResultSetMappings({@SqlResultSetMapping(name = "uir_suma_zbiorow_result", columns = @ColumnResult(name = "result"))})
+@NamedNativeQueries({@NamedNativeQuery(name = "uir.uir_suma_zbiorow", query = "select uir_suma_zbiorow(:var1, :var2, :var3) as result", resultSetMapping = "uir_suma_zbiorow_result")})</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">During build session factory on jboss i have Exception:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Caused by: javax.naming.CommunicationException [Root exception is java.io.NotSerializableException: org.hibernate.engine.query.sql.NativeSQLQueryScalarReturn]</sentence>
+			<sentence id="4.2"> at org.jnp.interfaces.NamingContext.bind(NamingContext.java:618)</sentence>
+			<sentence id="4.3"> at org.jnp.interfaces.NamingContext.bind(NamingContext.java:552)</sentence>
+			<sentence id="4.4"> at org.jboss.util.naming.Util.bind(Util.java:102)</sentence>
+			<sentence id="4.5"> at org.jboss.util.naming.Util.bind(Util.java:89)</sentence>
+			<sentence id="4.6"> at pl.computerland.syriusz.std.hibernate.jmx.Hibernate2.bind(Hibernate2.java:429)</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8111</id>
+	<title>AttributeConverter doesn't override built-in type mappings</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">{code}</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">@Converter
+public class MonetaryAmountConverter
+ implements AttributeConverter&lt;MonetaryAmount, String&gt; {</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">@Override
+ public String convertToDatabaseColumn(MonetaryAmount monetaryAmount) {
+ return monetaryAmount.toString();
+ }</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@Override
+ public MonetaryAmount convertToEntityAttribute(String s) {
+ return MonetaryAmount.fromString(s);
+ }
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">{code}
+public class MonetaryAmount implements Serializable {</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">private final BigDecimal value;
+ private final Currency currency;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">public MonetaryAmount(BigDecimal value, Currency currency) {
+ this.value = value;
+ this.currency = currency;
+ }</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">public Currency getCurrency() {
+ return currency;
+ }</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">public BigDecimal getValue() {
+ return value;
+ }</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">public boolean equals(Object o) {
+ if (this == o) return true;
+ if (!</sentence>
+			<sentence id="10.2">(o instanceof MonetaryAmount)) return false;</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">final MonetaryAmount monetaryAmount = (MonetaryAmount) o;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">if (!</sentence>
+			<sentence id="12.2">currency.equals(monetaryAmount.currency)) return false;
+ if (!</sentence>
+			<sentence id="12.3">value.equals(monetaryAmount.value)) return false;</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">return true;
+ }</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1"> public int hashCode() {</sentence>
+			<sentence id="14.2"> int result;</sentence>
+			<sentence id="14.3"> result = value.hashCode();</sentence>
+			<sentence id="14.4"> result = 29 HHH-10062.json HHH-10062.xml HHH-10099.json HHH-10099.xml HHH-10163.json HHH-10163.xml HHH-1018.json HHH-1018.xml HHH-10220.json HHH-10220.xml HHH-10264.json HHH-10264.xml HHH-10283.json HHH-10283.xml HHH-10285.json HHH-10285.xml HHH-1034.json HHH-1034.xml HHH-10372.json HHH-10372.xml HHH-104.json HHH-104.xml HHH-10427.json HHH-10427.xml HHH-10443.json HHH-10443.xml HHH-10444.json HHH-10444.xml HHH-10455.json HHH-10455.xml HHH-10499.json HHH-10499.xml HHH-10561.json HHH-10561.xml HHH-10592.json HHH-10592.xml HHH-10601.json HHH-10601.xml HHH-10617.json HHH-10617.xml HHH-10658.json HHH-10658.xml HHH-10666.json HHH-10666.xml HHH-10672.json HHH-10672.xml HHH-10682.json HHH-10682.xml HHH-10695.json HHH-10695.xml HHH-1128.json HHH-1128.xml HHH-1141.json HHH-1141.xml HHH-1147.json HHH-1147.xml HHH-1219.json HHH-1219.xml HHH-126.json HHH-126.xml HHH-1272.json HHH-1272.xml HHH-1300.json HHH-1300.xml HHH-1319.json HHH-1319.xml HHH-1376.json HHH-1376.xml HHH-1378.json HHH-1378.xml HHH-1425.json HHH-1425.xml HHH-1440.json HHH-1440.xml HHH-1450.json HHH-1450.xml HHH-1508.json HHH-1508.xml HHH-151.json HHH-151.xml HHH-1567.json HHH-1567.xml HHH-1627.json HHH-1627.xml HHH-1629.json HHH-1629.xml HHH-1805.json HHH-1805.xml HHH-1842.json HHH-1842.xml HHH-1877.json HHH-1877.xml HHH-1883.json HHH-1883.xml HHH-1930.json HHH-1930.xml HHH-2235.json HHH-2235.xml HHH-2256.json HHH-2256.xml HHH-2324.json HHH-2324.xml HHH-2429.json HHH-2429.xml HHH-2494.json HHH-2494.xml HHH-2577.json HHH-2577.xml HHH-2614.json HHH-2614.xml HHH-263.json HHH-263.xml HHH-2640.json HHH-2640.xml HHH-2841.json HHH-2841.xml HHH-2905.json HHH-2905.xml HHH-300.json HHH-300.xml HHH-3079.json HHH-3079.xml HHH-3097.json HHH-3097.xml HHH-3151.json HHH-3151.xml HHH-3152.json HHH-3152.xml HHH-3161.json HHH-3161.xml HHH-3163.json HHH-3163.xml HHH-3216.json HHH-3216.xml HHH-3282.json HHH-3282.xml HHH-3307.json HHH-3307.xml HHH-3321.json HHH-3321.xml HHH-3399.json HHH-3399.xml HHH-3409.json HHH-3409.xml HHH-3460.json HHH-3460.xml HHH-3490.json HHH-3490.xml HHH-3523.json HHH-3523.xml HHH-353.json HHH-353.xml HHH-3652.json HHH-3652.xml HHH-3755.json HHH-3755.xml HHH-3775.json HHH-3775.xml HHH-3794.json HHH-3794.xml HHH-3826.json HHH-3826.xml HHH-384.json HHH-384.xml HHH-3916.json HHH-3916.xml HHH-4095.json HHH-4095.xml HHH-4100.json HHH-4100.xml HHH-4119.json HHH-4119.xml HHH-4152.json HHH-4152.xml HHH-4158.json HHH-4158.xml HHH-4278.json HHH-4278.xml HHH-4301.json HHH-4301.xml HHH-4303.json HHH-4303.xml HHH-4506.json HHH-4506.xml HHH-4567.json HHH-4567.xml HHH-457.json HHH-457.xml HHH-4591.json HHH-4591.xml HHH-4592.json HHH-4592.xml HHH-4703.json HHH-4703.xml HHH-4715.json HHH-4715.xml HHH-4764.json HHH-4764.xml HHH-4808.json HHH-4808.xml HHH-4810.json HHH-4810.xml HHH-4830.json HHH-4830.xml HHH-4859.json HHH-4859.xml HHH-4870.json HHH-4870.xml HHH-4888.json HHH-4888.xml HHH-4893.json HHH-4893.xml HHH-4899.json HHH-4899.xml HHH-4915.json HHH-4915.xml HHH-4948.json HHH-4948.xml HHH-5001.json HHH-5001.xml HHH-5021.json HHH-5021.xml HHH-5056.json HHH-5056.xml HHH-5079.json HHH-5079.xml HHH-5081.json HHH-5081.xml HHH-5082.json HHH-5082.xml HHH-5109.json HHH-5109.xml HHH-5165.json HHH-5165.xml HHH-5180.json HHH-5180.xml HHH-5224.json HHH-5224.xml HHH-5225.json HHH-5225.xml HHH-5307.json HHH-5307.xml HHH-5328.json HHH-5328.xml HHH-5333.json HHH-5333.xml HHH-5346.json HHH-5346.xml HHH-5378.json HHH-5378.xml HHH-5395.json HHH-5395.xml HHH-5440.json HHH-5440.xml HHH-550.json HHH-550.xml HHH-5535.json HHH-5535.xml HHH-554.json HHH-554.xml HHH-5545.json HHH-5545.xml HHH-5575.json HHH-5575.xml HHH-5642.json HHH-5642.xml HHH-5668.json HHH-5668.xml HHH-5725.json HHH-5725.xml HHH-5858.json HHH-5858.xml HHH-5894.json HHH-5894.xml HHH-5895.json HHH-5895.xml HHH-591.json HHH-591.xml HHH-5948.json HHH-5948.xml HHH-5996.json HHH-5996.xml HHH-6137.json HHH-6137.xml HHH-6256.json HHH-6256.xml HHH-6313.json HHH-6313.xml HHH-6484.json HHH-6484.xml HHH-6506.json HHH-6506.xml HHH-6546.json HHH-6546.xml HHH-6553.json HHH-6553.xml HHH-6572.json HHH-6572.xml HHH-6587.json HHH-6587.xml HHH-6630.json HHH-6630.xml HHH-6631.json HHH-6631.xml HHH-6639.json HHH-6639.xml HHH-6677.json HHH-6677.xml HHH-6705.json HHH-6705.xml HHH-6717.json HHH-6717.xml HHH-6773.json HHH-6773.xml HHH-6781.json HHH-6781.xml HHH-6830.json HHH-6830.xml HHH-6884.json HHH-6884.xml HHH-6898.json HHH-6898.xml HHH-6921.json HHH-6921.xml HHH-6942.json HHH-6942.xml HHH-6991.json HHH-6991.xml HHH-7167.json HHH-7167.xml HHH-7187.json HHH-7187.xml HHH-7192.json HHH-7192.xml HHH-7241.json HHH-7241.xml HHH-7274.json HHH-7274.xml HHH-7311.json HHH-7311.xml HHH-7346.json HHH-7346.xml HHH-7412.json HHH-7412.xml HHH-7434.json HHH-7434.xml HHH-7444.json HHH-7444.xml HHH-7487.json HHH-7487.xml HHH-7510.json HHH-7510.xml HHH-7516.json HHH-7516.xml HHH-7579.json HHH-7579.xml HHH-7584.json HHH-7584.xml HHH-7588.json HHH-7588.xml HHH-76.json HHH-76.xml HHH-7638.json HHH-7638.xml HHH-7644.json HHH-7644.xml HHH-7655.json HHH-7655.xml HHH-7717.json HHH-7717.xml HHH-7752.json HHH-7752.xml HHH-7824.json HHH-7824.xml HHH-7837.json HHH-7837.xml HHH-7877.json HHH-7877.xml HHH-7923.json HHH-7923.xml HHH-8006.json HHH-8006.xml HHH-8041.json HHH-8041.xml HHH-8106.json HHH-8106.xml HHH-8111.json HHH-8111.xml HHH-8125.json HHH-8125.xml HHH-8130.json HHH-8130.xml HHH-8158.json HHH-8158.xml HHH-8173.json HHH-8173.xml HHH-8216.json HHH-8216.xml HHH-8328.json HHH-8328.xml HHH-8379.json HHH-8379.xml HHH-8435.json HHH-8435.xml HHH-8439.json HHH-8439.xml HHH-8471.json HHH-8471.xml HHH-8534.json HHH-8534.xml HHH-8564.json HHH-8564.xml HHH-8608.json HHH-8608.xml HHH-8696.json HHH-8696.xml HHH-8779.json HHH-8779.xml HHH-8798.json HHH-8798.xml HHH-8805.json HHH-8805.xml HHH-8837.json HHH-8837.xml HHH-8853.json HHH-8853.xml HHH-8922.json HHH-8922.xml HHH-900.json HHH-900.xml HHH-9011.json HHH-9011.xml HHH-9101.json HHH-9101.xml HHH-9111.json HHH-9111.xml HHH-9135.json HHH-9135.xml HHH-9156.json HHH-9156.xml HHH-9194.json HHH-9194.xml HHH-9259.json HHH-9259.xml HHH-927.json HHH-927.xml HHH-932.json HHH-932.xml HHH-9362.json HHH-9362.xml HHH-9394.json HHH-9394.xml HHH-9426.json HHH-9426.xml HHH-9436.json HHH-9436.xml HHH-9505.json HHH-9505.xml HHH-951.json HHH-951.xml HHH-9565.json HHH-9565.xml HHH-958.json HHH-958.xml HHH-9672.json HHH-9672.xml HHH-9689.json HHH-9689.xml HHH-9691.json HHH-9691.xml HHH-9741.json HHH-9741.xml HHH-9769.json HHH-9769.xml HHH-9772.json HHH-9772.xml HHH-9776.json HHH-9776.xml HHH-9784.json HHH-9784.xml HHH-9936.json HHH-9936.xml HHH-9947.json HHH-9947.xml HHH-9978.json HHH-9978.xml HHH-9988.json HHH-9988.xml short result + currency.hashCode();</sentence>
+			<sentence id="14.5"> return result;</sentence>
+			<sentence id="14.6"> }</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">public String toString() {
+ return getValue() + " " + getCurrency();
+ }</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">public static MonetaryAmount fromString(String s) {
+ String[] split = s.split(" ");
+ return new MonetaryAmount(
+ new BigDecimal(split[0]),
+ Currency.getInstance(split[1])
+ );
+ }
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">{code}</sentence>
+			<sentence id="17.2">Caused by: org.hibernate.HibernateException: Unknown unwrap conversion requested: org.jpwh.model.advanced.MonetaryAmount to java.lang.String</sentence>
+			<sentence id="17.3">	at org.hibernate.type.descriptor.java.AbstractTypeDescriptor.unknownUnwrap(AbstractTypeDescriptor.java:103)</sentence>
+			<sentence id="17.4">	at org.hibernate.type.descriptor.java.SerializableTypeDescriptor.unwrap(SerializableTypeDescriptor.java:114)</sentence>
+			<sentence id="17.5">	at org.hibernate.type.descriptor.java.SerializableTypeDescriptor.unwrap(SerializableTypeDescriptor.java:44)</sentence>
+			<sentence id="17.6">	at org.hibernate.type.descriptor.sql.VarcharTypeDescriptor$1.doBind(VarcharTypeDescriptor.java:64)</sentence>
+			<sentence id="17.7">	at org.hibernate.type.descriptor.sql.BasicBinder.bind(BasicBinder.java:92)</sentence>
+			<sentence id="17.8">	at org.hibernate.mapping.SimpleValue$AttributeConverterSqlTypeDescriptorAdapter$1.doBind(SimpleValue.java:490)</sentence>
+			<sentence id="17.9">	at org.hibernate.type.descriptor.sql.BasicBinder.bind(BasicBinder.java:92)</sentence>
+			<sentence id="17.10">	at org.hibernate.type.AbstractStandardBasicType.nullSafeSet(AbstractStandardBasicType.java:281)</sentence>
+			<sentence id="17.11">	at org.hibernate.type.AbstractStandardBasicType.nullSafeSet(AbstractStandardBasicType.java:276)</sentence>
+			<sentence id="17.12">	at org.hibernate.type.AbstractSingleColumnStandardBasicType.nullSafeSet(AbstractSingleColumnStandardBasicType.java:56)</sentence>
+			<sentence id="17.13">	at org.hibernate.persister.entity.AbstractEntityPersister.dehydrate(AbstractEntityPersister.java:2778)</sentence>
+			<sentence id="17.14">	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3056)</sentence>
+			<sentence id="17.15">	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3500)</sentence>
+			<sentence id="17.16">	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:88)</sentence>
+			<sentence id="17.17">	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:362)</sentence>
+			<sentence id="17.18">	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:354)</sentence>
+			<sentence id="17.19">	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:275)</sentence>
+			<sentence id="17.20">	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:329)</sentence>
+			<sentence id="17.21">	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:52)</sentence>
+			<sentence id="17.22">	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1234)</sentence>
+			<sentence id="17.23">	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:404)</sentence>
+			<sentence id="17.24">	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:112)</sentence>
+			<sentence id="17.25">	... 35 more</sentence>
+			<sentence id="17.26">{code}</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">This works if you remove Serializable from MonetaryAmount.</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">The problem seems to be JavaTypeDescriptorRegistry#getDescriptor(Class), which gets a match for SerializableTypeDescriptor.</sentence>
+			<sentence id="19.2">If the class isn't Serializable, it passes through to FallbackJavaTypeDescriptor and everything works.</sentence>
+		</paragraph>
+	</description>
+</bug>

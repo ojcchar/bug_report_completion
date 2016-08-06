@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10884</id>
+	<title>Intermittent errors while deleting images</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Sometimes I get an error saying that a container is using an image while trying to delete it.</sentence>
+			<sentence id="1.2">But there are no containers running at that point.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">cloudscaling@mngmt2:~/dockstack&gt; docker images</sentence>
+			<sentence id="2.3">REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE</sentence>
+			<sentence id="2.4">rabbitmq latest 81ed90453f10 19 hours ago 727.7 MB</sentence>
+			<sentence id="2.5">galera latest 286ece7185b4 19 hours ago 441.7 MB</sentence>
+			<sentence id="2.6">&lt;none&gt; &lt;none&gt; 8886136b307f 19 hours ago 2.359 GB</sentence>
+			<sentence id="2.7">&lt;none&gt; &lt;none&gt; dce4d6c0ab72 19 hours ago 2.359 GB</sentence>
+			<sentence id="2.8">ubuntu 14.04 5ba9dab47459 3 weeks ago 188.3 MB</sentence>
+			<sentence id="2.9">ubuntu 14.04.1 5ba9dab47459 3 weeks ago 188.3 MB</sentence>
+			<sentence id="2.10">ubuntu latest 5ba9dab47459 3 weeks ago 188.3 MB</sentence>
+			<sentence id="2.11">ubuntu trusty 5ba9dab47459 3 weeks ago 188.3 MB</sentence>
+			<sentence id="2.12">ubuntu 12.04 69c02692b0c1 3 weeks ago 131.5 MB</sentence>
+			<sentence id="2.13">opensuse latest 758c78b4040c 6 weeks ago 622.7 MB</sentence>
+			<sentence id="2.14">cloudscaling@mngmt2:~/dockstack&gt; docker rmi 81ed90453f10</sentence>
+			<sentence id="2.15">Error response from daemon: Conflict, cannot delete 81ed90453f10 because the container e0afc84cd0b4 is using it, use -f to force</sentence>
+			<sentence id="2.16">FATA[0000] Error: failed to remove one or more images</sentence>
+			<sentence id="2.17">cloudscaling@mngmt2:~/dockstack&gt; docker ps</sentence>
+			<sentence id="2.18">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+			<sentence id="2.19">cloudscaling@mngmt2:~/dockstack&gt; docker info</sentence>
+			<sentence id="2.20">Containers: 16</sentence>
+			<sentence id="2.21">Images: 79</sentence>
+			<sentence id="2.22">Storage Driver: btrfs</sentence>
+			<sentence id="2.23"> Build Version: Btrfs v3.16.2+20141003</sentence>
+			<sentence id="2.24"> Library Version: 101</sentence>
+			<sentence id="2.25">Execution Driver: native-0.2</sentence>
+			<sentence id="2.26">Kernel Version: 3.16.7-7-desktop</sentence>
+			<sentence id="2.27">Operating System: openSUSE 13.2 (Harlequin) (x86_64)</sentence>
+			<sentence id="2.28">CPUs: 4</sentence>
+			<sentence id="2.29">Total Memory: 15.68 GiB</sentence>
+			<sentence id="2.30">Name: mngmt2</sentence>
+			<sentence id="2.31">ID: DYZG:YKDS:GL56:TZ5Q:PKUW:ENPY:P7AA:ZDFO:57SH:OWNE:IWYF:3OH7</sentence>
+			<sentence id="2.32">WARNING: No swap limit support</sentence>
+			<sentence id="2.33">cloudscaling@mngmt2:~/dockstack&gt; docker version</sentence>
+			<sentence id="2.34">Client version: 1.5.0</sentence>
+			<sentence id="2.35">Client API version: 1.17</sentence>
+			<sentence id="2.36">Go version (client): go1.3.3</sentence>
+			<sentence id="2.37">Git commit (client): a8a31ef</sentence>
+			<sentence id="2.38">OS/Arch (client): linux/amd64</sentence>
+			<sentence id="2.39">Server version: 1.5.0</sentence>
+			<sentence id="2.40">Server API version: 1.17</sentence>
+			<sentence id="2.41">Go version (server): go1.3.3</sentence>
+			<sentence id="2.42">Git commit (server): a8a31ef</sentence>
+			<sentence id="2.43">cloudscaling@mngmt2:~/dockstack&gt; uname -a</sentence>
+			<sentence id="2.44">Linux mngmt2 3.16.7-7-desktop #1 SMP PREEMPT Wed Dec 17 18:00:44 UTC 2014 (762f27a) x86_64 x86_64 x86_64 GNU/Linux</sentence>
+			<sentence id="2.45">cloudscaling@mngmt2:~/dockstack&gt;</sentence>
+			<sentence id="2.46">```</sentence>
+		</paragraph>
+	</description>
+</bug>

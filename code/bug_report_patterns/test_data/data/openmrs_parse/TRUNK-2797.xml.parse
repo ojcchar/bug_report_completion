@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-2797</id>
+	<title>Cannot end visit through patient dashboard</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Clicking the "End Visit Now" button on the patient dashboard throws as exception with the stack trace below:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">ERROR - JDBCExceptionReporter.logExceptions(78) |2011-10-26 23:53:15,200| Unknown column 'attributes0_.value_reference' in 'field list'</sentence>
+			<sentence id="3.2">Oct 26, 2011 11:53:15 PM org.apache.catalina.core.StandardWrapperValve invoke</sentence>
+			<sentence id="3.3">SEVERE: Servlet.service() for servlet openmrs threw exception</sentence>
+			<sentence id="3.4">com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'attributes0_.value_reference' in 'field list'</sentence>
+			<sentence id="3.5">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</sentence>
+			<sentence id="3.6">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)</sentence>
+			<sentence id="3.7">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)</sentence>
+			<sentence id="3.8">	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)</sentence>
+			<sentence id="3.9">	at com.mysql.jdbc.Util.handleNewInstance(Util.java:406)</sentence>
+			<sentence id="3.10">	at com.mysql.jdbc.Util.getInstance(Util.java:381)</sentence>
+			<sentence id="3.11">	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1030)</sentence>
+			<sentence id="3.12">	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:956)</sentence>
+			<sentence id="3.13">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3536)</sentence>
+			<sentence id="3.14">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3468)</sentence>
+			<sentence id="3.15">	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1957)</sentence>
+			<sentence id="3.16">	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2107)</sentence>
+			<sentence id="3.17">	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2648)</sentence>
+			<sentence id="3.18">	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2086)</sentence>
+			<sentence id="3.19">	at com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2237)</sentence>
+			<sentence id="3.20">	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.executeQuery(NewProxyPreparedStatement.java:76)</sentence>
+			<sentence id="3.21">	at org.hibernate.jdbc.AbstractBatcher.getResultSet(AbstractBatcher.java:186)</sentence>
+			<sentence id="3.22">	at org.hibernate.loader.Loader.getResultSet(Loader.java:1787)</sentence>
+			<sentence id="3.23">	at org.hibernate.loader.Loader.doQuery(Loader.java:674)</sentence>
+			<sentence id="3.24">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:236)</sentence>
+			<sentence id="3.25">	at org.hibernate.loader.Loader.loadCollection(Loader.java:1994)</sentence>
+			<sentence id="3.26">	at org.hibernate.loader.collection.BatchingCollectionInitializer.initialize(BatchingCollectionInitializer.java:52)</sentence>
+			<sentence id="3.27">	at org.hibernate.persister.collection.AbstractCollectionPersister.initialize(AbstractCollectionPersister.java:565)</sentence>
+			<sentence id="3.28">	at org.hibernate.event.def.DefaultInitializeCollectionEventListener.onInitializeCollection(DefaultInitializeCollectionEventListener.java:60)</sentence>
+			<sentence id="3.29">	at org.hibernate.impl.SessionImpl.initializeCollection(SessionImpl.java:1716)</sentence>
+			<sentence id="3.30">	at org.hibernate.collection.AbstractPersistentCollection.initialize(AbstractPersistentCollection.java:344)</sentence>
+			<sentence id="3.31">	at org.hibernate.collection.AbstractPersistentCollection.read(AbstractPersistentCollection.java:86)</sentence>
+			<sentence id="3.32">	at org.hibernate.collection.PersistentSet.iterator(PersistentSet.java:163)</sentence>
+			<sentence id="3.33">	at org.openmrs.aop.RequiredDataAdvice.recursivelyHandle(RequiredDataAdvice.java:239)</sentence>
+			<sentence id="3.34">	at org.openmrs.aop.RequiredDataAdvice.recursivelyHandle(RequiredDataAdvice.java:188)</sentence>
+			<sentence id="3.35">	at org.openmrs.aop.RequiredDataAdvice.before(RequiredDataAdvice.java:130)</sentence>
+			<sentence id="3.36">	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:49)</sentence>
+			<sentence id="3.37">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="3.38">	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)</sentence>
+			<sentence id="3.39">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="3.40">	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)</sentence>
+			<sentence id="3.41">	at $Proxy129.saveVisit(Unknown Source)</sentence>
+			<sentence id="3.42">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="3.43">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="3.44">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="3.45">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="3.46">	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:309)</sentence>
+			<sentence id="3.47">	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183)</sentence>
+			<sentence id="3.48">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)</sentence>
+			<sentence id="3.49">	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:110)</sentence>
+			<sentence id="3.50">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="3.51">	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)</sentence>
+			<sentence id="3.52">	at $Proxy129.saveVisit(Unknown Source)</sentence>
+			<sentence id="3.53">	at org.openmrs.web.controller.visit.VisitFormController.endVisitNow(VisitFormController.java:95)</sentence>
+			<sentence id="3.54">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="3.55">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="3.56">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="3.57">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="3.58">	at org.springframework.web.bind.annotation.support.HandlerMethodInvoker.invokeHandlerMethod(HandlerMethodInvoker.java:176)</sentence>
+			<sentence id="3.59">	at org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter.invokeHandlerMethod(AnnotationMethodHandlerAdapter.java:426)</sentence>
+			<sentence id="3.60">	at org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter.handle(AnnotationMethodHandlerAdapter.java:414)</sentence>
+			<sentence id="3.61">	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:790)</sentence>
+			<sentence id="3.62">	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:719)</sentence>
+			<sentence id="3.63">	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:644)</sentence>
+			<sentence id="3.64">	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:549)</sentence>
+			<sentence id="3.65">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:617)</sentence>
+			<sentence id="3.66">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+			<sentence id="3.67">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+			<sentence id="3.68">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.69">	at org.openmrs.module.web.filter.ForcePasswordChangeFilter.doFilter(ForcePasswordChangeFilter.java:65)</sentence>
+			<sentence id="3.70">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.71">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.72">	at org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+			<sentence id="3.73">	at org.openmrs.module.xforms.web.XformsFilter.doFilter(XformsFilter.java:60)</sentence>
+			<sentence id="3.74">	at org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:74)</sentence>
+			<sentence id="3.75">	at org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+			<sentence id="3.76">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.77">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.78">	at org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:111)</sentence>
+			<sentence id="3.79">	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+			<sentence id="3.80">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.81">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.82">	at org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+			<sentence id="3.83">	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+			<sentence id="3.84">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.85">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.86">	at org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="3.87">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.88">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.89">	at org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="3.90">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.91">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.92">	at org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="3.93">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.94">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.95">	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:88)</sentence>
+			<sentence id="3.96">	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+			<sentence id="3.97">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.98">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.99">	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+			<sentence id="3.100">	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</sentence>
+			<sentence id="3.101">	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</sentence>
+			<sentence id="3.102">	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+			<sentence id="3.103">	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+			<sentence id="3.104">	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:298)</sentence>
+			<sentence id="3.105">	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:852)</sentence>
+			<sentence id="3.106">	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:588)</sentence>
+			<sentence id="3.107">	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)</sentence>
+			<sentence id="3.108">	at java.lang.Thread.run(Thread.java:680)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">{code}</sentence>
+		</paragraph>
+	</description>
+</bug>

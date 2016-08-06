@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19493</id>
+	<title>Docker does not allow to mount root volume, even if not bound to host</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Aufs is buggy, so in order to avoid using it we want to mount the entire root filesystem of a countainer,
+using -v /</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This is not allowed - docker returns "Can not mount root"</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Not clear why this choice was made and why is it not allowed to do non-bound mounts of volumes.</sentence>
+		</paragraph>
+	</description>
+</bug>

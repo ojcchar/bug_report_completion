@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8798</id>
+	<title>Lazy fetching Basic Property with second level cache</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If an entity has a basic column marked as lazy fetching like this:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">@Basic(fetch = FetchType.LAZY)
+ private String whatever;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">And a second level cache is active for that entity</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = Constants.STATIC_CACHE)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Fetching lazy properties fails with an exception:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Caused by: org.hibernate.PropertyAccessException: could not set a field value by reflection setter of clazz.field</sentence>
+			<sentence id="6.2"> at org.hibernate.property.DirectPropertyAccessor$DirectSetter.set(DirectPropertyAccessor.java:151)</sentence>
+			<sentence id="6.3"> at org.hibernate.tuple.entity.AbstractEntityTuplizer.setPropertyValue(AbstractEntityTuplizer.java:716)</sentence>
+			<sentence id="6.4"> at org.hibernate.persister.entity.AbstractEntityPersister.setPropertyValue(AbstractEntityPersister.java:4526)</sentence>
+			<sentence id="6.5"> at org.hibernate.persister.entity.AbstractEntityPersister.initializeLazyProperty(AbstractEntityPersister.java:1341)</sentence>
+			<sentence id="6.6"> at org.hibernate.persister.entity.AbstractEntityPersister.initializeLazyPropertiesFromCache(AbstractEntityPersister.java:1324)</sentence>
+			<sentence id="6.7"> at org.hibernate.persister.entity.AbstractEntityPersister.initializeLazyProperty(AbstractEntityPersister.java:1230)</sentence>
+			<sentence id="6.8"> at org.hibernate.bytecode.instrumentation.spi.AbstractFieldInterceptor.intercept(AbstractFieldInterceptor.java:95)</sentence>
+			<sentence id="6.9"> at org.hibernate.bytecode.instrumentation.internal.javassist.FieldInterceptorImpl.readObject(FieldInterceptorImpl.java:98)</sentence>
+			<sentence id="6.10"> at com.dreikraft.on.shopv5.pu.Onorm.$javassist_read_pfadbildResolved(Onorm.java)</sentence>
+			<sentence id="6.11"> at com.dreikraft.on.shopv5.pu.Onorm.getPfadbildResolved(Onorm.java:115)</sentence>
+			<sentence id="6.12"> at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="6.13"> at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="6.14"> at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="6.15"> at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="6.16"> at javax.el.BeanELResolver.getValue(BeanELResolver.java:83)</sentence>
+			<sentence id="6.17"> ... 95 more</sentence>
+			<sentence id="6.18">Caused by: java.lang.IllegalArgumentException: Can not set java.lang.String field clazz.field to org.hibernate.bytecode.instrumentation.spi.LazyPropertyInitializer$1</sentence>
+			<sentence id="6.19"> at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:146)</sentence>
+			<sentence id="6.20"> at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:150)</sentence>
+			<sentence id="6.21"> at sun.reflect.UnsafeObjectFieldAccessorImpl.set(UnsafeObjectFieldAccessorImpl.java:63)</sentence>
+			<sentence id="6.22"> at java.lang.reflect.Field.set(Field.java:657)</sentence>
+			<sentence id="6.23"> at org.hibernate.property.DirectPropertyAccessor$DirectSetter.set(DirectPropertyAccessor.java:139)</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The reason for this seems to be that AbstractEntityPersister.initializeLazyProperty there is a check whether the object is already in the cache.</sentence>
+			<sentence id="7.2">As it had been loaded previously, it is in the cache, but with the lazy property still not initialized.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">It gets the value from the cache, but picks up a LazyPropertyInitializer$1 for the requested property.</sentence>
+			<sentence id="8.2">It then tries to set that value (which should be the fetched value) and fails with the exception above because the type is not valid for the property.</sentence>
+			<sentence id="8.3">At least needs a check in AbstractEntityPersister.initializeLazyProperty for that case to fetch the value from the datastore if the value requested is still that marker object for uninitialized properties.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">As annotating a basic property as lazy is valid in JPA, this behavior is in violation of the JPA spec.</sentence>
+		</paragraph>
+	</description>
+</bug>

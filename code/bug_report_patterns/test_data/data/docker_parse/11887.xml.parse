@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>11887</id>
+	<title>Opening lots of ports with linking forces `docker ps` to hang</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi.</sentence>
+			<sentence id="1.2">I'm doing some weird things (jenkins in docker with docker-in-docker slaves), so i've stumbled upon a situation where, as i thought, i needed to expose all ports up from 49153 (i need to open connections for jenkins slaves on DinD container). `EXPOSE 49153-65535` worked like a charm (at first), but docker-compose failed to start my composition (DinD container with 16k of opened ports started in a moment, but it was linked to Jenkins container which couldn't start due to timeout), and `docker ps -a` just hanged until i've restarted everything and reduced range of opened ports to 49153-49500. Even in that case `docker ps` may be a little slow.</sentence>
+			<sentence id="1.3">I know that this situation is weird from maintainer's point of view, but i've got no idea that this could happen, i think, couple of warnings on opening more than 500 ports / linking to such a container should be quite helpful (since that was jenkins container that was failing, i've spent some time until i've figured it out that source of the problem lies in DinD container).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">And the last note: i'm running Docker 1.5.0 inside virtualboxed Linux Mint, if this affects anything.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3756</id>
+	<title>WPPrefUtils parse language code by using fixed length delimiter</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">It seems that WPPrefUtils uses a fixed length delimiter (`NO_REGION_LANG_CODE_LEN`) in `public static Locale languageLocale(String languageCode)`, when parsing language code.</sentence>
+			<sentence id="1.2">Note that language codes could be upgraded server side to most recent "versions", and could return a 3 letters language code.</sentence>
+			<sentence id="1.3">See `language` definition in RFC5646 - https://tools.ietf.org/html/rfc5646</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I think it's better to validate what we receive from the server, with something like
+`languageCode.indexOf("-")` and `languageCode.indexOf("_")` .</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+ public static Locale languageLocale(String languageCode) {
+ if (TextUtils.isEmpty(languageCode)) return Locale.getDefault();</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">if (languageCode.contains("-") || languageCode.contains("_")) {
+ String sanitizedLanguageCode = languageCode.replaceAll("_", "-");
+ if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {
+ return Locale.forLanguageTag(sanitizedLanguageCode);
+ } else {
+ String[] splittedLanguageCode = sanitizedLanguageCode.split("-");
+ if (splittedLanguageCode.length == 2) {
+ return new Locale(splittedLanguageCode[0],
+ splittedLanguageCode[1]);
+ } if (splittedLanguageCode.length == 3) {
+ return new Locale(splittedLanguageCode[0],
+ splittedLanguageCode[1], splittedLanguageCode[3]);
+ }
+ }
+ }</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">return new Locale(languageCode);
+ }
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">cc @tonyr59h @yoavf</sentence>
+		</paragraph>
+	</description>
+</bug>

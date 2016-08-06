@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-763</id>
+	<title>Fix demo database on downloads page and in liquibase-data.zip (concept_word)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Looks like we need to rerun the concept_word generation and re-export the columns for the concept_word table in the demo data in liquibase-data.</sentence>
+			<sentence id="1.2">zip file.</sentence>
+			<sentence id="1.3">I made some tweaks in trunk recently to how concept word determines its words.</sentence>
+			<sentence id="1.4">This will effect how concept words are generated off of a concept.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">(This has yet to be backported to 1.4.</sentence>
+			<sentence id="2.2">x)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">===================================================================</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Here's the procedure I followed to get the demo database working.</sentence>
+			<sentence id="4.2">All downloads are available from http://openmrs.org/wiki/Downloads.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">(1 Download and unzip demo database</sentence>
+			<sentence id="5.2">$ wget http://openmrs.org/images/a/a1/Demo-1.4.0.23-mysql.zip</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">(2 Download update-to-latest-db.</sentence>
+			<sentence id="6.2">mysqldiff.sql (you need to go through the wiki to get this file)</sentence>
+			<sentence id="6.3">http://openmrs.org/wiki/Special:Downloads/Releases/OpenMRS_1.4.1/update-to-latest-db.mysqldiff.sql</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">(3 Create new database (backup your existing database)</sentence>
+			<sentence id="7.2">mysql&gt; create database openmrs default charset 'utf8';</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">(4 Source the demo database and update script</sentence>
+			<sentence id="8.2">$ mysql -u openmrs -p openmrs &lt; demo-1.4.0.23-mysql.sql</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">(5 Source the update script.</sentence>
+			<sentence id="9.2">$ mysql -u openmrs -p openmrs &lt; update-to-latest-db.</sentence>
+			<sentence id="9.3">mysqldiff</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">(6 Build and deploy openmrs.war from version of trunk.</sentence>
+			<sentence id="10.2">$ cp dist/openmrs.</sentence>
+			<sentence id="10.3">war $TOMCAT_HOME/webapps</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">(7 Restart tomcat and let the liquibase code update the database.</sentence>
+			<sentence id="11.2">At this point, I ran into the the attached error and just removed all concept words from the database.</sentence>
+			<sentence id="11.3">mysql&gt; delete from concept_word;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">As an alternative to (7), we could also rewrite the database update script to migrate the data more cleanly.</sentence>
+			<sentence id="12.2">FYI, the following is just pseudocode.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">* create temporary table temp_concept_word;</sentence>
+			<sentence id="13.2">* select concept_id, word, locale, concept_name_id from concept_word into temp_concept_word;</sentence>
+			<sentence id="13.3">* delete from concept_word;</sentence>
+			<sentence id="13.4">* alter table concept_word drop column 'synonym';</sentence>
+			<sentence id="13.5">* select concept_id, word, locale, concept_name_id from temp_concept_word into concept_word;</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Here was the error I received:
+Caused by: liquibase.exception.MigrationFailedException: Migration failed for change set liquibase-update-to-latest.</sentence>
+			<sentence id="14.2">xml::200904271042::bwolfe:
+     Reason: liquibase.exception.JDBCException: Error executing SQL ALTER TABLE {{concept_word}} DROP COLUMN {{synonym}}:
+          Caused By: Error executing SQL ALTER TABLE {{concept_word}} DROP COLUMN {{synonym}}:
+          Caused By: Duplicate entry '14-AMOEBIC-en' for key 1</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">When dropping synonym, the remaining rows are identical:</sentence>
+			<sentence id="15.2">mysql&gt; select * from concept_word where word like '%AMOEBIC%';</sentence>
+			<sentence id="15.3">+------------+---------+-------------------+--------+-----------------+</sentence>
+			<sentence id="15.4">| concept_id | word    | synonym           | locale | concept_name_id |</sentence>
+			<sentence id="15.5">+------------+---------+-------------------+--------+-----------------+</sentence>
+			<sentence id="15.6">|         14 | AMOEBIC | AMOEBIC DIARRHOEA | en     |            2607 |</sentence>
+			<sentence id="15.7">|         14 | AMOEBIC | AMOEBIC DYSENTRY  | en     |            2607 |</sentence>
+			<sentence id="15.8">+------------+---------+-------------------+--------+-----------------+</sentence>
+			<sentence id="15.9">2 rows in set (0.00 sec)</sentence>
+		</paragraph>
+	</description>
+</bug>

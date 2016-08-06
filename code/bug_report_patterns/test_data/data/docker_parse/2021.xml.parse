@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2021</id>
+	<title>inheriting an image that use EXPOSE prevent caching in in-between steps</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Kinda weird behavior.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">To reproduce:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Dockerfile (base):</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+FROM ubuntu
+MAINTAINER me</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">RUN echo 'test' &gt; /test
+EXPOSE 1111
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Dockerfile (inheriting)
+```
+FROM base
+MAINTAINER me</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">RUN echo 'test2' &gt; /test2
+```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Then;</sentence>
+			<sentence id="8.2">- build the 1st image: `docker build -t='base' .</sentence>
+			<sentence id="8.3">`</sentence>
+			<sentence id="8.4">- rebuild the 1st image - everything uses the cache</sentence>
+			<sentence id="8.5">- build the 2nd image `docker build .</sentence>
+			<sentence id="8.6">`</sentence>
+			<sentence id="8.7">- rebuild the 2nd image - nothing uses the cache</sentence>
+			<sentence id="8.8">- remove `EXPOSE` from base Dockerfile and the rebuilds all will use the cache, even for the inherited one.</sentence>
+		</paragraph>
+	</description>
+</bug>

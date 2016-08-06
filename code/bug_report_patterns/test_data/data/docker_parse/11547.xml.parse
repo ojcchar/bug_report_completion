@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>11547</id>
+	<title>Docker keeps corrupting VirtualBox VM</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm using docker inside a VirtualBox VM with Xubuntu 14.04.02 64bit, 4 cores, 4 GB ram and the newest version of docker installed by the docker.io script.</sentence>
+			<sentence id="1.2">My host system is Win7 64bit, 16 GB RAM, i7 3770 with right timings and no overclocking.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When I'm building many different Images my VM keeps crashing which causes data loss.</sentence>
+			<sentence id="2.2">Also I made an docker image which should run an all-in-one installation of openstack swift.</sentence>
+			<sentence id="2.3">After a few minutes the VM becomes unresponsive and needs to be closed which also caused data loss.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I made a github repository with a script which is logging my memory usage while building the docker image several times until it crashes after the 42th run.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">You can find the repository under https://github.com/Chocoloper/docker-crash.</sentence>
+			<sentence id="4.2">In the logs directory there are infos about the vm (info.log and VBox.log) and two logs of my last run of my script.</sentence>
+			<sentence id="4.3">There is the script.sh and my Dockerfile for swift to test the building process.</sentence>
+			<sentence id="4.4">And you can also just run the builded swift image.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">On the whole I crashed my vm three times since i'm using docker, with two times complete loss of all the data inside my vm.</sentence>
+			<sentence id="5.2">I could reproduce those crashes like I described previously everytime I tested it!</sentence>
+		</paragraph>
+	</description>
+</bug>

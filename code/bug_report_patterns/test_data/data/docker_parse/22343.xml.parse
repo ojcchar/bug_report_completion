@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22343</id>
+	<title>`docker run` fails on missing aufs layer</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This is possibly alpine Linux related.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+Client version: 1.7.1
+Client API version: 1.19
+Go version (client): go1.4.2
+Git commit (client): 5eaaa01
+OS/Arch (client): linux/amd64
+Server version: 1.7.1
+Server API version: 1.19
+Go version (server): go1.4.2
+Git commit (server): 5eaaa01
+OS/Arch (server): linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">**Output of `docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+Containers: 11
+Images: 145
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 161
+ Dirperm1 Supported: false
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 3.13.0-79-generic
+Operating System: Ubuntu precise (12.04.2 LTS)
+CPUs: 4
+Total Memory: 7.798 GiB
+Name: prod-builds-18
+ID: 3SKS:SQB3:HTKQ:4AVW:YHQ5:CX2X:MA5U:RAL5:RL6K:CML2:URQA:44GG
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+			<sentence id="6.2">Physical machine.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="7.2">1 docker pull on an image, all the layers successfully downloaded, but pull resulted in a failure:</sentence>
+			<sentence id="7.3">```</sentence>
+			<sentence id="7.4">docker pull dev-docker.</sentence>
+			<sentence id="7.5">points.com:80/mountebank</sentence>
+			<sentence id="7.6">latest: Pulling from dev-docker.</sentence>
+			<sentence id="7.7">points.com:80/mountebank</sentence>
+			<sentence id="7.8">1348eb573a47: Pull complete</sentence>
+			<sentence id="7.9">bb7044f479ac: Pull complete</sentence>
+			<sentence id="7.10">f8c187edf56a: Pull complete</sentence>
+			<sentence id="7.11">4d4dccb42bd7: Pull complete</sentence>
+			<sentence id="7.12">74d53083ab47: Pull complete</sentence>
+			<sentence id="7.13">4725f8ca753f: Pull complete</sentence>
+			<sentence id="7.14">a91ec41f9117: Pull complete</sentence>
+			<sentence id="7.15">65fac5d2c1a0: Pull complete</sentence>
+			<sentence id="7.16">Pulling repository dev-docker.</sentence>
+			<sentence id="7.17">points.com:80/mountebank</sentence>
+			<sentence id="7.18">Error: image mountebank:latest not found</sentence>
+			<sentence id="7.19">```</sentence>
+			<sentence id="7.20">2 immediately re-issue the pull command, this time, the pull succeeded:</sentence>
+			<sentence id="7.21">```</sentence>
+			<sentence id="7.22">docker pull dev-docker.</sentence>
+			<sentence id="7.23">points.com:80/mountebank</sentence>
+			<sentence id="7.24">latest: Pulling from dev-docker.</sentence>
+			<sentence id="7.25">points.com:80/mountebank</sentence>
+			<sentence id="7.26">1348eb573a47: Already exists</sentence>
+			<sentence id="7.27">bb7044f479ac: Already exists</sentence>
+			<sentence id="7.28">f8c187edf56a: Already exists</sentence>
+			<sentence id="7.29">4d4dccb42bd7: Already exists</sentence>
+			<sentence id="7.30">74d53083ab47: Already exists</sentence>
+			<sentence id="7.31">4725f8ca753f: Already exists</sentence>
+			<sentence id="7.32">a91ec41f9117: Already exists</sentence>
+			<sentence id="7.33">65fac5d2c1a0: Already exists</sentence>
+			<sentence id="7.34">Digest: sha256:f7cdb7a48e6c797f4898407c1b177de62b65d6d0cf2818d4e1cfcf017b3c652a</sentence>
+			<sentence id="7.35">Status: Downloaded newer image for dev-docker.</sentence>
+			<sentence id="7.36">points.com:80/mountebank:latest</sentence>
+			<sentence id="7.37">```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">3 create a container from the image by using `docker run ...`</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">**Describe the results you received:**</sentence>
+			<sentence id="9.2">```</sentence>
+			<sentence id="9.3">docker run dev-docker.</sentence>
+			<sentence id="9.4">points.com:80/mountebank</sentence>
+			<sentence id="9.5">Error response from daemon: open /var/lib/docker/aufs/layers/65fac5d2c1a0537a7b171da39ac04010aa642861ec24c583d476926e53666017: no such file or directory</sentence>
+			<sentence id="9.6">```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">and checking `/var/lib/docker/aufs/layers/` folder, and indeed the said folder does not exist.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">**Describe the results you expected:**</sentence>
+			<sentence id="11.2">A container is created from the image and is running.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+			<sentence id="12.2">The mountebank docker image is from: https://hub.docker.com/r/kevinjqiu/mountebank/</sentence>
+			<sentence id="12.3">It's built from an alpine linux base.</sentence>
+			<sentence id="12.4">On switching to a debian based image, the problem does not occur.</sentence>
+		</paragraph>
+	</description>
+</bug>

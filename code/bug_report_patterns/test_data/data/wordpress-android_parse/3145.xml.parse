@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3145</id>
+	<title>Reader follow by URL treats a 301 as a failure</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When the user tries to follow a blog by URL, the reader first does a quick GET request so see whether that URL is reachable before trying to follow it.</sentence>
+			<sentence id="1.2">Right now Volley is treating a 301 on this GET request as a failure.</sentence>
+			<sentence id="1.3">Simple fix: treat 301 as success [here](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/WordPress/src/main/java/org/wordpress/android/ui/reader/actions/ReaderBlogActions.java#L375).</sentence>
+		</paragraph>
+	</description>
+</bug>

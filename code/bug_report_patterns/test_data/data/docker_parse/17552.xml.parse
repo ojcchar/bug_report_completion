@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17552</id>
+	<title>network ls on Swarm Master shows only a single overlay network</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I got to my swarm master with `eval $(docker-machine env --swarm mhs-demo0)`, then I created my overlay network and listed.</sentence>
+			<sentence id="1.2">I got this:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+$ docker network ls
+NETWORK ID NAME DRIVER
+412c2496d0eb mhs-demo1/host host 
+dd51763e6dd2 mhs-demo0/bridge bridge 
+6b07d0be843f my-net overlay 
+b4234109bd9b mhs-demo0/none null 
+1aeead6dd890 mhs-demo0/host host 
+d0bb78cbe7bd mhs-demo1/bridge bridge 
+1c0eb8f69ebb mhs-demo1/none null 
+```
+Which is nice because it shows the networks on every agent in the cluster.</sentence>
+			<sentence id="2.2">But it only shows the overlay network once.</sentence>
+			<sentence id="2.3">If I look at the agent's individually.</sentence>
+			<sentence id="2.4">I get one of each network as expected.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+$ eval $(docker-machine env mhs-demo0)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">$ docker network ls
+NETWORK ID NAME DRIVER
+6b07d0be843f my-net overlay 
+dd51763e6dd2 bridge bridge 
+b4234109bd9b none null 
+1aeead6dd890 host host</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">$ eval $(docker-machine env mhs-demo1)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">$ docker network ls
+NETWORK ID NAME DRIVER
+d0bb78cbe7bd bridge bridge 
+1c0eb8f69ebb none null 
+412c2496d0eb host host 
+6b07d0be843f my-net overlay 
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Seems like the FIRST `docker network ls` should have shown two `overlay` networks one on each node but it doesn't.</sentence>
+		</paragraph>
+	</description>
+</bug>

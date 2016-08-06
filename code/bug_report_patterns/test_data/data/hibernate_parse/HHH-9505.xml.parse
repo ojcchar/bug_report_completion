@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9505</id>
+	<title>Second level cache - load object after create in same session - incorrect date</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">1 Configure sessionFactory in applicationContext.xml to use second level cache:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code:xml}
+&lt;bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"&gt;
+		&lt;property name="dataSource" ref="dataSource" /&gt;
+		&lt;property name="packagesToScan" value="pl.mkrajewski.test.cache" /&gt;
+		&lt;property name="hibernateProperties"&gt;
+			&lt;props&gt;
+				...
+				&lt;prop key="hibernate.cache.use_second_level_cache"&gt;true&lt;/prop&gt; 
+				&lt;prop key="hibernate.cache.use_query_cache"&gt;true&lt;/prop&gt; 
+				&lt;prop key="hibernate.cache.region.factory_class"&gt;org.hibernate.cache.ehcache.EhCacheRegionFactory&lt;/prop&gt;
+			&lt;/props&gt;
+		&lt;/property&gt;
+	&lt;/bean&gt;
+{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">2 Entities to save:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">cache version:
+{code:java}
+@Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "SLO_MKRAJEWSKI")
+public class CacheMkrajewski {
+	private Long id;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">@Id
+	@Column(name = "COLUMN2", nullable = false, precision = 10, scale = 0)
+	@SequenceGenerator(name = "seq_mkrajewski", sequenceName = "seq_mkrajewski", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_mkrajewski")
+	public Long getId() {
+		return this.id;
+	}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">public void setId(Long id) {
+		this.id = id;
+	}</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">private Date dataOd;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">@Temporal(TemporalType.DATE)
+	@Column(name = "COLUMN1")
+	public Date getDataOd() {
+		return this.dataOd;
+	}</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">public void setDataOd(Date dataOd) {
+		this.dataOd = dataOd;
+	}</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">@Override
+	public String toString() {
+		return "CacheMkrajewski [id=" + this.id + ", dataOd=" + this.dataOd + "]";
+	}</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">no cache version:
+{code:java}
+@Entity
+@Table(name = "SLO_MKRAJEWSKI")
+public class NoCacheMkrajewski {
+	private Long id;</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">@Id
+	@Column(name = "COLUMN2", nullable = false, precision = 10, scale = 0)
+	@SequenceGenerator(name = "seq_mkrajewski", sequenceName = "seq_mkrajewski", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_mkrajewski")
+	public Long getId() {
+		return this.id;
+	}</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">public void setId(Long id) {
+		this.id = id;
+	}</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">private Date dataOd;</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">@Temporal(TemporalType.DATE)
+	@Column(name = "COLUMN1")
+	public Date getDataOd() {
+		return this.dataOd;
+	}</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">public void setDataOd(Date dataOd) {
+		this.dataOd = dataOd;
+	}</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">@Override
+	public String toString() {
+		return "NoCacheMkrajewski [id=" + this.id + ", dataOd=" + this.dataOd + "]";
+	}
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">you can see that difference is only in removing @Cache adnotation for no cache class definition</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">3 Injecting sessionFactory in DAO:</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">{code:java}
+	@Autowired
+	private SessionFactory sessionFactory;</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">private Session getSession() {
+		return this.sessionFactory.getCurrentSession();
+	}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">4 Creating model in DAO:</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">cache version
+{code:java}
+	public void save(CacheMkrajewski model) {
+		getSession().</sentence>
+			<sentence id="24.2">persist(model);
+	}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">or no cache version:
+{code:java}
+	public void save(NoCacheMkrajewski model) {
+		getSession().</sentence>
+			<sentence id="25.2">persist(model);
+	}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="26">
+			<sentence id="26.1">same way</sentence>
+		</paragraph>
+		<paragraph id="27">
+			<sentence id="27.1">5 Loading model in DAO:</sentence>
+		</paragraph>
+		<paragraph id="28">
+			<sentence id="28.1">cache version
+{code:java}
+	public CacheMkrajewski loadCache(Long id) {
+		return (CacheMkrajewski) getSession().</sentence>
+			<sentence id="28.2">get(CacheMkrajewski.class, id);
+	}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="29">
+			<sentence id="29.1">no cache version
+{code:java}
+	public NoCacheMkrajewski loadNoCache(Long id) {
+		return (NoCacheMkrajewski) getSession().</sentence>
+			<sentence id="29.2">get(NoCacheMkrajewski.class, id);
+	}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="30">
+			<sentence id="30.1">6 Injection DAO in business layer:</sentence>
+		</paragraph>
+		<paragraph id="31">
+			<sentence id="31.1">business interface
+{code:java}
+public interface ITestBusiness {</sentence>
+		</paragraph>
+		<paragraph id="32">
+			<sentence id="32.1">CacheMkrajewski loadCache(Long id);</sentence>
+		</paragraph>
+		<paragraph id="33">
+			<sentence id="33.1">void save(CacheMkrajewski model);</sentence>
+		</paragraph>
+		<paragraph id="34">
+			<sentence id="34.1">NoCacheMkrajewski loadNoCache(Long id);</sentence>
+		</paragraph>
+		<paragraph id="35">
+			<sentence id="35.1">void save(NoCacheMkrajewski model);</sentence>
+		</paragraph>
+		<paragraph id="36">
+			<sentence id="36.1">}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="37">
+			<sentence id="37.1">Business impl
+{code:java}
+@Component
+@Transactional
+public class TestBusiness implements ITestBusiness {</sentence>
+		</paragraph>
+		<paragraph id="38">
+			<sentence id="38.1">@Autowired
+	private TestDao dao;</sentence>
+		</paragraph>
+		<paragraph id="39">
+			<sentence id="39.1">@Override
+	public CacheMkrajewski loadCache(Long id) {
+		return this.dao.loadCache(id);
+	}</sentence>
+		</paragraph>
+		<paragraph id="40">
+			<sentence id="40.1">@Override
+	public void save(CacheMkrajewski model) {
+		this.dao.save(model);
+	}</sentence>
+		</paragraph>
+		<paragraph id="41">
+			<sentence id="41.1">@Override
+	public NoCacheMkrajewski loadNoCache(Long id) {
+		return this.dao.loadNoCache(id);
+	}</sentence>
+		</paragraph>
+		<paragraph id="42">
+			<sentence id="42.1">@Override
+	public void save(NoCacheMkrajewski model) {
+		this.dao.save(model);
+	}</sentence>
+		</paragraph>
+		<paragraph id="43">
+			<sentence id="43.1">}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="44">
+			<sentence id="44.1">7 invoke JUnit</sentence>
+		</paragraph>
+		<paragraph id="45">
+			<sentence id="45.1">{code:java}
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/mkrajewski/applicationContext-cache.</sentence>
+			<sentence id="45.2">xml" })
+public class DateCacheTest {</sentence>
+		</paragraph>
+		<paragraph id="46">
+			<sentence id="46.1">@Autowired
+	private ITestBusiness testBusiness;</sentence>
+		</paragraph>
+		<paragraph id="47">
+			<sentence id="47.1">@Before
+	public void before() {
+	}</sentence>
+		</paragraph>
+		<paragraph id="48">
+			<sentence id="48.1">@Test
+	public void cacheTest() {
+		CacheMkrajewski cached = cacheEntity();
+		this.testBusiness.save(cached);
+		cached = this.testBusiness.loadCache(cached.getId());
+		CacheMkrajewski loaded = this.testBusiness.loadCache(61L);
+		System.out.println();
+		System.out.println("Cache " + cached);
+		System.out.println("Loaded " + loaded);
+		System.out.println();
+	}</sentence>
+		</paragraph>
+		<paragraph id="49">
+			<sentence id="49.1">@Test
+	public void noCacheTest() {
+		NoCacheMkrajewski noCached = noCacheEntity();
+		this.testBusiness.save(noCached);
+		noCached = this.testBusiness.loadNoCache(noCached.getId());
+		NoCacheMkrajewski loaded = this.testBusiness.loadNoCache(61L);
+		System.out.println();
+		System.out.println("No cache " + noCached);
+		System.out.println("Loaded " + loaded);
+		System.out.println();</sentence>
+		</paragraph>
+		<paragraph id="50">
+			<sentence id="50.1">}</sentence>
+		</paragraph>
+		<paragraph id="51">
+			<sentence id="51.1">private CacheMkrajewski cacheEntity() {
+		CacheMkrajewski cache = new CacheMkrajewski();
+		cache.setDataOd(dateWithNoTime());
+		return cache;
+	}</sentence>
+		</paragraph>
+		<paragraph id="52">
+			<sentence id="52.1">private NoCacheMkrajewski noCacheEntity() {
+		NoCacheMkrajewski noCache = new NoCacheMkrajewski();
+		noCache.setDataOd(dateWithNoTime());
+		return noCache;
+	}</sentence>
+		</paragraph>
+		<paragraph id="53">
+			<sentence id="53.1">private Date dateWithNoTime() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.set(Calendar.YEAR, 2014);
+		calendar.set(Calendar.MONTH, 10);
+		calendar.set(Calendar.DAY_OF_MONTH, 20);
+		return calendar.getTime();
+	}
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="54">
+			<sentence id="54.1">we can assume that in database exists object with ID 61</sentence>
+		</paragraph>
+		<paragraph id="55">
+			<sentence id="55.1">8 Differences in System.outs - toString() difference:</sentence>
+		</paragraph>
+		<paragraph id="56">
+			<sentence id="56.1">cache version
+{code}
+Cache CacheMkrajewski [id=130, dataOd=Thu Nov 20 00:00:00 CET 2014]
+Loaded CacheMkrajewski [id=61, dataOd=2014-11-20]
+{code}</sentence>
+		</paragraph>
+		<paragraph id="57">
+			<sentence id="57.1">no cache version
+{code}
+No cache NoCacheMkrajewski [id=131, dataOd=2014-11-20]
+Loaded NoCacheMkrajewski [id=61, dataOd=2014-11-20]
+{code}</sentence>
+		</paragraph>
+		<paragraph id="58">
+			<sentence id="58.1">When we read object created in the same session using second level cache - there is problem with date object.</sentence>
+			<sentence id="58.2">In new object minutes, seconds and CEST is added.</sentence>
+			<sentence id="58.3">When read object created in previous session (id 61) problem disappear.</sentence>
+		</paragraph>
+		<paragraph id="59">
+			<sentence id="59.1">Problem does not exists if we use entity with disabled @Cache</sentence>
+		</paragraph>
+		<paragraph id="60">
+			<sentence id="60.1">9 Full date objects from eclipse DEBUGGER:</sentence>
+		</paragraph>
+		<paragraph id="61">
+			<sentence id="61.1">{code}</sentence>
+			<sentence id="61.2">CACHE OBJECT</sentence>
+			<sentence id="61.3">"dataOd	Date (id=72)	"	Thu Nov 20 00:00:00 CET 2014</sentence>
+			<sentence id="61.4">"	cdate	Gregorian$Date (id=82)	"	2014-11-20T00:00:00.000+0100</sentence>
+			<sentence id="61.5">"		cachedFixedDateJan1	735234	"	735234</sentence>
+			<sentence id="61.6">"		cachedFixedDateNextJan1	735599	"	735599</sentence>
+			<sentence id="61.7">"		cachedYear	2014	"	2014</sentence>
+			<sentence id="61.8">"		daylightSaving	0	"	0</sentence>
+			<sentence id="61.9">"		dayOfMonth	20	"	20</sentence>
+			<sentence id="61.10">"		dayOfWeek	5	"	5</sentence>
+			<sentence id="61.11">"		era	null	"	null</sentence>
+			<sentence id="61.12">"		forceStandardTime	false	"	FALSE</sentence>
+			<sentence id="61.13">"		fraction	0	"	0</sentence>
+			<sentence id="61.14">"		hours	0	"	0</sentence>
+			<sentence id="61.15">"		leapYear	false	"	FALSE</sentence>
+			<sentence id="61.16">"		locale	null	"	null</sentence>
+			<sentence id="61.17">"		millis	0	"	0</sentence>
+			<sentence id="61.18">"		minutes	0	"	0</sentence>
+			<sentence id="61.19">"		month	11	"	11</sentence>
+			<sentence id="61.20">"		normalized	true	"	TRUE</sentence>
+			<sentence id="61.21">"		seconds	0	"	0</sentence>
+			<sentence id="61.22">"		year	2014	"	2014</sentence>
+			<sentence id="61.23">"		zoneinfo	ZoneInfo (id=86)	"	sun.util.calendar.ZoneInfo[id="Europe/Warsaw",offset=3600000,dstSavings=3600000,useDaylight=true,transitions=165,lastRule=java.util.SimpleTimeZone[id=Europe/Warsaw,offset=3600000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=2,startMonth=2,startDay=-1,startDayOfWeek=1,startTime=3600000,startTimeMode=2,endMode=2,endMonth=9,endDay=-1,endDayOfWeek=1,endTime=3600000,endTimeMode=2]]</sentence>
+			<sentence id="61.24">"			checksum	-1578751392	"	-1578751392</sentence>
+			<sentence id="61.25">"			dirty	false	"	FALSE</sentence>
+			<sentence id="61.26">"			dstSavings	3600000	"	3600000</sentence>
+			<sentence id="61.27">"			ID	""Europe/Warsaw"" (id=92)	"	Europe/Warsaw</sentence>
+			<sentence id="61.28">"				count	13	"	13</sentence>
+			<sentence id="61.29">"				hash	826225934	"	826225934</sentence>
+			<sentence id="61.30">"				offset	0	"	0</sentence>
+			<sentence id="61.31">"				value	(id=100)	"	[E, u, r, o, p, e, /, W, a, r, s, a, w]</sentence>
+			<sentence id="61.32">"					[0]	E	"	E</sentence>
+			<sentence id="61.33">"					[1]	u	"	u</sentence>
+			<sentence id="61.34">"					[2]	r	"	r</sentence>
+			<sentence id="61.35">"					[3]	o	"	o</sentence>
+			<sentence id="61.36">"					[4]	p	"	p</sentence>
+			<sentence id="61.37">"					[5]	e	"	e</sentence>
+			<sentence id="61.38">"					[6]	/	"	/</sentence>
+			<sentence id="61.39">"					[7]	W	"	W</sentence>
+			<sentence id="61.40">"					[8]	a	"	a</sentence>
+			<sentence id="61.41">"					[9]	r	"	r</sentence>
+			<sentence id="61.42">"					[10]	s	"	s</sentence>
+			<sentence id="61.43">"					[11]	a	"	a</sentence>
+			<sentence id="61.44">"					[12]	w	"	w</sentence>
+			<sentence id="61.45">"			lastRule	null	"	null</sentence>
+			<sentence id="61.46">"			offsets	(id=95)	"	[3600000, 5040000, 7200000, 3600000, 10800000]</sentence>
+			<sentence id="61.47">"				[0]	3600000	"	3600000</sentence>
+			<sentence id="61.48">"				[1]	5040000	"	5040000</sentence>
+			<sentence id="61.49">"				[2]	7200000	"	7200000</sentence>
+			<sentence id="61.50">"				[3]	3600000	"	3600000</sentence>
+			<sentence id="61.51">"				[4]	10800000	"	10800000</sentence>
+			<sentence id="61.52">"			rawOffset	3600000	"	3600000</sentence>
+			<sentence id="61.53">"			rawOffsetDiff	0	"	0</sentence>
+			<sentence id="61.54">"			simpleTimeZoneParams	(id=97)	"	[2, -1, 1, 3600000, 2, 9, -1, 1, 3600000, 2]</sentence>
+			<sentence id="61.55">"				[0]	2	"	2</sentence>
+			<sentence id="61.56">"				[1]	-1	"	-1</sentence>
+			<sentence id="61.57">"				[2]	1	"	1</sentence>
+			<sentence id="61.58">"				[3]	3600000	"	3600000</sentence>
+			<sentence id="61.59">"				[4]	2	"	2</sentence>
+			<sentence id="61.60">"				[5]	9	"	9</sentence>
+			<sentence id="61.61">"				[6]	-1	"	-1</sentence>
+			<sentence id="61.62">"				[7]	1	"	1</sentence>
+			<sentence id="61.63">"				[8]	3600000	"	3600000</sentence>
+			<sentence id="61.64">"				[9]	2	"	2</sentence>
+			<sentence id="61.65">"			transitions	(id=98)	"	[-9048018124799999, -7032964055040000, -6937421414399950, -6883260825600000, -6813514137599950, -6759014400000000, -6684696575999950, -6630196838399998, -6555539865599948, -6501040127999998, -6151068057600000, -3816382463999950, -3511325491200000, -3459303014399950, -3392416972800000, -3328008191999950, -3262906368000000, -3189664972799950, -3123855360000000, -3065801932799950, -3003487027200000, -2929523097599950, -2875023360000000, -2805660057599950, -2746205798400000, -2679319756799950, -2617388236800000, -1626498662399950, -1584385228800000, -1519976447999950, -1455567667200000, -1368863539199950, -1324272844800000, -1259864063999950, -1195455283200000, -1111228415999950, -1066637721600000, -982410854399950, -937820160000000, -853593292799950, -809002598400000, -722298470399950, -680185036800000, 937466265600050, 999397785600000, 1066283827200050, 1130692608000000, 1195101388800050, 1259510169600000, 1326396211200050, 1388327731200000, 1452736512000050, 1517145292800000, 1581554073600050, 1645962854400000, 1710371635200050, 1774780416000000, 1839189196800050, 1906075238400000, 1970484019200050, 2034892800000000, 2099301580800050, 2163710361600000, 2228119142400050, 2292527923200000, 2356951449600050, 2421360230400000, 2485769011200050, 2550177792000000, 2614586572800050, 2681472614400000, 2745881395200050, 2810290176000000, 2874698956800050, 2939107737600000, 3003516518400050, 3067925299200000, 3132334080000050, 3196742860800000, 3261151641600050, 3325560422400000, 3392446464000050, 3466764288000000, 3521264025600050, 3595581849600000, 3650081587200050, 3724399411200000, 3778899148800050, 3855694233600000, 3907716710400050, 3984511795200000, 4036534272000050, 4113329356800000, 4167829094400050, 4242146918400000, 4296646656000050, 4370964480000000, 4425464217600050, 4502259302400000, 4554281779200050, 4631076864000000, 4683099340800050, 4759894425600000, 4811916902400050, 4888711987200000, 4943211724800050, 5017529548800000, 5072029286400050, 5146347110400000, 5200846848000050, 5277641932800000, 5329664409600050, 5406459494400000, 5458481971200050, 5535277056000000, 5589776793600050, 5664094617600000, 5718594355200050, 5792912179200000, 5847411916800050, 5921729740800000, 5976229478400050, 6053024563200000, 6105047040000050, 6181842124800000, 6233864601600050, 6310659686400000, 6365159424000050, 6439477248000000, 6493976985600050, 6568294809600000, 6622794547200050, 6699589632000000, 6751612108800050, 6828407193600000, 6880429670400050, 6957224755200000, 7011724492800050, 7086042316800000, 7140542054400050, 7214859878400000, 7269359616000050, 7343677440000000, 7398177177600050, 7474972262400000, 7526994739200050, 7603789824000000, 7655812300800050, 7732607385600000, 7787107123200050, 7861424947200000, 7915924684800050, 7990242508800000, 8044742246400050, 8121537331200000, 8173559808000050, 8250354892800000, 8302377369600050, 8379172454400000, 8431194931200050, 8507990016000000, 8562489753600050, 8636807577600000, 8691307315200050, 8765625139200000]</sentence>
+			<sentence id="61.66">"				[0...99]	"	</sentence>
+			<sentence id="61.67">"					[0]	-9048018124799999	"	-9048018124800000</sentence>
+			<sentence id="61.68">"					[1]	-7032964055040000	"	-7032964055040000</sentence>
+			<sentence id="61.69">"					[2]	-6937421414399950	"	-6937421414399950</sentence>
+			<sentence id="61.70">"					[3]	-6883260825600000	"	-6883260825600000</sentence>
+			<sentence id="61.71">"					[4]	-6813514137599950	"	-6813514137599950</sentence>
+			<sentence id="61.72">"					[5]	-6759014400000000	"	-6759014400000000</sentence>
+			<sentence id="61.73">"					[6]	-6684696575999950	"	-6684696575999950</sentence>
+			<sentence id="61.74">"					[7]	-6630196838399998	"	-6630196838400000</sentence>
+			<sentence id="61.75">"					[8]	-6555539865599948	"	-6555539865599950</sentence>
+			<sentence id="61.76">"					[9]	-6501040127999998	"	-6501040128000000</sentence>
+			<sentence id="61.77">"					[10]	-6151068057600000	"	-6151068057600000</sentence>
+			<sentence id="61.78">"					[11]	-3816382463999950	"	-3816382463999950</sentence>
+			<sentence id="61.79">"					[12]	-3511325491200000	"	-3511325491200000</sentence>
+			<sentence id="61.80">"					[13]	-3459303014399950	"	-3459303014399950</sentence>
+			<sentence id="61.81">"					[14]	-3392416972800000	"	-3392416972800000</sentence>
+			<sentence id="61.82">"					[15]	-3328008191999950	"	-3328008191999950</sentence>
+			<sentence id="61.83">"					[16]	-3262906368000000	"	-3262906368000000</sentence>
+			<sentence id="61.84">"					[17]	-3189664972799950	"	-3189664972799950</sentence>
+			<sentence id="61.85">"					[18]	-3123855360000000	"	-3123855360000000</sentence>
+			<sentence id="61.86">"					[19]	-3065801932799950	"	-3065801932799950</sentence>
+			<sentence id="61.87">"					[20]	-3003487027200000	"	-3003487027200000</sentence>
+			<sentence id="61.88">"					[21]	-2929523097599950	"	-2929523097599950</sentence>
+			<sentence id="61.89">"					[22]	-2875023360000000	"	-2875023360000000</sentence>
+			<sentence id="61.90">"					[23]	-2805660057599950	"	-2805660057599950</sentence>
+			<sentence id="61.91">"					[24]	-2746205798400000	"	-2746205798400000</sentence>
+			<sentence id="61.92">"					[25]	-2679319756799950	"	-2679319756799950</sentence>
+			<sentence id="61.93">"					[26]	-2617388236800000	"	-2617388236800000</sentence>
+			<sentence id="61.94">"					[27]	-1626498662399950	"	-1626498662399950</sentence>
+			<sentence id="61.95">"					[28]	-1584385228800000	"	-1584385228800000</sentence>
+			<sentence id="61.96">"					[29]	-1519976447999950	"	-1519976447999950</sentence>
+			<sentence id="61.97">"					[30]	-1455567667200000	"	-1455567667200000</sentence>
+			<sentence id="61.98">"					[31]	-1368863539199950	"	-1368863539199950</sentence>
+			<sentence id="61.99">"					[32]	-1324272844800000	"	-1324272844800000</sentence>
+			<sentence id="61.100">"					[33]	-1259864063999950	"	-1259864063999950</sentence>
+			<sentence id="61.101">"					[34]	-1195455283200000	"	-1195455283200000</sentence>
+			<sentence id="61.102">"					[35]	-1111228415999950	"	-1111228415999950</sentence>
+			<sentence id="61.103">"					[36]	-1066637721600000	"	-1066637721600000</sentence>
+			<sentence id="61.104">"					[37]	-982410854399950	"	-982410854399950</sentence>
+			<sentence id="61.105">"					[38]	-937820160000000	"	-937820160000000</sentence>
+			<sentence id="61.106">"					[39]	-853593292799950	"	-853593292799950</sentence>
+			<sentence id="61.107">"					[40]	-809002598400000	"	-809002598400000</sentence>
+			<sentence id="61.108">"					[41]	-722298470399950	"	-722298470399950</sentence>
+			<sentence id="61.109">"					[42]	-680185036800000	"	-680185036800000</sentence>
+			<sentence id="61.110">"					[43]	937466265600050	"	937466265600050</sentence>
+			<sentence id="61.111">"					[44]	999397785600000	"	999397785600000</sentence>
+			<sentence id="61.112">"					[45]	1066283827200050	"	1066283827200050</sentence>
+			<sentence id="61.113">"					[46]	1130692608000000	"	1130692608000000</sentence>
+			<sentence id="61.114">"					[47]	1195101388800050	"	1195101388800050</sentence>
+			<sentence id="61.115">"					[48]	1259510169600000	"	1259510169600000</sentence>
+			<sentence id="61.116">"					[49]	1326396211200050	"	1326396211200050</sentence>
+			<sentence id="61.117">"					[50]	1388327731200000	"	1388327731200000</sentence>
+			<sentence id="61.118">"					[51]	1452736512000050	"	1452736512000050</sentence>
+			<sentence id="61.119">"					[52]	1517145292800000	"	1517145292800000</sentence>
+			<sentence id="61.120">"					[53]	1581554073600050	"	1581554073600050</sentence>
+			<sentence id="61.121">"					[54]	1645962854400000	"	1645962854400000</sentence>
+			<sentence id="61.122">"					[55]	1710371635200050	"	1710371635200050</sentence>
+			<sentence id="61.123">"					[56]	1774780416000000	"	1774780416000000</sentence>
+			<sentence id="61.124">"					[57]	1839189196800050	"	1839189196800050</sentence>
+			<sentence id="61.125">"					[58]	1906075238400000	"	1906075238400000</sentence>
+			<sentence id="61.126">"					[59]	1970484019200050	"	1970484019200050</sentence>
+			<sentence id="61.127">"					[60]	2034892800000000	"	2034892800000000</sentence>
+			<sentence id="61.128">"					[61]	2099301580800050	"	2099301580800050</sentence>
+			<sentence id="61.129">"					[62]	2163710361600000	"	2163710361600000</sentence>
+			<sentence id="61.130">"					[63]	2228119142400050	"	2228119142400050</sentence>
+			<sentence id="61.131">"					[64]	2292527923200000	"	2292527923200000</sentence>
+			<sentence id="61.132">"					[65]	2356951449600050	"	2356951449600050</sentence>
+			<sentence id="61.133">"					[66]	2421360230400000	"	2421360230400000</sentence>
+			<sentence id="61.134">"					[67]	2485769011200050	"	2485769011200050</sentence>
+			<sentence id="61.135">"					[68]	2550177792000000	"	2550177792000000</sentence>
+			<sentence id="61.136">"					[69]	2614586572800050	"	2614586572800050</sentence>
+			<sentence id="61.137">"					[70]	2681472614400000	"	2681472614400000</sentence>
+			<sentence id="61.138">"					[71]	2745881395200050	"	2745881395200050</sentence>
+			<sentence id="61.139">"					[72]	2810290176000000	"	2810290176000000</sentence>
+			<sentence id="61.140">"					[73]	2874698956800050	"	2874698956800050</sentence>
+			<sentence id="61.141">"					[74]	2939107737600000	"	2939107737600000</sentence>
+			<sentence id="61.142">"					[75]	3003516518400050	"	3003516518400050</sentence>
+			<sentence id="61.143">"					[76]	3067925299200000	"	3067925299200000</sentence>
+			<sentence id="61.144">"					[77]	3132334080000050	"	3132334080000050</sentence>
+			<sentence id="61.145">"					[78]	3196742860800000	"	3196742860800000</sentence>
+			<sentence id="61.146">"					[79]	3261151641600050	"	3261151641600050</sentence>
+			<sentence id="61.147">"					[80]	3325560422400000	"	3325560422400000</sentence>
+			<sentence id="61.148">"					[81]	3392446464000050	"	3392446464000050</sentence>
+			<sentence id="61.149">"					[82]	3466764288000000	"	3466764288000000</sentence>
+			<sentence id="61.150">"					[83]	3521264025600050	"	3521264025600050</sentence>
+			<sentence id="61.151">"					[84]	3595581849600000	"	3595581849600000</sentence>
+			<sentence id="61.152">"					[85]	3650081587200050	"	3650081587200050</sentence>
+			<sentence id="61.153">"					[86]	3724399411200000	"	3724399411200000</sentence>
+			<sentence id="61.154">"					[87]	3778899148800050	"	3778899148800050</sentence>
+			<sentence id="61.155">"					[88]	3855694233600000	"	3855694233600000</sentence>
+			<sentence id="61.156">"					[89]	3907716710400050	"	3907716710400050</sentence>
+			<sentence id="61.157">"					[90]	3984511795200000	"	3984511795200000</sentence>
+			<sentence id="61.158">"					[91]	4036534272000050	"	4036534272000050</sentence>
+			<sentence id="61.159">"					[92]	4113329356800000	"	4113329356800000</sentence>
+			<sentence id="61.160">"					[93]	4167829094400050	"	4167829094400050</sentence>
+			<sentence id="61.161">"					[94]	4242146918400000	"	4242146918400000</sentence>
+			<sentence id="61.162">"					[95]	4296646656000050	"	4296646656000050</sentence>
+			<sentence id="61.163">"					[96]	4370964480000000	"	4370964480000000</sentence>
+			<sentence id="61.164">"					[97]	4425464217600050	"	4425464217600050</sentence>
+			<sentence id="61.165">"					[98]	4502259302400000	"	4502259302400000</sentence>
+			<sentence id="61.166">"					[99]	4554281779200050	"	4554281779200050</sentence>
+			<sentence id="61.167">"				[100...164]	"	</sentence>
+			<sentence id="61.168">"					[100]	4631076864000000	"	4631076864000000</sentence>
+			<sentence id="61.169">"					[101]	4683099340800050	"	4683099340800050</sentence>
+			<sentence id="61.170">"					[102]	4759894425600000	"	4759894425600000</sentence>
+			<sentence id="61.171">"					[103]	4811916902400050	"	4811916902400050</sentence>
+			<sentence id="61.172">"					[104]	4888711987200000	"	4888711987200000</sentence>
+			<sentence id="61.173">"					[105]	4943211724800050	"	4943211724800050</sentence>
+			<sentence id="61.174">"					[106]	5017529548800000	"	5017529548800000</sentence>
+			<sentence id="61.175">"					[107]	5072029286400050	"	5072029286400050</sentence>
+			<sentence id="61.176">"					[108]	5146347110400000	"	5146347110400000</sentence>
+			<sentence id="61.177">"					[109]	5200846848000050	"	5200846848000050</sentence>
+			<sentence id="61.178">"					[110]	5277641932800000	"	5277641932800000</sentence>
+			<sentence id="61.179">"					[111]	5329664409600050	"	5329664409600050</sentence>
+			<sentence id="61.180">"					[112]	5406459494400000	"	5406459494400000</sentence>
+			<sentence id="61.181">"					[113]	5458481971200050	"	5458481971200050</sentence>
+			<sentence id="61.182">"					[114]	5535277056000000	"	5535277056000000</sentence>
+			<sentence id="61.183">"					[115]	5589776793600050	"	5589776793600050</sentence>
+			<sentence id="61.184">"					[116]	5664094617600000	"	5664094617600000</sentence>
+			<sentence id="61.185">"					[117]	5718594355200050	"	5718594355200050</sentence>
+			<sentence id="61.186">"					[118]	5792912179200000	"	5792912179200000</sentence>
+			<sentence id="61.187">"					[119]	5847411916800050	"	5847411916800050</sentence>
+			<sentence id="61.188">"					[120]	5921729740800000	"	5921729740800000</sentence>
+			<sentence id="61.189">"					[121]	5976229478400050	"	5976229478400050</sentence>
+			<sentence id="61.190">"					[122]	6053024563200000	"	6053024563200000</sentence>
+			<sentence id="61.191">"					[123]	6105047040000050	"	6105047040000050</sentence>
+			<sentence id="61.192">"					[124]	6181842124800000	"	6181842124800000</sentence>
+			<sentence id="61.193">"					[125]	6233864601600050	"	6233864601600050</sentence>
+			<sentence id="61.194">"					[126]	6310659686400000	"	6310659686400000</sentence>
+			<sentence id="61.195">"					[127]	6365159424000050	"	6365159424000050</sentence>
+			<sentence id="61.196">"					[128]	6439477248000000	"	6439477248000000</sentence>
+			<sentence id="61.197">"					[129]	6493976985600050	"	6493976985600050</sentence>
+			<sentence id="61.198">"					[130]	6568294809600000	"	6568294809600000</sentence>
+			<sentence id="61.199">"					[131]	6622794547200050	"	6622794547200050</sentence>
+			<sentence id="61.200">"					[132]	6699589632000000	"	6699589632000000</sentence>
+			<sentence id="61.201">"					[133]	6751612108800050	"	6751612108800050</sentence>
+			<sentence id="61.202">"					[134]	6828407193600000	"	6828407193600000</sentence>
+			<sentence id="61.203">"					[135]	6880429670400050	"	6880429670400050</sentence>
+			<sentence id="61.204">"					[136]	6957224755200000	"	6957224755200000</sentence>
+			<sentence id="61.205">"					[137]	7011724492800050	"	7011724492800050</sentence>
+			<sentence id="61.206">"					[138]	7086042316800000	"	7086042316800000</sentence>
+			<sentence id="61.207">"					[139]	7140542054400050	"	7140542054400050</sentence>
+			<sentence id="61.208">"					[140]	7214859878400000	"	7214859878400000</sentence>
+			<sentence id="61.209">"					[141]	7269359616000050	"	7269359616000050</sentence>
+			<sentence id="61.210">"					[142]	7343677440000000	"	7343677440000000</sentence>
+			<sentence id="61.211">"					[143]	7398177177600050	"	7398177177600050</sentence>
+			<sentence id="61.212">"					[144]	7474972262400000	"	7474972262400000</sentence>
+			<sentence id="61.213">"					[145]	7526994739200050	"	7526994739200050</sentence>
+			<sentence id="61.214">"					[146]	7603789824000000	"	7603789824000000</sentence>
+			<sentence id="61.215">"					[147]	7655812300800050	"	7655812300800050</sentence>
+			<sentence id="61.216">"					[148]	7732607385600000	"	7732607385600000</sentence>
+			<sentence id="61.217">"					[149]	7787107123200050	"	7787107123200050</sentence>
+			<sentence id="61.218">"					[150]	7861424947200000	"	7861424947200000</sentence>
+			<sentence id="61.219">"					[151]	7915924684800050	"	7915924684800050</sentence>
+			<sentence id="61.220">"					[152]	7990242508800000	"	7990242508800000</sentence>
+			<sentence id="61.221">"					[153]	8044742246400050	"	8044742246400050</sentence>
+			<sentence id="61.222">"					[154]	8121537331200000	"	8121537331200000</sentence>
+			<sentence id="61.223">"					[155]	8173559808000050	"	8173559808000050</sentence>
+			<sentence id="61.224">"					[156]	8250354892800000	"	8250354892800000</sentence>
+			<sentence id="61.225">"					[157]	8302377369600050	"	8302377369600050</sentence>
+			<sentence id="61.226">"					[158]	8379172454400000	"	8379172454400000</sentence>
+			<sentence id="61.227">"					[159]	8431194931200050	"	8431194931200050</sentence>
+			<sentence id="61.228">"					[160]	8507990016000000	"	8507990016000000</sentence>
+			<sentence id="61.229">"					[161]	8562489753600050	"	8562489753600050</sentence>
+			<sentence id="61.230">"					[162]	8636807577600000	"	8636807577600000</sentence>
+			<sentence id="61.231">"					[163]	8691307315200050	"	8691307315200050</sentence>
+			<sentence id="61.232">"					[164]	8765625139200000	"	8765625139200000</sentence>
+			<sentence id="61.233">"			willGMTOffsetChange	false	"	FALSE</sentence>
+			<sentence id="61.234">"		zoneOffset	3600000	"	3600000</sentence>
+			<sentence id="61.235">"	fastTime	1416438000000	"	1416438000000</sentence>
+			<sentence id="61.236">{code}</sentence>
+		</paragraph>
+		<paragraph id="62">
+			<sentence id="62.1">{code}</sentence>
+			<sentence id="62.2">NO CACHE OBJECT</sentence>
+			<sentence id="62.3">"dataOd	Date (id=123)	"	2014-11-20</sentence>
+			<sentence id="62.4">"	cdate	Gregorian$Date (id=129)	"	2014-11-20T00:00:00.000+0100</sentence>
+			<sentence id="62.5">"		cachedFixedDateJan1	735234	"	735234</sentence>
+			<sentence id="62.6">"		cachedFixedDateNextJan1	735599	"	735599</sentence>
+			<sentence id="62.7">"		cachedYear	2014	"	2014</sentence>
+			<sentence id="62.8">"		daylightSaving	0	"	0</sentence>
+			<sentence id="62.9">"		dayOfMonth	20	"	20</sentence>
+			<sentence id="62.10">"		dayOfWeek	5	"	5</sentence>
+			<sentence id="62.11">"		era	null	"	null</sentence>
+			<sentence id="62.12">"		forceStandardTime	false	"	FALSE</sentence>
+			<sentence id="62.13">"		fraction	0	"	0</sentence>
+			<sentence id="62.14">"		hours	0	"	0</sentence>
+			<sentence id="62.15">"		leapYear	false	"	FALSE</sentence>
+			<sentence id="62.16">"		locale	null	"	null</sentence>
+			<sentence id="62.17">"		millis	0	"	0</sentence>
+			<sentence id="62.18">"		minutes	0	"	0</sentence>
+			<sentence id="62.19">"		month	11	"	11</sentence>
+			<sentence id="62.20">"		normalized	true	"	TRUE</sentence>
+			<sentence id="62.21">"		seconds	0	"	0</sentence>
+			<sentence id="62.22">"		year	2014	"	2014</sentence>
+			<sentence id="62.23">"		zoneinfo	ZoneInfo (id=86)	"	sun.util.calendar.ZoneInfo[id="Europe/Warsaw",offset=3600000,dstSavings=3600000,useDaylight=true,transitions=165,lastRule=java.util.SimpleTimeZone[id=Europe/Warsaw,offset=3600000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=2,startMonth=2,startDay=-1,startDayOfWeek=1,startTime=3600000,startTimeMode=2,endMode=2,endMonth=9,endDay=-1,endDayOfWeek=1,endTime=3600000,endTimeMode=2]]</sentence>
+			<sentence id="62.24">"			checksum	-1578751392	"	-1578751392</sentence>
+			<sentence id="62.25">"			dirty	false	"	FALSE</sentence>
+			<sentence id="62.26">"			dstSavings	3600000	"	3600000</sentence>
+			<sentence id="62.27">"			ID	""Europe/Warsaw"" (id=92)	"	Europe/Warsaw</sentence>
+			<sentence id="62.28">"				count	13	"	13</sentence>
+			<sentence id="62.29">"				hash	826225934	"	826225934</sentence>
+			<sentence id="62.30">"				offset	0	"	0</sentence>
+			<sentence id="62.31">"				value	(id=100)	"	[E, u, r, o, p, e, /, W, a, r, s, a, w]</sentence>
+			<sentence id="62.32">"					[0]	E	"	E</sentence>
+			<sentence id="62.33">"					[1]	u	"	u</sentence>
+			<sentence id="62.34">"					[2]	r	"	r</sentence>
+			<sentence id="62.35">"					[3]	o	"	o</sentence>
+			<sentence id="62.36">"					[4]	p	"	p</sentence>
+			<sentence id="62.37">"					[5]	e	"	e</sentence>
+			<sentence id="62.38">"					[6]	/	"	/</sentence>
+			<sentence id="62.39">"					[7]	W	"	W</sentence>
+			<sentence id="62.40">"					[8]	a	"	a</sentence>
+			<sentence id="62.41">"					[9]	r	"	r</sentence>
+			<sentence id="62.42">"					[10]	s	"	s</sentence>
+			<sentence id="62.43">"					[11]	a	"	a</sentence>
+			<sentence id="62.44">"					[12]	w	"	w</sentence>
+			<sentence id="62.45">"			lastRule	null	"	null</sentence>
+			<sentence id="62.46">"			offsets	(id=95)	"	[3600000, 5040000, 7200000, 3600000, 10800000]</sentence>
+			<sentence id="62.47">"				[0]	3600000	"	3600000</sentence>
+			<sentence id="62.48">"				[1]	5040000	"	5040000</sentence>
+			<sentence id="62.49">"				[2]	7200000	"	7200000</sentence>
+			<sentence id="62.50">"				[3]	3600000	"	3600000</sentence>
+			<sentence id="62.51">"				[4]	10800000	"	10800000</sentence>
+			<sentence id="62.52">"			rawOffset	3600000	"	3600000</sentence>
+			<sentence id="62.53">"			rawOffsetDiff	0	"	0</sentence>
+			<sentence id="62.54">"			simpleTimeZoneParams	(id=97)	"	[2, -1, 1, 3600000, 2, 9, -1, 1, 3600000, 2]</sentence>
+			<sentence id="62.55">"				[0]	2	"	2</sentence>
+			<sentence id="62.56">"				[1]	-1	"	-1</sentence>
+			<sentence id="62.57">"				[2]	1	"	1</sentence>
+			<sentence id="62.58">"				[3]	3600000	"	3600000</sentence>
+			<sentence id="62.59">"				[4]	2	"	2</sentence>
+			<sentence id="62.60">"				[5]	9	"	9</sentence>
+			<sentence id="62.61">"				[6]	-1	"	-1</sentence>
+			<sentence id="62.62">"				[7]	1	"	1</sentence>
+			<sentence id="62.63">"				[8]	3600000	"	3600000</sentence>
+			<sentence id="62.64">"				[9]	2	"	2</sentence>
+			<sentence id="62.65">"			transitions	(id=98)	"	[-9048018124799999, -7032964055040000, -6937421414399950, -6883260825600000, -6813514137599950, -6759014400000000, -6684696575999950, -6630196838399998, -6555539865599948, -6501040127999998, -6151068057600000, -3816382463999950, -3511325491200000, -3459303014399950, -3392416972800000, -3328008191999950, -3262906368000000, -3189664972799950, -3123855360000000, -3065801932799950, -3003487027200000, -2929523097599950, -2875023360000000, -2805660057599950, -2746205798400000, -2679319756799950, -2617388236800000, -1626498662399950, -1584385228800000, -1519976447999950, -1455567667200000, -1368863539199950, -1324272844800000, -1259864063999950, -1195455283200000, -1111228415999950, -1066637721600000, -982410854399950, -937820160000000, -853593292799950, -809002598400000, -722298470399950, -680185036800000, 937466265600050, 999397785600000, 1066283827200050, 1130692608000000, 1195101388800050, 1259510169600000, 1326396211200050, 1388327731200000, 1452736512000050, 1517145292800000, 1581554073600050, 1645962854400000, 1710371635200050, 1774780416000000, 1839189196800050, 1906075238400000, 1970484019200050, 2034892800000000, 2099301580800050, 2163710361600000, 2228119142400050, 2292527923200000, 2356951449600050, 2421360230400000, 2485769011200050, 2550177792000000, 2614586572800050, 2681472614400000, 2745881395200050, 2810290176000000, 2874698956800050, 2939107737600000, 3003516518400050, 3067925299200000, 3132334080000050, 3196742860800000, 3261151641600050, 3325560422400000, 3392446464000050, 3466764288000000, 3521264025600050, 3595581849600000, 3650081587200050, 3724399411200000, 3778899148800050, 3855694233600000, 3907716710400050, 3984511795200000, 4036534272000050, 4113329356800000, 4167829094400050, 4242146918400000, 4296646656000050, 4370964480000000, 4425464217600050, 4502259302400000, 4554281779200050, 4631076864000000, 4683099340800050, 4759894425600000, 4811916902400050, 4888711987200000, 4943211724800050, 5017529548800000, 5072029286400050, 5146347110400000, 5200846848000050, 5277641932800000, 5329664409600050, 5406459494400000, 5458481971200050, 5535277056000000, 5589776793600050, 5664094617600000, 5718594355200050, 5792912179200000, 5847411916800050, 5921729740800000, 5976229478400050, 6053024563200000, 6105047040000050, 6181842124800000, 6233864601600050, 6310659686400000, 6365159424000050, 6439477248000000, 6493976985600050, 6568294809600000, 6622794547200050, 6699589632000000, 6751612108800050, 6828407193600000, 6880429670400050, 6957224755200000, 7011724492800050, 7086042316800000, 7140542054400050, 7214859878400000, 7269359616000050, 7343677440000000, 7398177177600050, 7474972262400000, 7526994739200050, 7603789824000000, 7655812300800050, 7732607385600000, 7787107123200050, 7861424947200000, 7915924684800050, 7990242508800000, 8044742246400050, 8121537331200000, 8173559808000050, 8250354892800000, 8302377369600050, 8379172454400000, 8431194931200050, 8507990016000000, 8562489753600050, 8636807577600000, 8691307315200050, 8765625139200000]</sentence>
+			<sentence id="62.66">"				[0...99]	"	</sentence>
+			<sentence id="62.67">"					[0]	-9048018124799999	"	-9048018124800000</sentence>
+			<sentence id="62.68">"					[1]	-7032964055040000	"	-7032964055040000</sentence>
+			<sentence id="62.69">"					[2]	-6937421414399950	"	-6937421414399950</sentence>
+			<sentence id="62.70">"					[3]	-6883260825600000	"	-6883260825600000</sentence>
+			<sentence id="62.71">"					[4]	-6813514137599950	"	-6813514137599950</sentence>
+			<sentence id="62.72">"					[5]	-6759014400000000	"	-6759014400000000</sentence>
+			<sentence id="62.73">"					[6]	-6684696575999950	"	-6684696575999950</sentence>
+			<sentence id="62.74">"					[7]	-6630196838399998	"	-6630196838400000</sentence>
+			<sentence id="62.75">"					[8]	-6555539865599948	"	-6555539865599950</sentence>
+			<sentence id="62.76">"					[9]	-6501040127999998	"	-6501040128000000</sentence>
+			<sentence id="62.77">"					[10]	-6151068057600000	"	-6151068057600000</sentence>
+			<sentence id="62.78">"					[11]	-3816382463999950	"	-3816382463999950</sentence>
+			<sentence id="62.79">"					[12]	-3511325491200000	"	-3511325491200000</sentence>
+			<sentence id="62.80">"					[13]	-3459303014399950	"	-3459303014399950</sentence>
+			<sentence id="62.81">"					[14]	-3392416972800000	"	-3392416972800000</sentence>
+			<sentence id="62.82">"					[15]	-3328008191999950	"	-3328008191999950</sentence>
+			<sentence id="62.83">"					[16]	-3262906368000000	"	-3262906368000000</sentence>
+			<sentence id="62.84">"					[17]	-3189664972799950	"	-3189664972799950</sentence>
+			<sentence id="62.85">"					[18]	-3123855360000000	"	-3123855360000000</sentence>
+			<sentence id="62.86">"					[19]	-3065801932799950	"	-3065801932799950</sentence>
+			<sentence id="62.87">"					[20]	-3003487027200000	"	-3003487027200000</sentence>
+			<sentence id="62.88">"					[21]	-2929523097599950	"	-2929523097599950</sentence>
+			<sentence id="62.89">"					[22]	-2875023360000000	"	-2875023360000000</sentence>
+			<sentence id="62.90">"					[23]	-2805660057599950	"	-2805660057599950</sentence>
+			<sentence id="62.91">"					[24]	-2746205798400000	"	-2746205798400000</sentence>
+			<sentence id="62.92">"					[25]	-2679319756799950	"	-2679319756799950</sentence>
+			<sentence id="62.93">"					[26]	-2617388236800000	"	-2617388236800000</sentence>
+			<sentence id="62.94">"					[27]	-1626498662399950	"	-1626498662399950</sentence>
+			<sentence id="62.95">"					[28]	-1584385228800000	"	-1584385228800000</sentence>
+			<sentence id="62.96">"					[29]	-1519976447999950	"	-1519976447999950</sentence>
+			<sentence id="62.97">"					[30]	-1455567667200000	"	-1455567667200000</sentence>
+			<sentence id="62.98">"					[31]	-1368863539199950	"	-1368863539199950</sentence>
+			<sentence id="62.99">"					[32]	-1324272844800000	"	-1324272844800000</sentence>
+			<sentence id="62.100">"					[33]	-1259864063999950	"	-1259864063999950</sentence>
+			<sentence id="62.101">"					[34]	-1195455283200000	"	-1195455283200000</sentence>
+			<sentence id="62.102">"					[35]	-1111228415999950	"	-1111228415999950</sentence>
+			<sentence id="62.103">"					[36]	-1066637721600000	"	-1066637721600000</sentence>
+			<sentence id="62.104">"					[37]	-982410854399950	"	-982410854399950</sentence>
+			<sentence id="62.105">"					[38]	-937820160000000	"	-937820160000000</sentence>
+			<sentence id="62.106">"					[39]	-853593292799950	"	-853593292799950</sentence>
+			<sentence id="62.107">"					[40]	-809002598400000	"	-809002598400000</sentence>
+			<sentence id="62.108">"					[41]	-722298470399950	"	-722298470399950</sentence>
+			<sentence id="62.109">"					[42]	-680185036800000	"	-680185036800000</sentence>
+			<sentence id="62.110">"					[43]	937466265600050	"	937466265600050</sentence>
+			<sentence id="62.111">"					[44]	999397785600000	"	999397785600000</sentence>
+			<sentence id="62.112">"					[45]	1066283827200050	"	1066283827200050</sentence>
+			<sentence id="62.113">"					[46]	1130692608000000	"	1130692608000000</sentence>
+			<sentence id="62.114">"					[47]	1195101388800050	"	1195101388800050</sentence>
+			<sentence id="62.115">"					[48]	1259510169600000	"	1259510169600000</sentence>
+			<sentence id="62.116">"					[49]	1326396211200050	"	1326396211200050</sentence>
+			<sentence id="62.117">"					[50]	1388327731200000	"	1388327731200000</sentence>
+			<sentence id="62.118">"					[51]	1452736512000050	"	1452736512000050</sentence>
+			<sentence id="62.119">"					[52]	1517145292800000	"	1517145292800000</sentence>
+			<sentence id="62.120">"					[53]	1581554073600050	"	1581554073600050</sentence>
+			<sentence id="62.121">"					[54]	1645962854400000	"	1645962854400000</sentence>
+			<sentence id="62.122">"					[55]	1710371635200050	"	1710371635200050</sentence>
+			<sentence id="62.123">"					[56]	1774780416000000	"	1774780416000000</sentence>
+			<sentence id="62.124">"					[57]	1839189196800050	"	1839189196800050</sentence>
+			<sentence id="62.125">"					[58]	1906075238400000	"	1906075238400000</sentence>
+			<sentence id="62.126">"					[59]	1970484019200050	"	1970484019200050</sentence>
+			<sentence id="62.127">"					[60]	2034892800000000	"	2034892800000000</sentence>
+			<sentence id="62.128">"					[61]	2099301580800050	"	2099301580800050</sentence>
+			<sentence id="62.129">"					[62]	2163710361600000	"	2163710361600000</sentence>
+			<sentence id="62.130">"					[63]	2228119142400050	"	2228119142400050</sentence>
+			<sentence id="62.131">"					[64]	2292527923200000	"	2292527923200000</sentence>
+			<sentence id="62.132">"					[65]	2356951449600050	"	2356951449600050</sentence>
+			<sentence id="62.133">"					[66]	2421360230400000	"	2421360230400000</sentence>
+			<sentence id="62.134">"					[67]	2485769011200050	"	2485769011200050</sentence>
+			<sentence id="62.135">"					[68]	2550177792000000	"	2550177792000000</sentence>
+			<sentence id="62.136">"					[69]	2614586572800050	"	2614586572800050</sentence>
+			<sentence id="62.137">"					[70]	2681472614400000	"	2681472614400000</sentence>
+			<sentence id="62.138">"					[71]	2745881395200050	"	2745881395200050</sentence>
+			<sentence id="62.139">"					[72]	2810290176000000	"	2810290176000000</sentence>
+			<sentence id="62.140">"					[73]	2874698956800050	"	2874698956800050</sentence>
+			<sentence id="62.141">"					[74]	2939107737600000	"	2939107737600000</sentence>
+			<sentence id="62.142">"					[75]	3003516518400050	"	3003516518400050</sentence>
+			<sentence id="62.143">"					[76]	3067925299200000	"	3067925299200000</sentence>
+			<sentence id="62.144">"					[77]	3132334080000050	"	3132334080000050</sentence>
+			<sentence id="62.145">"					[78]	3196742860800000	"	3196742860800000</sentence>
+			<sentence id="62.146">"					[79]	3261151641600050	"	3261151641600050</sentence>
+			<sentence id="62.147">"					[80]	3325560422400000	"	3325560422400000</sentence>
+			<sentence id="62.148">"					[81]	3392446464000050	"	3392446464000050</sentence>
+			<sentence id="62.149">"					[82]	3466764288000000	"	3466764288000000</sentence>
+			<sentence id="62.150">"					[83]	3521264025600050	"	3521264025600050</sentence>
+			<sentence id="62.151">"					[84]	3595581849600000	"	3595581849600000</sentence>
+			<sentence id="62.152">"					[85]	3650081587200050	"	3650081587200050</sentence>
+			<sentence id="62.153">"					[86]	3724399411200000	"	3724399411200000</sentence>
+			<sentence id="62.154">"					[87]	3778899148800050	"	3778899148800050</sentence>
+			<sentence id="62.155">"					[88]	3855694233600000	"	3855694233600000</sentence>
+			<sentence id="62.156">"					[89]	3907716710400050	"	3907716710400050</sentence>
+			<sentence id="62.157">"					[90]	3984511795200000	"	3984511795200000</sentence>
+			<sentence id="62.158">"					[91]	4036534272000050	"	4036534272000050</sentence>
+			<sentence id="62.159">"					[92]	4113329356800000	"	4113329356800000</sentence>
+			<sentence id="62.160">"					[93]	4167829094400050	"	4167829094400050</sentence>
+			<sentence id="62.161">"					[94]	4242146918400000	"	4242146918400000</sentence>
+			<sentence id="62.162">"					[95]	4296646656000050	"	4296646656000050</sentence>
+			<sentence id="62.163">"					[96]	4370964480000000	"	4370964480000000</sentence>
+			<sentence id="62.164">"					[97]	4425464217600050	"	4425464217600050</sentence>
+			<sentence id="62.165">"					[98]	4502259302400000	"	4502259302400000</sentence>
+			<sentence id="62.166">"					[99]	4554281779200050	"	4554281779200050</sentence>
+			<sentence id="62.167">"				[100...164]	"	</sentence>
+			<sentence id="62.168">"					[100]	4631076864000000	"	4631076864000000</sentence>
+			<sentence id="62.169">"					[101]	4683099340800050	"	4683099340800050</sentence>
+			<sentence id="62.170">"					[102]	4759894425600000	"	4759894425600000</sentence>
+			<sentence id="62.171">"					[103]	4811916902400050	"	4811916902400050</sentence>
+			<sentence id="62.172">"					[104]	4888711987200000	"	4888711987200000</sentence>
+			<sentence id="62.173">"					[105]	4943211724800050	"	4943211724800050</sentence>
+			<sentence id="62.174">"					[106]	5017529548800000	"	5017529548800000</sentence>
+			<sentence id="62.175">"					[107]	5072029286400050	"	5072029286400050</sentence>
+			<sentence id="62.176">"					[108]	5146347110400000	"	5146347110400000</sentence>
+			<sentence id="62.177">"					[109]	5200846848000050	"	5200846848000050</sentence>
+			<sentence id="62.178">"					[110]	5277641932800000	"	5277641932800000</sentence>
+			<sentence id="62.179">"					[111]	5329664409600050	"	5329664409600050</sentence>
+			<sentence id="62.180">"					[112]	5406459494400000	"	5406459494400000</sentence>
+			<sentence id="62.181">"					[113]	5458481971200050	"	5458481971200050</sentence>
+			<sentence id="62.182">"					[114]	5535277056000000	"	5535277056000000</sentence>
+			<sentence id="62.183">"					[115]	5589776793600050	"	5589776793600050</sentence>
+			<sentence id="62.184">"					[116]	5664094617600000	"	5664094617600000</sentence>
+			<sentence id="62.185">"					[117]	5718594355200050	"	5718594355200050</sentence>
+			<sentence id="62.186">"					[118]	5792912179200000	"	5792912179200000</sentence>
+			<sentence id="62.187">"					[119]	5847411916800050	"	5847411916800050</sentence>
+			<sentence id="62.188">"					[120]	5921729740800000	"	5921729740800000</sentence>
+			<sentence id="62.189">"					[121]	5976229478400050	"	5976229478400050</sentence>
+			<sentence id="62.190">"					[122]	6053024563200000	"	6053024563200000</sentence>
+			<sentence id="62.191">"					[123]	6105047040000050	"	6105047040000050</sentence>
+			<sentence id="62.192">"					[124]	6181842124800000	"	6181842124800000</sentence>
+			<sentence id="62.193">"					[125]	6233864601600050	"	6233864601600050</sentence>
+			<sentence id="62.194">"					[126]	6310659686400000	"	6310659686400000</sentence>
+			<sentence id="62.195">"					[127]	6365159424000050	"	6365159424000050</sentence>
+			<sentence id="62.196">"					[128]	6439477248000000	"	6439477248000000</sentence>
+			<sentence id="62.197">"					[129]	6493976985600050	"	6493976985600050</sentence>
+			<sentence id="62.198">"					[130]	6568294809600000	"	6568294809600000</sentence>
+			<sentence id="62.199">"					[131]	6622794547200050	"	6622794547200050</sentence>
+			<sentence id="62.200">"					[132]	6699589632000000	"	6699589632000000</sentence>
+			<sentence id="62.201">"					[133]	6751612108800050	"	6751612108800050</sentence>
+			<sentence id="62.202">"					[134]	6828407193600000	"	6828407193600000</sentence>
+			<sentence id="62.203">"					[135]	6880429670400050	"	6880429670400050</sentence>
+			<sentence id="62.204">"					[136]	6957224755200000	"	6957224755200000</sentence>
+			<sentence id="62.205">"					[137]	7011724492800050	"	7011724492800050</sentence>
+			<sentence id="62.206">"					[138]	7086042316800000	"	7086042316800000</sentence>
+			<sentence id="62.207">"					[139]	7140542054400050	"	7140542054400050</sentence>
+			<sentence id="62.208">"					[140]	7214859878400000	"	7214859878400000</sentence>
+			<sentence id="62.209">"					[141]	7269359616000050	"	7269359616000050</sentence>
+			<sentence id="62.210">"					[142]	7343677440000000	"	7343677440000000</sentence>
+			<sentence id="62.211">"					[143]	7398177177600050	"	7398177177600050</sentence>
+			<sentence id="62.212">"					[144]	7474972262400000	"	7474972262400000</sentence>
+			<sentence id="62.213">"					[145]	7526994739200050	"	7526994739200050</sentence>
+			<sentence id="62.214">"					[146]	7603789824000000	"	7603789824000000</sentence>
+			<sentence id="62.215">"					[147]	7655812300800050	"	7655812300800050</sentence>
+			<sentence id="62.216">"					[148]	7732607385600000	"	7732607385600000</sentence>
+			<sentence id="62.217">"					[149]	7787107123200050	"	7787107123200050</sentence>
+			<sentence id="62.218">"					[150]	7861424947200000	"	7861424947200000</sentence>
+			<sentence id="62.219">"					[151]	7915924684800050	"	7915924684800050</sentence>
+			<sentence id="62.220">"					[152]	7990242508800000	"	7990242508800000</sentence>
+			<sentence id="62.221">"					[153]	8044742246400050	"	8044742246400050</sentence>
+			<sentence id="62.222">"					[154]	8121537331200000	"	8121537331200000</sentence>
+			<sentence id="62.223">"					[155]	8173559808000050	"	8173559808000050</sentence>
+			<sentence id="62.224">"					[156]	8250354892800000	"	8250354892800000</sentence>
+			<sentence id="62.225">"					[157]	8302377369600050	"	8302377369600050</sentence>
+			<sentence id="62.226">"					[158]	8379172454400000	"	8379172454400000</sentence>
+			<sentence id="62.227">"					[159]	8431194931200050	"	8431194931200050</sentence>
+			<sentence id="62.228">"					[160]	8507990016000000	"	8507990016000000</sentence>
+			<sentence id="62.229">"					[161]	8562489753600050	"	8562489753600050</sentence>
+			<sentence id="62.230">"					[162]	8636807577600000	"	8636807577600000</sentence>
+			<sentence id="62.231">"					[163]	8691307315200050	"	8691307315200050</sentence>
+			<sentence id="62.232">"					[164]	8765625139200000	"	8765625139200000</sentence>
+			<sentence id="62.233">"			willGMTOffsetChange	false	"	FALSE</sentence>
+			<sentence id="62.234">"		zoneOffset	3600000	"	3600000</sentence>
+			<sentence id="62.235">"	fastTime	1416438000000	"	1416438000000</sentence>
+			<sentence id="62.236">{code}</sentence>
+		</paragraph>
+		<paragraph id="63">
+			<sentence id="63.1">After comparing them in diff viewer - the difference is only in first two lines:</sentence>
+		</paragraph>
+		<paragraph id="64">
+			<sentence id="64.1">|"dataOd	Date (id=72)	"|	Thu Nov 20 00:00:00 CET 2014		|"dataOd	Date (id=123)	"|	2014-11-20|
+|"	cdate	Gregorian$Date (id=82)	"|	2014-11-20T00:00:00.000+0100		|"	cdate	Gregorian$Date (id=129)	"|	2014-11-20T00:00:00.000+0100|</sentence>
+		</paragraph>
+		<paragraph id="65">
+			<sentence id="65.1">in first line - toString and id, in second line - only id</sentence>
+		</paragraph>
+		<paragraph id="66">
+			<sentence id="66.1">Why date in object read from cache (after creating in same session) has different toString than read from no cache - objects in debugger looks same, so I really don't know what is the problem</sentence>
+		</paragraph>
+	</description>
+</bug>

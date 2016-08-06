@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3780</id>
+	<title>Searching for patient with patient name/new feature</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Current behavior:</sentence>
+			<sentence id="1.2">* 3+ chars: prefix match only – OK, this is desired behavior</sentence>
+			<sentence id="1.3">* 2 chars: currently exact match only, but prefix match desired (search "ab" will display "Test Ab Smith" but not "Test Ablonious Smith") – NOT OK, needs fix</sentence>
+			<sentence id="1.4">* 1 char: exact match only (exact match desired) – OK</sentence>
+			<sentence id="1.5">changing minSearchCharacters to 2 will give the desired functionality above.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Changes made in merge request:</sentence>
+			<sentence id="2.2">* 2 chars: prefix search now implemented as desired</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Possible optimizations:</sentence>
+			<sentence id="3.2">* 2 chars: prioritize: display exact match first then prefix (e.g. search = "xy", show "Xy Jones" before "Xyza Jones")</sentence>
+			<sentence id="3.3">* 1 char: prioritize: exact match first, then prefix (e.g. search = "a", show "Test A Last" before "Test Ab Last")</sentence>
+			<sentence id="3.4">Should we do prioritization on 1, 2, and 3+ chars, as described above?</sentence>
+			<sentence id="3.5">There is no substring match EVER, it’s just prefix match (e.g. searching "etty" will never find "Betty," but "Bet" will find "Betty").</sentence>
+			<sentence id="3.6">Would substring match be desirable, maybe as an option?</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">###DEPRECATED (this was the previous description)
+# When we enter single letter 'a' in patient identifier or patient name search box,
+system shows the record matching the criteria
+# If we enter two letter as 'ad', result is 'No matching records found'
+# If we enter three letters as 'Ada',system show the record matching the criteria</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">It means that system either expecting</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">* partial name with minimum 3 letters to show the result</sentence>
+			<sentence id="6.2">_or_</sentence>
+			<sentence id="6.3">* the given/middle/family name comprising of only single letter.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Examples are:
+# Adams Kiptoon Buigit
+# Famnice A Cheboriot</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">This means that system will not accept 2 letters as search criteria, it may be nice to have such message informing the user to enter minimum three letters to search further or if it is a bug, then it may be need to resolve</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">See *PatientSearchCriteria*, *PatientServiceImpl*, *HibernatePatientDAO*,*DWRPatientService* and please do make sure that when addressing this bug, you don't remove our ability to search for "jon a smith".</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>33162</id>
+	<title>desktop entries inconsistent, and fail to launch for certain components</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Since updating to LO RC3 (using a package built-from-source, with no patching on top of the sources), I notice that only Writer will launch from the .</sentence>
+			<sentence id="1.2">desktop file.</sentence>
+			<sentence id="1.3">Looking at the entries, I notice the "TryExec" and "Exec" lines are inconsistent with each other; example:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">thinkpad ~ $ grep Exec /usr/share/applications/{writer,calc,impress}.</sentence>
+			<sentence id="2.2">desktop
+/usr/share/applications/writer.desktop:TryExec=oowriter
+/usr/share/applications/writer.desktop:Exec=lowriter %U
+/usr/share/applications/calc.desktop:TryExec=localc
+/usr/share/applications/calc.desktop:Exec=oocalc %U
+/usr/share/applications/impress.desktop:TryExec=loimpress
+/usr/share/applications/impress.desktop:Exec=ooimpress %U</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">.</sentence>
+			<sentence id="3.2">.</sentence>
+			<sentence id="3.3">Writer is all that works here, which does indeed have the correct Exec entry to spawn the binary.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I am using enlightenment:0.17, which builds its menu from gnome-menus for the FDo spec.</sentence>
+			<sentence id="4.2">In RC2, all entries worked as expected, so it seems like a regression.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17410</id>
+	<title>docker load doesn't prevent docker pull of the same image in Docker 1.8.3</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Something changed with the handling of images ID on Docker because, previously, I could save an image with "docker save" and load it.</sentence>
+			<sentence id="1.2">A docker pull of the same image wouldn't waste network I/O.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">To quickly reproduce this issue:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+$ # Stop Docker service
+$ sudo service docker stop
+docker stop/waiting</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">$ # Save current Docker graph
+$ sudo mv /var/lib/docker /var/lib/docker-</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">$ # Start Docker daemon (creates a new /var/lib/docker)
+$ sudo service docker start
+docker start/running, process 14021</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">$ # Pull Busybox image
+$ sudo docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">ab2b8a86ca6c: Pull complete 
+2c5ac3f849df: Pull complete 
+Digest: sha256:5551dbdfc48d66734d0f01cafee0952cb6e8eeecd1e2492240bf2fd9640c2279
+Status: Downloaded newer image for busybox:latest</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">$ # Save Busybox image
+$ sudo docker save -o busybox.tar busybox</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">$ # Stop Docker service
+$ sudo service docker stop
+docker stop/waiting</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">$ # Remove Docker graph directory
+$ sudo rm -rf /var/lib/docker</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">$ # Start Docker daemon
+$ sudo sudo service docker start
+docker start/running, process 14161</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">$ # Load busybox.tar
+$ sudo docker load -i busybox.tar</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">$ # Pull Busybox image
+$ sudo docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+91d73071be07: Pull complete 
+0efa57931dab: Pull complete 
+Digest: sha256:5551dbdfc48d66734d0f01cafee0952cb6e8eeecd1e2492240bf2fd9640c2279
+Status: Downloaded newer image for busybox:latest</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">$ # Verify images
+$ sudo docker images
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
+busybox latest 0efa57931dab 6 days ago 1.113 MB
+&lt;none&gt; &lt;none&gt; 2c5ac3f849df 6 days ago 1.113 MB</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">$ sudo docker history busybox
+IMAGE CREATED CREATED BY SIZE COMMENT
+0efa57931dab 6 days ago /bin/sh -c #(nop) CMD ["sh"] 0 B 
+91d73071be07 6 days ago /bin/sh -c #(nop) ADD file:566aa8660b389e4f82 1.113 MB</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">$ sudo docker history 2c5ac3f849df
+IMAGE CREATED CREATED BY SIZE COMMENT
+2c5ac3f849df 6 days ago /bin/sh -c #(nop) CMD ["sh"] 0 B 
+ab2b8a86ca6c 6 days ago /bin/sh -c #(nop) ADD file:566aa8660b389e4f82 1.113 MB 
+```</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">docker info:
+```
+Containers: 0
+Images: 4
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 4
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 3.19.0-31-generic
+Operating System: Ubuntu 14.04.3 LTS
+CPUs: 4
+Total Memory: 15.64 GiB
+Name: ighighix
+ID: XVRI:CLJT:Q2MB:N27X:YM7W:ZVGA:DHCD:G3XM:QYSX:6ERT:PYTW:JWMX
+```</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">docker version:
+```
+Client:
+ Version: 1.8.3
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: f4bf5c7
+ Built: Mon Oct 12 05:37:18 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">Server:
+ Version: 1.8.3
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: f4bf5c7
+ Built: Mon Oct 12 05:37:18 UTC 2015
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">uname -a:
+```
+Linux ighighix 3.19.0-31-generic #36~14.04.1-Ubuntu SMP Thu Oct 8 10:21:08 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

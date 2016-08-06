@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22012</id>
+	<title>Docker create doesn't work with full image id's, but does with partial</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+Client:
+ Version: 1.10.3
+ API version: 1.22
+ Go version: go1.6
+ Git commit: 20f81dd
+ Built: Mon, 04 Apr 2016 16:27:28 +1200
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Server:
+ Version: 1.10.3
+ API version: 1.22
+ Go version: go1.6
+ Git commit: 20f81dd
+ Built: Mon, 04 Apr 2016 16:27:28 +1200
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">**Output of `docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+Containers: 6
+ Running: 0
+ Paused: 0
+ Stopped: 6
+Images: 10
+Server Version: 1.10.3
+Storage Driver: zfs
+ Zpool: docker
+ Zpool Health: ONLINE
+ Parent Dataset: docker/docker
+ Space Used By Parent: 1143891456
+ Space Available: 102786927648
+ Parent Quota: no
+ Compression: lz4
+Execution Driver: native-0.2
+Logging Driver: json-file
+Plugins:
+ Volume: local
+ Network: bridge null host
+Kernel Version: 4.4.0-15-generic
+Operating System: Ubuntu 16.04
+OSType: linux
+Architecture: x86_64
+CPUs: 8
+Total Memory: 31.42 GiB
+Name: ip-10-2-3-36
+ID: QNUV:72CF:XGZA:Y2MT:SQ5B:IE7O:HB7J:MOS2:AFNH:6LME:G7EF:6XCL
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+			<sentence id="6.2">* On AWS, client+server on the same machine</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="7.2">1 build an image with `docker build -q .</sentence>
+			<sentence id="7.3">`</sentence>
+			<sentence id="7.4">2 use the image-id from step one in `docker create ${IMAGEID}` (you have to trim "sha256:" which is confusing, but that's seperate)</sentence>
+			<sentence id="7.5">3 watch it fail</sentence>
+			<sentence id="7.6">4 use the image-id from step one, but with a *single* character removed from the end</sentence>
+			<sentence id="7.7">5 watch it succeed</sentence>
+			<sentence id="7.8">6 profit</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">**Describe the results you received:**</sentence>
+			<sentence id="8.2">```shell</sentence>
+			<sentence id="8.3">$ docker create ...e6fc # fails</sentence>
+			<sentence id="8.4">Invalid repository name (...e6fc), cannot specify 64-byte hexadecimal strings</sentence>
+			<sentence id="8.5">$ docker create ...e6f # succeeds</sentence>
+			<sentence id="8.6">...591a</sentence>
+			<sentence id="8.7">$</sentence>
+			<sentence id="8.8">```</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">**Describe the results you expected:**</sentence>
+			<sentence id="9.2">If partial ID's are accepted, I don't understand why full ID's aren't.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+			<sentence id="10.2">Relatively easy to work around, but having a random "trim one character" piece of code seems... pretty silly (i.e.: `${IMAGEID::-1}`).</sentence>
+		</paragraph>
+	</description>
+</bug>

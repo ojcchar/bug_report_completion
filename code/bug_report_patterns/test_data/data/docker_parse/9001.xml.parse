@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9001</id>
+	<title>Enhancement: better error message when tag cannot be matched to local repos</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">mentioned in #8975</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Docker does not give a descriptive error if you try to use a local image by name without specifying a correct tag if no latest exists.</sentence>
+			<sentence id="2.2">i.e if you create a local image with a specific version `demo/baseimage:0.0.1` and then use it in the dockerfile as</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+FROM demo/baseimage
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Then it tries to pull the repo (which obviously won't exist on dockerhub) and then gives this:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+Pulling repository demo/centos-baseimage
+2014/11/06 08:39:46 Error: image demo/centos-baseimage not found
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">@thaJeztah suggested</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">```
+Error: image demo/centos-baseimage:latest not found
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

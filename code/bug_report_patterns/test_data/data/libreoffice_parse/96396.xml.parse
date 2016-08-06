@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>96396</id>
+	<title>libevoablo.so unnecessarily links against GTK+2</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">libevoablo.so links against gtk+2 even though it doesn't seem to use it:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">emilio@tatooine:/usr/lib/libreoffice/program$ objdump -x libevoablo.so | grep NEEDED | grep gtk
+  NEEDED               libgtk-x11-2.0.</sentence>
+			<sentence id="2.2">so.0</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This is also true for a few other libraries.</sentence>
+			<sentence id="3.2">From the Debian build log:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">pkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libpangocairo-1.0.so.0 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.2">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libucbhelper.so (it uses none of the library's symbols)</sentence>
+			<sentence id="4.3">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libgdk_pixbuf-2.0.so.0 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.4">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libfreetype.so.6 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.5">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libpangoft2-1.0.so.0 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.6">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libfontconfig.so.1 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.7">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libgtk-x11-2.0.so.0 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.8">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libatk-1.0.so.0 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.9">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libcairo.so.2 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.10">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libgdk-x11-2.0.so.0 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.11">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libpango-1.0.so.0 (it uses none of the library's symbols)</sentence>
+			<sentence id="4.12">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libfilelo.so (it uses none of the library's symbols)</sentence>
+			<sentence id="4.13">dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libreoffice-evolution/usr/lib/libreoffice/program/libevoablo.so was not linked against libgio-2.0.so.0 (it uses none of the library's symbols)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Given LO now has a GTK+3 plugin, it'd be good to avoid depending on GTK+2 in other places.</sentence>
+		</paragraph>
+	</description>
+</bug>

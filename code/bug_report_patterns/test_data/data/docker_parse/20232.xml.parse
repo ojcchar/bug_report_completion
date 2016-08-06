@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>20232</id>
+	<title>Docs: "Docker run reference" page should include detailed usage on overriding USER command</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Currently [Docker run reference](https://docs.docker.com/v1.10/v1.10/engine/reference/run/#overriding-dockerfile-image-defaults:c1c6b1b4df59d160484c5bbc0358e8dc) page has a brief explanation on overriding USER command.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">There is a hint from [Command line reference - run](https://docs.docker.com/engine/reference/commandline/run/) at the top where it explains more about the usage of `-u` option.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I think we can improve the document by including the following details obtained from `man docker run`
+ 
+&gt; -u, --user=""
+&gt; Sets the username or UID used and optionally the groupname or GID for the specified command.</sentence>
+			<sentence id="3.2">&gt; 
+&gt; The followings examples are all valid:
+&gt; --user [user | user:group | uid | uid:gid | user:gid | uid:group ]
+&gt; 
+&gt; Without this argument the command will be run as root in the container.</sentence>
+		</paragraph>
+	</description>
+</bug>

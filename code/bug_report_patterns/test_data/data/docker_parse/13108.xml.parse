@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13108</id>
+	<title>Overlay allows deleting directories that aren't empty</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I know this is not a Docker bug, this is in the kernel itself.</sentence>
+			<sentence id="1.2">I'm only filing here as I expect it will gain the attention of somebody who know where/how to get this fixed.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Test case</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Dockerfile
+```
+FROM ubuntu
+RUN mkdir /empty
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">`docker build -t test .</sentence>
+			<sentence id="4.2">`</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```bash
+docker run -i test bash &lt;&lt; "EOF"
+rmdir /empty
+mkdir /empty
+touch /empty/a
+rmdir /empty &amp;&amp; echo "I'm a bug"
+EOF
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">The last line should fail but it doesn't.</sentence>
+			<sentence id="6.2">```
+docker version; docker info
+Client version: 1.6.0
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): 4749651
+OS/Arch (client): linux/amd64
+Server version: 1.6.0
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): 4749651
+OS/Arch (server): linux/amd64
+Containers: 9
+Images: 808
+Storage Driver: overlay
+ Backing Filesystem: extfs
+Execution Driver: native-0.2
+Kernel Version: 4.0.1-040001-generic
+Operating System: Ubuntu 14.10
+CPUs: 4
+Total Memory: 7.504 GiB
+Name: inotmac
+ID: FPSO:Z7SO:BZJ3:IXH4:DNKV:UPZQ:KLP2:IRXW:5CBY:PBDM:HAKO:UOC7
+Username: ibuildthecloud
+Registry: [https://index.docker.io/v1/]
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

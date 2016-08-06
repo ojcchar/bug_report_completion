@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>20469</id>
+	<title>An RMI Against An Image ID That Fails Causes Image To Be Untagged</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">`docker version`: Docker version 1.9.1, build a34a1d5
+`docker info`:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+Containers: 4
+Images: 53
+Server Version: 1.9.1
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 61
+ Dirperm1 Supported: false
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 3.13.0-24-generic
+Operating System: Ubuntu 14.04 LTS
+CPUs: 2
+Total Memory: 5.83 GiB
+Name: REDACTED
+ID: REDACTED
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">`uname -a`:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+Linux REDACTED #47-Ubuntu SMP Fri May 2 23:30:00 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux`
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Environment details: VM.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">How reproducible: 100% of the time.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Steps to Reproduce:</sentence>
+			<sentence id="7.2">1 Run a container with an image using `-d`</sentence>
+			<sentence id="7.3">2 `docker rmi image_name:tag`</sentence>
+			<sentence id="7.4">The above will complain that there's an active container running.</sentence>
+			<sentence id="7.5">Run `docker ps` and `docker images` and note how the image you used in Step 1 is still labeled correctly.</sentence>
+			<sentence id="7.6">3 `docker rmi &lt;id&gt;`, where `&lt;id&gt;` is the id of the image you used in the prior step.</sentence>
+			<sentence id="7.7">The above will complain that there's an active container running.</sentence>
+			<sentence id="7.8">However, now when you run `docker ps` and `docker images`, the image is now untagged.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Example:</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">```
+stack@myvm:~$ docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+2a45e073cc07 myorg/myproj/logstash:2.1.0-1 "/docker-entrypoint.</sentence>
+			<sentence id="13.2">s" 10 days ago Up 5 days logstash</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">stack@myvm:~$ docker rmi myorg/myproj/logstash:2.1.0-1
+Error response from daemon: conflict: unable to remove repository reference "myorg/myproj/logstash:2.1.0-1" (must force) - container 2a45e073cc07 is using its referenced image 805530fa1bc0
+Error: failed to remove images: [myorg/myproj/logstash:2.1.0-1]</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">stack@myvm:~$ docker images
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
+myorg/myproj/logstash 2.1.0-1 805530fa1bc0 12 weeks ago 444.7 MB</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">stack@myvm:~$ docker rmi 805530fa1bc0
+Error response from daemon: conflict: unable to delete 805530fa1bc0 (cannot be forced) - image is being used by running container 2a45e073cc07
+Error: failed to remove images: [805530fa1bc0]</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">stack@myvm:~$ docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+2a45e073cc07 805530fa1bc0 "/docker-entrypoint.</sentence>
+			<sentence id="17.2">s" 10 days ago Up 5 days logstash</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">stack@myvm:~$ docker images
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
+&lt;none&gt; &lt;none&gt; 805530fa1bc0 12 weeks ago 444.7 MB
+```</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">Expected Result: A failed `rmi` against an image id should behave the same as an `rmi` against a name+tag in the sense that it should not mutate anything.</sentence>
+		</paragraph>
+	</description>
+</bug>

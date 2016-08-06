@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>770</id>
+	<title>Rewrite comments</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This started out as #757 (add infinite scroll to comments), but the more I dug in the more I realized I was building on a very shaky foundation.</sentence>
+			<sentence id="1.2">It makes more sense to take the time to redo comments, specifically:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">* New schema for the comment table to includes a primary key</sentence>
+			<sentence id="2.2">* Do away with passing around Maps of comments that include hard-coded column names</sentence>
+			<sentence id="2.3">* Store unformatted comment dates</sentence>
+			<sentence id="2.4">* Stop deleting existing comments whenever we retrieve new ones</sentence>
+			<sentence id="2.5">* Unbind the CommentAdapter from the CommentListFragment so it can be re-used</sentence>
+			<sentence id="2.6">* Simplify the comment moderation/deletion code</sentence>
+			<sentence id="2.7">* Merge with #333 to add contextual ActionBar</sentence>
+			<sentence id="2.8">* Last but not least, add inifinite scroll to the comment list</sentence>
+		</paragraph>
+	</description>
+</bug>

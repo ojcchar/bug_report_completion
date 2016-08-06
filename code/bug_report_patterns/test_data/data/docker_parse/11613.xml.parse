@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>11613</id>
+	<title>The container exec create API endpoint does not use structured responses.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">**Problem**</sentence>
+			<sentence id="1.2">The container exec create API endpoint does not use structured responses.</sentence>
+			<sentence id="1.3">**Solution**</sentence>
+			<sentence id="1.4">Implement a struct in `/api/types/types.</sentence>
+			<sentence id="1.5">go` for the response of the `postContainerExecCreate` api endpoint</sentence>
+			<sentence id="1.6">that can be used to encode the result on the server and decode the response on the client.</sentence>
+			<sentence id="1.7">Changes implementing this</sentence>
+			<sentence id="1.8">type will need to be done in `/api/server/server.</sentence>
+			<sentence id="1.9">go` and for the client in `/api/client/commands.</sentence>
+			<sentence id="1.10">go`.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4204</id>
+	<title>Expose a root-mounted volume from host to container</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Here's the problem -- I'm running docker in a corporate environment where we have a bunch of root-mounted NFS volumes in `/mnt/` which I'd like to expose to a docker container via a volume (at least in a read-only mode).</sentence>
+			<sentence id="1.2">Is there any way to do this without root rights?</sentence>
+			<sentence id="1.3">```
+$ docker run -v /mnt/data1:/home/data1 test /bin/bash
+2014/02/18 17:39:53 Error: start: Cannot start container f9d0...: 
+stat /mnt/data1: permission denied
+```
+Given that `sshfs` is a no-go, how would one go around creating a docker volume pointing to a location that can't be chowned?</sentence>
+			<sentence id="1.4">This is a complete showstopper in my case...</sentence>
+		</paragraph>
+	</description>
+</bug>

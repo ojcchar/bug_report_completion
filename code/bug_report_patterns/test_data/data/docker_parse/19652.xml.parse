@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19652</id>
+	<title>Engine 1.10.0-rc1 returns different error string on image not found, breaks existing clients</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Clients that leverage https://github.com/samalba/dockerclient/blob/master/dockerclient.go#L117 expect the error string coming back from the engine to contain "No such image" when specifying an invalid image.</sentence>
+			<sentence id="1.2">It appears that invalid image IDs in 1.10.0-rc1 are now returning errors that look like this:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+time="2016-01-25T04:04:03.277926426Z" level=error msg="Handler for POST /v1.15/containers/create returned error: open /mnt/sda1/var/lib/docker/image/aufs/imagedb/content/sha256/c23997c23be934d8d7b8ec72436ae734588a0cba8f07995d9317c5aee1d60576: no such file or directory"
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This appears to break swarm 1.1.0-rc1 which is no longer able to detect a missing image on a node and fall back to image affinity scheduling decisions.</sentence>
+			<sentence id="3.2">See https://github.com/docker/swarm/blob/master/cluster/engine.go#L700 and https://github.com/docker/swarm/blob/master/cluster/swarm/cluster.go#L134</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">While the code in swarm could be hardened to look for the new strings, since there are many clients out there that leverage https://github.com/samalba/dockerclient which may not ship a new version aligned with the 1.10 release, it seems like engine should make sure "No such image" shows up in the error message someplace to prevent breaking them.</sentence>
+		</paragraph>
+	</description>
+</bug>

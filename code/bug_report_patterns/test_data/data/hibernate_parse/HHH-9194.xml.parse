@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9194</id>
+	<title>Revert HHH-8908 fix</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">HHH-8908 needs to be reverted because the that issue makes an incorrect assumption.</sentence>
+			<sentence id="1.2">Mapped-superclass fields/methods should not be audited unless explictly audited or by using an @AuditOverride.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">That is how it currently works for an entity that extends a mapped-superclass; it should work the same way when an embeddable extends a mapped-superclass.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This issue will only revert HHH-8908.</sentence>
+			<sentence id="3.2">HHH-9193 will make the audit behavior consistent .</sentence>
+		</paragraph>
+	</description>
+</bug>

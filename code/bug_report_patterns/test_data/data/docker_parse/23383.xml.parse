@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>23383</id>
+	<title>docker push should try to push a new tag, and only upload the required layers</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Docker 1.11.2</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">currently the behaviour of "docker push" is to:</sentence>
+			<sentence id="3.1">* generate a list of layers</sentence>
+			<sentence id="3.2">* push each layer</sentence>
+			<sentence id="3.3">* create a manifest file</sentence>
+			<sentence id="3.4">* push the manifest file</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">However, the push API, returns an error containing a list of missing layers.</sentence>
+			<sentence id="4.2">Docker push should:</sentence>
+			<sentence id="4.3">* generate a list of layers: L</sentence>
+			<sentence id="4.4">* create a manifest file</sentence>
+			<sentence id="4.5">* push the manifest file</sentence>
+			<sentence id="4.6">* push the intersection of the error list and L</sentence>
+			<sentence id="4.7">* if there's an intersection of the error list and L, push the manifest file</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This way when you push a tag, for an existing repo you only make 1 http request.</sentence>
+		</paragraph>
+	</description>
+</bug>

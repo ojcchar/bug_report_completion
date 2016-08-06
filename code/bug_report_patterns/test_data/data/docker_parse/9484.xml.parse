@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9484</id>
+	<title>Clarify the API documentation for the "stdin" case of `fromSrc`</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The `POST /images/create` API documentation says:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+ fromSrc &#x2013; source to import, - means stdin
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This is confusing since there's no way for the Docker daemon to read from the API client's stdin and there's no way for the API client to put data onto the Docker daemon's stdin.</sentence>
+			<sentence id="3.2">What's really meant here is that "-" means "the request body" so the docs should just say that.</sentence>
+		</paragraph>
+	</description>
+</bug>

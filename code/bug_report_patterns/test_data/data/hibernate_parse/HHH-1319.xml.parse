@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1319</id>
+	<title>Hibernate 3.1 does not analyze queries with a certain depth anymore</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">A query like the one
+ from Dispo.Hibernate.Test.A as a where a.ptrB.ptrC.Oid &gt;= :oid
+leads to a NullPointerException when using Hibernate 3.1.</sentence>
+			<sentence id="1.2">The same query runs without a problem against Hibernate 3.0.5.</sentence>
+			<sentence id="1.3">When breaking down the where clause to "a.ptrB.Oid = ptrC.Oid and ptrC.Oid = :oid" the query works.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The stack trace is:</sentence>
+			<sentence id="2.2"> [java] java.lang.NullPointerException</sentence>
+			<sentence id="2.3"> [java] 	at org.hibernate.hql.ast.tree.DotNode.getColumns(DotNode.java:97)</sentence>
+			<sentence id="2.4"> [java] 	at org.hibernate.hql.ast.tree.DotNode.initText(DotNode.java:210)</sentence>
+			<sentence id="2.5"> [java] 	at org.hibernate.hql.ast.tree.DotNode.resolve(DotNode.java:204)</sentence>
+			<sentence id="2.6"> [java] 	at org.hibernate.hql.ast.tree.FromReferenceNode.resolve(FromReferenceNode.java:94)</sentence>
+			<sentence id="2.7"> [java] 	at org.hibernate.hql.ast.tree.FromReferenceNode.resolve(FromReferenceNode.java:90)</sentence>
+			<sentence id="2.8"> [java] 	at org.hibernate.hql.ast.HqlSqlWalker.resolve(HqlSqlWalker.java:660)</sentence>
+			<sentence id="2.9"> [java] 	at org.hibernate.hql.antlr.HqlSqlBaseWalker.expr(HqlSqlBaseWalker.java:1213)</sentence>
+			<sentence id="2.10"> [java] 	at org.hibernate.hql.antlr.HqlSqlBaseWalker.exprOrSubquery(HqlSqlBaseWalker.java:4022)</sentence>
+			<sentence id="2.11"> [java] 	at org.hibernate.hql.antlr.HqlSqlBaseWalker.comparisonExpr(HqlSqlBaseWalker.java:3628)</sentence>
+			<sentence id="2.12"> [java] 	at org.hibernate.hql.antlr.HqlSqlBaseWalker.logicalExpr(HqlSqlBaseWalker.java:1756)</sentence>
+			<sentence id="2.13"> [java] 	at org.hibernate.hql.antlr.HqlSqlBaseWalker.whereClause(HqlSqlBaseWalker.java:774)</sentence>
+			<sentence id="2.14"> [java] 	at org.hibernate.hql.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:575)</sentence>
+			<sentence id="2.15"> [java] 	at org.hibernate.hql.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:279)</sentence>
+			<sentence id="2.16"> [java] 	at org.hibernate.hql.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:227)</sentence>
+			<sentence id="2.17"> [java] 	at org.hibernate.hql.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:218)</sentence>
+			<sentence id="2.18"> [java] 	at org.hibernate.hql.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:158)</sentence>
+			<sentence id="2.19"> [java] 	at org.hibernate.hql.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:105)</sentence>
+			<sentence id="2.20"> [java] 	at org.hibernate.engine.query.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:74)</sentence>
+			<sentence id="2.21"> [java] 	at org.hibernate.engine.query.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:53)</sentence>
+			<sentence id="2.22"> [java] 	at org.hibernate.engine.query.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:71)</sentence>
+			<sentence id="2.23"> [java] 	at org.hibernate.impl.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:108)</sentence>
+			<sentence id="2.24"> [java] 	at org.hibernate.impl.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:88)</sentence>
+			<sentence id="2.25"> [java] 	at org.hibernate.impl.SessionImpl.createQuery(SessionImpl.java:1540)</sentence>
+			<sentence id="2.26"> [java] 	at Dispo.Hibernate.Test.QueryABC.main(QueryABC.java:32)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I'll attach the Java files I've used for this test case.</sentence>
+		</paragraph>
+	</description>
+</bug>

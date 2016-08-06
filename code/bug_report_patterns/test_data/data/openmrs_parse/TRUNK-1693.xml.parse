@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-1693</id>
+	<title>Drug Regimen portlet is slow to load</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The 'patientRegimen' portlet included on the patient dashboard takes too long to render.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Profiling says that a lot of time is spent in RegimenPortletController.populateModel (much of which is in getConcept(String), so this may be sped up by caching concepts).</sentence>
+			<sentence id="2.2">Also, the drugOrder.js.withjstl file seems to take a non-trivial amount of time to process.</sentence>
+			<sentence id="2.3">(Since this js file is not cached, that's a problem.)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">From my recollection of the code, it is probably worth rewriting the whole portlet rather than trying to optimize it in its current form.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">(Make sure you are looking at a patient that has drug orders, and that the 'dashboard.regimen.displayDrugSetIds' global property is set.)</sentence>
+		</paragraph>
+	</description>
+</bug>

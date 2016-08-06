@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4631</id>
+	<title>'docker run' runs as random user1.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Using the example postgresql Dockerfile ([nornagon/postgres](https://index.docker.io/u/nornagon/postgres/)), on docker 0.9.0:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+$ docker run --rm nornagon/postgres whoami
+root
+$ docker run --rm nornagon/postgres whoami
+postgres
+$ docker run --rm nornagon/postgres whoami
+postgres
+$ docker run --rm nornagon/postgres whoami
+root
+$ docker run --rm nornagon/postgres whoami
+postgres
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+$ docker version
+Client version: 0.9.0
+Go version (client): go1.2.1
+Git commit (client): 2b3fdf2
+Server version: 0.9.0
+Git commit (server): 2b3fdf2
+Go version (server): go1.2.1
+Last stable version: 0.9.0
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

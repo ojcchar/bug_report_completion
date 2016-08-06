@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7013</id>
+	<title>Portbindings don't work when using hosts network stack</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I try to route 9092 to 80 using the hosts network stack.</sentence>
+			<sentence id="1.2">The container starts but will not route.</sentence>
+			<sentence id="1.3">It might not be implemented but it does not see it as an error when you execute it.</sentence>
+			<sentence id="1.4">Running docker version 1.1.1.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+docker run -d -p 9092:80 --net=host nginx
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+"HostConfig": {
+ "Binds": null,
+ "ContainerIDFile": "",
+ "Dns": null,
+ "DnsSearch": null,
+ "Links": null,
+ "LxcConf": [],
+ "NetworkMode": "host",
+ "PortBindings": {
+ "80/tcp": [
+ {
+ "HostIp": "",
+ "HostPort": "9092"
+ }
+ ]
+ },
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

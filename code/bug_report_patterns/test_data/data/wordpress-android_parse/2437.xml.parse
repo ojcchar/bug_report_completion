@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2437</id>
+	<title>Clean the "uploading" state for failed post uploads or app crash</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In some cases [PostUploadService.onDestroy()](https://github.com/wordpress-mobile/WordPress-Android/blob/7660b98cd2a7e8ac5c4104827bb8d4796be3541b/WordPress/src/main/java/org/wordpress/android/ui/posts/PostUploadService.java#L92-L100) is not called, and a post could be stuck in "uploading" state.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">It's tricky but we must find a way to clean this state in some cases on PostsList onCreate.</sentence>
+		</paragraph>
+	</description>
+</bug>

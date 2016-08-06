@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3916</id>
+	<title>wrong examples of elements function in HQL Documentation (14.1)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In the chapter "14.10.</sentence>
+			<sentence id="1.2">Expressions" doesn't mention that the funcions elements, exists, ... don't work with collections unless you explicitly join with that collection.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">For example, one of the samples provided is:
+ "from Cat cat where exists elements(cat.kittens)"
+With version 3.2.5ga this example doesn't work, to make it work it should be:
+ "from Cat cat left join cat.kittens where exists elements(cat.kittens)"</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In the issue HHH-2667 "'illegal attempt to dereference collection' when using auto-join" it is commented that a explicit join has to be used in these cases.</sentence>
+		</paragraph>
+	</description>
+</bug>

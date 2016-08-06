@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-2313</id>
+	<title>nicer error handling when Patient Identifier Type regex too long</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The database limits a Patient Identifier regex to 50 characters.</sentence>
+			<sentence id="1.2">Entering a value that's too long gives a spectacular, spooky Hibernate exception.</sentence>
+			<sentence id="1.3">The form should limit input to the max length and give a normal error message.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">To reproduce:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">From Admin page &gt; Patients &gt; Manage Identifier Types , create or edit a type.</sentence>
+			<sentence id="3.2">In regex format, enter</sentence>
+			<sentence id="3.3">[0 9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This is 51 characters.</sentence>
+			<sentence id="4.2">( yyyy-123456 ).</sentence>
+			<sentence id="4.3">The max is 50.</sentence>
+			<sentence id="4.4">Save.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Error page:
+An Internal Error has Occurred
+org.hibernate.exception.DataException
+could not insert: [org.openmrs.PatientIdentifierType]</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Consult the help document.</sentence>
+			<sentence id="6.2">Contact your friendly neighborhood administrator if it cannot be resolved.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Hide stack trace </sentence>
+			<sentence id="7.2">org.hibernate.exception.SQLStateConverter.convert(SQLStateConverter.java:77)</sentence>
+			<sentence id="7.3">org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:43)</sentence>
+			<sentence id="7.4">org.hibernate.id.insert.AbstractReturningDelegate.performInsert(AbstractReturningDelegate.java:40)</sentence>
+			<sentence id="7.5">org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2158)</sentence>
+			<sentence id="7.6">org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2638)</sentence>
+			<sentence id="7.7">org.hibernate.action.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:48)</sentence>
+			<sentence id="7.8">org.hibernate.engine.ActionQueue.execute(ActionQueue.java:250)</sentence>
+			<sentence id="7.9">org.hibernate.event.def.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:298)</sentence>
+			<sentence id="7.10">org.hibernate.event.def.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:181)</sentence>
+			<sentence id="7.11">org.hibernate.event.def.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:107)</sentence>
+			<sentence id="7.12">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.saveWithGeneratedOrRequestedId(DefaultSaveOrUpdateEventListener.java:187)</sentence>
+			<sentence id="7.13">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.entityIsTransient(DefaultSaveOrUpdateEventListener.java:172)</sentence>
+			<sentence id="7.14">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.performSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:94)</sentence>
+			<sentence id="7.15">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.onSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:70)</sentence>
+			<sentence id="7.16">org.hibernate.impl.SessionImpl.fireSaveOrUpdate(SessionImpl.java:507)</sentence>
+			<sentence id="7.17">org.hibernate.impl.SessionImpl.saveOrUpdate(SessionImpl.java:499)</sentence>
+			<sentence id="7.18">org.hibernate.impl.SessionImpl.saveOrUpdate(SessionImpl.java:495)</sentence>
+			<sentence id="7.19">org.openmrs.api.db.hibernate.HibernatePatientDAO.savePatientIdentifierType(HibernatePatientDAO.java:256)</sentence>
+			<sentence id="7.20">org.openmrs.api.impl.PatientServiceImpl.savePatientIdentifierType(PatientServiceImpl.java:466)</sentence>
+			<sentence id="7.21">sun.reflect.GeneratedMethodAccessor858.invoke(Unknown Source)</sentence>
+			<sentence id="7.22">sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="7.23">java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="7.24">org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:309)</sentence>
+			<sentence id="7.25">org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183)</sentence>
+			<sentence id="7.26">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)</sentence>
+			<sentence id="7.27">org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:110)</sentence>
+			<sentence id="7.28">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="7.29">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)</sentence>
+			<sentence id="7.30">$Proxy73.savePatientIdentifierType(Unknown Source)</sentence>
+			<sentence id="7.31">sun.reflect.GeneratedMethodAccessor858.invoke(Unknown Source)</sentence>
+			<sentence id="7.32">sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="7.33">java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="7.34">org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:309)</sentence>
+			<sentence id="7.35">org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183)</sentence>
+			<sentence id="7.36">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)</sentence>
+			<sentence id="7.37">org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:110)</sentence>
+			<sentence id="7.38">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="7.39">org.openmrs.aop.LoggingAdvice.invoke(LoggingAdvice.java:107)</sentence>
+			<sentence id="7.40">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="7.41">org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)</sentence>
+			<sentence id="7.42">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="7.43">org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)</sentence>
+			<sentence id="7.44">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="7.45">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)</sentence>
+			<sentence id="7.46">$Proxy74.savePatientIdentifierType(Unknown Source)</sentence>
+			<sentence id="7.47">sun.reflect.GeneratedMethodAccessor858.invoke(Unknown Source)</sentence>
+			<sentence id="7.48">sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="7.49">java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="7.50">org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:309)</sentence>
+			<sentence id="7.51">org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183)</sentence>
+			<sentence id="7.52">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)</sentence>
+			<sentence id="7.53">org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:110)</sentence>
+			<sentence id="7.54">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+			<sentence id="7.55">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)</sentence>
+			<sentence id="7.56">$Proxy74.savePatientIdentifierType(Unknown Source)</sentence>
+			<sentence id="7.57">org.openmrs.web.controller.patient.PatientIdentifierTypeFormController.onSubmit(PatientIdentifierTypeFormController.java:88)</sentence>
+			<sentence id="7.58">org.springframework.web.servlet.mvc.SimpleFormController.processFormSubmission(SimpleFormController.java:272)</sentence>
+			<sentence id="7.59">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:268)</sentence>
+			<sentence id="7.60">org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)</sentence>
+			<sentence id="7.61">org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:48)</sentence>
+			<sentence id="7.62">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:771)</sentence>
+			<sentence id="7.63">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:716)</sentence>
+			<sentence id="7.64">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:644)</sentence>
+			<sentence id="7.65">org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:560)</sentence>
+			<sentence id="7.66">javax.servlet.http.HttpServlet.service(HttpServlet.java:637)</sentence>
+			<sentence id="7.67">javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+			<sentence id="7.68">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+			<sentence id="7.69">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="7.70">org.openmrs.module.web.filter.ForcePasswordChangeFilter.doFilter(ForcePasswordChangeFilter.java:65)</sentence>
+			<sentence id="7.71">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="7.72">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="7.73">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+			<sentence id="7.74">org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+			<sentence id="7.75">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="7.76">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="7.77">org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:112)</sentence>
+			<sentence id="7.78">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+			<sentence id="7.79">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="7.80">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="7.81">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+			<sentence id="7.82">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+			<sentence id="7.83">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="7.84">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="7.85">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="7.86">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="7.87">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="7.88">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="7.89">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="7.90">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="7.91">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+			<sentence id="7.92">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="7.93">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="7.94">org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:88)</sentence>
+			<sentence id="7.95">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+			<sentence id="7.96">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="7.97">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="7.98">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+			<sentence id="7.99">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</sentence>
+			<sentence id="7.100">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</sentence>
+			<sentence id="7.101">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+			<sentence id="7.102">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+			<sentence id="7.103">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:298)</sentence>
+			<sentence id="7.104">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:857)</sentence>
+			<sentence id="7.105">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:588)</sentence>
+			<sentence id="7.106">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)</sentence>
+			<sentence id="7.107">java.lang.Thread.run(Thread.java:680)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">OpenMRS Version: 1.7.1 Build 17223</sentence>
+		</paragraph>
+	</description>
+</bug>

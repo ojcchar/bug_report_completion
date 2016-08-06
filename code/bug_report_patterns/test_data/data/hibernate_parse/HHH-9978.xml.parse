@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9978</id>
+	<title>Children cannot override @ElementCollection from parent annotated as @MappedSupperclass</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hibernate is not reading the annotations from the subclass, for this reason in the stacktrace the error comes from SimpleValue and not from org.hibernate.mapping.Component, the only solution is deleting the annotation @MappedSupperclass</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Code example:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">*Children:*</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@Entity
+@Table(name = "product")
+public class Product extends LocalizedEntity&lt;Product.LocalizedFields&gt; {
+ ...
+ @ElementCollection(fetch = FetchType.EAGER)
+ @JoinTable(name = "product_locale", joinColumns = @JoinColumn(name = "product_id", nullable = false))
+ @MapKeyType(value=@Type(type="org.hibernate.type.LocaleType"))
+ @MapKeyClass(value = Locale.class)
+ @MapKeyColumn(name = "locale", length = 12, nullable = false)
+ @BatchSize(size = 100)
+ @Fetch(FetchMode.SELECT)
+ @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+ public Map&lt;Locale, LocalizedFields&gt; getLocalizedFields() {
+ return super.getLocalizedFields();
+ }</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">@Embeddable
+ public static class LocalizedFields {
+ private String name;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">@Column(name = "name", length = 500, nullable = false)
+ public String getName() {
+ return name;
+ }
+	...
+ }
+}</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">*Super class:*</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">@MappedSuperclass
+public abstract class LocalizedEntity&lt;T&gt; implements serializable {
+ ....
+ private Map&lt;Locale, T&gt; localizedFields = new HashMap&lt;Locale, LF&gt;();</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">public Map&lt;Locale, T&gt; getLocalizedFields() {
+ return localizedFields;
+ }
+ ...
+}</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Stacktrace:</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Caused by: org.hibernate.MappingException: Could not determine type for: java.util.Map, at table: product, for columns: [org.hibernate.mapping.Column(localizedFields)] at *org.hibernate.mapping.SimpleValue*.</sentence>
+			<sentence id="11.2">getType(SimpleValue.java:349) at org.hibernate.mapping.SimpleValue.isValid(SimpleValue.java:322) at</sentence>
+		</paragraph>
+	</description>
+</bug>

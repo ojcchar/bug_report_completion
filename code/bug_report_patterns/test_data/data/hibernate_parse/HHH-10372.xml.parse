@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-10372</id>
+	<title>OffsetDateTime value changes after fetching the row from the database</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I found this issue while investigating a reported bug for LocalDate on [StackOverflow|http://stackoverflow.com/questions/34206876/hibernate-5-doesnt-handle-localdate-properly/34219570#34219570].</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Starting from this entity:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">{code:java}
+@Entity(name = "OffsetDateTimeEvent")
+public static class OffsetDateTimeEvent {</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@Id
+ private Long id;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">@NotNull
+ @Column(name = "START_DATE", nullable = false)
+ private OffsetDateTime startDate;
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">when running this logic:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">{code:java}
+doInJPA(entityManager -&gt; {
+ OffsetDateTimeEvent event = new OffsetDateTimeEvent();
+ event.id = 1L;
+ event.startDate = OffsetDateTime.of(1, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC);
+ entityManager.persist(event);
+});</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">doInJPA(entityManager -&gt; {
+ OffsetDateTimeEvent event = entityManager.find(OffsetDateTimeEvent.class, 1L);
+ assertEquals(OffsetDateTime.of(1, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC), event.startDate);
+});
+{code}</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">we get this assertion failure:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">{color:red}java.lang.AssertionError: expected:&lt;0001-01-01T00:00Z&gt; but was:&lt;0001-01-01T01:34:52+01:34:52&gt;{color}</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Test case will be added after I know the issue number.</sentence>
+		</paragraph>
+	</description>
+</bug>

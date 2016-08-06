@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10693</id>
+	<title>Proposal: deprecate "docker run" pulling unknown containers and add explicit "--pull" flag</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">While having `docker run` automatically pull images that don't exist locally is nice for first-time users (since they can just `docker run some-image` and see the magic happen), it can be very frustrating for more experienced users who want to control the images they have and run on their host, especially since a pull cannot be cancelled except by restarting the entire daemon.</sentence>
+			<sentence id="1.2">A stray `docker run` of the wrong image in the wrong terminal, for example, is a very frustrating situation to be in, especially since you then get to wait for that image to download (or not wait and then try to remember to delete it afterwards).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In other cases (especially scripted ones), `docker pull some-image &amp;&amp; docker run some-image` emerges as a very common pattern.</sentence>
+			<sentence id="2.2">For consistency with the new `docker build --pull`, I propose the addition of `docker run --pull` (ideally implemented daemon-side like `docker build --pull` is), which will default to `false` and thus change:
+```console
+$ docker run --rm lolimage
+Unable to find image 'lolimage:latest' locally
+Pulling repository lolimage
+FATA[0002] Error: image library/lolimage:latest not found 
+```
+into:
+```console
+$ docker run --rm lolimage
+FATA[0002] Error: image library/lolimage:latest not found 
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Since this is a broader proposal than #10639 (deprecating an existing "feature"), I opted to make a new one instead of just commenting there.</sentence>
+		</paragraph>
+	</description>
+</bug>

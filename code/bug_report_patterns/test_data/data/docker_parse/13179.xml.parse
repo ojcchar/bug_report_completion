@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13179</id>
+	<title>How can enable udev sync successfully in docker?</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have posted the issue on [SO](http://stackoverflow.com/questions/30209642/how-can-enable-udev-sync-successfully-in-docker), unfortunately, there is no any answer.</sentence>
+			<sentence id="1.2">So I repost here, hope can get answer.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I have downloaded and install the static-linked `docker 1.6.1` from this [site](https://get.docker.com/builds/), and run it on `RHEL 7.1`:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">[root@localhost bin]# .</sentence>
+			<sentence id="3.2">/docker -d
+	WARN[0000] Udev sync is not supported.</sentence>
+			<sentence id="3.3">This will lead to unexpected behavior, data loss and errors
+	INFO[0000] +job init_networkdriver()
+	INFO[0000] +job serveapi(unix:///var/run/docker.</sentence>
+			<sentence id="3.4">sock)
+	INFO[0000] Listening for HTTP on unix (/var/run/docker.</sentence>
+			<sentence id="3.5">sock)
+	INFO[0000] -job init_networkdriver() = OK (0)
+	INFO[0000] Loading containers: start.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">INFO[0000] Loading containers: done.</sentence>
+			<sentence id="4.2">INFO[0000] docker daemon: 1.6.1 97cd073; execdriver: native-0.2; graphdriver: devicemapper
+	INFO[0000] +job acceptconnections()
+	INFO[0000] -job acceptconnections() = OK (0)
+	INFO[0000] Daemon has completed initialization
+I can see there is a warning: "`Udev sync is not supported.</sentence>
+			<sentence id="4.3">This will lead to unexpected behavior, data loss and errors`", and after checking the `docker` source code, I find the warning log is from [deviceset.go](https://github.com/docker/docker/blob/v1.6.1/daemon/graphdriver/devmapper/deviceset.go):</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">func (devices *DeviceSet) initDevmapper(doInit bool) error {
+		......</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">// https://github.com/docker/docker/issues/4036
+		if supported := devicemapper.UdevSetSyncSupport(true); !</sentence>
+			<sentence id="6.2">supported {
+			log.Warnf("Udev sync is not supported.</sentence>
+			<sentence id="6.3">This will lead to unexpected behavior, data loss and errors")
+		}
+		log.Debugf("devicemapper: udev sync support: %v", devicemapper.UdevSyncSupported())</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">......
+	}</sentence>
+			<sentence id="7.2">The `devicemapper.UdevSetSyncSupport` is like this:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">// UdevSyncSupported returns whether device-mapper is able to sync with udev
+	//
+	// This is essential otherwise race conditions can arise where both udev and
+	// device-mapper attempt to create and destroy devices.</sentence>
+			<sentence id="8.2">func UdevSyncSupported() bool {
+		return DmUdevGetSyncSupport() !</sentence>
+			<sentence id="8.3">= 0
+	}</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">// UdevSetSyncSupport allows setting whether the udev sync should be enabled.</sentence>
+			<sentence id="9.2">// The return bool indicates the state of whether the sync is enabled.</sentence>
+			<sentence id="9.3">func UdevSetSyncSupport(enable bool) bool {
+		if enable {
+			DmUdevSetSyncSupport(1)
+		} else {
+			DmUdevSetSyncSupport(0)
+		}
+		return UdevSyncSupported()
+	}
+I can see the reason is enabling `udev` sync failed.</sentence>
+			<sentence id="9.4">How can enable `udev` sync successfully?</sentence>
+		</paragraph>
+	</description>
+</bug>

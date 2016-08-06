@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16679</id>
+	<title>[RFE] default detach key sequence isn't optimal </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Description of problem:
+docker detach ^P is a reserved command for bash [emacs mode--the default] and for emacs in a terminal</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">How reproducible:
+Always</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Actual results:
+^P is eaten by the prefix command for the detach ^P ^Q.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Expected results:
+^P is previous in emacs or in bash
+^P should cursor up or go back in bash history one item.</sentence>
+			<sentence id="4.2">So you have to type ^P ^P to move back in bash history and ^P ^P to move up one line.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">uname -a 
+Linux dhcp-25-141.</sentence>
+			<sentence id="5.2">bos.redhat.com 4.0.4-303.</sentence>
+			<sentence id="5.3">fc22.x86_64 #1 SMP Thu May 28 12:37:06 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Docker Version:
+Client:
+ Version: 1.9.0-dev
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: 31b882e
+ Built: Wed Sep 30 14:20:38 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:
+ Version: 1.9.0-dev
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: 31b882e
+ Built: Wed Sep 30 14:20:38 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Docker Info:</sentence>
+			<sentence id="8.2">Containers: 3</sentence>
+			<sentence id="8.3">Images: 52</sentence>
+			<sentence id="8.4">Engine Version: 1.9.0-dev</sentence>
+			<sentence id="8.5">Storage Driver: devicemapper</sentence>
+			<sentence id="8.6"> Pool Name: docker-8:3-2097606-pool</sentence>
+			<sentence id="8.7"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="8.8"> Backing Filesystem: extfs</sentence>
+			<sentence id="8.9"> Data file: /dev/loop0</sentence>
+			<sentence id="8.10"> Metadata file: /dev/loop1</sentence>
+			<sentence id="8.11"> Data Space Used: 4.198 GB</sentence>
+			<sentence id="8.12"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="8.13"> Data Space Available: 33.68 GB</sentence>
+			<sentence id="8.14"> Metadata Space Used: 5.411 MB</sentence>
+			<sentence id="8.15"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="8.16"> Metadata Space Available: 2.142 GB</sentence>
+			<sentence id="8.17"> Udev Sync Supported: true</sentence>
+			<sentence id="8.18"> Deferred Removal Enabled: false</sentence>
+			<sentence id="8.19"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="8.20"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="8.21"> Library Version: 1.02.93 (2015-01-30)</sentence>
+			<sentence id="8.22">Execution Driver: native-0.2</sentence>
+			<sentence id="8.23">Logging Driver: json-file</sentence>
+			<sentence id="8.24">Kernel Version: 4.0.4-303.fc22.x86_64</sentence>
+			<sentence id="8.25">Operating System: Fedora 22 (Twenty Two)</sentence>
+			<sentence id="8.26">CPUs: 4</sentence>
+			<sentence id="8.27">Total Memory: 11.72 GiB</sentence>
+			<sentence id="8.28">Name: dhcp-25-141.bos.redhat.com</sentence>
+			<sentence id="8.29">ID: NODU:OCAV:EOZD:CWD3:EEKS:AJCL:ZCKH:B6S7:7247:UVAC:2EAK:3FC2</sentence>
+		</paragraph>
+		<paragraph id="9">
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16448</id>
+	<title>[BUG REPORT] Registry Certificate Chain</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1"># Question</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Does `docker push` support certificate hierarchies (&gt; 2 intermediate CA certificates)?</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1"># Introduction</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I try to use a private v2 docker registry and push images to that registry with the following command:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">~~~bash
+% docker push docker-registry.</sentence>
+			<sentence id="5.2">example.de:5000/centos-app
+The push refers to a repository [docker-registry.</sentence>
+			<sentence id="5.3">example.de:5000/centos-app] (len: 1)
+unable to ping registry endpoint https://docker-registry.example.de:5000/v0/
+v2 ping attempt failed with error: Get https://docker-registry.example.de:5000/v2/: tls: failed to parse certificate from server: asn1: syntax error: sequence truncated
+ v1 ping attempt failed with error: Get https://docker-registry.example.de:5000/v1/_ping: tls: failed to parse certificate from server: asn1: syntax error: sequence truncated
+~~~</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">The server.crt contains all certificates - Server + intermediate CAs - in that order:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">1 Server Cert</sentence>
+			<sentence id="7.2">2 Root CA 1</sentence>
+			<sentence id="7.3">3 Intermediate CA 1</sentence>
+			<sentence id="7.4">4 Intermediate CA 2</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I checked `openssl s_client -connect docker-registry.</sentence>
+			<sentence id="8.2">example.de:5000` and also checked what is transferred on the wire via wireshark.</sentence>
+			<sentence id="8.3">Both looks good.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Any idea what is wrong here?</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Only adding a single intermediate CA certificate seems to work, but I get another error.</sentence>
+			<sentence id="10.2">But seems a problem on the docker client-side.</sentence>
+			<sentence id="10.3">I still have to look into this and if needed I will file a separate issue.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1"># BUG REPORT INFORMATION</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">## docker version client</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">~~~
+Client:
+ Version: 1.8.1
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: d12ea79
+ Built: Sat Aug 15 17:29:10 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Server:
+ Version: 1.9.0-dev
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: 072790b
+ Built: Thu Sep 10 06:00:02 UTC 2015
+ OS/Arch: linux/amd64
+~~~</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">## docker info client</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">~~~</sentence>
+			<sentence id="16.2">Containers: 8</sentence>
+			<sentence id="16.3">Images: 201</sentence>
+			<sentence id="16.4">Storage Driver: devicemapper</sentence>
+			<sentence id="16.5"> Pool Name: docker-254:0-2883585-pool</sentence>
+			<sentence id="16.6"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="16.7"> Backing Filesystem: extfs</sentence>
+			<sentence id="16.8"> Data file: /dev/loop0</sentence>
+			<sentence id="16.9"> Metadata file: /dev/loop1</sentence>
+			<sentence id="16.10"> Data Space Used: 6.718 GB</sentence>
+			<sentence id="16.11"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="16.12"> Data Space Available: 43.54 GB</sentence>
+			<sentence id="16.13"> Metadata Space Used: 12.88 MB</sentence>
+			<sentence id="16.14"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="16.15"> Metadata Space Available: 2.135 GB</sentence>
+			<sentence id="16.16"> Udev Sync Supported: false</sentence>
+			<sentence id="16.17"> Deferred Removal Enabled: false</sentence>
+			<sentence id="16.18"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="16.19"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="16.20"> Library Version: 1.02.82-git (2013-10-04)</sentence>
+			<sentence id="16.21">Execution Driver: native-0.2</sentence>
+			<sentence id="16.22">Logging Driver: json-file</sentence>
+			<sentence id="16.23">Kernel Version: 4.1.6-1-ARCH</sentence>
+			<sentence id="16.24">Operating System: Arch Linux</sentence>
+			<sentence id="16.25">CPUs: 2</sentence>
+			<sentence id="16.26">Total Memory: 3.864 GiB</sentence>
+			<sentence id="16.27">Name: hostname</sentence>
+			<sentence id="16.28">Http Proxy: http://localhost:3128</sentence>
+			<sentence id="16.29">Https Proxy: http://localhost:3128</sentence>
+			<sentence id="16.30">No Proxy: /var/run/docker.sock,127.0.0.1,localhost,.example.de</sentence>
+			<sentence id="16.31">~~~</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">## uname -a client</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">~~~
+Linux hostname 4.1.6-1-ARCH #1 SMP PREEMPT Mon Aug 17 08:52:28 CEST 2015 x86_64 GNU/Linux
+~~~</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">## docker version on server</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">~~~
+Client:
+ Version: 1.8.1
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: d12ea79
+ Built: Thu Aug 13 02:19:43 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">Server:
+ Version: 1.8.1
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: d12ea79
+ Built: Thu Aug 13 02:19:43 UTC 2015
+ OS/Arch: linux/amd64
+~~~</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">## docker info on server</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">~~~</sentence>
+			<sentence id="23.2">Containers: 2</sentence>
+			<sentence id="23.3">Images: 80</sentence>
+			<sentence id="23.4">Storage Driver: devicemapper</sentence>
+			<sentence id="23.5"> Pool Name: docker-253:1-268435584-pool</sentence>
+			<sentence id="23.6"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="23.7"> Backing Filesystem: xfs</sentence>
+			<sentence id="23.8"> Data file: /dev/loop0</sentence>
+			<sentence id="23.9"> Metadata file: /dev/loop1</sentence>
+			<sentence id="23.10"> Data Space Used: 2.047 GB</sentence>
+			<sentence id="23.11"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="23.12"> Data Space Available: 105.3 GB</sentence>
+			<sentence id="23.13"> Metadata Space Used: 3.731 MB</sentence>
+			<sentence id="23.14"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="23.15"> Metadata Space Available: 2.144 GB</sentence>
+			<sentence id="23.16"> Udev Sync Supported: true</sentence>
+			<sentence id="23.17"> Deferred Removal Enabled: false</sentence>
+			<sentence id="23.18"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="23.19"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="23.20"> Library Version: 1.02.93-RHELx (2015-01-28)</sentence>
+			<sentence id="23.21">Execution Driver: native-0.2</sentence>
+			<sentence id="23.22">Logging Driver: json-file</sentence>
+			<sentence id="23.23">Kernel Version: 3.10</sentence>
+			<sentence id="23.24">Operating System: Red Hat Enterprise Linux Server</sentence>
+			<sentence id="23.25">CPUs: 4</sentence>
+			<sentence id="23.26">Total Memory: 7.634 GiB</sentence>
+			<sentence id="23.27">Name: hostname</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">## uname -a server</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">I left out that information by purpose.</sentence>
+		</paragraph>
+		<paragraph id="26">
+			<sentence id="26.1">## docker registry on server</sentence>
+		</paragraph>
+		<paragraph id="27">
+			<sentence id="27.1">~~~bash
+$ docker images
+# [.</sentence>
+			<sentence id="27.2">.]</sentence>
+			<sentence id="27.3"># =&gt; registry 2 f19192bec89f 5 weeks ago 220.6 MB
+# [.</sentence>
+			<sentence id="27.4">.]</sentence>
+			<sentence id="27.5">~~~</sentence>
+		</paragraph>
+		<paragraph id="28">
+			<sentence id="28.1"># Reproduce issue</sentence>
+		</paragraph>
+		<paragraph id="29">
+			<sentence id="29.1">## Prepare Registry</sentence>
+		</paragraph>
+		<paragraph id="30">
+			<sentence id="30.1">### Certificates</sentence>
+		</paragraph>
+		<paragraph id="31">
+			<sentence id="31.1">1 Create Root CA</sentence>
+			<sentence id="31.2">2 Create Intermediate CA 1</sentence>
+			<sentence id="31.3">3 Create Intermediate CA 2</sentence>
+			<sentence id="31.4">5 Create Server certificate</sentence>
+			<sentence id="31.5">6 Append 1., 2., 3.</sentence>
+			<sentence id="31.6">to 5.</sentence>
+		</paragraph>
+		<paragraph id="32">
+			<sentence id="32.1">To manage such a "complex" CA you can use http://sourceforge.net/projects/xca/.</sentence>
+			<sentence id="32.2">That's a software for setting up CAs for testing etc.</sentence>
+			<sentence id="32.3">It comes with a graphical
+frontend thought it requires some knowledge about certificates etc.</sentence>
+		</paragraph>
+		<paragraph id="33">
+			<sentence id="33.1">### Configuration</sentence>
+		</paragraph>
+		<paragraph id="34">
+			<sentence id="34.1">*systemd*:</sentence>
+		</paragraph>
+		<paragraph id="35">
+			<sentence id="35.1">~~~ini
+[Unit]
+Description=Docker Registry
+Requires=docker.service
+After=docker.service</sentence>
+		</paragraph>
+		<paragraph id="36">
+			<sentence id="36.1">[Service]
+Restart=always
+ExecStart=/usr/bin/docker run --rm --name docker-registry -p 5000:5000 -v /srv/machines/docker-registry/storage:/var/lib/registry -v /etc/machines/docker-registry/ssl:/certs --env-file=/etc/machines/docker-registry/environment.db registry:2
+ExecStop=/usr/bin/docker stop -t 2 docker-registry
+ExecStop=/usr/bin/docker rm -f docker-registry</sentence>
+		</paragraph>
+		<paragraph id="37">
+			<sentence id="37.1">[Install]
+WantedBy=local.target
+~~~</sentence>
+		</paragraph>
+		<paragraph id="38">
+			<sentence id="38.1">*environment file `/etc/machines/docker-registry/environment.db`*</sentence>
+		</paragraph>
+		<paragraph id="39">
+			<sentence id="39.1">~~~bash
+REGISTRY_HTTP_TLS_CERTIFICATE=/certs/server.</sentence>
+			<sentence id="39.2">crt
+REGISTRY_HTTP_TLS_KEY=/certs/server.</sentence>
+			<sentence id="39.3">key
+~~~</sentence>
+		</paragraph>
+		<paragraph id="40">
+			<sentence id="40.1">*docker image*</sentence>
+		</paragraph>
+		<paragraph id="41">
+			<sentence id="41.1">~~~bash
+docker pull registry:2
+~~~</sentence>
+		</paragraph>
+		<paragraph id="42">
+			<sentence id="42.1">*start registry*</sentence>
+		</paragraph>
+		<paragraph id="43">
+			<sentence id="43.1">~~~
+systemctl daemon-reload
+systemctl start docker-registry
+~~~</sentence>
+		</paragraph>
+		<paragraph id="44">
+			<sentence id="44.1">## Prepare docker client</sentence>
+		</paragraph>
+		<paragraph id="45">
+			<sentence id="45.1">*download image to push*</sentence>
+		</paragraph>
+		<paragraph id="46">
+			<sentence id="46.1">~~~bash
+docker pull feduxorg/centos
+~~~</sentence>
+		</paragraph>
+		<paragraph id="47">
+			<sentence id="47.1">*push image*</sentence>
+		</paragraph>
+		<paragraph id="48">
+			<sentence id="48.1">~~~bash
+docker tag feduxorg/centos docker-registry.</sentence>
+			<sentence id="48.2">example.de:5000/feduxorg/centos
+docker push docker-registry.</sentence>
+			<sentence id="48.3">example.de:5000/feduxorg/centos
+~~~</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1376</id>
+	<title>Wrong generation of mySQL query with "null" </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Running the following SQL:
+"from Report report where report.fatherReport is ?"</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">generates the following mySql query:
+"Hibernate: select report0_.</sentence>
+			<sentence id="2.2">report_id as report1_, report0_.</sentence>
+			<sentence id="2.3">pos as pos29_, report0_.</sentence>
+			<sentence id="2.4">name as name29_, report0_.</sentence>
+			<sentence id="2.5">img as img29_, report0_.</sentence>
+			<sentence id="2.6">father_id as father5_29_, report0_.</sentence>
+			<sentence id="2.7">report_subject_id as report6_29_ from report report0_ where report0_.</sentence>
+			<sentence id="2.8">father_id=?"</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The "is ?"</sentence>
+			<sentence id="3.2">is replaced with: "= ?"</sentence>
+			<sentence id="3.3">.</sentence>
+		</paragraph>
+	</description>
+</bug>

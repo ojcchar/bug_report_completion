@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4158</id>
+	<title>Can't execute query</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Execution followed named query with followed entity
+@Entity
+@NamedQuery(name="Foo.test",
+query="SELECT f FROM Foo f WHERE ((:bool IS NULL) OR (f.bool = :bool)) ")
+public class Foo implements Serializable{
+ @Id
+ int id;
+ 
+ 
+ boolean bool;</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">public boolean isBool() {
+ return bool;
+ }</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">public void setBool(boolean bool) {
+ this.bool = bool;
+ }</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">public int getId() {
+ return id;
+ }</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">public void setId(int id) {
+ this.id = id;
+ } 
+}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">and parameter bool = null
+causes PostgreSQL error ERROR: operator does not exist: boolean = bytea</sentence>
+		</paragraph>
+	</description>
+</bug>

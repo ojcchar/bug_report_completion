@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19904</id>
+	<title>Flaky test: DockerHubPullSuite.TestPullAllTagsFromCentralRegistry</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Seeing this test fail frequently, for example, on https://github.com/docker/docker/pull/19886 (https://jenkins.dockerproject.org/job/Docker-PRs/23269/console)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Note that this test is also in the list of "slow" tests; https://github.com/docker/docker/issues/19425</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">However; https://github.com/docker/docker/issues/17214#issuecomment-173406683</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```</sentence>
+			<sentence id="4.2">17:30:11 </sentence>
+			<sentence id="4.3">17:30:11 ----------------------------------------------------------------------</sentence>
+			<sentence id="4.4">17:30:11 FAIL: docker_cli_pull_test.go:110: DockerHubPullSuite.TestPullAllTagsFromCentralRegistry</sentence>
+			<sentence id="4.5">17:30:11 </sentence>
+			<sentence id="4.6">17:30:11 docker_cli_pull_test.go:117:</sentence>
+			<sentence id="4.7">17:30:11 s.Cmd(c, "pull", "--all-tags=true", "busybox")</sentence>
+			<sentence id="4.8">17:30:11 docker_hub_pull_suite_test.go:73:</sentence>
+			<sentence id="4.9">17:30:11 c.Assert(err, checker.IsNil, check.Commentf("%q failed with errors: %s, %v", strings.Join(arg, " "), out, err))</sentence>
+			<sentence id="4.10">17:30:11 ... value *exec.ExitError = &amp;exec.ExitError{ProcessState:(*os.ProcessState)(0xc8204d1720)} ("exit status 1")</sentence>
+			<sentence id="4.11">17:30:11 ... "--all-tags=true busybox" failed with errors: 1-glibc: Pulling from library/busybox</sentence>
+			<sentence id="4.12">17:30:11 5b0268a1bf8b: Pulling fs layer</sentence>
+			<sentence id="4.13">17:30:11 a3ed95caeb02: Pulling fs layer</sentence>
+			<sentence id="4.14">17:30:11 a3ed95caeb02: Verifying Checksum</sentence>
+			<sentence id="4.15">17:30:11 a3ed95caeb02: Download complete</sentence>
+			<sentence id="4.16">17:30:11 5b0268a1bf8b: Verifying Checksum</sentence>
+			<sentence id="4.17">17:30:11 5b0268a1bf8b: Download complete</sentence>
+			<sentence id="4.18">17:30:11 5b0268a1bf8b: Pull complete</sentence>
+			<sentence id="4.19">17:30:11 5b0268a1bf8b: Pull complete</sentence>
+			<sentence id="4.20">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.21">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.22">17:30:11 Digest: sha256:d5ad6f092d781a71630261dc7ee6503bafb8c39e2c918e13c9e0765e10758a9b</sentence>
+			<sentence id="4.23">17:30:11 1-musl: Pulling from library/busybox</sentence>
+			<sentence id="4.24">17:30:11 daaf1725c044: Pulling fs layer</sentence>
+			<sentence id="4.25">17:30:11 a3ed95caeb02: Pulling fs layer</sentence>
+			<sentence id="4.26">17:30:11 daaf1725c044: Download complete</sentence>
+			<sentence id="4.27">17:30:11 a3ed95caeb02: Verifying Checksum</sentence>
+			<sentence id="4.28">17:30:11 a3ed95caeb02: Download complete</sentence>
+			<sentence id="4.29">17:30:11 daaf1725c044: Pull complete</sentence>
+			<sentence id="4.30">17:30:11 daaf1725c044: Pull complete</sentence>
+			<sentence id="4.31">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.32">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.33">17:30:11 Digest: sha256:8e1fc961d38c391e3e8b1c619f1bbafd8af42acb44ef179748cca51f0341c4f5</sentence>
+			<sentence id="4.34">17:30:11 1-ubuntu: Pulling from library/busybox</sentence>
+			<sentence id="4.35">17:30:11 082340653daf: Pulling fs layer</sentence>
+			<sentence id="4.36">17:30:11 a3ed95caeb02: Pulling fs layer</sentence>
+			<sentence id="4.37">17:30:11 a3ed95caeb02: Verifying Checksum</sentence>
+			<sentence id="4.38">17:30:11 a3ed95caeb02: Download complete</sentence>
+			<sentence id="4.39">17:30:11 082340653daf: Verifying Checksum</sentence>
+			<sentence id="4.40">17:30:11 082340653daf: Download complete</sentence>
+			<sentence id="4.41">17:30:11 082340653daf: Pull complete</sentence>
+			<sentence id="4.42">17:30:11 082340653daf: Pull complete</sentence>
+			<sentence id="4.43">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.44">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.45">17:30:11 Digest: sha256:148a142e0eb29d0c686e27dc08e399496cf46ca64ed6303839c339ed8dabd3ce</sentence>
+			<sentence id="4.46">17:30:11 1-uclibc: Pulling from library/busybox</sentence>
+			<sentence id="4.47">17:30:11 eeee0535bf3c: Already exists</sentence>
+			<sentence id="4.48">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.49">17:30:11 Digest: sha256:fbe9f7259c504a9b093f39b788423bea66b72a97200b220b9c1acc14befa8cd3</sentence>
+			<sentence id="4.50">17:30:11 1.21-ubuntu: Pulling from library/busybox</sentence>
+			<sentence id="4.51">17:30:11 082340653daf: Already exists</sentence>
+			<sentence id="4.52">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.53">17:30:11 Digest: sha256:0ffdec6e0a48323b9aa3dc533c5fdeccda83df67ab693f727cda120fc8aede88</sentence>
+			<sentence id="4.54">17:30:11 1.21.0-ubuntu: Pulling from library/busybox</sentence>
+			<sentence id="4.55">17:30:11 082340653daf: Already exists</sentence>
+			<sentence id="4.56">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.57">17:30:11 Digest: sha256:2e8bb1e3beca5840cbf49a9142262e5c8b4f0d0a47bea1ee8ab954a6c198fb20</sentence>
+			<sentence id="4.58">17:30:11 1.23.2: Pulling from library/busybox</sentence>
+			<sentence id="4.59">17:30:11 9d7588d3c063: Pulling fs layer</sentence>
+			<sentence id="4.60">17:30:11 a3ed95caeb02: Pulling fs layer</sentence>
+			<sentence id="4.61">17:30:11 a3ed95caeb02: Verifying Checksum</sentence>
+			<sentence id="4.62">17:30:11 a3ed95caeb02: Download complete</sentence>
+			<sentence id="4.63">17:30:11 9d7588d3c063: Verifying Checksum</sentence>
+			<sentence id="4.64">17:30:11 9d7588d3c063: Download complete</sentence>
+			<sentence id="4.65">17:30:11 9d7588d3c063: Pull complete</sentence>
+			<sentence id="4.66">17:30:11 9d7588d3c063: Pull complete</sentence>
+			<sentence id="4.67">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.68">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.69">17:30:11 Digest: sha256:2824fe048727a69da66cf1be00cebd3bb9cfe1f238473693aa9358b411208527</sentence>
+			<sentence id="4.70">17:30:11 1.23: Pulling from library/busybox</sentence>
+			<sentence id="4.71">17:30:11 9d7588d3c063: Already exists</sentence>
+			<sentence id="4.72">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.73">17:30:11 Digest: sha256:2780635f864cc66c7a5c74aca8047970b95cb91b6d5c135964d984ffe07a2024</sentence>
+			<sentence id="4.74">17:30:11 1.24-glibc: Pulling from library/busybox</sentence>
+			<sentence id="4.75">17:30:11 5b0268a1bf8b: Already exists</sentence>
+			<sentence id="4.76">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.77">17:30:11 Digest: sha256:631d3c9ed0d3983d719e3dd9fa65740cfb38a4da0cfd1843d7d35140669d2f66</sentence>
+			<sentence id="4.78">17:30:11 1.24-musl: Pulling from library/busybox</sentence>
+			<sentence id="4.79">17:30:11 daaf1725c044: Already exists</sentence>
+			<sentence id="4.80">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.81">17:30:11 Digest: sha256:13e9db01e3a190b158054ba9a23a4007f2a968e897096d435099a0213fa249e9</sentence>
+			<sentence id="4.82">17:30:11 1.24-uclibc: Pulling from library/busybox</sentence>
+			<sentence id="4.83">17:30:11 eeee0535bf3c: Already exists</sentence>
+			<sentence id="4.84">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.85">17:30:11 Digest: sha256:c05881fe3d43a25b0b97854194f3197a5abc1f822f8bc0149c2dd8886e0122d6</sentence>
+			<sentence id="4.86">17:30:11 1.24.0: Pulling from library/busybox</sentence>
+			<sentence id="4.87">17:30:11 1b373b69cd34: Pulling fs layer</sentence>
+			<sentence id="4.88">17:30:11 a3ed95caeb02: Pulling fs layer</sentence>
+			<sentence id="4.89">17:30:11 a3ed95caeb02: Verifying Checksum</sentence>
+			<sentence id="4.90">17:30:11 a3ed95caeb02: Download complete</sentence>
+			<sentence id="4.91">17:30:11 1b373b69cd34: Download complete</sentence>
+			<sentence id="4.92">17:30:11 1b373b69cd34: Pull complete</sentence>
+			<sentence id="4.93">17:30:11 1b373b69cd34: Pull complete</sentence>
+			<sentence id="4.94">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.95">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.96">17:30:11 Digest: sha256:fdc25416595aa8f71d2b92d6c5e3efbea3dc34557ce27078b606c9537b70327f</sentence>
+			<sentence id="4.97">17:30:11 1.24.1-glibc: Pulling from library/busybox</sentence>
+			<sentence id="4.98">17:30:11 5b0268a1bf8b: Already exists</sentence>
+			<sentence id="4.99">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.100">17:30:11 Digest: sha256:4bebe377aa31a0f8c448fc1a4d7381194e2749c3e9a7f044a006d7d075f6de8b</sentence>
+			<sentence id="4.101">17:30:11 1.24.1-musl: Pulling from library/busybox</sentence>
+			<sentence id="4.102">17:30:11 daaf1725c044: Already exists</sentence>
+			<sentence id="4.103">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.104">17:30:11 Digest: sha256:da48cfda7a2c51296347ab425637111a427ce54e17db954b8b0f5980c66a2a04</sentence>
+			<sentence id="4.105">17:30:11 1.24.1-uclibc: Pulling from library/busybox</sentence>
+			<sentence id="4.106">17:30:11 eeee0535bf3c: Already exists</sentence>
+			<sentence id="4.107">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.108">17:30:11 Digest: sha256:edccb6c85d998afdd2932fa5a7fd466780c1f21eb4a7a010e48783867755da74</sentence>
+			<sentence id="4.109">17:30:11 1.24.1: Pulling from library/busybox</sentence>
+			<sentence id="4.110">17:30:11 eeee0535bf3c: Already exists</sentence>
+			<sentence id="4.111">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.112">17:30:11 Digest: sha256:32e778e0bacdc4803230bc35379d4e5122155c7810a2248b129c102ff93844e4</sentence>
+			<sentence id="4.113">17:30:11 1.24: Pulling from library/busybox</sentence>
+			<sentence id="4.114">17:30:11 eeee0535bf3c: Already exists</sentence>
+			<sentence id="4.115">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.116">17:30:11 Digest: sha256:095f8bfa03da7dc31b78f0e746a21ba40e7ab841ca32762b8cae05d60af55037</sentence>
+			<sentence id="4.117">17:30:11 1: Pulling from library/busybox</sentence>
+			<sentence id="4.118">17:30:11 eeee0535bf3c: Already exists</sentence>
+			<sentence id="4.119">17:30:11 a3ed95caeb02: Already exists</sentence>
+			<sentence id="4.120">17:30:11 Digest: sha256:c17d0bfb7fafc6c482d0d07d69f6d1e766da2bd26f0883286aa454af150ed39e</sentence>
+			<sentence id="4.121">17:30:11 buildroot-2013.08.1: Pulling from library/busybox</sentence>
+			<sentence id="4.122">17:30:11 a3ed95caeb02: Pulling fs layer</sentence>
+			<sentence id="4.123">17:30:11 191ff942861f: Pulling fs layer</sentence>
+			<sentence id="4.124">17:30:11 a3ed95caeb02: Verifying Checksum</sentence>
+			<sentence id="4.125">17:30:11 a3ed95caeb02: Download complete</sentence>
+			<sentence id="4.126">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.127">17:30:11 a3ed95caeb02: Pull complete</sentence>
+			<sentence id="4.128">17:30:11 191ff942861f: Download complete</sentence>
+			<sentence id="4.129">17:30:11 191ff942861f: Pull complete</sentence>
+			<sentence id="4.130">17:30:11 191ff942861f: Pull complete</sentence>
+			<sentence id="4.131">17:30:11 Digest: sha256:4eccca494e527311eb4a4ebee1f90d9362971d882bb22fd7ded46d517129b1ac</sentence>
+			<sentence id="4.132">17:30:11 Get https://registry-1.docker.io/v2/library/busybox/manifests/buildroot-2014.02: read tcp 172.17.0.2:40929-&gt;54.164.211.47:443: i/o timeout</sentence>
+			<sentence id="4.133">17:30:11 , exit status 1</sentence>
+			<sentence id="4.134">17:30:11 </sentence>
+			<sentence id="4.135">17:30:30 </sentence>
+			<sentence id="4.136">17:30:30 ----------------------------------------------------------------------</sentence>
+			<sentence id="4.137">```</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-6942</id>
+	<title>Envers Collection revision entries don't include deletes on detached entity saveOrUpdate</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Please see http://community.jboss.org/thread/175787?tstart=0</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When a detached entity has some children removed by replacing the collection of children with a smaller collection, the audit entries do not contain the deletes when performing a saveOrUpdate.</sentence>
+			<sentence id="2.2">Using merge does include the correct delete revisions.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">e.g</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Parent contains children Child(A) and Child(B)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Parent -&gt; (ChildA, ChildB)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">If this collection is replaced with a new collection:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Parent -&gt; (ChildA)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">And a saveOrUpdate is issued on the parent, the audit entries doesn't include the delete for ChildB.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">However, if the child is explicitly removed from the collection:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Parent.getChildren().</sentence>
+			<sentence id="10.2">remove(ChildB)</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">The saveOrUpdate works as expected and the delete of ChildB is audited correctly.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Using merge instead of saveOrUpdate allows the collection of children to be replaced rather than an explicit removal, and audit entries correctly register the delete of ChildB.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">I have not tested this beyond 3.6.8.</sentence>
+			<sentence id="13.2">Final.</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">I have attached a spring/maven test case.</sentence>
+			<sentence id="14.2">Any questions let me know.</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Karl</sentence>
+		</paragraph>
+	</description>
+</bug>

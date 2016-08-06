@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3826</id>
+	<title>Hibernate 3.3.1.GA + Javassist issue 3.9.0.GA : java.lang.RuntimeException: by java.lang.NoClassDefFoundError: org/hibernate/proxy/HibernateProxy (OSGI Server)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I try to use Hibernate 3.3.1.</sentence>
+			<sentence id="2.2">GA in combination with Spring OSGI 1.2.0-rc1.</sentence>
+			<sentence id="2.3">Unfortunately, there is a classloading issue on OSGI :</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">{code}</sentence>
+			<sentence id="3.2">Caused by: java.lang.RuntimeException: by java.lang.NoClassDefFoundError: org/hibernate/proxy/HibernateProxy</sentence>
+			<sentence id="3.3">	at javassist.util.proxy.ProxyFactory.createClass(ProxyFactory.java:174)</sentence>
+			<sentence id="3.4">	at org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer.getProxyFactory(JavassistLazyInitializer.java:162)</sentence>
+			<sentence id="3.5">	... 58 more</sentence>
+			<sentence id="3.6">Caused by: javassist.CannotCompileException: by java.lang.NoClassDefFoundError: org/hibernate/proxy/HibernateProxy</sentence>
+			<sentence id="3.7">	at javassist.util.proxy.FactoryHelper.toClass(FactoryHelper.java:167)</sentence>
+			<sentence id="3.8">	at javassist.util.proxy.ProxyFactory.createClass(ProxyFactory.java:170)</sentence>
+			<sentence id="3.9">	... 59 more</sentence>
+			<sentence id="3.10">Caused by: java.lang.NoClassDefFoundError: org/hibernate/proxy/HibernateProxy</sentence>
+			<sentence id="3.11">	at java.lang.ClassLoader.defineClass1(Native Method)</sentence>
+			<sentence id="3.12">	at java.lang.ClassLoader.defineClass(ClassLoader.java:621)</sentence>
+			<sentence id="3.13">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="3.14">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="3.15">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="3.16">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="3.17">	at javassist.util.proxy.FactoryHelper.toClass(FactoryHelper.java:159)</sentence>
+			<sentence id="3.18">	... 60 more</sentence>
+			<sentence id="3.19">{code}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">remark : the package org.hibernate.proxy is defined in the MANIFEST file (section - Import-PAckage)</sentence>
+		</paragraph>
+	</description>
+</bug>

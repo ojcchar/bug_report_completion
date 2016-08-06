@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>6793</id>
+	<title>Cannot kill/start containers after reboot on Ubuntu</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I had 3 named containers running: A, B, C. B and C were linked to A:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">+---+ +---+ +---+</sentence>
+			<sentence id="2.3">| B | ---&gt; | A | &lt;--- | C |</sentence>
+			<sentence id="2.4">+---+ +---+ +---+</sentence>
+			<sentence id="2.5">```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">After restart, `docker ps` shows only two containers running: A and B, but A still shows that it has two links: to both B and C.</sentence>
+			<sentence id="3.2">When I remove C and try to restart it, I get the following every time:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">2014/07/01 07:56:29 Error: Cannot start container 820f66a45e028b95eaf7678ef78e72ae555d26581879e69bd664b8f83a1ba69e: (exit status 2)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I tried stopping and killing all containers, but container A can be neither stopped nor killed:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+$ docker ps -q
+1e3764f07a9e
+$ docker stop 1e3764
+Error: Cannot stop container 1e3764: no such process
+2014/07/01 08:07:06 Error: failed to stop one or more containers
+$ docker kill 1e3764
+Error: Cannot kill container 1e3764: no such process
+2014/07/01 08:07:12 Error: failed to kill one or more containers
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">It doesn't show links anymore in the status, and `docker ps` says that it is running: `Up 15 minutes`.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">```
+$ docker version
+Client version: 1.0.0
+Client API version: 1.12
+Go version (client): go1.2.1
+Git commit (client): 63fe64c
+Server version: 1.0.0
+Server API version: 1.12
+Go version (server): go1.2.1
+Git commit (server): 63fe64c</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">$ uname -r</sentence>
+			<sentence id="9.2">3 13.0-24-generic</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">$ lsb_release -a
+No LSB modules are available.</sentence>
+			<sentence id="10.2">Distributor ID:	Ubuntu
+Description:	Ubuntu 14.04 LTS
+Release:	14.04
+Codename:	trusty
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

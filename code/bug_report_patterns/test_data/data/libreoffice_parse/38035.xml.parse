@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>38035</id>
+	<title>PDF import to LODraw: Refine text handling</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hello, it is amazing how fair LODraw handles PDF documents, nowadays!</sentence>
+			<sentence id="1.2">Only sometimes, there are flaws in text parsing or representation.</sentence>
+			<sentence id="1.3">In
+most cases, I suspect that third party software is to blame for exporting
+letters or words one by one.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This is what I observed:</sentence>
+			<sentence id="2.2">- Text is separated word by word or letter by letter (this is done</sentence>
+			<sentence id="2.3">by exporting engines to render a wider spacing etc.)</sentence>
+			<sentence id="2.4">- There are arbitrary spaces inserted jus t rando mly accr oss the text.</sentence>
+			<sentence id="2.5">- There are missingspaces.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This is what I suggest to improve string/text handling:</sentence>
+			<sentence id="3.2">- Merge adjacent short strings (maybe this is already done)</sentence>
+			<sentence id="3.3">- Merge following lines to one Text frame (if line spacing is identical)</sentence>
+			<sentence id="3.4">- Make this string refinement optional, use dictionary to clean up spaces.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Currently, Spell checking the whole "document" only refers to the current
+text frame (line), this makes it harder to fix faulty text, because I have
+to start spell check over and over.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Thanks, and please ask for sample files if needed.</sentence>
+		</paragraph>
+	</description>
+</bug>

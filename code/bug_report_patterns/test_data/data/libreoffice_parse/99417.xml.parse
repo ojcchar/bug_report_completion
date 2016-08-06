@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>99417</id>
+	<title>Effect of sort does not propagate to other column (not included in sort) without hard recalc</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">i have a simple worksheet containing in
+column A: the numbers 1,2,...n
+column B: input numbers (in the range 0 .</sentence>
+			<sentence id="1.2">.100)
+column C: the formula =B1, =(C1+B2), ... =(Cm+Bn) where m=n-1
+column D: the formula =C1/A1, =C2/A2, ... =Cn/An
+So, in column D one expects the average value of the values in B.
+(cumulative, e.g. D7 contains the average of B1, B2, ... B7)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Now I sort the values in column B
+(Select column B, click Data &gt; sort &gt; descending)
+The values in C change accordingly, but those in D remain the same!</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2677</id>
+	<title>IllegalArgumentException when unregistering receiver in EditPostActivity</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The receiver is only registered in onCreate and unregistered in onDestroy, it's odd that we've gotten into this state to begin with.</sentence>
+			<sentence id="1.2">Will probably just have to surround with a try/catch block to prevent the crash.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">java.lang.RuntimeException: Unable to destroy activity {org.wordpress.android/org.wordpress.android.ui.posts.EditPostActivity}: java.lang.IllegalArgumentException: Receiver not registered: org.wordpress.android.ui.posts.EditPostActivity$4@413a9f10</sentence>
+			<sentence id="2.3"> at android.app.ActivityThread.performDestroyActivity(ActivityThread.java:3451)</sentence>
+			<sentence id="2.4"> at android.app.ActivityThread.handleDestroyActivity(ActivityThread.java:3469)</sentence>
+			<sentence id="2.5"> at android.app.ActivityThread.access$1200(ActivityThread.java:141)</sentence>
+			<sentence id="2.6"> at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1287)</sentence>
+			<sentence id="2.7"> at android.os.Handler.dispatchMessage(Handler.java:99)</sentence>
+			<sentence id="2.8"> at android.os.Looper.loop(Looper.java:137)</sentence>
+			<sentence id="2.9"> at android.app.ActivityThread.main(ActivityThread.java:5041)</sentence>
+			<sentence id="2.10"> at java.lang.reflect.Method.invokeNative(Method.java)</sentence>
+			<sentence id="2.11"> at java.lang.reflect.Method.invoke(Method.java:511)</sentence>
+			<sentence id="2.12"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:793)</sentence>
+			<sentence id="2.13"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:560)</sentence>
+			<sentence id="2.14"> at dalvik.system.NativeStart.main(NativeStart.java)</sentence>
+			<sentence id="2.15">Caused by: java.lang.IllegalArgumentException: Receiver not registered: org.wordpress.android.ui.posts.EditPostActivity$4@413a9f10</sentence>
+			<sentence id="2.16"> at android.app.LoadedApk.forgetReceiverDispatcher(LoadedApk.java:657)</sentence>
+			<sentence id="2.17"> at android.app.ContextImpl.unregisterReceiver(ContextImpl.java:1339)</sentence>
+			<sentence id="2.18"> at android.content.ContextWrapper.unregisterReceiver(ContextWrapper.java:445)</sentence>
+			<sentence id="2.19"> at org.wordpress.android.ui.posts.EditPostActivity.onDestroy(EditPostActivity.java:310)</sentence>
+			<sentence id="2.20"> at android.app.Activity.performDestroy(Activity.java:5273)</sentence>
+			<sentence id="2.21"> ...</sentence>
+			<sentence id="2.22">```</sentence>
+		</paragraph>
+	</description>
+</bug>

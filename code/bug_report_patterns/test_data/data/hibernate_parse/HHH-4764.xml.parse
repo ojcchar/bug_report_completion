@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4764</id>
+	<title>org.hibernate.test.pagination.PaginationTest.testLimitOffset() fails on oracle and db2 due to </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">the code below, will call Dialect#getLimitString(String query, int offset, int limit), after a little debug, I found that the limit's value is -2147483550!</sentence>
+			<sentence id="1.2">*-2147483550 = 99 + Integer.MAX_VALUE*</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code:title=org.hibernate.test.pagination.PaginationTest}
+// line 127
+result = generateBaseCriteria( session ).</sentence>
+			<sentence id="2.2">setFirstResult( 99 ).</sentence>
+			<sentence id="2.3">setMaxResults( Integer.MAX_VALUE ).</sentence>
+			<sentence id="2.4">list();
+assertEquals( 1, result.size() );
+{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">in Loader.java
+{code:title=Loader}
+	private static int getMaxOrLimit(final RowSelection selection, final Dialect dialect) {
+		final int firstRow = dialect.convertToFirstRowValue( getFirstRow( selection ) );
+		final int lastRow = selection.getMaxRows().</sentence>
+			<sentence id="3.2">intValue();
+		if ( dialect.useMaxForLimit() ) {
+			return ( lastRow + firstRow ) ;
+		}
+		else {
+			return lastRow;
+		}
+	}
+{code}</sentence>
+		</paragraph>
+	</description>
+</bug>

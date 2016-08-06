@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17533</id>
+	<title>Entry missing in the /etc/hosts file of the source container after linking containers</title>
+	<description>
+		<paragraph id="8">
+			<sentence id="8.1">Description of problem: It seems that an entry in the file `/etc/hosts` of the source container is missing. </sentence>
+			<sentence id="8.2">The missing entry contains the ID of the recipient container. </sentence>
+			<sentence id="8.3">Below is the output of two the `hosts` files after containers are linked. </sentence>
+			<sentence id="8.4">*Host-1* (cffd3d6aaa69) is the source and *host-2* (4937d32a2ca3) is the recipient:</sentence>
+		</paragraph>
+		<paragraph id="1">
+			<sentence id="1.2">``` </sentence>
+			<sentence id="1.3">root@cffd3d6aaa69:/# cat /etc/hosts </sentence>
+			<sentence id="1.4">172.17.0.44	cffd3d6aaa69</sentence>
+			<sentence id="1.5">127.0.0.1	localhost</sentence>
+			<sentence id="1.6">::1	localhost ip6-localhost ip6-loopback</sentence>
+			<sentence id="1.7">fe00::0	ip6-localnet</sentence>
+			<sentence id="1.8">ff00::0	ip6-mcastprefix</sentence>
+			<sentence id="1.9">ff02::1	ip6-allnodes</sentence>
+			<sentence id="1.10">ff02::2	ip6-allrouters</sentence>
+			<sentence id="1.11">172.17.0.44	host-1</sentence>
+			<sentence id="1.12">172.17.0.44	host-1.bridge</sentence>
+			<sentence id="1.13">172.17.0.45	host-2</sentence>
+			<sentence id="1.14">172.17.0.45	host-2.bridge</sentence>
+			<sentence id="1.15">```</sentence>
+			<sentence id="1.16">```</sentence>
+			<sentence id="1.17">root@4937d32a2ca3:/# cat /etc/hosts </sentence>
+			<sentence id="1.18">172.17.0.45	4937d32a2ca3</sentence>
+			<sentence id="1.19">127.0.0.1	localhost</sentence>
+			<sentence id="1.20">::1	localhost ip6-localhost ip6-loopback</sentence>
+			<sentence id="1.21">fe00::0	ip6-localnet</sentence>
+			<sentence id="1.22">ff00::0	ip6-mcastprefix</sentence>
+			<sentence id="1.23">ff02::1	ip6-allnodes</sentence>
+			<sentence id="1.24">ff02::2	ip6-allrouters</sentence>
+			<sentence id="1.25">172.17.0.44	host-1 cffd3d6aaa69</sentence>
+			<sentence id="1.26">172.17.0.45	host-2</sentence>
+			<sentence id="1.27">172.17.0.45	host-2.bridge</sentence>
+			<sentence id="1.28">172.17.0.44	host-1</sentence>
+			<sentence id="1.29">172.17.0.44	host-1.bridge</sentence>
+			<sentence id="1.30">```</sentence>
+			<sentence id="1.31">```</sentence>
+			<sentence id="1.32">svoboda@ubuntu-64:~$ docker version</sentence>
+			<sentence id="1.33">Client:</sentence>
+			<sentence id="1.34"> Version: 1.8.3</sentence>
+			<sentence id="1.35"> API version: 1.20</sentence>
+			<sentence id="1.36"> Go version: go1.4.2</sentence>
+			<sentence id="1.37"> Git commit: f4bf5c7</sentence>
+			<sentence id="1.38"> Built: Mon Oct 12 05:37:18 UTC 2015</sentence>
+			<sentence id="1.39"> OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Server:</sentence>
+			<sentence id="2.2"> Version: 1.8.3</sentence>
+			<sentence id="2.3"> API version: 1.20</sentence>
+			<sentence id="2.4"> Go version: go1.4.2</sentence>
+			<sentence id="2.5"> Git commit: f4bf5c7</sentence>
+			<sentence id="2.6"> Built: Mon Oct 12 05:37:18 UTC 2015</sentence>
+			<sentence id="2.7"> OS/Arch: linux/amd64</sentence>
+			<sentence id="2.8">```</sentence>
+			<sentence id="2.9">```</sentence>
+			<sentence id="2.10">svoboda@ubuntu-64:~$ docker info</sentence>
+			<sentence id="2.11">Containers: 9</sentence>
+			<sentence id="2.12">Images: 30</sentence>
+			<sentence id="2.13">Storage Driver: aufs</sentence>
+			<sentence id="2.14"> Root Dir: /var/lib/docker/aufs</sentence>
+			<sentence id="2.15"> Backing Filesystem: extfs</sentence>
+			<sentence id="2.16"> Dirs: 48</sentence>
+			<sentence id="2.17"> Dirperm1 Supported: true</sentence>
+			<sentence id="2.18">Execution Driver: native-0.2</sentence>
+			<sentence id="2.19">Logging Driver: json-file</sentence>
+			<sentence id="2.20">Kernel Version: 3.19.0-31-generic</sentence>
+			<sentence id="2.21">Operating System: Ubuntu 14.04.3 LTS</sentence>
+			<sentence id="2.22">CPUs: 8</sentence>
+			<sentence id="2.23">Total Memory: 7.781 GiB</sentence>
+			<sentence id="2.24">Name: ubuntu-64</sentence>
+			<sentence id="2.25">ID: JDUN:YLMS:LORM:U5WJ:GHLE:7WBA:BMWK:FHRU:HVUA:4A56:TC5R:2SFE</sentence>
+			<sentence id="2.26">WARNING: No swap limit support</sentence>
+			<sentence id="2.27">```</sentence>
+			<sentence id="2.28">```</sentence>
+			<sentence id="2.29">svoboda@ubuntu-64:~$ uname -a</sentence>
+			<sentence id="2.30">Linux ubuntu-64 3.19.0-31-generic #36~14.04.1-Ubuntu SMP Thu Oct 8 10:21:08 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+			<sentence id="2.31">```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Environment details (AWS, VirtualBox, physical, etc.): The host machine is a VM running inside VMWare 11.1.2 build-2780323.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Steps to Reproduce:</sentence>
+			<sentence id="4.2">1 docker run -it --name=host-1 ubuntu:14.04</sentence>
+			<sentence id="4.3">2 docker run -it --name=host-2 --link host-1 ubuntu:14.04</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Actual Results:</sentence>
+			<sentence id="5.2">From the recipient container it is possible to `ping` the source container using its CONTAINER ID.</sentence>
+			<sentence id="5.3">However it is not possible to do the same from the source container to the recipient.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Expected Results:</sentence>
+			<sentence id="6.2">Both containers should be able to reach each other by using their CONTAINER IDs.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Additional info:
+The issue described above was detected during some tests with a cluster running Apache Storm.</sentence>
+			<sentence id="7.2">The symptom is that no message has been transferred among the members of the cluster.</sentence>
+			<sentence id="7.3">Looking at the Storm logs we found the following error:
+```
+b.s.m.n.StormClientErrorHandler [INFO] Connection failed Netty-Client-1dcef2215f68:6701
+java.nio.channels.UnresolvedAddressException: null
+```
+We fixed this behavior by using the `--hostname` option.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1450</id>
+	<title>Criteria doesn't create correct aliases/inner joins with grouped property mapping</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">There might be a different reason for this, but I don't want to dig further now.</sentence>
+			<sentence id="1.2">The following mapping:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;class name="Bid"&gt;
+ &lt;properties name="successReference"&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;property name="successful"
+ column="IS_SUCCESSFUL"
+ type="true_false"
+ access="field"
+ not-null="true"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&lt;!-- Read-only "inverse" side of the indexed one-to-many collection in Item. --&gt;</sentence>
+			<sentence id="4.2">&lt;many-to-one</sentence>
+			<sentence id="4.3">name="item"</sentence>
+			<sentence id="4.4">class="Item"</sentence>
+			<sentence id="4.5">column="ITEM_ID"</sentence>
+			<sentence id="4.6">cascade="none"</sentence>
+			<sentence id="4.7">not-null="true"</sentence>
+			<sentence id="4.8">access="field"</sentence>
+			<sentence id="4.9">insert="false"</sentence>
+			<sentence id="4.10">update="false"</sentence>
+			<sentence id="4.11">foreign-key="FK1_ITEM_ID"/&gt;</sentence>
+			<sentence id="4.12">&lt;/properties&gt;</sentence>
+			<sentence id="4.13">&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Can't be queried with this criteria:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">crit = session.createCriteria(Bid.class)
+ .</sentence>
+			<sentence id="6.2">createAlias("item", "i")
+ .</sentence>
+			<sentence id="6.3">add( Restrictions.like("i.name", "%Foo%") );</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The SQL is missing the join:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Hibernate: </sentence>
+			<sentence id="8.2"> /Applications /Library /Network /System /User Information /Users /Volumes /WinMagic /bin /cores /dev /etc /home /installer.failurerequests /net /opt /private /sbin /tmp /usr /var criteria query short/ select</sentence>
+			<sentence id="8.3"> this_.BID_ID as BID1_14_0_,</sentence>
+			<sentence id="8.4"> this_.BID_AMOUNT as BID2_14_0_,</sentence>
+			<sentence id="8.5"> this_.BID_AMOUNT_CURRENCY as BID3_14_0_,</sentence>
+			<sentence id="8.6"> this_.CREATED as CREATED14_0_,</sentence>
+			<sentence id="8.7"> this_.IS_SUCCESSFUL as IS5_14_0_,</sentence>
+			<sentence id="8.8"> this_.ITEM_ID as ITEM6_14_0_,</sentence>
+			<sentence id="8.9"> this_.BIDDER_ID as BIDDER7_14_0_ </sentence>
+			<sentence id="8.10"> from</sentence>
+			<sentence id="8.11"> BID this_ </sentence>
+			<sentence id="8.12"> where</sentence>
+			<sentence id="8.13"> i1_.NAME like ?</sentence>
+			<sentence id="8.14">07:27:28,387 WARN JDBCExceptionReporter:71 - SQL Error: -28, SQLState: S0022</sentence>
+			<sentence id="8.15">07:27:28,388 ERROR JDBCExceptionReporter:72 - Column not found: I1_.NAME in statement [/* criteria query short/ select this_.BID_ID as BID1_14_0_, this_.BID_AMOUNT as BID2_14_0_, this_.BID_AMOUNT_CURRENCY as BID3_14_0_, this_.CREATED as CREATED14_0_, this_.IS_SUCCESSFUL as IS5_14_0_, this_.ITEM_ID as ITEM6_14_0_, this_.BIDDER_ID as BIDDER7_14_0_ from BID this_ where i1_.NAME like ?]</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>23207</id>
+	<title>DNS Resolve Issues when creating overlay network in same subnet as eth0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Tue Apr 26 23:11:07 2016
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Server:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Tue Apr 26 23:11:07 2016
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">**Output of `docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```</sentence>
+			<sentence id="6.2">Containers: 34</sentence>
+			<sentence id="6.3"> Running: 3</sentence>
+			<sentence id="6.4"> Paused: 0</sentence>
+			<sentence id="6.5"> Stopped: 31</sentence>
+			<sentence id="6.6">Images: 9</sentence>
+			<sentence id="6.7">Server Version: 1.11.1</sentence>
+			<sentence id="6.8">Storage Driver: aufs</sentence>
+			<sentence id="6.9"> Root Dir: /var/lib/docker/aufs</sentence>
+			<sentence id="6.10"> Backing Filesystem: extfs</sentence>
+			<sentence id="6.11"> Dirs: 176</sentence>
+			<sentence id="6.12"> Dirperm1 Supported: true</sentence>
+			<sentence id="6.13">Logging Driver: json-file</sentence>
+			<sentence id="6.14">Cgroup Driver: cgroupfs</sentence>
+			<sentence id="6.15">Plugins: </sentence>
+			<sentence id="6.16"> Volume: local</sentence>
+			<sentence id="6.17"> Network: null host bridge</sentence>
+			<sentence id="6.18">Kernel Version: 3.16.0-4-amd64</sentence>
+			<sentence id="6.19">Operating System: Debian GNU/Linux 8 (jessie)</sentence>
+			<sentence id="6.20">OSType: linux</sentence>
+			<sentence id="6.21">Architecture: x86_64</sentence>
+			<sentence id="6.22">CPUs: 4</sentence>
+			<sentence id="6.23">Total Memory: 19.61 GiB</sentence>
+			<sentence id="6.24">Name: WS23</sentence>
+			<sentence id="6.25">ID: 3GNK:7E76:MOGV:QU5Y:XE53:NLP6:ZHIV:S5FF:J2KR:VZGN:RGZV:QGSR</sentence>
+			<sentence id="6.26">Docker Root Dir: /var/lib/docker</sentence>
+			<sentence id="6.27">Debug mode (client): false</sentence>
+			<sentence id="6.28">Debug mode (server): false</sentence>
+			<sentence id="6.29">Registry: https://index.docker.io/v1/</sentence>
+			<sentence id="6.30">WARNING: No memory limit support</sentence>
+			<sentence id="6.31">WARNING: No swap limit support</sentence>
+			<sentence id="6.32">WARNING: No kernel memory limit support</sentence>
+			<sentence id="6.33">WARNING: No oom kill disable support</sentence>
+			<sentence id="6.34">WARNING: No cpu cfs quota support</sentence>
+			<sentence id="6.35">WARNING: No cpu cfs period support</sentence>
+			<sentence id="6.36">Cluster store: consul://ws23:8500</sentence>
+			<sentence id="6.37">Cluster advertise: 10.0.102.23:2375</sentence>
+			<sentence id="6.38">```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="7.2">1 setup docker swarm</sentence>
+			<sentence id="7.3">2 create network on docker swarm using `docker -H :4000 network create test`</sentence>
+			<sentence id="7.4">3 run container in this network `docker -H :4000 run -it --net=test busybox bash`</sentence>
+			<sentence id="7.5">4 in container run `ping google.com` -&gt; will fail!</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">**Describe the results you received:**</sentence>
+			<sentence id="8.2">Ping did not resolve to company internal DNS (10.0.0.1)</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">**Describe the results you expected:**</sentence>
+			<sentence id="9.2">Should resolve name using the company iternal DNS</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">**Solution**</sentence>
+			<sentence id="10.2">Do not create a network with the same subnet as eth0 of host (10.0.0.0/24).</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Workaround: Specify subnet in create network, which is different than eth0
+e.g. `docker -H :4000 network create --subnet=172.31.0.0/24 --gateway=172.31.0.1 hadoop`</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Also checkout this gist: https://gist.github.com/plieningerweb/dc83d5133e8bf113f2010e1bc79a9d16</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">**Expected Fix**</sentence>
+			<sentence id="13.2">docker network create should not create a network in the same subnet as the hosts' eth0, if this leads to routing issues and (in this case) failure of DNS lookups.</sentence>
+		</paragraph>
+	</description>
+</bug>

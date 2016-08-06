@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8458</id>
+	<title>RestartPolicy parameter for "containers/create" does not appear to work</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Recently I've been working on the Docker.DotNet project, which is a .NET wrapper for the Docker Remote API. I have been trying to get the ```containers/create``` POST to work with the ```RestartPolicy``` object included in the payload. Upon initial glance, it seems like the ```RestartPolicy``` object needs to be a property of the ```Config```. The explanation in the API documentation (right below the sample request) implies that it should be a separate object from the ```Config``` object. When the ```containers/&lt;name&gt;/json``` method is called on a container after using the example structure to create the container, the ```HostConfig``` is where the ```RestartPolicy``` object appears, and anything that I included in the create request does not appear in the ```HostConfig```. Is there a more complex structure that should be passed when calling ```containers/create```, like:</sentence>
+			<sentence id="1.2">```</sentence>
+			<sentence id="1.3">{</sentence>
+			<sentence id="1.4"> "Config": {</sentence>
+			<sentence id="1.5"> "Image": "python:latest"</sentence>
+			<sentence id="1.6"> ...</sentence>
+			<sentence id="1.7"> },</sentence>
+			<sentence id="1.8"> "HostConfig": {</sentence>
+			<sentence id="1.9"> "RestartPolicy":{</sentence>
+			<sentence id="1.10"> "Name": "on-failure",</sentence>
+			<sentence id="1.11"> "MaximumRetryCount": 3</sentence>
+			<sentence id="1.12"> } </sentence>
+			<sentence id="1.13"> }</sentence>
+			<sentence id="1.14">}</sentence>
+			<sentence id="1.15">```</sentence>
+			<sentence id="1.16">Or, is the example structure listed on the Remote API site correct and the RestartPolicy object simply isn't used yet? Any clarification you could provide would be appreciated. Thanks!</sentence>
+		</paragraph>
+	</description>
+</bug>

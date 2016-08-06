@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16114</id>
+	<title>Bridge network does not work for 1 second after starting container.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Description of problem:</sentence>
+			<sentence id="1.2">Just after starting container on bridge network, network RTT is long like 1sec for the first second.</sentence>
+			<sentence id="1.3">The issue happens on bridge network, but does not happens on host network.</sentence>
+			<sentence id="1.4">If I run multiple docker command within 3sec, there is no delay on the second docker command.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+$ docker run -i -t ubuntu ping 23.3.74.35
+PING 23.3.74.35 (23.3.74.35) 56(84) bytes of data.</sentence>
+			<sentence id="3.2">64 bytes from 23.3.74.35: icmp_seq=1 ttl=54 time=1008 ms
+64 bytes from 23.3.74.35: icmp_seq=2 ttl=54 time=8.91 ms
+64 bytes from 23.3.74.35: icmp_seq=3 ttl=54 time=8.77 ms
+64 bytes from 23.3.74.35: icmp_seq=4 ttl=54 time=8.62 ms
+$ docker --version
+Docker version 1.8.1, build d12ea79
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">`docker version`:
+Docker version 1.8.1, build d12ea79</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">`docker info`:
+Containers: 215
+Images: 89
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 519
+ Dirperm1 Supported: false
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 3.13.0-48-generic
+Operating System: Ubuntu 14.04.2 LTS
+CPUs: 2
+Total Memory: 3.859 GiB
+Name: ip-172-30-1-129
+ID: IJPX:CXAX:QHEA:6ORA:URFS:OTKJ:XN4R:5IUI:AJUS:A7SW:7NAP:34EC
+WARNING: No swap limit support</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">`uname -a`:
+Linux ip-172-30-1-129 3.13.0-48-generic #80-Ubuntu SMP Thu Mar 12 11:16:15 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Environment details (AWS, VirtualBox, physical, etc.):
+AWS</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">How reproducible:
+Every time.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Steps to Reproduce:</sentence>
+			<sentence id="9.2">1 Run a command:</sentence>
+			<sentence id="9.3">```</sentence>
+			<sentence id="9.4">$ docker run -i -t ubuntu ping 23.3.74.35</sentence>
+			<sentence id="9.5">```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Actual Results:
+```
+$ docker run -i -t ubuntu ping 23.3.74.35
+PING 23.3.74.35 (23.3.74.35) 56(84) bytes of data.</sentence>
+			<sentence id="10.2">64 bytes from 23.3.74.35: icmp_seq=1 ttl=54 time=1008 ms
+64 bytes from 23.3.74.35: icmp_seq=2 ttl=54 time=8.91 ms
+64 bytes from 23.3.74.35: icmp_seq=3 ttl=54 time=8.77 ms
+64 bytes from 23.3.74.35: icmp_seq=4 ttl=54 time=8.62 ms
+$ docker --version
+Docker version 1.8.1, build d12ea79
+```</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Expected Results:
+The first ping reply time is not 1000ms but like the second or later.</sentence>
+			<sentence id="11.2">(ex: 10ms)</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Additional info:</sentence>
+		</paragraph>
+	</description>
+</bug>

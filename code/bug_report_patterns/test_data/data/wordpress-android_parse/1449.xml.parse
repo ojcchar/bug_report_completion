@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1449</id>
+	<title>NPE after tapping new post</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">During QA test on a 4.0 device:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">java.lang.NullPointerException</sentence>
+			<sentence id="2.3"> at org.wordpress.android.ui.posts.EditPostSettingsFragment.updatePostSettings(EditPostSettingsFragment.java:477)</sentence>
+			<sentence id="2.4"> at org.wordpress.android.ui.posts.EditPostSettingsFragment.updatePostSettingsAndSaveButton(EditPostSettingsFragment.java:515)</sentence>
+			<sentence id="2.5"> at org.wordpress.android.ui.posts.EditPostSettingsFragment.access$000(EditPostSettingsFragment.java:63)</sentence>
+			<sentence id="2.6"> at org.wordpress.android.ui.posts.EditPostSettingsFragment$1.onItemSelected(EditPostSettingsFragment.java:117)</sentence>
+			<sentence id="2.7"> at android.widget.AdapterView.fireOnSelected(AdapterView.java:882)</sentence>
+			<sentence id="2.8"> at android.widget.AdapterView.selectionChanged(AdapterView.java:865)</sentence>
+			<sentence id="2.9"> at android.widget.AdapterView.checkSelectionChanged(AdapterView.java:1017)</sentence>
+			<sentence id="2.10"> at android.widget.Spinner.layout(Spinner.java:359)</sentence>
+			<sentence id="2.11"> at android.widget.AbsSpinner.setSelectionInt(AbsSpinner.java:292)</sentence>
+			<sentence id="2.12"> at android.widget.AbsSpinner.setSelection(AbsSpinner.java:269)</sentence>
+			<sentence id="2.13"> at org.wordpress.android.ui.posts.EditPostSettingsFragment.onCreateView(EditPostSettingsFragment.java:253)</sentence>
+			<sentence id="2.14"> at android.support.v4.app.Fragment.performCreateView(Fragment.java:1500)</sentence>
+			<sentence id="2.15"> at android.support.v4.app.FragmentManagerImpl.moveToState(FragmentManager.java:938)</sentence>
+			<sentence id="2.16"> at android.support.v4.app.FragmentManagerImpl.moveToState(FragmentManager.java:1115)</sentence>
+			<sentence id="2.17"> at android.support.v4.app.BackStackRecord.run(BackStackRecord.java:682)</sentence>
+			<sentence id="2.18"> at android.support.v4.app.FragmentManagerImpl.execPendingActions(FragmentManager.java:1478)</sentence>
+			<sentence id="2.19"> at android.support.v4.app.FragmentManagerImpl.executePendingTransactions(FragmentManager.java:478)</sentence>
+			<sentence id="2.20"> at android.support.v4.app.FragmentPagerAdapter.finishUpdate(FragmentPagerAdapter.java:141)</sentence>
+			<sentence id="2.21"> at android.support.v4.view.ViewPager.populate(ViewPager.java:1068)</sentence>
+			<sentence id="2.22"> at android.support.v4.view.ViewPager.populate(ViewPager.java:914)</sentence>
+			<sentence id="2.23"> at android.support.v4.view.ViewPager.onMeasure(ViewPager.java:1436)</sentence>
+			<sentence id="2.24"> at android.view.View.measure(View.java:12723)</sentence>
+			<sentence id="2.25"> at android.view.ViewGroup.measureChildWithMargins(ViewGroup.java:4698)</sentence>
+			<sentence id="2.26"> at android.widget.FrameLayout.onMeasure(FrameLayout.java:293)</sentence>
+			<sentence id="2.27"> at android.view.View.measure(View.java:12723)</sentence>
+			<sentence id="2.28"> at android.widget.LinearLayout.measureVertical(LinearLayout.java:812)</sentence>
+			<sentence id="2.29"> at android.widget.LinearLayout.onMeasure(LinearLayout.java:553)</sentence>
+			<sentence id="2.30"> at android.view.View.measure(View.java:12723)</sentence>
+			<sentence id="2.31"> at android.view.ViewGroup.measureChildWithMargins(ViewGroup.java:4698)</sentence>
+			<sentence id="2.32"> at android.widget.FrameLayout.onMeasure(FrameLayout.java:293)</sentence>
+			<sentence id="2.33"> at com.android.internal.policy.impl.PhoneWindow$DecorView.onMeasure(PhoneWindow.java:2092)</sentence>
+			<sentence id="2.34"> at android.view.View.measure(View.java:12723)</sentence>
+			<sentence id="2.35"> at android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:1064)</sentence>
+			<sentence id="2.36"> at android.view.ViewRootImpl.handleMessage(ViewRootImpl.java:2442)</sentence>
+			<sentence id="2.37"> at android.os.Handler.dispatchMessage(Handler.java:99)</sentence>
+			<sentence id="2.38"> at android.os.Looper.loop(Looper.java:137)</sentence>
+			<sentence id="2.39"> at android.app.ActivityThread.main(ActivityThread.java:4424)</sentence>
+			<sentence id="2.40"> at java.lang.reflect.Method.invokeNative(Native Method)</sentence>
+			<sentence id="2.41"> at java.lang.reflect.Method.invoke(Method.java:511)</sentence>
+			<sentence id="2.42"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:787)</sentence>
+			<sentence id="2.43"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:554)</sentence>
+			<sentence id="2.44"> at dalvik.system.NativeStart.main(Native Method)</sentence>
+			<sentence id="2.45">```</sentence>
+		</paragraph>
+	</description>
+</bug>

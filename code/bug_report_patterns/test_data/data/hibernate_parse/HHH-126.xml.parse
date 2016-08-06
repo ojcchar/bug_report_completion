@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-126</id>
+	<title>Cascade does not seem to be working properly</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have two classes in a parent-child relationship.</sentence>
+			<sentence id="1.2">Setting cascade="all" seem to only update the attributes of the child and not insert the children if they don't exist.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;hibernate-mapping&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;class name="Parent" table="parent"&gt;
+	&lt;id name="id" type="int" column="id"&gt;
+ &lt;generator class="identity"/&gt;
+ &gt;/id&lt; 		
+		
+	&lt;property name="name" column="name" type="java.lang.String"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&lt;list name="children" cascade="all"&gt;
+		&lt;key column="settings_id"/&gt;
+		&lt;index column="id"/&gt;
+		&lt;one-to-many class="Child"/&gt;
+ 	&lt;/list&gt;
+ &lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&lt;class name="Child" table="child"&gt;
+	&lt;id name="id" type="int" column="id"&gt;
+ &lt;generator class="identity"/&gt;
+	&gt;/id&lt; 
+		
+	&lt;property name="path" column="name" type="java.lang.String"/&gt;
+ &lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">&lt;/hibernate-mapping&gt;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">1 When I do a session.save( parent ) I see from the sql that hibernate generates that it does an insert of the parent but then it invokes sql update statements on the children that don't exist which fails.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">2 When I do a session.save( child ) for all the children of the parent and then I call session.save( parent ) everything works fine.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Is this a normal behavior that cascade does not insert?</sentence>
+			<sentence id="9.2">It makes sense if this is a normal behavior because Hibernate cannot possibly know if the children that it has to insert exist in the database or not.</sentence>
+			<sentence id="9.3">If this is normal then it would be helpful if the documentation reflected it and also cascade would only take an "update" or "delete".</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">one more unrelated issue: the method name "save" is ambiguous.</sentence>
+			<sentence id="10.2">I think it should be renamed to "create".</sentence>
+		</paragraph>
+	</description>
+</bug>

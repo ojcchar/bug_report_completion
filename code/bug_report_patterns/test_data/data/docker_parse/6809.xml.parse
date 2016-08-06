@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>6809</id>
+	<title>mkimage-yum: Copy /etc/rpm/platform</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">/etc/rpm/platform affects the packages that yum installs and therefore should be copied into the target</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+cp /etc/rpm/platform "$target"/etc/rpm/platform
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">By copying this file, it also means that an x86 container can use yum.</sentence>
+		</paragraph>
+	</description>
+</bug>

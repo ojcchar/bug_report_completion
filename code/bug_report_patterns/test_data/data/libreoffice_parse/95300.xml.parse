@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>95300</id>
+	<title>Impress stalls on 3-liner text block in Ubuntu 15.10 and 15.04 but not in 14.04 and 12.04</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 119927
+Libreoffice Impress presentation which stalls during animation</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I have a presentation originally created in Libreoffice Impress, which played well on many variants of Libreoffice (from version 3 to 5) and on Ubuntu 12.04 and 14.04, and on various hardware, and even on windows computer after converting it to powerpoint format.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">However, when played on either Ubuntu 15.04 or 15.10 it stalls at a certain slide.</sentence>
+			<sentence id="3.2">This slide has a three-line text block to be shown via user defined animation by a mouse click.</sentence>
+			<sentence id="3.3">However, when clicked, this text block is NOT shown, and furthermore, the whole presentation stalls, i.e. any further clicks do not result in showing further elements/pages.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I was successful in stripping-off almost everything from the presentation and
+still show the problem in a very simple presentation, basically
+consisting of the one problematic slide only (plus 2 dummy slides).</sentence>
+			<sentence id="4.2">This
+demo presentation is attached.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">After the presentation is started, the first click shows a vertical,
+arrowed line, the second should zoom up the textbox, but it does not.</sentence>
+			<sentence id="5.2">Strangely, when the third line of this text box is removed, it works.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">This demo was tested on the following systems using 
+Libreoffice 4.4.5.2 40m0(Build 2):
+12.04.5 LTS, kernel 3.13.0-58, working ok 
+14.04.2 LTS, kernel 3.19.0-25, working ok
+15.04,____ , kernel 3.19.0-25, NOT working (tried with Cinnamon, Gnome Flashback, MATE desktops)</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">After upgrading to Ubuntu Wily I tested again with 
+Libreoffice 5.0.2.2 Build ID: 00m0(Build:2):
+15.10, ____, kernel 4.2.0-16, NOT working on Mate desktop (all window manger Marco, Metacity, Compiz)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">When in the 15.04 or 15.10 example libreoffice is started via the command
+line, the following output is printed in the terminal after
+starting the presentation on the first slide, and then the THIRD click is
+made:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">ullix@xps13m15:~$ libreoffice test3line.odp</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">** (soffice:4253): WARNING **: Invalidate all children called</sentence>
+			<sentence id="10.2">** (soffice:4253): WARNING **: Invalidate all children called</sentence>
+			<sentence id="10.3">** (soffice:4253): WARNING **: Invalidate all children called</sentence>
+			<sentence id="10.4">** (soffice:4253): WARNING **: Unknown event notification 38</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">** (soffice:4253): WARNING **: Invalidate all children called</sentence>
+			<sentence id="11.2">** (soffice:4253): WARNING **: Invalidate all children called</sentence>
+			<sentence id="11.3">and so on</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">This is a really severe problem for me, as I cannot use a laptop running a new os for my presentation!</sentence>
+		</paragraph>
+	</description>
+</bug>

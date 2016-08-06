@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>11180</id>
+	<title>Warning: Mounting volumes containing files downloaded with Safari in OS X</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I encountered an obscure error a few days ago and I felt compelled to publish it where it might help some people.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Here is the story.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For a while I've been facing permissions errors from within containers trying to access certain files and I couldn't work out why this was happening.</sentence>
+			<sentence id="3.2">It only affected files when mounting them to the container, not when added to the container.</sentence>
+			<sentence id="3.3">Further more, when executing a shell inside the container, the files existed and the user could write to the mounted directory.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This bugged me for weeks and I'd reverted to rebuilding the containers whenever I made a change.</sentence>
+			<sentence id="4.2">Strangely, when a friend of mine pulled the code from git and mounted the volume... it worked.</sentence>
+			<sentence id="4.3">I concluded this was an error on my personal machine.</sentence>
+			<sentence id="4.4">.</sentence>
+			<sentence id="4.5">However when he pushed new code it miraculously worked on my machine...</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">After some inspection I noticed that the file downloaded with safari contained an extended attribute 'com.apple.quarentine'.</sentence>
+			<sentence id="5.2">Removing this made everything work again.</sentence>
+			<sentence id="5.3">And because git strips extended attributes before committing this is why 'git files' worked.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">It turns out, when downloading files with Safari on OS X, OS X adds an attribute to refuse access to the file until it has been opened.</sentence>
+			<sentence id="6.2">Now this was causing OS X to refuse access when boot2docker wanted to access the files.</sentence>
+			<sentence id="6.3">SILENTLY.</sentence>
+			<sentence id="6.4">Yay.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">So if a warning could be given when mounting 'quarentined' files, it would be fantastic... And perhaps save others the wasted time figuring this out.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Cool.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>5208</id>
+	<title>docker 0.10.0 regressed /dev/shm permissions of needed 1777 to 1755 without way to override</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">docker version 0.9.1:
+```
+docker run -i -t ubuntu ls -ld /dev/shm
+drwxrwxrwt 2 root root 40 Apr 15 15:10 /dev/shm
+```</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">docker version 0.10.0:
+```
+# docker run -i -t ubuntu ls -ld /dev/shm
+drwxr-xr-t 2 root root 40 Apr 15 15:06 /dev/shm
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I think it is due to this change:
+https://github.com/dotcloud/docker/pull/4211/files?short_path=c27819a
+ pkg/libcontainer/nsinit/mount.go
+ the perms for /dev/shm is set to mode=1755</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">What is the configuration needed to override 1755 for /dev/shm so that it is 1777?</sentence>
+		</paragraph>
+	</description>
+</bug>

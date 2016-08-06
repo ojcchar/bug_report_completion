@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>6736</id>
+	<title>TTY and Attach options should be mutually exclusive</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The docker run command offers a few options to get input/output from a container.</sentence>
+			<sentence id="1.2">A TTY can be allocated to handle stdin, stdout, and stderr with --tty; or you can manually attach any or all of these signals to the docker run process with -a &lt;std...&gt;.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">At present, it's also possible to do both of these at the same time.</sentence>
+			<sentence id="2.2">This doesn't seem to make sense, as creating a TTY handles all three signals - I shouldn't need/want to attach them separately afterwards.</sentence>
+			<sentence id="2.3">It can create some strange scenarios, including a client crash (docker run -t -a stderr ...; original bug https://bugzilla.redhat.com/show_bug.cgi?id=1113092).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In brief, it doesn't seem to make sense that --tty and --attach can be used together, and doing so cause unexpected results.</sentence>
+			<sentence id="3.2">Preventing the two from being used together would seem to make sense.</sentence>
+		</paragraph>
+	</description>
+</bug>

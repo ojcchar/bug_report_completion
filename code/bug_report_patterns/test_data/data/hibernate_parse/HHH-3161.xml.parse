@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3161</id>
+	<title>No Dialect mapping for JDBC type: -4</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When I execute the statement below:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">SELECT concat(case ip_protocol when 6 then 'TCP' when 17 then 'UDP' else 'OTHER' end, ', PORT ', repeat(' ', 5 - length(if(port is NULL, 0, port))), if(port is NULL, 0, port)) as protocol, concat(case ip_protocol when 6 then 'TCP' when 17 then 'UDP' else 'OTHER' end, if(port is NULL, 0, port)) as id, sum(byte_subtotal) as total FROM usage_sum_minute WHERE from_unixtime(time_min * 60) between '2008-02-03 14:00:00' and '2008-03-05 13:59:00' GROUP BY protocol ORDER BY total DESC  LIMIT 0, 20</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">DB schema:</sentence>
+			<sentence id="3.2">CREATE TABLE  `ascot`.`usage_sum_minute` (</sentence>
+			<sentence id="3.3">  `id` int(11) NOT NULL auto_increment,</sentence>
+			<sentence id="3.4">  `igateway_id` smallint(5) NOT NULL,</sentence>
+			<sentence id="3.5">  `time_min` int(11) NOT NULL,</sentence>
+			<sentence id="3.6">  `user_name` varchar(255) default NULL,</sentence>
+			<sentence id="3.7">  `mac_local` varchar(80) NOT NULL,</sentence>
+			<sentence id="3.8">  `ip_local` bigint(20) NOT NULL,</sentence>
+			<sentence id="3.9">  `ip_remote` bigint(20) NOT NULL,</sentence>
+			<sentence id="3.10">  `ip_protocol` smallint(5) NOT NULL,</sentence>
+			<sentence id="3.11">  `port` smallint(6) default NULL,</sentence>
+			<sentence id="3.12">  `domain_name` char(80) default NULL,</sentence>
+			<sentence id="3.13">  `url` varchar(1024) default NULL,</sentence>
+			<sentence id="3.14">  `byte_subtotal` int(11) NOT NULL,</sentence>
+			<sentence id="3.15">  PRIMARY KEY  (`id`),</sentence>
+			<sentence id="3.16">  UNIQUE KEY `id` (`id`),</sentence>
+			<sentence id="3.17">  KEY `index_igateway` (`igateway_id`),</sentence>
+			<sentence id="3.18">  KEY `index_protocol` (`ip_protocol`),</sentence>
+			<sentence id="3.19">  KEY `index_minute` (`time_min`),</sentence>
+			<sentence id="3.20">  KEY `index_user` (`user_name`),</sentence>
+			<sentence id="3.21">  KEY `index_port` (`port`),</sentence>
+			<sentence id="3.22">  KEY `index_ip` (`ip_remote`)</sentence>
+			<sentence id="3.23">) ENGINE=InnoDB AUTO_INCREMENT=505699 DEFAULT CHARSET=latin1</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">It give an exception "No Dialect mapping for JDBC type: -4"</sentence>
+		</paragraph>
+	</description>
+</bug>

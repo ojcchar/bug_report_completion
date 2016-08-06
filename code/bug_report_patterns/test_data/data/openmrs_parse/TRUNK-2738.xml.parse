@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-2738</id>
+	<title>error in liquibase script 1-fix</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When running installation wizard, got the error below, apparently caused by reference to "person_attribute_types" instead of "person_attribute_type".</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">There was an error while updating the database to the latest.</sentence>
+			<sentence id="2.2">file: liquibase-update-to-latest.</sentence>
+			<sentence id="2.3">xml.</sentence>
+			<sentence id="2.4">Error: Migration failed for change set liquibase-update-to-latest.</sentence>
+			<sentence id="2.5">xml::1-fix::sunbiz: Reason: liquibase.exception.DatabaseException: Error executing SQL ALTER TABLE `person_attribute_types` MODIFY `edit_privilege` VARCHAR(50): Table 'openmrs19.person_attribute_types' doesn't exist: Caused By: Error executing SQL ALTER TABLE `person_attribute_types` MODIFY `edit_privilege` VARCHAR(50): Table 'openmrs19.person_attribute_types' doesn't exist: Caused By: Table 'openmrs19.person_attribute_types' doesn't exist Error while trying to update to the latest database version</sentence>
+		</paragraph>
+	</description>
+</bug>

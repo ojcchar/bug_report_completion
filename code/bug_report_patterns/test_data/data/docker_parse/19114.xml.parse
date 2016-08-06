@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19114</id>
+	<title>Running modprobe bridge nf_nat failed with message: , error: exit status 1</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hello,
+This is the command which I run:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">docker run -d -p 8080:80 -p 8800:8800 -p 9002:9002 --privileged=true -e "GALAXY_LOGGING=full" -v /var/lib/docker/galaxy_storage:/export/ bgruening/galaxy-stable</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">After I started the above container I recieved the following warings and error (http://localhost:9002/logtail/docker):</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1"> level=info msg="[graphdriver] using prior storage driver \"btrfs\"" </sentence>
+			<sentence id="4.2"> time="2016-01-06T01:22:38.280066807Z" level=info msg="Listening for HTTP on unix (/var/run/docker.sock)" </sentence>
+			<sentence id="4.3"> time="2016-01-06T01:22:38.280212283Z" level=warning msg="Running modprobe bridge nf_nat failed with message: , error: exit status 1" </sentence>
+			<sentence id="4.4"> time="2016-01-06T01:22:38.347388896Z" level=info msg="Loading containers: start." </sentence>
+			<sentence id="4.5"> ....</sentence>
+			<sentence id="4.6"> time="2016-01-06T01:22:38.349652297Z" level=info msg="Loading containers: done." </sentence>
+			<sentence id="4.7"> time="2016-01-06T01:22:38.349687201Z" level=info msg="Daemon has completed initialization" </sentence>
+			<sentence id="4.8"> time="2016-01-06T01:22:38.349710376Z" level=info msg="Docker daemon" commit=786b29d execdriver=native-0.2 graphdriver=btrfs version=1.7.1 </sentence>
+			<sentence id="4.9"> time="2016-01-06T01:31:35.025738746Z" level=info msg="POST /v1.19/containers/create" </sentence>
+			<sentence id="4.10"> time="2016-01-06T01:31:35.079254813Z" level=info msg="POST /v1.19/containers/c26c2046e89b516d32bb12626f3c82c0d26e83fe6d5b60318d683016cb3d08f7/start" </sentence>
+			<sentence id="4.11"> time="2016-01-06T01:31:35.469049046Z" level=info msg="GET /v1.19/containers/c26c2046e89b516d32bb12626f3c82c0d26e83fe6d5b60318d683016cb3d08f7/json"</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1"></sentence>
+			<sentence id="5.2"> $ sudo docker -s btrfs -d -D</sentence>
+			<sentence id="5.3"> WARN[0000] please use 'docker daemon' instead. </sentence>
+			<sentence id="5.4"> DEBU[0000] docker group found. gid: 999 </sentence>
+			<sentence id="5.5"> DEBU[0000] Server created for HTTP on unix (/var/run/docker.sock) </sentence>
+			<sentence id="5.6"> DEBU[0000] [graphdriver] trying provided driver "btrfs" </sentence>
+			<sentence id="5.7"> DEBU[0000] Using graph driver btrfs </sentence>
+			<sentence id="5.8"> DEBU[0000] Using default logging driver json-file </sentence>
+			<sentence id="5.9"> DEBU[0000] Creating images graph </sentence>
+			<sentence id="5.10"> INFO[0000] API listen on /var/run/docker.sock </sentence>
+			<sentence id="5.11"> DEBU[0000] Restored 63 elements </sentence>
+			<sentence id="5.12"> DEBU[0000] Creating repository list </sentence>
+			<sentence id="5.13"> DEBU[0000] Option DefaultDriver: bridge </sentence>
+			<sentence id="5.14"> DEBU[0000] Option DefaultNetwork: bridge </sentence>
+			<sentence id="5.15"> INFO[0000] Firewalld running: false </sentence>
+			<sentence id="5.16"> DEBU[0000] /sbin/iptables, [--wait -t nat -D PREROUTING -m addrtype --dst-type LOCAL -j DOCKER] </sentence>
+			<sentence id="5.17"> DEBU[0000] /sbin/iptables, [--wait -t nat -D OUTPUT -m addrtype --dst-type LOCAL ! --dst 127.0.0.0/8 -j DOCKER] </sentence>
+			<sentence id="5.18"> DEBU[0000] /sbin/iptables, [--wait -t nat -D OUTPUT -m addrtype --dst-type LOCAL -j DOCKER] </sentence>
+			<sentence id="5.19"> DEBU[0000] /sbin/iptables, [--wait -t nat -D PREROUTING] </sentence>
+			<sentence id="5.20"> DEBU[0000] /sbin/iptables, [--wait -t nat -D OUTPUT] </sentence>
+			<sentence id="5.21"> DEBU[0000] /sbin/iptables, [--wait -t nat -F DOCKER] </sentence>
+			<sentence id="5.22"> DEBU[0000] /sbin/iptables, [--wait -t nat -X DOCKER] </sentence>
+			<sentence id="5.23"> DEBU[0000] /sbin/iptables, [--wait -t nat -n -L DOCKER] </sentence>
+			<sentence id="5.24"> DEBU[0000] /sbin/iptables, [--wait -t nat -N DOCKER] </sentence>
+			<sentence id="5.25"> DEBU[0000] /sbin/iptables, [--wait -t filter -n -L DOCKER] </sentence>
+			<sentence id="5.26"> DEBU[0000] Registering ipam provider: default </sentence>
+			<sentence id="5.27"> DEBU[0000] releasing IPv4 pools from network bridge (7886441fd8b4d1e1291a1ffdbf80b050d9237e0025831da32381df2cbf997a48) </sentence>
+			<sentence id="5.28"> DEBU[0000] ReleaseAddress(LocalDefault/172.17.0.0/16, 172.17.0.1) </sentence>
+			<sentence id="5.29"> DEBU[0000] Retrieving bitmask (LocalDefault/172.17.0.0/16, 172.17.0.0/16) </sentence>
+			<sentence id="5.30"> DEBU[0000] ReleasePool(LocalDefault/172.17.0.0/16) </sentence>
+			<sentence id="5.31"> INFO[0000] Default bridge (docker0) is assigned with an IP address 172.17.0.1/16. Daemon option --bip can be used to set a preferred IP address </sentence>
+			<sentence id="5.32"> DEBU[0000] Allocating IPv4 pools for network bridge (3f956afd14546406b93c32dadf98185131e28d990c7e64f5a0d6a606d9ea0ebf) </sentence>
+			<sentence id="5.33"> DEBU[0000] RequestPool(LocalDefault, 172.17.0.1/16, , map[], false) </sentence>
+			<sentence id="5.34"> DEBU[0000] RequestAddress(LocalDefault/172.17.0.0/16, 172.17.0.1, map[]) </sentence>
+			<sentence id="5.35"> DEBU[0000] /sbin/iptables, [--wait -t nat -C POSTROUTING -s 172.17.0.0/16 ! -o docker0 -j MASQUERADE] </sentence>
+			<sentence id="5.36"> DEBU[0000] /sbin/iptables, [--wait -D FORWARD -i docker0 -o docker0 -j DROP] </sentence>
+			<sentence id="5.37"> DEBU[0000] /sbin/iptables, [--wait -t filter -C FORWARD -i docker0 -o docker0 -j ACCEPT] </sentence>
+			<sentence id="5.38"> DEBU[0000] /sbin/iptables, [--wait -t filter -C FORWARD -i docker0 ! -o docker0 -j ACCEPT] </sentence>
+			<sentence id="5.39"> DEBU[0000] /sbin/iptables, [--wait -t filter -C FORWARD -o docker0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT] </sentence>
+			<sentence id="5.40"> DEBU[0000] /sbin/iptables, [--wait -t nat -C PREROUTING -m addrtype --dst-type LOCAL -j DOCKER] </sentence>
+			<sentence id="5.41"> DEBU[0000] /sbin/iptables, [--wait -t nat -A PREROUTING -m addrtype --dst-type LOCAL -j DOCKER] </sentence>
+			<sentence id="5.42"> DEBU[0000] /sbin/iptables, [--wait -t nat -C OUTPUT -m addrtype --dst-type LOCAL -j DOCKER ! --dst 127.0.0.0/8] </sentence>
+			<sentence id="5.43"> DEBU[0000] /sbin/iptables, [--wait -t nat -A OUTPUT -m addrtype --dst-type LOCAL -j DOCKER ! --dst 127.0.0.0/8] </sentence>
+			<sentence id="5.44"> DEBU[0000] /sbin/iptables, [--wait -t filter -C FORWARD -o docker0 -j DOCKER] </sentence>
+			<sentence id="5.45"> DEBU[0000] Cleaning up old shm/mqueue mounts: start. </sentence>
+			<sentence id="5.46"> DEBU[0000] Cleaning up old shm/mqueue mounts: done. </sentence>
+			<sentence id="5.47"> DEBU[0000] Loaded container 6719f10f9a28a26921d6ba57ea2d127965170a70fb288e4a5d4af1e68fd5a270 </sentence>
+			<sentence id="5.48"> DEBU[0000] Loaded container e0c1f1c4684daf2a3379052085ca4250e9b563383b62b84bde67956fed205f31 </sentence>
+			<sentence id="5.49"> DEBU[0000] Incrementing volume reference: driver local, name 03b3ef415358944a589ff263c1986a1eeea1cdf5db89c54d8705fe3d98160e5c </sentence>
+			<sentence id="5.50"> DEBU[0000] Incrementing volume reference: driver local, name f2ba0abca586805cf91c5637e49b6d6acb061044d1d3c914a47f32d19b3f066e </sentence>
+			<sentence id="5.51"> DEBU[0000] Incrementing volume reference: driver local, name 6c4fc66f1d996825ee3e874a7fc78a078b45598a26ebd640730dd61a3279931d </sentence>
+			<sentence id="5.52"> DEBU[0000] Incrementing volume reference: driver local, name d882789a1af5f92a8a5171969afb6101afe237909ef5be72c649c21d7bcf6335 </sentence>
+			<sentence id="5.53"> INFO[0000] Daemon has completed initialization </sentence>
+			<sentence id="5.54"> INFO[0000] Docker daemon commit=a34a1d5 execdriver=native-0.2 graphdriver=btrfs version=1.9.1</sentence>
+			<sentence id="5.55"> DEBU[0000] Registering routers </sentence>
+			<sentence id="5.56"> DEBU[0000] Registering HEAD, /containers/{name:.*}/archive </sentence>
+			<sentence id="5.57"> DEBU[0000] Registering OPTIONS, / </sentence>
+			<sentence id="5.58"> DEBU[0000] Registering GET, /_ping </sentence>
+			<sentence id="5.59"> DEBU[0000] Registering GET, /events </sentence>
+			<sentence id="5.60"> DEBU[0000] Registering GET, /info </sentence>
+			<sentence id="5.61"> DEBU[0000] Registering GET, /version </sentence>
+			<sentence id="5.62"> DEBU[0000] Registering GET, /images/json </sentence>
+			<sentence id="5.63"> DEBU[0000] Registering GET, /images/search </sentence>
+			<sentence id="5.64"> DEBU[0000] Registering GET, /images/get </sentence>
+			<sentence id="5.65"> DEBU[0000] Registering GET, /images/{name:.*}/get </sentence>
+			<sentence id="5.66"> DEBU[0000] Registering GET, /images/{name:.*}/history </sentence>
+			<sentence id="5.67"> DEBU[0000] Registering GET, /images/{name:.*}/json </sentence>
+			<sentence id="5.68"> DEBU[0000] Registering GET, /containers/json </sentence>
+			<sentence id="5.69"> DEBU[0000] Registering GET, /containers/{name:.*}/export </sentence>
+			<sentence id="5.70"> DEBU[0000] Registering GET, /containers/{name:.*}/changes </sentence>
+			<sentence id="5.71"> DEBU[0000] Registering GET, /containers/{name:.*}/json </sentence>
+			<sentence id="5.72"> DEBU[0000] Registering GET, /containers/{name:.*}/top </sentence>
+			<sentence id="5.73"> DEBU[0000] Registering GET, /containers/{name:.*}/logs </sentence>
+			<sentence id="5.74"> DEBU[0000] Registering GET, /containers/{name:.*}/stats </sentence>
+			<sentence id="5.75"> DEBU[0000] Registering GET, /containers/{name:.*}/attach/ws </sentence>
+			<sentence id="5.76"> DEBU[0000] Registering GET, /exec/{id:.*}/json </sentence>
+			<sentence id="5.77"> DEBU[0000] Registering GET, /containers/{name:.*}/archive </sentence>
+			<sentence id="5.78"> DEBU[0000] Registering GET, /volumes </sentence>
+			<sentence id="5.79"> DEBU[0000] Registering GET, /volumes/{name:.*} </sentence>
+			<sentence id="5.80"> DEBU[0000] Registering POST, /auth </sentence>
+			<sentence id="5.81"> DEBU[0000] Registering POST, /commit </sentence>
+			<sentence id="5.82"> DEBU[0000] Registering POST, /build </sentence>
+			<sentence id="5.83"> DEBU[0000] Registering POST, /images/create </sentence>
+			<sentence id="5.84"> DEBU[0000] Registering POST, /images/load </sentence>
+			<sentence id="5.85"> DEBU[0000] Registering POST, /images/{name:.*}/push </sentence>
+			<sentence id="5.86"> DEBU[0000] Registering POST, /images/{name:.*}/tag </sentence>
+			<sentence id="5.87"> DEBU[0000] Registering POST, /containers/create </sentence>
+			<sentence id="5.88"> DEBU[0000] Registering POST, /containers/{name:.*}/kill </sentence>
+			<sentence id="5.89"> DEBU[0000] Registering POST, /containers/{name:.*}/pause </sentence>
+			<sentence id="5.90"> DEBU[0000] Registering POST, /containers/{name:.*}/unpause </sentence>
+			<sentence id="5.91"> DEBU[0000] Registering POST, /containers/{name:.*}/restart </sentence>
+			<sentence id="5.92"> DEBU[0000] Registering POST, /containers/{name:.*}/start </sentence>
+			<sentence id="5.93"> DEBU[0000] Registering POST, /containers/{name:.*}/stop </sentence>
+			<sentence id="5.94"> DEBU[0000] Registering POST, /containers/{name:.*}/wait </sentence>
+			<sentence id="5.95"> DEBU[0000] Registering POST, /containers/{name:.*}/resize </sentence>
+			<sentence id="5.96"> DEBU[0000] Registering POST, /containers/{name:.*}/attach </sentence>
+			<sentence id="5.97"> DEBU[0000] Registering POST, /containers/{name:.*}/copy </sentence>
+			<sentence id="5.98"> DEBU[0000] Registering POST, /containers/{name:.*}/exec </sentence>
+			<sentence id="5.99"> DEBU[0000] Registering POST, /exec/{name:.*}/start </sentence>
+			<sentence id="5.100"> DEBU[0000] Registering POST, /exec/{name:.*}/resize </sentence>
+			<sentence id="5.101"> DEBU[0000] Registering POST, /containers/{name:.*}/rename </sentence>
+			<sentence id="5.102"> DEBU[0000] Registering POST, /volumes/create </sentence>
+			<sentence id="5.103"> DEBU[0000] Registering PUT, /containers/{name:.*}/archive </sentence>
+			<sentence id="5.104"> DEBU[0000] Registering DELETE, /containers/{name:.*} </sentence>
+			<sentence id="5.105"> DEBU[0000] Registering DELETE, /images/{name:.*} </sentence>
+			<sentence id="5.106"> DEBU[0000] Registering DELETE, /volumes/{name:.*} </sentence>
+			<sentence id="5.107"> DEBU[0000] Registering GET, /networks </sentence>
+			<sentence id="5.108"> DEBU[0000] Registering GET, /networks/{id:.*} </sentence>
+			<sentence id="5.109"> DEBU[0000] Registering POST, /networks/create </sentence>
+			<sentence id="5.110"> DEBU[0000] Registering POST, /networks/{id:.*}/connect </sentence>
+			<sentence id="5.111"> DEBU[0000] Registering POST, /networks/{id:.*}/disconnect </sentence>
+			<sentence id="5.112"> DEBU[0000] Registering DELETE, /networks/{id:.*}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1"> $ mount</sentence>
+			<sentence id="7.2"> /dev/sda1 on / type ext4 (rw,errors=remount-ro)</sentence>
+			<sentence id="7.3"> proc on /proc type proc (rw,noexec,nosuid,nodev)</sentence>
+			<sentence id="7.4"> sysfs on /sys type sysfs (rw,noexec,nosuid,nodev)</sentence>
+			<sentence id="7.5"> none on /sys/fs/cgroup type tmpfs (rw)</sentence>
+			<sentence id="7.6"> none on /sys/fs/fuse/connections type fusectl (rw)</sentence>
+			<sentence id="7.7"> none on /sys/kernel/debug type debugfs (rw)</sentence>
+			<sentence id="7.8"> none on /sys/kernel/security type securityfs (rw)</sentence>
+			<sentence id="7.9"> udev on /dev type devtmpfs (rw,mode=0755)</sentence>
+			<sentence id="7.10"> devpts on /dev/pts type devpts (rw,noexec,nosuid,gid=5,mode=0620)</sentence>
+			<sentence id="7.11"> tmpfs on /run type tmpfs (rw,noexec,nosuid,size=10%,mode=0755)</sentence>
+			<sentence id="7.12"> none on /run/lock type tmpfs (rw,noexec,nosuid,nodev,size=5242880)</sentence>
+			<sentence id="7.13"> none on /run/shm type tmpfs (rw,nosuid,nodev)</sentence>
+			<sentence id="7.14"> none on /run/user type tmpfs (rw,noexec,nosuid,nodev,size=104857600,mode=0755)</sentence>
+			<sentence id="7.15"> none on /sys/fs/pstore type pstore (rw)</sentence>
+			<sentence id="7.16"> tracefs on /var/lib/ureadahead/debugfs/tracing type tracefs (rw,relatime)</sentence>
+			<sentence id="7.17"> /dev/sda6 on /var/lib/docker type btrfs (rw)</sentence>
+			<sentence id="7.18"> systemd on /sys/fs/cgroup/systemd type cgroup (rw,noexec,nosuid,nodev,none,name=systemd)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">$ docker version
+ Client:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: a34a1d5
+ Built: Fri Nov 20 13:12:04 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Server:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: a34a1d5
+ Built: Fri Nov 20 13:12:04 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">$ docker info
+ Containers: 2
+ Images: 63
+ Server Version: 1.9.1
+ Storage Driver: btrfs
+ Execution Driver: native-0.2
+ Logging Driver: json-file
+ Kernel Version: 4.2.0-22-generic
+ Operating System: Ubuntu 14.04.2 LTS
+ CPUs: 4
+ Total Memory: 39.79 GiB
+ Name: galaxy-VirtualBox
+ ID: 7YSR:CDFW:PTC2:N2JB:RNX7:32TE:PNBX:W477:ECJX:AK45:4RFI:UGJT
+ Debug mode (server): true
+ File Descriptors: 12
+ Goroutines: 20
+ System Time: 2016-01-06T11:46:29.224174697+10:00
+ EventsListeners: 0
+ Init SHA1: 4fc7c03a06c675f115b39958c13486d53df10a14
+ Init Path: /usr/lib/docker/dockerinit
+ Docker Root Dir: /var/lib/docker</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">.</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">$ uname -a
+ Linux galaxy-VirtualBox 4.2.0-22-generic #27~14.04.1-Ubuntu SMP Fri Dec 18 10:57:53 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">How to fix the problem "Running modprobe bridge nf_nat failed with message: , error: exit status 1"?</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">Thank you in advance.</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">Mic</sentence>
+		</paragraph>
+	</description>
+</bug>

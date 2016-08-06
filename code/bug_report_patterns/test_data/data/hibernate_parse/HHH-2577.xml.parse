@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-2577</id>
+	<title>HQL: "select count(e.collection) from MyEntity e" produces wrong SQL</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Suppose "A" and "B" are entities and A contains a bag (Collection) "bs" (one-to-many) of B instances.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Then the following HQL query:</sentence>
+			<sentence id="2.2">select count(a.bs) from A a</sentence>
+			<sentence id="2.3">produces the following DB2 SQL statement:</sentence>
+			<sentence id="2.4">select
+ count(.) as col_0_0_ 
+ from
+ A a0_,
+ B b1_ 
+ where
+ a0_.k = b1_.k</sentence>
+			<sentence id="2.8">which is not legal.</sentence>
+		</paragraph>
+	</description>
+</bug>

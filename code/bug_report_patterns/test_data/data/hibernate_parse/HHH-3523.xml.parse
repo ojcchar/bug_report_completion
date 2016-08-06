@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3523</id>
+	<title>org.hibernate.id.enhanced.SequenceStyleGenerator causes org.hibernate.MappingException with SAPDB and DB2Dialect</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">While generating DDL scripts for mapping files that declare id &lt;generator class="org.hibernate.id.enhanced.SequenceStyleGenerator"&gt; the following exception is thrown:</sentence>
+			<sentence id="1.2">org.hibernate.MappingException: Dialect does not support pooled sequences</sentence>
+			<sentence id="1.3">	at org.hibernate.dialect.Dialect.getCreateSequenceString(Dialect.java:701)</sentence>
+			<sentence id="1.4">	at org.hibernate.dialect.Dialect.getCreateSequenceStrings(Dialect.java:659)</sentence>
+			<sentence id="1.5">	at org.hibernate.id.enhanced.SequenceStructure.sqlCreateStrings(SequenceStructure.java:139)</sentence>
+			<sentence id="1.6">	at org.hibernate.id.enhanced.SequenceStyleGenerator.sqlCreateStrings(SequenceStyleGenerator.java:328)</sentence>
+			<sentence id="1.7">	at org.hibernate.cfg.Configuration.generateSchemaCreationScript(Configuration.java:945)</sentence>
+			<sentence id="1.8">	at org.hibernate.tool.hbm2ddl.SchemaExport.&lt;init&gt;(SchemaExport.java:129)</sentence>
+			<sentence id="1.9">	at org.hibernate.tool.hbm2ddl.SchemaExport.&lt;init&gt;(SchemaExport.java:91)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I suspect the cause is in 
+org.hibernate.dialect.Dialect#getCreateSequenceString(String sequenceName, int initialValue, int incrementSize)
+		if ( supportsPooledSequences() ) {
+			return getCreateSequenceString( sequenceName ) + " start with " + initialValue + " increment by " + incrementSize;
+		}
+		throw new MappingException( "Dialect does not support pooled sequences" );</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This call requires not just that dialect supports sequences but that dialect supports pooled sequences.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">But the algorithm that tries to determine whether the table should be used to emulate the sequence lets the dialects that supports sequences but not pooled sequences to slip through.</sentence>
+			<sentence id="4.2">It looks like the DB2 and SAPDB dialects fail in this category because of:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">org.hibernate.id.enhanced.SequenceStyleGenerator#configure(Type type, Properties params, Dialect dialect)
+...
+		if ( dialect.supportsSequences() &amp;&amp; !</sentence>
+			<sentence id="5.2">forceTableUse ) {
+			if ( OptimizerFactory.POOL.equals( optimizationStrategy ) &amp;&amp; !</sentence>
+			<sentence id="5.3">dialect.supportsPooledSequences() ) {
+				forceTableUse = true;
+				log.info(
+						"Forcing table use for sequence-style generator due to pooled optimizer selection where db does not support pooled sequences"
+				);
+			}
+		}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">To workaround the problem I have created my generator that overrides SequenceStyleGenerator#configure, somethng like:
+ public void configure(Type type, Properties params, Dialect dialect) throws MappingException {
+ if (dialect.supportsSequences() &amp;&amp; !</sentence>
+			<sentence id="6.2">dialect.supportsPooledSequences()) {
+ params.setProperty(FORCE_TBL_PARAM, "true");
+ }
+ super.configure(type, params, dialect);</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Attached is a zip file with a small maven project with unit-test that replicates the problem.</sentence>
+			<sentence id="7.2">It generates DDL for different databases: Hipersonic, Derby, Oracle, MySql, PostgreSQL, MSSQL, DB2, and SAPDB.</sentence>
+			<sentence id="7.3">The data-model contains 2 tables Person and Event in many-to-many relation.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9689</id>
+	<title>Avoid NPE when trying to load non-existent properties resource</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">{{ConfigLoader#loadProperties()}} always tries to close the {{stream}} variable, but that will be null if {{ClassLoaderService#locateResourceStream()}} doesn't find the given resource.</sentence>
+		</paragraph>
+	</description>
+</bug>

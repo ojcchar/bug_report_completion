@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4301</id>
+	<title>@CollectionOfElements does not cascade on delete</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Consider the following constellation:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">@Embeddable
+public class Foo {
+ // ...
+}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">@Entity
+public class Bar {
+ @CollectionOfElements
+ private Set&lt;Foo&gt; myFoos;
+ // ...
+}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">When I persist a Bar object that contains some Foos, and when I later decide to delete the Bar object, I get a foreign key constraint violation error message because the Foo objects, which contain a reference to the Bar object that owns them, are not deleted automatically.</sentence>
+			<sentence id="4.2">I would expect the default behaviour to be "on delete cascade" because the Foo objects are embeddables, thus they cannot exist on their own without the Bar object that owns them.</sentence>
+			<sentence id="4.3">But there is no way to tell Hibernate to cascade:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">- the @OnDelete annotation is only allowed for OneToMany relations</sentence>
+			<sentence id="5.2">- the @Cascade annotation is being ignored</sentence>
+			<sentence id="5.3">- there is no "cascade" property for the CollectionOfElements</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">So my question is: Why does the cascading not occur automatically, and how do I tell Hibernate to cascade anyways?</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Thanks a lot in advance,</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Nicole</sentence>
+		</paragraph>
+	</description>
+</bug>

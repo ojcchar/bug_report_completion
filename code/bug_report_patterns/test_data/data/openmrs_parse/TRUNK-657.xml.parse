@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-657</id>
+	<title>Authorization issue during initial setup</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">WARN - InitializationFilter.doPost(485) |2009-05-27 23:43:44,964| Implementation ID could not be set.</sentence>
+			<sentence id="1.2">org.openmrs.api.APIAuthenticationException: Privileges required: [Implementation Id|Manage]</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The error occurs at InitializationFilter(481):
+{code}Context.getAdministrationService().</sentence>
+			<sentence id="2.2">setImplementationId(implId);
+{code}</sentence>
+		</paragraph>
+	</description>
+</bug>

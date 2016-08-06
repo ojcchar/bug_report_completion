@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3789</id>
+	<title>Remove the Custom Media Picker from the app</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Our Custom Media Picker was introduced to:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">1 replace the pop up menu we have when we tap the "insert media" button.</sentence>
+			<sentence id="2.2">1 have a way to pick multiple photos / videos at once.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Unfortunately some of our users need to browse specific directories (depends of the Camera app they use) to pick their media, and that mean we would have to write a file browser within our Media picker.</sentence>
+			<sentence id="3.2">Our picker also suffer from some caching issues, and we don't have enough time to support it.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Proposed solution is drop it and, for supported API level, use the Android multi select media picker intent.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">We could also try to leverage the Android picker to display images/videos from the WordPress LIbrary (We probably have to write a Content Provider to achieve that, but I don't know if we'll be able to reconcilate picked image and the WordPress Library image), that would allow us to kill the pop up menu completely.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">cc @tonyr59h @aforcier</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Edit: Reminder to deprecate the [MediaPicker](https://github.com/wordpress-mobile/MediaPicker-Android) library once this is merged in.</sentence>
+		</paragraph>
+	</description>
+</bug>

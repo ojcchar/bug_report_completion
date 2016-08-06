@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19351</id>
+	<title>missing privilege separation directory /var/run/sshd</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,all
+Does anybody have ever such a problem when run a docker container without "/bin/bash"</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">here is my environment:
+Client:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: a34a1d5
+ Built: Fri Nov 20 13:12:04 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Server:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: a34a1d5
+ Built: Fri Nov 20 13:12:04 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">the image i using is created from Dockerfile, it looks like that:
+FROM scratch
+ADD .</sentence>
+			<sentence id="4.2">/
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+RUN rm Dockerfile
+CMD /usr/sbin/sshd -D</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">and i download a rootfs by using cmd "debootstrap --variant=minbase --include=openssh-server --arch i386 trusty /mnt", and copy the Dockerfile into the /mnt, then use cmd "docker build -t mytrusty /mnt" to make a new image.</sentence>
+			<sentence id="5.2">at last, when i run a docker container with cmd "docker run -it mytrustry", and came out a problem:</sentence>
+			<sentence id="5.3">missing privilege separation directory /var/run/sshd; </sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">i have installed the sshd in the rootfs, how does that problem come out.</sentence>
+			<sentence id="6.2">thanks!</sentence>
+		</paragraph>
+		<paragraph id="7">
+		</paragraph>
+	</description>
+</bug>

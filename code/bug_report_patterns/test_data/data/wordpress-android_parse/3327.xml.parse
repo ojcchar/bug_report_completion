@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3327</id>
+	<title>Remove all hardcoded strings from the app</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We should remove all hardcoded strings from the app:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">* Some should be replaced by translatable strings (e.g. `Start Date` in `res/layout/date_range_dialog.</sentence>
+			<sentence id="2.2">xml`),</sentence>
+			<sentence id="2.3">* some by non-translatable strings (e.g. `automattic.com` in `res/layout/about_activity.xml`),</sentence>
+			<sentence id="2.4">* some can be dropped (e.g. `This is a text` in `res/layout/theme_details_fragment.</sentence>
+			<sentence id="2.5">xml`)</sentence>
+			<sentence id="2.6">* and some can be replaced with `tools:text` if needed in the visual editor (e.g. `date` in `res/layout/comment_listitem.xml`).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Run the following command to list them: `pushd WordPress/src/main ; lint --check HardcodedText .</sentence>
+			<sentence id="3.2">; popd`</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Once this is done, we must define the `HardcodedText` lint check as an error instead of a warning.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The reason behind that: make sure we can't add new hardcoded strings by mistake.</sentence>
+		</paragraph>
+	</description>
+</bug>

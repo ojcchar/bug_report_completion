@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>81501</id>
+	<title>SORT: Large memory footprint while sorting a large table</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 103049
+Valgrind Massif output</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Problem description:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Sorting a document - that contains 100000 rows and 12 columns - according to the first column causes a 4.8G memory leak.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Steps to reproduce:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">1 Create a document that contains 100000 rows and 12 columns, say with random numbers.</sentence>
+			<sentence id="5.2">2 Select the whole sheet.</sentence>
+			<sentence id="5.3">3 Menu &#x2192; Sort &#x2192; choose &#x201C;Column A&#x201D; as &#x201C;Key 1&#x201D;.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Current behavior:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">According to &#x201C;smem -k&#x201D;, soffice.bin uses 4.8G of memory after sorting is done.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">That memory isn&#x2019;t released when the document is closed.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I ran Valgrind Massif (see attachment), which says that the leak is caused, among others, by that line, which contains a &#x201C;new&#x201D;:</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">table3.cxx:339 &#x201C;mpRows-&gt;push_back(new Row(nColSize))&#x201D;</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">(Note that I used massif on a different file, thus the peak isn&#x2019;t 4.8G.)</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">There is no leak with libreoffice 3.6.5.2.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Operating System: Linux (Other)
+Version: 4.4.0.0.</sentence>
+			<sentence id="13.2">alpha0+ Master</sentence>
+		</paragraph>
+	</description>
+</bug>

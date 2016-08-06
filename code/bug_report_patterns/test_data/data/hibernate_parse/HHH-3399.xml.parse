@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3399</id>
+	<title>MapKey fails on foreign map key</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have a "Master" Entity with a bidirectional (Many-To-One) relationship with a "Detail" Entity.</sentence>
+			<sentence id="1.2">"Detail" has a unidirectional relationship (One-To-Many) to a "Color" Entity</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Here is the relevant mapping from the Master point of view, using a Map :</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">@javax.</sentence>
+			<sentence id="3.2">persistence.OneToMany(cascade = {javax.persistence.CascadeType.ALL} ,mappedBy = "master")
+ @javax.</sentence>
+			<sentence id="3.3">persistence.MapKey(name = "color")
+ public java.util.Map&lt;java.lang.Long, Detail&gt; getDetails()
+ {
+ return this.details;
+ }</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The map key is on the "color" relationship (this should not be a MapKeyManyToMany since no additional column is needed on Master).</sentence>
+			<sentence id="4.2">Map key type is a java.lang.Long because of the Color identifier idColor.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">After a (successful) create of these relationships, when a "merge" operation is called over Master, the following exception is thrown :</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">18:10:53,403 ERROR [BasicPropertyAccessor] IllegalArgumentException in class: Color, getter method of property: idColor</sentence>
+			<sentence id="6.2">18:10:53,427 java.lang.IllegalArgumentException: object is not an instance of declaring class</sentence>
+			<sentence id="6.3">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="6.4">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="6.5">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="6.6">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="6.7">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:112)</sentence>
+			<sentence id="6.8">	at org.jboss.ejb3.interceptor.InvocationContextImpl.proceed(InvocationContextImpl.java:166)</sentence>
+			<sentence id="6.9">	at org.jboss.ejb3.interceptor.EJB3InterceptorsInterceptor.invoke(EJB3InterceptorsInterceptor.java:63)</sentence>
+			<sentence id="6.10">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.11">	at org.jboss.ejb3.entity.TransactionScopedEntityManagerInterceptor.invoke(TransactionScopedEntityManagerInterceptor.java:54)</sentence>
+			<sentence id="6.12">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.13">	at org.jboss.ejb3.AllowedOperationsInterceptor.invoke(AllowedOperationsInterceptor.java:47)</sentence>
+			<sentence id="6.14">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.15">	at org.jboss.aspects.tx.TxPolicy.invokeInCallerTx(TxPolicy.java:126)</sentence>
+			<sentence id="6.16">	at org.jboss.aspects.tx.TxInterceptor$Required.invoke(TxInterceptor.java:195)</sentence>
+			<sentence id="6.17">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.18">	at org.jboss.aspects.tx.TxPropagationInterceptor.invoke(TxPropagationInterceptor.java:95)</sentence>
+			<sentence id="6.19">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.20">	at org.jboss.ejb3.stateless.StatelessInstanceInterceptor.invoke(StatelessInstanceInterceptor.java:62)</sentence>
+			<sentence id="6.21">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.22">	at org.jboss.aspects.security.RoleBasedAuthorizationInterceptor.invoke(RoleBasedAuthorizationInterceptor.java:166)</sentence>
+			<sentence id="6.23">	at org.jboss.ejb3.security.RoleBasedAuthorizationInterceptor.invoke(RoleBasedAuthorizationInterceptor.java:115)</sentence>
+			<sentence id="6.24">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.25">	at org.jboss.aspects.security.AuthenticationInterceptor.invoke(AuthenticationInterceptor.java:77)</sentence>
+			<sentence id="6.26">	at org.jboss.ejb3.security.Ejb3AuthenticationInterceptor.invoke(Ejb3AuthenticationInterceptor.java:110)</sentence>
+			<sentence id="6.27">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.28">	at org.jboss.ejb3.ENCPropagationInterceptor.invoke(ENCPropagationInterceptor.java:46)</sentence>
+			<sentence id="6.29">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.30">	at org.jboss.ejb3.asynchronous.AsynchronousInterceptor.invoke(AsynchronousInterceptor.java:106)</sentence>
+			<sentence id="6.31">	at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+			<sentence id="6.32">	at org.jboss.ejb3.stateless.StatelessContainer.localInvoke(StatelessContainer.java:240)</sentence>
+			<sentence id="6.33">	at org.jboss.ejb3.stateless.StatelessContainer.localInvoke(StatelessContainer.java:210)</sentence>
+			<sentence id="6.34">	at org.jboss.ejb3.stateless.StatelessLocalProxy.invoke(StatelessLocalProxy.java:84)</sentence>
+			<sentence id="6.35">	at $Proxy209.update(Unknown Source)</sentence>
+			<sentence id="6.36">	... 57 more</sentence>
+			<sentence id="6.37">Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class</sentence>
+			<sentence id="6.38">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="6.39">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="6.40">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="6.41">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="6.42">	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.get(BasicPropertyAccessor.java:145)</sentence>
+			<sentence id="6.43">	at org.hibernate.tuple.entity.AbstractEntityTuplizer.getIdentifier(AbstractEntityTuplizer.java:183)</sentence>
+			<sentence id="6.44">	at org.hibernate.persister.entity.AbstractEntityPersister.getIdentifier(AbstractEntityPersister.java:3596)</sentence>
+			<sentence id="6.45">	at org.hibernate.persister.entity.AbstractEntityPersister.isTransient(AbstractEntityPersister.java:3312)</sentence>
+			<sentence id="6.46">	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:181)</sentence>
+			<sentence id="6.47">	at org.hibernate.engine.ForeignKeys.getEntityIdentifierIfNotUnsaved(ForeignKeys.java:218)</sentence>
+			<sentence id="6.48">	at org.hibernate.type.EntityType.getIdentifier(EntityType.java:397)</sentence>
+			<sentence id="6.49">	at org.hibernate.type.EntityType.replace(EntityType.java:253)</sentence>
+			<sentence id="6.50">	at org.hibernate.type.MapType.replaceElements(MapType.java:73)</sentence>
+			<sentence id="6.51">	at org.hibernate.type.CollectionType.replace(CollectionType.java:552)</sentence>
+			<sentence id="6.52">	at org.hibernate.type.TypeFactory.replace(TypeFactory.java:482)</sentence>
+			<sentence id="6.53">	at org.hibernate.event.def.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:340)</sentence>
+			<sentence id="6.54">	at org.hibernate.event.def.DefaultMergeEventListener.entityIsPersistent(DefaultMergeEventListener.java:153)</sentence>
+			<sentence id="6.55">	at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:126)</sentence>
+			<sentence id="6.56">	at org.hibernate.impl.SessionImpl.fireMerge(SessionImpl.java:687)</sentence>
+			<sentence id="6.57">	at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:669)</sentence>
+			<sentence id="6.58">	at org.hibernate.engine.CascadingAction$6.cascade(CascadingAction.java:245)</sentence>
+			<sentence id="6.59">	at org.hibernate.engine.Cascade.cascadeToOne(Cascade.java:268)</sentence>
+			<sentence id="6.60">	at org.hibernate.engine.Cascade.cascadeAssociation(Cascade.java:216)</sentence>
+			<sentence id="6.61">	at org.hibernate.engine.Cascade.cascadeProperty(Cascade.java:169)</sentence>
+			<sentence id="6.62">	at org.hibernate.engine.Cascade.cascade(Cascade.java:130)</sentence>
+			<sentence id="6.63">	at org.hibernate.event.def.DefaultMergeEventListener.cascadeOnMerge(DefaultMergeEventListener.java:407)</sentence>
+			<sentence id="6.64">	at org.hibernate.event.def.DefaultMergeEventListener.entityIsPersistent(DefaultMergeEventListener.java:152)</sentence>
+			<sentence id="6.65">	at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:126)</sentence>
+			<sentence id="6.66">	at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:53)</sentence>
+			<sentence id="6.67">	at org.hibernate.impl.SessionImpl.fireMerge(SessionImpl.java:677)</sentence>
+			<sentence id="6.68">	at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:661)</sentence>
+			<sentence id="6.69">	at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:665)</sentence>
+			<sentence id="6.70">	at org.hibernate.ejb.AbstractEntityManagerImpl.merge(AbstractEntityManagerImpl.java:227)</sentence>
+			<sentence id="6.71">	at org.jboss.ejb3.entity.TransactionScopedEntityManager.merge(TransactionScopedEntityManager.java:188)</sentence>
+			<sentence id="6.72">	... 91 more</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I have tried to follow the code at runtime, it looks like the Color identifier idColor is correctly recognized, but at a given point the java.lang.Long is treated like an Entity and the exception comes from the invoking getIdentifier() over the java.lang.Long instance!</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Here, in my opinion, could be the wrong line in org.hibernate.type.MapType.replaceElements(...) :</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Object key = cp.getIndexType().</sentence>
+			<sentence id="9.2">replace( me.getKey(), null, session, owner, copyCache );</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">me.getKey() passes the java.lang.Long identifier to the CollectionPersister, which treats it like an Entity causing the exception.</sentence>
+		</paragraph>
+	</description>
+</bug>

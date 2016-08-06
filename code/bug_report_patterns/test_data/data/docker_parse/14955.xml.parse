@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>14955</id>
+	<title>[attach] invalid memory address or nil pointer</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+			<sentence id="1.2">I met an error in my production server. </sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="1.3">That's what I see in logs:</sentence>
+			<sentence id="1.4">```</sentence>
+			<sentence id="1.5">INFO[0043] POST /v1.14/images/create?fromImage=registry.ape.yandex.net/v012-karma</sentence>
+			<sentence id="1.6">INFO[0044] POST /v1.14/containers/create</sentence>
+			<sentence id="1.7">INFO[0045] POST /v1.14/containers/aab41d6607f035dc3a1aa4991625643ed0f32f3bf669b5104b4f4c04f6f11379/start</sentence>
+			<sentence id="1.8">INFO[0046] POST /v1.14/containers/aab41d6607f035dc3a1aa4991625643ed0f32f3bf669b5104b4f4c04f6f11379/attach?logs=1&amp;stream=1&amp;stdout=1&amp;stderr=1</sentence>
+			<sentence id="1.9">2015/07/24 15:51:04 http: panic serving @: runtime error: invalid memory address or nil pointer dereference</sentence>
+			<sentence id="1.10">goroutine 702 [running]:</sentence>
+			<sentence id="1.11">net/http.func&#xB7;011()</sentence>
+			<sentence id="1.12">	/usr/local/go/src/net/http/server.go:1130 +0xbb</sentence>
+			<sentence id="1.13">github.com/docker/docker/daemon.(*Container).AttachWithLogs(0xc2081cf0e0, 0x0, 0x0, 0x7f41ccd2fa60, 0xc208211110, 0x7f41ccd2fa60, 0xc2082110e0, 0x101, 0x0, 0x0)</sentence>
+			<sentence id="1.14">	/go/src/github.com/docker/docker/daemon/container.go:844 +0xc2</sentence>
+			<sentence id="1.15">github.com/docker/docker/daemon.(*Daemon).ContainerAttachWithLogs(0xc208058d20, 0xc2081cf0e0, 0xc2082110b0, 0x0, 0x0)</sentence>
+			<sentence id="1.16">	/go/src/github.com/docker/docker/daemon/attach.go:40 +0x42f</sentence>
+			<sentence id="1.17">github.com/docker/docker/api/server.(*Server).postContainersAttach(0xc208036540, 0xc2082a2877, 0x4, 0x7f41ccd24370, 0xc20839a780, 0xc20856bba0, 0xc208210ea0, 0x0, 0x0)</sentence>
+			<sentence id="1.18">	/go/src/github.com/docker/docker/api/server/server.go:1132 +0x614</sentence>
+			<sentence id="1.19">github.com/docker/docker/api/server.*Server.(github.com/docker/docker/api/server.postContainersAttach)&#xB7;fm(0xc2082a2877, 0x4, 0x7f41ccd24370, 0xc20839a780, 0xc20856bba0, 0xc208210ea0, 0x0, 0x0)</sentence>
+			<sentence id="1.20">	/go/src/github.com/docker/docker/api/server/server.go:1554 +0x7b</sentence>
+			<sentence id="1.21">github.com/docker/docker/api/server.func&#xB7;008(0x7f41ccd24370, 0xc20839a780, 0xc20856bba0)</sentence>
+			<sentence id="1.22">	/go/src/github.com/docker/docker/api/server/server.go:1501 +0xacd</sentence>
+			<sentence id="1.23">net/http.HandlerFunc.ServeHTTP(0xc208093700, 0x7f41ccd24370, 0xc20839a780, 0xc20856bba0)</sentence>
+			<sentence id="1.24">	/usr/local/go/src/net/http/server.go:1265 +0x41</sentence>
+			<sentence id="1.25">github.com/gorilla/mux.(*Router).ServeHTTP(0xc2080fb1d0, 0x7f41ccd24370, 0xc20839a780, 0xc20856bba0)</sentence>
+			<sentence id="1.26">	/go/src/github.com/docker/docker/vendor/src/github.com/gorilla/mux/mux.go:98 +0x297</sentence>
+			<sentence id="1.27">net/http.serverHandler.ServeHTTP(0xc2081ddce0, 0x7f41ccd24370, 0xc20839a780, 0xc20856bba0)</sentence>
+			<sentence id="1.28">	/usr/local/go/src/net/http/server.go:1703 +0x19a</sentence>
+			<sentence id="1.29">net/http.(*conn).serve(0xc20839a6e0)</sentence>
+			<sentence id="1.30">	/usr/local/go/src/net/http/server.go:1204 +0xb57</sentence>
+			<sentence id="1.31">created by net/http.(*Server).Serve</sentence>
+			<sentence id="1.32">	/usr/local/go/src/net/http/server.go:1751 +0x35e</sentence>
+			<sentence id="1.33">INFO[0047] POST /v1.14/containers/create</sentence>
+			<sentence id="1.34">```</sentence>
+			<sentence id="1.35">```</sentence>
+			<sentence id="1.36">sudo docker version</sentence>
+			<sentence id="1.37">Client version: 1.7.1</sentence>
+			<sentence id="1.38">Client API version: 1.19</sentence>
+			<sentence id="1.39">Go version (client): go1.4.2</sentence>
+			<sentence id="1.40">Git commit (client): 786b29d</sentence>
+			<sentence id="1.41">OS/Arch (client): linux/amd64</sentence>
+			<sentence id="1.42">Server version: 1.7.1</sentence>
+			<sentence id="1.43">Server API version: 1.19</sentence>
+			<sentence id="1.44">Go version (server): go1.4.2</sentence>
+			<sentence id="1.45">Git commit (server): 786b29d</sentence>
+			<sentence id="1.46">OS/Arch (server): linux/amd64</sentence>
+			<sentence id="1.47">```</sentence>
+		</paragraph>
+	</description>
+</bug>

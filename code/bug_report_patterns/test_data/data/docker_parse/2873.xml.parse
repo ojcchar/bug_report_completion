@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2873</id>
+	<title>Docker 0.7.0 can't create container</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Use release docker-0.7.0
+My kernel doesn't support aufs.</sentence>
+			<sentence id="1.2">```
+$ id uid=500(slava) gid=500(slava) &#x433;&#x440;&#x443;&#x43F;&#x43F;&#x44B;=500(slava),6(disk),10(wheel),14(uucp),19(proc),22(cdrom),71(floppy),80(cdwriter),81(audio),83(radio),446(docker),459(vmusers),462(hashman),463(vboxusers),474(video),494(camera),498(xgrp),499(scanner),501(slava_a),502(slava_b)
+```
+```
+$ docker run -t -i centos /bin/bash
+panic: permission denied</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">goroutine 1 [running]:
+github.com/dotcloud/docker/sysinit.executeProgram(0x7fff882fdfd3, 0x9, 0xc20007b040, 0x1, 0x1, ...)
+ /usr/src/RPM/BUILD/docker-io-0.7/_build/src/github.</sentence>
+			<sentence id="2.2">com/dotcloud/docker/sysinit/sysinit.</sentence>
+			<sentence id="2.3">go:102 +0x1b2
+github.com/dotcloud/docker/sysinit.SysInit()
+ /usr/src/RPM/BUILD/docker-io-0.7/_build/src/github.</sentence>
+			<sentence id="2.4">com/dotcloud/docker/sysinit/sysinit.</sentence>
+			<sentence id="2.5">go:124 +0x243
+main.main()
+ /usr/src/RPM/BUILD/docker-io-0.7/_build/src/github.</sentence>
+			<sentence id="2.6">com/dotcloud/docker/dockerinit/dockerinit.</sentence>
+			<sentence id="2.7">go:14 +0x18</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">goroutine 2 [runnable]:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">goroutine 3 [runnable]:
+os/signal.</sentence>
+			<sentence id="4.2">loop()
+ /usr/lib64/golang/src/pkg/os/signal/signal_unix.go:19
+created by os/signal.</sentence>
+			<sentence id="4.3">init&#xB7;1
+ /usr/lib64/golang/src/pkg/os/signal/signal_unix.go:27 +0x2f
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Server's log:</sentence>
+			<sentence id="5.2">```</sentence>
+			<sentence id="5.3">[root@dubrwork docker]# docker -D -b="breth1" -d</sentence>
+			<sentence id="5.4">[/var/lib/docker|e7aab4bf] +job initapi()</sentence>
+			<sentence id="5.5">[/var/lib/docker|e7aab4bf.initapi()] Creating server</sentence>
+			<sentence id="5.6">[debug] runtime.go:638 Using graph driver aufs</sentence>
+			<sentence id="5.7">[DEBUG] [iptables]: /sbin/iptables, [-D FORWARD -i breth1 -o breth1 -j DROP]</sentence>
+			<sentence id="5.8">[DEBUG] [iptables]: /sbin/iptables, [-C FORWARD -i breth1 -o breth1 -j ACCEPT]</sentence>
+			<sentence id="5.9">[DEBUG] [iptables]: /sbin/iptables, [-t nat -D PREROUTING -m addrtype --dst-type LOCAL -j DOCKER]</sentence>
+			<sentence id="5.10">[DEBUG] [iptables]: /sbin/iptables, [-t nat -D OUTPUT -m addrtype --dst-type LOCAL ! --dst 127.0.0.0/8 -j DOCKER]</sentence>
+			<sentence id="5.11">[DEBUG] [iptables]: /sbin/iptables, [-t nat -D OUTPUT -m addrtype --dst-type LOCAL -j DOCKER]</sentence>
+			<sentence id="5.12">[DEBUG] [iptables]: /sbin/iptables, [-t nat -D PREROUTING -j DOCKER]</sentence>
+			<sentence id="5.13">[DEBUG] [iptables]: /sbin/iptables, [-t nat -D OUTPUT -j DOCKER]</sentence>
+			<sentence id="5.14">[DEBUG] [iptables]: /sbin/iptables, [-t nat -F DOCKER]</sentence>
+			<sentence id="5.15">[DEBUG] [iptables]: /sbin/iptables, [-t nat -X DOCKER]</sentence>
+			<sentence id="5.16">[DEBUG] [iptables]: /sbin/iptables, [-t nat -N DOCKER]</sentence>
+			<sentence id="5.17">[DEBUG] [iptables]: /sbin/iptables, [-t nat -A PREROUTING -m addrtype --dst-type LOCAL -j DOCKER]</sentence>
+			<sentence id="5.18">[DEBUG] [iptables]: /sbin/iptables, [-t nat -A OUTPUT -m addrtype --dst-type LOCAL ! --dst 127.0.0.0/8 -j DOCKER]</sentence>
+			<sentence id="5.19">2013/11/26 13:17:34 WARNING: Your kernel does not support cgroup swap limit.</sentence>
+			<sentence id="5.20">[debug] runtime.go:351 /sys/kernel/security/apparmor not found; assuming AppArmor is not enabled.</sentence>
+			<sentence id="5.21">[/var/lib/docker|e7aab4bf.initapi()] Creating pidfile</sentence>
+			<sentence id="5.22">[/var/lib/docker|e7aab4bf.initapi()] Setting up signal traps</sentence>
+			<sentence id="5.23">[/var/lib/docker|e7aab4bf] Register(create) (handlers=map[initapi:0x492150])</sentence>
+			<sentence id="5.24">[/var/lib/docker|e7aab4bf] Register(start) (handlers=map[initapi:0x492150 create:0x4afeb0])</sentence>
+			<sentence id="5.25">[/var/lib/docker|e7aab4bf] Register(serveapi) (handlers=map[initapi:0x492150 create:0x4afeb0 start:0x4aff10])</sentence>
+			<sentence id="5.26">[/var/lib/docker|e7aab4bf] -job initapi() = OK (0)</sentence>
+			<sentence id="5.27">[/var/lib/docker|e7aab4bf] +job serveapi(unix:///var/run/docker.sock)</sentence>
+			<sentence id="5.28">2013/11/26 13:17:34 Listening for HTTP on /var/run/docker.sock (unix)</sentence>
+			<sentence id="5.29">[debug] api.go:1092 Registering GET, /events</sentence>
+			<sentence id="5.30">[debug] api.go:1092 Registering GET, /info</sentence>
+			<sentence id="5.31">[debug] api.go:1092 Registering GET, /containers/json</sentence>
+			<sentence id="5.32">[debug] api.go:1092 Registering GET, /containers/{name:.*}/json</sentence>
+			<sentence id="5.33">[debug] api.go:1092 Registering GET, /version</sentence>
+			<sentence id="5.34">[debug] api.go:1092 Registering GET, /images/json</sentence>
+			<sentence id="5.35">[debug] api.go:1092 Registering GET, /images/{name:.*}/history</sentence>
+			<sentence id="5.36">[debug] api.go:1092 Registering GET, /containers/ps</sentence>
+			<sentence id="5.37">[debug] api.go:1092 Registering GET, /containers/{name:.*}/changes</sentence>
+			<sentence id="5.38">[debug] api.go:1092 Registering GET, /containers/{name:.*}/top</sentence>
+			<sentence id="5.39">[debug] api.go:1092 Registering GET, /images/{name:.*}/get</sentence>
+			<sentence id="5.40">[debug] api.go:1092 Registering GET, /containers/{name:.*}/export</sentence>
+			<sentence id="5.41">[debug] api.go:1092 Registering GET, /images/viz</sentence>
+			<sentence id="5.42">[debug] api.go:1092 Registering GET, /images/search</sentence>
+			<sentence id="5.43">[debug] api.go:1092 Registering GET, /images/{name:.*}/json</sentence>
+			<sentence id="5.44">[debug] api.go:1092 Registering GET, /containers/{name:.*}/attach/ws</sentence>
+			<sentence id="5.45">[debug] api.go:1092 Registering POST, /build</sentence>
+			<sentence id="5.46">[debug] api.go:1092 Registering POST, /containers/create</sentence>
+			<sentence id="5.47">[debug] api.go:1092 Registering POST, /containers/{name:.*}/restart</sentence>
+			<sentence id="5.48">[debug] api.go:1092 Registering POST, /containers/{name:.*}/wait</sentence>
+			<sentence id="5.49">[debug] api.go:1092 Registering POST, /containers/{name:.*}/attach</sentence>
+			<sentence id="5.50">[debug] api.go:1092 Registering POST, /containers/{name:.*}/copy</sentence>
+			<sentence id="5.51">[debug] api.go:1092 Registering POST, /auth</sentence>
+			<sentence id="5.52">[debug] api.go:1092 Registering POST, /commit</sentence>
+			<sentence id="5.53">[debug] api.go:1092 Registering POST, /images/{name:.*}/insert</sentence>
+			<sentence id="5.54">[debug] api.go:1092 Registering POST, /images/{name:.*}/push</sentence>
+			<sentence id="5.55">[debug] api.go:1092 Registering POST, /containers/{name:.*}/kill</sentence>
+			<sentence id="5.56">[debug] api.go:1092 Registering POST, /containers/{name:.*}/stop</sentence>
+			<sentence id="5.57">[debug] api.go:1092 Registering POST, /containers/{name:.*}/resize</sentence>
+			<sentence id="5.58">[debug] api.go:1092 Registering POST, /images/create</sentence>
+			<sentence id="5.59">[debug] api.go:1092 Registering POST, /images/load</sentence>
+			<sentence id="5.60">[debug] api.go:1092 Registering POST, /images/{name:.*}/tag</sentence>
+			<sentence id="5.61">[debug] api.go:1092 Registering POST, /containers/{name:.*}/start</sentence>
+			<sentence id="5.62">[debug] api.go:1092 Registering DELETE, /containers/{name:.*}</sentence>
+			<sentence id="5.63">[debug] api.go:1092 Registering DELETE, /images/{name:.*}</sentence>
+			<sentence id="5.64">[debug] api.go:1092 Registering OPTIONS, </sentence>
+			<sentence id="5.65">[debug] api.go:1154 docker group found. gid: 446</sentence>
+			<sentence id="5.66">[debug] api.go:1008 Calling POST /containers/create</sentence>
+			<sentence id="5.67">2013/11/26 13:18:02 POST /v1.7/containers/create</sentence>
+			<sentence id="5.68">[/var/lib/docker|e7aab4bf] +job create()</sentence>
+			<sentence id="5.69">[/var/lib/docker|e7aab4bf] -job create() = ERR (No such image: centos (tag: latest))</sentence>
+			<sentence id="5.70">[error] api.go:1034 Error: create: No such image: centos (tag: latest)</sentence>
+			<sentence id="5.71">[error] api.go:82 HTTP Error: statusCode=404 create: No such image: centos (tag: latest)</sentence>
+			<sentence id="5.72">[debug] api.go:1008 Calling POST /images/create</sentence>
+			<sentence id="5.73">2013/11/26 13:18:02 POST /v1.7/images/create?fromImage=centos&amp;tag=</sentence>
+			<sentence id="5.74">[debug] registry.go:294 [registry] Calling GET https://index.docker.io/v1/repositories/centos/images</sentence>
+			<sentence id="5.75">[debug] server.go:819 Retrieving the tag list</sentence>
+			<sentence id="5.76">[debug] registry.go:269 Got status code 200 from https://cdn-registry-1.docker.io/v1/repositories/library/centos/tags</sentence>
+			<sentence id="5.77">[debug] server.go:834 Registering tags</sentence>
+			<sentence id="5.78">[debug] registry.go:179 Ancestry: [</sentence>
+			<sentence id="5.79"> "539c0211cd76cdeaedbecf9f023ef774612e331137ce7ebe4ae1b61088e7edbe"</sentence>
+			<sentence id="5.80">]</sentence>
+			<sentence id="5.81">[debug] image.go:275 Json string: {{"comment": "Imported from -", "container_config": {"Tty": false, "Cmd": null, "MemorySwap": 0, "Image": "", "Hostname": "", "User": "", "Env": null, "Memory": 0, "Detach": false, "Ports": null, "OpenStdin": false}, "id": "539c0211cd76cdeaedbecf9f023ef774612e331137ce7ebe4ae1b61088e7edbe", "created": "2013-04-01T01:20:58.331937915-07:00"}}</sentence>
+			<sentence id="5.82">[debug] archive.go:186 [tar autodetect] n: 10</sentence>
+			<sentence id="5.83">[debug] archive.go:191 Archive compression detected: tar.gz</sentence>
+			<sentence id="5.84">[debug] api.go:1008 Calling POST /containers/create</sentence>
+			<sentence id="5.85">2013/11/26 13:18:21 POST /v1.7/containers/create</sentence>
+			<sentence id="5.86">[/var/lib/docker|e7aab4bf] +job create()</sentence>
+			<sentence id="5.87">fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab</sentence>
+			<sentence id="5.88">[/var/lib/docker|e7aab4bf] -job create() = OK (0)</sentence>
+			<sentence id="5.89">[debug] api.go:1008 Calling POST /containers/{name:.*}/attach</sentence>
+			<sentence id="5.90">2013/11/26 13:18:22 POST /v1.7/containers/fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab/attach?stderr=1&amp;stdin=1&amp;stdout=1&amp;stream=1</sentence>
+			<sentence id="5.91">[debug] container.go:372 attach: stdin: begin</sentence>
+			<sentence id="5.92">[debug] container.go:407 attach: stdout: begin</sentence>
+			<sentence id="5.93">[debug] container.go:445 attach: stderr: begin</sentence>
+			<sentence id="5.94">[debug] container.go:488 attach: waiting for job 1/3</sentence>
+			<sentence id="5.95">[debug] api.go:1008 Calling POST /containers/{name:.*}/start</sentence>
+			<sentence id="5.96">2013/11/26 13:18:22 POST /v1.7/containers/fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab/start</sentence>
+			<sentence id="5.97">[/var/lib/docker|e7aab4bf] +job start(fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab)</sentence>
+			<sentence id="5.98">[debug] container.go:320 startPty: begin of stdout pipe</sentence>
+			<sentence id="5.99">[debug] container.go:331 startPty: begin of stdin pipe</sentence>
+			<sentence id="5.100">[debug] container.go:1083 monitor: waiting for container fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab using cmd.Wait</sentence>
+			<sentence id="5.101">[debug] container.go:505 Container running: true</sentence>
+			<sentence id="5.102">[/var/lib/docker|e7aab4bf] -job start(fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab) = OK (0)</sentence>
+			<sentence id="5.103">[debug] api.go:1008 Calling POST /containers/{name:.*}/resize</sentence>
+			<sentence id="5.104">2013/11/26 13:18:22 POST /v1.7/containers/fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab/resize?h=68&amp;w=270</sentence>
+			<sentence id="5.105">[debug] container.go:322 startPty: end of stdout pipe</sentence>
+			<sentence id="5.106">[debug] container.go:423 attach: stdout: end</sentence>
+			<sentence id="5.107">[debug] container.go:493 attach: job 1 completed successfully</sentence>
+			<sentence id="5.108">[debug] container.go:488 attach: waiting for job 2/3</sentence>
+			<sentence id="5.109">[debug] server.go:1767 Closing buffered stdin pipe</sentence>
+			<sentence id="5.110">[debug] container.go:396 attach: stdin: end</sentence>
+			<sentence id="5.111">[debug] container.go:493 attach: job 2 completed successfully</sentence>
+			<sentence id="5.112">[debug] container.go:488 attach: waiting for job 3/3</sentence>
+			<sentence id="5.113">[debug] container.go:461 attach: stderr: end</sentence>
+			<sentence id="5.114">[debug] container.go:493 attach: job 3 completed successfully</sentence>
+			<sentence id="5.115">[debug] container.go:495 attach: all jobs completed successfully</sentence>
+			<sentence id="5.116">[debug] container.go:1087 monitor: cmd.Wait reported exit status exit status 2 for container fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab</sentence>
+			<sentence id="5.117">[debug] container.go:1090 monitor: container fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab finished</sentence>
+			<sentence id="5.118">[debug] container.go:333 startPty: end of stdin pipe</sentence>
+			<sentence id="5.119">[debug] api.go:1008 Calling GET /containers/{name:.*}/json</sentence>
+			<sentence id="5.120">2013/11/26 13:18:22 GET /v1.7/containers/fcc6b196fe26c89c2588d6b1989adc101fa1237aac78d102ed1cf0e0a66f38ab/json</sentence>
+			<sentence id="5.121">```</sentence>
+		</paragraph>
+	</description>
+</bug>

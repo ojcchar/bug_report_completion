@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5021</id>
+	<title>HQL for one-to-one associations is not fully bi-directional</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Let's assume we have two entities A and B mapped to each other with a bi-directional one-to-one association.</sentence>
+			<sentence id="1.2">Let A.b and B.a are appropriate linked attributes, and A owns the association.</sentence>
+			<sentence id="1.3">Let's try the following HQL queries:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">1 from A where b is null</sentence>
+			<sentence id="2.2">2 from B where a is null</sentence>
+			<sentence id="2.3">3 from B where a.b is null</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Query 1 works correctly.</sentence>
+			<sentence id="3.2">Query 2 produces a wrong SQL expression.</sentence>
+			<sentence id="3.3">Query 3 works, though produces a redundant SQL query.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">My opinion is that query 2 should also be valid.</sentence>
+		</paragraph>
+	</description>
+</bug>

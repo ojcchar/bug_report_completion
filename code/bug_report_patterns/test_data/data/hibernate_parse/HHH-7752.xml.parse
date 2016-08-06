@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-7752</id>
+	<title>SQLServer2008Dialect doesn't support @Formula field containing subselects</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Here is my entity :</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}
+@Entity
+@Table(name = "FOLDER")
+public class Folder {
+  @Id
+  @Column(name = "ID")
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  private Integer id;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">@Formula("(select case when c.TYPE = 'M' then isnull(c.FIRSTNAME + ' ', '') + c.LASTNAME end" +
+    " from CONTACT c where c.ID_FOLDER = ID")
+  private String masterContact</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">// getters / setters
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Using SQLServer2008Dialect, if I want that EJBQL query executed : "select count(distinct folder) from Folder folder", the generated query is :</sentence>
+			<sentence id="5.2">{code}</sentence>
+			<sentence id="5.3">WITH query AS (select</sentence>
+			<sentence id="5.4">count(folder0_.</sentence>
+			<sentence id="5.5">id) as col_0_0_,</sentence>
+			<sentence id="5.6">ROW_NUMBER() OVER (</sentence>
+			<sentence id="5.7">ORDER BY</sentence>
+			<sentence id="5.8">CURRENT_TIMESTAMP) as __hibernate_row_nr__</sentence>
+			<sentence id="5.9">from</sentence>
+			<sentence id="5.10">folder folder0_</sentence>
+			<sentence id="5.11">group by</sentence>
+			<sentence id="5.12">count(folder0_.</sentence>
+			<sentence id="5.13">id)) SELECT</sentence>
+			<sentence id="5.14">*</sentence>
+			<sentence id="5.15">FROM</sentence>
+			<sentence id="5.16">query</sentence>
+			<sentence id="5.17">WHERE</sentence>
+			<sentence id="5.18">__hibernate_row_nr__ &gt;= ?</sentence>
+			<sentence id="5.19">AND __hibernate_row_nr__ &lt; ?</sentence>
+			<sentence id="5.20">{code}</sentence>
+			<sentence id="5.21">which will throw the SQLServerException #144 "Cannot use an aggregate or a subquery in an expression used for the group by list of a GROUP BY clause".</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">So I applied the patched proposed by HHH-6627.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">It then generates the good count method.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I now wanted to execute the following EJBQL query : "select folder from Folder folder order by folder.id" and here is the SQL query generated :</sentence>
+			<sentence id="8.2">{code}</sentence>
+			<sentence id="8.3">WITH query AS (select</sentence>
+			<sentence id="8.4">folder0_.</sentence>
+			<sentence id="8.5">id as id1_62_,</sentence>
+			<sentence id="8.6">(select</sentence>
+			<sentence id="8.7">case</sentence>
+			<sentence id="8.8">when c.TYPE = 'M' then isnull(c.FIRSTNAME + ' ', '') + c.LASTNAME</sentence>
+			<sentence id="8.9">end,</sentence>
+			<sentence id="8.10">ROW_NUMBER() OVER (</sentence>
+			<sentence id="8.11">order by</sentence>
+			<sentence id="8.12">folder0_.</sentence>
+			<sentence id="8.13">id asc) as __hibernate_row_nr__</sentence>
+			<sentence id="8.14">from</sentence>
+			<sentence id="8.15">contact c</sentence>
+			<sentence id="8.16">where</sentence>
+			<sentence id="8.17">c.id_folder = folder0_.</sentence>
+			<sentence id="8.18">id) as formula0_</sentence>
+			<sentence id="8.19">from</sentence>
+			<sentence id="8.20">folder folder0_ ) SELECT</sentence>
+			<sentence id="8.21">*</sentence>
+			<sentence id="8.22">FROM</sentence>
+			<sentence id="8.23">query</sentence>
+			<sentence id="8.24">WHERE</sentence>
+			<sentence id="8.25">__hibernate_row_nr__ &gt;= ?</sentence>
+			<sentence id="8.26">AND __hibernate_row_nr__ &lt; ?</sentence>
+			<sentence id="8.27">{code}</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Which will throw the SQLServerException #116 "Only one expression can be specified in the select list when the subquery is not introduced with EXISTS."</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">So I implemented myself the "insertRowNumberFunction" by replacing the {{sql.indexOf( FROM );}} with {{sql.lastIndexOf( FROM );}}.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Now the SQL generated query was :</sentence>
+			<sentence id="11.2">{code}</sentence>
+			<sentence id="11.3">WITH query AS (select</sentence>
+			<sentence id="11.4">folder0_.</sentence>
+			<sentence id="11.5">id as id1_62_,</sentence>
+			<sentence id="11.6">(select</sentence>
+			<sentence id="11.7">case</sentence>
+			<sentence id="11.8">when c.TYPE = 'M' then isnull(c.FIRSTNAME + ' ', '') + c.LASTNAME</sentence>
+			<sentence id="11.9">end</sentence>
+			<sentence id="11.10">from</sentence>
+			<sentence id="11.11">contact c</sentence>
+			<sentence id="11.12">where</sentence>
+			<sentence id="11.13">c.id_folder = folder0_.</sentence>
+			<sentence id="11.14">id) as formula0_,</sentence>
+			<sentence id="11.15">ROW_NUMBER() OVER (</sentence>
+			<sentence id="11.16">order by</sentence>
+			<sentence id="11.17">folder0_.</sentence>
+			<sentence id="11.18">id asc) as __hibernate_row_nr__</sentence>
+			<sentence id="11.19">from</sentence>
+			<sentence id="11.20">folder folder0_ ) SELECT</sentence>
+			<sentence id="11.21">*</sentence>
+			<sentence id="11.22">FROM</sentence>
+			<sentence id="11.23">query</sentence>
+			<sentence id="11.24">WHERE</sentence>
+			<sentence id="11.25">__hibernate_row_nr__ &gt;= ?</sentence>
+			<sentence id="11.26">AND __hibernate_row_nr__ &lt; ?</sentence>
+			<sentence id="11.27">{code}</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">But the results are not necessarily ordered by folder.id ...</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">I'm on SQLServer 2008 R2.</sentence>
+		</paragraph>
+	</description>
+</bug>

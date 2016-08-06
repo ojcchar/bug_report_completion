@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5894</id>
+	<title>[ENVERS] Loading collections from envers entity fails due to QueryException</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When I'm trying to load a collection from an envers entity it fails due to an incorrect HQL query:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Caused by: org.hibernate.QueryException: could not resolve property: domein_id of: nl.protopics.zwip.model.gvo.Faq_AUD [select e from nl.protopics.zwip.model.gvo.Faq_AUD e where e.domein_id = :domein_id and e.originalId.REV.id = (select max(e2.originalId.REV.id) from nl.protopics.zwip.model.gvo.Faq_AUD e2 where e2.originalId.REV.id &lt;= :revision and e.originalId.id = e2.originalId.id) and REVTYPE != :delrevisiontype]</sentence>
+			<sentence id="2.2">	at org.hibernate.persister.entity.AbstractPropertyMapping.propertyException(AbstractPropertyMapping.java:81)</sentence>
+			<sentence id="2.3">	at org.hibernate.persister.entity.AbstractPropertyMapping.toType(AbstractPropertyMapping.java:75)</sentence>
+			<sentence id="2.4">	at org.hibernate.persister.entity.AbstractEntityPersister.toType(AbstractEntityPersister.java:1465)</sentence>
+			<sentence id="2.5">	at org.hibernate.hql.ast.tree.FromElementType.getPropertyType(FromElementType.java:315)</sentence>
+			<sentence id="2.6">	at org.hibernate.hql.ast.tree.FromElement.getPropertyType(FromElement.java:487)</sentence>
+			<sentence id="2.7">	at org.hibernate.hql.ast.tree.DotNode.getDataType(DotNode.java:611)</sentence>
+			<sentence id="2.8">	at org.hibernate.hql.ast.tree.DotNode.prepareLhs(DotNode.java:263)</sentence>
+			<sentence id="2.9">	at org.hibernate.hql.ast.tree.DotNode.resolve(DotNode.java:210)</sentence>
+			<sentence id="2.10">	at org.hibernate.hql.ast.tree.FromReferenceNode.resolve(FromReferenceNode.java:117)</sentence>
+			<sentence id="2.11">	at org.hibernate.hql.ast.tree.FromReferenceNode.resolve(FromReferenceNode.java:113)</sentence>
+			<sentence id="2.12">	at org.hibernate.hql.ast.HqlSqlWalker.resolve(HqlSqlWalker.java:880)</sentence>
+			<sentence id="2.13">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.expr(HqlSqlBaseWalker.java:1330)</sentence>
+			<sentence id="2.14">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.exprOrSubquery(HqlSqlBaseWalker.java:4471)</sentence>
+			<sentence id="2.15">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.comparisonExpr(HqlSqlBaseWalker.java:3944)</sentence>
+			<sentence id="2.16">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.logicalExpr(HqlSqlBaseWalker.java:2047)</sentence>
+			<sentence id="2.17">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.logicalExpr(HqlSqlBaseWalker.java:1972)</sentence>
+			<sentence id="2.18">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.logicalExpr(HqlSqlBaseWalker.java:1972)</sentence>
+			<sentence id="2.19">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.whereClause(HqlSqlBaseWalker.java:831)</sentence>
+			<sentence id="2.20">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:617)</sentence>
+			<sentence id="2.21">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:301)</sentence>
+			<sentence id="2.22">	at org.hibernate.hql.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:244)</sentence>
+			<sentence id="2.23">	at org.hibernate.hql.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:254)</sentence>
+			<sentence id="2.24">	at org.hibernate.hql.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:185)</sentence>
+			<sentence id="2.25">	at org.hibernate.hql.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:136)</sentence>
+			<sentence id="2.26">	at org.hibernate.engine.query.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:101)</sentence>
+			<sentence id="2.27">	at org.hibernate.engine.query.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:80)</sentence>
+			<sentence id="2.28">	at org.hibernate.engine.query.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:124)</sentence>
+			<sentence id="2.29">	at org.hibernate.impl.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:156)</sentence>
+			<sentence id="2.30">	at org.hibernate.impl.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:135)</sentence>
+			<sentence id="2.31">	at org.hibernate.impl.SessionImpl.createQuery(SessionImpl.java:1770)</sentence>
+			<sentence id="2.32">	at org.hibernate.envers.entities.mapper.relation.query.OneAuditEntityQueryGenerator.getQuery(OneAuditEntityQueryGenerator.java:99)</sentence>
+			<sentence id="2.33">	at org.hibernate.envers.entities.mapper.relation.lazy.initializor.AbstractCollectionInitializor.initialize(AbstractCollectionInitializor.java:62)</sentence>
+			<sentence id="2.34">	at org.hibernate.envers.entities.mapper.relation.lazy.proxy.CollectionProxy.checkInit(CollectionProxy.java:50)</sentence>
+			<sentence id="2.35">	at org.hibernate.envers.entities.mapper.relation.lazy.proxy.CollectionProxy.iterator(CollectionProxy.java:70)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">mappings:
+Domein class, from where I call getFaqs()
+@OneToMany(cascade = CascadeType.ALL, mappedBy = "domein")
+private List&lt;Faq&gt; faqs = new ArrayList&lt;Faq&gt;();</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Faq mapping:
+@ManyToOne
+private Domein domein;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Works fine with 3.6.0.</sentence>
+		</paragraph>
+	</description>
+</bug>

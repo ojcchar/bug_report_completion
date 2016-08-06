@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2152</id>
+	<title>'run' fails, if volume's target path contains a symlink0.8.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When the target path of a volume contains a symlink, 'docker run' will fail:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">**Fail:**</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">docker -D run -i -t -v /var/run/something lopter/raring-base /bin/bash</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">**Success:**</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">docker -D run -i -t -v /run/something lopter/raring-base /bin/bash</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">`/var/run` is a symlink pointing to `/run`, so as long as one doesn't use the path containing a symlink for the volume, everything is fine, otherwise it refuses to start like this:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">lxc-start: Permission denied - failed to mount '/var/lib/docker/volumes/d3f49322202c7a4471f45722797a2d9cddcebf5a6f4614eb02fc93a7269550f9/layer' on '/usr/lib/x86_64-linux-gnu/lxc///var/run/something'
+ lxc-start: failed to setup the mount entries for '76e81c1655cb22d05e9f02f915bb83e1244b18c3769e63878a369157b3f36579'
+ lxc-start: failed to setup the container
+ lxc-start: invalid sequence number 1.</sentence>
+			<sentence id="7.2">expected 2
+ lxc-start: failed to spawn '76e81c1655cb22d05e9f02f915bb83e1244b18c3769e63878a369157b3f36579'</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Version information:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Client version: 0.6.3
+ Go version (client): go1.1.2
+ Git commit (client): b0a49a3
+ Server version: 0.6.3
+ Git commit (server): b0a49a3
+ Go version (server): go1.1.2
+ Last stable version: 0.6.3</sentence>
+		</paragraph>
+	</description>
+</bug>

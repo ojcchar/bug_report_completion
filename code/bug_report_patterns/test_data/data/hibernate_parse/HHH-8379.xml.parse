@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8379</id>
+	<title>Hibernate Timeout Issue</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have a spring batch framework set up the DB connection is going stake after 1 hr and 5 min .</sentence>
+			<sentence id="1.2">This works fine in Dev,QA and the issue is happening only in prod env.Pls guide</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">-------------------------------------</sentence>
+			<sentence id="2.2">2013-07-22 14:17:29,563 INFO DeriveReturnAddressTasklet - No of getReturn responses:1704</sentence>
+			<sentence id="2.3">2013-07-22 14:17:29,566 INFO DeriveReturnAddressTasklet - No of valid getReturn responses:1704</sentence>
+			<sentence id="2.4">2013-07-22 14:17:29,566 INFO DeriveReturnAddressTasklet - No of error getReturn responses:0</sentence>
+			<sentence id="2.5">2013-07-22 14:17:39,523 INFO SimpleStepHandler - Executing step: [createReturnOrderStep]</sentence>
+			<sentence id="2.6">2013-07-22 14:17:39,619 INFO BatchCoreStepListener - Starting Step = createReturnOrderStep</sentence>
+			<sentence id="2.7">2013-07-22 14:17:39,627 WARN JDBCExceptionReporter - SQL Error: 0, SQLState: null</sentence>
+			<sentence id="2.8">2013-07-22 14:17:39,627 ERROR JDBCExceptionReporter - Already closed.</sentence>
+			<sentence id="2.9">2013-07-22 14:17:39,630 WARN JDBCExceptionReporter - SQL Error: 0, SQLState: null</sentence>
+			<sentence id="2.10">2013-07-22 14:17:39,630 ERROR JDBCExceptionReporter - Already closed.</sentence>
+			<sentence id="2.11">2013-07-22 14:17:39,640 ERROR AbstractStep - Encountered an error executing the step</sentence>
+			<sentence id="2.12">org.springframework.transaction.CannotCreateTransactionException: Could not open Hibernate Session for transaction; nested exception is java.sql.SQLException: Io exception: Connection reset</sentence>
+			<sentence id="2.13">	at org.springframework.orm.hibernate3.HibernateTransactionManager.doBegin(HibernateTransactionManager.java:599)</sentence>
+			<sentence id="2.14">	at org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction(AbstractPlatformTransactionManager.java:374)</sentence>
+			<sentence id="2.15">	at org.springframework.transaction.interceptor.TransactionAspectSupport.createTransactionIfNecessary(TransactionAspectSupport.java:263)</sentence>
+			<sentence id="2.16">	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:101)</sentence>
+			<sentence id="2.17">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)</sentence>
+			<sentence id="2.18">	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)</sentence>
+			<sentence id="2.19">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)</sentence>
+			<sentence id="2.20">	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)</sentence>
+			<sentence id="2.21">	at $Proxy10.getComponentByName(Unknown Source)</sentence>
+			<sentence id="2.22">	at com.sears.hs.commons.batch.core.listener.BatchCoreStepListener.storeStepProperties(BatchCoreStepListener.java:87)</sentence>
+			<sentence id="2.23">	at com.sears.hs.commons.batch.core.listener.BatchCoreStepListener.beforeStep(BatchCoreStepListener.java:46)</sentence>
+			<sentence id="2.24">	at org.springframework.batch.core.listener.CompositeStepExecutionListener.beforeStep(CompositeStepExecutionListener.java:76)</sentence>
+			<sentence id="2.25">	at org.springframework.batch.core.step.AbstractStep.execute(AbstractStep.java:192)</sentence>
+			<sentence id="2.26">	at org.springframework.batch.core.job.SimpleStepHandler.handleStep(SimpleStepHandler.java:135)</sentence>
+			<sentence id="2.27">	at org.springframework.batch.core.job.flow.JobFlowExecutor.executeStep(JobFlowExecutor.java:61)</sentence>
+			<sentence id="2.28">	at org.springframework.batch.core.job.flow.support.state.StepState.handle(StepState.java:60)</sentence>
+			<sentence id="2.29">	at org.springframework.batch.core.job.flow.support.SimpleFlow.resume(SimpleFlow.java:144)</sentence>
+			<sentence id="2.30">	at org.springframework.batch.core.job.flow.support.SimpleFlow.start(SimpleFlow.java:124)</sentence>
+			<sentence id="2.31">	at org.springframework.batch.core.job.flow.FlowJob.doExecute(FlowJob.java:135)</sentence>
+			<sentence id="2.32">	at com.sears.hs.commons.batch.job.HSFlowJob.doExecute(HSFlowJob.java:66)</sentence>
+			<sentence id="2.33">	at org.springframework.batch.core.job.AbstractJob.execute(AbstractJob.java:281)</sentence>
+			<sentence id="2.34">	at org.springframework.batch.core.launch.support.SimpleJobLauncher$1.run(SimpleJobLauncher.java:120)</sentence>
+			<sentence id="2.35">	at org.springframework.core.task.SyncTaskExecutor.execute(SyncTaskExecutor.java:49)</sentence>
+			<sentence id="2.36">	at org.springframework.batch.core.launch.support.SimpleJobLauncher.run(SimpleJobLauncher.java:114)</sentence>
+			<sentence id="2.37">	at com.sears.hs.commons.batch.core.SimpleJobManager.startJob(SimpleJobManager.java:103)</sentence>
+			<sentence id="2.38">	at com.sears.hs.commons.batch.core.BatchJobRunner.startJob(BatchJobRunner.java:135)</sentence>
+			<sentence id="2.39">	at com.sears.hs.commons.batch.core.BatchJobRunner.main(BatchJobRunner.java:62)</sentence>
+			<sentence id="2.40">Caused by: java.sql.SQLException: Io exception: Connection reset</sentence>
+			<sentence id="2.41">	at oracle.jdbc.driver.SQLStateMapping.newSQLException(SQLStateMapping.java:74)</sentence>
+			<sentence id="2.42">	at oracle.jdbc.driver.DatabaseError.newSQLException(DatabaseError.java:131)</sentence>
+			<sentence id="2.43">	at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:197)</sentence>
+			<sentence id="2.44">	at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:261)</sentence>
+			<sentence id="2.45">	at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:566)</sentence>
+			<sentence id="2.46">	at oracle.jdbc.driver.T4CStatement.executeForRows(T4CStatement.java:958)</sentence>
+			<sentence id="2.47">	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1222)</sentence>
+			<sentence id="2.48">	at oracle.jdbc.driver.OracleStatement.executeInternal(OracleStatement.java:1770)</sentence>
+			<sentence id="2.49">	at oracle.jdbc.driver.OracleStatement.execute(OracleStatement.java:1739)</sentence>
+			<sentence id="2.50">	at oracle.jdbc.driver.OracleStatementWrapper.execute(OracleStatementWrapper.java:299)</sentence>
+			<sentence id="2.51">	at oracle.jdbc.driver.PhysicalConnection.setTransactionIsolation(PhysicalConnection.java:4053)</sentence>
+			<sentence id="2.52">	at org.apache.commons.dbcp.DelegatingConnection.setTransactionIsolation(DelegatingConnection.java:380)</sentence>
+			<sentence id="2.53">	at org.apache.commons.dbcp.PoolingDataSource$PoolGuardConnectionWrapper.setTransactionIsolation(PoolingDataSource.java:343)</sentence>
+			<sentence id="2.54">	at sun.reflect.GeneratedMethodAccessor37.invoke(Unknown Source)</sentence>
+			<sentence id="2.55">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="2.56">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="2.57">	at org.hibernate.jdbc.BorrowedConnectionProxy.invoke(BorrowedConnectionProxy.java:50)</sentence>
+			<sentence id="2.58">	at $Proxy28.setTransactionIsolation(Unknown Source)</sentence>
+			<sentence id="2.59">	at org.springframework.jdbc.datasource.DataSourceUtils.prepareConnectionForTransaction(DataSourceUtils.java:174)</sentence>
+			<sentence id="2.60">	at org.springframework.orm.hibernate3.HibernateTransactionManager.doBegin(HibernateTransactionManager.java:511)</sentence>
+			<sentence id="2.61">... 26 more</sentence>
+			<sentence id="2.62">Caused by: java.net.SocketException: Connection reset</sentence>
+			<sentence id="2.63">	at java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:96)</sentence>
+			<sentence id="2.64">	at java.net.SocketOutputStream.write(SocketOutputStream.java:136)</sentence>
+			<sentence id="2.65">	at oracle.net.ns.DataPacket.send(DataPacket.java:150)</sentence>
+			<sentence id="2.66">	at oracle.net.ns.NetOutputStream.flush(NetOutputStream.java:180)</sentence>
+			<sentence id="2.67">	at oracle.net.ns.NetInputStream.getNextPacket(NetInputStream.java:169)</sentence>
+			<sentence id="2.68">	at oracle.net.ns.NetInputStream.read(NetInputStream.java:117)</sentence>
+			<sentence id="2.69">	at oracle.net.ns.NetInputStream.read(NetInputStream.java:92)</sentence>
+			<sentence id="2.70">	at oracle.net.ns.NetInputStream.read(NetInputStream.java:77)</sentence>
+			<sentence id="2.71">	at oracle.jdbc.driver.T4CMAREngine.unmarshalUB1(T4CMAREngine.java:1034)</sentence>
+			<sentence id="2.72">	at oracle.jdbc.driver.T4CMAREngine.unmarshalSB1(T4CMAREngine.java:1010)</sentence>
+			<sentence id="2.73">	at oracle.jdbc.driver.T4C8Oall.receive(T4C8Oall.java:588)</sentence>
+			<sentence id="2.74">	at oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:183)</sentence>
+			<sentence id="2.75">	at oracle.jdbc.driver.T4CStatement.executeForRows(T4CStatement.java:942)</sentence>
+			<sentence id="2.76">... 40 more</sentence>
+			<sentence id="2.77">2013-07-22 14:17:39,644 INFO BatchCoreStepListener - Completed Step = createReturnOrderStep, Status = FAILED</sentence>
+			<sentence id="2.78">2013-07-22 14:17:45,221 INFO HSFlowJob - custom defined step status : FAILED</sentence>
+			<sentence id="2.79">2013-07-22 14:17:45,222 INFO BatchJobExecutionListener - Completed Job = tpsrNPNUploadJob, Status = exitCode=FAILED;exitDescription=</sentence>
+			<sentence id="2.80">2013-07-22 14:17:45,307 INFO SimpleJobLauncher - Job: [HSFlowJob: [name=tpsrNPNUploadJob]] completed with the following parameters: [{jobOrderId=123-2}] and the following status: [FAILED]</sentence>
+			<sentence id="2.81">2013-07-22 14:17:45,308 INFO SimpleJobManager - Job :tpsrNPNUploadJob ended with result = 1 with Execution Id = 38669, summary =JobExecution: id=38669, startTime=Mon Jul 22 13:14:02 EDT 2013, endTime=Mon Jul 22 14:17:45 EDT 2013, lastUpdated=Mon Jul 22 14:17:45 EDT 2013, status=FAILED, exitStatus=exitCode=FAILED;exitDescription=, job=[JobInstance: id=38585, JobParameters=[{jobOrderId=123-2}], Job=[tpsrNPNUploadJob]]</sentence>
+			<sentence id="2.82">2013-07-22 14:17:45,308 INFO BatchJobRunner - Job Result Return Code = 1</sentence>
+		</paragraph>
+	</description>
+</bug>

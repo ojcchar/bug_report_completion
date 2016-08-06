@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7626</id>
+	<title>docker load hangs on Centos 6.5</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Using Centos 6.5, Docker 1.0.0, 'docker load' hangs in some circumstances.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">docker.log
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Mon Aug 18 16:34:34 EDT 2014</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">2014/08/18 16:34:34 WARNING: You are running linux kernel version 2.6.32-431.el6.x86_64, which might be unstable running docker. Please upgrade your kernel to 3.8.0.</sentence>
+			<sentence id="4.2">2014/08/18 16:34:34 docker daemon: 1.0.0 63fe64c/1.0.0; execdriver: native; graphdriver:</sentence>
+			<sentence id="4.3">[98759e99] +job serveapi(unix:///var/run/docker.sock)</sentence>
+			<sentence id="4.4">[98759e99] +job initserver()</sentence>
+			<sentence id="4.5">[98759e99.initserver()] Creating server</sentence>
+			<sentence id="4.6">2014/08/18 16:34:34 Listening for HTTP on unix (/var/run/docker.sock)</sentence>
+			<sentence id="4.7">[98759e99] +job init_networkdriver()</sentence>
+			<sentence id="4.8">[98759e99.init_networkdriver()] creating new bridge for docker0</sentence>
+			<sentence id="4.9">[98759e99.init_networkdriver()] getting iface addr</sentence>
+			<sentence id="4.10">[98759e99] -job init_networkdriver() = OK (0)</sentence>
+			<sentence id="4.11">Loading containers: : done.</sentence>
+			<sentence id="4.12">[98759e99.initserver()] Creating pidfile</sentence>
+			<sentence id="4.13">[98759e99.initserver()] Setting up signal traps</sentence>
+			<sentence id="4.14">[98759e99] -job initserver() = OK (0)</sentence>
+			<sentence id="4.15">[98759e99] +job acceptconnections()</sentence>
+			<sentence id="4.16">[98759e99] -job acceptconnections() = OK (0)</sentence>
+			<sentence id="4.17">2014/08/18 16:38:28 GET /v1.12/images/json</sentence>
+			<sentence id="4.18">[98759e99] +job images()</sentence>
+			<sentence id="4.19">[98759e99] -job images() = OK (0)</sentence>
+			<sentence id="4.20">2014/08/18 16:41:26 POST /images/load</sentence>
+			<sentence id="4.21">[98759e99] +job load()</sentence>
+			<sentence id="4.22">[98759e99] +job image_get(01c7c74b531ea08fc2867a970f30eb531e11ba258f61e1110dfdae536f4a9be7)</sentence>
+			<sentence id="4.23">No such id: 01c7c74b531ea08fc2867a970f30eb531e11ba258f61e1110dfdae536f4a9be7</sentence>
+			<sentence id="4.24">[98759e99] -job image_get(01c7c74b531ea08fc2867a970f30eb531e11ba258f61e1110dfdae536f4a9be7) = ERR (1)</sentence>
+			<sentence id="4.25">[98759e99] +job image_get(e5ad9c2d2397052a4489412abe070f75b32cebc9f5cafde7e64573c326302905)</sentence>
+			<sentence id="4.26">No such id: e5ad9c2d2397052a4489412abe070f75b32cebc9f5cafde7e64573c326302905</sentence>
+			<sentence id="4.27">[98759e99] -job image_get(e5ad9c2d2397052a4489412abe070f75b32cebc9f5cafde7e64573c326302905) = ERR (1)</sentence>
+			<sentence id="4.28">[98759e99] +job image_get(cd035a7f767887eefd417b4167790dd32f7b06b95829bcccb608659f0ea49c01)</sentence>
+			<sentence id="4.29">No such id: cd035a7f767887eefd417b4167790dd32f7b06b95829bcccb608659f0ea49c01</sentence>
+			<sentence id="4.30">[98759e99] -job image_get(cd035a7f767887eefd417b4167790dd32f7b06b95829bcccb608659f0ea49c01) = ERR (1)</sentence>
+			<sentence id="4.31">[98759e99] +job image_get(61280dc889d477dd7ebaea7016e6556a0da5df5f14a8378a21186a6a88a94ca7)</sentence>
+			<sentence id="4.32">No such id: 61280dc889d477dd7ebaea7016e6556a0da5df5f14a8378a21186a6a88a94ca7</sentence>
+			<sentence id="4.33">[98759e99] -job image_get(61280dc889d477dd7ebaea7016e6556a0da5df5f14a8378a21186a6a88a94ca7) = ERR (1)</sentence>
+			<sentence id="4.34">[98759e99] +job image_get(108239d6ce2042dba97504805e2566d501696a0700cb3e6a63aa7afc314c3bc9)</sentence>
+			<sentence id="4.35">No such id: 108239d6ce2042dba97504805e2566d501696a0700cb3e6a63aa7afc314c3bc9</sentence>
+			<sentence id="4.36">[98759e99] -job image_get(108239d6ce2042dba97504805e2566d501696a0700cb3e6a63aa7afc314c3bc9) = ERR (1)</sentence>
+			<sentence id="4.37">[98759e99] +job image_get(ec5211397fb4f66d9da26a38416a12a151152eb564c4224598e8793919595b47)</sentence>
+			<sentence id="4.38">No such id: ec5211397fb4f66d9da26a38416a12a151152eb564c4224598e8793919595b47</sentence>
+			<sentence id="4.39">[98759e99] -job image_get(ec5211397fb4f66d9da26a38416a12a151152eb564c4224598e8793919595b47) = ERR (1)</sentence>
+			<sentence id="4.40">[98759e99] +job image_get(50aced53e15906969b21ead725ea7ae0e61a293addb2795a0965e377c761389a)</sentence>
+			<sentence id="4.41">No such id: 50aced53e15906969b21ead725ea7ae0e61a293addb2795a0965e377c761389a</sentence>
+			<sentence id="4.42">[98759e99] -job image_get(50aced53e15906969b21ead725ea7ae0e61a293addb2795a0965e377c761389a) = ERR (1)</sentence>
+			<sentence id="4.43">[98759e99] +job image_get(de17c6282ba013aa11f47abe8ff871af4d772332f0540cbd26114879f6c5b051)</sentence>
+			<sentence id="4.44">No such id: de17c6282ba013aa11f47abe8ff871af4d772332f0540cbd26114879f6c5b051</sentence>
+			<sentence id="4.45">[98759e99] -job image_get(de17c6282ba013aa11f47abe8ff871af4d772332f0540cbd26114879f6c5b051) = ERR (1)</sentence>
+			<sentence id="4.46">[98759e99] +job image_get(f7db4b93b1d3a6e58ec43708286c6548d9fffe4896bd54a36c0e12c2be5ff06f)</sentence>
+			<sentence id="4.47">No such id: f7db4b93b1d3a6e58ec43708286c6548d9fffe4896bd54a36c0e12c2be5ff06f</sentence>
+			<sentence id="4.48">[98759e99] -job image_get(f7db4b93b1d3a6e58ec43708286c6548d9fffe4896bd54a36c0e12c2be5ff06f) = ERR (1)</sentence>
+			<sentence id="4.49">[98759e99] +job image_get(7d12043a449ae95eec006a7763a622d7e3bd8834b15915f096bb5b9b7006600c)</sentence>
+			<sentence id="4.50">No such id: 7d12043a449ae95eec006a7763a622d7e3bd8834b15915f096bb5b9b7006600c</sentence>
+			<sentence id="4.51">[98759e99] -job image_get(7d12043a449ae95eec006a7763a622d7e3bd8834b15915f096bb5b9b7006600c) = ERR (1)</sentence>
+			<sentence id="4.52">[98759e99] +job image_get(cd934e0010d5a63c3137a6d0d6b1cdeca68a02bafd2a51554be61dfd6b6dda80)</sentence>
+			<sentence id="4.53">No such id: cd934e0010d5a63c3137a6d0d6b1cdeca68a02bafd2a51554be61dfd6b6dda80</sentence>
+			<sentence id="4.54">[98759e99] -job image_get(cd934e0010d5a63c3137a6d0d6b1cdeca68a02bafd2a51554be61dfd6b6dda80) = ERR (1)</sentence>
+			<sentence id="4.55">[98759e99] +job image_get(34e94e67e63a0f079d9336b3c2a52e814d138e5b3f1f614a0cfe273814ed7c0a)</sentence>
+			<sentence id="4.56">No such id: 34e94e67e63a0f079d9336b3c2a52e814d138e5b3f1f614a0cfe273814ed7c0a</sentence>
+			<sentence id="4.57">[98759e99] -job image_get(34e94e67e63a0f079d9336b3c2a52e814d138e5b3f1f614a0cfe273814ed7c0a) = ERR (1)</sentence>
+			<sentence id="4.58">[98759e99] +job image_get(511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158)</sentence>
+			<sentence id="4.59">No such id: 511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158</sentence>
+			<sentence id="4.60">[98759e99] -job image_get(511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158) = ERR (1)</sentence>
+			<sentence id="4.61">2014/08/18 20:46:29 GET /v1.12/images/json</sentence>
+			<sentence id="4.62">[98759e99] +job images()</sentence>
+			<sentence id="4.63">[98759e99] -job images() = OK (0)</sentence>
+			<sentence id="4.64">```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I also see this in /var/log/messages at the same time.</sentence>
+			<sentence id="5.2">```</sentence>
+			<sentence id="5.3">Aug 19 08:50:56 registry kernel: INFO: task docker:1843 blocked for more than 120 seconds.</sentence>
+			<sentence id="5.4">Aug 19 08:50:56 registry kernel: Not tainted 2.6.32-431.el6.x86_64 #1</sentence>
+			<sentence id="5.5">Aug 19 08:50:56 registry kernel: "echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs" disables this message.</sentence>
+			<sentence id="5.6">Aug 19 08:50:56 registry kernel: docker D 0000000000000002 0 1843 1 0x00000080</sentence>
+			<sentence id="5.7">Aug 19 08:50:56 registry kernel: ffff8804371afce8 0000000000000082 0000000000000000 0000000100000001</sentence>
+			<sentence id="5.8">Aug 19 08:50:56 registry kernel: ffff8804371afca0 0000000081065c5e ffff8803836e57f8 ffffffff811336a0</sentence>
+			<sentence id="5.9">Aug 19 08:50:56 registry kernel: ffff88043458e5f8 ffff8804371affd8 000000000000fbc8 ffff88043458e5f8</sentence>
+			<sentence id="5.10">Aug 19 08:50:56 registry kernel: Call Trace:</sentence>
+			<sentence id="5.11">Aug 19 08:50:56 registry kernel: [&lt;ffffffff811336a0&gt;] ? __writepage+0x0/0x40</sentence>
+			<sentence id="5.12">Aug 19 08:50:56 registry kernel: [&lt;ffffffffa00c25a5&gt;] jbd2_log_wait_commit+0xc5/0x140 [jbd2]</sentence>
+			<sentence id="5.13">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8109b2a0&gt;] ? autoremove_wake_function+0x0/0x40</sentence>
+			<sentence id="5.14">Aug 19 08:50:56 registry kernel: [&lt;ffffffffa00f823f&gt;] ext4_sync_fs+0x7f/0xb0 [ext4]</sentence>
+			<sentence id="5.15">Aug 19 08:50:56 registry kernel: [&lt;ffffffff811f000e&gt;] sync_quota_sb+0x5e/0x130</sentence>
+			<sentence id="5.16">Aug 19 08:50:56 registry kernel: [&lt;ffffffff811bad0a&gt;] __sync_filesystem+0x7a/0x90</sentence>
+			<sentence id="5.17">Aug 19 08:50:56 registry kernel: [&lt;ffffffff811baf1b&gt;] sync_filesystem+0x4b/0x70</sentence>
+			<sentence id="5.18">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8118b217&gt;] generic_shutdown_super+0x27/0xe0</sentence>
+			<sentence id="5.19">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8118b301&gt;] kill_block_super+0x31/0x50</sentence>
+			<sentence id="5.20">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8118bad7&gt;] deactivate_super+0x57/0x80</sentence>
+			<sentence id="5.21">Aug 19 08:50:56 registry kernel: [&lt;ffffffff811aaaaf&gt;] mntput_no_expire+0xbf/0x110</sentence>
+			<sentence id="5.22">Aug 19 08:50:56 registry kernel: [&lt;ffffffff811ab5fb&gt;] sys_umount+0x7b/0x3a0</sentence>
+			<sentence id="5.23">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8100b072&gt;] system_call_fastpath+0x16/0x1b</sentence>
+			<sentence id="5.24">Aug 19 08:50:56 registry kernel: INFO: task loop1:1847 blocked for more than 120 seconds.</sentence>
+			<sentence id="5.25">Aug 19 08:50:56 registry kernel: Not tainted 2.6.32-431.el6.x86_64 #1</sentence>
+			<sentence id="5.26">Aug 19 08:50:56 registry kernel: "echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs" disables this message.</sentence>
+			<sentence id="5.27">Aug 19 08:50:56 registry kernel: loop1 D 0000000000000001 0 1847 2 0x00000080</sentence>
+			<sentence id="5.28">Aug 19 08:50:56 registry kernel: ffff880436f1fc30 0000000000000046 0000000000000000 ffff880436f1fc50</sentence>
+			<sentence id="5.29">Aug 19 08:50:56 registry kernel: ffff880436f1fbf0 ffffffff8111f3e0 ffff880430f5d9d0 ffff880436f1fc50</sentence>
+			<sentence id="5.30">Aug 19 08:50:56 registry kernel: ffff880434ffbaf8 ffff880436f1ffd8 000000000000fbc8 ffff880434ffbaf8</sentence>
+			<sentence id="5.31">Aug 19 08:50:56 registry kernel: Call Trace:</sentence>
+			<sentence id="5.32">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8111f3e0&gt;] ? find_get_pages_tag+0x40/0x130</sentence>
+			<sentence id="5.33">Aug 19 08:50:56 registry kernel: [&lt;ffffffffa00c25a5&gt;] jbd2_log_wait_commit+0xc5/0x140 [jbd2]</sentence>
+			<sentence id="5.34">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8109b2a0&gt;] ? autoremove_wake_function+0x0/0x40</sentence>
+			<sentence id="5.35">Aug 19 08:50:56 registry kernel: [&lt;ffffffff81134c91&gt;] ? do_writepages+0x21/0x40</sentence>
+			<sentence id="5.36">Aug 19 08:50:56 registry kernel: [&lt;ffffffffa00c2938&gt;] jbd2_complete_transaction+0x68/0xb0 [jbd2]</sentence>
+			<sentence id="5.37">Aug 19 08:50:56 registry kernel: [&lt;ffffffffa00de231&gt;] ext4_sync_file+0x121/0x1d0 [ext4]</sentence>
+			<sentence id="5.38">Aug 19 08:50:56 registry kernel: [&lt;ffffffff811baa61&gt;] vfs_fsync_range+0xa1/0x100</sentence>
+			<sentence id="5.39">Aug 19 08:50:56 registry kernel: [&lt;ffffffff811bab2d&gt;] vfs_fsync+0x1d/0x20</sentence>
+			<sentence id="5.40">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8137be87&gt;] do_bio_filebacked+0x317/0x330</sentence>
+			<sentence id="5.41">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8137ab90&gt;] ? do_lo_send_direct_write+0x0/0xa0</sentence>
+			<sentence id="5.42">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8137bf71&gt;] loop_thread+0xd1/0x270</sentence>
+			<sentence id="5.43">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8109b2a0&gt;] ? autoremove_wake_function+0x0/0x40</sentence>
+			<sentence id="5.44">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8137bea0&gt;] ? loop_thread+0x0/0x270</sentence>
+			<sentence id="5.45">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8109aef6&gt;] kthread+0x96/0xa0</sentence>
+			<sentence id="5.46">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8100c20a&gt;] child_rip+0xa/0x20</sentence>
+			<sentence id="5.47">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8109ae60&gt;] ? kthread+0x0/0xa0</sentence>
+			<sentence id="5.48">Aug 19 08:50:56 registry kernel: [&lt;ffffffff8100c200&gt;] ? child_rip+0x0/0x20</sentence>
+			<sentence id="5.49">```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">After upgrading *both* kernel to latest (2.6.32-431.23.3.</sentence>
+			<sentence id="6.2">el6.x86_64) and docker to (1.1.2), the problem went away.</sentence>
+		</paragraph>
+	</description>
+</bug>

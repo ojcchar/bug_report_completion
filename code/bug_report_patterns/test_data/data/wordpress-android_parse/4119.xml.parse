@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4119</id>
+	<title>Use a `sortOrder` attribute in ReaderPost model instead of overriding the timestamp</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">### Expected behavior
+ReaderPost model should have a new attribute that represents the sort order weight for a ReaderPost instance, and all other classes using it should reflect this accordingly</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">### Actual behavior
+Right now `timestamp`, being used as a sorting criteria, even when sometimes a value other than an actual timestamp is assigned to such `timestamp` attribute, which is misleading.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">### Steps to reproduce the behavior
+Check conversation here https://github.com/wordpress-mobile/WordPress-Android/pull/4096/files/0cc5bd209d8ebf0deeff93d716ca194d2eb0df4f#r64293763</sentence>
+		</paragraph>
+	</description>
+</bug>

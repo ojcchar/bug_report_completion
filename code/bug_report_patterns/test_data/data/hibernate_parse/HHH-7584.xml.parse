@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-7584</id>
+	<title>Sybase dialects attempting to use BLOB types</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">https://hudson.jboss.org/hudson/job/hibernate-core-master-matrix/lastCompletedBuild/database=sybase155,jdk=java17_default,label=hibernate/testReport/org.hibernate.test.annotations.lob/SerializableToBlobTypeTest/testPersist/</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The Sybase schema generated correctly maps BLOBs to images -- Sybase does not support BLOB types.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">However, the dialect is not using getSqlTypeDescriptorOverride, so all @Lob fields are still attempting to use getBlob.</sentence>
+		</paragraph>
+	</description>
+</bug>

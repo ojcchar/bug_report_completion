@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-2273</id>
+	<title>Avoid Duplicate Rows in Patient_State Table</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">[Note: we're not going to do the solution described in the description.</sentence>
+			<sentence id="1.2">See the "Proposed Solution" comment".]</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">While running queries on the DB, I found that the UI gave me different results than the database when trying to determine the start_date of the current treatment status of a patient (the latest end_date or end_state = null)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">As it turns out, the patient had duplicate rows on this key(patient_program_id, end_date, voided).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Working under the assumption that for any patient program id, there should only be one status with a particular start date (no multiple concurrent statuses) and that a start_date should always be valued,</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">the patient_state table needs to have 2 unique keys to prevent bogus data and also not allow the start_date to be null:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">-- alters</sentence>
+			<sentence id="6.2">alter table patient_state modify start_date date not null;</sentence>
+			<sentence id="6.3">alter table patient_state add unique key(patient_program_id, end_date, voided);</sentence>
+			<sentence id="6.4">alter table patient_state add unique key(patient_program_id, start_date, voided);</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">-- creates</sentence>
+			<sentence id="7.2">CREATE TABLE `patient_state` (</sentence>
+			<sentence id="7.3">`start_date` date NOT NULL,</sentence>
+			<sentence id="7.4">UNIQUE KEY `patient_program_id_start_date` (`patient_program_id`,`start_date`,`voided`),</sentence>
+			<sentence id="7.5">UNIQUE KEY `patient_program_id_end_date` (`patient_program_id`,`end_date`,`voided`),</sentence>
+			<sentence id="7.6">);</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Porting will be a problem as most installs will probably violate these constraints.</sentence>
+			<sentence id="8.2">Suggest that corrections will need to be made manually prior to a port, instead of adding the constraint and automatically deleting duplicates of the constraints.</sentence>
+			<sentence id="8.3">Unfortunately, I don't know of a way to add a unique constraint without checking, as is possible in MS SQL Server.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Here are the queries to identify the problem:</sentence>
+			<sentence id="9.2">-- duplicate voided end dates</sentence>
+			<sentence id="9.3">select patient_program_id, patient_state_id, count(end_date) as sed</sentence>
+			<sentence id="9.4">from patient_state</sentence>
+			<sentence id="9.5">where voided=1</sentence>
+			<sentence id="9.6">group by patient_program_id, end_date</sentence>
+			<sentence id="9.7">having count(end_date) &gt; 1;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">-- duplicate voided start_dates</sentence>
+			<sentence id="10.2">select patient_program_id, patient_state_id, count(start_date) as sed</sentence>
+			<sentence id="10.3">from patient_state</sentence>
+			<sentence id="10.4">where voided=1</sentence>
+			<sentence id="10.5">group by patient_program_id, start_date</sentence>
+			<sentence id="10.6">having count(start_date) &gt; 1;</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">-- duplicate non-voided end dates</sentence>
+			<sentence id="11.2">select patient_program_id, patient_state_id, count(end_date) as sed</sentence>
+			<sentence id="11.3">from patient_state</sentence>
+			<sentence id="11.4">where voided=0</sentence>
+			<sentence id="11.5">group by patient_program_id, end_date</sentence>
+			<sentence id="11.6">having count(end_date) &gt; 1;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">-- duplicate non-voided start_dates</sentence>
+			<sentence id="12.2">select patient_program_id, patient_state_id, count(start_date) as sed</sentence>
+			<sentence id="12.3">from patient_state</sentence>
+			<sentence id="12.4">where voided=0</sentence>
+			<sentence id="12.5">group by patient_program_id, start_date</sentence>
+			<sentence id="12.6">having count(start_date) &gt; 1;</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">-- null start_dates</sentence>
+			<sentence id="13.2">select patient_program_id, patient_state_id from patient_state where start_date is null group by patient_program_id;</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">As a side-effect to this, the user won't be able to void a value that is identical to one already voided.</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Alternatively, the UI code should be modified to check these constraints before allowing the user to persist such data.</sentence>
+			<sentence id="15.2">This may be a much easier solution then above due to the need for database cleanup.</sentence>
+		</paragraph>
+	</description>
+</bug>

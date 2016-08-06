@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-6639</id>
+	<title>Error using dynamic-component with JPA</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">there seems to be a bug when using dynamic-components and an EntityManager.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">When using hibernate directly, everything works fine.</sentence>
+			<sentence id="3.2">If using the EntityManager, the following exception is thrown, because for the dynamic attributes no members in the Entity class exist (which is the intention of dynamic-attributes, as far as I understood them).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Exception in thread "main" java.lang.IllegalArgumentException: Cannot determine java-type from given member [null]</sentence>
+			<sentence id="4.2">at org.hibernate.ejb.metamodel.AttributeFactory$BaseAttributeMetadata.&lt;init&gt;(AttributeFactory.java:608)</sentence>
+			<sentence id="4.3">at org.hibernate.ejb.metamodel.AttributeFactory$SingularAttributeMetadataImpl.&lt;init&gt;(AttributeFactory.java:696)</sentence>
+			<sentence id="4.4">at org.hibernate.ejb.metamodel.AttributeFactory$SingularAttributeMetadataImpl.&lt;init&gt;(AttributeFactory.java:686)</sentence>
+			<sentence id="4.5">at org.hibernate.ejb.metamodel.AttributeFactory.determineAttributeMetadata(AttributeFactory.java:559)</sentence>
+			<sentence id="4.6">at org.hibernate.ejb.metamodel.AttributeFactory.buildAttribute(AttributeFactory.java:93)</sentence>
+			<sentence id="4.7">at org.hibernate.ejb.metamodel.AttributeFactory.getMetaModelType(AttributeFactory.java:225)</sentence>
+			<sentence id="4.8">at org.hibernate.ejb.metamodel.AttributeFactory.buildAttribute(AttributeFactory.java:102)</sentence>
+			<sentence id="4.9">at org.hibernate.ejb.metamodel.MetadataContext.wrapUp(MetadataContext.java:187)</sentence>
+			<sentence id="4.10">at org.hibernate.ejb.metamodel.MetamodelImpl.buildMetamodel(MetamodelImpl.java:66)</sentence>
+			<sentence id="4.11">at org.hibernate.ejb.EntityManagerFactoryImpl.&lt;init&gt;(EntityManagerFactoryImpl.java:84)</sentence>
+			<sentence id="4.12">at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:906)</sentence>
+			<sentence id="4.13">at org.hibernate.ejb.HibernatePersistence.createEntityManagerFactory(HibernatePersistence.java:57)</sentence>
+			<sentence id="4.14">at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:48)</sentence>
+			<sentence id="4.15">at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:32)</sentence>
+			<sentence id="4.16">at test.Test.main(Test.java:24)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Attached is a tar.tz file with a sample hibernate project and a junit test that reproduces the problem.</sentence>
+		</paragraph>
+	</description>
+</bug>

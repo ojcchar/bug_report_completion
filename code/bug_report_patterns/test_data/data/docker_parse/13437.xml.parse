@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13437</id>
+	<title>how set SGID for file with different user and group ? postqueue and postdrop files for postfix</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hello,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">i try to dockerize postfix but i have the same problem than this case #6828, I 'm unable to set the sgid on file postdrop and posqueue.</sentence>
+			<sentence id="2.2">In the case #6828, it's said the problem it's fixed with docker version 1.2, but i use docker version1.6</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Environment Details:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">docker version:</sentence>
+			<sentence id="4.2">Client version: 1.6.0</sentence>
+			<sentence id="4.3">Client API version: 1.18</sentence>
+			<sentence id="4.4">Go version (client): go1.4.2</sentence>
+			<sentence id="4.5">Git commit (client): 8aae715/1.6.0</sentence>
+			<sentence id="4.6">OS/Arch (client)Client version: 1.6.0</sentence>
+			<sentence id="4.7">Client API version: 1.18</sentence>
+			<sentence id="4.8">Go version (client): go1.4.2</sentence>
+			<sentence id="4.9">Git commit (client): 8aae715/1.6.0</sentence>
+			<sentence id="4.10">OS/Arch (client): linux/amd64</sentence>
+			<sentence id="4.11">Server version: 1.6.0</sentence>
+			<sentence id="4.12">Server API version: 1.18</sentence>
+			<sentence id="4.13">Go version (server): go1.4.2</sentence>
+			<sentence id="4.14">Git commit (server): 8aae715/1.6.0</sentence>
+			<sentence id="4.15">OS/Arch (server): linux/amd64</sentence>
+			<sentence id="4.16">[root@homeserver mailserver]# ^C</sentence>
+			<sentence id="4.17">[root@homeserver mailserver]# docker info</sentence>
+			<sentence id="4.18">Containers: 9</sentence>
+			<sentence id="4.19">Images: 729</sentence>
+			<sentence id="4.20">Storage Driver: devicemapper</sentence>
+			<sentence id="4.21"> Pool Name: docker-253:1-87030-pool</sentence>
+			<sentence id="4.22"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="4.23"> Backing Filesystem: xfs</sentence>
+			<sentence id="4.24"> Data file: /dev/loop0</sentence>
+			<sentence id="4.25"> Metadata file: /dev/loop1</sentence>
+			<sentence id="4.26"> Data Space Used: 6.141 GB</sentence>
+			<sentence id="4.27"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="4.28"> Data Space Available: 44.69 GB</sentence>
+			<sentence id="4.29"> Metadata Space Used: 24.43 MB</sentence>
+			<sentence id="4.30"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="4.31"> Metadata Space Available: 2.123 GB</sentence>
+			<sentence id="4.32"> Udev Sync Supported: true</sentence>
+			<sentence id="4.33"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="4.34"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="4.35"> Library Version: 1.02.93-RHEL7 (2015-01-28)</sentence>
+			<sentence id="4.36">Execution Driver: native-0.2</sentence>
+			<sentence id="4.37">Kernel Version: 3.10.0-229.4.2.el7.x86_64</sentence>
+			<sentence id="4.38">Operating System: CentOS Linux 7 (Core)</sentence>
+			<sentence id="4.39">CPUs: 4</sentence>
+			<sentence id="4.40">Total Memory: 3.416 GiB</sentence>
+			<sentence id="4.41">Name: homeserver.mydomain.com</sentence>
+			<sentence id="4.42">ID: XFON:B5HF:DXCL:PHYU:REMG:TVRW:HQ75:4KZ7:7A2S:ONEG:IOZR:AUQC</sentence>
+			<sentence id="4.43">: linux/amd64</sentence>
+			<sentence id="4.44">Server version: 1.6.0</sentence>
+			<sentence id="4.45">Server API version: 1.18</sentence>
+			<sentence id="4.46">Go version (server): go1.4.2</sentence>
+			<sentence id="4.47">Git commit (server): 8aae715/1.6.0</sentence>
+			<sentence id="4.48">OS/Arch (server): linux/amd64</sentence>
+			<sentence id="4.49">docker info</sentence>
+			<sentence id="4.50">uname -a</sentence>
+			<sentence id="4.51">Linux homeserver 3.10.0-229.4.2.el7.x86_64 #1 SMP Wed May 13 10:06:09 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Environment details:
+centos 7 as host 
+debian jessie as image.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">actual result:</sentence>
+			<sentence id="6.2">-r-xr-xr-x.</sentence>
+			<sentence id="6.3">1 root postdrop 14328 Nov 4 2014 postdrop</sentence>
+			<sentence id="6.4">-r-xr-xr-x.</sentence>
+			<sentence id="6.5">1 root postdrop 14280 Nov 4 2014 postqueue</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Expected Results:</sentence>
+			<sentence id="7.2">-r-xr-sr-x.</sentence>
+			<sentence id="7.3">1 root postdrop 14328 Nov 4 2014 postdrop</sentence>
+			<sentence id="7.4">-r-xr-sr-x.</sentence>
+			<sentence id="7.5">1 root postdrop 14280 Nov 4 2014 postqueue</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">DO you have an idea?</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">thank you</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>82564</id>
+	<title>Exporting doc(x) to pdf via command-line doesn't include fonts on Ubuntu</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 104565
+Source docx file</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I try to export a docx file that contains some windows only fonts via the command-line.</sentence>
+			<sentence id="2.2">The command looks like:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">soffice  --headless --invisible --nologo --nolockcheck --convert-to pdf "LandingPageMockUpDRAFTv1.docx" --outdir .</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">On OS X the fonts get properly replaced and the resulting PDF looks fine.</sentence>
+			<sentence id="4.2">On Ubuntu however, the fonts do not properly get replaced.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This used to work fine on 3.6 but no longer on 4.0.</sentence>
+			<sentence id="5.2">The latest version on which I confirmed it's not working is version 4.3.0.4 available from the libreoffice-4-3 ppa.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I assume this is related to http://cgit.freedesktop.org/libreoffice/core/commit/?id=feaebe7f93779d5c91c24c31ff91f756c69e9640 where some default font embedding got removed?</sentence>
+		</paragraph>
+	</description>
+</bug>

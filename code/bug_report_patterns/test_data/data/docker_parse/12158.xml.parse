@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12158</id>
+	<title>Windows CLI: Ctrl+C terminates attached session</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This is a regression.</sentence>
+			<sentence id="1.2">Sending kill signal to the Linux process (like `top`) while attached to a container (either with `attach`/`exec` or `run -i -t`) from Windows CLI terminates the docker.exe.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">It used to terminate only the process being executed and was going back to the shell prompt.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Repro:</sentence>
+			<sentence id="4.1">1 Use windows CLI to run `docker run -it ubuntu bash`, you get bash prompt.</sentence>
+			<sentence id="4.2">2 Hit Ctrl+C</sentence>
+			<sentence id="4.3">3 docker.exe exited.</sentence>
+			<sentence id="4.4">You're now in cmd.exe prompt.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">cc: @brendandixon @icecrime</sentence>
+		</paragraph>
+	</description>
+</bug>

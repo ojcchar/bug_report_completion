@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22668</id>
+	<title>BUG? can't set `--cpu-quota` flag</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">First time screwing around with the resource restrictions, so figured it's probably me who missed something.</sentence>
+			<sentence id="1.2">.</sentence>
+			<sentence id="1.3">but I can't find any other information on how to do this differently then what I tried, so here it goes:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+Client version: 1.6.2
+Client API version: 1.18
+Go version (client): go1.3.3
+Git commit (client): 7c8fca2
+OS/Arch (client): linux/amd64
+Server version: 1.6.2
+Server API version: 1.18
+Go version (server): go1.3.3
+Git commit (server): 7c8fca2
+OS/Arch (server): linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">**Output of `docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+Containers: 5
+Images: 170
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 180
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Kernel Version: 3.19.0-59-generic
+Operating System: Ubuntu 15.04
+CPUs: 4
+Total Memory: 15.62 GiB
+Name: work
+ID: WHKM:OMPO:DBD3:L3BI:74VQ:36OR:LATF:M7EF:SGKQ:UQW6:UPD6:KQHH
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="6.2">1 set `--cpu-quota=50000`</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">**Describe the results you received:**</sentence>
+			<sentence id="7.2">`flag provided but not defined: --cpu-quota`</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">**Describe the results you expected:**</sentence>
+			<sentence id="8.2">I expected it to set the container to limit it's CPU usage to 50%</sentence>
+		</paragraph>
+	</description>
+</bug>

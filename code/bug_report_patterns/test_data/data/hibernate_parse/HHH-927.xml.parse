@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-927</id>
+	<title>SchemaExport ignores not-null constraint in valid mapping, for given example</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">SchemaExport ignores the not-null constraint in valid hibernate-mapping document for example.</sentence>
+			<sentence id="1.2">&lt;class&gt;
+ ...
+		&lt;property name="suffixPrefix" length="1" not-null="true"&gt;
+			&lt;column name="SUFFIX_PREFIX" sql-type="char(1)" &gt;
+				&lt;comment&gt;Valid types are; S (suffix), P (prefix), B (both)&lt;/comment&gt;
+			&lt;/column&gt;
+		&lt;/property&gt;
+	&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">moving the not-null into the column element resolves this issues and schemaExport includes not-null constraint.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;column name="SUFFIX_PREFIX" sql-type="char(1)" not-null="true" &gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

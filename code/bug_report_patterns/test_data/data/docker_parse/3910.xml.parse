@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3910</id>
+	<title>Memory limit lost after reboot</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I am starting docker container as sandbox enviroment via REST API.</sentence>
+			<sentence id="1.2">I am using this configuration for start : {"Image":"frantiseks/apac","Memory":104857600,"CpuShares":50}</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Container is created successfully, with memory limit, a everything works ok, but after machine reboot, this memory limit is lost and in inspected container I get
+ "Config": {
+ .....
+ "Memory": 0,
+ "MemorySwap": 0,
+ "CpuShares": 50,
+ ....
+ },</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">So memory limit is not applied on container anymore.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Docker version:
+Client version: 0.7.6
+Go version (client): go1.2
+Git commit (client): bc3b2ec
+Server version: 0.7.6
+Git commit (server): bc3b2ec
+Go version (server): go1.2
+Last stable version: 0.7.6</sentence>
+		</paragraph>
+	</description>
+</bug>

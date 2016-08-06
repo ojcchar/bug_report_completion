@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19950</id>
+	<title>"Unrecognized input header" interrupting docker client1.10.3</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I am seeing this in 1.10.0 rc1 and rc2 about 5~10% of the time.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The `docker run` client exited with "Unrecognized input header" after a few minutes, but the container was still running and you can see new output with `docker logs -f`</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The `docker run` cmmand is: (simplified just to show what switches are being used)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+docker run --entrypoint /sbin/smell-baron --name somename -h somehost --volumes-from somevolume -e BRANCH=foo -v /path/to/devscript:/devscript $IMAGE bash -l /devscript/build.</sentence>
+			<sentence id="4.2">sh
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I don't have a small reproducible case at the moment though.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">`docker inspect` the container shows: (looks very normal)</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">```
+ "State": {
+ "Status": "exited",
+ "Running": false,
+ "Paused": false,
+ "Restarting": false,
+ "OOMKilled": false,
+ "Dead": false,
+ "Pid": 0,
+ "ExitCode": 0,
+ "Error": "",
+ "StartedAt": "2016-02-02T21:10:56.5227335Z",
+ "FinishedAt": "2016-02-02T21:15:22.471208248Z"
+ },
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

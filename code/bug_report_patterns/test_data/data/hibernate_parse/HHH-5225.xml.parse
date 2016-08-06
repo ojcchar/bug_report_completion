@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5225</id>
+	<title>Cannot parse order-by fragment if it contains a registered function without parentheses</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When upgrading from Hibernate 3.2.5.</sentence>
+			<sentence id="1.2">ga to the newest Hibernate 3.5.1-Final with the newest build-with dependent libraries an error occurs during initial phase of launching application.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I tried to build and run with all libraries from lib directory from Hibernate zip download.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The order-by clause is configured in hbm.xml:
+&lt;hibernate-mapping&gt;
+	&lt;class name="com.test.Object" table="err"&gt;
+		&lt;id name="id" type="java.lang.Long"&gt;
+			&lt;generator class="native" /&gt;
+		</id></sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&lt;set name="history" table="history" lazy="true" order-by="timestamp desc" cascade="all-delete-orphan"&gt;
+			&lt;key column="object_id" /&gt;
+			&lt;one-to-many class="com.test.Event" /&gt;
+		&lt;/set&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&lt;/class&gt;
+&lt;/hibernate-mapping&gt;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1"></sentence>
+			<sentence id="6.2">The exception is:</sentence>
+			<sentence id="6.3">org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sessionFactory' defined in class path resource [applicationContext-dao-hibernate.xml]: Invocation of init method failed; nested exception is org.hibernate.HibernateException: Unable to parse order-by fragment</sentence>
+			<sentence id="6.4">Caused by: org.hibernate.HibernateException: Unable to parse order-by fragment</sentence>
+			<sentence id="6.5">	at org.hibernate.sql.ordering.antlr.OrderByFragmentTranslator.render(OrderByFragmentTranslator.java:66)</sentence>
+			<sentence id="6.6">	at org.hibernate.sql.Template.renderOrderByStringTemplate(Template.java:310)</sentence>
+			<sentence id="6.7">	at org.hibernate.persister.collection.AbstractCollectionPersister.&lt;init&gt;(AbstractCollectionPersister.java:557)</sentence>
+			<sentence id="6.8">	at org.hibernate.persister.collection.OneToManyPersister.&lt;init&gt;(OneToManyPersister.java:84)</sentence>
+			<sentence id="6.9">	at org.hibernate.persister.PersisterFactory.createCollectionPersister(PersisterFactory.java:104)</sentence>
+			<sentence id="6.10">and more...</sentence>
+			<sentence id="6.11">Caused by: java.lang.NullPointerException</sentence>
+			<sentence id="6.12">	at org.hibernate.sql.ordering.antlr.OrderByFragmentParser.resolveFunction(OrderByFragmentParser.java:115)</sentence>
+			<sentence id="6.13">	at org.hibernate.sql.ordering.antlr.GeneratedOrderByFragmentParser.expression(GeneratedOrderByFragmentParser.java:619)</sentence>
+			<sentence id="6.14">	at org.hibernate.sql.ordering.antlr.GeneratedOrderByFragmentParser.sortKey(GeneratedOrderByFragmentParser.java:337)</sentence>
+			<sentence id="6.15">	at org.hibernate.sql.ordering.antlr.GeneratedOrderByFragmentParser.sortSpecification(GeneratedOrderByFragmentParser.java:248)</sentence>
+			<sentence id="6.16">	at org.hibernate.sql.ordering.antlr.GeneratedOrderByFragmentParser.orderByFragment(GeneratedOrderByFragmentParser.java:192)</sentence>
+			<sentence id="6.17">	at org.hibernate.sql.ordering.antlr.OrderByFragmentTranslator.render(OrderByFragmentTranslator.java:60)</sentence>
+			<sentence id="6.18">	... 38 more</sentence>
+		</paragraph>
+	</description>
+</bug>

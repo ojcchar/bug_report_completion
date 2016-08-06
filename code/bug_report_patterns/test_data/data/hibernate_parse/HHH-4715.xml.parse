@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4715</id>
+	<title>Unexpected results when an updated entity that is already modifiable is set to modifiable again</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If an entity that is already set to modifiable is updated, then set to modifiable again, the updates will not be flushed on commit.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This is because there is no check to see if the entity is already modifiable before 
+changing the snapshot to match the current (updated) entity state in the session.</sentence>
+			<sentence id="2.2">On flush, the current state of the entity in the session is compared with its snapshot.</sentence>
+			<sentence id="2.3">Since it is the same, the entity appears to not be dirty, so the updates are not persisted.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The fix for this is to not change the snapshot when an entity is set to modifiable if that entity is already modifiable.</sentence>
+		</paragraph>
+	</description>
+</bug>

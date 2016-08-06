@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>18087</id>
+	<title>Invalid memory limit in container cgroup file</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">**Description of problem:**</sentence>
+			<sentence id="1.2">When running containers without memory limits, the memory cgroup file that stores the memory limit has an invalid value.</sentence>
+			<sentence id="1.3">See the following steps to reproduce for details:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```bash
+$ docker run -d redis
+08bd1b1ef7667906112e5bafe6fe8125ee6fd983ce2f411aa5e55d215db03835
+$ docker inspect -f '{{.</sentence>
+			<sentence id="2.2">HostConfig.Memory}}' 08bd1b1ef766
+0 # This is expected
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The redis container has no memory constraints, so it should be able to use all host memory.</sentence>
+			<sentence id="3.2">However, the memory cgroup for the container shows an invalid value, far bigger than the actual total memory in the host.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```bash
+$ grep Mem /proc/meminfo 
+MemTotal: 4035420 kB # Total host memory.</sentence>
+			<sentence id="4.2">Expected to match the cgroup limit
+MemFree: 297544 kB
+$ cat /sys/fs/cgroup/memory/docker/08bd1b1ef7667906112e5bafe6fe8125ee6fd983ce2f411aa5e55d215db03835/memory.limit_in_bytes 
+18446744073709551615 # This is 17179869183 GB memory, which is obviously wrong
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">When running containers with memory constraints, the memory limit cgroup file has the right value.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">**docker version**:</sentence>
+			<sentence id="6.2">Client:</sentence>
+			<sentence id="6.3">Version: 1.9.0</sentence>
+			<sentence id="6.4">API version: 1.21</sentence>
+			<sentence id="6.5">Go version: go1.4.2</sentence>
+			<sentence id="6.6">Git commit: 76d6bc9</sentence>
+			<sentence id="6.7">Built: Tue Nov 3 17:43:42 UTC 2015</sentence>
+			<sentence id="6.8">OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:
+ Version: 1.9.0
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: 76d6bc9
+ Built: Tue Nov 3 17:43:42 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">**docker info**:</sentence>
+			<sentence id="8.2">Containers: 3</sentence>
+			<sentence id="8.3">Images: 65</sentence>
+			<sentence id="8.4">Server Version: 1.9.0</sentence>
+			<sentence id="8.5">Storage Driver: aufs</sentence>
+			<sentence id="8.6">Root Dir: /var/lib/docker/aufs</sentence>
+			<sentence id="8.7">Backing Filesystem: extfs</sentence>
+			<sentence id="8.8">Dirs: 71</sentence>
+			<sentence id="8.9">Dirperm1 Supported: false</sentence>
+			<sentence id="8.10">Execution Driver: native-0.2</sentence>
+			<sentence id="8.11">Logging Driver: json-file</sentence>
+			<sentence id="8.12">Kernel Version: 3.13.0-67-generic</sentence>
+			<sentence id="8.13">Operating System: Ubuntu 14.04.3 LTS</sentence>
+			<sentence id="8.14">CPUs: 8</sentence>
+			<sentence id="8.15">Total Memory: 3.848 GiB</sentence>
+			<sentence id="8.16">Name: thunder04</sentence>
+			<sentence id="8.17">ID: IXHS:LGA5:GUVS:3MFH:7FQ3:CKCL:GB5C:6JGU:YKDO:YOCN:B6KI:2MLX</sentence>
+			<sentence id="8.18">WARNING: No swap limit support</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">**uname -a**:</sentence>
+			<sentence id="9.2">Linux thunder04 3.13.0-67-generic #110-Ubuntu SMP Fri Oct 23 13:24:41 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">**Environment details (AWS, VirtualBox, physical, etc.)**:</sentence>
+			<sentence id="10.2">Physical host.</sentence>
+			<sentence id="10.3">Detailed hardware information available [here](https://gist.github.com/nacx/8977840af3adbd008680).</sentence>
+		</paragraph>
+	</description>
+</bug>

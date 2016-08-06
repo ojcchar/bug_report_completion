@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-6677</id>
+	<title>skip @BeforeClassOnce / @AfterClassOnce if test is ignored </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">https://hudson.qa.jboss.com/hudson/job/hibernate-core-master-matrix/database=postgresql84,jdk=java16_default,label=hibernate/lastCompletedBuild/testReport/org.hibernate.test.rowid/RowIdTest/classMethod/</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">this test fails on PostgreSQL but it should be ignored by @RequiresDialect( value = Oracle9iDialect.class ) on PostgreSQL.</sentence>
+			<sentence id="2.2">the failure happens at buildSessionFactory method (with @BeforeClassOnce) in the base test class.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3652</id>
+	<title>CompositeIdWithGeneratorTest needs a standard way to compare timestamps</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Entities retrieved from database have milliseconds in its timestamp, while the timestamp of the same record doesn't.</sentence>
+			<sentence id="1.2">So, when comparing both in assertEquals, it gives a failure, even though the timestamps are the same.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Formatting both timestamps using SimpleDateFormat makes it pass.</sentence>
+			<sentence id="2.2">The attached patch fixes it, using the longest format possible without milliseconds.</sentence>
+		</paragraph>
+	</description>
+</bug>

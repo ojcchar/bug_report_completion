@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>41577</id>
+	<title>PIVOTTABLE: floating-point data from database getting converted to date</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 52102
+inside the blue boundary, what calc gets from the datapilot fed from the database; inside the red boundary, what base sees in the same database</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Problem description:</sentence>
+			<sentence id="2.2">When LibreOffice calc retrieves floating-point data from a LibreOffice database (odb file) while having a locale setting with comma as the decimal separator, a floating-point number from the database may get changed by calc (and therefore lost from the spreadsheet) into a date.</sentence>
+			<sentence id="2.3">That is, a number like 2.12 gets changed into an integer (in this example, 40879) which yields 2/12/01 (December 2nd 2011) in date format.</sentence>
+			<sentence id="2.4">The floating-point data is then forever lost.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Steps to reproduce:</sentence>
+			<sentence id="3.2">1 Create a txt file like the following (without the pounds of course):</sentence>
+			<sentence id="3.3">##########################</sentence>
+			<sentence id="3.4">numbers field</sentence>
+			<sentence id="3.5">22,1 a</sentence>
+			<sentence id="3.6">22 b</sentence>
+			<sentence id="3.7">55,1 c</sentence>
+			<sentence id="3.8">5 501 d</sentence>
+			<sentence id="3.9">5 5001 e</sentence>
+			<sentence id="3.10">5 50001 f</sentence>
+			<sentence id="3.11">##########################</sentence>
+			<sentence id="3.11">2 Fire up database and connect to that txt file for it to create a table from that txt file using space as field separator and comma as decimal separator.</sentence>
+			<sentence id="3.12">Save that odb file and register it to your data sources (so you can later access it from calc)</sentence>
+			<sentence id="3.13">2 a. check that in the database, everything seems ok; double-clicking the table you just created gives you:</sentence>
+			<sentence id="5.2">#########################</sentence>
+			<sentence id="3.14">numbers field</sentence>
+			<sentence id="3.15">22,10 a</sentence>
+			<sentence id="3.16">22,00 b</sentence>
+			<sentence id="3.17">55,10 c</sentence>
+			<sentence id="3.18">5 50 d</sentence>
+			<sentence id="3.19">5 50 e</sentence>
+			<sentence id="3.20">5 50 f</sentence>
+			<sentence id="3.21">#########################</sentence>
+			<sentence id="3.22">and right-clicking the table and selecting "edit" shows you that:</sentence>
+			<sentence id="5.12">#########################</sentence>
+			<sentence id="3.23">Field Name   Field Type</sentence>
+			<sentence id="3.24">numbers     Decimal [ DECIMAL ]</sentence>
+			<sentence id="3.25">field      Text [ VARCHAR ]</sentence>
+			<sentence id="5.16">#########################</sentence>
+			<sentence id="3.26">3 fire up calc, go to Data -&gt; DataPilot -&gt; Start... -&gt; Data source registered in LibreOffice</sentence>
+			<sentence id="3.27">In "Database", select your data source, this one you have just registered</sentence>
+			<sentence id="3.28">In "Data Source", select the table with that test data you have just created</sentence>
+			<sentence id="3.29">In "Type", select "sheet"</sentence>
+			<sentence id="3.30">Confirm.</sentence>
+			<sentence id="3.31">Then, in the box that appears, drag "field" to the "Row fields" area, and then do the same with "numbers".</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.40">Current behavior:</sentence>
+			<sentence id="8.1">A sheet is created in calc, with the following table:</sentence>
+			<sentence id="8.2">##############################</sentence>
+			<sentence id="8.3">|    A     |       B</sentence>
+			<sentence id="8.4">--------------------------</sentence>
+			<sentence id="8.5">1| field    |    numbers</sentence>
+			<sentence id="8.6">--------------------------</sentence>
+			<sentence id="8.7">2|   a      | 22/01/11</sentence>
+			<sentence id="8.8">--------------------------</sentence>
+			<sentence id="8.9">3|   b      | 22</sentence>
+			<sentence id="8.10">--------------------------</sentence>
+			<sentence id="8.11">4|   c      | 55.1</sentence>
+			<sentence id="8.12">--------------------------</sentence>
+			<sentence id="8.13">5|   d      | 5501</sentence>
+			<sentence id="8.14">--------------------------</sentence>
+			<sentence id="8.15">6|   e      | 01/05/01</sentence>
+			<sentence id="8.16">--------------------------</sentence>
+			<sentence id="8.17">7|   f      | 5.50001</sentence>
+			<sentence id="8.18">##############################</sentence>
+			<sentence id="8.19">additionally, if I enter the following formulas in cells next to that table:</sentence>
+			<sentence id="8.20">=ISNUMBER(B2)</sentence>
+			<sentence id="8.21">=ISTEXT(B2)</sentence>
+			<sentence id="8.22">=ISNONTEXT(B2)</sentence>
+			<sentence id="8.23">and drag down to get information about the data types of whatever got inside calc, I get:</sentence>
+			<sentence id="8.24">##########################################################</sentence>
+			<sentence id="8.25">|    A     |       B     |    c     |   d    |     e</sentence>
+			<sentence id="8.26">----------------------------------------------------------</sentence>
+			<sentence id="8.27">1| field    |    numbers  | isnumber | istext | isnontext</sentence>
+			<sentence id="8.28">----------------------------------------------------------</sentence>
+			<sentence id="8.29">2|   a      | 22/01/11    |    1     | false  | 1</sentence>
+			<sentence id="8.30">----------------------------------------------------------</sentence>
+			<sentence id="8.31">3|   b      | 22          |    1     | false  | 1</sentence>
+			<sentence id="8.32">----------------------------------------------------------</sentence>
+			<sentence id="8.33">4|   c      | 55.1        | false    |   1    | false</sentence>
+			<sentence id="8.34">----------------------------------------------------------</sentence>
+			<sentence id="8.35">5|   d      | 5501        |    1     | false  | 1</sentence>
+			<sentence id="8.36">----------------------------------------------------------</sentence>
+			<sentence id="8.37">6|   e      | 01/05/01    |    1     | false  | 1</sentence>
+			<sentence id="8.38">----------------------------------------------------------</sentence>
+			<sentence id="8.39">7|   f      | 5.50001     | false    |   1    | false</sentence>
+			<sentence id="8.40">##########################################################</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Expected behavior:</sentence>
+			<sentence id="9.2">A sheet is created in calc, with the following table:</sentence>
+			<sentence id="9.3">##########################################################</sentence>
+			<sentence id="9.4">|    A     |       B     |    c     |   d    |     e</sentence>
+			<sentence id="9.5">----------------------------------------------------------</sentence>
+			<sentence id="9.6">1| field    |    numbers  | isnumber | istext | isnontext</sentence>
+			<sentence id="9.7">----------------------------------------------------------</sentence>
+			<sentence id="9.8">2|   a      | 22,1        |    1     | false  | 1</sentence>
+			<sentence id="9.9">----------------------------------------------------------</sentence>
+			<sentence id="9.10">3|   b      | 22          |    1     | false  | 1</sentence>
+			<sentence id="9.11">----------------------------------------------------------</sentence>
+			<sentence id="9.12">4|   c      | 55,1        |    1     | false  | 1</sentence>
+			<sentence id="9.13">----------------------------------------------------------</sentence>
+			<sentence id="9.14">5|   d      | 5,501       |    1     | false  | 1</sentence>
+			<sentence id="9.15">----------------------------------------------------------</sentence>
+			<sentence id="9.16">6|   e      | 5,5001      |    1     | false  | 1</sentence>
+			<sentence id="9.17">----------------------------------------------------------</sentence>
+			<sentence id="9.18">7|   f      | 5,50001     |    1     | false  | 1</sentence>
+			<sentence id="9.19">##########################################################</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">OBS: this appears to be a problem in the integration between base and calc, since base sees everything as floats and knows where the decimal separator is and calc simply converts data to whatever it thinks it is.</sentence>
+			<sentence id="10.2">Numbers come to calc with dots even though the locale is set to use commas both system-wide and LibreOffice-wide, and numbers within date range (between 1 and 31 for days and 1 and 12 for months) get converted to date.</sentence>
+			<sentence id="10.3">Notice that 55,1 and 5,50001 didn't get converted to date but got converted to text and 5,501 simply lost it's decimal information (maybe got converted to a year??)</sentence>
+			<sentence id="10.4">This also happens if the txt is created with dots instead of commas and base is told to use dot as decimal separator.</sentence>
+			<sentence id="10.5">Base shows things as they should be, and calc shows them messed up.</sentence>
+			<sentence id="10.6">I think it is absurd to have the date autoformatting in DataPilots since the data is being retrieved from a database (and therefore cannot be a typo); it has been suggested before to have an option to disable the autoconverting of strings with numbers and dots into dates and I see here a good reason why the software should be told when it **doesn't** know better than the user.</sentence>
+			<sentence id="10.7">In DataPilots there shouldn't even exist an option to "autofix" things, since anything wrong there must be fixed in the database, which relies externally, and should those things be fixed automatically in the spreadsheet, mistakes in the database might get unnoticed.</sentence>
+			<sentence id="10.8">As DataPilot cells are locked against formatting, cell formatting is not an option.</sentence>
+			<sentence id="10.9">Also, trying to change the style of text of the DataPilot entries doesn't work.</sentence>
+			<sentence id="10.10">Changing the locale of the whole LibreOffice suite to one that uses dot as decimal separator solves it, but that is **not** an option either (I have documents that must be published countries where comma is the standard for decimal separator) and this behaviour is not what it is supposed to be anyway; calc should be able to understand what data are strings and what are floats anywhere in the world.</sentence>
+		</paragraph>
+	</description>
+</bug>

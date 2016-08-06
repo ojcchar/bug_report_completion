@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>15253</id>
+	<title>Inconsistent filter behavior in list images API</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```
+pjknkda@srv02:~/workspace$ docker version
+Client version: 1.7.0
+Client API version: 1.19
+Go version (client): go1.4.2
+Git commit (client): 0baf609
+OS/Arch (client): linux/amd64
+Server version: 1.7.0
+Server API version: 1.19
+Go version (server): go1.4.2
+Git commit (server): 0baf609
+OS/Arch (server): linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+pjknkda@srv02:~/workspace$ docker info
+Containers: 52
+Images: 37
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 141
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 3.16.0-41-generic
+Operating System: Ubuntu 14.04.2 LTS
+CPUs: 8
+Total Memory: 15.62 GiB
+Name: srv02
+ID: 5VQJ:PHZT:NAMG:E7PU:DWA5:YXXV:YV7R:AF2G:E3AT:GJIC:CWVR:HNLA
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+pjknkda@srv02:~/workspace$ uname -a
+Linux srv02 3.16.0-41-generic #57~14.04.1-Ubuntu SMP Thu Jun 18 18:01:13 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Environment details (AWS, VirtualBox, physical, etc.): Physical Machine</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">If I set both **filter** and **label filter** to list images API, it does not return consistent result when I use **filter** alone.</sentence>
+			<sentence id="5.2">In other words, remote API said the API "only return images with the specified name" with **filter** but it's broken with **label filter**.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">For example, if I set **filter** to "python", all returned images are containing word "python" in their repo tag.</sentence>
+			<sentence id="6.2">But if I set additional **label filter** "key1=value1", the API returns images containing "key1=value1" in label but without containing word "python" in their repo tag.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I think the problem caused in [/graph/list.</sentence>
+			<sentence id="7.2">go#L129](https://github.com/docker/docker/blob/master/graph/list.go#L129) and I have no idea whether this behavior was intended or not.</sentence>
+		</paragraph>
+	</description>
+</bug>

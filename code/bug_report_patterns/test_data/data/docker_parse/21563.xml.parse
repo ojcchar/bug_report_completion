@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>21563</id>
+	<title>Docker re-pushing layers that already exist</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">&lt;!</sentence>
+			<sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+			<sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+			<sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+			<sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+			<sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">---------------------------------------------------</sentence>
+			<sentence id="4.2">BUG REPORT INFORMATION</sentence>
+			<sentence id="4.3">---------------------------------------------------</sentence>
+			<sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+			<sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+			<sentence id="4.6">--&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+Docker version 1.10.3, build 20f81dd
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">**Output of `docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">```</sentence>
+			<sentence id="8.2">Containers: 2</sentence>
+			<sentence id="8.3"> Running: 0</sentence>
+			<sentence id="8.4"> Paused: 0</sentence>
+			<sentence id="8.5"> Stopped: 2</sentence>
+			<sentence id="8.6">Images: 18</sentence>
+			<sentence id="8.7">Server Version: 1.10.3</sentence>
+			<sentence id="8.8">Storage Driver: aufs</sentence>
+			<sentence id="8.9"> Root Dir: /mnt/sda1/var/lib/docker/aufs</sentence>
+			<sentence id="8.10"> Backing Filesystem: extfs</sentence>
+			<sentence id="8.11"> Dirs: 36</sentence>
+			<sentence id="8.12"> Dirperm1 Supported: true</sentence>
+			<sentence id="8.13">Execution Driver: native-0.2</sentence>
+			<sentence id="8.14">Logging Driver: json-file</sentence>
+			<sentence id="8.15">Plugins: </sentence>
+			<sentence id="8.16"> Volume: local</sentence>
+			<sentence id="8.17"> Network: bridge null host</sentence>
+			<sentence id="8.18">Kernel Version: 4.1.19-boot2docker</sentence>
+			<sentence id="8.19">Operating System: Boot2Docker 1.10.3 (TCL 6.4.1); master : 625117e - Thu Mar 10 22:09:02 UTC 2016</sentence>
+			<sentence id="8.20">OSType: linux</sentence>
+			<sentence id="8.21">Architecture: x86_64</sentence>
+			<sentence id="8.22">CPUs: 1</sentence>
+			<sentence id="8.23">Total Memory: 996.1 MiB</sentence>
+			<sentence id="8.24">Name: nomad</sentence>
+			<sentence id="8.25">ID: X2GW:QDJA:C5TA:JVIA:GFGF:7JQ3:TAD7:AUDZ:4MXB:3AGQ:7CRD:BBTF</sentence>
+			<sentence id="8.26">Debug mode (server): true</sentence>
+			<sentence id="8.27"> File Descriptors: 24</sentence>
+			<sentence id="8.28"> Goroutines: 74</sentence>
+			<sentence id="8.29"> System Time: 2016-03-28T05:48:48.120102054Z</sentence>
+			<sentence id="8.30"> EventsListeners: 0</sentence>
+			<sentence id="8.31"> Init SHA1: </sentence>
+			<sentence id="8.32"> Init Path: /usr/local/bin/docker</sentence>
+			<sentence id="8.33"> Docker Root Dir: /mnt/sda1/var/lib/docker</sentence>
+			<sentence id="8.34">Username: ahawkins</sentence>
+			<sentence id="8.35">Registry: https://index.docker.io/v1/</sentence>
+			<sentence id="8.36">Labels:</sentence>
+			<sentence id="8.37"> provider=virtualbox</sentence>
+			<sentence id="8.38">```</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="9.2">1 push an image</sentence>
+			<sentence id="9.3">2 push the same image again</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">See the push logs below.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">```</sentence>
+			<sentence id="11.2">--- Pushing docker image</sentence>
+			<sentence id="11.3">docker tag saltside/kpi-collector saltside/kpi-collector:dfc2764</sentence>
+			<sentence id="11.4">docker push saltside/kpi-collector:dfc2764</sentence>
+			<sentence id="11.5">The push refers to a repository [docker.io/saltside/kpi-collector]</sentence>
+			<sentence id="11.6">9bacd71114e5: Pushed</sentence>
+			<sentence id="11.7">3794c15d11df: Pushed</sentence>
+			<sentence id="11.8">b8bcfc8384a2: Pushed</sentence>
+			<sentence id="11.9">b71bdca960dc: Pushed</sentence>
+			<sentence id="11.10">697744b2f42a: Pushed</sentence>
+			<sentence id="11.11">5f70bf18a086: Pushed</sentence>
+			<sentence id="11.12">1e31ca6be1c6: Pushed</sentence>
+			<sentence id="11.13">2926d01a2ccc: Pushed</sentence>
+			<sentence id="11.14">7a2764f609e7: Pushed</sentence>
+			<sentence id="11.15">f5b219c22487: Pushed</sentence>
+			<sentence id="11.16">35a0078b4d2e: Pushed</sentence>
+			<sentence id="11.17">fb49515ec5d8: Pushed</sentence>
+			<sentence id="11.18">bd750002938c: Pushed</sentence>
+			<sentence id="11.19">917c0fc99b35: Pushed</sentence>
+			<sentence id="11.20">dfc2764: digest: sha256:5c7b3e780e123a3e920eb832cac5c804ee5639bb85c650fe7a7296ae44cf01f4 size: 17481</sentence>
+			<sentence id="11.21">--- Pushing docker image</sentence>
+			<sentence id="11.22">docker tag saltside/kpi-collector saltside/kpi-collector:dfc2764</sentence>
+			<sentence id="11.23">docker push saltside/kpi-collector:dfc2764</sentence>
+			<sentence id="11.24">The push refers to a repository [docker.io/saltside/kpi-collector]</sentence>
+			<sentence id="11.25">9bacd71114e5: Layer already exists</sentence>
+			<sentence id="11.26">3794c15d11df: Layer already exists</sentence>
+			<sentence id="11.27">b8bcfc8384a2: Layer already exists</sentence>
+			<sentence id="11.28">b71bdca960dc: Layer already exists</sentence>
+			<sentence id="11.29">697744b2f42a: Pushing 2.048 kB</sentence>
+			<sentence id="11.30">5f70bf18a086: Layer already exists</sentence>
+			<sentence id="11.31">697744b2f42a: Pushed</sentence>
+			<sentence id="11.32">2926d01a2ccc: Pushing 1.385 MB</sentence>
+			<sentence id="11.33">7a2764f609e7: Pushing 2.201 MB/117.6 MB</sentence>
+			<sentence id="11.34">1e31ca6be1c6: Pushed</sentence>
+			<sentence id="11.35">2926d01a2ccc: Pushed</sentence>
+			<sentence id="11.36">7a2764f609e7: Pushed</sentence>
+			<sentence id="11.37">f5b219c22487: Pushed</sentence>
+			<sentence id="11.38">35a0078b4d2e: Pushed</sentence>
+			<sentence id="11.39">fb49515ec5d8: Pushed</sentence>
+			<sentence id="11.40">bd750002938c: Pushed</sentence>
+			<sentence id="11.41">917c0fc99b35: Pushed</sentence>
+			<sentence id="11.42">dfc2764: digest: sha256:5c7b3e780e123a3e920eb832cac5c804ee5639bb85c650fe7a7296ae44cf01f4 size: 17481</sentence>
+			<sentence id="11.43">```</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">As you can see the layer ID are the same and the final SHA is the same as well.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">**Describe the results you received:**</sentence>
+			<sentence id="13.2">Docker is pushing layers when it does not need to.</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">**Describe the results you expected:**</sentence>
+			<sentence id="15.2">To not push layers that already exist in the remote registry</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">This seeminly started last week at one point.</sentence>
+			<sentence id="18.2">Was there a change to the registry in production?</sentence>
+			<sentence id="18.3">I've since deleted the repo in our company's docker hub account and tried with a new docker machine (given I'm on OSX).</sentence>
+			<sentence id="18.4">This same behavior is happening on other machines with other docker versions.</sentence>
+		</paragraph>
+	</description>
+</bug>

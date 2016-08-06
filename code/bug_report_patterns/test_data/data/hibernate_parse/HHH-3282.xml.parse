@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3282</id>
+	<title>DB2Dialect should report supportsLobValueChangePropogation() == false</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Currently, org.hibernate.dialect.DB2Dialect does not override the supportsLobValueChangePropogation() method.</sentence>
+			<sentence id="1.2">The base Dialect defaults that to true.</sentence>
+			<sentence id="1.3">In my tests against a 9.1.3a server with the IBM drivers, the changing of the locator value was certainly not propagated.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>93772</id>
+	<title>switching context does not un-bind framebuffers correctly ...</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This leaves the code with the impression that a framebuffer is bound to the previous context - and stops us binding it again - which looks problematic:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">151523 glDebugMessageInsert(source = GL_DEBUG_SOURCE_APPLICATION, type = GL_DEBUG_TYPE_OTHER, id = 1, severity = GL_DEBUG_SEVERITY_LOW, length = 55, buf = "PaintHelper::DoPaint on class SvxColorValueSet '' start")
+...</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">151563 glBindFramebuffer(target = GL_FRAMEBUFFER, framebuffer = 6)
+151564 glDebugMessageInsert(source = GL_DEBUG_SOURCE_APPLICATION, type = GL_DEBUG_TYPE_OTHER, id = 1, severity = GL_DEBUG_SEVERITY_LOW, length = 21, buf = "Binding framebuffer 6")
+151567 glFramebufferTexture2D(target = GL_FRAMEBUFFER, attachment = GL_COLOR_ATTACHMENT0, textarget = GL_TEXTURE_2D, texture = 0, level = 0)
+151569 glDeleteTextures(n = 1, textures = &amp;152)
+151570 glDebugMessageInsert(source = GL_DEBUG_SOURCE_APPLICATION, type = GL_DEBUG_TYPE_OTHER, id = 1, severity = GL_DEBUG_SEVERITY_LOW, length = 10, buf = "::drawRect")</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">151574 wglMakeCurrent(hdc = 0x69011402, hglrc = 0x10003) = TRUE</sentence>
+			<sentence id="4.2">151576 glGenTextures(n = 1, textures = &amp;152)</sentence>
+			<sentence id="4.3">151577 glBindTexture(target = GL_TEXTURE_2D, texture = 152)</sentence>
+			<sentence id="4.4">151578 glTexParameteri(target = GL_TEXTURE_2D, pname = GL_TEXTURE_WRAP_S, param = GL_CLAMP_TO_EDGE)</sentence>
+			<sentence id="4.5">151579 glTexParameteri(target = GL_TEXTURE_2D, pname = GL_TEXTURE_WRAP_T, param = GL_CLAMP_TO_EDGE)</sentence>
+			<sentence id="4.6">151580 glTexParameteri(target = GL_TEXTURE_2D, pname = GL_TEXTURE_MIN_FILTER, param = GL_NEAREST)</sentence>
+			<sentence id="4.7">151581 glTexParameteri(target = GL_TEXTURE_2D, pname = GL_TEXTURE_MAG_FILTER, param = GL_NEAREST)</sentence>
+			<sentence id="4.8">151582 glTexImage2D(target = GL_TEXTURE_2D, level = 0, internalformat = GL_RGBA, width = 222, height = 16, border = 0, format = GL_RGBA, type = GL_UNSIGNED_BYTE, pixels = NULL)</sentence>
+			<sentence id="4.9">151583 glBindTexture(target = GL_TEXTURE_2D, texture = 0)</sentence>
+			<sentence id="4.10">151585 glDebugMessageInsert(source = GL_DEBUG_SOURCE_APPLICATION, type = GL_DEBUG_TYPE_OTHER, id = 1, severity = GL_DEBUG_SEVERITY_LOW, length = 38, buf = "Attaching texture 152 to framebuffer 6")</sentence>
+			<sentence id="4.11">151586 glFramebufferTexture2D(target = GL_FRAMEBUFFER, attachment = GL_COLOR_ATTACHMENT0, textarget = GL_TEXTURE_2D, texture = 152, level = 0)</sentence>
+			<sentence id="4.12">151587 glGetError() = GL_INVALID_OPERATION</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Unless I'm mistaken doing a wglMakeCurrent switches context, and we should re-bind the framebuffer to the next context before trying to bind a texture there.</sentence>
+		</paragraph>
+	</description>
+</bug>

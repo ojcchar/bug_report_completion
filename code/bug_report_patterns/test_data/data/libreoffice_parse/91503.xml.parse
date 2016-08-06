@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>91503</id>
+	<title>Spurious values when doing a simple subtraction (1 - 0.95)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 115864
+PrintScreen of Calc with spurious numbers</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I'm doing some calculation based in value status and when subtracting via IF-THEN function I received spurious numbers.</sentence>
+			<sentence id="2.2">See below:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Column D        	Column E		
+Line 6	0,96000000000000000000	0,01000000000000000000
+Line 7	0,96000000000000000000	0,00000000000000000000
+Line 8	0,95000000000000000000	0,04999999999999990000</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Function in Column E is:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">In pt-BR (my lang) or in en-US (I suppose)
+Line 7	SE(E6;E6-0,01;1-D7)	 IF(E6;E6-0.01;1-D7)
+Line 8	SE(E7;E7-0,01;1-D8)	 IF(E7;E7-0.01;1-D8)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">PS: same data in a PrintScreen attachment.</sentence>
+		</paragraph>
+	</description>
+</bug>

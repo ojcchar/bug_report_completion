@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4278</id>
+	<title>Polymorphic query on abstract function</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have the following classes adnnotated with hibernate:
+&lt;pre&gt;&lt;code&gt;
+@Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class Symbol 
+ implements Serializable {
+ 
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Integer id;</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">@AccessType("property")
+ public abstract String getCode();
+ 
+ @AccessType("property")
+ public abstract void setCode(String code);
+ }
+ 
+@javax.</sentence>
+			<sentence id="2.2">persistence.Entity
+@AttributeOverride( name="code", column = @Column(name="field1") )
+public class Child1 extends Symbol {
+ 
+ @Basic
+ @Column(nullable = false)
+ private String field1;
+ 
+ @AccessType("property")
+ public String getCode() {
+ return getField1();
+ }
+ 
+ @AccessType("property")
+ public void setCode(String code) {
+ setField1(code);
+ }
+ 
+ public void setField1(String field1) {
+ this.field1 = field1;
+ }</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">public String getField1() {
+ return field1;
+ }
+}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@javax.</sentence>
+			<sentence id="4.2">persistence.Entity
+@AttributeOverride( name="code", column = @Column(name="field2") )
+public class Child2 extends Symbol {
+ 
+ @Basic
+ @Column(nullable = false)
+ private String field2;
+ 
+ @AccessType("property")
+ public String getCode() {
+ return getField2();
+ }
+ 
+ @AccessType("property")
+ public void setCode(String code) {
+ setField1(code);
+ }
+ 
+ public void setField1(String field2) {
+ this.field2 = field2;
+ }</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">public String getField2() {
+ return field2;
+ }
+}
+&lt;/code&gt;&lt;/pre&gt;
+As objectual rules about polymorphisms the following query should be valid and to retrieve correct field value:
+session.createQuery("from Symbol s where s.code = :code");</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">but it give me the error:
+org.hibernate.QueryException: could not resolve property: code of: ...</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Please give some advices how to work around this problem if this situation does not follow hibernate concept or JPA specs and is not possible to implement it.</sentence>
+			<sentence id="7.2">Idea is that it should be possible to work at hight level without changing database or existing classes.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Thanks</sentence>
+		</paragraph>
+	</description>
+</bug>

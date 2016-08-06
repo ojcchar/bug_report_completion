@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-1591</id>
+	<title>Spring does not refresh if an error occurs during module upload</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If one loads a module using the module browser, and an errors, uploaded modules are stopped and the modules manager dies.This forces one to have to restart openmrs.</sentence>
+			<sentence id="1.2">should just unload the problematic module, restart the already uploaded modules and refresh the page.</sentence>
+			<sentence id="1.3">see stack trace</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">An Internal Error has Occured
+org.springframework.beans.factory.BeanCreationException</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Error creating bean with name 'tracingsUrlMapping' defined in URL [jar:file:/C:/Program%20Files/Apache%20Software%20Foundation/Tomcat%205.5/temp/1213806513546.</sentence>
+			<sentence id="3.2">openmrs-lib-cache/patientvisitscheduler/patientvisitscheduler.</sentence>
+			<sentence id="3.3">jar!</sentence>
+			<sentence id="3.4">/moduleApplicationContext.xml]: Initialization of bean failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'tracingsForm' is defined</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Consult the help document.</sentence>
+			<sentence id="4.2">Contact your friendly neighborhood administrator if it cannot be resolved.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Hide stack trace</sentence>
+			<sentence id="5.2">org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:445)</sentence>
+			<sentence id="5.3">org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory$1.run(AbstractAutowireCapableBeanFactory.java:383)</sentence>
+			<sentence id="5.4">java.security.AccessController.doPrivileged(Native Method)</sentence>
+			<sentence id="5.5">org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:353)</sentence>
+			<sentence id="5.6">org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:245)</sentence>
+			<sentence id="5.7">org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:169)</sentence>
+			<sentence id="5.8">org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:242)</sentence>
+			<sentence id="5.9">org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:164)</sentence>
+			<sentence id="5.10">org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:400)</sentence>
+			<sentence id="5.11">org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:736)</sentence>
+			<sentence id="5.12">org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:369)</sentence>
+			<sentence id="5.13">org.openmrs.module.ModuleUtil.refreshApplicationContext(ModuleUtil.java:547)</sentence>
+			<sentence id="5.14">org.openmrs.module.web.WebModuleUtil.refreshWAC(WebModuleUtil.java:623)</sentence>
+			<sentence id="5.15">org.openmrs.module.web.WebModuleUtil.startModule(WebModuleUtil.java:307)</sentence>
+			<sentence id="5.16">org.openmrs.module.web.controller.ModuleListController.onSubmit(ModuleListController.java:178)</sentence>
+			<sentence id="5.17">org.springframework.web.servlet.mvc.SimpleFormController.processFormSubmission(SimpleFormController.java:267)</sentence>
+			<sentence id="5.18">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:265)</sentence>
+			<sentence id="5.19">org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)</sentence>
+			<sentence id="5.20">org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:48)</sentence>
+			<sentence id="5.21">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:875)</sentence>
+			<sentence id="5.22">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:809)</sentence>
+			<sentence id="5.23">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:476)</sentence>
+			<sentence id="5.24">org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:441)</sentence>
+			<sentence id="5.25">javax.servlet.http.HttpServlet.service(HttpServlet.java:709)</sentence>
+			<sentence id="5.26">javax.servlet.http.HttpServlet.service(HttpServlet.java:802)</sentence>
+			<sentence id="5.27">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:252)</sentence>
+			<sentence id="5.28">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+			<sentence id="5.29">org.openmrs.web.OpenmrsFilter.doFilter(OpenmrsFilter.java:122)</sentence>
+			<sentence id="5.30">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+			<sentence id="5.31">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+			<sentence id="5.32">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+			<sentence id="5.33">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:75)</sentence>
+			<sentence id="5.34">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+			<sentence id="5.35">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+			<sentence id="5.36">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:213)</sentence>
+			<sentence id="5.37">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:178)</sentence>
+			<sentence id="5.38">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:126)</sentence>
+			<sentence id="5.39">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:105)</sentence>
+			<sentence id="5.40">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:107)</sentence>
+			<sentence id="5.41">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:148)</sentence>
+			<sentence id="5.42">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:869)</sentence>
+			<sentence id="5.43">org.apache.coyote.http11.Http11BaseProtocol$Http11ConnectionHandler.processConnection(Http11BaseProtocol.java:664)</sentence>
+			<sentence id="5.44">org.apache.tomcat.util.net.PoolTcpEndpoint.processSocket(PoolTcpEndpoint.java:527)</sentence>
+			<sentence id="5.45">org.apache.tomcat.util.net.LeaderFollowerWorkerThread.runIt(LeaderFollowerWorkerThread.java:80)</sentence>
+			<sentence id="5.46">org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684)</sentence>
+			<sentence id="5.47">java.lang.Thread.run(Unknown Source)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Version: 1.3.0.11 RC2 Build 4641
+Database Version: 1.3.0.11</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Cookies:
+dashboardTab-1=[patientFormsTab] JSESSIONID=[918039ADA4A4FF4060F94678933BFC5C]</sentence>
+		</paragraph>
+	</description>
+</bug>

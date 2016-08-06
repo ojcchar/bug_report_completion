@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1981</id>
+	<title>Crash report 3.3: OOM in incrementPeopleProperty</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We should catch this one and skip tracking when it happens.</sentence>
+			<sentence id="1.2">```</sentence>
+			<sentence id="1.3">java.lang.OutOfMemoryError</sentence>
+			<sentence id="1.4"> at java.lang.String.&lt;init&gt;(String.java:432)</sentence>
+			<sentence id="1.5"> at java.lang.AbstractStringBuilder.toString(AbstractStringBuilder.java:642)</sentence>
+			<sentence id="1.6"> at java.lang.StringBuilder.toString(StringBuilder.java:663)</sentence>
+			<sentence id="1.7"> at org.json.JSONStringer.toString(JSONStringer.java:430)</sentence>
+			<sentence id="1.8"> at org.json.JSONArray.toString(JSONArray.java:545)</sentence>
+			<sentence id="1.9"> at com.mixpanel.android.mpmetrics.PersistentIdentity.writeIdentities(PersistentIdentity.java:377)</sentence>
+			<sentence id="1.10"> at com.mixpanel.android.mpmetrics.PersistentIdentity.storeWaitingPeopleRecord(PersistentIdentity.java:143)</sentence>
+			<sentence id="1.11"> at com.mixpanel.android.mpmetrics.MixpanelAPI.recordPeopleMessage(MixpanelAPI.java:1534)</sentence>
+			<sentence id="1.12"> at com.mixpanel.android.mpmetrics.MixpanelAPI.access$1000(MixpanelAPI.java:109)</sentence>
+			<sentence id="1.13"> at com.mixpanel.android.mpmetrics.MixpanelAPI$PeopleImpl.increment(MixpanelAPI.java:1080)</sentence>
+			<sentence id="1.14"> at com.mixpanel.android.mpmetrics.MixpanelAPI$PeopleImpl.increment(MixpanelAPI.java:1090)</sentence>
+			<sentence id="1.15"> at org.wordpress.android.analytics.AnalyticsTrackerMixpanel.incrementPeopleProperty(AnalyticsTrackerMixpanel.java:563)</sentence>
+			<sentence id="1.16"> at org.wordpress.android.analytics.AnalyticsTrackerMixpanel.trackMixpanelPropertiesForInstructions(AnalyticsTrackerMixpanel.java:121)</sentence>
+			<sentence id="1.17"> at org.wordpress.android.analytics.AnalyticsTrackerMixpanel.trackMixpanelDataForInstructions(AnalyticsTrackerMixpanel.java:115)</sentence>
+			<sentence id="1.18"> at org.wordpress.android.analytics.AnalyticsTrackerMixpanel.track(AnalyticsTrackerMixpanel.java:75)</sentence>
+			<sentence id="1.19"> at org.wordpress.android.analytics.AnalyticsTrackerMixpanel.track(AnalyticsTrackerMixpanel.java:64)</sentence>
+			<sentence id="1.20"> at org.wordpress.android.analytics.AnalyticsTracker.track(AnalyticsTracker.java:119)</sentence>
+			<sentence id="1.21"> at org.wordpress.android.ui.stats.StatsActivity.onCreate(StatsActivity.java:107)</sentence>
+			<sentence id="1.22"> at android.app.Activity.performCreate(Activity.java:5179)</sentence>
+			<sentence id="1.23"> at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1094)</sentence>
+			<sentence id="1.24"> at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2074)</sentence>
+			<sentence id="1.25"> at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2135)</sentence>
+			<sentence id="1.26"> at android.app.ActivityThread.access$700(ActivityThread.java:143)</sentence>
+			<sentence id="1.27"> at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1241)</sentence>
+			<sentence id="1.28"> at android.os.Handler.dispatchMessage(Handler.java:99)</sentence>
+			<sentence id="1.29"> at android.os.Looper.loop(Looper.java:137)</sentence>
+			<sentence id="1.30"> at android.app.ActivityThread.main(ActivityThread.java:4961)</sentence>
+			<sentence id="1.31"> at java.lang.reflect.Method.invokeNative(Method.java)</sentence>
+			<sentence id="1.32"> at java.lang.reflect.Method.invoke(Method.java:511)</sentence>
+			<sentence id="1.33"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1004)</sentence>
+			<sentence id="1.34"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:771)</sentence>
+			<sentence id="1.35"> at dalvik.system.NativeStart.main(NativeStart.java)</sentence>
+			<sentence id="1.36">```</sentence>
+		</paragraph>
+	</description>
+</bug>

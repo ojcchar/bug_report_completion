@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3177</id>
+	<title>Probable race condition with Notification due to deferredInit</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Since we introduced `deferredInit`, simperium is now initialized [here](https://github.com/wordpress-mobile/WordPress-Android/blob/65399ae2f3c9272b6a7584e79e0f903371af2cbb/WordPress/src/main/java/org/wordpress/android/WordPress.java#L232-232).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Notes bucket is null [here](https://github.com/wordpress-mobile/WordPress-Android/blob/550422097599242efcbcfac7121e1144b6eb1224/WordPress/src/main/java/org/wordpress/android/ui/notifications/NotificationsListFragment.java#L86) and Notifications are not loaded.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Apparently that only happens onResume, but since the app sometimes "starts" onResume, that's maybe not related.</sentence>
+		</paragraph>
+	</description>
+</bug>

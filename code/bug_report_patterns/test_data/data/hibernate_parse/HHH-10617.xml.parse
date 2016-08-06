@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-10617</id>
+	<title>multiLoad behavior</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When loading multiple entities via:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}
+List&lt;SomeClass&gt; list = session.byMultipleIds(SomeClass.class).</sentence>
+			<sentence id="2.2">multiLoad(ids);
+{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">the resulting list may have unexpected properties:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1"># If the fetch for {{SomeClass}} contains left outer joins, some instances may be contained multiple times in the resulting list.</sentence>
+			<sentence id="4.2"># Both {{ids}} and the returned {{List&lt;&gt;}} are _ordered_ collections.</sentence>
+			<sentence id="4.3">The principle of least surprise dictates, that both collections have the _same_ order.</sentence>
+			<sentence id="4.4">In pseudo-code: {{list.get(j).</sentence>
+			<sentence id="4.5">getId().</sentence>
+			<sentence id="4.6">equals(ids.get(j))}} should be {{true}} for any {{j}}.</sentence>
+			<sentence id="4.7">Unless of course a different behavior is documented (it's not, as far as I can tell)
+# If an entity for a given id cannot be found, I expect a {{null}} in the returned list at the index of that id.</sentence>
+			<sentence id="4.8">That's not the case.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">It would be nice, if either these failures got fixed or the documentation got adjusted to reflect the behavior.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Thanks.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">(this is related to HHH-7572)</sentence>
+		</paragraph>
+	</description>
+</bug>

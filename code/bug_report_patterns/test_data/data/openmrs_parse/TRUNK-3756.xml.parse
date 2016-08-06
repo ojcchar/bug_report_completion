@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3756</id>
+	<title>NullPointerException when changing default location</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">An Internal Error has Occurred
+java.lang.NullPointerException</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Consult the help document.</sentence>
+			<sentence id="2.2">Contact your friendly neighborhood administrator if it cannot be resolved.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Hide stack trace </sentence>
+			<sentence id="3.2">org.openmrs.api.context.UserContext.setUserLocation(UserContext.java:393)</sentence>
+			<sentence id="3.3">org.openmrs.api.context.UserContext.refreshAuthenticatedUser(UserContext.java:126)</sentence>
+			<sentence id="3.4">org.openmrs.api.context.Context.refreshAuthenticatedUser(Context.java:314)</sentence>
+			<sentence id="3.5">org.openmrs.web.controller.OptionsFormController.onSubmit(OptionsFormController.java:243)</sentence>
+			<sentence id="3.6">org.springframework.web.servlet.mvc.SimpleFormController.processFormSubmission(SimpleFormController.java:272)</sentence>
+			<sentence id="3.7">org.openmrs.web.controller.OptionsFormController.processFormSubmission(OptionsFormController.java:100)</sentence>
+			<sentence id="3.8">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:268)</sentence>
+			<sentence id="3.9">org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)</sentence>
+			<sentence id="3.10">org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:48)</sentence>
+			<sentence id="3.11">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:790)</sentence>
+			<sentence id="3.12">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:719)</sentence>
+			<sentence id="3.13">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:644)</sentence>
+			<sentence id="3.14">org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:560)</sentence>
+			<sentence id="3.15">javax.servlet.http.HttpServlet.service(HttpServlet.java:637)</sentence>
+			<sentence id="3.16">javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+			<sentence id="3.17">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+			<sentence id="3.18">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.19">org.openmrs.module.web.filter.ForcePasswordChangeFilter.doFilter(ForcePasswordChangeFilter.java:65)</sentence>
+			<sentence id="3.20">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.21">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.22">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+			<sentence id="3.23">org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+			<sentence id="3.24">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.25">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.26">org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:111)</sentence>
+			<sentence id="3.27">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+			<sentence id="3.28">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.29">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.30">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+			<sentence id="3.31">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+			<sentence id="3.32">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.33">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.34">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:109)</sentence>
+			<sentence id="3.35">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.36">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.37">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:109)</sentence>
+			<sentence id="3.38">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.39">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.40">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:109)</sentence>
+			<sentence id="3.41">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.42">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.43">org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:88)</sentence>
+			<sentence id="3.44">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+			<sentence id="3.45">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="3.46">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="3.47">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+			<sentence id="3.48">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</sentence>
+			<sentence id="3.49">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</sentence>
+			<sentence id="3.50">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+			<sentence id="3.51">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+			<sentence id="3.52">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:298)</sentence>
+			<sentence id="3.53">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:857)</sentence>
+			<sentence id="3.54">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:588)</sentence>
+			<sentence id="3.55">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)</sentence>
+			<sentence id="3.56">java.lang.Thread.run(Thread.java:619)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">OpenMRS Version: 1.9.2 SNAPSHOT Build 0</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The following data will be submitted with the report to enable the team to resolve the problem.</sentence>
+			<sentence id="5.2">The error message and stack trace
+OpenMRS version
+Application server name and version
+Username of the user currently logged in
+The implementation id of this installation (if defined)
+Names and versions of all installed modules</sentence>
+		</paragraph>
+	</description>
+</bug>

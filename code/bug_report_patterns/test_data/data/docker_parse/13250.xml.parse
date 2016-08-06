@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>13250</id>
+	<title>layer preparation in daemon causes slow v2 push performance</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I build really big docker images (16GB) which contains a big application.</sentence>
+			<sentence id="2.2">While testing of the new docker-distribution registry I noticed that the push is much slower than a push again the old python registry.</sentence>
+			<sentence id="2.3">Both registry use the local file system as storage.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">v2: 38min
+v1: 23min</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+docker version
+Client version: 1.6.2
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): 7c8fca2-dirty
+OS/Arch (client): linux/amd64
+Server version: 1.6.2
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): 7c8fca2-dirty
+OS/Arch (server): linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+Containers: 4
+Images: 134
+Storage Driver: btrfs
+ Build Version: Btrfs v3.17.1
+ Library Version: 101
+Execution Driver: native-0.2
+Kernel Version: 4.0.3
+Operating System: CoreOS 681.0.0
+CPUs: 10
+Total Memory: 62.93 GiB
+Name: ---
+ID: SBM4:4LPG:PVYM:WAH3:Q7LT:FN23:JZSL:Q6IM:7E2I:SWGT:T2RJ:LWWJ
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Kernel: 4.0.3</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Environment details (AWS, VirtualBox, physical, etc.):
+The registries are on another host (physical) and both are connected via 1Gbit and the only other application which used bandwidth was sshd.</sentence>
+			<sentence id="7.2">In my eyes the main time-sink is the "buffering to disk" process which consumes lot more time than before with registry v1.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">How reproducible:
+Push a very big docker image again v2 registry.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Actual Results:
+Slower push time than before with v1 registry.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Expected Results:
+Fast or equal push time with v1 registry.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Kind regards
+Christoph</sentence>
+		</paragraph>
+		<paragraph id="12">
+		</paragraph>
+	</description>
+</bug>

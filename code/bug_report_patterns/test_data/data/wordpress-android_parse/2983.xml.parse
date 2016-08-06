@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2983</id>
+	<title>Do away with "local changes" limitation in the post list refresh</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Right now the post list silently skips the automatic refresh if local changes exist, since those local changes would be overwritten during the refresh.</sentence>
+			<sentence id="1.2">This means that new posts will never appear during an automatic refresh if there are local changes.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If the refresh was due to the user initiating a pull-to-refresh, the user is presented with this unfriendly dialog:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">!</sentence>
+			<sentence id="3.2">[device-2015-07-16-165501](https://cloud.githubusercontent.com/assets/3903757/8735075/1b8b80bc-2bdc-11e5-8213-cd0f19d513e4.png)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Assuming the user understands this dialog, it means we're asking them to choose between seeing new posts and overwriting ones with changes that haven't been uploaded.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The post list should be smart enough to preserve local changes after a refresh, doing away with the need for this dialog and the need to skip automatic refresh if there are local changes.</sentence>
+		</paragraph>
+	</description>
+</bug>

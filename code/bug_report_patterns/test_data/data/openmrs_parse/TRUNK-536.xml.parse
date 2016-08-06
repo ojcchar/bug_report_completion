@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-536</id>
+	<title>Strange behavior when Voiding a Patient Address</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Under Edit this Patient, when trying to void an address, when the box next to voided is checked, the reason voided box doesn't appear under the address section.</sentence>
+			<sentence id="1.2">Incidentally, the reason voided box appears under the patient name section.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When the patient is attempted to be saved, it gives the following error in OpenMRS 1.4.0.23 RC Build 7055 only (in the versions I have tried)...</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">{code}An Internal Error has Occurred
+org.openmrs.module.ModuleException</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">a different object with the same identifier value was already associated with the session: [org.openmrs.PatientTRAC-330337]</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Consult the help document.</sentence>
+			<sentence id="5.2">Contact your friendly neighborhood administrator if it cannot be resolved.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Hide stack trace</sentence>
+			<sentence id="6.2">org.openmrs.module.mrngen.advice.PatientServiceAroundAdvisor$PatientServiceAroundAdvice.invoke(Unknown Source)</sentence>
+			<sentence id="6.3">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)</sentence>
+			<sentence id="6.4">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)</sentence>
+			<sentence id="6.5">$Proxy294.savePatient(Unknown Source)</sentence>
+			<sentence id="6.6">org.openmrs.web.controller.patient.PatientFormController.onSubmit(Unknown Source)</sentence>
+			<sentence id="6.7">org.springframework.web.servlet.mvc.SimpleFormController.processFormSubmission(SimpleFormController.java:267)</sentence>
+			<sentence id="6.8">org.openmrs.web.controller.person.PersonFormController.processFormSubmission(Unknown Source)</sentence>
+			<sentence id="6.9">org.openmrs.web.controller.patient.PatientFormController.processFormSubmission(Unknown Source)</sentence>
+			<sentence id="6.10">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:265)</sentence>
+			<sentence id="6.11">org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)</sentence>
+			<sentence id="6.12">org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:48)</sentence>
+			<sentence id="6.13">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:875)</sentence>
+			<sentence id="6.14">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:809)</sentence>
+			<sentence id="6.15">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:476)</sentence>
+			<sentence id="6.16">org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:441)</sentence>
+			<sentence id="6.17">javax.servlet.http.HttpServlet.service(HttpServlet.java:710)</sentence>
+			<sentence id="6.18">javax.servlet.http.HttpServlet.service(HttpServlet.java:803)</sentence>
+			<sentence id="6.19">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+			<sentence id="6.20">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="6.21">org.openmrs.web.OpenmrsFilter.doFilter(Unknown Source)</sentence>
+			<sentence id="6.22">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="6.23">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="6.24">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+			<sentence id="6.25">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:75)</sentence>
+			<sentence id="6.26">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="6.27">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="6.28">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:228)</sentence>
+			<sentence id="6.29">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:175)</sentence>
+			<sentence id="6.30">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:128)</sentence>
+			<sentence id="6.31">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:104)</sentence>
+			<sentence id="6.32">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+			<sentence id="6.33">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:216)</sentence>
+			<sentence id="6.34">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:844)</sentence>
+			<sentence id="6.35">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:634)</sentence>
+			<sentence id="6.36">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:445)</sentence>
+			<sentence id="6.37">java.lang.Thread.run(Unknown Source)</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">OpenMRS Version: 1.4.0.23 RC Build 7055
+Database Version: 1.4.0.23
+{code}</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">If the changes are saved to void the address, and a reason is entered in the reason voided box that appears under the person name, later when you click to void the patient name, the reason voided box is already populated with the reason you entered for voiding the address.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">This is an intermittent problem, that doesn't happen for all patients, or all addresses.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">This happens on OpenMRS Version: 1.4.0.23 RC Build 7055 Database Version: 1.4.0.23 and on Version: 1.4.0.02 dev Build 5594 and on the web demo, Version: 1.5.0 dev Build 7304.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">If there is another 1.4 release, this should probably be back ported.</sentence>
+		</paragraph>
+	</description>
+</bug>

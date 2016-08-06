@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>103</id>
+	<title>Failed to load container: Empty JSON configs for containers</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Simply running a basic run command can sometimes leave containers in an inconsistent state.</sentence>
+			<sentence id="1.2">The main issue here is the warning (error?)</sentence>
+			<sentence id="1.3">that docker was unable to load some contained because of its JSON config.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">chooper@chimay:~/projects/docker$ sudo .</sentence>
+			<sentence id="2.2">/bin/docker run -a -p=22 busybox id
+ 2013/03/19 18:12:44 Failed to load container ae601923: unexpected end of JSON input
+ 2013/03/19 18:12:44 docker run -a -p=22 busybox id
+ uid=0(root) gid=0(root) groups=0(root)
+ chooper@chimay:~/projects/docker$ sudo .</sentence>
+			<sentence id="2.3">/bin/docker run -a -p=22 busybox id
+ 2013/03/19 18:12:45 Failed to load container 498b3841: unexpected end of JSON input
+ 2013/03/19 18:12:45 Failed to load container ae601923: unexpected end of JSON input
+ 2013/03/19 18:12:45 docker run -a -p=22 busybox id
+ uid=0(root) gid=0(root) groups=0(root)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I checked `/var/lib/docker/containers/498b3841/config.</sentence>
+			<sentence id="3.2">json` and it is an empty file</sentence>
+		</paragraph>
+	</description>
+</bug>

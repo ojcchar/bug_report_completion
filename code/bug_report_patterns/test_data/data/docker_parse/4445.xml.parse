@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4445</id>
+	<title>docker run often (not always) fails to start container</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Using the official ubuntu repository, `docker run` often fails.</sentence>
+			<sentence id="1.2">Some setup information:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+&#x250C;&#x2500;[ap Thufir] [~]
+&#x2514;&#x2500;[0] docker --version
+Docker version 0.8.0, build cc3a8c8
+&#x250C;&#x2500;[ap Thufir] [~]
+&#x2514;&#x2500;[0] uname -a
+Linux Thufir 3.13.5-1-ARCH #1 SMP PREEMPT Sun Feb 23 00:25:24 CET 2014 x86_64 GNU/Linux
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">the problematic output:</sentence>
+			<sentence id="3.2">```</sentence>
+			<sentence id="3.3">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.4">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.5">2014/03/03 23:33:48 Error: start: Cannot start container 49ffe0c76026a83d0e3c836256f07b5a46eaba5f2cd2af5ff193fbbf44b09d5a: exit status 1</sentence>
+			<sentence id="3.6">49ffe0c76026</sentence>
+			<sentence id="3.7">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.8">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.9">hello world</sentence>
+			<sentence id="3.10">5ec5158331d2</sentence>
+			<sentence id="3.11">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.12">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.13">2014/03/03 23:33:54 Error: start: Cannot start container f0de98273cb44070ee29df671cc57bb7ba30794062f7db3620d4539bf986922c: exit status 1</sentence>
+			<sentence id="3.14">f0de98273cb4</sentence>
+			<sentence id="3.15">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.16">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.17">2014/03/03 23:33:57 Error: start: Cannot start container 37d2f3507b4e539c475d6ea041df31428b8efe18cf234b42713a37fcac1b31a2: exit status 1</sentence>
+			<sentence id="3.18">37d2f3507b4e</sentence>
+			<sentence id="3.19">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.20">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.21">hello world</sentence>
+			<sentence id="3.22">3ac5807336e1</sentence>
+			<sentence id="3.23">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.24">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.25">2014/03/03 23:34:04 Error: start: Cannot start container 11448be1470831b429e27fe9dae39ce2f35c5c81c4a61c30babbc20ec34d473c: exit status 1</sentence>
+			<sentence id="3.26">11448be14708</sentence>
+			<sentence id="3.27">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.28">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.29">2014/03/03 23:34:07 Error: start: Cannot start container 6212d8c6e569774a16ba6cdfb7435bdff7858807509c9d5a72e638c04f2d42e9: exit status 1</sentence>
+			<sentence id="3.30">6212d8c6e569</sentence>
+			<sentence id="3.31">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.32">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.33">2014/03/03 23:34:10 Error: start: Cannot start container c13391815b9311eaaa596e74cc6cd30e90285e216e96b7f6cc0bc47d48e3f3af: exit status 1</sentence>
+			<sentence id="3.34">c13391815b93</sentence>
+			<sentence id="3.35">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.36">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.37">2014/03/03 23:34:13 Error: start: Cannot start container b47870b4c70f5c61754b832cd6cfeb0abbc19d1272e8a3a8d968984afe74dd11: exit status 1</sentence>
+			<sentence id="3.38">b47870b4c70f</sentence>
+			<sentence id="3.39">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.40">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.41">hello world</sentence>
+			<sentence id="3.42">1ffccc4d598f</sentence>
+			<sentence id="3.43">&#x250C;&#x2500;[ap Thufir] [~]</sentence>
+			<sentence id="3.44">&#x2514;&#x2500;[0] docker run ubuntu echo hello world; docker rm $(docker ps -l -q)</sentence>
+			<sentence id="3.45">hello world</sentence>
+			<sentence id="3.46">61a5116a14ff</sentence>
+			<sentence id="3.47">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I can provide any other helpful information.</sentence>
+		</paragraph>
+	</description>
+</bug>

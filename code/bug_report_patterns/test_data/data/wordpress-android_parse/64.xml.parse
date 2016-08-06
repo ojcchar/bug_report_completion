@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>64</id>
+	<title>Exchange Vectors with ArrayLists</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I found some Vectors used in the code, where ArrayLists should be enough (iterating inside of a method in example).</sentence>
+			<sentence id="1.2">Vectors are synchronized and therefor coming with some overhead compared to ArrayLists.</sentence>
+			<sentence id="1.3">So use ArrayLists, where no concurrent access to the List is needed (what is in most cases the case).</sentence>
+			<sentence id="1.4">An example: ViewPosts.getRecentPostsTask.onPostExecute().</sentence>
+			<sentence id="1.5">Vectors are created and used there only.</sentence>
+			<sentence id="1.6">Why do you need it to be synchronized?</sentence>
+		</paragraph>
+	</description>
+</bug>

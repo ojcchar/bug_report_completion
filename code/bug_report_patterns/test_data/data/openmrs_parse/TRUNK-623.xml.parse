@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-623</id>
+	<title>error with custom patient identifier type validator in module</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I created an identifier type of SSN and tried to create a custom validator for the social security number in my module.</sentence>
+			<sentence id="1.2">I am getting the following error:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">ERROR - PatientServiceImpl.getIdentifierValidator(1418) |2008-09-10 12:14:16,784</sentence>
+			<sentence id="2.2">| Could not find patient identifier validator org.openmrs.module.chica.hl7.SSNValidator</sentence>
+			<sentence id="2.3">java.lang.ClassNotFoundException: org.openmrs.module.chica.hl7.SSNValidator</sentence>
+			<sentence id="2.4"> at org.apache.catalina.loader.WebappClassLoader.loadClass(WebappClassLoader.java:1358)</sentence>
+			<sentence id="2.5"> at org.apache.catalina.loader.WebappClassLoader.loadClass(WebappClassLoader.java:1204)</sentence>
+			<sentence id="2.6"> at java.lang.ClassLoader.loadClassInternal(ClassLoader.java:319)</sentence>
+			<sentence id="2.7"> at java.lang.Class.forName0(Native Method)</sentence>
+			<sentence id="2.8"> at java.lang.Class.forName(Class.java:169)</sentence>
+			<sentence id="2.9"> at org.openmrs.api.impl.PatientServiceImpl.getIdentifierValidator(PatientServiceImpl.java:1416)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I added the following to my module's moduleApplicationContext.xml file and received the same error:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&lt;bean parent="patientServiceTarget"&gt;
+ &lt;property name="identifierValidators"&gt;
+ &lt;map&gt;
+ &lt;entry&gt;
+ &lt;key&gt;&lt;value&gt;org.openmrs.module.chica.hl7.SSNValidator&lt;/value&gt;&lt;/key&gt;
+ &lt;bean class="org.openmrs.module.chica.hl7.SSNValidator"/&gt;
+ &lt;/entry&gt;
+ &lt;/map&gt;
+ &lt;/property&gt;
+ &lt;/bean&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

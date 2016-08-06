@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-2324</id>
+	<title>Column.getAlias(Dialect dialect) generates aliases longer than Dialect.getMaxAliasLenght()</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">org.hibernate.mapping.Column.getAlias(Dialect dialect) doesn't honor Dialect.getMaxAliasLenght() all the time.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Given:</sentence>
+			<sentence id="2.2">- a column named "ABCDEFGHIK_X"</sentence>
+			<sentence id="2.3">- Dialect.getMaxAliasLenght() = 10</sentence>
+			<sentence id="2.4">- uniqueInteger = 12</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">getAlias generates the alias "ABCDEFGHIK12_" which is over 10 characters (13 actually).</sentence>
+			<sentence id="3.2">The problem happens, whenever an alias gets shortened due to an non-letter character and the shortened alias is less than or equal to Dialect.getMaxAliasLenght().</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">One possible fix could be another length check befor appending unique:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">	public String getAlias(Dialect dialect) {</sentence>
+			<sentence id="5.2">		String alias = name;</sentence>
+			<sentence id="5.3">		String unique = Integer.toString(uniqueInteger) + '_';</sentence>
+			<sentence id="5.4">		int lastLetter = StringHelper.lastIndexOfLetter(name);</sentence>
+			<sentence id="5.5">		if ( lastLetter == -1 ) {</sentence>
+			<sentence id="5.6">			alias = "column";</sentence>
+			<sentence id="5.7">		}</sentence>
+			<sentence id="5.8">		else if ( lastLetter &lt; name.length()-1 ) {</sentence>
+			<sentence id="5.9">			alias = name.substring(0, lastLetter+1);</sentence>
+			<sentence id="5.10">		}</sentence>
+			<sentence id="5.11">		if ( alias.length() &gt; dialect.getMaxAliasLength() ) {</sentence>
+			<sentence id="5.12">			alias = alias.substring( 0, dialect.getMaxAliasLength() - unique.length() );</sentence>
+			<sentence id="5.13">		}</sentence>
+			<sentence id="5.14">		boolean useRawName = name.equals(alias) &amp;&amp; </sentence>
+			<sentence id="5.15">			!quoted &amp;&amp; </sentence>
+			<sentence id="5.16">			!name.toLowerCase().equals("rowid");</sentence>
+			<sentence id="5.17">		if ( useRawName ) {</sentence>
+			<sentence id="5.18">			return alias;</sentence>
+			<sentence id="5.19">		}</sentence>
+			<sentence id="5.20">		else {</sentence>
+			<sentence id="5.21">			if ( alias.length() + unique.length() &gt; dialect.getMaxAliasLength() ) {</sentence>
+			<sentence id="5.22">				alias = alias.substring( 0, dialect.getMaxAliasLength() - unique.length() );</sentence>
+			<sentence id="5.23">			}</sentence>
+			<sentence id="5.24">			return alias + unique;</sentence>
+			<sentence id="5.25">		}</sentence>
+			<sentence id="5.26">	}</sentence>
+		</paragraph>
+	</description>
+</bug>

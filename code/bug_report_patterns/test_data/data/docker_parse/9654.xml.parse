@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9654</id>
+	<title>run fails with open /cpuset/docker/[newcontiainerid]/cpuset.cpus: no such file or directory </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I recently did an Ubuntu update manager "partial upgrade" (oops) and docker stopped working.</sentence>
+			<sentence id="1.2">My existing container seems to have exited about that time.</sentence>
+			<sentence id="1.3">Now when I try to run any image I get: FATA[0000] Error response from daemon: Cannot start container &lt;newcontainerid&gt;: open /cpuset/docker/[newcontiainerid]/cpuset.cpus: no such file or directory</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Doing clean apt-get update/upgrade and rebooting didn't help.</sentence>
+			<sentence id="2.2">I'm running Docker 1.4.0 and lxc-docker-1.4.0 in an up-to-date Ubuntu Precise 12.04 with the 14.04 kernel HWE</sentence>
+		</paragraph>
+	</description>
+</bug>

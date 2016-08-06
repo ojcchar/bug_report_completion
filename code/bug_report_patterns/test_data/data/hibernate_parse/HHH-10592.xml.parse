@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-10592</id>
+	<title>Query with literal parameter and fails with attribute converter</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When I declare a query with a literal parameter it thows an exception:</sentence>
+			<sentence id="1.2">Caused by: org.hibernate.QueryException: AttributeConverter domain-model attribute type [org.hibernate.test.converter.literal.IntegerWrapper] did not match query literal type [java.lang.Integer]</sentence>
+			<sentence id="1.3">	at org.hibernate.hql.internal.ast.tree.LiteralNode.determineConvertedValue(LiteralNode.java:107)</sentence>
+			<sentence id="1.4">	at org.hibernate.hql.internal.ast.tree.LiteralNode.setExpectedType(LiteralNode.java:87)</sentence>
+			<sentence id="1.5">	at org.hibernate.hql.internal.ast.tree.BinaryLogicOperatorNode.initialize(BinaryLogicOperatorNode.java:62)</sentence>
+			<sentence id="1.6">	at org.hibernate.hql.internal.ast.HqlSqlWalker.prepareLogicOperator(HqlSqlWalker.java:1369)</sentence>
+			<sentence id="1.7">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.comparisonExpr(HqlSqlBaseWalker.java:4657)</sentence>
+			<sentence id="1.8">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.logicalExpr(HqlSqlBaseWalker.java:2130)</sentence>
+			<sentence id="1.9">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.logicalExpr(HqlSqlBaseWalker.java:2058)</sentence>
+			<sentence id="1.10">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.whereClause(HqlSqlBaseWalker.java:813)</sentence>
+			<sentence id="1.11">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:607)</sentence>
+			<sentence id="1.12">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:311)</sentence>
+			<sentence id="1.13">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:259)</sentence>
+			<sentence id="1.14">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:262)</sentence>
+			<sentence id="1.15">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:190)</sentence>
+			<sentence id="1.16">	... 21 more</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">As I see the literal parameter is the same type of the database type, so it doesn't need to be converted</sentence>
+		</paragraph>
+	</description>
+</bug>

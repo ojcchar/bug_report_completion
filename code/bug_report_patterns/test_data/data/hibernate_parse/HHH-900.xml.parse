@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-900</id>
+	<title>CGLIB Enhancement failed error with signed jars</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I just recently attended the Hibernate training course in Chicago.</sentence>
+			<sentence id="1.2">Andy Oliver, the instructor, asked me to add this deffect.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When I add the POJO files for persistence to a signed jar, the following error is thrown:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">12:19:42,587 ERROR BasicLazyInitializer:103 - CGLIB Enhancement failed: org.hibernate.auction.model.CreditCard</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">To recreate this problem, I modified the labB exercise from the class to create a signed jar.</sentence>
+			<sentence id="4.2">The build.xml file now has both a "test" and a "testsigned" target.</sentence>
+			<sentence id="4.3">If you run "ant test" the unsigned jar is used and the program runs fine.</sentence>
+			<sentence id="4.4">If you run "ant testsigned", the signed jar is used and the test throws errors.</sentence>
+		</paragraph>
+	</description>
+</bug>

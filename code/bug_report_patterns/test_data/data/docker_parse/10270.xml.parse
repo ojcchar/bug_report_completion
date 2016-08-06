@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10270</id>
+	<title>outbound connections with dest. port &gt;= 10000 not NATed - caused by raw table rules</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">we're running docker 1.4.1 on ubuntu 14.04 / 3.13.0-24.</sentence>
+			<sentence id="2.2">We realized that some outgoing connection from a specific container weren't working.</sentence>
+			<sentence id="2.3">Doing some tcpdump we realized that the containers internal IP wasn't NATed.</sentence>
+			<sentence id="2.4">This is a tcpdump snippet from our gateways (aka on a remote host):</sentence>
+			<sentence id="3.1">```
+$ sudo tcpdump -i int port 10424
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on int, link-type EN10MB (Ethernet), capture size 65535 bytes
+10:06:34.588666 IP 172.17.0.10.50510 &gt; ec2-X-X-X-X.</sentence>
+			<sentence id="3.2">compute-1.</sentence>
+			<sentence id="3.3">amazonaws.com.10424: Flags [S], seq 3627183883, win 2920ackOK,TS val 66423520 ecr 0,nop,wscale 7], length 0
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Trying different IPs and ports showed that all connections to ports &gt;= 10000 aren't getting NATed:</sentence>
+			<sentence id="5.1">```</sentence>
+			<sentence id="5.2">$ sudo tcpdump -i int port 10000</sentence>
+			<sentence id="5.3">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</sentence>
+			<sentence id="5.4">listening on int, link-type EN10MB (Ethernet), capture size 65535 bytes</sentence>
+			<sentence id="5.5">10:52:26.664511 IP 172.17.0.10.57974 &gt; ec2-X-X-X-X.compute-1.amazonaws.com.webmin: Flags [S], seq 1499431095, win 29200, options [mss 1460,sackOK,TS val 67111539 ecr 0,nop,wscale 7], length 0</sentence>
+			<sentence id="5.6">$ sudo tcpdump -i int port 9999</sentence>
+			<sentence id="5.7">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</sentence>
+			<sentence id="5.8">listening on int, link-type EN10MB (Ethernet), capture size 65535 bytes</sentence>
+			<sentence id="5.9">10:52:41.032352 IP 192.168.100.80.59529 &gt; ec2-X-X-X-X.compute-1.amazonaws.com.9999: Flags [S], seq 677986983, win 29200, options [mss 1460,sackOK,TS val 67115131 ecr 0,nop,wscale 7], length 0</sentence>
+			<sentence id="5.10">```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">This is the same behavior for existing containers (by using docker exec to test connections) as well as for new containers but only on this specific Docker host.</sentence>
+			<sentence id="6.2">On a freshly started Docker daemon, I can't reproduce this behavior.</sentence>
+			<sentence id="6.3">Before we observed this issue the first time, we had to restart Docker because a container couldn't be stopped without that (probably #5938).</sentence>
+			<sentence id="6.4">This might be how the host got into this state.</sentence>
+			<sentence id="6.5">Here is a the log parts when we restarted Docker: https://gist.github.com/discordianfish/8e124494d75d3e23a93a</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">iptables looks correctly to me:
+```
+$ sudo iptables -t nat -L
+Chain PREROUTING (policy ACCEPT)
+target prot opt source destination 
+DOCKER all -- anywhere anywhere ADDRTYPE match dst-type LOCAL</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Chain INPUT (policy ACCEPT)
+target prot opt source destination</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Chain OUTPUT (policy ACCEPT)
+target prot opt source destination 
+DOCKER all -- anywhere !</sentence>
+			<sentence id="9.2">127.0.0.0/8 ADDRTYPE match dst-type LOCAL</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Chain POSTROUTING (policy ACCEPT)
+target prot opt source destination 
+MASQUERADE all -- 172.17.0.0/16 anywhere</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Chain DOCKER (2 references)
+target prot opt source destination 
+DNAT tcp -- anywhere anywhere tcp dpt:6379 to:172.17.0.3:6379
+DNAT tcp -- anywhere 192.168.100.80 tcp dpt:9088 to:172.17.0.5:8080
+DNAT tcp -- anywhere anywhere tcp dpt:15672 to:172.17.0.6:15672
+DNAT tcp -- anywhere anywhere tcp dpt:amqp to:172.17.0.6:5672
+DNAT tcp -- anywhere anywhere tcp dpt:3000 to:172.17.0.8:3000
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

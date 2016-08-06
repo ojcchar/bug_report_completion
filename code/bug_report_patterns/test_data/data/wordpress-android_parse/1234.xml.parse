@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1234</id>
+	<title>Update the correct Fragment when new data is ready</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I noticed that each fragment available in the Stats screen is updated (reloaded) twice on refresh.</sentence>
+			<sentence id="1.2">To understand where the problem is, consider the two ViewsByCountries Fragments only.</sentence>
+			<sentence id="1.3">If you do a pull to refresh you will see that each of those fragments are updated twice during the refresh.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This is because the StatsService code notifies the observers when the network request finisheswith the following code:
+&lt;code&gt; getContentResolver().</sentence>
+			<sentence id="2.2">notifyChange(StatsContentProvider.STATS_GEOVIEWS_URI, null);&lt;/code&gt; Ref: 
+https://github.com/wordpress-mobile/WordPress-Android/blob/develop/src/org/wordpress/android/ui/stats/service/StatsService.java#L447</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">There is no trace of query parameter "timeframe" there. So both fragment will be updated on each response. I tried to put the "timeframe" in that call with the following code:</sentence>
+			<sentence id="3.2">&lt;code&gt;</sentence>
+			<sentence id="3.3"> if (StatUtils.getCurrentDate().equals(date)) {</sentence>
+			<sentence id="3.4"> getContentResolver().notifyChange(Uri.parse(StatsContentProvider.STATS_GEOVIEWS_URI.toString()+"?timeframe="+ StatsTimeframe.TODAY.name()), null);</sentence>
+			<sentence id="3.5"> } else if (StatUtils.getYesterdaysDate().equals(date)) {</sentence>
+			<sentence id="3.6"> getContentResolver().notifyChange(Uri.parse(StatsContentProvider.STATS_GEOVIEWS_URI.toString()+"?timeframe="+ StatsTimeframe.YESTERDAY.name()), null);</sentence>
+			<sentence id="3.7"> } else {</sentence>
+			<sentence id="3.8"> AppLog.e(AppLog.T.STATS, "Timeframe unknown in ViewsByCountryListener");</sentence>
+			<sentence id="3.9"> }</sentence>
+			<sentence id="3.10">&lt;/code&gt;</sentence>
+			<sentence id="3.11">but this doesn't resolve the issue, even if I register the observers with the notifyForDescendents set to false like below. Query parameters are ignored when changes are notified.</sentence>
+			<sentence id="3.12">&lt;code&gt;</sentence>
+			<sentence id="3.13"> getActivity().getContentResolver().registerContentObserver(getGroupUri(), false, mContentObserver);</sentence>
+			<sentence id="3.14">&lt;/code&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

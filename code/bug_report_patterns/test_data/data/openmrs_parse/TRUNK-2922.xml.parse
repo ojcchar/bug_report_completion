@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-2922</id>
+	<title>Daemon user has no associated person</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">While testing out the reporting module against 1.9.x, I found that I was getting an NPE when running a particular bit of code through a scheduled process.</sentence>
+			<sentence id="1.2">The code looks like this:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}
+Context.getUserContext().</sentence>
+			<sentence id="2.2">getAuthenticatedUser().</sentence>
+			<sentence id="2.3">getPersonName().</sentence>
+			<sentence id="2.4">toString()
+{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Upon investigating, it appears that the newly introduced Daemon user has no associated person, and therefore calls to "getPersonName()" return null.</sentence>
+			<sentence id="3.2">This is likely a backwards compatibility issue that needs to be addressed.</sentence>
+			<sentence id="3.3">Also, it would seem to be inconsistent with our validation on Users, which currently requires a person association (eg.</sentence>
+			<sentence id="3.4">UserValidator.validate(daemon) would fail).</sentence>
+		</paragraph>
+	</description>
+</bug>

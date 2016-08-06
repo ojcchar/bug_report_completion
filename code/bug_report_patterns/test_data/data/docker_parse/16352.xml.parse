@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16352</id>
+	<title>Docker pull from static registry crashes docker daemon with "panic: runtime error: invalid memory address or nil pointer dereference"</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If I Docker pull from a web server that is serving static files that match the v2 API layout, docker daemon crashes with "panic: runtime error: invalid memory address or nil pointer dereference".</sentence>
+			<sentence id="1.2">This happens with Docker 1.8, but not with Docker 1.6.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps to reproduce:</sentence>
+			<sentence id="2.2">0 @mhrivnak has created a v2 Docker registry that serves the API with static files.</sentence>
+			<sentence id="2.3">Run that registry:</sentence>
+			<sentence id="2.4">$ sudo docker run -d -p 8080:80 mhrivnak/staticreg</sentence>
+			<sentence id="2.5">1 Try to pull from the static registry:</sentence>
+			<sentence id="2.6">$ sudo docker pull localhost:8080/dockerio/busybox</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Actual results:
+$ sudo docker pull localhost:8080/dockerio/busybox
+Using default tag: latest
+Trying to pull repository localhost:8080/dockerio/busybox ... latest: Pulling from dockerio/busybox
+cf2616975b4a: Pulling fs layer 
+6ce2e90b0bc7: Pulling fs layer 
+8c2e06607696: Layer already being pulled by another client.</sentence>
+			<sentence id="3.2">Waiting.</sentence>
+			<sentence id="3.3">unexpected EOF
+$ echo $?</sentence>
+			<sentence id="3.4">1</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Expected results:
+Docker should be able to pull from a static registry.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">More information:
+With Docker 1.6 I am able to docker pull from a static registry.</sentence>
+			<sentence id="5.2">The error here happens on Docker 1.8.1.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">$ sudo docker version
+Client:
+ Version: 1.8.1.</sentence>
+			<sentence id="6.2">fc22
+ API version: 1.20
+ Package Version: docker-1.8.1-3.</sentence>
+			<sentence id="6.3">git32b8b25.fc22.x86_64
+ Go version: go1.4.2
+ Git commit: 32b8b25/1.8.1
+ Built: 
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:</sentence>
+			<sentence id="7.2"> Version: 1.8.1.fc22</sentence>
+			<sentence id="7.3"> API version: 1.20</sentence>
+			<sentence id="7.4"> Package Version: </sentence>
+			<sentence id="7.5"> Go version: go1.4.2</sentence>
+			<sentence id="7.6"> Git commit: 32b8b25/1.8.1</sentence>
+			<sentence id="7.7"> Built: </sentence>
+			<sentence id="7.8"> OS/Arch: linux/amd64</sentence>
+			<sentence id="7.9">(pulp_docker)[vagrant@dev pulp_docker]$ sudo docker info</sentence>
+			<sentence id="7.10">Containers: 2</sentence>
+			<sentence id="7.11">Images: 16</sentence>
+			<sentence id="7.12">Storage Driver: devicemapper</sentence>
+			<sentence id="7.13"> Pool Name: docker-252:3-9428498-pool</sentence>
+			<sentence id="7.14"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="7.15"> Backing Filesystem: xfs</sentence>
+			<sentence id="7.16"> Data file: /dev/loop0</sentence>
+			<sentence id="7.17"> Metadata file: /dev/loop1</sentence>
+			<sentence id="7.18"> Data Space Used: 694.4 MB</sentence>
+			<sentence id="7.19"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="7.20"> Data Space Available: 1.726 GB</sentence>
+			<sentence id="7.21"> Metadata Space Used: 1.524 MB</sentence>
+			<sentence id="7.22"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="7.23"> Metadata Space Available: 1.726 GB</sentence>
+			<sentence id="7.24"> Udev Sync Supported: true</sentence>
+			<sentence id="7.25"> Deferred Removal Enabled: false</sentence>
+			<sentence id="7.26"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="7.27"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="7.28"> Library Version: 1.02.93 (2015-01-30)</sentence>
+			<sentence id="7.29">Execution Driver: native-0.2</sentence>
+			<sentence id="7.30">Logging Driver: json-file</sentence>
+			<sentence id="7.31">Kernel Version: 4.0.4-303.fc22.x86_64</sentence>
+			<sentence id="7.32">Operating System: Fedora 22 (Twenty Two)</sentence>
+			<sentence id="7.33">CPUs: 4</sentence>
+			<sentence id="7.34">Total Memory: 1.954 GiB</sentence>
+			<sentence id="7.35">Name: dev</sentence>
+			<sentence id="7.36">ID: HIHH:QSUU:LOA4:N5DY:D3AJ:SDK6:IARO:5V6J:VLXO:ET7H:WGR4:BYUB</sentence>
+			<sentence id="7.37">(pulp_docker)[vagrant@dev pulp_docker]$ uname -a</sentence>
+			<sentence id="7.38">Linux dev 4.0.4-303.fc22.x86_64 #1 SMP Thu May 28 12:37:06 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">The docker daemon process crashed with tracebacks:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">```</sentence>
+			<sentence id="9.2">$ sudo docker -d --debug=true --insecure-registry localhost:8080</sentence>
+			<sentence id="9.3">Warning: '-d' is deprecated, it will be removed soon. See usage.</sentence>
+			<sentence id="9.4">time="2015-09-16T15:05:50-04:00" level=warning msg="please use 'docker daemon' instead." </sentence>
+			<sentence id="9.5">time="2015-09-16T15:05:50.299857456-04:00" level=debug msg="Registering OPTIONS, " </sentence>
+			<sentence id="9.6">time="2015-09-16T15:05:50.299880059-04:00" level=debug msg="Registering HEAD, /containers/{name:.*}/archive" </sentence>
+			<sentence id="9.7">time="2015-09-16T15:05:50.300000607-04:00" level=debug msg="Registering GET, /containers/{name:.*}/export" </sentence>
+			<sentence id="9.8">time="2015-09-16T15:05:50.300114300-04:00" level=debug msg="Registering GET, /containers/{name:.*}/json" </sentence>
+			<sentence id="9.9">time="2015-09-16T15:05:50.300232774-04:00" level=debug msg="Registering GET, /events" </sentence>
+			<sentence id="9.10">time="2015-09-16T15:05:50.300293638-04:00" level=debug msg="Registering GET, /images/search" </sentence>
+			<sentence id="9.11">time="2015-09-16T15:05:50.300386665-04:00" level=debug msg="Registering GET, /images/get" </sentence>
+			<sentence id="9.12">time="2015-09-16T15:05:50.300458845-04:00" level=debug msg="Registering GET, /images/{name:.*}/get" </sentence>
+			<sentence id="9.13">time="2015-09-16T15:05:50.300552722-04:00" level=debug msg="Registering GET, /images/{name:.*}/history" </sentence>
+			<sentence id="9.14">time="2015-09-16T15:05:50.300657271-04:00" level=debug msg="Registering GET, /containers/json" </sentence>
+			<sentence id="9.15">time="2015-09-16T15:05:50.300730138-04:00" level=debug msg="Registering GET, /containers/{name:.*}/archive" </sentence>
+			<sentence id="9.16">time="2015-09-16T15:05:50.300879196-04:00" level=debug msg="Registering GET, /info" </sentence>
+			<sentence id="9.17">time="2015-09-16T15:05:50.300933594-04:00" level=debug msg="Registering GET, /images/{name:.*}/tags" </sentence>
+			<sentence id="9.18">time="2015-09-16T15:05:50.301040746-04:00" level=debug msg="Registering GET, /containers/{name:.*}/top" </sentence>
+			<sentence id="9.19">time="2015-09-16T15:05:50.301139297-04:00" level=debug msg="Registering GET, /containers/{name:.*}/logs" </sentence>
+			<sentence id="9.20">time="2015-09-16T15:05:50.301234287-04:00" level=debug msg="Registering GET, /containers/{name:.*}/stats" </sentence>
+			<sentence id="9.21">time="2015-09-16T15:05:50.301379129-04:00" level=debug msg="Registering GET, /exec/{id:.*}/json" </sentence>
+			<sentence id="9.22">time="2015-09-16T15:05:50.301488691-04:00" level=debug msg="Registering GET, /_ping" </sentence>
+			<sentence id="9.23">time="2015-09-16T15:05:50.301557250-04:00" level=debug msg="Registering GET, /images/json" </sentence>
+			<sentence id="9.24">time="2015-09-16T15:05:50.302598046-04:00" level=debug msg="Registering GET, /images/{name:.*}/json" </sentence>
+			<sentence id="9.25">time="2015-09-16T15:05:50.302745787-04:00" level=debug msg="Registering GET, /containers/{name:.*}/attach/ws" </sentence>
+			<sentence id="9.26">time="2015-09-16T15:05:50.303130227-04:00" level=debug msg="Registering GET, /version" </sentence>
+			<sentence id="9.27">time="2015-09-16T15:05:50.303259190-04:00" level=debug msg="Registering GET, /containers/ps" </sentence>
+			<sentence id="9.28">time="2015-09-16T15:05:50.303422461-04:00" level=debug msg="Registering GET, /containers/{name:.*}/changes" </sentence>
+			<sentence id="9.29">time="2015-09-16T15:05:50.303572504-04:00" level=debug msg="Registering POST, /containers/{name:.*}/rename" </sentence>
+			<sentence id="9.30">time="2015-09-16T15:05:50.303727626-04:00" level=debug msg="Registering POST, /images/create" </sentence>
+			<sentence id="9.31">time="2015-09-16T15:05:50.303816961-04:00" level=debug msg="Registering POST, /images/load" </sentence>
+			<sentence id="9.32">time="2015-09-16T15:05:50.303884085-04:00" level=debug msg="Registering POST, /images/{name:.*}/push" </sentence>
+			<sentence id="9.33">time="2015-09-16T15:05:50.303975432-04:00" level=debug msg="Registering POST, /containers/{name:.*}/start" </sentence>
+			<sentence id="9.34">time="2015-09-16T15:05:50.304112391-04:00" level=debug msg="Registering POST, /containers/{name:.*}/attach" </sentence>
+			<sentence id="9.35">time="2015-09-16T15:05:50.304230934-04:00" level=debug msg="Registering POST, /containers/{name:.*}/copy" </sentence>
+			<sentence id="9.36">time="2015-09-16T15:05:50.304394643-04:00" level=debug msg="Registering POST, /containers/{name:.*}/exec" </sentence>
+			<sentence id="9.37">time="2015-09-16T15:05:50.304535755-04:00" level=debug msg="Registering POST, /build" </sentence>
+			<sentence id="9.38">time="2015-09-16T15:05:50.304603771-04:00" level=debug msg="Registering POST, /containers/{name:.*}/unpause" </sentence>
+			<sentence id="9.39">time="2015-09-16T15:05:50.304741430-04:00" level=debug msg="Registering POST, /containers/{name:.*}/restart" </sentence>
+			<sentence id="9.40">time="2015-09-16T15:05:50.304868279-04:00" level=debug msg="Registering POST, /containers/{name:.*}/wait" </sentence>
+			<sentence id="9.41">time="2015-09-16T15:05:50.304980319-04:00" level=debug msg="Registering POST, /containers/{name:.*}/pause" </sentence>
+			<sentence id="9.42">time="2015-09-16T15:05:50.305091844-04:00" level=debug msg="Registering POST, /containers/{name:.*}/stop" </sentence>
+			<sentence id="9.43">time="2015-09-16T15:05:50.305195857-04:00" level=debug msg="Registering POST, /containers/{name:.*}/resize" </sentence>
+			<sentence id="9.44">time="2015-09-16T15:05:50.305303747-04:00" level=debug msg="Registering POST, /commit" </sentence>
+			<sentence id="9.45">time="2015-09-16T15:05:50.305398539-04:00" level=debug msg="Registering POST, /images/{name:.*}/tag" </sentence>
+			<sentence id="9.46">time="2015-09-16T15:05:50.305505470-04:00" level=debug msg="Registering POST, /containers/create" </sentence>
+			<sentence id="9.47">time="2015-09-16T15:05:50.306949057-04:00" level=debug msg="Registering POST, /containers/{name:.*}/kill" </sentence>
+			<sentence id="9.48">time="2015-09-16T15:05:50.307139114-04:00" level=debug msg="Registering POST, /auth" </sentence>
+			<sentence id="9.49">time="2015-09-16T15:05:50.307199523-04:00" level=debug msg="Registering POST, /exec/{name:.*}/start" </sentence>
+			<sentence id="9.50">time="2015-09-16T15:05:50.307297651-04:00" level=debug msg="Registering POST, /exec/{name:.*}/resize" </sentence>
+			<sentence id="9.51">time="2015-09-16T15:05:50.307563824-04:00" level=debug msg="Registering PUT, /containers/{name:.*}/archive" </sentence>
+			<sentence id="9.52">time="2015-09-16T15:05:50.307720757-04:00" level=debug msg="Registering DELETE, /containers/{name:.*}" </sentence>
+			<sentence id="9.53">time="2015-09-16T15:05:50.307827456-04:00" level=debug msg="Registering DELETE, /images/{name:.*}" </sentence>
+			<sentence id="9.54">time="2015-09-16T15:05:50.312196481-04:00" level=debug msg="Warning: could not change group /var/run/docker.sock to docker: Group docker not found" </sentence>
+			<sentence id="9.55">time="2015-09-16T15:05:50.312230398-04:00" level=info msg="Listening for HTTP on unix (/var/run/docker.sock)" </sentence>
+			<sentence id="9.56">time="2015-09-16T15:05:50.312472184-04:00" level=debug msg="devicemapper: driver version is 4.30.0" </sentence>
+			<sentence id="9.57">time="2015-09-16T15:05:50.313165753-04:00" level=debug msg="Generated prefix: docker-252:3-9428498" </sentence>
+			<sentence id="9.58">time="2015-09-16T15:05:50.313180399-04:00" level=debug msg="Checking for existence of the pool 'docker-252:3-9428498-pool'" </sentence>
+			<sentence id="9.59">time="2015-09-16T15:05:50.313369055-04:00" level=debug msg="[devmapper]: poolDataMajMin=7:0 poolMetaMajMin=7:1</sentence>
+			<sentence id="9.60">" </sentence>
+			<sentence id="9.61">time="2015-09-16T15:05:50.313524955-04:00" level=debug msg="[devmapper]: Major:Minor for device: /dev/loop0 is:7:0" </sentence>
+			<sentence id="9.62">time="2015-09-16T15:05:50.313569418-04:00" level=debug msg="[devmapper]: Major:Minor for device: /dev/loop1 is:7:1" </sentence>
+			<sentence id="9.63">time="2015-09-16T15:05:50.313584797-04:00" level=error msg="WARNING: No --storage-opt dm.thinpooldev specified, using loopback; this configuration is strongly discouraged for production use" </sentence>
+			<sentence id="9.64">time="2015-09-16T15:05:50.313630117-04:00" level=debug msg="[devmapper]: poolDataMajMin=7:0 poolMetaMajMin=7:1</sentence>
+			<sentence id="9.65">" </sentence>
+			<sentence id="9.66">time="2015-09-16T15:05:50.314466883-04:00" level=debug msg="[deviceset] constructDeviceIdMap()" </sentence>
+			<sentence id="9.67">time="2015-09-16T15:05:50.314570256-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/06d0d6cc01fce20beea6ec479b4d19e5043a4addea004aed4d8706d27520dce9" </sentence>
+			<sentence id="9.68">time="2015-09-16T15:05:50.314677098-04:00" level=debug msg="Added deviceId=32 to DeviceIdMap" </sentence>
+			<sentence id="9.69">time="2015-09-16T15:05:50.314708601-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/14ba2cb918b653b4d6cc9fa6befb36c484743fdaeeb89e3e50c606925ec86f5b" </sentence>
+			<sentence id="9.70">time="2015-09-16T15:05:50.314759605-04:00" level=debug msg="Added deviceId=31 to DeviceIdMap" </sentence>
+			<sentence id="9.71">time="2015-09-16T15:05:50.314783511-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/1634f53d8d34f7f72a180ba678deae6223de8874b518fb725bfd2399e1507c58" </sentence>
+			<sentence id="9.72">time="2015-09-16T15:05:50.314831476-04:00" level=debug msg="Added deviceId=33 to DeviceIdMap" </sentence>
+			<sentence id="9.73">time="2015-09-16T15:05:50.314854384-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/41459f052977938b824dd011e1f2bec2cb4d133dfc7e1aa0e90f7c5d337ca9c4" </sentence>
+			<sentence id="9.74">time="2015-09-16T15:05:50.314900093-04:00" level=debug msg="Added deviceId=29 to DeviceIdMap" </sentence>
+			<sentence id="9.75">time="2015-09-16T15:05:50.314921353-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/42c9f14cd90d74dffce4c1795f5b9a2f083aea4893ed0a862d2abc29ed33f5ee" </sentence>
+			<sentence id="9.76">time="2015-09-16T15:05:50.314969168-04:00" level=debug msg="Added deviceId=41 to DeviceIdMap" </sentence>
+			<sentence id="9.77">time="2015-09-16T15:05:50.314988972-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/4617321b355e9164e83b82279f6411f9d14aab7b7222b3930ba2a5fac0ba3534" </sentence>
+			<sentence id="9.78">time="2015-09-16T15:05:50.315029678-04:00" level=debug msg="Added deviceId=36 to DeviceIdMap" </sentence>
+			<sentence id="9.79">time="2015-09-16T15:05:50.315051785-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/6941bfcbbfca7f4f48becd38f2639157042b5cf9ab8c080f1d8b6d047380ecfc" </sentence>
+			<sentence id="9.80">time="2015-09-16T15:05:50.315096078-04:00" level=debug msg="Added deviceId=28 to DeviceIdMap" </sentence>
+			<sentence id="9.81">time="2015-09-16T15:05:50.315117128-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/72d3df4bba94983e7307bdf5ed3d8cb30280c7fddd4675cc0924e4ac0eca2255" </sentence>
+			<sentence id="9.82">time="2015-09-16T15:05:50.315161079-04:00" level=debug msg="Added deviceId=35 to DeviceIdMap" </sentence>
+			<sentence id="9.83">time="2015-09-16T15:05:50.315182611-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/9c9ec0c2187151c6749685df2255d1ebc4199c23bba8633101c81a59a7c3fd99" </sentence>
+			<sentence id="9.84">time="2015-09-16T15:05:50.315223876-04:00" level=debug msg="Added deviceId=40 to DeviceIdMap" </sentence>
+			<sentence id="9.85">time="2015-09-16T15:05:50.315243606-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/9f74023d48fc620716109dbe1374a693ae0d61a6aac8e5f878e5b1260b44a46a" </sentence>
+			<sentence id="9.86">time="2015-09-16T15:05:50.315282104-04:00" level=debug msg="Added deviceId=37 to DeviceIdMap" </sentence>
+			<sentence id="9.87">time="2015-09-16T15:05:50.315398552-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/b40603ad93692ad7753f34c557adfa48a37c0b87c3b63714d361a2eb562eacaf" </sentence>
+			<sentence id="9.88">time="2015-09-16T15:05:50.315456189-04:00" level=debug msg="Added deviceId=42 to DeviceIdMap" </sentence>
+			<sentence id="9.89">time="2015-09-16T15:05:50.315480567-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/base" </sentence>
+			<sentence id="9.90">time="2015-09-16T15:05:50.315520097-04:00" level=debug msg="Added deviceId=1 to DeviceIdMap" </sentence>
+			<sentence id="9.91">time="2015-09-16T15:05:50.315540967-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/cc0f30ce7a0aba60ea97395879b6833c18b2f92864c652c7a53a616295257357" </sentence>
+			<sentence id="9.92">time="2015-09-16T15:05:50.315615470-04:00" level=debug msg="Added deviceId=45 to DeviceIdMap" </sentence>
+			<sentence id="9.93">time="2015-09-16T15:05:50.315640865-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/cc0f30ce7a0aba60ea97395879b6833c18b2f92864c652c7a53a616295257357-init" </sentence>
+			<sentence id="9.94">time="2015-09-16T15:05:50.315697015-04:00" level=debug msg="Added deviceId=44 to DeviceIdMap" </sentence>
+			<sentence id="9.95">time="2015-09-16T15:05:50.315718532-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/d3d3700d1c33987b807416ed4e4afc2180a4a0f7e0f0fc0395af3be29d6e361f" </sentence>
+			<sentence id="9.96">time="2015-09-16T15:05:50.315768506-04:00" level=debug msg="Added deviceId=38 to DeviceIdMap" </sentence>
+			<sentence id="9.97">time="2015-09-16T15:05:50.315792793-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/dabbf6687da0770b9215c5259bb5645999b622420cec913972a8e9c247f7fe8e" </sentence>
+			<sentence id="9.98">time="2015-09-16T15:05:50.315837928-04:00" level=debug msg="Added deviceId=39 to DeviceIdMap" </sentence>
+			<sentence id="9.99">time="2015-09-16T15:05:50.315869575-04:00" level=debug msg="Skipping file /var/lib/docker/devicemapper/metadata/deviceset-metadata" </sentence>
+			<sentence id="9.100">time="2015-09-16T15:05:50.315895455-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/e58cf67504365256f97512eef58c963f4f2ff43caa6254ac35ded2f0b56437e2" </sentence>
+			<sentence id="9.101">time="2015-09-16T15:05:50.315981743-04:00" level=debug msg="Added deviceId=43 to DeviceIdMap" </sentence>
+			<sentence id="9.102">time="2015-09-16T15:05:50.316067358-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/f5d7d1d76e2756812e47b96ea5875beccfdf61db181f0083cda33822c785dbbe" </sentence>
+			<sentence id="9.103">time="2015-09-16T15:05:50.316116505-04:00" level=debug msg="Added deviceId=34 to DeviceIdMap" </sentence>
+			<sentence id="9.104">time="2015-09-16T15:05:50.316138697-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/fd44297e2ddb050ec4fa9752b7a4e3a8439061991886e2091e7c1f007c906d75" </sentence>
+			<sentence id="9.105">time="2015-09-16T15:05:50.316171383-04:00" level=debug msg="Added deviceId=30 to DeviceIdMap" </sentence>
+			<sentence id="9.106">time="2015-09-16T15:05:50.316185334-04:00" level=debug msg="Loading data for file /var/lib/docker/devicemapper/metadata/transaction-metadata" </sentence>
+			<sentence id="9.107">time="2015-09-16T15:05:50.316223937-04:00" level=debug msg="Added deviceId=45 to DeviceIdMap" </sentence>
+			<sentence id="9.108">time="2015-09-16T15:05:50.316234083-04:00" level=debug msg="[deviceset] constructDeviceIdMap() END" </sentence>
+			<sentence id="9.109">time="2015-09-16T15:05:50.317592753-04:00" level=debug msg="activateDeviceIfNeeded()" </sentence>
+			<sentence id="9.110">time="2015-09-16T15:05:50.354406482-04:00" level=debug msg="UUID for device: /dev/mapper/docker-252:3-9428498-base is:29fbf9ac-ed49-4758-bb7d-5b9a8b15c667" </sentence>
+			<sentence id="9.111">time="2015-09-16T15:05:50.355210345-04:00" level=debug msg="[devmapper] deactivateDevice()" </sentence>
+			<sentence id="9.112">time="2015-09-16T15:05:50.355303235-04:00" level=debug msg="[devmapper] removeDevice START(docker-252:3-9428498-base)" </sentence>
+			<sentence id="9.113">time="2015-09-16T15:05:50.382482502-04:00" level=debug msg="[devmapper] removeDevice END(docker-252:3-9428498-base)" </sentence>
+			<sentence id="9.114">time="2015-09-16T15:05:50.382511625-04:00" level=debug msg="[devmapper] deactivateDevice END()" </sentence>
+			<sentence id="9.115">time="2015-09-16T15:05:50.384389861-04:00" level=info msg="[graphdriver] using prior storage driver \"devicemapper\"" </sentence>
+			<sentence id="9.116">time="2015-09-16T15:05:50.384427098-04:00" level=debug msg="Using graph driver devicemapper" </sentence>
+			<sentence id="9.117">time="2015-09-16T15:05:50.384450042-04:00" level=debug msg="Using default logging driver json-file" </sentence>
+			<sentence id="9.118">time="2015-09-16T15:05:50.384472557-04:00" level=debug msg="Creating images graph" </sentence>
+			<sentence id="9.119">time="2015-09-16T15:05:50.385143585-04:00" level=debug msg="Restored 16 elements" </sentence>
+			<sentence id="9.120">time="2015-09-16T15:05:50.390521209-04:00" level=debug msg="Reloaded graph with 3 grants expiring at 2017-03-22 19:04:46.713978458 +0000 UTC" </sentence>
+			<sentence id="9.121">time="2015-09-16T15:05:50.390550371-04:00" level=debug msg="Creating repository list" </sentence>
+			<sentence id="9.122">time="2015-09-16T15:05:50.390617691-04:00" level=info msg="Option DefaultDriver: bridge" </sentence>
+			<sentence id="9.123">time="2015-09-16T15:05:50.390634664-04:00" level=info msg="Option DefaultNetwork: bridge" </sentence>
+			<sentence id="9.124">time="2015-09-16T15:05:50.394370064-04:00" level=info msg="Firewalld running: false" </sentence>
+			<sentence id="9.125">time="2015-09-16T15:05:50.395998462-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -D PREROUTING -m addrtype --dst-type LOCAL -j DOCKER]" </sentence>
+			<sentence id="9.126">time="2015-09-16T15:05:50.397721970-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -D OUTPUT -m addrtype --dst-type LOCAL ! --dst 127.0.0.0/8 -j DOCKER]" </sentence>
+			<sentence id="9.127">time="2015-09-16T15:05:50.399412351-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -D OUTPUT -m addrtype --dst-type LOCAL -j DOCKER]" </sentence>
+			<sentence id="9.128">time="2015-09-16T15:05:50.400945349-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -D PREROUTING]" </sentence>
+			<sentence id="9.129">time="2015-09-16T15:05:50.402039804-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -D OUTPUT]" </sentence>
+			<sentence id="9.130">time="2015-09-16T15:05:50.403242965-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -F DOCKER]" </sentence>
+			<sentence id="9.131">time="2015-09-16T15:05:50.404659617-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -X DOCKER]" </sentence>
+			<sentence id="9.132">time="2015-09-16T15:05:50.406082191-04:00" level=debug msg="Failed to Initialize Datastore due to datastore initialization requires a valid configuration. Operating in non-clustered mode" </sentence>
+			<sentence id="9.133">time="2015-09-16T15:05:50.406840006-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -C POSTROUTING -s 172.17.42.1/16 ! -o docker0 -j MASQUERADE]" </sentence>
+			<sentence id="9.134">time="2015-09-16T15:05:50.414500464-04:00" level=debug msg="/sbin/iptables, [--wait -D FORWARD -i docker0 -o docker0 -j DROP]" </sentence>
+			<sentence id="9.135">time="2015-09-16T15:05:50.416124009-04:00" level=debug msg="/sbin/iptables, [--wait -t filter -C FORWARD -i docker0 -o docker0 -j ACCEPT]" </sentence>
+			<sentence id="9.136">time="2015-09-16T15:05:50.417565716-04:00" level=debug msg="/sbin/iptables, [--wait -t filter -C FORWARD -i docker0 ! -o docker0 -j ACCEPT]" </sentence>
+			<sentence id="9.137">time="2015-09-16T15:05:50.418794160-04:00" level=debug msg="/sbin/iptables, [--wait -t filter -C FORWARD -o docker0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT]" </sentence>
+			<sentence id="9.138">time="2015-09-16T15:05:50.420132524-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -n -L DOCKER]" </sentence>
+			<sentence id="9.139">time="2015-09-16T15:05:50.421368918-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -N DOCKER]" </sentence>
+			<sentence id="9.140">time="2015-09-16T15:05:50.422862096-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -C PREROUTING -m addrtype --dst-type LOCAL -j DOCKER]" </sentence>
+			<sentence id="9.141">time="2015-09-16T15:05:50.425541840-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -A PREROUTING -m addrtype --dst-type LOCAL -j DOCKER]" </sentence>
+			<sentence id="9.142">time="2015-09-16T15:05:50.430713382-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -C OUTPUT -m addrtype --dst-type LOCAL -j DOCKER ! --dst 127.0.0.0/8]" </sentence>
+			<sentence id="9.143">time="2015-09-16T15:05:50.433542719-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -A OUTPUT -m addrtype --dst-type LOCAL -j DOCKER ! --dst 127.0.0.0/8]" </sentence>
+			<sentence id="9.144">time="2015-09-16T15:05:50.435154673-04:00" level=debug msg="/sbin/iptables, [--wait -t filter -n -L DOCKER]" </sentence>
+			<sentence id="9.145">time="2015-09-16T15:05:50.439081962-04:00" level=debug msg="/sbin/iptables, [--wait -t filter -C FORWARD -o docker0 -j DOCKER]" </sentence>
+			<sentence id="9.146">time="2015-09-16T15:05:50.457136933-04:00" level=debug msg="Loaded container cc0f30ce7a0aba60ea97395879b6833c18b2f92864c652c7a53a616295257357" </sentence>
+			<sentence id="9.147">time="2015-09-16T15:05:50.457754923-04:00" level=debug msg="killing old running container cc0f30ce7a0aba60ea97395879b6833c18b2f92864c652c7a53a616295257357" </sentence>
+			<sentence id="9.148">time="2015-09-16T15:05:50.457909288-04:00" level=debug msg="[devmapper] UnmountDevice(hash=cc0f30ce7a0aba60ea97395879b6833c18b2f92864c652c7a53a616295257357)" </sentence>
+			<sentence id="9.149">time="2015-09-16T15:05:50.457982477-04:00" level=debug msg="[devmapper] UnmountDevice(hash=cc0f30ce7a0aba60ea97395879b6833c18b2f92864c652c7a53a616295257357) END" </sentence>
+			<sentence id="9.150">time="2015-09-16T15:05:50.458021089-04:00" level=error msg="Error unmounting device cc0f30ce7a0aba60ea97395879b6833c18b2f92864c652c7a53a616295257357: UnmountDevice: device not-mounted id cc0f30ce7a0aba60ea97395879b6833c18b2f92864c652c7a53a616295257357" </sentence>
+			<sentence id="9.151">time="2015-09-16T15:05:50.458660819-04:00" level=info msg="Daemon has completed initialization" </sentence>
+			<sentence id="9.152">time="2015-09-16T15:05:50.458695318-04:00" level=info msg="Docker daemon" commit="32b8b25/1.8.1" execdriver=native-0.2 graphdriver=devicemapper version=1.8.1.fc22 </sentence>
+			<sentence id="9.153">time="2015-09-16T15:06:02.541653569-04:00" level=debug msg="Calling POST /containers/create" </sentence>
+			<sentence id="9.154">time="2015-09-16T15:06:02.541700643-04:00" level=info msg="POST /v1.20/containers/create" </sentence>
+			<sentence id="9.155">time="2015-09-16T15:06:02.545950505-04:00" level=debug msg="[deviceset] AddDevice(hash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init basehash=e58cf67504365256f97512eef58c963f4f2ff43caa6254ac35ded2f0b56437e2)" </sentence>
+			<sentence id="9.156">time="2015-09-16T15:06:02.547132938-04:00" level=debug msg="registerDevice(46, ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init)" </sentence>
+			<sentence id="9.157">time="2015-09-16T15:06:02.547828236-04:00" level=debug msg="[deviceset] AddDevice(hash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init basehash=e58cf67504365256f97512eef58c963f4f2ff43caa6254ac35ded2f0b56437e2) END" </sentence>
+			<sentence id="9.158">time="2015-09-16T15:06:02.547972447-04:00" level=debug msg="activateDeviceIfNeeded(ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init)" </sentence>
+			<sentence id="9.159">time="2015-09-16T15:06:02.574644042-04:00" level=debug msg="[devmapper] UnmountDevice(hash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init)" </sentence>
+			<sentence id="9.160">time="2015-09-16T15:06:02.574673287-04:00" level=debug msg="[devmapper] Unmount(/var/lib/docker/devicemapper/mnt/ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init)" </sentence>
+			<sentence id="9.161">time="2015-09-16T15:06:02.593461340-04:00" level=debug msg="[devmapper] Unmount done" </sentence>
+			<sentence id="9.162">time="2015-09-16T15:06:02.593495470-04:00" level=debug msg="[devmapper] deactivateDevice(ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init)" </sentence>
+			<sentence id="9.163">time="2015-09-16T15:06:02.593568349-04:00" level=debug msg="[devmapper] removeDevice START(docker-252:3-9428498-ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init)" </sentence>
+			<sentence id="9.164">time="2015-09-16T15:06:02.614596303-04:00" level=debug msg="[devmapper] removeDevice END(docker-252:3-9428498-ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init)" </sentence>
+			<sentence id="9.165">time="2015-09-16T15:06:02.614628890-04:00" level=debug msg="[devmapper] deactivateDevice END(ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init)" </sentence>
+			<sentence id="9.166">time="2015-09-16T15:06:02.614639791-04:00" level=debug msg="[devmapper] UnmountDevice(hash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init) END" </sentence>
+			<sentence id="9.167">time="2015-09-16T15:06:02.614651762-04:00" level=debug msg="[deviceset] AddDevice(hash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8 basehash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init)" </sentence>
+			<sentence id="9.168">time="2015-09-16T15:06:02.615892805-04:00" level=debug msg="registerDevice(47, ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8)" </sentence>
+			<sentence id="9.169">time="2015-09-16T15:06:02.616474732-04:00" level=debug msg="[deviceset] AddDevice(hash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8 basehash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8-init) END" </sentence>
+			<sentence id="9.170">time="2015-09-16T15:06:02.616741814-04:00" level=debug msg="activateDeviceIfNeeded(ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8)" </sentence>
+			<sentence id="9.171">time="2015-09-16T15:06:02.641073914-04:00" level=debug msg="[devmapper] UnmountDevice(hash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8)" </sentence>
+			<sentence id="9.172">time="2015-09-16T15:06:02.641136484-04:00" level=debug msg="[devmapper] Unmount(/var/lib/docker/devicemapper/mnt/ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8)" </sentence>
+			<sentence id="9.173">time="2015-09-16T15:06:02.656823729-04:00" level=debug msg="[devmapper] Unmount done" </sentence>
+			<sentence id="9.174">time="2015-09-16T15:06:02.656856193-04:00" level=debug msg="[devmapper] deactivateDevice(ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8)" </sentence>
+			<sentence id="9.175">time="2015-09-16T15:06:02.656932630-04:00" level=debug msg="[devmapper] removeDevice START(docker-252:3-9428498-ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8)" </sentence>
+			<sentence id="9.176">time="2015-09-16T15:06:02.680538792-04:00" level=debug msg="[devmapper] removeDevice END(docker-252:3-9428498-ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8)" </sentence>
+			<sentence id="9.177">time="2015-09-16T15:06:02.680574665-04:00" level=debug msg="[devmapper] deactivateDevice END(ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8)" </sentence>
+			<sentence id="9.178">time="2015-09-16T15:06:02.680592130-04:00" level=debug msg="[devmapper] UnmountDevice(hash=ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8) END" </sentence>
+			<sentence id="9.179">time="2015-09-16T15:06:02.681272566-04:00" level=debug msg="Calling POST /containers/{name:.*}/start" </sentence>
+			<sentence id="9.180">time="2015-09-16T15:06:02.681303787-04:00" level=info msg="POST /v1.20/containers/ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8/start" </sentence>
+			<sentence id="9.181">time="2015-09-16T15:06:02.681379508-04:00" level=debug msg="activateDeviceIfNeeded(ba9724f7dc910bef4655231259c58e2efb624017d1333458becf618fda1f8cc8)" </sentence>
+			<sentence id="9.182">time="2015-09-16T15:06:02.709044636-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -A DOCKER -p tcp -d 0/0 --dport 8080 -j DNAT --to-destination 172.17.0.1:80 ! -i docker0]" </sentence>
+			<sentence id="9.183">time="2015-09-16T15:06:02.712476353-04:00" level=debug msg="/sbin/iptables, [--wait -t filter -A DOCKER ! -i docker0 -o docker0 -p tcp -d 172.17.0.1 --dport 80 -j ACCEPT]" </sentence>
+			<sentence id="9.184">time="2015-09-16T15:06:02.715371439-04:00" level=debug msg="/sbin/iptables, [--wait -t nat -A POSTROUTING -p tcp -s 172.17.0.1 -d 172.17.0.1 --dport 80 -j MASQUERADE]" </sentence>
+			<sentence id="9.185">time="2015-09-16T15:06:05.353613905-04:00" level=debug msg="Calling POST /images/create" </sentence>
+			<sentence id="9.186">time="2015-09-16T15:06:05.353673722-04:00" level=info msg="POST /v1.20/images/create?fromImage=localhost%3A8080%2Fdockerio%2Fbusybox%3Alatest" </sentence>
+			<sentence id="9.187">time="2015-09-16T15:06:05.353977921-04:00" level=debug msg="Trying to pull localhost:8080/dockerio/busybox from https://localhost:8080 v2" </sentence>
+			<sentence id="9.188">time="2015-09-16T15:06:05.355181556-04:00" level=debug msg="Error getting v2 registry: Get https://localhost:8080/v2/: tls: oversized record received with length 20527" </sentence>
+			<sentence id="9.189">time="2015-09-16T15:06:05.355214663-04:00" level=debug msg="Trying to pull localhost:8080/dockerio/busybox from https://localhost:8080 v1" </sentence>
+			<sentence id="9.190">time="2015-09-16T15:06:05.355275684-04:00" level=debug msg="attempting v2 ping for registry endpoint https://localhost:8080/v2/" </sentence>
+			<sentence id="9.191">time="2015-09-16T15:06:05.357071623-04:00" level=debug msg="attempting v1 ping for registry endpoint https://localhost:8080/v1/" </sentence>
+			<sentence id="9.192">time="2015-09-16T15:06:05.358103219-04:00" level=debug msg="Fallback from error: unable to ping registry endpoint https://localhost:8080/v0/</sentence>
+			<sentence id="9.193">v2 ping attempt failed with error: Get https://localhost:8080/v2/: tls: oversized record received with length 20527</sentence>
+			<sentence id="9.194"> v1 ping attempt failed with error: Get https://localhost:8080/v1/_ping: tls: oversized record received with length 20527" </sentence>
+			<sentence id="9.195">time="2015-09-16T15:06:05.358167845-04:00" level=debug msg="Trying to pull localhost:8080/dockerio/busybox from http://localhost:8080 v2" </sentence>
+			<sentence id="9.196">time="2015-09-16T15:06:05.365580951-04:00" level=debug msg="Pulling tag from V2 registry: \"latest\"" </sentence>
+			<sentence id="9.197">time="2015-09-16T15:06:05.378020167-04:00" level=debug msg="Verification failed for /dockerio/busybox using key 4MON:AJZX:N6SI:KQOH:3BSW:DYL2:R5XT:Z2Q6:G6DY:Y2AY:M6BW:RKPV" </sentence>
+			<sentence id="9.198">time="2015-09-16T15:06:05.378126429-04:00" level=debug msg="Key check result: not verified" </sentence>
+			<sentence id="9.199">time="2015-09-16T15:06:05.379448415-04:00" level=debug msg="pulling blob \"sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4\" to cf2616975b4a3cba083ca99bc3f0bf25f5f528c3c52be1596b30f60b0b1c37ff" </sentence>
+			<sentence id="9.200">time="2015-09-16T15:06:05.381237594-04:00" level=debug msg="pulling blob \"sha256:1db09adb5ddd7f1a07b6d585a7db747a51c7bd17418d47e91f901bdf420abd66\" to 6ce2e90b0bc7224de3db1f0d646fe8e2c4dd37f1793928287f6074bc451a57ea" </sentence>
+			<sentence id="9.201">time="2015-09-16T15:06:05.381455051-04:00" level=debug msg="pulling blob \"sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4\" to 8c2e06607696bd4afb3d03b687e361cc43cf8ec1a4a725bc96e39f05ba97dd55" </sentence>
+			<sentence id="9.202">time="2015-09-16T15:06:05.381612147-04:00" level=debug msg="pulling blob \"sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4\" to 8c2e06607696bd4afb3d03b687e361cc43cf8ec1a4a725bc96e39f05ba97dd55" </sentence>
+			<sentence id="9.203">panic: runtime error: invalid memory address or nil pointer dereference</sentence>
+			<sentence id="9.204">[signal 0xb code=0x1 addr=0x38 pc=0xaae8d1]</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">goroutine 88 [running]:</sentence>
+			<sentence id="10.2">github.com/docker/distribution/context.getLogrusLogger(0x0, 0x0, 0x0, 0x0, 0x0, 0xc20864edc0)</sentence>
+			<sentence id="10.3">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/context/logger.go:79 +0x91</sentence>
+			<sentence id="10.4">github.com/docker/distribution/context.GetLogger(0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="10.5">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/context/logger.go:68 +0x62</sentence>
+			<sentence id="10.6">github.com/docker/distribution/registry/storage/cache.(*cachedBlobStatter).Stat(0xc208619260, 0x0, 0x0, 0xc20864edc0, 0x47, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+			<sentence id="10.7">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/storage/cache/cachedblobdescriptorstore.go:76 +0x316</sentence>
+			<sentence id="10.8">github.com/docker/distribution/registry/client.(*blobs).Stat(0xc208521440, 0x0, 0x0, 0xc20864edc0, 0x47, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+			<sentence id="10.9">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/client/repository.go:384 +0xab</sentence>
+			<sentence id="10.10">github.com/docker/docker/graph.(*v2Puller).download(0xc20865e960, 0xc20868ccd0)</sentence>
+			<sentence id="10.11">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:145 +0x7ef</sentence>
+			<sentence id="10.12">created by github.com/docker/docker/graph.(*v2Puller).pullV2Tag</sentence>
+			<sentence id="10.13">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:269 +0x20ce</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">goroutine 1 [chan receive]:
+main.</sentence>
+			<sentence id="11.2">(*DaemonCli).</sentence>
+			<sentence id="11.3">CmdDaemon(0xc20809bac0, 0xc20800a040, 0x0, 0x0, 0x0, 0x0)
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/docker/daemon.</sentence>
+			<sentence id="11.4">go:312 +0x1ea0
+main.handleGlobalDaemonFlag()
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/docker/daemon.</sentence>
+			<sentence id="11.5">go:65 +0x22c
+main.main()
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/docker/docker.</sentence>
+			<sentence id="11.6">go:59 +0x2f7</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">goroutine 5 [syscall]:
+os/signal.</sentence>
+			<sentence id="12.2">loop()
+	/usr/lib/golang/src/os/signal/signal_unix.</sentence>
+			<sentence id="12.3">go:21 +0x1f
+created by os/signal.</sentence>
+			<sentence id="12.4">init&#xB7;1
+	/usr/lib/golang/src/os/signal/signal_unix.</sentence>
+			<sentence id="12.5">go:27 +0x35</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">goroutine 17 [syscall, locked to thread]:
+runtime.goexit()
+	/usr/lib/golang/src/runtime/asm_amd64.s:2232 +0x1</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">goroutine 12 [IO wait]:</sentence>
+			<sentence id="14.2">net.(*pollDesc).Wait(0xc208086300, 0x72, 0x0, 0x0)</sentence>
+			<sentence id="14.3">	/usr/lib/golang/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+			<sentence id="14.4">net.(*pollDesc).WaitRead(0xc208086300, 0x0, 0x0)</sentence>
+			<sentence id="14.5">	/usr/lib/golang/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+			<sentence id="14.6">net.(*netFD).accept(0xc2080862a0, 0x0, 0x7f54d8b4f340, 0xc2086666d0)</sentence>
+			<sentence id="14.7">	/usr/lib/golang/src/net/fd_unix.go:419 +0x40b</sentence>
+			<sentence id="14.8">net.(*UnixListener).AcceptUnix(0xc20819a1a0, 0xc20866e5e0, 0x0, 0x0)</sentence>
+			<sentence id="14.9">	/usr/lib/golang/src/net/unixsock_posix.go:282 +0x56</sentence>
+			<sentence id="14.10">net.(*UnixListener).Accept(0xc20819a1a0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="14.11">	/usr/lib/golang/src/net/unixsock_posix.go:293 +0x4c</sentence>
+			<sentence id="14.12">github.com/docker/docker/pkg/listenbuffer.(*defaultListener).Accept(0xc20819a1c0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="14.13">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/pkg/listenbuffer/buffer.go:71 +0x67</sentence>
+			<sentence id="14.14">net/http.(*Server).Serve(0xc2081b4240, 0x7f54d8b57378, 0xc20819a1c0, 0x0, 0x0)</sentence>
+			<sentence id="14.15">	/usr/lib/golang/src/net/http/server.go:1728 +0x92</sentence>
+			<sentence id="14.16">github.com/docker/docker/api/server.(*HttpServer).Serve(0xc20819a4c0, 0x0, 0x0)</sentence>
+			<sentence id="14.17">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/api/server/server.go:126 +0x4d</sentence>
+			<sentence id="14.18">github.com/docker/docker/api/server.func&#xB7;002(0x7f54d8b57428, 0xc20819a4c0)</sentence>
+			<sentence id="14.19">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/api/server/server.go:102 +0x40</sentence>
+			<sentence id="14.20">created by github.com/docker/docker/api/server.(*Server).ServeApi</sentence>
+			<sentence id="14.21">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/api/server/server.go:106 +0x6ac</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">goroutine 10 [chan receive]:
+github.com/docker/docker/api/server.</sentence>
+			<sentence id="15.2">(*Server).</sentence>
+			<sentence id="15.3">ServeApi(0xc20809f2c0, 0xc20809bf10, 0x1, 0x1, 0x0, 0x0)
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="15.4">com/docker/docker/api/server/server.</sentence>
+			<sentence id="15.5">go:111 +0x74f
+main.func&#xB7;007()
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/docker/daemon.</sentence>
+			<sentence id="15.6">go:262 +0x5b
+created by main.</sentence>
+			<sentence id="15.7">(*DaemonCli).</sentence>
+			<sentence id="15.8">CmdDaemon
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/docker/daemon.</sentence>
+			<sentence id="15.9">go:268 +0x1380</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">goroutine 11 [chan receive]:
+github.com/docker/docker/daemon.func&#xB7;026()
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="16.2">com/docker/docker/daemon/debugtrap_unix.go:17 +0x5c
+created by github.com/docker/docker/daemon.setupDumpStackTrap
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="16.3">com/docker/docker/daemon/debugtrap_unix.go:20 +0x18e</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">goroutine 15 [IO wait]:</sentence>
+			<sentence id="17.2">net.(*pollDesc).Wait(0xc2081e7250, 0x72, 0x0, 0x0)</sentence>
+			<sentence id="17.3">	/usr/lib/golang/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+			<sentence id="17.4">net.(*pollDesc).WaitRead(0xc2081e7250, 0x0, 0x0)</sentence>
+			<sentence id="17.5">	/usr/lib/golang/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+			<sentence id="17.6">net.(*netFD).readMsg(0xc2081e71f0, 0xc2081d5c00, 0x10, 0x10, 0xc20843a020, 0x1000, 0x1000, 0xffffffffffffffff, 0x0, 0x0, ...)</sentence>
+			<sentence id="17.7">	/usr/lib/golang/src/net/fd_unix.go:296 +0x54e</sentence>
+			<sentence id="17.8">net.(*UnixConn).ReadMsgUnix(0xc208038ae0, 0xc2081d5c00, 0x10, 0x10, 0xc20843a020, 0x1000, 0x1000, 0x51, 0xc2081d5904, 0x4, ...)</sentence>
+			<sentence id="17.9">	/usr/lib/golang/src/net/unixsock_posix.go:147 +0x167</sentence>
+			<sentence id="17.10">github.com/godbus/dbus.(*oobReader).Read(0xc20843a000, 0xc2081d5c00, 0x10, 0x10, 0xc20843a000, 0x0, 0x0)</sentence>
+			<sentence id="17.11">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/godbus/dbus/transport_unix.go:21 +0xc5</sentence>
+			<sentence id="17.12">io.ReadAtLeast(0x7f54d8b57f48, 0xc20843a000, 0xc2081d5c00, 0x10, 0x10, 0x10, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="17.13">	/usr/lib/golang/src/io/io.go:298 +0xf1</sentence>
+			<sentence id="17.14">io.ReadFull(0x7f54d8b57f48, 0xc20843a000, 0xc2081d5c00, 0x10, 0x10, 0x51, 0x0, 0x0)</sentence>
+			<sentence id="17.15">	/usr/lib/golang/src/io/io.go:316 +0x6d</sentence>
+			<sentence id="17.16">github.com/godbus/dbus.(*unixTransport).ReadMessage(0xc2081f1700, 0xc208415980, 0x0, 0x0)</sentence>
+			<sentence id="17.17">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/godbus/dbus/transport_unix.go:85 +0x1bf</sentence>
+			<sentence id="17.18">github.com/godbus/dbus.(*Conn).inWorker(0xc2081bb680)</sentence>
+			<sentence id="17.19">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/godbus/dbus/conn.go:248 +0x58</sentence>
+			<sentence id="17.20">created by github.com/godbus/dbus.(*Conn).Auth</sentence>
+			<sentence id="17.21">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/godbus/dbus/auth.go:118 +0xe84</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">goroutine 16 [chan receive]:
+github.com/godbus/dbus.</sentence>
+			<sentence id="18.2">(*Conn).</sentence>
+			<sentence id="18.3">outWorker(0xc2081bb680)
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="18.4">com/godbus/dbus/conn.go:370 +0x58
+created by github.com/godbus/dbus.</sentence>
+			<sentence id="18.5">(*Conn).</sentence>
+			<sentence id="18.6">Auth
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="18.7">com/godbus/dbus/auth.go:119 +0xea1</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">goroutine 18 [chan receive]:
+github.com/docker/libnetwork/iptables.signalHandler()
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="19.2">com/docker/libnetwork/iptables/firewalld.</sentence>
+			<sentence id="19.3">go:92 +0x57
+created by github.com/docker/libnetwork/iptables.FirewalldInit
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="19.4">com/docker/libnetwork/iptables/firewalld.</sentence>
+			<sentence id="19.5">go:48 +0x185</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">goroutine 41 [chan receive]:
+database/sql.</sentence>
+			<sentence id="20.2">(*DB).</sentence>
+			<sentence id="20.3">connectionOpener(0xc2081c6320)
+	/usr/lib/golang/src/database/sql/sql.go:589 +0x4c
+created by database/sql.</sentence>
+			<sentence id="20.4">Open
+	/usr/lib/golang/src/database/sql/sql.go:452 +0x31c</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">goroutine 42 [IO wait]:</sentence>
+			<sentence id="21.2">net.(*pollDesc).Wait(0xc208188530, 0x72, 0x0, 0x0)</sentence>
+			<sentence id="21.3">	/usr/lib/golang/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+			<sentence id="21.4">net.(*pollDesc).WaitRead(0xc208188530, 0x0, 0x0)</sentence>
+			<sentence id="21.5">	/usr/lib/golang/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+			<sentence id="21.6">net.(*netFD).readMsg(0xc2081884d0, 0xc208666000, 0x10, 0x10, 0xc208668020, 0x1000, 0x1000, 0xffffffffffffffff, 0x0, 0x0, ...)</sentence>
+			<sentence id="21.7">	/usr/lib/golang/src/net/fd_unix.go:296 +0x54e</sentence>
+			<sentence id="21.8">net.(*UnixConn).ReadMsgUnix(0xc208039220, 0xc208666000, 0x10, 0x10, 0xc208668020, 0x1000, 0x1000, 0x75, 0xc20864be04, 0x4, ...)</sentence>
+			<sentence id="21.9">	/usr/lib/golang/src/net/unixsock_posix.go:147 +0x167</sentence>
+			<sentence id="21.10">github.com/godbus/dbus.(*oobReader).Read(0xc208668000, 0xc208666000, 0x10, 0x10, 0xc208668000, 0x0, 0x0)</sentence>
+			<sentence id="21.11">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/godbus/dbus/transport_unix.go:21 +0xc5</sentence>
+			<sentence id="21.12">io.ReadAtLeast(0x7f54d8b57f48, 0xc208668000, 0xc208666000, 0x10, 0x10, 0x10, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="21.13">	/usr/lib/golang/src/io/io.go:298 +0xf1</sentence>
+			<sentence id="21.14">io.ReadFull(0x7f54d8b57f48, 0xc208668000, 0xc208666000, 0x10, 0x10, 0x75, 0x0, 0x0)</sentence>
+			<sentence id="21.15">	/usr/lib/golang/src/io/io.go:316 +0x6d</sentence>
+			<sentence id="21.16">github.com/godbus/dbus.(*unixTransport).ReadMessage(0xc20846e860, 0xc208475020, 0x0, 0x0)</sentence>
+			<sentence id="21.17">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/godbus/dbus/transport_unix.go:85 +0x1bf</sentence>
+			<sentence id="21.18">github.com/godbus/dbus.(*Conn).inWorker(0xc208432d80)</sentence>
+			<sentence id="21.19">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/godbus/dbus/conn.go:248 +0x58</sentence>
+			<sentence id="21.20">created by github.com/godbus/dbus.(*Conn).Auth</sentence>
+			<sentence id="21.21">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/godbus/dbus/auth.go:118 +0xe84</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">goroutine 43 [chan receive]:
+github.com/godbus/dbus.</sentence>
+			<sentence id="22.2">(*Conn).</sentence>
+			<sentence id="22.3">outWorker(0xc208432d80)
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="22.4">com/godbus/dbus/conn.go:370 +0x58
+created by github.com/godbus/dbus.</sentence>
+			<sentence id="22.5">(*Conn).</sentence>
+			<sentence id="22.6">Auth
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="22.7">com/godbus/dbus/auth.go:119 +0xea1</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">goroutine 44 [chan receive]:
+github.com/coreos/go-systemd/dbus.func&#xB7;001()
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="23.2">com/coreos/go-systemd/dbus/subscription.</sentence>
+			<sentence id="23.3">go:70 +0x64
+created by github.com/coreos/go-systemd/dbus.</sentence>
+			<sentence id="23.4">(*Conn).</sentence>
+			<sentence id="23.5">initDispatch
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="23.6">com/coreos/go-systemd/dbus/subscription.</sentence>
+			<sentence id="23.7">go:94 +0x11c</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">goroutine 45 [chan receive]:
+github.com/docker/docker/daemon.</sentence>
+			<sentence id="24.2">(*statsCollector).</sentence>
+			<sentence id="24.3">run(0xc2084933e0)
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="24.4">com/docker/docker/daemon/stats_collector_unix.</sentence>
+			<sentence id="24.5">go:91 +0xb2
+created by github.com/docker/docker/daemon.newStatsCollector
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="24.6">com/docker/docker/daemon/stats_collector_unix.</sentence>
+			<sentence id="24.7">go:31 +0x116</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">goroutine 46 [chan receive]:
+github.com/docker/docker/daemon.</sentence>
+			<sentence id="25.2">(*Daemon).</sentence>
+			<sentence id="25.3">execCommandGC(0xc2080a2700)
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="25.4">com/docker/docker/daemon/exec.</sentence>
+			<sentence id="25.5">go:256 +0x8c
+created by github.com/docker/docker/daemon.NewDaemon
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="25.6">com/docker/docker/daemon/daemon.</sentence>
+			<sentence id="25.7">go:742 +0x2518</sentence>
+		</paragraph>
+		<paragraph id="26">
+			<sentence id="26.1">goroutine 49 [chan receive]:
+github.com/docker/docker/pkg/signal.func&#xB7;002()
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="26.2">com/docker/docker/pkg/signal/trap.</sentence>
+			<sentence id="26.3">go:29 +0x8f
+created by github.com/docker/docker/pkg/signal.Trap
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="26.4">com/docker/docker/pkg/signal/trap.</sentence>
+			<sentence id="26.5">go:55 +0x250</sentence>
+		</paragraph>
+		<paragraph id="27">
+			<sentence id="27.1">goroutine 67 [chan receive]:</sentence>
+			<sentence id="27.2">github.com/docker/docker/graph.(*v2Puller).pullV2Tag(0xc20865e960, 0xc208660c20, 0x6, 0xc2081532f0, 0x26, 0xc20865a800, 0x0, 0x0)</sentence>
+			<sentence id="27.3">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:276 +0xf48</sentence>
+			<sentence id="27.4">github.com/docker/docker/graph.(*v2Puller).pullV2Repository(0xc20865e960, 0xc208660c20, 0x6, 0x0, 0x0)</sentence>
+			<sentence id="27.5">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:92 +0x498</sentence>
+			<sentence id="27.6">github.com/docker/docker/graph.(*v2Puller).Pull(0xc20865e960, 0xc208660c20, 0x6, 0x15, 0x0, 0x0)</sentence>
+			<sentence id="27.7">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:45 +0x259</sentence>
+			<sentence id="27.8">github.com/docker/docker/graph.(*TagStore).pullFromRegistry(0xc208163e00, 0xc208660c00, 0x1f, 0xc208660c20, 0x6, 0xc20866e8a0, 0x0, 0x0)</sentence>
+			<sentence id="27.9">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull.go:131 +0xbda</sentence>
+			<sentence id="27.10">github.com/docker/docker/graph.func&#xB7;009(0xc208660c00, 0x1f, 0x0, 0x0)</sentence>
+			<sentence id="27.11">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull.go:54 +0x6a</sentence>
+			<sentence id="27.12">github.com/docker/docker/graph.(*TagStore).Pull(0xc208163e00, 0xc208660c00, 0x1f, 0xc208660c20, 0x6, 0xc20866e8a0, 0x0, 0x0)</sentence>
+			<sentence id="27.13">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull.go:60 +0x105</sentence>
+			<sentence id="27.14">github.com/docker/docker/api/server.(*Server).postImagesCreate(0xc20809f2c0, 0xc20865a307, 0x4, 0x7f54d8b58d60, 0xc20865e500, 0xc2085f7860, 0xc208660930, 0x0, 0x0)</sentence>
+			<sentence id="27.15">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/api/server/server.go:775 +0xc49</sentence>
+			<sentence id="27.16">github.com/docker/docker/api/server.*Server.(github.com/docker/docker/api/server.postImagesCreate)&#xB7;fm(0xc20865a307, 0x4, 0x7f54d8b58d60, 0xc20865e500, 0xc2085f7860, 0xc208660930, 0x0, 0x0)</sentence>
+			<sentence id="27.17">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/api/server/server.go:1735 +0x7b</sentence>
+			<sentence id="27.18">github.com/docker/docker/api/server.func&#xB7;008(0x7f54d8b58d60, 0xc20865e500, 0xc2085f7860)</sentence>
+			<sentence id="27.19">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/api/server/server.go:1690 +0xc8f</sentence>
+			<sentence id="27.20">net/http.HandlerFunc.ServeHTTP(0xc208181dc0, 0x7f54d8b58d60, 0xc20865e500, 0xc2085f7860)</sentence>
+			<sentence id="27.21">	/usr/lib/golang/src/net/http/server.go:1265 +0x41</sentence>
+			<sentence id="27.22">github.com/gorilla/mux.(*Router).ServeHTTP(0xc20814eaa0, 0x7f54d8b58d60, 0xc20865e500, 0xc2085f7860)</sentence>
+			<sentence id="27.23">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/gorilla/mux/mux.go:98 +0x297</sentence>
+			<sentence id="27.24">net/http.serverHandler.ServeHTTP(0xc2081b4240, 0x7f54d8b58d60, 0xc20865e500, 0xc2085f7860)</sentence>
+			<sentence id="27.25">	/usr/lib/golang/src/net/http/server.go:1703 +0x19a</sentence>
+			<sentence id="27.26">net/http.(*conn).serve(0xc20865e460)</sentence>
+			<sentence id="27.27">	/usr/lib/golang/src/net/http/server.go:1204 +0xb57</sentence>
+			<sentence id="27.28">created by net/http.(*Server).Serve</sentence>
+			<sentence id="27.29">	/usr/lib/golang/src/net/http/server.go:1751 +0x35e</sentence>
+		</paragraph>
+		<paragraph id="28">
+			<sentence id="28.1">goroutine 57 [select]:
+github.com/docker/libnetwork/sandbox.removeUnusedPaths()
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="28.2">com/docker/libnetwork/sandbox/namespace_linux.go:71 +0x48b
+created by github.com/docker/libnetwork/sandbox.createBasePath
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.</sentence>
+			<sentence id="28.3">com/docker/libnetwork/sandbox/namespace_linux.go:56 +0xc9</sentence>
+		</paragraph>
+		<paragraph id="29">
+			<sentence id="29.1">goroutine 58 [syscall]:</sentence>
+			<sentence id="29.2">syscall.Syscall6(0x3d, 0xdf0, 0xc2086594ec, 0x0, 0xc20867e000, 0x0, 0x0, 0x44193c, 0x1769fa0, 0xe02020)</sentence>
+			<sentence id="29.3">	/usr/lib/golang/src/syscall/asm_linux_amd64.s:46 +0x5</sentence>
+			<sentence id="29.4">syscall.wait4(0xdf0, 0xc2086594ec, 0x0, 0xc20867e000, 0x90, 0x0, 0x0)</sentence>
+			<sentence id="29.5">	/usr/lib/golang/src/syscall/zsyscall_linux_amd64.go:124 +0x79</sentence>
+			<sentence id="29.6">syscall.Wait4(0xdf0, 0xc208659534, 0x0, 0xc20867e000, 0x41a568, 0x0, 0x0)</sentence>
+			<sentence id="29.7">	/usr/lib/golang/src/syscall/syscall_linux.go:224 +0x60</sentence>
+			<sentence id="29.8">os.(*Process).wait(0xc2085b7160, 0xc20865a2c0, 0x0, 0x0)</sentence>
+			<sentence id="29.9">	/usr/lib/golang/src/os/exec_unix.go:22 +0x103</sentence>
+			<sentence id="29.10">os.(*Process).Wait(0xc2085b7160, 0xc2086595f8, 0x0, 0x0)</sentence>
+			<sentence id="29.11">	/usr/lib/golang/src/os/doc.go:45 +0x3a</sentence>
+			<sentence id="29.12">os/exec.(*Cmd).Wait(0xc20858cc80, 0x0, 0x0)</sentence>
+			<sentence id="29.13">	/usr/lib/golang/src/os/exec/exec.go:364 +0x23c</sentence>
+			<sentence id="29.14">github.com/opencontainers/runc/libcontainer.(*initProcess).wait(0xc20858b270, 0x1b6, 0x0, 0x0)</sentence>
+			<sentence id="29.15">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/opencontainers/runc/libcontainer/process_linux.go:224 +0x3d</sentence>
+			<sentence id="29.16">github.com/opencontainers/runc/libcontainer.Process.Wait(0xc2085bc710, 0x1, 0x1, 0xc2085b6c40, 0x2, 0x2, 0x17731b8, 0x0, 0x17731b8, 0x0, ...)</sentence>
+			<sentence id="29.17">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/opencontainers/runc/libcontainer/process.go:60 +0x11d</sentence>
+			<sentence id="29.18">github.com/opencontainers/runc/libcontainer.Process.Wait&#xB7;fm(0xc208659ac0, 0x0, 0x0)</sentence>
+			<sentence id="29.19">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/daemon/execdriver/native/driver.go:173 +0x58</sentence>
+			<sentence id="29.20">github.com/docker/docker/daemon/execdriver/native.(*driver).Run(0xc20847ac30, 0xc2084c7500, 0xc20859be60, 0xc2085bc5e0, 0x0, 0x41a700, 0x0, 0x0)</sentence>
+			<sentence id="29.21">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/daemon/execdriver/native/driver.go:179 +0xa0a</sentence>
+			<sentence id="29.22">github.com/docker/docker/daemon.(*Daemon).Run(0xc2080a2700, 0xc2081490e0, 0xc20859be60, 0xc2085bc5e0, 0x0, 0xc208598b00, 0x0, 0x0)</sentence>
+			<sentence id="29.23">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/daemon/daemon.go:821 +0x95</sentence>
+			<sentence id="29.24">github.com/docker/docker/daemon.(*containerMonitor).Start(0xc2085c4930, 0x0, 0x0)</sentence>
+			<sentence id="29.25">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/daemon/monitor.go:141 +0x457</sentence>
+			<sentence id="29.26">github.com/docker/docker/daemon.*containerMonitor.Start&#xB7;fm(0x0, 0x0)</sentence>
+			<sentence id="29.27">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/daemon/container.go:797 +0x39</sentence>
+			<sentence id="29.28">github.com/docker/docker/pkg/promise.func&#xB7;001()</sentence>
+			<sentence id="29.29">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/pkg/promise/promise.go:8 +0x2f</sentence>
+			<sentence id="29.30">created by github.com/docker/docker/pkg/promise.Go</sentence>
+			<sentence id="29.31">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/pkg/promise/promise.go:9 +0xfb</sentence>
+		</paragraph>
+		<paragraph id="30">
+			<sentence id="30.1">goroutine 59 [semacquire]:</sentence>
+			<sentence id="30.2">sync.(*Cond).Wait(0xc2084c2ab0)</sentence>
+			<sentence id="30.3">	/usr/lib/golang/src/sync/cond.go:62 +0x9e</sentence>
+			<sentence id="30.4">io.(*pipe).read(0xc2084c2a80, 0xc20815e000, 0x400, 0x400, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="30.5">	/usr/lib/golang/src/io/pipe.go:52 +0x303</sentence>
+			<sentence id="30.6">io.(*PipeReader).Read(0xc2085442f0, 0xc20815e000, 0x400, 0x400, 0x59, 0x0, 0x0)</sentence>
+			<sentence id="30.7">	/usr/lib/golang/src/io/pipe.go:134 +0x5b</sentence>
+			<sentence id="30.8">github.com/docker/docker/pkg/ioutils.(*bufReader).drain(0xc2084c2b40)</sentence>
+			<sentence id="30.9">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/pkg/ioutils/readers.go:116 +0x10e</sentence>
+			<sentence id="30.10">created by github.com/docker/docker/pkg/ioutils.NewBufReader</sentence>
+			<sentence id="30.11">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/pkg/ioutils/readers.go:86 +0x2f3</sentence>
+		</paragraph>
+		<paragraph id="31">
+			<sentence id="31.1">goroutine 60 [semacquire]:</sentence>
+			<sentence id="31.2">sync.(*Cond).Wait(0xc2084c2c30)</sentence>
+			<sentence id="31.3">	/usr/lib/golang/src/sync/cond.go:62 +0x9e</sentence>
+			<sentence id="31.4">io.(*pipe).read(0xc2084c2c00, 0xc20815e800, 0x400, 0x400, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="31.5">	/usr/lib/golang/src/io/pipe.go:52 +0x303</sentence>
+			<sentence id="31.6">io.(*PipeReader).Read(0xc208544300, 0xc20815e800, 0x400, 0x400, 0xaa, 0x0, 0x0)</sentence>
+			<sentence id="31.7">	/usr/lib/golang/src/io/pipe.go:134 +0x5b</sentence>
+			<sentence id="31.8">github.com/docker/docker/pkg/ioutils.(*bufReader).drain(0xc2084c2cc0)</sentence>
+			<sentence id="31.9">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/pkg/ioutils/readers.go:116 +0x10e</sentence>
+			<sentence id="31.10">created by github.com/docker/docker/pkg/ioutils.NewBufReader</sentence>
+			<sentence id="31.11">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/pkg/ioutils/readers.go:86 +0x2f3</sentence>
+		</paragraph>
+		<paragraph id="32">
+			<sentence id="32.1">goroutine 61 [semacquire]:</sentence>
+			<sentence id="32.2">sync.(*Cond).Wait(0xc2084c2b70)</sentence>
+			<sentence id="32.3">	/usr/lib/golang/src/sync/cond.go:62 +0x9e</sentence>
+			<sentence id="32.4">github.com/docker/docker/pkg/ioutils.(*bufReader).Read(0xc2084c2b40, 0xc2085d8000, 0x1000, 0x1000, 0x0, 0x7f54d8b4b080, 0xc2080280d0)</sentence>
+			<sentence id="32.5">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/pkg/ioutils/readers.go:210 +0x158</sentence>
+			<sentence id="32.6">bufio.(*Reader).fill(0xc20857ccc0)</sentence>
+			<sentence id="32.7">	/usr/lib/golang/src/bufio/bufio.go:97 +0x1ce</sentence>
+			<sentence id="32.8">bufio.(*Reader).ReadSlice(0xc20857ccc0, 0x64410a, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="32.9">	/usr/lib/golang/src/bufio/bufio.go:295 +0x257</sentence>
+			<sentence id="32.10">bufio.(*Reader).ReadBytes(0xc20857ccc0, 0xc20864e80a, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="32.11">	/usr/lib/golang/src/bufio/bufio.go:374 +0xd2</sentence>
+			<sentence id="32.12">github.com/docker/docker/daemon/logger.(*Copier).copySrc(0xc2085779c0, 0xfbf3e0, 0x6, 0x7f54d8b5d668, 0xc2084c2b40)</sentence>
+			<sentence id="32.13">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/daemon/logger/copier.go:47 +0x96</sentence>
+			<sentence id="32.14">created by github.com/docker/docker/daemon/logger.(*Copier).Run</sentence>
+			<sentence id="32.15">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/daemon/logger/copier.go:38 +0x11c</sentence>
+		</paragraph>
+		<paragraph id="33">
+			<sentence id="33.1">goroutine 62 [semacquire]:</sentence>
+			<sentence id="33.2">sync.(*Cond).Wait(0xc2084c2cf0)</sentence>
+			<sentence id="33.3">	/usr/lib/golang/src/sync/cond.go:62 +0x9e</sentence>
+			<sentence id="33.4">github.com/docker/docker/pkg/ioutils.(*bufReader).Read(0xc2084c2cc0, 0xc2085d9000, 0x1000, 0x1000, 0x0, 0x7f54d8b4b080, 0xc2080280d0)</sentence>
+			<sentence id="33.5">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/pkg/ioutils/readers.go:210 +0x158</sentence>
+			<sentence id="33.6">bufio.(*Reader).fill(0xc20857cd20)</sentence>
+			<sentence id="33.7">	/usr/lib/golang/src/bufio/bufio.go:97 +0x1ce</sentence>
+			<sentence id="33.8">bufio.(*Reader).ReadSlice(0xc20857cd20, 0x64410a, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="33.9">	/usr/lib/golang/src/bufio/bufio.go:295 +0x257</sentence>
+			<sentence id="33.10">bufio.(*Reader).ReadBytes(0xc20857cd20, 0xc20864eb0a, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="33.11">	/usr/lib/golang/src/bufio/bufio.go:374 +0xd2</sentence>
+			<sentence id="33.12">github.com/docker/docker/daemon/logger.(*Copier).copySrc(0xc2085779c0, 0xfbf3a0, 0x6, 0x7f54d8b5d668, 0xc2084c2cc0)</sentence>
+			<sentence id="33.13">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/daemon/logger/copier.go:47 +0x96</sentence>
+			<sentence id="33.14">created by github.com/docker/docker/daemon/logger.(*Copier).Run</sentence>
+			<sentence id="33.15">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/daemon/logger/copier.go:38 +0x11c</sentence>
+		</paragraph>
+		<paragraph id="34">
+			<sentence id="34.1">goroutine 66 [syscall]:</sentence>
+			<sentence id="34.2">syscall.Syscall(0x0, 0x2b, 0xc2085d1f50, 0x8, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="34.3">	/usr/lib/golang/src/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+			<sentence id="34.4">syscall.read(0x2b, 0xc2085d1f50, 0x8, 0x8, 0x7f54d8b59fc0, 0x0, 0x0)</sentence>
+			<sentence id="34.5">	/usr/lib/golang/src/syscall/zsyscall_linux_amd64.go:867 +0x6e</sentence>
+			<sentence id="34.6">syscall.Read(0x2b, 0xc2085d1f50, 0x8, 0x8, 0xc2084152f0, 0x0, 0x0)</sentence>
+			<sentence id="34.7">	/usr/lib/golang/src/syscall/syscall_unix.go:136 +0x58</sentence>
+			<sentence id="34.8">os.(*File).read(0xc208544ce0, 0xc2085d1f50, 0x8, 0x8, 0xc2084c7880, 0x0, 0x0)</sentence>
+			<sentence id="34.9">	/usr/lib/golang/src/os/file_unix.go:191 +0x5e</sentence>
+			<sentence id="34.10">os.(*File).Read(0xc208544ce0, 0xc2085d1f50, 0x8, 0x8, 0xc2085bc5d0, 0x0, 0x0)</sentence>
+			<sentence id="34.11">	/usr/lib/golang/src/os/file.go:95 +0x91</sentence>
+			<sentence id="34.12">github.com/opencontainers/runc/libcontainer.func&#xB7;009()</sentence>
+			<sentence id="34.13">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/opencontainers/runc/libcontainer/notify_linux.go:51 +0x18c</sentence>
+			<sentence id="34.14">created by github.com/opencontainers/runc/libcontainer.notifyOnOOM</sentence>
+			<sentence id="34.15">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/opencontainers/runc/libcontainer/notify_linux.go:61 +0x887</sentence>
+		</paragraph>
+		<paragraph id="35">
+			<sentence id="35.1">goroutine 64 [syscall]:</sentence>
+			<sentence id="35.2">syscall.Syscall(0x0, 0x17, 0xc2085da000, 0x8000, 0x6441eb, 0xc20850cdc0, 0xffffffff)</sentence>
+			<sentence id="35.3">	/usr/lib/golang/src/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+			<sentence id="35.4">syscall.read(0x17, 0xc2085da000, 0x8000, 0x8000, 0xc2085da000, 0x0, 0x0)</sentence>
+			<sentence id="35.5">	/usr/lib/golang/src/syscall/zsyscall_linux_amd64.go:867 +0x6e</sentence>
+			<sentence id="35.6">syscall.Read(0x17, 0xc2085da000, 0x8000, 0x8000, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="35.7">	/usr/lib/golang/src/syscall/syscall_unix.go:136 +0x58</sentence>
+			<sentence id="35.8">os.(*File).read(0xc208544388, 0xc2085da000, 0x8000, 0x8000, 0xc2085c6090, 0x0, 0x0)</sentence>
+			<sentence id="35.9">	/usr/lib/golang/src/os/file_unix.go:191 +0x5e</sentence>
+			<sentence id="35.10">os.(*File).Read(0xc208544388, 0xc2085da000, 0x8000, 0x8000, 0x59, 0x0, 0x0)</sentence>
+			<sentence id="35.11">	/usr/lib/golang/src/os/file.go:95 +0x91</sentence>
+			<sentence id="35.12">io.Copy(0x7f54d8b5d690, 0xc20850cdc0, 0x7f54d8b4f2f0, 0xc208544388, 0xd5, 0x0, 0x0)</sentence>
+			<sentence id="35.13">	/usr/lib/golang/src/io/io.go:362 +0x1f6</sentence>
+			<sentence id="35.14">os/exec.func&#xB7;003(0x0, 0x0)</sentence>
+			<sentence id="35.15">	/usr/lib/golang/src/os/exec/exec.go:221 +0x7d</sentence>
+			<sentence id="35.16">os/exec.func&#xB7;004(0xc2085b7040)</sentence>
+			<sentence id="35.17">	/usr/lib/golang/src/os/exec/exec.go:328 +0x2d</sentence>
+			<sentence id="35.18">created by os/exec.(*Cmd).Start</sentence>
+			<sentence id="35.19">	/usr/lib/golang/src/os/exec/exec.go:329 +0xb6d</sentence>
+		</paragraph>
+		<paragraph id="36">
+			<sentence id="36.1">goroutine 65 [syscall]:</sentence>
+			<sentence id="36.2">syscall.Syscall(0x0, 0x19, 0xc2085e2000, 0x8000, 0x6441eb, 0xc20850cdb0, 0xffffffff)</sentence>
+			<sentence id="36.3">	/usr/lib/golang/src/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+			<sentence id="36.4">syscall.read(0x19, 0xc2085e2000, 0x8000, 0x8000, 0xc2085e2000, 0x0, 0x0)</sentence>
+			<sentence id="36.5">	/usr/lib/golang/src/syscall/zsyscall_linux_amd64.go:867 +0x6e</sentence>
+			<sentence id="36.6">syscall.Read(0x19, 0xc2085e2000, 0x8000, 0x8000, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="36.7">	/usr/lib/golang/src/syscall/syscall_unix.go:136 +0x58</sentence>
+			<sentence id="36.8">os.(*File).read(0xc2085443a8, 0xc2085e2000, 0x8000, 0x8000, 0xc2085c6120, 0x0, 0x0)</sentence>
+			<sentence id="36.9">	/usr/lib/golang/src/os/file_unix.go:191 +0x5e</sentence>
+			<sentence id="36.10">os.(*File).Read(0xc2085443a8, 0xc2085e2000, 0x8000, 0x8000, 0xaa, 0x0, 0x0)</sentence>
+			<sentence id="36.11">	/usr/lib/golang/src/os/file.go:95 +0x91</sentence>
+			<sentence id="36.12">io.Copy(0x7f54d8b5d690, 0xc20850cdb0, 0x7f54d8b4f2f0, 0xc2085443a8, 0xaa, 0x0, 0x0)</sentence>
+			<sentence id="36.13">	/usr/lib/golang/src/io/io.go:362 +0x1f6</sentence>
+			<sentence id="36.14">os/exec.func&#xB7;003(0x0, 0x0)</sentence>
+			<sentence id="36.15">	/usr/lib/golang/src/os/exec/exec.go:221 +0x7d</sentence>
+			<sentence id="36.16">os/exec.func&#xB7;004(0xc2085b7080)</sentence>
+			<sentence id="36.17">	/usr/lib/golang/src/os/exec/exec.go:328 +0x2d</sentence>
+			<sentence id="36.18">created by os/exec.(*Cmd).Start</sentence>
+			<sentence id="36.19">	/usr/lib/golang/src/os/exec/exec.go:329 +0xb6d</sentence>
+		</paragraph>
+		<paragraph id="37">
+			<sentence id="37.1">goroutine 98 [IO wait]:</sentence>
+			<sentence id="37.2">net.(*pollDesc).Wait(0xc20867bc60, 0x72, 0x0, 0x0)</sentence>
+			<sentence id="37.3">	/usr/lib/golang/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+			<sentence id="37.4">net.(*pollDesc).WaitRead(0xc20867bc60, 0x0, 0x0)</sentence>
+			<sentence id="37.5">	/usr/lib/golang/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+			<sentence id="37.6">net.(*netFD).Read(0xc20867bc00, 0xc208157000, 0x1000, 0x1000, 0x0, 0x7f54d8b4f340, 0xc208666f38)</sentence>
+			<sentence id="37.7">	/usr/lib/golang/src/net/fd_unix.go:242 +0x40f</sentence>
+			<sentence id="37.8">net.(*conn).Read(0xc208544378, 0xc208157000, 0x1000, 0x1000, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="37.9">	/usr/lib/golang/src/net/net.go:121 +0xdc</sentence>
+			<sentence id="37.10">net/http.noteEOFReader.Read(0x7f54d8b5db20, 0xc208544378, 0xc20867cd68, 0xc208157000, 0x1000, 0x1000, 0x7f54d8b3d010, 0x0, 0x0)</sentence>
+			<sentence id="37.11">	/usr/lib/golang/src/net/http/transport.go:1270 +0x6e</sentence>
+			<sentence id="37.12">net/http.(*noteEOFReader).Read(0xc208574740, 0xc208157000, 0x1000, 0x1000, 0xc207fabbc4, 0x0, 0x0)</sentence>
+			<sentence id="37.13">	&lt;autogenerated&gt;:125 +0xd4</sentence>
+			<sentence id="37.14">bufio.(*Reader).fill(0xc20857c780)</sentence>
+			<sentence id="37.15">	/usr/lib/golang/src/bufio/bufio.go:97 +0x1ce</sentence>
+			<sentence id="37.16">bufio.(*Reader).Peek(0xc20857c780, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="37.17">	/usr/lib/golang/src/bufio/bufio.go:132 +0xf0</sentence>
+			<sentence id="37.18">net/http.(*persistConn).readLoop(0xc20867cd10)</sentence>
+			<sentence id="37.19">	/usr/lib/golang/src/net/http/transport.go:842 +0xa4</sentence>
+			<sentence id="37.20">created by net/http.(*Transport).dialConn</sentence>
+			<sentence id="37.21">	/usr/lib/golang/src/net/http/transport.go:660 +0xc9f</sentence>
+		</paragraph>
+		<paragraph id="38">
+			<sentence id="38.1">goroutine 85 [semacquire]:</sentence>
+			<sentence id="38.2">sync.(*Cond).Wait(0xc2084c2630)</sentence>
+			<sentence id="38.3">	/usr/lib/golang/src/sync/cond.go:62 +0x9e</sentence>
+			<sentence id="38.4">io.(*pipe).read(0xc2084c2600, 0xc208670000, 0x8000, 0x8000, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="38.5">	/usr/lib/golang/src/io/pipe.go:52 +0x303</sentence>
+			<sentence id="38.6">io.(*PipeReader).Read(0xc2085441d8, 0xc208670000, 0x8000, 0x8000, 0x6b, 0x0, 0x0)</sentence>
+			<sentence id="38.7">	/usr/lib/golang/src/io/pipe.go:134 +0x5b</sentence>
+			<sentence id="38.8">io.Copy(0x7f54d8b5d908, 0xc208660cf0, 0x7f54d8b5d610, 0xc2085441d8, 0x6b, 0x0, 0x0)</sentence>
+			<sentence id="38.9">	/usr/lib/golang/src/io/io.go:362 +0x1f6</sentence>
+			<sentence id="38.10">github.com/docker/docker/graph.func&#xB7;012()</sentence>
+			<sentence id="38.11">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:224 +0x77</sentence>
+			<sentence id="38.12">created by github.com/docker/docker/graph.(*v2Puller).pullV2Tag</sentence>
+			<sentence id="38.13">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:227 +0x5d9</sentence>
+		</paragraph>
+		<paragraph id="39">
+			<sentence id="39.1">goroutine 86 [select]:</sentence>
+			<sentence id="39.2">net/http.(*persistConn).roundTrip(0xc20867cd10, 0xc2086665f0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="39.3">	/usr/lib/golang/src/net/http/transport.go:1082 +0x7ad</sentence>
+			<sentence id="39.4">net/http.(*Transport).RoundTrip(0xc20867e480, 0xc20869b2b0, 0xc20869b2b0, 0x0, 0x0)</sentence>
+			<sentence id="39.5">	/usr/lib/golang/src/net/http/transport.go:235 +0x558</sentence>
+			<sentence id="39.6">github.com/docker/distribution/registry/client/transport.(*transport).RoundTrip(0xc208607940, 0xc20869b1e0, 0xc208697180, 0x0, 0x0)</sentence>
+			<sentence id="39.7">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/client/transport/transport.go:62 +0x20b</sentence>
+			<sentence id="39.8">net/http.send(0xc20869b1e0, 0x7f54d8b5d9f8, 0xc208607940, 0x77, 0x0, 0x0)</sentence>
+			<sentence id="39.9">	/usr/lib/golang/src/net/http/client.go:219 +0x4fc</sentence>
+			<sentence id="39.10">net/http.(*Client).send(0xc208153140, 0xc20869b1e0, 0x77, 0x0, 0x0)</sentence>
+			<sentence id="39.11">	/usr/lib/golang/src/net/http/client.go:142 +0x15b</sentence>
+			<sentence id="39.12">net/http.(*Client).doFollowingRedirects(0xc208153140, 0xc20869b1e0, 0x1213c58, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="39.13">	/usr/lib/golang/src/net/http/client.go:367 +0xb25</sentence>
+			<sentence id="39.14">net/http.(*Client).Head(0xc208153140, 0xc208697100, 0x77, 0xc20864ee60, 0x0, 0x0)</sentence>
+			<sentence id="39.15">	/usr/lib/golang/src/net/http/client.go:491 +0xba</sentence>
+			<sentence id="39.16">github.com/docker/distribution/registry/client.(*blobStatter).Stat(0xc208574100, 0x0, 0x0, 0xc20864ee60, 0x47, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+			<sentence id="39.17">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/client/repository.go:491 +0x122</sentence>
+			<sentence id="39.18">github.com/docker/distribution/registry/storage/cache.(*cachedBlobStatter).Stat(0xc208618ab0, 0x0, 0x0, 0xc20864ee60, 0x47, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+			<sentence id="39.19">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/storage/cache/cachedblobdescriptorstore.go:70 +0x1dd</sentence>
+			<sentence id="39.20">github.com/docker/distribution/registry/client.(*blobs).Stat(0xc208521180, 0x0, 0x0, 0xc20864ee60, 0x47, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+			<sentence id="39.21">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/client/repository.go:384 +0xab</sentence>
+			<sentence id="39.22">github.com/docker/docker/graph.(*v2Puller).download(0xc20865e960, 0xc20868cd70)</sentence>
+			<sentence id="39.23">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:145 +0x7ef</sentence>
+			<sentence id="39.24">created by github.com/docker/docker/graph.(*v2Puller).pullV2Tag</sentence>
+			<sentence id="39.25">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:269 +0x20ce</sentence>
+		</paragraph>
+		<paragraph id="40">
+			<sentence id="40.1">goroutine 87 [select]:</sentence>
+			<sentence id="40.2">net/http.(*persistConn).roundTrip(0xc20867cdc0, 0xc2086667b0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="40.3">	/usr/lib/golang/src/net/http/transport.go:1082 +0x7ad</sentence>
+			<sentence id="40.4">net/http.(*Transport).RoundTrip(0xc20867e480, 0xc20869b450, 0xc20869b450, 0x0, 0x0)</sentence>
+			<sentence id="40.5">	/usr/lib/golang/src/net/http/transport.go:235 +0x558</sentence>
+			<sentence id="40.6">github.com/docker/distribution/registry/client/transport.(*transport).RoundTrip(0xc208607940, 0xc20869b380, 0xc208697300, 0x0, 0x0)</sentence>
+			<sentence id="40.7">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/client/transport/transport.go:62 +0x20b</sentence>
+			<sentence id="40.8">net/http.send(0xc20869b380, 0x7f54d8b5d9f8, 0xc208607940, 0x77, 0x0, 0x0)</sentence>
+			<sentence id="40.9">	/usr/lib/golang/src/net/http/client.go:219 +0x4fc</sentence>
+			<sentence id="40.10">net/http.(*Client).send(0xc208153140, 0xc20869b380, 0x77, 0x0, 0x0)</sentence>
+			<sentence id="40.11">	/usr/lib/golang/src/net/http/client.go:142 +0x15b</sentence>
+			<sentence id="40.12">net/http.(*Client).doFollowingRedirects(0xc208153140, 0xc20869b380, 0x1213c58, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="40.13">	/usr/lib/golang/src/net/http/client.go:367 +0xb25</sentence>
+			<sentence id="40.14">net/http.(*Client).Head(0xc208153140, 0xc208697280, 0x77, 0xc20864ee10, 0x0, 0x0)</sentence>
+			<sentence id="40.15">	/usr/lib/golang/src/net/http/client.go:491 +0xba</sentence>
+			<sentence id="40.16">github.com/docker/distribution/registry/client.(*blobStatter).Stat(0xc208574360, 0x0, 0x0, 0xc20864ee10, 0x47, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+			<sentence id="40.17">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/client/repository.go:491 +0x122</sentence>
+			<sentence id="40.18">github.com/docker/distribution/registry/storage/cache.(*cachedBlobStatter).Stat(0xc208618f90, 0x0, 0x0, 0xc20864ee10, 0x47, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+			<sentence id="40.19">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/storage/cache/cachedblobdescriptorstore.go:70 +0x1dd</sentence>
+			<sentence id="40.20">github.com/docker/distribution/registry/client.(*blobs).Stat(0xc208521300, 0x0, 0x0, 0xc20864ee10, 0x47, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+			<sentence id="40.21">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/vendor/src/github.com/docker/distribution/registry/client/repository.go:384 +0xab</sentence>
+			<sentence id="40.22">github.com/docker/docker/graph.(*v2Puller).download(0xc20865e960, 0xc20868cd20)</sentence>
+			<sentence id="40.23">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:145 +0x7ef</sentence>
+			<sentence id="40.24">created by github.com/docker/docker/graph.(*v2Puller).pullV2Tag</sentence>
+			<sentence id="40.25">	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.com/docker/docker/graph/pull_v2.go:269 +0x20ce</sentence>
+		</paragraph>
+		<paragraph id="41">
+			<sentence id="41.1">goroutine 89 [runnable]:
+github.com/docker/docker/graph.</sentence>
+			<sentence id="41.2">(*v2Puller).</sentence>
+			<sentence id="41.3">download(0xc20865e960, 0xc20868cc80)
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="41.4">com/docker/docker/graph/pull_v2.go:127 +0x362
+created by github.com/docker/docker/graph.</sentence>
+			<sentence id="41.5">(*v2Puller).</sentence>
+			<sentence id="41.6">pullV2Tag
+	/builddir/build/BUILD/docker-32b8b25dfb8895d2a5ff0a9becf6be8bab93eaea/_build/src/github.</sentence>
+			<sentence id="41.7">com/docker/docker/graph/pull_v2.go:269 +0x20ce</sentence>
+		</paragraph>
+		<paragraph id="42">
+			<sentence id="42.1">goroutine 96 [runnable]:</sentence>
+			<sentence id="42.2">net.(*pollDesc).Wait(0xc20867bcd0, 0x72, 0x0, 0x0)</sentence>
+			<sentence id="42.3">	/usr/lib/golang/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+			<sentence id="42.4">net.(*pollDesc).WaitRead(0xc20867bcd0, 0x0, 0x0)</sentence>
+			<sentence id="42.5">	/usr/lib/golang/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+			<sentence id="42.6">net.(*netFD).Read(0xc20867bc70, 0xc20844e000, 0x1000, 0x1000, 0x0, 0x7f54d8b4f340, 0xc208666f00)</sentence>
+			<sentence id="42.7">	/usr/lib/golang/src/net/fd_unix.go:242 +0x40f</sentence>
+			<sentence id="42.8">net.(*conn).Read(0xc208544368, 0xc20844e000, 0x1000, 0x1000, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="42.9">	/usr/lib/golang/src/net/net.go:121 +0xdc</sentence>
+			<sentence id="42.10">net/http.noteEOFReader.Read(0x7f54d8b5db20, 0xc208544368, 0xc20867ce18, 0xc20844e000, 0x1000, 0x1000, 0x7f54d8b3d010, 0x0, 0x0)</sentence>
+			<sentence id="42.11">	/usr/lib/golang/src/net/http/transport.go:1270 +0x6e</sentence>
+			<sentence id="42.12">net/http.(*noteEOFReader).Read(0xc208574720, 0xc20844e000, 0x1000, 0x1000, 0xc207fabbc6, 0x0, 0x0)</sentence>
+			<sentence id="42.13">	&lt;autogenerated&gt;:125 +0xd4</sentence>
+			<sentence id="42.14">bufio.(*Reader).fill(0xc20857c720)</sentence>
+			<sentence id="42.15">	/usr/lib/golang/src/bufio/bufio.go:97 +0x1ce</sentence>
+			<sentence id="42.16">bufio.(*Reader).Peek(0xc20857c720, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="42.17">	/usr/lib/golang/src/bufio/bufio.go:132 +0xf0</sentence>
+			<sentence id="42.18">net/http.(*persistConn).readLoop(0xc20867cdc0)</sentence>
+			<sentence id="42.19">	/usr/lib/golang/src/net/http/transport.go:842 +0xa4</sentence>
+			<sentence id="42.20">created by net/http.(*Transport).dialConn</sentence>
+			<sentence id="42.21">	/usr/lib/golang/src/net/http/transport.go:660 +0xc9f</sentence>
+		</paragraph>
+		<paragraph id="43">
+			<sentence id="43.1">goroutine 97 [select]:
+net/http.</sentence>
+			<sentence id="43.2">(*persistConn).</sentence>
+			<sentence id="43.3">writeLoop(0xc20867cdc0)
+	/usr/lib/golang/src/net/http/transport.go:945 +0x41d
+created by net/http.</sentence>
+			<sentence id="43.4">(*Transport).</sentence>
+			<sentence id="43.5">dialConn
+	/usr/lib/golang/src/net/http/transport.go:661 +0xcbc</sentence>
+		</paragraph>
+		<paragraph id="44">
+			<sentence id="44.1">goroutine 99 [select]:
+net/http.</sentence>
+			<sentence id="44.2">(*persistConn).</sentence>
+			<sentence id="44.3">writeLoop(0xc20867cd10)
+	/usr/lib/golang/src/net/http/transport.go:945 +0x41d
+created by net/http.</sentence>
+			<sentence id="44.4">(*Transport).</sentence>
+			<sentence id="44.5">dialConn
+	/usr/lib/golang/src/net/http/transport.go:661 +0xcbc
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

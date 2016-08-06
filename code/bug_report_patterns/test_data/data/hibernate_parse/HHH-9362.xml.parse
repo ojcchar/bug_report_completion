@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9362</id>
+	<title>Wrong behavior for @PrePersist/@PreUpdate with entityManager.merge(...)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have an entity class like -</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Code:
+public class Item {
+@Id
+//mapping
+private Long id;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">@ElementCollection
+//mapping
+private Set&lt;ItemWrapper&gt; wrapperSet;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@Transient
+private Map&lt;Item, Boolean&gt; itemPredecessor;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">..........
+..........</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">@PrePersist
+@PreUpdate
+private void populateSet() {
+ wrapperSet.clear(); *//itemPredecessor is empty here*
+ for(Map.Entry&lt;Item, Boolean&gt; entry : itemPredecessor.entrySet()) {
+ wrapperSet.add(...);
+ }</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">}
+..............
+}</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Code:
+@Embeddable
+public class PredecessorWrapper {</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">@Column(...)
+ private Long dependingId;
+ @Column(...)
+ private Integer ignoreErrors;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">......</sentence>
+			<sentence id="10.2">.
+}</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">What happens is when I call entityManager.merge(...) with newly instantiated object [entityState -&gt; TRANSIENT] with itemPredecessor map having some entries in it, hibernate invokes callback method populateSet() with copy of instance passed to merge() which doesn't contain itemPredecessor map with respective entries as itemPredecessor is marked @Transient.</sentence>
+			<sentence id="11.2">When I use entityManager.persist(), it works fine as with actual instance passed to persist() is used to invoke callback method.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Note-:
+I've debugged in 4.3.5 code base and found that in DefaultMergeEventListener, it does not copy properties which are marked with @Transient.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-2199</id>
+	<title>Implement API method for retrieving PersonNames by PersonNameId</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The only method available to retrieve a specific PersonName object is {{PersonService.getPersonNameByUuid(String uuid)}}.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Add {{PersonService.getPersonName(Integer personNameId)}} that returns a PersonName object.</sentence>
+			<sentence id="2.2">The lookup should look at the primary key of person_name.</sentence>
+			<sentence id="2.3">If the name with the given id doesn't exist, return null.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Add a unit test for this method in the PersonServiceTest class.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-6884</id>
+	<title>Attribute resultClass doesn't work with NamedNativeQuery</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Attribute resultClass is set to Long.class, but query returns a list of BigDecimal objects.</sentence>
+			<sentence id="1.2">Below you can see definition of NamedNativeQuery:
+{code}
+@NamedNativeQueries(
+ @NamedNativeQuery(name = "getUserGroupsIds",
+ query = "select id from identities_hierarchy connect by prior id = childid start with childid = ?"</sentence>
+			<sentence id="1.3">,
+ resultSetMapping = "groupIdMapping", resultClass = Long.class
+ )
+)
+@SqlResultSetMapping(name = "groupIdMapping",
+ columns = @ColumnResult(name = "id")
+)
+{code}</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Following code executes this query:
+{code}
+List&lt;Long&gt; result = getEntityManager().</sentence>
+			<sentence id="2.2">createNamedQuery("getUserGroupsIds", Long.class)
+ .</sentence>
+			<sentence id="2.3">setParameter(1, userId)
+ .</sentence>
+			<sentence id="2.4">getResultList();</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">System.out.println("Returned object is of type: " + ((Iterator&lt;?</sentence>
+			<sentence id="3.2">&gt;) result.iterator()).</sentence>
+			<sentence id="3.3">next().</sentence>
+			<sentence id="3.4">getClass());
+{code}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The id column in database is of type NUMBER(10, 0).</sentence>
+			<sentence id="4.2">There are no problems with CriteriaQueries and HQL.</sentence>
+			<sentence id="4.3">Any suggestion how to solve this problem will be greatly welcomed :]</sentence>
+		</paragraph>
+	</description>
+</bug>

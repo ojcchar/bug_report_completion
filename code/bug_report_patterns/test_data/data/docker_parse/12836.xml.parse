@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12836</id>
+	<title>Add CMD_DAEMON or some option for running non-terminating daemonized containers</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I was recently fiddling around with a container.</sentence>
+			<sentence id="1.2">Basically, I had the issue with this container immediately terminating (docker container gives "job done" and it stops again gracefully) a second after I start it:
+```
+FROM ubuntu</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">RUN apt-get update &amp;&amp; apt-get upgrade -y
+RUN apt-get install -y nginx</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">CMD service nginx start
+```
+Of course I found out after not much googling that the container terminates because the command is designed to be non-blocking.</sentence>
+			<sentence id="3.2">Alright, then why not launch nginx directly:
+```
+FROM ubuntu</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">RUN apt-get update &amp;&amp; apt-get upgrade -y
+RUN apt-get install -y nginx</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">CMD nginx
+```
+Well it turns out that nginx *always* daemonizes.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">At this point I wanted to try sleep infinity but then found out via google that it doesn't actually sleep forever apparently, just very long.</sentence>
+			<sentence id="6.2">I googled further to find various hacks like "tail -f /dev/null/".</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">And while googling around, I noticed that this is all a **huge waste of time**.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Docker should really just add a CMD_DAEMONIZE or CMD_WAITFOREVER or some "docker run" command line option which is usable from a docker-compose.</sentence>
+			<sentence id="8.2">yml that prevents a container from quitting after the main command has run.</sentence>
+			<sentence id="8.3">Why should I be googling half an hour just to make the command not terminate when that's such an obvious requirement?</sentence>
+		</paragraph>
+	</description>
+</bug>

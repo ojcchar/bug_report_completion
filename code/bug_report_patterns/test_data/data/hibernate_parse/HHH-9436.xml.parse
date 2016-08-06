@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9436</id>
+	<title>Schema generation should respect @JoinTable(@JoinColumn(@ForeignKey(name)))</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In hibernate 4.3 org.hibernate.annotations.ForeignKey declared deprecated in favor of JPA 2.1 javax.persistence.ForeignKey.</sentence>
+			<sentence id="1.2">But JPA annotations ignored sometimes:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">for annotation:
+@JoinTable(name = "SPL", //
+	joinColumns = @JoinColumn(name = "SPL_POJO_ID", foreignKey = @javax.</sentence>
+			<sentence id="2.2">persistence.ForeignKey(name = "SPL_FK_POJO")), //
+	inverseJoinColumns = @JoinColumn(name = "SPL_SUB_POJO_ID", foreignKey = @ForeignKey(name = "SPL_FK_SUB_POJO"))</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">following schema is generated:
+alter table SPL 
+ add constraint FK_5nufiopmkmxpku6ash397jpwe 
+ foreign key (SPL_SUB_POJO_ID) 
+ references SUB_POJO;
+ alter table SPL 
+ add constraint FK_23dp68pb6mw3oynxgs5lfdutf 
+ foreign key (SPL_POJO_ID) 
+ references POJO;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">schema generation works as expected:
+alter table SPL 
+ add constraint SPL_FK_SUB_POJO 
+ foreign key (SPL_SUB_POJO_ID) 
+ references SUB_POJO;
+ alter table SPL 
+ add constraint SPL_FK_POJO 
+ foreign key (SPL_POJO_ID) 
+ references POJO;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">with old annotation:
+@org.</sentence>
+			<sentence id="5.2">hibernate.annotations.ForeignKey(name = "SPL_FK_POJO", inverseName = "SPL_FK_SUB_POJO")</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">example project attached</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>57361</id>
+	<title>Can't resize wide columns; mouse scrolling is also broken</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 70356
+Video showing resizing and scrolling problems with wide columns</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">After loading a spreadsheet with a column which is wider than the window, it is impossible to use the mouse to resize the column.</sentence>
+			<sentence id="2.2">It is also impossible to scroll left using the scrollbar.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Reproducibility: Always</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Steps to reproduce:</sentence>
+			<sentence id="4.2">1 Load a spreadsheet with a column which is wider than the window.</sentence>
+			<sentence id="4.3">(Easy to reproduce with CSV files by exploiting Bug 53026.)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">2 Scroll to the right using the horizontal scrollbar using any of the usual ways (dragging the drag box, clicking on the track, or clicking on the arrow).</sentence>
+			<sentence id="5.2">One of four things will happen:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">2a.</sentence>
+			<sentence id="6.2">The window will scroll a little bit farther within the wide column, in which case repeat from Step 2 to trigger the bug.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">2b.</sentence>
+			<sentence id="7.2">The window will scroll to the end of the column plus a little bit farther, in which case try resizing the column to make it as narrow as possible by dragging the column slider to the left.</sentence>
+			<sentence id="7.3">Then scroll left, and repeat from Step 2 to trigger the bug.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">2c.</sentence>
+			<sentence id="8.2">The window will scroll a little bit *past* the end of the wide column.</sentence>
+			<sentence id="8.3">You've now triggered the first problem:  it's now impossible to resize the wide column by dragging (since the border between it and the next column is never exposed).</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">2d.</sentence>
+			<sentence id="9.2">The window will scroll a *lot* past the end of the wide column -- so much so that it skips past the following column.</sentence>
+			<sentence id="9.3">You've now triggered the first problem described in Step 2d above, as well as a second problem: it's impossible to resize or even view the column to the right of the wide column.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">3 Once you've triggered the first problem in Step 2c or Step 2d above, try to scroll left using the horizontal scrollbar using any of the usual ways (dragging the drag box, clicking on the track, or clicking on the arrow).</sentence>
+			<sentence id="10.2">This action has no effect; the scroll bar doesn't change and the window doesn't scroll.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">The attached video demonstrates all three problems (inability to resize the wide column, right scroll skipping over the following column, and inability to scroll left).</sentence>
+		</paragraph>
+	</description>
+</bug>

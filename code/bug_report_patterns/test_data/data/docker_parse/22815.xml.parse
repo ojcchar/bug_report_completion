@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22815</id>
+	<title>Docker in Docker on Jenkins</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">&lt;!</sentence>
+			<sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+			<sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+			<sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+			<sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+			<sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">---------------------------------------------------</sentence>
+			<sentence id="4.2">BUG REPORT INFORMATION</sentence>
+			<sentence id="4.3">---------------------------------------------------</sentence>
+			<sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+			<sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+			<sentence id="4.6">--&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.6.2
+ Git commit: 5604cbe
+ Built: Wed Apr 27 15:27:26 UTC 2016
+ OS/Arch: darwin/amd64</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Wed Apr 27 00:34:20 2016
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">**Output of `docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">```</sentence>
+			<sentence id="9.2">Containers: 6</sentence>
+			<sentence id="9.3"> Running: 5</sentence>
+			<sentence id="9.4"> Paused: 0</sentence>
+			<sentence id="9.5"> Stopped: 1</sentence>
+			<sentence id="9.6">Images: 113</sentence>
+			<sentence id="9.7">Server Version: 1.11.1</sentence>
+			<sentence id="9.8">Storage Driver: aufs</sentence>
+			<sentence id="9.9"> Root Dir: /mnt/sda1/var/lib/docker/aufs</sentence>
+			<sentence id="9.10"> Backing Filesystem: extfs</sentence>
+			<sentence id="9.11"> Dirs: 228</sentence>
+			<sentence id="9.12"> Dirperm1 Supported: true</sentence>
+			<sentence id="9.13">Logging Driver: json-file</sentence>
+			<sentence id="9.14">Cgroup Driver: cgroupfs</sentence>
+			<sentence id="9.15">Plugins:</sentence>
+			<sentence id="9.16"> Volume: local</sentence>
+			<sentence id="9.17"> Network: host bridge null</sentence>
+			<sentence id="9.18">Kernel Version: 4.4.8-boot2docker</sentence>
+			<sentence id="9.19">Operating System: Boot2Docker 1.11.1 (TCL 7.0); HEAD : 7954f54 - Wed Apr 27 16:36:45 UTC 2016</sentence>
+			<sentence id="9.20">OSType: linux</sentence>
+			<sentence id="9.21">Architecture: x86_64</sentence>
+			<sentence id="9.22">CPUs: 2</sentence>
+			<sentence id="9.23">Total Memory: 1.955 GiB</sentence>
+			<sentence id="9.24">Name: doctify-dev</sentence>
+			<sentence id="9.25">ID: DZ7Y:NUVH:7QAW:76P4:N7BZ:Y4OV:XWZY:75YB:ZYIH:6K6O:BV2T:FFIV</sentence>
+			<sentence id="9.26">Docker Root Dir: /mnt/sda1/var/lib/docker</sentence>
+			<sentence id="9.27">Debug mode (client): false</sentence>
+			<sentence id="9.28">Debug mode (server): true</sentence>
+			<sentence id="9.29"> File Descriptors: 61</sentence>
+			<sentence id="9.30"> Goroutines: 113</sentence>
+			<sentence id="9.31"> System Time: 2016-05-18T15:04:01.328784183Z</sentence>
+			<sentence id="9.32"> EventsListeners: 2</sentence>
+			<sentence id="9.33">Username: devotox</sentence>
+			<sentence id="9.34">Registry: https://index.docker.io/v1/</sentence>
+			<sentence id="9.35">Labels:</sentence>
+			<sentence id="9.36"> provider=virtualbox</sentence>
+			<sentence id="9.37">```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+			<sentence id="10.2">Virtualbox</sentence>
+			<sentence id="10.3">Jenkins</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="11.2">1 run jenkins container</sentence>
+			<sentence id="11.3">2 create a build that uses docker-compose</sentence>
+			<sentence id="11.4">3 docker-compose -p $application_name -f docker-compose/$compose_file up -d</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">**Describe the results you received:**</sentence>
+			<sentence id="12.2">The build command works using</sentence>
+			<sentence id="12.3">```</sentence>
+			<sentence id="12.4">docker-compose -p $application_name -f docker-compose/$compose_file build --pull</sentence>
+			<sentence id="12.5">```</sentence>
+			<sentence id="12.6">but running</sentence>
+			<sentence id="12.7">```</sentence>
+			<sentence id="12.8">docker-compose -p $application_name -f docker-compose/$compose_file up -d</sentence>
+			<sentence id="12.9">```</sentence>
+			<sentence id="12.10">does not</sentence>
+			<sentence id="12.11">```
+Successfully built 971eceb71233
+consul uses an image, skipping
+registrator uses an image, skipping
+consul-template uses an image, skipping
+Creating doctify_database_1
+rpc error: code = 2 desc = "oci runtime error: could not synchronise with container process: not a directory"
+```</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">**Describe the results you expected:**</sentence>
+			<sentence id="13.2">I expect the test file to be able to be run</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">The jenkins yml compose file
+```
+
+ jenkins:
+ build:
+ context: ../jenkins
+ dockerfile: Dockerfile
+ volumes:
+ - ../.ebextensions:/var/app/current/.ebextensions
+ - /var/run/docker.sock:/var/run/docker.sock
+ - ../security:/var/app/current/security
+ - ../sslcert:/var/app/current/sslcert
+ - ../shared:/var/app/current/shared
+ - jenkins_home:/var/jenkins_home
+ - ../cron:/var/app/current/cron
+ - ../jenkins:/var/jenkins
+ - /var/log/jenkins
+```</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">the test yml file
+
+```
+version: '2'
+services:
+ database:
+ build:
+ context: ../database
+ dockerfile: Dockerfile
+ volumes:
+ - ../database/build.sql:/docker-entrypoint-initdb.d/build.sql
+ - ../database/init.sql:/docker-entrypoint-initdb.d/init.sql
+ - /var/run/docker.sock:/var/run/docker.sock
+ - ../database:/var/app/current/database
+ - ../sslcert:/var/app/current/sslcert
+ - ../shared:/var/app/current/shared
+ - /var/lib/postgresql
+ - /var/log/postgresql
+ ports:
+ - 5432
+ extends:
+ service: base
+ file: ../shared/base.yml
+ website:
+ privileged: true
+ command: bash -c "sysctl -w fs.inotify.max_user_watches=1048576 &amp;&amp; grunt serve 2&gt;&amp;1 | tee -a /var/log/website/website.log"
+ build:
+ context: ../website
+ dockerfile: Dockerfile
+ volumes:
+ - /var/run/docker.sock:/var/run/docker.sock
+ - /var/app/current/website/bower_components
+ - /var/app/current/website/node_modules
+ - ../website:/var/app/current/website
+ - ../shared:/var/app/current/shared
+ - /var/log/website
+ - /tmp/website
+ depends_on:
+ - database
+ - redis
+ ports:
+ - 9000
+ - 39000
+ extends:
+ service: base
+ file: ../shared/base.yml
+ intranet:
+ privileged: true
+ command: bash -c "sysctl -w fs.inotify.max_user_watches=1048576 &amp;&amp; ember serve 2&gt;&amp;1 | tee -a /var/log/intranet/intranet.log"
+ build:
+ context: ../intranet
+ dockerfile: Dockerfile
+ volumes:
+ - /var/run/docker.sock:/var/run/docker.sock
+ - /var/app/current/intranet/bower_components
+ - /var/app/current/intranet/node_modules
+ - ../intranet:/var/app/current/intranet
+ - ../shared:/var/app/current/shared
+ - /var/log/intranet
+ - /tmp/intranet
+ ports:
+ - 8000
+ - 38000
+ depends_on:
+ - database
+ - redis
+ extends:
+ service: base
+ file: ../shared/base.yml
+ api:
+ privileged: true
+ command: bash -c "sysctl -w fs.inotify.max_user_watches=1048576 &amp;&amp; gulp start 2&gt;&amp;1 | tee -a /var/log/api/api.log"
+ build:
+ context: ../api
+ dockerfile: Dockerfile
+ volumes:
+ - /var/run/docker.sock:/var/run/docker.sock
+ - /var/app/current/api/bower_components
+ - ../sslcert:/var/app/current/sslcert
+ - /var/app/current/api/node_modules
+ - ../shared:/var/app/current/shared
+ - ../api:/var/app/current/api
+ - /var/log/api
+ - /tmp/api
+ volumes_from:
+ - website
+ - intranet
+ depends_on:
+ - database
+ - redis
+ ports:
+ - 3000
+ - 9999
+ extends:
+ service: base
+ file: ../shared/base.yml
+ server:
+ build:
+ context: ../nginx
+ dockerfile: Dockerfile
+ volumes:
+ - /var/run/docker.sock:/var/run/docker.sock
+ - ../security:/var/app/current/security
+ - ../sslcert:/var/app/current/sslcert
+ - ../shared:/var/app/current/shared
+ - ../nginx:/etc/nginx
+ - /var/log/nginx
+ volumes_from:
+ - api
+ - redis
+ - website
+ - intranet
+ - database
+ ports:
+ - 8080:8080
+ - 8443:8443
+ - 5432:5432
+ - 6379:6379
+ - 38100:38100
+ - 39100:39100
+ extends:
+ service: base
+ file: ../shared/base.yml
+ redis:
+ privileged: true
+ image: torusware/speedus-redis
+ volumes:
+ - /var/run/docker.sock:/var/run/docker.sock
+ - /data
+ ports:
+ - 6379
+ registrator:
+ image: devotox/registrator
+ volumes:
+ - /var/run/docker.sock:/var/run/docker.sock
+ - /var/run/docker.sock:/tmp/docker.sock
+ depends_on:
+ - consul
+ extends:
+ service: base
+ file: ../shared/base.yml
+ consul:
+ command: -bootstrap
+ image: gliderlabs/consul-server
+ ports:
+ - 53
+ - 8301
+ - 8302
+ - 8300
+ - 8400
+ - 8500
+ - 53/udp
+ - 8301/udp
+ - 8302/udp
+ volumes:
+ - /var/run/docker.sock:/var/run/docker.sock
+ depends_on:
+ - server
+ extends:
+ service: base
+ file: ../shared/base.yml
+ consul-template:
+ image: devotox/consul-template
+ command: &gt;
+ -consul consul:8500
+ -template /etc/nginx/templates/upstream_servers.ctmpl:/etc/nginx/conf.d/upstream_servers.conf
+ -template /etc/nginx/templates/upstream_stream_servers.ctmpl:/etc/nginx/conf.d/streams/upstream_servers.conf
+ volumes:
+ - /var/run/docker.sock:/tmp/docker.sock
+ volumes_from:
+ - server
+ depends_on:
+ - consul
+ - registrator
+ extends:
+ service: base
+ file: ../shared/base.yml
+```</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+		</paragraph>
+	</description>
+</bug>

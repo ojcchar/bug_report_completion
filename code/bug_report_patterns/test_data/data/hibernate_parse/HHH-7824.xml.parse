@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-7824</id>
+	<title>All MySQL5 dialects generate incorrect sql when multiple tables in from clause</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Generated SQL when there is more than 1 table in the from clause immediately followed by an inner join results in incorrect SQL and this error:
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'recipeingr0_.</sentence>
+			<sentence id="1.2">unit_id' in 'on clause'</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Example generated SQL:
+select
+ recipeingr0_.</sentence>
+			<sentence id="2.2">itemId as col_0_0_,
+ recipeingr0_.</sentence>
+			<sentence id="2.3">recipeId as col_1_0_,
+ item1_.</sentence>
+			<sentence id="2.4">name as col_2_0_,
+ recipeingr0_.</sentence>
+			<sentence id="2.5">quantity as col_3_0_,
+ recipeingr0_.</sentence>
+			<sentence id="2.6">unit_id as col_4_0_ 
+ from
+ RecipeIngredient recipeingr0_,
+ Item item1_ 
+ inner join
+ Unit unit2_ 
+ on recipeingr0_.</sentence>
+			<sentence id="2.7">unit_id=unit2_.</sentence>
+			<sentence id="2.8">id 
+ where
+ recipeingr0_.</sentence>
+			<sentence id="2.9">itemId=item1_.</sentence>
+			<sentence id="2.10">id 
+ and recipeingr0_.</sentence>
+			<sentence id="2.11">recipeId=?</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">If this is modified to surround both tables in from clause with () then it is parsed correctly.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This is explained in this MySQL bug that was explained as working as designed:
+http://bugs.mysql.com/bug.php?id=13551
+and this one:
+http://bugs.mysql.com/bug.php?id=15952</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Described in the 5.0 manual here:
+http://dev.mysql.com/doc/refman/5.0/en/join.html
+"Previously, the comma operator (,) and JOIN both had the same precedence, so the join expression t1, t2 JOIN t3 was interpreted as ((t1, t2) JOIN t3).</sentence>
+			<sentence id="5.2">Now JOIN has higher precedence, so the expression is interpreted as (t1, (t2 JOIN t3)).</sentence>
+			<sentence id="5.3">This change affects statements that use an ON clause, because that clause can refer only to columns in the operands of the join, and the change in precedence changes interpretation of what those operands are."</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">The entities where I ran into this:
+Item 1-* RecipeIngredient *-1 Recipe
+RecipeIngredient *-1 Unit</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">And the HQL:
+select new kh.groceries.domain.RecipeIngredientDetail(ri.itemId, ri.recipeId, ri.item.name, ri.quantity, ri.unit)
+from RecipeIngredient ri where ri.recipeId = :recipeId</sentence>
+		</paragraph>
+	</description>
+</bug>

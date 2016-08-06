@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8098</id>
+	<title>The idIndex TruncIndex should be more clever with duplicate ids</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">first of all thanks &amp; I would be happy to provide a pull request for this change if you think that it worth or it was not proposed (and declined) already.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Sometimes I try, for example, to stop a container with something like:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+$ docker stop 3af
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">If I have two containers that start with `3af` docker is just going to say:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+$ docker stop 3af
+Error response from daemon: No such container: 3af
+2014/09/17 22:39:40 Error: failed to stop one or more containers
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I've checked the code and see that here: https://github.com/docker/docker/blob/master/pkg/truncindex/truncindex.go#L93 you are returning the proper error.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">But in places like here: https://github.com/docker/docker/blob/master/daemon/daemon.go#L145 you completely ignore it and later, here: https://github.com/docker/docker/blob/master/daemon/stop.go#L27 you show an error message because "there is no container".</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I was thinking implementing something like EOF solution: http://play.golang.org/p/PJmsSTaJjH and that way you would be able to check if the container really doesn't exist or it's possible that it's duplicated.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">For me, the error message will be much more helpful saying that I could possibly have a duplicate beginning of the id, than just saying that I don't have that id.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">I completely understand that this is out of your roadmap or you don't care about those duplications, but for me, the error message will be much more helpful saying that I could possibly have a duplicate beginning of the id, than just saying that I don't have that id.</sentence>
+			<sentence id="11.2">So, I just wanted to check if it worth that I start developing that solution for you, I would be more than happy helping this awesome project :)</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">If I am missing something so obvious, please, let me know.</sentence>
+		</paragraph>
+	</description>
+</bug>

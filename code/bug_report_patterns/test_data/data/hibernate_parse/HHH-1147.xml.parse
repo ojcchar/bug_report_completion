@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1147</id>
+	<title>HQL query with a select count in where clause for a sub-class property doesn't with with ASTQueryTranslatorFactory</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The following query works fine with a Classic query, however, doesn't work with ASTQueryTranslatorFactory.</sentence>
+			<sentence id="1.2">Note : Company has a collection of Departments.</sentence>
+			<sentence id="1.3">And, Department is a sub-class of Sectors.</sentence>
+			<sentence id="1.4">Company, Sectors, Department - all three are persited classes.</sentence>
+			<sentence id="1.5">The property validSector is on the parent class Sectors.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">For some reason, with ASTQueryTranslatorFactory, the select count clause's where with the parent class (SECTORS) property (validSector) doesn't generate the join on the table, but still has a where for that class correctly in the generated sql (departmen4_1_.</sentence>
+			<sentence id="2.2">VALID_SECTOR)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">--------------------------- error logs -------------</sentence>
+			<sentence id="3.2">2005-11-11 10:03:20,832 [http8080-Processor2] DEBUG HQLQueryPlan:132 - find: select distinct company from com.product.</sentence>
+			<sentence id="3.3">.</sentence>
+			<sentence id="3.4">dao.transferobj.company as company left outer join company.departments as department where 1 = 1 AND ( company.cmpname LIKE :P0 ) AND ( size(company.departments) = 0 OR (select count(i) from company.departments i where i.validSector = :validSector) = 0 )</sentence>
+			<sentence id="3.5">2005-11-11 10:03:20,852 [http8080-Processor2] DEBUG QueryParameters:261 - named parameters: {P0=%, validSector=true}</sentence>
+			<sentence id="3.6">2005-11-11 10:03:20,852 [http8080-Processor2] DEBUG Loader:1739 - bindNamedParameters() % -&gt; P0 [1]</sentence>
+			<sentence id="3.7">2005-11-11 10:03:20,852 [http8080-Processor2] DEBUG Loader:1739 - bindNamedParameters() true -&gt; validSector [2]</sentence>
+			<sentence id="3.8">2005-11-11 10:03:20,902 [http8080-Processor2] DEBUG JDBCExceptionReporter:63 - could not execute query</sentence>
+			<sentence id="3.9">[select distinct company0_.</sentence>
+			<sentence id="3.10">ID, company0_.</sentence>
+			<sentence id="3.11">CMP_NAME as OBJ1_61_ from COMPANY company0_ left outer join DEPARTMENT departmen1_ on company0_.</sentence>
+			<sentence id="3.12">ID=departmen1_.</sentence>
+			<sentence id="3.13">ID left outer join SECTORS sectors1_1_ on departmen1_.</sentence>
+			<sentence id="3.14">obid=sectors1_1_.</sentence>
+			<sentence id="3.15">ID where 1=1 and (company0_.</sentence>
+			<sentence id="3.16">CMP_NAME like ?)</sentence>
+			<sentence id="3.17">and ((select count(departmen3_.</sentence>
+			<sentence id="3.18">ID) from DEPARTMENT departmen3_ inner join SECTORS sectors3_1_ on departmen3_.</sentence>
+			<sentence id="3.19">ID=sectors3_1_.</sentence>
+			<sentence id="3.20">ID where company0_.</sentence>
+			<sentence id="3.21">ID=departmen3_.</sentence>
+			<sentence id="3.22">SPP_ID)=0 or (select count(departmen4_.</sentence>
+			<sentence id="3.23">obid) from DEPARTMENT departmen4_ where company0_.</sentence>
+			<sentence id="3.24">ID=departmen4_.</sentence>
+			<sentence id="3.25">SPP_ID and departmen4_1_.</sentence>
+			<sentence id="3.26">VALID_SECTOR=?)</sentence>
+			<sentence id="3.27">=0)]</sentence>
+			<sentence id="3.28">java.sql.SQLException: Unknown column 'departmen4_1_.VALID_SECTOR' in 'where clause'</sentence>
+			<sentence id="3.29">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2847)</sentence>
+			<sentence id="3.30">	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1531)</sentence>
+			<sentence id="3.31">	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:1622)</sentence>
+			<sentence id="3.32">	at com.mysql.jdbc.Connection.execSQL(Connection.java:2376)</sentence>
+			<sentence id="3.33">	at com.mysql.jdbc.Connection.execSQL(Connection.java:2297)</sentence>
+			<sentence id="3.34">	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1860)</sentence>
+			<sentence id="3.35">	at com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:1705)</sentence>
+			<sentence id="3.36">	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.executeQuery(NewProxyPreparedStatement.java:76)</sentence>
+			<sentence id="3.37">	at org.hibernate.jdbc.AbstractBatcher.getResultSet(AbstractBatcher.java:137)</sentence>
+			<sentence id="3.38">	at org.hibernate.loader.Loader.getResultSet(Loader.java:1676)</sentence>
+			<sentence id="3.39">	at org.hibernate.loader.Loader.doQuery(Loader.java:662)</sentence>
+			<sentence id="3.40">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:223)</sentence>
+			<sentence id="3.41">	at org.hibernate.loader.Loader.doList(Loader.java:2147)</sentence>
+			<sentence id="3.42">	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2026)</sentence>
+			<sentence id="3.43">	at org.hibernate.loader.Loader.list(Loader.java:2021)</sentence>
+			<sentence id="3.44">	at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:369)</sentence>
+			<sentence id="3.45">	at org.hibernate.hql.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:298)</sentence>
+			<sentence id="3.46">	at org.hibernate.engine.query.HQLQueryPlan.performList(HQLQueryPlan.java:137)</sentence>
+			<sentence id="3.47">	at org.hibernate.impl.SessionImpl.list(SessionImpl.java:1014)</sentence>
+			<sentence id="3.48">	at org.hibernate.impl.QueryImpl.list(QueryImpl.java:79)</sentence>
+		</paragraph>
+	</description>
+</bug>

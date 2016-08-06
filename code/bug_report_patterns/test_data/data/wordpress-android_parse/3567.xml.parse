@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3567</id>
+	<title>Crash - Adding categories to post in Post Settings</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">To reproduce:</sentence>
+			<sentence id="1.2">* Create new post</sentence>
+			<sentence id="1.3">* Go to post settings</sentence>
+			<sentence id="1.4">* Add more than one category</sentence>
+			<sentence id="1.5">* Press back</sentence>
+			<sentence id="1.6">```</sentence>
+			<sentence id="1.7">java.lang.RuntimeException: Failure delivering result ResultInfo{who=android:fragment:1, request=5, result=-1, data=Intent { (has extras) }} to activity {org.wordpress.android/org.wordpress.android.ui.posts.EditPostActivity}: java.lang.IllegalStateException: The specified child already has a parent. You must call removeView() on the child's parent first.</sentence>
+			<sentence id="1.8">at android.app.ActivityThread.deliverResults(ActivityThread.java:3141)</sentence>
+			<sentence id="1.9">at android.app.ActivityThread.handleSendResult(ActivityThread.java:3184)</sentence>
+			<sentence id="1.10">at android.app.ActivityThread.access$1100(ActivityThread.java:130)</sentence>
+			<sentence id="1.11">at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1243)</sentence>
+			<sentence id="1.12">at android.os.Handler.dispatchMessage(Handler.java:99)</sentence>
+			<sentence id="1.13">at android.os.Looper.loop(Looper.java:137)</sentence>
+			<sentence id="1.14">at android.app.ActivityThread.main(ActivityThread.java:4745)</sentence>
+			<sentence id="1.15">at java.lang.reflect.Method.invokeNative(Native Method)</sentence>
+			<sentence id="1.16">at java.lang.reflect.Method.invoke(Method.java:511)</sentence>
+			<sentence id="1.17">at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:786)</sentence>
+			<sentence id="1.18">at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:553)</sentence>
+			<sentence id="1.19">at dalvik.system.NativeStart.main(Native Method)</sentence>
+			<sentence id="1.20">Caused by: java.lang.IllegalStateException: The specified child already has a parent.</sentence>
+			<sentence id="1.21">You must call removeView() on the child's parent first.</sentence>
+			<sentence id="1.22">at android.view.ViewGroup.addViewInner(ViewGroup.java:3378)</sentence>
+			<sentence id="1.23">at android.view.ViewGroup.addView(ViewGroup.java:3249)</sentence>
+			<sentence id="1.24">at android.view.ViewGroup.addView(ViewGroup.java:3194)</sentence>
+			<sentence id="1.25">at android.view.ViewGroup.addView(ViewGroup.java:3170)</sentence>
+			<sentence id="1.26">at org.wordpress.android.ui.posts.EditPostSettingsFragment.populateSelectedCategories(EditPostSettingsFragment.java:864)</sentence>
+			<sentence id="1.27">at org.wordpress.android.ui.posts.EditPostSettingsFragment.onActivityResult(EditPostSettingsFragment.java:292)</sentence>
+			<sentence id="1.28">```</sentence>
+		</paragraph>
+	</description>
+</bug>

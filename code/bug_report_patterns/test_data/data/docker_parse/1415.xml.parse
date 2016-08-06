@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1415</id>
+	<title>Unable to mount shared directory to container</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'd expect to see the contents of `/home/monkey` in the container.</sentence>
+			<sentence id="1.2">Instead, `/mnt/blah` on the container is blank.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I'm using docker 0.5.0 (as that's the latest on the PPAs) with Ubuntu 12.04.</sentence>
+			<sentence id="2.2">The container is also running 12.04.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+$ ls -l /home/monkey
+total 8
+drwxrwxr-x 3 monkey monkey 4096 Aug 5 12:50 image_resizer
+drwxrwxr-x 2 monkey monkey 4096 Aug 5 14:39 t</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">$ docker run -v /home/monkey:/mnt/blah -i -t image_resizer /bin/bash
+2013/08/05 15:17:01 POST /v1.3/containers/create
+2013/08/05 15:17:01 POST /v1.3/containers/30120a8f7657/start
+2013/08/05 15:17:01 POST /v1.3/containers/30120a8f7657/resize?</sentence>
+			<sentence id="4.2">h=39&amp;w=172
+2013/08/05 15:17:01 POST /v1.3/containers/30120a8f7657/attach?</sentence>
+			<sentence id="4.3">logs=1&amp;stderr=1&amp;stdin=1&amp;stdout=1&amp;stream=1</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">root@30120a8f7657:/# ls -l /mnt/blah
+total 0</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">root@30120a8f7657:/# exit 
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+		</paragraph>
+	</description>
+</bug>

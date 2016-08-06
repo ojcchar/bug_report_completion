@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8501</id>
+	<title>Fail COPY/ADD on Windows</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi, all!</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I faced with strange Issue, when I tried to run my vagrant VM on Windows 8.1</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This example successgully works on Linux OS</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Vagrantfile and Dockerfile
+https://gist.github.com/galkinrost/ab2103fb1cb0a8507364</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">But on Windows I have the output:
+https://gist.github.com/galkinrost/77e2a309e81933eae385
+ 
+uname -a 
+```sh
+Linux db 3.13.0-36-generic #63-Ubuntu SMP Wed Sep 3 21:30:07 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">docker version
+```sh
+Client version: 1.2.0
+Client API version: 1.14
+Go version (client): go1.3.1
+Git commit (client): fa7b24f
+OS/Arch (client): linux/amd64
+Server version: 1.2.0
+Server API version: 1.14
+Go version (server): go1.3.1
+Git commit (server): fa7b24f
+```
+docker -D info
+```sh
+Containers: 4
+Images: 86
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Dirs: 94
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-36-generic
+Operating System: Ubuntu 14.04.1 LTS
+Debug mode (server): false
+Debug mode (client): true
+Fds: 30
+Goroutines: 22
+EventsListeners: 0
+Init Path: /usr/bin/docker
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">vagrant version 
+```sh
+Installed Version: 1.6.5
+Latest Version: 1.6.5
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

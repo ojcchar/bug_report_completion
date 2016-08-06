@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3269</id>
+	<title>obs table with concept cause of death is not updated when the Cause of Death field is changed under Demographics, Edit this Patient from the dashboard</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The 'value_coded' field in the 'obs' table is not updated when the Cause of Death field is changed under Demographics, Edit this Patient from the patient dashboard.</sentence>
+			<sentence id="1.2">The patient was originally exited from care, as patient died on the patient dashboard.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Run an SQL query like this and you will get a list of cause of death concepts that are different between the obs and person tables...
+{code}
+SELECT person.person_id, value_coded, obs_datetime, cause_of_death, person.date_changed, concept.retire_reason
+FROM `obs` , person, concept
+WHERE person.person_id = obs.person_id
+AND obs.</sentence>
+			<sentence id="2.2">`concept_id` =5002
+AND person.</sentence>
+			<sentence id="2.3">`voided` =0
+AND obs.</sentence>
+			<sentence id="2.4">`voided` =0
+AND value_coded &lt;&gt; cause_of_death
+AND concept.concept_id = cause_of_death
+{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Change the cause of Death in the edit demographics and run it again, and you will see there is a different concept stored for the cause of death between the two different locations.</sentence>
+			<sentence id="3.2">To me, storing the cause of death at two different locations seems like a design flaw, but it does make it possible to get the cause of death using the Reporting module (Coded Observation Query) without writing custom SQL to access the person (cause_of_death) field.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This happens with OpenMRS Version: 1.8.3 Build 24510.</sentence>
+		</paragraph>
+	</description>
+</bug>

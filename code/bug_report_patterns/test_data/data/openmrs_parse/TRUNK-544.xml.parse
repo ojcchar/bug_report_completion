@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-544</id>
+	<title>syncing concepts w/ from/import export module fails after api refactoring merge</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Here's the stack trace:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">An Internal Error has Occured
+java.lang.NoSuchFieldError</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">GP_CONCEPTS_LOCKED</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Consult the help document.</sentence>
+			<sentence id="4.2">Contact your friendly neighborhood administrator if it cannot be resolved.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Hide stack trace</sentence>
+			<sentence id="5.2">org.openmrs.module.formimportexport.impl.FormImportExportServiceImpl.applyXmlConceptPackage(FormImportExportServiceImpl.java:126)</sentence>
+			<sentence id="5.3">org.openmrs.module.formimportexport.impl.FormImportExportServiceImpl.syncWithParent(FormImportExportServiceImpl.java:313)</sentence>
+			<sentence id="5.4">org.openmrs.module.formimportexport.impl.FormImportExportServiceImpl.syncWithParent(FormImportExportServiceImpl.java:300)</sentence>
+			<sentence id="5.5">sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="5.6">sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="5.7">sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="5.8">java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="5.9">org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:301)</sentence>
+			<sentence id="5.10">org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:182)</sentence>
+			<sentence id="5.11">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:149)</sentence>
+			<sentence id="5.12">org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:106)</sentence>
+			<sentence id="5.13">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)</sentence>
+			<sentence id="5.14">org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)</sentence>
+			<sentence id="5.15">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)</sentence>
+			<sentence id="5.16">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)</sentence>
+			<sentence id="5.17">$Proxy1062.syncWithParent(Unknown Source)</sentence>
+			<sentence id="5.18">sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="5.19">sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="5.20">sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="5.21">java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="5.22">org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:301)</sentence>
+			<sentence id="5.23">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:198)</sentence>
+			<sentence id="5.24">$Proxy1062.syncWithParent(Unknown Source)</sentence>
+			<sentence id="5.25">org.openmrs.module.formimportexport.web.controller.SyncConceptsWithParentController.onSubmit(SyncConceptsWithParentController.java:86)</sentence>
+			<sentence id="5.26">org.springframework.web.servlet.mvc.SimpleFormController.processFormSubmission(SimpleFormController.java:267)</sentence>
+			<sentence id="5.27">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:265)</sentence>
+			<sentence id="5.28">org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)</sentence>
+			<sentence id="5.29">org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:48)</sentence>
+			<sentence id="5.30">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:875)</sentence>
+			<sentence id="5.31">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:809)</sentence>
+			<sentence id="5.32">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:476)</sentence>
+			<sentence id="5.33">org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:441)</sentence>
+			<sentence id="5.34">javax.servlet.http.HttpServlet.service(HttpServlet.java:710)</sentence>
+			<sentence id="5.35">javax.servlet.http.HttpServlet.service(HttpServlet.java:803)</sentence>
+			<sentence id="5.36">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+			<sentence id="5.37">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="5.38">org.openmrs.web.OpenmrsFilter.doFilter(OpenmrsFilter.java:122)</sentence>
+			<sentence id="5.39">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="5.40">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="5.41">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+			<sentence id="5.42">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:75)</sentence>
+			<sentence id="5.43">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+			<sentence id="5.44">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="5.45">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+			<sentence id="5.46">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:175)</sentence>
+			<sentence id="5.47">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:128)</sentence>
+			<sentence id="5.48">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+			<sentence id="5.49">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+			<sentence id="5.50">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:286)</sentence>
+			<sentence id="5.51">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:844)</sentence>
+			<sentence id="5.52">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:583)</sentence>
+			<sentence id="5.53">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:447)</sentence>
+			<sentence id="5.54">java.lang.Thread.run(Thread.java:619)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Version: 1.3.0.10 RC1 Build 4376
+Database Version: 1.3.0.10</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Cookies:
+dashboardTab-18407=[patientEncountersTab] dashboardTab-1=[patientOverviewTab] JSESSIONID=[9AD6DE8A699AA18ACEADC012DBE7D495] __openmrs_language=[en_US]</sentence>
+		</paragraph>
+	</description>
+</bug>

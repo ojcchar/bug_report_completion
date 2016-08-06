@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4703</id>
+	<title>(cglib)Instrumented model with abstract MappedSuperclass and field access doesn't work</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Notes:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">* test runs fine with cglib, hb 3.2.4 SP1 + ann 3.2.1</sentence>
+			<sentence id="2.2">* test runs fine with cglib, plain mapping files (trunk).</sentence>
+			<sentence id="2.3">* no matter if you use annotation or mapping files, test will fail using javassist (it used to fail with previous version too)</sentence>
+			<sentence id="2.4">So focus on instrumentation done using cglib.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">See attached testcase to reproduce the problem.</sentence>
+			<sentence id="3.2">Guideline:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">* testcase the pattern used in hb-core, just using annotations</sentence>
+			<sentence id="4.2">* run org.hibernate.test.instrument2.runtime.CGLIBInstrumentationTest</sentence>
+			<sentence id="4.3">* easy to switch from annotation to mapping files in org.hibernate.test.instrument2.cases.AbstractExecutable (comment/uncomment specific lines in getAnnotatedClasses and getXmlFiles)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">interesting point: if you complete the source with id setters + annotate the getters (instead of fields) + make the getInterestRate @Transient, the test passes.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5165</id>
+	<title>FetchMode=Eager not respected, N+1 SELECT Problem</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Two classes A, B with 1:n relationship.</sentence>
+			<sentence id="1.2">Fetching all instances of B with an empty DetachedCriteria instance does not repsect FetchMode.JOIN but issues a SELECT for each A (N+1 SELECT problem).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This causes the bug:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">findByCriteria(DetachedCriteria.forClass(B.class));</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This works - but I need that second setFetchMode:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">findByCriteria(DetachedCriteria.forClass(B.class)
+ .</sentence>
+			<sentence id="5.2">setFetchMode("a", FetchMode.JOIN)
+ .</sentence>
+			<sentence id="5.3">setFetchMode("a.bs", FetchMode.JOIN)
+);</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">HQL works too.</sentence>
+			<sentence id="6.2">Here are two classes that cause the bug:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">@Entity @Table(name = "A")
+@SequenceGenerator(name = "keyid_generator", sequenceName = "A_sequence")
+public class A extends AbstractIntKeyIntOptimisticLockingDto {
+ private String name;
+ private Set&lt;B&gt; bs;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">@OneToMany(mappedBy = "a", fetch = FetchType.EAGER)
+ @Fetch(FetchMode.JOIN)
+ public Set&lt;B&gt; getBs() {
+ return bs;
+ }
+ public void setBs(Set&lt;B&gt; bs) {
+ this.bs = bs;
+ }</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">public String getName() {
+ return name;
+ }
+ public void setName(String name) {
+ this.name = name;
+ }
+}</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">@Entity @Table(name = "B")
+@SequenceGenerator(name = "keyid_generator", sequenceName = "B_sequence")
+public class B extends AbstractIntKeyIntOptimisticLockingDto {</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">private String name;
+ private A a;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">@ManyToOne(fetch = FetchType.EAGER)
+ @JoinColumn(name = "a", nullable = false,
+ unique = false, updatable = false)
+ @Fetch(FetchMode.JOIN)
+ public A getA() {
+ return a;
+ }
+ public void setA(A a) {
+ this.a = a;
+ }</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">public String getName() {
+ return name;
+ }
+ public void setName(String name) {
+ this.name = name;
+ }
+}</sentence>
+		</paragraph>
+	</description>
+</bug>

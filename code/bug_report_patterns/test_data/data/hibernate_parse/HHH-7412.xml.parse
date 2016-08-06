@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-7412</id>
+	<title>JDBCTransactionFactory.getDefaultReleaseMode() returns incorrect ConnectionReleaseMode</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">JdbcTransactionFactory does this:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">public ConnectionReleaseMode getDefaultReleaseMode() {
+		return ConnectionReleaseMode.ON_CLOSE;
+	}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This seems to be a mistake because:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">1 In section 13.5.</sentence>
+			<sentence id="4.2">Connection release modes of the 4.1.4.</sentence>
+			<sentence id="4.3">Final Core Reference Manual it says:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">for JDBCTransactionFactory, [org.hibernate.transaction.TransactionFactory.getDefaultReleaseMode()] returns ConnectionReleaseMode.AFTER_TRANSACTION</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">2 In ConnectionReleaseMode.java it says:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">/**</sentence>
+			<sentence id="7.2">* Indicates that JDBC connections should be released after each transaction</sentence>
+			<sentence id="7.3">* ends (works with both JTA-registered synch and HibernateTransaction API).</sentence>
+			<sentence id="7.4">* This mode may not be used with an application server JTA datasource.</sentence>
+			<sentence id="7.5">* &lt;p/&gt;</sentence>
+			<sentence id="7.6">* This is the default mode starting in 3.1; was previously {@link #ON_CLOSE}.</sentence>
+			<sentence id="7.7">*/</sentence>
+			<sentence id="7.8">AFTER_TRANSACTION("after_transaction"),</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">You can work around this by setting hibernate.connection.release_mode=after_transaction</sentence>
+		</paragraph>
+	</description>
+</bug>

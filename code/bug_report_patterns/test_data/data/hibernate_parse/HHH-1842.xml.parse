@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1842</id>
+	<title>composite primary key with identity column and foreign key</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I need to map a table (AddressTable below) that uses an identity column and an integer column as the composit primary key.</sentence>
+			<sentence id="1.2">The integer column is a foreign key.</sentence>
+			<sentence id="1.3">Is there an example of how to map this?</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">ClientTable
+CLIENT_KEY INTEGER &lt;PK&gt; IDENTITY</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">AddressTable
+CLIENT_KEY INTEGER &lt;PK FK&gt; NOT NULL
+ADDRESS_KEY INTEGER &lt;PK&gt; IDENTITY</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-1111</id>
+	<title>Allow subclasses to override method of retrieving Concept in HibernateLogicObsDAO</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This is related to bug TRAC-1876.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">As a non-intrusive first step to fix the above bug, the attached patch abstracts the logic for retrieving the matching concept for a token name into it's own method.</sentence>
+			<sentence id="2.2">This will allow modules to subclass this DAO (and re-use the all of it's complex logic for handing Critieria), but override this particular behavior.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Win - I'll commit this to 1.5.x, but I assume it should not go to trunk, but instead into the logic module, correct?</sentence>
+			<sentence id="3.2">Can you do this?</sentence>
+		</paragraph>
+	</description>
+</bug>

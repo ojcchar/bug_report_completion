@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>54083</id>
+	<title>dislocate/cut off label text when using 125% font zoom readability option</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 66137
+LibreOffice Calc splash screen</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The status text in the splash screen is dislocated and partially lies outside the client area of the splash screen.</sentence>
+			<sentence id="2.2">This is caused by the windows readability option allowing 100%, 125% and 150% zoom of fonts, altering textheight.</sentence>
+			<sentence id="2.3">Sometimes the position of components inside a window is also affected.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">To fix this, the "scaled" property of the parent window must be set to false.</sentence>
+			<sentence id="3.2">This property has no effect for 100% font zoom so it may easily be overlooked.</sentence>
+		</paragraph>
+	</description>
+</bug>

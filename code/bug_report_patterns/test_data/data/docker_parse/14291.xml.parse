@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>14291</id>
+	<title>Experimental build is really out of date - builds are not updating.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Using either curl experimental.docker.com|sh or grabbing the binary directly (https://experimental.docker.com/builds/Linux/x86_64/docker-latest)
+I can only get a build from 8 days ago - at this revision - https://github.com/docker/docker/commit/f39b9a0b0f77c528a6fb8bf14be5cdea11ce338d</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+Client version: 1.8.0-dev
+Client API version: 1.20
+Go version (client): go1.4.2
+Git commit (client): f39b9a0
+OS/Arch (client): linux/amd64
+Experimental (client): true
+Server version: 1.8.0-dev
+Server API version: 1.20
+Go version (server): go1.4.2
+Git commit (server): f39b9a0
+OS/Arch (server): linux/amd64
+Experimental (server): true</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">sudo usermod -aG docker your-user</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Remember that you will have to log out and back in for this to take effect!</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">gulfstream@gulfstream:~/calico-docker$ wget https://experimental.docker.com/builds/Linux/x86_64/docker-latest</sentence>
+			<sentence id="6.2">--2015-06-29 16:13:48-- https://experimental.docker.com/builds/Linux/x86_64/docker-latest</sentence>
+			<sentence id="6.3">Resolving experimental.docker.com (experimental.docker.com)... 54.230.117.147, 54.230.117.241, 54.239.132.111, ...</sentence>
+			<sentence id="6.4">Connecting to experimental.docker.com (experimental.docker.com)|54.230.117.147|:443... connected.</sentence>
+			<sentence id="6.5">HTTP request sent, awaiting response... 200 OK</sentence>
+			<sentence id="6.6">Length: 19380581 (18M) [binary/octet-stream]</sentence>
+			<sentence id="6.7">Saving to: &#x2018;docker-latest&#x2019;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">docker-latest 100%[=====================&gt;] 18.48M 1.27MB/s in 19s</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">2015-06-29 16:14:07 (987 KB/s) - &#x2018;docker-latest&#x2019; saved [19380581/19380581]</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">gulfstream@gulfstream:~/calico-docker$ chmod +x docker-latest 
+gulfstream@gulfstream:~/calico-docker$ .</sentence>
+			<sentence id="9.2">/docker-latest -v
+Docker version 1.8.0-dev, build f39b9a0, experimental
+gulfstream@gulfstream:~/calico-docker$ .</sentence>
+			<sentence id="9.3">/docker-latest version
+Client version: 1.8.0-dev
+Client API version: 1.20
+Go version (client): go1.4.2
+Git commit (client): f39b9a0
+OS/Arch (client): linux/amd64
+Experimental (client): true
+Server version: 1.8.0-dev
+Server API version: 1.20
+Go version (server): go1.4.2
+Git commit (server): f39b9a0
+OS/Arch (server): linux/amd64
+Experimental (server): true
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

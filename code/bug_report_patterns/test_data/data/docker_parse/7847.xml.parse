@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7847</id>
+	<title>Proposal: Startup/Shutdown hooks for containers</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have a few common tasks that I would like to automate when starting up and tearing down containers:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">My containers may have sensu-client running in them, providing some basic monitoring and metrics from within the container.</sentence>
+			<sentence id="2.2">This creates an entity that sensu-server then tracks.</sentence>
+			<sentence id="2.3">When this ephemeral container is torn down, I would like to automatically delete the client and its history from sensu-server so that I no longer receive alerts about it.</sentence>
+			<sentence id="2.4">This is just a curl -X DELETE to an API endpoint or potentially a message sent over another bus like RabbitMQ.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I use boot2docker on OS X. I have automated the creation of volume containers and share them via samba using a very simple script (https://gist.github.com/grepory/1af4bae240f09e9967be).</sentence>
+			<sentence id="3.2">It would be nice to be able to automate tearing down associated volume containers and these VMs along with them.</sentence>
+			<sentence id="3.3">I could do this by tracking the use of the samba container(s) in the same manner that docker tracks the use of volume containers.</sentence>
+			<sentence id="3.4">Once no volume containers are using that samba container, my shutdown hook would unmount the local volume on the host and stop the samba container on the guest.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">An example of a startup hook would be for service registration or discovery.</sentence>
+			<sentence id="4.2">I realize that the good folks at CoreOS are hard at work on etcd and fleet for exactly this, but let's assume that I don't want to use CoreOS or etcd.</sentence>
+			<sentence id="4.3">By putting service discovery in a startup hook (and service deregistration in a shutdown hook) I can trivially monitor when containers are started or stopped on various container ships.</sentence>
+			<sentence id="4.4">This can be used to integrate with my monitoring system, service discovery, and any other automation mechanisms I may have developed.</sentence>
+		</paragraph>
+	</description>
+</bug>

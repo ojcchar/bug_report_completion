@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>20735</id>
+	<title>Network hostname as log driver address</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi everyone,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">maybe Im missing something, but are hostnames not supported for logging drivers?</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">What I try to do is:
+```$ docker run --rm --net=logger --log-driver=fluentd --log-opt fluentd-address=logger:24224 ubuntu echo "Test"```
+where net=logger is a docker network running a fluentd instance as ```logger```.</sentence>
+			<sentence id="3.2">But all I get form this is:
+```docker: Error response from daemon: Failed to initialize logging driver: dial tcp: lookup logger on 10.0.2.3:53: server misbehaving.</sentence>
+			<sentence id="3.3">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">If I change ```logger:24224``` to ```172.23.0.2:24224``` (container ip) it works as expected. Thats strange for me because: </sentence>
+			<sentence id="4.2">```</sentence>
+			<sentence id="4.3">$ docker run --rm --net=logger ubuntu ping logger</sentence>
+			<sentence id="4.4">PING logger (172.23.0.2) 56(84) bytes of data.</sentence>
+			<sentence id="4.5">64 bytes from vserver_logger_1.logger (172.23.0.2): icmp_seq=1 ttl=64 time=0.053 ms</sentence>
+			<sentence id="4.6">```</sentence>
+			<sentence id="4.7">Whats wrong with my attempt? Is this expected behavior?</sentence>
+			<sentence id="4.8">Thank you.</sentence>
+			<sentence id="4.9">```</sentence>
+			<sentence id="4.10">$ docker info</sentence>
+			<sentence id="4.11">Containers: 49</sentence>
+			<sentence id="4.12"> Running: 1</sentence>
+			<sentence id="4.13"> Paused: 0</sentence>
+			<sentence id="4.14"> Stopped: 48</sentence>
+			<sentence id="4.15">Images: 343</sentence>
+			<sentence id="4.16">Server Version: 1.10.1</sentence>
+			<sentence id="4.17">Storage Driver: aufs</sentence>
+			<sentence id="4.18"> Root Dir: /mnt/sda1/var/lib/docker/aufs</sentence>
+			<sentence id="4.19"> Backing Filesystem: extfs</sentence>
+			<sentence id="4.20"> Dirs: 547</sentence>
+			<sentence id="4.21"> Dirperm1 Supported: true</sentence>
+			<sentence id="4.22">Execution Driver: native-0.2</sentence>
+			<sentence id="4.23">Logging Driver: json-file</sentence>
+			<sentence id="4.24">Plugins:</sentence>
+			<sentence id="4.25"> Volume: local</sentence>
+			<sentence id="4.26"> Network: null host bridge</sentence>
+			<sentence id="4.27">Kernel Version: 4.1.17-boot2docker</sentence>
+			<sentence id="4.28">Operating System: Boot2Docker 1.10.1 (TCL 6.4.1); master : b03e158 - Thu Feb 11 22:34:01 UTC 2016</sentence>
+			<sentence id="4.29">OSType: linux</sentence>
+			<sentence id="4.30">Architecture: x86_64</sentence>
+			<sentence id="4.31">CPUs: 1</sentence>
+			<sentence id="4.32">Total Memory: 1.956 GiB</sentence>
+			<sentence id="4.33">Name: dinghy</sentence>
+			<sentence id="4.34">ID: ENMM:CSGF:DTN4:L2ZQ:XBYP:FJUM:7WA3:NNUJ:HDXP:Z35V:QYST:43WF</sentence>
+			<sentence id="4.35">Debug mode (server): true</sentence>
+			<sentence id="4.36"> File Descriptors: 20</sentence>
+			<sentence id="4.37"> Goroutines: 32</sentence>
+			<sentence id="4.38"> System Time: 2016-02-26T22:28:23.980888821Z</sentence>
+			<sentence id="4.39"> EventsListeners: 0</sentence>
+			<sentence id="4.40"> Init SHA1:</sentence>
+			<sentence id="4.41"> Init Path: /usr/local/bin/docker</sentence>
+			<sentence id="4.42"> Docker Root Dir: /mnt/sda1/var/lib/docker</sentence>
+			<sentence id="4.43">Labels:</sentence>
+			<sentence id="4.44"> provider=virtualbox</sentence>
+			<sentence id="4.45">```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+$ docker version
+Client:
+ Version: 1.10.1
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: 9e83765
+ Built: Fri Feb 12 22:11:40 UTC 2016
+ OS/Arch: darwin/amd64</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Server:
+ Version: 1.10.1
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: 9e83765
+ Built: Thu Feb 11 20:39:58 2016
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

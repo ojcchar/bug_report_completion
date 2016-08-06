@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7333</id>
+	<title>Add log rotation signal handling to docker daemon</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When docker runs in daemon mode, send kill -HUP to it restarts all the container.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">While the logging driver is in the work #7195, and for simple setup, it would help considerably to be able to use logrotate with something like `/var/lib/docker/containers/*/*.</sentence>
+			<sentence id="2.2">log` to rotate the log.</sentence>
+			<sentence id="2.3">This path works fine with log rotate, but the missing thing is to be able to signal docker to reopen the xxx-json.</sentence>
+			<sentence id="2.4">log.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Sending SIGHUP or SIGUSR1 should reopen all log files.</sentence>
+		</paragraph>
+	</description>
+</bug>

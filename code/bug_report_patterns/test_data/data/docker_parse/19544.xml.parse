@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19544</id>
+	<title>Error message unhelpful "Cannot connect to the Docker daemon. Is the docker daemon running on this host?"</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Would be nice if this would spit out the command(s) I need to run in order to start the docker daemon.</sentence>
+			<sentence id="1.2">I've tried googling for the command that starts the docker daemon but it's not easy to find, I had a look at https://docs.docker.com/machine/get-started/ but if I do CMD + F and search for "daemon" it does not include any sentence equivalent to "to start the docker daemon run this command".</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Anyway, eventually I found the following commands seemed to work, I think it would make sense to include these commands in the docker documentation.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+brew install boot2docker
+boot2docker init
+boot2docker up
+eval "$(boot2docker shellinit)"
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

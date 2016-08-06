@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-6313</id>
+	<title>ClassCastException specifying type="character" in hbm.xml</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have a class containing a field of type java.lang.Character.</sentence>
+			<sentence id="1.2">I map this to an Oracle char(1 byte) field using an hmb.xml file as follows:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;property name="IntroducedFlag" column="INTRODUCED" type="character" /&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">At runtime this results in the following exception:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Character</sentence>
+			<sentence id="4.2"> at org.hibernate.type.descriptor.java.CharacterTypeDescriptor.unwrap(CharacterTypeDescriptor.java:34)</sentence>
+			<sentence id="4.3"> at org.hibernate.type.descriptor.sql.VarcharTypeDescriptor$1.doBind(VarcharTypeDescriptor.java:52)</sentence>
+			<sentence id="4.4"> at org.hibernate.type.descriptor.sql.BasicBinder.bind(BasicBinder.java:91)</sentence>
+			<sentence id="4.5"> at org.hibernate.type.AbstractStandardBasicType.nullSafeSet(AbstractStandardBasicType.java:282)</sentence>
+			<sentence id="4.6"> at org.hibernate.type.AbstractStandardBasicType.nullSafeSet(AbstractStandardBasicType.java:277)</sentence>
+			<sentence id="4.7"> at org.hibernate.loader.Loader.bindPositionalParameters(Loader.java:1873)</sentence>
+			<sentence id="4.8"> at org.hibernate.loader.Loader.bindParameterValues(Loader.java:1844)</sentence>
+			<sentence id="4.9"> at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:1716)</sentence>
+			<sentence id="4.10"> at org.hibernate.loader.Loader.doQuery(Loader.java:801)</sentence>
+			<sentence id="4.11"> at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:274)</sentence>
+			<sentence id="4.12"> at org.hibernate.loader.Loader.doList(Loader.java:2533)</sentence>
+			<sentence id="4.13"> at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2276)</sentence>
+			<sentence id="4.14"> at org.hibernate.loader.Loader.list(Loader.java:2271)</sentence>
+			<sentence id="4.15"> at org.hibernate.loader.criteria.CriteriaLoader.list(CriteriaLoader.java:119)</sentence>
+			<sentence id="4.16"> at org.hibernate.impl.SessionImpl.list(SessionImpl.java:1716)</sentence>
+			<sentence id="4.17"> at org.hibernate.impl.CriteriaImpl.list(CriteriaImpl.java:347)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">It works fine in Hibernate 3.5.6 but not in 3.6.0 onwards.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Also probably related to this issue:
+https://forum.hibernate.org/viewtopic.php?f=1&amp;t=1010175</sentence>
+		</paragraph>
+	</description>
+</bug>

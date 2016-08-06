@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1378</id>
+	<title>ClassCastException at org.hibernate.id.ForeignGenerator.generate(ForeignGenerator.java:37)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Class ForeignGenerator doesn't work with StatelessSession:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">java.lang.ClassCastException</sentence>
+			<sentence id="2.2">at org.hibernate.id.ForeignGenerator.generate(ForeignGenerator.java:37)</sentence>
+			<sentence id="2.3">at org.hibernate.impl.StatelessSessionImpl.insert(StatelessSessionImpl.java:91)</sentence>
+			<sentence id="2.4">at org.hibernate.impl.StatelessSessionImpl.insert(StatelessSessionImpl.java:80)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In class ForeignGenerator there is the following that raise a systematic ClassCastException when you use StatelessSession:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">public Serializable generate(SessionImplementor sessionImplementor, Object object)
+	throws HibernateException {</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Session session = (Session) sessionImplementor; &lt;-------- CLASS CAST EXCEPTION</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Object associatedObject = sessionImplementor.getFactory()
+		 .</sentence>
+			<sentence id="6.2">getClassMetadata( entityName )
+		 .</sentence>
+			<sentence id="6.3">getPropertyValue( object, propertyName, sessionImplementor.getEntityMode() );</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">.....	}</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Here is an example of two class with foreign key:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">&lt;class name="Child" table="CHILD_TABLE" where="GSTD_ESIST_B='S'"&gt;
+ &lt;id name="soggettoId" column="SOGGETTO_ID" type="integer"&gt;
+ &lt;generator class="foreign"&gt;
+ &lt;param name="property"&gt;soggetto&lt;/param&gt;
+ &lt;/generator&gt;
+ </id>
+ &lt;property name="tipoSogg" type="string" column="COD_TIPO_SOGG" length="1"/&gt;
+ &lt;one-to-one 	name="soggetto" class="FinSoggetto" constrained="true" /&gt; 
+&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">&lt;class select-before-update="false" dynamic-update="true" rowid="rowid" name="FinSoggetto" table="FIN_SOGGETTO" &gt;
+ &lt;id name="soggettoId" column="SOGGETTO_ID" type="integer"&gt;
+ &lt;generator class="sequence"&gt;
+ &lt;param name="sequence"&gt;SOGGETTO_SEQ&lt;/param&gt;
+ &lt;/generator&gt;
+ </id>
+ &lt;property name="cognome" type="string" column="COGNOME_S" length="35"/&gt;
+ &lt;/class&gt;</sentence>
+		</paragraph>
+	</description>
+</bug>

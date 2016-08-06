@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>18297</id>
+	<title>docker network create with IPv6 subnets using iptables fails</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Description of problem:
+The docker network create command does not work with IPv6 subnets using iptables.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">`docker version`:
+```
+Client:
+ Version: 1.9.1-fc23
+ API version: 1.21
+ Package version: docker-1.9.1-2.</sentence>
+			<sentence id="2.2">git78bc3ea.fc23.x86_64
+ Go version: go1.5.1
+ Git commit: f7c1d52-dirty
+ Built: Fri Nov 20 21:07:14 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Server:
+ Version: 1.9.1-fc23
+ API version: 1.21
+ Package version: docker-1.9.1-2.</sentence>
+			<sentence id="3.2">git78bc3ea.fc23.x86_64
+ Go version: go1.5.1
+ Git commit: f7c1d52-dirty
+ Built: Fri Nov 20 21:07:14 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">`docker info`:
+```
+Server Version: 1.9.1-fc23
+Storage Driver: overlay
+ Backing Filesystem: extfs
+Execution Driver: native-0.2
+Logging Driver: journald
+Kernel Version: 4.2.6-301.</sentence>
+			<sentence id="5.2">fc23.x86_64
+Operating System: Fedora 23 (Cloud Edition)
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">`uname -a`:
+`Linux 4.2.6-301.</sentence>
+			<sentence id="6.2">fc23.x86_64 #1 SMP Fri Nov 20 22:22:41 UTC 2015 x86_64 GNU/Linux`</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Environment details (AWS, VirtualBox, physical, etc.):
+Fedora 23, DigitalOcean</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">How reproducible:
+100%</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Steps to Reproduce:</sentence>
+			<sentence id="9.2">1 `dnf --enablerepo=updates-testing install docker`</sentence>
+			<sentence id="9.3">2 `docker network create --subnet=2001:470::/64 test`</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Actual Results:</sentence>
+			<sentence id="10.2">```</sentence>
+			<sentence id="10.3">Error response from daemon: unable to add inter-network communication rule: \</sentence>
+			<sentence id="10.4">iptables failed: iptables --wait -I FORWARD -s 2001:470::1/64 -d 2001:1337::1/64 \</sentence>
+			<sentence id="10.5">-j DROP: iptables v1.4.21: invalid mask `64' specified</sentence>
+			<sentence id="10.6">```</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Expected Results:
+Docker currently does not deal with IPv6 rules so it could just not do anything in this case either.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Additional info:
+On the other hand, IPv6 subnets do work on my workstation that's running with firewalld.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>84338</id>
+	<title>FILEOPEN: CSV File creates garbled preview and almost freezes LibreOffice</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Problem description: When attempting to open a 667kB CSV file the preview shows only one line with a few Chinese characters at the beginning followed by probably invalid Unicode characters.</sentence>
+			<sentence id="1.2">None of the characters are part of the CSV file and LibreOffice tested is a US English version which is not expected to display any Chinese messages.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps to reproduce:</sentence>
+			<sentence id="2.2">1 Download a test CSV file from http://real-chart.finance.yahoo.com/table.csv?s=IBM&amp;d=8&amp;e=25&amp;f=2014&amp;g=d&amp;a=0&amp;b=2&amp;c=1962&amp;ignore=.csv</sentence>
+			<sentence id="2.3">2 Save test file as "IBM.csv"</sentence>
+			<sentence id="2.4">3 Open "IBM.csv" with LibreOffice to see effects stated above</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Current behavior: When actually attempting to import the CSV data the following popup message is produced: "The data could not be loaded because the maximum number of characters per cell was exceeded".</sentence>
+			<sentence id="3.2">Then LibreOffice becomes almost unresponsive.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Expected behavior: CSV text data should be converted and displayed as spreadsheet after selecting the appropriate separator.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Operating System: openSUSE
+Version: 4.3.1.2 release</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3838</id>
+	<title>Crash report 5.1: NPE - crash on start</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Only 7 users affected - but a pretty bad crash on Alcatel 4.2.2 devices:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">Fatal Exception: java.lang.RuntimeException: Unable to create application org.wordpress.android.WordPress: java.lang.NullPointerException</sentence>
+			<sentence id="2.3"> at android.app.ActivityThread.handleBindApplication(ActivityThread.java:4686)</sentence>
+			<sentence id="2.4"> at android.app.ActivityThread.access$1300(ActivityThread.java:165)</sentence>
+			<sentence id="2.5"> at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1437)</sentence>
+			<sentence id="2.6"> at android.os.Handler.dispatchMessage(Handler.java:107)</sentence>
+			<sentence id="2.7"> at android.os.Looper.loop(Looper.java:194)</sentence>
+			<sentence id="2.8"> at android.app.ActivityThread.main(ActivityThread.java:5434)</sentence>
+			<sentence id="2.9"> at java.lang.reflect.Method.invokeNative(Method.java)</sentence>
+			<sentence id="2.10"> at java.lang.reflect.Method.invoke(Method.java:525)</sentence>
+			<sentence id="2.11"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:834)</sentence>
+			<sentence id="2.12"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:601)</sentence>
+			<sentence id="2.13"> at dalvik.system.NativeStart.main(NativeStart.java)</sentence>
+			<sentence id="2.14">Caused by java.lang.NullPointerException</sentence>
+			<sentence id="2.15"> at android.webkit.WebSettingsClassic.getDefaultUserAgentForLocale(WebSettingsClassic.java:457)</sentence>
+			<sentence id="2.16"> at android.webkit.WebViewClassic$Factory.getDefaultUserAgent(WebViewClassic.java:1503)</sentence>
+			<sentence id="2.17"> at android.webkit.WebSettings.getDefaultUserAgent(WebSettings.java:1280)</sentence>
+			<sentence id="2.18"> at org.wordpress.android.WordPress.getDefaultUserAgent(WordPress.java:582)</sentence>
+			<sentence id="2.19"> at org.wordpress.android.WordPress.getUserAgent(WordPress.java:607)</sentence>
+			<sentence id="2.20"> at org.wordpress.android.WordPress.onCreate(WordPress.java:191)</sentence>
+			<sentence id="2.21"> at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1065)</sentence>
+			<sentence id="2.22"> at android.app.ActivityThread.handleBindApplication(ActivityThread.java:4683)</sentence>
+			<sentence id="2.23"> at android.app.ActivityThread.access$1300(ActivityThread.java:165)</sentence>
+			<sentence id="2.24"> at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1437)</sentence>
+			<sentence id="2.25"> at android.os.Handler.dispatchMessage(Handler.java:107)</sentence>
+			<sentence id="2.26"> at android.os.Looper.loop(Looper.java:194)</sentence>
+			<sentence id="2.27"> at android.app.ActivityThread.main(ActivityThread.java:5434)</sentence>
+			<sentence id="2.28"> at java.lang.reflect.Method.invokeNative(Method.java)</sentence>
+			<sentence id="2.29"> at java.lang.reflect.Method.invoke(Method.java:525)</sentence>
+			<sentence id="2.30"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:834)</sentence>
+			<sentence id="2.31"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:601)</sentence>
+			<sentence id="2.32"> at dalvik.system.NativeStart.main(NativeStart.java)</sentence>
+			<sentence id="2.33">```</sentence>
+		</paragraph>
+	</description>
+</bug>

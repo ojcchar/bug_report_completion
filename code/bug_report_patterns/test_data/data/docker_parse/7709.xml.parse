@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7709</id>
+	<title>Docker 1.2.0 breaks BTRFS + SELinux</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">After upgrading to 1.2.0 it seems that BTRFS + SELinux no longer works.</sentence>
+			<sentence id="1.2">I can't see anything in the changelog relating to this being a breaking change.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+2014/08/25 14:20:12 docker daemon: 1.2.0 fa7b24f; execdriver: native; graphdriver: btrfs
+[ba8107ad] +job serveapi(unix:///var/run/docker.</sentence>
+			<sentence id="2.2">sock)
+2014/08/25 14:20:12 SELinux is not supported with the BTRFS graph driver!</sentence>
+			<sentence id="2.3">```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">3.14-0.</sentence>
+			<sentence id="3.2">bpo.2-amd64</sentence>
+			<sentence id="3.3">- Debian 7</sentence>
+			<sentence id="3.4">- Docker 1.2.0</sentence>
+		</paragraph>
+	</description>
+</bug>

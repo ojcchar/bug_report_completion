@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>LOGIC-41</id>
+	<title>Logic Data Sources should have means for evaluating multiple tokens at once</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Consider the current 1.5.x implementation of the PersonDataSource within Logic.</sentence>
+			<sentence id="1.2">This DataSource exposes 6 keys, all of which can be accessed via a single database query against the person table.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Now, if within a page, I want to display the gender, birthdate, and death date of a person, this requires 3 separate calls to PersonDataSource.read(LogicContext, Cohort, LogicCriteria).</sentence>
+			<sentence id="2.2">In each of these 3 calls, the DataSource first must go to the database to retrieve all patient records for the input cohort, then iterate across all of these person records (which could be quite large), find the particular data item to return, put it into a Map, and return it.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">It would seem to make much more sense to give the PersonDataSource a means for pre-fetching more tokens than have been asked for, if it makes sense.</sentence>
+			<sentence id="3.2">In this case, the first time any token is requested of the PersonDataSource, it would evaluate the input cohort, iterate across it, and then puts all data items which require no more database hits into the LogicCache.</sentence>
+			<sentence id="3.3">Then, subsequent data requests for the input cohort could draw from the cache, rather than require re-evaluation.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">At the moment, LogicCache is completely private to LogicContext, and although each DataSource is given a LogicContext, it has no means to utilize this LogicContext for it's own caching purposes if needed.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">What are people's (Burke) feelings on making LogicService.getCache() public?</sentence>
+			<sentence id="5.2">If that isn't acceptable, can we find _some_ means for allowing DataSources to do this kind of thing?</sentence>
+		</paragraph>
+	</description>
+</bug>

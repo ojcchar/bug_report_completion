@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>937</id>
+	<title>Crash on 2.6.1 when calling xmlrpc method "system.listMethods"</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```java.lang.RuntimeException: An error occured while executing doInBackground()</sentence>
+			<sentence id="1.2">at android.os.AsyncTask$3.done(AsyncTask.java:200)</sentence>
+			<sentence id="1.3">at java.util.concurrent.FutureTask$Sync.innerSetException(FutureTask.java:274)</sentence>
+			<sentence id="1.4">at java.util.concurrent.FutureTask.setException(FutureTask.java:125)</sentence>
+			<sentence id="1.5">at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:308)</sentence>
+			<sentence id="1.6">at java.util.concurrent.FutureTask.run(FutureTask.java:138)</sentence>
+			<sentence id="1.7">at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1088)</sentence>
+			<sentence id="1.8">at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:581)</sentence>
+			<sentence id="1.9">at java.lang.Thread.run(Thread.java:1019)</sentence>
+			<sentence id="1.10">Caused by: java.lang.StackOverflowError</sentence>
+			<sentence id="1.11">at java.io.SequenceInputStream.read(SequenceInputStream.java:201)</sentence>
+			<sentence id="1.12">at java.io.SequenceInputStream.read(SequenceInputStream.java:201)</sentence>
+			<sentence id="1.13">[...]</sentence>
+			<sentence id="1.14">at java.io.SequenceInputStream.read(SequenceInputStream.java:201)</sentence>
+			<sentence id="1.15">at java.io.InputStreamReader.read(InputStreamReader.java:255)</sentence>
+			<sentence id="1.16">at org.kxml2.io.KXmlParser.peek(KXmlParser.java:925)</sentence>
+			<sentence id="1.17">at org.kxml2.io.KXmlParser.peekType(KXmlParser.java:589)</sentence>
+			<sentence id="1.18">at org.kxml2.io.KXmlParser.nextImpl(KXmlParser.java:333)</sentence>
+			<sentence id="1.19">at org.kxml2.io.KXmlParser.next(KXmlParser.java:1378)</sentence>
+			<sentence id="1.20">at org.kxml2.io.KXmlParser.nextTag(KXmlParser.java:1408)</sentence>
+			<sentence id="1.21">at org.xmlrpc.android.XMLRPCClient$Caller.callXMLRPC(XMLRPCClient.java:420)</sentence>
+			<sentence id="1.22">at org.xmlrpc.android.XMLRPCClient$Caller.access$000(XMLRPCClient.java:213)</sentence>
+			<sentence id="1.23">at org.xmlrpc.android.XMLRPCClient.call(XMLRPCClient.java:182)</sentence>
+			<sentence id="1.24">at org.xmlrpc.android.XMLRPCClient.call(XMLRPCClient.java:177)</sentence>
+			<sentence id="1.25">at org.wordpress.android.ui.accounts.SetupBlog.getSelfHostedXmlrpcUrl(SetupBlog.java:185)</sentence>
+			<sentence id="1.26">at org.wordpress.android.ui.accounts.SetupBlog.getBlogList(SetupBlog.java:93)</sentence>
+			<sentence id="1.27">at org.wordpress.android.ui.accounts.WelcomeFragmentSignIn$SetupBlogTask.doInBackground(WelcomeFragmentSignIn.java:381)</sentence>
+			<sentence id="1.28">at org.wordpress.android.ui.accounts.WelcomeFragmentSignIn$SetupBlogTask.doInBackground(WelcomeFragmentSignIn.java:351)</sentence>
+			<sentence id="1.29">at android.os.AsyncTask$2.call(AsyncTask.java:185)</sentence>
+			<sentence id="1.30">at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:306)```</sentence>
+		</paragraph>
+	</description>
+</bug>

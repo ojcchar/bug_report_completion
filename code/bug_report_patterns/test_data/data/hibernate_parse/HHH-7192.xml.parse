@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-7192</id>
+	<title>NullPointerException in QueryTranslatorImpl on erroneously typed delete query</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Calling code:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">val deleteFileQuery = "delete from FileInstanceEntity f where f.uri = 'file:/blah.txt'"
+ em.getTransaction.begin()
+ val q = em.createQuery(deleteFileQuery, classOf[FileInstanceEntity]) // FYI classOf[Foo] is the Scala equivalent of Java's Foo.class --
+ // and it's the presence of this parameter that causes problems
+ q.executeUpdate()
+ em.getTransaction.commit()</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Stack trace:</sentence>
+			<sentence id="3.2"> Exception in thread "main" java.lang.NullPointerException</sentence>
+			<sentence id="3.3"> 	 at org.hibernate.hql.internal.ast.QueryTranslatorImpl.getDynamicInstantiationResultType(QueryTranslatorImpl.java:571)</sentence>
+			<sentence id="3.4"> 	 at org.hibernate.engine.query.spi.HQLQueryPlan.getDynamicInstantiationResultType(HQLQueryPlan.java:340)</sentence>
+			<sentence id="3.5">	 at org.hibernate.ejb.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:313)</sentence>
+			<sentence id="3.6">	 at com.example.JpaEntityTest$.main(JpaEntityTest.scala:178)</sentence>
+		</paragraph>
+	</description>
+</bug>

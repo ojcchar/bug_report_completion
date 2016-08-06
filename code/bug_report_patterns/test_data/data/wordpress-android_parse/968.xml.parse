@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>968</id>
+	<title>Load posts from wpDB method, clean up Post model</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I think one of the causes for #862 was that we are passing a localTableBlogId to the Posts model to load an existing post.</sentence>
+			<sentence id="1.2">There was no currentBlog, so the blogId was set to -1 and 'lost' in the database.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">We should simply pass a local post id to a method in wpDB that will retrieve the post.</sentence>
+			<sentence id="2.2">No need for the 'blogId' or 'isPage' parameters either.</sentence>
+			<sentence id="2.3">We could then remove the constructor in Posts.java that did database work.</sentence>
+		</paragraph>
+	</description>
+</bug>

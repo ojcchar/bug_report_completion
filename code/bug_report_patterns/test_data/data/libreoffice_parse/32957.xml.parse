@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>32957</id>
+	<title>new report through wizard: cancel =&gt; abort/segfault</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 41832
+error message on stderr</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When creating a new report using the wizard, if one clicks the "cancel" button when it asks for the fields (the very first question), the whole of libreoffice aborts and coredumps.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I'm using the Debian package version 1:3.3.0~rc2-3.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Precise instructions to reproduce:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">- open a Base document</sentence>
+			<sentence id="5.2">- click "reports"</sentence>
+			<sentence id="5.3">- click "Use wizard to Create Report"</sentence>
+			<sentence id="5.4">- if prompted for a password, enter it and click OK</sentence>
+			<sentence id="5.5">- now it asks which query/table the report should be based on, and which columns should appear.</sentence>
+			<sentence id="5.6">Just click the "Cancel" button.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">The whole of LibreOffice immediately exits and coredumps.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Expected behaviour: creating the report is cancelled, but LibreOffice continues to work correctly and does not close any other document.</sentence>
+		</paragraph>
+	</description>
+</bug>

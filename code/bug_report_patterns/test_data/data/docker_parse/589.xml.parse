@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>589</id>
+	<title>volumes - nil pointer deref when attempting to use volume with docker</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Docker throws an error when trying to use a volume:</sentence>
+			<sentence id="1.2">client:</sentence>
+			<sentence id="1.3">```</sentence>
+			<sentence id="1.4">docker run -i -v /tmp/test -t ubuntu bash</sentence>
+			<sentence id="1.5">2013/05/12 20:46:58 unexpected EOF</sentence>
+			<sentence id="1.6">```</sentence>
+			<sentence id="1.7">server:</sentence>
+			<sentence id="1.8">```</sentence>
+			<sentence id="1.9">2013/05/12 20:46:58 http: panic serving 127.0.0.1:52464: runtime error: invalid memory address or nil pointer dereference</sentence>
+			<sentence id="1.10">/usr/local/go/src/pkg/net/http/server.</sentence>
+			<sentence id="1.11">go:589 (0x4e3df3)</sentence>
+			<sentence id="1.12">_func_004: buf.Write(debug.Stack())</sentence>
+			<sentence id="1.13">/usr/local/go/src/pkg/runtime/proc.c:1443 (0x4113a8)</sentence>
+			<sentence id="1.14">panic: reflect&#xB7;call(d-&gt;fn, d-&gt;args, d-&gt;siz);</sentence>
+			<sentence id="1.15">/usr/local/go/src/pkg/runtime/runtime.c:128 (0x411f84)</sentence>
+			<sentence id="1.16">panicstring: runtime&#xB7;panic(err);</sentence>
+			<sentence id="1.17">/usr/local/go/src/pkg/runtime/thread_linux.</sentence>
+			<sentence id="1.18">c:199 (0x414e60)</sentence>
+			<sentence id="1.19">sigpanic: runtime&#xB7;panicstring("invalid memory address or nil pointer dereference");</sentence>
+			<sentence id="1.20">/usr/local/go/src/pkg/io/io.go:360 (0x492847)</sentence>
+			<sentence id="1.21">Copy: nr, er := src.Read(buf)</sentence>
+			<sentence id="1.22">/home/bk/go/src/github.</sentence>
+			<sentence id="1.23">com/dotcloud/docker/image.go:79 (0x450eba)</sentence>
+			<sentence id="1.24">com/dotcloud/docker.</sentence>
+			<sentence id="1.25">StoreImage: if _, err := io.Copy(file, layerData); err !</sentence>
+			<sentence id="1.26">= nil {</sentence>
+			<sentence id="1.27">/home/bk/go/src/github.</sentence>
+			<sentence id="1.28">com/dotcloud/docker/graph.go:138 (0x44f2ae)</sentence>
+			<sentence id="1.29">com/dotcloud/docker.</sentence>
+			<sentence id="1.30">(*Graph).</sentence>
+			<sentence id="1.31">Register: if err := StoreImage(img, layerData, tmp, store); err !</sentence>
+			<sentence id="1.32">= nil {</sentence>
+			<sentence id="1.33">/home/bk/go/src/github.</sentence>
+			<sentence id="1.34">com/dotcloud/docker/graph.go:116 (0x44ef19)</sentence>
+			<sentence id="1.35">com/dotcloud/docker.</sentence>
+			<sentence id="1.36">(*Graph).</sentence>
+			<sentence id="1.37">Create: if err := graph.Register(layerData, true, img); err !</sentence>
+			<sentence id="1.38">= nil {</sentence>
+			<sentence id="1.39">/home/bk/go/src/github.</sentence>
+			<sentence id="1.40">com/dotcloud/docker/container.go:428 (0x449af9)</sentence>
+			<sentence id="1.41">com/dotcloud/docker.</sentence>
+			<sentence id="1.42">(*Container).</sentence>
+			<sentence id="1.43">Start: if c, err := container.runtime.volumes.Create(nil, container, "", "", nil); err !</sentence>
+			<sentence id="1.44">= nil {</sentence>
+			<sentence id="1.45">/home/bk/go/src/github.</sentence>
+			<sentence id="1.46">com/dotcloud/docker/server.go:473 (0x468c93)</sentence>
+			<sentence id="1.47">com/dotcloud/docker.</sentence>
+			<sentence id="1.48">(*Server).</sentence>
+			<sentence id="1.49">ContainerStart: if err := container.Start(); err !</sentence>
+			<sentence id="1.50">= nil {</sentence>
+			<sentence id="1.51">/home/bk/go/src/github.</sentence>
+			<sentence id="1.52">com/dotcloud/docker/api.go:457 (0x4311e3)</sentence>
+			<sentence id="1.53">com/dotcloud/docker.</sentence>
+			<sentence id="1.54">postContainersStart: if err := srv.ContainerStart(name); err !</sentence>
+			<sentence id="1.55">= nil {</sentence>
+			<sentence id="1.56">/home/bk/go/src/github.</sentence>
+			<sentence id="1.57">com/dotcloud/docker/api.go:624 (0x46fe07)</sentence>
+			<sentence id="1.58">com/dotcloud/docker.</sentence>
+			<sentence id="1.59">_func_001: if err := localFct(srv, w, r, mux.Vars(r)); err !</sentence>
+			<sentence id="1.60">= nil {</sentence>
+			<sentence id="1.61">/usr/local/go/src/pkg/net/http/server.</sentence>
+			<sentence id="1.62">go:703 (0x4d7c87)</sentence>
+			<sentence id="1.63">HandlerFunc.ServeHTTP: f(w, r)</sentence>
+			<sentence id="1.64">/home/bk/go/src/github.</sentence>
+			<sentence id="1.65">com/gorilla/mux/mux.go:86 (0x4c5c96)</sentence>
+			<sentence id="1.66">com/gorilla/mux.</sentence>
+			<sentence id="1.67">(*Router).</sentence>
+			<sentence id="1.68">ServeHTTP: handler.ServeHTTP(w, req)</sentence>
+			<sentence id="1.69">/usr/local/go/src/pkg/net/http/server.</sentence>
+			<sentence id="1.70">go:669 (0x4d7a9a)</sentence>
+			<sentence id="1.71">(*conn).</sentence>
+			<sentence id="1.72">serve: handler.ServeHTTP(w, w.req)</sentence>
+			<sentence id="1.73">/usr/local/go/src/pkg/runtime/proc.c:271 (0x40f4ae)</sentence>
+			<sentence id="1.74">goexit: runtime&#xB7;goexit(void)</sentence>
+			<sentence id="1.75">```</sentence>
+			<sentence id="1.76">```</sentence>
+			<sentence id="1.77">docker info</sentence>
+			<sentence id="1.78">containers: 5</sentence>
+			<sentence id="1.79">version: 0.3.2</sentence>
+			<sentence id="1.80">images: 54</sentence>
+			<sentence id="1.81">Go version: go1.0.3</sentence>
+			<sentence id="1.82">```</sentence>
+			<sentence id="1.83">```</sentence>
+			<sentence id="1.84">docker version</sentence>
+			<sentence id="1.85">Version: 0.3.2</sentence>
+			<sentence id="1.86">Git Commit: 908e479</sentence>
+			<sentence id="1.87">```</sentence>
+		</paragraph>
+	</description>
+</bug>

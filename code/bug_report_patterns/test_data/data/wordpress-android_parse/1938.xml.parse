@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1938</id>
+	<title>Reader update logic is flawed</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Each time new posts are downloaded the app stores the "before" date from the response, which is passed as the `&amp;after=` param during the next update.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Theoretically that should only get new posts, but if a feed has new posts that haven't been picked up by the feed fetcher yet it may mean those new posts never appear in the app (since they're excluded by the `&amp;after=` param the next time the app performs an update).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Related to this, purging posts should be re-written to discard excess posts on a per-tag basis.</sentence>
+			<sentence id="3.2">This way we can avoid purging "Blogs I Follow" based on faulty followed blog data.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1557</id>
+	<title>docker run: invalid memory address or nil pointer dereference</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">docker version (from the ubuntu ppa on 12.04):
+Client version: 0.5.3
+Server version: 0.5.3
+Go version: go1.1</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Stack trace :</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal 0xb code=0x1 addr=0x0 pc=0x45e467]</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">goroutine 1 [running]:</sentence>
+			<sentence id="4.2">github.com/dotcloud/docker.(*DockerCli).CmdRun(0xc2000d5230, 0xc2000a7020, 0x1c, 0x1c, 0x0, ...)</sentence>
+			<sentence id="4.3">	/build/buildd/lxc-docker-0.5.3/src/github.com/dotcloud/docker/commands.go:1354 +0xe7</sentence>
+			<sentence id="4.4">reflect.Value.call(0x6ba880, 0x758980, 0x130, 0x774c10, 0x9, ...)</sentence>
+			<sentence id="4.5">	/usr/lib/go/src/pkg/reflect/value.go:474 +0xe9f</sentence>
+			<sentence id="4.6">reflect.Value.CallSlice(0x6ba880, 0x758980, 0x130, 0x7f92702d5c28, 0x2, ...)</sentence>
+			<sentence id="4.7">	/usr/lib/go/src/pkg/reflect/value.go:358 +0x9b</sentence>
+			<sentence id="4.8">github.com/dotcloud/docker.ParseCommands(0xc2000d3f60, 0x4, 0xc2000d3f67, 0x14, 0xc2000a7010, ...)</sentence>
+			<sentence id="4.9">	/build/buildd/lxc-docker-0.5.3/src/github.com/dotcloud/docker/commands.go:53 +0x460</sentence>
+			<sentence id="4.10">main.main()</sentence>
+			<sentence id="4.11">	/build/buildd/lxc-docker-0.5.3/src/github.com/dotcloud/docker/docker/docker.go:70 +0x9bc</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">goroutine 3 [syscall]:
+os/signal.</sentence>
+			<sentence id="5.2">loop()
+	/usr/lib/go/src/pkg/os/signal/signal_unix.go:21 +0x1c
+created by os/signal.</sentence>
+			<sentence id="5.3">init&#xB7;1
+	/usr/lib/go/src/pkg/os/signal/signal_unix.go:27 +0x2f</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">goroutine 4 [runnable]:
+text/template/parse.</sentence>
+			<sentence id="6.2">lexText(0xc2000e1100, 0x7ec868)
+	/usr/lib/go/src/pkg/text/template/parse/lex.</sentence>
+			<sentence id="6.3">go:228 +0x361
+text/template/parse.</sentence>
+			<sentence id="6.4">(*lexer).</sentence>
+			<sentence id="6.5">run(0xc2000e1100)
+	/usr/lib/go/src/pkg/text/template/parse/lex.</sentence>
+			<sentence id="6.6">go:198 +0x3e
+created by text/template/parse.</sentence>
+			<sentence id="6.7">lex
+	/usr/lib/go/src/pkg/text/template/parse/lex.</sentence>
+			<sentence id="6.8">go:191 +0x111
+f72c9766fc8f: command not found
+[1]+ Exit 2
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">f72c9766fc8f is my image ID
+the full command was : `sudo docker run -i -t -e /Applications /Library /Network /System /User Information /Users /Volumes /WinMagic /bin /cores /dev /etc /home /installer.failurerequests /net /opt /private /sbin /tmp /usr /var 13 env vars node_modules/ f72c9766fc8f` and the container has a CMD defined</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I only got this result the first time I've run the command, the subsequents ran ok.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">The image was build on this machine prior the build.</sentence>
+		</paragraph>
+	</description>
+</bug>

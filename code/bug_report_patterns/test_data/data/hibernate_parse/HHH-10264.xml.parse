@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-10264</id>
+	<title>hibernate.cache.auto_evict_collection_cache problems</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When I use the auto_evict_collection_cache property and persist a new entity.</sentence>
+			<sentence id="1.2">Hibernate doesn't cache the next read operation.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">e.g.
+Company company = new Company( 1 );
+session.persist(company);</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">company = otherSession.get(Company.class, 1);
+Hibernate.initialize(company.getUsers());</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">After that if I read inside the cachemanager there isn't any value cached</sentence>
+			<sentence id="4.2">session = openSession();
+key = cache.generateCacheKey( 1, persister, sessionFactory(), session.getTenantIdentifier() );
+cachedValue = cache.get( session, key, session.getTimestamp() );
+assertNotNull( "Collection wasn't cached", cachedValue );</sentence>
+		</paragraph>
+	</description>
+</bug>

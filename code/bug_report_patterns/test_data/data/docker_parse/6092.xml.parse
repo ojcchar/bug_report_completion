@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>6092</id>
+	<title>docker run -u occasionally drops you into a container as root.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">docker run with -u usually does the correct thing and drops me into an environment as the target user.</sentence>
+			<sentence id="1.2">In this example we run the _id_ command inside a container to dump the user info:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">eg.</sentence>
+			<sentence id="2.2">```
+# docker run -i -t -u 1000 ubuntu id;
+uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">However, when we run this several times we notice that it occasionally drops the user in as "root".</sentence>
+			<sentence id="3.2">Here is the same command run 25 times. Notice that in certain cases _id_ returns _0_</sentence>
+			<sentence id="3.3">```</sentence>
+			<sentence id="3.4"># for i in {1..25}; do docker run -i -t -u 1000 ubuntu id; done</sentence>
+			<sentence id="3.5">uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.6">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.7">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.8">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.9">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.10">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.11">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.12">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.13">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.14">uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.15">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.16">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.17">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.18">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.19">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.20">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.21">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.22">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.23">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.24">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.25">uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.26">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.27">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.28">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.29">uid=1000 gid=0(root) context=unconfined_u:system_r:initrc_t:s0</sentence>
+			<sentence id="3.30">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I'm wondering if there is a race condition or timing bug being triggered .</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This bug was noticed on a RHEL 6.5 based system (Scientific Linux 6.5)
+with Docker version 0.11.1, build fb99f99/0.11.1</sentence>
+		</paragraph>
+		<paragraph id="6">
+		</paragraph>
+	</description>
+</bug>

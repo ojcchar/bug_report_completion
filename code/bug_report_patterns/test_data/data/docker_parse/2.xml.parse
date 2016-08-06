@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2</id>
+	<title>Whiteouts in layers</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Will layers store whiteouts (a list of files to remove) in addition to added files?</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If I remove /foo in a container, and export those changes into a new layer, what happens when I run a new container using that layer?</sentence>
+			<sentence id="2.2">Either a) /foo will be present (whiteouts are not stored in the layer), or b) /foo will not be present (whiteouts are stored in the layer).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Question 1: are whiteouts needed?</sentence>
+			<sentence id="3.2">Are certain use cases only possible with whiteouts?</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Question 2: if we do need whiteouts in layer, what format should we use?</sentence>
+			<sentence id="4.2">We could use AUFS's convention - effectively making aufs part of the api, instead of just an implementation detail.</sentence>
+			<sentence id="4.3">Do we want that?</sentence>
+		</paragraph>
+	</description>
+</bug>

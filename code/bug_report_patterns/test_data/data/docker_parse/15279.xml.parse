@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>15279</id>
+	<title>does not build with Go 1.5 tip</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```shellsession</sentence>
+			<sentence id="1.2">---&gt; Making bundle: dynbinary (in bundles/1.8.0-dev/dynbinary)</sentence>
+			<sentence id="1.3">Created binary: bundles/1.8.0-dev/dynbinary/dockerinit-1.8.0-dev</sentence>
+			<sentence id="1.4">Building: bundles/1.8.0-dev/dynbinary/docker-1.8.0-dev</sentence>
+			<sentence id="1.5"># github.com/docker/docker/pkg/devicemapper</sentence>
+			<sentence id="1.6">.</sentence>
+			<sentence id="1.7">gopath/src/github.</sentence>
+			<sentence id="1.8">com/docker/docker/pkg/devicemapper/devmapper_wrapper.go:191: Cdeps.device undefined (type *C.struct_dm_deps has no field or method device)</sentence>
+			<sentence id="1.9">```</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This is the fault of https://github.com/golang/go/commit/7904946eeb35faece61bbf6f5b3cc8be2f519c17, which is one of those "well, someone has to be broken" fixes.</sentence>
+		</paragraph>
+	</description>
+</bug>

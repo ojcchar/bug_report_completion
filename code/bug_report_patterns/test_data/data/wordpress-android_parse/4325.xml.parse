@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4325</id>
+	<title>Post auto-save mechanism</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Based on a discussion here #4240, I thought it could be useful to have a separate thread about the new auto-saving mechanism, because there a few open questions.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">#### Conclusion from our discussion on Slack</sentence>
+			<sentence id="2.2">1 We ditch the Save alert dialog</sentence>
+			<sentence id="2.3">2 On editor exit, a Snackbar is displayed with a timeout, when users can discard the changes</sentence>
+			<sentence id="2.4">3 If a user reverts the changes, all local changes are discarded.</sentence>
+			<sentence id="2.5">Otherwise, after the timeout the post gets uploaded (if a device is offline, changes are saved locally)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Imagine a scenario: I have a draft post both online and in my phone.</sentence>
+			<sentence id="3.2">I make some changes but since the phone is offline the changes are saved locally.</sentence>
+			<sentence id="3.3">Later someone makes changes on the website.</sentence>
+			<sentence id="3.4">Because the app ignores updates on posts with local changes, I'll never see this new draft on my phone.</sentence>
+			<sentence id="3.5">After I make additional changes on the phone, the post gets uploaded and overwrites the previous changes.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">So my question is -- Is there a way to detect remote changes and shouldn't we tell the users about it?</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">CC: @hypest, @diegoreymendez, @nbradbury, @maxme</sentence>
+		</paragraph>
+	</description>
+</bug>

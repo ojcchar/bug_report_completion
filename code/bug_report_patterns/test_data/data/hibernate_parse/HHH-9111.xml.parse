@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9111</id>
+	<title>NamedNativeQuerys are not cacheable</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">i tried to use hibernate query cache to cache a long running SQL-Statement like this: 
+@NamedNativeQuery(name="Position.countDistinctUrls",
+		query="SELECT count(distinct a.url) as counturls FROM( "+
+		 "SELECT distinct tera.url "+
+		 "FROM seostar_teradata tera " +
+		 "WHERE tera.datum&lt;=:dateTo AND tera.datum&gt;=:dateFrom "+
+			 "AND tera.url like :url AND tera.keyword like :keyword "+
+		 "UNION " +
+		 "SELECT distinct pos.url "+
+		 "FROM seostar_position pos " +
+		 "WHERE pos.valid_from &lt;= :dateTo AND pos.valid_to &gt;= :dateFrom "+
+			 "AND pos.url like :url AND pos.keyword like :keyword "+
+	 	 ")a",resultSetMapping="DistinctUrls")</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In my DAO I added hints to this Query:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@Override
+	public Long countDistinctUrls(String urlFilter, String keywordFilter,
+			Date from, Date to) {</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">urlFilter = StringUtils.escapeSQL(urlFilter).</sentence>
+			<sentence id="5.2">toLowerCase();
+	 keywordFilter = StringUtils.escapeSQL(keywordFilter);
+	 
+	 Query query= getEntityManager().</sentence>
+			<sentence id="5.3">createNamedQuery("Position.countDistinctUrls");
+	 query.setHint(QueryHints.HINT_CACHEABLE, true);
+	 query.setHint(QueryHints.HINT_READONLY, true);
+	 query.setParameter("url", urlFilter);
+	 query.setParameter("keyword", keywordFilter);
+	 query.setParameter("dateFrom", from);
+	 query.setParameter("dateTo", to);
+	 
+	 Object result = query.getSingleResult();	 
+		
+		return ((BigInteger)result).</sentence>
+			<sentence id="5.4">longValue();
+	}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Without using a SqlResultSetMapping it's not even possible to write the Data into the Cache.</sentence>
+			<sentence id="6.2">Exception is:
+java.lang.IllegalStateException: aliases expected length is 0; actual length is 3</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Setting SqlResultSetMapping to</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">@SqlResultSetMapping(
+	 name="TrendbyFilter",
+	 columns={@ColumnResult(name="pos",type=BigInteger.class),
+	 		 @ColumnResult(name="weight",type=BigInteger.class),
+	 @ColumnResult(name="urlkeywords",type=String.class)}</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">)</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">writing into Cache works, but reading from it doesn't!</sentence>
+			<sentence id="10.2">And thats the point where I'm not able to fix this any more.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">If you look how the NamedQueryRepository gets filled you'll see that the type value of all NativeSQLQueryScalarReturn-Objects always is null.</sentence>
+			<sentence id="11.2">The Type of @ColumnResult never gets used here.</sentence>
+			<sentence id="11.3">And that's why the CacheableResultTransformer throws a NullPointerException when trying to untransform.</sentence>
+		</paragraph>
+	</description>
+</bug>

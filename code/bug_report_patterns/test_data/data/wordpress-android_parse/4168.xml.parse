@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4168</id>
+	<title>Crash report alpha-12: ClassCastException FrameLayout$LayoutParams </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">User comment: Crash when opening a notification from the notification list</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">Fatal Exception: java.lang.ClassCastException: android.widget.FrameLayout$LayoutParams cannot be cast to android.widget.AbsListView$LayoutParams</sentence>
+			<sentence id="2.3"> at android.widget.ListView.clearRecycledState(ListView.java:560)</sentence>
+			<sentence id="2.4"> at android.widget.ListView.resetList(ListView.java:547)</sentence>
+			<sentence id="2.5"> at android.widget.ListView.layoutChildren(ListView.java:1535)</sentence>
+			<sentence id="2.6"> at android.widget.AbsListView.onLayout(AbsListView.java:2723)</sentence>
+			<sentence id="2.7"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.8"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.9"> at android.widget.LinearLayout.setChildFrame(LinearLayout.java:1742)</sentence>
+			<sentence id="2.10"> at android.widget.LinearLayout.layoutVertical(LinearLayout.java:1585)</sentence>
+			<sentence id="2.11"> at android.widget.LinearLayout.onLayout(LinearLayout.java:1494)</sentence>
+			<sentence id="2.12"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.13"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.14"> at android.widget.RelativeLayout.onLayout(RelativeLayout.java:1080)</sentence>
+			<sentence id="2.15"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.16"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.17"> at android.widget.LinearLayout.setChildFrame(LinearLayout.java:1742)</sentence>
+			<sentence id="2.18"> at android.widget.LinearLayout.layoutVertical(LinearLayout.java:1585)</sentence>
+			<sentence id="2.19"> at android.widget.LinearLayout.onLayout(LinearLayout.java:1494)</sentence>
+			<sentence id="2.20"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.21"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.22"> at android.widget.FrameLayout.layoutChildren(FrameLayout.java:344)</sentence>
+			<sentence id="2.23"> at android.widget.FrameLayout.onLayout(FrameLayout.java:281)</sentence>
+			<sentence id="2.24"> at android.widget.ScrollView.onLayout(ScrollView.java:2402)</sentence>
+			<sentence id="2.25"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.26"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.27"> at android.widget.RelativeLayout.onLayout(RelativeLayout.java:1080)</sentence>
+			<sentence id="2.28"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.29"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.30"> at android.widget.FrameLayout.layoutChildren(FrameLayout.java:344)</sentence>
+			<sentence id="2.31"> at android.widget.FrameLayout.onLayout(FrameLayout.java:281)</sentence>
+			<sentence id="2.32"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.33"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.34"> at android.widget.FrameLayout.layoutChildren(FrameLayout.java:344)</sentence>
+			<sentence id="2.35"> at android.widget.FrameLayout.onLayout(FrameLayout.java:281)</sentence>
+			<sentence id="2.36"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.37"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.38"> at android.support.v7.widget.ActionBarOverlayLayout.onLayout(ActionBarOverlayLayout.java:435)</sentence>
+			<sentence id="2.39"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.40"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.41"> at android.widget.FrameLayout.layoutChildren(FrameLayout.java:344)</sentence>
+			<sentence id="2.42"> at android.widget.FrameLayout.onLayout(FrameLayout.java:281)</sentence>
+			<sentence id="2.43"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.44"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.45"> at android.widget.LinearLayout.setChildFrame(LinearLayout.java:1742)</sentence>
+			<sentence id="2.46"> at android.widget.LinearLayout.layoutVertical(LinearLayout.java:1585)</sentence>
+			<sentence id="2.47"> at android.widget.LinearLayout.onLayout(LinearLayout.java:1494)</sentence>
+			<sentence id="2.48"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.49"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.50"> at android.widget.FrameLayout.layoutChildren(FrameLayout.java:344)</sentence>
+			<sentence id="2.51"> at android.widget.FrameLayout.onLayout(FrameLayout.java:281)</sentence>
+			<sentence id="2.52"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.53"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.54"> at android.widget.FrameLayout.layoutChildren(FrameLayout.java:344)</sentence>
+			<sentence id="2.55"> at android.widget.FrameLayout.onLayout(FrameLayout.java:281)</sentence>
+			<sentence id="2.56"> at com.android.internal.policy.PhoneWindow$DecorView.onLayout(PhoneWindow.java:3193)</sentence>
+			<sentence id="2.57"> at android.view.View.layout(View.java:17938)</sentence>
+			<sentence id="2.58"> at android.view.ViewGroup.layout(ViewGroup.java:5812)</sentence>
+			<sentence id="2.59"> at android.view.ViewRootImpl.performLayout(ViewRootImpl.java:2666)</sentence>
+			<sentence id="2.60"> at android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:2367)</sentence>
+			<sentence id="2.61"> at android.view.ViewRootImpl.doTraversal(ViewRootImpl.java:1437)</sentence>
+			<sentence id="2.62"> at android.view.ViewRootImpl$TraversalRunnable.run(ViewRootImpl.java:7414)</sentence>
+			<sentence id="2.63"> at android.view.Choreographer$CallbackRecord.run(Choreographer.java:920)</sentence>
+			<sentence id="2.64"> at android.view.Choreographer.doCallbacks(Choreographer.java:695)</sentence>
+			<sentence id="2.65"> at android.view.Choreographer.doFrame(Choreographer.java:631)</sentence>
+			<sentence id="2.66"> at android.view.Choreographer$FrameDisplayEventReceiver.run(Choreographer.java:906)</sentence>
+			<sentence id="2.67"> at android.os.Handler.handleCallback(Handler.java:739)</sentence>
+			<sentence id="2.68"> at android.os.Handler.dispatchMessage(Handler.java:95)</sentence>
+			<sentence id="2.69"> at android.os.Looper.loop(Looper.java:158)</sentence>
+			<sentence id="2.70"> at android.app.ActivityThread.main(ActivityThread.java:7224)</sentence>
+			<sentence id="2.71"> at java.lang.reflect.Method.invoke(Method.java)</sentence>
+			<sentence id="2.72"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1230)</sentence>
+			<sentence id="2.73"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1120)</sentence>
+			<sentence id="2.74">```</sentence>
+		</paragraph>
+	</description>
+</bug>

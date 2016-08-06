@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>99567</id>
+	<title>Wrong appdata.xml id</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">For "*" in "base", "calc", "draw", etc., in each of the sysui/desktop/appstream-appdata/libreoffice-*.</sentence>
+			<sentence id="1.2">appdata.xml files (which are then copied to their target locations via sysui/desktop/share/create_tree.</sentence>
+			<sentence id="1.3">sh), the id element is hardcoded as</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;id&gt;libreoffice-*.</sentence>
+			<sentence id="2.2">desktop&lt;/id&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">while the .</sentence>
+			<sentence id="3.2">desktop file symlinks that are created via sysui/destop/share/create_tree.</sentence>
+			<sentence id="3.3">sh have pathnames of the form</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">.../share/applications/&lt;PREFIX&gt;-*.</sentence>
+			<sentence id="4.2">desktop</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">where "&lt;PREFIX&gt;" is e.g. "libreoffice5.2" or "libreofficedev5.2" for a current master build (depending on --enable-release-build).</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">However, given &lt;https://people.freedesktop.org/~hughsient/appdata/#id&gt; and &lt;https://specifications.freedesktop.org/desktop-entry-spec/1.1/ape.html&gt; "E. Desktop File ID", it looks more plausible that .</sentence>
+			<sentence id="6.2">appdata.xml id elements should match the names of the .</sentence>
+			<sentence id="6.3">desktop file, e.g., be of the form</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;id&gt;libreoffice5.2-*.</sentence>
+			<sentence id="7.2">desktop&lt;/id&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">resp.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">&lt;id&gt;libreofficedev5.2-*.</sentence>
+			<sentence id="9.2">desktop&lt;/id&gt;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">for a current master build (depening on --enable-release-build).</sentence>
+		</paragraph>
+	</description>
+</bug>

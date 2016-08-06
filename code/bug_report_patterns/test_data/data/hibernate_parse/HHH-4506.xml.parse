@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4506</id>
+	<title>query parser did not detect "Duplicate definition of alias"</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">the following query is a valid query</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">select child from Child child, Parent parent join parent.children as child</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">in my opinion this should create a QuerySyntaxException of "Duplicate definition of alias"</sentence>
+		</paragraph>
+	</description>
+</bug>

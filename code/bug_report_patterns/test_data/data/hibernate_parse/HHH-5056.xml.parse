@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5056</id>
+	<title>Criteria API with ProjectionList and Unique result</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">when you make a select statement with Criteria API &amp; use ProjectionList to retrieve some columns then use the unique result
+make at least 2 projection list (2 columns or more)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">ProjectionList projectionList = Projections.projectionList()			.</sentence>
+			<sentence id="2.2">add(Projections.property("ColumnA"))					.</sentence>
+			<sentence id="2.3">add(Projections.property("ColumnB"));
+criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">the result must be retrieved in 2 dimensional array of Object(Object[][])
+but the result are one dimensional array with one column only.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Note:- when you remove the unique result it works fine but when you add it, it make this behavior.</sentence>
+		</paragraph>
+	</description>
+</bug>

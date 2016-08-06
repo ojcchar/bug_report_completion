@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2170</id>
+	<title>Stats: Should we fall back to using URL when loading blog preview of private blogs, or HTTP protected blogs</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Some wp.com users have a primary site marked as private, so the Reader API will receive a 403 as response code (ex: https://public-api.wordpress.com/rest/v1/sites/kevinjmorrisuk.wordpress.com ) and the UI shows a simple error message "Unable to show this blog" in a Toast.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">!</sentence>
+			<sentence id="2.2">[screen shot 2015-01-14 at 00 26 55](https://cloud.githubusercontent.com/assets/518232/5731470/0f29d898-9b84-11e4-9d4c-bdb56a283d17.png)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I don't have much control over the Reader Blog Preview page from Stats, so it's hard for me to do something if an error occurs in the Reader.</sentence>
+			<sentence id="3.2">Should we modify the Blog preview page, and open the blog URL in the in-app browser when something is wrong with the REST API call?</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I bet we have the same issue on self-hosted blog that are HTTP password protected.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">/cc @nbradbury @roundhill</sentence>
+		</paragraph>
+	</description>
+</bug>

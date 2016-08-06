@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4592</id>
+	<title>Method getIdentityInsertString needed in InformixDialect</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Adding a row to a table with only one column of type SERIAL8 generates the query "INSERT INTO table_name VALUES ( )".</sentence>
+			<sentence id="1.2">Correct syntax for this is "INSERT INTO table_name VALUES (0)" in Informix.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Adding this in InformixDialect.java fixes this problem:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">public String getIdentityInsertString() {
+	return "0";
+}</sentence>
+		</paragraph>
+	</description>
+</bug>

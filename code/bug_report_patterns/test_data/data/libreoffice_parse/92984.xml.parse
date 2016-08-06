@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>92984</id>
+	<title>FILESAVE: Modifying and saving existing CSV does not warn about only saving active sheet</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Description:
+If you open an existing csv file, create a new sheet, and then do a simple save, you will be encouraged to save as a ods, but will not receive the warning about it only saving the active sheet.</sentence>
+			<sentence id="1.2">You should always be warned on file-save when you are only saving the active sheet.</sentence>
+			<sentence id="1.3">The appropriate warning is seen if you use a "Save as..." instead.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps to reproduce:</sentence>
+			<sentence id="2.2">* Open an existing csv</sentence>
+			<sentence id="2.3">* Create a new sheet</sentence>
+			<sentence id="2.4">* Key some data on the new sheet</sentence>
+			<sentence id="2.5">* Ctrl-s (prompts to save as ods or keep it as csv)</sentence>
+			<sentence id="2.6">* Choose "Use Text CSV Format" and click OK</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Expected:
+When saving a csv, you should always get a prompt saying that you are only saving the active sheet.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Actual:
+LibreOffice simply saves the active sheet, discarding the rest of the spreadsheet with no complaints.</sentence>
+			<sentence id="4.2">Also, any further attempts to save no longer give any prompts to save as ods or warnings that you are only saving the current sheet.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Notes:
+If you repeat the steps above and use "Save as..." instead of a normal save, the appropriate prompt IS displayed:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">"Warning saving the document test:
+Only the active sheet was saved."</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Again, this prompt should ALWAYS be displayed when saving a multi-sheet spreadsheet as a csv.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I guess one could argue that the user was forced to choose csv over ods at least once, but I know people who have lost work because of this bug.</sentence>
+			<sentence id="8.2">As I mentioned above, after that initial decision, any subsequent saves go through without any warnings.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I've tested this behavior on versions going back to OpenOffice 3.2.1, so I'll set it as "Inherited from OOo."</sentence>
+			<sentence id="9.2">These tests were performed using 64bit Fedora 21.</sentence>
+			<sentence id="9.3">I also tested and can confirm this bug in LO 4.4.4.3 and LO 5.0.0.4.</sentence>
+		</paragraph>
+	</description>
+</bug>

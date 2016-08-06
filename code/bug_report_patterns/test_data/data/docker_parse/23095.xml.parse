@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>23095</id>
+	<title>Docker sends SIGTERM to systemd-journald (and causes a soft-reboot)?</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Something is happening when I try to stop containers on a 16.04 VM.</sentence>
+			<sentence id="1.2">I lose my ssh session, my tmux session and the machine "soft reboots".</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">`docker version`:
+```
+Client:
+ Version: 1.10.3
+ API version: 1.22
+ Go version: go1.6.1
+ Git commit: 20f81dd
+ Built: Wed, 20 Apr 2016 14:19:16 -0700
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Server:
+ Version: 1.10.3
+ API version: 1.22
+ Go version: go1.6.1
+ Git commit: 20f81dd
+ Built: Wed, 20 Apr 2016 14:19:16 -0700
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">`docker info`:
+```
+Containers: 16
+ Running: 0
+ Paused: 0
+ Stopped: 16
+Images: 15
+Server Version: 1.10.3
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 68
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Logging Driver: json-file
+Plugins:
+ Volume: local
+ Network: host bridge null
+Kernel Version: 4.4.0-22-generic
+Operating System: Ubuntu 16.04 LTS
+OSType: linux
+Architecture: x86_64
+CPUs: 1
+Total Memory: 3.359 GiB
+Name: master
+ID: KSVP:ECEP:LOQS:3YWO:WBWU:PSK4:5TGO:FSSS:2WYA:6RZM:OVJV:CCS6
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This is on an Ubuntu 16.04 VM in Azure.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="6.2">1 Use kubelet with cbr0 mode</sentence>
+			<sentence id="6.3">2 Start some containers</sentence>
+			<sentence id="6.4">3 Kill those containers</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">**Describe the results you received:**</sentence>
+			<sentence id="7.2">Docker seems to fail to stop the containers.</sentence>
+			<sentence id="7.3">Next in the logs is something indicating that `docker` sent SIGTERM to `systemd-journald`:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">```
+May 29 22:13:57 master systemd-journald[64414]: Journal stopped
+May 29 22:13:57 master systemd-journald[2398]: Runtime journal (/run/log/journal/) is 34.4M, max 34.3M, 0B free.</sentence>
+			<sentence id="8.2">May 29 22:13:57 master systemd-journald[64414]: Received SIGTERM from PID 943 (docker).</sentence>
+			<sentence id="8.3">```</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">* [This is `sudo journalctl -f | tee journal.log` right before I deleted the containers](https://gist.githubusercontent.com/anonymous/fe72ad251ad5c6ffa2b5de1d35266def/raw/18d4b65f93fa3b3e0761fb1db4a378ef7d8f2fe6/journal.log).</sentence>
+			<sentence id="10.2">The output stops whenever things go south... so you can correlate with</sentence>
+			<sentence id="10.3">* [The full log journal](https://gist.githubusercontent.com/anonymous/16e84686164eb30106e9be3df7e94183/raw/7be120462ed92464c3328bc81f50fe75f4775c35/journal_full.log)</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">The relevant section:</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">```</sentence>
+			<sentence id="12.2">May 29 22:13:56 master kernel: eth0: renamed from vethd82d06e</sentence>
+			<sentence id="12.3">May 29 22:13:56 master kernel: IPv6: ADDRCONF(NETDEV_CHANGE): veth1386aab: link becomes ready</sentence>
+			<sentence id="12.4">May 29 22:13:56 master kernel: cbr0: port 4(veth1386aab) entered forwarding state</sentence>
+			<sentence id="12.5">May 29 22:13:56 master kernel: cbr0: port 4(veth1386aab) entered forwarding state</sentence>
+			<sentence id="12.6">May 29 22:13:56 master docker[943]: time="2016-05-29T22:13:56.448536888Z" level=warning msg="Error getting v2 registry: Get https://registry-1.docker.io/v2/: dial tcp 52.203.89.113:443: connect: network is unreachable"</sentence>
+			<sentence id="12.7">May 29 22:13:56 master kernel: device veth842eb8f entered promiscuous mode</sentence>
+			<sentence id="12.8">May 29 22:13:56 master kernel: IPv6: ADDRCONF(NETDEV_UP): veth842eb8f: link is not ready</sentence>
+			<sentence id="12.9">May 29 22:13:56 master kernel: cbr0: port 8(veth842eb8f) entered forwarding state</sentence>
+			<sentence id="12.10">May 29 22:13:56 master kernel: cbr0: port 8(veth842eb8f) entered forwarding state</sentence>
+			<sentence id="12.11">May 29 22:13:56 master systemd-udevd[2199]: Could not generate persistent MAC address for veth842eb8f: No such file or directory</sentence>
+			<sentence id="12.12">May 29 22:13:56 master systemd-udevd[2262]: Could not generate persistent MAC address for veth57870ea: No such file or directory</sentence>
+			<sentence id="12.13">May 29 22:13:56 master kernel: device veth1335787 entered promiscuous mode</sentence>
+			<sentence id="12.14">May 29 22:13:56 master systemd-udevd[2264]: Could not generate persistent MAC address for veth1335787: No such file or directory</sentence>
+			<sentence id="12.15">May 29 22:13:56 master kernel: IPv6: ADDRCONF(NETDEV_UP): veth1335787: link is not ready</sentence>
+			<sentence id="12.16">May 29 22:13:56 master kernel: cbr0: port 11(veth1335787) entered forwarding state</sentence>
+			<sentence id="12.17">May 29 22:13:56 master kernel: cbr0: port 11(veth1335787) entered forwarding state</sentence>
+			<sentence id="12.18">May 29 22:13:57 master kernel: cbr0: port 8(veth842eb8f) entered disabled state</sentence>
+			<sentence id="12.19">May 29 22:13:57 master kernel: cbr0: port 11(veth1335787) entered disabled state</sentence>
+			<sentence id="12.20">May 29 22:13:57 master kernel: eth0: renamed from vetheb5efdc</sentence>
+			<sentence id="12.21">May 29 22:13:57 master kernel: IPv6: ADDRCONF(NETDEV_CHANGE): veth842eb8f: link becomes ready</sentence>
+			<sentence id="12.22">May 29 22:13:57 master kernel: cbr0: port 8(veth842eb8f) entered forwarding state</sentence>
+			<sentence id="12.23">May 29 22:13:57 master kernel: cbr0: port 8(veth842eb8f) entered forwarding state</sentence>
+			<sentence id="12.24">May 29 22:13:57 master kernel: eth0: renamed from veth57870ea</sentence>
+			<sentence id="12.25">May 29 22:13:57 master kernel: IPv6: ADDRCONF(NETDEV_CHANGE): veth1335787: link becomes ready</sentence>
+			<sentence id="12.26">May 29 22:13:57 master kernel: cbr0: port 11(veth1335787) entered forwarding state</sentence>
+			<sentence id="12.27">May 29 22:13:57 master kernel: cbr0: port 11(veth1335787) entered forwarding state</sentence>
+			<sentence id="12.28">May 29 22:13:57 master docker[943]: time="2016-05-29T22:13:57.650521456Z" level=info msg="Container 2d77443ef5362361e8102211b85e4663d6f91b5fd49d786dabd7bbabe3f96740 failed to exit within 2 seconds of SIGTERM - using the force"</sentence>
+			<sentence id="12.29">May 29 22:13:57 master docker[943]: time="2016-05-29T22:13:57.651441861Z" level=info msg="Container f41bca579433fd4ba9d63690ba7fb10b468081f541efb569dfabd72daa70e261 failed to exit within 2 seconds of SIGTERM - using the force"</sentence>
+			<sentence id="12.30">May 29 22:13:57 master docker[943]: time="2016-05-29T22:13:57.713825681Z" level=info msg="Container 0062afb8c56d78758e068985e59f7f69b1bc9b880573d20e9f51083ccab9487a failed to exit within 2 seconds of SIGTERM - using the force"</sentence>
+			<sentence id="12.31">May 29 22:13:57 master docker[943]: time="2016-05-29T22:13:57.718193803Z" level=info msg="Container a120c3e472f8145db61c0f1f9d21301822781a2dcd914e02d2080335e8935c20 failed to exit within 2 seconds of SIGTERM - using the force"</sentence>
+			<sentence id="12.32">May 29 22:13:57 master systemd-journald[64414]: Journal stopped</sentence>
+			<sentence id="12.33">May 29 22:13:57 master systemd-journald[2398]: Runtime journal (/run/log/journal/) is 34.4M, max 34.3M, 0B free.</sentence>
+			<sentence id="12.34">May 29 22:13:57 master systemd-journald[64414]: Received SIGTERM from PID 943 (docker).</sentence>
+			<sentence id="12.35">May 29 22:13:57 master systemd[1]: Started Login Service.</sentence>
+			<sentence id="12.36">May 29 22:13:57 master systemd[1]: systemd-timesyncd.service: Service has no hold-off time, scheduling restart.</sentence>
+			<sentence id="12.37">May 29 22:13:57 master systemd[1]: systemd-logind.service: Service has no hold-off time, scheduling restart.</sentence>
+			<sentence id="12.38">May 29 22:13:57 master systemd[1]: getty@tty1.service: Service has no hold-off time, scheduling restart.</sentence>
+			<sentence id="12.39">May 29 22:13:57 master systemd[1]: systemd-udevd.service: Service has no hold-off time, scheduling restart.</sentence>
+			<sentence id="12.40">May 29 22:13:57 master systemd[1]: systemd-journald.service: Service has no hold-off time, scheduling restart.</sentence>
+			<sentence id="12.41">May 29 22:13:57 master kernel: cbr0: port 10(veth625bdc9) entered disabled state</sentence>
+			<sentence id="12.42">May 29 22:13:57 master kernel: cbr0: port 9(vethda8ad51) entered disabled state</sentence>
+			<sentence id="12.43">May 29 22:13:57 master kernel: device vethda8ad51 left promiscuous mode</sentence>
+			<sentence id="12.44">May 29 22:13:57 master kernel: cbr0: port 9(vethda8ad51) entered disabled state</sentence>
+			<sentence id="12.45">May 29 22:13:57 master kernel: cbr0: port 11(veth1335787) entered disabled state</sentence>
+			<sentence id="12.46">May 29 22:13:57 master kernel: cbr0: port 8(veth842eb8f) entered disabled state</sentence>
+			<sentence id="12.47">May 29 22:13:57 master kernel: cbr0: port 4(veth1386aab) entered disabled state</sentence>
+			<sentence id="12.48">May 29 22:13:57 master kernel: cbr0: port 7(vethc9a4089) entered disabled state</sentence>
+			<sentence id="12.49">May 29 22:13:57 master kernel: device veth1335787 left promiscuous mode</sentence>
+			<sentence id="12.50">May 29 22:13:57 master kernel: cbr0: port 11(veth1335787) entered disabled state</sentence>
+			<sentence id="12.51">May 29 22:13:57 master kernel: device veth842eb8f left promiscuous mode</sentence>
+			<sentence id="12.52">May 29 22:13:57 master kernel: cbr0: port 8(veth842eb8f) entered disabled state</sentence>
+			<sentence id="12.53">May 29 22:13:57 master kernel: device veth1386aab left promiscuous mode</sentence>
+			<sentence id="12.54">May 29 22:13:57 master kernel: cbr0: port 4(veth1386aab) entered disabled state</sentence>
+			<sentence id="12.55">May 29 22:13:57 master kernel: device vethc9a4089 left promiscuous mode</sentence>
+			<sentence id="12.56">May 29 22:13:57 master kernel: cbr0: port 7(vethc9a4089) entered disabled state</sentence>
+			<sentence id="12.57">May 29 22:13:57 master systemd[1]: unscd.service: Service hold-off time over, scheduling restart.</sentence>
+			<sentence id="12.58">May 29 22:13:57 master systemd[1]: walinuxagent.service: Service hold-off time over, scheduling restart.</sentence>
+			<sentence id="12.59">May 29 22:13:57 master systemd[1]: Stopped Azure Linux Agent.</sentence>
+			<sentence id="12.60">May 29 22:13:57 master systemd[1]: Started Azure Linux Agent.</sentence>
+			<sentence id="12.61">May 29 22:13:57 master systemd[1]: Stopped Name Service Cache Daemon.</sentence>
+			<sentence id="12.62">May 29 22:13:57 master systemd[1]: Started Name Service Cache Daemon.</sentence>
+			<sentence id="12.63">May 29 22:13:57 master systemd[1]: Stopped Flush Journal to Persistent Storage.</sentence>
+			<sentence id="12.64">May 29 22:13:57 master systemd[1]: Stopping Flush Journal to Persistent Storage...</sentence>
+			<sentence id="12.65">May 29 22:13:57 master systemd[1]: Stopped Journal Service.</sentence>
+			<sentence id="12.66">May 29 22:13:57 master systemd[1]: Starting Journal Service...</sentence>
+			<sentence id="12.67">May 29 22:13:57 master systemd[1]: Stopped udev Kernel Device Manager.</sentence>
+			<sentence id="12.68">May 29 22:13:57 master systemd[1]: Starting udev Kernel Device Manager...</sentence>
+			<sentence id="12.69">May 29 22:13:57 master systemd[1]: Stopped Getty on tty1.</sentence>
+			<sentence id="12.70">May 29 22:13:57 master systemd[1]: Started Getty on tty1.</sentence>
+			<sentence id="12.71">May 29 22:13:57 master systemd[1]: Stopped Login Service.</sentence>
+			<sentence id="12.72">May 29 22:13:57 master systemd[1]: Starting Login Service...</sentence>
+			<sentence id="12.73">May 29 22:13:57 master systemd[1]: Stopped Network Time Synchronization.</sentence>
+			<sentence id="12.74">May 29 22:13:57 master systemd[1]: Starting Network Time Synchronization...</sentence>
+			<sentence id="12.75">May 29 22:13:57 master systemd[1]: Starting OpenBSD Secure Shell server...</sentence>
+			<sentence id="12.76">May 29 22:13:57 master systemd[1]: serial-getty@ttyS0.service: Service hold-off time over, scheduling restart.</sentence>
+			<sentence id="12.77">May 29 22:13:57 master systemd-journald[2398]: Journal started</sentence>
+			<sentence id="12.78">```</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">These things jumped out as being suspicious:</sentence>
+			<sentence id="13.2">* `May 29 22:13:56 master kernel: eth0: renamed from vethd82d06e`</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">* `May 29 22:13:56 master docker[943]: time="2016-05-29T22:13:56.448536888Z" level=warning msg="Error getting v2 registry: Get https://registry-1.docker.io/v2/: dial tcp 52.203.89.113:443: connect: network is unreachable"`</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1440</id>
+	<title>Order-by mapping with table per subclass issue</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have 2 classes:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Class Foo
+{
+ int id;
+ int age;
+}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Class Bar extends Foo
+{
+ int type;
+}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Bar is mapped using tabel per subclass so we end with 2 tables
+table foo(int id,int age)
+table bar (foo int,type int)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">So far so good, then i have another class which hold a set of Bar and i would like to map this set with an explicit sql ordering with order-by attribute:
+order-by="age"</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Hib will produce an error because the table bar does not have any age attribute.</sentence>
+			<sentence id="6.2">While i understand that the order-by works with SQL directly, i think hibernate could easily make this work.</sentence>
+		</paragraph>
+	</description>
+</bug>

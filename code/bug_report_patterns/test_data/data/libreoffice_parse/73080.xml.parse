@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>73080</id>
+	<title>COUNTBLANK counts formula with reference to blank cell</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Make sure B2 is empty, that means, that it does not contain any content.</sentence>
+			<sentence id="1.2">Write the formula =B2 into cell B3
+Write the formula =COUNTBLANK(B2:B3) into cell A1.</sentence>
+			<sentence id="1.3">Expected result: A1 shows number 1.</sentence>
+			<sentence id="1.4">Seen result: A1 shows number 2.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The content of cell B3 is a formula, therefore it is not empty and may not be counted.</sentence>
+			<sentence id="2.2">The specification only allows the exception, that a cell, which contains a zero-length string, may be counted by COUNTBLANK.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Apache OpenOffice, Gnumeric, and Excel does not count cell B3 and return 1 in the example given above.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Suggestion: LibreOffice does not count cell which has a formula that refers an empty cell.</sentence>
+		</paragraph>
+	</description>
+</bug>

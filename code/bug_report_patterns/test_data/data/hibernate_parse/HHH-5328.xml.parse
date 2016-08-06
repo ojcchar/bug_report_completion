@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5328</id>
+	<title>Equality check on a natural-id that references other entities</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have the following entity mapping:
+{code:xml}
+&lt;class name="ch.ims.cufa.data.model.SystemSettingImpl" table="TB_SystemSetting"&gt; 
+ &lt;id name="id" type="string" column="id" length="32"&gt; 
+ &lt;generator class="uuid.hex"/&gt; 
+ &gt;/id&lt; 
+ &lt;natural-id mutable="true"&gt; 
+ &lt;many-to-one name="orgCanton" class="ch.ims.cufa.data.model.OrgCantonImpl" cascade="none" lazy="false" foreign-key="FK_A_OrgCanto_SysSetti" unique="true"&gt; 
+ &lt;column name="COL_orgCanton" not-null="true"&gt;
+ &lt;/column&gt; 
+ &lt;/many-to-one&gt; 
+ &lt;/natural-id&gt;
+ &lt;/class&gt; 
+&lt;/hibernate-mapping&gt;
+{code}</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Updating fails because hibernate invokes the equals() method on OrgCantonImpl but as the parameter it sends the id of the Object to compare, which returns always false.</sentence>
+			<sentence id="2.2">This ends up in an exception: immutable natural identifier was modified...</sentence>
+		</paragraph>
+	</description>
+</bug>

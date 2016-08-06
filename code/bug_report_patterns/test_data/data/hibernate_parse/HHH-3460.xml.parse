@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3460</id>
+	<title>HQL problem with property-ref (example bidirectional one to one)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Consider
+	&lt;class name="Car"&gt;
+		&lt;id name="id"/&gt;
+		&lt;many-to-one name="engine" column="engine_id" unique="true"/&gt;
+	&lt;/class&gt;
+	
+	&lt;class name="Engine"&gt;
+		&lt;id name="id"/&gt;
+		&lt;one-to-one name="car" property-ref="engine"/&gt;
+	&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">SELECT DISTINCT car FROM Engine engine, Car car 
+WHERE engine = car.engine
+Works fine</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">BUT</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">SELECT DISTINCT engine FROM Engine engine, Car car
+WHERE engine.car = car</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">doesn't work</sentence>
+		</paragraph>
+	</description>
+</bug>

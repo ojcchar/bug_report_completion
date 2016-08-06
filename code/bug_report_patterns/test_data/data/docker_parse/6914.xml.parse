@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>6914</id>
+	<title>Sometimes this error occurs: Abort due to constraint violation: constraint failed </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Host: Centos 6.5 (uptodate) with docker-io-1.0.0-3.</sentence>
+			<sentence id="1.2">el6.x86_64
+Docker images: Centos based (uptodate)
+Selinux is enabled</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This error is repeatable, occurs on image running and image building</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Image executed</sentence>
+			<sentence id="3.2">--</sentence>
+			<sentence id="3.3">2014/07/08 22:27:13 POST /v1.12/containers/create</sentence>
+			<sentence id="3.4">[3168a6a8] +job create()</sentence>
+			<sentence id="3.5">[3168a6a8] -job create() = OK (0)</sentence>
+			<sentence id="3.6">2014/07/08 22:27:14 POST /v1.12/containers/8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4/attach?</sentence>
+			<sentence id="3.7">stderr=1&amp;stdin=1&amp;stdout=1&amp;stream=1</sentence>
+			<sentence id="3.8">[3168a6a8] +job container_inspect(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4)</sentence>
+			<sentence id="3.9">[3168a6a8] -job container_inspect(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4) = OK (0)</sentence>
+			<sentence id="3.10">[3168a6a8] +job attach(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4)</sentence>
+			<sentence id="3.11">2014/07/08 22:27:14 POST /v1.12/containers/8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4/start</sentence>
+			<sentence id="3.12">[3168a6a8] +job start(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4)</sentence>
+			<sentence id="3.13">[3168a6a8] +job allocate_interface(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4)</sentence>
+			<sentence id="3.14">[3168a6a8] -job allocate_interface(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4) = OK (0)</sentence>
+			<sentence id="3.15">[3168a6a8] -job start(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4) = OK (0)</sentence>
+			<sentence id="3.16">[3168a6a8] +job release_interface(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4)</sentence>
+			<sentence id="3.17">[3168a6a8] -job release_interface(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4) = OK (0)</sentence>
+			<sentence id="3.18">2014/07/08 22:27:17 POST /v1.12/containers/8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4/wait</sentence>
+			<sentence id="3.19">[3168a6a8] +job wait(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4)</sentence>
+			<sentence id="3.20">[3168a6a8] -job attach(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4) = OK (0)</sentence>
+			<sentence id="3.21">[3168a6a8] -job wait(8caaf4816b6973891c6f94ccecc138bf809b5fa88e4bba4b321a8e02e755a1a4) = OK (0)</sentence>
+			<sentence id="3.22">2014/07/08 22:27:19 POST /v1.12/containers/create</sentence>
+			<sentence id="3.23">[3168a6a8] +job create()</sentence>
+			<sentence id="3.24">Abort due to constraint violation: constraint failed</sentence>
+			<sentence id="3.25">[3168a6a8] -job create() = ERR (1)</sentence>
+			<sentence id="3.26">[error] server.go:1025 Error: Abort due to constraint violation: constraint failed</sentence>
+			<sentence id="3.27">[error] server.go:90 HTTP Error: statusCode=500 Abort due to constraint violation: constraint failed</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Image builded</sentence>
+			<sentence id="4.2">--</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1"> 2014/07/08 22:34:35 POST /build?rm=1&amp;t=something%2Ffoo</sentence>
+			<sentence id="5.2"> [3168a6a8] +job build()</sentence>
+			<sentence id="5.3"> [3168a6a8] +job allocate_interface(bded05e1c2df6f3e6541868ea94a00a598bb4111c676d094665f28f85d07e28f)</sentence>
+			<sentence id="5.4"> [3168a6a8] -job allocate_interface(bded05e1c2df6f3e6541868ea94a00a598bb4111c676d094665f28f85d07e28f) = OK (0)</sentence>
+			<sentence id="5.5"> [3168a6a8] +job release_interface(bded05e1c2df6f3e6541868ea94a00a598bb4111c676d094665f28f85d07e28f)</sentence>
+			<sentence id="5.6"> [3168a6a8] -job release_interface(bded05e1c2df6f3e6541868ea94a00a598bb4111c676d094665f28f85d07e28f) = OK (0)</sentence>
+			<sentence id="5.7"> [3168a6a8] +job allocate_interface(1c7f8cdd1f4da7806d76675f24f2d871e6d3f56231e904ec5d838d993620fc5a)</sentence>
+			<sentence id="5.8"> [3168a6a8] -job allocate_interface(1c7f8cdd1f4da7806d76675f24f2d871e6d3f56231e904ec5d838d993620fc5a) = OK (0)</sentence>
+			<sentence id="5.9"> [3168a6a8] +job release_interface(1c7f8cdd1f4da7806d76675f24f2d871e6d3f56231e904ec5d838d993620fc5a)</sentence>
+			<sentence id="5.10"> [3168a6a8] -job release_interface(1c7f8cdd1f4da7806d76675f24f2d871e6d3f56231e904ec5d838d993620fc5a) = OK (0)</sentence>
+			<sentence id="5.11"> Abort due to constraint violation: constraint failed</sentence>
+			<sentence id="5.12"> [3168a6a8] -job build() = ERR (1)</sentence>
+		</paragraph>
+	</description>
+</bug>

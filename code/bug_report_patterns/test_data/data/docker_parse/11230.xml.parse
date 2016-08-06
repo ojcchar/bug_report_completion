@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>11230</id>
+	<title>docs/base image not updated during make docs</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I just noticed that `make docs` doesn't make sure that the latest image for the [docs/base](https://registry.hub.docker.com/u/docs/base/builds_history/147632/) image is pulled, causing http://docs.docker.com and http://docs.master.dockerproject.com to use an older version of the stylesheet(s).</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I'm not sure if this is something to be fixed in the https://github.com/docker/docs-base (explicitly tagging releases) or in the Makefile (always perform a `docker pull`).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">ping @SvenDowideit (I think)</sentence>
+		</paragraph>
+	</description>
+</bug>

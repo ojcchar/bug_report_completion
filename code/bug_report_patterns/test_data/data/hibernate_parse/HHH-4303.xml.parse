@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4303</id>
+	<title>@NotFound( action = NotFoundAction.IGNORE ) doesn't behave as expected.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This scenario causes still results in an ENFE when applied to the method.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+@PrimaryKeyJoinColumn
+@NotFound( action = NotFoundAction.IGNORE )
+public X get()</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Invoking this method can still result in an ENFE being raised??</sentence>
+			<sentence id="3.2">Is there specific cases I should know about when this works and does not work?</sentence>
+			<sentence id="3.3">It isn't documented.</sentence>
+		</paragraph>
+	</description>
+</bug>

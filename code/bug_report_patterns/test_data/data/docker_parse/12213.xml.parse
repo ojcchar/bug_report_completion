@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12213</id>
+	<title>Proposal: detect invalid --log-driver on daemon start, noplogger</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">If I start a daemon like `docker -d --log-driver=bazinga` it just starts fine but the container creation fails.</sentence>
+			<sentence id="1.2">I think that's a bad idea and daemon shouldn't start in the first place.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">We defer the check until the container creation, and we have no factories for building Logger objects.</sentence>
+			<sentence id="2.2">(We just have a simple switch/case.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">We also use `nil` in case of `--log-driver=none`.</sentence>
+			<sentence id="3.2">IMO that's a bad idea and can easily lead to null reference panics.</sentence>
+			<sentence id="3.3">I'm planning to refactor that as well into a `noplogger` package with [null object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">LMK if you have any objections asap.</sentence>
+			<sentence id="4.2">@LK4D4 @crosbymichael 
+Followup to #7195, #10568.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>62032</id>
+	<title>Outline numbering doesn't work when defined in Paragraph Styles</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 76173
+Proof of concept of the issue</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Consider the attached file, where we have a Heading 1 (H1), a Heading 2 (H2) and a Heading 3 (H3).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">One of the ways to define numberings (the only way if you intend to create a style template that you can then apply to existing documents) is do the following:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">1 Tools-Outline numbering: Set "paragraph style" to (none) in first 3 levels</sentence>
+			<sentence id="4.2">2 Styles &amp; formatting - list styles: use Numbering 1 to define your numbering style</sentence>
+			<sentence id="4.3">3 Styles &amp; formatting - Paragraph styles: Change H1,H2,H3.</sentence>
+			<sentence id="4.4">Outline &amp; numbering tab - set "numbering style" to Numbering 1 and Outline Level to 1,2 an 3 respectively.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Expected:
+With these settings, you'd expect the following numbering:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">1 Heading 1</sentence>
+			<sentence id="6.2">1 1 Heading 2</sentence>
+			<sentence id="6.3">1 1.1 Heading 3</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Actual:</sentence>
+			<sentence id="7.2">1 Heading 1</sentence>
+			<sentence id="7.3">2 Heading 2</sentence>
+			<sentence id="7.4">3 Heading 3</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">You can confirm this in the attachment, where the proof is even more evident because I set the prefix XX to Level 1 in the style Numbering 1.</sentence>
+			<sentence id="8.2">It should be applied to H1 only, but it's being applied to H1,H2 and H3!</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7623</id>
+	<title>Running with volumes inherited multiple times fails with ".../rootfs/dev/log: no such file or directory"</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Running the commands below with Docker 1.1.2 reproduces the issue every time:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+$ docker run -v /dev/log:/dev/log --name test1 centos:centos6 true
+$ docker run --volumes-from test1 --name test2 centos:centos6 true
+$ docker run --volumes-from test2 --name test3 centos:centos6 true
+2014/08/19 15:29:59 Error response from daemon: Cannot start container 4bf2d8a5969c3d9b3893ff6a89d7f8cac96573aca832c5a9b67078783d5f93c8: stat /var/lib/docker/devicemapper/mnt/23cef764aeed262d2118571fe5b211e823380f257824129367ed0f519df50c90/rootfs/dev/log: no such file or directory
+```
+Expected outcome was that the container would start normally and inherit the `/dev/log` volume.</sentence>
+			<sentence id="2.2">This issue does not occur in Docker 1.0.0 so it seems to be a regression.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Versions:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+$ docker version
+Client version: 1.1.2
+Client API version: 1.13
+Go version (client): go1.2.2
+Git commit (client): d84a070/1.1.2
+Server version: 1.1.2
+Server API version: 1.13
+Go version (server): go1.2.2
+Git commit (server): d84a070/1.1.2</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">$ docker -D info
+Containers: 3
+Images: 94
+Storage Driver: devicemapper
+ Pool Name: docker-253:0-263417-pool
+ Data file: /var/lib/docker/devicemapper/devicemapper/data
+ Metadata file: /var/lib/docker/devicemapper/devicemapper/metadata
+ Data Space Used: 1533.8 Mb
+ Data Space Total: 102400.0 Mb
+ Metadata Space Used: 3.4 Mb
+ Metadata Space Total: 2048.0 Mb
+Execution Driver: native-0.2
+Kernel Version: 2.6.32-431.</sentence>
+			<sentence id="5.2">el6.x86_64
+Debug mode (server): false
+Debug mode (client): true
+Fds: 11
+Goroutines: 11
+EventsListeners: 0
+Init SHA1: 808ba4d09a4b931f5f745154bea886f252a1aef4
+Init Path: /usr/libexec/docker/dockerinit
+Sockets: [unix:///var/run/docker.</sentence>
+			<sentence id="5.3">sock]</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">$ uname -a
+Linux localhost.localdomain 2.6.32-431.</sentence>
+			<sentence id="6.2">el6.x86_64 #1 SMP Fri Nov 22 03:15:09 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">$ cat /etc/centos-release 
+CentOS release 6.5 (Final)
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

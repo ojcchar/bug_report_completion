@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-6484</id>
+	<title>Replacing an entity on a one-to-one delete-orphan association with a new instance does not delete the previous one</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">On {{DeleteOneToOneOrphansTest}}, setting {{Employee.employeeInfo}} to a new {{EmployeeInfo}} instance (instead of setting it to {{null}}) doesn't trigger the deletion of the old {{employeeInfo}} raising a {{ConstraintViolationException}}.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Please refer to the attached test suite patch.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This is somewhat related to HHH-4726.</sentence>
+		</paragraph>
+	</description>
+</bug>

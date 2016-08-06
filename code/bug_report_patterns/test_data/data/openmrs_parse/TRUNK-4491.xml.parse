@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-4491</id>
+	<title>Duration term for minutes and months conflict</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The duration term for months doesn't get inserted when the set database collation is case insensitive, apparently the code for minutes and months are the same except that they are of different cases, therefore the precondition to insert months fails since it perfoms a case insensitive check for the existence of the term.</sentence>
+			<sentence id="1.2">The quick solution for this is to check by uuid for existence of the term in the preconditions.</sentence>
+			<sentence id="1.3">With that said, concept reference term validator doesn't allow terms with the same code in the same concept source.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">TODOs:
+Chosen solution at https://notes.openmrs.org/Design-Forum-2014-09-17</sentence>
+		</paragraph>
+	</description>
+</bug>

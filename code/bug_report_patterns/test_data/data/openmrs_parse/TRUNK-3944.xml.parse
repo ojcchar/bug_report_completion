@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3944</id>
+	<title>Incorrect mockito, hamcrest and junit dependencies</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We incorrectly include mockito-all, hamcrest-all and junit dependencies, all of which contain hamcrest classes.</sentence>
+			<sentence id="1.2">It causes problems in modules, which want to use different versions.</sentence>
+			<sentence id="1.3">We should be including mockito-core and junit 4.11, which only declare a depencency on hamcrest-core.</sentence>
+		</paragraph>
+	</description>
+</bug>

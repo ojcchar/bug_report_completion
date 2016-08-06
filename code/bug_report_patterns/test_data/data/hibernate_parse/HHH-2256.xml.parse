@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-2256</id>
+	<title>inner join created for not-null="false" many-to-one property</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hibernate generates an inner join when a nullable many-to-one property is specified in the ORDER BY clause of an HQL statement.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If the property specified in the ORDER BY statement is nullable, then Hibernate should generate an OUTER JOIN to allow nulls in the result set.</sentence>
+			<sentence id="2.2">Instead, for whatever reason, Hibernate put's the property's table in the FROM clause, and JOINS the records with the parent table using a WHERE condition, which is basically an INNER JOIN.</sentence>
+			<sentence id="2.3">By performing the join this way, records with null values in the property being sorted upon are excluded from the query result set when they shouldn't be.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I also tried adding hibernate-mapping/class/many-to-one/@outer-join="true", and Hibernate generated the same SQL (inner join).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Example HQL: from Staff order by state.name</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">state is a many-to-one not-null="false" property of Staff.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Here's the SQL I expected to be generated:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">select 
+ ...
+from
+ STAFF staff0_
+ left outer join STATE state1_ on staff0_.</sentence>
+			<sentence id="7.2">STATE_ID = state1_.</sentence>
+			<sentence id="7.3">STATE_ID
+order by
+ state1_.</sentence>
+			<sentence id="7.4">STATE_NAME asc</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Here's the SQL that Hibernate generated:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">select 
+ ...
+from
+ STAFF staff0_,
+ State state1_
+where
+ staff0_.</sentence>
+			<sentence id="9.2">STATE_ID = state1_.</sentence>
+			<sentence id="9.3">STATE_ID
+order by
+ state1_.</sentence>
+			<sentence id="9.4">STATE_NAME asc</sentence>
+		</paragraph>
+	</description>
+</bug>

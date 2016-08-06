@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4810</id>
+	<title>Persistent immutable and read-only entities are updated before being deleted</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Read-only and immutable entities that are in persistent state when deleted are updated before being deleted.</sentence>
+			<sentence id="1.2">Read-only and immutable entities that are detached when deleted are not updated before being deleted.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In the following examples, Contract is an immutable class.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Example 1: Immutable entity is updated with the same property values as just read</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">s = openSession();
+t = s.beginTransaction();
+c = (Contract) s.get( Contract.class, c.getId() );
+s.delete(c);
+t.commit();
+s.close();</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Hibernate: update Contract set customerName=?</sentence>
+			<sentence id="5.2">, type=?</sentence>
+			<sentence id="5.3">where id=?</sentence>
+			<sentence id="5.4">17:59:32,640 TRACE StringType:151 - binding 'gavin' to parameter: 1
+17:59:32,640 TRACE StringType:151 - binding 'phone' to parameter: 2
+17:59:32,641 TRACE LongType:151 - binding '1' to parameter: 3</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">... (immutable collection, Contract.getVariations() is also updated and deleted)</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Hibernate: delete from Contract where id=?</sentence>
+			<sentence id="7.2">17:59:32,654 TRACE LongType:151 - binding '1' to parameter: 1</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">-------------------------------------------------------------------------</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Example 2: Immutable entity is updated with a new property value before being deleted</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">s = openSession();
+t = s.beginTransaction();
+c = (Contract) s.get( Contract.class, c.getId() );
+c.setCustomerName( "Sherman" );
+s.delete(c);
+t.commit();
+s.close();</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Hibernate: update Contract set customerName=?</sentence>
+			<sentence id="11.2">, type=?</sentence>
+			<sentence id="11.3">where id=?</sentence>
+			<sentence id="11.4">17:59:33,221 TRACE StringType:151 - binding 'Sherman' to parameter: 1
+17:59:33,221 TRACE StringType:151 - binding 'phone' to parameter: 2
+17:59:33,222 TRACE LongType:151 - binding '6' to parameter: 3
+... (immutable collection, Contract.getVariations() is also updated and deleted)
+Hibernate: delete from Contract where id=?</sentence>
+			<sentence id="11.5">17:59:33,242 TRACE LongType:151 - binding '6' to parameter: 1</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Example 3: No update when the immutable entity is detached when it is deleted.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">s = openSession();
+t = s.beginTransaction();
+s.delete( c );
+t.commit();
+s.close();</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">... (immutable collection, Contract.getVariations() is deleted)
+Hibernate: delete from Contract where id=?</sentence>
+			<sentence id="14.2">17:59:33,337 TRACE LongType:151 - binding '8' to parameter: 1</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3585</id>
+	<title>Add in-memory developer database</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When a developer runs mvn jetty:run in the webapp folder, there should be an in-memory database that is created/cached/used, etc.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If it is fast enough, by default a new db should be used every time someone executes jetty:run.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">If the user passes in a flag to jetty:run specifying the foldername for the files, the in-memory db could reuse that (or create a new if it isn't there)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">See conversation here: http://listarchives.openmrs.org/In-memory-database-for-development-mode-td5459996.html</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The OpenMRS Standalone uses an in-memory mysql instance.</sentence>
+			<sentence id="5.2">Perhaps this is the solution instead of going with h2?</sentence>
+		</paragraph>
+	</description>
+</bug>

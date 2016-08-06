@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>6612</id>
+	<title>Docker containers don't run when `WORKDIR` path contains symlink</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">### Meta
+Docker v1.0.0, boot2docker v1.0.0, OSX 10.9.3</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Related to #4873</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">### Issue</sentence>
+			<sentence id="3.2">An image built with this `Dockerfile`:</sentence>
+			<sentence id="3.29">```docker
+FROM ubuntu:14.04</sentence>
+			<sentence id="3.30">RUN mkdir /tmp/destination
+RUN ln -s /tmp/destination /tmp/link</sentence>
+			<sentence id="3.3">WORKDIR /tmp/link</sentence>
+			<sentence id="3.4">CMD ["echo", "hello"]</sentence>
+			<sentence id="3.5">```</sentence>
+			<sentence id="3.6">won't run:</sentence>
+			<sentence id="3.7">```bash</sentence>
+			<sentence id="3.8">$ docker build --tag=symlink_test .</sentence>
+			<sentence id="3.9">Sending build context to Docker daemon 2.56 kB</sentence>
+			<sentence id="3.10">Sending build context to Docker daemon</sentence>
+			<sentence id="3.11">Step 0 : FROM ubuntu:14.04</sentence>
+			<sentence id="3.12">---&gt; ad892dd21d60</sentence>
+			<sentence id="3.13">Step 1 : RUN mkdir /tmp/destination</sentence>
+			<sentence id="3.14">---&gt; Using cache</sentence>
+			<sentence id="3.15">---&gt; eeeacda26ad8</sentence>
+			<sentence id="3.16">Step 2 : RUN ln -s /tmp/destination /tmp/link</sentence>
+			<sentence id="3.17">---&gt; Using cache</sentence>
+			<sentence id="3.18">---&gt; acc8fe6ef6cb</sentence>
+			<sentence id="3.19">Step 3 : WORKDIR /tmp/link</sentence>
+			<sentence id="3.20">---&gt; Using cache</sentence>
+			<sentence id="3.21">---&gt; fc839c4a4ede</sentence>
+			<sentence id="3.22">Step 4 : CMD ["echo", "hello"]</sentence>
+			<sentence id="3.23">---&gt; Using cache</sentence>
+			<sentence id="3.24">---&gt; 3a109a5a716c</sentence>
+			<sentence id="3.25">Successfully built 3a109a5a716c</sentence>
+			<sentence id="3.26">$ docker run symlink_test</sentence>
+			<sentence id="3.27">2014/06/23 10:16:21 Error: Cannot start container 12f72168bd29cfcc3b8fe39a945b4660bddd23a0d5579022e0703198f338fa8a: mkdir /mnt/sda1/var/lib/docker/aufs/mnt/12f72168bd29cfcc3b8fe39a945b4660bddd23a0d5579022e0703198f338fa8a/tmp/link: file exists</sentence>
+			<sentence id="3.28">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Changing the ``WORKDIR`` path to the symlink destination fixes this issue.</sentence>
+		</paragraph>
+	</description>
+</bug>

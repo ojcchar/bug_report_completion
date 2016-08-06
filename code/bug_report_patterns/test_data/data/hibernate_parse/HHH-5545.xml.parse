@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5545</id>
+	<title>Resolve query cache results not up to date testsuite failures</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">BasicTransactionalTestCase.testQueryCache and testQueryCacheHitInSameTransaction are randomly giving failures due to persist and queries happening within 100ms, which the update timestamps considers the cache query results not to be up to date.</sentence>
+			<sentence id="1.2">Adding a small delay in between persist and query to get around this issue.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The underlying problem of persist/query false misses has been discussed in a couple of previous occasions, see: http://lists.jboss.org/pipermail/hibernate-dev/2010-January/004744.html
+HHH-4551 and HHH-4577 are related to this.</sentence>
+		</paragraph>
+	</description>
+</bug>

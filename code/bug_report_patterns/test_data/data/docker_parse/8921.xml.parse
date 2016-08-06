@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8921</id>
+	<title>Include More Information in Daemon Logs</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Recently at work was prompted at work to tail the docker daemon logs to investigate an condition (which was sorted out) I had the daemon running on `debug` mode and I found some information missing that could have been useful in debugging, to explain what I mean let me elaborate:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Our Docker use case can be termed as command and control where we have a set of master instances talking to a bunch of minions who instruct the minions to perform image/container management (pull, push, start, kill) to aid, debug and potentially leave a log-trail of command origin it will be very useful to list the source of the command to the docker daemon for example current daemon logs look like:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">!</sentence>
+			<sentence id="3.2">[image](https://cloud.githubusercontent.com/assets/311217/4878297/474f709e-6307-11e4-8604-ddd648c1bc29.png)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">These log fragments provide what command was executed but does not provide clue about its origin as in whether it came from localhost or remote host.</sentence>
+			<sentence id="4.2">I also saw that the future releases will contain a enhanced and a more parsable log format #8761 which is awesome but I feel that providing the source where the command came from will be useful as well in establishing an log-trail about container management.</sentence>
+		</paragraph>
+	</description>
+</bug>

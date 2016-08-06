@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5378</id>
+	<title>3.5.3: @OrderColumn not updated when inserting</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm having an abstract entity class "AbstractKunde" und a derived class "Privatkunde" (see below).</sentence>
+			<sentence id="1.2">AbstractKunde references one-to-many the entity class "Bestellung" and also defines @OrderColumn.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">However, when I create a new Bestellung object, then the column for @OrderColumn isn't updated.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">@Entity
+@Table(name = "kunde")
+@Inheritance
+@DiscriminatorColumn(name = "art", length = 1)
+...
+public abstract class AbstractKunde implements java.io.Serializable {
+...
+	@OneToMany(mappedBy = "kunde")
+	@OrderColumn(name = "idx")
+	private List&lt;Bestellung&gt; bestellungen;
+...
+}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@Entity
+@Table(name = "bestellung")
+...
+public class Bestellung implements java.io.Serializable {
+...
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "kunde_fk")
+	@NotNull(message = "{bestellverwaltung.bestellung.kunde.notNull}")
+	private AbstractKunde kunde;
+...
+}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">@Entity
+@DiscriminatorValue("P")
+public class Privatkunde extends AbstractKunde {
+...
+}</sentence>
+		</paragraph>
+	</description>
+</bug>

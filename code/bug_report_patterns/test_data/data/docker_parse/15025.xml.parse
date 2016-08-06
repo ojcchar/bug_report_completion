@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>15025</id>
+	<title>Flexible images with ONBUILD and ENV</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">According to the [docs](https://docs.docker.com/reference/builder/#onbuild) ENV is not supported with ONBUILD commands in dockerfiles.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The use case is to allow a child images to configure some options in the parent is so that you can reduce boilerplate and allow base images to be standalone and inheritable (as a template).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">example: 
+```
+ENV PROJECT_NAME
+ENV PORT 80</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">RUN mkdir -p /opt/enigma/$PROJECT_NAME/server
+RUN ln -s /opt/enigma/$PROJECT_NAME/ /$PROJECT_NAME
+COPY scripts/*.</sentence>
+			<sentence id="5.2">sh 	 /opt/enigma/$PROJECT_NAME/
+COPY scripts/$PROJECT_NAME-vhost.</sentence>
+			<sentence id="5.3">conf /etc/httpd/conf.</sentence>
+			<sentence id="5.4">d/
+RUN sed -i "s#\$PORT#$PORT#" /etc/httpd/conf.</sentence>
+			<sentence id="5.5">d/$PROJECT_NAME-vhost.</sentence>
+			<sentence id="5.6">conf 
+RUN chmod +x start.sh</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">VOLUME /$PROJECT_NAME</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">EXPOSE 22 $PORT 443 9000
+```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">There are 4 options here:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">1 build the base image first with the correct `-e` parameters and then target that build in your child dockerfile</sentence>
+			<sentence id="9.2">2 copy that boilerplate and change it in each child dockerfile, also removing it from the parent, which effectively makes the parent useless on its own.</sentence>
+			<sentence id="9.3">3 allow ENV substitution in ONBUILD which will allow the template to be used as is by specifying a project name, or as a parent by overriding the PROJECT_NAME env variable.</sentence>
+			<sentence id="9.4">4 extract most of the boilerplate into a shell script and explicitly call it with parameters in the child dockerfile, but that still leaves EXPOSE and VOLUME that need to be called in the child dockerfile.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">None of these are ideal, but do work as workarounds, the issues are:</sentence>
+			<sentence id="10.2">1 2 stage build process (error prone if you aren't careful, makes development environments annoying)</sentence>
+			<sentence id="10.3">2 duplication of code</sentence>
+			<sentence id="10.4">3 ideal - not possible</sentence>
+			<sentence id="10.5">4 bypasses the point of the dockerfile IMHO.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Disclaimer: this is purely a usability concern, in that i haven't thought of the technical implications.</sentence>
+		</paragraph>
+	</description>
+</bug>

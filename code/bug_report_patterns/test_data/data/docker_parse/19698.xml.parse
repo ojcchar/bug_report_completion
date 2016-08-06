@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19698</id>
+	<title>"Version-free" method to get container id inside container</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Inspired by comments of this answer: http://stackoverflow.com/a/25729598</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Problem: get container ID inside of this container
+It would be nice use the same method across different docker server versions.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">My current solution is:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```bash
+cat /proc/self/cgroup | grep docker | grep -o -E '[0-9a-f]{64}' | head -n 1
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I created this issue to find more "versionless" method</sentence>
+		</paragraph>
+	</description>
+</bug>

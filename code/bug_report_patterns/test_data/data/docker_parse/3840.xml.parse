@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>3840</id>
+	<title>docker diff/commit doesn't handle mounts in container right</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">As we noticed in https://github.com/dotcloud/docker/pull/3718 the current "docker diff" fallback operation (used on devmapper and btrfs, but not on aufs) is currently showing a lot of extra changes when run on a container that is still running.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The reason for this is that the diff operation (runtime.Changes()) compares the directory returned by the grapdriver.Get() call with the init layer.</sentence>
+			<sentence id="2.2">On the devicemapper backend, this means comparing:
+`/var/lib/docker/devicemapper/mnt/&lt;id&gt;/rootfs` with `/var/lib/docker/devicemapper/mnt/&lt;id&gt;-init/rootfs`</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">On an exited container this is not a problem, but on a running container we're actually using `/var/lib/docker/devicemapper/mnt/&lt;id&gt;/rootfs` as the root of the container filesystem, meaning we have other mounts there, like e.g.:
+` /var/lib/docker/devicemapper/mnt/&lt;id&gt;/rootfs/.</sentence>
+			<sentence id="3.2">dockerinit`, *plus* any volumes mounted in the contaner, which the diff operation will pick up.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Initially I thought we could make the diff command just not traverse into other mounts, but it turns out that this is not really good for two reasons:</sentence>
+			<sentence id="4.2">* Any mount will cover the underlying data, so we can't detect changes there</sentence>
+			<sentence id="4.3">* Its impossible to detect bind mounts from the same device via stat(), so in cases where the container root is on the host root fs (vfs driver, first layer in aufs, btrfs driver, etc) we can't see which files are mounts.</sentence>
+		</paragraph>
+	</description>
+</bug>

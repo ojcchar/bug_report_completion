@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-7311</id>
+	<title>NullPointerException if TenantConnectionProvider class does not exist</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Im using schema based multi tenancy.</sentence>
+			<sentence id="1.2">If i define a "hibernate.multi_tenant_connection_provider" which classfile does not exist in persistence.xml, a NullPointerException come up:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;property name="hibernate.multi_tenant_connection_provider" value="com.xoricon.framework.server.jpa.tenant.TenantConnectionProvider"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Class "com.xoricon.framework.server.jpa.tenant.TenantConnectionProvider" does not exist on classpath.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Result:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">1 testTreeOrder(com.xoricon.persistence.bo.multitenancy.test.SchemaBasedMultiTenancyTest)java.lang.NullPointerException</sentence>
+			<sentence id="5.2">	at org.hibernate.engine.jdbc.internal.JdbcServicesImpl$MultiTenantConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcServicesImpl.java:260)</sentence>
+			<sentence id="5.3">	at org.hibernate.engine.jdbc.internal.JdbcServicesImpl.configure(JdbcServicesImpl.java:117)</sentence>
+			<sentence id="5.4">	at org.hibernate.service.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:75)</sentence>
+			<sentence id="5.5">	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:159)</sentence>
+			<sentence id="5.6">	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:131)</sentence>
+			<sentence id="5.7">	at org.hibernate.cfg.SettingsFactory.buildSettings(SettingsFactory.java:71)</sentence>
+			<sentence id="5.8">	at org.hibernate.cfg.Configuration.buildSettingsInternal(Configuration.java:2274)</sentence>
+			<sentence id="5.9">	at org.hibernate.cfg.Configuration.buildSettings(Configuration.java:2270)</sentence>
+			<sentence id="5.10">	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1739)</sentence>
+			<sentence id="5.11">	at org.hibernate.ejb.EntityManagerFactoryImpl.&lt;init&gt;(EntityManagerFactoryImpl.java:93)</sentence>
+			<sentence id="5.12">	at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:905)</sentence>
+			<sentence id="5.13">	at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:890)</sentence>
+			<sentence id="5.14">	at org.hibernate.ejb.HibernatePersistence.createEntityManagerFactory(HibernatePersistence.java:57)</sentence>
+			<sentence id="5.15">	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:48)</sentence>
+			<sentence id="5.16">	at com.xoricon.persistence.bo.test.AbstractTestCase.getEntityManagerFactory(AbstractTestCase.java:45)</sentence>
+			<sentence id="5.17">	at com.xoricon.persistence.bo.multitenancy.test.SchemaBasedMultiTenancyTest.testTreeOrder(SchemaBasedMultiTenancyTest.java:42)</sentence>
+			<sentence id="5.18">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="5.19">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="5.20">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="5.21">	at com.xoricon.persistence.bo.multitenancy.test.SchemaBasedMultiTenancyTest.main(SchemaBasedMultiTenancyTest.java:53)</sentence>
+		</paragraph>
+	</description>
+</bug>

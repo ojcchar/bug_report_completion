@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22963</id>
+	<title>racy test: daemon/logger: TestCopier, awslogs.TestCollectBatchMaxTotalBytes</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="1.2">Execute `BUILDFLAGS=-race make test-unit`</sentence>
+			<sentence id="1.3">(Tested on 29dbcbad878483d9239d6a432c85620aced895c4)</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">**Describe the results you received:**</sentence>
+			<sentence id="2.2">```</sentence>
+			<sentence id="2.3">==================</sentence>
+			<sentence id="2.4">WARNING: DATA RACE</sentence>
+			<sentence id="2.5">Write by goroutine 8:</sentence>
+			<sentence id="2.6">bytes.</sentence>
+			<sentence id="2.7">(*Buffer).</sentence>
+			<sentence id="2.8">Write()</sentence>
+			<sentence id="2.9">/usr/local/go/src/bytes/buffer.</sentence>
+			<sentence id="2.10">go:130 +0x4b</sentence>
+			<sentence id="2.11">encoding/json.</sentence>
+			<sentence id="2.12">(*Encoder).</sentence>
+			<sentence id="2.13">Encode()</sentence>
+			<sentence id="2.14">/usr/local/go/src/encoding/json/stream.go:201 +0x232</sentence>
+			<sentence id="2.15">github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="2.16">(*TestLoggerJSON).</sentence>
+			<sentence id="2.17">Log()</sentence>
+			<sentence id="2.18">/go/src/github.</sentence>
+			<sentence id="2.19">com/docker/docker/daemon/logger/copier_test.go:20 +0xbb</sentence>
+			<sentence id="2.20">github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="2.21">(*Copier).</sentence>
+			<sentence id="2.22">copySrc()</sentence>
+			<sentence id="2.23">github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:67 +0x7bb</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Previous write by goroutine 9:
+ bytes.</sentence>
+			<sentence id="3.2">(*Buffer).</sentence>
+			<sentence id="3.3">Write()
+ /usr/local/go/src/bytes/buffer.</sentence>
+			<sentence id="3.4">go:130 +0x4b
+ encoding/json.</sentence>
+			<sentence id="3.5">(*Encoder).</sentence>
+			<sentence id="3.6">Encode()
+ /usr/local/go/src/encoding/json/stream.go:201 +0x232
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="3.7">(*TestLoggerJSON).</sentence>
+			<sentence id="3.8">Log()
+ /go/src/github.</sentence>
+			<sentence id="3.9">com/docker/docker/daemon/logger/copier_test.go:20 +0xbb
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="3.10">(*Copier).</sentence>
+			<sentence id="3.11">copySrc()
+ github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:67 +0x7bb</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Goroutine 8 (running) created at:
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="4.2">(*Copier).</sentence>
+			<sentence id="4.3">Run()
+ github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:45 +0x1ab
+ github.com/docker/docker/daemon/logger.TestCopier()
+ /go/src/github.</sentence>
+			<sentence id="4.4">com/docker/docker/daemon/logger/copier_test.go:65 +0x76c
+ testing.tRunner()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="4.5">go:456 +0xdc</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Goroutine 9 (running) created at:</sentence>
+			<sentence id="5.2"> github.com/docker/docker/daemon/logger.(*Copier).Run()</sentence>
+			<sentence id="5.3"> github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:45 +0x1ab</sentence>
+			<sentence id="5.4"> github.com/docker/docker/daemon/logger.TestCopier()</sentence>
+			<sentence id="5.5"> /go/src/github.com/docker/docker/daemon/logger/copier_test.go:65 +0x76c</sentence>
+			<sentence id="5.6"> testing.tRunner()</sentence>
+			<sentence id="5.7"> /usr/local/go/src/testing/testing.go:456 +0xdc</sentence>
+			<sentence id="5.8">==================</sentence>
+			<sentence id="5.9">==================</sentence>
+			<sentence id="5.10">WARNING: DATA RACE</sentence>
+			<sentence id="5.11">Read by goroutine 8:</sentence>
+			<sentence id="5.12"> bytes.(*Buffer).grow()</sentence>
+			<sentence id="5.13"> /usr/local/go/src/bytes/buffer.go:85 +0x45</sentence>
+			<sentence id="5.14"> bytes.(*Buffer).Write()</sentence>
+			<sentence id="5.15"> /usr/local/go/src/bytes/buffer.go:131 +0x6b</sentence>
+			<sentence id="5.16"> encoding/json.(*Encoder).Encode()</sentence>
+			<sentence id="5.17"> /usr/local/go/src/encoding/json/stream.go:201 +0x232</sentence>
+			<sentence id="5.18"> github.com/docker/docker/daemon/logger.(*TestLoggerJSON).Log()</sentence>
+			<sentence id="5.19"> /go/src/github.com/docker/docker/daemon/logger/copier_test.go:20 +0xbb</sentence>
+			<sentence id="5.20"> github.com/docker/docker/daemon/logger.(*Copier).copySrc()</sentence>
+			<sentence id="5.21"> github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:67 +0x7bb</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Previous write by goroutine 9:
+ bytes.</sentence>
+			<sentence id="6.2">(*Buffer).</sentence>
+			<sentence id="6.3">grow()
+ /usr/local/go/src/bytes/buffer.</sentence>
+			<sentence id="6.4">go:109 +0x209
+ bytes.</sentence>
+			<sentence id="6.5">(*Buffer).</sentence>
+			<sentence id="6.6">Write()
+ /usr/local/go/src/bytes/buffer.</sentence>
+			<sentence id="6.7">go:131 +0x6b
+ encoding/json.</sentence>
+			<sentence id="6.8">(*Encoder).</sentence>
+			<sentence id="6.9">Encode()
+ /usr/local/go/src/encoding/json/stream.go:201 +0x232
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="6.10">(*TestLoggerJSON).</sentence>
+			<sentence id="6.11">Log()
+ /go/src/github.</sentence>
+			<sentence id="6.12">com/docker/docker/daemon/logger/copier_test.go:20 +0xbb
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="6.13">(*Copier).</sentence>
+			<sentence id="6.14">copySrc()
+ github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:67 +0x7bb</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Goroutine 8 (running) created at:
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="7.2">(*Copier).</sentence>
+			<sentence id="7.3">Run()
+ github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:45 +0x1ab
+ github.com/docker/docker/daemon/logger.TestCopier()
+ /go/src/github.</sentence>
+			<sentence id="7.4">com/docker/docker/daemon/logger/copier_test.go:65 +0x76c
+ testing.tRunner()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="7.5">go:456 +0xdc</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Goroutine 9 (running) created at:</sentence>
+			<sentence id="8.2"> github.com/docker/docker/daemon/logger.(*Copier).Run()</sentence>
+			<sentence id="8.3"> github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:45 +0x1ab</sentence>
+			<sentence id="8.4"> github.com/docker/docker/daemon/logger.TestCopier()</sentence>
+			<sentence id="8.5"> /go/src/github.com/docker/docker/daemon/logger/copier_test.go:65 +0x76c</sentence>
+			<sentence id="8.6"> testing.tRunner()</sentence>
+			<sentence id="8.7"> /usr/local/go/src/testing/testing.go:456 +0xdc</sentence>
+			<sentence id="8.8">==================</sentence>
+			<sentence id="8.9">==================</sentence>
+			<sentence id="8.10">WARNING: DATA RACE</sentence>
+			<sentence id="8.11">Read by goroutine 8:</sentence>
+			<sentence id="8.12"> bytes.(*Buffer).grow()</sentence>
+			<sentence id="8.13"> /usr/local/go/src/bytes/buffer.go:85 +0x61</sentence>
+			<sentence id="8.14"> bytes.(*Buffer).Write()</sentence>
+			<sentence id="8.15"> /usr/local/go/src/bytes/buffer.go:131 +0x6b</sentence>
+			<sentence id="8.16"> encoding/json.(*Encoder).Encode()</sentence>
+			<sentence id="8.17"> /usr/local/go/src/encoding/json/stream.go:201 +0x232</sentence>
+			<sentence id="8.18"> github.com/docker/docker/daemon/logger.(*TestLoggerJSON).Log()</sentence>
+			<sentence id="8.19"> /go/src/github.com/docker/docker/daemon/logger/copier_test.go:20 +0xbb</sentence>
+			<sentence id="8.20"> github.com/docker/docker/daemon/logger.(*Copier).copySrc()</sentence>
+			<sentence id="8.21"> github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:67 +0x7bb</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Previous write by goroutine 9:
+ bytes.</sentence>
+			<sentence id="9.2">(*Buffer).</sentence>
+			<sentence id="9.3">grow()
+ /usr/local/go/src/bytes/buffer.</sentence>
+			<sentence id="9.4">go:107 +0x1be
+ bytes.</sentence>
+			<sentence id="9.5">(*Buffer).</sentence>
+			<sentence id="9.6">Write()
+ /usr/local/go/src/bytes/buffer.</sentence>
+			<sentence id="9.7">go:131 +0x6b
+ encoding/json.</sentence>
+			<sentence id="9.8">(*Encoder).</sentence>
+			<sentence id="9.9">Encode()
+ /usr/local/go/src/encoding/json/stream.go:201 +0x232
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="9.10">(*TestLoggerJSON).</sentence>
+			<sentence id="9.11">Log()
+ /go/src/github.</sentence>
+			<sentence id="9.12">com/docker/docker/daemon/logger/copier_test.go:20 +0xbb
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="9.13">(*Copier).</sentence>
+			<sentence id="9.14">copySrc()
+ github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:67 +0x7bb</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Goroutine 8 (running) created at:
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="10.2">(*Copier).</sentence>
+			<sentence id="10.3">Run()
+ github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:45 +0x1ab
+ github.com/docker/docker/daemon/logger.TestCopier()
+ /go/src/github.</sentence>
+			<sentence id="10.4">com/docker/docker/daemon/logger/copier_test.go:65 +0x76c
+ testing.tRunner()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="10.5">go:456 +0xdc</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Goroutine 9 (running) created at:</sentence>
+			<sentence id="11.2"> github.com/docker/docker/daemon/logger.(*Copier).Run()</sentence>
+			<sentence id="11.3"> github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:45 +0x1ab</sentence>
+			<sentence id="11.4"> github.com/docker/docker/daemon/logger.TestCopier()</sentence>
+			<sentence id="11.5"> /go/src/github.com/docker/docker/daemon/logger/copier_test.go:65 +0x76c</sentence>
+			<sentence id="11.6"> testing.tRunner()</sentence>
+			<sentence id="11.7"> /usr/local/go/src/testing/testing.go:456 +0xdc</sentence>
+			<sentence id="11.8">==================</sentence>
+			<sentence id="11.9">==================</sentence>
+			<sentence id="11.10">WARNING: DATA RACE</sentence>
+			<sentence id="11.11">Write by goroutine 8:</sentence>
+			<sentence id="11.12"> runtime.slicecopy()</sentence>
+			<sentence id="11.13"> /usr/local/go/src/runtime/slice.go:110 +0x0</sentence>
+			<sentence id="11.14"> bytes.(*Buffer).Write()</sentence>
+			<sentence id="11.15"> /usr/local/go/src/bytes/buffer.go:132 +0xfd</sentence>
+			<sentence id="11.16"> encoding/json.(*Encoder).Encode()</sentence>
+			<sentence id="11.17"> /usr/local/go/src/encoding/json/stream.go:201 +0x232</sentence>
+			<sentence id="11.18"> github.com/docker/docker/daemon/logger.(*TestLoggerJSON).Log()</sentence>
+			<sentence id="11.19"> /go/src/github.com/docker/docker/daemon/logger/copier_test.go:20 +0xbb</sentence>
+			<sentence id="11.20"> github.com/docker/docker/daemon/logger.(*Copier).copySrc()</sentence>
+			<sentence id="11.21"> github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:67 +0x7bb</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Previous write by goroutine 9:
+ runtime.slicecopy()
+ /usr/local/go/src/runtime/slice.</sentence>
+			<sentence id="12.2">go:110 +0x0
+ bytes.</sentence>
+			<sentence id="12.3">(*Buffer).</sentence>
+			<sentence id="12.4">Write()
+ /usr/local/go/src/bytes/buffer.</sentence>
+			<sentence id="12.5">go:132 +0xfd
+ encoding/json.</sentence>
+			<sentence id="12.6">(*Encoder).</sentence>
+			<sentence id="12.7">Encode()
+ /usr/local/go/src/encoding/json/stream.go:201 +0x232
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="12.8">(*TestLoggerJSON).</sentence>
+			<sentence id="12.9">Log()
+ /go/src/github.</sentence>
+			<sentence id="12.10">com/docker/docker/daemon/logger/copier_test.go:20 +0xbb
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="12.11">(*Copier).</sentence>
+			<sentence id="12.12">copySrc()
+ github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:67 +0x7bb</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Goroutine 8 (running) created at:
+ github.com/docker/docker/daemon/logger.</sentence>
+			<sentence id="13.2">(*Copier).</sentence>
+			<sentence id="13.3">Run()
+ github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:45 +0x1ab
+ github.com/docker/docker/daemon/logger.TestCopier()
+ /go/src/github.</sentence>
+			<sentence id="13.4">com/docker/docker/daemon/logger/copier_test.go:65 +0x76c
+ testing.tRunner()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="13.5">go:456 +0xdc</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Goroutine 9 (running) created at:</sentence>
+			<sentence id="14.2"> github.com/docker/docker/daemon/logger.(*Copier).Run()</sentence>
+			<sentence id="14.3"> github.com/docker/docker/daemon/logger/_test/_obj_test/copier.go:45 +0x1ab</sentence>
+			<sentence id="14.4"> github.com/docker/docker/daemon/logger.TestCopier()</sentence>
+			<sentence id="14.5"> /go/src/github.com/docker/docker/daemon/logger/copier_test.go:65 +0x76c</sentence>
+			<sentence id="14.6"> testing.tRunner()</sentence>
+			<sentence id="14.7"> /usr/local/go/src/testing/testing.go:456 +0xdc</sentence>
+			<sentence id="14.8">==================</sentence>
+			<sentence id="14.9">PASS</sentence>
+			<sentence id="14.10">coverage: 17.8% of statements</sentence>
+			<sentence id="14.11">Found 4 data race(s)</sentence>
+			<sentence id="14.12">FAIL	github.com/docker/docker/daemon/logger	1.222s</sentence>
+			<sentence id="14.13">time="2016-05-25T01:34:45Z" level=info msg="Trying to get region from EC2 Metadata" </sentence>
+			<sentence id="14.14">time="2016-05-25T01:34:45Z" level=info msg="Log stream already exists" errorCode=ResourceAlreadyExistsException logGroupName= logStreamName= message= origError=&lt;nil&gt; </sentence>
+			<sentence id="14.15">time="2016-05-25T01:34:45Z" level=error msg="Error!" </sentence>
+			<sentence id="14.16">time="2016-05-25T01:34:45Z" level=error msg="Failed to put log events" errorCode=InvalidSequenceTokenException logGroupName=groupName logStreamName=streamName message="use token token" origError=&lt;nil&gt; </sentence>
+			<sentence id="14.17">time="2016-05-25T01:34:45Z" level=error msg="Failed to put log events" errorCode=DataAlreadyAcceptedException logGroupName=groupName logStreamName=streamName message="use token token" origError=&lt;nil&gt; </sentence>
+			<sentence id="14.18">time="2016-05-25T01:34:45Z" level=info msg="Data already accepted, ignoring error" errorCode=DataAlreadyAcceptedException logGroupName=groupName logStreamName=streamName message="use token token" </sentence>
+			<sentence id="14.19">==================</sentence>
+			<sentence id="14.20">WARNING: DATA RACE</sentence>
+			<sentence id="14.21">Read by goroutine 26:</sentence>
+			<sentence id="14.22"> github.com/docker/docker/daemon/logger/awslogs.TestCollectBatchMaxTotalBytes()</sentence>
+			<sentence id="14.23"> /go/src/github.com/docker/docker/daemon/logger/awslogs/cloudwatchlogs_test.go:612 +0xa27</sentence>
+			<sentence id="14.24"> testing.tRunner()</sentence>
+			<sentence id="14.25"> /usr/local/go/src/testing/testing.go:456 +0xdc</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Previous write by goroutine 27:
+ github.com/docker/docker/daemon/logger/awslogs.</sentence>
+			<sentence id="15.2">(*logStream).</sentence>
+			<sentence id="15.3">collectBatch()
+ github.com/docker/docker/daemon/logger/awslogs/_test/_obj_test/cloudwatchlogs.go:313 +0x798</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">Goroutine 26 (running) created at:
+ testing.RunTests()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="16.2">go:561 +0xaa3
+ testing.</sentence>
+			<sentence id="16.3">(*M).</sentence>
+			<sentence id="16.4">Run()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="16.5">go:494 +0xe4
+ main.main()
+ github.com/docker/docker/daemon/logger/awslogs/_test/_testmain.go:128 +0x384</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">Goroutine 27 (running) created at:
+ github.com/docker/docker/daemon/logger/awslogs.TestCollectBatchMaxTotalBytes()
+ /go/src/github.</sentence>
+			<sentence id="17.2">com/docker/docker/daemon/logger/awslogs/cloudwatchlogs_test.</sentence>
+			<sentence id="17.3">go:596 +0x6a1
+ testing.tRunner()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="17.4">go:456 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Read by goroutine 26:
+ github.com/docker/docker/daemon/logger/awslogs.TestCollectBatchMaxTotalBytes()
+ /go/src/github.</sentence>
+			<sentence id="17.5">com/docker/docker/daemon/logger/awslogs/cloudwatchlogs_test.</sentence>
+			<sentence id="17.6">go:613 +0xa4d
+ testing.tRunner()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="17.7">go:456 +0xdc</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">Previous write by goroutine 27:
+ github.com/docker/docker/daemon/logger/awslogs.</sentence>
+			<sentence id="18.2">(*logStream).</sentence>
+			<sentence id="18.3">collectBatch()
+ github.com/docker/docker/daemon/logger/awslogs/_test/_obj_test/cloudwatchlogs.go:312 +0x657</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">Goroutine 26 (running) created at:
+ testing.RunTests()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="19.2">go:561 +0xaa3
+ testing.</sentence>
+			<sentence id="19.3">(*M).</sentence>
+			<sentence id="19.4">Run()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="19.5">go:494 +0xe4
+ main.main()
+ github.com/docker/docker/daemon/logger/awslogs/_test/_testmain.go:128 +0x384</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">Goroutine 27 (running) created at:
+ github.com/docker/docker/daemon/logger/awslogs.TestCollectBatchMaxTotalBytes()
+ /go/src/github.</sentence>
+			<sentence id="20.2">com/docker/docker/daemon/logger/awslogs/cloudwatchlogs_test.</sentence>
+			<sentence id="20.3">go:596 +0x6a1
+ testing.tRunner()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="20.4">go:456 +0xdc
+==================
+==================
+WARNING: DATA RACE
+Read by goroutine 26:
+ github.com/docker/docker/daemon/logger/awslogs.TestCollectBatchMaxTotalBytes()
+ /go/src/github.</sentence>
+			<sentence id="20.5">com/docker/docker/daemon/logger/awslogs/cloudwatchlogs_test.</sentence>
+			<sentence id="20.6">go:613 +0xa61
+ testing.tRunner()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="20.7">go:456 +0xdc</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">Previous write by goroutine 27:
+ github.com/docker/docker/daemon/logger/awslogs.</sentence>
+			<sentence id="21.2">(*logStream).</sentence>
+			<sentence id="21.3">collectBatch()
+ github.com/docker/docker/daemon/logger/awslogs/_test/_obj_test/cloudwatchlogs.go:311 +0x516</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">Goroutine 26 (running) created at:
+ testing.RunTests()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="22.2">go:561 +0xaa3
+ testing.</sentence>
+			<sentence id="22.3">(*M).</sentence>
+			<sentence id="22.4">Run()
+ /usr/local/go/src/testing/testing.</sentence>
+			<sentence id="22.5">go:494 +0xe4
+ main.main()
+ github.com/docker/docker/daemon/logger/awslogs/_test/_testmain.go:128 +0x384</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">Goroutine 27 (running) created at:</sentence>
+			<sentence id="23.2"> github.com/docker/docker/daemon/logger/awslogs.TestCollectBatchMaxTotalBytes()</sentence>
+			<sentence id="23.3"> /go/src/github.com/docker/docker/daemon/logger/awslogs/cloudwatchlogs_test.go:596 +0x6a1</sentence>
+			<sentence id="23.4"> testing.tRunner()</sentence>
+			<sentence id="23.5"> /usr/local/go/src/testing/testing.go:456 +0xdc</sentence>
+			<sentence id="23.6">==================</sentence>
+			<sentence id="23.7">PASS</sentence>
+			<sentence id="23.8">coverage: 77.2% of statements</sentence>
+			<sentence id="23.9">Found 3 data race(s)</sentence>
+			<sentence id="23.10">FAIL	github.com/docker/docker/daemon/logger/awslogs	1.122s</sentence>
+			<sentence id="23.11">? 	github.com/docker/docker/daemon/logger/fluentd	[no test files]</sentence>
+			<sentence id="23.12">? 	github.com/docker/docker/daemon/logger/gcplogs	[no test files]</sentence>
+			<sentence id="23.13">? 	github.com/docker/docker/daemon/logger/gelf	[no test files]</sentence>
+			<sentence id="23.14">? 	github.com/docker/docker/daemon/logger/journald	[no test files]</sentence>
+			<sentence id="23.15">ok 	github.com/docker/docker/daemon/logger/jsonfilelog	1.013s	coverage: 20.1% of statements</sentence>
+			<sentence id="23.16">ok 	github.com/docker/docker/daemon/logger/loggerutils	1.008s	coverage: 14.3% of statements</sentence>
+			<sentence id="23.17">? 	github.com/docker/docker/daemon/logger/splunk	[no test files]</sentence>
+			<sentence id="23.18">ok 	github.com/docker/docker/daemon/logger/syslog	1.011s	coverage: 19.8% of statements</sentence>
+			<sentence id="23.19">```</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">**Describe the results you expected:**</sentence>
+			<sentence id="24.2">There should not be any race.</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">----</sentence>
+		</paragraph>
+		<paragraph id="26">
+			<sentence id="26.1">I'll open PR to add `-race` to `go test` after https://github.com/docker/docker/pull/22930 gets merged, which simplifies the flow for `go test`.</sentence>
+		</paragraph>
+	</description>
+</bug>

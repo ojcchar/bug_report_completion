@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>15282</id>
+	<title>Error in building docker-1.8.0-dev from scratch</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi, I am trying to build docker from source code repo.</sentence>
+			<sentence id="1.2">I cloned the repo, checkout out the branch and installed stuff I needed to.</sentence>
+			<sentence id="1.3">Now, when I am trying to build it, I am getting this error:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+ root@ubuntu:~/docker# .</sentence>
+			<sentence id="2.2">/hack/make.</sentence>
+			<sentence id="2.3">sh 
+# WARNING!</sentence>
+			<sentence id="2.4">I don't seem to be running in the Docker container.</sentence>
+			<sentence id="2.5"># The result of this command might be an incorrect build, and will not be
+# officially supported.</sentence>
+			<sentence id="2.6">#
+# Try this instead: make all
+#</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">bundles/1.8.0-dev already exists.</sentence>
+			<sentence id="3.2">Removing.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">---&gt; Making bundle: validate-dco (in bundles/1.8.0-dev/validate-dco)</sentence>
+			<sentence id="4.2">0 adds, 0 deletions; nothing to validate!</sentence>
+			<sentence id="4.3">:)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">---&gt; Making bundle: validate-gofmt (in bundles/1.8.0-dev/validate-gofmt)</sentence>
+			<sentence id="5.2">Congratulations!</sentence>
+			<sentence id="5.3">All Go source files are properly formatted.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">---&gt; Making bundle: validate-lint (in bundles/1.8.0-dev/validate-lint)</sentence>
+			<sentence id="6.2">Congratulations!</sentence>
+			<sentence id="6.3">All Go source files have been linted.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">---&gt; Making bundle: validate-pkg (in bundles/1.8.0-dev/validate-pkg)</sentence>
+			<sentence id="7.2">Congratulations! "</sentence>
+			<sentence id="7.3">.</sentence>
+			<sentence id="7.4">/pkg/..." is safely isolated from internal code.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">---&gt; Making bundle: validate-test (in bundles/1.8.0-dev/validate-test)</sentence>
+			<sentence id="8.2">Congratulations!</sentence>
+			<sentence id="8.3">No testing.T found.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">---&gt; Making bundle: validate-toml (in bundles/1.8.0-dev/validate-toml)</sentence>
+			<sentence id="9.2">Congratulations!</sentence>
+			<sentence id="9.3">All toml source files changed here have valid syntax.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">---&gt; Making bundle: validate-vet (in bundles/1.8.0-dev/validate-vet)</sentence>
+			<sentence id="10.2">Congratulations!</sentence>
+			<sentence id="10.3">All Go source files have been vetted.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">---&gt; Making bundle: binary (in bundles/1.8.0-dev/binary)</sentence>
+			<sentence id="11.2">Building: bundles/1.8.0-dev/binary/docker-1.8.0-dev</sentence>
+			<sentence id="11.3"># _/root/docker/docker</sentence>
+			<sentence id="11.4">/usr/bin/ld: cannot find -ldevmapper</sentence>
+			<sentence id="11.5">collect2: error: ld returned 1 exit status</sentence>
+			<sentence id="11.6">/root/go/pkg/tool/linux_amd64/6l: running gcc failed: unsuccessful exit status 0x100</sentence>
+			<sentence id="11.7">```</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Now, I already have devicemapper library installed with development files:
+```
+root@ubuntu:~/docker# apt-get install libdevmapper-dev
+Reading package lists... Done
+Building dependency tree 
+Reading state information... Done
+libdevmapper-dev is already the newest version.</sentence>
+			<sentence id="12.2">0 upgraded, 0 newly installed, 0 to remove and 28 not upgraded.</sentence>
+			<sentence id="12.3">```</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">I am using go version 1.4.2:</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">```
+root@ubuntu:~/docker# go version
+go version go1.4.2 linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Any idea why am I getting this error?</sentence>
+			<sentence id="15.2">TIA.</sentence>
+		</paragraph>
+	</description>
+</bug>

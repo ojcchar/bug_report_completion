@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9691</id>
+	<title>Criteria query built with restriction on treated join "Unable to locate Attribute"</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Below query</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}
+Join&lt;Object, QualityProject&gt; project = cb.treat(emp.join("projects"), QualityProject.class);
+ cq.select(emp)
+ .</sentence>
+			<sentence id="2.2">where(cb.gt(project.</sentence>
+			<sentence id="2.3">&lt;Integer&gt;get("qualityRating"), 5));
+{code}
+ causes 
+{code}
+Unable to locate Attribute with the the given name [qualityRating] on this ManagedType [org.projpa2.chapter9.model.Project]
+{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Attached the test project</sentence>
+		</paragraph>
+	</description>
+</bug>

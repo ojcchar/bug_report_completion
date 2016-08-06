@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-1512</id>
+	<title>duplicate entry error in update to latest sql</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">i'm running /openmrs-sync/metadata/model/update-to-latest-db.</sentence>
+			<sentence id="1.2">mysqldiff.sql and this is what i get.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}----------------------+</sentence>
+			<sentence id="2.2">| Datamodel Update: |</sentence>
+			<sentence id="2.3">+----------------------+</sentence>
+			<sentence id="2.4">| Updating to 1.3.0.12 |</sentence>
+			<sentence id="2.5">+----------------------+</sentence>
+			<sentence id="2.6">1 row in set (0.00 sec)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">ERROR 1062 (23000): Duplicate entry 'View Patient Programs-Data
+Assistant' for key 1</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">{code}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">the line that is causing the problem is</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">{code}insert into role_privilege (role, privilege) select distinct role,
+'View Patient Programs' from role_privilege where privilege = 'Manage
+Patient Programs';
+{code}</sentence>
+		</paragraph>
+	</description>
+</bug>

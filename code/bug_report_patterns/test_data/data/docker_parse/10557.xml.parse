@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10557</id>
+	<title>Issue pushing with 1.5.0-rc31.5.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Okay the following failed</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+docker push rancher/agent:latest
+511136ea3c5a: Image push failed 
+FATA[0008] Error pushing to registry: Put ?</sentence>
+			<sentence id="2.2">digest=tarsum.v1%2Bsha256%3Ae3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855: unsupported protocol scheme "" 
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">But then if I run it again it works.</sentence>
+			<sentence id="3.2">Here's the debug log.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">When it failed</sentence>
+			<sentence id="4.2">```</sentence>
+			<sentence id="4.3">INFO[0071] POST /v1.17/images/rancher/agent/push?tag=latest </sentence>
+			<sentence id="4.4">INFO[0071] +job push(rancher/agent) </sentence>
+			<sentence id="4.5">INFO[0071] +job resolve_repository(rancher/agent) </sentence>
+			<sentence id="4.6">INFO[0071] -job resolve_repository(rancher/agent) = OK (0) </sentence>
+			<sentence id="4.7">DEBU[0071] pinging registry endpoint https://index.docker.io/v1/ </sentence>
+			<sentence id="4.8">DEBU[0071] attempting v1 ping for registry endpoint https://index.docker.io/v1/ </sentence>
+			<sentence id="4.9">DEBU[0071] pinging registry endpoint https://registry-1.docker.io/v2/ </sentence>
+			<sentence id="4.10">DEBU[0071] attempting v2 ping for registry endpoint https://registry-1.docker.io/v2/ </sentence>
+			<sentence id="4.11">DEBU[0071] hostDir: /etc/docker/certs.d/registry-1.docker.io </sentence>
+			<sentence id="4.12">DEBU[0071] Checking latest against graph.Repository{"latest":"3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb", "v0.2.0":"30110e1962c7db9f1169e47d6b25017934874a20ce3516a4731a354eeeaaef7a", "v0.3.1-rc1":"14b8f671a5df9bd20147eabdd420b44e7821dc6d6617319c915dae4f66a157bb", "v0.4.0":"5d478726652a0b5705298d02e713ab0bd77fc345b4c4ca9f8225e54c528ca3b2", "v0.2.1":"7102021a406650986a338c510993a43cfbb2387fc7d1d537a3e79016bc378d1f", "v0.3.0":"39ef1083a0be60d8f1dda758b743cd891bf12d1d60c3596cbccacc233f985cd8", "v0.3.1":"3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb", "v0.3.1-rc2":"14b8f671a5df9bd20147eabdd420b44e7821dc6d6617319c915dae4f66a157bb", "v0.3.1-rc3":"b3d5b7de09d2381e0ec1422d0a03acce64df2406ccd521f0cc11c9d4c22d9cd2"} </sentence>
+			<sentence id="4.13">DEBU[0071] Getting authorization for rancher/agent [pull push] </sentence>
+			<sentence id="4.14">DEBU[0071] Pushing rancher/agent:latest to v2 repository </sentence>
+			<sentence id="4.15">INFO[0073] Signed manifest for rancher/agent:latest using daemon's key: FPSO:Z7SO:BZJ3:IXH4:DNKV:UPZQ:KLP2:IRXW:5CBY:PBDM:HAKO:UOC7 </sentence>
+			<sentence id="4.16">INFO[0073] +job trust_key_check(/rancher/agent) </sentence>
+			<sentence id="4.17">DEBU[0073] Verification failed for /rancher/agent using key FPSO:Z7SO:BZJ3:IXH4:DNKV:UPZQ:KLP2:IRXW:5CBY:PBDM:HAKO:UOC7 </sentence>
+			<sentence id="4.18">INFO[0073] -job trust_key_check(/rancher/agent) = OK (0) </sentence>
+			<sentence id="4.19">DEBU[0073] Key check result: "not verified" </sentence>
+			<sentence id="4.20">DEBU[0073] [registry] Calling "HEAD" https://registry-1.docker.io/v2/rancher/agent/blobs/tarsum.v1+sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 </sentence>
+			<sentence id="4.21">DEBU[0073] https://registry-1.docker.io/v2/rancher/agent/blobs/tarsum.v1+sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 -- HEADERS: map[User-Agent:[docker/1.5.0-rc3 go/go1.4.1 git-commit/c02092d kernel/3.18.1-031801-generic os/linux arch/amd64]] </sentence>
+			<sentence id="4.22">DEBU[0073] hostDir: /etc/docker/certs.d/registry-1.docker.io </sentence>
+			<sentence id="4.23">DEBU[0079] rendered layer for 511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158 of [1024] size </sentence>
+			<sentence id="4.24">DEBU[0079] [registry] Calling "POST" https://registry-1.docker.io/v2/rancher/agent/blobs/uploads/ </sentence>
+			<sentence id="4.25">DEBU[0079] https://registry-1.docker.io/v2/rancher/agent/blobs/uploads/ -- HEADERS: map[User-Agent:[docker/1.5.0-rc3 go/go1.4.1 git-commit/c02092d kernel/3.18.1-031801-generic os/linux arch/amd64]] </sentence>
+			<sentence id="4.26">DEBU[0079] Using cached token for ibuildthecloud </sentence>
+			<sentence id="4.27">DEBU[0079] hostDir: /etc/docker/certs.d/registry-1.docker.io </sentence>
+			<sentence id="4.28">DEBU[0079] [registry] Calling "PUT" </sentence>
+			<sentence id="4.29">DEBU[0079] -- HEADERS: map[User-Agent:[docker/1.5.0-rc3 go/go1.4.1 git-commit/c02092d kernel/3.18.1-031801-generic os/linux arch/amd64]] </sentence>
+			<sentence id="4.30">DEBU[0079] Using cached token for ibuildthecloud </sentence>
+			<sentence id="4.31">Error pushing to registry: Put ?digest=tarsum.v1%2Bsha256%3Ae3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855: unsupported protocol scheme ""</sentence>
+			<sentence id="4.32">INFO[0079] -job push(rancher/agent) = ERR (1) </sentence>
+			<sentence id="4.33">```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Now here's when it worked afterwards</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```</sentence>
+			<sentence id="6.2">DEBU[0451] Calling POST /images/{name:.*}/push </sentence>
+			<sentence id="6.3">INFO[0451] POST /v1.17/images/rancher/agent/push?tag=latest </sentence>
+			<sentence id="6.4">INFO[0451] +job push(rancher/agent) </sentence>
+			<sentence id="6.5">INFO[0451] +job resolve_repository(rancher/agent) </sentence>
+			<sentence id="6.6">INFO[0451] -job resolve_repository(rancher/agent) = OK (0) </sentence>
+			<sentence id="6.7">DEBU[0451] pinging registry endpoint https://index.docker.io/v1/ </sentence>
+			<sentence id="6.8">DEBU[0451] attempting v1 ping for registry endpoint https://index.docker.io/v1/ </sentence>
+			<sentence id="6.9">DEBU[0451] pinging registry endpoint https://registry-1.docker.io/v2/ </sentence>
+			<sentence id="6.10">DEBU[0451] attempting v2 ping for registry endpoint https://registry-1.docker.io/v2/ </sentence>
+			<sentence id="6.11">DEBU[0451] hostDir: /etc/docker/certs.d/registry-1.docker.io </sentence>
+			<sentence id="6.12">INFO[0456] Unable to push to V2 registry, falling back to v1: invalid registry endpoint https://registry-1.docker.io/v2/: Get https://registry-1.docker.io/v2/: dial tcp: i/o timeout. If this private registry supports only HTTP or HTTPS with an unknown CA certificate, please add `--insecure-registry registry-1.docker.io` to the daemon's arguments. In the case of HTTPS, if you have access to the registry's CA certificate, no need for the flag; simply place the CA certificate at /etc/docker/certs.d/registry-1.docker.io/ca.crt </sentence>
+			<sentence id="6.13">DEBU[0456] Local repo: map[v0.3.1-rc3:b3d5b7de09d2381e0ec1422d0a03acce64df2406ccd521f0cc11c9d4c22d9cd2 v0.3.1:3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb v0.3.1-rc1:14b8f671a5df9bd20147eabdd420b44e7821dc6d6617319c915dae4f66a157bb v0.3.1-rc2:14b8f671a5df9bd20147eabdd420b44e7821dc6d6617319c915dae4f66a157bb v0.3.0:39ef1083a0be60d8f1dda758b743cd891bf12d1d60c3596cbccacc233f985cd8 v0.4.0:5d478726652a0b5705298d02e713ab0bd77fc345b4c4ca9f8225e54c528ca3b2 latest:3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb v0.2.0:30110e1962c7db9f1169e47d6b25017934874a20ce3516a4731a354eeeaaef7a v0.2.1:7102021a406650986a338c510993a43cfbb2387fc7d1d537a3e79016bc378d1f] </sentence>
+			<sentence id="6.14">DEBU[0456] Image list: [511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158 3b363fd9d7dab4db9591058a3f43e806f6fa6f7e2744b63b2df4b84eadb0685a 607c5d1cca71dd3b6c04327c3903363079b72ab3e5e4289d74fb00a9ac7ec2aa f62feddc05dc67da9b725361f97d7ae72a32e355ce1585f9a60d090289120f73 8eaa4ff06b53ff7730c4d7a7e21b4426a4b46dee064ca2d5d90d757dc7ea040a 5c5646e3953bb7293e37cac68d25d573f3e735f2cbd9fbbd6feb77a2e636772c 98dfd1ccc4dac53c5dd240612d6eb2b4d1f64f374962509f524730f7d237e404 888b3207441e68648b4394ffef1ac8cb5bb9c9ac157b8af7a19bc8c50e09b618 0a0e24d58684e23f347500df581a7acfab8517ab1746bb763fac82d544fb6f2c 4a7c29b7d23300576a2b27e9803189183cc8ee584d1188277237cb0e1c7889cb 973a2707728b2b82013c43d62b0ce5819972ba05e9163e689b6602354f2b0450 8a04966acf35821d67a9292002e7baa8f49991a53af8720f4be3265265faa6be 2dc36ecf0b34e5cb56d8cedbe4321bb062c91c937066ee73478359871fedcda3 7582bf03bcddbef149adc65e1f9780d9e7fa86e5e44e34018cf564e063e32d21 a3bb0df279a21c0cc9d00bf7dd725395b0cd67190754591e6584e2a577c2195d eaa1056d426ad797b3cfdca9eb29108c833a6ce9a3130be23c6c54d5eaf6bfdc d7ce37176960e423eb276486e710bc36f871919d0754902bc3fcd6ee6fbf3c65 3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb] </sentence>
+			<sentence id="6.15">DEBU[0456] Tags by image: map[3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb:[latest]] </sentence>
+			<sentence id="6.16">DEBU[0456] Preparing to push map[v0.2.1:7102021a406650986a338c510993a43cfbb2387fc7d1d537a3e79016bc378d1f v0.3.0:39ef1083a0be60d8f1dda758b743cd891bf12d1d60c3596cbccacc233f985cd8 v0.4.0:5d478726652a0b5705298d02e713ab0bd77fc345b4c4ca9f8225e54c528ca3b2 latest:3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb v0.2.0:30110e1962c7db9f1169e47d6b25017934874a20ce3516a4731a354eeeaaef7a v0.3.1-rc2:14b8f671a5df9bd20147eabdd420b44e7821dc6d6617319c915dae4f66a157bb v0.3.1-rc3:b3d5b7de09d2381e0ec1422d0a03acce64df2406ccd521f0cc11c9d4c22d9cd2 v0.3.1:3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb v0.3.1-rc1:14b8f671a5df9bd20147eabdd420b44e7821dc6d6617319c915dae4f66a157bb] with the following images and tags </sentence>
+			<sentence id="6.17">DEBU[0456] Pushing ID: 511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158 with Tag: </sentence>
+			<sentence id="6.18">DEBU[0456] Pushing ID: 3b363fd9d7dab4db9591058a3f43e806f6fa6f7e2744b63b2df4b84eadb0685a with Tag: </sentence>
+			<sentence id="6.19">DEBU[0456] Pushing ID: 607c5d1cca71dd3b6c04327c3903363079b72ab3e5e4289d74fb00a9ac7ec2aa with Tag: </sentence>
+			<sentence id="6.20">DEBU[0456] Pushing ID: f62feddc05dc67da9b725361f97d7ae72a32e355ce1585f9a60d090289120f73 with Tag: </sentence>
+			<sentence id="6.21">DEBU[0456] Pushing ID: 8eaa4ff06b53ff7730c4d7a7e21b4426a4b46dee064ca2d5d90d757dc7ea040a with Tag: </sentence>
+			<sentence id="6.22">DEBU[0456] Pushing ID: 5c5646e3953bb7293e37cac68d25d573f3e735f2cbd9fbbd6feb77a2e636772c with Tag: </sentence>
+			<sentence id="6.23">DEBU[0456] Pushing ID: 98dfd1ccc4dac53c5dd240612d6eb2b4d1f64f374962509f524730f7d237e404 with Tag: </sentence>
+			<sentence id="6.24">DEBU[0456] Pushing ID: 888b3207441e68648b4394ffef1ac8cb5bb9c9ac157b8af7a19bc8c50e09b618 with Tag: </sentence>
+			<sentence id="6.25">DEBU[0456] Pushing ID: 0a0e24d58684e23f347500df581a7acfab8517ab1746bb763fac82d544fb6f2c with Tag: </sentence>
+			<sentence id="6.26">DEBU[0456] Pushing ID: 4a7c29b7d23300576a2b27e9803189183cc8ee584d1188277237cb0e1c7889cb with Tag: </sentence>
+			<sentence id="6.27">DEBU[0456] Pushing ID: 973a2707728b2b82013c43d62b0ce5819972ba05e9163e689b6602354f2b0450 with Tag: </sentence>
+			<sentence id="6.28">DEBU[0456] Pushing ID: 8a04966acf35821d67a9292002e7baa8f49991a53af8720f4be3265265faa6be with Tag: </sentence>
+			<sentence id="6.29">DEBU[0456] Pushing ID: 2dc36ecf0b34e5cb56d8cedbe4321bb062c91c937066ee73478359871fedcda3 with Tag: </sentence>
+			<sentence id="6.30">DEBU[0456] Pushing ID: 7582bf03bcddbef149adc65e1f9780d9e7fa86e5e44e34018cf564e063e32d21 with Tag: </sentence>
+			<sentence id="6.31">DEBU[0456] Pushing ID: a3bb0df279a21c0cc9d00bf7dd725395b0cd67190754591e6584e2a577c2195d with Tag: </sentence>
+			<sentence id="6.32">DEBU[0456] Pushing ID: eaa1056d426ad797b3cfdca9eb29108c833a6ce9a3130be23c6c54d5eaf6bfdc with Tag: </sentence>
+			<sentence id="6.33">DEBU[0456] Pushing ID: d7ce37176960e423eb276486e710bc36f871919d0754902bc3fcd6ee6fbf3c65 with Tag: </sentence>
+			<sentence id="6.34">DEBU[0456] Pushing ID: 3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb with Tag: latest </sentence>
+			<sentence id="6.35">DEBU[0456] [registry] PUT https://index.docker.io/v1/repositories/rancher/agent/ </sentence>
+			<sentence id="6.36">DEBU[0456] Image list pushed to index:</sentence>
+			<sentence id="6.37">[{"id":"511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158"},{"id":"3b363fd9d7dab4db9591058a3f43e806f6fa6f7e2744b63b2df4b84eadb0685a"},{"id":"607c5d1cca71dd3b6c04327c3903363079b72ab3e5e4289d74fb00a9ac7ec2aa"},{"id":"f62feddc05dc67da9b725361f97d7ae72a32e355ce1585f9a60d090289120f73"},{"id":"8eaa4ff06b53ff7730c4d7a7e21b4426a4b46dee064ca2d5d90d757dc7ea040a"},{"id":"5c5646e3953bb7293e37cac68d25d573f3e735f2cbd9fbbd6feb77a2e636772c"},{"id":"98dfd1ccc4dac53c5dd240612d6eb2b4d1f64f374962509f524730f7d237e404"},{"id":"888b3207441e68648b4394ffef1ac8cb5bb9c9ac157b8af7a19bc8c50e09b618"},{"id":"0a0e24d58684e23f347500df581a7acfab8517ab1746bb763fac82d544fb6f2c"},{"id":"4a7c29b7d23300576a2b27e9803189183cc8ee584d1188277237cb0e1c7889cb"},{"id":"973a2707728b2b82013c43d62b0ce5819972ba05e9163e689b6602354f2b0450"},{"id":"8a04966acf35821d67a9292002e7baa8f49991a53af8720f4be3265265faa6be"},{"id":"2dc36ecf0b34e5cb56d8cedbe4321bb062c91c937066ee73478359871fedcda3"},{"id":"7582bf03bcddbef149adc65e1f9780d9e7fa86e5e44e34018cf564e063e32d21"},{"id":"a3bb0df279a21c0cc9d00bf7dd725395b0cd67190754591e6584e2a577c2195d"},{"id":"eaa1056d426ad797b3cfdca9eb29108c833a6ce9a3130be23c6c54d5eaf6bfdc"},{"id":"d7ce37176960e423eb276486e710bc36f871919d0754902bc3fcd6ee6fbf3c65"},{"id":"3d409ba796f9b5d392bcfaa9fb497d5b4cabade335d702c5f565efba9bbc3beb","Tag":"latest"}] </sentence>
+			<sentence id="6.38">DEBU[0456] https://index.docker.io/v1/repositories/rancher/agent/ -- HEADERS: map[User-Agent:[docker/1.5.0-rc3 go/go1.4.1 git-commit/c02092d kernel/3.18.1-031801-generic os/linux arch/amd64]] </sentence>
+			<sentence id="6.39">DEBU[0456] hostDir: /etc/docker/certs.d/index.docker.io </sentence>
+			<sentence id="6.40">DEBU[0463] Auth token: [signature=f214b0d48219f7c24b71172b51abeadf94e865e4,repository="rancher/agent",access=write] </sentence>
+			<sentence id="6.41">DEBU[0463] https://cdn-registry-1.docker.io/v1/images/511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158/json -- HEADERS: map[User-Agent:[docker/1.5.0-rc3 go/go1.4.1 git-commit/c02092d kernel/3.18.1-031801-generic os/linux arch/amd64]] </sentence>
+			<sentence id="6.42">DEBU[0463] hostDir: /etc/docker/certs.d/cdn-registry-1.docker.io </sentence>
+			<sentence id="6.43">```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Some debug info...</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">```
+$ docker version
+Client version: 1.5.0-rc3
+Client API version: 1.17
+Go version (client): go1.4.1
+Git commit (client): c02092d
+OS/Arch (client): linux/amd64
+Server version: 1.5.0-rc3
+Server API version: 1.17
+Go version (server): go1.4.1
+Git commit (server): c02092d</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">$ docker info
+Containers: 12
+Images: 454
+Storage Driver: overlay
+ Backing Filesystem: extfs
+Execution Driver: native-0.2
+Kernel Version: 3.18.1-031801-generic
+Operating System: Ubuntu 14.10
+CPUs: 4
+Total Memory: 7.496 GiB
+Name: inotmac
+ID: FPSO:Z7SO:BZJ3:IXH4:DNKV:UPZQ:KLP2:IRXW:5CBY:PBDM:HAKO:UOC7
+Username: ibuildthecloud
+Registry: [https://index.docker.io/v1/]
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

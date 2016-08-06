@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19804</id>
+	<title>Add redis logging driver</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">A driver similar to the existing ones, that will forward the logs to a redis server and append them to a specified list.</sentence>
+			<sentence id="1.2">The list holds string representations of jsons.</sentence>
+			<sentence id="1.3">For more information about redis see: http://redis.io.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Specific log options will be:</sentence>
+			<sentence id="2.2">* redis-address (required)</sentence>
+			<sentence id="2.3">* redis-database (only necessary, if you have multiple databases on your redis server)</sentence>
+			<sentence id="2.4">* redis-password (only necessary, if you have secured your redis server with a password)</sentence>
+			<sentence id="2.5">* redis-key (the key to the list of logs, default key 'docker-logger')</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">With this new driver one can store logs in a highly available key-value store and process the logs further from there.</sentence>
+			<sentence id="3.2">For example one can easily use logstash to transport the logs to elastic and get a nice dashboard for your logs with the help of kibana.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The logs will contain:</sentence>
+			<sentence id="4.2">* message (the log message)</sentence>
+			<sentence id="4.3">* container (the container name)</sentence>
+			<sentence id="4.4">* hostname</sentence>
+			<sentence id="4.5">* tag (the container tag)</sentence>
+			<sentence id="4.6">* attrs (a struct in which all defined envs and labels get stored)</sentence>
+		</paragraph>
+	</description>
+</bug>

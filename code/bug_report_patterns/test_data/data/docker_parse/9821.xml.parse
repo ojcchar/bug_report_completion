@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>9821</id>
+	<title>Once container is exited, if I try to start it, get a no such container error.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When the container is running:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">root@daniel-Inspiron-3421:/opt# docker ps -a
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+e58f4c0ceb0f adhoc/odoo-all-in-one:latest /bin/bash About a minute ago Up About a minute 0.0.0.0:8069-&gt;8069/tcp determined_ritchie</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">when I exit it and try to start again:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">root@daniel-Inspiron-3421:/opt# docker start 743c18c8d79b
+Error response from daemon: No such container: 743c18c8d79b
+2014/12/26 20:51:21 Error: failed to start one or more containers</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">root@daniel-Inspiron-3421:/opt# docker ps -a
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>18893</id>
+	<title>fail to use docker 1.9.1!</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">docker information
+```
+sudo docker version
+Client:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.3
+ Git commit: a34a1d5
+ Built: Fri Nov 20 17:56:04 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Server:</sentence>
+			<sentence id="2.2"> Version: 1.9.1</sentence>
+			<sentence id="2.3"> API version: 1.21</sentence>
+			<sentence id="2.4"> Go version: go1.4.3</sentence>
+			<sentence id="2.5"> Git commit: a34a1d5</sentence>
+			<sentence id="2.6"> Built: Fri Nov 20 17:56:04 UTC 2015</sentence>
+			<sentence id="2.7"> OS/Arch: linux/amd64</sentence>
+			<sentence id="2.8">```</sentence>
+			<sentence id="2.9">```</sentence>
+			<sentence id="2.10">docker info</sentence>
+			<sentence id="2.11">Cannot connect to the Docker daemon. Is the docker daemon running on this host?</sentence>
+			<sentence id="2.12">ubuntu@ip-172-31-21-89:~$ sudo docker info</sentence>
+			<sentence id="2.13">Containers: 0</sentence>
+			<sentence id="2.14">Images: 0</sentence>
+			<sentence id="2.15">Server Version: 1.9.1</sentence>
+			<sentence id="2.16">Storage Driver: devicemapper</sentence>
+			<sentence id="2.17"> Pool Name: docker-202:1-150022-pool</sentence>
+			<sentence id="2.18"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="2.19"> Base Device Size: 107.4 GB</sentence>
+			<sentence id="2.20"> Backing Filesystem:</sentence>
+			<sentence id="2.21"> Data file: /dev/loop0</sentence>
+			<sentence id="2.22"> Metadata file: /dev/loop1</sentence>
+			<sentence id="2.23"> Data Space Used: 7.342 GB</sentence>
+			<sentence id="2.24"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="2.25"> Data Space Available: 2.188 GB</sentence>
+			<sentence id="2.26"> Metadata Space Used: 7.565 MB</sentence>
+			<sentence id="2.27"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="2.28"> Metadata Space Available: 2.14 GB</sentence>
+			<sentence id="2.29"> Udev Sync Supported: false</sentence>
+			<sentence id="2.30"> Deferred Removal Enabled: false</sentence>
+			<sentence id="2.31"> Deferred Deletion Enabled: false</sentence>
+			<sentence id="2.32"> Deferred Deleted Device Count: 0</sentence>
+			<sentence id="2.33"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="2.34"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="2.35"> Library Version: 1.02.82-git (2013-10-04)</sentence>
+			<sentence id="2.36">Execution Driver: native-0.2</sentence>
+			<sentence id="2.37">Logging Driver: json-file</sentence>
+			<sentence id="2.38">Kernel Version: 3.13.0-48-generic</sentence>
+			<sentence id="2.39">Operating System: Ubuntu 14.04.2 LTS</sentence>
+			<sentence id="2.40">CPUs: 1</sentence>
+			<sentence id="2.41">Total Memory: 992.5 MiB</sentence>
+			<sentence id="2.42">Name: ip-172-31-21-89</sentence>
+			<sentence id="2.43">ID: RBAC:KQDQ:T5PG:66BL:O4AW:DQXH:TNNG:JVUA:4FPM:4L7G:7S3L:TRFT</sentence>
+			<sentence id="2.44">WARNING: No swap limit support</sentence>
+			<sentence id="2.45">```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```</sentence>
+			<sentence id="3.2">uname -a</sentence>
+			<sentence id="3.3">Linux ip-172-31-21-89 3.13.0-48-generic #80-Ubuntu SMP Thu Mar 12 11:16:15 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+			<sentence id="3.4">```</sentence>
+			<sentence id="3.5">I am using AWS micro-instance.</sentence>
+			<sentence id="3.6">the comand line information,only one step.</sentence>
+			<sentence id="3.7">```</sentence>
+			<sentence id="3.8">sudo docker pull ubuntu</sentence>
+			<sentence id="3.9">Using default tag: latest</sentence>
+			<sentence id="3.10">latest: Pulling from library/ubuntu</sentence>
+			<sentence id="3.11">0bf056161913: Download complete</sentence>
+			<sentence id="3.12">1796d1c62d0c: Download complete</sentence>
+			<sentence id="3.13">e24428725dd6: Download complete</sentence>
+			<sentence id="3.14">89d5d8e8bafb: Download complete</sentence>
+			<sentence id="3.15">Pulling repository docker.io/library/ubuntu</sentence>
+			<sentence id="3.16">d55e68e6cc9c: Error pulling image (latest) from docker.io/library/ubuntu, Driver devicemapper failed to create image rootfs 9377ad319b00884df249b7820e3cf540b1c4631b3b1ee6998a0f7c3d53962e03: Error running deviceCreate (createSnapDevice) dm_tError pulling image (latest) from docker.io/library/ubuntu, Driver devicemapper failed to create image rootfs 9377ad319b00884df249b7820e3cf540b1c4631b3b1ee6998a0f7c3d53962e03: Error running deviceCreate (createSnapDevice) dm_task_run failed</sentence>
+			<sentence id="3.17">```</sentence>
+			<sentence id="3.18">the daemon information:</sentence>
+			<sentence id="3.19">```</sentence>
+			<sentence id="3.20">INFO[2500] POST /v1.21/images/create?fromImage=jenkins%3Alatest</sentence>
+			<sentence id="3.21">ERRO[2512] filesystem layer verification failed for digest sha256:88468978469dadb134270e3fe4825439eeac4eb652a149660a670ad7648d2e8e</sentence>
+			<sentence id="3.22">ERRO[2512] filesystem layer verification failed for digest sha256:a1fef06c42d9f689984fd1abab1e775a75a523ac1c4f9bb1c38a3ec2110d40f5</sentence>
+			<sentence id="3.23">```</sentence>
+		</paragraph>
+	</description>
+</bug>

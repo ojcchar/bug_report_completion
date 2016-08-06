@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8564</id>
+	<title>ConcurrentModificationException during schema creationg </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi, I have a entity User that have an @ElementCollection of Address (@Embeddable) with a @ElementCollection of AddressType.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I attach the test case.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This is the stack trace:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Caused by: java.util.ConcurrentModificationException</sentence>
+			<sentence id="4.2"> at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:819)</sentence>
+			<sentence id="4.3"> at java.util.ArrayList$Itr.remove(ArrayList.java:805)</sentence>
+			<sentence id="4.4"> at org.hibernate.cfg.Configuration.originalSecondPassCompile(Configuration.java:1633)</sentence>
+			<sentence id="4.5"> at org.hibernate.cfg.Configuration.secondPassCompile(Configuration.java:1390)</sentence>
+			<sentence id="4.6"> at org.hibernate.cfg.Configuration.generateDropSchemaScript(Configuration.java:941)</sentence>
+			<sentence id="4.7"> at org.hibernate.tool.hbm2ddl.SchemaExport.&lt;init&gt;(SchemaExport.java:213)</sentence>
+		</paragraph>
+	</description>
+</bug>

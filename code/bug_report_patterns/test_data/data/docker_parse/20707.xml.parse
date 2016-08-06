@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>20707</id>
+	<title>direct-lvm with xfs causes Docker to hang when disk is full</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">&lt;!</sentence>
+			<sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+			<sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+			<sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+			<sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+			<sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">---------------------------------------------------</sentence>
+			<sentence id="4.2">BUG REPORT INFORMATION</sentence>
+			<sentence id="4.3">---------------------------------------------------</sentence>
+			<sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+			<sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+			<sentence id="4.6">--&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Output of `docker version`:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+Client:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: a34a1d5/1.9.1
+ Built: 
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: a34a1d5/1.9.1
+ Built: 
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">```</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Output of `docker info` (on a fresh host; an affected host does not respond to `docker info`):</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">```</sentence>
+			<sentence id="10.2">Containers: 1</sentence>
+			<sentence id="10.3">Images: 6</sentence>
+			<sentence id="10.4">Server Version: 1.9.1</sentence>
+			<sentence id="10.5">Storage Driver: devicemapper</sentence>
+			<sentence id="10.6"> Pool Name: docker-docker--pool</sentence>
+			<sentence id="10.7"> Pool Blocksize: 524.3 kB</sentence>
+			<sentence id="10.8"> Base Device Size: 107.4 GB</sentence>
+			<sentence id="10.9"> Backing Filesystem: xfs</sentence>
+			<sentence id="10.10"> Data file: </sentence>
+			<sentence id="10.11"> Metadata file: </sentence>
+			<sentence id="10.12"> Data Space Used: 100.7 MB</sentence>
+			<sentence id="10.13"> Data Space Total: 9.437 GB</sentence>
+			<sentence id="10.14"> Data Space Available: 9.337 GB</sentence>
+			<sentence id="10.15"> Metadata Space Used: 77.82 kB</sentence>
+			<sentence id="10.16"> Metadata Space Total: 25.17 MB</sentence>
+			<sentence id="10.17"> Metadata Space Available: 25.09 MB</sentence>
+			<sentence id="10.18"> Udev Sync Supported: true</sentence>
+			<sentence id="10.19"> Deferred Removal Enabled: true</sentence>
+			<sentence id="10.20"> Deferred Deletion Enabled: true</sentence>
+			<sentence id="10.21"> Deferred Deleted Device Count: 0</sentence>
+			<sentence id="10.22"> Library Version: 1.02.93-RHEL7 (2015-01-28)</sentence>
+			<sentence id="10.23">Execution Driver: native-0.2</sentence>
+			<sentence id="10.24">Logging Driver: json-file</sentence>
+			<sentence id="10.25">Kernel Version: 4.1.17-22.30.amzn1.x86_64</sentence>
+			<sentence id="10.26">Operating System: Amazon Linux AMI 2015.09</sentence>
+			<sentence id="10.27">CPUs: 1</sentence>
+			<sentence id="10.28">Total Memory: 995.6 MiB</sentence>
+			<sentence id="10.29">Name: ip-172-31-34-29</sentence>
+			<sentence id="10.30">ID: GO67:QAUR:ZN7D:LBC6:M366:GT2C:BQTV:F3UE:IMGD:YFNF:T37L:OQWC</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">```</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">Provide additional environment details (AWS, VirtualBox, physical, etc.): Amazon Linux AMI 2015.09.2 configured with a second EBS volume at /dev/xvdb and configured with direct LVM (using devicemapper) by `docker-storage-setup`.</sentence>
+			<sentence id="12.2">By default, `docker-storage-setup` configures the thin pool originally sized at 40% of the available disk with an auto-extend policy, however the same behavior is exhibited when auto-extend is disabled and when `lv_when_full` is changed to `error`.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">List the steps to reproduce the issue:</sentence>
+			<sentence id="13.2">1 Configure Docker as described above (direct LVM with devicemapper using xfs)</sentence>
+			<sentence id="13.3">2 Run containers to progressively consume disk (I seemed to have reasonable results using `docker run ubuntu dd if=/dev/urandom of=sample.txt bs=64M count=1 iflag=fullblock`) until the disk is full (alternately, run my [repro script](https://gist.github.com/samuelkarp/6c8b5ebc0a9cc34006c8))</sentence>
+			<sentence id="13.4">3 Try to do something with Docker (any of `docker ps`, `docker info`, `docker run`, `docker stop`, `docker rm`, `docker images`, `docker rmi`)</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Describe the results you received:
+Docker commands hang indefinitely.</sentence>
+			<sentence id="14.2">dmesg fills with things like the following:</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">```</sentence>
+			<sentence id="15.2">[ 3029.535199] device-mapper: thin: 253:2: reached low water mark for data device: sending event.</sentence>
+			<sentence id="15.3">[ 3029.589706] device-mapper: thin: 253:2: switching pool to out-of-data-space mode</sentence>
+			<sentence id="15.4">[ 3037.584626] vethac84d34: renamed from eth0</sentence>
+			<sentence id="15.5">[ 3037.588339] docker0: port 2(vethd9e484d) entered disabled state</sentence>
+			<sentence id="15.6">[ 3037.622172] docker0: port 2(vethd9e484d) entered disabled state</sentence>
+			<sentence id="15.7">[ 3037.626293] device vethd9e484d left promiscuous mode</sentence>
+			<sentence id="15.8">[ 3037.629420] docker0: port 2(vethd9e484d) entered disabled state</sentence>
+			<sentence id="15.9">[ 3089.592091] device-mapper: thin: 253:2: switching pool to read-only mode</sentence>
+			<sentence id="15.10">[ 3089.598147] Buffer I/O error on dev dm-4, logical block 144077, lost async page write</sentence>
+			<sentence id="15.11">[ 3089.603304] Buffer I/O error on dev dm-4, logical block 144078, lost async page write</sentence>
+			<sentence id="15.12">[ 3089.608669] Buffer I/O error on dev dm-4, logical block 144079, lost async page write</sentence>
+			<sentence id="15.13">[ 3089.614565] Buffer I/O error on dev dm-4, logical block 144080, lost async page write</sentence>
+			<sentence id="15.14">[ 3089.620112] Buffer I/O error on dev dm-4, logical block 144081, lost async page write</sentence>
+			<sentence id="15.15">[ 3089.624919] Buffer I/O error on dev dm-4, logical block 144082, lost async page write</sentence>
+			<sentence id="15.16">[ 3089.633141] Buffer I/O error on dev dm-4, logical block 144083, lost async page write</sentence>
+			<sentence id="15.17">[ 3089.638389] Buffer I/O error on dev dm-4, logical block 144084, lost async page write</sentence>
+			<sentence id="15.18">[ 3089.645177] Buffer I/O error on dev dm-4, logical block 144085, lost async page write</sentence>
+			<sentence id="15.19">[ 3089.650294] Buffer I/O error on dev dm-4, logical block 144086, lost async page write</sentence>
+			<sentence id="15.20">[ 3089.664084] XFS (dm-4): metadata I/O error: block 0x2c230 ("xfs_buf_iodone_callbacks") error 5 numblks 16</sentence>
+			<sentence id="15.21">[ 3089.684777] XFS (dm-5): metadata I/O error: block 0x2c230 ("xfs_buf_iodone_callbacks") error 5 numblks 16</sentence>
+			<sentence id="15.22">[ 3089.695953] XFS (dm-4): Unmounting Filesystem</sentence>
+			<sentence id="15.23">[ 3089.703478] XFS (dm-4): metadata I/O error: block 0x2c230 ("xfs_buf_iodone_callbacks") error 5 numblks 16</sentence>
+			<sentence id="15.24">[ 3089.710627] XFS (dm-5): metadata I/O error: block 0x2c230 ("xfs_buf_iodone_callbacks") error 5 numblks 16</sentence>
+			<sentence id="15.25">...</sentence>
+			<sentence id="15.26">[ 3150.336222] XFS (dm-6): metadata I/O error: block 0x2c230 ("xfs_buf_iodone_callbacks") error 5 numblks 16</sentence>
+			<sentence id="15.27">[ 3240.180102] INFO: task docker:3312 blocked for more than 120 seconds.</sentence>
+			<sentence id="15.28">[ 3240.184544] Tainted: G E 4.1.17-22.30.amzn1.x86_64 #1</sentence>
+			<sentence id="15.29">[ 3240.189691] "echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs" disables this message.</sentence>
+			<sentence id="15.30">[ 3240.195639] docker D ffff880037d03d48 0 3312 1 0x00000000</sentence>
+			<sentence id="15.31">[ 3240.200654] ffff880037d03d48 ffff88003e321980 ffff88003745b300 0000000000000246</sentence>
+			<sentence id="15.32">[ 3240.206939] ffff880037d04000 ffff88003d6aabe0 ffff880037e6cdc0 ffff880037e6cde8</sentence>
+			<sentence id="15.33">[ 3240.212569] ffff880037e6cd90 ffff880037d03d68 ffffffff814df3e7 ffff88003d6aabe0</sentence>
+			<sentence id="15.34">[ 3240.218299] Call Trace:</sentence>
+			<sentence id="15.35">[ 3240.219963] [&lt;ffffffff814df3e7&gt;] schedule+0x37/0x90</sentence>
+			<sentence id="15.36">[ 3240.223179] [&lt;ffffffffa048fb79&gt;] xfs_ail_push_all_sync+0xa9/0xe0 [xfs]</sentence>
+			<sentence id="15.37">[ 3240.227811] [&lt;ffffffff810aafc0&gt;] ? prepare_to_wait_event+0x110/0x110</sentence>
+			<sentence id="15.38">[ 3240.233513] [&lt;ffffffffa047b2e9&gt;] xfs_unmountfs+0x59/0x170 [xfs]</sentence>
+			<sentence id="15.39">[ 3240.239390] [&lt;ffffffffa047bdab&gt;] ? xfs_mru_cache_destroy+0x6b/0x90 [xfs]</sentence>
+			<sentence id="15.40">[ 3240.247251] [&lt;ffffffffa047dd36&gt;] xfs_fs_put_super+0x36/0x90 [xfs]</sentence>
+			<sentence id="15.41">[ 3240.252770] [&lt;ffffffff811ccb06&gt;] generic_shutdown_super+0x76/0x100</sentence>
+			<sentence id="15.42">[ 3240.256723] [&lt;ffffffff811ccea7&gt;] kill_block_super+0x27/0x70</sentence>
+			<sentence id="15.43">[ 3240.260913] [&lt;ffffffff811cd1b9&gt;] deactivate_locked_super+0x49/0x80</sentence>
+			<sentence id="15.44">[ 3240.265629] [&lt;ffffffff811cd7ae&gt;] deactivate_super+0x4e/0x70</sentence>
+			<sentence id="15.45">[ 3240.269797] [&lt;ffffffff811e9a63&gt;] cleanup_mnt+0x43/0x90</sentence>
+			<sentence id="15.46">[ 3240.274904] [&lt;ffffffff811e9b02&gt;] __cleanup_mnt+0x12/0x20</sentence>
+			<sentence id="15.47">[ 3240.279970] [&lt;ffffffff81085b97&gt;] task_work_run+0xb7/0xf0</sentence>
+			<sentence id="15.48">[ 3240.284063] [&lt;ffffffff81013bb1&gt;] do_notify_resume+0x51/0x80</sentence>
+			<sentence id="15.49">[ 3240.288751] [&lt;ffffffff814e35bc&gt;] int_signal+0x12/0x17</sentence>
+			<sentence id="15.50">```</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">Describe the results you expected:
+Docker itself would continue to be responsive, but operations that consume space (pulling images, writing inside a container, etc) would fail.</sentence>
+			<sentence id="16.2">This is the behavior observed when I switch to ext4 instead of xfs.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2416</id>
+	<title>Crash report 3.8-rc-2: NullPointerException in HtmlToSpannedConverter.convert</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```</sentence>
+			<sentence id="1.2">03-10 11:30:34.651 8847-8948/org.wordpress.android.beta E/AndroidRuntime﹕ FATAL EXCEPTION: AsyncTask #4</sentence>
+			<sentence id="1.3"> Process: org.wordpress.android.beta, PID: 8847</sentence>
+			<sentence id="1.4"> java.lang.RuntimeException: An error occured while executing doInBackground()</sentence>
+			<sentence id="1.5"> at android.os.AsyncTask$3.done(AsyncTask.java:300)</sentence>
+			<sentence id="1.6"> at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:355)</sentence>
+			<sentence id="1.7"> at java.util.concurrent.FutureTask.setException(FutureTask.java:222)</sentence>
+			<sentence id="1.8"> at java.util.concurrent.FutureTask.run(FutureTask.java:242)</sentence>
+			<sentence id="1.9"> at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1112)</sentence>
+			<sentence id="1.10"> at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:587)</sentence>
+			<sentence id="1.11"> at java.lang.Thread.run(Thread.java:818)</sentence>
+			<sentence id="1.12"> Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'android.content.res.Resources android.content.Context.getResources()' on a null object reference</sentence>
+			<sentence id="1.13"> at org.wordpress.android.util.HtmlToSpannedConverter.startImg(WPHtml.java:810)</sentence>
+			<sentence id="1.14"> at org.wordpress.android.util.HtmlToSpannedConverter.handleStartTag(WPHtml.java:652)</sentence>
+			<sentence id="1.15"> at org.wordpress.android.util.HtmlToSpannedConverter.startElement(WPHtml.java:992)</sentence>
+			<sentence id="1.16"> at org.ccil.cowan.tagsoup.Parser.push(Parser.java:794)</sentence>
+			<sentence id="1.17"> at org.ccil.cowan.tagsoup.Parser.rectify(Parser.java:1061)</sentence>
+			<sentence id="1.18"> at org.ccil.cowan.tagsoup.Parser.stage(Parser.java:1026)</sentence>
+			<sentence id="1.19"> at org.ccil.cowan.tagsoup.HTMLScanner.scan(HTMLScanner.java:632)</sentence>
+			<sentence id="1.20"> at org.ccil.cowan.tagsoup.Parser.parse(Parser.java:449)</sentence>
+			<sentence id="1.21"> at org.wordpress.android.util.HtmlToSpannedConverter.convert(WPHtml.java:552)</sentence>
+			<sentence id="1.22"> at org.wordpress.android.util.WPHtml.fromHtml(WPHtml.java:159)</sentence>
+			<sentence id="1.23"> at org.wordpress.android.util.WPHtml.fromHtml(WPHtml.java:122)</sentence>
+			<sentence id="1.24"> at org.wordpress.android.ui.posts.EditPostPreviewFragment$LoadPostPreviewTask.doInBackground(EditPostPreviewFragment.java:78)</sentence>
+			<sentence id="1.25"> at org.wordpress.android.ui.posts.EditPostPreviewFragment$LoadPostPreviewTask.doInBackground(EditPostPreviewFragment.java:62)</sentence>
+			<sentence id="1.26"> at android.os.AsyncTask$2.call(AsyncTask.java:288)</sentence>
+			<sentence id="1.27"> at java.util.concurrent.FutureTask.run(FutureTask.java:237)</sentence>
+			<sentence id="1.28">at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1112)</sentence>
+			<sentence id="1.29">at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:587)</sentence>
+			<sentence id="1.30">at java.lang.Thread.run(Thread.java:818)</sentence>
+			<sentence id="1.31">```</sentence>
+		</paragraph>
+	</description>
+</bug>

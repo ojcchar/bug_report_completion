@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>20529</id>
+	<title>Flaky test: TestEventsContainerFilterBeforeCreate</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">From #20526 https://jenkins.dockerproject.org/job/Docker-PRs-experimental/15218/console</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">01:40:53 ----------------------------------------------------------------------</sentence>
+			<sentence id="2.3">01:40:53 FAIL: docker_cli_events_unix_test.go:125: DockerSuite.TestEventsContainerFilterBeforeCreate</sentence>
+			<sentence id="2.4">01:40:53 </sentence>
+			<sentence id="2.5">01:40:53 docker_cli_events_unix_test.go:152:</sentence>
+			<sentence id="2.6">01:40:53 c.Assert(out, checker.Contains, cID, check.Commentf("Missing event of container (foo)"))</sentence>
+			<sentence id="2.7">01:40:53 ... obtained string = "" +</sentence>
+			<sentence id="2.8">01:40:53 ... "2016-02-20T01:40:29.587977244Z container create a9af1eda63b3b20240c46ccb4760454189f0c9e53b8e797209b42fd4580da20d (image=busybox, name=foo)</sentence>
+			<sentence id="2.9">" +</sentence>
+			<sentence id="2.10">01:40:53 ... "2016-02-20T01:40:29.633116042Z container start a9af1eda63b3b20240c46ccb4760454189f0c9e53b8e797209b42fd4580da20d (image=busybox, name=foo)</sentence>
+			<sentence id="2.11">" +</sentence>
+			<sentence id="2.12">01:40:53 ... "2016-02-20T01:40:29.926971940Z container kill a9af1eda63b3b20240c46ccb4760454189f0c9e53b8e797209b42fd4580da20d (image=busybox, name=foo)</sentence>
+			<sentence id="2.13">" +</sentence>
+			<sentence id="2.14">01:40:53 ... "2016-02-20T01:40:29.954202675Z container die a9af1eda63b3b20240c46ccb4760454189f0c9e53b8e797209b42fd4580da20d (image=busybox, name=foo)</sentence>
+			<sentence id="2.15">" +</sentence>
+			<sentence id="2.16">01:40:53 ... "2016-02-20T01:40:30.064539462Z container destroy a9af1eda63b3b20240c46ccb4760454189f0c9e53b8e797209b42fd4580da20d (image=busybox, name=foo)</sentence>
+			<sentence id="2.17">"</sentence>
+			<sentence id="2.18">01:40:53 ... substring string = "af77ab8d69cd5267b64aac268c332c50c6bb0ef30ba3602410384e237379685f"</sentence>
+			<sentence id="2.19">01:40:53 ... Missing event of container (foo)</sentence>
+			<sentence id="2.20">01:40:53 </sentence>
+			<sentence id="2.21">01:40:55 </sentence>
+			<sentence id="2.22">01:40:55 ----------------------------------------------------------------------</sentence>
+			<sentence id="2.23">```</sentence>
+		</paragraph>
+	</description>
+</bug>

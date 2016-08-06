@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4046</id>
+	<title>REST API /commit no longer respects Entrypoint, Cmd</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Since I switched to v0.8.0, when committing a container via the REST API (`docker commit` but not `docker build`) at least the `Entrypoint` and `Cmd` parameters appear to be ignored.</sentence>
+			<sentence id="1.2">When I was using v0.7.6 it worked correctly.</sentence>
+			<sentence id="1.3">I've talked to at least one other person on IRC who has the same issue.</sentence>
+			<sentence id="1.4">The same thing also happens when I make an API request directly via `curl(1)` instead of using the Docker CLI.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">#### API Request with `docker commit`</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In this example the `strace` output shows that `"Entrypoint": ["/bin/bash","-l"]` was sent to the server, but inspecting the resulting image shows `"Entrypoint": null`.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```</sentence>
+			<sentence id="4.2">samhanes@samhanes-dev $ strace -e trace=write -e write=3 docker commit -run='{"Entrypoint":["/bin/bash", "-l"]}' 0ba9980c64e1</sentence>
+			<sentence id="4.3">write(3, "POST /v1.9/commit?author=&amp;commen"..., 586) = 586</sentence>
+			<sentence id="4.4">| 00000 50 4f 53 54 20 2f 76 31 2e 39 2f 63 6f 6d 6d 69 POST /v1.9/commi |</sentence>
+			<sentence id="4.5">| 00010 74 3f 61 75 74 68 6f 72 3d 26 63 6f 6d 6d 65 6e t?author=&amp;commen |</sentence>
+			<sentence id="4.6">| 00020 74 3d 26 63 6f 6e 74 61 69 6e 65 72 3d 30 62 61 t=&amp;container=0ba |</sentence>
+			<sentence id="4.7">| 00030 39 39 38 30 63 36 34 65 31 26 72 65 70 6f 3d 26 9980c64e1&amp;repo=&amp; |</sentence>
+			<sentence id="4.8">| 00040 74 61 67 3d 20 48 54 54 50 2f 31 2e 31 0d 0a 48 tag= HTTP/1.1.</sentence>
+			<sentence id="4.9">.</sentence>
+			<sentence id="4.10">H |</sentence>
+			<sentence id="4.11">| 00050 6f 73 74 3a 20 2f 76 61 72 2f 72 75 6e 2f 64 6f ost: /var/run/do |</sentence>
+			<sentence id="4.12">| 00060 63 6b 65 72 2e 73 6f 63 6b 0d 0a 55 73 65 72 2d cker.sock.</sentence>
+			<sentence id="4.13">.</sentence>
+			<sentence id="4.14">User- |</sentence>
+			<sentence id="4.15">| 00070 41 67 65 6e 74 3a 20 44 6f 63 6b 65 72 2d 43 6c Agent: Docker-Cl |</sentence>
+			<sentence id="4.16">| 00080 69 65 6e 74 2f 30 2e 38 2e 30 0d 0a 43 6f 6e 74 ient/0.8.0.</sentence>
+			<sentence id="4.17">.</sentence>
+			<sentence id="4.18">Cont |</sentence>
+			<sentence id="4.19">| 00090 65 6e 74 2d 4c 65 6e 67 74 68 3a 20 33 39 31 0d ent-Length: 391.</sentence>
+			<sentence id="4.20">|</sentence>
+			<sentence id="4.21">| 000a0 0a 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 61 .</sentence>
+			<sentence id="4.22">Content-Type: a |</sentence>
+			<sentence id="4.23">| 000b0 70 70 6c 69 63 61 74 69 6f 6e 2f 6a 73 6f 6e 0d pplication/json.</sentence>
+			<sentence id="4.24">|</sentence>
+			<sentence id="4.25">| 000c0 0a 0d 0a 7b 22 48 6f 73 74 6e 61 6d 65 22 3a 22 ...{"Hostname":" |</sentence>
+			<sentence id="4.26">| 000d0 22 2c 22 44 6f 6d 61 69 6e 6e 61 6d 65 22 3a 22 ","Domainname":" |</sentence>
+			<sentence id="4.27">| 000e0 22 2c 22 55 73 65 72 22 3a 22 22 2c 22 4d 65 6d ","User":"","Mem |</sentence>
+			<sentence id="4.28">| 000f0 6f 72 79 22 3a 30 2c 22 4d 65 6d 6f 72 79 53 77 ory":0,"MemorySw |</sentence>
+			<sentence id="4.29">| 00100 61 70 22 3a 30 2c 22 43 70 75 53 68 61 72 65 73 ap":0,"CpuShares |</sentence>
+			<sentence id="4.30">| 00110 22 3a 30 2c 22 41 74 74 61 63 68 53 74 64 69 6e ":0,"AttachStdin |</sentence>
+			<sentence id="4.31">| 00120 22 3a 66 61 6c 73 65 2c 22 41 74 74 61 63 68 53 ":false,"AttachS |</sentence>
+			<sentence id="4.32">| 00130 74 64 6f 75 74 22 3a 66 61 6c 73 65 2c 22 41 74 tdout":false,"At |</sentence>
+			<sentence id="4.33">| 00140 74 61 63 68 53 74 64 65 72 72 22 3a 66 61 6c 73 tachStderr":fals |</sentence>
+			<sentence id="4.34">| 00150 65 2c 22 50 6f 72 74 53 70 65 63 73 22 3a 6e 75 e,"PortSpecs":nu |</sentence>
+			<sentence id="4.35">| 00160 6c 6c 2c 22 45 78 70 6f 73 65 64 50 6f 72 74 73 ll,"ExposedPorts |</sentence>
+			<sentence id="4.36">| 00170 22 3a 6e 75 6c 6c 2c 22 54 74 79 22 3a 66 61 6c ":null,"Tty":fal |</sentence>
+			<sentence id="4.37">| 00180 73 65 2c 22 4f 70 65 6e 53 74 64 69 6e 22 3a 66 se,"OpenStdin":f |</sentence>
+			<sentence id="4.38">| 00190 61 6c 73 65 2c 22 53 74 64 69 6e 4f 6e 63 65 22 alse,"StdinOnce" |</sentence>
+			<sentence id="4.39">| 001a0 3a 66 61 6c 73 65 2c 22 45 6e 76 22 3a 6e 75 6c :false,"Env":nul |</sentence>
+			<sentence id="4.40">| 001b0 6c 2c 22 43 6d 64 22 3a 6e 75 6c 6c 2c 22 44 6e l,"Cmd":null,"Dn |</sentence>
+			<sentence id="4.41">| 001c0 73 22 3a 6e 75 6c 6c 2c 22 49 6d 61 67 65 22 3a s":null,"Image": |</sentence>
+			<sentence id="4.42">| 001d0 22 22 2c 22 56 6f 6c 75 6d 65 73 22 3a 6e 75 6c "","Volumes":nul |</sentence>
+			<sentence id="4.43">| 001e0 6c 2c 22 56 6f 6c 75 6d 65 73 46 72 6f 6d 22 3a l,"VolumesFrom": |</sentence>
+			<sentence id="4.44">| 001f0 22 22 2c 22 57 6f 72 6b 69 6e 67 44 69 72 22 3a "","WorkingDir": |</sentence>
+			<sentence id="4.45">| 00200 22 22 2c 22 45 6e 74 72 79 70 6f 69 6e 74 22 3a "","Entrypoint": |</sentence>
+			<sentence id="4.46">| 00210 5b 22 2f 62 69 6e 2f 62 61 73 68 22 2c 22 2d 6c ["/bin/bash","-l |</sentence>
+			<sentence id="4.47">| 00220 22 5d 2c 22 4e 65 74 77 6f 72 6b 44 69 73 61 62 "],"NetworkDisab |</sentence>
+			<sentence id="4.48">| 00230 6c 65 64 22 3a 66 61 6c 73 65 2c 22 4f 6e 42 75 led":false,"OnBu |</sentence>
+			<sentence id="4.49">| 00240 69 6c 64 22 3a 6e 75 6c 6c 7d ild":null} |</sentence>
+			<sentence id="4.50">write(1, "5237b06adae74a741c32ced2efd1d347"..., 655237b06adae74a741c32ced2efd1d347d60bbfeaf19041c602ed49015fc86907</sentence>
+			<sentence id="4.51">) = 65</sentence>
+			<sentence id="4.52">+++ exited with 0 +++</sentence>
+			<sentence id="4.53">samhanes@samhanes-dev $ docker inspect 5237b06adae74a741c32ced2efd1d347</sentence>
+			<sentence id="4.54">[{</sentence>
+			<sentence id="4.55">"id": "5237b06adae74a741c32ced2efd1d347d60bbfeaf19041c602ed49015fc86907",</sentence>
+			<sentence id="4.56">"parent": "20f459277bdf9ac65da3c4cef4c86fa7a43b554511b180416e7f0261580cb099",</sentence>
+			<sentence id="4.57">"created": "2014-02-10T23:04:31.350232081Z",</sentence>
+			<sentence id="4.58">"container": "0ba9980c64e14d8054a5365d76a962a6d3ba54a416e7f86cffb1c2f7fd0365fa",</sentence>
+			<sentence id="4.59">"container_config": {</sentence>
+			<sentence id="4.60">"Hostname": "1e35a7e961b2",</sentence>
+			<sentence id="4.61">"Domainname": "",</sentence>
+			<sentence id="4.62">"User": "",</sentence>
+			<sentence id="4.63">"Memory": 0,</sentence>
+			<sentence id="4.64">"MemorySwap": 0,</sentence>
+			<sentence id="4.65">"CpuShares": 0,</sentence>
+			<sentence id="4.66">"AttachStdin": false,</sentence>
+			<sentence id="4.67">"AttachStdout": false,</sentence>
+			<sentence id="4.68">"AttachStderr": false,</sentence>
+			<sentence id="4.69">"PortSpecs": null,</sentence>
+			<sentence id="4.70">"ExposedPorts": {</sentence>
+			<sentence id="4.71">"5432/tcp": {}</sentence>
+			<sentence id="4.72">},</sentence>
+			<sentence id="4.73">"Tty": false,</sentence>
+			<sentence id="4.74">"OpenStdin": false,</sentence>
+			<sentence id="4.75">"StdinOnce": false,</sentence>
+			<sentence id="4.76">"Env": [</sentence>
+			<sentence id="4.77">"HOME=/",</sentence>
+			<sentence id="4.78">"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</sentence>
+			<sentence id="4.79">],</sentence>
+			<sentence id="4.80">"Cmd": null,</sentence>
+			<sentence id="4.81">"Dns": null,</sentence>
+			<sentence id="4.82">"Image": "20f459277bdf9ac65da3c4cef4c86fa7a43b554511b180416e7f0261580cb099",</sentence>
+			<sentence id="4.83">"Volumes": {</sentence>
+			<sentence id="4.84">"/var/lib/postgresql": {}</sentence>
+			<sentence id="4.85">},</sentence>
+			<sentence id="4.86">"VolumesFrom": "",</sentence>
+			<sentence id="4.87">"WorkingDir": "",</sentence>
+			<sentence id="4.88">"Entrypoint": [</sentence>
+			<sentence id="4.89">"/bin/sh",</sentence>
+			<sentence id="4.90">"-c",</sentence>
+			<sentence id="4.91">"exec /opt/wh-postgresql/init.</sentence>
+			<sentence id="4.92">py"</sentence>
+			<sentence id="4.93">],</sentence>
+			<sentence id="4.94">"NetworkDisabled": false,</sentence>
+			<sentence id="4.95">"OnBuild": []</sentence>
+			<sentence id="4.96">},</sentence>
+			<sentence id="4.97">"docker_version": "0.8.0",</sentence>
+			<sentence id="4.98">"config": {</sentence>
+			<sentence id="4.99">"Hostname": "",</sentence>
+			<sentence id="4.100">"Domainname": "",</sentence>
+			<sentence id="4.101">"User": "",</sentence>
+			<sentence id="4.102">"Memory": 0,</sentence>
+			<sentence id="4.103">"MemorySwap": 0,</sentence>
+			<sentence id="4.104">"CpuShares": 0,</sentence>
+			<sentence id="4.105">"AttachStdin": false,</sentence>
+			<sentence id="4.106">"AttachStdout": false,</sentence>
+			<sentence id="4.107">"AttachStderr": false,</sentence>
+			<sentence id="4.108">"PortSpecs": null,</sentence>
+			<sentence id="4.109">"ExposedPorts": null,</sentence>
+			<sentence id="4.110">"Tty": false,</sentence>
+			<sentence id="4.111">"OpenStdin": false,</sentence>
+			<sentence id="4.112">"StdinOnce": false,</sentence>
+			<sentence id="4.113">"Env": null,</sentence>
+			<sentence id="4.114">"Cmd": null,</sentence>
+			<sentence id="4.115">"Dns": null,</sentence>
+			<sentence id="4.116">"Image": "",</sentence>
+			<sentence id="4.117">"Volumes": null,</sentence>
+			<sentence id="4.118">"VolumesFrom": "",</sentence>
+			<sentence id="4.119">"WorkingDir": "",</sentence>
+			<sentence id="4.120">"Entrypoint": null,</sentence>
+			<sentence id="4.121">"NetworkDisabled": false,</sentence>
+			<sentence id="4.122">"OnBuild": null</sentence>
+			<sentence id="4.123">},</sentence>
+			<sentence id="4.124">"architecture": "amd64",</sentence>
+			<sentence id="4.125">"os": "linux",</sentence>
+			<sentence id="4.126">"Size": 0</sentence>
+			<sentence id="4.127">}]</sentence>
+			<sentence id="4.128">```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">#### Host Information
+```
+samhanes@samhanes-dev $ uname -a
+Linux samhanes-dev 3.11.0-15-generic #25-Ubuntu SMP Thu Jan 30 17:22:01 UTC 2014 x86_64 x86_64 x
+samhanes@samhanes-dev $ docker version
+Client version: 0.8.0
+Go version (client): go1.2
+Git commit (client): cc3a8c8
+Server version: 0.8.0
+Git commit (server): cc3a8c8
+Go version (server): go1.2
+Last stable version: 0.8.0
+samhanes@samhanes-dev $ docker info
+Containers: 10
+Images: 20
+Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Dirs: 40
+ WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

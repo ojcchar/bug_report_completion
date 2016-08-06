@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17247</id>
+	<title>Ambiguuty between name and short ID</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Steps to reproduce:</sentence>
+			<sentence id="1.2">1 - Create a container of any kind - say Ubuntu</sentence>
+			<sentence id="1.3">2 - Create a container of another kind - say Redis and give it a name which is a prefix (say 5 chars long) of the former container ID (the one which was created at step 1) Let us mark this prefix and name with XXXXX</sentence>
+			<sentence id="1.4">3 - docker inspect XXXXX</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">You will get the container from stage 2.</sentence>
+			<sentence id="2.2">Looking at the code Get tries as follows:
+1 - match exact name
+2 - match full Id
+3 - match partial ID</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">now since before the creation of the second container the command in 3 return the Ubuntu container and after it the Redis container return this seems to me like an ambiguity (and if you delete the redis you get the ubuntu again after the inspect command)</sentence>
+		</paragraph>
+	</description>
+</bug>

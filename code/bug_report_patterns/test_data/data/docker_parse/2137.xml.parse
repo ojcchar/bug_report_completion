@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2137</id>
+	<title>Panic when running unit tests - looks like docker test repository is wrong.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">On master, following contributor instructions, trying to run the unit tests, I get:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+vagrant@precise64:~/docker$ sudo docker run -lxc-conf=lxc.aa_profile=unconfined -privileged -v `pwd`:/go/src/github.</sentence>
+			<sentence id="2.2">com/dotcloud/docker docker hack/make.</sentence>
+			<sentence id="2.3">sh test
+/proc/self/fd /go/src/github.</sentence>
+			<sentence id="2.4">com/dotcloud/docker
+/go/src/github.</sentence>
+			<sentence id="2.5">com/dotcloud/docker
+bundles/0.6.3-dev already exists.</sentence>
+			<sentence id="2.6">Removing.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">---&gt; Making bundle: test (in bundles/0.6.3-dev/test)</sentence>
+			<sentence id="3.2">Tue Oct 8 23:12:24 UTC 2013</sentence>
+			<sentence id="3.3">++ cd .</sentence>
+			<sentence id="3.4">++ go test -v -ldflags '-X main.GITCOMMIT 2d425af -X main.VERSION 0.6.3-dev -d -w'</sentence>
+			<sentence id="3.5">warning: building out-of-date packages:</sentence>
+			<sentence id="3.6">code.google.com/p/go.net/websocket</sentence>
+			<sentence id="3.7">github.com/dotcloud/tar</sentence>
+			<sentence id="3.8">github.com/dotcloud/docker/utils</sentence>
+			<sentence id="3.9">github.com/dotcloud/docker/auth</sentence>
+			<sentence id="3.10">github.com/dotcloud/docker/registry</sentence>
+			<sentence id="3.11">github.com/dotcloud/docker/term</sentence>
+			<sentence id="3.12">github.com/gorilla/context</sentence>
+			<sentence id="3.13">github.com/gorilla/mux</sentence>
+			<sentence id="3.14">github.com/kr/pty</sentence>
+			<sentence id="3.15">installing these packages with 'go test -i' will speed future tests.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Pulling repository docker-test-image</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">panic: Get https://index.docker.io/v1/images/docker-test-image/ancestry: lookup index.docker.io.</sentence>
+			<sentence id="5.2">on 10.0.2.3:53: no answer from server</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">goroutine 1 [running]:
+github.com/dotcloud/docker.init&#xB7;3()
+	/go/src/github.</sentence>
+			<sentence id="6.2">com/dotcloud/docker/runtime_test.</sentence>
+			<sentence id="6.3">go:107 +0x4cd
+github.com/dotcloud/docker.init()
+	/go/src/github.</sentence>
+			<sentence id="6.4">com/dotcloud/docker/z_final_test.</sentence>
+			<sentence id="6.5">go:17 +0x1f3
+main.init()
+	github.com/dotcloud/docker/_test/_testmain.go:290 +0x3b</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">goroutine 3 [syscall]:
+os/signal.</sentence>
+			<sentence id="7.2">loop()
+	/goroot/src/pkg/os/signal/signal_unix.go:21 +0x1c
+created by os/signal.</sentence>
+			<sentence id="7.3">init&#xB7;1
+	/goroot/src/pkg/os/signal/signal_unix.go:27 +0x2f</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">goroutine 11 [select]:
+github.com/dotcloud/docker.</sentence>
+			<sentence id="8.2">(*IPAllocator).</sentence>
+			<sentence id="8.3">run(0xc200143220)
+	/go/src/github.</sentence>
+			<sentence id="8.4">com/dotcloud/docker/network.go:437 +0x320
+created by github.com/dotcloud/docker.newIPAllocator
+	/go/src/github.</sentence>
+			<sentence id="8.5">com/dotcloud/docker/network.go:478 +0xbd</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">goroutine 12 [chan send]:
+github.com/dotcloud/docker.</sentence>
+			<sentence id="9.2">(*PortAllocator).</sentence>
+			<sentence id="9.3">runFountain(0xc200143240)
+	/go/src/github.</sentence>
+			<sentence id="9.4">com/dotcloud/docker/network.go:345 +0x4b
+created by github.com/dotcloud/docker.newPortAllocator
+	/go/src/github.</sentence>
+			<sentence id="9.5">com/dotcloud/docker/network.go:384 +0x9a</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">goroutine 13 [chan send]:
+github.com/dotcloud/docker.</sentence>
+			<sentence id="10.2">(*PortAllocator).</sentence>
+			<sentence id="10.3">runFountain(0xc200143260)
+	/go/src/github.</sentence>
+			<sentence id="10.4">com/dotcloud/docker/network.go:345 +0x4b
+created by github.com/dotcloud/docker.newPortAllocator
+	/go/src/github.</sentence>
+			<sentence id="10.5">com/dotcloud/docker/network.go:384 +0x9a
+exit status 2
+FAIL	github.com/dotcloud/docker	80.097s</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">2013/10/08 23:13:47 read unix /var/run/docker.</sentence>
+			<sentence id="11.2">sock: connection reset by peer
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

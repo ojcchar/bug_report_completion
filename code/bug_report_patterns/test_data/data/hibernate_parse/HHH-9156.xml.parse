@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9156</id>
+	<title>StandardClassLoaderDelegateImpl: log.debugf is missing a parameter</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">{code:java}
+log.debugf( "Unable to locate Class [%s] using TCCL, falling back to HCANN ClassLoader" );
+{code}</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">There should be a second parameter ({{className}}), otherwise the following exception occurs:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">{noformat}</sentence>
+			<sentence id="3.2">java.util.MissingFormatArgumentException: Format specifier 's'</sentence>
+			<sentence id="3.3">	at java.util.Formatter.format(Formatter.java:2487)</sentence>
+			<sentence id="3.4">	at java.util.Formatter.format(Formatter.java:2423)</sentence>
+			<sentence id="3.5">	at java.lang.String.format(String.java:2797)</sentence>
+			<sentence id="3.6">	at org.jboss.logging.Slf4jLocationAwareLogger.doLogf(Slf4jLocationAwareLogger.java:81)</sentence>
+			<sentence id="3.7">	at org.jboss.logging.Logger.debugf(Logger.java:553)</sentence>
+			<sentence id="3.8">	at org.hibernate.annotations.common.util.StandardClassLoaderDelegateImpl.classForName(StandardClassLoaderDelegateImpl.java:53)</sentence>
+			<sentence id="3.9">{noformat}</sentence>
+		</paragraph>
+	</description>
+</bug>

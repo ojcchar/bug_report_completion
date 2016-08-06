@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1877</id>
+	<title>ClassNotFoundException on my entity-name in a join tag</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I use the attribute "entity-name" in my class mapping, this is for mapping the same object many times on table(s), and all seem to work normally.</sentence>
+			<sentence id="1.2">I found a problem when I tried to join a table on another class mapping, like:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;class entity-name="categoryDefault" name="ca.cie.pak.CategoryVO" table="CATEGORY"&gt;
+		 &lt;id name="id" column="CATEGORY_ID" type="java.lang.Integer"&gt;
+ &lt;generator class="native"/&gt;
+ </id>
+ &lt;property name="name" column="NAME"/&gt;
+ 
+		 &lt;bag name="contents" where="priority = 0"&gt; 
+		 &lt;key column="CATEGORY_ID" /&gt;
+		 &lt;one-to-many entity-name="ContentSummary"/&gt;
+		 &lt;/bag&gt;
+		 
+		 &lt;join table="LAYOUT_CATEGORY"&gt;
+		 &lt;key foreign-key="CATEGORY_ID" column="CATEGORY_ID" /&gt;
+	 &lt;property name="layoutId" column="LAYOUT_ID"/&gt;
+ &lt;/join&gt; 		 
+		&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I found a ClassNotFoundException: categoryDefault.</sentence>
+			<sentence id="3.2">This exception is thrown when the HbmBinder.bindJoin method is called.</sentence>
+			<sentence id="3.3">I see the code and it tries to instantiate a class from the getEntityName and not by the className.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Someone can answer me if this is a XML mapping error or a real bug and what I need to do.</sentence>
+		</paragraph>
+	</description>
+</bug>

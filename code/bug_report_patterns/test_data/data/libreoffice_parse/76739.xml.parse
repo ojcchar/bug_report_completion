@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>76739</id>
+	<title>FILTER: can't import csv UTF-8 for non english languages with macros</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 96535
+file in UTF-8</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Problem description: 
+can't import csv UTF-8 for non english languages using macros only if opened CSV by hand and choose UTF-8.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Steps to reproduce:</sentence>
+			<sentence id="3.2">Use the following macros and files that i attached</sentence>
+			<sentence id="3.3">Sub ImportCSV</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">oSheet = thisComponent.Sheets(0)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Dim aProps(1) as new com.sun.star.beans.PropertyValue</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Url = "file:///dev/shm/import.</sentence>
+			<sentence id="6.2">csv"</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">aProps( 0 ).</sentence>
+			<sentence id="7.2">name = "FilterName"
+aProps( 0 ).</sentence>
+			<sentence id="7.3">Value = "Text - txt - csv (StarCalc)"
+aProps( 1 ).</sentence>
+			<sentence id="7.4">name = "FilterData"
+aProps( 1 ).</sentence>
+			<sentence id="7.5">Value = "44,34,76,1,1"</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">oExport = StarDesktop.loadComponentFromURL( Url, "_blank", 0, aProps() )</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">End Sub</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Current behavior:
+Opens CSV file as new ODS file but Ukrainian and Russian languages aren't decoded.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Expected behavior:
+Opens CSV file as new ODS file and decodes everything correctly.</sentence>
+			<sentence id="11.2">Operating System: All
+Version: 4.2.2.1 release</sentence>
+		</paragraph>
+	</description>
+</bug>

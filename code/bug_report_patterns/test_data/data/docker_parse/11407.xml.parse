@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>11407</id>
+	<title>Docker Container DNS resolving slow or timeout, when it's bridge net mode</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Use the bridge net mode(default setting --net="bridge"), add -v /etc/resolv.</sentence>
+			<sentence id="1.2">conf:/etc/resolv.</sentence>
+			<sentence id="1.3">conf when run a brand new container.</sentence>
+			<sentence id="1.4">Do a simple 'ping google.com' in container, and see "ping: unknown host google.com" error message occasionally.</sentence>
+			<sentence id="1.5">Most time it works well.</sentence>
+			<sentence id="1.6">But It works well when use host net mode(--net="host") all the time as I test.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">My env is Ubuntu12.04+docker1.5.0+linux kernel3.2.0-70 + aufs</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Detailed message:
+docker info
+Containers: 12
+Images: 117
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 141
+Execution Driver: native-0.2
+Kernel Version: 3.2.0-70-virtual
+Operating System: Ubuntu precise (12.04.5 LTS)
+CPUs: 8
+Total Memory: 7.768 GiB</sentence>
+		</paragraph>
+	</description>
+</bug>

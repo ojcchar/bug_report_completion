@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4095</id>
+	<title>bug in org.hibernate.Hibernate.createBlob( InputStream in )</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The implementation of org.hibernate.Hibernate.createBlob( InputStream in ) looks like this</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">public static Blob createBlob(InputStream stream) throws IOException {
+ return new SerializableBlob( new BlobImpl( stream, stream.available() ) );
+}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The second parameter here is supposed to be the length of the inputstream.</sentence>
+			<sentence id="3.2">The problem is that stream.available() doesn't return the length of the inputstream.</sentence>
+			<sentence id="3.3">That's explicitly noted in the Java-API (http://java.sun.com/javase/6/docs/api/java/io/InputStream.html#available):
+"Note that while some implementations of InputStream will return the total number of bytes in the stream (on calling available() ), many will not.</sentence>
+			<sentence id="3.4">It is never correct to use the return value of this method to allocate a buffer intended to hold all data in this stream."</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This is the source of my problem, only the first available bytes are read out of the inputstream.</sentence>
+			<sentence id="4.2">While the workaround for me is to simply call org.hibernate.Hibernate.createBlob( InputStream in,int length ), the misuse of stream.available() in Hibernate.createBlob( InputStream in ) remains to be resolved.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Solution: the only way to get the length of an InputStream ist to read it completly, if you don't want to do that Hibernate.createBlob( InputStream i ) should be removed.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">(By the way, why is length of type int?</sentence>
+			<sentence id="6.2">java.io.File.length() and java.sql.Blob.length() are of type long, so length should be of type long as well).</sentence>
+		</paragraph>
+	</description>
+</bug>

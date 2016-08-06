@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17248</id>
+	<title>--cluster-advertise only known ips1.9.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I had trouble setup the multi-host networking on ecs.</sentence>
+			<sentence id="1.2">The issue is I was using the public IPs (54.</sentence>
+			<sentence id="1.3">x) in `--cluster-advertise` and this doesn't work because this IP isn't known by the machine.</sentence>
+			<sentence id="1.4">You have to use the private one, usually associated with `eth0`</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">What about making sure that `--cluster-advertise` returns an error when you cannot bind the ip ?</sentence>
+			<sentence id="2.2">(or at least a warning)</sentence>
+		</paragraph>
+	</description>
+</bug>

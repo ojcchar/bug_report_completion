@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3490</id>
+	<title>replicate breaks an object's collections in the destination session if they were not initialized in the source session</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We have a class mapped with hibernate which has a lazily loaded collection.</sentence>
+			<sentence id="1.2">When we try to replicate an object of this class with existing associated collection items to another database hibernate removes collection items in the destination database for this object in the case if the collection has not been initialized in the scope of source session.</sentence>
+			<sentence id="1.3">Is this correct behavior or is this a bug?</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The mapping is:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;hibernate-mapping package="paysys.domain"&gt;
+	&lt;class name="Service" table="SERVICE"&gt;
+ ..............
+		&lt;set name="operationClasses" table="OPERATION_CLASSES"&gt;
+			&lt;key column="SERVICE_ID" /&gt;
+			&lt;element column="CLASS" type="class" /&gt;
+		&lt;/set&gt;
+ ...........</sentence>
+			<sentence id="3.2">&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Actually this happens for seemingly any collection type, for instance, list.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Please, note if you need more explanations on this issue.</sentence>
+		</paragraph>
+	</description>
+</bug>

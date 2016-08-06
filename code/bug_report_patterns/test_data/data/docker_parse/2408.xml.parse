@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2408</id>
+	<title>Cannot docker rmi &lt;url with protocol&gt; - "unexpected end of JSON input"</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I did somethig dumbish - I added http:// to the beginning of the repository name when I was tagging my images.</sentence>
+			<sentence id="1.2">Any way out of this?</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1"># docker images
+REPOSITORY TAG ID CREATED SIZE
+precise latest b2fe3626922c 50 minutes ago 6.229 MB (virtual 6.229 MB)
+http://192.168.124.81:4999/precise latest b2fe3626922c 50 minutes ago 6.229 MB (virtual 6.229 MB)
+docker-registry latest 28459dc102f3 4 hours ago 604.1 MB (virtual 604.1 MB)
+root@d08-00-27-49-4f-76:/var/log/glance#</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1"># docker rmi http://192.168.124.81:4999/precise
+2013/10/25 21:50:48 unexpected end of JSON input</sentence>
+		</paragraph>
+	</description>
+</bug>

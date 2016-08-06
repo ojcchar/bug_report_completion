@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>97886</id>
+	<title>saving a document multiplies images in it</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">when saving a particular document, writer multiplies the images within.</sentence>
+			<sentence id="1.2">the actual png files are not multiplied, but some get referenced many, many times in content.xml.</sentence>
+			<sentence id="1.3">just opening and saving the file adds two new such references.</sentence>
+			<sentence id="1.4">editing and saving over a longer period of time increases this amount.</sentence>
+			<sentence id="1.5">after getting hundreds of thousands of such references, writer stops opening the file, essentially corrupting it beyond usefulness.</sentence>
+			<sentence id="1.6">manually editing out the duplicate image references allows to edit and save the file a few more times.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">unfortunately, the testcase itself is confidential.</sentence>
+			<sentence id="2.2">if a developer has some time to look at this, please let me know how to deliver the testcase.</sentence>
+			<sentence id="2.3">the testcase file is ~ 1mb large.</sentence>
+		</paragraph>
+	</description>
+</bug>

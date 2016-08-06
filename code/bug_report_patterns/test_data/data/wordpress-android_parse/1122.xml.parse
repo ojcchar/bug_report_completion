@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1122</id>
+	<title>OOM when creating bitmap</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```</sentence>
+			<sentence id="1.2">java.lang.RuntimeException: An error occured while executing doInBackground()</sentence>
+			<sentence id="1.3">at android.os.AsyncTask$3.done(AsyncTask.java:299)</sentence>
+			<sentence id="1.4">at java.util.concurrent.FutureTask$Sync.innerSetException(FutureTask.java:273)</sentence>
+			<sentence id="1.5">at java.util.concurrent.FutureTask.setException(FutureTask.java:124)</sentence>
+			<sentence id="1.6">at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:307)</sentence>
+			<sentence id="1.7">at java.util.concurrent.FutureTask.run(FutureTask.java:137)</sentence>
+			<sentence id="1.8">at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:230)</sentence>
+			<sentence id="1.9">at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)</sentence>
+			<sentence id="1.10">at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:569)</sentence>
+			<sentence id="1.11">at java.lang.Thread.run(Thread.java:856)</sentence>
+			<sentence id="1.12">Caused by: java.lang.OutOfMemoryError</sentence>
+			<sentence id="1.13">at android.graphics.Bitmap.nativeCreate(Native Method)</sentence>
+			<sentence id="1.14">at android.graphics.Bitmap.createBitmap(Bitmap.java:669)</sentence>
+			<sentence id="1.15">at android.graphics.Bitmap.createBitmap(Bitmap.java:615)</sentence>
+			<sentence id="1.16">at org.wordpress.android.util.ImageHelper.createThumbnailFromUri(ImageHelper.java:447)</sentence>
+			<sentence id="1.17">at org.wordpress.android.util.PostUploadService$UploadPostTask.uploadMediaFile(PostUploadService.java:633)</sentence>
+			<sentence id="1.18">at org.wordpress.android.util.PostUploadService$UploadPostTask.doInBackground(PostUploadService.java:255)</sentence>
+			<sentence id="1.19">at org.wordpress.android.util.PostUploadService$UploadPostTask.doInBackground(PostUploadService.java:129)</sentence>
+			<sentence id="1.20">at android.os.AsyncTask$2.call(AsyncTask.java:287)</sentence>
+			<sentence id="1.21">at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:305)</sentence>
+			<sentence id="1.22">... 5 more</sentence>
+			<sentence id="1.23">```</sentence>
+		</paragraph>
+	</description>
+</bug>

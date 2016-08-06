@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>17878</id>
+	<title>Re-open of #8942: Unable to use --volumes-from with an unstarted container made with `docker create`</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We were using Docker 1.6.2.</sentence>
+			<sentence id="1.2">We created a new container called `geo-data` whose sole purpose was to publish a volume.</sentence>
+			<sentence id="1.3">We created another container called `mysql-geo`, and that container uses `volumes-from geo-data`.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">At first, when starting `mysql-geo`, we got this error:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+Error: 500 Server Error: Internal Server Error ("Cannot start container 5427b24cc540b18ebe48f2137b028357a2bc0586f28a26c9bfc0caa318134cc8: Could not apply volumes of non-existent container "yadayada.geo-data.1".")</sentence>
+			<sentence id="3.2">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">However, after trying to start `geo-data` (which failed, because there's no executable, but that failure didn't stop it from working), we were then able to start `mysql-geo` without error and use the volume from `geo-data`.</sentence>
+			<sentence id="4.2">So, it was odd enough that we couldn't use a data volume container without "starting" it, but it was odder still that pretending to start it (it dies immediately) is enough to get it to work.</sentence>
+			<sentence id="4.3">And it keeps working, unless the `geo-data` container/image gets deleted.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Having found issue #8942, it appeared that the issue had been fixed.</sentence>
+			<sentence id="5.2">So we updated to Docker 1.9.0.</sentence>
+			<sentence id="5.3">To ensure that the issue had been resolved (instead of the previous start masking it), I deleted all my containers and images so that I was starting from scratch.</sentence>
+			<sentence id="5.4">I created a new container called `geo-data` whose sole purpose was to publish a volume.</sentence>
+			<sentence id="5.5">I created another container called `mysql-geo`, and that container uses `volumes-from geo-data`.</sentence>
+			<sentence id="5.6">I did this identically to the first time.</sentence>
+			<sentence id="5.7">Now, starting `mysql-geo` just gave me a new error:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+Error: 404 Client Error: Not Found ("no such id: yadayada.geo-data.1")
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">And, once again, pretending to start `geo-data` does the trick.</sentence>
+			<sentence id="7.2">`geo-data` dies immediately after starting, but it's enough.</sentence>
+			<sentence id="7.3">Now I can start `mysql-geo` without error and use the volume from `geo-data`.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Would really love an update on / solution to this problem.</sentence>
+			<sentence id="8.2">In the mean time, what's the best workaround?</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16093</id>
+	<title>Can't docker pause from within a container</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I can docker pause just fine from the host machine:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">sudo docker pause container1</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">However, if I enter another container and try to pause container1, I get the following error:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">docker exec -it container2 bash
+ docker pause container1 (in container2)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">---&gt; Cannot pause container container1: open /sys/fs/cgroup/freezer/docker/e045e46773783c32c9038cb835864c2ecf526b5f547ed5c7811c5fe609e6a661/freezer.state: no such file or directory</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">From the tests it seems like I should be able to do this, but perhaps I'm missing something.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">`docker version`: Client version: 1.6.1
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): 97cd073
+OS/Arch (client): linux/amd64
+Server version: 1.6.1
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): 97cd073
+OS/Arch (server): linux/amd64
+`uname -a`: Linux vagrant 3.13.0-24-generic #47-Ubuntu SMP Fri May 2 23:30:00 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+		</paragraph>
+	</description>
+</bug>

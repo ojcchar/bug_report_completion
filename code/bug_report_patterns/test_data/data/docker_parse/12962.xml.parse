@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12962</id>
+	<title>Instances freeze</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I've been troubleshooting high CPU/docker daemon choke points from starting and stopping a large number of containers (referenced previously in #11228 and #12758).</sentence>
+			<sentence id="1.2">Based on the advice in these two threads, I decided to give OverlayFS a try by installing on Ubuntu 15.04.</sentence>
+			<sentence id="1.3">Initially it seemed like results were good.</sentence>
+			<sentence id="1.4">CPU/memory usage was low, containers were starting / stopping with good performance.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">However, after a day or two running, things slowed down and ground to a halt, to the point where the system became unresponsive and had to be reset.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">docker info: 
+```
+Containers: 8
+Images: 35
+Storage Driver: overlay
+ Backing Filesystem: extfs
+Execution Driver: native-0.2
+Kernel Version: 3.19.0-15-generic
+Operating System: Ubuntu 15.04
+CPUs: 2
+Total Memory: 3.675 GiB
+Name: &lt;redacted&gt;
+ID: 3X6T:TWPU:QBFS:M65A:724X:64GN:W763:ZVIP:NRPN:N2TP:HPND:YTE4
+WARNING: No swap limit support
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">docker version</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+Client version: 1.6.0
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): 4749651
+OS/Arch (client): linux/amd64
+Server version: 1.6.0
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): 4749651
+OS/Arch (server): linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">uname -a</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">```
+Linux &lt;redacted&gt; 3.19.0-15-generic #15-Ubuntu SMP Thu Apr 16 23:32:37 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">ulimit
+```
+core file size (blocks, -c) 0
+data seg size (kbytes, -d) unlimited
+scheduling priority (-e) 0
+file size (blocks, -f) unlimited
+pending signals (-i) 15011
+max locked memory (kbytes, -l) 64
+max memory size (kbytes, -m) unlimited
+open files (-n) 1024
+pipe size (512 bytes, -p) 8
+POSIX message queues (bytes, -q) 819200
+real-time priority (-r) 0
+stack size (kbytes, -s) 8192
+cpu time (seconds, -t) unlimited
+max user processes (-u) 15011
+virtual memory (kbytes, -v) unlimited
+file locks (-x) unlimited
+```</sentence>
+		</paragraph>
+		<paragraph id="9">
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16748</id>
+	<title>1.9: Possible CPU issue from libnetwork</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">@mavenugo This may be the most useless bug report, but I have reason to believe the following gorouting is chewing up 100% CPU:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">goroutine 182 [select]:</sentence>
+			<sentence id="2.3">net/http.(*Transport).getConn(0xc20829d4d0, 0xc208974410, 0x0, 0xc20865bc20, 0x4, 0xc20865bc27, 0xe, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="2.4">	/usr/local/go/src/net/http/transport.go:525 +0x608</sentence>
+			<sentence id="2.5">net/http.(*Transport).RoundTrip(0xc20829d4d0, 0xc208974410, 0xc20865bd10, 0x0, 0x0)</sentence>
+			<sentence id="2.6">	/usr/local/go/src/net/http/transport.go:228 +0x4d4</sentence>
+			<sentence id="2.7">net/http.send(0xc208974410, 0x7f2acd81c5f0, 0xc20829d4d0, 0xe4, 0x0, 0x0)</sentence>
+			<sentence id="2.8">	/usr/local/go/src/net/http/client.go:219 +0x4fc</sentence>
+			<sentence id="2.9">net/http.(*Client).send(0xc2082cb6b0, 0xc208974410, 0xe4, 0x0, 0x0)</sentence>
+			<sentence id="2.10">	/usr/local/go/src/net/http/client.go:142 +0x15b</sentence>
+			<sentence id="2.11">net/http.(*Client).doFollowingRedirects(0xc2082cb6b0, 0xc208974410, 0x1434ed0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="2.12">	/usr/local/go/src/net/http/client.go:367 +0xb25</sentence>
+			<sentence id="2.13">net/http.(*Client).Do(0xc2082cb6b0, 0xc208974410, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="2.14">	/usr/local/go/src/net/http/client.go:174 +0xa4</sentence>
+			<sentence id="2.15">github.com/coreos/go-etcd/etcd.(*Client).SendRequest(0xc20829d440, 0xc20a44fd40, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="2.16">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/requests.go:238 +0x121f</sentence>
+			<sentence id="2.17">github.com/coreos/go-etcd/etcd.(*Client).getCancelable(0xc20829d440, 0xc20a453860, 0x9e, 0xc20a44fc50, 0x0, 0x1a02fc0, 0x0, 0x0)</sentence>
+			<sentence id="2.18">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/requests.go:51 +0x41a</sentence>
+			<sentence id="2.19">github.com/coreos/go-etcd/etcd.(*Client).get(0xc20829d440, 0xc20a453860, 0x9e, 0xc20a44fc50, 0x4b1561, 0x0, 0x0)</sentence>
+			<sentence id="2.20">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/requests.go:62 +0x61</sentence>
+			<sentence id="2.21">github.com/coreos/go-etcd/etcd.(*Client).RawGet(0xc20829d440, 0xc20a453860, 0x9e, 0x0, 0xc20a4537c0, 0x0, 0x0)</sentence>
+			<sentence id="2.22">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/get.go:31 +0x26c</sentence>
+			<sentence id="2.23">github.com/coreos/go-etcd/etcd.(*Client).Get(0xc20829d440, 0xc20a453860, 0x9e, 0x0, 0x9d, 0x0, 0x0)</sentence>
+			<sentence id="2.24">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/get.go:11 +0x63</sentence>
+			<sentence id="2.25">github.com/docker/libkv/store/etcd.(*Etcd).Get(0xc208038788, 0xc20a453680, 0x9d, 0xc20a4535e0, 0x0, 0x0)</sentence>
+			<sentence id="2.26">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libkv/store/etcd/etcd.go:126 +0x86</sentence>
+			<sentence id="2.27">github.com/docker/libnetwork/datastore.(*datastore).GetObject(0xc2082ea410, 0xc20a453680, 0x9d, 0x7f2acd831c38, 0xc2089f8480, 0x0, 0x0)</sentence>
+			<sentence id="2.28">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libnetwork/datastore/datastore.go:188 +0x70</sentence>
+			<sentence id="2.29">github.com/docker/libnetwork.func&#xB7;042()</sentence>
+			<sentence id="2.30">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libnetwork/store.go:244 +0x58b</sentence>
+			<sentence id="2.31">created by github.com/docker/libnetwork.(*network).watchEndpoints</sentence>
+			<sentence id="2.32">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libnetwork/store.go:253 +0x576</sentence>
+			<sentence id="2.33">```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The situation is such that I started with an etcd backend, but then killed the server.</sentence>
+			<sentence id="3.2">So Docker should be getting a connection refused right now.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">To help troubleshoot, I pushed a tag to by github account because this is docker master + your two UX PR's.</sentence>
+			<sentence id="4.2">https://github.com/ibuildthecloud/docker/blob/cpu-issue/vendor/src/github.com/docker/libnetwork/store.go#L244</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Right now Docker is using 100% CPU.</sentence>
+			<sentence id="5.2">This is the full goroutine dump
+```
+INFO[84249] === BEGIN goroutine stack dump ===
+goroutine 10 [running]:
+github.com/docker/docker/pkg/signal.DumpStacks()
+	/go/src/github.</sentence>
+			<sentence id="5.3">com/docker/docker/pkg/signal/trap.</sentence>
+			<sentence id="5.4">go:67 +0xa5
+github.com/docker/docker/daemon.func&#xB7;030()
+	/go/src/github.</sentence>
+			<sentence id="5.5">com/docker/docker/daemon/debugtrap_unix.go:18 +0x6d
+created by github.com/docker/docker/daemon.setupDumpStackTrap
+	/go/src/github.</sentence>
+			<sentence id="5.6">com/docker/docker/daemon/debugtrap_unix.go:20 +0x18e</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">goroutine 1 [chan receive, 386 minutes]:
+main.</sentence>
+			<sentence id="6.2">(*DaemonCli).</sentence>
+			<sentence id="6.3">CmdDaemon(0xc2080f9ed0, 0xc20800a020, 0x1, 0x1, 0x0, 0x0)
+	/go/src/github.</sentence>
+			<sentence id="6.4">com/docker/docker/docker/daemon.</sentence>
+			<sentence id="6.5">go:286 +0x1867
+reflect.callMethod(0xc208068ae0, 0xc2082bfce8)
+	/usr/local/go/src/reflect/value.</sentence>
+			<sentence id="6.6">go:605 +0x179
+reflect.methodValueCall(0xc20800a020, 0x1, 0x1, 0x1, 0xc208068ae0, 0x0, 0x0, 0xc208068ae0, 0x0, 0x4dbc0f, ...)
+	/usr/local/go/src/reflect/asm_amd64.s:29 +0x36
+github.com/docker/docker/cli.</sentence>
+			<sentence id="6.7">(*Cli).</sentence>
+			<sentence id="6.8">Run(0xc208099170, 0xc20800a010, 0x2, 0x2, 0x0, 0x0)
+	/go/src/github.</sentence>
+			<sentence id="6.9">com/docker/docker/cli/cli.</sentence>
+			<sentence id="6.10">go:89 +0x38e
+main.main()
+	/go/src/github.</sentence>
+			<sentence id="6.11">com/docker/docker/docker/docker.</sentence>
+			<sentence id="6.12">go:65 +0x418</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">goroutine 5 [syscall]:
+os/signal.</sentence>
+			<sentence id="7.2">loop()
+	/usr/local/go/src/os/signal/signal_unix.</sentence>
+			<sentence id="7.3">go:21 +0x1f
+created by os/signal.</sentence>
+			<sentence id="7.4">init&#xB7;1
+	/usr/local/go/src/os/signal/signal_unix.</sentence>
+			<sentence id="7.5">go:27 +0x35</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">goroutine 17 [syscall, 386 minutes, locked to thread]:
+runtime.goexit()
+	/usr/local/go/src/runtime/asm_amd64.s:2232 +0x1</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">goroutine 12 [IO wait, 386 minutes]:</sentence>
+			<sentence id="9.2">net.(*pollDesc).Wait(0xc2080da7d0, 0x72, 0x0, 0x0)</sentence>
+			<sentence id="9.3">	/usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+			<sentence id="9.4">net.(*pollDesc).WaitRead(0xc2080da7d0, 0x0, 0x0)</sentence>
+			<sentence id="9.5">	/usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+			<sentence id="9.6">net.(*netFD).readMsg(0xc2080da770, 0xc2082c8ef0, 0x10, 0x10, 0xc2082d6020, 0x1000, 0x1000, 0xffffffffffffffff, 0x0, 0x0, ...)</sentence>
+			<sentence id="9.7">	/usr/local/go/src/net/fd_unix.go:296 +0x54e</sentence>
+			<sentence id="9.8">net.(*UnixConn).ReadMsgUnix(0xc208038478, 0xc2082c8ef0, 0x10, 0x10, 0xc2082d6020, 0x1000, 0x1000, 0x51, 0xc2082c8cb4, 0x4, ...)</sentence>
+			<sentence id="9.9">	/usr/local/go/src/net/unixsock_posix.go:147 +0x167</sentence>
+			<sentence id="9.10">github.com/godbus/dbus.(*oobReader).Read(0xc2082d6000, 0xc2082c8ef0, 0x10, 0x10, 0xc2082d6000, 0x0, 0x0)</sentence>
+			<sentence id="9.11">	/go/src/github.com/docker/docker/vendor/src/github.com/godbus/dbus/transport_unix.go:21 +0xc5</sentence>
+			<sentence id="9.12">io.ReadAtLeast(0x7f2acd826e58, 0xc2082d6000, 0xc2082c8ef0, 0x10, 0x10, 0x10, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="9.13">	/usr/local/go/src/io/io.go:298 +0xf1</sentence>
+			<sentence id="9.14">io.ReadFull(0x7f2acd826e58, 0xc2082d6000, 0xc2082c8ef0, 0x10, 0x10, 0x51, 0x0, 0x0)</sentence>
+			<sentence id="9.15">	/usr/local/go/src/io/io.go:316 +0x6d</sentence>
+			<sentence id="9.16">github.com/godbus/dbus.(*unixTransport).ReadMessage(0xc2082a9210, 0xc2080f15c0, 0x0, 0x0)</sentence>
+			<sentence id="9.17">	/go/src/github.com/docker/docker/vendor/src/github.com/godbus/dbus/transport_unix.go:85 +0x1bf</sentence>
+			<sentence id="9.18">github.com/godbus/dbus.(*Conn).inWorker(0xc2082a0c60)</sentence>
+			<sentence id="9.19">	/go/src/github.com/docker/docker/vendor/src/github.com/godbus/dbus/conn.go:248 +0x58</sentence>
+			<sentence id="9.20">created by github.com/godbus/dbus.(*Conn).Auth</sentence>
+			<sentence id="9.21">	/go/src/github.com/docker/docker/vendor/src/github.com/godbus/dbus/auth.go:118 +0xe84</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">goroutine 13 [chan receive, 386 minutes]:
+github.com/godbus/dbus.</sentence>
+			<sentence id="10.2">(*Conn).</sentence>
+			<sentence id="10.3">outWorker(0xc2082a0c60)
+	/go/src/github.</sentence>
+			<sentence id="10.4">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="10.5">com/godbus/dbus/conn.go:370 +0x58
+created by github.com/godbus/dbus.</sentence>
+			<sentence id="10.6">(*Conn).</sentence>
+			<sentence id="10.7">Auth
+	/go/src/github.</sentence>
+			<sentence id="10.8">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="10.9">com/godbus/dbus/auth.go:119 +0xea1</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">goroutine 14 [chan receive, 386 minutes]:
+github.com/docker/libnetwork/iptables.signalHandler()
+	/go/src/github.</sentence>
+			<sentence id="11.2">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="11.3">com/docker/libnetwork/iptables/firewalld.</sentence>
+			<sentence id="11.4">go:92 +0x57
+created by github.com/docker/libnetwork/iptables.FirewalldInit
+	/go/src/github.</sentence>
+			<sentence id="11.5">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="11.6">com/docker/libnetwork/iptables/firewalld.</sentence>
+			<sentence id="11.7">go:48 +0x185</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">goroutine 26 [sleep, 6 minutes]:
+github.com/docker/libkv/store/etcd.func&#xB7;001()
+	/go/src/github.</sentence>
+			<sentence id="12.2">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="12.3">com/docker/libkv/store/etcd/etcd.</sentence>
+			<sentence id="12.4">go:78 +0x4a
+created by github.com/docker/libkv/store/etcd.New
+	/go/src/github.</sentence>
+			<sentence id="12.5">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="12.6">com/docker/libkv/store/etcd/etcd.</sentence>
+			<sentence id="12.7">go:80 +0x329</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">goroutine 44 [IO wait, 386 minutes]:</sentence>
+			<sentence id="13.2">net.(*pollDesc).Wait(0xc20800e3e0, 0x72, 0x0, 0x0)</sentence>
+			<sentence id="13.3">	/usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+			<sentence id="13.4">net.(*pollDesc).WaitRead(0xc20800e3e0, 0x0, 0x0)</sentence>
+			<sentence id="13.5">	/usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+			<sentence id="13.6">net.(*netFD).Read(0xc20800e380, 0xc208330000, 0x1000, 0x1000, 0x0, 0x7f2acd81c380, 0xc20838a6d8)</sentence>
+			<sentence id="13.7">	/usr/local/go/src/net/fd_unix.go:242 +0x40f</sentence>
+			<sentence id="13.8">net.(*conn).Read(0xc208038c18, 0xc208330000, 0x1000, 0x1000, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="13.9">	/usr/local/go/src/net/net.go:121 +0xdc</sentence>
+			<sentence id="13.10">net/http.noteEOFReader.Read(0x7f2acd82b7c8, 0xc208038c18, 0xc2080c5bd8, 0xc208330000, 0x1000, 0x1000, 0xf69f40, 0x0, 0x0)</sentence>
+			<sentence id="13.11">	/usr/local/go/src/net/http/transport.go:1270 +0x6e</sentence>
+			<sentence id="13.12">net/http.(*noteEOFReader).Read(0xc20832c360, 0xc208330000, 0x1000, 0x1000, 0xc208010000, 0x0, 0x0)</sentence>
+			<sentence id="13.13">	&lt;autogenerated&gt;:125 +0xd4</sentence>
+			<sentence id="13.14">bufio.(*Reader).fill(0xc2081b9860)</sentence>
+			<sentence id="13.15">	/usr/local/go/src/bufio/bufio.go:97 +0x1ce</sentence>
+			<sentence id="13.16">bufio.(*Reader).Peek(0xc2081b9860, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="13.17">	/usr/local/go/src/bufio/bufio.go:132 +0xf0</sentence>
+			<sentence id="13.18">net/http.(*persistConn).readLoop(0xc2080c5b80)</sentence>
+			<sentence id="13.19">	/usr/local/go/src/net/http/transport.go:842 +0xa4</sentence>
+			<sentence id="13.20">created by net/http.(*Transport).dialConn</sentence>
+			<sentence id="13.21">	/usr/local/go/src/net/http/transport.go:660 +0xc9f</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">goroutine 82 [IO wait, 386 minutes]:</sentence>
+			<sentence id="14.2">net.(*pollDesc).Wait(0xc2083be530, 0x72, 0x0, 0x0)</sentence>
+			<sentence id="14.3">	/usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+			<sentence id="14.4">net.(*pollDesc).WaitRead(0xc2083be530, 0x0, 0x0)</sentence>
+			<sentence id="14.5">	/usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+			<sentence id="14.6">net.(*netFD).accept(0xc2083be4d0, 0x0, 0x7f2acd81c380, 0xc2083c84b8)</sentence>
+			<sentence id="14.7">	/usr/local/go/src/net/fd_unix.go:419 +0x40b</sentence>
+			<sentence id="14.8">net.(*UnixListener).AcceptUnix(0xc2083c25a0, 0x10, 0x0, 0x0)</sentence>
+			<sentence id="14.9">	/usr/local/go/src/net/unixsock_posix.go:282 +0x56</sentence>
+			<sentence id="14.10">net.(*UnixListener).Accept(0xc2083c25a0, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="14.11">	/usr/local/go/src/net/unixsock_posix.go:293 +0x4c</sentence>
+			<sentence id="14.12">github.com/docker/libnetwork.(*controller).acceptClientConnections(0xc20808e900, 0xc2083be460, 0x63, 0x7f2acd82bdc8, 0xc2083c25a0)</sentence>
+			<sentence id="14.13">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libnetwork/sandbox_externalkey.go:138 +0x87</sentence>
+			<sentence id="14.14">created by github.com/docker/libnetwork.(*controller).startExternalKeyListener</sentence>
+			<sentence id="14.15">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libnetwork/sandbox_externalkey.go:132 +0x28f</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">goroutine 45 [select, 386 minutes]:
+net/http.</sentence>
+			<sentence id="15.2">(*persistConn).</sentence>
+			<sentence id="15.3">writeLoop(0xc2080c5b80)
+	/usr/local/go/src/net/http/transport.go:945 +0x41d
+created by net/http.</sentence>
+			<sentence id="15.4">(*Transport).</sentence>
+			<sentence id="15.5">dialConn
+	/usr/local/go/src/net/http/transport.go:661 +0xcbc</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">goroutine 99 [chan receive, 386 minutes]:
+database/sql.</sentence>
+			<sentence id="16.2">(*DB).</sentence>
+			<sentence id="16.3">connectionOpener(0xc2083e1360)
+	/usr/local/go/src/database/sql/sql.go:589 +0x4c
+created by database/sql.</sentence>
+			<sentence id="16.4">Open
+	/usr/local/go/src/database/sql/sql.go:452 +0x31c</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">goroutine 103 [chan receive, 1 minutes]:
+github.com/docker/docker/daemon.</sentence>
+			<sentence id="17.2">(*Daemon).</sentence>
+			<sentence id="17.3">execCommandGC(0xc208065100)
+	/go/src/github.</sentence>
+			<sentence id="17.4">com/docker/docker/daemon/exec.</sentence>
+			<sentence id="17.5">go:298 +0x8c
+created by github.com/docker/docker/daemon.NewDaemon
+	/go/src/github.</sentence>
+			<sentence id="17.6">com/docker/docker/daemon/daemon.</sentence>
+			<sentence id="17.7">go:794 +0x2a27</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">goroutine 102 [chan receive]:
+github.com/docker/docker/daemon.</sentence>
+			<sentence id="18.2">(*statsCollector).</sentence>
+			<sentence id="18.3">run(0xc2083f9fb0)
+	/go/src/github.</sentence>
+			<sentence id="18.4">com/docker/docker/daemon/stats_collector_unix.</sentence>
+			<sentence id="18.5">go:91 +0xb2
+created by github.com/docker/docker/daemon.newStatsCollector
+	/go/src/github.</sentence>
+			<sentence id="18.6">com/docker/docker/daemon/stats_collector_unix.</sentence>
+			<sentence id="18.7">go:31 +0x116</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">goroutine 129 [select]:
+github.com/docker/libnetwork/osl.removeUnusedPaths()
+	/go/src/github.</sentence>
+			<sentence id="19.2">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="19.3">com/docker/libnetwork/osl/namespace_linux.go:73 +0x48b
+created by github.com/docker/libnetwork/osl.createBasePath
+	/go/src/github.</sentence>
+			<sentence id="19.4">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="19.5">com/docker/libnetwork/osl/namespace_linux.go:58 +0xb1</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">goroutine 120 [IO wait, 72 minutes]:</sentence>
+			<sentence id="20.2">net.(*pollDesc).Wait(0xc20847dfe0, 0x72, 0x0, 0x0)</sentence>
+			<sentence id="20.3">	/usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+			<sentence id="20.4">net.(*pollDesc).WaitRead(0xc20847dfe0, 0x0, 0x0)</sentence>
+			<sentence id="20.5">	/usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+			<sentence id="20.6">net.(*netFD).accept(0xc20847df80, 0x0, 0x7f2acd81c380, 0xc208ce5638)</sentence>
+			<sentence id="20.7">	/usr/local/go/src/net/fd_unix.go:419 +0x40b</sentence>
+			<sentence id="20.8">net.(*UnixListener).AcceptUnix(0xc20847fa60, 0xc20889fb00, 0x0, 0x0)</sentence>
+			<sentence id="20.9">	/usr/local/go/src/net/unixsock_posix.go:282 +0x56</sentence>
+			<sentence id="20.10">net.(*UnixListener).Accept(0xc20847fa60, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="20.11">	/usr/local/go/src/net/unixsock_posix.go:293 +0x4c</sentence>
+			<sentence id="20.12">github.com/docker/docker/pkg/listenbuffer.(*defaultListener).Accept(0xc20847fa80, 0x0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="20.13">	/go/src/github.com/docker/docker/pkg/listenbuffer/buffer.go:71 +0x67</sentence>
+			<sentence id="20.14">net/http.(*Server).Serve(0xc2084c8000, 0x7f2acd830898, 0xc20847fa80, 0x0, 0x0)</sentence>
+			<sentence id="20.15">	/usr/local/go/src/net/http/server.go:1728 +0x92</sentence>
+			<sentence id="20.16">github.com/docker/docker/api/server.(*HTTPServer).Serve(0xc20843ca20, 0x0, 0x0)</sentence>
+			<sentence id="20.17">	/go/src/github.com/docker/docker/api/server/server.go:114 +0x4d</sentence>
+			<sentence id="20.18">github.com/docker/docker/api/server.func&#xB7;006(0x7f2acd830b80, 0xc20843ca20)</sentence>
+			<sentence id="20.19">	/go/src/github.com/docker/docker/api/server/server.go:86 +0x40</sentence>
+			<sentence id="20.20">created by github.com/docker/docker/api/server.(*Server).ServeAPI</sentence>
+			<sentence id="20.21">	/go/src/github.com/docker/docker/api/server/server.go:90 +0x6ac</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">goroutine 118 [chan receive, 386 minutes]:
+github.com/docker/docker/pkg/signal.func&#xB7;002()
+	/go/src/github.</sentence>
+			<sentence id="21.2">com/docker/docker/pkg/signal/trap.</sentence>
+			<sentence id="21.3">go:29 +0x8f
+created by github.com/docker/docker/pkg/signal.Trap
+	/go/src/github.</sentence>
+			<sentence id="21.4">com/docker/docker/pkg/signal/trap.</sentence>
+			<sentence id="21.5">go:55 +0x250</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">goroutine 117 [chan receive, 386 minutes]:
+github.com/docker/docker/api/server.</sentence>
+			<sentence id="22.2">(*Server).</sentence>
+			<sentence id="22.3">ServeAPI(0xc208467e00, 0xc20809a530, 0x1, 0x1, 0x0, 0x0)
+	/go/src/github.</sentence>
+			<sentence id="22.4">com/docker/docker/api/server/server.</sentence>
+			<sentence id="22.5">go:95 +0x74f
+main.func&#xB7;007()
+	/go/src/github.</sentence>
+			<sentence id="22.6">com/docker/docker/docker/daemon.</sentence>
+			<sentence id="22.7">go:260 +0x5b
+created by main.</sentence>
+			<sentence id="22.8">(*DaemonCli).</sentence>
+			<sentence id="22.9">CmdDaemon
+	/go/src/github.</sentence>
+			<sentence id="22.10">com/docker/docker/docker/daemon.</sentence>
+			<sentence id="22.11">go:266 +0x170f</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">goroutine 140 [sleep, 6 minutes]:
+github.com/docker/libkv/store/etcd.func&#xB7;001()
+	/go/src/github.</sentence>
+			<sentence id="23.2">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="23.3">com/docker/libkv/store/etcd/etcd.</sentence>
+			<sentence id="23.4">go:78 +0x4a
+created by github.com/docker/libkv/store/etcd.New
+	/go/src/github.</sentence>
+			<sentence id="23.5">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="23.6">com/docker/libkv/store/etcd/etcd.</sentence>
+			<sentence id="23.7">go:80 +0x329</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">goroutine 143 [runnable]:
+github.com/docker/libnetwork/bitseq.func&#xB7;001()
+	/go/src/github.</sentence>
+			<sentence id="24.2">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="24.3">com/docker/libnetwork/bitseq/store.</sentence>
+			<sentence id="24.4">go:99 +0x7a
+created by github.com/docker/libnetwork/bitseq.</sentence>
+			<sentence id="24.5">(*Handle).</sentence>
+			<sentence id="24.6">watchForChanges
+	/go/src/github.</sentence>
+			<sentence id="24.7">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="24.8">com/docker/libnetwork/bitseq/store.</sentence>
+			<sentence id="24.9">go:111 +0x281</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">goroutine 159 [runnable]:
+github.com/docker/libnetwork/bitseq.func&#xB7;001()
+	/go/src/github.</sentence>
+			<sentence id="25.2">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="25.3">com/docker/libnetwork/bitseq/store.</sentence>
+			<sentence id="25.4">go:99 +0x7a
+created by github.com/docker/libnetwork/bitseq.</sentence>
+			<sentence id="25.5">(*Handle).</sentence>
+			<sentence id="25.6">watchForChanges
+	/go/src/github.</sentence>
+			<sentence id="25.7">com/docker/docker/vendor/src/github.</sentence>
+			<sentence id="25.8">com/docker/libnetwork/bitseq/store.</sentence>
+			<sentence id="25.9">go:111 +0x281</sentence>
+		</paragraph>
+		<paragraph id="26">
+			<sentence id="26.1">goroutine 182 [select]:</sentence>
+			<sentence id="26.2">net/http.(*Transport).getConn(0xc20829d4d0, 0xc208974410, 0x0, 0xc20865bc20, 0x4, 0xc20865bc27, 0xe, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="26.3">	/usr/local/go/src/net/http/transport.go:525 +0x608</sentence>
+			<sentence id="26.4">net/http.(*Transport).RoundTrip(0xc20829d4d0, 0xc208974410, 0xc20865bd10, 0x0, 0x0)</sentence>
+			<sentence id="26.5">	/usr/local/go/src/net/http/transport.go:228 +0x4d4</sentence>
+			<sentence id="26.6">net/http.send(0xc208974410, 0x7f2acd81c5f0, 0xc20829d4d0, 0xe4, 0x0, 0x0)</sentence>
+			<sentence id="26.7">	/usr/local/go/src/net/http/client.go:219 +0x4fc</sentence>
+			<sentence id="26.8">net/http.(*Client).send(0xc2082cb6b0, 0xc208974410, 0xe4, 0x0, 0x0)</sentence>
+			<sentence id="26.9">	/usr/local/go/src/net/http/client.go:142 +0x15b</sentence>
+			<sentence id="26.10">net/http.(*Client).doFollowingRedirects(0xc2082cb6b0, 0xc208974410, 0x1434ed0, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="26.11">	/usr/local/go/src/net/http/client.go:367 +0xb25</sentence>
+			<sentence id="26.12">net/http.(*Client).Do(0xc2082cb6b0, 0xc208974410, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="26.13">	/usr/local/go/src/net/http/client.go:174 +0xa4</sentence>
+			<sentence id="26.14">github.com/coreos/go-etcd/etcd.(*Client).SendRequest(0xc20829d440, 0xc20a44fd40, 0x0, 0x0, 0x0)</sentence>
+			<sentence id="26.15">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/requests.go:238 +0x121f</sentence>
+			<sentence id="26.16">github.com/coreos/go-etcd/etcd.(*Client).getCancelable(0xc20829d440, 0xc20a453860, 0x9e, 0xc20a44fc50, 0x0, 0x1a02fc0, 0x0, 0x0)</sentence>
+			<sentence id="26.17">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/requests.go:51 +0x41a</sentence>
+			<sentence id="26.18">github.com/coreos/go-etcd/etcd.(*Client).get(0xc20829d440, 0xc20a453860, 0x9e, 0xc20a44fc50, 0x4b1561, 0x0, 0x0)</sentence>
+			<sentence id="26.19">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/requests.go:62 +0x61</sentence>
+			<sentence id="26.20">github.com/coreos/go-etcd/etcd.(*Client).RawGet(0xc20829d440, 0xc20a453860, 0x9e, 0x0, 0xc20a4537c0, 0x0, 0x0)</sentence>
+			<sentence id="26.21">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/get.go:31 +0x26c</sentence>
+			<sentence id="26.22">github.com/coreos/go-etcd/etcd.(*Client).Get(0xc20829d440, 0xc20a453860, 0x9e, 0x0, 0x9d, 0x0, 0x0)</sentence>
+			<sentence id="26.23">	/go/src/github.com/docker/docker/vendor/src/github.com/coreos/go-etcd/etcd/get.go:11 +0x63</sentence>
+			<sentence id="26.24">github.com/docker/libkv/store/etcd.(*Etcd).Get(0xc208038788, 0xc20a453680, 0x9d, 0xc20a4535e0, 0x0, 0x0)</sentence>
+			<sentence id="26.25">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libkv/store/etcd/etcd.go:126 +0x86</sentence>
+			<sentence id="26.26">github.com/docker/libnetwork/datastore.(*datastore).GetObject(0xc2082ea410, 0xc20a453680, 0x9d, 0x7f2acd831c38, 0xc2089f8480, 0x0, 0x0)</sentence>
+			<sentence id="26.27">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libnetwork/datastore/datastore.go:188 +0x70</sentence>
+			<sentence id="26.28">github.com/docker/libnetwork.func&#xB7;042()</sentence>
+			<sentence id="26.29">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libnetwork/store.go:244 +0x58b</sentence>
+			<sentence id="26.30">created by github.com/docker/libnetwork.(*network).watchEndpoints</sentence>
+			<sentence id="26.31">	/go/src/github.com/docker/docker/vendor/src/github.com/docker/libnetwork/store.go:253 +0x576</sentence>
+		</paragraph>
+		<paragraph id="27">
+			<sentence id="27.1">goroutine 240 [select, 189 minutes]:
+net.func&#xB7;019()
+	/usr/local/go/src/net/dnsclient_unix.go:241 +0x2f4
+created by net.loadConfig
+	/usr/local/go/src/net/dnsclient_unix.go:269 +0x20c</sentence>
+		</paragraph>
+		<paragraph id="28">
+			<sentence id="28.1">goroutine 284727 [runnable]:
+net/http.</sentence>
+			<sentence id="28.2">func&#xB7;019()
+	/usr/local/go/src/net/http/transport.go:519
+created by net/http.</sentence>
+			<sentence id="28.3">(*Transport).</sentence>
+			<sentence id="28.4">getConn
+	/usr/local/go/src/net/http/transport.go:522 +0x335</sentence>
+		</paragraph>
+		<paragraph id="29">
+			<sentence id="29.1">=== END goroutine stack dump ===</sentence>
+		</paragraph>
+		<paragraph id="30">
+			<sentence id="30.1">```</sentence>
+		</paragraph>
+	</description>
+</bug>

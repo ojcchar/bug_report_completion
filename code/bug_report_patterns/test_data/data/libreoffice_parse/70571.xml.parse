@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>70571</id>
+	<title>Other: Click/Ctrl+Click on Item of Table of Contents Crashes LibreOffice if Cursor in Protected Areas is Disabled</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Problem description:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Steps to reproduce:</sentence>
+			<sentence id="2.2">[1] Create a short text document with at least one heading.</sentence>
+			<sentence id="2.3">[2] Create a table of contents.</sentence>
+			<sentence id="2.4">[3] Enable option &#x201C;LibreOffice &gt; Security &gt; Security Options and warnings &gt; Options... &gt; Security options &gt; Crtl-click required to follow hyperlinks&#x201D;.</sentence>
+			<sentence id="2.5">[4] Disable option &#x201C;LibreOffice Writer &gt; Formatting Aids &gt; Cursor in protected areas&#x201D;</sentence>
+			<sentence id="2.6">[5] Move cursor over an item of the table of contents.</sentence>
+			<sentence id="2.7">A tip is displayed: &#x201C;Ctrl-click to open hyperlink: ...&#x201D;.</sentence>
+			<sentence id="2.8">This message is wrong.</sentence>
+			<sentence id="2.9">It is not a hyperlink, it is a link inside the document.</sentence>
+			<sentence id="2.10">But this is not the real problem...</sentence>
+			<sentence id="2.11">[6] Ctrl+click on item of table of content.</sentence>
+			<sentence id="2.12">Crash: &#x201C;Due to an expected...&#x201D;.</sentence>
+			<sentence id="2.13">No data loss in my tries, recovery works as expected.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">If you disable the option &#x201C;... &gt; Ctrl-click required to follow hyperlinks&#x201D; in step [2], then in step [4] only the heading name is displayed.</sentence>
+			<sentence id="3.2">Better would be: &#x201C;Click in order to go to heading 'heading name'&#x201D; or similar.</sentence>
+			<sentence id="3.3">In this case a click on an item of the table also crashes LibreOffice.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Other checked versions:</sentence>
+			<sentence id="4.2">(1 In version 3.6.7 Click/Ctrl-Click also does not work.</sentence>
+			<sentence id="4.3">Nothing happens if you click an item, but there is at least no crash.</sentence>
+			<sentence id="4.4">(2 LibreOffice 4.0.0.</sentence>
+			<sentence id="4.5">(release) also crashes and recovery does not work.</sentence>
+			<sentence id="4.6">(3 LibreOffice 4.0.4.</sentence>
+			<sentence id="4.7">(release) also crashes, recovery works as expected.</sentence>
+			<sentence id="4.8">(4 LibreOffice 4.1.2.</sentence>
+			<sentence id="4.9">(release) also crashes, recovery works as expected.</sentence>
+			<sentence id="4.10">Operating System: Windows 7</sentence>
+			<sentence id="4.11">Version: 4.1.1.2 release</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-465</id>
+	<title>Add observation fails on patient dashboard</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Under 'Most Recent Observations' adding a New observation fails.</sentence>
+			<sentence id="1.2">The page reloads by the observation is not saved and no error appears.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">This appears to be due to a change added (likely during merge from concept name branch) which changed the method parameters being passed to the DWRObsService.</sentence>
+			<sentence id="2.2">This essentially causes a non-existent method to be called, which apparently does nothing to warn the user...</sentence>
+		</paragraph>
+	</description>
+</bug>

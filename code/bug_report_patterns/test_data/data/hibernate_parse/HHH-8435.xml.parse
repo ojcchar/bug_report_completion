@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8435</id>
+	<title>@Lob + @Nationalized results in NCLOB on SQLServer2005+ rather than NVARCHAR(MAX)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Issue HHH-3965 partly resolved this issue for non-nationalized characters by mapping CLOB to VARCHAR(MAX); however under the {SQLServer2008Dialect} which extends {SQLServer2005Dialect}, using the @Lob and @Nationalized annotations results in mapping to a NCLOB data type which doesn't exist for SQL Server.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Proposal is to modify the SQL Server dialect so that NCLOB represents a NVARCHAR(MAX) data type.</sentence>
+		</paragraph>
+	</description>
+</bug>

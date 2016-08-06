@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>15941</id>
+	<title>`docker login` on windows hangs.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```
+sven@DESKTOP-Q9P9MVC ~/.</sentence>
+			<sentence id="1.2">docker
+$ docker info
+Containers: 0
+Images: 0
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: tmpfs
+ Dirs: 0
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 4.0.9-boot2docker
+Operating System: Boot2Docker 1.8.1 (TCL 6.3); master : 7f12e95 - Thu Aug 13 03:24:56 UTC 2015
+CPUs: 1
+Total Memory: 3.858 GiB
+Name: boot2docker
+ID: IC4G:HN4C:6SVX:O3KJ:FBOH:57CR:GEYR:J2QH:7NQM:EMNS:RFL6:YTCO
+Debug mode (server): true
+File Descriptors: 9
+Goroutines: 16
+System Time: 2015-08-31T02:27:45.030249929Z
+EventsListeners: 0
+Init SHA1:
+Init Path: /usr/local/bin/docker
+Docker Root Dir: /var/lib/docker</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">sven@DESKTOP-Q9P9MVC ~/.</sentence>
+			<sentence id="2.2">docker
+$ docker login
+Username:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">sven@DESKTOP-Q9P9MVC ~/.</sentence>
+			<sentence id="3.2">docker
+$</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">sven@DESKTOP-Q9P9MVC ~/.</sentence>
+			<sentence id="4.2">docker
+$ docker version
+Client:
+ Version: 1.8.1
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: d12ea79
+ Built: Thu Aug 13 02:49:29 UTC 2015
+ OS/Arch: windows/amd64</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Server:
+ Version: 1.8.1
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: d12ea79
+ Built: Thu Aug 13 02:49:29 UTC 2015
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">using the standard MSYS-git bash shell.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">there is nothing in the docker daemon log.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">to get out of the `login:` prompt, you need to kill the client process.</sentence>
+		</paragraph>
+	</description>
+</bug>

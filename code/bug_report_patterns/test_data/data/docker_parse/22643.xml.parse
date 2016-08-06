@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22643</id>
+	<title>Docker and runc get out of sync1.12.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Given this test program (test.sh):
+```
+set -ex
+docker run -d --name test -ti ubuntu top
+while true ; do
+ docker pause test
+ docker unpause test
+done
+```</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If I let it run for a while, around 30 minutes or so, I eventually see this:
+```
+...
+++ docker pause test
+test
+++ docker unpause test
+test
+++ true
+++ docker pause test
+test
+++ docker unpause test
+Failed to unpause container (test): Error response from daemon: Cannot 
+unpause container aca8355a0051211267b5784b5e4cf32ef04c1681dd0d867234a8f5b7c921681d: 
+rpc error: code = 2 desc = ""
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Then trying to unpause that container manually, I then see:
+```
+$ docker unpause test
+Failed to unpause container (test): Error response from daemon: Cannot 
+unpause container aca8355a0051211267b5784b5e4cf32ef04c1681dd0d867234a8f5b7c921681d: 
+rpc error: code = 2 desc = "container not paused
+"
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Notice the "desc" field has something this time.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">When I go into `runc` and manually pause the container and restart my script it all works ok.</sentence>
+			<sentence id="5.2">So it looks like the issue is just that `runc` and the engine got out of sync somehow, everything seems to still be in an ok state.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I wanted to dig a little deeper before I posted the issue but I keep getting distracted so I decided to go ahead in case someone else has the time to track this down before I get a chance to.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I'm using master (post 1.11) that's only a few days old.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">ping @crosbymichael @LK4D4</sentence>
+		</paragraph>
+	</description>
+</bug>

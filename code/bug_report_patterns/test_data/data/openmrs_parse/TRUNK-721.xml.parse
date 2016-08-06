@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-721</id>
+	<title>@Controller, @RequestMapping annotations in module controllers are not being registered at tomcat startup</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm looking at 1.5.1 build 10898.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">My module has the &lt;context:component-scan base-package="@MODULE_PACKAGE@" /&gt; tag in its spring bean configuration file, and annotated controllers (@Controller, @RequestMapping annotations) are loading correctly when i load the module through the web interface.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">But the mappings aren't registered at tomcat startup -- I have to stop and start the modules manually in order to get the URLs for these controllers to register.</sentence>
+		</paragraph>
+	</description>
+</bug>

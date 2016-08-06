@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4070</id>
+	<title>ADD unpacks tar &lt;src&gt; even if &lt;dst&gt; doesn't end in trailing slash</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This Dockerfile should copy the source tar archive to the destination location.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">````
+FROM busybox
+ADD foobar.tar.gz /tmp/foobar.</sentence>
+			<sentence id="2.2">tar.gz
+````</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Unfortunately it unpacks the archive to a directory.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">````bash</sentence>
+			<sentence id="4.2">$ docker build .</sentence>
+			<sentence id="4.3">Uploading context 4.608 kB</sentence>
+			<sentence id="4.4">Uploading context</sentence>
+			<sentence id="4.5">Step 0 : FROM busybox</sentence>
+			<sentence id="4.6">---&gt; 769b9341d937</sentence>
+			<sentence id="4.7">Step 1 : ADD foobar.tar.gz /tmp/foobar.</sentence>
+			<sentence id="4.8">tar.gz</sentence>
+			<sentence id="4.9">---&gt; Using cache</sentence>
+			<sentence id="4.10">---&gt; 985e33b942ad</sentence>
+			<sentence id="4.11">Successfully built 985e33b942ad</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">$ docker run 985e33b942ad ls -dl /tmp/foobar.</sentence>
+			<sentence id="5.2">tar.gz
+d--x--x--- 2 root root 4096 Feb 11 21:27 /tmp/foobar.</sentence>
+			<sentence id="5.3">tar.gz
+````</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">This conflicts with behavior in previous docker releases and the documentation at http://docs.docker.io/en/latest/reference/builder/#add.</sentence>
+			<sentence id="6.2">Specifically this contradicts the following line in the docs:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&gt; If \&lt;dest\&gt; does not end with a trailing slash, it will be considered a regular file and the contents of \&lt;src\&gt; will be written at \&lt;dest\&gt;.</sentence>
+		</paragraph>
+	</description>
+</bug>

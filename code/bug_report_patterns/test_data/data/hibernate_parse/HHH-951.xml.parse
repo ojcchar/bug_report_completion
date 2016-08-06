@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-951</id>
+	<title>setMaxResults causes "ORA-00918: column ambiguously defined" exception </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">when create criteria with associations, i get this error:
+ORA-00918: column ambiguously defined</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">mapping:
+ &lt;class name="User" table="FRAME_USER" dynamic-update="true" dynamic-insert="true"&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;id name="id" type="long" unsaved-value="null"&gt;
+ &lt;column name="ID" not-null="true"/&gt;
+ &lt;generator class="sequence"&gt;
+ &lt;param name="sequence"&gt;frame_user_seq&lt;/param&gt;
+ &lt;/generator&gt;
+ </id></sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&lt;version type="timestamp" column="stamp" name="timestamp" unsaved-value="null"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&lt;property name="user_name" type="string" not-null="true"/&gt;
+ &lt;property name="blocked" type="yes_no" not-null="true"/&gt;
+ &lt;property name="access_logon" type="timestamp"/&gt;
+ &lt;property name="denied_logon" type="timestamp"/&gt;
+ &lt;property name="inactivity_time" type="long"/&gt;
+ &lt;property name="session_count" type="long"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">&lt;idbag name="terminalGroups" table="FRAME_USER_TERMINAL" fetch="join" outer-join="true"&gt;
+ &lt;collection-id column="ID" type="long"&gt;
+ &lt;generator class="sequence"&gt;
+ &lt;param name="sequence"&gt;frame_user_terminal_seq&lt;/param&gt;
+ &lt;/generator&gt;
+ &lt;/collection-id&gt;
+ &lt;key column="id_user"/&gt;
+ &lt;many-to-many column="id_terminal_groups" class="TerminalGroup" fetch="join" outer-join="true"/&gt;
+ &lt;/idbag&gt;
+ &lt;/class&gt;
+ &lt;class name="TerminalGroup" table="FRAME_TERMINAL_GROUPS" dynamic-update="true" dynamic-insert="true"&gt;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;id name="id" type="long" unsaved-value="null"&gt;
+ &lt;column name="ID" not-null="true"/&gt;
+ &lt;generator class="sequence"&gt;
+ &lt;param name="sequence"&gt;frame_terminal_groups_seq&lt;/param&gt;
+ &lt;/generator&gt;
+ </id></sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">&lt;version type="timestamp" column="stamp" name="timestamp" unsaved-value="null"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">&lt;property name="name" column="group_name" type="string" not-null="true"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">&lt;idbag name="terminals" table="FRAME_TERMINAL_REL" fetch="join" outer-join="true"&gt;
+ &lt;collection-id column="ID" type="long" &gt;
+ &lt;generator class="sequence"&gt;
+ &lt;param name="sequence"&gt;frame_terminal_rel_seq&lt;/param&gt;
+ &lt;/generator&gt;
+ &lt;/collection-id&gt;
+ &lt;key column="id_term_group"/&gt;
+ &lt;many-to-many column="id_term" class="Terminal" fetch="join" outer-join="true"/&gt;
+ &lt;/idbag&gt;
+ &lt;/class&gt;
+ &lt;class name="Terminal" table="FRAME_TERMINAL" where="status != 'D'" dynamic-update="true" dynamic-insert="true"&gt;</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">&lt;id name="id" type="long" unsaved-value="null"&gt;
+ &lt;column name="ID" not-null="true"/&gt;
+ &lt;generator class="sequence"&gt;
+ &lt;param name="sequence"&gt;frame_terminal_seq&lt;/param&gt;
+ &lt;/generator&gt;
+ </id></sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">&lt;version type="timestamp" column="stamp" name="timestamp" unsaved-value="null"/&gt;
+ &lt;property name="status" type="char" not-null="true"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">&lt;property name="mac" type="string" not-null="true"/&gt;
+ &lt;property name="name" column="ident" type="string" not-null="true"/&gt;
+ &lt;property name="description" type="string"/&gt;
+code:
+session.createCriteria(User.class)
+	.</sentence>
+			<sentence id="13.2">add(Restrictions.like("user_name", "%")
+	.</sentence>
+			<sentence id="13.3">createCriteria("terminalGroups")
+	 .</sentence>
+			<sentence id="13.4">add( Restrictions.like("group_name", "%").</sentence>
+			<sentence id="13.5">.</sentence>
+			<sentence id="13.6">setProjection(Projections.rowCount())
+.</sentence>
+			<sentence id="13.7">uniqueResult();</sentence>
+		</paragraph>
+	</description>
+</bug>

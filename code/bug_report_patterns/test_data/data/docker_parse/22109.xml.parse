@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22109</id>
+	<title>Proposal: composable seccomp profiles</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Docker now has the ability to set seccomp profiles on a container (https://github.com/docker/docker/pull/17989), 
+however, writing a custom profile can be tedious, and leads to a lot 
+of repetition if a profile only differs slightly from the default profile.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">To reduce this repetition, I suggest we allow users to write "partial" profiles,</sentence>
+			<sentence id="2.2">and combine them to make up for a full profile (by providing multiple</sentence>
+			<sentence id="2.3">`--security-opt seccomp=.</sentence>
+			<sentence id="2.4">.</sentence>
+			<sentence id="2.5">` flags).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In addition, we can provide some easy to use partials for people to pick from,
+and include those in the default install.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Basically;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">docker-disable-chown-chmod.</sentence>
+			<sentence id="5.2">json:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```JSON
+{
+ "defaultAction": "SCMP_ACT_ALLOW",
+ "architectures": [
+ "SCMP_ARCH_X86_64",
+ "SCMP_ARCH_X86",
+ "SCMP_ARCH_X32"
+ ],
+ "syscalls": [
+ {
+ "name": "chmod",
+ "action": "SCMP_ACT_ERRNO",
+ "args": []
+ },
+ {
+ "name": "chown",
+ "action": "SCMP_ACT_ERRNO",
+ "args": []
+ },
+ {
+ "name": "chown32",
+ "action": "SCMP_ACT_ERRNO",
+ "args": []
+ }
+ ]
+}
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Run an image, using the "docker-default" profile, and apply a second (partial)
+profile that disables "chmod", "chown";</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">docker run -d \</sentence>
+			<sentence id="8.2">--security-opt seccomp=docker-default.</sentence>
+			<sentence id="8.3">json \</sentence>
+			<sentence id="8.4">--security-opt seccomp=disable-chown-chmod.</sentence>
+			<sentence id="8.5">json \</sentence>
+			<sentence id="8.6">myimage</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">### Questions</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">- Should the default profile always be applied, unless `--security-opt seccomp=unconfined` is used?</sentence>
+			<sentence id="10.2">- How to handle the `"defaultAction"`?</sentence>
+			<sentence id="10.3">i.e., if `"defaultAction"` is specified in a partial profile, does it change the "overall" default, or is it only used as a default for seccomp-calls inside that file (if no action is specified)?</sentence>
+			<sentence id="10.4">- Should we simply apply/merge profiles in the order they were specified, or should they be applied as "`deny` trumps `allow`", thus once denied, a profile cannot "allow"?</sentence>
+			<sentence id="10.5">- Should "partial" templates have a slightly different format, to indicate it's a "partial"?</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">### Implementation</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">This depends a bit on the questions above; for a "clean" API, I suggest to perform the merging *client side*, so the client
+combines/merges the profiles and sends them as a full profile to the daemon.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">*However*, this may be difficult if the default profile should always be applied, because the default profile</sentence>
+			<sentence id="13.2">is not available to the client.</sentence>
+			<sentence id="13.3">So, either the user should install the `docker-default` profile on the client,</sentence>
+			<sentence id="13.4">or merging the default profile should be done on the daemon (which will be backwards-incompatible with the current behavior).</sentence>
+		</paragraph>
+	</description>
+</bug>

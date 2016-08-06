@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3905</id>
+	<title>value_coded column should be included in merge concepts module</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I tested out Jordan's most recent version of the merge concepts module (see here:https://tickets.openmrs.org/browse/TRUNK-2351), and noticed that it does not work correctly when it comes to answer concepts, which are stored in the value_coded column.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When i tested it, the module cited that the obs count for these two concepts was 0, even though I knew through my own query that there were several instances of the two concepts in the value_coded column of the obs table.</sentence>
+			<sentence id="2.2">It appears that the module is checking against the concept_id column of the obs table, which works if the concept is a question.</sentence>
+			<sentence id="2.3">However, because the concept may be an answer to a question, it also needs to check against the value_coded column of the obs table.</sentence>
+			<sentence id="2.4">When the merge was completed, I saw that the entries in the value_coded column remained as they were originally.</sentence>
+		</paragraph>
+	</description>
+</bug>

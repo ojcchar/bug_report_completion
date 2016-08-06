@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>21289</id>
+	<title>Binding network bridge to externally accesible interface</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I know this is a usage question but I'm stuck on this.</sentence>
+			<sentence id="2.2">I see that theres some new features in Docker that now enables this:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```
+# create a new bridge network with your subnet and gateway for your ip block
+$ docker network create --subnet 203.0.113.0/24 --gateway 203.0.113.254 iptastic
+```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This created a new bridge network interface on my Docker host that looks like this:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+br-b255cf4703fc Link encap:Ethernet HWaddr 02:42:66:B6:77:D3 
+inet addr:203.0.113.254 Bcast:0.0.0.0 Mask:255.255.255.0
+UP BROADCAST MULTICAST MTU:1500 Metric:1
+RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:0 
+RX bytes:0 (0.0 B) TX bytes:0 (0.0 B)
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I then created a new container with a static IP address like this:
+```
+$ docker run --rm -it --net iptastic --ip 203.0.113.2 nginx
+```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Since I'm running my Docker host machine (RancherOS) in Virtualbox, is there a next step to bind the newly created network and associated container to the existing externally accessible interface, in this case eth1 ?</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">So far so good.</sentence>
+		</paragraph>
+	</description>
+</bug>

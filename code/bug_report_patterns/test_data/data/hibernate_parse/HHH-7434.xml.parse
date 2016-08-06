@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-7434</id>
+	<title>Locking a proxy in LockMode.WRITE doesn't increment @version attribute the first time</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Here are the requisites to reproduce the bug:</sentence>
+			<sentence id="1.2">- Have a proxied entity (OneToOne association with Lazy fetch)</sentence>
+			<sentence id="1.3">- Using the @Version attribute on the entity being proxied</sentence>
+			<sentence id="1.4">- Locking the proxied entity in WRITE or OPTIMISTIC_FORCE_INCREMENT</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">The first time, the version won't be incremented.</sentence>
+			<sentence id="2.2">But later calls to the same code will increment the version.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I checked a couple of things and I think the problem come from:</sentence>
+			<sentence id="3.2">- when acquiring a lock, if the object is a proxy, hibernate will get the entity</sentence>
+			<sentence id="3.3">DefaultLockEventListener#onLock:</sentence>
+			<sentence id="3.4">Object entity = source.getPersistenceContext().</sentence>
+			<sentence id="3.5">unproxyAndReassociate( event.getObject() );</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">- If it is a proxy, hibernate will load the entity with a simple LoadEvent (LockMode.NONE used - SessionImpl#immediateLoad)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">- Further, Loader#instanceNotYetLoaded will be reached and especially this:</sentence>
+			<sentence id="5.2">LockMode acquiredLockMode = lockMode == LockMode.NONE ?</sentence>
+			<sentence id="5.3">LockMode.READ : lockMode;</sentence>
+			<sentence id="5.4">as lockMode was NONE, it will be READ on this entity</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">- we come back to DefaultLockEventListener#onLock and we go to:</sentence>
+			<sentence id="6.2">upgradeLock( entity, entry, event.getLockOptions(), event.getSession() );</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">- there, we compare our lockMode (WRITE) with the lockMode of the entity (READ if it was a proxy).</sentence>
+			<sentence id="7.2">As the level of READ is 5 and the level of WRITE (or OPTIMISTIC_FORCE_INCREMENT for hibernate) is 4, nothing is done.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">- the second time we run the same code (or if the entity was not a proxy), the lockMode of the entity will be NONE (it is done at the end of a transaction with StatefulPersistenceContext#afterTransactionCompletion).</sentence>
+			<sentence id="8.2">And the upgradeLock will indeed perform:</sentence>
+			<sentence id="8.3">persister.lock( entry.getId(), entry.getVersion(), object, lockOptions, source );</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">- from there, an EntityIncrementVersionProcess will be register and it will be fired during the ActionQueue$BeforeTransactionCompletionProcessQueue#beforeTransactionCompletion</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">The problem is that the application code is rather simple:</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Entity child = entityManager.find(Entity.class, id);
+entityManager.lock(child.getParent(), LockModeType.WRITE);</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">And I don't see a workaround for this (without using the LockMode.PESSIMISTIC_FORCE_INCREMENT).</sentence>
+		</paragraph>
+	</description>
+</bug>

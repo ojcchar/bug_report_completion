@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>15856</id>
+	<title>RPM docker-engine-1.X for RHEL distro includes bad systemd service</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In the systemd service (/usr/lib/systemd/system/docker.</sentence>
+			<sentence id="1.2">service) there isn't the inclusion of environment file.</sentence>
+			<sentence id="1.3">To make the script working in the correct manner it is needed to change also the exec start statement, like in the following example:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;pre&gt;
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network.target docker.socket
+Requires=docker.socket</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">[Service]
+Type=notify
+EnvironmentFile=-/etc/sysconfig/docker
+ExecStart=/usr/bin/docker daemon -H fd:// $OPTIONS
+MountFlags=slave
+LimitNOFILE=1048576
+LimitNPROC=1048576
+LimitCORE=infinity</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">[Install]
+WantedBy=multi-user.</sentence>
+			<sentence id="4.2">target</sentence>
+		</paragraph>
+	</description>
+</bug>

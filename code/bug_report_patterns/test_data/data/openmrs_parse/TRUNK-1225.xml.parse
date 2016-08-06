@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-1225</id>
+	<title>Change tinyint and bit columns to tinyint(1)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We used to store boolean columns (voided, retired, etc) as BIT columns in mysql.</sentence>
+			<sentence id="1.2">This is mysql specific and so when we switched to liquibase we started creating the columns as tinyints.</sentence>
+			<sentence id="1.3">The default for tinyint is actually tinyint(4).</sentence>
+			<sentence id="1.4">This wastes (a small amount) of space.</sentence>
+			<sentence id="1.5">The columns should be altered to tinyint(1) using a changeSet in the /metadata/model/liquibase-update-to-latest.xml file.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">You should also unzip the /metadata/model/liquibase-data.</sentence>
+			<sentence id="2.2">zip files and change the sql to use tinyint(1) instead of just tinyint.</sentence>
+		</paragraph>
+	</description>
+</bug>

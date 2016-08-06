@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-2429</id>
+	<title>SQL Character Types Incorrectly mapped to Java objects</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We have a work flow that allows the user to enter an arbitrary SQL statement to be executed by our application.</sentence>
+			<sentence id="1.2">We pass those queries through session.createSQLQuery().</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">We ran into a problem with String literals, which are reported by Oracle (ResultSetMetaData) to be CHAR.</sentence>
+			<sentence id="2.2">Reading the JDBC API, CHAR is a fixed length string.</sentence>
+			<sentence id="2.3">Hibernate is incorrectly mapping this to a Character field.</sentence>
+			<sentence id="2.4">We ended up overriding the Oracle dialect with our own as follows:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In our constructor, for a dialect that extends Oracle9iDialect:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">super()
+		registerColumnType(Types.CHAR, "char($l)" );
+		registerHibernateType( Types.CHAR, Hibernate.STRING.getName() );</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The HibernateType is the crucial one and we are overriding the behavior in the base "Dialect" class, so this appears that it would be a problem for all database variants that don't explicitly change this.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Thanks.</sentence>
+		</paragraph>
+	</description>
+</bug>

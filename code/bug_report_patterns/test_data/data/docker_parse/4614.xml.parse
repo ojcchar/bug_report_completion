@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4614</id>
+	<title>npm won't run install after USER switch but works with RUN su instead</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">getting errors running npm install after switching users within the Dockerfile:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1"># Install dependencies and nodejs
+ RUN apt-get update
+ RUN apt-get install -y python-software-properties python g++ make
+ RUN add-apt-repository ppa:chris-lea/node.</sentence>
+			<sentence id="2.2">js
+ RUN apt-get update
+ RUN apt-get install -y nodejs</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1"># Install git
+ RUN apt-get install -y git</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1"># Bundle app source
+ ADD .</sentence>
+			<sentence id="4.2">/src</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1"># Create a nonroot user, and switch to it
+ RUN /usr/sbin/useradd --create-home --home-dir /usr/local/nonroot --shell /bin/bash nonroot
+ RUN /usr/sbin/adduser nonroot sudo
+ RUN chown -R nonroot /usr/local/
+ RUN chown -R nonroot /usr/lib/
+ RUN chown -R nonroot /usr/bin/
+ RUN chown -R nonroot /src</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">USER nonroot</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1"># Install app source
+ RUN cd /src; npm install
+===
+gives me the following error for every node module:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1"> Error: Attempt to unlock javascript-brunch@1.7.1, which hasn't been locked</sentence>
+			<sentence id="8.2"> at unlock (/usr/lib/node_modules/npm/lib/cache.js:1304:11)</sentence>
+			<sentence id="8.3"> at cb (/usr/lib/node_modules/npm/lib/cache.js:646:5)</sentence>
+			<sentence id="8.4"> at /usr/lib/node_modules/npm/lib/cache.js:655:20</sentence>
+			<sentence id="8.5"> at /usr/lib/node_modules/npm/lib/cache.js:1282:20</sentence>
+			<sentence id="8.6"> at afterMkdir (/usr/lib/node_modules/npm/lib/cache.js:1013:14)</sentence>
+			<sentence id="8.7"> at /usr/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53</sentence>
+			<sentence id="8.8"> at Object.oncomplete (fs.js:107:15)</sentence>
+			<sentence id="8.9"> If you need help, you may report this *entire* log,</sentence>
+			<sentence id="8.10"> including the npm and node versions, at:</sentence>
+			<sentence id="8.11"> &lt;http://github.com/npm/npm/issues&gt;</sentence>
+			<sentence id="8.12"> </sentence>
+			<sentence id="8.13"> ...</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">However, if I replace the 'USER nonroot' line with 'RUN /bin/su nonroot' everything is copacetic.</sentence>
+		</paragraph>
+	</description>
+</bug>

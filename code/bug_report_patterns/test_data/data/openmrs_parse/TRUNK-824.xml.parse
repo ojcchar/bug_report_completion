@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-824</id>
+	<title>MailMessageSender does not allow for configuration of message content type</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Currently, if you try to use the MessageService to send an email, the body of the email is always set to "text/plain".</sentence>
+			<sentence id="1.2">The result is that html content appears as the actual html markup, not as an html page.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I propose that we change the Message.java class such that a contentType property can be set on it, and change the MailMessageSender such that it uses this content type in the createMimeMessage method (and also in the createMultipart method, for setting the text content).</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">It might also be worth adding "auto-detect" - in the case that contentType is null, if message.getContent().</sentence>
+			<sentence id="3.2">trim().</sentence>
+			<sentence id="3.3">startsWith("html") then set the content type to "text/html" otherwise default to "text/plain".</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I would need this backported to 1.5.x.</sentence>
+		</paragraph>
+	</description>
+</bug>

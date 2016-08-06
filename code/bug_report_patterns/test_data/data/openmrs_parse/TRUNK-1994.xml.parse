@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-1994</id>
+	<title>JUnit tests fail if run independent of maven</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I just ran the whole unit test suite for the first time in a long time (which makes me a bad person) and I noticed:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">* Running the "junit" ant task doesn't lead to all tests passing</sentence>
+			<sentence id="2.2">* Running in eclipse (Run As -&gt; JUnit Test) they don't all pass either.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Even after doing a maven install (during which all tests pass) if I immediately do Run As -&gt; JUnit Test, I still get errors.</sentence>
+			<sentence id="3.2">(67 errors, 1 failure)</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Have others had the same experience?</sentence>
+			<sentence id="4.2">Does anyone know what's up?</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">A particularly common error I'm seeing is this:</sentence>
+			<sentence id="5.2">java.lang.IllegalStateException: Already value [org.springframework.orm.hibernate3.SessionHolder@14a6a42] for key [org.hibernate.impl.SessionFactoryImpl@70c52d] bound to thread [main]</sentence>
+			<sentence id="5.3">at org.springframework.transaction.support.TransactionSynchronizationManager.bindResource(TransactionSynchronizationManager.java:179)</sentence>
+			<sentence id="5.4">at org.openmrs.api.db.hibernate.HibernateContextDAO.openSession(HibernateContextDAO.java:240)</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Another is as follows, and this is in fact true: java.lang.AssertionError: org.openmrs.web.controller.form.FieldFormControllerTest#onSubmit_shouldPurgeField does not have the @Test annotation on it even though the method name starts with 'should'
+Why didn't this send off a CI email?</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">-Darius</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1300</id>
+	<title>replication fails if many-to-one property(embed-xml=false) nested in component</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">NullPointerException is thrown if there is a many-to-one property(embed-xml=false) nested in a component.</sentence>
+			<sentence id="1.2">if embed-xml=true, replication is OK.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;class name="Entity"&gt;
+	...
+	&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">&lt;class name="DetailEntity"&gt;
+	...
+		&lt;component name="component" class="Component"&gt;
+			...
+			&lt;many-to-one name="nestedEntity" class="NestedEntity"
+				embed-xml="false" /&gt;
+		&lt;/component&gt;
+	&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">for details, please run attached test case.</sentence>
+		</paragraph>
+	</description>
+</bug>

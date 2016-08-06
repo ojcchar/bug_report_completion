@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>16696</id>
+	<title>Request: can docker ps support --format{{.Name}} and/or {{.Names}}</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm using this in a script to *try* and shutdown and remove containers based on the names I assigned - but I can't easily *exclude* some containers, and I can't easily get the Name of each container,so I end up doing this (I have set my container names to match my image names, as for now I have one of each)
+```
+#bin/sh
+for DOCKER_PROCESS in $(docker ps -q --format "{{.</sentence>
+			<sentence id="1.2">Image}}" --filter "name=-")
+do
+		if [ "$DOCKER_PROCESS" = "redis" -o "$DOCKER_PROCESS" = "abc-data-redis" ];
+		then
+				echo "Not stopping $DOCKER_PROCESS"
+		else
+				echo "...Stopping docker process $DOCKER_PROCESS"
+				docker stop $DOCKER_PROCESS &amp;
+		fi
+done
+wait</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">for DOCKER_CONTAINER in $(docker ps -a -q --format "{{.</sentence>
+			<sentence id="2.2">Image}}" --filter "name=-")
+do
+		if [ "$DOCKER_CONTAINER" = "redis" -o "$DOCKER_CONTAINER" = "abc-data-redis" -o "$DOCKER_CONTAINER" = "node-js-base" ];
+		then
+				echo "Skipping delete of $DOCKER_CONTAINER"
+		else
+				echo "...Removing docker container $DOCKER_CONTAINER"
+				docker rm $DOCKER_CONTAINER &amp;
+		fi
+done
+wait
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">.</sentence>
+			<sentence id="3.2">.</sentence>
+			<sentence id="3.3">I would prefer to be able to do something like this;</sentence>
+			<sentence id="3.4">```</sentence>
+			<sentence id="3.5">for DOCKER_CONTAINER in $(docker ps -a -q --format "{{.</sentence>
+			<sentence id="3.6">Name}}" --filter "name=-")</sentence>
+			<sentence id="3.7">--snip--</sentence>
+			<sentence id="3.8">```</sentence>
+			<sentence id="3.9">and/or this</sentence>
+			<sentence id="3.10">```</sentence>
+			<sentence id="3.11">for DOCKER_THING in $(docker ps -a -q --format "{{.</sentence>
+			<sentence id="3.12">Name}}" --filter-excludes "name=redis")</sentence>
+			<sentence id="3.13">--snip--</sentence>
+			<sentence id="3.14">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Any thoughts?</sentence>
+		</paragraph>
+	</description>
+</bug>

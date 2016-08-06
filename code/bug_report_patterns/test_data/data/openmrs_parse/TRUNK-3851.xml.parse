@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3851</id>
+	<title>Modules should be able to define message codes outside of their module's namespace</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Currently, if a module defines a message code that doesn't have the moduleId as a prefix, OpenMRS prepends that moduleId.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In Mirebalais we would like to be able to localize our metadata by doing things like this:
+{code}
+# in English
+Location.</sentence>
+			<sentence id="2.2">(some-long-uuid).</sentence>
+			<sentence id="2.3">displayName=Mirebalais University Hospital
+# in French
+Location.</sentence>
+			<sentence id="2.4">(some-long-uuid).</sentence>
+			<sentence id="2.5">displayName=Hopital Universitaire de Mirebalais
+{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">and we want the UI Framework module to automatically support this via its format tag.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">To do that, we need to allow our mirebalais module to define message codes that don't start with "mirebalais."</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The change would be in WebModuleUtil, near the comment:
+// set all properties to start with 'moduleName.'</sentence>
+			<sentence id="5.2">if not already</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">We will need to backport this to 1.9.x, and I'm wondering how people feel about backwards-compatibility here.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">The trivial fix would be to just remove the core code that prepends the moduleId + "."</sentence>
+			<sentence id="7.2">.</sentence>
+			<sentence id="7.3">However this means that any modules that are counting on this behavior would break with 1.9.3.</sentence>
+			<sentence id="7.4">(Modern modules shouldn't suffer from this, as the basic module and the archetype both push you to use your module's prefix.)</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">To preserver backwards-compatibility, I would propose that we allow module message.properties files to define a code "ALLOW_CODES_OUTSIDE_MODULE_NAMESPACE = true", and only if they define this code, we skip the prepending.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Do people feel this is necessary?</sentence>
+		</paragraph>
+	</description>
+</bug>

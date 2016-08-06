@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>52097</id>
+	<title>Report Builder edit of Data Filter results in bad SQL syntax.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">A report built with Report Builder containing the following data filter executes correctly.:
+( "Medical".</sentence>
+			<sentence id="1.2">"Date" &gt;= {D '2011-01-01' } AND "Medical".</sentence>
+			<sentence id="1.3">"Date" &lt; {D '2012-01-01' } )</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">When edited in the filter criteria interface of Report Builder the result becomes:
+( "Medical".</sentence>
+			<sentence id="2.2">"Date" &gt;= '{D ''2011-01-01'' }' AND "Medical".</sentence>
+			<sentence id="2.3">"Date" &lt; '{D ''2013-01-01'' }' )
+and, the report fails with an error message saying "Syntax error in SQL expression".</sentence>
+			<sentence id="2.4">(Note that the only edit made was to change the second date from 2012 to 2013.)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">It appears that extraneous single quote (') marks are inserted in the SQL command.</sentence>
+		</paragraph>
+	</description>
+</bug>

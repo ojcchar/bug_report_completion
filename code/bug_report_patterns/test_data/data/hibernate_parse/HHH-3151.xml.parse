@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3151</id>
+	<title>using property-ref and not-null="true" simultaneously in collection &lt;key&gt; element crashes with ArgumentIllegalException</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Example: 
+Let's we have one class "MetaMethod" and second class "MetaParameter" .</sentence>
+			<sentence id="1.2">Class MetaMethod has a list of MetaParameters.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Corresponding tables are:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">CREATE TABLE META_METHOD
+ (ID VARCHAR2(50) NOT NULL
+ ,CODE VARCHAR2(40) NOT NULL
+ ,BCN_CODE VARCHAR2(40) NOT NULL
+ ,NAME VARCHAR2(100)
+ )</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">ALTER TABLE META_METHOD ADD (CONSTRAINT SK_BFN_PK PRIMARY KEY (ID))
+ALTER TABLE META_METHOD ADD (CONSTRAINT SK_BFN_UK1 UNIQUE (CODE ,BCN_CODE))</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">CREATE TABLE META_PARAMETER
+ (ID VARCHAR2(50) NOT NULL
+ ,BFN_CODE VARCHAR2(40) NOT NULL
+ ,BCN_CODE VARCHAR2(40) NOT NULL
+ ,SEQUENCE_NUMBER NUMBER(4,0) NOT NULL
+ ,TYPE VARCHAR2(255) NOT NULL
+ )</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">ALTER TABLE META_PARAMETER ADD (CONSTRAINT SK_BFA_PK PRIMARY KEY (ID))
+ALTER TABLE META_PARAMETER ADD (CONSTRAINT SK_BFA_UK1 UNIQUE (BFN_CODE, BCN_CODE ,SEQUENCE_NUMBER))
+ALTER TABLE META_PARAMETER ADD (CONSTRAINT SK_BFA_BFN_FK1 FOREIGN KEY (BFN_CODE ,BCN_CODE) REFERENCES META_METHOD (CODE ,BCN_CODE))</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">You see, the foreign key (BFN_CODE ,BCN_CODE) on the table META_PARAMETER is organized by native key (CODE ,BCN_CODE) of the META_METHOD table.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Structure of classes is simple (in my opinion), so i introduce the hibernate mappings:</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">&lt;class name="com.stinscoman.kernel.api.meta.MetaMethod"
+ table="META_METHOD" &gt;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">&lt;id name="id" column="ID" length="40" type="long"&gt;
+ &lt;generator class="assigned" /&gt;
+ </id></sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">&lt;properties name="theKey" unique="true"&gt;
+ &lt;property name="code" column="CODE" not-null="true"/&gt;
+ &lt;property name="bc" column="BCN_CODE" not-null="true" /&gt;
+ &lt;/properties&gt;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">&lt;property name="name" column="NAME" /&gt;</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">&lt;list name="parameters" cascade="all-delete-orphan"&gt;
+ &lt;key property-ref="theKey" not-null="true" update="false"&gt;
+ &lt;column name="BFN_CODE" not-null="true"/&gt;
+ &lt;column name="BCN_CODE" not-null="true"/&gt;
+ &lt;/key&gt;
+ &lt;list-index column="SEQUENCE_NUMBER" /&gt;
+ &lt;one-to-many class="com.stinscoman.kernel.api.meta.MetaParameter"/&gt;
+ &lt;/list&gt;</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">&lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">&lt;class name="com.stinscoman.kernel.api.meta.MetaParameter"
+ table="SK_BFN_ARGUMENT"&gt;</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">&lt;id name="id" column="ID" length="40" type="long"&gt;
+ &lt;generator class="assigned"/&gt;
+ </id> 
+ 
+ &lt;/class&gt;</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">Now, somewhere in hibernate session, i try to put a parameter to method</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">MetaMethod method = ... &lt;the code to obtain MetaMethod object&gt;
+MetaParameter param = ... &lt;the code to obtain MetaParameter object&gt;</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">method.getParameters().</sentence>
+			<sentence id="19.2">add( param );</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">Ok.</sentence>
+			<sentence id="20.2">When session is flushing i always have:</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">Caused by: org.hibernate.PropertyAccessException: IllegalArgumentException occurred calling getter of com.stinscoman.kernel.api.meta.MetaMethod.code</sentence>
+			<sentence id="21.2">	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.get(BasicPropertyAccessor.java:171)</sentence>
+			<sentence id="21.3">	at org.hibernate.tuple.component.AbstractComponentTuplizer.getPropertyValue(AbstractComponentTuplizer.java:64)</sentence>
+			<sentence id="21.4">	at org.hibernate.tuple.component.AbstractComponentTuplizer.getPropertyValues(AbstractComponentTuplizer.java:70)</sentence>
+			<sentence id="21.5">	at org.hibernate.tuple.component.PojoComponentTuplizer.getPropertyValues(PojoComponentTuplizer.java:83)</sentence>
+			<sentence id="21.6">	at org.hibernate.type.ComponentType.getPropertyValues(ComponentType.java:353)</sentence>
+			<sentence id="21.7">	at org.hibernate.type.ComponentType.getPropertyValues(ComponentType.java:348)</sentence>
+			<sentence id="21.8">	at org.hibernate.engine.ForeignKeys$Nullifier.nullifyTransientReferences(ForeignKeys.java:77)</sentence>
+			<sentence id="21.9">	at org.hibernate.engine.ForeignKeys$Nullifier.nullifyTransientReferences(ForeignKeys.java:47)</sentence>
+			<sentence id="21.10">	at org.hibernate.event.def.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:282)</sentence>
+			<sentence id="21.11">	...</sentence>
+			<sentence id="21.12">Caused by: java.lang.IllegalArgumentException: java.lang.ClassCastException@75a0c6</sentence>
+			<sentence id="21.13">	at sun.reflect.GeneratedMethodAccessor79.invoke(Unknown Source)</sentence>
+			<sentence id="21.14">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="21.15">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="21.16">	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.get(BasicPropertyAccessor.java:145)</sentence>
+			<sentence id="21.17">	... 70 more</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">As i understand, the problem is in property-ref and not-null="true" simultaneously in collection &lt;key&gt; element.</sentence>
+		</paragraph>
+	</description>
+</bug>

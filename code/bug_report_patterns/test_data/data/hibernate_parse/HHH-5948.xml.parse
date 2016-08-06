@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5948</id>
+	<title>Trying to get a PluralAttributePath from a @MappedSuperclass throws org.hibernate.MappingException: Unknown collection role </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I'm trying to get the PluralAttributePath from a collection defined in a MappedSuperclass</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}
+@Entity
+public class Person extends PersonBase {</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">@Basic
+ private String name;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">public String getName() {
+ return name;
+ }</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">public void setName(String name) {
+ this.name = name;
+ }
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">{code}
+@MappedSuperclass
+public abstract class PersonBase {</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">@Id
+ private String id;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">public String getId() {
+ return id;
+ }</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">public void setId(String id) {
+ this.id = id;
+ }</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">@OneToMany()
+ private Set&lt;Address&gt; addresses = new HashSet&lt;Address&gt;();</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">public Set&lt;Address&gt; getAddresses() {
+ return addresses;
+ }</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">public void setAddresses(Set&lt;Address&gt; addresses) {
+ this.addresses = addresses;
+ }
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">Executing the following 
+{code}
+ criteriaQuery = criteriaBuilder.createQuery(Person.class);
+ root = criteriaQuery.from(Person.class);
+ Path&lt;?</sentence>
+			<sentence id="13.2">&gt; pathAddresses = root.get("addresses");
+{code}</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">throws the exception</sentence>
+			<sentence id="14.2">{noformat} </sentence>
+			<sentence id="14.3">org.hibernate.MappingException: Unknown collection role: testcase.hibernate.PersonBase.addresses</sentence>
+			<sentence id="14.4">	at org.hibernate.impl.SessionFactoryImpl.getCollectionPersister(SessionFactoryImpl.java:701)</sentence>
+			<sentence id="14.5">	at org.hibernate.ejb.criteria.path.PluralAttributePath.resolvePersister(PluralAttributePath.java:58)</sentence>
+			<sentence id="14.6">	at org.hibernate.ejb.criteria.path.PluralAttributePath.&lt;init&gt;(PluralAttributePath.java:52)</sentence>
+			<sentence id="14.7">	at org.hibernate.ejb.criteria.path.AbstractPathImpl.get(AbstractPathImpl.java:157)</sentence>
+			<sentence id="14.8">	at org.hibernate.ejb.criteria.path.AbstractPathImpl.get(AbstractPathImpl.java:197)</sentence>
+			<sentence id="14.9">	at testcase.hibernate.HibernateTest.testMappedSuperclassPluralAttribute(HibernateTest.java:53)</sentence>
+			<sentence id="14.10">{noformat}</sentence>
+		</paragraph>
+	</description>
+</bug>

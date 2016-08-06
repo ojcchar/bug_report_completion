@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>2393</id>
+	<title>Can't install JDK on Ubuntu Quantal (mknod: `fuse-': Operation not permitted)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I tried installing the `default-jdk` (1.7) package on `ubuntu:quantal`, and this is what happened:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1"> $ sudo docker run -i ubuntu:quantal apt-get install -y default-jdk</sentence>
+			<sentence id="2.2"> [ ... ]</sentence>
+			<sentence id="2.3"> Selecting previously unselected package fuse.</sentence>
+			<sentence id="2.4"> Unpacking fuse (from .../fuse_2.9.0-1ubuntu2_amd64.deb) ...</sentence>
+			<sentence id="2.5"> Processing triggers for initramfs-tools ...</sentence>
+			<sentence id="2.6"> Setting up libfuse2:amd64 (2.9.0-1ubuntu2) ...</sentence>
+			<sentence id="2.7"> Setting up fuse (2.9.0-1ubuntu2) ...</sentence>
+			<sentence id="2.8"> Creating fuse group...</sentence>
+			<sentence id="2.9"> Adding group `fuse' (GID 104) ...</sentence>
+			<sentence id="2.10"> Done.</sentence>
+			<sentence id="2.11"> Creating fuse device...</sentence>
+			<sentence id="2.12"> mknod: `fuse-': Operation not permitted</sentence>
+			<sentence id="2.13"> makedev fuse c 10 229 root root 0660: failed</sentence>
+			<sentence id="2.14"> chown: cannot access `/dev/fuse': No such file or directory</sentence>
+			<sentence id="2.15"> dpkg: error processing fuse (--configure):</sentence>
+			<sentence id="2.16"> subprocess installed post-installation script returned error exit status 1</sentence>
+			<sentence id="2.17"> Processing triggers for libc-bin ...</sentence>
+			<sentence id="2.18"> ldconfig deferred processing now taking place</sentence>
+			<sentence id="2.19"> Processing triggers for initramfs-tools ...</sentence>
+			<sentence id="2.20"> Errors were encountered while processing:</sentence>
+			<sentence id="2.21"> fuse</sentence>
+			<sentence id="2.22"> E: Sub-process /usr/bin/dpkg returned an error code (1)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Note: Installing `default-jdk` (1.6) on `ubuntu:precise` works fine, because it doesn't seem to use `fuse`.</sentence>
+		</paragraph>
+	</description>
+</bug>

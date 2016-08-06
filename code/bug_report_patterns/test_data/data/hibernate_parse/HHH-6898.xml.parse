@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-6898</id>
+	<title>Hibernate generates double constraints for FK? </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When using naming of relations (@org.</sentence>
+			<sentence id="1.2">hibernate.annotations.ForeignKey(name = "undermyndighed_FK")) Hibernates generates both a constraint using the name AND an identical constraint using a generated name:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">alter table Myndighedsrelationer add constraint FK382528159E2E9E11 foreign key (undermyndighedId) references Myndighed;
+alter table Myndighedsrelationer add constraint undermyndighed_FK foreign key (undermyndighedId) references Myndighed;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">and</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">alter table Myndighedsrelationer add constraint FK38252815C1F7CE95 foreign key (overmyndighedId) references Myndighed;
+alter table Myndighedsrelationer add constraint overmyndighed_FK foreign key (overmyndighedId) references Myndighed;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">It should only generate:
+alter table Myndighedsrelationer add constraint undermyndighed_FK foreign key (undermyndighedId) references Myndighed;
+alter table Myndighedsrelationer add constraint overmyndighed_FK foreign key (overmyndighedId) references Myndighed;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Classes:
+_________________________________________________________________________________________________________________________
+package dk.ttt.rrr.model.rrr.myndighed;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">@dk.</sentence>
+			<sentence id="7.2">team.foundation.bean.mdsd.BaseClazz(extensionClazz = dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer.class)
+@javax.</sentence>
+			<sentence id="7.3">persistence.MappedSuperclass
+abstract public class AbstractMyndighedsrelationer extends dk.team.mddexample.model.AbstractEntity {
+ private static final long serialVersionUID = 1404123320L;
+ public static dk.team.foundation.bean.mdsd.runtime.RuntimeMetaClazz metaType =
+ (dk.team.foundation.bean.mdsd.runtime.RuntimeMetaClazz) dk.team.mddexample.meta.RuntimeMetaModelFactory.getMetaModel()
+ .</sentence>
+			<sentence id="7.4">findById("ID_4F134AAD_7D6B_4a0d_B367_247AC5286AFA");</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">@javax.</sentence>
+			<sentence id="8.2">persistence.ManyToOne(cascade = {
+ javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.PERSIST, javax.persistence.CascadeType.REFRESH}
+ , fetch = javax.persistence.FetchType.LAZY)
+ @javax.</sentence>
+			<sentence id="8.3">persistence.JoinColumn(nullable = false, name = "undermyndighedId")
+ @org.</sentence>
+			<sentence id="8.4">hibernate.annotations.ForeignKey(name = "undermyndighed_FK")
+ private dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed undermyndighed;</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">@javax.</sentence>
+			<sentence id="9.2">persistence.Enumerated(javax.persistence.EnumType.STRING)
+ @javax.</sentence>
+			<sentence id="9.3">persistence.Column(name = "type_", nullable = false)
+ private dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationstype type;</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">@javax.</sentence>
+			<sentence id="10.2">persistence.ManyToOne(cascade = {
+ javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.PERSIST, javax.persistence.CascadeType.REFRESH}
+ , fetch = javax.persistence.FetchType.LAZY)
+ @javax.</sentence>
+			<sentence id="10.3">persistence.JoinColumn(nullable = false, name = "overmyndighedId")
+ @org.</sentence>
+			<sentence id="10.4">hibernate.annotations.ForeignKey(name = "overmyndighed_FK")
+ private dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed overmyndighed;</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">public dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed getUndermyndighed() {
+ if (undermyndighed instanceof org.hibernate.proxy.HibernateProxy) {
+ undermyndighed = (dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed) ((org.hibernate.impl.SessionImpl) ((org.hibernate.proxy.HibernateProxy) undermyndighed)
+ .</sentence>
+			<sentence id="11.2">getHibernateLazyInitializer()
+ .</sentence>
+			<sentence id="11.3">getSession()).</sentence>
+			<sentence id="11.4">getPersistenceContext()
+ .</sentence>
+			<sentence id="11.5">unproxyAndReassociate(undermyndighed);
+ }</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">return undermyndighed;
+ }</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1"> @java.lang.SuppressWarnings({"serial",</sentence>
+			<sentence id="13.2"> "unchecked",</sentence>
+			<sentence id="13.3"> "rawtypes"</sentence>
+			<sentence id="13.4"> })</sentence>
+			<sentence id="13.5"> public void setUndermyndighed(</sentence>
+			<sentence id="13.6"> dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed parameter) {</sentence>
+			<sentence id="13.7"> new dk.team.foundation.bean.bidirectional.ManyToOneWrapper&lt;dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed, dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer&gt;((dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer) this) {</sentence>
+			<sentence id="13.8"> @Override</sentence>
+			<sentence id="13.9"> protected void addManySideObjectToOneSideCollection(</sentence>
+			<sentence id="13.10"> dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed oneSide,</sentence>
+			<sentence id="13.11"> dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer manySide) {</sentence>
+			<sentence id="13.12"> ((dk.team.foundation.bean.WrappedSet&lt;dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer&gt;) oneSide</sentence>
+			<sentence id="13.13"> .getOvermyndighedCollection()).getWrappedCollection()</sentence>
+			<sentence id="13.14"> .add(manySide);</sentence>
+			<sentence id="13.15"> }</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">@Override
+ protected void removeManySideObjectFromOneSideCollection(
+ dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed oneSide,
+ dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer manySide) {
+ ((dk.team.foundation.bean.WrappedSet&lt;dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer&gt;) oneSide
+ .</sentence>
+			<sentence id="14.2">getOvermyndighedCollection()).</sentence>
+			<sentence id="14.3">getWrappedCollection()
+ .</sentence>
+			<sentence id="14.4">remove(manySide);
+ }</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">@Override
+ protected dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed getOneSideObjectInManySideObject(
+ dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer manySide) {
+ return ((dk.ttt.rrr.model.rrr.myndighed.AbstractMyndighedsrelationer) manySide).</sentence>
+			<sentence id="15.2">undermyndighed;
+ }</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">@Override
+ protected void setOneSideObjectInManySideObject(
+ dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer manySide,
+ dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed oneSide) {
+ ((dk.ttt.rrr.model.rrr.myndighed.AbstractMyndighedsrelationer) manySide).</sentence>
+			<sentence id="16.2">undermyndighed = oneSide;
+ }
+ }.</sentence>
+			<sentence id="16.3">updateOneSideObject(parameter);
+ }</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationstype getType() {
+ return type;
+ }</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">public void setType(
+ dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationstype parameter) {
+ this.type = parameter;
+ }</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">public dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed getOvermyndighed() {
+ if (overmyndighed instanceof org.hibernate.proxy.HibernateProxy) {
+ overmyndighed = (dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed) ((org.hibernate.impl.SessionImpl) ((org.hibernate.proxy.HibernateProxy) overmyndighed)
+ .</sentence>
+			<sentence id="19.2">getHibernateLazyInitializer()
+ .</sentence>
+			<sentence id="19.3">getSession()).</sentence>
+			<sentence id="19.4">getPersistenceContext()
+ .</sentence>
+			<sentence id="19.5">unproxyAndReassociate(overmyndighed);
+ }</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">return overmyndighed;
+ }</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1"> @java.lang.SuppressWarnings({"serial",</sentence>
+			<sentence id="21.2"> "unchecked",</sentence>
+			<sentence id="21.3"> "rawtypes"</sentence>
+			<sentence id="21.4"> })</sentence>
+			<sentence id="21.5"> public void setOvermyndighed(</sentence>
+			<sentence id="21.6"> dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed parameter) {</sentence>
+			<sentence id="21.7"> new dk.team.foundation.bean.bidirectional.ManyToOneWrapper&lt;dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed, dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer&gt;((dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer) this) {</sentence>
+			<sentence id="21.8"> @Override</sentence>
+			<sentence id="21.9"> protected void addManySideObjectToOneSideCollection(</sentence>
+			<sentence id="21.10"> dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed oneSide,</sentence>
+			<sentence id="21.11"> dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer manySide) {</sentence>
+			<sentence id="21.12"> ((dk.team.foundation.bean.WrappedSet&lt;dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer&gt;) oneSide</sentence>
+			<sentence id="21.13"> .getUndermyndighedCollection()).getWrappedCollection()</sentence>
+			<sentence id="21.14"> .add(manySide);</sentence>
+			<sentence id="21.15"> }</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">@Override
+ protected void removeManySideObjectFromOneSideCollection(
+ dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed oneSide,
+ dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer manySide) {
+ ((dk.team.foundation.bean.WrappedSet&lt;dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer&gt;) oneSide
+ .</sentence>
+			<sentence id="22.2">getUndermyndighedCollection()).</sentence>
+			<sentence id="22.3">getWrappedCollection()
+ .</sentence>
+			<sentence id="22.4">remove(manySide);
+ }</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">@Override
+ protected dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed getOneSideObjectInManySideObject(
+ dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer manySide) {
+ return ((dk.ttt.rrr.model.rrr.myndighed.AbstractMyndighedsrelationer) manySide).</sentence>
+			<sentence id="23.2">overmyndighed;
+ }</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">@Override
+ protected void setOneSideObjectInManySideObject(
+ dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer manySide,
+ dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed oneSide) {
+ ((dk.ttt.rrr.model.rrr.myndighed.AbstractMyndighedsrelationer) manySide).</sentence>
+			<sentence id="24.2">overmyndighed = oneSide;
+ }
+ }.</sentence>
+			<sentence id="24.3">updateOneSideObject(parameter);
+ }</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer withUndermyndighed(
+ dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed undermyndighed) {
+ setUndermyndighed(undermyndighed);</sentence>
+		</paragraph>
+		<paragraph id="26">
+			<sentence id="26.1">return (dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer) this;
+ }</sentence>
+		</paragraph>
+		<paragraph id="27">
+			<sentence id="27.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer withType(
+ dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationstype type) {
+ setType(type);</sentence>
+		</paragraph>
+		<paragraph id="28">
+			<sentence id="28.1">return (dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer) this;
+ }</sentence>
+		</paragraph>
+		<paragraph id="29">
+			<sentence id="29.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer withOvermyndighed(
+ dk.ttt.rrr.model.rrr.myndighed.IndlandskMyndighed overmyndighed) {
+ setOvermyndighed(overmyndighed);</sentence>
+		</paragraph>
+		<paragraph id="30">
+			<sentence id="30.1">return (dk.ttt.rrr.model.rrr.myndighed.Myndighedsrelationer) this;
+ }</sentence>
+		</paragraph>
+		<paragraph id="31">
+			<sentence id="31.1">public dk.team.foundation.bean.mdsd.runtime.RuntimeMetaClazz getMetaType() {
+ return metaType;
+ }
+}</sentence>
+		</paragraph>
+		<paragraph id="32">
+			<sentence id="32.1">__________________________________________________________________________________________________________________________</sentence>
+		</paragraph>
+		<paragraph id="33">
+			<sentence id="33.1">package dk.ttt.rrr.model.rrr.myndighed;</sentence>
+		</paragraph>
+		<paragraph id="34">
+			<sentence id="34.1">@dk.team.foundation.bean.mdsd.BaseClazz(extensionClazz = dk.ttt.rrr.model.rrr.myndighed.Myndighed.class)</sentence>
+			<sentence id="34.2">@javax.persistence.Entity</sentence>
+			<sentence id="34.3">@javax.persistence.Inheritance(strategy = javax.persistence.InheritanceType.SINGLE_TABLE)</sentence>
+			<sentence id="34.4">@javax.persistence.DiscriminatorColumn(name = "DTYPE", discriminatorType = javax.persistence.DiscriminatorType.STRING, length = 255)</sentence>
+			<sentence id="34.5">@org.hibernate.annotations.DiscriminatorOptions(force = true)</sentence>
+			<sentence id="34.6">@javax.persistence.Table(name = "Myndighed")</sentence>
+			<sentence id="34.7">abstract public class AbstractMyndighed extends dk.team.mddexample.model.AbstractEntity {</sentence>
+			<sentence id="34.8"> private static final long serialVersionUID = 2811393302L;</sentence>
+			<sentence id="34.9"> public static dk.team.foundation.bean.mdsd.runtime.RuntimeMetaClazz metaType =</sentence>
+			<sentence id="34.10"> (dk.team.foundation.bean.mdsd.runtime.RuntimeMetaClazz) dk.team.mddexample.meta.RuntimeMetaModelFactory.getMetaModel()</sentence>
+			<sentence id="34.11"> .findById("ID_421765D5_5F61_4a14_8C2E_F8F8787A9B78");</sentence>
+		</paragraph>
+		<paragraph id="35">
+			<sentence id="35.1">@javax.</sentence>
+			<sentence id="35.2">persistence.Basic
+ @javax.</sentence>
+			<sentence id="35.3">persistence.Temporal(javax.persistence.TemporalType.DATE)
+ @javax.</sentence>
+			<sentence id="35.4">persistence.Column(name = "ikraefttraedelsesdato", nullable = false)
+ private java.util.Date ikraefttraedelsesdato;</sentence>
+		</paragraph>
+		<paragraph id="36">
+			<sentence id="36.1">@javax.</sentence>
+			<sentence id="36.2">persistence.Basic
+ @javax.</sentence>
+			<sentence id="36.3">persistence.Column(name = "kode", nullable = false)
+ private int kode;</sentence>
+		</paragraph>
+		<paragraph id="37">
+			<sentence id="37.1">@javax.</sentence>
+			<sentence id="37.2">persistence.Basic
+ @javax.</sentence>
+			<sentence id="37.3">persistence.Column(name = "navn", nullable = false)
+ private String navn;</sentence>
+		</paragraph>
+		<paragraph id="38">
+			<sentence id="38.1">@javax.</sentence>
+			<sentence id="38.2">persistence.Basic(optional = true)
+ @javax.</sentence>
+			<sentence id="38.3">persistence.Temporal(javax.persistence.TemporalType.DATE)
+ @javax.</sentence>
+			<sentence id="38.4">persistence.Column(name = "ophoersdato")
+ private java.util.Date ophoersdato;</sentence>
+		</paragraph>
+		<paragraph id="39">
+			<sentence id="39.1">@javax.</sentence>
+			<sentence id="39.2">persistence.Basic
+ @javax.</sentence>
+			<sentence id="39.3">persistence.Column(name = "sekundaer", nullable = false)
+ private boolean sekundaer;</sentence>
+		</paragraph>
+		<paragraph id="40">
+			<sentence id="40.1">@javax.</sentence>
+			<sentence id="40.2">persistence.OneToMany(cascade = {
+ javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.PERSIST, javax.persistence.CascadeType.REFRESH}
+ , targetEntity = dk.ttt.rrr.model.rrr.sag.SagsRolle.class, mappedBy = "myndighed", fetch = javax.persistence.FetchType.LAZY)
+ private java.util.Set&lt;dk.ttt.rrr.model.rrr.sag.SagsRolle&gt; rolleCollection = new java.util.HashSet&lt;dk.ttt.rrr.model.rrr.sag.SagsRolle&gt;();</sentence>
+		</paragraph>
+		<paragraph id="41">
+			<sentence id="41.1">public java.util.Date getIkraefttraedelsesdato() {
+ return ikraefttraedelsesdato;
+ }</sentence>
+		</paragraph>
+		<paragraph id="42">
+			<sentence id="42.1">public void setIkraefttraedelsesdato(java.util.Date parameter) {
+ this.ikraefttraedelsesdato = parameter;
+ }</sentence>
+		</paragraph>
+		<paragraph id="43">
+			<sentence id="43.1">public int getKode() {
+ return kode;
+ }</sentence>
+		</paragraph>
+		<paragraph id="44">
+			<sentence id="44.1">public void setKode(int parameter) {
+ this.kode = parameter;
+ }</sentence>
+		</paragraph>
+		<paragraph id="45">
+			<sentence id="45.1">public String getNavn() {
+ return navn;
+ }</sentence>
+		</paragraph>
+		<paragraph id="46">
+			<sentence id="46.1">public void setNavn(String parameter) {
+ this.navn = parameter;
+ }</sentence>
+		</paragraph>
+		<paragraph id="47">
+			<sentence id="47.1">public java.util.Date getOphoersdato() {
+ return ophoersdato;
+ }</sentence>
+		</paragraph>
+		<paragraph id="48">
+			<sentence id="48.1">public void setOphoersdato(java.util.Date parameter) {
+ this.ophoersdato = parameter;
+ }</sentence>
+		</paragraph>
+		<paragraph id="49">
+			<sentence id="49.1">public boolean isSekundaer() {
+ return sekundaer;
+ }</sentence>
+		</paragraph>
+		<paragraph id="50">
+			<sentence id="50.1">public void setSekundaer(boolean parameter) {
+ this.sekundaer = parameter;
+ }</sentence>
+		</paragraph>
+		<paragraph id="51">
+			<sentence id="51.1">@java.</sentence>
+			<sentence id="51.2">lang.SuppressWarnings({"serial",
+ "unchecked",
+ "rawtypes"
+ })
+ public java.util.Set&lt;dk.ttt.rrr.model.rrr.sag.SagsRolle&gt; getRolleCollection() {
+ return new dk.team.foundation.bean.bidirectional.OneToManySetWrapper&lt;dk.ttt.rrr.model.rrr.myndighed.Myndighed, dk.ttt.rrr.model.rrr.sag.SagsRolle&gt;((dk.ttt.rrr.model.rrr.myndighed.Myndighed) this,
+ rolleCollection) {
+ @Override
+ protected dk.ttt.rrr.model.rrr.myndighed.Myndighed getOneSideObjectInManySideObject(
+ dk.ttt.rrr.model.rrr.sag.SagsRolle manySideObject) {
+ return manySideObject.getMyndighed();
+ }</sentence>
+		</paragraph>
+		<paragraph id="52">
+			<sentence id="52.1">@Override
+ protected void setOneSideObjectInManySideObject(
+ dk.ttt.rrr.model.rrr.sag.SagsRolle manySideObject,
+ dk.ttt.rrr.model.rrr.myndighed.Myndighed oneSideObject) {
+ manySideObject.setMyndighed(oneSideObject);
+ }
+ };
+ }</sentence>
+		</paragraph>
+		<paragraph id="53">
+			<sentence id="53.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighed withIkraefttraedelsesdato(
+ java.util.Date ikraefttraedelsesdato) {
+ setIkraefttraedelsesdato(ikraefttraedelsesdato);</sentence>
+		</paragraph>
+		<paragraph id="54">
+			<sentence id="54.1">return (dk.ttt.rrr.model.rrr.myndighed.Myndighed) this;
+ }</sentence>
+		</paragraph>
+		<paragraph id="55">
+			<sentence id="55.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighed withKode(int kode) {
+ setKode(kode);</sentence>
+		</paragraph>
+		<paragraph id="56">
+			<sentence id="56.1">return (dk.ttt.rrr.model.rrr.myndighed.Myndighed) this;
+ }</sentence>
+		</paragraph>
+		<paragraph id="57">
+			<sentence id="57.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighed withNavn(String navn) {
+ setNavn(navn);</sentence>
+		</paragraph>
+		<paragraph id="58">
+			<sentence id="58.1">return (dk.ttt.rrr.model.rrr.myndighed.Myndighed) this;
+ }</sentence>
+		</paragraph>
+		<paragraph id="59">
+			<sentence id="59.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighed withOphoersdato(
+ java.util.Date ophoersdato) {
+ setOphoersdato(ophoersdato);</sentence>
+		</paragraph>
+		<paragraph id="60">
+			<sentence id="60.1">return (dk.ttt.rrr.model.rrr.myndighed.Myndighed) this;
+ }</sentence>
+		</paragraph>
+		<paragraph id="61">
+			<sentence id="61.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighed withSekundaer(
+ boolean sekundaer) {
+ setSekundaer(sekundaer);</sentence>
+		</paragraph>
+		<paragraph id="62">
+			<sentence id="62.1">return (dk.ttt.rrr.model.rrr.myndighed.Myndighed) this;
+ }</sentence>
+		</paragraph>
+		<paragraph id="63">
+			<sentence id="63.1">public dk.ttt.rrr.model.rrr.myndighed.Myndighed addToRolleCollection(
+ dk.ttt.rrr.model.rrr.sag.SagsRolle... values) {
+ getRolleCollection().</sentence>
+			<sentence id="63.2">addAll(java.util.Arrays.asList(values));</sentence>
+		</paragraph>
+		<paragraph id="64">
+			<sentence id="64.1">return (dk.ttt.rrr.model.rrr.myndighed.Myndighed) this;
+ }</sentence>
+		</paragraph>
+		<paragraph id="65">
+			<sentence id="65.1">public dk.team.foundation.bean.mdsd.runtime.RuntimeMetaClazz getMetaType() {
+ return metaType;
+ }
+}</sentence>
+		</paragraph>
+	</description>
+</bug>

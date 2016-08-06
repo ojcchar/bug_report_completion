@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-263</id>
+	<title>Many-to-one using foreign key from joined table fails</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We're implementing the "table per subclass using a discriminator" inheritance strategy with a legacy data model.</sentence>
+			<sentence id="1.2">In one case, a subclass table has a foreign key to another table.</sentence>
+			<sentence id="1.3">The many-to-one relationship mapped to the subclass table works fine, but the inverse one-to-many relationship expects the foreign key to be on the base table rather than the subclass table.</sentence>
+			<sentence id="1.4">As a result, the collection representing the one-to-many relationship generates bad SQL and fails to load.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I will attach a small test case which is a bit contrived but illustrates the problem.</sentence>
+		</paragraph>
+	</description>
+</bug>

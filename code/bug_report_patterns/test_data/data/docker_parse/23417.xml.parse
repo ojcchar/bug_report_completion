@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>23417</id>
+	<title>Build Mounts in Docker Master</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Running docker master after I have done some builds, `make binary` `make test` after stopping the daemon if I run the `mount` command I get this output with a bunch of tmp build mounts still alive.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```</sentence>
+			<sentence id="2.2">sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)</sentence>
+			<sentence id="2.3">proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)</sentence>
+			<sentence id="2.4">udev on /dev type devtmpfs (rw,nosuid,relatime,size=3824368k,nr_inodes=956092,mode=755)</sentence>
+			<sentence id="2.5">devpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000)</sentence>
+			<sentence id="2.6">tmpfs on /run type tmpfs (rw,nosuid,noexec,relatime,size=768784k,mode=755)</sentence>
+			<sentence id="2.7">/dev/sda1 on / type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.8">securityfs on /sys/kernel/security type securityfs (rw,nosuid,nodev,noexec,relatime)</sentence>
+			<sentence id="2.9">tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)</sentence>
+			<sentence id="2.10">tmpfs on /run/lock type tmpfs (rw,nosuid,nodev,noexec,relatime,size=5120k)</sentence>
+			<sentence id="2.11">tmpfs on /sys/fs/cgroup type tmpfs (ro,nosuid,nodev,noexec,mode=755)</sentence>
+			<sentence id="2.12">cgroup on /sys/fs/cgroup/systemd type cgroup (rw,nosuid,nodev,noexec,relatime,xattr,release_agent=/lib/systemd/systemd-cgroups-agent,name=systemd,nsroot=/)</sentence>
+			<sentence id="2.13">pstore on /sys/fs/pstore type pstore (rw,nosuid,nodev,noexec,relatime)</sentence>
+			<sentence id="2.14">cgroup on /sys/fs/cgroup/net_cls,net_prio type cgroup (rw,nosuid,nodev,noexec,relatime,net_cls,net_prio,nsroot=/)</sentence>
+			<sentence id="2.15">cgroup on /sys/fs/cgroup/freezer type cgroup (rw,nosuid,nodev,noexec,relatime,freezer,nsroot=/)</sentence>
+			<sentence id="2.16">cgroup on /sys/fs/cgroup/perf_event type cgroup (rw,nosuid,nodev,noexec,relatime,perf_event,nsroot=/)</sentence>
+			<sentence id="2.17">cgroup on /sys/fs/cgroup/hugetlb type cgroup (rw,nosuid,nodev,noexec,relatime,hugetlb,nsroot=/)</sentence>
+			<sentence id="2.18">cgroup on /sys/fs/cgroup/devices type cgroup (rw,nosuid,nodev,noexec,relatime,devices,nsroot=/)</sentence>
+			<sentence id="2.19">cgroup on /sys/fs/cgroup/pids type cgroup (rw,nosuid,nodev,noexec,relatime,pids,nsroot=/)</sentence>
+			<sentence id="2.20">cgroup on /sys/fs/cgroup/cpu,cpuacct type cgroup (rw,nosuid,nodev,noexec,relatime,cpu,cpuacct,nsroot=/)</sentence>
+			<sentence id="2.21">cgroup on /sys/fs/cgroup/blkio type cgroup (rw,nosuid,nodev,noexec,relatime,blkio,nsroot=/)</sentence>
+			<sentence id="2.22">cgroup on /sys/fs/cgroup/memory type cgroup (rw,nosuid,nodev,noexec,relatime,memory,nsroot=/)</sentence>
+			<sentence id="2.23">cgroup on /sys/fs/cgroup/cpuset type cgroup (rw,nosuid,nodev,noexec,relatime,cpuset,nsroot=/)</sentence>
+			<sentence id="2.24">systemd-1 on /proc/sys/fs/binfmt_misc type autofs (rw,relatime,fd=23,pgrp=1,timeout=0,minproto=5,maxproto=5,direct)</sentence>
+			<sentence id="2.25">mqueue on /dev/mqueue type mqueue (rw,relatime)</sentence>
+			<sentence id="2.26">hugetlbfs on /dev/hugepages type hugetlbfs (rw,relatime)</sentence>
+			<sentence id="2.27">debugfs on /sys/kernel/debug type debugfs (rw,relatime)</sentence>
+			<sentence id="2.28">sunrpc on /run/rpc_pipefs type rpc_pipefs (rw,relatime)</sentence>
+			<sentence id="2.29">tracefs on /sys/kernel/debug/tracing type tracefs (rw,relatime)</sentence>
+			<sentence id="2.30">fusectl on /sys/fs/fuse/connections type fusectl (rw,relatime)</sentence>
+			<sentence id="2.31">nfsd on /proc/fs/nfsd type nfsd (rw,relatime)</sentence>
+			<sentence id="2.32">binfmt_misc on /proc/sys/fs/binfmt_misc type binfmt_misc (rw,relatime)</sentence>
+			<sentence id="2.33">/dev/sda1 on /var/lib/docker/overlay type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.34">tmpfs on /run/user/1000 type tmpfs (rw,nosuid,nodev,relatime,size=768784k,mode=700,uid=1000,gid=1000)</sentence>
+			<sentence id="2.35">gvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)</sentence>
+			<sentence id="2.36">/dev/sda1 on /var/lib/docker/tmp/docker-builder081278936 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.37">/dev/sda1 on /var/lib/docker/tmp/docker-builder429897389 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.38">/dev/sda1 on /var/lib/docker/tmp/docker-builder338705622 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.39">/dev/sda1 on /var/lib/docker/tmp/docker-builder315924899 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.40">/dev/sda1 on /var/lib/docker/tmp/docker-builder525955492 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.41">/dev/sda1 on /var/lib/docker/tmp/docker-builder903628713 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.42">/dev/sda1 on /var/lib/docker/tmp/docker-builder494042562 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.43">/dev/sda1 on /var/lib/docker/tmp/docker-builder047208511 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.44">/dev/sda1 on /var/lib/docker/tmp/docker-builder425351344 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.45">/dev/sda1 on /var/lib/docker/tmp/docker-builder685650661 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.46">/dev/sda1 on /var/lib/docker/tmp/docker-builder040860654 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.47">/dev/sda1 on /var/lib/docker/tmp/docker-builder951310107 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.48">/dev/sda1 on /var/lib/docker/tmp/docker-builder272127740 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.49">/dev/sda1 on /var/lib/docker/tmp/docker-builder026812513 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.50">/dev/sda1 on /var/lib/docker/tmp/docker-builder667016538 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.51">/dev/sda1 on /var/lib/docker/tmp/docker-builder007390263 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.52">/dev/sda1 on /var/lib/docker/tmp/docker-builder312302216 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.53">/dev/sda1 on /var/lib/docker/tmp/docker-builder643337245 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.54">/dev/sda1 on /var/lib/docker/tmp/docker-builder024182790 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.55">/dev/sda1 on /var/lib/docker/tmp/docker-builder522281875 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.56">/dev/sda1 on /var/lib/docker/tmp/docker-builder591585620 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.57">/dev/sda1 on /var/lib/docker/tmp/docker-builder970362905 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.58">/dev/sda1 on /var/lib/docker/tmp/docker-builder111831026 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.59">/dev/sda1 on /var/lib/docker/tmp/docker-builder545122607 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.60">/dev/sda1 on /var/lib/docker/tmp/docker-builder711340384 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.61">/dev/sda1 on /var/lib/docker/tmp/docker-builder082185813 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.62">/dev/sda1 on /var/lib/docker/tmp/docker-builder458614046 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.63">/dev/sda1 on /var/lib/docker/tmp/docker-builder179275019 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.64">/dev/sda1 on /var/lib/docker/tmp/docker-builder646734087 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.65">/dev/sda1 on /var/lib/docker/tmp/docker-builder457831576 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.66">/dev/sda1 on /var/lib/docker/tmp/docker-builder624099949 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.67">/dev/sda1 on /var/lib/docker/tmp/docker-builder893832086 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.68">/dev/sda1 on /var/lib/docker/tmp/docker-builder664878435 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.69">/dev/sda1 on /var/lib/docker/tmp/docker-builder782271076 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.70">/dev/sda1 on /var/lib/docker/tmp/docker-builder910333289 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.71">/dev/sda1 on /var/lib/docker/tmp/docker-builder292096642 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.72">/dev/sda1 on /var/lib/docker/tmp/docker-builder504297471 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.73">/dev/sda1 on /var/lib/docker/tmp/docker-builder934851440 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.74">/dev/sda1 on /var/lib/docker/tmp/docker-builder199315621 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.75">/dev/sda1 on /var/lib/docker/tmp/docker-builder395919534 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.76">/dev/sda1 on /var/lib/docker/tmp/docker-builder655585499 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.77">/dev/sda1 on /var/lib/docker/tmp/docker-builder731823036 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.78">/dev/sda1 on /var/lib/docker/tmp/docker-builder836236833 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.79">/dev/sda1 on /var/lib/docker/tmp/docker-builder336770074 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.80">/dev/sda1 on /var/lib/docker/tmp/docker-builder765449207 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.81">/dev/sda1 on /var/lib/docker/tmp/docker-builder097552712 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.82">/dev/sda1 on /var/lib/docker/tmp/docker-builder552945117 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.83">/dev/sda1 on /var/lib/docker/tmp/docker-builder078938310 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.84">/dev/sda1 on /var/lib/docker/tmp/docker-builder386985299 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.85">/dev/sda1 on /var/lib/docker/tmp/docker-builder372663316 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.86">/dev/sda1 on /var/lib/docker/tmp/docker-builder030500825 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.87">/dev/sda1 on /var/lib/docker/tmp/docker-builder817485557 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.88">/dev/sda1 on /var/lib/docker/tmp/docker-builder774527569 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.89">/dev/sda1 on /var/lib/docker/tmp/docker-builder254418698 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.90">/dev/sda1 on /var/lib/docker/tmp/docker-builder251810070 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.91">/dev/sda1 on /var/lib/docker/tmp/docker-builder598964963 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.92">/dev/sda1 on /var/lib/docker/tmp/docker-builder470602212 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.93">/dev/sda1 on /var/lib/docker/tmp/docker-builder760633577 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.94">/dev/sda1 on /var/lib/docker/tmp/docker-builder749044220 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.95">/dev/sda1 on /var/lib/docker/tmp/docker-builder581491553 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.96">/dev/sda1 on /var/lib/docker/tmp/docker-builder709048317 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.97">/dev/sda1 on /var/lib/docker/tmp/docker-builder249559769 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.98">/dev/sda1 on /var/lib/docker/tmp/docker-builder028089778 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.99">/dev/sda1 on /var/lib/docker/tmp/docker-builder276371439 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.100">/dev/sda1 on /var/lib/docker/tmp/docker-builder147792672 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.101">/dev/sda1 on /var/lib/docker/tmp/docker-builder483076885 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.102">/dev/sda1 on /var/lib/docker/tmp/docker-builder691219166 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.103">/dev/sda1 on /var/lib/docker/tmp/docker-builder654332875 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.104">/dev/sda1 on /var/lib/docker/tmp/docker-builder190197868 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.105">/dev/sda1 on /var/lib/docker/tmp/docker-builder765089681 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.106">/dev/sda1 on /var/lib/docker/tmp/docker-builder961571146 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.107">/dev/sda1 on /var/lib/docker/tmp/docker-builder515223015 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.108">/dev/sda1 on /var/lib/docker/tmp/docker-builder641763875 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.109">/dev/sda1 on /var/lib/docker/tmp/docker-builder826086948 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.110">/dev/sda1 on /var/lib/docker/tmp/docker-builder400018985 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.111">/dev/sda1 on /var/lib/docker/tmp/docker-builder321226309 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.112">/dev/sda1 on /var/lib/docker/tmp/docker-builder751904929 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.113">/dev/sda1 on /var/lib/docker/tmp/docker-builder493144730 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.114">/dev/sda1 on /var/lib/docker/tmp/docker-builder069002662 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.115">/dev/sda1 on /var/lib/docker/tmp/docker-builder756344306 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.116">/dev/sda1 on /var/lib/docker/tmp/docker-builder987365679 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.117">/dev/sda1 on /var/lib/docker/tmp/docker-builder805567328 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.118">/dev/sda1 on /var/lib/docker/tmp/docker-builder697206357 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.119">/dev/sda1 on /var/lib/docker/tmp/docker-builder544996126 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.120">/dev/sda1 on /var/lib/docker/tmp/docker-builder364024587 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.121">/dev/sda1 on /var/lib/docker/tmp/docker-builder820574892 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.122">/dev/sda1 on /var/lib/docker/tmp/docker-builder413570257 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.123">/dev/sda1 on /var/lib/docker/tmp/docker-builder848258669 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.124">/dev/sda1 on /var/lib/docker/tmp/docker-builder983171145 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.125">/dev/sda1 on /var/lib/docker/tmp/docker-builder591855904 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.126">/dev/sda1 on /var/lib/docker/tmp/docker-builder061487511 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.127">/dev/sda1 on /var/lib/docker/tmp/docker-builder680913346 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.128">/dev/sda1 on /var/lib/docker/tmp/docker-builder597507473 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.129">/dev/sda1 on /var/lib/docker/tmp/docker-builder082481204 type ext4 (rw,relatime,errors=remount-ro,data=ordered)</sentence>
+			<sentence id="2.130">```</sentence>
+		</paragraph>
+	</description>
+</bug>

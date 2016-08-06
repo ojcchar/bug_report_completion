@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>49432</id>
+	<title>No way to reliably kill LibreOffice when run in a headless way and accessed solely via the API</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">With LibO_3.5.1rc2_Linux_x86-64 I was able to start soffice.bin directly and kill it after something bad had happened.</sentence>
+			<sentence id="1.2">With LibO_3.5.3rc2_Linux_x86-64 I am unable to start soffice.bin directly (by design, according to bug 48341), which means I have to start it via the soffice script.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">There is no way to get the PID of soffice.bin (or oosplash) if they are started by the soffice script.</sentence>
+			<sentence id="2.2">Furthermore there is no way in java to kill any process except one that is directly started from java.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The result is that problematic instances of soffice.bin remain alive with no connection to them.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">For LibreOffice to be useful in a headless, API only, daemon environment it needs to be possible to start multiple instances (concurrently) and to kill them reliably after problems occur.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I have filed this issue as a blocker because it is preventing me from upgrading to 3.5.3.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">There are a number of options for resolving this, but the best for me would be for there to be a documented way to run soffice.bin directly.</sentence>
+			<sentence id="6.2">Simpler for LibreOffice would be to simply write the PIDs for any started process to a known location (within the env).</sentence>
+		</paragraph>
+	</description>
+</bug>

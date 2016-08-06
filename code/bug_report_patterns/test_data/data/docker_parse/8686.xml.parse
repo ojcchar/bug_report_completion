@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>8686</id>
+	<title>Docker in Docker no clean remove</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hello ppl,</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">running a docker in docker will result in a not clean enviroment</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.2">```</sentence>
+			<sentence id="2.3">vagrant@vagrant:~$ docker run -ti --privileged=true --rm ubuntu /bin/bash</sentence>
+			<sentence id="2.4">root@9fd5f2312bfc:/# docker run -i -t --rm ubuntu /bin/bash</sentence>
+			<sentence id="2.5">Unable to find image 'ubuntu' locally</sentence>
+			<sentence id="2.6">ubuntu:latest: The image you are pulling has been verified</sentence>
+			<sentence id="2.7">511136ea3c5a: Pull complete</sentence>
+			<sentence id="2.8">97fd97495e49: Pull complete</sentence>
+			<sentence id="2.9">2dcbbf65536c: Pull complete</sentence>
+			<sentence id="2.10">6a459d727ebb: Pull complete</sentence>
+			<sentence id="2.11">8f321fc43180: Pull complete</sentence>
+			<sentence id="2.12">03db2b23cf03: Pull complete</sentence>
+			<sentence id="2.13">9cbaf023786c: Pull complete</sentence>
+			<sentence id="2.14">Status: Downloaded newer image for ubuntu:latest</sentence>
+			<sentence id="2.15">root@d7b8bb517640:/# ps aux</sentence>
+			<sentence id="2.16">USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND</sentence>
+			<sentence id="2.17">root 1 0.0 0.0 18168 2000 ? Ss 21:27 0:00 /bin/bash</sentence>
+			<sentence id="2.18">root 18 0.0 0.0 15568 1128 ? R+ 21:27 0:00 ps aux</sentence>
+			<sentence id="2.19">root@d7b8bb517640:/# exit</sentence>
+			<sentence id="2.20">exit</sentence>
+			<sentence id="2.21">root@9fd5f2312bfc:/# docker version</sentence>
+			<sentence id="2.22">Client version: 1.3.0</sentence>
+			<sentence id="2.23">Client API version: 1.15</sentence>
+			<sentence id="2.24">Go version (client): go1.3.3</sentence>
+			<sentence id="2.25">Git commit (client): c78088f</sentence>
+			<sentence id="2.26">OS/Arch (client): linux/amd64</sentence>
+			<sentence id="2.27">Server version: 1.3.0</sentence>
+			<sentence id="2.28">Server API version: 1.15</sentence>
+			<sentence id="2.29">Go version (server): go1.3.3</sentence>
+			<sentence id="2.30">Git commit (server): c78088f</sentence>
+			<sentence id="2.31">root@9fd5f2312bfc:/# exit</sentence>
+			<sentence id="2.32">exit</sentence>
+			<sentence id="2.33">2014/10/21 23:28:08 Error response from daemon: Cannot destroy container 9fd5f2312bfc5642fc20fab2feb63b1b7a3d600ab45882872a09d2ddf55ff8e3: Driver aufs failed to remove root filesystem 9fd5f2312bfc5642fc20fab2feb63b1b7a3d600ab45882872a09d2ddf55ff8e3: rename /var/lib/docker/aufs/diff/9fd5f2312bfc5642fc20fab2feb63b1b7a3d600ab45882872a09d2ddf55ff8e3 /var/lib/docker/aufs/diff/9fd5f2312bfc5642fc20fab2feb63b1b7a3d600ab45882872a09d2ddf55ff8e3-removing: device or resource busy</sentence>
+			<sentence id="2.34">vagrant@vagrant:~$ docker version</sentence>
+			<sentence id="2.35">Client version: 1.3.0</sentence>
+			<sentence id="2.36">Client API version: 1.15</sentence>
+			<sentence id="2.37">Go version (client): go1.3.3</sentence>
+			<sentence id="2.38">Git commit (client): c78088f</sentence>
+			<sentence id="2.39">OS/Arch (client): linux/amd64</sentence>
+			<sentence id="2.40">Server version: 1.3.0</sentence>
+			<sentence id="2.41">Server API version: 1.15</sentence>
+			<sentence id="2.42">Go version (server): go1.3.3</sentence>
+			<sentence id="2.43">Git commit (server): c78088f</sentence>
+			<sentence id="2.44">vagrant@vagrant:~$</sentence>
+			<sentence id="2.45">```</sentence>
+		</paragraph>
+	</description>
+</bug>

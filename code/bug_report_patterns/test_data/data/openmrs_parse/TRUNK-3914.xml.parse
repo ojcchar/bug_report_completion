@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3914</id>
+	<title>Slow ConceptValidator</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">ConceptValidator is very slow.</sentence>
+			<sentence id="1.2">The culprit is a call to getConceptsByName.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Finding duplicate names could be done with some other dedicated method, which uses a faster query.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">In order to observe the problem use the MVP dictionary which has ~50k concepts.</sentence>
+			<sentence id="3.2">It takes a few seconds to save a concept.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">It may not be a problem after TRUNK-2999 is done.</sentence>
+		</paragraph>
+	</description>
+</bug>

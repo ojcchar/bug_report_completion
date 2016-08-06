@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4075</id>
+	<title>Crash report 5.4-rc-1: isAttached() checks missing in MeFragment uploadGravatar callbacks</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```</sentence>
+			<sentence id="1.2">Fatal Exception: java.lang.IllegalStateException: Fragment MeFragment{42c07370} not attached to Activity</sentence>
+			<sentence id="1.3"> at android.app.Fragment.getResources(Fragment.java:762)</sentence>
+			<sentence id="1.4"> at android.app.Fragment.getString(Fragment.java:784)</sentence>
+			<sentence id="1.5"> at org.wordpress.android.ui.main.MeFragment$12.onError(MeFragment.java:576)</sentence>
+			<sentence id="1.6"> at org.wordpress.android.networking.GravatarApi$2$2.run(GravatarApi.java:90)</sentence>
+			<sentence id="1.7"> at android.os.Handler.handleCallback(Handler.java:800)</sentence>
+			<sentence id="1.8"> at android.os.Handler.dispatchMessage(Handler.java:100)</sentence>
+			<sentence id="1.9"> at android.os.Looper.loop(Looper.java:194)</sentence>
+			<sentence id="1.10"> at android.app.ActivityThread.main(ActivityThread.java:5371)</sentence>
+			<sentence id="1.11"> at java.lang.reflect.Method.invokeNative(Method.java)</sentence>
+			<sentence id="1.12"> at java.lang.reflect.Method.invoke(Method.java:525)</sentence>
+			<sentence id="1.13"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:833)</sentence>
+			<sentence id="1.14"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:600)</sentence>
+			<sentence id="1.15"> at dalvik.system.NativeStart.main(NativeStart.java)</sentence>
+			<sentence id="1.16">```</sentence>
+		</paragraph>
+	</description>
+</bug>

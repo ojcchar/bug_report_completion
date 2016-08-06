@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>4605</id>
+	<title>pty handling issue with native driver (breaks SSH server)0.9.1</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">TL,DR: we should symlink `/dev/ptmx` to `/dev/pts/ptmx` unconditionally, not only for containers with a pty.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Details now.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">When we start a container, we mount a new `devpts` instance on `/dev/pts`.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">If we request a terminal (with `docker run -t &#x2026;`), the native driver calls the `setupPtmx` function in nsinit/mount.</sentence>
+			<sentence id="4.2">go:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">https://github.com/dotcloud/docker/blob/master/pkg/libcontainer/nsinit/mount.go#L240</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">This function does two things:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">- it removes `/dev/ptmx` and replaces it with a symlink to `/dev/pts/ptmx`;</sentence>
+			<sentence id="7.2">- it bind-mounts the current pseudo-terminal to `/dev/console`.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">If we start a container with the `-t` option, everything works fine.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Now, if we do this:</sentence>
+			<sentence id="9.2">- start a container without the `-t` option</sentence>
+			<sentence id="9.3">- start a SSH server inside the container</sentence>
+			<sentence id="9.4">- try to SSH to that server</sentence>
+			<sentence id="9.5">... then we won't get a terminal.</sentence>
+			<sentence id="9.6">SSH debug info will indicate that the `openpty()` function call failed, and `strace` will show that the SSH server tried to stat something like `/dev/pts/10` instead of `/dev/pts/0`.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">This is because when you open the `ptmx` device, the kernel identifies which instance is accessed by looking at the *device* on which it resides.</sentence>
+			<sentence id="10.2">When `/dev/ptmx` is directly a character device, it resides on `/dev`, which is itself on the container's rootfs, which itself is "not known" to the `devpts` system.</sentence>
+			<sentence id="10.3">Now, when `/dev/ptmx` is a symlink to `/dev/pts/ptmx`, then `ptmx` actually resides on `/dev/pts`, which is a `devpts` filesystem and identified as such by the pty kernel code.</sentence>
+		</paragraph>
+	</description>
+</bug>

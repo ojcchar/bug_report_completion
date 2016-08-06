@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-1697</id>
+	<title>Speed up Concept.getName(Locale)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The Concept.getName(Locale) method is called frequently.</sentence>
+			<sentence id="1.2">It needs to be optimized for performance.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Profiling says a lot of its time is spent in AdministrationService.getAllowedLocales(), so this may need to be cached (or called less).</sentence>
+		</paragraph>
+	</description>
+</bug>

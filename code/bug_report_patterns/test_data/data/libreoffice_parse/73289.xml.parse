@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>73289</id>
+	<title>MAILMERGE: Can not remove page-break from multiple paragraphs at once if doc came from mail-merge</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 91498
+test_mailmerge.</sentence>
+			<sentence id="1.2">odt</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In Writer, you can remove the "page break" setting from all paragraphs which have it by selecting all (^A) and then Format-&gt;Paragraphs.</sentence>
+			<sentence id="2.2">The "Break" checkbox will be red if some but not all of the paragraphs have it set.</sentence>
+			<sentence id="2.3">Clearing the box removes page-breaks from every selected paragraph which had it.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">But this does not work for page breaks inserted by Mail Merge.</sentence>
+			<sentence id="3.2">Something about those page breaks makes them immune to being changed during a multi-paragraph format change; in fact,
+the paragraph formatter seems to be unaware that they exist because the Break check-box is not red when formatting multiple paragraphs.</sentence>
+			<sentence id="3.3">You can remove the breaks one paragraph at a time, however.</sentence>
+			<sentence id="3.4">So those MM-generated breaks are not completely bogus.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">This is a problem for users because Mail Merge does not offer the option of not inserting page breaks, so the only work-around for generating continuous output (not one page per record) is to manually remove the the MM-produced page breaks from the generated .</sentence>
+			<sentence id="4.2">odt file.</sentence>
+			<sentence id="4.3">It is impractical to remove the breaks one paragraph at a time.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">STEPS TO REPRODUCE:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">1 First, open the attached "test_manuallycreated.</sentence>
+			<sentence id="6.2">odt".</sentence>
+			<sentence id="6.3">Select all (^A), Format-&gt;Paragraph-&gt;Text Flow, and notice that the "Break" checkbox is red.</sentence>
+			<sentence id="6.4">Check it and apply, repeat and un-check it.</sentence>
+			<sentence id="6.5">All paragraphs are affected.</sentence>
+			<sentence id="6.6">This is how it should be.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">2 Now open "test_mmoutput.</sentence>
+			<sentence id="7.2">odt" which has a similar structure, but the page-breaks came from Mail Merge.</sentence>
+			<sentence id="7.3">Select all (^A) and Format-&gt;Paragraph-&gt;Text Flow, and the "Break" checkbox is white (should be red), and there is no sequence of operations which removes all the MM-generated page breaks, except to edit the format of each paragraph separately, one at a time (which is impractical with many data records).</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">EXPECTED BEHAVIOR: When editing Paragraph formats for multiple paragraphs simultaneously, page-breaks inserted by Mail Merge should behave just like manually-inserted page breaks, i.e., they should be recognized by the Para.</sentence>
+			<sentence id="8.2">format editor in multi-paragraph mode.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Operating System: Ubuntu
+Version: 4.1.3.2 release</sentence>
+		</paragraph>
+	</description>
+</bug>

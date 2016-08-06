@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-300</id>
+	<title>Duplicate description of the 'catalog' attribute of the 'class' element</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In the documentation: section 5.1.3 (Basic O/R Mapping), the attribute 'catalog' appears two times.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">File: 
+cvs: hibernate/Hibernate3/doc/reference/en/modules/basic_mapping.</sentence>
+			<sentence id="2.2">xml
+lines: between 228 and 395 (particularly 259, 271 and the explanations after)
+extract:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">253: &lt;programlisting&gt;&lt;!</sentence>
+			<sentence id="3.2">[CDATA[&lt;class
+ name="ClassName"
+ table="tableName"
+ discriminator-value="discriminator_value"
+ mutable="true|false"
+ schema="owner"
+259: catalog="catalog"
+ proxy="ProxyInterface"
+ dynamic-update="true|false"
+ dynamic-insert="true|false"
+ select-before-update="true|false"
+ polymorphism="implicit|explicit"
+ where="arbitrary sql where condition"
+ persister="PersisterClass"
+ batch-size="N"
+ optimistic-lock="none|version|dirty|all"
+ lazy="true|false"
+ entity-name="EntityName"
+271: catalog="catalog"
+ check="arbitrary sql check condition"
+ rowid="rowid"
+...</sentence>
+		</paragraph>
+	</description>
+</bug>

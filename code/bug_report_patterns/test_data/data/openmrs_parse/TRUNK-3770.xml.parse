@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3770</id>
+	<title>update all of these types of extension point links to use c:url so that we are consistent</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">In 1.9.x, gutter.jsp has this snippet (and I'm sure it's the same in other versions):
+	&lt;openmrs:extensionPoint pointId="org.openmrs.gutter.tools" type="html" 
+		requiredClass="org.openmrs.module.web.extension.LinkExt"&gt;
+		&lt;openmrs:hasPrivilege privilege="${extension.requiredPrivilege}"&gt;
+			&lt;li&gt;
+			&lt;a href="${pageContext.request.contextPath}/${extension.url}"&gt;&lt;openmrs:message code="${extension.label}"/&gt;&lt;/a&gt;
+			&lt;/li&gt;
+		&lt;/openmrs:hasPrivilege&gt;
+	&lt;/openmrs:extensionPoint&gt;</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Basically the fix here is to change that &lt;a href&gt; line to support both internal and external urls, depending on whether they start with "protocol://".</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Google Group discussion: https://groups.google.com/a/openmrs.org/forum/?hl=es&amp;fromgroups=#!topic/dev/AIdEokbhXLA</sentence>
+		</paragraph>
+	</description>
+</bug>

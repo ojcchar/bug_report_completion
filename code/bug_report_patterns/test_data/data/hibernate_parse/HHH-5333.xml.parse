@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5333</id>
+	<title>Dynamically setting schema name for native queries in hbm file</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi ,
+inside my hibernate.cfg.xml I am mentioning
+hibernate.default_schema as schema name (say "testSchema") and it is working with named queries and HQL as expected.But when I am using a native sql query</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">&lt;sql-query name="myQuery"&gt;
+ &lt;return-scalar column="NAME" type="java.lang.String"/&gt;
+ &lt;return-scalar column="SURNAME" type="java.lang.String"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">SELECT NAME,SURNAME FROM ${hibernate.default_schema}.</sentence>
+			<sentence id="3.2">TBEMPLOYEE
+&lt;/sql-query&gt;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">In that case the schema name(i.e. testSchema)is not getting appended to the table names.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">I tried this for Hibernate version 3.3.0 and 3.3.2.</sentence>
+			<sentence id="5.2">But it is not working.</sentence>
+			<sentence id="5.3">Can anybody provide me the correct implementation ?</sentence>
+			<sentence id="5.4">Do anyone know correct syntax?</sentence>
+		</paragraph>
+	</description>
+</bug>

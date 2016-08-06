@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9101</id>
+	<title>FK object which is a part of PK in the parent is also persisted once the the Parent is persisted </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">FK object which is a part of PK in the parent is also persisted once the the Parent is persisted although no cascade was set on ManyToOne.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Please let me know if this is normal and not a bug:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">This is the spec for persisting and entity:</sentence>
+			<sentence id="3.2">3 2.2 Persisting an Entity Instance</sentence>
+			<sentence id="3.3">A new entity instance becomes both managed and persistent by invoking the persist method on it or</sentence>
+			<sentence id="3.4">by cascading the persist operation.</sentence>
+			<sentence id="3.5">The semantics of the persist operation, applied to an entity X are as follows:</sentence>
+			<sentence id="3.6">• If X is a new entity, it becomes managed.</sentence>
+			<sentence id="3.7">The entity X will be entered into the database at or</sentence>
+			<sentence id="3.8">before transaction commit or as a result of the flush operation.</sentence>
+			<sentence id="3.9">• If X is a preexisting managed entity, it is ignored by the persist operation.</sentence>
+			<sentence id="3.10">However, the persist</sentence>
+			<sentence id="3.11">operation is cascaded to entities referenced by X, if the relationships from X to these other</sentence>
+			<sentence id="3.12">entities are annotated with the cascade=PERSIST or cascade=ALL annotation element</sentence>
+			<sentence id="3.13">value or specified with the equivalent XML descriptor element.</sentence>
+			<sentence id="3.14">• If X is a removed entity, it becomes managed.</sentence>
+			<sentence id="3.15">• If X is a detached object, the EntityExistsException may be thrown when the persist</sentence>
+			<sentence id="3.16">operation is invoked, or the EntityExistsException or another PersistenceException</sentence>
+			<sentence id="3.17">may be thrown at flush or commit time.</sentence>
+			<sentence id="3.18">• For all entities Y referenced by a relationship from X, if the relationship to Y has been annotated</sentence>
+			<sentence id="3.19">with the cascade element value cascade=PERSIST or cascade=ALL, the persist</sentence>
+			<sentence id="3.20">operation is applied to Y.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Below are the entities:
+Binding has ManyToOne uni-directional towards Application and ServerHost.</sentence>
+			<sentence id="4.2">Being ServerHost and Application are already in the DB.</sentence>
+			<sentence id="4.3">When a new Binding is created (by the help of ServerHost and Application entites) and persisted, hibernate tries to insert the same Application which is already in the DB hence Violation of PRIMARY KEY constraint 'PK_Application'.</sentence>
+			<sentence id="4.4">Cannot insert duplicate key in object error.</sentence>
+		</paragraph>
+	</description>
+</bug>

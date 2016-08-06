@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10137</id>
+	<title>api: using exec-create </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">HI,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I'd like to do the equivalent of the following via the API:
+docker exec mycontainer sh -c 'ls /var/www/html'</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">So found http://docs.docker.com/reference/api/docker_remote_api_v1.16/#exec-create and tried:</sentence>
+			<sentence id="3.2">curl -X POST -H "Content-Type: application/json" http://127.0.0.1:2375/containers/mycontainer/exec \</sentence>
+			<sentence id="3.3">-d '{ "AttachStdin":false,"AttachStdout":true,"AttachStderr":true, "Tty":false, "Cmd":["ls /var/www/html"] }'</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">but this gives back:
+{"Id":"10ea294c854e75b5957e198e0b33c0ec7a9fe5e6742b739ed081c6f8081123d5"}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">What next, is one then supposed to do a start?</sentence>
+			<sentence id="5.2">e.g.</sentence>
+			<sentence id="5.3">curl -X POST -H "Content-Type: application/json" http://127.0.0.1:2375/containers/10ea294c854e75b5957e198e0b33c0ec7a9fe5e6742b739ed081c6f8081123d5/start \</sentence>
+			<sentence id="5.4">-d '{ "Detach":false,"Tty":false}'</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">but that says "No such container".</sentence>
+		</paragraph>
+	</description>
+</bug>

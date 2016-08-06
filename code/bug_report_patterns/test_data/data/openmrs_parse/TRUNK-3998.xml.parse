@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3998</id>
+	<title>Refactor InitializationFilter so that first-time startup of OpenMRS behaves identically to normal startup</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The first time you start OpenMRS, it goes through a setup wizard and then starts OpenMRS.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In this scenario (the code is in org.openmrs.web.filter.initialization.InitializationFilter) module activators have their methods (e.g. contextRefreshed() and started()) called from a thread that has "Anonymous" privileges, so any API calls the activators make will throw an exception.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">You can find the correct version of this code in org.openmrs.web.Listener (it uses WebDaemon).</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Another ticket, TRUNK-3997, is about doing a quick-fix for this problem.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The goal of this ticket is to refactor things so that we don't have similar code duplicated between InitializationFilter and Listener, and we can count on OpenMRS reliably starting up the same way the first time as subsequent times.</sentence>
+		</paragraph>
+	</description>
+</bug>

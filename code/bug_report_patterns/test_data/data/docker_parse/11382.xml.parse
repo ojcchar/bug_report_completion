@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>11382</id>
+	<title>setup mount namespace pivot_root invalid argument</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I was hoping to find an answer to this but have only found an some old issues that seem similar:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">* https://github.com/lxc/lxc/issues/61</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">and</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">* https://github.com/docker/docker/issues/1751</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">When I try to run a container I get:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```#!bash</sentence>
+			<sentence id="6.2">~ # docker run -i -t --rm crux bash -c 'crux'</sentence>
+			<sentence id="6.3">setup mount namespace pivot_root invalid argumentFATA[0002] Error response from daemon: Cannot start container 504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296: setup mount namespace pivot_root invalid argument </sentence>
+			<sentence id="6.4">~ # tail docker.log </sentence>
+			<sentence id="6.5">time="2015-03-12T22:13:01Z" level="info" msg="-job release_interface(504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296) = OK (0)" </sentence>
+			<sentence id="6.6">time="2015-03-12T22:13:01Z" level="debug" msg="[devmapper] UnmountDevice(hash=504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296)" </sentence>
+			<sentence id="6.7">time="2015-03-12T22:13:01Z" level="debug" msg="[devmapper] UnmountDevice(hash=504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296) END" </sentence>
+			<sentence id="6.8">time="2015-03-12T22:13:01Z" level="error" msg="Warning: error unmounting device 504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296: UnmountDevice: device not-mounted id 504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296" </sentence>
+			<sentence id="6.9">time="2015-03-12T22:13:01Z" level="info" msg="+job log(die, 504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296, crux:latest)" </sentence>
+			<sentence id="6.10">time="2015-03-12T22:13:01Z" level="info" msg="-job log(die, 504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296, crux:latest) = OK (0)" </sentence>
+			<sentence id="6.11">Cannot start container 504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296: setup mount namespace pivot_root invalid argument</sentence>
+			<sentence id="6.12">time="2015-03-12T22:13:01Z" level="info" msg="-job start(504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296) = ERR (1)" </sentence>
+			<sentence id="6.13">time="2015-03-12T22:13:01Z" level="error" msg="Handler for POST /containers/{name:.*}/start returned error: Cannot start container 504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296: setup mount namespace pivot_root invalid argument" </sentence>
+			<sentence id="6.14">time="2015-03-12T22:13:01Z" level="error" msg="HTTP Error: statusCode=500 Cannot start container 504cb3f6c30b2f5e0ebd8edb74e06f77beb218a2d3130b3649de34a937071296: setup mount namespace pivot_root invalid argument" </sentence>
+			<sentence id="6.15">```</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">This is statically built upstream ``docker`` running on ``linux-3.18.9``.</sentence>
+			<sentence id="7.2">The system has a ``busybox`` userland and no ``libc`` to speak of.</sentence>
+			<sentence id="7.3">``iptables-1.4.14`` was statically compiled (*with some patches*) against ``musl-1.0.4``.</sentence>
+		</paragraph>
+	</description>
+</bug>

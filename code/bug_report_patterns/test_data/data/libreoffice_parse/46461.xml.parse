@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>46461</id>
+	<title>compatibility issue with DOC format: Writer creates additional character styles (FILESAVE problem)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 57466
+test files</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">In LibO Writer I've noticed a compatibility issue with DOC format (MS
+Word 97/2000/XP/2003): when Writer saves to DOC format it creates
+additional character styles.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Steps to reproduce (test files are attached):</sentence>
+			<sentence id="4.1">(1 test1.doc was created with MS Word 2003 SP3 using the default</sentence>
+			<sentence id="4.2">normal.dot template.</sentence>
+			<sentence id="4.3">Check the list of all styles (including the</sentence>
+			<sentence id="4.4">character styles) in the document.</sentence>
+			<sentence id="5.1">(2 In Writer open test1.doc.</sentence>
+			<sentence id="5.2">In the list of paragraph and character</sentence>
+			<sentence id="5.3">styles there are some new character styles with odd names:</sentence>
+			<sentence id="5.4">WW8Num10z0, WW8Num5z0, WW8Num6z0, WW8Num7z0, WW8Num8z0.</sentence>
+			<sentence id="5.5">Save the document as test2.doc and exit.</sentence>
+			<sentence id="6.1">(3 In Writer open test2.doc.</sentence>
+			<sentence id="6.2">In the list of paragraph and character</sentence>
+			<sentence id="6.3">styles there is a new character style: Absatz-Standardschriftart.</sentence>
+			<sentence id="6.4">Save the document as test3.doc and exit.</sentence>
+			<sentence id="7.1">(4 In Writer open test3.doc.</sentence>
+			<sentence id="7.2">In the list of paragraph and character</sentence>
+			<sentence id="7.3">styles there is a new character style: WW-Absatz-Standardschriftart.</sentence>
+			<sentence id="7.4">Save the document as test4.doc and exit.</sentence>
+			<sentence id="8.1">(5 In Writer open test4.doc.</sentence>
+			<sentence id="8.2">In the list of paragraph and character</sentence>
+			<sentence id="8.3">styles there is a new character style: WW-Absatz-Standardschriftart1.</sentence>
+			<sentence id="8.4">Save the document as test5.doc and exit.</sentence>
+			<sentence id="9.1">(6 In Writer open test5.doc.</sentence>
+			<sentence id="9.2">In the list of paragraph and character</sentence>
+			<sentence id="9.3">styles there is a new character style: WW-Absatz-Standardschriftart11.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">You can go on repeating the procedure.</sentence>
+			<sentence id="10.2">In each new iteration a new
+character style is created.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">If a DOC file is opened and saved between Writer and MS Word you get
+the same result but with slightly different names of new character
+styles (WW-Default Paragraph Font*).</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">This behavior is annoying as after many save/open cycles the list of
+styles gets cluttered with styles not used in the text actually.</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">The issue does not exist if the DOCX format is used.</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">The test environment:</sentence>
+			<sentence id="14.2">- LibreOffice Writer 3.4.5 on an Ubuntu 11.10 or MS Windows XP Pro.</sentence>
+			<sentence id="14.3">SP3</sentence>
+			<sentence id="14.4">- MS Word 2003 SP3 on a MS Windows XP Pro.</sentence>
+			<sentence id="14.5">SP3, all additional MS</sentence>
+			<sentence id="14.6">updates installed (DOCX tested using MS Office Compatibility Pack SP3)</sentence>
+		</paragraph>
+	</description>
+</bug>

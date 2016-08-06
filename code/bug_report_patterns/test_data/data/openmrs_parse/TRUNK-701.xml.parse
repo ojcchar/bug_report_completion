@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-701</id>
+	<title>Data Truncated for column error</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Got this error when starting up</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}Caused by: liquibase.exception.JDBCException: Error executing SQL ALTER TABLE {{person}} MODIFY {{birthdate_estimated}} smallint NOT NULL D</sentence>
+			<sentence id="2.2">EFAULT 0</sentence>
+			<sentence id="2.3"> at liquibase.database.template.JdbcTemplate.execute(JdbcTemplate.java:55)</sentence>
+			<sentence id="2.4"> at liquibase.database.template.JdbcTemplate.execute(JdbcTemplate.java:86)</sentence>
+			<sentence id="2.5"> at liquibase.change.AbstractChange.execute(AbstractChange.java:247)</sentence>
+			<sentence id="2.6"> at liquibase.change.AbstractChange.executeStatements(AbstractChange.java:93)</sentence>
+			<sentence id="2.7"> at liquibase.ChangeSet.execute(ChangeSet.java:214)</sentence>
+			<sentence id="2.8"> ... 33 more</sentence>
+			<sentence id="2.9">Caused by: java.sql.SQLException: Data truncated for column 'birthdate_estimated' at row 1</sentence>
+			<sentence id="2.10"> at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1055)</sentence>
+			<sentence id="2.11"> at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:956)</sentence>
+			<sentence id="2.12"> at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3491)</sentence>
+			<sentence id="2.13"> at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3423)</sentence>
+			<sentence id="2.14"> at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1936)</sentence>
+			<sentence id="2.15"> at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2060)</sentence>
+			<sentence id="2.16"> at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2536)</sentence>
+			<sentence id="2.17"> at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2465)</sentence>
+			<sentence id="2.18"> at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:734)</sentence>
+			<sentence id="2.19"> at liquibase.database.template.JdbcTemplate$1ExecuteStatementCallback.doInStatement(JdbcTemplate.java:78)</sentence>
+			<sentence id="2.20"> at liquibase.database.template.JdbcTemplate.execute(JdbcTemplate.java:48)</sentence>
+			<sentence id="2.21"> ... 37 more</sentence>
+			<sentence id="2.22">{code}</sentence>
+		</paragraph>
+	</description>
+</bug>

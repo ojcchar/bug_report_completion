@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>5137</id>
+	<title>Supervisor works when call service docker stop?</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi everyone,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I'm trying to manage processes inside a container using supervisor.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I expected supervisor was able to foward all SIGTERM to it's sub-processes (apache, memcache, mysql...) .</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">With my Dockerfile below, supervisord run with PID 1 and it managed all its sub-processes.</sentence>
+			<sentence id="4.2">When I stop the running container, all sub-processes shut down probably with SIGTERM in their logs (e.g: /var/log/apache2/error.log).</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">The problem is when I restart docker service, I've seen sub-processes don't receive SIGTERM, they don't clean their pid files too.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Anyone in my case?</sentence>
+			<sentence id="6.2">Is that the way supervisor works, or because of my wrong configuration?</sentence>
+			<sentence id="6.3">Any other ways to restart docker service with all sub-processes shutdown properly?</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Thank you.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">```
+FROM ubuntu:12.04</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">MAINTAINER trungtanbui@gmail.com</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" &gt; /etc/apt/sources.</sentence>
+			<sentence id="10.2">list
+RUN apt-get update
+RUN apt-get upgrade -y</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">RUN apt-get install -y supervisor</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">RUN touch /etc/supervisor/conf.</sentence>
+			<sentence id="12.2">d/supervisord.</sentence>
+			<sentence id="12.3">conf &amp;&amp; \
+ echo "[supervisord]" &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="12.4">d/supervisord.</sentence>
+			<sentence id="12.5">conf &amp;&amp; \
+ echo "nodaemon=true" &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="12.6">d/supervisord.</sentence>
+			<sentence id="12.7">conf</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">RUN apt-get install -y memcached apache2 htop</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1"># start memcached
+RUN touch /etc/supervisor/conf.</sentence>
+			<sentence id="14.2">d/memcached.</sentence>
+			<sentence id="14.3">conf &amp;&amp; \
+	echo "[program:memcache]" &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="14.4">d/memcached.</sentence>
+			<sentence id="14.5">conf &amp;&amp; \
+	echo "command=/usr/bin/memcached -m 64 -p 11211 -u memcache -l 127.0.0.1 -DFOREGROUND" &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="14.6">d/memcached.</sentence>
+			<sentence id="14.7">conf &amp;&amp; \
+	echo "autostart=true" &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="14.8">d/memcached.</sentence>
+			<sentence id="14.9">conf &amp;&amp; \
+	echo "autorestart=true" &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="14.10">d/memcached.</sentence>
+			<sentence id="14.11">conf</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1"># start apache2
+RUN touch /etc/supervisor/conf.</sentence>
+			<sentence id="15.2">d/apache2.</sentence>
+			<sentence id="15.3">conf &amp;&amp; \
+	echo "[program:apache2]" &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="15.4">d/apache2.</sentence>
+			<sentence id="15.5">conf &amp;&amp; \
+	echo 'command=/bin/bash -c "source /etc/apache2/envvars &amp;&amp; exec /usr/sbin/apache2 -DFOREGROUND"' &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="15.6">d/apache2.</sentence>
+			<sentence id="15.7">conf &amp;&amp; \
+	echo "autostart=true" &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="15.8">d/apache2.</sentence>
+			<sentence id="15.9">conf &amp;&amp; \
+	echo "autorestart=true" &gt;&gt; /etc/supervisor/conf.</sentence>
+			<sentence id="15.10">d/apache2.</sentence>
+			<sentence id="15.11">conf</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">EXPOSE 8080:80</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">CMD ["/usr/bin/supervisord"]
+```</sentence>
+		</paragraph>
+	</description>
+</bug>

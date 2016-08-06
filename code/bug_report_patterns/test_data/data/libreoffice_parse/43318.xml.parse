@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>43318</id>
+	<title>PRINTING standard shapes with bitmap area: filling exceeds shape area (regression since 3.3.4)</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 53920
+Drawing with error.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Problem description: When printing an object that uses a "bitmap" selected from the "Area" menu.</sentence>
+			<sentence id="2.2">It looks correct when on the screen, but is not constrained within the object when printed.</sentence>
+			<sentence id="2.3">LibreOffice Draw</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Steps to reproduce:</sentence>
+			<sentence id="3.2">1 Create a cylinder from Basic Shape icon</sentence>
+			<sentence id="3.3">2 Go to Bitmaps tab.</sentence>
+			<sentence id="3.4">Create a bitmap using pattern editor with Foreground color of Yellow 2 in second column.</sentence>
+			<sentence id="3.5">Background color on all others of Green 3.</sentence>
+			<sentence id="3.6">Save/Add bitmap with name "wiring grn/yel".</sentence>
+			<sentence id="3.7">3 Apply "wiring grn/yel" from Area tab by selecting  Fill with Bitmap and then selecting "wiring grn/yel".</sentence>
+			<sentence id="3.8">4 Print to printer</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Current behavior: When printed to HP OfficeJet Pro 8500 Premier, bitmap is not constrained to inside object.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Note that variations on bitmap behavior varies with setting on Area tab.</sentence>
+			<sentence id="5.2">Also varies when grouping other object with bitmap object.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">Original error discover in Writer when printing object copied from Draw.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Expected behavior: Bitmap remains inside object.</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Platform (if different from the browser): Window XP Home Edition service pack 3
+              
+Browser: Mozilla/5.0 (Windows NT 5.1; rv:8.0.1) Gecko/20100101 Firefox/8.0.1</sentence>
+		</paragraph>
+	</description>
+</bug>

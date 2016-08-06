@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>11755</id>
+	<title>RHEL 6.6: Cannot start container. System error: open /proc/sys/kernel/cap_last_cap: no such file or directory </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```
+$ cat /etc/redhat-release 
+Red Hat Enterprise Linux Server release 6.6 (Santiago)
+```</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+$ cat /proc/cgroups 
+#subsys_name	hierarchy	num_cgroups	enabled
+cpuset	1	3	1
+ns	0	1	1
+cpu	2	3	1
+cpuacct	3	3	1
+memory	4	3	1
+devices	5	3	1
+freezer	6	1	1
+net_cls	7	1	1
+blkio	8	3	1
+perf_event	0	1	1
+net_prio	0	1	1
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1"></sentence>
+			<sentence id="3.2">```</sentence>
+			<sentence id="3.3">$ docker info</sentence>
+			<sentence id="3.4">Containers: 0</sentence>
+			<sentence id="3.5">Images: 13</sentence>
+			<sentence id="3.6">Storage Driver: devicemapper</sentence>
+			<sentence id="3.7"> Pool Name: docker-252:3-1313762-pool</sentence>
+			<sentence id="3.8"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="3.9"> Backing Filesystem: extfs</sentence>
+			<sentence id="3.10"> Data file: /dev/loop0</sentence>
+			<sentence id="3.11"> Metadata file: /dev/loop1</sentence>
+			<sentence id="3.12"> Data Space Used: 441.5 MB</sentence>
+			<sentence id="3.13"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="3.14"> Data Space Available: 4.007 GB</sentence>
+			<sentence id="3.15"> Metadata Space Used: 1.176 MB</sentence>
+			<sentence id="3.16"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="3.17"> Metadata Space Available: 2.146 GB</sentence>
+			<sentence id="3.18"> Udev Sync Supported: false</sentence>
+			<sentence id="3.19"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="3.20"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="3.21"> Library Version: 1.02.82-git (2013-10-04)</sentence>
+			<sentence id="3.22">Execution Driver: native-0.2</sentence>
+			<sentence id="3.23">Kernel Version: 2.6.32-504.8.1.el6.x86_64</sentence>
+			<sentence id="3.24">Operating System: &lt;unknown&gt;</sentence>
+			<sentence id="3.25">CPUs: 1</sentence>
+			<sentence id="3.26">Total Memory: 1.833 GiB</sentence>
+			<sentence id="3.27">Name: HOSTNAME_HERE</sentence>
+			<sentence id="3.28">ID: 7JAW:HKOY:3MTD:C7UG:5V3L:SBJJ:ZOCI:MZOM:IPPX:LJ3E:WLDP:WHBW</sentence>
+			<sentence id="3.29">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">```
+$ sudo docker version
+Client version: 1.5.0-dev
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): a0cfe83
+OS/Arch (client): linux/amd64
+Server version: 1.5.0-dev
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): a0cfe83
+OS/Arch (server): linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```
+$ docker run --rm -it debian:wheezy bash -l
+FATA[0001] Error response from daemon: Cannot start container e917d1dada701a6727a29f625a1647a1965de84dad5d71ebde3fcd2cb3451fae: [8] System error: open /proc/sys/kernel/cap_last_cap: no such file or directory 
+```
+Still seems to be incompatibilities with libcontainer not fully supporting RHEL kernels.</sentence>
+			<sentence id="5.2">Would be nice to have this fixed before 1.6 (so as not to break all of RHEL &lt;7)</sentence>
+		</paragraph>
+	</description>
+</bug>

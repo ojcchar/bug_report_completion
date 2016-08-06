@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10753</id>
+	<title>Need to define a format for container image config</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The docker distribution team is working on finalizing a [generic application content manifest](https://github.com/docker/distribution/pull/62) and for the new distribution tools to be used by Docker, we'll need to define an application media type for images.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">An example media type would be:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">application/vnd.</sentence>
+			<sentence id="3.2">docker.container.image.params.v1+json</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">with a format similar to that of the [docker image runconfig field](https://github.com/docker/docker/blob/802802b7812b7c73aefec4e922cad82f8dcddd4c/image/spec/v1.md#container-runconfig-field-descriptions)</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```json</sentence>
+			<sentence id="5.2">{</sentence>
+			<sentence id="5.3">"user": "alice",</sentence>
+			<sentence id="5.4">"group": "staff",</sentence>
+			<sentence id="5.5">"cpuShares": 8,</sentence>
+			<sentence id="5.6">"memory": 2048,</sentence>
+			<sentence id="5.7">"memorySwap": 4096,</sentence>
+			<sentence id="5.8">"workingDirectory": "/home/alice",</sentence>
+			<sentence id="5.9">"ports": [</sentence>
+			<sentence id="5.10">{</sentence>
+			<sentence id="5.11">"port": 8080,</sentence>
+			<sentence id="5.12">"protocol": "tcp"</sentence>
+			<sentence id="5.13">}</sentence>
+			<sentence id="5.14">],</sentence>
+			<sentence id="5.15">"volumes": [</sentence>
+			<sentence id="5.16">"/var/job-result-data",</sentence>
+			<sentence id="5.17">"/var/log/my-app-logs"</sentence>
+			<sentence id="5.18">],</sentence>
+			<sentence id="5.19">"entrypoint": [</sentence>
+			<sentence id="5.20">"/bin/my-app-binary"</sentence>
+			<sentence id="5.21">],</sentence>
+			<sentence id="5.22">"command": [</sentence>
+			<sentence id="5.23">"--foreground",</sentence>
+			<sentence id="5.24">"--config",</sentence>
+			<sentence id="5.25">"/etc/my-app.</sentence>
+			<sentence id="5.26">d/default.</sentence>
+			<sentence id="5.27">cfg"</sentence>
+			<sentence id="5.28">],</sentence>
+			<sentence id="5.29">"environment": {</sentence>
+			<sentence id="5.30">"DEBUG": "True",</sentence>
+			<sentence id="5.31">"PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",</sentence>
+			<sentence id="5.32">"RETRO": "False"</sentence>
+			<sentence id="5.33">}</sentence>
+			<sentence id="5.34">}</sentence>
+			<sentence id="5.35">```</sentence>
+		</paragraph>
+	</description>
+</bug>

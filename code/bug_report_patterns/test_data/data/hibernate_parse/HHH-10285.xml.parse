@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-10285</id>
+	<title>"native" ID generator is broken when using Oracle12cDialect</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This is reproduced by running org.hibernate.test.hql.BulkManipulationTest.</sentence>
+			<sentence id="1.2">All tests that execute {{TestData#prepare}} fail when inserting an entity with a "native" ID generator mapped.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Using Oracle12cDialect, the "native" generator is an identity; in superclass Oracle dialects, the "native" generator is a sequence.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Tests pass if "native" is changed to "sequence".</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Tests also pass using Oracle10gDialect with an Oracle 12c DB (but ID generator is sequence).</sentence>
+		</paragraph>
+	</description>
+</bug>

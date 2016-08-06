@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10181</id>
+	<title>Gzip performance</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This is how `perf report` looks for `docker push`.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">!</sentence>
+			<sentence id="2.2">[perf](https://pbs.twimg.com/media/B7tB3BeIgAAUQkI.png:large)</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Looks like `compress/gzip` in golang is quite slow.</sentence>
+			<sentence id="3.2">To check this I write `gzip` and `gunzip` that can work with `compress/gzip` and `code.google.com/p/vitess/go/cgzip`.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">`gzip.go`:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```go
+package main</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">import (
+	"compress/gzip"
+	"code.google.com/p/vitess/go/cgzip"
+	"flag"
+	"io"
+	"log"
+	"os"
+)</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">func main() {
+	l := flag.Int("l", -1, "compression level")
+	c := flag.Bool("c", false, "use cgzip")
+	flag.Parse()</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">var w io.Writer
+	var err error</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">if *c {
+		w, err = cgzip.NewWriterLevel(os.Stdout, *l)
+	} else {
+		w, err = gzip.NewWriterLevel(os.Stdout, *l)
+	}</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">if err !</sentence>
+			<sentence id="10.2">= nil {
+		log.Fatal(err)
+	}</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">io.Copy(w, os.Stdin)
+}
+```</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">`gunzip.go`:</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">```go
+package main</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">import (
+	"compress/gzip"
+	"code.google.com/p/vitess/go/cgzip"
+	"os"
+	"io"
+	"log"
+	"flag"
+)</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">func main() {
+	c := flag.Bool("c", false, "use cgzip")
+	flag.Parse()</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">var r io.Reader
+	var err error</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">if *c {
+		r, err = cgzip.NewReader(os.Stdin)
+	} else {
+		r, err = gzip.NewReader(os.Stdin)
+	}</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">if err !</sentence>
+			<sentence id="18.2">= nil {
+		log.Fatal(err)
+	}</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">io.Copy(os.Stdout, r)
+}
+```</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">I have test layer that is 521mb in tar and 66mb in gzipped tar with default compression level.</sentence>
+			<sentence id="20.2">This is real image and final layer of our production image.</sentence>
+			<sentence id="20.3">Now it takes 90s+ to push 2 layers to the registry and this is mostly CPU-bound issue.</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">Below my tests on on my mbp (core i5 with ssd, so it's not io bound).</sentence>
+			<sentence id="21.2">I ran every command twice and picked best result.</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">Gunzip:</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">|cmd|time|slowdown|</sentence>
+			<sentence id="23.2">|---|----|--------|</sentence>
+			<sentence id="23.3">|`time cat layer.tar.gz | gunzip &gt; /dev/null`|0m1.041s|baseline|</sentence>
+			<sentence id="23.4">|`time cat layer.tar.gz | .</sentence>
+			<sentence id="23.5">/bin/gunzip &gt; /dev/null`|0m4.596s|4.41x|</sentence>
+			<sentence id="23.6">|`time cat layer.tar.gz | .</sentence>
+			<sentence id="23.7">/bin/gunzip -c &gt; /dev/null`|0m1.134s|1.08x|</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">Gzip:</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">|cmd|time|slowdown|</sentence>
+			<sentence id="25.2">|---|----|--------|</sentence>
+			<sentence id="25.3">|`time cat layer.tar | gzip -c &gt; /dev/null`|0m12.567s|baseline|</sentence>
+			<sentence id="25.4">|`time cat layer.tar | .</sentence>
+			<sentence id="25.5">/bin/gzip &gt; /dev/null`|0m25.794s|2.05x|</sentence>
+			<sentence id="25.6">|`time cat layer.tar | .</sentence>
+			<sentence id="25.7">/bin/gzip -c &gt; /dev/null`|0m12.854s|1.02x|</sentence>
+		</paragraph>
+		<paragraph id="26">
+			<sentence id="26.1">Clearly current performance is far from perfect.</sentence>
+		</paragraph>
+		<paragraph id="27">
+			<sentence id="27.1">This issue is related to #7291 where comments are restricted to collaborators.</sentence>
+			<sentence id="27.2">If docker migrates to `cgzip` then #9060 is going to improve too.</sentence>
+		</paragraph>
+		<paragraph id="28">
+			<sentence id="28.1">cc @unclejack</sentence>
+		</paragraph>
+	</description>
+</bug>

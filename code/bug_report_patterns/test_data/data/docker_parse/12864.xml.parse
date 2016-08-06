@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12864</id>
+	<title>journald logger should probably not be using MESSAGE_ID to hold the container id</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">According to `systemd.journal-fields(7)`, the `MESSAGE_ID` field is "A 128-bit message identifier ID for recognizing certain message types, if this is desirable."</sentence>
+			<sentence id="1.2">I think we are abusing this field by stuffing the container id into it.</sentence>
+			<sentence id="1.3">The field is meant to identify unique messages types, not message sources.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If we want to record the container ID in the journal, note that "New fields may freely be defined by applications".</sentence>
+			<sentence id="2.2">Maybe we should just use a `CONTAINER_ID` field.</sentence>
+		</paragraph>
+	</description>
+</bug>

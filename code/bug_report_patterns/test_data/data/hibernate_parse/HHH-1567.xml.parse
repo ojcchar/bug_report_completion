@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-1567</id>
+	<title>load fails where get succeeds</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have a POJO which has a column</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">protected Case data;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">@Type ( type="serializable" )</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">@Basic( fetch=FetchType.EAGER )</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">public Case getData ()</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">{</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">return data;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">}</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">public void setData (Case data)</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">{</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">this.data = data;</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">}</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">I am iterating over every element in the corresponding database table.</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">Session session = HibernateUtil.currentSession();
+ SQLQuery query = session.createSQLQuery( "select case_id from wf_case" );
+ query.addScalar( "case_id", Hibernate.LONG );
+ List&lt;Long&gt; caseList = query.list();</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">for ( Long caseId : caseList )
+ {
+ WfCase wfCase = (WfCase)session.load( WfCase.class, caseId );
+ if ( wfCase.getData() == null )
+ {
+ System.out.println( "IS null: " + caseId );
+ }
+ session.evict( wfCase );
+ }</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">when I run this, after running through 1500 or 2000 (this number changes between runs), I start getting null returns from wfCase.getData().</sentence>
+			<sentence id="16.2">After that point, it _always_ returns null.</sentence>
+			<sentence id="16.3">If I call session.evict( wfCase ) on an wfCase which returned null, I get the following exception.</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">Exception in thread "main" java.lang.reflect.UndeclaredThrowableException</sentence>
+			<sentence id="17.2">	at $Proxy23.evict(Unknown Source)</sentence>
+			<sentence id="17.3">	at hibernate.test.MilestoneCheck.main(MilestoneCheck.java:64)</sentence>
+			<sentence id="17.4">Caused by: java.lang.reflect.InvocationTargetException</sentence>
+			<sentence id="17.5">	at sun.reflect.GeneratedMethodAccessor11.invoke(Unknown Source)</sentence>
+			<sentence id="17.6">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="17.7">	at java.lang.reflect.Method.invoke(Method.java:585)</sentence>
+			<sentence id="17.8">	at org.hibernate.context.ThreadLocalSessionContext$TransactionProtectionWrapper.invoke(ThreadLocalSessionContext.java:301)</sentence>
+			<sentence id="17.9">	... 2 more</sentence>
+			<sentence id="17.10">Caused by: java.lang.NoSuchMethodError: com.gblx.improv.fit2flow.engine.WfCase.getHibernateLazyInitializer()Lorg/hibernate/proxy/LazyInitializer;</sentence>
+			<sentence id="17.11">	at com.gblx.improv.fit2flow.engine.WfCase$$EnhancerByCGLIB$$616ee93d.getHibernateLazyInitializer(&lt;generated&gt;)</sentence>
+			<sentence id="17.12">	at org.hibernate.event.def.DefaultEvictEventListener.onEvict(DefaultEvictEventListener.java:47)</sentence>
+			<sentence id="17.13">	at org.hibernate.impl.SessionImpl.fireEvict(SessionImpl.java:965)</sentence>
+			<sentence id="17.14">	at org.hibernate.impl.SessionImpl.evict(SessionImpl.java:957)</sentence>
+			<sentence id="17.15">	... 6 more</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">Now, if I change the session.load to session.get, it runs through without any problems.</sentence>
+			<sentence id="18.2">I thought maybe the second level cache provider was to blame, but I switched to using &lt;property name="cache.provider_class"&gt;org.hibernate.cache.NoCacheProvider&lt;/property&gt; in my cfg file, and I still had the same problem.</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">Note, I had the same problem when I wasn't using a serializable type, but was rather just mapping it to a byte[].</sentence>
+		</paragraph>
+	</description>
+</bug>

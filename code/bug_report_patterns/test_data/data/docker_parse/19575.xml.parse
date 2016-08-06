@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>19575</id>
+	<title>docker events return null when I use authorization plugin 1.10.1</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Docker Version:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Client:
+ Version: 1.10.0-dev
+ API version: 1.23
+ Go version: go1.5.3
+ Git commit: 7faff24-unsupported
+ Built: Thu Jan 21 06:06:47 2016
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Server:
+ Version: 1.10.0-dev
+ API version: 1.23
+ Go version: go1.5.3
+ Git commit: 7faff24-unsupported
+ Built: Thu Jan 21 06:06:47 2016
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Docker Info:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Containers: 15
+ Running: 0
+ Paused: 0
+ Stopped: 15
+Images: 5
+Server Version: 1.10.0-dev
+Storage Driver: devicemapper
+Execution Driver: native-0.2
+Logging Driver: json-file
+Plugins: 
+ Volume: local
+ Network: null host overlay bridge
+ Authorization: leeProcess
+Kernel Version: 4.1.8-200.</sentence>
+			<sentence id="5.2">fc22.x86_64
+Operating System: Fedora 22 (Twenty Two)
+OSType: linux
+Architecture: x86_64
+CPUs: 4
+Total Memory: 11.46 GiB
+Cluster store: etcd://192.168.0.19:4001/docker-cluster1
+Cluster advertise: 127.0.0.1:2375</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">step:</sentence>
+			<sentence id="6.2">1 docker daemon -s devicemapper --authorization-plugin=leeProcess</sentence>
+			<sentence id="6.3">2 docker events</sentence>
+			<sentence id="6.4">3 at the same time,I command "docker start {CID}"</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I don't get any message from events terminal
+If I run other docker command ,I get the result that i expected</sentence>
+		</paragraph>
+	</description>
+</bug>

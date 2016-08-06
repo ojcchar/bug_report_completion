@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-4893</id>
+	<title>Multiple Joins using criteria</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I need to do multiple joins between two tables using Hibernate criteria.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I tried doing the following:</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Crtieria criteria = session.createCriteria(Cat.class, "cat");</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">criteria.createAlias("cat.kittens", "first", CriteriaSpecification.LEFT_JOIN)
+.</sentence>
+			<sentence id="4.2">add( Restrictions.eq("first.name", "Foo"));</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">criteria.createAlias("cat.kittens", "second", CriteriaSpecification.LEFT_JOIN)
+.</sentence>
+			<sentence id="5.2">add( Restrictions.eq("second.name", "Bar"));</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">criteria.list();</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I get the following: org.hibernate.QueryException: duplicate association path</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">I tried looking for issues regarding the same and found http://opensource.atlassian.com/projects/hibernate/browse/HB-555.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">I am not aware whether we can do multiple joins using criteria now.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22564</id>
+	<title>Docker does not unmount on mount failure if -w option is passed with docker run.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">&lt;!</sentence>
+			<sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+			<sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+			<sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+			<sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+			<sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">---------------------------------------------------</sentence>
+			<sentence id="4.2">BUG REPORT INFORMATION</sentence>
+			<sentence id="4.3">---------------------------------------------------</sentence>
+			<sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+			<sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+			<sentence id="4.6">--&gt;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">On VM1
+```
+root@photon-machine [ ~ ]# docker version
+Client:
+ Version: 1.11.0
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 4dc5990
+ Built: Wed Apr 13 19:36:04 2016
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:
+ Version: 1.11.0
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 4dc5990
+ Built: Wed Apr 13 19:36:04 2016
+ OS/Arch: linux/amd64
+```
+On VM2
+```
+docker version
+Client:
+ Version: 1.10.2
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: c3959b1
+ Built: Mon Feb 22 21:37:01 2016
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Server:
+ Version: 1.10.2
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: c3959b1
+ Built: Mon Feb 22 21:37:01 2016
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">**Output of `docker info`:**</sentence>
+			<sentence id="9.2">On VM1</sentence>
+			<sentence id="9.3">```</sentence>
+			<sentence id="9.4">docker info</sentence>
+			<sentence id="9.5">Containers: 0</sentence>
+			<sentence id="9.6">Running: 0</sentence>
+			<sentence id="9.7">Paused: 0</sentence>
+			<sentence id="9.8">Stopped: 0</sentence>
+			<sentence id="9.9">Images: 1</sentence>
+			<sentence id="9.10">Server Version: 1.11.0</sentence>
+			<sentence id="9.11">Storage Driver: overlay</sentence>
+			<sentence id="9.12">Backing Filesystem: extfs</sentence>
+			<sentence id="9.13">Logging Driver: json-file</sentence>
+			<sentence id="9.14">Cgroup Driver: cgroupfs</sentence>
+			<sentence id="9.15">Plugins:</sentence>
+			<sentence id="9.16">Volume: local vmdk</sentence>
+			<sentence id="9.17">Network: null host bridge</sentence>
+			<sentence id="9.18">Kernel Version: 4.2.0-esx</sentence>
+			<sentence id="9.19">Operating System: VMware Photon/Linux</sentence>
+			<sentence id="9.20">OSType: linux</sentence>
+			<sentence id="9.21">Architecture: x86_64</sentence>
+			<sentence id="9.22">CPUs: 1</sentence>
+			<sentence id="9.23">Total Memory: 1.958 GiB</sentence>
+			<sentence id="9.24">Name: photon-machine</sentence>
+			<sentence id="9.25">ID: YODH:WTQL:A5ZT:446C:PGNT:FLPE:G3W5:WIE4:VM5W:HLNZ:ALJM:RKW5</sentence>
+			<sentence id="9.26">Docker Root Dir: /var/lib/docker</sentence>
+			<sentence id="9.27">Debug mode (client): false</sentence>
+			<sentence id="9.28">Debug mode (server): true</sentence>
+			<sentence id="9.29">File Descriptors: 15</sentence>
+			<sentence id="9.30">Goroutines: 32</sentence>
+			<sentence id="9.31">System Time: 2016-05-06T22:48:32.647615591Z</sentence>
+			<sentence id="9.32">EventsListeners: 0</sentence>
+			<sentence id="9.33">Registry: https://index.docker.io/v1/</sentence>
+			<sentence id="9.34">WARNING: No kernel memory limit support</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">```
+On VM2
+```
+docker info
+Containers: 0
+ Running: 0
+ Paused: 0
+ Stopped: 0
+Images: 2
+Server Version: 1.10.2
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 4
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Logging Driver: json-file
+Plugins: 
+ Volume: local vmdk
+ Network: host bridge null
+Kernel Version: 4.2.0-27-generic
+Operating System: Ubuntu 14.04.4 LTS
+OSType: linux
+Architecture: x86_64
+CPUs: 2
+Total Memory: 7.789 GiB
+Name: promc-2n-dhcp210
+ID: B2D6:WWS6:M3LR:BZJL:FBCO:K7S4:PYVW:VN2K:WFFN:BXL2:T3WZ:LWQB
+WARNING: No swap limit support</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">```</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+			<sentence id="12.2">On VM1</sentence>
+			<sentence id="12.3">```</sentence>
+			<sentence id="12.4">root@photon-machine [ ~ ]# uname -a</sentence>
+			<sentence id="12.5">Linux photon-machine 4.2.0-esx #1-photon SMP Fri Apr 22 22:28:32 UTC 2016 x86_64 GNU/Linux</sentence>
+			<sentence id="12.6">root@photon-machine [ ~ ]# cat /etc/os-release</sentence>
+			<sentence id="12.7">NAME="VMware Photon"</sentence>
+			<sentence id="12.8">VERSION="1.0"</sentence>
+			<sentence id="12.9">ID=photon</sentence>
+			<sentence id="12.10">VERSION_ID=1.0</sentence>
+			<sentence id="12.11">PRETTY_NAME="VMware Photon/Linux"</sentence>
+			<sentence id="12.12">ANSI_COLOR="1;34"</sentence>
+			<sentence id="12.13">HOME_URL="https://vmware.github.io/photon/"</sentence>
+			<sentence id="12.14">BUG_REPORT_URL="https://github.com/vmware/photon/issues"</sentence>
+			<sentence id="12.15">```</sentence>
+			<sentence id="12.16">VM2</sentence>
+			<sentence id="12.17">```</sentence>
+			<sentence id="12.18">root@210:~# cat /etc/os-release</sentence>
+			<sentence id="12.19">NAME="Ubuntu"</sentence>
+			<sentence id="12.20">VERSION="14.04.4 LTS, Trusty Tahr"</sentence>
+			<sentence id="12.21">ID=ubuntu</sentence>
+			<sentence id="12.22">ID_LIKE=debian</sentence>
+			<sentence id="12.23">PRETTY_NAME="Ubuntu 14.04.4 LTS"</sentence>
+			<sentence id="12.24">VERSION_ID="14.04"</sentence>
+			<sentence id="12.25">HOME_URL="http://www.ubuntu.com/"</sentence>
+			<sentence id="12.26">SUPPORT_URL="http://help.ubuntu.com/"</sentence>
+			<sentence id="12.27">BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"</sentence>
+			<sentence id="12.28">root@210:~# uname -a</sentence>
+			<sentence id="12.29">Linux promc-2n-dhcp210 4.2.0-27-generic #32~14.04.1-Ubuntu SMP Fri Jan 22 15:32:26 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+			<sentence id="12.30">root@210:~#</sentence>
+			<sentence id="12.31">```</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="13.2">1 Create a volume and consume it using</sentence>
+			<sentence id="13.3">docker volume create --driver=&lt;driver&gt; --name=datavol -o size=10gb</sentence>
+			<sentence id="13.4">docker run -it --rm -v datavol:/data -w /data busybox</sentence>
+			<sentence id="13.5">2 When docker tries to mount via the plugin return an error</sentence>
+			<sentence id="13.6">3 Unmount request is expected but never received.</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">**Describe the results you received:**</sentence>
+			<sentence id="14.2">Command:</sentence>
+			<sentence id="14.3">```</sentence>
+			<sentence id="14.4">docker run --rm -v radio2016:/data -w /data busybox cat /data/file</sentence>
+			<sentence id="14.5">docker: Error response from daemon: VolumeDriver.Mount: Failed to connect to ESX over vsocket.</sentence>
+			<sentence id="14.6">See 'docker run --help'.</sentence>
+			<sentence id="14.7">```</sentence>
+			<sentence id="14.8">Logs:</sentence>
+			<sentence id="14.9">```</sentence>
+			<sentence id="14.10">May 06 20:07:22 photon-machine docker[2095]: time="2016-05-06T20:07:22.226977123Z" level=debug msg="Calling POST /v1.23/containers/create"</sentence>
+			<sentence id="14.11">May 06 20:07:22 photon-machine docker[2095]: time="2016-05-06T20:07:22.227550840Z" level=debug msg="form data: {\"AttachStderr\":true,\"AttachStdin\":false,\"AttachStdout\":true,\"Cmd\":[\"cat\",\"/data/file\"],\"Domainname\":\"\",\"Entrypoint\":null,\"Env\":[],\"HostConfig\":{\"AutoRemove\":false,\"Binds\":[\"radio2016:/data\"],\"BlkioBps\":0,\"BlkioDeviceReadBps\":null,\"BlkioDeviceReadIOps\":null,\"BlkioDeviceWriteBps\":null,\"BlkioDeviceWriteIOps\":null,\"BlkioIOps\":0,\"BlkioWeight\":0,\"BlkioWeightDevice\":null,\"CapAdd\":null,\"CapDrop\":null,\"Cgroup\":\"\",\"CgroupParent\":\"\",\"ConsoleSize\":[0,0],\"ContainerIDFile\":\"\",\"CpuCount\":0,\"CpuPercent\":0,\"CpuPeriod\":0,\"CpuQuota\":0,\"CpuShares\":0,\"CpusetCpus\":\"\",\"CpusetMems\":\"\",\"Devices\":[],\"DiskQuota\":0,\"Dns\":[],\"DnsOptions\":[],\"DnsSearch\":[],\"ExtraHosts\":null,\"GroupAdd\":null,\"IpcMode\":\"\",\"Isolation\":\"\",\"KernelMemory\":0,\"Links\":null,\"LogConfig\":{\"Config\":{},\"Type\":\"\"},\"Memory\":0,\"MemoryReservation\":0,\"MemorySwap\":0,\"MemorySwappiness\":-1,\"NetworkMode\":\"default\",\"OomKillDisable\":false,\"OomScoreAdj\":0,\"PidMode\":\"\",\"PidsLimit\":0,\"PortBindings\":{},\"Privileged\":false,\"PublishAllPorts\":false,\"ReadonlyRootfs\":false,\"RestartPolicy\":{\"MaximumRetryCount\":0,\"Name\":\"no\"},\"SandboxSize\":0,\"SecurityOpt\":null,\"ShmSize\":0,\"StorageOpt\":null,\"UTSMode\":\"\",\"Ulimits\":null,\"UsernsMode\":\"\",\"VolumeDriver\":\"\",\"VolumesFrom\":null},\"Hostname\":\"\",\"Image\":\"busybox\",\"Labels\":{},\"NetworkingConfig\":{\"EndpointsConfig\":{}},\"OnBuild\":null,\"OpenStdin\":false,\"StdinOnce\":false,\"Tty\":false,\"User\":\"\",\"Volumes\":{},\"WorkingDir\":\"/data\"}"</sentence>
+			<sentence id="14.12">May 06 20:07:22 photon-machine docker[2095]: time="2016-05-06T20:07:22.244314184Z" level=debug msg="container mounted via layerStore: /var/lib/docker/overlay/752bb2f7a90c487baf52ffa85d81dfd5b93a9cb9e1faee323a939c2481416600/merged"</sentence>
+			<sentence id="14.13">May 06 20:07:22 photon-machine docker[2095]: time="2016-05-06T20:07:22.245067104Z" level=debug msg="copying image data from a04dc67c3a068a1a3022fe5d8dc23c10c6389265e1b61b1a74c8ed30865dc741:/data, to radio2016"</sentence>
+			<sentence id="14.14">May 06 20:07:22 photon-machine docker[2095]: time="2016-05-06T20:07:22.251241798Z" level=error msg="Handler for POST /v1.23/containers/create returned error: VolumeDriver.Mount: Failed to connect to ESX over vsocket"</sentence>
+			<sentence id="14.15">```</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">**Describe the results you expected:**</sentence>
+			<sentence id="15.2">Command:</sentence>
+			<sentence id="15.3">```</sentence>
+			<sentence id="15.4">docker run --rm -v radio2016:/data busybox cat /data/file</sentence>
+			<sentence id="15.5">```</sentence>
+			<sentence id="15.6">Logs</sentence>
+			<sentence id="15.7">```</sentence>
+			<sentence id="15.8">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.879817062Z" level=debug msg="Calling POST /v1.23/containers/create"</sentence>
+			<sentence id="15.9">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.880548779Z" level=debug msg="form data: {\"AttachStderr\":true,\"AttachStdin\":false,\"AttachStdout\":true,\"Cmd\":[\"cat\",\"/data/file\"],\"Domainname\":\"\",\"Entrypoint\":null,\"Env\":[],\"HostConfig\":{\"AutoRemove\":false,\"Binds\":[\"radio2016:/data\"],\"BlkioBps\":0,\"BlkioDeviceReadBps\":null,\"BlkioDeviceReadIOps\":null,\"BlkioDeviceWriteBps\":null,\"BlkioDeviceWriteIOps\":null,\"BlkioIOps\":0,\"BlkioWeight\":0,\"BlkioWeightDevice\":null,\"CapAdd\":null,\"CapDrop\":null,\"Cgroup\":\"\",\"CgroupParent\":\"\",\"ConsoleSize\":[0,0],\"ContainerIDFile\":\"\",\"CpuCount\":0,\"CpuPercent\":0,\"CpuPeriod\":0,\"CpuQuota\":0,\"CpuShares\":0,\"CpusetCpus\":\"\",\"CpusetMems\":\"\",\"Devices\":[],\"DiskQuota\":0,\"Dns\":[],\"DnsOptions\":[],\"DnsSearch\":[],\"ExtraHosts\":null,\"GroupAdd\":null,\"IpcMode\":\"\",\"Isolation\":\"\",\"KernelMemory\":0,\"Links\":null,\"LogConfig\":{\"Config\":{},\"Type\":\"\"},\"Memory\":0,\"MemoryReservation\":0,\"MemorySwap\":0,\"MemorySwappiness\":-1,\"NetworkMode\":\"default\",\"OomKillDisable\":false,\"OomScoreAdj\":0,\"PidMode\":\"\",\"PidsLimit\":0,\"PortBindings\":{},\"Privileged\":false,\"PublishAllPorts\":false,\"ReadonlyRootfs\":false,\"RestartPolicy\":{\"MaximumRetryCount\":0,\"Name\":\"no\"},\"SandboxSize\":0,\"SecurityOpt\":null,\"ShmSize\":0,\"StorageOpt\":null,\"UTSMode\":\"\",\"Ulimits\":null,\"UsernsMode\":\"\",\"VolumeDriver\":\"\",\"VolumesFrom\":null},\"Hostname\":\"\",\"Image\":\"busybox\",\"Labels\":{},\"NetworkingConfig\":{\"EndpointsConfig\":{}},\"OnBuild\":null,\"OpenStdin\":false,\"StdinOnce\":false,\"Tty\":false,\"User\":\"\",\"Volumes\":{},\"WorkingDir\":\"\"}"</sentence>
+			<sentence id="15.10">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.899373490Z" level=debug msg="container mounted via layerStore: /var/lib/docker/overlay/7a018b4d33979d6aedfdf638cc7175a754dd66149e05a561ed66535add263e6d/merged"</sentence>
+			<sentence id="15.11">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.899957317Z" level=debug msg="copying image data from 1b1dc474a6c8a81e5ca978545414dc7ae699895f00bc1776324e219f0d47730d:/data, to radio2016"</sentence>
+			<sentence id="15.12">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.904220227Z" level=debug msg="Calling POST /v1.23/containers/1b1dc474a6c8a81e5ca978545414dc7ae699895f00bc1776324e219f0d47730d/attach?</sentence>
+			<sentence id="15.13">stderr=1&amp;stdout=1&amp;stream=1"</sentence>
+			<sentence id="15.14">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.905298577Z" level=debug msg="attach: stdout: begin"</sentence>
+			<sentence id="15.15">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.905978497Z" level=debug msg="attach: stderr: begin"</sentence>
+			<sentence id="15.16">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.906917754Z" level=debug msg="Calling POST /v1.23/containers/1b1dc474a6c8a81e5ca978545414dc7ae699895f00bc1776324e219f0d47730d/start"</sentence>
+			<sentence id="15.17">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.910935261Z" level=debug msg="container mounted via layerStore: /var/lib/docker/overlay/7a018b4d33979d6aedfdf638cc7175a754dd66149e05a561ed66535add263e6d/merged"</sentence>
+			<sentence id="15.18">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.911741477Z" level=debug msg="Assigning addresses for endpoint cranky_wilson's interface on network bridge"</sentence>
+			<sentence id="15.19">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.912290781Z" level=debug msg="RequestAddress(LocalDefault/172.17.0.0/16, &lt;nil&gt;, map[])"</sentence>
+			<sentence id="15.20">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.919231621Z" level=debug msg="Assigning addresses for endpoint cranky_wilson's interface on network bridge"</sentence>
+			<sentence id="15.21">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.928945451Z" level=debug msg="Programming external connectivity on endpoint cranky_wilson (d2bc58f7bb466dd11ab29368e474175816561b0daa7dc5658e33d1d23318602c)"</sentence>
+			<sentence id="15.22">2016-05-06 20:07:07.935254635 +0000 UTC [INFO] Mounting volume name=radio2016</sentence>
+			<sentence id="15.23">2016-05-06 20:07:07.935335565 +0000 UTC [DEBUG] vmdkOps.Attach name=radio2016</sentence>
+			<sentence id="15.24">2016-05-06 20:07:07.935731702 +0000 UTC [WARNING] Failed to connect to ESX over vsocket</sentence>
+			<sentence id="15.25">2016-05-06 20:07:07.935816918 +0000 UTC [ERROR] Failed to mount error="Failed to connect to ESX over vsocket" name=radio2016</sentence>
+			<sentence id="15.26">May 06 20:07:07 photon-machine docker[2095]: time="2016-05-06T20:07:07.942648069Z" level=debug msg="Revoking external connectivity on endpoint cranky_wilson (d2bc58f7bb466dd11ab29368e474175816561b0daa7dc5658e33d1d23318602c)"</sentence>
+			<sentence id="15.27">May 06 20:07:08 photon-machine docker[2095]: time="2016-05-06T20:07:08.092797949Z" level=debug msg="Releasing addresses for endpoint cranky_wilson's interface on network bridge"</sentence>
+			<sentence id="15.28">May 06 20:07:08 photon-machine docker[2095]: time="2016-05-06T20:07:08.093481286Z" level=debug msg="ReleaseAddress(LocalDefault/172.17.0.0/16, 172.17.0.2)"</sentence>
+			<sentence id="15.29">2016-05-06 20:07:08.100071566 +0000 UTC [INFO] Unmounting Volume name=radio2016</sentence>
+			<sentence id="15.30">2016-05-06 20:07:08.100140506 +0000 UTC [ERROR] Failed to unmount volume.</sentence>
+			<sentence id="15.31">Now trying to detach... mountpoint="/mnt/vmdk/radio2016" error="invalid argument"</sentence>
+			<sentence id="15.32">2016-05-06 20:07:08.100182593 +0000 UTC [DEBUG] vmdkOps.Detach name=radio2016</sentence>
+			<sentence id="15.33">2016-05-06 20:07:08.100557026 +0000 UTC [WARNING] Failed to connect to ESX over vsocket</sentence>
+			<sentence id="15.34">2016-05-06 20:07:08.10065241 +0000 UTC [ERROR] Failed to unmount name=radio2016 error="Failed to connect to ESX over vsocket"</sentence>
+			<sentence id="15.35">```</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+			<sentence id="16.2">This happens on both 1.10 and 1.11.</sentence>
+			<sentence id="16.3">We are writing a plugin for volume and expect to get an umount request on failed mounts.</sentence>
+			<sentence id="16.4">This is needed to maintain refcount within the plugin.</sentence>
+			<sentence id="16.5">The expectation is that docker will always send an unmount independent of the status of mount command and this is what we see when we do not pass in the -w option on run.</sentence>
+			<sentence id="16.6">Discussions part of https://github.com/docker/docker/pull/21015/files also indicate that umount will always be sent.</sentence>
+			<sentence id="16.7">Either this is a bug in the clean up handling when -w is sent or the behavior of mount and umount needs to be specified.</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-384</id>
+	<title>CacheMode Get has no effect on flush</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The Hibernate Documentation states:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">CacheMode.GET - read items from the second-level cache, but don't write to the second-level cache except when updating data</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">But the JavaDoc says:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">The session may read items from the cache, but will not add items, except to invalidate items when updates occur</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">There is an important discrepancy and I think only the javadoc makes sense.</sentence>
+			<sentence id="5.2">The example "13.2.Batch updates" even tries to use CacheMode much in the same way as I intend.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">I found the the CacheMode only effects the load, but not the flush.</sentence>
+			<sentence id="6.2">I set FlushMode to Get to avoid writing of second level cache and than called flush; everything was added to the second level cache.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I checked the code and found that the CacheMode.isPutEnabled is only called in</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">- CollectionLoadContext</sentence>
+			<sentence id="8.2">- TwoPhaseLoad</sentence>
+			<sentence id="8.3">- Loader</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">So it cannot effect flush, or any of the save/update calls.</sentence>
+		</paragraph>
+	</description>
+</bug>

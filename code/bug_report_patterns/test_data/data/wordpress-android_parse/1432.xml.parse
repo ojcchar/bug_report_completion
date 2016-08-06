@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1432</id>
+	<title>Stats crash on Android &lt; 17 - `getChildFragmentManager` has been added in API level 17</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">```</sentence>
+			<sentence id="1.2">java.lang.NoSuchMethodError: org.wordpress.android.ui.stats.StatsVisitorsAndViewsFragment.getChildFragmentManager</sentence>
+			<sentence id="1.3"> at org.wordpress.android.ui.stats.StatsVisitorsAndViewsFragment.loadBarChartFragmentForIndex(StatsVisitorsAndViewsFragment.java:109)</sentence>
+			<sentence id="1.4"> at org.wordpress.android.ui.stats.StatsVisitorsAndViewsFragment.onCheckedChanged(StatsVisitorsAndViewsFragment.java:105)</sentence>
+			<sentence id="1.5"> at android.widget.RadioGroup.setCheckedId(RadioGroup.java:174)</sentence>
+			<sentence id="1.6"> at android.widget.RadioGroup.access$600(RadioGroup.java:54)</sentence>
+			<sentence id="1.7"> at android.widget.RadioGroup$CheckedStateTracker.onCheckedChanged(RadioGroup.java:358)</sentence>
+			<sentence id="1.8"> at android.widget.CompoundButton.setChecked(CompoundButton.java:140)</sentence>
+			<sentence id="1.9"> at org.wordpress.android.ui.stats.StatsVisitorsAndViewsFragment.onCreateView(StatsVisitorsAndViewsFragment.java:81)</sentence>
+			<sentence id="1.10"> at android.app.FragmentManagerImpl.moveToState(FragmentManager.java:829)</sentence>
+			<sentence id="1.11"> at android.app.FragmentManagerImpl.moveToState(FragmentManager.java:1035)</sentence>
+			<sentence id="1.12"> at android.app.BackStackRecord.run(BackStackRecord.java:635)</sentence>
+			<sentence id="1.13"> at android.app.FragmentManagerImpl.execPendingActions(FragmentManager.java:1399)</sentence>
+			<sentence id="1.14"> at android.app.Activity.performStart(Activity.java:5215)</sentence>
+			<sentence id="1.15"> at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2083)</sentence>
+			<sentence id="1.16"> at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2135)</sentence>
+			<sentence id="1.17"> at android.app.ActivityThread.access$700(ActivityThread.java:140)</sentence>
+			<sentence id="1.18"> at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1237)</sentence>
+			<sentence id="1.19"> at android.os.Handler.dispatchMessage(Handler.java:99)</sentence>
+			<sentence id="1.20"> at android.os.Looper.loop(Looper.java:137)</sentence>
+			<sentence id="1.21"> at android.app.ActivityThread.main(ActivityThread.java:4921)</sentence>
+			<sentence id="1.22"> at java.lang.reflect.Method.invokeNative(Method.java)</sentence>
+			<sentence id="1.23"> at java.lang.reflect.Method.invoke(Method.java:511)</sentence>
+			<sentence id="1.24"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1027)</sentence>
+			<sentence id="1.25"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:794)</sentence>
+			<sentence id="1.26"> at dalvik.system.NativeStart.main(NativeStart.java)</sentence>
+			<sentence id="1.27">```</sentence>
+		</paragraph>
+	</description>
+</bug>

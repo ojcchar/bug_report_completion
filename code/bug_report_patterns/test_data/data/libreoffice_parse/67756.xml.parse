@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>67756</id>
+	<title>LibreOffice suddenly stops exporting to PDF: "The file could not be written."</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">OS: Mac OS X Mountain Lion,
+Hardware: MacBook Pro,
+LO-Version: 4.1.0.4</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I was working on rather long .</sentence>
+			<sentence id="2.2">odt document, from time to time exporting to PDF to check the layout.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">All was working fine.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Since about 3 hours, all attempts to "Export to PDF..." fail.</sentence>
+			<sentence id="4.2">This is what I observe:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">1 The PDF options dialog pops up.</sentence>
+			<sentence id="5.2">2 I confirm the dialog, clicking 'Export'.</sentence>
+			<sentence id="5.3">3 The "save to" dialog pops up.</sentence>
+			<sentence id="5.4">4 I confirm the dialog, clicking 'Save'.</sentence>
+			<sentence id="5.5">5 I watch the progress bar on the bottom of the LO window moving to the right.</sentence>
+			<sentence id="5.6">6 The bar stops just before completion.</sentence>
+			<sentence id="5.7">7 A small message window pops up, saying:</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">LibreOffice 4.1.0.4</sentence>
+			<sentence id="6.2">-------------------</sentence>
+			<sentence id="6.3">Error saving the document MyLOTestFile:</sentence>
+			<sentence id="6.4">Write Error.</sentence>
+			<sentence id="6.5">The file could not be written.</sentence>
+			<sentence id="6.6">[OK]</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">===============================================================================</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">So, what have I tried to resolve the problem?</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">* I checked if there is still enough free space on the harddisk.</sentence>
+			<sentence id="9.2">Yes, there is.</sentence>
+			<sentence id="9.3">* I tried to export to a different file name.</sentence>
+			<sentence id="9.4">No, it doesn't work.</sentence>
+			<sentence id="9.5">* I tried to export to a directory on a USB thumb drive.</sentence>
+			<sentence id="9.6">Still no dice.</sentence>
+			<sentence id="9.7">* I tried to save the .</sentence>
+			<sentence id="9.8">odt file under a new name.</sentence>
+			<sentence id="9.9">This works!</sentence>
+			<sentence id="9.10">* I tried to export the newly named .</sentence>
+			<sentence id="9.11">odt file to PDF.</sentence>
+			<sentence id="9.12">No luck.</sentence>
+			<sentence id="9.13">* Closed LibreOffice, restarted it again, opened .</sentence>
+			<sentence id="9.14">odt, exported to PDF.</sentence>
+			<sentence id="9.15">Same problem.</sentence>
+			<sentence id="9.16">* Rebooted the Mac, started LO, opened .</sentence>
+			<sentence id="9.17">odt, exported to PDF.</sentence>
+			<sentence id="9.18">Guess what?</sentence>
+			<sentence id="9.19">* Created a completely new LO writer document, typed "a", exported to PDF.</sentence>
+			<sentence id="9.20">Guess again?</sentence>
+			<sentence id="9.21">* Opened .</sentence>
+			<sentence id="9.22">ods file in Calc, exported to PDF.</sentence>
+			<sentence id="9.23">Ok, new one: Calc also no longer exports PDFs.</sentence>
+			<sentence id="9.24">(* Opened my LO .</sentence>
+			<sentence id="9.25">odt file in Apache OpenOffice 4.0.0.</sentence>
+			<sentence id="9.26">-- Yes, it opens.</sentence>
+			<sentence id="9.27">OH NOOOOs!</sentence>
+			<sentence id="9.28">It</sentence>
+			<sentence id="9.29">doesn't show me the same layout.</sentence>
+			<sentence id="9.30">Let's not go there for now... {I assure you, all</sentence>
+			<sentence id="9.31">the document does use properly defined styles, but still Apache OO decided to use</sentence>
+			<sentence id="9.32">bold for MyStyle instead of regular...} -- OO however, DOES export my file to PDF!)</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">The weird thing is that this behavior suddenly started in the middle of my previous LO session.</sentence>
+			<sentence id="10.2">To the best of my knowledge, I didn't do anything which could have caused it: 
+ didn't update the system, 
+ didn't update LO, 
+ didn't update Java, 
+ didn't update other software, 
+ didn't change any of my LO settings in 'Styles and Formatting'.</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">I was only adding + deleting words, changing sentences, saving file, exporting to PDF.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1"></sentence>
+			<sentence id="12.2">The only fact I can say is: "My LO was working fine, but then</sentence>
+			<sentence id="12.3"> _     ___         _                             _ </sentence>
+			<sentence id="12.4">| |   / _ \    ___| |_ ___  _ __  _ __   ___  __| |</sentence>
+			<sentence id="12.5">| |  | | | |  / __| __/ _ \| '_ \| '_ \ / _ \/ _` |</sentence>
+			<sentence id="12.6">| |__| |_| |  \__ \ || (_) | |_) | |_) |  __/ (_| |</sentence>
+			<sentence id="12.7">|_____\___/   |___/\__\___/| .__/| .__/ \___|\__,_|</sentence>
+			<sentence id="12.8">                           |_|   |_|               </sentence>
+			<sentence id="12.9">                            _   _                _        </sentence>
+			<sentence id="12.10">  _____  ___ __   ___  _ __| |_(_)_ __   __ _   | |_ ___  </sentence>
+			<sentence id="12.11"> / _ \ \/ / '_ \ / _ \| '__| __| | '_ \ / _` |  | __/ _ \ </sentence>
+			<sentence id="12.12">|  __/&gt;  &lt;| |_) | (_) | |  | |_| | | | | (_| |  | || (_) |</sentence>
+			<sentence id="12.13"> \___/_/\_\ .__/ \___/|_|   \__|_|_| |_|\__, |   \__\___/ </sentence>
+			<sentence id="12.14">          |_|                           |___/             </sentence>
+			<sentence id="12.15"> ____  ____  _____        </sentence>
+			<sentence id="12.16">|  _ \|  _ \|  ___|__     </sentence>
+			<sentence id="12.17">| |_) | | | | |_ / __|    </sentence>
+			<sentence id="12.18">|  __/| |_| |  _|\__ \  _ </sentence>
+			<sentence id="12.19">|_|   |____/|_|  |___/ (_)  (for no apparent reason)"</sentence>
+		</paragraph>
+	</description>
+</bug>

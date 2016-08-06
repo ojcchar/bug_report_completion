@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>24006</id>
+	<title>[1.12-rc2] RFC: should running "swarm init" multiple times be an error?1.12.0</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Currently, running `docker swarm init` [produces an error](https://github.com/docker/docker/blob/7ff546467de3fa3d1c1104e9f40c6d16742ebac0/daemon/cluster/cluster.go#L45-L46);</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```bash
+$ docker swarm init
+Swarm initialized: current node (7gy7e5rqvo74rvyi6vu78jt2d) is now a manager.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">$ docker swarm init
+Error response from daemon: This node is already part of a Swarm cluster.</sentence>
+			<sentence id="3.2">Use "docker swarm leave" to leave this cluster and join another one.</sentence>
+			<sentence id="3.3">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">- Should this second call be an Error, or just "info"?</sentence>
+			<sentence id="4.2">- Given that I don't run `docker swarm join`, is there a reason to mention how to leave this swarm and join another one?</sentence>
+		</paragraph>
+	</description>
+</bug>

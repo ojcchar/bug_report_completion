@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-9259</id>
+	<title>NullPointerException querying against inherited properties of a MappedSuperclass.</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have created an {{Embeddable}} class that serves as a table key that extends an already defined {{MappedSuperclass}} which results in a composite-key for the table.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code:title=BaseId.java|borderStyle=solid}
+@MappedSuperclass
+public class BaseId implements Serializable {
+ private Long customerId;
+ private Long facilityId;
+ /Applications /Library /Network /System /User Information /Users /Volumes /WinMagic /bin /cores /dev /etc /home /installer.failurerequests /net /opt /private /sbin /tmp /usr /var getter/setters */
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">{code:title=MyEntityId.java|borderStyle=solid}
+@Embeddable
+public class MyEntityId extends BaseId {
+ private Long type;
+ /Applications /Library /Network /System /User Information /Users /Volumes /WinMagic /bin /cores /dev /etc /home /installer.failurerequests /net /opt /private /sbin /tmp /usr /var getter/setters */
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Now using the JPA Criteria API shown below, the code throws a {{NullPointerException}} when attempting to find the records:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">{code:title=TestCase.java}
+public List&lt;MyEntity&gt; runTestCase(List&lt;Long&gt; customerIds) {
+ CriteriaBuilder cb = em.getCriteriaBuilder();
+ CriteriaQuery&lt;MyEntity&gt; cq = cb.createQuery(MyEntity.class);
+ Root&lt;MyEntity&gt; root = cq.from(MyEntity.class);</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">// this next statement is where the NullPointerException is thrown.</sentence>
+			<sentence id="6.2">Path&lt;Long&gt; customerIdPath = root.get(MyEntity_.</sentence>
+			<sentence id="6.3">id).</sentence>
+			<sentence id="6.4">get(MyEntityId_.</sentence>
+			<sentence id="6.5">customerId);
+ cq.select(root);
+ cq.where(customerIdPath.in(customerIds));
+ return em.createQuery(cq).</sentence>
+			<sentence id="6.6">getResultList();
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">After fiddling with this, I have determined that if the {{BaseId}} class is associated to another class designated as an {{Entity}}, then the {{NullPointerException}} isn't thrown an the above query works.</sentence>
+			<sentence id="7.2">However, if the {{BaseId}} isn't associated to any entity and merely serves as a common class across a series of derived classes, Hibernate will throw the following error:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">{noformat}
+java.lang.NullPointerException at
+org.hibernate.jpa.criteria.path.AbstractPathImpl.get(AbstractPathImpl.java:140)
+{noformat}</sentence>
+		</paragraph>
+	</description>
+</bug>

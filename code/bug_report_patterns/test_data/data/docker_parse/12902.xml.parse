@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>12902</id>
+	<title>disable online discards by default for devicemapper graph driver</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1"> Right now devicemapper mounts thin device using online discards by default</sentence>
+			<sentence id="1.2"> and passes mount option "discard". Generally people discourage usage of</sentence>
+			<sentence id="1.3"> online discards as they can be a drain on performance. Instead it is</sentence>
+			<sentence id="1.4"> recommended to use fstrim once in a while to reclaim the space.</sentence>
+			<sentence id="1.5"> </sentence>
+			<sentence id="1.6"> In case of containers, we recommend to keep data volumes separate. So</sentence>
+			<sentence id="1.7"> there might not be lot of rm, unlink operations going on and there might</sentence>
+			<sentence id="1.8"> not be lot of space being freed by containers. So it might not matter</sentence>
+			<sentence id="1.9"> much if we don't reclaim that free space in pool.</sentence>
+			<sentence id="1.10"> </sentence>
+			<sentence id="1.11"> User can still pass mount option explicitly using dm.mountopt=discard to</sentence>
+			<sentence id="1.12"> enable discards if they would like to.</sentence>
+			<sentence id="1.13"> </sentence>
+			<sentence id="1.14"> So this is more like setting the containers by default for better performance</sentence>
+			<sentence id="1.15"> instead of better space efficiency in pool. And user can change the behavior</sentence>
+			<sentence id="1.16"> if they don't like default behavior.</sentence>
+		</paragraph>
+	</description>
+</bug>

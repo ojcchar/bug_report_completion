@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>18053</id>
+	<title>system exec error on docker run</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Got a `system exec` error on docker run for an image which is already present locally.</sentence>
+			<sentence id="1.2">Not sure if this could be due to images on-disk getting corrupted ??</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Actual results: 
+```
+$ docker run --privileged --rm -ti -v `pwd`:/go/src/github.com/docker/docker 192.168.1.34:5000/docker-dev:17411_restart_error /bin/bash 
+exec: "hack/dind": stat hack/dind: no such file or directory
+Error response from daemon: Cannot start container c4d38420e3b7d8a74e31e41ff46c63b6526e3340de19d587074b5b48bbac6619: [8] System error: exec: "hack/dind": stat hack/dind: no such file or directory
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The image was already available locally. </sentence>
+			<sentence id="3.2">```</sentence>
+			<sentence id="3.3">$ docker images </sentence>
+			<sentence id="3.4">REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE</sentence>
+			<sentence id="3.5">192.168.1.34:5000/docker-dev 17411_restart_error 21d8513ec0c4 5 days ago 1.254 GB</sentence>
+			<sentence id="3.6">nate/dockviz latest 878e8ec36426 9 days ago 5.947 MB</sentence>
+			<sentence id="3.7">192.168.1.34:5000/busybox latest 3d5bcd78e074 4 weeks ago 1.113 MB</sentence>
+			<sentence id="3.8">192.168.1.34:5000/hello-world latest 975b84d108f1 5 weeks ago 960 B</sentence>
+			<sentence id="3.9">hello-world latest 975b84d108f1 5 weeks ago 960 B</sentence>
+			<sentence id="3.10">192.168.1.34:5000/ubuntu 14.04 91e54dfb1179 12 weeks ago 188.4 MB</sentence>
+			<sentence id="3.11">ubuntu 14.04 91e54dfb1179 12 weeks ago 188.4 MB</sentence>
+			<sentence id="3.12">```</sentence>
+			<sentence id="3.13">docker.logs: found nothing very useful</sentence>
+			<sentence id="3.14">```</sentence>
+			<sentence id="3.15"> 6 ^[[34mINFO^[[0m[5780] POST /v1.20/containers/c4d38420e3b7d8a74e31e41ff46c63b6526e3340de19d587074b5b48bbac6619/attach?stderr=1&amp;stdin=1&amp;stdout=1&amp;stream=1 </sentence>
+			<sentence id="3.16"> 7 ^[[34mINFO^[[0m[5780] POST /v1.20/containers/c4d38420e3b7d8a74e31e41ff46c63b6526e3340de19d587074b5b48bbac6619/start </sentence>
+			<sentence id="3.17"> 8 ^[[34mINFO^[[0m[5780] No non-localhost DNS nameservers are left in resolv.conf. Using default external servers : [nameserver 8.8.8.8 nameserver 8.8.4.4] </sentence>
+			<sentence id="3.18"> 9 ^[[33mWARN^[[0m[5780] exit status 1 </sentence>
+			<sentence id="3.19"> 10 ^[[31mERRO^[[0m[5780] Handler for POST /containers/{name:.*}/start returned error: Cannot start container c4d38420e3b7d8a74e31e41ff46c63b6526e3340de19d587074b5b48bbac6619: [8] System error: &gt; \ exec: "hack/dind": stat hack/dind: no such file or directory </sentence>
+			<sentence id="3.20"> 11 ^[[31mERRO^[[0m[5780] HTTP Error ^[[31merr^[[0m=Cannot start container c4d38420e3b7d8a74e31e41ff46c63b6526e3340de19d587074b5b48bbac6619: [8] System error: &gt; \ exec: "hack/dind": stat hack/dind: no such file or directory ^[[31mstatusCode^[[0m=404</sentence>
+			<sentence id="3.21">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Issue got resolved after a docker pull from the local registry.</sentence>
+			<sentence id="4.2">```</sentence>
+			<sentence id="4.3">$ docker pull 192.168.1.34:5000/docker-dev:17411_restart_error</sentence>
+			<sentence id="4.4">17411_restart_error: Pulling from docker-dev</sentence>
+			<sentence id="4.5">3fd0c2ae8ed2: Already exists </sentence>
+			<sentence id="4.6">9e19ac89d27c: Already exists </sentence>
+			<sentence id="4.7">ac65c371c3a5: Already exists </sentence>
+			<sentence id="4.8">a5a467fddcb8: Already exists </sentence>
+			<sentence id="4.9">f0139f2fdd21: Already exists </sentence>
+			<sentence id="4.10">5746b6fc3261: Already exists </sentence>
+			<sentence id="4.11">4900d19fef4a: Already exists </sentence>
+			<sentence id="4.12">e0f5744bdedb: Already exists </sentence>
+			<sentence id="4.13">9dc6b5f4048e: Already exists </sentence>
+			<sentence id="4.14">0023418c5ecf: Already exists </sentence>
+			<sentence id="4.15">9495a2f05c29: Already exists </sentence>
+			<sentence id="4.16">f82e969c6d15: Already exists </sentence>
+			<sentence id="4.17">a00b1754d01e: Already exists </sentence>
+			<sentence id="4.18">3a2daae5710f: Already exists </sentence>
+			<sentence id="4.19">962fd334f5f8: Already exists </sentence>
+			<sentence id="4.20">0003e5dc3895: Already exists </sentence>
+			<sentence id="4.21">733eaa83e656: Already exists </sentence>
+			<sentence id="4.22">e6960cef5471: Already exists </sentence>
+			<sentence id="4.23">e3f1d79fd6f0: Already exists </sentence>
+			<sentence id="4.24">9879dc2830eb: Already exists </sentence>
+			<sentence id="4.25">05557b393bcd: Already exists </sentence>
+			<sentence id="4.26">3def0cb118b7: Already exists </sentence>
+			<sentence id="4.27">0f2f64540461: Already exists </sentence>
+			<sentence id="4.28">48ae77f75a15: Already exists </sentence>
+			<sentence id="4.29">20e8cd8c3c17: Already exists </sentence>
+			<sentence id="4.30">07f79af6fa1f: Already exists </sentence>
+			<sentence id="4.31">25c2e270f98b: Already exists </sentence>
+			<sentence id="4.32">64d94ee5471e: Already exists </sentence>
+			<sentence id="4.33">cbb6f6779bb2: Already exists </sentence>
+			<sentence id="4.34">382a55b3772d: Already exists </sentence>
+			<sentence id="4.35">78de9b01caa3: Already exists </sentence>
+			<sentence id="4.36">8d9c2a2e28db: Already exists </sentence>
+			<sentence id="4.37">7334d953a626: Already exists </sentence>
+			<sentence id="4.38">e33bd78758cf: Already exists </sentence>
+			<sentence id="4.39">243ad8a4c359: Already exists </sentence>
+			<sentence id="4.40">1a5232e54562: Already exists </sentence>
+			<sentence id="4.41">3f0e885552e3: Already exists </sentence>
+			<sentence id="4.42">c1f9ba05cf1d: Already exists </sentence>
+			<sentence id="4.43">c53f26c80247: Already exists </sentence>
+			<sentence id="4.44">cbf0aeb74d84: Already exists </sentence>
+			<sentence id="4.45">2eaae5c8af35: Already exists </sentence>
+			<sentence id="4.46">ac7b9a789564: Already exists </sentence>
+			<sentence id="4.47">0066a970fe0c: Already exists </sentence>
+			<sentence id="4.48">4ee422832122: Already exists </sentence>
+			<sentence id="4.49">21d8513ec0c4: Already exists </sentence>
+			<sentence id="4.50">Digest: sha256:b1d67ee2978eb765ed35afb50717235716f020b61f243c6b0b8e71935a521ae9</sentence>
+			<sentence id="4.51">Status: Image is up to date for 192.168.1.34:5000/docker-dev:17411_restart_error</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">$ docker run --privileged --rm -ti -v `pwd`:/go/src/github.</sentence>
+			<sentence id="5.2">com/docker/docker 192.168.1.34:5000/docker-dev:17411_restart_error /bin/bash
+root@7e351072ce31:/go/src/github.com/docker/docker# 
+```</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+$ docker version 
+Client:
+ Version: 1.8.2
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: 0a8c2e3
+ Built: Thu Sep 10 19:19:00 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:
+ Version: 1.8.2
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: 0a8c2e3
+ Built: Thu Sep 10 19:19:00 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">docker info
+Containers: 1
+Images: 96
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 99
+ Dirperm1 Supported: false
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 3.13.0-65-generic
+Operating System: Ubuntu 14.04.3 LTS
+CPUs: 2
+Total Memory: 3.861 GiB
+Name: srv131-vm
+ID: 72OY:23OP:RSV2:T5II:DWX2:2U4L:OSOK:Q5TW:S5SV:QD5Y:FH5L:SNXM
+Username: askb
+Registry: https://index.docker.io/v1/
+WARNING: No swap limit support</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">$ uname -a
+Linux srv131-vm 3.13.0-65-generic #105-Ubuntu SMP Mon Sep 21 18:50:58 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Expected results: container must start successfully</sentence>
+		</paragraph>
+	</description>
+</bug>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>22677</id>
+	<title>Space Exhaustion on 1.11 Container Mounts?</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">We're having issues where we are unable to run even the most modest of docker-in-docker testing scenarios because even though the host volume group has 100GB+ data space, almost every operation fails with a message about free space, such as:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```
+output: write /usr/lib64/libopcodes-2.23.52.0.1-55.</sentence>
+			<sentence id="2.2">el7.so: no space left on device
+Traceback (most recent call last):
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">It appears that for some reason space is getting consumed on the host, despite us using a devicemapper storage device (you can see confirmation of this below in the docker info output).</sentence>
+			<sentence id="3.2">The ExecStart options we are using are:</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">````
+ExecStart=/usr/bin/docker daemon -H tcp://0.0.0.0:2375 -H fd:// --storage-driver=devicemapper --storage-opt dm.basesize=64G --storage-opt dm.datadev=/dev/vgDocker/lvData --storage-opt dm.metadatadev=/dev/vgDocker/lvMetadata
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">**Output of `docker version`:**</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">```
+Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Wed Apr 27 00:34:42 2016
+ OS/Arch: linux/amd64</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Server:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Wed Apr 27 00:34:42 2016
+ OS/Arch: linux/amd64
+```</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">**Output of `docker info`:**</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">```</sentence>
+			<sentence id="9.2">Containers: 2</sentence>
+			<sentence id="9.3"> Running: 0</sentence>
+			<sentence id="9.4"> Paused: 0</sentence>
+			<sentence id="9.5"> Stopped: 2</sentence>
+			<sentence id="9.6">Images: 3</sentence>
+			<sentence id="9.7">Server Version: 1.11.1</sentence>
+			<sentence id="9.8">Storage Driver: devicemapper</sentence>
+			<sentence id="9.9"> Pool Name: docker-253:0-662217-pool</sentence>
+			<sentence id="9.10"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="9.11"> Base Device Size: 10.74 GB</sentence>
+			<sentence id="9.12"> Backing Filesystem: xfs</sentence>
+			<sentence id="9.13"> Data file: /dev/vgDocker/lvData</sentence>
+			<sentence id="9.14"> Metadata file: /dev/vgDocker/lvMetadata</sentence>
+			<sentence id="9.15"> Data Space Used: 303.2 MB</sentence>
+			<sentence id="9.16"> Data Space Total: 112.7 GB</sentence>
+			<sentence id="9.17"> Data Space Available: 112.4 GB</sentence>
+			<sentence id="9.18"> Metadata Space Used: 1.024 MB</sentence>
+			<sentence id="9.19"> Metadata Space Total: 5.365 GB</sentence>
+			<sentence id="9.20"> Metadata Space Available: 5.363 GB</sentence>
+			<sentence id="9.21"> Udev Sync Supported: true</sentence>
+			<sentence id="9.22"> Deferred Removal Enabled: false</sentence>
+			<sentence id="9.23"> Deferred Deletion Enabled: false</sentence>
+			<sentence id="9.24"> Deferred Deleted Device Count: 0</sentence>
+			<sentence id="9.25"> Library Version: 1.02.107-RHEL7 (2015-12-01)</sentence>
+			<sentence id="9.26">Logging Driver: json-file</sentence>
+			<sentence id="9.27">Cgroup Driver: cgroupfs</sentence>
+			<sentence id="9.28">Plugins:</sentence>
+			<sentence id="9.29"> Volume: local</sentence>
+			<sentence id="9.30"> Network: bridge null host</sentence>
+			<sentence id="9.31">Kernel Version: 3.10.0-327.10.1.el7.x86_64</sentence>
+			<sentence id="9.32">Operating System: CentOS Linux 7 (Core)</sentence>
+			<sentence id="9.33">OSType: linux</sentence>
+			<sentence id="9.34">Architecture: x86_64</sentence>
+			<sentence id="9.35">CPUs: 4</sentence>
+			<sentence id="9.36">Total Memory: 31.26 GiB</sentence>
+			<sentence id="9.37">Name: dev</sentence>
+			<sentence id="9.38">ID: UHUM:JHO5:LIMR:BBW7:3RLF:VECQ:VO2W:Q32W:VGKJ:FJIX:454P:G2GV</sentence>
+			<sentence id="9.39">Docker Root Dir: /var/lib/docker</sentence>
+			<sentence id="9.40">Debug mode (client): false</sentence>
+			<sentence id="9.41">Debug mode (server): false</sentence>
+			<sentence id="9.42">Registry: https://index.docker.io/v1/</sentence>
+			<sentence id="9.43">WARNING: bridge-nf-call-iptables is disabled</sentence>
+			<sentence id="9.44">WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">```</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+			<sentence id="11.2">CentOS 7 running in VM.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">**Steps to reproduce the issue:**</sentence>
+			<sentence id="12.2">1 docker run --rm -it centos:7 df -h</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">**Describe the results you received:**</sentence>
+			<sentence id="13.2">When running various operations inside the container, it seems that a huge amount of space is consumed on the /etc/hosts mount.</sentence>
+			<sentence id="13.3">For example:</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">````
+[root@dev sgray]# docker run --rm -it centos:7 df -h
+Filesystem Size Used Avail Use% Mounted on
+/dev/mapper/docker-253:0-662217-97b5ea95167e5f153339f7489d101cd0216fb6cf35ac4d0aa075db0ee65ad52a 10G 241M 9.8G 3% /
+tmpfs 16G 0 16G 0% /dev
+tmpfs 16G 0 16G 0% /sys/fs/cgroup
+/dev/mapper/centos-root 12G 1.9G 8.8G 18% /etc/hosts
+shm 64M 0 64M 0% /dev/shm
+[root@dev sgray]#
+````</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">**Describe the results you expected:**</sentence>
+			<sentence id="15.2">The /etc/hosts mount should not be showing so much used space.</sentence>
+			<sentence id="15.3">Specifically if I do cat /etc/hosts - it shows 3 lines, which doesnt quite add up to nearly 2GB.</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">The reason this is problematic is that when I run docker-in-docker type CI testing, we've got issues where even though we mount a volume to hold /var/lib/docker content - the /etc/hosts mount just fills up almost immediately and dies.</sentence>
+			<sentence id="17.2">For example, here's another machine, here's the output from the most affected machine we have.</sentence>
+			<sentence id="17.3">Note I'm literally just starting up a blank container and running the command to show free space.</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">````
+[sgray@build ~]$ docker run --rm -it centos:7 df -h
+Filesystem Size Used Avail Use% Mounted on
+/dev/mapper/docker-253:0-662217-c65cb6b4ab5c21adb37aa84505e2b7ab4653580238f5ddd06c4cc6e131368781 10G 241M 9.8G 3% /
+tmpfs 24G 0 24G 0% /dev
+tmpfs 24G 0 24G 0% /sys/fs/cgroup
+/dev/mapper/centos-root 12G 10G 651M 95% /etc/hosts
+shm 64M 0 64M 0% /dev/shm
+[sgray@build ~]$
+````</sentence>
+		</paragraph>
+	</description>
+</bug>

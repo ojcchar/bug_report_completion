@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-3152</id>
+	<title>StaleStateException using many-to-many together with one-to-many</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">I have many-to-many association between tables A and B (via join table A_B, see attached db_schema.gif). Join table has additional data columns, so I represent it as entity AB and have two one-to-many associations (A &lt;-&gt; AB and B &lt;-&gt; AB, with cascade=Cascade.REMOVE). Also I have many-to-many association between A and B (joinColumns are marked with insertable=false, updatable=false, though the marking/unmarking doesn't change the behaviour). </sentence>
+			<sentence id="1.2">Table A is modeled as abstract entity A that is inherited by two concrete entities ATrue and AFalse. Table A has column BOOL_PROP (boolean property) of type INTEGER. ATrue spans objects with BOOL_PROP being true (1), AFalse - being false (0), column BOOL_PROP is used as Discriminator column.</sentence>
+			<sentence id="1.3">The problem: having in database several ATrue and AFalse entities, it is impossible to delete ATrue entity - StaleStateException is being thrown:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Code fragment (p.getAllTrueA() return list of ATrue entities):</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">em.getTransaction().</sentence>
+			<sentence id="3.2">begin();
+ em.remove(p.getAllTrueA().</sentence>
+			<sentence id="3.3">get(0));
+ em.getTransaction().</sentence>
+			<sentence id="3.4">commit();</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Log and exception stack trace:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Hibernate: delete from A_B where A=?</sentence>
+			<sentence id="5.2">2008-03-03 18:02:10,313 [main] DEBUG org.hibernate.type.IntegerType - binding '4' to parameter: 1</sentence>
+			<sentence id="5.3">Hibernate: delete from ADMIN.A_B where ID=?</sentence>
+			<sentence id="5.4">2008-03-03 18:02:10,403 [main] DEBUG org.hibernate.type.IntegerType - binding '4' to parameter: 1</sentence>
+			<sentence id="5.5">2008-03-03 18:02:10,473 [main] ERROR org.hibernate.event.def.AbstractFlushingEventListener - Could not synchronize database state with session</sentence>
+			<sentence id="5.6">org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</sentence>
+			<sentence id="5.7">	at org.hibernate.jdbc.Expectations$BasicExpectation.checkBatched(Expectations.java:61)</sentence>
+			<sentence id="5.8"> ...</sentence>
+			<sentence id="5.9">	at org.hibernate.ejb.TransactionImpl.commit(TransactionImpl.java:54)</sentence>
+			<sentence id="5.10">	at manytomany.Main.run(Main.java:30)</sentence>
+			<sentence id="5.11">	at manytomany.Main.main(Main.java:15)</sentence>
+			<sentence id="5.12">Exception in thread "main" javax.persistence.RollbackException: Error while commiting the transaction</sentence>
+			<sentence id="5.13">	at org.hibernate.ejb.TransactionImpl.commit(TransactionImpl.java:71)</sentence>
+			<sentence id="5.14">	at manytomany.Main.run(Main.java:30)</sentence>
+			<sentence id="5.15">	at manytomany.Main.main(Main.java:15)</sentence>
+			<sentence id="5.16">Caused by: javax.persistence.OptimisticLockException: org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</sentence>
+			<sentence id="5.17">	at org.hibernate.ejb.AbstractEntityManagerImpl.wrapStaleStateException(AbstractEntityManagerImpl.java:654)</sentence>
+			<sentence id="5.18">	at org.hibernate.ejb.TransactionImpl.commit(TransactionImpl.java:59)</sentence>
+			<sentence id="5.19">	... 2 more</sentence>
+			<sentence id="5.20">Caused by: org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</sentence>
+			<sentence id="5.21">	at org.hibernate.jdbc.Expectations$BasicExpectation.checkBatched(Expectations.java:61)</sentence>
+			<sentence id="5.22">	...</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">The problem is that after:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Hibernate: delete from A_B where A=?</sentence>
+			<sentence id="7.2">following statement is being executed:</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Hibernate: delete from ADMIN.A_B where ID=?</sentence>
+			<sentence id="8.2">The first statement deletes child A_B rows belonging to parent A.</sentence>
+			<sentence id="8.3">The second tries to delete what is already deleted.</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Why I think it is related to many-to-many association: if I comment many-to-many association fields and getters/setters, problem is gone.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Attached is Eclipse project (standard java application), Derby DDL scripts.</sentence>
+			<sentence id="10.2">Following steps are needed to reproduce the problem:</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">1 Adjust the classpath (specify correct path to Hibernate EntityManager and its dependencies, Derby 10.3 derbyclient.jar)</sentence>
+			<sentence id="11.2">2 Adjust database URL in /src/META-INF/persistence.</sentence>
+			<sentence id="11.3">xml (I'm using absolute path to DB, that is located at the projects root)</sentence>
+			<sentence id="11.4">3 Start Derby network server (or adjust database URL to use embedded driver)</sentence>
+			<sentence id="11.5">4 Start the application - it tries to delete ATrue entity and fails.</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">You can recreated the database if you wish - projects root folder contains DB_DDL.</sentence>
+			<sentence id="12.2">sql scripts.</sentence>
+			<sentence id="12.3">The program checks, whether the DB is empty, and if so, first fills it up with test data, then exits.</sentence>
+			<sentence id="12.4">Restart it again - it will load some ATrue entities and will try to delete one.</sentence>
+		</paragraph>
+	</description>
+</bug>

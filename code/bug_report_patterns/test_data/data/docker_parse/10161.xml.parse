@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>10161</id>
+	<title>docker storage drivers devicemapper and btrfs very slow</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">## Description of problem:
+Docker with devicemapper/btrfs is order of magnitude slower than with AUFS.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">`docker version`:
+```
+Client version: 1.3.3
+Client API version: 1.15
+Go version (client): go1.3.3
+Git commit (client): d344625
+OS/Arch (client): linux/amd64
+Server version: 1.3.3
+Server API version: 1.15
+Go version (server): go1.3.3
+Git commit (server): d344625
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">`docker -D info`:</sentence>
+			<sentence id="3.2">```</sentence>
+			<sentence id="3.3">Containers: 0</sentence>
+			<sentence id="3.4">Images: 19</sentence>
+			<sentence id="3.5">Storage Driver: devicemapper</sentence>
+			<sentence id="3.6"> Pool Name: docker-8:18-402882181-pool</sentence>
+			<sentence id="3.7"> Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="3.8"> Data file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="3.9"> Metadata file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="3.10"> Data Space Used: 465.4 MB</sentence>
+			<sentence id="3.11"> Data Space Total: 107.4 GB</sentence>
+			<sentence id="3.12"> Metadata Space Used: 1.204 MB</sentence>
+			<sentence id="3.13"> Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="3.14"> Library Version: 1.02.90 (2014-09-01)</sentence>
+			<sentence id="3.15">Execution Driver: native-0.2</sentence>
+			<sentence id="3.16">Kernel Version: 3.16.0-4-amd64</sentence>
+			<sentence id="3.17">Operating System: Debian GNU/Linux 8 (jessie)</sentence>
+			<sentence id="3.18">Debug mode (server): false</sentence>
+			<sentence id="3.19">Debug mode (client): true</sentence>
+			<sentence id="3.20">Fds: 10</sentence>
+			<sentence id="3.21">Goroutines: 11</sentence>
+			<sentence id="3.22">EventsListeners: 0</sentence>
+			<sentence id="3.23">Init SHA1: 623458afefaf342877bebd84ba389315167962ca</sentence>
+			<sentence id="3.24">Init Path: /usr/lib/docker.io/dockerinit</sentence>
+			<sentence id="3.25">WARNING: No memory limit support</sentence>
+			<sentence id="3.26">WARNING: No swap limit support</sentence>
+			<sentence id="3.27">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">`uname -a`:
+```
+Linux debian 3.16.0-4-amd64 #1 SMP Debian 3.16.7-ckt2-1 (2014-12-08) x86_64 GNU/Linux
+```</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">### Environment details:
+Physical, `Debian GNU/Linux 8.0 (jessie)`.</sentence>
+			<sentence id="5.2">SSD: `OCZ-VERTEX2`, HDD: `WDC WD7501AALS-00J7B0`.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">### How reproducible:</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">*Always*</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">## Steps to Reproduce:</sentence>
+			<sentence id="8.2">```sh</sentence>
+			<sentence id="8.3">$ cat &gt;Dockerfile &lt;&lt;EOF</sentence>
+			<sentence id="8.4">FROM debian:jessie</sentence>
+			<sentence id="8.5">ENV A 1</sentence>
+			<sentence id="8.6">ENV B 2</sentence>
+			<sentence id="8.7">ENV C 3</sentence>
+			<sentence id="8.8">ENV D 4</sentence>
+			<sentence id="8.9">ENV E 5</sentence>
+			<sentence id="8.10">ENV F 6</sentence>
+			<sentence id="8.11">ENV G 7</sentence>
+			<sentence id="8.12">ENV H 8</sentence>
+			<sentence id="8.13">EOF</sentence>
+			<sentence id="8.14">```</sentence>
+			<sentence id="8.15">1 `sudo docker info | grep Storage`</sentence>
+			<sentence id="8.16">2 run once to download base image: `sudo docker build -t test --no-cache .</sentence>
+			<sentence id="8.17">`</sentence>
+			<sentence id="8.18">3 run again to measure just the ENVs: `sudo time docker build -t test --no-cache .</sentence>
+			<sentence id="8.19">`</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">## Actual Results: Noticeable delay</sentence>
+			<sentence id="9.2">```</sentence>
+			<sentence id="9.3">Storage Driver: devicemapper</sentence>
+			<sentence id="9.4">[...]</sentence>
+			<sentence id="9.5">0 02user 0.02system 0:21.57elapsed 0%CPU (0avgtext+0avgdata 14024maxresident)k</sentence>
+			<sentence id="9.6">0inputs+0outputs (0major+1119minor)pagefaults 0swaps</sentence>
+			<sentence id="9.7">```</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">## Expected Results: Almost instant, around 1 second:</sentence>
+			<sentence id="10.2">```</sentence>
+			<sentence id="10.3">Storage Driver: aufs</sentence>
+			<sentence id="10.4">[...]</sentence>
+			<sentence id="10.5">0 00user 0.04system 0:00.89elapsed 5%CPU (0avgtext+0avgdata 13496maxresident)k</sentence>
+			<sentence id="10.6">0inputs+0outputs (0major+993minor)pagefaults 0swaps</sentence>
+			<sentence id="10.7">```</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">## Additional info:</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">| Device | Storage driver | options | time |</sentence>
+			<sentence id="12.2">| --- | --- | --- | --- |</sentence>
+			<sentence id="12.3">| SSD | aufs | | &lt;1s |</sentence>
+			<sentence id="12.4">| HDD | aufs | | 3s |</sentence>
+			<sentence id="12.5">| SSD | btrfs | -s btrfs | 8s |</sentence>
+			<sentence id="12.6">| SSD | devicemapper | -s devicemapper --storage-opt dm.blkdiscard=false --storage-opt dm.mountopt=nodiscard | 14s |</sentence>
+			<sentence id="12.7">| HDD | devicemapper | -s devicemapper --storage-opt dm.blkdiscard=false --storage-opt dm.mountopt=nodiscard --storage-opt dm.datadev=/dev/vg0/data --storage-opt dm.metadatadev=/dev/vg0/metadata | 15s |</sentence>
+			<sentence id="12.8">| SSD | devicemapper | -s devicemapper | 22s |</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">I tried upgrading my kernel from 3.16.7 to 3.18.0 and a fresh Docker install became orders of magnitude slower.</sentence>
+			<sentence id="13.2">Turns out that in Debian's 3.18.0 kernel AUFS is not enabled, and it uses devicemapper backend, whereas in 3.16.7 there is AUFS.</sentence>
+			<sentence id="13.3">This might also explain why docker seemed so slow on the production servers (running CentOS7), and used to be reasonably fast on my desktop (Debian Jessie).</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">With 3.16.7-ckt2-1 and `aufs` it takes _under 1 second_ to run the testcase,
+but with devicemapper it takes _almost half a minute_.</sentence>
+			<sentence id="14.2">Even running `aufs` on a HDD is *faster* than running devicemapper/btrfs on an
+SSD!</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">Everytime when switching between storage drivers I wiped `/var/lib/docker`
+(sometimes also had to manually unmount, dmsetup clear, dmsetup remove when
+ containers got stuck):
+```sh
+$ sudo service docker stop
+$ sudo rm -rf /var/lib/docker
+$ sudo mkdir /var/lib/docker
+... set DOCKEROPTS="-s devicemapper"` in /etc/default/docker
+$ sudo service docker start
+```</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">Now /var/lib/docker is on an SSD with XFS, and I noticed that docker by default uses discard which is [well known to be slow](http://xfs.org/index.php/FITRIM/discard#Realtime_discard).</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">With discard disabled on 3.16.7 it is still slow:</sentence>
+			<sentence id="17.2">```</sentence>
+			<sentence id="17.3">0 00user 0.03system 0:13.72elapsed 0%CPU (0avgtext+0avgdata 13492maxresident)k</sentence>
+			<sentence id="17.4">0inputs+0outputs (0major+1015minor)pagefaults 0swaps</sentence>
+			<sentence id="17.5">```</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">Also tried btrfs storage backend, or using a direct lvm on a HDD instead of a SSD to make sure that discard really has no impact, with similar results.</sentence>
+			<sentence id="18.2">Direct LVM on the HDD with 3.18.0:</sentence>
+			<sentence id="18.3">```</sentence>
+			<sentence id="18.4">0 06user 0.07system 0:14.54elapsed 0%CPU (0avgtext+0avgdata 14004maxresident)k</sentence>
+			<sentence id="18.5">0inputs+0outputs (0major+1145minor)pagefaults 0swaps</sentence>
+			<sentence id="18.6">$ sudo docker info</sentence>
+			<sentence id="18.7">Containers: 16</sentence>
+			<sentence id="18.8">Images: 19</sentence>
+			<sentence id="18.9">Storage Driver: devicemapper</sentence>
+			<sentence id="18.10">Pool Name: docker-8:18-269820673-pool</sentence>
+			<sentence id="18.11">Pool Blocksize: 65.54 kB</sentence>
+			<sentence id="18.12">Data file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+			<sentence id="18.13">Metadata file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+			<sentence id="18.14">Data Space Used: 480.4 MB</sentence>
+			<sentence id="18.15">Data Space Total: 107.4 GB</sentence>
+			<sentence id="18.16">Metadata Space Used: 1.794 MB</sentence>
+			<sentence id="18.17">Metadata Space Total: 2.147 GB</sentence>
+			<sentence id="18.18">Library Version: 1.02.90 (2014-09-01)</sentence>
+			<sentence id="18.19">Execution Driver: native-0.2</sentence>
+			<sentence id="18.20">Kernel Version: 3.18.0-trunk-amd64</sentence>
+			<sentence id="18.21">Operating System: Debian GNU/Linux 8 (jessie)</sentence>
+			<sentence id="18.22">WARNING: No memory limit support</sentence>
+			<sentence id="18.23">WARNING: No swap limit support</sentence>
+			<sentence id="18.24">$ sudo docker version</sentence>
+			<sentence id="18.25">Client version: 1.3.3</sentence>
+			<sentence id="18.26">Client API version: 1.15</sentence>
+			<sentence id="18.27">Go version (client): go1.3.3</sentence>
+			<sentence id="18.28">Git commit (client): d344625</sentence>
+			<sentence id="18.29">OS/Arch (client): linux/amd64</sentence>
+			<sentence id="18.30">Server version: 1.3.3</sentence>
+			<sentence id="18.31">Server API version: 1.15</sentence>
+			<sentence id="18.32">Go version (server): go1.3.3</sentence>
+			<sentence id="18.33">Git commit (server): d344625</sentence>
+			<sentence id="18.34">```</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">btrfs-on-SSD:</sentence>
+			<sentence id="19.2">```</sentence>
+			<sentence id="19.3">0 02user 0.04system 0:07.34elapsed 0%CPU (0avgtext+0avgdata 13836maxresident)k</sentence>
+			<sentence id="19.4">0inputs+0outputs (0major+1095minor)pagefaults 0swaps</sentence>
+			<sentence id="19.5">```</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">aufs-on-HDD:</sentence>
+			<sentence id="20.2">```</sentence>
+			<sentence id="20.3">0 01user 0.04system 0:02.39elapsed 2%CPU (0avgtext+0avgdata 13936maxresident)k</sentence>
+			<sentence id="20.4">0inputs+0outputs (0major+1109minor)pagefaults 0swaps</sentence>
+			<sentence id="20.5">```</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">_Edit_: added btrs-on-SSD numbers, aufs-on-HDD numbers and checked all timings again.</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">Apparently AUFS is the only storage backend that is usable in a production environment with adequate performance, except that is the only place where it is not available ...</sentence>
+		</paragraph>
+	</description>
+</bug>

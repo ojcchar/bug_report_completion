@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1467</id>
+	<title>Checksum Error Pushing Existing Repo</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">This only happens when I push an existing repository, not a new one.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">```bash
+sudo docker push crosbymichael/updated
+The push refers to a repository [crosbymichael/updated] (len: 1)
+Sending image list
+2013/08/09 05:52:19 Error: Status 400 trying to push repository crosbymichael/updated: "5a457848c1c7e1
+215f74776c4dee15a9db892bbba9d70f55f3ed4311e35c55ed has checksum (tarsum+sha256:91212914fd5324b19114d2f
+c448afe40d6d9b63f14c445da01c8706f6f09ff40), cant change to "
+```</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">//cc @creack</sentence>
+		</paragraph>
+	</description>
+</bug>

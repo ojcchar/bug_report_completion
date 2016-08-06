@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>1982</id>
+	<title>Crash report 3.3: ConcurrentModificationException in Simperium</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">~200 crashes/day in wpandroid 3.3</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">See https://github.com/Simperium/simperium-android/issues/158
+https://github.com/Simperium/simperium-android/issues/159</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">```</sentence>
+			<sentence id="3.2">java.util.ConcurrentModificationException</sentence>
+			<sentence id="3.3"> at java.util.HashMap$HashIterator.nextEntry(HashMap.java:806)</sentence>
+			<sentence id="3.4"> at java.util.HashMap$EntryIterator.next(HashMap.java:843)</sentence>
+			<sentence id="3.5"> at java.util.HashMap$EntryIterator.next(HashMap.java:841)</sentence>
+			<sentence id="3.6"> at org.json.JSONObject.writeTo(JSONObject.java:671)</sentence>
+			<sentence id="3.7"> at org.json.JSONStringer.value(JSONStringer.java:237)</sentence>
+			<sentence id="3.8"> at org.json.JSONArray.writeTo(JSONArray.java:602)</sentence>
+			<sentence id="3.9"> at org.json.JSONStringer.value(JSONStringer.java:233)</sentence>
+			<sentence id="3.10"> at org.json.JSONObject.writeTo(JSONObject.java:672)</sentence>
+			<sentence id="3.11"> at org.json.JSONObject.toString(JSONObject.java:641)</sentence>
+			<sentence id="3.12"> at com.simperium.android.PersistentStore$DataStore.save(PersistentStore.java:89)</sentence>
+			<sentence id="3.13"> at com.simperium.client.Bucket$1.run(Bucket.java:195)</sentence>
+			<sentence id="3.14"> at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1112)</sentence>
+			<sentence id="3.15"> at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:587)</sentence>
+			<sentence id="3.16"> at java.lang.Thread.run(Thread.java:841)</sentence>
+			<sentence id="3.17">```</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">And</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">```</sentence>
+			<sentence id="5.2">java.util.ConcurrentModificationException</sentence>
+			<sentence id="5.3"> at java.util.HashMap$HashIterator.nextEntry(HashMap.java:806)</sentence>
+			<sentence id="5.4"> at java.util.HashMap$KeyIterator.next(HashMap.java:833)</sentence>
+			<sentence id="5.5"> at com.simperium.util.JSONDiff.equals(JSONDiff.java:344)</sentence>
+			<sentence id="5.6"> at com.simperium.util.JSONDiff.equals(JSONDiff.java:320)</sentence>
+			<sentence id="5.7"> at com.simperium.util.JSONDiff.equals(JSONDiff.java:378)</sentence>
+			<sentence id="5.8"> at com.simperium.util.JSONDiff.equals(JSONDiff.java:322)</sentence>
+			<sentence id="5.9"> at com.simperium.util.JSONDiff.equals(JSONDiff.java:352)</sentence>
+			<sentence id="5.10"> at com.simperium.client.Syncable.isModified(Syncable.java:39)</sentence>
+			<sentence id="5.11"> at com.simperium.client.Bucket$1.run(Bucket.java:194)</sentence>
+			<sentence id="5.12"> at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1080)</sentence>
+			<sentence id="5.13"> at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:573)</sentence>
+			<sentence id="5.14"> at java.lang.Thread.run(Thread.java:841)</sentence>
+			<sentence id="5.15">```</sentence>
+		</paragraph>
+	</description>
+</bug>

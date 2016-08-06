@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-5346</id>
+	<title>StandardQueryCache not alive after EntityManagerFactory is re-created</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi all,</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I'm facing a trouble that no post seems to be treating yet: I use Hibernate through the JPA API + EhCache as a 2nd level cache.In the appli.</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.3">After a long inactivity period, I happen to get a PersistenceException at the first request to my entity manager.</sentence>
+			<sentence id="10.4">In this case, I create a new EntityManagerFactory, and a new EntityManager.</sentence>
+			<sentence id="10.5">At that moment:</sentence>
+			<sentence id="10.6">- the first request raises an exception about the StandardCacheQuery not being alive.</sentence>
+			<sentence id="10.7">- most curious, the second request works fine.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">The exception stack is listed at the end.</sentence>
+			<sentence id="3.2">Other information about the context follows.</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">Thx in advance for your help.</sentence>
+			<sentence id="4.2">Regards.</sentence>
+			<sentence id="4.3">Franck.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">- ehcache.xml config:</sentence>
+			<sentence id="5.2">---------------------</sentence>
+			<sentence id="5.3">same exception happens with or without the StandardQueryCache region configuration.</sentence>
+			<sentence id="5.4">&lt;ehcache&gt;</sentence>
+			<sentence id="5.5">&lt;diskStore path="java.io.tmpdir"/&gt;</sentence>
+			<sentence id="5.6">&lt;defaultCache</sentence>
+			<sentence id="5.7">maxElementsInMemory="20000"</sentence>
+			<sentence id="5.8">eternal="false"</sentence>
+			<sentence id="5.9">timeToIdleSeconds="600"</sentence>
+			<sentence id="5.10">timeToLiveSeconds="600"</sentence>
+			<sentence id="5.11">overflowToDisk="true"</sentence>
+			<sentence id="5.12">diskPersistent="false"</sentence>
+			<sentence id="5.13">diskExpiryThreadIntervalSeconds="600"</sentence>
+			<sentence id="5.14">memoryStoreEvictionPolicy="LRU"/&gt;</sentence>
+			<sentence id="5.15">&lt;cache name="RefTables" eternal="true" maxElementsInMemory="10000" overflowToDisk="false" /&gt;</sentence>
+			<sentence id="5.16">&lt;cache name="org.hibernate.cache.StandardQueryCache"</sentence>
+			<sentence id="5.17">maxElementsInMemory="20000"</sentence>
+			<sentence id="5.18">eternal="false"</sentence>
+			<sentence id="5.19">timeToIdleSeconds="600"</sentence>
+			<sentence id="5.20">timeToLiveSeconds="600"</sentence>
+			<sentence id="5.21">overflowToDisk="true"</sentence>
+			<sentence id="5.22">diskPersistent="false"</sentence>
+			<sentence id="5.23">diskExpiryThreadIntervalSeconds="600"</sentence>
+			<sentence id="5.24">memoryStoreEvictionPolicy="LRU"/&gt;</sentence>
+			<sentence id="5.25">&lt;/ehcache&gt;</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">- persistence.xml:</sentence>
+			<sentence id="6.2">------------------</sentence>
+			<sentence id="6.3">&lt;persistence-unit name="DataFederator@localhost" transaction-type="RESOURCE_LOCAL"&gt;</sentence>
+			<sentence id="6.4">&lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;</sentence>
+			<sentence id="6.5">&lt;class&gt;fr.anr.techlog.neurolog.server.persistence.neurologdb.AcquisitionEquipment&lt;/class&gt;</sentence>
+			<sentence id="6.6">&lt;class&gt;fr.anr.techlog.neurolog.server.persistence.neurologdb.Centre&lt;/class&gt;</sentence>
+			<sentence id="6.7">&lt;exclude-unlisted-classes&gt;true&lt;/exclude-unlisted-classes&gt;</sentence>
+			<sentence id="6.8">&lt;properties&gt;</sentence>
+			<sentence id="6.9">&lt;property name="hibernate.connection.username" value="neurolog"/&gt;</sentence>
+			<sentence id="6.10">&lt;property name="hibernate.connection.password" value="neurolog"/&gt;</sentence>
+			<sentence id="6.11">...</sentence>
+			<sentence id="6.12">&lt;property name="hibernate.connection.driver_class" value="LeSelect.ThinDriver.ThinDriver"/&gt;</sentence>
+			<sentence id="6.13">&lt;property name="hibernate.connection.url" value="jdbc:datafederator://localhost:3055/schema"/&gt;</sentence>
+			<sentence id="6.14">&lt;property name="hibernate.dialect" value="fr.anr.techlog.neurolog.server.persistence.DataFederatorSQLDialect"/&gt;</sentence>
+			<sentence id="6.15">&lt;property name="hibernate.show_sql" value="true"/&gt;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">&lt;property name="hibernate.cache.use_second_level_cache" value="true"/&gt;
+ &lt;property name="hibernate.cache.use_query_cache" value="true"/&gt;
+ &lt;property name="hibernate.cache.region.factory_class" value="net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory"/&gt;
+ &lt;property name="net.sf.ehcache.configurationResourceName" value="/conf/ehcache.xml"/&gt;
+ &lt;/properties&gt;
+ &lt;/persistence-unit&gt;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Entities:</sentence>
+			<sentence id="8.2">---------</sentence>
+			<sentence id="8.3">My entities are described with the annotation:</sentence>
+			<sentence id="8.4">@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, include = "non-lazy")</sentence>
+			<sentence id="8.5">or</sentence>
+			<sentence id="8.6">@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, include = "non-lazy")</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Exception stack:</sentence>
+			<sentence id="9.2">----------------</sentence>
+			<sentence id="9.3">java.lang.IllegalStateException: The org.hibernate.cache.StandardQueryCache Cache is not alive.</sentence>
+			<sentence id="9.4">at net.sf.ehcache.Cache.checkStatus(Cache.java:2191)</sentence>
+			<sentence id="9.5">at net.sf.ehcache.Cache.get(Cache.java:1354)</sentence>
+			<sentence id="9.6">at net.sf.ehcache.hibernate.regions.EhcacheGeneralDataRegion.get(EhcacheGeneralDataRegion.java:58)</sentence>
+			<sentence id="9.7">at net.sf.ehcache.hibernate.regions.EhcacheQueryResultsRegion.get(EhcacheQueryResultsRegion.java:29)</sentence>
+			<sentence id="9.8">at org.hibernate.cache.StandardQueryCache.get(StandardQueryCache.java:130)</sentence>
+			<sentence id="9.9">at org.hibernate.loader.Loader.getResultFromQueryCache(Loader.java:2188)</sentence>
+			<sentence id="9.10">at org.hibernate.loader.Loader.listUsingQueryCache(Loader.java:2151)</sentence>
+			<sentence id="9.11">at org.hibernate.loader.Loader.list(Loader.java:2121)</sentence>
+			<sentence id="9.12">at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:401)</sentence>
+			<sentence id="9.13">at org.hibernate.hql.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:363)</sentence>
+			<sentence id="9.14">at org.hibernate.engine.query.HQLQueryPlan.performList(HQLQueryPlan.java:196)</sentence>
+			<sentence id="9.15">at org.hibernate.impl.SessionImpl.list(SessionImpl.java:1149)</sentence>
+			<sentence id="9.16">at org.hibernate.impl.QueryImpl.list(QueryImpl.java:102)</sentence>
+			<sentence id="9.17">at org.hibernate.ejb.QueryImpl.getSingleResult(QueryImpl.java:88)</sentence>
+			<sentence id="9.18">at fr.anr.techlog.neurolog.common.PersistenceManager.retrieveSingleNamedQuery(PersistenceManager.java:521)</sentence>
+			<sentence id="9.19">at fr.anr.techlog.neurolog.common.PersistenceManager.retrieveSingleNamedQuery(PersistenceManager.java:501)</sentence>
+			<sentence id="9.20">at fr.anr.techlog.neurolog.server.metadata.MetadataPuller.findDatasetExpressionById(MetadataPuller.java:147)</sentence>
+			<sentence id="9.21">at fr.anr.techlog.neurolog.server.data.webservices.filemanagement.FileManagement.delegateMakePublicCopyOfDsExpressionFiles(FileManagement.java:633)</sentence>
+			<sentence id="9.22">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+			<sentence id="9.23">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+			<sentence id="9.24">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+			<sentence id="9.25">at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+			<sentence id="9.26">at com.sun.xml.ws.api.server.InstanceResolver$1.</sentence>
+			<sentence id="9.27">invoke(InstanceResolver.java:246)</sentence>
+			<sentence id="9.28">at com.sun.xml.ws.server.InvokerTube$2.</sentence>
+			<sentence id="9.29">invoke(InvokerTube.java:146)</sentence>
+			<sentence id="9.30">at com.sun.xml.ws.server.sei.EndpointMethodHandler.invoke(EndpointMethodHandler.java:257)</sentence>
+			<sentence id="9.31">at com.sun.xml.ws.server.sei.SEIInvokerTube.processRequest(SEIInvokerTube.java:93)</sentence>
+			<sentence id="9.32">at com.sun.xml.ws.api.pipe.Fiber.</sentence>
+			<sentence id="9.33">__doRun(Fiber.java:598)</sentence>
+			<sentence id="9.34">at com.sun.xml.ws.api.pipe.Fiber.</sentence>
+			<sentence id="9.35">_doRun(Fiber.java:557)</sentence>
+			<sentence id="9.36">at com.sun.xml.ws.api.pipe.Fiber.doRun(Fiber.java:542)</sentence>
+			<sentence id="9.37">at com.sun.xml.ws.api.pipe.Fiber.runSync(Fiber.java:439)</sentence>
+			<sentence id="9.38">at com.sun.xml.ws.server.WSEndpointImpl$2.</sentence>
+			<sentence id="9.39">process(WSEndpointImpl.java:243)</sentence>
+			<sentence id="9.40">at com.sun.xml.ws.transport.http.HttpAdapter$HttpToolkit.handle(HttpAdapter.java:471)</sentence>
+			<sentence id="9.41">at com.sun.xml.ws.transport.http.HttpAdapter.handle(HttpAdapter.java:244)</sentence>
+			<sentence id="9.42">at com.sun.xml.ws.transport.http.servlet.ServletAdapter.handle(ServletAdapter.java:135)</sentence>
+			<sentence id="9.43">at com.sun.xml.ws.transport.http.servlet.WSServletDelegate.doGet(WSServletDelegate.java:129)</sentence>
+			<sentence id="9.44">at com.sun.xml.ws.transport.http.servlet.WSServletDelegate.doPost(WSServletDelegate.java:160)</sentence>
+			<sentence id="9.45">at com.sun.xml.ws.transport.http.servlet.WSServlet.doPost(WSServlet.java:75)</sentence>
+			<sentence id="9.46">at javax.servlet.http.HttpServlet.service(HttpServlet.java:637)</sentence>
+			<sentence id="9.47">at javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+			<sentence id="9.48">at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+			<sentence id="9.49">at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+			<sentence id="9.50">at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+			<sentence id="9.51">at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</sentence>
+			<sentence id="9.52">at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:128)</sentence>
+			<sentence id="9.53">at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+		</paragraph>
+	</description>
+</bug>

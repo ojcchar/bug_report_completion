@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8158</id>
+	<title>Property with @Id and @GeneratedValue(strategy=IDENTITY) brokes @NaturalIdCache</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">The following test case demonstrates the issue.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code:title=EntityWithNaturalKey.java|borderStyle=solid}
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">import static javax.persistence.GenerationType.IDENTITY;</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">@Entity
+@Cacheable
+@NaturalIdCache
+public class EntityWithNaturalKey {</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">@Id
+ @GeneratedValue(strategy = IDENTITY)
+ private long id;</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">@NaturalId(mutable = false)
+ private String name;</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">protected EntityWithNaturalKey() {
+ }</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">public EntityWithNaturalKey(String name) {
+ this.name = name;
+ }</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">public long getId() {
+ return id;
+ }</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">public String getName() {
+ return name;
+ }</sentence>
+		</paragraph>
+		<paragraph id="12">
+			<sentence id="12.1">public void setName(String name) {
+ this.name = name;
+ }
+}
+{code}</sentence>
+		</paragraph>
+		<paragraph id="13">
+			<sentence id="13.1">{code:title=NaturalIdCacheTest.java|borderStyle=solid}
+import org.hibernate.Session;
+import org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
+import org.hibernate.test.jpa.AbstractJPATest;
+import org.hibernate.testing.TestForIssue;
+import org.junit.Assert;
+import org.junit.Test;</sentence>
+		</paragraph>
+		<paragraph id="14">
+			<sentence id="14.1">public class NaturalIdCacheTest extends AbstractJPATest {</sentence>
+		</paragraph>
+		<paragraph id="15">
+			<sentence id="15.1">@Override
+ public String[] getMappings() {
+ return NO_MAPPINGS;
+ }</sentence>
+		</paragraph>
+		<paragraph id="16">
+			<sentence id="16.1">@Override
+ public void configure(Configuration cfg) {
+ super.configure(cfg);
+ cfg.addAnnotatedClass(EntityWithNaturalKey.class);
+ cfg.setProperty(Environment.USE_SECOND_LEVEL_CACHE, "true");
+ cfg.setProperty(Environment.USE_QUERY_CACHE, "true");
+ cfg.setProperty(Environment.GENERATE_STATISTICS, "true");
+ cfg.setProperty(Environment.CACHE_REGION_FACTORY, SingletonEhCacheRegionFactory.class.getName());
+ }</sentence>
+		</paragraph>
+		<paragraph id="17">
+			<sentence id="17.1">@Test
+ @TestForIssue(jiraKey = "???")</sentence>
+			<sentence id="17.2">public void testPutIntoNaturalIdCache_newlyCreatedIdentity() throws Exception {</sentence>
+		</paragraph>
+		<paragraph id="18">
+			<sentence id="18.1">// Bug description:
+ // Creating new entity with auto generated identity
+ // puts new item with value = null into natural id
+ // cache region, and mainly because of this it will
+ // never be (re-)populated later, causing natural
+ // id queries performing again and again.</sentence>
+		</paragraph>
+		<paragraph id="19">
+			<sentence id="19.1">Session s = openSession();
+ s.beginTransaction();
+ EntityWithNaturalKey e = new EntityWithNaturalKey("test");
+ s.persist(e);
+ s.getTransaction().</sentence>
+			<sentence id="19.2">commit();
+ s.close();</sentence>
+		</paragraph>
+		<paragraph id="20">
+			<sentence id="20.1">// Assert.assertEquals(0, sessionFactory().</sentence>
+			<sentence id="20.2">getStatistics().</sentence>
+			<sentence id="20.3">getNaturalIdQueryExecutionCount()); // it would be perfect but not necessary</sentence>
+		</paragraph>
+		<paragraph id="21">
+			<sentence id="21.1">s = openSession();
+ s.beginTransaction();
+ e = (EntityWithNaturalKey) s.bySimpleNaturalId(EntityWithNaturalKey.class).</sentence>
+			<sentence id="21.2">load("test");
+ Assert.assertNotNull(e);
+ s.getTransaction().</sentence>
+			<sentence id="21.3">commit();
+ s.close();</sentence>
+		</paragraph>
+		<paragraph id="22">
+			<sentence id="22.1">long queryCount = sessionFactory().</sentence>
+			<sentence id="22.2">getStatistics().</sentence>
+			<sentence id="22.3">getNaturalIdQueryExecutionCount();</sentence>
+		</paragraph>
+		<paragraph id="23">
+			<sentence id="23.1">// entity must be cached, no more queries bust be issued 
+ // since we didn't modify anything.</sentence>
+		</paragraph>
+		<paragraph id="24">
+			<sentence id="24.1">s = openSession();
+ s.beginTransaction();
+ e = (EntityWithNaturalKey) s.bySimpleNaturalId(EntityWithNaturalKey.class).</sentence>
+			<sentence id="24.2">load("test");
+ Assert.assertNotNull(e);
+ s.getTransaction().</sentence>
+			<sentence id="24.3">commit();
+ s.close();</sentence>
+		</paragraph>
+		<paragraph id="25">
+			<sentence id="25.1">Assert.assertEquals(queryCount, sessionFactory().</sentence>
+			<sentence id="25.2">getStatistics().</sentence>
+			<sentence id="25.3">getNaturalIdQueryExecutionCount());
+ }
+}
+{code}</sentence>
+		</paragraph>
+	</description>
+</bug>

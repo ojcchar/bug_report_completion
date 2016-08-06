@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-7717</id>
+	<title>Reserved keywords are used in unit tests' column names</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">There's lots of instances where column names of "date", "time", "value", etc. are used.</sentence>
+			<sentence id="1.2">A CUBRID pull request attempted to surround all of those with single quotes within the test cases, which isn't the best solution.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Options:</sentence>
+			<sentence id="2.2">1 Do a quick search/replace on a handful of known reserved words.</sentence>
+			<sentence id="2.3">Enforce that future unit tests do not use keywords which have the potential for being reserved.</sentence>
+			<sentence id="2.4">2 Auto quoting within the SQL.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Column names known to be used and reserved:
+value
+data
+SYS_USER
+date
+type
+time
+query
+zone
+language
+test
+section</sentence>
+		</paragraph>
+	</description>
+</bug>

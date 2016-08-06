@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>65577</id>
+	<title>: Package conflicts installing 4.1 Beta 2 on Ubuntu 13.04</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Created attachment 80575
+terminal output from "sudo dpkg -i *.</sentence>
+			<sentence id="1.2">deb"</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Installing 4.1 Beta 2 on a stock Ubuntu 13.04 (64bit) system causes errors about package conflicts.</sentence>
+			<sentence id="2.2">My impression is that the Beta builds were supposed to install independently of the stock version provided with the OS.</sentence>
+			<sentence id="2.3">Actually I don't know if it is a conflict with Ubuntu's packages or an internal conflict within the debs included in the tarball.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">I untarred, changed to the DEBS subdir, and did "sudo dpkg -i *.</sentence>
+			<sentence id="3.2">deb".</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I'll attach the complete console log, but in summary:</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">...
+Selecting previously unselected package libreofficedev.</sentence>
+			<sentence id="5.2">dpkg: regarding libreofficedev4.1-debian-menus_4.1.0-0_all.deb containing libreofficedev:
+ libreoffice-core conflicts with libreoffice-unbundled
+  libreofficedev provides libreoffice-unbundled and is to be installed.</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">dpkg: error processing libreofficedev4.1-debian-menus_4.1.0-0_all.deb (--install):
+ conflicting packages - not installing libreofficedev
+...
+dpkg: dependency problems prevent configuration of libreofficedev4.1:
+ libreofficedev4.1 depends on lodevbasis4.1-core04; however:
+  Package lodevbasis4.1-core04 is not installed
+...and many others like that...</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">I tried running the resulting /opt/libreofficedev4.1/program/swriter and got the splash screen, then an abort saying it could not load shared library libsofficeapp.so</sentence>
+		</paragraph>
+		<paragraph id="8">
+			<sentence id="8.1">Steps to reproduce:</sentence>
+			<sentence id="8.2">1 Download the 4.1 Beta 2</sentence>
+			<sentence id="8.3">LibreOfficeDev_4.1.0.0.</sentence>
+			<sentence id="8.4">beta2_Linux_x86-64_deb_helppack_en-US.</sentence>
+			<sentence id="8.5">tar.gz</sentence>
+			<sentence id="8.6">Confirm md5sum is 8676087cfabafc5c454f7aec349d2856</sentence>
+			<sentence id="8.7">2 tar xvf &lt;thefile&gt;</sentence>
+			<sentence id="8.8">cd LibreOfficeDev_4.1.0.0.</sentence>
+			<sentence id="8.9">beta2_Linux_x86-64_deb/DEBS</sentence>
+			<sentence id="8.10">3 sudo dpkg -i *.</sentence>
+			<sentence id="8.11">deb</sentence>
+		</paragraph>
+		<paragraph id="9">
+			<sentence id="9.1">Current behavior: Many errors, and result doesn't run</sentence>
+		</paragraph>
+		<paragraph id="10">
+			<sentence id="10.1">Expected behavior: Impressive-sounding voice from above</sentence>
+		</paragraph>
+		<paragraph id="11">
+			<sentence id="11.1">Operating System: Ubuntu
+Version: 4.1.0.0.</sentence>
+			<sentence id="11.2">beta2</sentence>
+		</paragraph>
+	</description>
+</bug>

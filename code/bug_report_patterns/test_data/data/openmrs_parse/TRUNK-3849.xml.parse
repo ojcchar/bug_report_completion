@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>TRUNK-3849</id>
+	<title>Move Address and Name layout support classes from web layer to api layer</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Proposal from Darius:</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">Looking at the way code is set up now, I see (in openmrs/web):</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">o.o.layout.web.LayoutSupport
+ o.o.layout.web.LayoutTemplate
+ o.o.layout.web.address.AddressSupport
+ o.o.layout.web.address.AddressTemplate
+ o.o.layout.web.name.NameSupport
+ o.o.layout.web.name.NameTemplate</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">I propose that we deprecate these 6 classes, and make new copies of them where they belong, in the api layer, in an org.openmrs.layout package.</sentence>
+			<sentence id="4.2">While we're doing that, we can do some minor cleanup to expose them as beans rather than the current hacky non-spring singleton pattern that's there now.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">This should not break any existing code for anyone.</sentence>
+			<sentence id="5.2">(The underlying data is in global properties, and it's fine to have two different objects both reading from one GP and listening for updates on it.)</sentence>
+			<sentence id="5.3">But it will allow us to fix this going forwards.</sentence>
+			<sentence id="5.4">And I believe this is completely safe to backport to 1.9.</sentence>
+		</paragraph>
+	</description>
+</bug>

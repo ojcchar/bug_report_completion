@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>14468</id>
+	<title>Different client and server versions when installing docker on ubuntu (for the first time). </title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">Hi,
+I just tried to install docker, using the installation guidelines given on your homepage.</sentence>
+			<sentence id="1.2">When trying to run the hello world test script I was given this error:
+`Error response from daemon: client and server don't have same version (client : 1.19, server: 1.18)`</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">I realise that there is a known issue with having a higher version client than server, but you might not be aware that it happens straight after install, at least for me.</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">`docker version:`
+`Client version: 1.7.0
+Client API version: 1.19
+Go version (client): go1.4.2
+Git commit (client): 0baf609
+OS/Arch (client): linux/amd64
+Error response from daemon: client and server don't have same version (client : 1.19, server: 1.18)`</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">`docker info:`
+`Error response from daemon: client and server don't have same version (client : 1.19, server: 1.18)`</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">`uname -a:`
+`Linux uwp-cookie-machine 3.13.0-55-generic #92-Ubuntu SMP Sun Jun 14 18:32:20 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux`</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">How reproducible:
+I haven't tried reinstalling docker, I'm not invested enough to find out the best way of doing this.</sentence>
+		</paragraph>
+		<paragraph id="7">
+			<sentence id="7.1">Steps to reproduce:</sentence>
+			<sentence id="7.2">1 Install docker: `wget -qO- https://get.docker.com/ | sh`</sentence>
+			<sentence id="7.3">2 Run hello world test script: `docker run hello-world`</sentence>
+		</paragraph>
+	</description>
+</bug>

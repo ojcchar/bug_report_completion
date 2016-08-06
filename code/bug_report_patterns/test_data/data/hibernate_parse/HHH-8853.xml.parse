@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>HHH-8853</id>
+	<title>Tomcat jdbc-pool interceptor exception</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">After update hibernate from 4.1.8.</sentence>
+			<sentence id="1.2">Final to 4.3.0.</sentence>
+			<sentence id="1.3">Final tomcat jdbc-pool start throwing this exceptions.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">{code}</sentence>
+			<sentence id="2.2">...</sentence>
+			<sentence id="2.3">Caused by: java.lang.reflect.UndeclaredThrowableException: null</sentence>
+			<sentence id="2.4">	at com.sun.proxy.$Proxy72.hashCode(Unknown Source) ~[na:na]</sentence>
+			<sentence id="2.5">	at java.util.HashMap.hash(HashMap.java:351) ~[na:1.7.0_25]</sentence>
+			<sentence id="2.6">	at java.util.HashMap.getEntry(HashMap.java:443) ~[na:1.7.0_25]</sentence>
+			<sentence id="2.7">	at java.util.HashMap.get(HashMap.java:405) ~[na:1.7.0_25]</sentence>
+			<sentence id="2.8">	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.release(JdbcCoordinatorImpl.java:399) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.9">	at org.hibernate.engine.jdbc.batch.internal.AbstractBatchImpl.releaseStatements(AbstractBatchImpl.java:173) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.10">	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:76) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.11">	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3124) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.12">	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3587) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.13">	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:103) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.14">	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:453) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.15">	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:345) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.16">	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:350) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.17">	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:56) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.18">	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1218) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.19">	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:421) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.20">	at org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction.beforeTransactionCommit(JdbcTransaction.java:101) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.21">	at org.hibernate.engine.transaction.spi.AbstractTransactionImpl.commit(AbstractTransactionImpl.java:177) ~[hibernate-core-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.22">	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:77) ~[hibernate-entitymanager-4.3.0.Final.jar:4.3.0.Final]</sentence>
+			<sentence id="2.23">	... 90 common frames omitted</sentence>
+			<sentence id="2.24">Caused by: java.sql.SQLException: Statement closed.</sentence>
+			<sentence id="2.25">	at org.apache.tomcat.jdbc.pool.interceptor.AbstractQueryReport$StatementProxy.invoke(AbstractQueryReport.java:225) ~[tomcat-jdbc.jar:na]</sentence>
+			<sentence id="2.26">	... 109 common frames omitted</sentence>
+			<sentence id="2.27">{code}</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">Next block contains AbstractQueryReport code, lines between 215 and 226
+{code}
+@Override
+ public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+ //get the name of the method for comparison
+ final String name = method.getName();
+ //was close invoked?</sentence>
+			<sentence id="3.2">boolean close = compare(JdbcInterceptor.CLOSE_VAL,name);
+ //allow close to be called multiple times
+ if (close &amp;&amp; closed) return null;
+ //are we calling isClosed?</sentence>
+			<sentence id="3.3">if (compare(JdbcInterceptor.ISCLOSED_VAL,name)) return Boolean.valueOf(closed);
+ //if we are calling anything else, bail out
+ if (closed) throw new SQLException("Statement closed.")</sentence>
+			<sentence id="3.4">;
+{code}</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">So looks like the code at 9ce5c32dd7d11bc13c659f98ee4cc29b26c2e70e it's not jdbc-pool friendly.</sentence>
+			<sentence id="4.2">Specifically the line JdbcCoordinatorImpl.java:399
+{code}
+final Set&lt;ResultSet&gt; resultSets = xref.get( statement );
+{code}</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">To reproduce the exceptions just add some interceptor.</sentence>
+			<sentence id="5.2">For example add the next line to your server.xml resource configuration.</sentence>
+			<sentence id="5.3">{code}
+jdbcInterceptors="ConnectionState;StatementFinalizer;ResetAbandonedTimer;"
+{code}</sentence>
+		</paragraph>
+		<paragraph id="6">
+			<sentence id="6.1">The exception in this description was thrown by the ResetAbandonedTimer interceptor.</sentence>
+		</paragraph>
+	</description>
+</bug>

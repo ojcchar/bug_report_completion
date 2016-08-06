@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+	<id>7290</id>
+	<title>why it is not possible to use --net &amp; --hostname together???</title>
+	<description>
+		<paragraph id="1">
+			<sentence id="1.1">When I try to use -h=test &amp; --net=none together, I got conflict error.</sentence>
+			<sentence id="1.2">This error is because following validation but I believe that it needs more condition.</sentence>
+			<sentence id="1.3">Suppose if I use lxc-conf option to set own networking environment, I should set --net=none or -n=false(it is deprecated), which means I want to make my own network env with specific hostname.</sentence>
+			<sentence id="1.4">At the moment, I could not set hostname with -h which provided by docker because of following validation.</sentence>
+			<sentence id="1.5">Moreover, there is no options to set hostname with --lxc-conf now.</sentence>
+		</paragraph>
+		<paragraph id="2">
+			<sentence id="2.1">source : /dotcloud/docker/runconfig/parse.go (may previous one)
+~~~
+107 if *flNetMode !</sentence>
+			<sentence id="2.2">= "bridge" &amp;&amp; *flHostname !</sentence>
+			<sentence id="2.3">= "" {
+108 return nil, nil, cmd, ErrConflictNetworkHostname
+109 }
+~~~</sentence>
+		</paragraph>
+		<paragraph id="3">
+			<sentence id="3.1">source : /dotcloud/docker/runconfig/parse.go
+~~~
+107 if *flNetMode !</sentence>
+			<sentence id="3.2">= "bridge" &amp;&amp; *flNetMode !</sentence>
+			<sentence id="3.3">= "none" &amp;&amp; *flHostname !</sentence>
+			<sentence id="3.4">= "" {
+108 return nil, nil, cmd, ErrConflictNetworkHostname
+109 }
+~~~</sentence>
+		</paragraph>
+		<paragraph id="4">
+			<sentence id="4.1">From my point of view, if -n option which can use -h together is deprecated, --net should support to use -h.</sentence>
+		</paragraph>
+		<paragraph id="5">
+			<sentence id="5.1">Thanks,
+Jooho Lee,Jay</sentence>
+		</paragraph>
+	</description>
+</bug>
