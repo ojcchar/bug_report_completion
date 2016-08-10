@@ -57,9 +57,9 @@ public class BaseTest {
 				String paragraphTxt = sentence.get(3);
 				String sentenceTxt = sentence.get(4);
 
-				String pattern1 = sentence.get(8);
-				String pattern2 = sentence.get(9);
-				String pattern3 = sentence.get(10);
+				String pattern1 = sentence.get(8).trim();
+				String pattern2 = sentence.get(9).trim();
+				String pattern3 = sentence.get(10).trim();
 
 				String noTesting = sentence.get(14);
 
