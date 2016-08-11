@@ -15,12 +15,12 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		List<Token> tokens = sentence.getTokens();
-		ArrayList<Integer> indexes = foundIndexToken(tokens);
+		List<Token> tokens2 = sentence.getTokens();
+		ArrayList<Integer> indexes = foundIndexToken(tokens2);
 		if (indexes.size() > 0) {
 			for (Integer integer : indexes) {
-				if (integer > 0 && (integer < tokens.size() - 1)) {
-					List<Token> errorClause = tokens.subList(0, integer);
+				if (integer > 0 && (integer < tokens2.size() - 1)) {
+					List<Token> errorClause = tokens2.subList(0, integer);
 
 					if (errorClause.get(0).getLemma().equals("no")
 							|| (errorClause.get(0).getLemma().equals("nothing"))) {
@@ -36,8 +36,6 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 						} else if ((Arrays.stream(NegativeAdjOrAdvPM.NEGATIVE_ADJ).anyMatch(
 								t -> errorToken.getLemma().contains(t)) && errorToken.getGeneralPos().equals("JJ"))) {
 							return 1;
-						} else {
-
 						}
 					}
 				}
@@ -50,7 +48,7 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(ErrorHowPM.TOKENS).anyMatch(t -> token.getLemma().contains(t))) {
+			if (Arrays.stream(NegativeConditionalPM.TOKENS).anyMatch(t -> token.getLemma().contains(t))) {
 				indexConditionalTerms.add(i);
 			}
 		}
