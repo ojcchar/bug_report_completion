@@ -10,7 +10,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ErrorHowPM extends ObservedBehaviorPatternMatcher {
 
-	final private static String[] TOKENS = { "while", "when" };
+	final static String[] TOKENS = { "while", "when" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
