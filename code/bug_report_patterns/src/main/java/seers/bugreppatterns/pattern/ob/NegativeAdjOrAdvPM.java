@@ -20,7 +20,7 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 			"weird", "down", "dirty", "expensive", "inaccessible", "unexpected", "different", "duplicated", "unlimited",
 			"inconsitant", "multiple", "unusable", "duplicate", "misplace", "undesirable" };
 
-	final public static String[] NEGATIVE_ADV = { "incorrectly", "randomly", "suddenly", "erroneously", "slow",
+	final public static String[] NEGATIVE_ADV = { "incorrectly", "randomly", "suddenly", "erroneously", "slowly",
 			"indefinitely", "twice" };
 
 	@Override
