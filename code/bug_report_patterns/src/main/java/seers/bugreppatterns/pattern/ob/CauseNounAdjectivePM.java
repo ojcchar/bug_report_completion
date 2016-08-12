@@ -4,22 +4,24 @@ import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class CauseNounAdjectivePM extends ObservedBehaviorPatternMatcher {
 
-	final public static String[] INDEX_VERBS = { "cause", "produce", "yield" };
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 		int indexVerb = indexVerbTokens(tokens);
-		if (indexVerb > 0 && indexVerb < (tokens.size() - 1)) {
+		if (indexVerb >= 0 && indexVerb < (tokens.size() - 1)) {
 			Sentence first = new Sentence(sentence.getId(), tokens.subList(0, indexVerb));
 			Sentence second = new Sentence(sentence.getId(), tokens.subList(indexVerb + 1, tokens.size()));
-			// negative noun phrase with predicate eventually
-			if (isNegativeNounPhrase(second) || isNegativeNounPhrase(first)) {
+			// check ErrorNounPhrase
+			PatternMatcher pm = new ErrorNounPhrasePM();
+			int match = pm.matchSentence(second);
+			// negative noun phrase with predicate eventually 
+			if (isNegativeNounPhrase(second) || isNegativeNounPhrase(first) || (match==1)) {
 				return 1;
 			}
 
@@ -31,22 +33,11 @@ public class CauseNounAdjectivePM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getGeneralPos().equals("VB")
-					&& Arrays.stream(INDEX_VERBS).anyMatch(t -> t.equals(token.getLemma()))) {
+					&& Arrays.stream(LeadsToPM.CAUSE_VERBS).anyMatch(t -> t.equals(token.getLemma()))) {
 				return i;
 			}
 		}
-		return 0;
-	}
-
-	private boolean NoVerbBefore(Sentence sentence) {
-		List<Token> tokens = sentence.getTokens();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token tok = tokens.get(i);
-			if (tok.getGeneralPos().equals("VB")) {
-				return false;
-			}
-		}
-		return true;
+		return -1;
 	}
 
 	private boolean isNegativeNounPhrase(Sentence sentence) {
