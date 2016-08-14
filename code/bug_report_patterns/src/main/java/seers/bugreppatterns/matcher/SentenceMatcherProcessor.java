@@ -1,5 +1,6 @@
 package seers.bugreppatterns.matcher;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +43,7 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 
 			String project = sentence.get(0);
 			String bugId = sentence.get(1);
-			String fileToRead = "test_data\\data\\" + project + "_parse\\" + bugId + ".xml.parse";
+			String fileToRead = "test_data" + File.separator + "data" + File.separator + project + "_parse" + File.separator + bugId + ".xml.parse";
 
 			try {
 				BugReport bug = XMLHelper.readXML(BugReport.class, fileToRead);
@@ -215,7 +216,7 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 		String parId = null;
 		String sentId = null;
 
-		String title = bug.getTitle();
+		String title = bug.getTitle().trim();
 
 		if (sentenceTxt.trim().equalsIgnoreCase(title)) {
 			parId = "0";
