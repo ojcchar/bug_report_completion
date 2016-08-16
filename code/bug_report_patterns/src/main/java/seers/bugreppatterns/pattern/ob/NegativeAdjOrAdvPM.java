@@ -11,29 +11,6 @@ import seers.textanalyzer.entity.Token;
 
 public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 
-	final private static String[] NEGATIVE_VERBS = { "truncate", "outdate", "lose", "go", "strip", "break", "block",
-			"add", "destroy", "reset", "mess" };
-
-	final public static String[] NEGATIVE_ADJ = { "abnormal", "agressive", "annoying", "bad", "blank", "blocked",
-			"bloken", "broken", "counter-intuitive", "corrupt", "cpu-bound", "dead", "different", "dirty", "down",
-			"duplicated", "empty", "enormous", "erroneous", "expensive", "extra", "funny-looking", "gone", "hard",
-			"ignored", "inaccesible", "inappropriate", "incorrect", "inconsitant", "inconsistent", "incredible",
-			"indefinite", "inefficient", "infinite", "insecure", "invalid", "lost", "meaningless", "messed up",
-			"misleading", "misplaced", "missing", "mistaken", "multiple", "off", "off-center", "old", "out-of-date",
-			"outdated", "painful", "poor", "random", "reduced", "redundant", "repeated", "reversed", "runaway", "semi",
-			"silly", "slow", "spurious", "strange", "stripped", "stuck", "tedious", "truncated", "twice", "ugly", "unacceptable",
-			"unclickable", "undefined", "undesirable", "undesired", "unexpected", "unfriendly", "uninitialized",
-			"unknown", "unlimited", "unreadable", "unresponsive", "unsecure", "unstable", "unstyled", "untrusted",
-			"userunfriendly", "unusable", "voided", "wacky", "weird", "wrong", "zombie" };
-
-	final public static String[] NEGATIVE_ADV = { "abnormally", "agressively", "annoyingly", "badly", "blankly",
-			"corruptly", "counter-intuitively", "deadly", "differently", "dirtly", "emptyly", "enourmously",
-			"erroneously", "expensively", "hardly", "inaccesibly", "inappropriately", "inconsistently", "incorrectly",
-			"incredibly", "indefinitely", "inefficiently", "infinitely", "insecurely", "invalidly", "misleadingly",
-			"mistakenly", "painfully", "poorly", "randomly", "redundantly", "repeatedly", "slowly", "spuriously",
-			"strangely", "suddenly", "tediously", "twice", "unacceptablely", "undesirably", "unexpectedly",
-			"unreadably", "unresponsively", "unsecurely", "unstably", "weirdly", "wrongly" };
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
@@ -74,11 +51,11 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 				Token nextToken = tokens.get(tobe + 1);
 
 				if (nextToken.getPos().equals("VBN") || nextToken.getPos().equals("VB")) {
-					if (Arrays.stream(NEGATIVE_VERBS).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
+					if (Arrays.stream(NegativeTerms.VERBS).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
 						return 1;
 					}
 				} else if (nextToken.getGeneralPos().equals("JJ")) {
-					if (Arrays.stream(NEGATIVE_ADJ).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
+					if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
 						return 1;
 					}
 				} else if (nextToken.getGeneralPos().equals("RB")) {
@@ -86,12 +63,12 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 					if (index < tokens.size()) {
 						Token nextToken2 = tokens.get(index);
 						if (nextToken2.getPos().equals("VBN")) {
-							if (Arrays.stream(NEGATIVE_VERBS)
+							if (Arrays.stream(NegativeTerms.VERBS)
 									.anyMatch(p -> nextToken2.getLemma().equalsIgnoreCase(p))) {
 								return 1;
 							}
 						} else if (nextToken2.getGeneralPos().equals("JJ")) {
-							if (Arrays.stream(NEGATIVE_ADJ).anyMatch(p -> nextToken2.getLemma().equalsIgnoreCase(p))) {
+							if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> nextToken2.getLemma().equalsIgnoreCase(p))) {
 								return 1;
 							}
 						}
@@ -123,13 +100,13 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 		}
 
 		boolean anyMatch3 = tokens.stream()
-				.anyMatch(t -> Arrays.stream(NEGATIVE_ADJ).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
+				.anyMatch(t -> Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
 		if (anyMatch3) {
 			return 1;
 		}
 
 		boolean anyMatch = tokens.stream()
-				.anyMatch(t -> Arrays.stream(NEGATIVE_ADV).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
+				.anyMatch(t -> Arrays.stream(NegativeTerms.ADVERBS).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
 		if (anyMatch) {
 			return 1;
 		}

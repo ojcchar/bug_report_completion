@@ -47,10 +47,10 @@ public class CauseNounAdjectivePM extends ObservedBehaviorPatternMatcher {
 			if (Arrays.stream(VerbErrorPM.ERROR_TERMS).anyMatch(t -> t.equals(token.getLemma()))
 					&& token.getGeneralPos().equals("NN")) {
 				return true;
-			} else if (Arrays.stream(NegativeAdjOrAdvPM.NEGATIVE_ADJ).anyMatch(t -> t.equals(token.getLemma()))
+			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> t.equals(token.getLemma()))
 					&& token.getGeneralPos().equals("JJ")) {
 				return true;
-			} else if (Arrays.stream(NegativeAdjOrAdvPM.NEGATIVE_ADV).anyMatch(t -> token.getLemma().contains(t))
+			} else if (Arrays.stream(NegativeTerms.ADVERBS).anyMatch(t -> token.getLemma().contains(t))
 					&& token.getGeneralPos().equals("RB")) {
 				return true;
 			}

@@ -33,7 +33,7 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 						if (Arrays.stream(VerbErrorPM.ERROR_TERMS).anyMatch(t -> errorToken.getLemma().contains(t))
 								&& errorToken.getGeneralPos().equals("NN")) {
 							return 1;
-						} else if ((Arrays.stream(NegativeAdjOrAdvPM.NEGATIVE_ADJ).anyMatch(
+						} else if ((Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(
 								t -> errorToken.getLemma().contains(t)) && errorToken.getGeneralPos().equals("JJ"))) {
 							return 1;
 						}
