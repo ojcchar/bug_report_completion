@@ -14,14 +14,25 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 	final private static String[] NEGATIVE_VERBS = { "truncate", "outdate", "lose", "go", "strip", "break", "block",
 			"add", "destroy", "reset", "mess" };
 
-	final public static String[] NEGATIVE_ADJ = { "incorrect", "hard", "invalid", "inconsistent", "unclickable",
-			"empty", "off", "undefined", "slow", "untrusted", "bad", "corrupt", "wrong", "strange", "blank",
-			"undefined", "bloken", "infinite", "unstyled", "meaningless", "spurious", "inappropriate", "broken",
-			"weird", "down", "dirty", "expensive", "inaccessible", "unexpected", "different", "duplicated", "unlimited",
-			"inconsitant", "multiple", "unusable", "duplicate", "misplace", "undesirable" };
+	final public static String[] NEGATIVE_ADJ = { "abnormal", "agressive", "annoying", "bad", "blank", "blocked",
+			"bloken", "broken", "counter-intuitive", "corrupt", "cpu-bound", "dead", "different", "dirty", "down",
+			"duplicated", "empty", "enormous", "erroneous", "expensive", "extra", "funny-looking", "gone", "hard",
+			"ignored", "inaccesible", "inappropriate", "incorrect", "inconsitant", "inconsistent", "incredible",
+			"indefinite", "inefficient", "infinite", "insecure", "invalid", "lost", "meaningless", "messed up",
+			"misleading", "misplaced", "missing", "mistaken", "multiple", "off", "off-center", "old", "out-of-date",
+			"outdated", "painful", "poor", "random", "reduced", "redundant", "repeated", "reversed", "runaway", "semi",
+			"silly", "slow", "spurious", "strange", "stripped", "stuck", "tedious", "truncated", "twice", "ugly", "unacceptable",
+			"unclickable", "undefined", "undesirable", "undesired", "unexpected", "unfriendly", "uninitialized",
+			"unknown", "unlimited", "unreadable", "unresponsive", "unsecure", "unstable", "unstyled", "untrusted",
+			"userunfriendly", "unusable", "voided", "wacky", "weird", "wrong", "zombie" };
 
-	final public static String[] NEGATIVE_ADV = { "incorrectly", "randomly", "suddenly", "erroneously", "slowly",
-			"indefinitely", "twice" };
+	final public static String[] NEGATIVE_ADV = { "abnormally", "agressively", "annoyingly", "badly", "blankly",
+			"corruptly", "counter-intuitively", "deadly", "differently", "dirtly", "emptyly", "enourmously",
+			"erroneously", "expensively", "hardly", "inaccesibly", "inappropriately", "inconsistently", "incorrectly",
+			"incredibly", "indefinitely", "inefficiently", "infinitely", "insecurely", "invalidly", "misleadingly",
+			"mistakenly", "painfully", "poorly", "randomly", "redundantly", "repeatedly", "slowly", "spuriously",
+			"strangely", "suddenly", "tediously", "twice", "unacceptablely", "undesirably", "unexpectedly",
+			"unreadably", "unresponsively", "unsecurely", "unstably", "weirdly", "wrongly" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
