@@ -16,7 +16,7 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 		// contains an error terms
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if ((Arrays.stream(VerbErrorPM.ERROR_TERMS).anyMatch(t -> token.getLemma().contains(t))
+			if ((Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getLemma().contains(t))
 					&& token.getGeneralPos().equals("NN"))
 					|| (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> token.getLemma().contains(t))
 							&& token.getGeneralPos().equals("JJ"))

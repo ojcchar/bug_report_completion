@@ -83,7 +83,7 @@ public class ErrorHowPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> idxs = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(VerbErrorPM.ERROR_TERMS).anyMatch(t -> token.getLemma().contains(t))
+			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getLemma().contains(t))
 					&& token.getGeneralPos().equals("NN")) {
 				idxs.add(i);
 			}
