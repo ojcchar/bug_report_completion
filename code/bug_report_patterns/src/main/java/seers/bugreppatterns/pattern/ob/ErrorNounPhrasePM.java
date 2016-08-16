@@ -10,23 +10,6 @@ import seers.textanalyzer.entity.Token;
 
 public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] ADJ_ERROR_TERMS = { "abnormal", "aggressive",
-			"annoying", "bad", "blank", "blocked", "broken", "corrupt",
-			"cpu-bound", "dead", "different", "dirty", "down", "duplicate",
-			"duplicated", "empty", "enormous", "erroneous", "expensive",
-			"extra", "funny-looking", "gone", "hard", "ignored", "inaccesible",
-			"inappropriate", "incorrect", "inconsistent", "incredible",
-			"inefficient", "infinite", "lost", "insecure", "invalid",
-			"meaningless", "misleading", "misplaced", "missing", "multiple",
-			"off", "off-center", "old", "orphaned", "out-of-date", "outdated",
-			"painful", "poor", "random", "reduced", "redundant", "repeated",
-			"reversed", "runaway", "semi", "silly", "slow", "spurious",
-			"strange", "stripped", "tedious", "truncated", "twice", "ugly",
-			"unacceptable", "unclickable", "undesirable", "undesired",
-			"unexpected", "unfriendly", "uninitialized", "unreadable",
-			"unresponsive", "unsecure", "unstable", "unstyled", "unstoppable",
-			"untrusted", "unusable", "voided", "wacky", "weird", "wrong" };
-
 	public final static String[] FALSE_VERBS = { "encode", "build", "httpd",
 			"duplicate", "miss", "orphan", "stack", "truncate",
 			"misplace" , "freeze"};
@@ -109,7 +92,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 					t -> token.getLemma().contains(t))
 					&& token.getGeneralPos().equals("NN")) {
 				return 1;
-			} else if (Arrays.stream(ADJ_ERROR_TERMS).anyMatch(
+			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(
 					t -> token.getLemma().contains(t))
 					&& token.getGeneralPos().equals("JJ")) {
 				return 1;

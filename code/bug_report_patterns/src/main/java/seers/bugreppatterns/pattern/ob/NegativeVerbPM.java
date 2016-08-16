@@ -10,14 +10,9 @@ import seers.textanalyzer.entity.Token;
 
 public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 
-	final private static String[] NEGATIVE_VERBS = { "fail", "freeze", "hang", "disappear", "prohibit", "ignore",
-			"break", "bypass", "lose", "wipe", "interfere", "vanish", "stop", "truncate", "offset", "complain",
-			"delete", "remain", "cut", "crash", "forget", "block", "interrupt", "close", "failes", "overlap", "kill",
-			"lack", "shift", "retain", "stick", "duplicate" };
-
 	final private static String[] OTHER_NEGATIVE_VERBS = { "strip away", "slow doen", "slow down", "get stick",
 			"stick up", "faile", "stucks up", "consume 100", "stick in", "get turn into", "output null", "be out of",
-			"pull out", "faul", "hangs/get" };
+			"pull out", "faul", "hangs/get", "failes", "timing out", "go away"};
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -25,7 +20,7 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 
 		boolean anyMatch = tokens.stream()
-				.anyMatch(t -> Arrays.stream(NEGATIVE_VERBS).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
+				.anyMatch(t -> Arrays.stream(NegativeTerms.VERBS).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
 		if (anyMatch) {
 			return 1;
 		}

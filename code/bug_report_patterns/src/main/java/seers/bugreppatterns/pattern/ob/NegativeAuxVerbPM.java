@@ -76,7 +76,7 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	final private static String[] ADDITIONAL_AUX_VERBS = { "didnt", "doesn t", "doen t", "dosent", "haven t", "dont",
-			"cant", "cannote", "don t", "s not", "can t", "wont", "isn t", "aren t", "ca not", "has no", "have no",
+			"cant", "cannote", "don t", "s not", "can t", "wont", "isn t", "isnt", "aren t", "ca not", "has no", "have no",
 			"didn t" };
 
 	private boolean findAdditionalAuxVerbs(List<Token> tokens) {

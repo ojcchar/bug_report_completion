@@ -53,7 +53,7 @@ public class SeemsToNegativeVerbPM extends ObservedBehaviorPatternMatcher{
 								return 1;
 							} 
 						} else if (tok.getGeneralPos().equals("RB")) {
-							if(Arrays.stream(NegativeAdjOrAdvPM.NEGATIVE_ADV).anyMatch(t -> tok.getLemma().equals(t))){
+							if(Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> tok.getLemma().equals(t))){
 								return 1;
 							}
 						}

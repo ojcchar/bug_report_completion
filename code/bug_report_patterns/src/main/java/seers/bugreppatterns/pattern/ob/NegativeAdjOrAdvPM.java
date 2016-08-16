@@ -11,18 +11,6 @@ import seers.textanalyzer.entity.Token;
 
 public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 
-	final private static String[] NEGATIVE_VERBS = { "truncate", "outdate", "lose", "go", "strip", "break", "block",
-			"add", "destroy", "reset", "mess" };
-
-	final public static String[] NEGATIVE_ADJ = { "incorrect", "hard", "invalid", "inconsistent", "unclickable",
-			"empty", "off", "undefined", "slow", "untrusted", "bad", "corrupt", "wrong", "strange", "blank",
-			"undefined", "bloken", "infinite", "unstyled", "meaningless", "spurious", "inappropriate", "broken",
-			"weird", "down", "dirty", "expensive", "inaccessible", "unexpected", "different", "duplicated", "unlimited",
-			"inconsitant", "multiple", "unusable", "duplicate", "misplace", "undesirable" };
-
-	final public static String[] NEGATIVE_ADV = { "incorrectly", "randomly", "suddenly", "erroneously", "slowly",
-			"indefinitely", "twice" };
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
@@ -63,11 +51,11 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 				Token nextToken = tokens.get(tobe + 1);
 
 				if (nextToken.getPos().equals("VBN") || nextToken.getPos().equals("VB")) {
-					if (Arrays.stream(NEGATIVE_VERBS).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
+					if (Arrays.stream(NegativeTerms.VERBS).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
 						return 1;
 					}
 				} else if (nextToken.getGeneralPos().equals("JJ")) {
-					if (Arrays.stream(NEGATIVE_ADJ).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
+					if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
 						return 1;
 					}
 				} else if (nextToken.getGeneralPos().equals("RB")) {
@@ -75,12 +63,12 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 					if (index < tokens.size()) {
 						Token nextToken2 = tokens.get(index);
 						if (nextToken2.getPos().equals("VBN")) {
-							if (Arrays.stream(NEGATIVE_VERBS)
+							if (Arrays.stream(NegativeTerms.VERBS)
 									.anyMatch(p -> nextToken2.getLemma().equalsIgnoreCase(p))) {
 								return 1;
 							}
 						} else if (nextToken2.getGeneralPos().equals("JJ")) {
-							if (Arrays.stream(NEGATIVE_ADJ).anyMatch(p -> nextToken2.getLemma().equalsIgnoreCase(p))) {
+							if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> nextToken2.getLemma().equalsIgnoreCase(p))) {
 								return 1;
 							}
 						}
@@ -112,13 +100,13 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 		}
 
 		boolean anyMatch3 = tokens.stream()
-				.anyMatch(t -> Arrays.stream(NEGATIVE_ADJ).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
+				.anyMatch(t -> Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
 		if (anyMatch3) {
 			return 1;
 		}
 
 		boolean anyMatch = tokens.stream()
-				.anyMatch(t -> Arrays.stream(NEGATIVE_ADV).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
+				.anyMatch(t -> Arrays.stream(NegativeTerms.ADVERBS).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
 		if (anyMatch) {
 			return 1;
 		}

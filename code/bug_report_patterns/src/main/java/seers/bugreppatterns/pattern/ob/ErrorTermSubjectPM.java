@@ -18,9 +18,9 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 			Token token = tokens.get(i);
 			if ((Arrays.stream(VerbErrorPM.ERROR_TERMS).anyMatch(t -> token.getLemma().contains(t))
 					&& token.getGeneralPos().equals("NN"))
-					|| (Arrays.stream(NegativeAdjOrAdvPM.NEGATIVE_ADJ).anyMatch(t -> token.getLemma().contains(t))
+					|| (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> token.getLemma().contains(t))
 							&& token.getGeneralPos().equals("JJ"))
-					|| (Arrays.stream(NegativeAdjOrAdvPM.NEGATIVE_ADV).anyMatch(t -> token.getLemma().contains(t))
+					|| (Arrays.stream(NegativeTerms.ADVERBS).anyMatch(t -> token.getLemma().contains(t))
 							&& token.getGeneralPos().equals("RB"))
 					|| compoundErrorTerms(tokens) || NounsAsVerbs(tokens)) {
 				// is not error how and error noun phrase

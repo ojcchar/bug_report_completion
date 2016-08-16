@@ -16,7 +16,7 @@ public class NegativeAdjInPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 		Token start = tokens.get(0);
-		if (Arrays.stream(NegativeAdjOrAdvPM.NEGATIVE_ADJ).anyMatch(p -> start.getLemma().equals(p))) {
+		if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> start.getLemma().equals(p))) {
 			// verify location adverb
 			String text = TextProcessor.getStringFromLemmas(sentence);
 			for (int i = 1; (i < tokens.size() - 1); i++) {
