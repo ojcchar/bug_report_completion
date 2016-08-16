@@ -37,7 +37,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> errorTerms = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(VerbErrorPM.ERROR_TERMS).anyMatch(t -> token.getLemma().contains(t))) {
+			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getLemma().contains(t))) {
 				errorTerms.add(i);
 			}
 		}

@@ -44,7 +44,7 @@ public class CauseNounAdjectivePM extends ObservedBehaviorPatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(VerbErrorPM.ERROR_TERMS).anyMatch(t -> t.equals(token.getLemma()))
+			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> t.equals(token.getLemma()))
 					&& token.getGeneralPos().equals("NN")) {
 				return true;
 			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> t.equals(token.getLemma()))

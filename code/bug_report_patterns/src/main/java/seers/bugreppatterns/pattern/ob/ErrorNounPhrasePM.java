@@ -88,7 +88,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	
 	private int checkErrorNounPhrase (List<Token> tokens){
 		for (Token token : tokens) {
-			if (Arrays.stream(VerbErrorPM.ERROR_TERMS).anyMatch(
+			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(
 					t -> token.getLemma().contains(t))
 					&& token.getGeneralPos().equals("NN")) {
 				return 1;
