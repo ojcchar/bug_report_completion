@@ -9,14 +9,11 @@ import seers.textanalyzer.entity.Token;
 
 public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 
-	public final static PatternMatcher[] NEGATIVE_PMS = {
-			new NegativeAuxVerbPM(), new NegativeVerbPM(), new NoLongerPM(),
-			new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(),
-			new UnableToPM(), new VerbNoPM(), new ProblemInPM(),
-			new FrequencyAdverbPM(), new LeadsToNegativePm(),
-			new ErrorNounPhrasePM(), new ErrorTermSubjectPM(),
-			new NegativeAdjInPM(), new NoNounPM(), new NounNotPM(),
-			new ProblemIsPM(), new ThereIsNoPM(), new VerbNoPM() };
+	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
+			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
+			new VerbNoPM(), new ProblemInPM(), new FrequencyAdverbPM(), new LeadsToNegativePm(),
+			new ErrorNounPhrasePM(), new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(),
+			new ThereIsNoPM(), new VerbNoPM() };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -25,21 +22,19 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 		int afterIndex = afterIndex(tokens);
 
 		if (afterIndex != -1 && afterIndex > 0) {
-			Sentence first = new Sentence(sentence.getId(), tokens.subList(0,
-					afterIndex));
-			Sentence second = new Sentence(sentence.getId(), tokens.subList(
-					afterIndex + 1, tokens.size()));
+			Sentence first = new Sentence(sentence.getId(), tokens.subList(0, afterIndex));
+			Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
 			List<Token> tokensFirst = first.getTokens();
 			List<Token> tokensSecond = second.getTokens();
 
 			// check that the first part is not EB modal
 			if (!isEBModal(tokensFirst)) {
-/*				if(isNegative(first) && !(isNegative(second)) && tokensSecond.size()>0){
-					return 1;
-				}*/
-				
-				if(isNegative(first)){
-					if(verbAfter(tokensSecond)){
+				/*
+				 * if(isNegative(first) && !(isNegative(second)) && tokensSecond.size()>0){ return 1; }
+				 */
+
+				if (isNegative(first)) {
+					if (verbAfter(tokensSecond)) {
 						return 1;
 					}
 				}
@@ -48,20 +43,20 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 		}
 		return 0;
 	}
-	
-	private boolean isNegative (Sentence sentence) throws Exception{
-		for(PatternMatcher pm : NEGATIVE_PMS){
+
+	private boolean isNegative(Sentence sentence) throws Exception {
+		for (PatternMatcher pm : NEGATIVE_PMS) {
 			int match = pm.matchSentence(sentence);
-			if(match == 1){
+			if (match == 1) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	private boolean verbAfter (List<Token> tokens){
-		for(int i=0; i<tokens.size(); i++){
-			if(tokens.get(i).getGeneralPos().equals("VB")){
+
+	private boolean verbAfter(List<Token> tokens) {
+		for (int i = 0; i < tokens.size(); i++) {
+			if (tokens.get(i).getGeneralPos().equals("VB")) {
 				return true;
 			}
 		}
@@ -71,10 +66,8 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 	private boolean isEBModal(List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token tok = tokens.get(i);
-			if (tok.getGeneralPos().equals("MD")
-					&& (tok.getLemma().equals("must")
-							|| tok.getLemma().equals("need") || tok.getLemma()
-							.equals("should"))) {
+			if (tok.getGeneralPos().equals("MD") && (tok.getLemma().equals("must") || tok.getLemma().equals("need")
+					|| tok.getLemma().equals("should"))) {
 				return true;
 			}
 		}
