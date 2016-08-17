@@ -24,7 +24,7 @@ public class SeemsPM extends ObservedBehaviorPatternMatcher {
 		}
 
 		String txt = TextProcessor.getStringFromLemmas(sentence);
-		if (txt.matches(".*(appear|seem|look)(ed|s|ing)? (to|that|like|each|as|none).*")) {
+		if (txt.matches(".*(appear|seem|look)(ed|s|ing)? (to|that|like|each|as|none)[^A-Za-z].*")) {
 			return 1;
 		}
 
