@@ -10,21 +10,37 @@ import seers.textanalyzer.entity.Token;
 
 public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] FALSE_VERBS = { "encode", "build", "httpd",
-			"duplicate", "miss", "orphan", "stack", "truncate",
-			"misplace" , "freeze"};
+	public final static String[] FALSE_VERBS = { "build", "duplicate", "displaying", "encode", "freeze", "httpd",
+			"misplaced", "miss", "orphan", "stack", "truncate", };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
-		ArrayList<Integer> indexVerb = new ArrayList<Integer>();
-		//check if the sentences starts with a label followed by semicolon
-		for (int i =0; i< tokens.size(); i++){
-			if((i>0) && (tokens.get(i).getWord().equals(":")) && (tokens.get(i-1).getLemma().equals("observe"))){
-				sentence = new Sentence (sentence.getId(), tokens.subList(i+1, tokens.size()));
-				tokens = sentence.getTokens();
+		// divide sentence into phrases and analyze them
+		List<Integer> symbols = findSemiColonOrParenthesis(tokens);
+
+		if (symbols.isEmpty()) {
+			return matchSubSentence(sentence);
+		} else {
+			boolean match = false;
+			for (int i = 0; i <= symbols.size(); i++) {
+				int start = i == 0 ? 0 : symbols.get(i - 1) + 1; 
+				int end = i == symbols.size() ? tokens.size() : symbols.get(i);
+				Sentence sentence2 = new Sentence(sentence.getId(), tokens.subList(start, end));
+				match = match || matchSubSentence(sentence2) == 1 ? true : false;
+			}
+			if (match) {
+				return 1;
 			}
 		}
+
+		return 0;
+	}
+
+	private int matchSubSentence(Sentence sentence) throws Exception {
+		List<Token> tokens = sentence.getTokens();
+		ArrayList<Integer> indexVerb = new ArrayList<Integer>();
+
 		boolean noVerb = true;
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
@@ -35,66 +51,39 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		}
 		// find Noun_Phrase with error terms
 		if (noVerb) {
-			if(checkErrorNounPhrase(tokens)==1){
+			if (checkErrorNounPhrase(tokens) == 1) {
 				return 1;
 			}
 			// verify that is not an Error how sentence
 		} else {
 			for (int i = 0; i < indexVerb.size(); i++) {
 				Token token = tokens.get(indexVerb.get(i));
-				if (Arrays.stream(FALSE_VERBS).anyMatch(t-> token.getLemma().contains(t))) {
+				if (Arrays.stream(FALSE_VERBS).anyMatch(t -> token.getWord().toLowerCase().contains(t))) {
 					return 1;
 				}
 			}
-			
-			//check if the verb is after : or included in () and the first sentence is a noun phrase 
-			for(int i =0; i< indexVerb.size(); i++){
-				Sentence sentence2 = new Sentence(sentence.getId(), tokens.subList(0, indexVerb.get(i)));
-				List<Token> tokens2 = sentence2.getTokens();
-				int index = findSemiColonOrParenthesis(tokens2);
-				if(index != -1 && index > 0 && index < tokens2.size()){
-					Sentence first = new Sentence(sentence2.getId(),tokens2.subList(0, index));
-					List<Token> firstToken = first.getTokens();
-					boolean noVerb2 = true;
-					for (int j = 0; j < firstToken.size(); j++) {
-						Token token = firstToken.get(j);
-						if (token.getGeneralPos().equals("VB")) {
-							noVerb = false;
-						}
-					}
-					if(checkErrorNounPhrase(firstToken)==1 && noVerb2){
-						return 1;
-					}
-				}
-			}
-			/*
-			 * PatternMatcher pm = new ErrorHowPM(); int
-			 * match=pm.matchSentence(sentence); if(match==0){ return 1; }
-			 */
-			return 0;
 		}
 		return 0;
 	}
-	
-	private int findSemiColonOrParenthesis (List<Token> tokens){
-		for (int i=0; i< tokens.size(); i++){
+
+	private List<Integer> findSemiColonOrParenthesis(List<Token> tokens) {
+		List<Integer> symbols = new ArrayList<>();
+		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if(token.getWord().equals(":")||token.getWord().equals("-LRB-")){
-				return i;
+			if (token.getWord().equals(":") || token.getWord().equals("-LRB-") || token.getWord().equals("-RRB-")) {
+				symbols.add(i);
 			}
 		}
-		return -1;
+		return symbols;
 	}
-	
-	private int checkErrorNounPhrase (List<Token> tokens){
+
+	private int checkErrorNounPhrase(List<Token> tokens) {
 		for (Token token : tokens) {
-			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(
-					t -> token.getLemma().contains(t))
+			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getLemma().contains(t))
 					&& token.getGeneralPos().equals("NN")) {
 				return 1;
-			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(
-					t -> token.getLemma().contains(t))
-					&& token.getGeneralPos().equals("JJ")) {
+			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> token.getLemma().contains(t))
+					&& (token.getGeneralPos().equals("JJ") || token.getGeneralPos().equals("NN"))) {
 				return 1;
 			}
 		}
