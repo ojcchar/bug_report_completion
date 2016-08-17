@@ -13,7 +13,7 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 			new NegativeAuxVerbPM(), new NegativeVerbPM(), new NoLongerPM(),
 			new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(),
 			new UnableToPM(), new VerbNoPM(), new ProblemInPM(),
-			new FrequencyAdverbPM(), new CauseNounAdjectivePM(),
+			new FrequencyAdverbPM(), new LeadsToNegativePm(),
 			new ErrorNounPhrasePM(), new ErrorTermSubjectPM(),
 			new NegativeAdjInPM(), new NoNounPM(), new NounNotPM(),
 			new ProblemIsPM(), new ThereIsNoPM(), new VerbNoPM() };

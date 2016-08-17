@@ -8,13 +8,7 @@ import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-public class LeadsToPM extends ObservedBehaviorPatternMatcher {
-
-	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
-			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
-			new VerbNoPM(), new ProblemInPM(), new ErrorNounPhrasePM() };
-
-	public final static String[] CAUSE_VERBS = { "cause", "produce", "yield", "result", "lead" };
+public class LeadsToNegativePm extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -34,16 +28,16 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 			for (int i = 0; i < tokensFirst.size(); i++) {
 				if (tokensFirst.get(i).getGeneralPos().equals("NN") || tokensFirst.get(i).getGeneralPos().equals("PRP")
 						|| tokensFirst.get(i).getGeneralPos().equals("DT")
-						|| tokensFirst.get(i).getGeneralPos().equals("WH")
-						|| tokensFirst.get(i).getGeneralPos().equals("JJ")) {
+						|| tokensFirst.get(i).getGeneralPos().equals("WH")) {
 					isSubject = true;
 				}
 			}
-			// check that the second sentence is not ERROR_NOUN_PHRASE
+			
+			// check that the second sentence is negative
 			if (isSubject || indexVerb == 0) {
-				for (PatternMatcher pm : NEGATIVE_PMS) {
+				for (PatternMatcher pm : LeadsToPM.NEGATIVE_PMS) {
 					int match = pm.matchSentence(second);
-					if (match == 0) {
+					if (match == 1) {
 						return 1;
 					}
 				}
@@ -56,7 +50,7 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getGeneralPos().equals("VB")
-					&& Arrays.stream(CAUSE_VERBS).anyMatch(t -> t.equals(token.getLemma()))) {
+					&& Arrays.stream(LeadsToPM.CAUSE_VERBS).anyMatch(t -> t.equals(token.getLemma()))) {
 				return i;
 			}
 		}
