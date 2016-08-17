@@ -2,10 +2,10 @@ package seers.bugreppatterns.pattern.ob;
 
 import seers.bugreppatterns.main.BaseTest;
 
-public class AppearPMTest extends BaseTest {
+public class SeemsPMTest extends BaseTest {
 
-	public AppearPMTest() {
-		pm = new AppearPM();
+	public SeemsPMTest() {
+		pm = new SeemsPM();
 	}
 
 }

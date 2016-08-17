@@ -31,13 +31,13 @@ public class NegativeTerms {
 			"mess", "mishandle", "miss", "mute", "offset", "outdate", "overlap", "pause", "prohibit", "reduce",
 			"refuse", "reject", "remain", "reset", "rest", "restart", "retain", "revert", "shift", "skip", "stick",
 			"stop", "strip", "stuck up", "suffer", "terminate", "throw", "time out", "trim", "truncate", "vanish",
-			"wipe" };
+			"terminate", "trim", "wipe" };
 
 	final public static String[] NOUNS = { "401", "404", "ambiguity", "breakage", "bug", "clash", "collision",
 			"conflict", "confusion", "corruption", "crash", "cut", "delay", "disaster", "duplicate", "error", "errore",
 			"exception", "failure", "fault", "frustration", "glitch", "grief", "inability", "ise", "issue", "leak",
-			"leakage", "lock", "loss", "malware", "mismatch", "misplace", "mistake", "nil", "npe", "npes", "null", "omission",
-			"overlap", "pain", "peek", "poor", "problem", "race", "rarity", "runaway", "segfault", "segmentation", "spam",
-			"stacktrace", "status", "symptom", "trouble", "truncation", "typo", "violation", "wait", "warn", "warning",
-			"zombie" };
+			"leakage", "lock", "loss", "malware", "mismatch", "misplace", "mistake", "nil", "npe", "npes", "null",
+			"omission", "overlap", "pain", "peek", "poor", "problem", "race", "rarity", "runaway", "segfault",
+			"segmentation", "spam", "stacktrace", "status", "symptom", "trouble", "truncation", "typo", "violation",
+			"wait", "warn", "warning", "zombie" };
 }

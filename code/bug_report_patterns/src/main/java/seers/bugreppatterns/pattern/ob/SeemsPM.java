@@ -4,16 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-public class AppearPM extends ObservedBehaviorPatternMatcher {
+public class SeemsPM extends ObservedBehaviorPatternMatcher {
+
+	public final static PatternMatcher[] OTHER_SEEM = { new SeemsToNegativeVerbPM(), new SeemsToBePM() };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
+		// Check that is not other seem pattern
+		for (PatternMatcher pm : OTHER_SEEM) {
+			int match = pm.matchSentence(sentence);
+			if (match == 1) {
+				return 0;
+			}
+		}
+
 		String txt = TextProcessor.getStringFromLemmas(sentence);
-		if (txt.matches(".*(appear|seem) (to|that|like|each|as|none).*")) {
+		if (txt.matches(".*(appear|seem|look)(ed|s|ing)? (to|that|like|each|as|none).*")) {
 			return 1;
 		}
 
@@ -23,7 +34,8 @@ public class AppearPM extends ObservedBehaviorPatternMatcher {
 		for (Integer term : terms) {
 			if (term + 1 < tokens.size()) {
 				Token nextToken = tokens.get(term + 1);
-				if (nextToken.getGeneralPos().equals("NN")) {
+				if (nextToken.getGeneralPos().equals("NN") || nextToken.getGeneralPos().equals("RB")
+						|| nextToken.getGeneralPos().equals("JJ") || nextToken.getGeneralPos().equals("DT")) {
 					return 1;
 				}
 			}
@@ -36,7 +48,8 @@ public class AppearPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> idxs = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if ((token.getLemma().equals("seem")) || (token.getLemma().equals("appear"))) {
+			if ((token.getLemma().equals("seem")) || (token.getLemma().equals("appear"))
+					|| (token.getLemma().equals("look"))) {
 				idxs.add(i);
 			}
 		}
