@@ -44,7 +44,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private int matchSubSentence(Sentence sentence) throws Exception {
-		System.out.println(sentence);
+		//System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
 		ArrayList<Integer> indexVerb = new ArrayList<Integer>();
 
@@ -123,6 +123,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 			i++;
 		}
+		
 		return 0;
 	}
 
