@@ -7,13 +7,13 @@ public class NegativeTerms {
 			"faulty", "frustrating", "funny-looking", "garbled", "gone", "hard", "ignored", "improper", "inaccessible",
 			"inappropriate", "incorrect", "inconsitant", "inconsistent", "incredible", "indefinite", "inefficient",
 			"infinite", "insecure", "invalid", "lost", "meaningless", "messed", "misleading", "misplaced", "missing",
-			"mistaken", "multiple", "off", "off-center", "old", "orphaned", "out-of", "out-of-date", "outdated",
+			"mistaken", "null", "off", "off-center", "old", "orphaned", "out-of", "out-of-date", "outdated",
 			"out-dated", "painful", "poor", "random", "reduced", "redundant", "repeated", "reversed", "runaway", "semi",
 			"silly", "slow", "spurious", "squashed", "strange", "stripped", "stuck", "tedious", "terrible", "tiny",
 			"truncated", "twice", "ugly", "unacceptable", "unchecked", "unclickable", "undefined", "undesirable",
 			"undesired", "unexpected", "unfriendly", "uninitialized", "unknown", "unlimited", "unnavigability",
 			"unnecessary", "unreadable", "unreliable", "unresponsive", "unsecure", "unstable", "unstoppable",
-			"unstyled", "untrusted", "userunfriendly", "unusable", "voided", "wacky", "weird", "worst", "wrong",
+			"unstyled", "untrusted", "userunfriendly", "unusable", "void", "wacky", "weird", "worst", "wrong",
 			"zombie" };
 
 	final public static String[] ADVERBS = { "abnormally", "agressively", "annoyingly", "badly", "blankly", "corruptly",
@@ -33,7 +33,7 @@ public class NegativeTerms {
 			"stop", "strip", "stuck up", "suffer", "terminate", "throw", "time out", "trim", "truncate", "vanish",
 			"terminate", "trim", "wipe" };
 
-	final public static String[] NOUNS = { "401", "404", "ambiguity", "breakage", "bug", "clash", "collision",
+	final public static String[] NOUNS = { "401", "404", "ambiguity", "block", "breakage", "bug", "clash", "collision",
 			"conflict", "confusion", "corruption", "crash", "cut", "delay", "disaster", "duplicate", "error", "errore",
 			"exception", "failure", "fault", "frustration", "glitch", "grief", "inability", "ise", "issue", "leak",
 			"leakage", "lock", "loss", "malware", "mismatch", "misplace", "mistake", "nil", "npe", "npes", "null",
