@@ -1,5 +1,7 @@
 package seers.bugreppatterns.pattern.eb;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
@@ -10,8 +12,13 @@ import seers.textanalyzer.entity.Token;
 
 public class ExpectSentencePM extends ExpectedBehaviorPatternMatcher {
 
+	public final static String[] WORK_VERBS = new String[] { "work", "behave" };
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
+
+		// discard sentences with labels such as "expected behavior:"
+
 		ExpBehaviorLiteralSentencePM pm = new ExpBehaviorLiteralSentencePM();
 		int match = pm.matchSentence(sentence);
 
@@ -23,19 +30,70 @@ public class ExpectSentencePM extends ExpectedBehaviorPatternMatcher {
 			tokens = tokens.subList(i + 1, tokens.size());
 		}
 
+		// -----------------------------------
+
+		// Discard imperative sentences
+
+		ImperativeSentencePM pm2 = new ImperativeSentencePM();
+		int matchSentence = pm2.matchSentence(sentence);
+		if (matchSentence > 0) {
+			return 0;
+		}
+
+		// -----------------------------------
+
+		// discard questions
 		String txt = TextProcessor.getStringFromLemmas(sentence);
 
 		if (!txt.endsWith("right ?") && SentenceUtils.isQuestion(sentence)) {
 			return 0;
 		}
 
-		boolean anyMatch = tokens.stream()
-				.anyMatch(t -> t.getLemma().equalsIgnoreCase("expect") && t.getGeneralPos().equals("VB"));
-		if (anyMatch) {
+		// -----------------------------------
+
+		// find "expect" verbs (any conjugation)
+		List<Integer> expVerbs = findMainTokens(tokens);
+
+		for (Integer expVerb : expVerbs) {
+			// discard cases as "works as expected"
+			if (expVerb - 2 >= 0) {
+				Token asToken = tokens.get(expVerb - 1);
+				Token verbToken = tokens.get(expVerb - 2);
+
+				if (asToken.getLemma().equals("as")
+						&& Arrays.stream(WORK_VERBS).anyMatch(wb -> verbToken.getLemma().equals(wb))) {
+					return 0;
+				}
+			}
+
+		}
+
+		// accept any other case
+		if (expVerbs.size() > 0) {
+			return 1;
+		}
+
+		// match the noun expectation
+		boolean anyMatch2 = tokens.stream()
+				.anyMatch(t -> t.getLemma().equalsIgnoreCase("expectation") && t.getGeneralPos().equals("NN"));
+		if (anyMatch2) {
 			return 1;
 		}
 
 		return 0;
+	}
+
+	private List<Integer> findMainTokens(List<Token> tokens) {
+
+		List<Integer> mainToks = new ArrayList<>();
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			// match the verb in any conjugation
+			if (token.getLemma().equalsIgnoreCase("expect") && token.getGeneralPos().equals("VB")) {
+				mainToks.add(i);
+			}
+		}
+		return mainToks;
 	}
 
 	private int findFirstToken(List<Token> tokens, String lemma) {
