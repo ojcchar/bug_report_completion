@@ -28,7 +28,7 @@ public class NegativeTerms {
 			"complain", "consume", "crash", "cut", "delay", "delete", "deny", "destroy", "die", "disappear",
 			"duplicate", "enforce", "erase", "exit", "expire", "fail", "flicker", "force", "forget", "freeze", "glitch",
 			"grow", "hang", "ignore", "increase", "interfere", "interrupt", "jerk", "jitter", "kill", "lack", "lose",
-			"mess", "mishandle", "miss", "mute", "offset", "outdate", "overlap", "pause", "prohibit", "reduce",
+			"loose", "mess", "mishandle", "miss", "mute", "offset", "outdate", "overlap", "pause", "prohibit", "reduce",
 			"refuse", "reject", "remain", "reset", "rest", "restart", "retain", "revert", "shift", "skip", "stick",
 			"stop", "strip", "stuck up", "suffer", "terminate", "throw", "time out", "trim", "truncate", "vanish",
 			"terminate", "trim", "wipe" };
