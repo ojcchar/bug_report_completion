@@ -11,7 +11,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] CONDITIONAL_TERMS = { "when", "if", "while", "whenever" };
+	public final static String[] CONDITIONAL_TERMS = { "when", "if", "while", "whenever", "whereas" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
