@@ -10,8 +10,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] FALSE_VERBS = { "build", "duplicate", "displaying", "encode", "freeze", "httpd",
-			"misplaced", "miss", "orphan", "stack", "truncate", };
+	public final static String[] FALSE_VERBS = { "build", "httpd" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -24,7 +23,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		} else {
 			boolean match = false;
 			for (int i = 0; i <= symbols.size(); i++) {
-				int start = i == 0 ? 0 : symbols.get(i - 1) + 1; 
+				int start = i == 0 ? 0 : symbols.get(i - 1) + 1;
 				int end = i == symbols.size() ? tokens.size() : symbols.get(i);
 				Sentence sentence2 = new Sentence(sentence.getId(), tokens.subList(start, end));
 				match = match || matchSubSentence(sentence2) == 1 ? true : false;
@@ -38,6 +37,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private int matchSubSentence(Sentence sentence) throws Exception {
+		// System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
 		ArrayList<Integer> indexVerb = new ArrayList<Integer>();
 
@@ -58,7 +58,9 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		} else {
 			for (int i = 0; i < indexVerb.size(); i++) {
 				Token token = tokens.get(indexVerb.get(i));
-				if (Arrays.stream(FALSE_VERBS).anyMatch(t -> token.getWord().toLowerCase().contains(t))) {
+				
+				if (indexVerb.get(i) == 0 || !tokens.get(indexVerb.get(i) - 1).getGeneralPos().equals("NN")
+						|| Arrays.stream(FALSE_VERBS).anyMatch(t -> token.getWord().toLowerCase().contains(t))) {
 					return 1;
 				}
 			}
