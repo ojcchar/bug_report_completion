@@ -38,7 +38,6 @@ public class NoNounPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	public int matchSubSentence(Sentence sentence) throws Exception {
-		System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
 		if (tokens.size() > 2) {
 			if (Arrays.stream(NO_TERMS).anyMatch(t -> tokens.get(0).getLemma().equals(t))) {
