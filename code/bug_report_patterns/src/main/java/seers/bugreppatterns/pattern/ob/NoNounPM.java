@@ -43,7 +43,7 @@ public class NoNounPM extends ObservedBehaviorPatternMatcher {
 			if (Arrays.stream(NO_TERMS).anyMatch(t -> tokens.get(0).getLemma().equals(t))) {
 				Token nextToken = tokens.get(1);
 				// Check the sentence is not S_OB_NO_LONGER
-				if (nextToken.getWord().equalsIgnoreCase("longer")) {
+				if (tokens.get(0).getWord().equalsIgnoreCase("no") && nextToken.getWord().equalsIgnoreCase("longer")) {
 					return 0;
 				} else if (Arrays.stream(POST_NO_TERMS).anyMatch(t -> nextToken.getGeneralPos().equals(t))) {
 					return 1;
