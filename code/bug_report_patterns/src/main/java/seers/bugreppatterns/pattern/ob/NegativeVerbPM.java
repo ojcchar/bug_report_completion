@@ -10,21 +10,21 @@ import seers.textanalyzer.entity.Token;
 
 public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 
-	final private static String[] OTHER_NEGATIVE_VERBS = { "strip away", "slow doen", "slow down", "get stick",
-			"stick up", "faile", "stucks up", "consume 100", "stick in", "get turn into", "output null", "be out of",
-			"pull out", "faul", "hangs/get", "failes", "timing out", "go away"};
+	final private static String[] OTHER_NEGATIVE_VERBS = { "slow doen", "slow down", "faile", "stucks up",
+			"consume 100", "get turn into", "be out of", "pull out", "faul", "hangs/get", "failes", "timing out",
+			"go away" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		List<Token> tokens = sentence.getTokens();
-
-		boolean anyMatch = tokens.stream()
-				.anyMatch(t -> Arrays.stream(NegativeTerms.VERBS).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
-		if (anyMatch) {
-			return 1;
+		for (Token token : tokens) {
+			if (Arrays.stream(NegativeTerms.VERBS).anyMatch(t -> token.getLemma().startsWith(t))
+					&& (token.getGeneralPos().equals("VB") || token.getGeneralPos().equals("NN")
+							|| token.getGeneralPos().equals("JJ"))) {
+				return 1;
+			}
 		}
-
 		String txt = TextProcessor.getStringFromLemmas(sentence);
 
 		if (Arrays.stream(OTHER_NEGATIVE_VERBS).anyMatch(p -> txt.contains(p))) {
