@@ -24,7 +24,7 @@ public class NegativeTerms {
 			"suddenly", "tediously", "twice", "unacceptablely", "undesirably", "unexpectedly", "unreadably",
 			"unresponsively", "unsecurely", "unstably", "weirdly", "wrongly" };
 
-	final public static String[] VERBS = { "affect", "block", "break", "bypass", "clear", "clash", "clobber", "close",
+	final public static String[] VERBS = { "affect", "blink", "block", "break", "bypass", "clear", "clash", "clobber", "close",
 			"complain", "consume", "crash", "cut", "delay", "delete", "deny", "destroy", "die", "disappear",
 			"duplicate", "enforce", "erase", "exit", "expire", "fail", "flicker", "force", "forget", "freeze", "glitch",
 			"grow", "hang", "ignore", "increase", "interfere", "interrupt", "jerk", "jitter", "kill", "lack", "lose",

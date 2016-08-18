@@ -113,6 +113,8 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 				return 1;
 			} else if (token.getLemma().matches("([A-Za-z0-9.]+)(error)") && token.getGeneralPos().equals("NN")) {
 				return 1;
+			} else if (token.getLemma().matches("(illegal)([A-Za-z0-9.]+)") && token.getGeneralPos().equals("NN")) {
+				return 1;
 			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> token.getLemma().startsWith(t))
 					&& (token.getGeneralPos().equals("JJ") || token.getGeneralPos().equals("NN")
 							|| token.getGeneralPos().equals("RB") || token.getGeneralPos().equals("VB"))) {
