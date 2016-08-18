@@ -13,7 +13,8 @@ public class ErrorNounPhrasePMTest extends BaseTest {
     @Test
     public void testNegative() throws Exception {
         String[] negatives = {"5 observe: once again you can set \"referenced projects\".",
-                "Currently it is:"};
+                "Currently it is:",
+        		"incorrect"};
 
         TestUtils.testSentences(negatives, pm, 0);
     }

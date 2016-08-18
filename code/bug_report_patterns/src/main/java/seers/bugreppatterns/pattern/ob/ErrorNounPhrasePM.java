@@ -84,7 +84,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 				}
 			}
 			if (matches) {
-				return 1;
+				return checkErrorNounPhrase(tokens);
 			}
 		}
 		return 0;
@@ -104,8 +104,13 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	public static int checkErrorNounPhrase(List<Token> tokens) {
 		// System.out.println(new Sentence(OB, tokens));
 		int i = 0;
+		boolean moreThanAdj = false;
+		boolean negAdj = false;
 		for (Token token : tokens) {
 			// System.out.println("checking: " +token);
+			if(!token.getGeneralPos().equals("JJ")) {
+				moreThanAdj = true;
+			}
 			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getLemma().startsWith(t))
 					&& (token.getGeneralPos().equals("NN") || token.getGeneralPos().equals("VB")
 							|| token.getGeneralPos().equals("CD"))) {
@@ -119,13 +124,19 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> token.getLemma().startsWith(t))
 					&& (token.getGeneralPos().equals("JJ") || token.getGeneralPos().equals("NN")
 							|| token.getGeneralPos().equals("RB") || token.getGeneralPos().equals("VB"))) {
-				return 1;
+				if (tokens.size() == 1) {
+					return 0;
+				}
+				negAdj = true;
 			} else if (token.getLemma().equals("stack") && (i + 1 < tokens.size())
 					&& tokens.get(i).getLemma().equals("trace")) {
 				return 1;
 			}
 
 			i++;
+		}
+		if (moreThanAdj && negAdj) {
+			return 1;
 		}
 		return 0;
 	}
