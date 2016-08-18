@@ -3,7 +3,6 @@ package seers.bugreppatterns.pattern.ob;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -11,7 +10,6 @@ public class EvenIfPM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		String text = TextProcessor.getStringFromLemmas(sentence);
 		List<Token> tokens = sentence.getTokens();
 		int index = adverbIndex(tokens);
 		if (index > 0) {
@@ -44,12 +42,14 @@ public class EvenIfPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private int adverbIndex(List<Token> tokens) {
-		for (int i = 0; i < (tokens.size() - 2); i++) {
-			Token t = tokens.get(i);
-			if (tokens.get(i).getLemma().equals("although")) {
+		for (int i = 0; i < tokens.size(); i++) {
+			if (tokens.get(i).getLemma().matches("although|despite")) {
 				return i;
-			} else if (tokens.get(i).getLemma().equals("even")
-					&& (tokens.get(i + 1).getLemma().equals("if") || tokens.get(i + 1).getLemma().equals("though"))) {
+			} else if (i + 1 < tokens.size() && tokens.get(i).getLemma().equals("even")
+					&& tokens.get(i + 1).getLemma().matches("if|though|after|when")) {
+				return i;
+			} else if (i + 2 < tokens.size() && tokens.get(i).getLemma().equals("in") && tokens.get(i + 1).getLemma().equals("spite")
+					&& tokens.get(i + 2).getLemma().equals("of")) {
 				return i;
 			}
 		}
