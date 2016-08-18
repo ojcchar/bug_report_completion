@@ -7,7 +7,7 @@ public class NegativeTerms {
 			"faulty", "frustrating", "funny-looking", "garbled", "gone", "hard", "ignored", "improper", "inaccessible",
 			"inappropriate", "incorrect", "inconsitant", "inconsistent", "incredible", "indefinite", "inefficient",
 			"infinite", "insecure", "invalid", "lost", "meaningless", "messed", "misleading", "misplaced", "missing",
-			"mistaken", "null", "off", "off-center", "old", "orphaned", "out-of", "out-of-date", "outdated",
+			"mistaken", "null", "odd", "off", "off-center", "old", "orphaned", "out-of", "out-of-date", "outdated",
 			"out-dated", "painful", "poor", "random", "reduced", "redundant", "repeated", "reversed", "runaway", "semi",
 			"silly", "slow", "spurious", "squashed", "strange", "stripped", "stuck", "tedious", "terrible", "tiny",
 			"truncated", "twice", "ugly", "unacceptable", "unchecked", "unclickable", "undefined", "undesirable",

@@ -44,33 +44,34 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private int matchSubSentence(Sentence sentence) throws Exception {
-		//System.out.println(sentence);
+		// System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
-		ArrayList<Integer> indexVerb = new ArrayList<Integer>();
+		ArrayList<Integer> verbIndex = new ArrayList<Integer>();
 
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getGeneralPos().equals("VB")) {
-				indexVerb.add(i);
+				verbIndex.add(i);
 			}
 		}
 		// find Noun_Phrase with error terms
-		if (indexVerb.isEmpty()) {
+		if (verbIndex.isEmpty()) {
 			if (checkErrorNounPhrase(tokens) == 1) {
 				return 1;
 			}
 			// verify that is not an Error how sentence
 		} else {
 			boolean matches = true;
-			for (int i = 0; i < indexVerb.size(); i++) {
+			for (int i = 0; i < verbIndex.size(); i++) {
 
-				Token token = tokens.get(indexVerb.get(i));
+				Token token = tokens.get(verbIndex.get(i));
 
-				if (indexVerb.get(i) == 0) {
+				if (verbIndex.get(i) == 0) {
 					matches = matches && true;
 				} else {
-					Token previousToken = tokens.get(indexVerb.get(i) - 1);
-					if (token.getPos().equals("VBG") && !previousToken.getGeneralPos().equals("VB")) {
+					Token previousToken = tokens.get(verbIndex.get(i) - 1);
+					if ((token.getPos().equals("VBG") || token.getPos().equals("VBN"))
+							&& !previousToken.getGeneralPos().equals("VB")) {
 						matches = matches && true;
 					} else {
 						if (Arrays.stream(SUBJECTS).anyMatch(t -> previousToken.getGeneralPos().equals(t))) {
@@ -101,10 +102,10 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	public static int checkErrorNounPhrase(List<Token> tokens) {
-		//System.out.println(new Sentence(OB, tokens));
+		// System.out.println(new Sentence(OB, tokens));
 		int i = 0;
 		for (Token token : tokens) {
-			//System.out.println("checking: " +token);
+			// System.out.println("checking: " +token);
 			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getLemma().startsWith(t))
 					&& (token.getGeneralPos().equals("NN") || token.getGeneralPos().equals("VB")
 							|| token.getGeneralPos().equals("CD"))) {
@@ -126,7 +127,6 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 			i++;
 		}
-		
 		return 0;
 	}
 
