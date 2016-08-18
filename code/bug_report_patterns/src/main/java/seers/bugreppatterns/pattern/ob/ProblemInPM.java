@@ -21,35 +21,27 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 		List<Integer> preps = findPrepositions(tokens);
 		List<Integer> verbs = findVerbs(tokens);
+		if (!verbs.isEmpty()) {
+			return 0;
+		}
 		int i = 0;
 		int j = 0;
-		
-		boolean works = false;
+
 		while (j < preps.size()) {
 
 			Sentence sentence2 = new Sentence(sentence.getId(), tokens.subList(i, preps.get(j)));
 			for (PatternMatcher pm : NEGATIVE_PMS) {
 				int match = pm.matchSentence(sentence2);
 				if (match == 1) {
-					if (verbs.isEmpty()) {
-						works = works || true;
-					}
-//					for (int verb = 0; verb < verbs.size(); verb++) {
-//						if (preps.get(j) < verbs.get(verb)) {
-//							return 0;
-//						} else {
-//							works = works || true;
-//						}
-//					}
+
+					return 1;
 
 				}
 			}
 
 			j++;
 		}
-		if (works) {
-			return 1;
-		}
+
 		return 0;
 
 	}
@@ -76,9 +68,8 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 				if (i == 0) {
 					add = false;
 				} else
-					// disregard gerund and past participle verbs 
-					if (token.getPos().equals("VBG")
-						|| token.getPos().equals("VBD") || token.getPos().equals("VBN")) {
+				// disregard gerund and past participle verbs
+				if (token.getPos().equals("VBG") || token.getPos().equals("VBD") || token.getPos().equals("VBN")) {
 					add = false;
 				} else
 				// disregard verbs that come after preposition
