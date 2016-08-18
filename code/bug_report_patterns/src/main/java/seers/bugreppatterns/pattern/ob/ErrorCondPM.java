@@ -1,7 +1,6 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
@@ -16,7 +15,7 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
-		ArrayList<Integer> condIndexes = foundIndexToken(tokens);
+		ArrayList<Integer> condIndexes = findTermsInTokens(CONDITIONAL_TERMS, tokens);
 		if (!condIndexes.isEmpty()) {
 			for (Integer condIndex : condIndexes) {
 				if (condIndex > 0 && (condIndex < tokens.size() - 1)) {
@@ -31,16 +30,5 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 			}
 		}
 		return 0;
-	}
-
-	private ArrayList<Integer> foundIndexToken(List<Token> tokens) {
-		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (Arrays.stream(NegativeConditionalPM.TOKENS).anyMatch(t -> token.getWord().equalsIgnoreCase(t))) {
-				indexConditionalTerms.add(i);
-			}
-		}
-		return indexConditionalTerms;
 	}
 }

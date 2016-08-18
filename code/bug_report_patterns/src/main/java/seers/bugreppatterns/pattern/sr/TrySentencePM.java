@@ -30,8 +30,7 @@ public class TrySentencePM extends StepsToReproducePatternMatcher {
 				if (tryTerm - 2 >= 0) {
 					Token prevToken2 = tokens.get(tryTerm - 2);
 
-					if (Arrays.stream(ConditionalNegativePM.CONDITIONAL_TERMS)
-							.anyMatch(t -> prevToken2.getLemma().equals(t))) {
+					if (Arrays.stream(CONDITIONAL_TERMS).anyMatch(t -> prevToken2.getLemma().equals(t))) {
 						continue;
 					}
 				}

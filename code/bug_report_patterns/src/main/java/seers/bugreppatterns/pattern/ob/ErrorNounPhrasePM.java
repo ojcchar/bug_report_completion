@@ -104,6 +104,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		//System.out.println(new Sentence(OB, tokens));
 		int i = 0;
 		for (Token token : tokens) {
+			//System.out.println("checking: " +token);
 			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getLemma().startsWith(t))
 					&& (token.getGeneralPos().equals("NN") || token.getGeneralPos().equals("VB")
 							|| token.getGeneralPos().equals("CD"))) {

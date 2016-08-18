@@ -11,8 +11,6 @@ import seers.textanalyzer.entity.Token;
 
 public class NegativeConditionalPM extends ObservedBehaviorPatternMatcher {
 
-	final static String[] TOKENS = { "when", "while", "if", "whenever" };
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
@@ -37,7 +35,7 @@ public class NegativeConditionalPM extends ObservedBehaviorPatternMatcher {
 		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(TOKENS).anyMatch(t -> token.getLemma().contains(t))) {
+			if (Arrays.stream(CONDITIONAL_TERMS).anyMatch(t -> token.getLemma().contains(t))) {
 				indexConditionalTerms.add(i);
 			}
 		}

@@ -3,7 +3,6 @@ package seers.bugreppatterns.pattern.eb;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
-import seers.bugreppatterns.pattern.ob.ConditionalNegativePM;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -16,8 +15,7 @@ public class RequirePM extends ExpectedBehaviorPatternMatcher {
 
 		if (tokens.size() > 3) {
 
-			List<Integer> condTerms = ConditionalNegativePM.findConditionalTerms(tokens,
-					ConditionalNegativePM.CONDITIONAL_TERMS);
+			List<Integer> condTerms = findTermsInTokens(CONDITIONAL_TERMS, tokens);
 
 			if (condTerms.isEmpty()) {
 				for (Token token : tokens) {

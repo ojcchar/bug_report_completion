@@ -12,7 +12,7 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 
 	ConditionalNegativePM pm = new ConditionalNegativePM();
 
-	public final static String[] CONDITIONAL_TERMS = { "when", "if" };
+	public final static String[] COND_TERMS = { "when", "if" };
 	final static String[] EXCLUDED_VERBS = { "do", "be", "have", "want", "feel", "deal" };
 
 	@Override
@@ -25,7 +25,7 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 			return 0;
 		}
 
-		List<Integer> conditionalTerms = ConditionalNegativePM.findConditionalTerms(tokens, CONDITIONAL_TERMS);
+		List<Integer> conditionalTerms = findTermsInTokens(COND_TERMS, tokens);
 
 		for (Integer condTerm : conditionalTerms) {
 

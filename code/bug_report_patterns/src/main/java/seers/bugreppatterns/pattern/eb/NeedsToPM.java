@@ -64,7 +64,7 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 
 		for (int i = 0; i < needTok; i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(ConditionalNegativePM.CONDITIONAL_TERMS).anyMatch(t -> token.getLemma().equals(t))) {
+			if (Arrays.stream(CONDITIONAL_TERMS).anyMatch(t -> token.getLemma().equals(t))) {
 				return true;
 			}
 		}

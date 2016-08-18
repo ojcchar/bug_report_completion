@@ -1,5 +1,7 @@
 package seers.bugreppatterns.pattern;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.Paragraph;
 import seers.textanalyzer.entity.Sentence;
+import seers.textanalyzer.entity.Token;
 
 public abstract class PatternMatcher {
 
@@ -19,7 +22,27 @@ public abstract class PatternMatcher {
 	public static final String EB = "EB";
 	public static final String SR = "SR";
 
+	public final String[] CONDITIONAL_TERMS = { "if", "upon", "when", "whenever", "whereas", "while" };
+
 	public abstract int matchSentence(Sentence sentence) throws Exception;
+
+	/**
+	 * Finds the indexes of the tokens that *exactly* match any of the given terms, ignoring the case
+	 * 
+	 * @param terms
+	 * @param tokens
+	 * @return
+	 */
+	public ArrayList<Integer> findTermsInTokens(String[] terms, List<Token> tokens) {
+		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			if (Arrays.stream(terms).anyMatch(t -> token.getWord().equalsIgnoreCase(t))) {
+				indexConditionalTerms.add(i);
+			}
+		}
+		return indexConditionalTerms;
+	}
 
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 		return defaultMatchParagraph(paragraph);
