@@ -23,6 +23,7 @@ public abstract class PatternMatcher {
 	public static final String SR = "SR";
 
 	public final String[] CONDITIONAL_TERMS = { "if", "upon", "when", "whenever", "whereas", "while" };
+	public final String[] CONTRAST_TERMS = { "although", "but", "however", "nevertheless", "though", "yet" };
 
 	public abstract int matchSentence(Sentence sentence) throws Exception;
 

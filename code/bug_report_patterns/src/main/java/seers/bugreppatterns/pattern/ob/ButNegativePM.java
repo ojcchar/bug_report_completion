@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		List<Token> tokens2 = sentence.getTokens();
-		List<Integer> buts = findBut(tokens2);
+		List<Integer> buts = findTermsInTokens(CONTRAST_TERMS, tokens2);
 		for (Integer but : buts) {
 
 			if (but + 1 < tokens2.size()) {
@@ -45,16 +44,4 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
-	private List<Integer> findBut(List<Token> tokens) {
-
-		List<Integer> but = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if ((token.getLemma().equals("but")) || (token.getLemma().equals("however"))
-					|| (token.getLemma().equals("although"))) {
-				but.add(i);
-			}
-		}
-		return but;
-	}
 }
