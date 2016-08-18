@@ -5,36 +5,25 @@ import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 
-	public ErrorCondPM() {
-	}
+	public final static PatternMatcher[] NEGATIVE_PMS = { new ProblemInPM(), new NoNounPM(), new ErrorNounPhrasePM() };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		List<Token> tokens2 = sentence.getTokens();
-		ArrayList<Integer> indexes = foundIndexToken(tokens2);
-		if (indexes.size() > 0) {
-			for (Integer integer : indexes) {
-				if (integer > 0 && (integer < tokens2.size() - 1)) {
-					List<Token> errorClause = tokens2.subList(0, integer);
-
-					if (errorClause.get(0).getLemma().equals("no")
-							|| (errorClause.get(0).getLemma().equals("nothing"))) {
-						return 1;
-					}
-
-					for (Token errorToken : errorClause) {
-
-						// error terms
-						if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> errorToken.getLemma().contains(t))
-								&& errorToken.getGeneralPos().equals("NN")) {
-							return 1;
-						} else if ((Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(
-								t -> errorToken.getLemma().contains(t)) && errorToken.getGeneralPos().equals("JJ"))) {
+		List<Token> tokens = sentence.getTokens();
+		ArrayList<Integer> condIndexes = foundIndexToken(tokens);
+		if (!condIndexes.isEmpty()) {
+			for (Integer condIndex : condIndexes) {
+				if (condIndex > 0 && (condIndex < tokens.size() - 1)) {
+					Sentence errorClause = new Sentence(sentence.getId(), tokens.subList(0, condIndex));
+					for (PatternMatcher pm : NEGATIVE_PMS) {
+						int match = pm.matchSentence(errorClause);
+						if (match == 1) {
 							return 1;
 						}
 					}
@@ -48,7 +37,7 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(NegativeConditionalPM.TOKENS).anyMatch(t -> token.getLemma().contains(t))) {
+			if (Arrays.stream(NegativeConditionalPM.TOKENS).anyMatch(t -> token.getWord().equalsIgnoreCase(t))) {
 				indexConditionalTerms.add(i);
 			}
 		}
