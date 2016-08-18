@@ -20,10 +20,12 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 		List<Integer> preps = findPrepositions(tokens);
-		List<Integer> verbs = findVerbs(tokens);
+
+		List<Integer> verbs = findProblematicVerbs(tokens);
 		if (!verbs.isEmpty()) {
 			return 0;
 		}
+
 		int i = 0;
 		int j = 0;
 
@@ -57,7 +59,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 		return prepTerms;
 	}
 
-	private List<Integer> findVerbs(List<Token> tokens) {
+	private List<Integer> findProblematicVerbs(List<Token> tokens) {
 
 		List<Integer> verbs = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
