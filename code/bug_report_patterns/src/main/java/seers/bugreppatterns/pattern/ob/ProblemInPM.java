@@ -18,6 +18,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
+		//System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
 		List<Integer> preps = findPrepositions(tokens);
 
