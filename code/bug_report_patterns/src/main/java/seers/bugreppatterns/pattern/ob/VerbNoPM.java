@@ -26,17 +26,17 @@ public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 
 			for (int i = verb + 1; i <= verb + 4 && i < tokens.size(); i++) {
 				Token nextToken = tokens.get(i);
-				if (Arrays.stream(NEGATIVE_TERMS).anyMatch(t -> nextToken.getLemma().equals(t))) {
+				if (Arrays.stream(NEGATIVE_TERMS).anyMatch(t -> nextToken.getWord().equalsIgnoreCase(t))) {
 					return 1;
 				}
 			}
-
-			if (verb - 1 >= 0) {
-				Token prevToken = tokens.get(verb - 1);
-				if (prevToken.getLemma().equals("nothing")) {
-					return 1;
-				}
-			}
+			// The next fragment corresponds to S_OB_NO_NOUN
+			// if (verb - 1 >= 0) {
+			// Token prevToken = tokens.get(verb - 1);
+			// if (prevToken.getLemma().equals("nothing")) {
+			// return 1;
+			// }
+			// }
 		}
 
 		return 0;
