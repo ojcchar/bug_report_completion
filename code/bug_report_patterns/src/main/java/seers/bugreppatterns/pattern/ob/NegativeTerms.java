@@ -2,7 +2,7 @@ package seers.bugreppatterns.pattern.ob;
 
 public class NegativeTerms {
 	final public static String[] ADJECTIVES = { "abnormal", "agressive", "ambiguous", "annoying", "bad", "bizarre",
-			"blank", "blocked", "bloken", "broken", "confusing", "counter-intuitive", "corrupt", "cpu-bound", "dead",
+			"blank", "blocked", "bloken", "broken", "confusing", "counter-intuitive", "corrupt", "corrupted", "cpu-bound", "dead",
 			"different", "dirty", "down", "duplicated", "empty", "enormous", "erroneous", "expensive", "extra",
 			"faulty", "frustrating", "funny-looking", "garbled", "gone", "hard", "ignored", "improper", "inaccessible",
 			"inappropriate", "incorrect", "inconsitant", "inconsistent", "incredible", "indefinite", "inefficient",
@@ -36,7 +36,7 @@ public class NegativeTerms {
 	final public static String[] NOUNS = { "401", "404", "ambiguity", "block", "breakage", "bug", "clash", "collision",
 			"conflict", "confusion", "corruption", "crash", "cut", "delay", "disaster", "duplicate", "error", "errore",
 			"exception", "failure", "fault", "frustration", "glitch", "grief", "inability", "ise", "issue", "leak",
-			"leakage", "lock", "loss", "malware", "mismatch", "misplace", "mistake", "nil", "npe", "npes", "null",
+			"leakage", "lock", "loss", "malware", "mismatch", "misplace", "mistake", "nil", "nonsense", "npe", "npes", "null",
 			"omission", "overlap", "pain", "peek", "poor", "problem", "race", "rarity", "runaway", "segfault",
 			"segmentation", "spam", "stacktrace", "status", "symptom", "trouble", "truncation", "typo", "violation",
 			"wait", "warn", "warning", "zombie" };
