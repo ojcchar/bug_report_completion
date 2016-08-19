@@ -18,7 +18,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		//System.out.println(sentence);
+		// System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
 		List<Integer> preps = findPrepositions(tokens);
 
@@ -65,15 +65,30 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> verbs = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
+
 			if (token.getGeneralPos().equals("VB")) {
 				boolean add = true;
 				// disregard verb if it starts the sentence
 				if (i == 0) {
 					add = false;
 				} else
-				// disregard gerund and past participle verbs
+				// cases with gerund and past participle verbs
 				if (token.getPos().equals("VBG") || token.getPos().equals("VBD") || token.getPos().equals("VBN")) {
-					add = false;
+					if (i - 1 >= 0) {
+						Token prevToken = tokens.get(i - 1);
+						// disregard verbs that come after a noun 
+						if (!prevToken.getGeneralPos().equals("NN")) {
+							add = false;
+						}
+					}
+					if (i + 1 < tokens.size()) {
+						Token postToken = tokens.get(i + 1);
+						// disregard verbs that go after a preposition
+						if (!Arrays.stream(PREP_TERMS).anyMatch(t -> postToken.getWord().equalsIgnoreCase(t))) {
+								add = false;
+						}
+
+					}
 				} else
 				// disregard verbs that come after preposition
 				if (i - 1 >= 0) {
