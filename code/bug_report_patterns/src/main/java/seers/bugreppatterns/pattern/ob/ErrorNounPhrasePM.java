@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -51,6 +50,10 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getGeneralPos().equals("VB")) {
+				if (token.getLemma().equals("stack") && i + 1 < tokens.size()
+						&& tokens.get(i + 1).getLemma().equals("trace")) {
+					continue;
+				}
 				verbIndex.add(i);
 			}
 		}
@@ -66,7 +69,10 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 				Token token = tokens.get(verbIndex.get(i));
 
-				if (verbIndex.get(i) == 0) {
+				if (token.getLemma().equals("be")) {
+					matches = false;
+					break;
+				} else if (verbIndex.get(i) == 0) {
 					matches = matches && true;
 				} else {
 					Token previousToken = tokens.get(verbIndex.get(i) - 1);
@@ -102,7 +108,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	public static int checkErrorNounPhrase(List<Token> tokens) {
-		//System.out.println(new Sentence(OB, tokens));
+		// System.out.println(new Sentence(OB, tokens));
 		int i = 0;
 
 		for (Token token : tokens) {
@@ -117,15 +123,15 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 				return 1;
 			} else if (token.getLemma().matches("(illegal)([A-Za-z0-9.]+)") && token.getGeneralPos().equals("NN")) {
 				return 1;
-			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> token.getWord().equalsIgnoreCase(t))
+			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> token.getWord().toLowerCase().startsWith(t))
 					&& (token.getGeneralPos().equals("JJ") || token.getGeneralPos().equals("NN")
 							|| token.getGeneralPos().equals("RB") || token.getGeneralPos().equals("VB"))) {
 				if (tokens.size() > 1) {
 					return 1;
 				}
 
-			} else if (token.getLemma().equals("stack") && (i + 1 < tokens.size())
-					&& tokens.get(i).getLemma().equals("trace")) {
+			} else if (token.getLemma().equalsIgnoreCase("stack") && i + 1 < tokens.size()
+					&& tokens.get(i + 1).getLemma().equalsIgnoreCase("trace")) {
 				return 1;
 			}
 

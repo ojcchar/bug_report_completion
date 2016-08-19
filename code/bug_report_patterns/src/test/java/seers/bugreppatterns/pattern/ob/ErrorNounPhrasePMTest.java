@@ -18,4 +18,11 @@ public class ErrorNounPhrasePMTest extends BaseTest {
 
         TestUtils.testSentences(negatives, pm, 0);
     }
+    
+    @Test
+    public void testPositive() throws Exception {
+        String[] negatives = {"the stack trace"};
+
+        TestUtils.testSentences(negatives, pm, 1);
+    }
 }
