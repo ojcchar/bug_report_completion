@@ -1,5 +1,6 @@
 package seers.bugreppatterns.pattern.eb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
@@ -12,19 +13,30 @@ public class ConsiderActionPM extends ExpectedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		List<Token> tokens = sentence.getTokens();
-		if (tokens.size() > 1) {
-			Token token1 = tokens.get(0);
-			if ((token1.getPos().equals("VB") || token1.getPos().equals("VBP"))
-					&& token1.getLemma().equals("consider")) {
+		List<Integer> mainTokens = getMainTokens(tokens);
+		for (Integer mainTok : mainTokens) {
 
-				Token token2 = tokens.get(1);
-				if (token2.getPos().equals("VBG")) {
+			if (mainTok + 1 < tokens.size()) {
+
+				Token nextToken = tokens.get(mainTok + 1);
+				if (nextToken.getPos().equals("VBG")) {
 					return 1;
 				}
-
 			}
 		}
+
 		return 0;
 	}
 
+	private List<Integer> getMainTokens(List<Token> tokens) {
+		List<Integer> needTokens = new ArrayList<>();
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token1 = tokens.get(i);
+			if ((token1.getPos().equals("VB") || token1.getPos().equals("VBP"))
+					&& token1.getLemma().equals("consider")) {
+				needTokens.add(i);
+			}
+		}
+		return needTokens;
+	}
 }
