@@ -114,21 +114,6 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
-	private List<Sentence> findSubSentences(Sentence sentence, List<Integer> separatorIndexes) {
-		List<Sentence> subSentences = new ArrayList<Sentence>();
-		if (separatorIndexes.isEmpty()) {
-			subSentences.add(sentence);
-		} else {
-			for (int i = 0; i <= separatorIndexes.size(); i++) {
-				int start = i == 0 ? 0 : separatorIndexes.get(i - 1) + 1;
-				int end = i == separatorIndexes.size() ? sentence.getTokens().size() : separatorIndexes.get(i);
-				Sentence subSentence = new Sentence(sentence.getId(), sentence.getTokens().subList(start, end));
-				subSentences.add(subSentence);
-			}
-		}
-		return subSentences;
-	}
-
 	private List<Integer> findPunctuation(List<Token> tokens) {
 		List<Integer> symbols = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
