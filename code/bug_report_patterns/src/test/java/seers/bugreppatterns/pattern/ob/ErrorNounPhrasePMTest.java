@@ -6,23 +6,22 @@ import seers.bugreppatterns.pattern.utils.TestUtils;
 
 public class ErrorNounPhrasePMTest extends BaseTest {
 
-    public ErrorNounPhrasePMTest() {
-        pm = new ErrorNounPhrasePM();
-    }
+	public ErrorNounPhrasePMTest() {
+		pm = new ErrorNounPhrasePM();
+	}
 
-    @Test
-    public void testNegative() throws Exception {
-        String[] negatives = {"5 observe: once again you can set \"referenced projects\".",
-                "Currently it is:",
-        		"incorrect"};
+	@Test
+	public void testNegative() throws Exception {
+		String[] negatives = { "5 observe: once again you can set \"referenced projects\".", "Currently it is:",
+				"incorrect" };
 
-        TestUtils.testSentences(negatives, pm, 0);
-    }
-    
-    @Test
-    public void testPositive() throws Exception {
-        String[] negatives = {"the stack trace"};
+		TestUtils.testSentences(negatives, pm, 0);
+	}
 
-        TestUtils.testSentences(negatives, pm, 1);
-    }
+	@Test
+	public void testPositive() throws Exception {
+		String[] negatives = { "the stack trace", "a lot of errors" };
+
+		TestUtils.testSentences(negatives, pm, 1);
+	}
 }

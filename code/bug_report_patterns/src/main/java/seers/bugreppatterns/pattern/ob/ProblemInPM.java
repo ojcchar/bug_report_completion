@@ -13,8 +13,8 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ErrorNounPhrasePM() };
 
-	final private static String[] OTHER_TERMS = { "about", "as", "at", "between", "during", "for", "from", "in", "into",
-			"of", "on", "over", "to", "with", "within" };
+	final public static String[] PREP_TERMS = { "about", "as", "at", "between", "during", "for", "from", "in", "into",
+			"of", "on", "over", "to", "up", "with", "within" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -53,7 +53,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> prepTerms = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(OTHER_TERMS).anyMatch(t -> token.getWord().equals(t))) {
+			if (Arrays.stream(PREP_TERMS).anyMatch(t -> token.getWord().equals(t))) {
 				prepTerms.add(i);
 			}
 		}
@@ -78,7 +78,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 				// disregard verbs that come after preposition
 				if (i - 1 >= 0) {
 					Token prevToken = tokens.get(i - 1);
-					if (Arrays.stream(OTHER_TERMS).anyMatch(t -> prevToken.getWord().equalsIgnoreCase(t))) {
+					if (Arrays.stream(PREP_TERMS).anyMatch(t -> prevToken.getWord().equalsIgnoreCase(t))) {
 						add = false;
 					}
 

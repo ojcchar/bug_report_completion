@@ -2,6 +2,7 @@ package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
@@ -17,33 +18,50 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
+		
+		// divide sentence by punctuation
+		List<Integer> punctuation = findPunctuation(tokens);
+		List<Sentence> subSentences = findSubSentences(sentence, punctuation);
 
-		// check for no prepositions -> ProblemInPM case
-		if (ProblemInPM.findPrepositions(tokens).isEmpty()) {
+		boolean match = false;
 
-			// divide sentence into phrases and analyze them
-			List<Integer> symbols = findSemiColonOrParenthesis(tokens);
+		for (Iterator<Sentence> iterator = subSentences.iterator(); iterator.hasNext();) {
+			Sentence subSentence = (Sentence) iterator.next();
 
-			if (symbols.isEmpty()) {
-				return matchSubSentence(sentence);
+			// divide sentence by prepositions
+			List<Integer> prepositions = ProblemInPM.findPrepositions(subSentence.getTokens());
+			List<Sentence> phrases = findSubSentences(subSentence, prepositions);
+
+			// there's only one phrase (i.e., no preps)
+			if (phrases.size() == 1) {
+				match = match || matchSubSentence(phrases.get(0)) == 1;
 			} else {
-				boolean match = false;
-				for (int i = 0; i <= symbols.size(); i++) {
-					int start = i == 0 ? 0 : symbols.get(i - 1) + 1;
-					int end = i == symbols.size() ? tokens.size() : symbols.get(i);
-					Sentence sentence2 = new Sentence(sentence.getId(), tokens.subList(start, end));
-					match = match || matchSubSentence(sentence2) == 1 ? true : false;
-				}
-				if (match) {
-					return 1;
+
+				for (Iterator<Sentence> iterator2 = phrases.iterator(); iterator2.hasNext();) {
+					Sentence phrase = (Sentence) iterator2.next();
+			
+					// the S_OB_PROBLEM_IN case
+					if (matchSubSentence(phrase) == 1) {
+						if (iterator2.hasNext()) {
+							return 0;
+						} else {
+							match = match || true;
+						}
+					} else {
+						match = match || false;
+					}
+
 				}
 			}
+
 		}
+
+		if (match)
+			return 1;
 		return 0;
 	}
 
 	private int matchSubSentence(Sentence sentence) throws Exception {
-		// System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
 		ArrayList<Integer> verbIndex = new ArrayList<Integer>();
 
@@ -96,11 +114,27 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
-	private List<Integer> findSemiColonOrParenthesis(List<Token> tokens) {
+	private List<Sentence> findSubSentences(Sentence sentence, List<Integer> separatorIndexes) {
+		List<Sentence> subSentences = new ArrayList<Sentence>();
+		if (separatorIndexes.isEmpty()) {
+			subSentences.add(sentence);
+		} else {
+			for (int i = 0; i <= separatorIndexes.size(); i++) {
+				int start = i == 0 ? 0 : separatorIndexes.get(i - 1) + 1;
+				int end = i == separatorIndexes.size() ? sentence.getTokens().size() : separatorIndexes.get(i);
+				Sentence subSentence = new Sentence(sentence.getId(), sentence.getTokens().subList(start, end));
+				subSentences.add(subSentence);
+			}
+		}
+		return subSentences;
+	}
+
+	private List<Integer> findPunctuation(List<Token> tokens) {
 		List<Integer> symbols = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getWord().equals(":") || token.getWord().equals("-LRB-") || token.getWord().equals("-RRB-")) {
+			if (token.getWord().equals(":") || token.getWord().equals(".") || token.getWord().equals(";")
+					|| token.getWord().equals("-LRB-") || token.getWord().equals("-RRB-")) {
 				symbols.add(i);
 			}
 		}
@@ -123,7 +157,8 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 				return 1;
 			} else if (token.getLemma().matches("(illegal)([A-Za-z0-9.]+)") && token.getGeneralPos().equals("NN")) {
 				return 1;
-			} else if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> token.getWord().toLowerCase().startsWith(t))
+			} else if (Arrays.stream(NegativeTerms.ADJECTIVES)
+					.anyMatch(t -> token.getWord().toLowerCase().startsWith(t))
 					&& (token.getGeneralPos().equals("JJ") || token.getGeneralPos().equals("NN")
 							|| token.getGeneralPos().equals("RB") || token.getGeneralPos().equals("VB"))) {
 				if (tokens.size() > 1) {
@@ -137,6 +172,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 			i++;
 		}
+		//System.out.println("no ENP");
 		return 0;
 	}
 
