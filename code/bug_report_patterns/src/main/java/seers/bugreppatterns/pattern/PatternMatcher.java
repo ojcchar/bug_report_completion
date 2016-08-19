@@ -117,6 +117,14 @@ public abstract class PatternMatcher {
 		return true;
 	}
 
+	/**
+	 * Divides the sentence intro subsentences according to the indexes provided in separatorIndexes. The subSentences
+	 * do not include the tokens given by the separatorIndexes.
+	 * 
+	 * @param sentence
+	 * @param separatorIndexes
+	 * @return
+	 */
 	protected List<Sentence> findSubSentences(Sentence sentence, List<Integer> separatorIndexes) {
 		List<Sentence> subSentences = new ArrayList<Sentence>();
 		if (separatorIndexes.isEmpty()) {

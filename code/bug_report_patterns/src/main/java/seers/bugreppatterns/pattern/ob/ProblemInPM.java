@@ -90,7 +90,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 
 					}
 				} else
-				// disregard verbs that come after preposition
+				// disregard verbs that come before preposition
 				if (i - 1 >= 0) {
 					Token prevToken = tokens.get(i - 1);
 					if (Arrays.stream(PREP_TERMS).anyMatch(t -> prevToken.getWord().equalsIgnoreCase(t))) {

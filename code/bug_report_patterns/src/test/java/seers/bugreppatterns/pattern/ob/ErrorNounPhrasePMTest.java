@@ -20,7 +20,7 @@ public class ErrorNounPhrasePMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negatives = { "the stack trace", "a lot of errors" };
+		String[] negatives = { "the stack trace", "a lot of errors", "the missing entry" };
 
 		TestUtils.testSentences(negatives, pm, 1);
 	}
