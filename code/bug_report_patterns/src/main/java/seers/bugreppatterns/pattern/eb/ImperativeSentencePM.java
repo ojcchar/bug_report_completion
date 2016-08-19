@@ -1,6 +1,7 @@
 package seers.bugreppatterns.pattern.eb;
 
 import java.util.Arrays;
+import java.util.List;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.TextProcessor;
@@ -17,8 +18,9 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 		int match = 0;
 		try {
-			Token firstToken = sentence.getTokens().get(0);
-			Token secondToken = sentence.getTokens().get(1);
+			List<Token> tokens = sentence.getTokens();
+			Token firstToken = tokens.get(0);
+			Token secondToken = tokens.get(1);
 
 			match = checkNormalCase(firstToken, secondToken);
 
@@ -28,27 +30,35 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 				// ----------------
 
-				Token fourthToken = sentence.getTokens().get(3);
-				Token firfthToken = sentence.getTokens().get(4);
+				Token fourthToken = tokens.get(3);
+				Token firfthToken = tokens.get(4);
 
+				// matches label
 				boolean b = text.matches("expect (result|behavior) :.+");
 				if (b) {
-
 					match = checkNormalCase(fourthToken, firfthToken);
-
 				} else {
 
-					Token thirdToken = sentence.getTokens().get(2);
+					Token thirdToken = tokens.get(2);
 					if (firstToken.getPos().equals("-LRB-") && thirdToken.getPos().equals("-RRB-")) {
 
 						match = checkNormalCase(fourthToken, firfthToken);
 
 					} else {
-						if (secondToken.getPos().equals(":")) {
 
-							match = checkNormalCase(thirdToken, fourthToken);
+						int idx = -1;
+						for (int i = 0; i < tokens.size() && i <= 5; i++) {
 
+							Token token = tokens.get(i);
+							if (token.getLemma().equals(":")) {
+								idx = i;
+							}
 						}
+
+						if (idx != -1) {
+							match = checkNormalCase(tokens.get(idx + 1), tokens.get(idx + 2));
+						}
+
 					}
 				}
 			}
@@ -59,7 +69,8 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 	}
 
-	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "load" };
+	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "load",
+			"support" };
 
 	public static int checkNormalCase(Token firstToken, Token secondToken) {
 

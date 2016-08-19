@@ -14,7 +14,8 @@ public class ShouldPM extends ExpectedBehaviorPatternMatcher {
 
 		List<Token> tokens = sentence.getTokens();
 
-		Optional<Token> first = tokens.stream().filter(t -> "MD".equals(t.getPos()) && "should".equals(t.getLemma()))
+		Optional<Token> first = tokens.stream()
+				.filter(t -> "MD".equals(t.getPos()) && ("should".equals(t.getLemma()) || "shall".equals(t.getLemma())))
 				.findFirst();
 		return first.isPresent() ? 1 : 0;
 	}
