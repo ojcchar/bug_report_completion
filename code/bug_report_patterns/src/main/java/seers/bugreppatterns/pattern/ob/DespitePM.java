@@ -6,7 +6,7 @@ import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-public class EvenIfPM extends ObservedBehaviorPatternMatcher {
+public class DespitePM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
