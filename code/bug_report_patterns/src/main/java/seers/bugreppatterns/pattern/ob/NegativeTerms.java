@@ -3,7 +3,7 @@ package seers.bugreppatterns.pattern.ob;
 public class NegativeTerms {
 	final public static String[] ADJECTIVES = { "abnormal", "agressive", "ambiguous", "annoying", "bad", "bizarre",
 			"blank", "blocked", "bloken", "broken", "confusing", "counter-intuitive", "corrupt", "corrupted", "cpu-bound", "dead",
-			"different", "dirty", "down", "duplicated", "empty", "enormous", "erroneous", "expensive", "extra",
+			"different", "dirty", "down", "duplicated", "empty", "enormous", "erroneous", "excessive", "expensive", "extra",
 			"faulty", "frustrating", "funny-looking", "garbled", "gone", "hard", "ignored", "improper", "inaccessible",
 			"inappropriate", "incorrect", "inconsitant", "inconsistent", "incredible", "indefinite", "inefficient",
 			"infinite", "insecure", "invalid", "lost", "meaningless", "messed", "misleading", "misplaced", "missing",
@@ -20,6 +20,7 @@ public class NegativeTerms {
 			"counter-intuitively", "deadly", "differently", "dirtly", "emptyly", "enourmously", "erroneously",
 			"expensively", "hardly", "inaccesibly", "inappropriately", "inconsistently", "incorrectly", "incredibly",
 			"indefinitely", "inefficiently", "infinitely", "insecurely", "invalidly", "misleadingly", "mistakenly",
+			"never",
 			"painfully", "poorly", "randomly", "redundantly", "repeatedly", "slowly", "spuriously", "strangely",
 			"suddenly", "tediously", "twice", "unacceptablely", "undesirably", "unexpectedly", "unreadably",
 			"unresponsively", "unsecurely", "unstably", "weirdly", "wrongly" };

@@ -12,7 +12,7 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
-			new VerbNoPM(), new ProblemInPM(), new FrequencyAdverbPM(), new NoNounPM(), new ErrorTermSubjectPM(),
+			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(),
 			new ErrorNounPhrasePM() };
 
 	final static String[] NEGATIVE_TERMS = { "no", "nothing", "not", "never" };

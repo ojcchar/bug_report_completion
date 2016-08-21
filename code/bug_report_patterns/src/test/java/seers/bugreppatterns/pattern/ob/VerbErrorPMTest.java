@@ -12,14 +12,13 @@ public class VerbErrorPMTest extends BaseTest {
     @Test
     public void testNegatives() throws Exception {
         String[] n = {"Currently, you can select (in the problem filter):",
-                // These two are NEG_ADJ_ADV, not VERB_ERROR
                 "### Actual behavior\n" +
                         "Right now `timestamp`, being used as a sorting criteria, even when " +
                         "sometimes a value other than an actual timestamp is assigned to such " +
                         "`timestamp` attribute, which is misleading.",
-                "Person.ageAge currently figures the age down to the hours, minutes, and seconds " +
-                        "which returns the wrong age when the birthday time is after the onDate " +
-                        "time."};
+                "However when I moved a whole directory from one part of the webproject to " +
+                        "another I found copies in place places, the new destination and the old " +
+                        "source location."};
 
         TestUtils.testSentences(n, pm, 0);
     }

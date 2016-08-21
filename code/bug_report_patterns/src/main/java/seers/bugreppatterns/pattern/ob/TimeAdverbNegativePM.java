@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class TimeAdverbNegativePM extends ObservedBehaviorPatternMatcher {
     public static final Set<String> TIME_ADVERBS = Arrays.asList("currently", "usually",
             "frequently", "generally", "normally", "occasionally", "often", "regularly",
-            "sometimes")
+            "sometimes", "again", "now")
             .stream()
             .collect(Collectors.toSet());
 
@@ -29,7 +29,7 @@ public class TimeAdverbNegativePM extends ObservedBehaviorPatternMatcher {
             .collect(Collectors.toSet());
 
     public static final String[] ADVERBIAL_TIME_CLAUSES = {"as soon as", "right now", "once again",
-            "for the moment", "up to now"};
+            "for the moment", "up to now", "as it stand"};
 
     @Override
     public int matchSentence(Sentence sentence) throws Exception {
