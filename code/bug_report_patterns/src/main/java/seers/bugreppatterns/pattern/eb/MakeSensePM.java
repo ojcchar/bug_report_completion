@@ -4,13 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
+import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.pattern.ob.NegativeAuxVerbPM;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class MakeSensePM extends ExpectedBehaviorPatternMatcher {
 
+	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM() };
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
+
+		// no negative sentences
+
+		for (PatternMatcher pm : NEGATIVE_PMS) {
+			int match = pm.matchSentence(sentence);
+			if (match == 1) {
+				return 0;
+			}
+		}
+
+		// -----------------------------
 
 		List<Token> tokens = sentence.getTokens();
 		List<Integer> senseTokens = findMainTokens(tokens);
@@ -30,6 +45,9 @@ public class MakeSensePM extends ExpectedBehaviorPatternMatcher {
 						return 1;
 					}
 				}
+				if (make == senseTok - 1) {
+					return 1;
+				}
 			}
 		}
 		return 0;
@@ -38,7 +56,8 @@ public class MakeSensePM extends ExpectedBehaviorPatternMatcher {
 	private int findMake(List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getLemma().equals("make") && token.getGeneralPos().equals("VB")) {
+			if (token.getLemma().equals("make")
+					&& (token.getPos().equals("VB") || token.getPos().equals("VBZ") || token.getPos().equals("VBP"))) {
 				return i;
 			}
 		}
