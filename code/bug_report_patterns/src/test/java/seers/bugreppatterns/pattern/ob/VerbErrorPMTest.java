@@ -18,7 +18,11 @@ public class VerbErrorPMTest extends BaseTest {
                         "`timestamp` attribute, which is misleading.",
                 "However when I moved a whole directory from one part of the webproject to " +
                         "another I found copies in place places, the new destination and the old " +
-                        "source location."};
+                        "source location.",
+                "If you try to refresh this page on the browser you have to wait about 2 minutes " +
+                        "\nto get the page on your browser.",
+                "When I set LogLevel to debug, debug level log messages from mod_ldap are going\n" +
+                        "to stdout rather than my ErrorLog."};
 
         TestUtils.testSentences(n, pm, 0);
     }

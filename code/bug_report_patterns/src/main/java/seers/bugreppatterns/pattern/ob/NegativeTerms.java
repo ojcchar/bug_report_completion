@@ -25,12 +25,12 @@ public class NegativeTerms {
 			"suddenly", "tediously", "twice", "unacceptablely", "undesirably", "unexpectedly", "unreadably",
 			"unresponsively", "unsecurely", "unstably", "weirdly", "wrongly" };
 
-	final public static String[] VERBS = { "affect", "blink", "block", "break", "bypass", "clear", "clash", "clobber", "close",
-			"complain", "consume", "crash", "cut", "delay", "delete", "deny", "destroy", "die", "disappear",
-			"duplicate", "enforce", "erase", "exit", "expire", "fail", "flicker", "force", "forget", "freeze", "glitch",
+	final public static String[] VERBS = { "affect", "blink", "block", "break", "bypass", "clear", "clash", "clobber",
+			"complain", "crash", "cut", "delay", "delete", "deny", "destroy", "die", "disappear",
+			"duplicate", "enforce", "erase", "fail", "flicker", "force", "forget", "freeze", "glitch",
 			"grow", "hang", "ignore", "increase", "interfere", "interrupt", "jerk", "jitter", "kill", "lack", "lose",
-			"loose", "mess", "mishandle", "miss", "mute", "offset", "outdate", "overlap", "pause", "prohibit", "reduce",
-			"refuse", "reject", "remain", "reset", "rest", "restart", "retain", "revert", "shift", "skip", "stick",
+			"loose", "mess", "mishandle", "miss", "mute", "overlap", "pause", "prohibit", "reduce",
+			"refuse", "reject", "reset", "rest", "restart", "revert", "skip", "stick",
 			"stop", "strip", "stuck up", "suffer", "terminate", "throw", "time out", "trim", "truncate", "vanish",
 			"terminate", "trim", "wipe" };
 

@@ -10,8 +10,9 @@ import seers.textanalyzer.entity.Token;
 
 public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 
+    // TODO: Search with regex
     final private static String[] OTHER_NEGATIVE_VERBS = {"slow doen", "slow down", "faile",
-            "stucks up", "consume 100", "get turn into", "be out of", "pull out", " faul ",
+            "stucks up", "consume 100", "get turn into", "be out of", "pull out", "faul",
             "hangs/get", "failes", "timing out", "go away"};
 
     @Override

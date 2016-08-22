@@ -30,7 +30,12 @@ public class NegativeVerbPMTest extends BaseTest {
                 "When I use Shift+Tab to decrease indentation level of selected C source lines, " +
                         "these selected C source lines are scrolled up or down (depends on its " +
                         "position on screen), why?",
-                "If the directory gets closed and opened again the right contents will show up."};
+                "If the directory gets closed and opened again the right contents will show up.",
+                "When the Delete operation has finished it will release the named lock and the " +
+                        "List operation will be unblocked and it will put the volume in the " +
+                        "cache without checking if it still exists after acquiring " +
+                        "the lock on the name.",
+                "Indeed, when I run `docker inspect xxx_default` I got:"};
 
         TestUtils.testSentences(negs, pm, 0);
     }
