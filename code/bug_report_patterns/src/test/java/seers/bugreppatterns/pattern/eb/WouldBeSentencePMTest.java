@@ -19,4 +19,14 @@ public class WouldBeSentencePMTest extends BaseTest {
 
 	}
 
+	@Test
+	public void testNegatives() throws Exception {
+
+		String[] txts = { "Ideally, any code using these duplicates would be checked and fixed if necessary",
+				"Also, it would be impossible to map polymorphic associations",
+				"I could manually handle the index values, but it would be so much easier to let Hibernate do it." };
+		TestUtils.testSentences(txts, pm, 0);
+
+	}
+
 }
