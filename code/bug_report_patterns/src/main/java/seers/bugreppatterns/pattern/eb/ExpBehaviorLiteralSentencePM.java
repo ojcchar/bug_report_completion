@@ -1,11 +1,8 @@
 package seers.bugreppatterns.pattern.eb;
 
-import java.util.List;
-
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
-import seers.textanalyzer.entity.Token;
 
 public class ExpBehaviorLiteralSentencePM extends ExpectedBehaviorPatternMatcher {
 
@@ -16,10 +13,14 @@ public class ExpBehaviorLiteralSentencePM extends ExpectedBehaviorPatternMatcher
 
 		// ----------------
 
-		boolean b = text.matches("(?s)expect ((result|behavior) )?(:|-+).*");
+		String regexPrefix = "(?s)(\\W+ )?expect(ed)?( (result|behavio(u)?r))?( (:|-+))?";
+		boolean b = text.matches(regexPrefix + ".+");
 		if (b) {
-			List<Token> tokens = sentence.getTokens();
-			if (tokens.get(0).getGeneralPos().equals("VB")) {
+			// check for only "expect behavior", with no text after the label
+			b = text.matches("(?s)(\\W+ )?expect(ed)?( (result|behavio(u)?r))?( (:|-+))?");
+			if (b) {
+				return 0;
+			} else {
 				return 1;
 			}
 		} else {
