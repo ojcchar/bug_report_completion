@@ -6,7 +6,6 @@ import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
-import seers.textanalyzer.entity.Token;
 
 public class ExpBehaviorLiteralMultiSentencePM extends ExpectedBehaviorPatternMatcher {
 
@@ -24,14 +23,19 @@ public class ExpBehaviorLiteralMultiSentencePM extends ExpectedBehaviorPatternMa
 			Sentence sentence = sentences.get(0);
 
 			String text = TextProcessor.getStringFromLemmas(sentence);
-
 			// ----------------
 
-			boolean b = text.matches("(?s)expect ((result|behavior) )?(:|-+)?.*");
-			if (b) {
-				List<Token> tokens = sentence.getTokens();
-				if (tokens.get(0).getGeneralPos().equals("VB")) {
+			if (!sentences.get(1).getTokens().isEmpty()) {
+
+				// ?s: '.' matches any character, including a line terminator
+				boolean b = text.matches("(?s)(\\W+ )?expect(ed)? ((result|behavior) )?(:|-+)?.*");
+				if (b) {
 					return 1;
+				} else {
+					b = text.matches("(?s)(\\W+ )?describe the result you expect(:|-+)?.*");
+					if (b) {
+						return 1;
+					}
 				}
 			}
 		}
