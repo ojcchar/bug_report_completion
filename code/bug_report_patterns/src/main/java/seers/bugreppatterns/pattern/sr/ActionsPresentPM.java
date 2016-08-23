@@ -85,14 +85,27 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 		if (noCheckForBullet || isBullet(tokens2.get(0))) {
 			int i = getFirstPresentVerb(tokens2, 1);
 			// check the verb is at the beginning of the sentence
-			if (i != -1 && i < 5) {
-				Token verb = tokens2.get(i);
-				if (!Arrays.stream(AUX_VERBS).anyMatch(v -> v.equals(verb.getLemma()))) {
-					Token prevToken = tokens2.get(i - 1);
-					if (prevToken.getGeneralPos().equals("PRP") || prevToken.getGeneralPos().equals("NN")) {
-						return 1;
+			if (i != -1) {
+				int length = getLengthPreClause(tokens2);
+				if (i <= 5 + length) {
+					Token verb = tokens2.get(i);
+					if (!Arrays.stream(AUX_VERBS).anyMatch(v -> v.equals(verb.getLemma()))) {
+						Token prevToken = tokens2.get(i - 1);
+						if (prevToken.getGeneralPos().equals("PRP") || prevToken.getGeneralPos().equals("NN")) {
+							return 1;
+						}
 					}
 				}
+			}
+		}
+		return 0;
+	}
+
+	private static int getLengthPreClause(List<Token> tokens) {
+		for (int i = 0; i < tokens.size() && i <= 5; i++) {
+			Token token = tokens.get(i);
+			if (token.getLemma().equals(",")) {
+				return i;
 			}
 		}
 		return 0;

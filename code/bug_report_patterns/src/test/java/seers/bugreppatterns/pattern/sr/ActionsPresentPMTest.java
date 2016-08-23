@@ -12,6 +12,22 @@ public class ActionsPresentPMTest extends BaseTest {
 	}
 
 	@Test
+	public void testPositives() throws Exception {
+		String[] txts = {
+				"1. Assuming all caches all empty, we run a query. The ids of the returned objects are stored in the query cache and the objects are stored in the L2 object cache. Great so far.\n"
+						+ "2. Now, the query cache expires before the object cache does. The query is re-ran and the ids of the returned objects are cached in the query cache.\n"
+						+ "3. The object cache expires. The query cache is still valid, so the ids are returned from the query cache. Unfortunately, the objects are no longer cached and hibernate fetches them all one-by-one, which takes forever."
+				// ,
+				// "1. Create and publish a post\n2. A notification \"Post
+				// published\" appears\n3. Update that post\n4. A second
+				// notification \"Post published\" appears, the first one should
+				// be reused"
+		};
+
+		TestUtils.testParagraphs(txts, pm, 1);
+	}
+
+	@Test
 	public void testNegatives() throws Exception {
 		String[] txts = {
 				"Reproduction steps:\n1 create a projects with 2 branches derived from head. Modify a file in those branches (the same file).\n2 from CVS repositories view look for one of those branches, find a file, and compare it with another branch.\n3 you can notice that in your branch additional folder is generated. It seems to be a parent folder of compared resource.",
