@@ -60,8 +60,17 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 			secondToken = clause.get(1);
 		}
 
-		return ImperativeSentencePM.checkNormalCase(firstToken, secondToken);
+		int match = ImperativeSentencePM.checkNormalCase(firstToken, secondToken);
+		if (match == 1) {
+			return match;
+		}
 
+		match = ImperativeSentencePM.checkNormalCaseWithLabel(clause, ":");
+		if (match == 1) {
+			return match;
+		}
+
+		return ImperativeSentencePM.checkNormalCaseWithLabel(clause, ",");
 	}
 
 	private List<List<Token>> extractClauses(List<Token> tokens) {
@@ -70,13 +79,16 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		List<Token> clause = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getLemma().equals(",") || token.getLemma().equals("-") || token.getLemma().equals(";")
-					|| token.getLemma().equals(":") || token.getLemma().equals("_") || token.getLemma().equals(".")) {
-				if (!clause.isEmpty()) {
-					clauses.add(clause);
-				}
-				clause = new ArrayList<>();
+			if (token.getLemma().equals("-") || token.getLemma().equals(";") || token.getLemma().equals(",")) {
 
+				// check if the clause is short, to avoid splitting cases such
+				// "In Reader, click on a post to view full post"
+				if (clause.size() > 5) {
+					clauses.add(clause);
+					clause = new ArrayList<>();
+				} else {
+					clause.add(token);
+				}
 			} else {
 				clause.add(token);
 			}
@@ -84,6 +96,7 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		if (!clause.isEmpty()) {
 			clauses.add(clause);
 		}
+
 		return clauses;
 
 	}

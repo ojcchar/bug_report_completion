@@ -45,19 +45,7 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 						match = checkNormalCase(fourthToken, firfthToken);
 
 					} else {
-
-						int idx = -1;
-						for (int i = 0; i < tokens.size() && i <= 5; i++) {
-
-							Token token = tokens.get(i);
-							if (token.getLemma().equals(":")) {
-								idx = i;
-							}
-						}
-
-						if (idx != -1) {
-							match = checkNormalCase(tokens.get(idx + 1), tokens.get(idx + 2));
-						}
+						match = checkNormalCaseWithLabel(tokens, ":");
 
 					}
 				}
@@ -69,8 +57,24 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 	}
 
+	public static int checkNormalCaseWithLabel(List<Token> tokens, String separator) {
+		int idx = -1;
+		for (int i = 0; i < tokens.size() && i <= 5; i++) {
+
+			Token token = tokens.get(i);
+			if (token.getLemma().equals(separator)) {
+				idx = i;
+			}
+		}
+
+		if (idx != -1) {
+			return checkNormalCase(tokens.get(idx + 1), tokens.get(idx + 2));
+		}
+		return 0;
+	}
+
 	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "load",
-			"support" };
+			"support", "change" };
 
 	public static int checkNormalCase(Token firstToken, Token secondToken) {
 

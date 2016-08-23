@@ -14,7 +14,15 @@ public class ImperativeSubordinatesPMTest extends BaseTest {
 	@Test
 	public void testPositives() throws Exception {
 
-		String[] txts = { "Open the url http://www.buyanorgan.net/test.xml" };
+		String[] txts = {
+				// "Resize the firefox window so it is very thin, the location
+				// widget shrinks correctly until it gets smaller than the URL
+				// icon.,"
+				"In Reader, click on a post to view full post."
+
+				// "Open the url http://www.buyanorgan.net/test.xml",
+				// "Example: run container on some already bind port."
+		};
 		TestUtils.testParagraphs(txts, pm, 1);
 
 	}
