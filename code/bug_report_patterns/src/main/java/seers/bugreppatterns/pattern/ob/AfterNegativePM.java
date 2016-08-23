@@ -15,15 +15,13 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
 			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(), new ErrorNounPhrasePM() };
 
-	public final static PatternMatcher[] DOUBLE_NEG = { new ButNegativePM() };
-
 	public final static String[] AFTER = { "after" };
 
 	public final static String[] TIME_TERMS = { "second", "minute", "hour", "day", "week", "month", "year" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		//System.out.println(TextProcessor.getStringFromTerms(sentence));
+		// System.out.println(TextProcessor.getStringFromTerms(sentence));
 		List<Token> tokens = sentence.getTokens();
 
 		// split sentences based on "."
@@ -45,25 +43,15 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 
 					// hard case: there is no punctuation. Try subsentences from end to beginning. Check there is
 					// something before the negative sentence.
-					// Special case: don't consider negative sentences that come after contrast terms: "After doing
-					// this, the last entry selected appears in the location bar but is not loaded (this is correct)."
 					if (punct.isEmpty()) {
-						boolean isButNegSentence = false;
-						for (PatternMatcher pm : DOUBLE_NEG) {
-							int match = pm.matchSentence(subSentece);
-							if (match == 1) {
-								isButNegSentence = true;
-							}
-						}
-						if (!isButNegSentence) {
-							for (int j = subSentece.getTokens().size() - 1; j >= 0; j--) {
-								Sentence negSent = new Sentence(subSentece.getId(),
-										subSentece.getTokens().subList(j, subSentece.getTokens().size()));
-								for (PatternMatcher pm : NEGATIVE_PMS) {
-									int match = pm.matchSentence(negSent);
-									if (match == 1 && j > 1) {
-										return 1;
-									}
+
+						for (int j = subSentece.getTokens().size() - 1; j >= 0; j--) {
+							Sentence negSent = new Sentence(subSentece.getId(),
+									subSentece.getTokens().subList(j, subSentece.getTokens().size()));
+							for (PatternMatcher pm : NEGATIVE_PMS) {
+								int match = pm.matchSentence(negSent);
+								if (match == 1 && j > 1) {
+									return 1;
 								}
 							}
 						}
@@ -72,25 +60,15 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 					// The easy case: there is punctuation (',', '_', '-'). Make sure that (i) there is something
 					// between the "after" and the punctuation, and (ii) there is a negative sentence after
 					// the punctuation.
-					// Special case: same as before"
 					else {
 						List<Sentence> subSubSentences = findSubSentences(subSentece, punct);
 						if (!subSubSentences.get(0).getTokens().isEmpty()) {
 							for (int j = 1; j < subSubSentences.size(); j++) {
 
-								boolean isButNegSentence = false;
-								for (PatternMatcher pm : DOUBLE_NEG) {
+								for (PatternMatcher pm : NEGATIVE_PMS) {
 									int match = pm.matchSentence(subSubSentences.get(j));
 									if (match == 1) {
-										isButNegSentence = true;
-									}
-								}
-								if (!isButNegSentence) {
-									for (PatternMatcher pm : NEGATIVE_PMS) {
-										int match = pm.matchSentence(subSubSentences.get(j));
-										if (match == 1) {
-											return 1;
-										}
+										return 1;
 									}
 								}
 
