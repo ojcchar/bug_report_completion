@@ -2,6 +2,8 @@ package seers.bugreppatterns.pattern.ob;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.textanalyzer.TextProcessor;
@@ -10,10 +12,9 @@ import seers.textanalyzer.entity.Token;
 
 public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 
-    // TODO: Search with regex
-    final private static String[] OTHER_NEGATIVE_VERBS = {"slow doen", "slow down", "faile",
-            "stucks up", "consume 100", "get turn into", "be out of", "pull out", "faul",
-            "hangs/get", "failes", "timing out", "go away"};
+    private static final Pattern OTHER_NEGATIVE_VERBS_PATTERN =
+            Pattern.compile("\\W(?:slow doen|slow down|faile|stucks up|consume 100|get turn into|" +
+                    "be out of|pull out|faul|hangs/get|failes|timing out|go away)\\W");
 
     @Override
     public int matchSentence(Sentence sentence) throws Exception {
@@ -28,7 +29,8 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
         }
         String txt = TextProcessor.getStringFromLemmas(sentence);
 
-        if (Arrays.stream(OTHER_NEGATIVE_VERBS).anyMatch(txt::contains)) {
+        Matcher otherVerbsMatcher = OTHER_NEGATIVE_VERBS_PATTERN.matcher(txt);
+        if (otherVerbsMatcher.find()) {
             return 1;
         }
 
