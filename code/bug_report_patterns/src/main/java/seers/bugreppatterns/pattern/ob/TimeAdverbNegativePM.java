@@ -29,7 +29,7 @@ public class TimeAdverbNegativePM extends ObservedBehaviorPatternMatcher {
             .collect(Collectors.toSet());
 
     public static final String[] ADVERBIAL_TIME_CLAUSES = {"as soon as", "right now", "once again",
-            "for the moment", "up to now", "as it stand"};
+            "for the moment", "up to now", "as it stand", "for a brief moment", "for a moment"};
 
     @Override
     public int matchSentence(Sentence sentence) throws Exception {

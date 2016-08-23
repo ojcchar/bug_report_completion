@@ -18,7 +18,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
-		
+
 		// divide sentence by punctuation
 		List<Integer> punctuation = findPunctuation(tokens);
 		List<Sentence> subSentences = findSubSentences(sentence, punctuation);
@@ -26,7 +26,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		boolean match = false;
 
 		for (Iterator<Sentence> iterator = subSentences.iterator(); iterator.hasNext();) {
-			Sentence subSentence = (Sentence) iterator.next();
+			Sentence subSentence = iterator.next();
 
 			// divide sentence by prepositions
 			List<Integer> prepositions = ProblemInPM.findPrepositions(subSentence.getTokens());
@@ -39,7 +39,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 				for (Iterator<Sentence> iterator2 = phrases.iterator(); iterator2.hasNext();) {
 					Sentence phrase = (Sentence) iterator2.next();
-			
+
 					// the S_OB_PROBLEM_IN case
 					if (matchSubSentence(phrase) == 1) {
 						if (iterator2.hasNext()) {
@@ -132,7 +132,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 		for (Token token : tokens) {
 			// System.out.println("checking: " +token);
-			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getWord().toLowerCase().startsWith(t))
+			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getLemma().equals(t))
 					&& (token.getGeneralPos().equals("NN") || token.getGeneralPos().equals("VB")
 							|| token.getGeneralPos().equals("CD"))) {
 				return 1;
