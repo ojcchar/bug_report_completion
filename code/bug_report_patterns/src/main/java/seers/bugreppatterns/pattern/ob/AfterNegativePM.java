@@ -16,7 +16,6 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 
 	public final static String[] AFTER = { "after" };
 
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		// System.out.println(TextProcessor.getStringFromTerms(sentence));
@@ -46,12 +45,10 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 						for (int j = subSentece.getTokens().size() - 1; j >= 0; j--) {
 							Sentence negSent = new Sentence(subSentece.getId(),
 									subSentece.getTokens().subList(j, subSentece.getTokens().size()));
-							for (PatternMatcher pm : NEGATIVE_PMS) {
-								int match = pm.matchSentence(negSent);
-								if (match == 1 && j > 1) {
-									return 1;
-								}
+							if (isNegative(negSent) && j > 1) {
+								return 1;
 							}
+							
 						}
 
 					}
@@ -63,11 +60,8 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 						if (!subSubSentences.get(0).getTokens().isEmpty()) {
 							for (int j = 1; j < subSubSentences.size(); j++) {
 
-								for (PatternMatcher pm : NEGATIVE_PMS) {
-									int match = pm.matchSentence(subSubSentences.get(j));
-									if (match == 1) {
-										return 1;
-									}
+								if (isNegative(subSubSentences.get(j))) {
+									return 1;
 								}
 
 							}
@@ -78,6 +72,16 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 			}
 		}
 		return 0;
+	}
+
+	private boolean isNegative(Sentence sentence) throws Exception {
+		for (PatternMatcher pm : NEGATIVE_PMS) {
+			int match = pm.matchSentence(sentence);
+			if (match == 1) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {

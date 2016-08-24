@@ -50,12 +50,11 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 						for (int j = subSentece.getTokens().size() - 1; j > 0; j--) {
 							Sentence negSent = new Sentence(subSentece.getId(),
 									subSentece.getTokens().subList(j, subSentece.getTokens().size()));
-							for (PatternMatcher pm : NEGATIVE_PMS) {
-								int match = pm.matchSentence(negSent);
-								if (match == 1) {
-									return 0;
-								}
+
+							if (isNegative(negSent)) {
+								return 0;
 							}
+
 						}
 						if (subSentece.getTokens().size() > 1 && !findVerbs(subSentece.getTokens()).isEmpty()
 								&& findLemmasInTokens(TIME_TERMS, subSentece.getTokens()).isEmpty()) {
@@ -72,13 +71,11 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 							boolean isPos = true;
 							for (int j = 1; j < subSubSentences.size(); j++) {
 
-								for (PatternMatcher pm : NEGATIVE_PMS) {
-									int match = pm.matchSentence(subSubSentences.get(j));
-									if (match == 1) {
-										isPos = false;
-										break;
-									}
+								if (isNegative(subSubSentences.get(j))) {
+									isPos = false;
+									break;
 								}
+
 							}
 							if (isPos) {
 								return 1;
@@ -90,6 +87,16 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 			}
 		}
 		return 0;
+	}
+
+	private boolean isNegative(Sentence sentence) throws Exception {
+		for (PatternMatcher pm : NEGATIVE_PMS) {
+			int match = pm.matchSentence(sentence);
+			if (match == 1) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
