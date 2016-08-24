@@ -34,9 +34,9 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 				 */
 
 				if (isNegative(first)) {
-					if (verbAfter(tokensSecond)) {
+					//if (verbAfter(tokensSecond)) {
 						return 1;
-					}
+					//}
 				}
 			}
 
@@ -54,6 +54,12 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 		return false;
 	}
 
+	@Deprecated
+	/**
+	 * Deprecated after merge with S_OB_AFTER_NOUN_NEG
+	 * @param tokens
+	 * @return
+	 */
 	private boolean verbAfter(List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			if (tokens.get(i).getGeneralPos().equals("VB")) {
