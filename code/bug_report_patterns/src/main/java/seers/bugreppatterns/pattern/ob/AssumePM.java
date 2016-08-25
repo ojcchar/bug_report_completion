@@ -53,6 +53,19 @@ public class AssumePM extends ObservedBehaviorPatternMatcher {
 							assumes.add(i);
 						}
 					}
+				} 
+				// the auxiliar case
+				else if (previous.getGeneralPos().equals("VB")) {
+					int j = i - 2;
+					while (j >= 0 && tokens.get(j).getGeneralPos().equals("VB")) {
+						j--;
+					}
+
+					if (j >= 0) {
+						if (tokens.get(j - 1).getGeneralPos().equals("NN")) {
+							assumes.add(i);
+						}
+					}
 				}
 
 			}

@@ -19,5 +19,14 @@ public class AssumePMTest extends BaseTest {
 
 		TestUtils.testSentences(negs, pm, 0);
 	}
+	
+	@Test
+	public void testPositive() throws Exception {
+		String[] negs = {
+				"Docker is assuming that there is a container",
+				"Docker is not assuming that there is a container"};
+
+		TestUtils.testSentences(negs, pm, 1);
+	}
 
 }
