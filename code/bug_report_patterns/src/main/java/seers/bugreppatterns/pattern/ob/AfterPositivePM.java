@@ -6,7 +6,6 @@ import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
-import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -20,8 +19,6 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 	public final static PatternMatcher[] DOUBLE_NEG = { new ButNegativePM() };
 
 	public final static String[] AFTER = { "after" };
-
-	public final static String[] TIME_TERMS = { "second", "minute", "hour", "day", "week", "month", "year" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -57,7 +54,7 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 
 						}
 						if (subSentece.getTokens().size() > 1 && !findVerbs(subSentece.getTokens()).isEmpty()
-								&& findLemmasInTokens(TIME_TERMS, subSentece.getTokens()).isEmpty()) {
+								&& findLemmasInTokens(AfterTimePM.TIME_TERMS, subSentece.getTokens()).isEmpty()) {
 							return 1;
 						}
 
