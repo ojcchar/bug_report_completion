@@ -12,8 +12,8 @@ public class AsIfPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		String txt = TextProcessor.getStringFromTerms(sentence);
-		if ((txt.toLowerCase().matches(".*[^A-Za-z]as if[^A-Za-z].+")) && !isEBModal(sentence.getTokens())) {
+		String txt = TextProcessor.getStringFromLemmas(sentence);
+		if ((txt.toLowerCase().matches(".*[^A-Za-z]?as if[^A-Za-z]?.+")) && !isEBModal(sentence.getTokens())) {
 			return 1;
 		}
 		return 0;
