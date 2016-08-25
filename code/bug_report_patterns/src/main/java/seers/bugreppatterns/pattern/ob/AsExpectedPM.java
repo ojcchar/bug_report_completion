@@ -13,7 +13,7 @@ public class AsExpectedPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		String txt = TextProcessor.getStringFromTerms(sentence);
-		if ((txt.matches(".+[^A-Za-z]as expected[^A-Za-z].*")) && !isEBModal(sentence.getTokens())) {
+		if ((txt.toLowerCase().matches(".+[^A-Za-z]as expected[^A-Za-z].*")) && !isEBModal(sentence.getTokens())) {
 			return 1;
 		}
 		return 0;
