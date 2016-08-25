@@ -62,7 +62,7 @@ public class AssumePM extends ObservedBehaviorPatternMatcher {
 					}
 
 					if (j >= 0) {
-						if (tokens.get(j - 1).getGeneralPos().equals("NN")) {
+						if (tokens.get(j).getGeneralPos().equals("NN")) {
 							assumes.add(i);
 						}
 					}
