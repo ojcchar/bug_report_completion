@@ -48,17 +48,6 @@ public class PositiveAfterPM extends ObservedBehaviorPatternMatcher {
 		return false;
 	}
 
-	private boolean isEBModal(List<Token> tokens) {
-		for (int i = 0; i < tokens.size(); i++) {
-			Token tok = tokens.get(i);
-			if (tok.getGeneralPos().equals("MD") && (tok.getLemma().equals("must") || tok.getLemma().equals("need")
-					|| tok.getLemma().equals("should"))) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	private int afterIndex(List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			if (tokens.get(i).getLemma().equals("after")) {
