@@ -33,18 +33,26 @@ public class FoundPM extends ObservedBehaviorPatternMatcher {
 			// Look for every "find"
 			if (current.getGeneralPos().equals("VB")
 					&& Arrays.stream(FIND_TERMS).anyMatch(t -> current.getLemma().equals(t))) {
+				
+				// The right "find"
 				if (i - 1 >= 0) {
 					Token previous = tokens.get(i - 1);
+					
+					// The one preceded by pronoun
 					if ((current.getPos().equals("VBD") || current.getPos().equals("VBP")
 							|| current.getPos().equals("VBN"))
 							&& (previous.getGeneralPos().equals("PRP")
 									|| previous.getWord().toLowerCase().equals("i"))) {
 						finds.add(i);
-					} else if (previous.getGeneralPos().equals("VB") && i - 2 >= 0) {
+					} 
+					// The one preceded by a verb that is in turn preceded by a pronoun
+					else if (previous.getGeneralPos().equals("VB") && i - 2 >= 0) {
 						if (tokens.get(i - 2).getGeneralPos().equals("PRP")) {
 							finds.add(i);
 						}
-					} else if (previous.getGeneralPos().equals("CC")) {
+					} 
+					// The one preceded by a conjunction that is in turn preceded by a pronoun
+					else if (previous.getGeneralPos().equals("CC")) {
 						for (int j = i - 2; j >= 0; j--) {
 							if (tokens.get(j).getGeneralPos().equals("PRP")) {
 								finds.add(i);
