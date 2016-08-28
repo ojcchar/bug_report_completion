@@ -1,11 +1,11 @@
 package seers.bugreppatterns.pattern.ob;
 
-import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.textanalyzer.entity.Sentence;
-
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.textanalyzer.entity.Sentence;
 
 /**
  * Matcher for S_OB_OUTPUT_VERB
