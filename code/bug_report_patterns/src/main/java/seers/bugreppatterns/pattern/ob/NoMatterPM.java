@@ -9,7 +9,7 @@ public class NoMatterPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		String txt = TextProcessor.getStringFromLemmas(sentence);
-		if (txt.contains("no matter")) {
+		if (txt.contains("no matter") && !isEBModal(sentence.getTokens())) {
 			return 1;
 		}
 		return 0;
