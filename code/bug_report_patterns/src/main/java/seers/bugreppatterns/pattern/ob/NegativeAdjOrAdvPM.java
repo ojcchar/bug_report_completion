@@ -13,7 +13,6 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-
 		List<Token> tokens = sentence.getTokens();
 
 		// cases such as: "is/are not" + (adverb) verb in pp or adj
