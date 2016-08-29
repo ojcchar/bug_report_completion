@@ -11,9 +11,7 @@ import seers.textanalyzer.entity.Token;
 
 public class LogContainsPM extends ObservedBehaviorPatternMatcher {
 
-	public final static String LOG = "log";
-	
-	public final static String[] LOG_VERBS = { "be", "contain", "look", "say", "see", "show", "tell"  };
+	public final static String[] LOG_VERBS = { "be", "contain", "look", "say", "see", "show", "tell" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -23,15 +21,16 @@ public class LogContainsPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 		List<Sentence> sentences = paragraph.getSentences();
-		Sentence sentence = sentences.get(0);
 
-		List<Integer> logs = findLog(sentence.getTokens());
-		if (!logs.isEmpty()) {
-			List<Sentence> phrases = findSubSentences(sentence, logs);
-			
-			for(Sentence phrase : phrases) {
-				if(!findOutputSignal(phrase.getTokens()).isEmpty()) {
-					return 1;
+		for (Sentence sentence : sentences) {
+			List<Integer> logs = findLog(sentence.getTokens());
+			if (!logs.isEmpty()) {
+				List<Sentence> phrases = findSubSentences(sentence, logs);
+
+				for (Sentence phrase : phrases) {
+					if (!findOutputSignal(phrase.getTokens()).isEmpty()) {
+						return 1;
+					}
 				}
 			}
 		}
@@ -44,26 +43,27 @@ public class LogContainsPM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token current = tokens.get(i);
 
-			if (current.getGeneralPos().equals("NN") && current.getLemma().matches(".*[^A-Za-z]?log[s]?")) {
+			if (current.getGeneralPos().equals("NN") && (current.getLemma().matches(".*[^A-Za-z]?log[s]?")
+					|| current.getLemma().matches(".*[^A-Za-z]?dump[s]?"))) {
 				logs.add(i);
 			}
 		}
 
 		return logs;
 	}
-	
+
 	private List<Integer> findOutputSignal(List<Token> tokens) {
 		List<Integer> signal = new ArrayList<>();
-		
+
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 
-			if (token.getGeneralPos().equals("VB") && Arrays.stream(LOG_VERBS).anyMatch(
-					t -> token.getLemma().contains(t))) {
+			if (token.getGeneralPos().equals("VB")
+					&& Arrays.stream(LOG_VERBS).anyMatch(t -> token.getLemma().contains(t))) {
 				signal.add(i);
-			} else if(token.getLemma().equals(":")) {
+			} else if (token.getLemma().equals(":")) {
 				signal.add(i);
-			} else if(token.getGeneralPos().equals("NN") && token.getLemma().equals("message")) {
+			} else if (token.getGeneralPos().equals("NN") && token.getLemma().equals("message")) {
 				signal.add(i);
 			}
 		}
