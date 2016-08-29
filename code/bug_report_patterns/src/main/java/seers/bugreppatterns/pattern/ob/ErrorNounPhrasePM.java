@@ -119,7 +119,8 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getWord().equals(":") || token.getWord().equals(".") || token.getWord().equals(";")
-					|| token.getWord().equals("-LRB-") || token.getWord().equals("-RRB-")) {
+					|| token.getWord().equals("-LRB-") || token.getWord().equals("-RRB-")
+					|| token.getWord().equals("``") || token.getWord().equals("''")) {
 				symbols.add(i);
 			}
 		}
@@ -157,7 +158,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 			i++;
 		}
-		//System.out.println("no ENP");
+		// System.out.println("no ENP");
 		return 0;
 	}
 
