@@ -28,10 +28,11 @@ public class SameProblemWhenPM extends ObservedBehaviorPatternMatcher {
 		
 		boolean hasAVerb = hasAVerb(tokens);
 		List<Integer> index_terms = findTerms(tokens);
-		boolean hasAClause = checkClause(tokens);
+		//boolean hasAClause = checkClause(tokens);
 		int index_sim = findSimilarityTerms(tokens);
 		
-		if (hasAVerb && hasAClause && !index_terms.isEmpty() && index_sim >=0){
+		//if (hasAVerb && hasAClause && !index_terms.isEmpty() && index_sim >=0){
+		if(hasAVerb && !index_terms.isEmpty() && index_sim >= 0){
 			//check the expression
 			for (Integer index_term : index_terms) {
 				if(index_term == (index_sim+1)){
