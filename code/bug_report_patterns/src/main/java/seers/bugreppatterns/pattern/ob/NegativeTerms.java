@@ -38,5 +38,5 @@ public class NegativeTerms {
 			"issue", "leak", "leakage", "lock", "loss", "malware", "mismatch", "misplace", "mistake", "nil", "nonsense",
 			"npe", "npes", "null", "omission", "overlap", "pain", "peek", "poor", "problem", "race", "rarity",
 			"runaway", "segfault", "segmentation", "spam", "stacktrace", "symptom", "trouble", "truncation", "typo",
-			"violation", "wait", "warn", "warning", "zombie" };
+			"unavailability", "violation", "wait", "warn", "warning", "zombie" };
 }
