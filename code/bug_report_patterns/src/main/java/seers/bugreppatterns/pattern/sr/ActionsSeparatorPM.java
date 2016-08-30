@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.sr;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
@@ -9,21 +8,20 @@ import seers.textanalyzer.entity.Token;
 
 public class ActionsSeparatorPM extends StepsToReproducePatternMatcher {
 
-	public final static String[] SEPARATORS = { "-" };
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		List<Token> tokens = sentence.getTokens();
 
-		List<List<Token>> clauses = extractClauses(tokens);
+		List<List<Token>> clauses = MenuNavigationPM.extractClauses(tokens, MenuNavigationPM.SEPARATORS);
 
 		int numClauses = 0;
 		for (List<Token> clause : clauses) {
 			numClauses += checkClause(clause);
 		}
 
-		if (numClauses > 1) {
+		// TODO: check for OB clause at the end of the sentence
+		if (numClauses > 0 && clauses.size() > 1) {
 			return 1;
 		}
 
@@ -37,28 +35,6 @@ public class ActionsSeparatorPM extends StepsToReproducePatternMatcher {
 			}
 		}
 		return 0;
-	}
-
-	private List<List<Token>> extractClauses(List<Token> tokens) {
-		List<List<Token>> clauses = new ArrayList<>();
-
-		int ini = 0;
-
-		for (int i = ini; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (token.getLemma().equals("-")) {
-				if (ini != i) {
-					clauses.add(tokens.subList(ini, i));
-				}
-				ini = i + 1;
-			}
-		}
-
-		if (ini != tokens.size() - 1) {
-			clauses.add(tokens.subList(ini, tokens.size()));
-		}
-
-		return clauses;
 	}
 
 }

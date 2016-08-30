@@ -17,17 +17,10 @@ public class MenuNavigationPM extends StepsToReproducePatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		List<List<Token>> clauses = null;
 
 		// separate the sentence into clauses, by any of the defined separators
 		List<Token> tokens2 = sentence.getTokens();
-		for (int i = 0; i < SEPARATORS.length; i++) {
-			String separator = SEPARATORS[i];
-			clauses = getElementsBySeparator(tokens2, separator);
-			if (clauses.size() != 1) {
-				break;
-			}
-		}
+		List<List<Token>> clauses = extractClauses(tokens2, SEPARATORS);
 
 		// -----------------------
 
@@ -52,7 +45,19 @@ public class MenuNavigationPM extends StepsToReproducePatternMatcher {
 
 	}
 
-	private List<List<Token>> getElementsBySeparator(List<Token> tokens, String separator) {
+	public static List<List<Token>> extractClauses(List<Token> tokens2, String[] separators) {
+		List<List<Token>> clauses = null;
+		for (int i = 0; i < separators.length; i++) {
+			String separator = separators[i];
+			clauses = getElementsBySeparator(tokens2, separator);
+			if (clauses.size() != 1) {
+				break;
+			}
+		}
+		return clauses;
+	}
+
+	public static List<List<Token>> getElementsBySeparator(List<Token> tokens, String separator) {
 
 		List<List<Token>> clauses = new ArrayList<>();
 		List<Token> clause = new ArrayList<>();
@@ -79,7 +84,7 @@ public class MenuNavigationPM extends StepsToReproducePatternMatcher {
 		return clauses;
 	}
 
-	private String getLemmas(List<Token> tokens, int i, int length) {
+	private static String getLemmas(List<Token> tokens, int i, int length) {
 
 		int toIndex = i + length;
 		List<Token> subList;
