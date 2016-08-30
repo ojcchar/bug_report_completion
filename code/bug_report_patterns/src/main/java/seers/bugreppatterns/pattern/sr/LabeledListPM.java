@@ -5,6 +5,7 @@ import java.util.List;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.pattern.eb.ImperativeSentencePM;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -21,64 +22,91 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 
 		List<Sentence> sentences = paragraph.getSentences();
 		int numbActionNoLabel = 0;
-		boolean isLabeled = false;
 		if (sentences.size() > 1) {
-			isLabeled = isParagraphLabeled(sentences);
+			int labelIdx = getLabelIndex(sentences);
 
-			if (isLabeled) {
-				for (int i = 0; i < sentences.size(); i++) {
-					List<Token> tokens = sentences.get(i).getTokens();
-					String text = TextProcessor.getStringFromLemmas(sentences.get(i));
-					if (tokens.size() >= 3) {
-						if (text.matches("^(\\d+|\\-).+")) {
-							if (isAnAction(tokens.get(1), tokens.get(2)) || isANounPhrase(tokens)
-									|| (startsWithNounPhrase(tokens.get(1), tokens.get(2)))) {
-								return 1;
-							}
-						} else if ((isAnAction(tokens.get(0), tokens.get(1)) || isANounPhrase(tokens)
-								|| (startsWithNounPhrase(tokens.get(1), tokens.get(2))))) {
-							return 1;
-						}
+			// there is label
+			if (labelIdx != -1) {
+				for (int i = labelIdx + 1; i < sentences.size(); i++) {
+					Sentence sentence = sentences.get(i);
+					List<Token> tokensNoBullet = getTokensNoBullet(sentence);
+
+					if (tokensNoBullet.isEmpty()) {
+						continue;
+					}
+
+					if (isAnAction(tokensNoBullet) || isANounPhrase(tokensNoBullet)
+							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)) {
+						return 1;
 					}
 				}
 			} else {
 				for (int i = 0; i < sentences.size(); i++) {
-					String text = TextProcessor.getStringFromLemmas(sentences.get(i));
-					List<Token> tokens = sentences.get(i).getTokens();
-					if (tokens.size() >= 3) {
-						if (text.matches("^(\\d+|\\-).+")) {
-							if (isAnAction(tokens.get(1), tokens.get(2)) || isANounPhrase(tokens)) {
-								numbActionNoLabel++;
-							}
+					Sentence sentence = sentences.get(i);
+
+					List<Token> tokensNoBullet = getTokensNoBullet(sentence);
+
+					if (tokensNoBullet.isEmpty()) {
+						continue;
+					}
+
+					if (isAnAction(tokensNoBullet) || isANounPhrase(tokensNoBullet)
+							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)) {
+						numbActionNoLabel++;
+						if (numbActionNoLabel > 1) {
+							return 1;
 						}
 					}
-				}
-			}
 
-			if (numbActionNoLabel > 1) {
-				return 1;
+				}
 			}
 		}
 		return 0;
 	}
 
-	public boolean isParagraphLabeled(List<Sentence> sentences) {
-		for (int i = 0; (i < sentences.size() - 1); i++) {
-			String text = TextProcessor.getStringFromLemmas(sentences.get(i));
-			boolean b = (text.matches("(?s).*(following|repro) step.*")) || (text.matches("(?s).*?(step)? ?to repro.*"))
-					|| (text.equals("step :")) || (text.equals("str :")) || (text.endsWith("have try :"))
-					|| (text.contains("here be the step") || (text.matches("(?s).*reproduce as follow :")));
-			if (b) {
-				return true;
-			}
-		}
-		return false;
+	private boolean isPresentTense(List<Token> tokensNoBullet) {
+		return ActionsPresentPM.isActionInPresent(new Sentence("-1", tokensNoBullet), true) == 1;
 	}
 
-	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "stop",
-			"goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use" };
+	private List<Token> getTokensNoBullet(Sentence sentence) {
+		String text = TextProcessor.getStringFromLemmas(sentence);
+		List<Token> tokens = sentence.getTokens();
+		List<Token> tokensNoBullet = tokens;
 
-	public static boolean isAnAction(Token firstToken, Token secondToken) {
+		// cases like: 1 -
+		if (text.matches("^(\\d+ \\-+).+")) {
+			tokensNoBullet = tokens.subList(2, tokens.size());
+
+			// cases like: 1. or -
+		} else if (text.matches("^(\\d+|\\-|\\*).+")) {
+			tokensNoBullet = tokens.subList(1, tokens.size());
+		}
+		return tokensNoBullet;
+	}
+
+	public int getLabelIndex(List<Sentence> sentences) {
+		for (int i = 0; (i < sentences.size() - 1); i++) {
+			String text = TextProcessor.getStringFromLemmas(sentences.get(i));
+			boolean b = text.matches("(?s).*(following|repro) step.*") || text.matches("(?s).*?(step)? ?to repro.*")
+					|| text.equals("step :") || text.equals("step by step :") || text.equals("str :")
+					|| text.endsWith("have try :") || text.contains("here be the step")
+					|| text.matches("(?s).*reproduce as follow :") || text.contains("follow scenario :")
+					|| text.equals("to reproduce :");
+			if (b) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static boolean isAnAction(List<Token> tokens) throws Exception {
+
+		Token firstToken = tokens.get(0);
+		Token secondToken = null;
+
+		if (tokens.size() > 1) {
+			secondToken = tokens.get(1);
+		}
 
 		if (firstToken.getGeneralPos().equals("VB") || firstToken.getPos().equals("VBP")
 				|| firstToken.getGeneralPos().equals("MD")) {
@@ -91,14 +119,16 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 					return true;
 				}
 			}
-			if (Arrays.stream(UNDETECTED_VERBS).anyMatch(p -> firstToken.getLemma().equals(p))) {
+			if (Arrays.stream(ImperativeSentencePM.UNDETECTED_VERBS).anyMatch(p -> firstToken.getLemma().equals(p))) {
 				return true;
 			}
 		}
 		return false;
+
 	}
 
 	public boolean isANounPhrase(List<Token> tokens) {
+
 		for (int i = 1; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getGeneralPos().equals("VB")) {
@@ -108,13 +138,36 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 		return true;
 	}
 
-	public boolean startsWithNounPhrase(Token first, Token second) {
-		if (first.getGeneralPos().equals("JJ") && second.getGeneralPos().equals("VB")) {
-			return true;
+	public boolean startsWithNounPhrase(List<Token> tokens) throws Exception {
+
+		Token firstToken = tokens.get(0);
+
+		if (tokens.size() == 1) {
+			if (firstToken.getGeneralPos().equals("NN")) {
+				return true;
+			}
+		} else {
+
+			Token secondToken = tokens.get(1);
+
+			if (firstToken.getGeneralPos().equals("JJ") && secondToken.getGeneralPos().equals("VB")) {
+				return true;
+			}
+			if ((firstToken.getGeneralPos().equals("JJ") && secondToken.getGeneralPos().equals("NN"))
+					|| (firstToken.getGeneralPos().equals("NN") && secondToken.getGeneralPos().equals("JJ"))) {
+				return true;
+			}
 		}
-		if ((first.getGeneralPos().equals("JJ") && second.getGeneralPos().equals("NN"))
-				|| (first.getGeneralPos().equals("NN") && second.getGeneralPos().equals("JJ"))) {
+		return false;
+	}
+
+	public boolean isParagraphLabeled(List<Sentence> sentences) {
+		int labelIdx = getLabelIndex(sentences);
+
+		// there is label
+		if (labelIdx != -1) {
 			return true;
+
 		}
 		return false;
 	}

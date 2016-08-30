@@ -73,8 +73,8 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 		return 0;
 	}
 
-	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "load",
-			"support", "change" };
+	final public static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "stop",
+			"goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use", "start" };
 
 	public static int checkNormalCase(Token firstToken, Token secondToken) {
 
