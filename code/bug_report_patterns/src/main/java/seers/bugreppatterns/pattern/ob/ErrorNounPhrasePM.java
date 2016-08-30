@@ -17,6 +17,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
+		//System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
 
 		// divide sentence by punctuation
@@ -87,9 +88,8 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 				Token token = tokens.get(verbIndex.get(i));
 
-				if (token.getLemma().equals("be")) {
+				if (token.getLemma().equals("be") || token.getPos().equals("VBP") || token.getPos().equals("VBZ")) {
 					matches = false;
-					break;
 				} else if (verbIndex.get(i) == 0) {
 					matches = matches && true;
 				} else {

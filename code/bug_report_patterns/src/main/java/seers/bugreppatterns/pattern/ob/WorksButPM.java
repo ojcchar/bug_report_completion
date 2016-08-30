@@ -22,7 +22,7 @@ public class WorksButPM extends ObservedBehaviorPatternMatcher{
 			// check for the fine term
 			Token tok = tokens.get(indexWork + 1);
 			if (Arrays.stream(FINE_TERM).anyMatch(
-					t -> tok.getLemma().contains(t))) {
+					t -> tok.getLemma().equals(t))) {
 				// check for the contrast term
 				Sentence sentence2 = new Sentence(sentence.getId(),
 						tokens.subList(indexWork + 2, tokens.size()));
