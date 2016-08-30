@@ -10,10 +10,14 @@ public class ProblemInPMTest extends BaseTest {
         pm = new ProblemInPM();
     }
 
-    @Test
-    public void testNegative() throws Exception {
-        String[] negatives = {"Right \nnow, it seem to look only for mozilla and netscape.", "Unhandled exception caught in event loop."};
+	@Test
+	public void testNegative() throws Exception {
+		String[] negatives = {
+				"Right \nnow, it seem to look only for mozilla and netscape.",
+				"Unhandled exception caught in event loop.",
+				};
 
-        TestUtils.testSentences(negatives, pm, 0);
-    }
+		TestUtils.testSentences(negatives, pm, 0);
+		
+	}
 }
