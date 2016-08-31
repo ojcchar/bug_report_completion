@@ -11,11 +11,17 @@ public class ErrorTermSubjectPMTest extends BaseTest {
 		pm = new ErrorTermSubjectPM();
 	}
 	
+	@Test
+	public void testPositive() throws Exception {
+		String[] sentences = { "Unavailability of a method which tells if a user has given an extended permission to an application" };
+
+		TestUtils.testSentences(sentences, pm, 1);
+	}
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] negatives = { "There are still issues with this approach ." };
+		String[] sentences = { "There are still issues with this approach ." };
 
-		TestUtils.testSentences(negatives, pm, 0);
+		TestUtils.testSentences(sentences, pm, 0);
 	}
 }
