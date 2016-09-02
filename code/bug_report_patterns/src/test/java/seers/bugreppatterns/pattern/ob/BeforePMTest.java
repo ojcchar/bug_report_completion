@@ -14,7 +14,6 @@ public class BeforePMTest extends BaseTest {
 	@Test
 	public void testPositives() throws Exception {
 		String[] txts = {
-				"Exception result: No matter how I drop the table slow, the cursor stay at the place where before drop.",
 				"paper cut: when loading a link that is clicked, the previous page remains onscreen awhile before the screen is blanked out for the destination page.  During this time, you can sometimes click links on previous page and change directions, but not always.",
 				"a) No where in the module is client_rmm initialised before being used.",
 				"Uploading a file results in an enormous wait time before the page actually returns, and the data that is displayed is only a very small fraction of the total data transmitted from the file..",

@@ -13,7 +13,7 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 
 	private static String[] PUNCTUATION = new String[] { ",", ":", "_", "-", "-lrb-", "-rrb-", ".", ";" };
 
-	private static String[] PRESENT_TENSE_VERBS = new String[] { "crashes", "builds" };
+	private static String[] PRESENT_TENSE_VERBS = new String[] { "crashes", "builds", "returns" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -96,7 +96,8 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 	private boolean isPronounTrySentence(List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token current = tokens.get(i);
-			if (current.getGeneralPos().equals("PRP") && !current.getLemma().equals("it") && !current.getLemma().equals("they")) {
+			if (current.getGeneralPos().equals("PRP") && !current.getLemma().equals("it")
+					&& !current.getLemma().equals("they")) {
 				int j = i + 1;
 				while (j < tokens.size() && tokens.get(j).getGeneralPos().equals("VB")) {
 					if (tokens.get(j).getLemma().equals("try")) {
@@ -111,7 +112,8 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 
 	private boolean containsVerb(List<Token> tokens) {
 		for (Token current : tokens) {
-			if (current.getGeneralPos().equals("VB")) {
+			if (current.getGeneralPos().equals("VB")
+					|| Arrays.stream(PRESENT_TENSE_VERBS).anyMatch(t -> current.getWord().equals(t))) {
 				return true;
 			}
 		}
