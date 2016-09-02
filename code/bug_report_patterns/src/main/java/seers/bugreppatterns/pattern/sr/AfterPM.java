@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -16,8 +15,6 @@ public class AfterPM extends StepsToReproducePatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		System.out.println(TextProcessor.getStringFromTerms(sentence));
-		System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
 
 		// first token is "after"
@@ -57,6 +54,7 @@ public class AfterPM extends StepsToReproducePatternMatcher {
 		List<Integer> verbIndexes = new ArrayList<Integer>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
+
 			if (token.getGeneralPos().equals("VB") && !token.getPos().equals("VBG")) {
 				verbIndexes.add(i);
 			} else if (Arrays.stream(PRESENT_TENSE_VERBS).anyMatch(t -> token.getWord().equals(t))
