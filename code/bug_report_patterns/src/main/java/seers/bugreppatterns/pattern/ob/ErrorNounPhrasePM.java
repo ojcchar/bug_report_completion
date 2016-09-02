@@ -11,7 +11,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] FALSE_VERBS = { "build", "httpd" };
+	public final static String[] FALSE_VERBS = { "build", "httpd", "stack" };
 
 	private final static String[] SUBJECTS = { "NN", "VB", "DT", "RB", "EX", "IN" };
 
