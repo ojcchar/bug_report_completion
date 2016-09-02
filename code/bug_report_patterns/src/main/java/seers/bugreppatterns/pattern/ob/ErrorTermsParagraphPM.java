@@ -60,7 +60,6 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 				return true;
 			}
 		}
-		System.out.println("not neg");
 		return false;
 	}
 
