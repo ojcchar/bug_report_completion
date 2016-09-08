@@ -2,7 +2,7 @@ package seers.bugreppatterns.pattern.ob;
 
 public class NegativeTerms {
 	final public static String[] ADJECTIVES = { "abnormal", "agressive", "ambiguous", "annoying", "bad", "bizarre",
-			"blank", "blocked", "bloken", "broken", "confusing", "counter-intuitive", "corrupt", "corrupted",
+			"blank", "blocked", "bloken", "broken", "challenging", "confusing", "counter-intuitive", "corrupt", "corrupted",
 			"cpu-bound", "dead", "different", "dirty", "down", "duplicated", "empty", "enormous", "erroneous",
 			"excessive", "expensive", "extra", "faulty", "frustrating", "funny-looking", "garbled", "gone", "hard",
 			"ignored", "improper", "inaccessible", "inappropriate", "incorrect", "inconsitant", "inconsistent",

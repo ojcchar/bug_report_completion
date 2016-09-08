@@ -45,7 +45,9 @@ public class NegativeVerbPMTest extends BaseTest {
 		String[] sentences = { "The floating-point data is then forever lost",
 				"Documentation for Running a test is outdated",
 				"However, when switching to an RTL interface (such as Hebrew) the buttons' icons are reversed.",
-				"Digging in heap dumps to solve a memory leak problem I found that some memory was wasted by multiple instances of String holding the exact same sql query in the EntityLoader class (the 'sql' instance variable)."};
+				"Digging in heap dumps to solve a memory leak problem I found that some memory was wasted by multiple instances of String holding the exact same sql query in the EntityLoader class (the 'sql' instance variable).",
+				"The Browser is simply gone.",
+				"This possibility has been gone since LO 3.6."};
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

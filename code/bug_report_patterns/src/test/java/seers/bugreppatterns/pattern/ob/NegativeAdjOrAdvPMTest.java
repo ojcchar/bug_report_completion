@@ -25,7 +25,9 @@ public class NegativeAdjOrAdvPMTest extends BaseTest {
 				"For some reason, the function ti_sysbios_hal_Hwi_getHookContext__E is being implemented twice in the generated source file.",
 				"Facebook.streamPublish JS is encoding quotes twice", "It seems to report the error twice.",
 				"Firefox crashed twice in a week and brought the operating system down (Windows2000). ",
-				"As Nick Kew says in response to bug 31226, \"AddOutputFilterbyType is known to be broken.\""};
+				"As Nick Kew says in response to bug 31226, \"AddOutputFilterbyType is known to be broken.\"",
+				"But since 4.3.0 the functionality appears to have been moved to: {{org.hibernate.boot.registry.classloading.internal.ClassLoaderServiceImpl.getResources(String)}} using a {{HashSet}} introducing an undesirable random element into the ordering.",
+				"Since some of these options definitely have a non-mandatory flavor when considering some compliance levels (aka JavaCore.COMPILER_PB_ASSERT_IDENTIFIER for 1.3 or 1.4), rendering the effective behavior in a concise documentation may turn out to be a bit challenging."};
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}
