@@ -12,8 +12,15 @@ public class PassiveVoicePMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] negs = {};
+		String[] sentences = {};
 
-		TestUtils.testSentences(negs, pm, 0);
+		TestUtils.testSentences(sentences, pm, 0);
+	}
+	
+	@Test
+	public void testPositive() throws Exception {
+		String[] sentences = {"The class name BBB is highlighted in editor correctly."};
+
+		TestUtils.testSentences(sentences, pm, 1);
 	}
 }

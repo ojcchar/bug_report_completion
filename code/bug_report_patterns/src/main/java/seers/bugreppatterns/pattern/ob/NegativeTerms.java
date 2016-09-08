@@ -28,9 +28,9 @@ public class NegativeTerms {
 			"complain", "crash", "cut", "delay", "delete", "deny", "destroy", "die", "disappear", "duplicate",
 			"enforce", "erase", "fail", "flicker", "force", "forget", "freeze", "glitch", "grow", "hang", "ignore",
 			"increase", "interfere", "interrupt", "jerk", "jitter", "kill", "lack", "lose", "loose", "mess",
-			"mishandle", "miss", "mute", "overlap", "pause", "prohibit", "reduce", "refuse", "reject", "reset", "rest",
-			"restart", "revert", "skip", "stick", "stop", "strip", "stuck up", "suffer", "terminate", "throw",
-			"time out", "trim", "truncate", "vanish", "terminate", "trim", "wipe" };
+			"mishandle", "miss", "mute", "outdate", "overlap", "pause", "prohibit", "reduce", "refuse", "reject",
+			"reset", "rest", "restart", "revert", "reverse", "skip", "stick", "stop", "strip", "stuck up", "suffer",
+			"terminate", "throw", "time out", "trim", "truncate", "vanish", "terminate", "trim", "waste", "wipe" };
 
 	final public static String[] NOUNS = { "401", "404", "ambiguity", "block", "breakage", "bug", "chaos", "clash",
 			"collision", "conflict", "confusion", "corruption", "crash", "cut", "delay", "disaster", "duplicate",

@@ -24,7 +24,8 @@ public class NegativeAdjOrAdvPMTest extends BaseTest {
 				"TP125: other projects referenced twice (1G83V7V)",
 				"For some reason, the function ti_sysbios_hal_Hwi_getHookContext__E is being implemented twice in the generated source file.",
 				"Facebook.streamPublish JS is encoding quotes twice", "It seems to report the error twice.",
-				"Firefox crashed twice in a week and brought the operating system down (Windows2000). " };
+				"Firefox crashed twice in a week and brought the operating system down (Windows2000). ",
+				"As Nick Kew says in response to bug 31226, \"AddOutputFilterbyType is known to be broken.\""};
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

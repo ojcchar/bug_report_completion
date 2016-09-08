@@ -39,4 +39,14 @@ public class NegativeVerbPMTest extends BaseTest {
 
         TestUtils.testSentences(negs, pm, 0);
     }
+    
+    @Test
+	public void testPositive() throws Exception {
+		String[] sentences = { "The floating-point data is then forever lost",
+				"Documentation for Running a test is outdated",
+				"However, when switching to an RTL interface (such as Hebrew) the buttons' icons are reversed.",
+				"Digging in heap dumps to solve a memory leak problem I found that some memory was wasted by multiple instances of String holding the exact same sql query in the EntityLoader class (the 'sql' instance variable)."};
+
+		TestUtils.testSentences(sentences, pm, 1);
+	}
 }
