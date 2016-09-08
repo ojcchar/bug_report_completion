@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -21,11 +20,8 @@ public class UntilNegPM extends ObservedBehaviorPatternMatcher{
 				Sentence after = new Sentence (sentence.getId(), tokens.subList(until+1, tokens.size()));
 				List<Token> clause_tokens = clause.getTokens();
 				if(isAClause(clause_tokens) && !isEBModal(clause_tokens)){
-					for (PatternMatcher pm : ButNegativePM.NEGATIVE_PMS){
-						int match = pm.matchSentence(after);
-						if(match == 1){
-							return 1;
-						}
+					if (isNegative(after)) {
+						return 1;
 					}
 				}
 			}
@@ -50,6 +46,10 @@ public class UntilNegPM extends ObservedBehaviorPatternMatcher{
 			}
 		}
 		return termsIndex;
+	}
+	
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, ButNegativePM.NEGATIVE_PMS);
 	}
 
 }

@@ -41,12 +41,6 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private boolean isNegative(Sentence sentence) throws Exception {
-		for (PatternMatcher pm : NEGATIVE_PMS) {
-			int match = pm.matchSentence(sentence);
-			if (match == 1) {
-				return true;
-			}
-		}
-		return false;
+		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 }

@@ -32,15 +32,13 @@ public class LeadsToNegativePm extends ObservedBehaviorPatternMatcher {
 					isSubject = true;
 				}
 			}
-			
+
 			// check that the second sentence is negative
 			if (isSubject || indexVerb == 0) {
-				for (PatternMatcher pm : LeadsToPM.NEGATIVE_PMS) {
-					int match = pm.matchSentence(second);
-					if (match == 1) {
-						return 1;
-					}
+				if (isNegative(second)) {
+					return 1;
 				}
+
 			}
 		}
 		return 0;
@@ -66,4 +64,7 @@ public class LeadsToNegativePm extends ObservedBehaviorPatternMatcher {
 		return -1;
 	}
 
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, LeadsToPM.NEGATIVE_PMS);
+	}
 }

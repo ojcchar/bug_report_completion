@@ -19,11 +19,8 @@ public class NegativeConditionalPM extends ObservedBehaviorPatternMatcher {
 			for (Integer integer : indexes) {
 				if (integer > 0 && (integer < tokens.size() - 1)) {
 					Sentence negclause = new Sentence(sentence.getId(), tokens.subList(0, integer));
-					for (PatternMatcher pm : ButNegativePM.NEGATIVE_PMS) {
-						int match = pm.matchSentence(negclause);
-						if (match == 1) {
-							return 1;
-						}
+					if(isNegative(negclause)) {
+						return 1;
 					}
 				}
 			}
@@ -40,5 +37,9 @@ public class NegativeConditionalPM extends ObservedBehaviorPatternMatcher {
 			}
 		}
 		return indexConditionalTerms;
+	}
+	
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, ButNegativePM.NEGATIVE_PMS);
 	}
 }

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -27,12 +26,14 @@ public class TimeAdverbPositivePM extends ObservedBehaviorPatternMatcher {
             }
         }
 
-        for (PatternMatcher pm : ButNegativePM.NEGATIVE_PMS) {
-            if (pm.matchSentence(sentence) == 1) {
-                return 0;
-            }
-        }
+        if (isNegative(sentence)) {
+			return 0;
+		}
 
         return 1;
     }
+    
+    private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, ButNegativePM.NEGATIVE_PMS);
+	}
 }

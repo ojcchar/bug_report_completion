@@ -158,4 +158,20 @@ public abstract class PatternMatcher {
 		return subSentences;
 	}
 
+	/**
+	 * checks if the sentence matches any of the patterns in the array of patterns
+	 * @param sentence sentence to be analyzed
+	 * @param patterns patterns to match the sentence with
+	 * @return true if the sentence matches any of the patterns, false otherwise
+	 * @throws Exception
+	 */
+	public boolean sentenceMatchesAnyPatternIn(Sentence sentence, PatternMatcher[] patterns) throws Exception {
+		for (PatternMatcher pm : patterns) {
+			int match = pm.matchSentence(sentence);
+			if (match == 1) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

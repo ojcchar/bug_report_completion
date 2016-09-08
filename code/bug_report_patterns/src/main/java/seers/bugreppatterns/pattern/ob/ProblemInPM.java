@@ -33,13 +33,8 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 		while (j < preps.size()) {
 
 			Sentence sentence2 = new Sentence(sentence.getId(), tokens.subList(i, preps.get(j)));
-			for (PatternMatcher pm : NEGATIVE_PMS) {
-				int match = pm.matchSentence(sentence2);
-				if (match == 1) {
-
-					return 1;
-
-				}
+			if(isNegative(sentence2)) {
+				return 1;
 			}
 
 			j++;
@@ -103,6 +98,10 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 			}
 		}
 		return verbs;
+	}
+	
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 
 }

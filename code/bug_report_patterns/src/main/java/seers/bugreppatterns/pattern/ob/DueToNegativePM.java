@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -60,12 +59,6 @@ public class DueToNegativePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private boolean isNegative(Sentence sentence) throws Exception {
-		for (PatternMatcher pm : NegativeAfterPM.NEGATIVE_PMS) {
-			int match = pm.matchSentence(sentence);
-			if (match == 1) {
-				return true;
-			}
-		}
-		return false;
+		return sentenceMatchesAnyPatternIn(sentence, NegativeAfterPM.NEGATIVE_PMS);
 	}
 }

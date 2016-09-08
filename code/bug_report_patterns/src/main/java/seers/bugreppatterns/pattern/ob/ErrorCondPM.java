@@ -20,15 +20,16 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 			for (Integer condIndex : condIndexes) {
 				if (condIndex > 0 && (condIndex < tokens.size() - 1)) {
 					Sentence errorClause = new Sentence(sentence.getId(), tokens.subList(0, condIndex));
-					for (PatternMatcher pm : NEGATIVE_PMS) {
-						int match = pm.matchSentence(errorClause);
-						if (match == 1) {
-							return 1;
-						}
+					if(isNegative(errorClause)) {
+						return 1;
 					}
 				}
 			}
 		}
 		return 0;
+	}
+	
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 }

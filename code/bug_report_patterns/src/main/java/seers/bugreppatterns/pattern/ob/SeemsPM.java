@@ -16,11 +16,8 @@ public class SeemsPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		// Check that is not other seem pattern
-		for (PatternMatcher pm : OTHER_SEEM) {
-			int match = pm.matchSentence(sentence);
-			if (match == 1) {
-				return 0;
-			}
+		if(isOtherSeem(sentence)) {
+			return 0;
 		}
 
 		String txt = TextProcessor.getStringFromLemmas(sentence);
@@ -54,5 +51,9 @@ public class SeemsPM extends ObservedBehaviorPatternMatcher {
 			}
 		}
 		return idxs;
+	}
+	
+	private boolean isOtherSeem(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, OTHER_SEEM);
 	}
 }

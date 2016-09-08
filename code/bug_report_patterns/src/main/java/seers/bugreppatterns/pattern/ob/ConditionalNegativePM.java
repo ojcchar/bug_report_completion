@@ -3,7 +3,6 @@ package seers.bugreppatterns.pattern.ob;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -19,11 +18,8 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 			if (cond + 1 < tokens.size()) {
 
 				Sentence sentence2 = new Sentence(sentence.getId(), tokens.subList(cond + 1, tokens.size()));
-				for (PatternMatcher pm : ButNegativePM.NEGATIVE_PMS) {
-					int match = pm.matchSentence(sentence2);
-					if (match == 1) {
-						return 1;
-					}
+				if(isNegative(sentence2)) {
+					return 1;
 				}
 			}
 
@@ -32,4 +28,7 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, ButNegativePM.NEGATIVE_PMS);
+	}
 }

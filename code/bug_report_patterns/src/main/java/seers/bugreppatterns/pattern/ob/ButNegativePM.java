@@ -31,12 +31,10 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 				}
 
 				Sentence sentence2 = new Sentence(sentence.getId(), tokens2.subList(but + 1, tokens2.size()));
-				for (PatternMatcher pm : NEGATIVE_PMS) {
-					int match = pm.matchSentence(sentence2);
-					if (match == 1) {
-						return 1;
-					}
+				if(isNegative(sentence2)) {
+					return 1;
 				}
+				
 			}
 
 		}
@@ -44,4 +42,7 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
+	}
 }

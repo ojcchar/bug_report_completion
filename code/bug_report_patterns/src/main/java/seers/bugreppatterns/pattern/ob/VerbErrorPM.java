@@ -43,11 +43,8 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 				
 				while (end <= tokens.size()) {
 					Sentence subSentence = new Sentence(sentence.getId(), tokens.subList(start, end));
-					for (PatternMatcher pm : NEGATIVE_PMS) {
-						int match = pm.matchSentence(subSentence);
-						if (match == 1) {
-							return 1;
-						}
+					if (isNegative(subSentence)) {
+						return 1;
 					}
 					end++;
 				}
@@ -75,5 +72,9 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
 	private boolean tokenIsPrep(Token token) {
 		return Arrays.stream(ProblemInPM.PREP_TERMS).anyMatch(p -> token.getWord().equalsIgnoreCase(p));
+	}
+	
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 }

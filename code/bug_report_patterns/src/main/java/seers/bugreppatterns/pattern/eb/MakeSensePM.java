@@ -17,12 +17,8 @@ public class MakeSensePM extends ExpectedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		// no negative sentences
-
-		for (PatternMatcher pm : NEGATIVE_PMS) {
-			int match = pm.matchSentence(sentence);
-			if (match == 1) {
-				return 0;
-			}
+		if (isNegative(sentence)) {
+			return 0;
 		}
 
 		// -----------------------------
@@ -74,5 +70,9 @@ public class MakeSensePM extends ExpectedBehaviorPatternMatcher {
 			}
 		}
 		return mainToks;
+	}
+
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 }

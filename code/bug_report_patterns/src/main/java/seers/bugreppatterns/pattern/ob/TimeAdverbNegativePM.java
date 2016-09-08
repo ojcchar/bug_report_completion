@@ -29,7 +29,7 @@ public class TimeAdverbNegativePM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		
+
 		List<Token> tokens = sentence.getTokens();
 
 		if (!FIRST_POS_TIME_ADVERBS.contains(tokens.get(0).getLemma())
@@ -42,12 +42,14 @@ public class TimeAdverbNegativePM extends ObservedBehaviorPatternMatcher {
 			}
 		}
 
-		for (PatternMatcher pm : ButNegativePM.NEGATIVE_PMS) {
-			if (pm.matchSentence(sentence) == 1) {
-				return 1;
-			}
+		if (isNegative(sentence)) {
+			return 1;
 		}
 
 		return 0;
+	}
+
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, ButNegativePM.NEGATIVE_PMS);
 	}
 }

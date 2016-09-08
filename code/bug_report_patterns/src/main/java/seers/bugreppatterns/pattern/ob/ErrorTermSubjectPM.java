@@ -26,11 +26,8 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 			// the last subSentence doesn't matter
 			for (int i = 0; i < subSentences.size() - 1; i++) {
 				// System.out.println(subSentences.get(i));
-				for (PatternMatcher pm : NEGATIVE_PMS) {
-					int match = pm.matchSentence(subSentences.get(i));
-					if (match == 1) {
-						return 1;
-					}
+				if(isNegative(subSentences.get(i))) {
+					return 1;
 				}
 			}
 		}
@@ -87,6 +84,10 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 			}
 		}
 		return verbs;
+	}
+	
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 
 }
