@@ -1,36 +1,31 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class FrequencyAdverbPM extends ObservedBehaviorPatternMatcher {
 
-	final public static String[] FREQ_ADV = { "always", "never", "sometimes", "forever", "occasionally", "often" };
+	final private static String FA = "always|annually|constantly|continually|daily|eventually|ever|every day|every month|"
+			+ "every time|every week|every year|fortnightly|frequently|from time to time|generally|infrequently|"
+			+ "intermittently|monthly|most of the time|never|normally|now and then|occasionally|often|once in a while|periodically|rarely|"
+			+ "regularly|seldom|sometimes|some time|usually|weekly|yearly";
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
+		String text = TextProcessor.getStringFromLemmas(sentence);
+		boolean containsFreqAdv = text.matches(".*[^a-z]?(" + FA + ")[^a-z]?.*");
+
 		List<Token> tokens = sentence.getTokens();
 		List<Integer> verbs = findVerbs(tokens);
-		for (Integer verb : verbs) {
-			if (verb + 1 < tokens.size()) {
-				Token nextToken = tokens.get(verb + 1);
-				if (Arrays.stream(FREQ_ADV).anyMatch(t -> nextToken.getLemma().equals(t))) {
-					return 1;
-				}
-			}
 
-			if (verb - 1 >= 0) {
-				Token prevToken = tokens.get(verb - 1);
-				if (Arrays.stream(FREQ_ADV).anyMatch(t -> prevToken.getLemma().equals(t))) {
-					return 1;
-				}
-			}
+		if (containsFreqAdv && !verbs.isEmpty() && !isEBModal(tokens)) {
+			return 1;
 		}
 		return 0;
 	}
