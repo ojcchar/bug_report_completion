@@ -15,7 +15,15 @@ public class ButPMTest extends BaseTest {
 	public void testPositive() throws Exception {
 		String[] sentences = {
 
-				"I can, however, remove the mistake identifier via the long form by voiding it.", };
+		};
 		TestUtils.testSentences(sentences, pm, 1);
+	}
+
+	@Test
+	public void testNegative() throws Exception {
+		String[] sentences = {
+
+				"But I can't do this.", };
+		TestUtils.testSentences(sentences, pm, 0);
 	}
 }
