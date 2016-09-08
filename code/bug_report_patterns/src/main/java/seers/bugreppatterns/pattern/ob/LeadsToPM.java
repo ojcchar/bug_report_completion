@@ -39,13 +39,11 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 					isSubject = true;
 				}
 			}
-			// check that the second sentence is not ERROR_NOUN_PHRASE
+			// check that the second sentence is not negative
 			if (isSubject || indexVerb == 0) {
-				for (PatternMatcher pm : NEGATIVE_PMS) {
-					int match = pm.matchSentence(second);
-					if (match == 0) {
-						return 1;
-					}
+				
+				if (!isNegative(second)) {
+					return 1;
 				}
 			}
 		}
@@ -72,4 +70,7 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 		return -1;
 	}
 
+	private boolean isNegative(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
+	}
 }

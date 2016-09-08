@@ -25,7 +25,7 @@ public class NegativeTerms {
 			"unreadably", "unresponsively", "unsecurely", "unstably", "weirdly", "wrongly" };
 
 	final public static String[] VERBS = { "affect", "blink", "block", "break", "bypass", "clear", "clash", "clobber",
-			"complain", "crash", "cut", "delay", "delete", "deny", "destroy", "die", "disappear", "duplicate",
+			"complain", "crash", "cut", "deadlock", "delay", "delete", "deny", "destroy", "die", "disappear", "duplicate",
 			"enforce", "erase", "fail", "flicker", "force", "forget", "freeze", "glitch", "grow", "hang", "ignore",
 			"increase", "interfere", "interrupt", "jerk", "jitter", "kill", "lack", "lose", "loose", "mess",
 			"mishandle", "miss", "mute", "outdate", "overlap", "pause", "prohibit", "reduce", "refuse", "reject",
@@ -33,7 +33,7 @@ public class NegativeTerms {
 			"terminate", "throw", "time out", "trim", "truncate", "vanish", "terminate", "trim", "waste", "wipe" };
 
 	final public static String[] NOUNS = { "401", "404", "ambiguity", "block", "breakage", "bug", "chaos", "clash",
-			"collision", "conflict", "confusion", "corruption", "crash", "cut", "delay", "disaster", "duplicate",
+			"collision", "conflict", "confusion", "corruption", "crash", "cut", "deadlock", "delay", "disaster", "duplicate",
 			"error", "errore", "exception", "failure", "fault", "frustration", "glitch", "grief", "inability", "ise",
 			"issue", "leak", "leakage", "lock", "loss", "malware", "mismatch", "misplace", "mistake", "nil", "nonsense",
 			"npe", "npes", "null", "omission", "overlap", "pain", "peek", "poor", "problem", "race", "rarity",
