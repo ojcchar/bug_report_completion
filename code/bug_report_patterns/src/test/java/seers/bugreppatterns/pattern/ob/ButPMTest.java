@@ -21,9 +21,7 @@ public class ButPMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] sentences = {
-
-				"But I can't do this.", };
+		String[] sentences = { "But I can't do this.", };
 		TestUtils.testSentences(sentences, pm, 0);
 	}
 }

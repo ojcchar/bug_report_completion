@@ -151,8 +151,10 @@ public abstract class PatternMatcher {
 			for (int i = 0; i <= separatorIndexes.size(); i++) {
 				int start = i == 0 ? 0 : separatorIndexes.get(i - 1) + 1;
 				int end = i == separatorIndexes.size() ? sentence.getTokens().size() : separatorIndexes.get(i);
-				Sentence subSentence = new Sentence(sentence.getId(), sentence.getTokens().subList(start, end));
-				subSentences.add(subSentence);
+				if (end > start) {
+					Sentence subSentence = new Sentence(sentence.getId(), sentence.getTokens().subList(start, end));
+					subSentences.add(subSentence);
+				}
 			}
 		}
 		return subSentences;
@@ -160,8 +162,11 @@ public abstract class PatternMatcher {
 
 	/**
 	 * checks if the sentence matches any of the patterns in the array of patterns
-	 * @param sentence sentence to be analyzed
-	 * @param patterns patterns to match the sentence with
+	 * 
+	 * @param sentence
+	 *            sentence to be analyzed
+	 * @param patterns
+	 *            patterns to match the sentence with
 	 * @return true if the sentence matches any of the patterns, false otherwise
 	 * @throws Exception
 	 */

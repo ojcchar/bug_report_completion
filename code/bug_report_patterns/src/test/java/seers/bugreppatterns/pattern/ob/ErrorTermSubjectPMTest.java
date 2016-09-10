@@ -13,7 +13,9 @@ public class ErrorTermSubjectPMTest extends BaseTest {
 	
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = { "Unavailability of a method which tells if a user has given an extended permission to an application" };
+		String[] sentences = {
+				"Unavailability of a method which tells if a user has given an extended permission to an application",
+				"the issues are" };
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}
