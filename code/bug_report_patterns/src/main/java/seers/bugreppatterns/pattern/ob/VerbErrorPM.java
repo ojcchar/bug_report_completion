@@ -12,14 +12,14 @@ import seers.textanalyzer.entity.Token;
 public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ProblemInPM(), new ErrorNounPhrasePM() };
-	final public static String[] VERB_TERMS = { "output", "return", "got", "get", "result"};
+	final public static String[] VERB_TERMS = { "output", "return", "got", "get", "result" };
 
 	final public static String[] NOT_VERBS = { "warning", "spam", "voided" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		//System.out.println("\n" + sentence);
-		
+		// System.out.println("\n" + sentence);
+
 		List<Token> tokens = sentence.getTokens();
 		List<Integer> verbs = findAllVerbs(tokens);
 		for (int verb = 0; verb < verbs.size(); verb++) {
@@ -38,9 +38,9 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 					}
 
 				}
-			
+
 				int end = start + 1;
-				
+
 				while (end <= tokens.size()) {
 					Sentence subSentence = new Sentence(sentence.getId(), tokens.subList(start, end));
 					if (isNegative(subSentence)) {
@@ -63,8 +63,8 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 			if ((token.getGeneralPos().equals("VB")
 					|| Arrays.stream(VERB_TERMS).anyMatch(p -> token.getLemma().equals(p)))
 					&& !Arrays.stream(NOT_VERBS).anyMatch(p -> token.getWord().equals(p))) {
-				//if (i + 1 < tokens.size() && !tokens.get(i + 1).getGeneralPos().equals("VB"))
-					verbs.add(i);
+				// if (i + 1 < tokens.size() && !tokens.get(i + 1).getGeneralPos().equals("VB"))
+				verbs.add(i);
 			}
 		}
 		return verbs;
@@ -73,8 +73,17 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 	private boolean tokenIsPrep(Token token) {
 		return Arrays.stream(ProblemInPM.PREP_TERMS).anyMatch(p -> token.getWord().equalsIgnoreCase(p));
 	}
-	
+
 	private boolean isNegative(Sentence sentence) throws Exception {
+		List<Token> tokens = sentence.getTokens();
+		if (tokens.size() > 1) {
+			if (tokens.get(0).getLemma().equals("no")) {
+				Sentence subSentence = new Sentence(sentence.getId(), tokens.subList(1, tokens.size()));
+				if(sentenceMatchesAnyPatternIn(subSentence, NEGATIVE_PMS)) {
+					return false;
+				}
+			}
+		}
 		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 }
