@@ -14,7 +14,7 @@ public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 			// ,"not", "never"
 	};
 
-	final private static String[] ADDITIONAL_VERBS = { "yield", "show" };
+	final private static String[] ADDITIONAL_VERBS = { "yield", "show", "return" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -30,13 +30,6 @@ public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 					return 1;
 				}
 			}
-			// The next fragment corresponds to S_OB_NO_NOUN
-			// if (verb - 1 >= 0) {
-			// Token prevToken = tokens.get(verb - 1);
-			// if (prevToken.getLemma().equals("nothing")) {
-			// return 1;
-			// }
-			// }
 		}
 
 		return 0;
