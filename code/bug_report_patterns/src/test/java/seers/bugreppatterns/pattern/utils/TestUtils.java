@@ -18,7 +18,7 @@ public class TestUtils {
 		for (int i = 0; i < txts.length; i++) {
 			String txt = txts[i];
 			Sentence sentence = null;
-			List<Sentence> sentences = TextProcessor.processText(txt);
+			List<Sentence> sentences = TextProcessor.processText(txt, true);
 			sentence = new Sentence("0", TextProcessor.getAllTokens(sentences));
 			int m = pm.matchSentence(sentence);
 			if (m != expected) {

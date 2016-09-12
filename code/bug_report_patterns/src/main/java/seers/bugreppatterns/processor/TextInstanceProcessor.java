@@ -132,7 +132,7 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 
 				// -----------------------------------------
 
-				List<Sentence> sentences = TextProcessor.processText(sentenceEscaped);
+				List<Sentence> sentences = TextProcessor.processText(sentenceEscaped, true);
 
 				if (!sentences.isEmpty()) {
 					List<Token> allTokens = TextProcessor.getAllTokens(sentences);

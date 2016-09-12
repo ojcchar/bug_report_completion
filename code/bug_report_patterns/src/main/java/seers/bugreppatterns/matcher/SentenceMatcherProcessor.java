@@ -43,7 +43,8 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 
 			String project = sentence.get(0);
 			String bugId = sentence.get(1);
-			String fileToRead = "test_data" + File.separator + "data" + File.separator + project + "_parse" + File.separator + bugId + ".xml.parse";
+			String fileToRead = "test_data" + File.separator + "data" + File.separator + project + "_parse"
+					+ File.separator + bugId + ".xml.parse";
 
 			try {
 				BugReport bug = XMLHelper.readXML(BugReport.class, fileToRead);

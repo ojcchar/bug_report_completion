@@ -213,7 +213,7 @@ public class BaseTest {
 				line = line.replaceFirst("((\\.\\))|\\.|\\)|,|-)\\s*", " ");
 			}
 
-			List<Sentence> sentences = TextProcessor.processText(line);
+			List<Sentence> sentences = TextProcessor.processText(line, true);
 
 			paragraph.addSentences(sentences);
 		}
