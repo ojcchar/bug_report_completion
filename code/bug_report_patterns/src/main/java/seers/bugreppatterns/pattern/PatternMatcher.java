@@ -28,25 +28,6 @@ public abstract class PatternMatcher {
 	public abstract int matchSentence(Sentence sentence) throws Exception;
 
 	/**
-	 * Finds the indexes of the tokens that *exactly* match any of the given
-	 * terms, ignoring the case
-	 * 
-	 * @param terms
-	 * @param tokens
-	 * @return
-	 */
-	public ArrayList<Integer> findTermsInTokens(String[] terms, List<Token> tokens) {
-		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (Arrays.stream(terms).anyMatch(t -> token.getWord().equalsIgnoreCase(t))) {
-				indexConditionalTerms.add(i);
-			}
-		}
-		return indexConditionalTerms;
-	}
-
-	/**
 	 * Finds the indexes of the tokens whose lemmas *exactly* match any of the
 	 * given terms, ignoring the case
 	 * 

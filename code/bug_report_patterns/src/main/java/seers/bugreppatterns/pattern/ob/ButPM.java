@@ -17,7 +17,7 @@ public class ButPM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence subSentence : subSentences) {
 			List<Token> subTokens = subSentence.getTokens();
-			List<Integer> buts = findTermsInTokens(CONTRAST_TERMS, subTokens);
+			List<Integer> buts = findLemmasInTokens(CONTRAST_TERMS, subTokens);
 
 			PatternMatcher pmw = new WorksButPM();
 			int match1 = pmw.matchSentence(subSentence);

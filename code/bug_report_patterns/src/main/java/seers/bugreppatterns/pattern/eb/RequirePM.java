@@ -15,7 +15,7 @@ public class RequirePM extends ExpectedBehaviorPatternMatcher {
 
 		if (tokens.size() > 3) {
 
-			List<Integer> condTerms = findTermsInTokens(CONDITIONAL_TERMS, tokens);
+			List<Integer> condTerms = findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 
 			if (condTerms.isEmpty()) {
 				for (Token token : tokens) {

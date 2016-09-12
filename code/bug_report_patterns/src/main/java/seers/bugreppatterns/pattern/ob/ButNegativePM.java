@@ -25,7 +25,7 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence subSentence : subSentences) {
 			List<Token> subTokens = subSentence.getTokens();
-			List<Integer> buts = findTermsInTokens(CONTRAST_TERMS, subTokens);
+			List<Integer> buts = findLemmasInTokens(CONTRAST_TERMS, subTokens);
 
 			for (Integer but : buts) {
 

@@ -24,7 +24,7 @@ public class AfterTimePM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence superSentence : superSentences) {
 
-			List<Integer> afters = findTermsInTokens(AFTER, superSentence.getTokens());
+			List<Integer> afters = findLemmasInTokens(AFTER, superSentence.getTokens());
 
 			if (!afters.isEmpty()) {
 				// split sentences based on "after"

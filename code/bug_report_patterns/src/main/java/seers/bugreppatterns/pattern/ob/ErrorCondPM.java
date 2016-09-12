@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
@@ -15,7 +14,7 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
-		ArrayList<Integer> condIndexes = findTermsInTokens(CONDITIONAL_TERMS, tokens);
+		List<Integer> condIndexes = findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 		if (!condIndexes.isEmpty()) {
 			for (Integer condIndex : condIndexes) {
 				if (condIndex > 0 && (condIndex < tokens.size() - 1)) {
