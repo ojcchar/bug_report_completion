@@ -10,7 +10,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 
-	// for, and, nor, but, or, yet, so
+	public static final String[] CONJUCTIONS = { "for", "and", "nor", "but", "or", "yet", "so" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -87,11 +87,12 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		List<Token> clause = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getLemma().equals("-") || token.getLemma().equals(";") || token.getLemma().equals(",")) {
+			if (token.getLemma().equals("-") || token.getLemma().equals(";") || token.getLemma().equals(",")
+					|| (token.getPos().equals("CC"))) {
 
 				// check if the clause is short, to avoid splitting cases such
 				// "In Reader, click on a post to view full post"
-				if (clause.size() > 5) {
+				if (clause.size() >= 5) {
 					clauses.add(clause);
 					clause = new ArrayList<>();
 				} else {

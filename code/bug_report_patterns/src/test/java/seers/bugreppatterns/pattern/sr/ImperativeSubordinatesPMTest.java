@@ -18,12 +18,21 @@ public class ImperativeSubordinatesPMTest extends BaseTest {
 				// "Resize the firefox window so it is very thin, the location
 				// widget shrinks correctly until it gets smaller than the URL
 				// icon.,"
-				"In Reader, click on a post to view full post."
 
+				// "In Reader, click on a post to view full post.",
+				"Do your mind about reblogging and modify physical back button."
 				// "Open the url http://www.buyanorgan.net/test.xml",
 				// "Example: run container on some already bind port."
 		};
 		TestUtils.testSentences(txts, pm, 1);
+
+	}
+
+	@Test
+	public void testNegatives() throws Exception {
+
+		String[] txts = { "Sent printed output to client and modify that" };
+		TestUtils.testSentences(txts, pm, 0);
 
 	}
 
