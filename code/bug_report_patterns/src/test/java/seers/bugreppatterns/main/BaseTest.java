@@ -95,7 +95,7 @@ public class BaseTest {
 		}
 
 		if (testDataParagraph.isEmpty() || testDataSentence.isEmpty()) {
-			System.err.println("No testing data for " + pm.getClass().getSimpleName());
+			throw new RuntimeException("No testing data for " + pm.getClass().getSimpleName());
 		}
 
 		// assertFalse("No testing data!", testDataParagraph.isEmpty());

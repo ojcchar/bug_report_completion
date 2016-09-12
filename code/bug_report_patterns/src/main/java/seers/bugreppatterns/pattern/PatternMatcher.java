@@ -54,15 +54,26 @@ public abstract class PatternMatcher {
 	 * @param tokens
 	 * @return
 	 */
-	public ArrayList<Integer> findLemmasInTokens(String[] terms, List<Token> tokens) {
+	protected List<Integer> findLemmasInTokens(String[] terms, List<Token> tokens) {
 		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(terms).anyMatch(t -> token.getLemma().equals(t))) {
+			if (matchTermsByLemma(terms, token)) {
 				indexConditionalTerms.add(i);
 			}
 		}
 		return indexConditionalTerms;
+	}
+
+	/**
+	 * Matches any of the given terms with the token's lemma (case ignored)
+	 * 
+	 * @param terms
+	 * @param token
+	 * @return true if there is any match, false otherwise
+	 */
+	protected boolean matchTermsByLemma(String[] terms, Token token) {
+		return Arrays.stream(terms).anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
 	}
 
 	public int matchParagraph(Paragraph paragraph) throws Exception {

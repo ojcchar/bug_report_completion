@@ -6,8 +6,20 @@ import seers.bugreppatterns.main.BaseTest;
 import seers.bugreppatterns.pattern.utils.TestUtils;
 
 public class ConditionalAffirmativePMTest extends BaseTest {
+
 	public ConditionalAffirmativePMTest() {
 		pm = new ConditionalAffirmativePM();
+	}
+
+	@Test
+	public void testPositives() throws Exception {
+
+		String[] txts = {
+				// "If I just add in the text \"blabla\" somewhere, save, close,
+				// open, the comments are all gone." ,
+				"If I show a comment, then hide it, it will still be there when I open the document again." };
+		TestUtils.testParagraphs(txts, pm, 1);
+
 	}
 
 	@Test

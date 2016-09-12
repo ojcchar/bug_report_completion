@@ -10,8 +10,6 @@ import seers.textanalyzer.entity.Token;
 
 public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 
-	public static final String[] CONJUCTIONS = { "for", "and", "nor", "but", "or", "yet", "so" };
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 

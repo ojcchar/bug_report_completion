@@ -9,7 +9,6 @@ import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class ConditionalSequencePM extends StepsToReproducePatternMatcher {
-	public final static String[] COND_TERMS = { "when", "if" };
 	public final static String[] MODALS_AND_AUX = { "will", "'ll", "ll", "could", "can", "may", "might" };
 
 	@Override
@@ -20,7 +19,7 @@ public class ConditionalSequencePM extends StepsToReproducePatternMatcher {
 			return 0;
 		}
 
-		List<Integer> conditionalTerms = findTermsInTokens(COND_TERMS, tokens);
+		List<Integer> conditionalTerms = findTermsInTokens(ConditionalAffirmativePM.COND_TERMS, tokens);
 
 		for (Integer condTerm : conditionalTerms) {
 			if (condTerm + 1 < tokens.size()) {

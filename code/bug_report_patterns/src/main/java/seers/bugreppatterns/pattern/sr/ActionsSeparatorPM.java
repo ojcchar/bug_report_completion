@@ -30,11 +30,18 @@ public class ActionsSeparatorPM extends StepsToReproducePatternMatcher {
 
 	private int checkClause(List<Token> clause) {
 		if (clause.size() > 1) {
-			if (ActionsPastPM.isAnAction(clause.get(0), clause.get(1))) {
+			if (isAnAction(clause.get(0), clause.get(1))) {
 				return 1;
 			}
 		}
 		return 0;
+	}
+
+	private boolean isAnAction(Token firstToken, Token token2) {
+		if (firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP")) {
+			return true;
+		}
+		return false;
 	}
 
 }
