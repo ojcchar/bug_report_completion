@@ -28,7 +28,8 @@ public abstract class PatternMatcher {
 	public abstract int matchSentence(Sentence sentence) throws Exception;
 
 	/**
-	 * Finds the indexes of the tokens that *exactly* match any of the given terms, ignoring the case
+	 * Finds the indexes of the tokens that *exactly* match any of the given
+	 * terms, ignoring the case
 	 * 
 	 * @param terms
 	 * @param tokens
@@ -46,7 +47,8 @@ public abstract class PatternMatcher {
 	}
 
 	/**
-	 * Finds the indexes of the tokens whose lemmas *exactly* match any of the given terms, ignoring the case
+	 * Finds the indexes of the tokens whose lemmas *exactly* match any of the
+	 * given terms, ignoring the case
 	 * 
 	 * @param terms
 	 * @param tokens
@@ -136,8 +138,9 @@ public abstract class PatternMatcher {
 	}
 
 	/**
-	 * Divides the sentence intro subsentences according to the indexes provided in separatorIndexes. The subSentences
-	 * do not include the tokens given by the separatorIndexes.
+	 * Divides the sentence into subsentences according to the indexes provided
+	 * in separatorIndexes. The subSentences do not include the tokens given by
+	 * the separatorIndexes.
 	 * 
 	 * @param sentence
 	 * @param separatorIndexes
@@ -161,7 +164,8 @@ public abstract class PatternMatcher {
 	}
 
 	/**
-	 * checks if the sentence matches any of the patterns in the array of patterns
+	 * checks if the sentence matches any of the patterns in the array of
+	 * patterns
 	 * 
 	 * @param sentence
 	 *            sentence to be analyzed

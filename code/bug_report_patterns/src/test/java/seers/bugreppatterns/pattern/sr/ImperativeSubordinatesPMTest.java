@@ -23,7 +23,7 @@ public class ImperativeSubordinatesPMTest extends BaseTest {
 				// "Open the url http://www.buyanorgan.net/test.xml",
 				// "Example: run container on some already bind port."
 		};
-		TestUtils.testParagraphs(txts, pm, 1);
+		TestUtils.testSentences(txts, pm, 1);
 
 	}
 

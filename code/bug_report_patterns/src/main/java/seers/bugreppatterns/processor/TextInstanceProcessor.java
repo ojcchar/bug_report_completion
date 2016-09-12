@@ -18,9 +18,8 @@ import seers.bugreppatterns.main.MainHRClassifier;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
 import seers.bugreppatterns.pattern.predictor.Labels;
-import seers.textanalyzer.TextProcessor;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
-import seers.textanalyzer.entity.Token;
 
 public abstract class TextInstanceProcessor extends ThreadProcessor {
 
@@ -95,57 +94,11 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 		if (elements != null) {
 			for (DescriptionSentence descSentence : elements) {
 
+				String sentenceId = descSentence.getId();
 				String sentenceTxt = descSentence.getValue();
-				String sentenceEscaped = sentenceTxt;
-				// -----------------------------------------
 
-				if ("firefox".equals(system)) {
-
-					// -----------------------------
-					if (sentenceTxt.matches("(?s)(?i)(actual)( (results|result))?:(.*)")) {
-						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(actual)( (results|result))?:(.*)", "$4");
-					} else if (sentenceTxt.matches("(?s)(?i)(actual)( (result|results))(.*)")) {
-						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(actual)( (results|result))(.*)", "$4");
-					} else
-					// -----------------------------
-
-					if (sentenceTxt.matches("(?s)(?i)(expected)( (results|result))?:(.*)")) {
-						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(expected)( (results|result))?:(.*)", "$4");
-					} else if (sentenceTxt.matches("(?s)(?i)(expected)( (results|result))?(.*)")) {
-						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(expected)( (results|result))?(.*)", "$4");
-					} else
-
-					// -----------------------------
-					if (sentenceTxt.matches("(?s)(?i)(str|((steps)( to reproduce)?)):(.*)")) {
-						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(str|((steps)( to reproduce)?)):(.*)", "$5");
-					} else if (sentenceTxt.matches("(?s)(?i)(str|((steps)( to reproduce)?))(.*)")) {
-						sentenceEscaped = sentenceTxt.replaceFirst("(?i)(str|((steps)( to reproduce)?))(.*)", "$5");
-					}
-				}
-
-				// LOGGER.debug("STNC: " + sentenceTxt + " -> " +
-				// sentenceEscaped);
-
-				if (sentenceEscaped.trim().isEmpty()) {
-					continue;
-				}
-
-				// -----------------------------------------
-
-				List<Sentence> sentences = TextProcessor.processText(sentenceEscaped, true);
-
-				if (!sentences.isEmpty()) {
-					List<Token> allTokens = TextProcessor.getAllTokens(sentences);
-
-					// if (allTokens.isEmpty()) {
-					// LOGGER.debug("No tokens for bug: " + bugId + ", par.: " +
-					// par.getId() + ", sent: "
-					// + descSentence.getId());
-					// continue;
-					// }
-
-					Sentence sentence = new Sentence(descSentence.getId(), allTokens);
-
+				Sentence sentence = SentenceUtils.parseSentence(sentenceId, sentenceTxt);
+				if (sentence != null) {
 					par.addSentence(sentence);
 				}
 

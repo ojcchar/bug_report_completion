@@ -146,7 +146,7 @@ public class BaseTest {
 
 			Paragraph paragraph = parseParagraph(txt);
 
-			Sentence sentence = new Sentence("0", paragraph.getTokens());
+			Sentence sentence = new Sentence("0", paragraph.getTokens(), txt);
 			int m = pm.matchSentence(sentence);
 			if (m != 1) {
 				System.out.println("\n Fail for (" + i + "): \"" + txt + "\"");

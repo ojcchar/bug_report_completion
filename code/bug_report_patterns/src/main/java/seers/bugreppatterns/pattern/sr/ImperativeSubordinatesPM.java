@@ -10,25 +10,32 @@ import seers.textanalyzer.entity.Token;
 
 public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 
+	// for, and, nor, but, or, yet, so
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		List<Token> tokens = sentence.getTokens();
-		List<List<Token>> clauses = extractClauses(tokens);
 
+		// -----------------------------
+
+		List<List<Token>> clauses = extractClauses(tokens);
 		if (clauses.isEmpty()) {
 			return 0;
 		}
 
-		List<Token> clause1 = clauses.get(0);
+		// -----------------------------
 
-		int match = checkFirstClause(clause1);
+		List<Token> clause1 = clauses.get(0);
+		int match = isImperative(clause1);
 		if (match == 0) {
 			return 0;
 		}
 
+		// -----------------------------
+
 		if (clauses.size() > 1) {
-			int numCl = checkPresentorActionClauses(clauses.subList(1, clauses.size()));
+			int numCl = checkPresentOrActionClauses(clauses.subList(1, clauses.size()));
 			if (numCl == 0) {
 				return 0;
 			}
@@ -37,10 +44,10 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		return 1;
 	}
 
-	private int checkPresentorActionClauses(List<List<Token>> clauses) {
+	private int checkPresentOrActionClauses(List<List<Token>> clauses) {
 		int num = 0;
 		for (List<Token> clause : clauses) {
-			Sentence sentence = new Sentence("o", clause);
+			Sentence sentence = new Sentence("0", clause);
 			int num2 = ActionsPresentPM.isActionInPresent(sentence, true);
 			Token secondToken = null;
 			if (clause.size() > 1) {
@@ -53,7 +60,8 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		return num;
 	}
 
-	private int checkFirstClause(List<Token> clause) {
+	private int isImperative(List<Token> clause) {
+
 		Token firstToken = clause.get(0);
 		Token secondToken = null;
 		if (clause.size() > 1) {

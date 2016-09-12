@@ -19,7 +19,7 @@ public class TestUtils {
 			String txt = txts[i];
 			Sentence sentence = null;
 			List<Sentence> sentences = TextProcessor.processText(txt, true);
-			sentence = new Sentence("0", TextProcessor.getAllTokens(sentences));
+			sentence = new Sentence("0", TextProcessor.getAllTokens(sentences), txt);
 			int m = pm.matchSentence(sentence);
 			if (m != expected) {
 				System.out.println("\n Fail for (" + i + "): \"" + txt + "\"");
