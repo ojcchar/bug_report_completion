@@ -14,19 +14,43 @@ public class ActionsInfinitivePMTest extends BaseTest {
 
     @Test
     public void testPositive() throws Exception {
-        String[] paragraphs = {"- platform-ui module loaded from head\n" +
-                "- open the manifest editor for org.eclipse.ui\n" +
-                "- select the editorActions extension point\n" +
-                "- search for references from the context menu\n" +
-                "- open the resulting matches several times\n" +
-                "- a new editor is opened each time",
-                "0. Fresh install; fresh workspace.\n" +
-                        "1. Start eclipse.exe\n" +
-                        "2. Exit eclipse (to make sure there is a platform.cfg)\n" +
-                        "3. Add a link to an installed extension\n" +
-                        "4. Start eclipse.exe\n" +
-                        "5. Say Yes when it asks if you want to open update manager\n" +
-                        "6. select all the incoming features and say you want them"};
+        String[] paragraphs = {
+                // These seem to be miscoded
+                "1. inside a method type \"new Runnable(\"\n" +
+                        "2. press Ctrl+SPACE\n" +
+                        "==> no method comment for run()",
+                "1. add some TODO comments in html files\n" +
+                        "2. in task tags preference page, enable searching for task tags (make sure enabled for html content type)\n" +
+                        "3. task tags are found and reported in tasks view\n" +
+                        "4. go back to task tags preference page and in the filters tab, disable scanning html content type\n" +
+                        "5. apply & clean and redetect tasks\n" +
+                        "6. ** task tags are still in tasks view and marked in files (though any new todo comments are no longer turned into task tags)",
+                "1. Visit Show/hide blogs area.\n" +
+                        "2. While list is refreshing, untick any of the checkboxes.\n" +
+                        "3. After the refresh completes, your tick will reset to being checked.",
+                "1. Go to the Media Library\n" +
+                        "2. Tap the `+` button to add a new picture\n" +
+                        "3. Either select \"Capture\" or \"Select from local library\"\n" +
+                        "4. Nothing happens: the picture is not uploaded, no Toast error",
+
+                "1 New Text Document.\n" +
+                        "2 Insert -> Footer -> Default Style.\n" +
+                        "3 Table -> Insert Table -> 1x1.\n" +
+                        "4 Place cursor after table.\n" +
+                        "5 Type 3 \"_\" and return (if Apply Border set in AutoCorrect Options).\n" +
+                        "6 Place cursor in paragraph above line.\n" +
+                        "7 Type \"test\".\n" +
+                        "8 Save, close, and reopen document.\n" +
+                        "Alternate:\n" +
+                        "5 Type \"test\".\n" +
+                        "6 Format -> Paragraph -> Borders -> add bottom line in User-defined box.\n" +
+                        "7 Save, close, and reopen document.\n" +
+                        "Result:\n" +
+                        "\"test\" and line are overlapping each other.\n" +
+                        "There is also a red triangle.",
+                "1. inside a method type \"new Runnable(\"\n" +
+                        "2. press Ctrl+SPACE\n" +
+                        "==> no method comment for run()"};
         TestUtils.testParagraphs(paragraphs, pm, 1);
     }
 }

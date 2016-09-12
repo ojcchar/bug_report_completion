@@ -70,7 +70,7 @@ public class SentenceUtils {
 
 		List<Sentence> sentences = TextProcessor.processText(sentenceEscaped, true);
 
-		if (sentences.isEmpty()) {
+		if (!sentences.isEmpty()) {
 
 			List<Token> allTokens = TextProcessor.getAllTokens(sentences);
 
