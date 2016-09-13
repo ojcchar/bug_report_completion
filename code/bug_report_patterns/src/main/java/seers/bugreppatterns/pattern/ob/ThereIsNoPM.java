@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +10,8 @@ import seers.textanalyzer.entity.Token;
 public class ThereIsNoPM extends ObservedBehaviorPatternMatcher {
 
 	final private static String[] NEGATIVE_TERMS = { "no", "nothing" };
+
+	public final static String[] THERE = { "there" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -37,15 +38,7 @@ public class ThereIsNoPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findTheres(List<Token> tokens) {
-
-		List<Integer> theres = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (token.getLemma().equals("there")) {
-				theres.add(i);
-			}
-		}
-		return theres;
+		return findLemmasInTokens(THERE, tokens);
 	}
 
 }

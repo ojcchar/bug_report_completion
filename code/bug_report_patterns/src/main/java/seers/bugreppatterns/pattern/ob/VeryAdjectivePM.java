@@ -11,6 +11,8 @@ public class VeryAdjectivePM extends ObservedBehaviorPatternMatcher {
 
 	public final static String VERY = "very";
 
+	private static final String[] PUNCTUATION = new String[] { ",", "_", ".", ";" };
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
@@ -20,7 +22,7 @@ public class VeryAdjectivePM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence subSentence : subSentences) {
 			List<Integer> veryTerms = findVeryAdj(subSentence.getTokens());
-	
+
 			if (!veryTerms.isEmpty() && !isEBModal(subSentence.getTokens())) {
 				return 1;
 			}
@@ -54,13 +56,9 @@ public class VeryAdjectivePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = new ArrayList<>();
-		for (int i = 0; i < tokens.size() - 1; i++) {
-			Token token = tokens.get(i);
-			if (token.getWord().equals(",") || token.getWord().equals("_") || token.getWord().equals(".")
-					|| token.getWord().equals(";")) {
-				symbols.add(i);
-			}
+		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
+			return symbols.subList(0, symbols.size() - 1);
 		}
 		return symbols;
 	}

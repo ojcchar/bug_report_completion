@@ -1,25 +1,26 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-public class UntilNegPM extends ObservedBehaviorPatternMatcher{
+public class UntilNegPM extends ObservedBehaviorPatternMatcher {
+
+	public final static String[] UNTIL = { "until" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 		List<Integer> untilIndex = findUntil(tokens);
-		if(!untilIndex.isEmpty()){
+		if (!untilIndex.isEmpty()) {
 			for (Integer until : untilIndex) {
-				//check a verb in the clause and a negative sentence in the last part
+				// check a verb in the clause and a negative sentence in the last part
 				Sentence clause = new Sentence(sentence.getId(), tokens.subList(0, until));
-				Sentence after = new Sentence (sentence.getId(), tokens.subList(until+1, tokens.size()));
+				Sentence after = new Sentence(sentence.getId(), tokens.subList(until + 1, tokens.size()));
 				List<Token> clause_tokens = clause.getTokens();
-				if(isAClause(clause_tokens) && !isEBModal(clause_tokens)){
+				if (isAClause(clause_tokens) && !isEBModal(clause_tokens)) {
 					if (isNegative(after)) {
 						return 1;
 					}
@@ -28,26 +29,20 @@ public class UntilNegPM extends ObservedBehaviorPatternMatcher{
 		}
 		return 0;
 	}
-	
-	public boolean isAClause (List<Token> tokens){
+
+	public boolean isAClause(List<Token> tokens) {
 		for (Token token : tokens) {
-			if(token.getGeneralPos().equals("VB")){
+			if (token.getGeneralPos().equals("VB")) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public List<Integer> findUntil (List<Token> tokens){
-		List<Integer> termsIndex = new ArrayList<Integer>();
-		for(int i=0; i<tokens.size(); i++){
-			if(tokens.get(i).getLemma().equals("until")){
-				termsIndex.add(i);
-			}
-		}
-		return termsIndex;
+
+	public List<Integer> findUntil(List<Token> tokens) {
+		return findLemmasInTokens(UNTIL, tokens);
 	}
-	
+
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, ButNegativePM.NEGATIVE_PMS);
 	}
