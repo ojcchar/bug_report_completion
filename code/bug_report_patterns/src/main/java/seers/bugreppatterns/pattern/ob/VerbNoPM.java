@@ -1,20 +1,22 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 
-	final private static String[] NEGATIVE_TERMS = { "no", "nothing"
+	final private static Set<String> NEGATIVE_TERMS = JavaUtils.getSet( "no", "nothing"
 			// ,"not", "never"
-	};
+	);
 
-	final private static String[] ADDITIONAL_VERBS = { "yield", "show", "return" };
+	final private static Set<String> ADDITIONAL_VERBS = JavaUtils.getSet( "yield", "show", "return" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -26,7 +28,7 @@ public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 
 			for (int i = verb + 1; i <= verb + 4 && i < tokens.size(); i++) {
 				Token nextToken = tokens.get(i);
-				if (Arrays.stream(NEGATIVE_TERMS).anyMatch(t -> nextToken.getWord().equalsIgnoreCase(t))) {
+				if (SentenceUtils.lemmasContainToken(NEGATIVE_TERMS,nextToken)) {
 					return 1;
 				}
 			}
@@ -42,7 +44,7 @@ public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getGeneralPos().equals("VB")
-					|| Arrays.stream(ADDITIONAL_VERBS).anyMatch(t -> token.getLemma().equals(t))) {
+					|| SentenceUtils.lemmasContainToken(ADDITIONAL_VERBS, token)) {
 				verbs.add(i);
 			}
 		}

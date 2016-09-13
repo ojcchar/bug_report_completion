@@ -1,11 +1,13 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -13,8 +15,8 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ErrorNounPhrasePM() };
 
-	final public static String[] PREP_TERMS = { "about", "as", "at", "between", "during", "for", "from", "in", "into",
-			"of", "on", "over", "to", "up", "with", "within" };
+	final public static Set<String> PREP_TERMS = JavaUtils.getSet("about", "as", "at", "between", "during", "for",
+			"from", "in", "into", "of", "on", "over", "to", "up", "with", "within");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -33,7 +35,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 		while (j < preps.size()) {
 
 			Sentence sentence2 = new Sentence(sentence.getId(), tokens.subList(i, preps.get(j)));
-			if(isNegative(sentence2)) {
+			if (isNegative(sentence2)) {
 				return 1;
 			}
 
@@ -45,7 +47,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPrepositions(List<Token> tokens) {
-		return findLemmasInTokens(PREP_TERMS, tokens);
+		return SentenceUtils.findLemmasInTokens(PREP_TERMS, tokens);
 	}
 
 	private List<Integer> findProblematicVerbs(List<Token> tokens) {
@@ -64,7 +66,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 				if (token.getPos().equals("VBG") || token.getPos().equals("VBD") || token.getPos().equals("VBN")) {
 					if (i - 1 >= 0) {
 						Token prevToken = tokens.get(i - 1);
-						// disregard verbs that come after a noun 
+						// disregard verbs that come after a noun
 						if (!prevToken.getGeneralPos().equals("NN")) {
 							add = false;
 						}
@@ -72,8 +74,8 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 					if (i + 1 < tokens.size()) {
 						Token postToken = tokens.get(i + 1);
 						// disregard verbs that go after a preposition
-						if (!Arrays.stream(PREP_TERMS).anyMatch(t -> postToken.getWord().equalsIgnoreCase(t))) {
-								add = false;
+						if (!SentenceUtils.lemmasContainToken(PREP_TERMS, postToken)) {
+							add = false;
 						}
 
 					}
@@ -81,7 +83,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 				// disregard verbs that come before preposition
 				if (i - 1 >= 0) {
 					Token prevToken = tokens.get(i - 1);
-					if (Arrays.stream(PREP_TERMS).anyMatch(t -> prevToken.getWord().equalsIgnoreCase(t))) {
+					if (SentenceUtils.lemmasContainToken(PREP_TERMS, prevToken)) {
 						add = false;
 					}
 
@@ -92,7 +94,7 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 		}
 		return verbs;
 	}
-	
+
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}

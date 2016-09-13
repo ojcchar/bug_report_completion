@@ -1,11 +1,11 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -73,7 +73,7 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 				// disregard verbs that come after preposition or determiner
 				if (i - 1 >= 0) {
 					Token prevToken = tokens.get(i - 1);
-					if (Arrays.stream(ProblemInPM.PREP_TERMS).anyMatch(t -> prevToken.getWord().equalsIgnoreCase(t))
+					if (SentenceUtils.lemmasContainToken(ProblemInPM.PREP_TERMS, prevToken)
 							|| prevToken.getGeneralPos().equals("DT")) {
 						add = false;
 					}

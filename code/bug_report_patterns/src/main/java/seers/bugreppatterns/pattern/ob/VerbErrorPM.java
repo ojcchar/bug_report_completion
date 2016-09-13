@@ -1,20 +1,22 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ProblemInPM(), new ErrorNounPhrasePM() };
-	final public static String[] VERB_TERMS = { "output", "return", "got", "get", "result" };
+	final public static Set<String> VERB_TERMS = JavaUtils.getSet("output", "return", "got", "get", "result");
 
-	final public static String[] NOT_VERBS = { "warning", "spam", "voided" };
+	final public static Set<String> NOT_VERBS = JavaUtils.getSet("warning", "spam", "voided");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -61,8 +63,8 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if ((token.getGeneralPos().equals("VB")
-					|| Arrays.stream(VERB_TERMS).anyMatch(p -> token.getLemma().equals(p)))
-					&& !Arrays.stream(NOT_VERBS).anyMatch(p -> token.getWord().equals(p))) {
+					||SentenceUtils.lemmasContainToken(VERB_TERMS, token)
+					&& !SentenceUtils.lemmasContainToken(NOT_VERBS, token))) {
 				// if (i + 1 < tokens.size() && !tokens.get(i + 1).getGeneralPos().equals("VB"))
 				verbs.add(i);
 			}
@@ -71,7 +73,7 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private boolean tokenIsPrep(Token token) {
-		return Arrays.stream(ProblemInPM.PREP_TERMS).anyMatch(p -> token.getWord().equalsIgnoreCase(p));
+		return SentenceUtils.lemmasContainToken(ProblemInPM.PREP_TERMS, token);
 	}
 
 	private boolean isNegative(Sentence sentence) throws Exception {
@@ -79,7 +81,7 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 		if (tokens.size() > 1) {
 			if (tokens.get(0).getLemma().equals("no")) {
 				Sentence subSentence = new Sentence(sentence.getId(), tokens.subList(1, tokens.size()));
-				if(sentenceMatchesAnyPatternIn(subSentence, NEGATIVE_PMS)) {
+				if (sentenceMatchesAnyPatternIn(subSentence, NEGATIVE_PMS)) {
 					return false;
 				}
 			}

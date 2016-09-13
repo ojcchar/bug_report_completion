@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -121,7 +122,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPrepositions(List<Token> tokens) {
-		return findLemmasInTokens(ProblemInPM.PREP_TERMS, tokens);
+		return SentenceUtils.findLemmasInTokens(ProblemInPM.PREP_TERMS, tokens);
 	}
 	
 	public static int checkErrorNounPhrase(List<Token> tokens) {

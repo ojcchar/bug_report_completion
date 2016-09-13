@@ -1,17 +1,19 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class ThereIsNoPM extends ObservedBehaviorPatternMatcher {
 
-	final private static String[] NEGATIVE_TERMS = { "no", "nothing" };
+	final private static Set<String> NEGATIVE_TERMS = JavaUtils.getSet("no", "nothing" );
 
-	public final static String[] THERE = { "there" };
+	public final static Set<String> THERE = JavaUtils.getSet( "there" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -29,7 +31,7 @@ public class ThereIsNoPM extends ObservedBehaviorPatternMatcher {
 			Token nextToken2 = tokens.get(there + 2);
 
 			if (nextToken.getLemma().equals("be")
-					&& Arrays.stream(NEGATIVE_TERMS).anyMatch(t -> nextToken2.getLemma().equals(t))) {
+					&& SentenceUtils.lemmasContainToken(NEGATIVE_TERMS, nextToken2)) {
 				return 1;
 			}
 
@@ -38,7 +40,7 @@ public class ThereIsNoPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findTheres(List<Token> tokens) {
-		return findLemmasInTokens(THERE, tokens);
+		return SentenceUtils.findLemmasInTokens(THERE, tokens);
 	}
 
 }

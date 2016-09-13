@@ -1,18 +1,20 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class WorksFinePM extends ObservedBehaviorPatternMatcher {
 
-	private final static String[] WORK_TERMS = { "work", "suceed", "be", "function" };
-	private final static String[] FINE_TERMS = { "correctly", "expect", "fine", "flawlessly", "good", "great",
-			"normally", "ok", "perfectly", "properly", "reliably", "well" };
+	private final static Set<String> WORK_TERMS = JavaUtils.getSet("work", "suceed", "be", "function");
+	private final static Set<String> FINE_TERMS = JavaUtils.getSet("correctly", "expect", "fine", "flawlessly", "good",
+			"great", "normally", "ok", "perfectly", "properly", "reliably", "well");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -34,7 +36,7 @@ public class WorksFinePM extends ObservedBehaviorPatternMatcher {
 
 			// Look for every "work"
 			if ((current.getGeneralPos().equals("VB") || current.getGeneralPos().equals("NN"))
-					&& Arrays.stream(WORK_TERMS).anyMatch(t -> current.getLemma().equals(t))) {
+					&& SentenceUtils.lemmasContainToken(WORK_TERMS, current)) {
 
 				if (i - 1 >= 0) {
 					Token previous = tokens.get(i - 1);
@@ -52,13 +54,13 @@ public class WorksFinePM extends ObservedBehaviorPatternMatcher {
 				if (i + 1 < tokens.size()) {
 					Token next = tokens.get(i + 1);
 					// The one that precedes a "fine" term
-					if (Arrays.stream(FINE_TERMS).anyMatch(t -> next.getLemma().equals(t))) {
+					if (SentenceUtils.lemmasContainToken(FINE_TERMS, next)) {
 						finds.add(i);
 					}
 					// The one that precedes an "as [fine term]"
 					else if (next.getLemma().equals("as") && i + 2 < tokens.size()) {
 						Token next2 = tokens.get(i + 2);
-						if (Arrays.stream(FINE_TERMS).anyMatch(t -> next2.getLemma().equals(t))) {
+						if (SentenceUtils.lemmasContainToken(FINE_TERMS, next2)) {
 							finds.add(i);
 						}
 					} // The one that precedes a preposition
