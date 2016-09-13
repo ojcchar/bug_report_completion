@@ -6,13 +6,14 @@ import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.textanalyzer.entity.Sentence;
+import seers.textanalyzer.entity.Token;
 
 public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ProblemInPM(), new ErrorTermSubjectPM(),
 			new ErrorNounPhrasePM() };
 
-	private final static String[] SEPARATORS = new String[] { ",", ".", ";" };
+	private final static String[] PUNCTUATION = new String[] { ",", ".", ";" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -32,7 +33,7 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 						firstSentence.getTokens().subList(0, colonIndexes.get(0)));
 
 				List<Sentence> phrases = findSubSentences(beforeColonSentence,
-						findLemmasInTokens(SEPARATORS, beforeColonSentence.getTokens()));
+						findPunctuation(beforeColonSentence.getTokens()));
 				Sentence lastPhrase = phrases.get(phrases.size() - 1);
 
 				if (isNegative(lastPhrase) && (phrases.size() > 1 || sentences.size() > 1
@@ -40,8 +41,7 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 					return 1;
 				}
 			} else {
-				List<Sentence> phrases = findSubSentences(firstSentence,
-						findLemmasInTokens(SEPARATORS, firstSentence.getTokens()));
+				List<Sentence> phrases = findSubSentences(firstSentence, findPunctuation(firstSentence.getTokens()));
 				Sentence lastPhrase = phrases.get(phrases.size() - 1);
 
 				if (isNegative(lastPhrase) && (phrases.size() > 1 || sentences.size() > 1)) {
@@ -55,6 +55,10 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
+	}
+
+	private List<Integer> findPunctuation(List<Token> tokens) {
+		return findLemmasInTokens(PUNCTUATION, tokens);
 	}
 
 }

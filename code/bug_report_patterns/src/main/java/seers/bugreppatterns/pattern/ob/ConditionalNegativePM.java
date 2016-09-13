@@ -10,6 +10,8 @@ import seers.textanalyzer.entity.Token;
 
 public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 
+	private static final String[] PUNCTUATION = new String[] { ",", "_" };
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
@@ -39,14 +41,15 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 						for (int j = subSentece.getTokens().size() - 1; j > 0; j--) {
 							Sentence negSent = new Sentence(subSentece.getId(),
 									subSentece.getTokens().subList(j, subSentece.getTokens().size()));
-							
+
 							if (isNegative(negSent)) {
 								isNeg = true;
 								break;
 							}
 
 						}
-						if (isNeg && subSentece.getTokens().size() > 1 && !findVerbs(subSentece.getTokens()).isEmpty()) {
+						if (isNeg && subSentece.getTokens().size() > 1
+								&& !findVerbs(subSentece.getTokens()).isEmpty()) {
 							return 1;
 						}
 
@@ -80,12 +83,9 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = new ArrayList<>();
-		for (int i = 0; i < tokens.size() - 1; i++) {
-			Token token = tokens.get(i);
-			if (token.getWord().equals(",") || token.getWord().equals("_") ) {
-				symbols.add(i);
-			}
+		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
+			return symbols.subList(0, symbols.size() - 1);
 		}
 		return symbols;
 	}

@@ -12,8 +12,10 @@ public class AllowPM extends ObservedBehaviorPatternMatcher {
 
 	private static String ALLOW = "allow";
 
-	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM()};
-	
+	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM() };
+
+	private static final String[] PUNCTUATION = new String[] { ";", ",", "_", "-", "-LRB-", "-RRB-", "." };
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Sentence> subSentences = findSubSentences(sentence, findPunctuation(sentence.getTokens()));
@@ -87,18 +89,13 @@ public class AllowPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = new ArrayList<>();
-		for (int i = 0; i < tokens.size() - 1; i++) {
-			Token token = tokens.get(i);
-			if (token.getWord().equals(";") || token.getWord().equals(",") || token.getWord().equals("_")
-					|| token.getWord().equals("-") || token.getWord().equals("-LRB-") || token.getWord().equals("-RRB-")
-					|| token.getWord().equals(".")) {
-				symbols.add(i);
-			}
+		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
+			return symbols.subList(0, symbols.size() - 1);
 		}
 		return symbols;
 	}
-
+	
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}

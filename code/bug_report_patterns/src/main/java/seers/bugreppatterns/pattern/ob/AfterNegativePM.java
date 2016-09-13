@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
@@ -15,6 +14,9 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(), new ErrorNounPhrasePM() };
 
 	public final static String[] AFTER = { "after" };
+
+	private static final String[] PERIOD = new String[] { "." };
+	private static final String[] PUNCTUATION = new String[] { ",", "_", "-" };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -48,7 +50,7 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 							if (isNegative(negSent) && j > 1) {
 								return 1;
 							}
-							
+
 						}
 
 					}
@@ -79,25 +81,15 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = new ArrayList<>();
-		for (int i = 0; i < tokens.size() - 1; i++) {
-			Token token = tokens.get(i);
-			if (token.getWord().equals(",") || token.getWord().equals("_") || token.getWord().equals("-")) {
-				symbols.add(i);
-			}
+		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
+			return symbols.subList(0, symbols.size() - 1);
 		}
 		return symbols;
 	}
 
 	private List<Integer> findPeriod(List<Token> tokens) {
-		List<Integer> symbols = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (token.getWord().equals(".")) {
-				symbols.add(i);
-			}
-		}
-		return symbols;
+		return findLemmasInTokens(PERIOD, tokens);
 	}
 
 }

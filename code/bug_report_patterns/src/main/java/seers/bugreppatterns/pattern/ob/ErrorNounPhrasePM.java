@@ -15,9 +15,11 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 	private final static String[] SUBJECTS = { "NN", "VB", "DT", "RB", "EX", "IN" };
 
+	private static final String[] PUNCTUATION = new String[] { ":", ".", ";", "-LRB-", "-RRB-", "``", "''" };
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		//System.out.println(sentence);
+		// System.out.println(sentence);
 		List<Token> tokens = sentence.getTokens();
 
 		// divide sentence by punctuation
@@ -115,16 +117,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (token.getWord().equals(":") || token.getWord().equals(".") || token.getWord().equals(";")
-					|| token.getWord().equals("-LRB-") || token.getWord().equals("-RRB-")
-					|| token.getWord().equals("``") || token.getWord().equals("''")) {
-				symbols.add(i);
-			}
-		}
-		return symbols;
+		return findLemmasInTokens(PUNCTUATION, tokens);
 	}
 
 	public static int checkErrorNounPhrase(List<Token> tokens) {

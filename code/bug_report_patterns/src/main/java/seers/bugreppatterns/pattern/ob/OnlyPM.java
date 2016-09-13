@@ -23,7 +23,7 @@ public class OnlyPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		List<Integer> punctuation = findLemmasInTokens(PUNCTUATION, sentence.getTokens());
+		List<Integer> punctuation = findPunctuation(sentence.getTokens());
 		List<Sentence> subSentences = findSubSentences(sentence, punctuation);
 
 		for (Sentence subSentence : subSentences) {
@@ -78,5 +78,9 @@ public class OnlyPM extends ObservedBehaviorPatternMatcher {
 
 	private boolean isEB(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, EB_PMS);
+	}
+	
+	private List<Integer> findPunctuation(List<Token> tokens) {
+		return findLemmasInTokens(PUNCTUATION, tokens);
 	}
 }
