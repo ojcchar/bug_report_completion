@@ -35,6 +35,7 @@ public abstract class PatternMatcher {
 	 * @param tokens
 	 * @return
 	 */
+	@Deprecated
 	protected List<Integer> findLemmasInTokens(String[] terms, List<Token> tokens) {
 		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
 		for (int i = 0; i < tokens.size(); i++) {

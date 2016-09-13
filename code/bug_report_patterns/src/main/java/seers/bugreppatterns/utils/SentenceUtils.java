@@ -2,7 +2,9 @@ package seers.bugreppatterns.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -152,6 +154,42 @@ public class SentenceUtils {
 	 */
 	public static boolean matchTermsByLemma(String[] terms, Token token) {
 		return Arrays.stream(terms).anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
+	}
+
+	/**
+	 * Checks whether the token's lemma matches any of the strings in lemmas
+	 * 
+	 * @param lemmas set of lemmas to compare against with
+	 * @param token the token to match
+	 * @return true if the token matches any of the lemmas, false otherwise
+	 */
+	public static boolean lemmasContainToken(Set<String> lemmas, Token token) {
+		return lemmas.stream().anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
+	}
+
+	/**
+	 * Finds the indexes of the tokens whose lemmas match the given set of lemmas
+	 * @param lemmas
+	 * @param tokens
+	 * @return
+	 */
+	public static List<Integer> findLemmasInTokens(Set<String> lemmas, List<Token> tokens) {
+		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			if (SentenceUtils.lemmasContainToken(lemmas, token)) {
+				indexConditionalTerms.add(i);
+			}
+		}
+		return indexConditionalTerms;
+	}
+
+	public static boolean tokensContainAnyLemmaIn(List<Token> tokens, Set<String> lemmas) {
+		return findLemmasInTokens(lemmas, tokens).isEmpty();
+	}
+
+	public static boolean sentenceContainsAnyLemmaIn(Sentence sentence, Set<String> lemmas) {
+		return findLemmasInTokens(lemmas, sentence.getTokens()).isEmpty();
 	}
 
 }
