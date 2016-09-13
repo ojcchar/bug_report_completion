@@ -15,31 +15,33 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 			new ErrorNounPhrasePM(), new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(),
 			new ThereIsNoPM(), new VerbNoPM() };
 
+	public final static String[] AFTER = { "after" };
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 		// check for after
-		int afterIndex = afterIndex(tokens);
+		for (Integer afterIndex : findAfters(tokens)) {
+			if (afterIndex != -1 && afterIndex > 0) {
+				Sentence first = new Sentence(sentence.getId(), tokens.subList(0, afterIndex));
+				Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
+				List<Token> tokensFirst = first.getTokens();
+				List<Token> tokensSecond = second.getTokens();
 
-		if (afterIndex != -1 && afterIndex > 0) {
-			Sentence first = new Sentence(sentence.getId(), tokens.subList(0, afterIndex));
-			Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
-			List<Token> tokensFirst = first.getTokens();
-			List<Token> tokensSecond = second.getTokens();
+				// check that the first part is not EB modal
+				if (!isEBModal(tokensFirst)) {
+					/*
+					 * if(isNegative(first) && !(isNegative(second)) && tokensSecond.size()>0){ return 1; }
+					 */
 
-			// check that the first part is not EB modal
-			if (!isEBModal(tokensFirst)) {
-				/*
-				 * if(isNegative(first) && !(isNegative(second)) && tokensSecond.size()>0){ return 1; }
-				 */
-
-				if (isNegative(first)) {
-					//if (verbAfter(tokensSecond)) {
+					if (isNegative(first)) {
+						// if (verbAfter(tokensSecond)) {
 						return 1;
-					//}
+						// }
+					}
 				}
-			}
 
+			}
 		}
 		return 0;
 	}
@@ -48,28 +50,8 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 
-	@Deprecated
-	/**
-	 * Deprecated after merge with S_OB_AFTER_NOUN_NEG
-	 * @param tokens
-	 * @return
-	 */
-	private boolean verbAfter(List<Token> tokens) {
-		for (int i = 0; i < tokens.size(); i++) {
-			if (tokens.get(i).getGeneralPos().equals("VB")) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private int afterIndex(List<Token> tokens) {
-		for (int i = 0; i < tokens.size(); i++) {
-			if (tokens.get(i).getLemma().equals("after")) {
-				return i;
-			}
-		}
-		return -1;
+	private List<Integer> findAfters(List<Token> tokens) {
+		return findLemmasInTokens(AFTER, tokens);
 	}
 
 }

@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
@@ -9,13 +8,15 @@ import seers.textanalyzer.entity.Token;
 
 public class NounNotPM extends ObservedBehaviorPatternMatcher {
 
+	public final static String[] NOT = { "not" };
+
 	public NounNotPM() {
 	}
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens2 = sentence.getTokens();
-		ArrayList<Integer> notTokens = foundIndexToken(tokens2);
+		List<Integer> notTokens = findNots(tokens2);
 		for (Integer notTok : notTokens) {
 			if (notTok - 1 >= 0) {
 
@@ -91,16 +92,8 @@ public class NounNotPM extends ObservedBehaviorPatternMatcher {
 		return null;
 	}
 
-	private ArrayList<Integer> foundIndexToken(List<Token> tokens) {
-		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-
-			if (token.getLemma().equals("not")) {
-				indexConditionalTerms.add(i);
-			}
-		}
-		return indexConditionalTerms;
+	private List<Integer> findNots(List<Token> tokens) {
+		return findLemmasInTokens(NOT, tokens);
 	}
 
 }

@@ -20,7 +20,7 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence superSentence : superSentences) {
 			List<Token> tokens = superSentence.getTokens();
-			List<Integer> conditionalIndexes = findLemmasInTokens(CONDITIONAL_TERMS, tokens);
+			List<Integer> conditionalIndexes = findConditionals(tokens);
 
 			if (!conditionalIndexes.isEmpty()) {
 
@@ -80,6 +80,10 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, ButNegativePM.NEGATIVE_PMS);
+	}
+	
+	private List<Integer> findConditionals(List<Token> tokens) {
+		return findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
