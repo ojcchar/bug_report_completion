@@ -32,7 +32,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 			Sentence subSentence = iterator.next();
 
 			// divide sentence by prepositions
-			List<Integer> prepositions = ProblemInPM.findPrepositions(subSentence.getTokens());
+			List<Integer> prepositions = findPrepositions(subSentence.getTokens());
 			List<Sentence> phrases = findSubSentences(subSentence, prepositions);
 
 			// there's only one phrase (i.e., no preps)
@@ -120,6 +120,10 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		return findLemmasInTokens(PUNCTUATION, tokens);
 	}
 
+	private List<Integer> findPrepositions(List<Token> tokens) {
+		return findLemmasInTokens(ProblemInPM.PREP_TERMS, tokens);
+	}
+	
 	public static int checkErrorNounPhrase(List<Token> tokens) {
 		// System.out.println(new Sentence(OB, tokens));
 		int i = 0;

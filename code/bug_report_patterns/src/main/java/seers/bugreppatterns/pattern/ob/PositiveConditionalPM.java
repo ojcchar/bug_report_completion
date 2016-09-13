@@ -11,7 +11,7 @@ public class PositiveConditionalPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
-		List<Integer> conditionalTermPositions = findLemmasInTokens(CONDITIONAL_TERMS, tokens);
+		List<Integer> conditionalTermPositions = findConditionals(tokens);
 
 		if (conditionalTermPositions != null && conditionalTermPositions.size() > 0) {
 			// there is a conditional expression now check that the first part
@@ -31,6 +31,10 @@ public class PositiveConditionalPM extends ObservedBehaviorPatternMatcher {
 
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, NegativeAfterPM.NEGATIVE_PMS);
+	}
+	
+	private List<Integer> findConditionals(List<Token> tokens) {
+		return findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 	}
 
 }

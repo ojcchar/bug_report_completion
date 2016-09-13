@@ -9,6 +9,8 @@ import seers.textanalyzer.entity.Token;
 
 public class PositiveAfterPM extends ObservedBehaviorPatternMatcher {
 
+	public final static String[] AFTER = { "after" };
+
 	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
 			new VerbNoPM(), new ProblemInPM(), new FrequencyAdverbPM(), new LeadsToNegativePm(),
@@ -19,21 +21,23 @@ public class PositiveAfterPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 		// check for after
-		int afterIndex = afterIndex(tokens);
 
-		if (afterIndex != -1 && afterIndex > 0) {
-			Sentence first = new Sentence(sentence.getId(), tokens.subList(0, afterIndex));
-			Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
-			List<Token> tokensFirst = first.getTokens();
-			List<Token> tokensSecond = second.getTokens();
+		for (Integer afterIndex : findAfters(tokens)) {
 
-			// check that the first part is not EB modal
-			if (!isEBModal(tokensFirst)) {
-				if (!isNegative(first)) {
+			if (afterIndex != -1 && afterIndex > 0) {
+				Sentence first = new Sentence(sentence.getId(), tokens.subList(0, afterIndex));
+				//Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
+				List<Token> tokensFirst = first.getTokens();
+				//List<Token> tokensSecond = second.getTokens();
+
+				// check that the first part is not EB modal
+				if (!isEBModal(tokensFirst)) {
+					if (!isNegative(first)) {
 						return 1;
+					}
 				}
-			}
 
+			}
 		}
 		return 0;
 	}
@@ -42,13 +46,8 @@ public class PositiveAfterPM extends ObservedBehaviorPatternMatcher {
 		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 
-	private int afterIndex(List<Token> tokens) {
-		for (int i = 0; i < tokens.size(); i++) {
-			if (tokens.get(i).getLemma().equals("after")) {
-				return i;
-			}
-		}
-		return -1;
+	private List<Integer> findAfters(List<Token> tokens) {
+		return findLemmasInTokens(AFTER, tokens);
 	}
 
 }

@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
@@ -11,12 +10,14 @@ import seers.textanalyzer.entity.Token;
 
 public class SeemsPM extends ObservedBehaviorPatternMatcher {
 
+	public final static String[] SEEM_VERBS = { "seem", "appear", "look" };
+
 	public final static PatternMatcher[] OTHER_SEEM = { new SeemsToNegativeVerbPM(), new SeemsToBePM() };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		// Check that is not other seem pattern
-		if(isOtherSeem(sentence)) {
+		if (isOtherSeem(sentence)) {
 			return 0;
 		}
 
@@ -26,7 +27,7 @@ public class SeemsPM extends ObservedBehaviorPatternMatcher {
 		}
 
 		List<Token> tokens = sentence.getTokens();
-		List<Integer> terms = findMainTerms(tokens);
+		List<Integer> terms = findSeemVerbs(tokens);
 
 		for (Integer term : terms) {
 			if (term + 1 < tokens.size()) {
@@ -40,19 +41,10 @@ public class SeemsPM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
-	private List<Integer> findMainTerms(List<Token> tokens) {
-
-		List<Integer> idxs = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if ((token.getLemma().equals("seem")) || (token.getLemma().equals("appear"))
-					|| (token.getLemma().equals("look"))) {
-				idxs.add(i);
-			}
-		}
-		return idxs;
+	private List<Integer> findSeemVerbs(List<Token> tokens) {
+		return findLemmasInTokens(SEEM_VERBS, tokens);
 	}
-	
+
 	private boolean isOtherSeem(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, OTHER_SEEM);
 	}

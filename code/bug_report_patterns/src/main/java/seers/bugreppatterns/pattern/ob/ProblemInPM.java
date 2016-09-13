@@ -44,15 +44,8 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 
 	}
 
-	public static List<Integer> findPrepositions(List<Token> tokens) {
-		List<Integer> prepTerms = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (Arrays.stream(PREP_TERMS).anyMatch(t -> token.getWord().equals(t))) {
-				prepTerms.add(i);
-			}
-		}
-		return prepTerms;
+	private List<Integer> findPrepositions(List<Token> tokens) {
+		return findLemmasInTokens(PREP_TERMS, tokens);
 	}
 
 	private List<Integer> findProblematicVerbs(List<Token> tokens) {

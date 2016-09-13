@@ -8,13 +8,15 @@ import seers.textanalyzer.entity.Token;
 
 public class SuddenlyNegativePM extends ObservedBehaviorPatternMatcher {
 
+	public final static String[] SUDDEN_TERMS = { "sudden", "suddenly"};
+	
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 		
-		int sudden = findSuddenly(tokens);
+		List<Integer> sudden = findSuddenTerms(tokens);
 
-		if (sudden > -1 && isNegative(sentence)) {
+		if (!sudden.isEmpty() && isNegative(sentence)) {
 			return 1;
 		}
 
@@ -25,14 +27,8 @@ public class SuddenlyNegativePM extends ObservedBehaviorPatternMatcher {
 		return sentenceMatchesAnyPatternIn(sentence, NegativeAfterPM.NEGATIVE_PMS);
 	}
 
-	private int findSuddenly(List<Token> tokens) {
-		for (int i = 0; i < tokens.size(); i++) {
-			Token current = tokens.get(i);
-			if (current.getLemma().equals("suddenly") || current.getLemma().equals("sudden")) {
-				return i;
-			}
-		}
-		return -1;
+	private List<Integer> findSuddenTerms(List<Token> tokens) {
+		return findLemmasInTokens(SUDDEN_TERMS, tokens);
 	}
 
 }
