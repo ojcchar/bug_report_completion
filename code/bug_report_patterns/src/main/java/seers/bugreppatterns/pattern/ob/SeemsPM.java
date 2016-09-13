@@ -1,16 +1,19 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class SeemsPM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] SEEM_VERBS = { "seem", "appear", "look" };
+	public final static Set<String> SEEM_VERBS =  JavaUtils.getSet( "seem", "appear", "look" );
 
 	public final static PatternMatcher[] OTHER_SEEM = { new SeemsToNegativeVerbPM(), new SeemsToBePM() };
 
@@ -42,7 +45,7 @@ public class SeemsPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findSeemVerbs(List<Token> tokens) {
-		return findLemmasInTokens(SEEM_VERBS, tokens);
+		return SentenceUtils.findLemmasInTokens(SEEM_VERBS, tokens);
 	}
 
 	private boolean isOtherSeem(Sentence sentence) throws Exception {

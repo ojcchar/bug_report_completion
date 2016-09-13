@@ -1,22 +1,23 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] FALSE_VERBS = { "build", "httpd", "stack" };
+	public final static Set<String> FALSE_VERBS = JavaUtils.getSet( "build", "httpd", "stack" );
 
-	private final static String[] SUBJECTS = { "NN", "VB", "DT", "RB", "EX", "IN" };
+	private final static Set<String> SUBJECTS = JavaUtils.getSet( "NN", "VB", "DT", "RB", "EX", "IN" );
 
-	private static final String[] PUNCTUATION = new String[] { ":", ".", ";", "-LRB-", "-RRB-", "``", "''" };
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet( ":", ".", ";", "-LRB-", "-RRB-", "``", "''" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -101,12 +102,12 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 							&& !previousToken.getGeneralPos().equals("VB")) {
 						matches = matches && true;
 					} else {
-						if (Arrays.stream(SUBJECTS).anyMatch(t -> previousToken.getGeneralPos().equals(t))) {
+						if (SentenceUtils.lemmasContainToken(SUBJECTS, previousToken)) {
 							matches = matches && false;
 						}
 					}
 				}
-				if (Arrays.stream(FALSE_VERBS).anyMatch(t -> token.getWord().toLowerCase().equals(t))) {
+				if (SentenceUtils.lemmasContainToken(FALSE_VERBS, token)) {
 					matches = matches || true;
 				}
 			}
@@ -118,22 +119,21 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		return findLemmasInTokens(PUNCTUATION, tokens);
+		return SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 	}
 
 	private List<Integer> findPrepositions(List<Token> tokens) {
 		return SentenceUtils.findLemmasInTokens(ProblemInPM.PREP_TERMS, tokens);
 	}
-	
+
 	public static int checkErrorNounPhrase(List<Token> tokens) {
 		// System.out.println(new Sentence(OB, tokens));
 		int i = 0;
 
 		for (Token token : tokens) {
 			// System.out.println("checking: " +token);
-			if (Arrays.stream(NegativeTerms.NOUNS).anyMatch(t -> token.getLemma().equals(t))
-					&& (token.getGeneralPos().equals("NN") || token.getGeneralPos().equals("VB")
-							|| token.getGeneralPos().equals("CD"))) {
+			if (SentenceUtils.lemmasContainToken(NegativeTerms.NOUNS, token) && (token.getGeneralPos().equals("NN")
+					|| token.getGeneralPos().equals("VB") || token.getGeneralPos().equals("CD"))) {
 				return 1;
 			} else if (token.getLemma().matches("([A-Za-z0-9.]+)(exception)") && token.getGeneralPos().equals("NN")) {
 				return 1;
@@ -141,8 +141,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 				return 1;
 			} else if (token.getLemma().matches("(illegal)([A-Za-z0-9.]+)") && token.getGeneralPos().equals("NN")) {
 				return 1;
-			} else if (Arrays.stream(NegativeTerms.ADJECTIVES)
-					.anyMatch(t -> token.getWord().toLowerCase().startsWith(t))
+			} else if (SentenceUtils.lemmasContainToken(NegativeTerms.ADJECTIVES, token)
 					&& (token.getGeneralPos().equals("JJ") || token.getGeneralPos().equals("NN")
 							|| token.getGeneralPos().equals("RB") || token.getGeneralPos().equals("VB"))) {
 				if (tokens.size() > 1) {

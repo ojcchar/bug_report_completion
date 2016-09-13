@@ -1,10 +1,10 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -33,17 +33,17 @@ public class SeemsToNegativeVerbPM extends ObservedBehaviorPatternMatcher {
 						if (tok.getLemma().equals("only")) {
 							Token nextToken = tokens.get(seemsIndex + 3);
 							if (nextToken.getGeneralPos().equals("VB")) {
-								if (Arrays.stream(NegativeTerms.VERBS).anyMatch(t -> nextToken.getLemma().equals(t))) {
+								if (SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, nextToken)) {
 									return 1;
 								}
 							}
 						} else {
 							if (tok.getGeneralPos().equals("VB")) {
-								if (Arrays.stream(NegativeTerms.VERBS).anyMatch(t -> tok.getLemma().equals(t))) {
+								if (SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, tok)) {
 									return 1;
 								}
 							} else if (tok.getGeneralPos().equals("RB")) {
-								if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(t -> tok.getLemma().equals(t))) {
+								if (SentenceUtils.lemmasContainToken(NegativeTerms.ADJECTIVES, tok)) {
 									return 1;
 								}
 							}
@@ -53,7 +53,7 @@ public class SeemsToNegativeVerbPM extends ObservedBehaviorPatternMatcher {
 				}
 				if (tokens.get(seemsIndex + 2).getLemma().equals("get")) {
 					Token nextToken = tokens.get(seemsIndex + 3);
-					if (Arrays.stream(NegativeTerms.VERBS).anyMatch(t -> nextToken.getLemma().equals(t))) {
+					if (SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, nextToken)) {
 						return 1;
 					}
 				}
@@ -63,7 +63,7 @@ public class SeemsToNegativeVerbPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findSeemVerbs(List<Token> tokens) {
-		return findLemmasInTokens(SeemsPM.SEEM_VERBS, tokens);
+		return SentenceUtils.findLemmasInTokens(SeemsPM.SEEM_VERBS, tokens);
 	}
 
 }

@@ -1,10 +1,10 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -50,11 +50,11 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 				Token nextToken = tokens.get(tobe + 1);
 
 				if (nextToken.getPos().equals("VBN") || nextToken.getPos().equals("VB")) {
-					if (Arrays.stream(NegativeTerms.VERBS).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
+					if (SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, nextToken)) {
 						return 1;
 					}
 				} else if (nextToken.getGeneralPos().equals("JJ")) {
-					if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> nextToken.getLemma().equalsIgnoreCase(p))) {
+					if (SentenceUtils.lemmasContainToken(NegativeTerms.ADJECTIVES, nextToken)) {
 						return 1;
 					}
 				} else if (nextToken.getGeneralPos().equals("RB")) {
@@ -62,12 +62,11 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 					if (index < tokens.size()) {
 						Token nextToken2 = tokens.get(index);
 						if (nextToken2.getPos().equals("VBN")) {
-							if (Arrays.stream(NegativeTerms.VERBS)
-									.anyMatch(p -> nextToken2.getLemma().equalsIgnoreCase(p))) {
+							if (SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, nextToken2)) {
 								return 1;
 							}
 						} else if (nextToken2.getGeneralPos().equals("JJ")) {
-							if (Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> nextToken2.getLemma().equalsIgnoreCase(p))) {
+							if (SentenceUtils.lemmasContainToken(NegativeTerms.ADJECTIVES, nextToken2)) {
 								return 1;
 							}
 						}
@@ -98,14 +97,12 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 			return 1;
 		}
 
-		boolean anyMatch3 = tokens.stream()
-				.anyMatch(t -> Arrays.stream(NegativeTerms.ADJECTIVES).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
+		boolean anyMatch3 = SentenceUtils.tokensContainAnyLemmaIn(tokens, NegativeTerms.ADJECTIVES);
 		if (anyMatch3) {
 			return 1;
 		}
 
-		boolean anyMatch = tokens.stream()
-				.anyMatch(t -> Arrays.stream(NegativeTerms.ADVERBS).anyMatch(p -> t.getLemma().equalsIgnoreCase(p)));
+		boolean anyMatch = SentenceUtils.tokensContainAnyLemmaIn(tokens, NegativeTerms.ADVERBS);
 		if (anyMatch) {
 			return 1;
 		}

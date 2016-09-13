@@ -1,12 +1,12 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -24,7 +24,7 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 
 		List<Token> tokens = sentence.getTokens();
 		for (Token token : tokens) {
-			if (Arrays.stream(NegativeTerms.VERBS).anyMatch(t -> token.getLemma().equals(t))
+			if (SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, token)
 					&& (token.getGeneralPos().equals("VB") || token.getGeneralPos().equals("NN")
 							|| token.getGeneralPos().equals("JJ"))) {
 				return 1;

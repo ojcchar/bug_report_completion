@@ -1,7 +1,11 @@
 package seers.bugreppatterns.pattern.ob;
 
+import java.util.Set;
+
+import seers.bugreppatterns.utils.JavaUtils;
+
 public class NegativeTerms {
-	final public static String[] ADJECTIVES = { "abnormal", "agressive", "ambiguous", "annoying", "bad", "bizarre",
+	final public static Set<String> ADJECTIVES = JavaUtils.getSet( "abnormal", "agressive", "ambiguous", "annoying", "bad", "bizarre",
 			"blank", "blocked", "bloken", "broken", "challenging", "confusing", "counter-intuitive", "corrupt",
 			"corrupted", "cpu-bound", "dead", "different", "dirty", "down", "duplicated", "empty", "enormous",
 			"erroneous", "excessive", "expensive", "extra", "faulty", "frustrating", "funny-looking", "garbled", "gone",
@@ -14,29 +18,29 @@ public class NegativeTerms {
 			"unacceptable", "unchecked", "unclickable", "undefined", "undesirable", "undesired", "unexpected",
 			"unfriendly", "uninitialized", "unknown", "unlimited", "unnavigability", "unnecessary", "unreadable",
 			"unreliable", "unresponsive", "unsecure", "unstable", "unstoppable", "unstyled", "untrusted",
-			"userunfriendly", "unusable", "void", "wacky", "weird", "worst", "wrong", "zombie" };
+			"userunfriendly", "unusable", "void", "wacky", "weird", "worst", "wrong", "zombie" );
 
-	final public static String[] ADVERBS = { "abnormally", "agressively", "annoyingly", "badly", "blankly", "corruptly",
+	final public static Set<String> ADVERBS = JavaUtils.getSet( "abnormally", "agressively", "annoyingly", "badly", "blankly", "corruptly",
 			"counter-intuitively", "deadly", "differently", "dirtly", "emptyly", "enourmously", "erroneously",
 			"expensively", "hardly", "inaccesibly", "inappropriately", "inconsistently", "incorrectly", "incredibly",
 			"indefinitely", "inefficiently", "infinitely", "insecurely", "invalidly", "misleadingly", "mistakenly",
 			"never", "painfully", "poorly", "randomly", "redundantly", "repeatedly", "slowly", "spuriously",
 			"strangely", "suddenly", "tediously", "twice", "unacceptablely", "undesirably", "unexpectedly",
-			"unreadably", "unresponsively", "unsecurely", "unstably", "weirdly", "wrongly" };
+			"unreadably", "unresponsively", "unsecurely", "unstably", "weirdly", "wrongly" );
 
-	final public static String[] VERBS = { "affect", "blink", "block", "break", "bypass", "clear", "clash", "clobber",
+	final public static Set<String> VERBS = JavaUtils.getSet( "affect", "blink", "block", "break", "bypass", "clear", "clash", "clobber",
 			"complain", "crash", "cut", "deadlock", "delay", "delete", "deny", "destroy", "die", "disappear", "dismiss",
 			"duplicate", "enforce", "erase", "fail", "flicker", "force", "forget", "freeze", "glitch", "grow", "hang",
 			"ignore", "increase", "interfere", "interrupt", "jerk", "jitter", "kill", "lack", "lose", "loose", "mess",
 			"mishandle", "miss", "mute", "outdate", "overlap", "pause", "prohibit", "reduce", "refuse", "reject",
 			"reset", "rest", "restart", "revert", "reverse", "skip", "stick", "stop", "strip", "stuck up", "suffer",
-			"terminate", "throw", "time out", "trim", "truncate", "vanish", "terminate", "trim", "waste", "wipe" };
+			"terminate", "throw", "time out", "trim", "truncate", "vanish", "terminate", "trim", "waste", "wipe" );
 
-	final public static String[] NOUNS = { "401", "404", "ambiguity", "block", "breakage", "bug", "chaos", "clash",
+	final public static Set<String> NOUNS = JavaUtils.getSet( "401", "404", "ambiguity", "block", "breakage", "bug", "chaos", "clash",
 			"collision", "conflict", "confusion", "corruption", "crash", "cut", "deadlock", "delay", "disaster",
 			"duplicate", "error", "errore", "exception", "failure", "fault", "frustration", "glitch", "grief",
 			"inability", "ise", "issue", "leak", "leakage", "lock", "loss", "malware", "mismatch", "misplace",
 			"mistake", "nil", "nonsense", "npe", "npes", "null", "omission", "overlap", "pain", "peek", "poor",
 			"problem", "race", "rarity", "runaway", "segfault", "segmentation", "spam", "stacktrace", "symptom",
-			"trouble", "truncation", "typo", "unavailability", "violation", "wait", "warn", "warning", "zombie" };
+			"trouble", "truncation", "typo", "unavailability", "violation", "wait", "warn", "warning", "zombie" );
 }
