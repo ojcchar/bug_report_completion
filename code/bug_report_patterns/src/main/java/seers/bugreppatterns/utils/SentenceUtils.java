@@ -34,30 +34,42 @@ public class SentenceUtils {
 		String sentenceEscaped = sentenceTxt;
 		// -----------------------------------------
 
-		//FIXME: remove labels from the systems??? 
-		//		if ("firefox".equals(system)) {
+		// FIXME: remove labels from the systems???
+		// if ("firefox".equals(system)) {
 		//
-		//			// -----------------------------
-		//			if (sentenceTxt.matches("(?s)(?i)(actual)( (results|result))?:(.*)")) {
-		//				sentenceEscaped = sentenceTxt.replaceFirst("(?i)(actual)( (results|result))?:(.*)", "$4");
-		//			} else if (sentenceTxt.matches("(?s)(?i)(actual)( (result|results))(.*)")) {
-		//				sentenceEscaped = sentenceTxt.replaceFirst("(?i)(actual)( (results|result))(.*)", "$4");
-		//			} else
-		//			// -----------------------------
+		// // -----------------------------
+		// if (sentenceTxt.matches("(?s)(?i)(actual)( (results|result))?:(.*)"))
+		// {
+		// sentenceEscaped = sentenceTxt.replaceFirst("(?i)(actual)(
+		// (results|result))?:(.*)", "$4");
+		// } else if (sentenceTxt.matches("(?s)(?i)(actual)(
+		// (result|results))(.*)")) {
+		// sentenceEscaped = sentenceTxt.replaceFirst("(?i)(actual)(
+		// (results|result))(.*)", "$4");
+		// } else
+		// // -----------------------------
 		//
-		//			if (sentenceTxt.matches("(?s)(?i)(expected)( (results|result))?:(.*)")) {
-		//				sentenceEscaped = sentenceTxt.replaceFirst("(?i)(expected)( (results|result))?:(.*)", "$4");
-		//			} else if (sentenceTxt.matches("(?s)(?i)(expected)( (results|result))?(.*)")) {
-		//				sentenceEscaped = sentenceTxt.replaceFirst("(?i)(expected)( (results|result))?(.*)", "$4");
-		//			} else
+		// if (sentenceTxt.matches("(?s)(?i)(expected)(
+		// (results|result))?:(.*)")) {
+		// sentenceEscaped = sentenceTxt.replaceFirst("(?i)(expected)(
+		// (results|result))?:(.*)", "$4");
+		// } else if (sentenceTxt.matches("(?s)(?i)(expected)(
+		// (results|result))?(.*)")) {
+		// sentenceEscaped = sentenceTxt.replaceFirst("(?i)(expected)(
+		// (results|result))?(.*)", "$4");
+		// } else
 		//
-		//			// -----------------------------
-		//			if (sentenceTxt.matches("(?s)(?i)(str|((steps)( to reproduce)?)):(.*)")) {
-		//				sentenceEscaped = sentenceTxt.replaceFirst("(?i)(str|((steps)( to reproduce)?)):(.*)", "$5");
-		//			} else if (sentenceTxt.matches("(?s)(?i)(str|((steps)( to reproduce)?))(.*)")) {
-		//				sentenceEscaped = sentenceTxt.replaceFirst("(?i)(str|((steps)( to reproduce)?))(.*)", "$5");
-		//			}
-		//		}
+		// // -----------------------------
+		// if (sentenceTxt.matches("(?s)(?i)(str|((steps)( to
+		// reproduce)?)):(.*)")) {
+		// sentenceEscaped = sentenceTxt.replaceFirst("(?i)(str|((steps)( to
+		// reproduce)?)):(.*)", "$5");
+		// } else if (sentenceTxt.matches("(?s)(?i)(str|((steps)( to
+		// reproduce)?))(.*)")) {
+		// sentenceEscaped = sentenceTxt.replaceFirst("(?i)(str|((steps)( to
+		// reproduce)?))(.*)", "$5");
+		// }
+		// }
 
 		// LOGGER.debug("STNC: " + sentenceTxt + " -> " +
 		// sentenceEscaped);
@@ -70,7 +82,7 @@ public class SentenceUtils {
 
 		List<Sentence> sentences = TextProcessor.processText(sentenceEscaped, true);
 
-		if (sentences.isEmpty()) {
+		if (!sentences.isEmpty()) {
 
 			List<Token> allTokens = TextProcessor.getAllTokens(sentences);
 
