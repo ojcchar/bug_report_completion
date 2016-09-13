@@ -9,6 +9,7 @@ import seers.bugreppatterns.pattern.utils.TestUtils;
  * Created by juan on 4/18/16.
  */
 public class ContinuousPresentPMTest extends BaseTest {
+
 	public ContinuousPresentPMTest() {
 		pm = new ContinuousPresentPM();
 	}
@@ -20,6 +21,15 @@ public class ContinuousPresentPMTest extends BaseTest {
 				"then calling. \n\n$details = $facebook-&gt;api_client-&gt;users_getInfo($fb_user_array( first_name _ last_name _ pic_square _ birthday_date _ sex _ username _ current_location ));" };
 
 		TestUtils.testParagraphs(txts, pm, 1);
+
+	}
+
+	@Test
+	public void testNegatives() throws Exception {
+		String[] txts = {
+				"I'm working on a pretty large file, authoring for PacktPub, and I'm running in to a pretty consistent issue.", };
+
+		TestUtils.testParagraphs(txts, pm, 0);
 
 	}
 }

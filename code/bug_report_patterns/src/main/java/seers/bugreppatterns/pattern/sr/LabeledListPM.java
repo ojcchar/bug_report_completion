@@ -1,5 +1,6 @@
 package seers.bugreppatterns.pattern.sr;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,30 +69,45 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 		return ActionsPresentPM.isActionInPresent(new Sentence("-1", tokensNoBullet), true) == 1;
 	}
 
-	private List<Token> getTokensNoBullet(Sentence sentence) {
+	/**
+	 * Removes the bullet tokens from the sentence
+	 * 
+	 * @param sentence
+	 * @return the list of tokens of the sentence with no bullets, or an empty
+	 *         list if it does not contain any bullet
+	 */
+	public static List<Token> getTokensNoBullet(Sentence sentence) {
+
 		String text = TextProcessor.getStringFromLemmas(sentence);
 		List<Token> tokens = sentence.getTokens();
-		List<Token> tokensNoBullet = tokens;
+		List<Token> tokensNoBullet = new ArrayList<>();
 
-		// cases like: 1 -
-		if (text.matches("^(\\d+ \\-+).+")) {
-			tokensNoBullet = tokens.subList(2, tokens.size());
+		// no parentheses
+		if (!text.matches("^(-lcb-|-rcb-|-lrb-|-rrb-|-lsb-|-rsb-) \\D+ .+")) {
 
-			// cases like: 1. or -
-		} else if (text.matches("^(\\d+|\\-|\\*).+")) {
-			tokensNoBullet = tokens.subList(1, tokens.size());
+			// cases like: 1 -
+			if (text.matches("^(\\d+ \\-+).+")) {
+				tokensNoBullet = tokens.subList(2, tokens.size());
+
+				// cases like: 1. or -
+			} else if (text.matches("^(\\d+|\\-|\\*).+")) {
+				tokensNoBullet = tokens.subList(1, tokens.size());
+			}
 		}
+
 		return tokensNoBullet;
 	}
 
-	public int getLabelIndex(List<Sentence> sentences) {
-		for (int i = 0; (i < sentences.size() - 1); i++) {
+	public static int getLabelIndex(List<Sentence> sentences) {
+		for (int i = 0; i < sentences.size(); i++) {
 			String text = TextProcessor.getStringFromLemmas(sentences.get(i));
-			boolean b = text.matches("(?s).*(following|repro) step.*") || text.matches("(?s).*?(step)? ?to repro.*")
+			boolean b = text.matches("(?s).*(following|repro) step.*")
+					|| text.matches("(?s).*?(step)? ?to (reproduce|recreate)( the (problem|issue))?.*")
 					|| text.equals("step :") || text.equals("step by step :") || text.equals("str :")
 					|| text.endsWith("have try :") || text.contains("here be the step")
 					|| text.matches("(?s).*reproduce as follow :") || text.contains("follow scenario :")
-					|| text.equals("to reproduce :");
+					|| text.equals("to reproduce :") || text.equals("to reporduce :") || text.equals("step to repro :")
+					|| text.equals("repro :");
 			if (b) {
 				return i;
 			}
