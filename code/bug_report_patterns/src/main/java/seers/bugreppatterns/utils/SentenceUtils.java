@@ -185,7 +185,7 @@ public class SentenceUtils {
 	}
 
 	public static boolean tokensContainAnyLemmaIn(List<Token> tokens, Set<String> lemmas) {
-		return findLemmasInTokens(lemmas, tokens).isEmpty();
+		return !findLemmasInTokens(lemmas, tokens).isEmpty();
 	}
 
 	public static boolean sentenceContainsAnyLemmaIn(Sentence sentence, Set<String> lemmas) {
