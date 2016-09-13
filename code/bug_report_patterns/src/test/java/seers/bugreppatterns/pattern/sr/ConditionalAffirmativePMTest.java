@@ -14,11 +14,8 @@ public class ConditionalAffirmativePMTest extends BaseTest {
 	@Test
 	public void testPositives() throws Exception {
 
-		String[] txts = {
-				// "If I just add in the text \"blabla\" somewhere, save, close,
-				// open, the comments are all gone." ,
-				"If I show a comment, then hide it, it will still be there when I open the document again." };
-		TestUtils.testParagraphs(txts, pm, 1);
+		String[] txts = {};
+		TestUtils.testSentences(txts, pm, 1);
 
 	}
 
@@ -31,7 +28,7 @@ public class ConditionalAffirmativePMTest extends BaseTest {
 				"But I think there should be a better solution, or at least a warning in the docs not to use % characters while setting HTTP headers from a .",
 				"The existing util_ldap.c considers it an error in util_ldap_cache_checkuserid if it searches for a user and gets back more than one entry.",
 				"The mod_reqtimeout module is not dropping connections and returning 408 when dealing with \"slow http header\" or \"slow http body\" requests." };
-		TestUtils.testParagraphs(txts, pm, 0);
+		TestUtils.testSentences(txts, pm, 0);
 
 	}
 

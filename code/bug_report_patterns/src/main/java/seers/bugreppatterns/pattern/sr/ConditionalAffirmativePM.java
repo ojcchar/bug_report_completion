@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.sr;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +10,8 @@ import seers.bugreppatterns.pattern.ob.ConditionalNegativePM;
 import seers.bugreppatterns.pattern.ob.NegativeAdjOrAdvPM;
 import seers.bugreppatterns.pattern.ob.NegativeAuxVerbPM;
 import seers.bugreppatterns.pattern.ob.NegativeVerbPM;
+import seers.bugreppatterns.pattern.ob.StillSentencePM;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -23,7 +24,7 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		List<Token> tokens = sentence.getTokens();
-		List<List<Token>> clauses = extractClauses(tokens);
+		List<List<Token>> clauses = SentenceUtils.extractClauses(tokens);
 
 		if (clauses.size() < 2) {
 			return 0;
@@ -32,9 +33,15 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 		int idx = findFirstCondClauseInPresent(clauses);
 
 		if (idx != -1 && idx != clauses.size() - 1) {
+
 			List<List<Token>> remainingClauses = clauses.subList(idx + 1, clauses.size());
 			int idx2 = findOBClause(remainingClauses);
 			if (idx2 != -1) {
+				return 1;
+			}
+
+			List<Token> lastClause = remainingClauses.get(remainingClauses.size() - 1);
+			if (isSimplePresent(lastClause.get(0), -1, lastClause, true)) {
 				return 1;
 			}
 
@@ -44,7 +51,7 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 	}
 
 	private static final ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
-			new ButNegativePM(), new ConditionalNegativePM(), new NegativeAdjOrAdvPM() };
+			new ButNegativePM(), new ConditionalNegativePM(), new NegativeAdjOrAdvPM(), new StillSentencePM() };
 
 	private int findOBClause(List<List<Token>> clauses) throws Exception {
 		for (int i = clauses.size() - 1; i >= 0; i--) {
@@ -81,28 +88,8 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 				if (nextToken.getPos().equals("VBG")
 						&& Arrays.stream(EXCLUDED_VERBS).noneMatch(av -> nextToken.getLemma().equals(av))) {
 					return true;
-				} else if (nextToken.getGeneralPos().equals("PRP") && !nextToken.getLemma().equals("it")) {
-					if (condTerm + 2 < clauseTokens.size()) {
-						final Token nextToken2 = clauseTokens.get(condTerm + 2);
-
-						if ((nextToken2.getPos().equals("VBP") || nextToken2.getPos().equals("VBZ")
-								|| nextToken2.getPos().equals("VB"))
-								&& Arrays.stream(EXCLUDED_VERBS).noneMatch(av -> nextToken2.getLemma().equals(av))) {
-							return true;
-
-							// there is an adverb before the verb
-						} else if (nextToken2.getPos().equals("RB")) {
-							if (condTerm + 3 < clauseTokens.size()) {
-								final Token nextToken3 = clauseTokens.get(condTerm + 3);
-								if ((nextToken3.getPos().equals("VBP") || nextToken3.getPos().equals("VBZ")
-										|| nextToken3.getPos().equals("VB"))
-										&& Arrays.stream(EXCLUDED_VERBS)
-												.noneMatch(av -> nextToken3.getLemma().equals(av))) {
-									return true;
-								}
-							}
-						}
-					}
+				} else if (isSimplePresent(nextToken, condTerm, clauseTokens, false)) {
+					return true;
 				}
 
 			}
@@ -110,33 +97,32 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 		return false;
 	}
 
-	private static final String[] CLAUSE_SEPARATORS = { ";", ",", "-", "_" };
+	private boolean isSimplePresent(Token nextToken, Integer condTerm, List<Token> clauseTokens, boolean dismissIt) {
 
-	private List<List<Token>> extractClauses(List<Token> tokens) {
+		if (nextToken.getGeneralPos().equals("PRP") && (dismissIt || !nextToken.getLemma().equals("it"))) {
+			if (condTerm + 2 < clauseTokens.size()) {
+				final Token nextToken2 = clauseTokens.get(condTerm + 2);
 
-		List<List<Token>> clauses = new ArrayList<>();
-		List<Token> clause = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (this.matchTermsByLemma(CLAUSE_SEPARATORS, token) || token.getPos().equals("CC")) {
+				if ((nextToken2.getPos().equals("VBP") || nextToken2.getPos().equals("VBZ")
+						|| nextToken2.getPos().equals("VB"))
+						&& Arrays.stream(EXCLUDED_VERBS).noneMatch(av -> nextToken2.getLemma().equals(av))) {
+					return true;
 
-				// is there any verb in the clause?
-				if (clause.stream().anyMatch(t -> t.getGeneralPos().equals("VB"))) {
-					clauses.add(clause);
-					clause = new ArrayList<>();
-				} else {
-					clause.add(token);
+					// there is an adverb before the verb
+				} else if (nextToken2.getPos().equals("RB")) {
+					if (condTerm + 3 < clauseTokens.size()) {
+						final Token nextToken3 = clauseTokens.get(condTerm + 3);
+						if ((nextToken3.getPos().equals("VBP") || nextToken3.getPos().equals("VBZ")
+								|| nextToken3.getPos().equals("VB"))
+								&& Arrays.stream(EXCLUDED_VERBS).noneMatch(av -> nextToken3.getLemma().equals(av))) {
+							return true;
+						}
+					}
 				}
-			} else {
-				clause.add(token);
 			}
 		}
-		if (!clause.isEmpty()) {
-			clauses.add(clause);
-		}
 
-		return clauses;
-
+		return false;
 	}
 
 }

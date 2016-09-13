@@ -17,6 +17,7 @@ import net.quux00.simplecsv.CsvParserBuilder;
 import net.quux00.simplecsv.CsvReader;
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 
@@ -144,9 +145,7 @@ public class BaseTest {
 			txt = txt.replace("\"\"", "\"").replace("&lt;", "<").replace("&gt;", ">").replace("&apos;", "'")
 					.replace("&amp;", "&").replace("&quot;", "\"");
 
-			Paragraph paragraph = parseParagraph(txt);
-
-			Sentence sentence = new Sentence("0", paragraph.getTokens(), txt);
+			Sentence sentence = SentenceUtils.parseSentence("o", txt);
 			int m = pm.matchSentence(sentence);
 			if (m != 1) {
 				System.out.println("\n Fail for (" + i + "): \"" + txt + "\"");
@@ -221,4 +220,5 @@ public class BaseTest {
 		return paragraph;
 
 	}
+
 }

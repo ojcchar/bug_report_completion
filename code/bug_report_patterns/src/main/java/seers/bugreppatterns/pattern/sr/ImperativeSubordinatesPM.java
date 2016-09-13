@@ -1,10 +1,10 @@
 package seers.bugreppatterns.pattern.sr;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
 import seers.bugreppatterns.pattern.eb.ImperativeSentencePM;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -17,29 +17,33 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 
 		// -----------------------------
 
-		List<List<Token>> clauses = extractClauses(tokens);
+		List<List<Token>> clauses = SentenceUtils.extractClauses(tokens);
 		if (clauses.isEmpty()) {
 			return 0;
 		}
 
 		// -----------------------------
 
-		List<Token> clause1 = clauses.get(0);
-		int match = isImperative(clause1);
+		int idxImpClause = 0;
+		int match = isImperative(clauses.get(idxImpClause));
 		if (match == 0) {
-			return 0;
-		}
-
-		// -----------------------------
-
-		if (clauses.size() > 1) {
-			int numCl = checkPresentOrActionClauses(clauses.subList(1, clauses.size()));
-			if (numCl == 0) {
+			idxImpClause++;
+			match = isImperative(clauses.get(idxImpClause));
+			if (match == 0) {
 				return 0;
 			}
 		}
 
-		return 1;
+		// -----------------------------
+
+		if (clauses.size() > idxImpClause + 1) {
+			int numCl = checkPresentOrActionClauses(clauses.subList(idxImpClause + 1, clauses.size()));
+			if (numCl != 0) {
+				return 1;
+			}
+		}
+
+		return 0;
 	}
 
 	private int checkPresentOrActionClauses(List<List<Token>> clauses) {
@@ -77,35 +81,6 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		}
 
 		return ImperativeSentencePM.checkNormalCaseWithLabel(clause, ",");
-	}
-
-	private List<List<Token>> extractClauses(List<Token> tokens) {
-
-		List<List<Token>> clauses = new ArrayList<>();
-		List<Token> clause = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (token.getLemma().equals("-") || token.getLemma().equals(";") || token.getLemma().equals(",")
-					|| (token.getPos().equals("CC"))) {
-
-				// check if the clause is short, to avoid splitting cases such
-				// "In Reader, click on a post to view full post"
-				if (clause.size() >= 5) {
-					clauses.add(clause);
-					clause = new ArrayList<>();
-				} else {
-					clause.add(token);
-				}
-			} else {
-				clause.add(token);
-			}
-		}
-		if (!clause.isEmpty()) {
-			clauses.add(clause);
-		}
-
-		return clauses;
-
 	}
 
 }

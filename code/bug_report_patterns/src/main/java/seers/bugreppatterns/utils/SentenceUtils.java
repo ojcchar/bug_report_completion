@@ -1,5 +1,7 @@
 package seers.bugreppatterns.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import seers.textanalyzer.TextProcessor;
@@ -99,6 +101,57 @@ public class SentenceUtils {
 		}
 
 		return null;
+	}
+
+	public static final String[] CLAUSE_SEPARATORS = { ";", ",", "-", "_", "--" };
+
+	public static List<List<Token>> extractClauses(List<Token> tokens) {
+
+		List<List<Token>> clauses = new ArrayList<>();
+		List<Token> clause = new ArrayList<>();
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			if (matchTermsByLemma(CLAUSE_SEPARATORS, token) || token.getPos().equals("CC")) {
+
+				// ---------------------
+
+				// avoid splits when there are '->'
+				boolean allowSeparator = true;
+				if (token.getLemma().equals("-")) {
+					if (i + 1 < tokens.size() && tokens.get(i + 1).getLemma().equals(">")) {
+						allowSeparator = false;
+					}
+				}
+
+				// -----------------------------
+
+				if (allowSeparator) {
+					clauses.add(clause);
+					clause = new ArrayList<>();
+				} else {
+					clause.add(token);
+				}
+			} else {
+				clause.add(token);
+			}
+		}
+		if (!clause.isEmpty()) {
+			clauses.add(clause);
+		}
+
+		return clauses;
+
+	}
+
+	/**
+	 * Matches any of the given terms with the token's lemma (case ignored)
+	 * 
+	 * @param terms
+	 * @param token
+	 * @return true if there is any match, false otherwise
+	 */
+	public static boolean matchTermsByLemma(String[] terms, Token token) {
+		return Arrays.stream(terms).anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
 	}
 
 }

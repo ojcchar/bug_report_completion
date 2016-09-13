@@ -2,12 +2,10 @@ package seers.bugreppatterns.pattern.utils;
 
 import static org.junit.Assert.assertFalse;
 
-import java.util.List;
-
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.main.BaseTest;
 import seers.bugreppatterns.pattern.PatternMatcher;
-import seers.textanalyzer.TextProcessor;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 
 public class TestUtils {
@@ -17,9 +15,8 @@ public class TestUtils {
 		boolean fail = false;
 		for (int i = 0; i < txts.length; i++) {
 			String txt = txts[i];
-			Sentence sentence = null;
-			List<Sentence> sentences = TextProcessor.processText(txt, true);
-			sentence = new Sentence("0", TextProcessor.getAllTokens(sentences), txt);
+
+			Sentence sentence = SentenceUtils.parseSentence("0", txt);
 			int m = pm.matchSentence(sentence);
 			if (m != expected) {
 				System.out.println("\n Fail for (" + i + "): \"" + txt + "\"");

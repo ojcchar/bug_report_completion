@@ -1,7 +1,6 @@
 package seers.bugreppatterns.pattern;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.Paragraph;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -39,22 +39,11 @@ public abstract class PatternMatcher {
 		ArrayList<Integer> indexConditionalTerms = new ArrayList<Integer>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (matchTermsByLemma(terms, token)) {
+			if (SentenceUtils.matchTermsByLemma(terms, token)) {
 				indexConditionalTerms.add(i);
 			}
 		}
 		return indexConditionalTerms;
-	}
-
-	/**
-	 * Matches any of the given terms with the token's lemma (case ignored)
-	 * 
-	 * @param terms
-	 * @param token
-	 * @return true if there is any match, false otherwise
-	 */
-	protected boolean matchTermsByLemma(String[] terms, Token token) {
-		return Arrays.stream(terms).anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
 	}
 
 	public int matchParagraph(Paragraph paragraph) throws Exception {
