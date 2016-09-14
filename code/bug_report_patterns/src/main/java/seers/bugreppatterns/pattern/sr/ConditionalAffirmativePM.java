@@ -3,14 +3,7 @@ package seers.bugreppatterns.pattern.sr;
 import java.util.List;
 import java.util.Set;
 
-import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.bugreppatterns.pattern.ob.ButNegativePM;
-import seers.bugreppatterns.pattern.ob.ConditionalNegativePM;
-import seers.bugreppatterns.pattern.ob.NegativeAdjOrAdvPM;
-import seers.bugreppatterns.pattern.ob.NegativeAuxVerbPM;
-import seers.bugreppatterns.pattern.ob.NegativeVerbPM;
-import seers.bugreppatterns.pattern.ob.StillSentencePM;
 import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
@@ -20,14 +13,10 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 
 	final static Set<String> EXCLUDED_VERBS = JavaUtils.getSet("do", "be", "have", "want", "feel", "deal");
 
-	public static final ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
-			new ButNegativePM(), new ConditionalNegativePM(), new NegativeAdjOrAdvPM(), new StillSentencePM() };
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		List<Token> tokens = sentence.getTokens();
-		List<List<Token>> clauses = SentenceUtils.extractClauses(tokens);
+		List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 
 		if (clauses.size() < 2) {
 			return 0;
@@ -37,14 +26,15 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 
 		if (idx != -1 && idx != clauses.size() - 1) {
 
-			List<List<Token>> remainingClauses = clauses.subList(idx + 1, clauses.size());
-			int idx2 = findOBClause(remainingClauses, OB_PMS);
+			List<Sentence> remainingClauses = clauses.subList(idx + 1, clauses.size());
+			int idx2 = SentenceUtils.findObsBehaviorSentence(remainingClauses);
 			if (idx2 != -1) {
 				return 1;
 			}
 
-			List<Token> lastClause = remainingClauses.get(remainingClauses.size() - 1);
-			if (isSimplePresent(lastClause.get(0), -1, lastClause, true)) {
+			Sentence lastClause = remainingClauses.get(remainingClauses.size() - 1);
+			List<Token> clauseTokens = lastClause.getTokens();
+			if (isSimplePresent(clauseTokens.get(0), -1, clauseTokens, true)) {
 				return 1;
 			}
 
@@ -53,23 +43,9 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 		return 0;
 	}
 
-	private static int findOBClause(List<List<Token>> clauses, ObservedBehaviorPatternMatcher[] patterns)
-			throws Exception {
-		for (int i = clauses.size() - 1; i >= 0; i--) {
-			List<Token> clause = clauses.get(i);
-
-			for (ObservedBehaviorPatternMatcher pm : patterns) {
-				if (pm.matchSentence(new Sentence("0", clause)) == 1) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
-	private int findFirstCondClauseInPresent(List<List<Token>> clauses) {
+	private int findFirstCondClauseInPresent(List<Sentence> clauses) {
 		for (int i = 0; i < clauses.size(); i++) {
-			List<Token> clauseTokens = clauses.get(i);
+			List<Token> clauseTokens = clauses.get(i).getTokens();
 			boolean isValid = checkConditionalAndPresent(clauseTokens);
 			if (isValid) {
 				return i;

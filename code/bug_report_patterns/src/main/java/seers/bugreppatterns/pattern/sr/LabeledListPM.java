@@ -36,7 +36,8 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 					}
 
 					if (SentenceUtils.isImperativeSentence(tokensNoBullet) || isANounPhrase(tokensNoBullet)
-							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet) || isPastTenseAction(tokensNoBullet)) {
+							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)
+							|| isPastTenseAction(tokensNoBullet)) {
 						return 1;
 					}
 				}
@@ -65,7 +66,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 	}
 
 	private boolean isPastTenseAction(List<Token> tokensNoBullet) {
-		if (tokensNoBullet.size()>1) {
+		if (tokensNoBullet.size() > 1) {
 			Token firstToken = tokensNoBullet.get(0);
 			return firstToken.getPos().equals("VBD") || firstToken.getPos().equals("VBN");
 		}
@@ -80,7 +81,8 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 	 * Removes the bullet tokens from the sentence
 	 * 
 	 * @param sentence
-	 * @return the list of tokens of the sentence with no bullets, or an empty list if it does not contain any bullet
+	 * @return the list of tokens of the sentence with no bullets, or an empty
+	 *         list if it does not contain any bullet
 	 */
 	public static List<Token> getTokensNoBullet(Sentence sentence) {
 

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.entity.Paragraph;
-import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
 import seers.bugreppatterns.pattern.eb.ImperativeSentencePM;
 import seers.bugreppatterns.utils.SentenceUtils;
@@ -22,30 +21,35 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 	@Override
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 
-		int num = 0;
+		int minNumOfSentences = 1;
+
+		int numImperativeSentences = 0;
 		int idxLastSentence = -1;
+
+		// check for at least numImperativeSentences imperative sentences
 		List<Sentence> sentences = paragraph.getSentences();
 		for (int i = 0; i < sentences.size(); i++) {
 			idxLastSentence = i;
 
 			Sentence sentence = sentences.get(i);
-			List<Token> tokens = sentence.getTokens();
-			List<List<Token>> clauses = SentenceUtils.extractClauses(tokens);
-			for (List<Token> clause : clauses) {
+
+			// check if any of the clauses is imperative
+			List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
+			for (Sentence clause : clauses) {
 				if (SentenceUtils.isImperativeSentence(clause)) {
-					num++;
+					numImperativeSentences++;
 					break;
 				}
 			}
 
-			if (num > 1) {
+			if (numImperativeSentences >= minNumOfSentences) {
 				break;
 			}
 		}
 
-		if (num > 1) {
-			int idx = findOBClause(sentences.subList(idxLastSentence, sentences.size()),
-					ConditionalAffirmativePM.OB_PMS);
+		// check for and OB clause
+		if (numImperativeSentences >= minNumOfSentences) {
+			int idx = SentenceUtils.findObsBehaviorSentence(sentences.subList(idxLastSentence, sentences.size()));
 			if (idx != -1) {
 				return 1;
 			}
@@ -53,20 +57,6 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 
 		return 0;
 
-	}
-
-	private static int findOBClause(List<Sentence> sentences, ObservedBehaviorPatternMatcher[] patterns)
-			throws Exception {
-		for (int i = sentences.size() - 1; i >= 0; i--) {
-			Sentence sentence = sentences.get(i);
-
-			for (ObservedBehaviorPatternMatcher pm : patterns) {
-				if (pm.matchSentence(sentence) == 1) {
-					return i;
-				}
-			}
-		}
-		return -1;
 	}
 
 	final private static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "stop" };

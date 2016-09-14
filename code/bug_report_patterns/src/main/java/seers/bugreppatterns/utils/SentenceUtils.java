@@ -5,6 +5,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.pattern.ob.ButNegativePM;
+import seers.bugreppatterns.pattern.ob.ConditionalNegativePM;
+import seers.bugreppatterns.pattern.ob.NegativeAdjOrAdvPM;
+import seers.bugreppatterns.pattern.ob.NegativeAuxVerbPM;
+import seers.bugreppatterns.pattern.ob.NegativeVerbPM;
+import seers.bugreppatterns.pattern.ob.NothingHappensPM;
+import seers.bugreppatterns.pattern.ob.NoticePM;
+import seers.bugreppatterns.pattern.ob.PassiveVoicePM;
+import seers.bugreppatterns.pattern.ob.StillSentencePM;
+import seers.bugreppatterns.pattern.ob.TimeAdverbPositivePM;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -111,49 +122,77 @@ public class SentenceUtils {
 	public static final String[] CLAUSE_SEPARATORS = { ";", ",", "-", "_", "--" };
 
 	/**
-	 * Extract clauses or subsentences in the list of tokens of sentence, based
-	 * on CLAUSE_SEPARATORS and Coordinating conjuctions such as "and", "or",
+	 * Extract clauses or subsentences in the provided sentence, based on
+	 * CLAUSE_SEPARATORS and Coordinating conjuctions such as "and", "or",
 	 * "but", etc.
 	 * 
 	 * @param tokens
 	 * @return
 	 */
-	public static List<List<Token>> extractClauses(List<Token> tokens) {
+	public static List<Sentence> extractClauses(Sentence sentence) {
 
-		List<List<Token>> clauses = new ArrayList<>();
-		List<Token> clause = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
+		List<Token> tokens = sentence.getTokens();
+
+		List<Sentence> clauses = new ArrayList<>();
+		List<Token> clauseTokens = new ArrayList<>();
+
+		int currentClause = 0;
+		for (int i = 0; i < tokens.size();) {
 			Token token = tokens.get(i);
 			if (matchTermsByLemma(CLAUSE_SEPARATORS, token) || token.getPos().equals("CC")) {
 
 				// ---------------------
 
+				boolean allowSplit = true;
+				int numNextTokens = 1;
+
 				// avoid splits when there are '->'
-				boolean allowSeparator = true;
-				if (token.getLemma().equals("-")) {
-					if (i + 1 < tokens.size() && tokens.get(i + 1).getLemma().equals(">")) {
-						allowSeparator = false;
-					}
+				if (token.getLemma().equals("-")
+						&& (i + 1 < tokens.size() && tokens.get(i + 1).getLemma().equals(">"))) {
+					allowSplit = false;
+
+					// avoid splits when there are html codes: &#x633;
+				} else if (token.getLemma().equals("&") && checkHtmlCode(tokens, i)) {
+					allowSplit = false;
+					numNextTokens = 4;
 				}
 
 				// -----------------------------
 
-				if (allowSeparator) {
-					clauses.add(clause);
-					clause = new ArrayList<>();
+				if (allowSplit) {
+					clauses.add(new Sentence(sentence.getId() + "." + currentClause++, clauseTokens));
+					clauseTokens = new ArrayList<>();
+					i++;
 				} else {
-					clause.add(token);
+
+					// add tokens to the clause, depending on the next # of
+					// tokens to add
+					for (int j = i; j < i + numNextTokens; j++) {
+						clauseTokens.add(tokens.get(j));
+					}
+					i += numNextTokens;
 				}
 			} else {
-				clause.add(token);
+				clauseTokens.add(token);
+				i++;
 			}
 		}
-		if (!clause.isEmpty()) {
-			clauses.add(clause);
+
+		if (!clauseTokens.isEmpty()) {
+			clauses.add(new Sentence(sentence.getId() + "." + currentClause++, clauseTokens));
 		}
 
 		return clauses;
 
+	}
+
+	private static boolean checkHtmlCode(List<Token> tokens, int ampersandIdx) {
+		int toIdx = tokens.size();
+		if (ampersandIdx + 4 < tokens.size()) {
+			toIdx = ampersandIdx + 4;
+		}
+		String text = TextProcessor.getStringFromLemmas(new Sentence("0", tokens.subList(ampersandIdx, toIdx)));
+		return text.matches("\\& # \\d+ ;") || text.matches("\\& #[xX] [0-9a-fA-F]+ ;");
 	}
 
 	/**
@@ -253,9 +292,21 @@ public class SentenceUtils {
 
 	// ----------------------------------------
 
-	final public static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("show", "boomark", "rename", "run", "select",
-			"post", "stop", "goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use",
-			"start");
+	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("show", "boomark", "rename", "run", "select",
+			"post", "stop", "goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use", "start",
+			"paste");
+
+	/**
+	 * Check if the sentence/clause is imperative or not. It takes into account
+	 * labels at the beginning of the sentence, such as "exp. behavior: run the
+	 * program"
+	 * 
+	 * @param tokens
+	 * @return
+	 */
+	public static boolean isImperativeSentence(Sentence sentence) {
+		return isImperativeSentence(sentence.getTokens());
+	}
 
 	/**
 	 * Check if the sentence/clause (represented by its list of tokens) is
@@ -306,12 +357,33 @@ public class SentenceUtils {
 	 */
 	private static boolean checkForImperativeTokens(List<Token> tokens) {
 
-		if (tokens.size() < 2) {
+		// make sure we discard non-word tokens at the beginning of the sentence
+		int idx = -1;
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			if (token.getLemma().matches("^\\w.*")) {
+				idx = i;
+				break;
+			}
+
+		}
+
+		// the sentence is full of non-word tokens
+		if (idx == -1) {
 			return false;
 		}
 
-		Token firstToken = tokens.get(0);
-		Token secondToken = tokens.get(1);
+		// work only with word tokens
+		List<Token> tokensNoSpecialChar = tokens.subList(idx, tokens.size());
+
+		// -----------------------------------
+
+		if (tokensNoSpecialChar.size() < 2) {
+			return false;
+		}
+
+		Token firstToken = tokensNoSpecialChar.get(0);
+		Token secondToken = tokensNoSpecialChar.get(1);
 
 		// regular case, the sentence starts with a verb
 		if ((firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP"))) {
@@ -322,7 +394,7 @@ public class SentenceUtils {
 			if (secondToken != null) {
 				if (firstToken.getPos().equals("RB")
 						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP"))
-						&& tokens.size() > 2) {
+						&& tokensNoSpecialChar.size() > 2) {
 					return true;
 				}
 			}
@@ -333,6 +405,48 @@ public class SentenceUtils {
 			}
 		}
 		return false;
+	}
+
+	// -------------------------------------------------------------------------
+
+	public static final ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
+			new ButNegativePM(), new ConditionalNegativePM(), new NegativeAdjOrAdvPM(), new StillSentencePM(),
+			new PassiveVoicePM(), new TimeAdverbPositivePM(), new NoticePM(), new NothingHappensPM() };
+
+	/**
+	 * Finds the first Observed Behavior (OB) sentence in the list of sentences
+	 * provided, matched by any of the default OB pattern matchers
+	 * 
+	 * @param sentences
+	 * @param patterns
+	 * @return index of the 1st OB sentence found in the list or -1 otherwise
+	 * @throws Exception
+	 */
+	public static int findObsBehaviorSentence(List<Sentence> sentences) throws Exception {
+		return findObsBehaviorSentence(sentences, OB_PMS);
+	}
+
+	/**
+	 * Finds the first Observed Behavior (OB) sentence in the list of sentences
+	 * provided, matched by any of the OB pattern matchers
+	 * 
+	 * @param sentences
+	 * @param patterns
+	 * @return index of the 1st OB sentence found in the list or -1 otherwise
+	 * @throws Exception
+	 */
+	public static int findObsBehaviorSentence(List<Sentence> sentences, ObservedBehaviorPatternMatcher[] patterns)
+			throws Exception {
+		for (int i = sentences.size() - 1; i >= 0; i--) {
+			Sentence sentence = sentences.get(i);
+
+			for (ObservedBehaviorPatternMatcher pm : patterns) {
+				if (pm.matchSentence(sentence) == 1) {
+					return i;
+				}
+			}
+		}
+		return -1;
 	}
 
 }

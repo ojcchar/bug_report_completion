@@ -5,18 +5,13 @@ import java.util.List;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
-import seers.textanalyzer.entity.Token;
 
 public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		List<Token> tokens = sentence.getTokens();
-
-		// -----------------------------
-
-		List<List<Token>> clauses = SentenceUtils.extractClauses(tokens);
+		List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 		if (clauses.isEmpty()) {
 			return 0;
 		}
@@ -45,12 +40,11 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		return 0;
 	}
 
-	private int checkPresentOrActionClauses(List<List<Token>> clauses) {
+	private int checkPresentOrActionClauses(List<Sentence> clauses) {
 		int num = 0;
-		for (List<Token> clause : clauses) {
-			Sentence sentence = new Sentence("0", clause);
+		for (Sentence sentence : clauses) {
 			int num2 = ActionsPresentPM.isActionInPresent(sentence, true);
-			boolean isImperative = SentenceUtils.isImperativeSentence(clause);
+			boolean isImperative = SentenceUtils.isImperativeSentence(sentence);
 			if (isImperative) {
 				num2++;
 			}
