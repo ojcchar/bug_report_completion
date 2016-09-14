@@ -24,11 +24,13 @@ public abstract class PatternMatcher {
 	public static final String EB = "EB";
 	public static final String SR = "SR";
 
+	@Deprecated
 	public static final String[] CONDITIONAL_TERMS = { "if", "upon", "when", "whenever", "whereas", "while" };
 
 	public static final Set<String> CONDITIONAL_TERMS_2 = JavaUtils.getSet("if", "upon", "when", "whenever", "whereas",
 			"while");
-
+	
+	@Deprecated
 	public static final String[] CONTRAST_TERMS = { "although", "but", "however", "nevertheless", "though", "yet" };
 
 	public static final Set<String> CONTRAST_TERMS_2 = JavaUtils.getSet("although", "but", "however", "nevertheless",

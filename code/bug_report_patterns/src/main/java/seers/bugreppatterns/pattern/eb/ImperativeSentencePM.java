@@ -1,9 +1,11 @@
 package seers.bugreppatterns.pattern.eb;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -12,6 +14,10 @@ import seers.textanalyzer.entity.Token;
  * This one applies only for titles
  */
 public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
+
+	final public static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("show", "boomark", "rename", "run", "select",
+			"post", "stop", "goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use",
+			"start");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -75,9 +81,6 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 		return 0;
 	}
 
-	final public static String[] UNDETECTED_VERBS = { "show", "boomark", "rename", "run", "select", "post", "stop",
-			"goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use", "start" };
-
 	public static int checkNormalCase(Token firstToken, Token secondToken) {
 
 		if (firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP")) {
@@ -89,7 +92,7 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 					return 1;
 				}
 			}
-			if (Arrays.stream(UNDETECTED_VERBS).anyMatch(p -> firstToken.getLemma().equals(p))) {
+			if (SentenceUtils.lemmasContainToken(UNDETECTED_VERBS, firstToken)) {
 				return 1;
 			}
 		}

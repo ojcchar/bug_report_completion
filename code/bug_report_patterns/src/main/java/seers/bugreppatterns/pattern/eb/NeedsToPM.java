@@ -1,11 +1,10 @@
 package seers.bugreppatterns.pattern.eb;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
-import seers.bugreppatterns.pattern.ob.ConditionalNegativePM;
+import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -28,7 +27,7 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 			return 0;
 		}
 
-		if (tokens.stream().anyMatch(t -> "please".equals(t.getLemma()))) {
+		if (SentenceUtils.tokensContainAnyLemmaIn(tokens, JavaUtils.getSet("please"))) {
 			return 0;
 		}
 
@@ -64,7 +63,7 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 
 		for (int i = 0; i < needTok; i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(CONDITIONAL_TERMS).anyMatch(t -> token.getLemma().equals(t))) {
+			if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS_2, token)) {
 				return true;
 			}
 		}

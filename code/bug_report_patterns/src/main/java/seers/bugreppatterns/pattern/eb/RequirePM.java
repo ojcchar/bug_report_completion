@@ -3,6 +3,7 @@ package seers.bugreppatterns.pattern.eb;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -15,7 +16,7 @@ public class RequirePM extends ExpectedBehaviorPatternMatcher {
 
 		if (tokens.size() > 3) {
 
-			List<Integer> condTerms = findLemmasInTokens(CONDITIONAL_TERMS, tokens);
+			List<Integer> condTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS_2, tokens);
 
 			if (condTerms.isEmpty()) {
 				for (Token token : tokens) {

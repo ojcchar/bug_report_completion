@@ -1,10 +1,11 @@
 package seers.bugreppatterns.pattern.eb;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -12,7 +13,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ExpectSentencePM extends ExpectedBehaviorPatternMatcher {
 
-	public final static String[] WORK_VERBS = new String[] { "work", "behave" };
+	public final static Set<String> WORK_VERBS = JavaUtils.getSet("work", "behave");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -60,8 +61,7 @@ public class ExpectSentencePM extends ExpectedBehaviorPatternMatcher {
 				Token asToken = tokens.get(expVerb - 1);
 				Token verbToken = tokens.get(expVerb - 2);
 
-				if (asToken.getLemma().equals("as")
-						&& Arrays.stream(WORK_VERBS).anyMatch(wb -> verbToken.getLemma().equals(wb))) {
+				if (asToken.getLemma().equals("as") && SentenceUtils.lemmasContainToken(WORK_VERBS, verbToken)) {
 					return 0;
 				}
 			}

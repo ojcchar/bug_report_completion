@@ -1,12 +1,12 @@
 package seers.bugreppatterns.pattern.sr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
 import seers.bugreppatterns.pattern.eb.ImperativeSentencePM;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -73,8 +73,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 	 * Removes the bullet tokens from the sentence
 	 * 
 	 * @param sentence
-	 * @return the list of tokens of the sentence with no bullets, or an empty
-	 *         list if it does not contain any bullet
+	 * @return the list of tokens of the sentence with no bullets, or an empty list if it does not contain any bullet
 	 */
 	public static List<Token> getTokensNoBullet(Sentence sentence) {
 
@@ -135,7 +134,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 					return true;
 				}
 			}
-			if (Arrays.stream(ImperativeSentencePM.UNDETECTED_VERBS).anyMatch(p -> firstToken.getLemma().equals(p))) {
+			if (SentenceUtils.lemmasContainToken(ImperativeSentencePM.UNDETECTED_VERBS, firstToken)) {
 				return true;
 			}
 		}

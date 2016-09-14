@@ -1,19 +1,21 @@
 package seers.bugreppatterns.pattern.eb;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class WouldBeSentencePM extends ExpectedBehaviorPatternMatcher {
 
-	final private static String[] MODALS = { "would", "might" };
+	final private static Set<String> MODALS = JavaUtils.getSet("would", "might");
 
-	final private static String[] POSITIVE_ADJECTIVES = { "nice", "great", "super", "useful", "convenient", "ideal",
-			"neat", "better", "helpful", "fine", "cool", "good", "optimal", "fantastic" };
+	final private static Set<String> POSITIVE_ADJECTIVES = JavaUtils.getSet("nice", "great", "super", "useful",
+			"convenient", "ideal", "neat", "better", "helpful", "fine", "cool", "good", "optimal", "fantastic");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -35,12 +37,11 @@ public class WouldBeSentencePM extends ExpectedBehaviorPatternMatcher {
 
 						Token adj = tokens.get(modal + 3);
 
-						if (adj.getPos().equals("JJ") && Arrays.stream(POSITIVE_ADJECTIVES)
-								.anyMatch(m -> adj.getLemma().equalsIgnoreCase(m))) {
+						if (adj.getPos().equals("JJ") && SentenceUtils.lemmasContainToken(POSITIVE_ADJECTIVES, adj)) {
 							return 1;
 						}
-					} else if (adjOrAdj.getPos().equals("JJ") && Arrays.stream(POSITIVE_ADJECTIVES)
-							.anyMatch(m -> adjOrAdj.getLemma().equalsIgnoreCase(m))) {
+					} else if (adjOrAdj.getPos().equals("JJ")
+							&& SentenceUtils.lemmasContainToken(POSITIVE_ADJECTIVES, adjOrAdj)) {
 						return 1;
 					}
 				} else if (advOrVerbToBe1.getPos().equals("RB")) {
@@ -49,12 +50,12 @@ public class WouldBeSentencePM extends ExpectedBehaviorPatternMatcher {
 						Token adjOrAdj = tokens.get(modal + 3);
 						if (adjOrAdj.getPos().equals("RB")) {
 							Token adj = tokens.get(modal + 4);
-							if (adj.getPos().equals("JJ") && Arrays.stream(POSITIVE_ADJECTIVES)
-									.anyMatch(m -> adj.getLemma().equalsIgnoreCase(m))) {
+							if (adj.getPos().equals("JJ")
+									&& SentenceUtils.lemmasContainToken(POSITIVE_ADJECTIVES, adj)) {
 								return 1;
 							}
-						} else if (adjOrAdj.getPos().equals("JJ") && Arrays.stream(POSITIVE_ADJECTIVES)
-								.anyMatch(m -> adjOrAdj.getLemma().equalsIgnoreCase(m))) {
+						} else if (adjOrAdj.getPos().equals("JJ")
+								&& SentenceUtils.lemmasContainToken(POSITIVE_ADJECTIVES, adjOrAdj)) {
 							return 1;
 						}
 
@@ -73,8 +74,7 @@ public class WouldBeSentencePM extends ExpectedBehaviorPatternMatcher {
 		List<Integer> modalTokens = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token modal = tokens.get(i);
-			if ((modal.getPos().equals("MD")
-					&& Arrays.stream(MODALS).anyMatch(m -> modal.getLemma().equalsIgnoreCase(m)))
+			if ((modal.getPos().equals("MD") && SentenceUtils.lemmasContainToken(MODALS, modal))
 					|| modal.getLemma().equals("d")) {
 				modalTokens.add(i);
 			}
