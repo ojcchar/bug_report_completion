@@ -15,24 +15,28 @@ public class ActionsInfinitivePMTest extends BaseTest {
     @Test
     public void testPositive() throws Exception {
         String[] paragraphs = {
-                // These seem to be miscoded
+                "- creating new table\n" +
+                        "- fill Cell \"A1\" with i.e. \"Text1\"\n" +
+                        "- autofill 10 lines down (Text1, Text2, Text3 ...)\n" +
+                        "- insert comment to one cell, i.e. A5 (\"Text5\")\n" +
+                        "- show comment\n" +
+                        "- insert comment to another cell, i.e. A7, and also show comment\n" +
+                        "- hide line 7 (comment remains visible)\n" +
+                        "- copy whole table with context menu\n" +
+                        "- now hide line 5 in new created table\n" +
+                        "- all comments double (see atachement)",
                 "1. inside a method type \"new Runnable(\"\n" +
                         "2. press Ctrl+SPACE\n" +
                         "==> no method comment for run()",
-                "1. add some TODO comments in html files\n" +
-                        "2. in task tags preference page, enable searching for task tags (make sure enabled for html content type)\n" +
-                        "3. task tags are found and reported in tasks view\n" +
-                        "4. go back to task tags preference page and in the filters tab, disable scanning html content type\n" +
-                        "5. apply & clean and redetect tasks\n" +
-                        "6. ** task tags are still in tasks view and marked in files (though any new todo comments are no longer turned into task tags)",
-                "1. Visit Show/hide blogs area.\n" +
-                        "2. While list is refreshing, untick any of the checkboxes.\n" +
-                        "3. After the refresh completes, your tick will reset to being checked.",
-                "1. Go to the Media Library\n" +
-                        "2. Tap the `+` button to add a new picture\n" +
-                        "3. Either select \"Capture\" or \"Select from local library\"\n" +
-                        "4. Nothing happens: the picture is not uploaded, no Toast error",
-
+                "1:New a report,\n" +
+                        "2:Add a chart in the body.\n" +
+                        "3:Select the chart, and switch to the script editor.\n" +
+                        "4:Type \"abc\" , then save the report design.\n" +
+                        "5:Watch the outline view, the script node of the chart show.\n" +
+                        "6:Delete the \"abc\", then save the report design.",
+                "1. check out a bundle from CVS, e.g. org.eclipse.core.filebuffers\n" +
+                        "2. File > Export... > Deployable plug-ins and fragments\n" +
+                        "==> NPE:",
                 "1 New Text Document.\n" +
                         "2 Insert -> Footer -> Default Style.\n" +
                         "3 Table -> Insert Table -> 1x1.\n" +
@@ -47,10 +51,7 @@ public class ActionsInfinitivePMTest extends BaseTest {
                         "7 Save, close, and reopen document.\n" +
                         "Result:\n" +
                         "\"test\" and line are overlapping each other.\n" +
-                        "There is also a red triangle.",
-                "1. inside a method type \"new Runnable(\"\n" +
-                        "2. press Ctrl+SPACE\n" +
-                        "==> no method comment for run()"};
+                        "There is also a red triangle."};
         TestUtils.testParagraphs(paragraphs, pm, 1);
     }
 }

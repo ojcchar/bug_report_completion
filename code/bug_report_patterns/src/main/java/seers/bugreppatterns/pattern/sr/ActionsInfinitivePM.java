@@ -6,7 +6,7 @@ import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -18,7 +18,10 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
      * General PoS of words to be considered bullets if they appear at the beginning of a
      * sentence.
      */
-    public static final String[] BULLET_POS = {"CD", "LS", ":", "-LRB-", "-RRB-"};
+    public static final Set BULLET_POS = Collections.unmodifiableSet(
+            new HashSet<>(Arrays.asList("CD", "LS", ":", "-LRB-", "-RRB-")));
+
+    public static final String[] MISTAGGED_VERBS = {"type"};
 
     private Pattern nonLetters = Pattern.compile("[\\.\\d]");
 
@@ -43,25 +46,74 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
 
             Sentence noBullets = new Sentence("0",
                     sentence.getTokens().subList(firstNonBulletIndex, sentence.getTokens().size()));
-            List<Token> tokens = noBullets.getTokens();
 
             // If the first word is an infinitive verb
-            Token firstToken = tokens.get(0);
-            if (firstToken.getPos().equals("VB") || firstToken.getWord().toLowerCase().equals("type")) {
+            if (hasVerbInPos(noBullets, 0)) {
                 infinitiveSentences++;
             } else {
-                Sentence newSentence = appendPronoun(noBullets);
+                Sentence modifiedSentence = noBullets;
 
-                // We need generalPos here because it will no longer be a base form verb
-                if (newSentence != null &&
-                        newSentence.getTokens().get(1).getGeneralPos().equals("VB")) {
+                if (!noBullets.getTokens().get(0).getGeneralPos().equals("NN")) {
+                    Sentence trimmedSentence = attemptTrim(noBullets);
+                    if (trimmedSentence != null) {
+                        if (hasVerbInPos(trimmedSentence, 0)) {
+                            infinitiveSentences++;
+                            continue;
+                        } else {
+                            modifiedSentence = trimmedSentence;
+                        }
+                    }
+                }
+
+                Sentence artificialSentence = appendPronoun(modifiedSentence);
+
+                if (artificialSentence != null && hasVerbInPos(artificialSentence, 1)) {
                     infinitiveSentences++;
                 }
             }
         }
 
-        // Match if most sentences are in infinitive
-        return ((float) infinitiveSentences) / bulletedSentences > 0.5 ? 1 : 0;
+        // Match if most bulleted sentences are in infinitive
+        return ((float) infinitiveSentences) / bulletedSentences > 0.5F ? 1 : 0;
+    }
+
+    /**
+     * Tries to remove a clause from the beginning of a sentence. Returns null if there are no
+     * clauses to remove.
+     *
+     * @param sentence A sentence.
+     * @return A trimmed sentence or null.
+     */
+
+    private Sentence attemptTrim(Sentence sentence) {
+        List<Token> tokens = sentence.getTokens();
+
+        // Remove initial conjunction
+        if (tokens.get(0).getPos().equals("CC")) {
+            return new Sentence("", tokens.subList(1, tokens.size()));
+        }
+
+        // Try to trim everything before the first comma found
+        int tokenAmount = tokens.size();
+        for (int i = 0; i < tokenAmount; i++) {
+            Token token = tokens.get(i);
+            if (token.getLemma().equals(",") && i + 1 < tokenAmount) {
+                return new Sentence("", tokens.subList(i + 1, tokenAmount));
+            }
+        }
+
+        // Search for initial prepositions
+        if (tokens.get(0).getGeneralPos().equals("IN")) {
+            // Trim until the first noun found, inclusive
+            for (int i = 0; i < tokenAmount; i++) {
+                Token token = tokens.get(i);
+                if (token.getGeneralPos().equals("NN") && i + 1 < tokenAmount) {
+                    return new Sentence("", tokens.subList(i + 1, tokenAmount));
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -98,7 +150,7 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
             // [1]
             // -
             // 1:
-            if (Stream.of(BULLET_POS).noneMatch(pos -> token.getGeneralPos().equals(pos))) {
+            if (!BULLET_POS.contains(token.getGeneralPos())) {
                 // If a noun contains numbers or periods it is also considered a list item. The
                 // regexp finds any instances of periods or numbers in the noun
                 // Examples:
@@ -112,5 +164,12 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
         }
 
         return sentenceStart;
+    }
+
+    private boolean hasVerbInPos(Sentence sentence, int position) {
+        Token token = sentence.getTokens().get(position);
+
+        return token.getPos().equals("VB") || token.getPos().equals("VBP") ||
+                Stream.of(MISTAGGED_VERBS).anyMatch(v -> token.getWord().toLowerCase().equals(v));
     }
 }
