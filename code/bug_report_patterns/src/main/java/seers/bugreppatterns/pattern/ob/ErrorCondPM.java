@@ -4,6 +4,7 @@ import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -14,12 +15,12 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
-		List<Integer> condIndexes = findLemmasInTokens(CONDITIONAL_TERMS, tokens);
+		List<Integer> condIndexes = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS_2, tokens);
 		if (!condIndexes.isEmpty()) {
 			for (Integer condIndex : condIndexes) {
 				if (condIndex > 0 && (condIndex < tokens.size() - 1)) {
 					Sentence errorClause = new Sentence(sentence.getId(), tokens.subList(0, condIndex));
-					if(isNegative(errorClause)) {
+					if (isNegative(errorClause)) {
 						return 1;
 					}
 				}
@@ -27,7 +28,7 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 		}
 		return 0;
 	}
-	
+
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}

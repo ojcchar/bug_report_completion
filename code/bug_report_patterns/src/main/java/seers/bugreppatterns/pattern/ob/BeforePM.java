@@ -1,25 +1,27 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class BeforePM extends ObservedBehaviorPatternMatcher {
 
-	private static String[] BEFORE = new String[] { "before" };
+	private static Set<String> BEFORE = JavaUtils.getSet("before");
 
-	private static String[] PUNCTUATION = new String[] { ",", ":", "_", "-", "-lrb-", "-rrb-", ".", ";" };
+	private static Set<String> PUNCTUATION = JavaUtils.getSet(",", ":", "_", "-", "-lrb-", "-rrb-", ".", ";");
 
-	private static String[] PRESENT_TENSE_VERBS = new String[] { "crashes", "builds", "returns" };
+	private static Set<String> PRESENT_TENSE_VERBS = JavaUtils.getSet("crash", "build", "return");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 
-		List<Integer> beforeIndexes = findLemmasInTokens(BEFORE, tokens);
+		List<Integer> beforeIndexes = SentenceUtils.findLemmasInTokens(BEFORE, tokens);
 
 		if (!beforeIndexes.isEmpty()) {
 			for (Integer beforeIndex : beforeIndexes) {
@@ -41,7 +43,7 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 		boolean outsidePar = false;
 		for (int i = beforeIndex; i >= 0; i--) {
 			Token current = tokens.get(i);
-			if (Arrays.stream(PUNCTUATION).anyMatch(t -> current.getLemma().equals(t))) {
+			if (SentenceUtils.lemmasContainToken(PUNCTUATION, current)) {
 				if (current.getLemma().equals("-") && tokens.get(i + 1).getLemma().equals(">")) {
 					continue;
 				} else if (current.getLemma().equals("-rrb-")) {
@@ -63,7 +65,7 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 		boolean outsidePar = false;
 		for (int i = beforeIndex; i < tokens.size(); i++) {
 			Token current = tokens.get(i);
-			if (Arrays.stream(PUNCTUATION).anyMatch(t -> current.getLemma().equals(t))) {
+			if (SentenceUtils.lemmasContainToken(PUNCTUATION, current)) {
 				if (current.getLemma().equals("-") && i + 1 < tokens.size()
 						&& tokens.get(i + 1).getLemma().equals(">")) {
 					continue;
@@ -85,8 +87,8 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token current = tokens.get(i);
 			if (current.getPos().equals("VBP") || current.getPos().equals("VBZ")
-					|| (i - 1 >= 0 && Arrays.stream(PRESENT_TENSE_VERBS).anyMatch(t -> current.getWord().equals(t))
-							&& tokens.get(i - 1).getGeneralPos().equals("NN"))) {
+					|| (i - 1 >= 0 && SentenceUtils.lemmasContainToken(PRESENT_TENSE_VERBS, current)
+							&& current.getPos().equals("NNS") && tokens.get(i - 1).getGeneralPos().equals("NN"))) {
 				return true;
 			}
 		}
@@ -112,8 +114,8 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 
 	private boolean containsVerb(List<Token> tokens) {
 		for (Token current : tokens) {
-			if (current.getGeneralPos().equals("VB")
-					|| Arrays.stream(PRESENT_TENSE_VERBS).anyMatch(t -> current.getWord().equals(t))) {
+			if (current.getGeneralPos().equals("VB") || (SentenceUtils.lemmasContainToken(PRESENT_TENSE_VERBS, current)
+					&& current.getPos().equals("NNS"))) {
 				return true;
 			}
 		}

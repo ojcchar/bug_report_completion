@@ -1,15 +1,17 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class CharThenPM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] ARROW_TAIL = { "=", "==", "-", "--" };
+	public final static Set<String> ARROW_TAIL = JavaUtils.getSet("=", "==", "-", "--");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -29,7 +31,7 @@ public class CharThenPM extends ObservedBehaviorPatternMatcher {
 					&& (current.getLemma().equals(">") || current.getLemma().equals("&gt;")) && i - 1 >= 0
 					&& i + 1 < tokens.size()) {
 				Token previous = tokens.get(i - 1);
-				if (Arrays.stream(ARROW_TAIL).anyMatch(t -> previous.getLemma().equals(t))) {
+				if (SentenceUtils.lemmasContainToken(ARROW_TAIL, previous)) {
 					if (i - 2 >= 0) {
 						Token beforePrevious = tokens.get(i - 2);
 						Token next = tokens.get(i + 1);

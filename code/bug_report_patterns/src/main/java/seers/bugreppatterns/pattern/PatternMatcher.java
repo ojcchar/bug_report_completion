@@ -25,16 +25,19 @@ public abstract class PatternMatcher {
 	public static final String SR = "SR";
 
 	public static final String[] CONDITIONAL_TERMS = { "if", "upon", "when", "whenever", "whereas", "while" };
-	
-	public static final Set<String> CONDITIONAL_TERMS_2 = JavaUtils.getSet("if", "upon", "when", "whenever", "whereas", "while" );
-	
+
+	public static final Set<String> CONDITIONAL_TERMS_2 = JavaUtils.getSet("if", "upon", "when", "whenever", "whereas",
+			"while");
+
 	public static final String[] CONTRAST_TERMS = { "although", "but", "however", "nevertheless", "though", "yet" };
+
+	public static final Set<String> CONTRAST_TERMS_2 = JavaUtils.getSet("although", "but", "however", "nevertheless",
+			"though", "yet");
 
 	public abstract int matchSentence(Sentence sentence) throws Exception;
 
 	/**
-	 * Finds the indexes of the tokens whose lemmas *exactly* match any of the
-	 * given terms, ignoring the case
+	 * Finds the indexes of the tokens whose lemmas *exactly* match any of the given terms, ignoring the case
 	 * 
 	 * @param terms
 	 * @param tokens
@@ -125,9 +128,8 @@ public abstract class PatternMatcher {
 	}
 
 	/**
-	 * Divides the sentence into subsentences according to the indexes provided
-	 * in separatorIndexes. The subSentences do not include the tokens given by
-	 * the separatorIndexes.
+	 * Divides the sentence into subsentences according to the indexes provided in separatorIndexes. The subSentences do
+	 * not include the tokens given by the separatorIndexes.
 	 * 
 	 * @param sentence
 	 * @param separatorIndexes
@@ -151,8 +153,7 @@ public abstract class PatternMatcher {
 	}
 
 	/**
-	 * checks if the sentence matches any of the patterns in the array of
-	 * patterns
+	 * checks if the sentence matches any of the patterns in the array of patterns
 	 * 
 	 * @param sentence
 	 *            sentence to be analyzed

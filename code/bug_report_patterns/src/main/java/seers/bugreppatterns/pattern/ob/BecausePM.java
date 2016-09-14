@@ -1,15 +1,17 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class BecausePM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] BECAUSE = { "because" };
+	public final static Set<String> BECAUSE = JavaUtils.getSet( "because" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -29,7 +31,7 @@ public class BecausePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findBecause(List<Token> tokens) {
-		return findLemmasInTokens(BECAUSE, tokens);
+		return SentenceUtils.findLemmasInTokens(BECAUSE, tokens);
 	}
 
 	private boolean isNegative(Sentence sentence) throws Exception {

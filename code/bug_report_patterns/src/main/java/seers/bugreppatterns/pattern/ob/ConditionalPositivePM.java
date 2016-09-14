@@ -3,8 +3,11 @@ package seers.bugreppatterns.pattern.ob;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -13,7 +16,7 @@ import seers.textanalyzer.entity.Token;
  */
 public class ConditionalPositivePM extends ObservedBehaviorPatternMatcher {
 
-	private static final String[] PUNCTUATION = new String[] { ",", "_"};
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet( ",", "_");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -23,7 +26,7 @@ public class ConditionalPositivePM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence superSentence : superSentences) {
 			List<Token> tokens = superSentence.getTokens();
-			List<Integer> conditionalIndexes = findLemmasInTokens(CONDITIONAL_TERMS, tokens);
+			List<Integer> conditionalIndexes = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS_2, tokens);
 
 			if (!conditionalIndexes.isEmpty()) {
 
@@ -89,7 +92,7 @@ public class ConditionalPositivePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		List<Integer> symbols = SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
 			return symbols.subList(0, symbols.size() - 1);
 		}

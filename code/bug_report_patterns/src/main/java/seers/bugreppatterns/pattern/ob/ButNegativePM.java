@@ -1,10 +1,12 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -15,9 +17,9 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(), new ErrorNounPhrasePM(),
 			new NothingHappensPM() };
 
-	final static String[] NEGATIVE_TERMS = { "no", "nothing", "not", "never" };
+	final static Set<String> NEGATIVE_TERMS = JavaUtils.getSet("no", "nothing", "not", "never" );
 
-	private static final String[] PUNCTUATION = new String[] { ".", ";", "--" };
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet( ".", ";", "--" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -26,13 +28,13 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence subSentence : subSentences) {
 			List<Token> subTokens = subSentence.getTokens();
-			List<Integer> buts = findLemmasInTokens(CONTRAST_TERMS, subTokens);
+			List<Integer> buts = SentenceUtils.findLemmasInTokens(CONTRAST_TERMS_2, subTokens);
 
 			for (Integer but : buts) {
 
 				if (but + 1 < subTokens.size()) {
 					Token nextToken = subTokens.get(but + 1);
-					if (Arrays.stream(NEGATIVE_TERMS).anyMatch(t -> nextToken.getLemma().equals(t))) {
+					if (SentenceUtils.lemmasContainToken(NEGATIVE_TERMS, nextToken)) {
 						return 1;
 					}
 
@@ -54,7 +56,7 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		List<Integer> symbols = SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
 			return symbols.subList(0, symbols.size() - 1);
 		}
