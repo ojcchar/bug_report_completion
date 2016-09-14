@@ -1,6 +1,7 @@
 package seers.bugreppatterns.pattern.sr;
 
 import org.junit.Test;
+
 import seers.bugreppatterns.main.BaseTest;
 import seers.bugreppatterns.pattern.utils.TestUtils;
 
