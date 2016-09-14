@@ -3,6 +3,7 @@ package seers.bugreppatterns.pattern.ob;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -26,7 +27,7 @@ public class NegativeConditionalPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findConditionals(List<Token> tokens) {
-		return findLemmasInTokens(CONDITIONAL_TERMS, tokens);
+		return SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS_2, tokens);
 	}
 	
 	private boolean isNegative(Sentence sentence) throws Exception {

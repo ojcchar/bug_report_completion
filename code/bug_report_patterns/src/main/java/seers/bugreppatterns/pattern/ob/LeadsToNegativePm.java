@@ -1,10 +1,9 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -47,8 +46,7 @@ public class LeadsToNegativePm extends ObservedBehaviorPatternMatcher {
 	private int indexVerbTokens(List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getGeneralPos().equals("VB")
-					&& Arrays.stream(LeadsToPM.CAUSE_VERBS).anyMatch(t -> t.equals(token.getLemma()))) {
+			if (token.getGeneralPos().equals("VB") && SentenceUtils.lemmasContainToken(LeadsToPM.CAUSE_VERBS, token)) {
 				return i;
 			}
 		}

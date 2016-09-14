@@ -13,6 +13,7 @@ import seers.textanalyzer.entity.Token;
  * Matcher for S_OB_ADV_TIME_NEG.
  */
 public class TimeAdverbNegativePM extends ObservedBehaviorPatternMatcher {
+	
 	public static final Set<String> TIME_ADVERBS = JavaUtils.getSet("currently", "again", "now");
 
 	/**

@@ -1,15 +1,17 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class GerundSubjectPM extends ObservedBehaviorPatternMatcher {
 
-	final private static String[] VERBS_AS_NOUNS = { "copy", "drag", "insert" };
+	final private static Set<String> VERBS_AS_NOUNS = JavaUtils.getSet("copy", "drag", "insert" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -21,7 +23,7 @@ public class GerundSubjectPM extends ObservedBehaviorPatternMatcher {
 				if (token.getGeneralPos().equals("VB")) {
 					return 1;
 				} else if (token.getGeneralPos().equals("NN")
-						&& Arrays.stream(VERBS_AS_NOUNS).anyMatch(t -> token.getLemma().contains(t))) {
+						&& SentenceUtils.lemmasContainToken(VERBS_AS_NOUNS, token)) {
 					return 1;
 				}
 			}

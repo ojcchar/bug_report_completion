@@ -1,16 +1,18 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class NoticePM extends ObservedBehaviorPatternMatcher {
 
-	private final static String[] NOTICE_TERMS = { "notice", "see" };
+	private final static Set<String> NOTICE_TERMS = JavaUtils.getSet("notice", "see");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -31,7 +33,7 @@ public class NoticePM extends ObservedBehaviorPatternMatcher {
 			Token current = tokens.get(i);
 
 			// Look for every "notice"
-			if (Arrays.stream(NOTICE_TERMS).anyMatch(t -> current.getLemma().equals(t))) {
+			if (SentenceUtils.lemmasContainToken(NOTICE_TERMS, current)) {
 
 				// The right "notice"
 				if (i - 1 >= 0 && i < tokens.size() - 1) {
@@ -45,7 +47,8 @@ public class NoticePM extends ObservedBehaviorPatternMatcher {
 						finds.add(i);
 					}
 					// the one preceded by another verb/modal that is preceded by a pronoun
-					else if ((previous.getGeneralPos().equals("VB") || (previous.getGeneralPos().equals("MD") && !isEBModal(tokens.subList(i-1, i))))
+					else if ((previous.getGeneralPos().equals("VB")
+							|| (previous.getGeneralPos().equals("MD") && !isEBModal(tokens.subList(i - 1, i))))
 							&& i - 2 >= 0) {
 						if (tokens.get(i - 2).getGeneralPos().equals("PRP")) {
 							finds.add(i);
@@ -69,7 +72,7 @@ public class NoticePM extends ObservedBehaviorPatternMatcher {
 					}
 				}
 				// the one starting a sentence
-				else if (i == 0  && i < tokens.size() - 1) {
+				else if (i == 0 && i < tokens.size() - 1) {
 					finds.add(i);
 				}
 

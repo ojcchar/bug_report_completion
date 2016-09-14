@@ -1,10 +1,12 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -14,7 +16,7 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
 			new VerbNoPM(), new ProblemInPM(), new ErrorNounPhrasePM() };
 
-	public final static String[] CAUSE_VERBS = { "cause", "produce", "yield", "result", "lead" };
+	public final static Set<String> CAUSE_VERBS = JavaUtils.getSet("cause", "produce", "yield", "result", "lead");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -41,7 +43,7 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 			}
 			// check that the second sentence is not negative
 			if (isSubject || indexVerb == 0) {
-				
+
 				if (!isNegative(second)) {
 					return 1;
 				}
@@ -53,8 +55,7 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 	private int indexVerbTokens(List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getGeneralPos().equals("VB")
-					&& Arrays.stream(CAUSE_VERBS).anyMatch(t -> t.equals(token.getLemma()))) {
+			if (token.getGeneralPos().equals("VB") && SentenceUtils.lemmasContainToken(CAUSE_VERBS, token)) {
 				return i;
 			}
 		}

@@ -1,9 +1,12 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -15,7 +18,7 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 			new ErrorNounPhrasePM(), new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(),
 			new ThereIsNoPM(), new VerbNoPM() };
 
-	public final static String[] AFTER = { "after" };
+	public final static Set<String> AFTER = JavaUtils.getSet("after");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -51,7 +54,7 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findAfters(List<Token> tokens) {
-		return findLemmasInTokens(AFTER, tokens);
+		return SentenceUtils.findLemmasInTokens(AFTER, tokens);
 	}
 
 }

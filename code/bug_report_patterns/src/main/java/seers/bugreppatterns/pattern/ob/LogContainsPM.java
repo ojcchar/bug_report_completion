@@ -1,17 +1,19 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class LogContainsPM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] LOG_VERBS = { "be", "contain", "look", "say", "see", "show", "tell" };
+	public final static Set<String> LOG_VERBS = JavaUtils.getSet("be", "contain", "look", "say", "see", "show", "tell");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -58,8 +60,7 @@ public class LogContainsPM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 
-			if (token.getGeneralPos().equals("VB")
-					&& Arrays.stream(LOG_VERBS).anyMatch(t -> token.getLemma().contains(t))) {
+			if (token.getGeneralPos().equals("VB") && SentenceUtils.lemmasContainToken(LOG_VERBS, token)) {
 				signal.add(i);
 			} else if (token.getLemma().equals(":")) {
 				signal.add(i);
