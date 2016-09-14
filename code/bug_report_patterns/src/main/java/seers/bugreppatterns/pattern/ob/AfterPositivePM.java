@@ -3,9 +3,12 @@ package seers.bugreppatterns.pattern.ob;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -18,9 +21,9 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] DOUBLE_NEG = { new ButNegativePM() };
 
-	public final static String[] AFTER = { "after" };
-	
-	private static final String[] PUNCTUATION = new String[] { ",", "_", "-" };
+	public final static Set<String> AFTER = JavaUtils.getSet("after");
+
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet(",", "_", "-");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -31,7 +34,7 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence superSentence : superSentences) {
 
-			List<Integer> afters = findLemmasInTokens(AFTER, superSentence.getTokens());
+			List<Integer> afters = SentenceUtils.findLemmasInTokens(AFTER, superSentence.getTokens());
 
 			if (!afters.isEmpty()) {
 				// split sentences based on "after"
@@ -56,7 +59,7 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 
 						}
 						if (subSentece.getTokens().size() > 1 && !findVerbs(subSentece.getTokens()).isEmpty()
-								&& findLemmasInTokens(AfterTimePM.TIME_TERMS, subSentece.getTokens()).isEmpty()) {
+								&& !SentenceUtils.sentenceContainsAnyLemmaIn(subSentece, AfterTimePM.TIME_TERMS)) {
 							return 1;
 						}
 
@@ -93,7 +96,7 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		List<Integer> symbols = SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
 			return symbols.subList(0, symbols.size() - 1);
 		}

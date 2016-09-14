@@ -1,18 +1,21 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class ForTimePM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] FOR_TERMS = { "for", "since", "take" };
+	public final static Set<String> FOR_TERMS = JavaUtils.getSet( "for", "since", "take" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		List<Integer> fors = findLemmasInTokens(FOR_TERMS, sentence.getTokens());
+		List<Integer> fors = SentenceUtils.findLemmasInTokens(FOR_TERMS, sentence.getTokens());
 
 		if (!fors.isEmpty()) {
 
@@ -31,7 +34,7 @@ public class ForTimePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private boolean containsTimeTerms(List<Token> tokens) {
-		return !findLemmasInTokens(AfterTimePM.TIME_TERMS, tokens).isEmpty();
+		return SentenceUtils.tokensContainAnyLemmaIn(tokens, AfterTimePM.TIME_TERMS);
 	}
 
 }

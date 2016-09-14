@@ -3,19 +3,22 @@ package seers.bugreppatterns.pattern.ob;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class AfterTimePM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] AFTER = { "after" };
+	public final static Set<String> AFTER = JavaUtils.getSet("after");
 
-	public final static String[] TIME_TERMS = { "second", "seconds", "sec", "secs", "minute", "min", "mins", "hour",
-			"day", "week", "month", "year" };
+	public final static Set<String> TIME_TERMS = JavaUtils.getSet("second", "seconds", "sec", "secs", "minute", "min",
+			"mins", "hour", "day", "week", "month", "year");
 
-	private static final String[] PUNCTUATION = new String[] { ",", "_", "-" };
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet(",", "_", "-");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -26,7 +29,7 @@ public class AfterTimePM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence superSentence : superSentences) {
 
-			List<Integer> afters = findLemmasInTokens(AFTER, superSentence.getTokens());
+			List<Integer> afters = SentenceUtils.findLemmasInTokens(AFTER, superSentence.getTokens());
 
 			if (!afters.isEmpty()) {
 				// split sentences based on "after"
@@ -41,7 +44,7 @@ public class AfterTimePM extends ObservedBehaviorPatternMatcher {
 					// hard case: there is no punctuation. Check for time terms and verify there is no verb before them.
 
 					if (punct.isEmpty()) {
-						List<Integer> timeTokens = findLemmasInTokens(TIME_TERMS, subSentece.getTokens());
+						List<Integer> timeTokens = SentenceUtils.findLemmasInTokens(TIME_TERMS, subSentece.getTokens());
 						if (!timeTokens.isEmpty()) {
 							if (!containsVerb(subSentece.getTokens().subList(0, timeTokens.get(0))))
 								return 1;
@@ -54,7 +57,7 @@ public class AfterTimePM extends ObservedBehaviorPatternMatcher {
 						List<Sentence> subSubSentences = findSubSentences(subSentece, punct);
 
 						if (!subSubSentences.isEmpty()) {
-							List<Integer> timeTokens = findLemmasInTokens(TIME_TERMS,
+							List<Integer> timeTokens = SentenceUtils.findLemmasInTokens(TIME_TERMS,
 									subSubSentences.get(0).getTokens());
 							if (!timeTokens.isEmpty()) {
 								if (!containsVerb(subSubSentences.get(0).getTokens().subList(0, timeTokens.get(0))))
@@ -70,7 +73,7 @@ public class AfterTimePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		List<Integer> symbols = SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
 			return symbols.subList(0, symbols.size() - 1);
 		}

@@ -1,10 +1,13 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -13,7 +16,7 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ProblemInPM(), new ErrorTermSubjectPM(),
 			new ErrorNounPhrasePM() };
 
-	private final static String[] PUNCTUATION = new String[] { ",", ".", ";" };
+	private final static Set<String> PUNCTUATION = JavaUtils.getSet(",", ".", ";");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -26,7 +29,8 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 
 		if (!sentences.isEmpty()) {
 			Sentence firstSentence = sentences.get(0);
-			List<Integer> colonIndexes = findLemmasInTokens(new String[] { ":" }, firstSentence.getTokens());
+			List<Integer> colonIndexes = SentenceUtils.findLemmasInTokens(JavaUtils.getSet(":"),
+					firstSentence.getTokens());
 
 			if (!colonIndexes.isEmpty()) {
 				Sentence beforeColonSentence = new Sentence(firstSentence.getId(),
@@ -58,7 +62,7 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		return findLemmasInTokens(PUNCTUATION, tokens);
+		return SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 	}
 
 }

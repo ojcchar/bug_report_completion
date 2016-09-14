@@ -1,14 +1,17 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class ExceptPM extends ObservedBehaviorPatternMatcher {
 
-	private static final String[] EXCEPT = new String[] { "except" };
+	private static final Set<String> EXCEPT = JavaUtils.getSet("except" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -32,7 +35,7 @@ public class ExceptPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findExcepts(List<Token> tokens) {
-		return findLemmasInTokens(EXCEPT, tokens);
+		return SentenceUtils.findLemmasInTokens(EXCEPT, tokens);
 	}
 
 }
