@@ -1,9 +1,12 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -13,10 +16,10 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
 			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(), new ErrorNounPhrasePM() };
 
-	public final static String[] AFTER = { "after" };
+	public final static Set<String> AFTER = JavaUtils.getSet("after");
 
-	private static final String[] PERIOD = new String[] { "." };
-	private static final String[] PUNCTUATION = new String[] { ",", "_", "-" };
+	private static final Set<String> PERIOD = JavaUtils.getSet(".");
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet(",", "_", "-");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -28,7 +31,7 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 
 		for (Sentence superSentence : superSentences) {
 
-			List<Integer> afters = findLemmasInTokens(AFTER, superSentence.getTokens());
+			List<Integer> afters = SentenceUtils.findLemmasInTokens(AFTER, superSentence.getTokens());
 
 			if (!afters.isEmpty()) {
 				// split sentences based on "after"
@@ -81,7 +84,7 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		List<Integer> symbols = SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
 			return symbols.subList(0, symbols.size() - 1);
 		}
@@ -89,7 +92,7 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPeriod(List<Token> tokens) {
-		return findLemmasInTokens(PERIOD, tokens);
+		return SentenceUtils.findLemmasInTokens(PERIOD, tokens);
 	}
 
 }

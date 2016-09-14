@@ -2,9 +2,12 @@ package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -14,7 +17,7 @@ public class AllowPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM() };
 
-	private static final String[] PUNCTUATION = new String[] { ";", ",", "_", "-", "-LRB-", "-RRB-", "." };
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet(";", ",", "_", "-", "-LRB-", "-RRB-", ".");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -89,13 +92,13 @@ public class AllowPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = findLemmasInTokens(PUNCTUATION, tokens);
+		List<Integer> symbols = SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
 			return symbols.subList(0, symbols.size() - 1);
 		}
 		return symbols;
 	}
-	
+
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}

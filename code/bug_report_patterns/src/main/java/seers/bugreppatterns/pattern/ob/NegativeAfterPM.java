@@ -27,9 +27,9 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 		for (Integer afterIndex : findAfters(tokens)) {
 			if (afterIndex != -1 && afterIndex > 0) {
 				Sentence first = new Sentence(sentence.getId(), tokens.subList(0, afterIndex));
-				Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
+				//Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
 				List<Token> tokensFirst = first.getTokens();
-				List<Token> tokensSecond = second.getTokens();
+				//List<Token> tokensSecond = second.getTokens();
 
 				// check that the first part is not EB modal
 				if (!isEBModal(tokensFirst)) {
