@@ -5,7 +5,6 @@ import java.util.List;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.bugreppatterns.pattern.eb.ImperativeSentencePM;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -36,8 +35,8 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 						continue;
 					}
 
-					if (isAnAction(tokensNoBullet) || isANounPhrase(tokensNoBullet)
-							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)) {
+					if (SentenceUtils.isImperativeSentence(tokensNoBullet) || isANounPhrase(tokensNoBullet)
+							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet) || isPastTenseAction(tokensNoBullet)) {
 						return 1;
 					}
 				}
@@ -51,7 +50,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 						continue;
 					}
 
-					if (isAnAction(tokensNoBullet) || isANounPhrase(tokensNoBullet)
+					if (SentenceUtils.isImperativeSentence(tokensNoBullet) || isANounPhrase(tokensNoBullet)
 							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)) {
 						numbActionNoLabel++;
 						if (numbActionNoLabel > 1) {
@@ -63,6 +62,14 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 			}
 		}
 		return 0;
+	}
+
+	private boolean isPastTenseAction(List<Token> tokensNoBullet) {
+		if (tokensNoBullet.size()>1) {
+			Token firstToken = tokensNoBullet.get(0);
+			return firstToken.getPos().equals("VBD") || firstToken.getPos().equals("VBN");
+		}
+		return false;
 	}
 
 	private boolean isPresentTense(List<Token> tokensNoBullet) {
@@ -112,34 +119,6 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 			}
 		}
 		return -1;
-	}
-
-	public static boolean isAnAction(List<Token> tokens) throws Exception {
-
-		Token firstToken = tokens.get(0);
-		Token secondToken = null;
-
-		if (tokens.size() > 1) {
-			secondToken = tokens.get(1);
-		}
-
-		if (firstToken.getGeneralPos().equals("VB") || firstToken.getPos().equals("VBP")
-				|| firstToken.getGeneralPos().equals("MD")) {
-			return true;
-		} else {
-			if (secondToken != null) {
-
-				if (firstToken.getPos().equals("RB")
-						&& (secondToken.getGeneralPos().equals("VB") || secondToken.getPos().equals("VBP"))) {
-					return true;
-				}
-			}
-			if (SentenceUtils.lemmasContainToken(ImperativeSentencePM.UNDETECTED_VERBS, firstToken)) {
-				return true;
-			}
-		}
-		return false;
-
 	}
 
 	public boolean isANounPhrase(List<Token> tokens) {

@@ -3,7 +3,6 @@ package seers.bugreppatterns.pattern.sr;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.bugreppatterns.pattern.eb.ImperativeSentencePM;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -25,11 +24,11 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		// -----------------------------
 
 		int idxImpClause = 0;
-		int match = isImperative(clauses.get(idxImpClause));
-		if (match == 0) {
+		boolean isImperative = SentenceUtils.isImperativeSentence(clauses.get(idxImpClause));
+		if (!isImperative) {
 			idxImpClause++;
-			match = isImperative(clauses.get(idxImpClause));
-			if (match == 0) {
+			isImperative = SentenceUtils.isImperativeSentence(clauses.get(idxImpClause));
+			if (!isImperative) {
 				return 0;
 			}
 		}
@@ -51,40 +50,14 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		for (List<Token> clause : clauses) {
 			Sentence sentence = new Sentence("0", clause);
 			int num2 = ActionsPresentPM.isActionInPresent(sentence, true);
-			Token secondToken = null;
-			if (clause.size() > 1) {
-				secondToken = clause.get(1);
+			boolean isImperative = SentenceUtils.isImperativeSentence(clause);
+			if (isImperative) {
+				num2++;
 			}
-			num2 += ImperativeSentencePM.checkNormalCase(clause.get(0), secondToken);
 
 			num += (num2 != 0 ? 1 : 0);
 		}
 		return num;
-	}
-
-	public static int isImperative(List<Token> clause) {
-
-		if (clause.isEmpty()) {
-			return 0;
-		}
-
-		Token firstToken = clause.get(0);
-		Token secondToken = null;
-		if (clause.size() > 1) {
-			secondToken = clause.get(1);
-		}
-
-		int match = ImperativeSentencePM.checkNormalCase(firstToken, secondToken);
-		if (match == 1) {
-			return match;
-		}
-
-		match = ImperativeSentencePM.checkNormalCaseWithLabel(clause, ":");
-		if (match == 1) {
-			return match;
-		}
-
-		return ImperativeSentencePM.checkNormalCaseWithLabel(clause, ",");
 	}
 
 }

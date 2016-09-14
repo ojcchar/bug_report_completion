@@ -4,7 +4,7 @@ import java.util.List;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.bugreppatterns.pattern.eb.ImperativeSentencePM;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -57,8 +57,8 @@ public class ToReproParagraphPM extends StepsToReproducePatternMatcher {
 		int num = 0;
 		for (Sentence sentence : sentences) {
 			List<Token> tokens = sentence.getTokens();
-			if (tokens.size() > 1) {
-				num += ImperativeSentencePM.checkNormalCase(tokens.get(0), tokens.get(1));
+			if (SentenceUtils.isImperativeSentence(tokens)) {
+				num++;
 			}
 		}
 		return num;

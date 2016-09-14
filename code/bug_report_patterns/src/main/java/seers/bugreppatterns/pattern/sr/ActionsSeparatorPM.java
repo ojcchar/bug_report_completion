@@ -3,6 +3,7 @@ package seers.bugreppatterns.pattern.sr;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -17,7 +18,10 @@ public class ActionsSeparatorPM extends StepsToReproducePatternMatcher {
 
 		int numClauses = 0;
 		for (List<Token> clause : clauses) {
-			numClauses += checkClause(clause);
+			boolean isImperative = SentenceUtils.isImperativeSentence(clause);
+			if (isImperative) {
+				numClauses++;
+			}
 		}
 
 		// TODO: check for OB clause at the end of the sentence
@@ -26,22 +30,6 @@ public class ActionsSeparatorPM extends StepsToReproducePatternMatcher {
 		}
 
 		return 0;
-	}
-
-	private int checkClause(List<Token> clause) {
-		if (clause.size() > 1) {
-			if (isAnAction(clause.get(0), clause.get(1))) {
-				return 1;
-			}
-		}
-		return 0;
-	}
-
-	private boolean isAnAction(Token firstToken, Token token2) {
-		if (firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP")) {
-			return true;
-		}
-		return false;
 	}
 
 }

@@ -9,6 +9,10 @@ import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
+/**
+ * @author ojcch
+ *
+ */
 public class SentenceUtils {
 
 	public static boolean isQuestion(Sentence sentence) {
@@ -106,6 +110,14 @@ public class SentenceUtils {
 
 	public static final String[] CLAUSE_SEPARATORS = { ";", ",", "-", "_", "--" };
 
+	/**
+	 * Extract clauses or subsentences in the list of tokens of sentence, based
+	 * on CLAUSE_SEPARATORS and Coordinating conjuctions such as "and", "or",
+	 * "but", etc.
+	 * 
+	 * @param tokens
+	 * @return
+	 */
 	public static List<List<Token>> extractClauses(List<Token> tokens) {
 
 		List<List<Token>> clauses = new ArrayList<>();
@@ -158,8 +170,10 @@ public class SentenceUtils {
 	/**
 	 * Checks whether the token's lemma matches any of the strings in lemmas
 	 * 
-	 * @param lemmas set of lemmas to compare against with
-	 * @param token the token to match
+	 * @param lemmas
+	 *            set of lemmas to compare against with
+	 * @param token
+	 *            the token to match
 	 * @return true if the token matches any of the lemmas, false otherwise
 	 */
 	public static boolean lemmasContainToken(Set<String> lemmas, Token token) {
@@ -167,9 +181,13 @@ public class SentenceUtils {
 	}
 
 	/**
-	 * Finds the indexes of the tokens whose lemmas match the given set of lemmas
-	 * @param lemmas the lemmas to find in the tokens
-	 * @param tokens the tokens to analyze
+	 * Finds the indexes of the tokens whose lemmas match the given set of
+	 * lemmas
+	 * 
+	 * @param lemmas
+	 *            the lemmas to find in the tokens
+	 * @param tokens
+	 *            the tokens to analyze
 	 * @return the indexes of the tokens matching with the lemmas
 	 */
 	public static List<Integer> findLemmasInTokens(Set<String> lemmas, List<Token> tokens) {
@@ -185,9 +203,11 @@ public class SentenceUtils {
 
 	/**
 	 * Checks whether any of the tokens' lemmas matches the lemmas in the set
+	 * 
 	 * @param tokens
 	 * @param lemmas
-	 * @return true if any of the tokens's lemmas matches the lemmas in the set, false otherwise
+	 * @return true if any of the tokens's lemmas matches the lemmas in the set,
+	 *         false otherwise
 	 */
 	public static boolean tokensContainAnyLemmaIn(List<Token> tokens, Set<String> lemmas) {
 		return !SentenceUtils.findLemmasInTokens(lemmas, tokens).isEmpty();
@@ -195,17 +215,20 @@ public class SentenceUtils {
 
 	/**
 	 * Checks whether any of the sentence's tokens matches the lemmas in the set
+	 * 
 	 * @param sentence
 	 * @param lemmas
-	 * @return true if any of the sentence's tokens matches the lemmas in the set, false otherwise
+	 * @return true if any of the sentence's tokens matches the lemmas in the
+	 *         set, false otherwise
 	 */
 	public static boolean sentenceContainsAnyLemmaIn(Sentence sentence, Set<String> lemmas) {
 		return SentenceUtils.tokensContainAnyLemmaIn(sentence.getTokens(), lemmas);
 	}
 
 	/**
-	 * Divides the sentence into subsentences according to the indexes provided in separatorIndexes. The subSentences do
-	 * not include the tokens given by the separatorIndexes.
+	 * Divides the sentence into subsentences according to the indexes provided
+	 * in separatorIndexes. The subSentences do not include the tokens given by
+	 * the separatorIndexes.
 	 * 
 	 * @param sentence
 	 * @param separatorIndexes
@@ -226,6 +249,90 @@ public class SentenceUtils {
 			}
 		}
 		return subSentences;
+	}
+
+	// ----------------------------------------
+
+	final public static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("show", "boomark", "rename", "run", "select",
+			"post", "stop", "goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use",
+			"start");
+
+	/**
+	 * Check if the sentence/clause (represented by its list of tokens) is
+	 * imperative or not. It takes into account labels at the beginning of the
+	 * sentence, such as "exp. behavior: run the program"
+	 * 
+	 * @param tokens
+	 * @return
+	 */
+	public static boolean isImperativeSentence(List<Token> tokens) {
+
+		// --------------------------------
+
+		if (checkForImperativeTokens(tokens)) {
+			return true;
+		}
+
+		// ------------------------
+
+		// check for labels in the first labelLenght terms: find the token ":"
+		final int labelLenght = 5;
+		int idx = -1;
+		for (int i = 0; i < tokens.size() && i <= labelLenght; i++) {
+
+			Token token = tokens.get(i);
+			if (token.getLemma().equals(":")) {
+				idx = i;
+			}
+		}
+
+		// if the ":" is found, check for the imperative tokens
+		if (idx != -1) {
+			if (idx + 2 < tokens.size()) {
+				return checkForImperativeTokens(tokens.subList(idx + 1, tokens.size()));
+			}
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Check if the combination list of tokens matches the usual wording for an
+	 * imperative sentence: (adverb +) inf. verb + ...
+	 * 
+	 * @param tokens
+	 * @return
+	 */
+	private static boolean checkForImperativeTokens(List<Token> tokens) {
+
+		if (tokens.size() < 2) {
+			return false;
+		}
+
+		Token firstToken = tokens.get(0);
+		Token secondToken = tokens.get(1);
+
+		// regular case, the sentence starts with a verb
+		if ((firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP"))) {
+			return true;
+		} else {
+
+			// case: the sentence starts with an adverb and then with a verb
+			if (secondToken != null) {
+				if (firstToken.getPos().equals("RB")
+						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP"))
+						&& tokens.size() > 2) {
+					return true;
+				}
+			}
+
+			// case: the first token is an undetected verb
+			if (SentenceUtils.lemmasContainToken(UNDETECTED_VERBS, firstToken)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

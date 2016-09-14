@@ -32,7 +32,7 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 			List<Token> tokens = sentence.getTokens();
 			List<List<Token>> clauses = SentenceUtils.extractClauses(tokens);
 			for (List<Token> clause : clauses) {
-				if (ImperativeSubordinatesPM.isImperative(clause) == 1) {
+				if (SentenceUtils.isImperativeSentence(clause)) {
 					num++;
 					break;
 				}
