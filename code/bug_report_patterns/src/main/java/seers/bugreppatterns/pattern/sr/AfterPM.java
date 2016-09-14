@@ -1,17 +1,19 @@
 package seers.bugreppatterns.pattern.sr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class AfterPM extends StepsToReproducePatternMatcher {
 
 	public final static String AFTER = "after";
-	private static String[] PRESENT_TENSE_VERBS = new String[] { "crashes", "builds" };
+	private static Set<String> PRESENT_TENSE_VERBS = JavaUtils.getSet("crash", "build");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -57,7 +59,7 @@ public class AfterPM extends StepsToReproducePatternMatcher {
 
 			if (token.getGeneralPos().equals("VB") && !token.getPos().equals("VBG")) {
 				verbIndexes.add(i);
-			} else if (Arrays.stream(PRESENT_TENSE_VERBS).anyMatch(t -> token.getWord().equals(t))
+			} else if ((SentenceUtils.lemmasContainToken(PRESENT_TENSE_VERBS, token) && token.getPos().equals("NNS"))
 					&& (tokens.get(i - 1).getGeneralPos().equals("NN")
 							|| tokens.get(i - 1).getWord().equalsIgnoreCase("it"))) {
 				verbIndexes.add(i);

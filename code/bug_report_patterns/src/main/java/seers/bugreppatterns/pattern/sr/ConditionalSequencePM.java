@@ -1,31 +1,35 @@
 package seers.bugreppatterns.pattern.sr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class ConditionalSequencePM extends StepsToReproducePatternMatcher {
-	public final static String[] MODALS_AND_AUX = { "will", "'ll", "ll", "could", "can", "may", "might" };
+
+	public final static Set<String> MODALS_AND_AUX = JavaUtils.getSet("will", "'ll", "ll", "could", "can", "may",
+			"might");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 
-		if (tokens.stream().anyMatch(t -> Arrays.stream(MODALS_AND_AUX).anyMatch(m -> t.getLemma().equals(m)))) {
+		if (SentenceUtils.tokensContainAnyLemmaIn(tokens, MODALS_AND_AUX)) {
 			return 0;
 		}
 
-		List<Integer> conditionalTerms = findLemmasInTokens(ConditionalAffirmativePM.COND_TERMS, tokens);
+		List<Integer> conditionalTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS_2, tokens);
 
 		for (Integer condTerm : conditionalTerms) {
 			if (condTerm + 1 < tokens.size()) {
 				Token nextToken = tokens.get(condTerm + 1);
-				if (nextToken.getPos().equals("VBG") && Arrays.stream(ConditionalAffirmativePM.EXCLUDED_VERBS)
-						.noneMatch(av -> nextToken.getLemma().equals(av))) {
+				if (nextToken.getPos().equals("VBG")
+						&& !SentenceUtils.lemmasContainToken(ConditionalAffirmativePM.EXCLUDED_VERBS, nextToken)) {
 					if (tokens.subList(condTerm + 1, tokens.size()).stream()
 							.anyMatch(t -> t.getLemma().equals("then"))) {
 						return 1;
@@ -35,10 +39,10 @@ public class ConditionalSequencePM extends StepsToReproducePatternMatcher {
 						Token nextToken2 = tokens.get(condTerm + 2);
 						if ((nextToken2.getPos().equals("VBP") || nextToken2.getPos().equals("VBZ")
 								|| nextToken2.getPos().equals("VB"))
-								&& Arrays.stream(ConditionalAffirmativePM.EXCLUDED_VERBS)
-										.noneMatch(av -> nextToken2.getLemma().equals(av))) {
-							if (tokens.subList(condTerm + 2, tokens.size()).stream()
-									.anyMatch(t -> t.getLemma().equals("then"))) {
+								&& !SentenceUtils.lemmasContainToken(ConditionalAffirmativePM.EXCLUDED_VERBS,
+										nextToken2)) {
+							if (SentenceUtils.tokensContainAnyLemmaIn(tokens.subList(condTerm + 2, tokens.size()),
+									JavaUtils.getSet("then"))) {
 								return 1;
 							}
 						}
@@ -51,8 +55,8 @@ public class ConditionalSequencePM extends StepsToReproducePatternMatcher {
 
 							if (nexTok.getPos().equals("VBN") || nexTok.getPos().equals("VB")
 									|| nexTok.getGeneralPos().equals("JJ")) {
-								if (tokens.subList(tobe + 1, tokens.size()).stream()
-										.anyMatch(t -> t.getLemma().equals("then"))) {
+								if (SentenceUtils.tokensContainAnyLemmaIn(tokens.subList(tobe + 1, tokens.size()),
+										JavaUtils.getSet("then"))) {
 									return 1;
 								}
 							}

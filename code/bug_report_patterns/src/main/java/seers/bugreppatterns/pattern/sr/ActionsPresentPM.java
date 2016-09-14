@@ -1,14 +1,18 @@
 package seers.bugreppatterns.pattern.sr;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class ActionsPresentPM extends StepsToReproducePatternMatcher {
+
+	final static Set<String> AUX_VERBS = JavaUtils.getSet("do", "be", "have");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -78,8 +82,6 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 		return false;
 	}
 
-	final static String[] AUX_VERBS = { "do", "be", "have" };
-
 	public static int isActionInPresent(Sentence sentence, boolean noCheckForBullet) {
 		List<Token> tokens2 = sentence.getTokens();
 		if (noCheckForBullet || isBullet(tokens2.get(0))) {
@@ -89,7 +91,7 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 				int length = getLengthPreClause(tokens2);
 				if (i <= 5 + length) {
 					Token verb = tokens2.get(i);
-					if (!Arrays.stream(AUX_VERBS).anyMatch(v -> v.equals(verb.getLemma()))) {
+					if (!SentenceUtils.lemmasContainToken(AUX_VERBS, verb)) {
 						Token prevToken = tokens2.get(i - 1);
 						if (prevToken.getGeneralPos().equals("PRP") || prevToken.getGeneralPos().equals("NN")) {
 							return 1;
