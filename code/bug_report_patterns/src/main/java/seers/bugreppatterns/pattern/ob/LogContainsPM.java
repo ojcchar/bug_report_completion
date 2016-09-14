@@ -27,7 +27,7 @@ public class LogContainsPM extends ObservedBehaviorPatternMatcher {
 		for (Sentence sentence : sentences) {
 			List<Integer> logs = findLog(sentence.getTokens());
 			if (!logs.isEmpty()) {
-				List<Sentence> phrases = findSubSentences(sentence, logs);
+				List<Sentence> phrases = SentenceUtils.findSubSentences(sentence, logs);
 
 				for (Sentence phrase : phrases) {
 					if (!findOutputSignal(phrase.getTokens()).isEmpty()) {

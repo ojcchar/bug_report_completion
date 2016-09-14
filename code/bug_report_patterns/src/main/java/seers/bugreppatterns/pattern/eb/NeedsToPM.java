@@ -63,7 +63,7 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 
 		for (int i = 0; i < needTok; i++) {
 			Token token = tokens.get(i);
-			if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS_2, token)) {
+			if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS, token)) {
 				return true;
 			}
 		}

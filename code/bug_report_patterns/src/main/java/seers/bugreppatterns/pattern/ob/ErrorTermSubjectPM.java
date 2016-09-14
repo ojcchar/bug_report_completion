@@ -21,7 +21,7 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 
 		// If there is no verb, it can't be a S_OB_ERROR_AS_SUBJECT
 		if (!verbIndexes.isEmpty()) {
-			List<Sentence> subSentences = findSubSentences(sentence, verbIndexes);
+			List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, verbIndexes);
 
 			// if there is something after the last verb, we ignore it
 			int end = verbIndexes.get(verbIndexes.size() - 1) == tokens.size() - 1 ? subSentences.size()

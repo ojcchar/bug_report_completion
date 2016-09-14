@@ -36,7 +36,7 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 				Sentence beforeColonSentence = new Sentence(firstSentence.getId(),
 						firstSentence.getTokens().subList(0, colonIndexes.get(0)));
 
-				List<Sentence> phrases = findSubSentences(beforeColonSentence,
+				List<Sentence> phrases = SentenceUtils.findSubSentences(beforeColonSentence,
 						findPunctuation(beforeColonSentence.getTokens()));
 				Sentence lastPhrase = phrases.get(phrases.size() - 1);
 
@@ -45,7 +45,7 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 					return 1;
 				}
 			} else {
-				List<Sentence> phrases = findSubSentences(firstSentence, findPunctuation(firstSentence.getTokens()));
+				List<Sentence> phrases = SentenceUtils.findSubSentences(firstSentence, findPunctuation(firstSentence.getTokens()));
 				Sentence lastPhrase = phrases.get(phrases.size() - 1);
 
 				if (isNegative(lastPhrase) && (phrases.size() > 1 || sentences.size() > 1)) {

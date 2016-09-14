@@ -18,8 +18,6 @@ import seers.textanalyzer.entity.Token;
 
 public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 
-	final static Set<String> COND_TERMS = JavaUtils.getSet("when", "if");
-
 	final static Set<String> EXCLUDED_VERBS = JavaUtils.getSet("do", "be", "have", "want", "feel", "deal");
 
 	public static final ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
@@ -82,7 +80,7 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 	}
 
 	private boolean checkConditionalAndPresent(List<Token> clauseTokens) {
-		List<Integer> condTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS_2, clauseTokens);
+		List<Integer> condTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, clauseTokens);
 
 		for (Integer condTerm : condTerms) {
 

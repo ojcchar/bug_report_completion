@@ -63,6 +63,6 @@ public class ErrorHowPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private boolean containsConditional(List<Token> tokens) {
-		return SentenceUtils.tokensContainAnyLemmaIn(tokens, CONDITIONAL_TERMS_2);
+		return SentenceUtils.tokensContainAnyLemmaIn(tokens, CONDITIONAL_TERMS);
 	}
 }

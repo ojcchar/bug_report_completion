@@ -76,7 +76,7 @@ public class SameProblemWhenPM extends ObservedBehaviorPatternMatcher {
 
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS_2, token)
+			if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS, token)
 					|| SentenceUtils.lemmasContainToken(LOC_AND_TEMP_PREP, token)) {
 				return true;
 			}

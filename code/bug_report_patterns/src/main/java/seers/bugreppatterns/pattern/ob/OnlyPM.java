@@ -27,7 +27,7 @@ public class OnlyPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		List<Integer> punctuation = findPunctuation(sentence.getTokens());
-		List<Sentence> subSentences = findSubSentences(sentence, punctuation);
+		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, punctuation);
 
 		for (Sentence subSentence : subSentences) {
 			List<Token> tokens = subSentence.getTokens();

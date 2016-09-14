@@ -32,7 +32,7 @@ public class TrySentencePM extends StepsToReproducePatternMatcher {
 				if (tryTerm - 2 >= 0) {
 					Token prevToken2 = tokens.get(tryTerm - 2);
 
-					if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS_2, prevToken2)) {
+					if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS, prevToken2)) {
 						continue;
 					}
 				}

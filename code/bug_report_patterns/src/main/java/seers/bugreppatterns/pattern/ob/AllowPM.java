@@ -21,7 +21,7 @@ public class AllowPM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		List<Sentence> subSentences = findSubSentences(sentence, findPunctuation(sentence.getTokens()));
+		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, findPunctuation(sentence.getTokens()));
 
 		for (Sentence subSentence : subSentences) {
 			List<Integer> allows = findAllows(subSentence.getTokens());

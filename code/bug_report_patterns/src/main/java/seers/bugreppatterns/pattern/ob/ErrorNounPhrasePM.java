@@ -26,7 +26,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 		// divide sentence by punctuation
 		List<Integer> punctuation = findPunctuation(tokens);
-		List<Sentence> subSentences = findSubSentences(sentence, punctuation);
+		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, punctuation);
 
 		boolean match = false;
 
@@ -35,7 +35,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 			// divide sentence by prepositions
 			List<Integer> prepositions = findPrepositions(subSentence.getTokens());
-			List<Sentence> phrases = findSubSentences(subSentence, prepositions);
+			List<Sentence> phrases = SentenceUtils.findSubSentences(subSentence, prepositions);
 
 			// there's only one phrase (i.e., no preps)
 			if (phrases.size() == 1) {

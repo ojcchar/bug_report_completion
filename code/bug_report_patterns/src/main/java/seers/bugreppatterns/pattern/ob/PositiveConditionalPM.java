@@ -35,7 +35,7 @@ public class PositiveConditionalPM extends ObservedBehaviorPatternMatcher {
 	}
 	
 	private List<Integer> findConditionals(List<Token> tokens) {
-		return SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS_2, tokens);
+		return SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 	}
 
 }

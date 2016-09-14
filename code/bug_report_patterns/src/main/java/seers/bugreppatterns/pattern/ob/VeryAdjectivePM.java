@@ -21,7 +21,7 @@ public class VeryAdjectivePM extends ObservedBehaviorPatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 
 		// split sentences based on punctuation
-		List<Sentence> subSentences = findSubSentences(sentence, findPunctuation(tokens));
+		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, findPunctuation(tokens));
 
 		for (Sentence subSentence : subSentences) {
 			List<Integer> veryTerms = findVeryAdj(subSentence.getTokens());

@@ -23,7 +23,7 @@ public class ConditionalSequencePM extends StepsToReproducePatternMatcher {
 			return 0;
 		}
 
-		List<Integer> conditionalTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS_2, tokens);
+		List<Integer> conditionalTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 
 		for (Integer condTerm : conditionalTerms) {
 			if (condTerm + 1 < tokens.size()) {

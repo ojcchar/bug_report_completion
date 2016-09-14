@@ -27,7 +27,7 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 
 		// split sentences based on "."
-		List<Sentence> superSentences = findSubSentences(sentence, findPeriod(tokens));
+		List<Sentence> superSentences = SentenceUtils.findSubSentences(sentence, findPeriod(tokens));
 
 		for (Sentence superSentence : superSentences) {
 
@@ -35,7 +35,7 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 
 			if (!afters.isEmpty()) {
 				// split sentences based on "after"
-				List<Sentence> subSentences = findSubSentences(superSentence, afters);
+				List<Sentence> subSentences = SentenceUtils.findSubSentences(superSentence, afters);
 
 				// if there is a sentence before the "after" term, skip it -> the focus is on what is after the "after"
 				for (int i = afters.get(0) > 0 ? 1 : 0; i < subSentences.size(); i++) {
@@ -61,7 +61,7 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 					// between the "after" and the punctuation, and (ii) there is a negative sentence after
 					// the punctuation.
 					else {
-						List<Sentence> subSubSentences = findSubSentences(subSentece, punct);
+						List<Sentence> subSubSentences = SentenceUtils.findSubSentences(subSentece, punct);
 						if (!subSubSentences.get(0).getTokens().isEmpty()) {
 							for (int j = 1; j < subSubSentences.size(); j++) {
 

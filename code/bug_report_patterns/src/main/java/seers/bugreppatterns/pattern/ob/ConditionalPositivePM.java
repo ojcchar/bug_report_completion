@@ -22,16 +22,16 @@ public class ConditionalPositivePM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		// split sentences based on "."
-		List<Sentence> superSentences = findSubSentences(sentence, findPeriod(sentence.getTokens()));
+		List<Sentence> superSentences = SentenceUtils.findSubSentences(sentence, findPeriod(sentence.getTokens()));
 
 		for (Sentence superSentence : superSentences) {
 			List<Token> tokens = superSentence.getTokens();
-			List<Integer> conditionalIndexes = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS_2, tokens);
+			List<Integer> conditionalIndexes = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 
 			if (!conditionalIndexes.isEmpty()) {
 
 				// split sentences based on conditionals
-				List<Sentence> subSentences = findSubSentences(superSentence, conditionalIndexes);
+				List<Sentence> subSentences = SentenceUtils.findSubSentences(superSentence, conditionalIndexes);
 
 				// if there is a sentence before the conditional term, skip it -> the focus is on what is after the
 				// conditional
@@ -63,7 +63,7 @@ public class ConditionalPositivePM extends ObservedBehaviorPatternMatcher {
 					// between the conditional and the punctuation, and (ii) there is no negative sentence after
 					// the punctuation.
 					else {
-						List<Sentence> subSubSentences = findSubSentences(subSentece, punct);
+						List<Sentence> subSubSentences = SentenceUtils.findSubSentences(subSentece, punct);
 						if (!subSubSentences.get(0).getTokens().isEmpty()) {
 							boolean isPos = true;
 							for (int j = 1; j < subSubSentences.size(); j++) {

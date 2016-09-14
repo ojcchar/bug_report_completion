@@ -20,7 +20,7 @@ public class ForTimePM extends ObservedBehaviorPatternMatcher {
 		if (!fors.isEmpty()) {
 
 			// split sentences based on "for"
-			List<Sentence> subSentences = findSubSentences(sentence, fors);
+			List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, fors);
 
 			for (int i = fors.get(0) == 0 ? 0 : 1; i < subSentences.size(); i++) {
 				// The right for: the one that precedes a time term
