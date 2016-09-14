@@ -203,4 +203,29 @@ public class SentenceUtils {
 		return SentenceUtils.tokensContainAnyLemmaIn(sentence.getTokens(), lemmas);
 	}
 
+	/**
+	 * Divides the sentence into subsentences according to the indexes provided in separatorIndexes. The subSentences do
+	 * not include the tokens given by the separatorIndexes.
+	 * 
+	 * @param sentence
+	 * @param separatorIndexes
+	 * @return
+	 */
+	public static List<Sentence> findSubSentences(Sentence sentence, List<Integer> separatorIndexes) {
+		List<Sentence> subSentences = new ArrayList<Sentence>();
+		if (separatorIndexes.isEmpty()) {
+			subSentences.add(sentence);
+		} else {
+			for (int i = 0; i <= separatorIndexes.size(); i++) {
+				int start = i == 0 ? 0 : separatorIndexes.get(i - 1) + 1;
+				int end = i == separatorIndexes.size() ? sentence.getTokens().size() : separatorIndexes.get(i);
+				if (end > start) {
+					Sentence subSentence = new Sentence(sentence.getId(), sentence.getTokens().subList(start, end));
+					subSentences.add(subSentence);
+				}
+			}
+		}
+		return subSentences;
+	}
+
 }
