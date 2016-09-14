@@ -1,10 +1,11 @@
 package seers.bugreppatterns.pattern.sr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -16,7 +17,7 @@ public class TrySentencePM extends StepsToReproducePatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 
 		// avoid clauses suggesting solutions, using "please"
-		if (tokens.stream().anyMatch(t -> "please".equals(t.getLemma()))) {
+		if (SentenceUtils.tokensContainAnyLemmaIn(tokens, JavaUtils.getSet("please"))) {
 			return 0;
 		}
 
@@ -31,7 +32,7 @@ public class TrySentencePM extends StepsToReproducePatternMatcher {
 				if (tryTerm - 2 >= 0) {
 					Token prevToken2 = tokens.get(tryTerm - 2);
 
-					if (Arrays.stream(CONDITIONAL_TERMS).anyMatch(t -> prevToken2.getLemma().equals(t))) {
+					if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS_2, prevToken2)) {
 						continue;
 					}
 				}
@@ -109,7 +110,7 @@ public class TrySentencePM extends StepsToReproducePatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getGeneralPos().equals("VB")
-					&& (token.getLemma().equals("try") || token.getLemma().equals("attempt"))) {
+					&& SentenceUtils.lemmasContainToken(JavaUtils.getSet("try", "attempt"), token)) {
 				elements.add(i);
 			}
 		}

@@ -1,10 +1,12 @@
 package seers.bugreppatterns.pattern.sr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -12,8 +14,9 @@ public class MenuNavigationPM extends StepsToReproducePatternMatcher {
 
 	public final static String[] SEPARATORS = { "->", "-", "|", "--", ">" };
 
-	public final static String[] GUI_TERMS = { "window", "menu", "option", "preference", "tool", "setting", "checkbox",
-			"list", "panel", "table", "project", "edit", "download", "section", "page", "homepage", "screen" };
+	public final static Set<String> GUI_TERMS = JavaUtils.getSet("window", "windows", "menu", "option", "preference",
+			"tool", "setting", "checkbox", "list", "panel", "table", "project", "edit", "download", "section", "page",
+			"homepage", "screen");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -29,9 +32,7 @@ public class MenuNavigationPM extends StepsToReproducePatternMatcher {
 
 			// check for gui terms
 			for (List<Token> elemTokens : clauses) {
-				if (Arrays.stream(GUI_TERMS)
-						.anyMatch(guiTerm -> elemTokens.stream().anyMatch(t -> t.getLemma().equalsIgnoreCase(guiTerm)
-								|| t.getLemma().toLowerCase().startsWith(guiTerm)))) {
+				if (SentenceUtils.tokensContainAnyLemmaIn(elemTokens, GUI_TERMS)) {
 					numClausesWithGuiTerms++;
 				}
 			}

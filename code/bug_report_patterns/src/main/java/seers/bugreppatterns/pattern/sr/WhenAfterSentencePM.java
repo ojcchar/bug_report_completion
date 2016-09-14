@@ -1,9 +1,10 @@
 package seers.bugreppatterns.pattern.sr;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -48,15 +49,7 @@ public class WhenAfterSentencePM extends StepsToReproducePatternMatcher {
 	}
 
 	private List<Integer> findMainTokens(List<Token> tokens, String lemma) {
-
-		List<Integer> elements = new ArrayList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (token.getLemma().equals(lemma)) {
-				elements.add(i);
-			}
-		}
-		return elements;
+		return SentenceUtils.findLemmasInTokens(JavaUtils.getSet(lemma), tokens);
 	}
 
 	private boolean checkConditional(Sentence sentence) {

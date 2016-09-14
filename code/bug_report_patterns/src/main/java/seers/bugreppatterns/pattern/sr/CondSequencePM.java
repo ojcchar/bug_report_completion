@@ -1,21 +1,23 @@
 package seers.bugreppatterns.pattern.sr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
 import seers.bugreppatterns.pattern.ob.ButNegativePM;
 import seers.bugreppatterns.pattern.ob.ConditionalNegativePM;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class CondSequencePM extends StepsToReproducePatternMatcher {
 
-	final static String[] CONDITIONAL_TERMS = { "while", "when", "if", "whenever" };
+	final static Set<String> CONDITIONAL_TERMS = JavaUtils.getSet("while", "when", "if", "whenever");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -45,10 +47,8 @@ public class CondSequencePM extends StepsToReproducePatternMatcher {
 					} else {
 						condSentencesNumber++;
 						/*
-						 * Sentence s=sentences.get(i); int
-						 * match2=pm2.matchSentence(s); int
-						 * match3=pm3.matchSentence(s);
-						 * if((match2==1)||(match3==1)){ negaux++; }
+						 * Sentence s=sentences.get(i); int match2=pm2.matchSentence(s); int
+						 * match3=pm3.matchSentence(s); if((match2==1)||(match3==1)){ negaux++; }
 						 */
 						for (PatternMatcher pm2 : ButNegativePM.NEGATIVE_PMS) {
 							int match = pm2.matchSentence(sentences.get(i));
@@ -81,10 +81,9 @@ public class CondSequencePM extends StepsToReproducePatternMatcher {
 				return 1;
 			}
 			/*
-			 * if(condSentencesNumber>=1){ //verify that the last sentences is a
-			 * NEG_AUX_VERB sentence Sentence s =
-			 * sentences.get((sentences.size()-1)); pm = new
-			 * NegativeAuxVerbPM(); if(pm.matchSentence(s)==1){ return 1; } }
+			 * if(condSentencesNumber>=1){ //verify that the last sentences is a NEG_AUX_VERB sentence Sentence s =
+			 * sentences.get((sentences.size()-1)); pm = new NegativeAuxVerbPM(); if(pm.matchSentence(s)==1){ return 1;
+			 * } }
 			 */
 		}
 		return 0;
@@ -94,7 +93,7 @@ public class CondSequencePM extends StepsToReproducePatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(CONDITIONAL_TERMS).anyMatch(t -> t.equals(token.getLemma()))) {
+			if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS_2, token)) {
 				return true;
 			}
 		}
@@ -106,7 +105,7 @@ public class CondSequencePM extends StepsToReproducePatternMatcher {
 		List<Integer> conds = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(CONDITIONAL_TERMS).anyMatch(t -> t.equals(token.getLemma()))) {
+			if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS_2, token)) {
 				conds.add(i);
 			}
 		}
