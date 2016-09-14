@@ -1,8 +1,10 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -11,7 +13,7 @@ import seers.textanalyzer.entity.Token;
  * Matcher for S_OB_OUTPUT_VERB
  */
 public class OutputVerbPM extends ObservedBehaviorPatternMatcher {
-	public static final String[] OUTPUT_VERBS = new String[]{"output", "display", "show", "return", "report"};
+	public static final Set<String> OUTPUT_VERBS = JavaUtils.getSet("output", "display", "show", "return", "report");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -31,8 +33,9 @@ public class OutputVerbPM extends ObservedBehaviorPatternMatcher {
 					// avoid cases like "the output"
 					// avoid cases like "output display goes "
 					if (!prevToken.getGeneralPos().equals("VB") && !nextToken.getGeneralPos().equals("VB")
-							&& !prevToken.getGeneralPos().equals("DT") && !SentenceUtils.matchTermsByLemma(OUTPUT_VERBS, prevToken)
-							&& !SentenceUtils.matchTermsByLemma(OUTPUT_VERBS, nextToken)) {
+							&& !prevToken.getGeneralPos().equals("DT")
+							&& !SentenceUtils.lemmasContainToken(OUTPUT_VERBS, prevToken)
+							&& !SentenceUtils.lemmasContainToken(OUTPUT_VERBS, nextToken)) {
 
 						// avoid "is not output"
 						if (verbIdx - 2 >= 0) {
@@ -52,6 +55,6 @@ public class OutputVerbPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> getVerbs(List<Token> tokens) {
-		return findLemmasInTokens(OUTPUT_VERBS, tokens);
+		return SentenceUtils.findLemmasInTokens(OUTPUT_VERBS, tokens);
 	}
 }

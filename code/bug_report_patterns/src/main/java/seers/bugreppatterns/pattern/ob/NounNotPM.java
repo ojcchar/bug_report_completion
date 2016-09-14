@@ -1,14 +1,17 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class NounNotPM extends ObservedBehaviorPatternMatcher {
 
-	public final static String[] NOT = { "not" };
+	public final static Set<String> NOT = JavaUtils.getSet( "not" );
 
 	public NounNotPM() {
 	}
@@ -93,7 +96,7 @@ public class NounNotPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private List<Integer> findNots(List<Token> tokens) {
-		return findLemmasInTokens(NOT, tokens);
+		return SentenceUtils.findLemmasInTokens(NOT, tokens);
 	}
 
 }

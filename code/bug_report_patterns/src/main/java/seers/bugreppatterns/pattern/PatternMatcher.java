@@ -2,12 +2,14 @@ package seers.bugreppatterns.pattern;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.Paragraph;
+import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -23,6 +25,9 @@ public abstract class PatternMatcher {
 	public static final String SR = "SR";
 
 	public static final String[] CONDITIONAL_TERMS = { "if", "upon", "when", "whenever", "whereas", "while" };
+	
+	public static final Set<String> CONDITIONAL_TERMS_2 = JavaUtils.getSet("if", "upon", "when", "whenever", "whereas", "while" );
+	
 	public static final String[] CONTRAST_TERMS = { "although", "but", "however", "nevertheless", "though", "yet" };
 
 	public abstract int matchSentence(Sentence sentence) throws Exception;

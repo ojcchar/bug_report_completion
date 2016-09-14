@@ -1,22 +1,24 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class SameProblemWhenPM extends ObservedBehaviorPatternMatcher {
 
-	final public String[] terms = { "problem", "behavior", "result", "behaviour" };
+	static final public Set<String> OB_TERMS = JavaUtils.getSet("problem", "behavior", "result", "behaviour");
 
-	static final public String[] SIMILARITY_TERMS = { "same", "similar" };
+	static final public Set<String> SIMILARITY_TERMS = JavaUtils.getSet("same", "similar");
 
-	static final public String[] LOC_AND_TEMP_PREP = { "in", "on", "at", "since", "for", "before", "after", "from",
-			"until", "till", "by", "beside", "under", "below", "over", "above", "across", "through", "into", "toward",
-			"onto", "of", "with" };
+	static final public Set<String> LOC_AND_TEMP_PREP = JavaUtils.getSet("in", "on", "at", "since", "for", "before",
+			"after", "from", "until", "till", "by", "beside", "under", "below", "over", "above", "across", "through",
+			"into", "toward", "onto", "of", "with");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -56,15 +58,14 @@ public class SameProblemWhenPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	public List<Integer> findSimilarityTerms(List<Token> tokens) {
-		return findLemmasInTokens(SIMILARITY_TERMS, tokens);
+		return SentenceUtils.findLemmasInTokens(SIMILARITY_TERMS, tokens);
 	}
 
 	public List<Integer> findTerms(List<Token> tokens) {
 		List<Integer> termsList = new ArrayList<Integer>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getGeneralPos().equals("NN")
-					&& (Arrays.stream(terms).anyMatch(t -> token.getLemma().equals(t)))) {
+			if (token.getGeneralPos().equals("NN") && SentenceUtils.lemmasContainToken(OB_TERMS, token)) {
 				termsList.add(i);
 			}
 		}
@@ -75,8 +76,8 @@ public class SameProblemWhenPM extends ObservedBehaviorPatternMatcher {
 
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (Arrays.stream(CONDITIONAL_TERMS).anyMatch(t -> token.getLemma().equals(t))
-					|| (Arrays.stream(LOC_AND_TEMP_PREP).anyMatch(t -> token.getLemma().equals(t)))) {
+			if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS_2, token)
+					|| SentenceUtils.lemmasContainToken(LOC_AND_TEMP_PREP, token)) {
 				return true;
 			}
 		}

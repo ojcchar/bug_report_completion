@@ -1,24 +1,27 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.eb.MakeSensePM;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class OnlyPM extends ObservedBehaviorPatternMatcher {
 
 	private static final String ONLY = "only";
+
 	private static final PatternMatcher[] EB_PMS = { new MakeSensePM() };
 
-	private static String[] ALLOWED_PREPS = new String[] { "that" };
+	private static Set<String> ALLOWED_PREPS = JavaUtils.getSet("that");
 
-	private static String[] PRESENT_TENSE_VERBS = new String[] { "crashes", "builds", "returns", "copies" };
+	private static Set<String> PRESENT_TENSE_VERBS = JavaUtils.getSet("crash", "build", "return", "copy");
 
-	private static String[] PUNCTUATION = new String[] { ",", ".", ";", ":", "--" };
+	private static Set<String> PUNCTUATION = JavaUtils.getSet(",", ".", ";", ":", "--");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -48,17 +51,17 @@ public class OnlyPM extends ObservedBehaviorPatternMatcher {
 				Token next = i + 1 < tokens.size() ? tokens.get(i + 1) : null;
 
 				if (previous != null && previous.getGeneralPos().equals("IN")
-						&& !Arrays.stream(ALLOWED_PREPS).anyMatch(t -> previous.getLemma().equals(t))) {
+						&& !SentenceUtils.lemmasContainToken(ALLOWED_PREPS, previous)) {
 					continue;
 				}
 				// the one that comes before or after a verb
 				if ((previous != null && previous.getGeneralPos().equals("VB"))
 						|| (next != null && next.getGeneralPos().equals("VB"))
 						// some verbs that are not correctly PoS tagged
-						|| (previous != null && Arrays.stream(PRESENT_TENSE_VERBS)
-								.anyMatch(t -> previous.getWord().equalsIgnoreCase(t)))
-						|| (next != null && Arrays.stream(PRESENT_TENSE_VERBS)
-								.anyMatch(t -> next.getWord().equalsIgnoreCase(t)))) {
+						|| (previous != null && SentenceUtils.lemmasContainToken(PRESENT_TENSE_VERBS, previous)
+								&& previous.getPos().equals("NNS"))
+						|| (next != null && SentenceUtils.lemmasContainToken(PRESENT_TENSE_VERBS, next)
+								&& next.getPos().equals("NNS"))) {
 					return true;
 				}
 
@@ -79,8 +82,8 @@ public class OnlyPM extends ObservedBehaviorPatternMatcher {
 	private boolean isEB(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, EB_PMS);
 	}
-	
+
 	private List<Integer> findPunctuation(List<Token> tokens) {
-		return findLemmasInTokens(PUNCTUATION, tokens);
+		return SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 	}
 }

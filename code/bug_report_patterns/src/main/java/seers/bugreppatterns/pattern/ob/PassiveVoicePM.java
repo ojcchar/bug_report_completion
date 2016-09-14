@@ -1,16 +1,18 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class PassiveVoicePM extends ObservedBehaviorPatternMatcher {
 
-	private final static String[] AUXILIARS = { "be", "get" };
+	private final static Set<String> AUXILIARS = JavaUtils.getSet("be", "get");
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM() };
 
@@ -30,8 +32,7 @@ public class PassiveVoicePM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size() - 1; i++) {
 			Token current = tokens.get(i);
 
-			if (current.getGeneralPos().equals("VB")
-					&& Arrays.stream(AUXILIARS).anyMatch(t -> current.getLemma().equals(t))) {
+			if (current.getGeneralPos().equals("VB") && SentenceUtils.lemmasContainToken(AUXILIARS, current)) {
 				Token next = tokens.get(i + 1);
 				if (next.getPos().equals("VBN")) {
 					return true;
