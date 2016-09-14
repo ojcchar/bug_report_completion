@@ -68,7 +68,9 @@ public class ImperativeSentencePM extends ExpectedBehaviorPatternMatcher {
 		}
 
 		if (idx != -1) {
-			return checkNormalCase(tokens.get(idx + 1), tokens.get(idx + 2));
+			if (idx + 2 < tokens.size()) {
+				return checkNormalCase(tokens.get(idx + 1), tokens.get(idx + 2));
+			}
 		}
 		return 0;
 	}

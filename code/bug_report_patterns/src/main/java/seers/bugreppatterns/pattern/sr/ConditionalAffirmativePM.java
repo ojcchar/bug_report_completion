@@ -35,7 +35,7 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 		if (idx != -1 && idx != clauses.size() - 1) {
 
 			List<List<Token>> remainingClauses = clauses.subList(idx + 1, clauses.size());
-			int idx2 = findOBClause(remainingClauses);
+			int idx2 = findOBClause(remainingClauses, OB_PMS);
 			if (idx2 != -1) {
 				return 1;
 			}
@@ -50,14 +50,14 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 		return 0;
 	}
 
-	private static final ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
+	public static final ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new ButNegativePM(), new ConditionalNegativePM(), new NegativeAdjOrAdvPM(), new StillSentencePM() };
 
-	private int findOBClause(List<List<Token>> clauses) throws Exception {
+	private static int findOBClause(List<List<Token>> clauses, ObservedBehaviorPatternMatcher[] patterns ) throws Exception {
 		for (int i = clauses.size() - 1; i >= 0; i--) {
 			List<Token> clause = clauses.get(i);
 
-			for (ObservedBehaviorPatternMatcher pm : OB_PMS) {
+			for (ObservedBehaviorPatternMatcher pm : patterns) {
 				if (pm.matchSentence(new Sentence("0", clause)) == 1) {
 					return i;
 				}

@@ -62,7 +62,11 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		return num;
 	}
 
-	private int isImperative(List<Token> clause) {
+	public static int isImperative(List<Token> clause) {
+
+		if (clause.isEmpty()) {
+			return 0;
+		}
 
 		Token firstToken = clause.get(0);
 		Token secondToken = null;
