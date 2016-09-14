@@ -200,7 +200,7 @@ public class SentenceUtils {
 	 * @return true if any of the sentence's tokens matches the lemmas in the set, false otherwise
 	 */
 	public static boolean sentenceContainsAnyLemmaIn(Sentence sentence, Set<String> lemmas) {
-		return SentenceUtils.findLemmasInTokens(lemmas, sentence.getTokens()).isEmpty();
+		return SentenceUtils.tokensContainAnyLemmaIn(sentence.getTokens(), lemmas);
 	}
 
 }

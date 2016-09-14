@@ -58,7 +58,7 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 							}
 
 						}
-						if (subSentece.getTokens().size() > 1 && !findVerbs(subSentece.getTokens()).isEmpty()
+						if (subSentece.getTokens().size() > 1 && findVerbs(subSentece.getTokens()).size()>1
 								&& !SentenceUtils.sentenceContainsAnyLemmaIn(subSentece, AfterTimePM.TIME_TERMS)) {
 							return 1;
 						}
@@ -124,7 +124,7 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 	private List<Integer> findVerbs(List<Token> tokens) {
 		List<Integer> verbs = new ArrayList<>();
 		boolean containsAux = false;
-		for (int i = 2; i < tokens.size() - 1; i++) {
+		for (int i = 0; i < tokens.size() - 1; i++) {
 			Token token = tokens.get(i);
 			boolean add = true;
 			if (token.getGeneralPos().equals("VB")) {
