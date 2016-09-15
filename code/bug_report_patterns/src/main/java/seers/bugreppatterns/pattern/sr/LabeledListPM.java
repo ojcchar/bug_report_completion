@@ -2,9 +2,11 @@ package seers.bugreppatterns.pattern.sr;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -41,26 +43,28 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 						return 1;
 					}
 				}
-			} else {
-				for (int i = 0; i < sentences.size(); i++) {
-					Sentence sentence = sentences.get(i);
-
-					List<Token> tokensNoBullet = getTokensNoBullet(sentence);
-
-					if (tokensNoBullet.isEmpty()) {
-						continue;
-					}
-
-					if (SentenceUtils.isImperativeSentence(tokensNoBullet) || isANounPhrase(tokensNoBullet)
-							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)) {
-						numbActionNoLabel++;
-						if (numbActionNoLabel > 1) {
-							return 1;
-						}
-					}
-
-				}
 			}
+
+//			else {
+//				for (int i = 0; i < sentences.size(); i++) {
+//					Sentence sentence = sentences.get(i);
+//
+//					List<Token> tokensNoBullet = getTokensNoBullet(sentence);
+//
+//					if (tokensNoBullet.isEmpty()) {
+//						continue;
+//					}
+//
+//					if (SentenceUtils.isImperativeSentence(tokensNoBullet) || isANounPhrase(tokensNoBullet)
+//							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)) {
+//						numbActionNoLabel++;
+//						if (numbActionNoLabel > 1) {
+//							return 1;
+//						}
+//					}
+//
+//				}
+//			}
 		}
 		return 0;
 	}
@@ -106,18 +110,35 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 		return tokensNoBullet;
 	}
 
+	private static final Set<String> UNDETECTED_LABELS = JavaUtils.getSet("step to reproduce", "step to repro",
+			"reproduce step", "step by step :", "str :", "s2r :", "bulleted list bug :",
+			"- step to replicate on the app", "reproduce as follow :", "what I have try :", "a similar bug :");
+
+	private static final String REGEX_ENDING_CHAR = "(:|\\.|\\-|\\(|#)";
+
 	public static int getLabelIndex(List<Sentence> sentences) {
 		for (int i = 0; i < sentences.size(); i++) {
 			String text = TextProcessor.getStringFromLemmas(sentences.get(i));
-			boolean b = text.matches("(?s).*(following|repro) step.*")
-					|| text.matches("(?s).*?(step)? ?to (reproduce|recreate)( the (problem|issue))?.*")
-					|| text.equals("step :") || text.equals("step by step :") || text.equals("str :")
-					|| text.endsWith("have try :") || text.contains("here be the step")
-					|| text.matches("(?s).*reproduce as follow :") || text.contains("follow scenario :")
-					|| text.equals("to reproduce :") || text.equals("to reporduce :") || text.equals("step to repro :")
-					|| text.equals("repro :");
+			boolean b = text.matches(
+					"(?s).*step( how)? to (reproduce|recreate|create|replicate)( the (problem|issue|behavior|bug))? "
+							+ REGEX_ENDING_CHAR + ".*")
+					|| text.matches("(?s)" + REGEX_ENDING_CHAR
+							+ "+ ?step( how)? to (reproduce|recreate|create|replicate)( the (problem|issue|behavior|bug))?( ?"
+							+ REGEX_ENDING_CHAR + "+)?")
+					|| text.matches("(step|repro|repro step|step to repro) " + REGEX_ENDING_CHAR)
+					|| text.matches("(how )?to (reproduce|reporduce|recreate|replicate) " + REGEX_ENDING_CHAR + "+")
+					|| text.matches(
+							"(?s)step( how)? to (reproduce|recreate|create|replicate)( the (problem|issue|behavior|bug))? with.*")
+					|| text.matches("(?s).+follow(ing)? (scenario|step) :");
+
 			if (b) {
 				return i;
+			} else {
+
+				b = UNDETECTED_LABELS.stream().anyMatch(label -> text.equalsIgnoreCase(label));
+				if (b) {
+					return i;
+				}
 			}
 		}
 		return -1;
