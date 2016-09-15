@@ -19,12 +19,11 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 		return 0;
 	}
 
-	LabeledListPM pm1 = new LabeledListPM();
 
 	@Override
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 		List<Sentence> sentences = paragraph.getSentences();
-		if (pm1.isParagraphLabeled(sentences)) {
+		if (LabeledListPM.isParagraphLabeled(sentences)) {
 			return 0;
 		}
 

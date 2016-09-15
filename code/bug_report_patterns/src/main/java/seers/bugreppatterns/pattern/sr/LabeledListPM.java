@@ -23,7 +23,6 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 
 		List<Sentence> sentences = paragraph.getSentences();
-		int numbActionNoLabel = 0;
 		if (sentences.size() > 1) {
 			int labelIdx = getLabelIndex(sentences);
 
@@ -44,27 +43,6 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 					}
 				}
 			}
-
-//			else {
-//				for (int i = 0; i < sentences.size(); i++) {
-//					Sentence sentence = sentences.get(i);
-//
-//					List<Token> tokensNoBullet = getTokensNoBullet(sentence);
-//
-//					if (tokensNoBullet.isEmpty()) {
-//						continue;
-//					}
-//
-//					if (SentenceUtils.isImperativeSentence(tokensNoBullet) || isANounPhrase(tokensNoBullet)
-//							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)) {
-//						numbActionNoLabel++;
-//						if (numbActionNoLabel > 1) {
-//							return 1;
-//						}
-//					}
-//
-//				}
-//			}
 		}
 		return 0;
 	}
@@ -112,7 +90,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 
 	private static final Set<String> UNDETECTED_LABELS = JavaUtils.getSet("step to reproduce", "step to repro",
 			"reproduce step", "step by step :", "str :", "s2r :", "bulleted list bug :",
-			"- step to replicate on the app", "reproduce as follow :", "what I have try :", "a similar bug :");
+			"- step to replicate on the app", "reproduce as follow :", "what I have try :", "a similar bug :", "here be the step :");
 
 	private static final String REGEX_ENDING_CHAR = "(:|\\.|\\-|\\(|#)";
 
@@ -178,7 +156,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 		return false;
 	}
 
-	public boolean isParagraphLabeled(List<Sentence> sentences) {
+	public static boolean isParagraphLabeled(List<Sentence> sentences) {
 		int labelIdx = getLabelIndex(sentences);
 
 		// there is label
