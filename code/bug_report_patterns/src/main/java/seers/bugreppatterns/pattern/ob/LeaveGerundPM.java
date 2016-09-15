@@ -21,7 +21,7 @@ public class LeaveGerundPM extends ObservedBehaviorPatternMatcher {
 
 		List<Integer> leaveIndexes = findLeaves(sentence.getTokens());
 
-		if (!leaveIndexes.isEmpty()) {
+		if (!leaveIndexes.isEmpty() && !isEBModal(sentence.getTokens())) {
 			List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, leaveIndexes);
 
 			for (Sentence subSentence : subSentences) {
