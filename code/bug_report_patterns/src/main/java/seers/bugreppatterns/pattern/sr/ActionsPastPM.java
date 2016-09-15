@@ -14,7 +14,6 @@ public class ActionsPastPM extends StepsToReproducePatternMatcher {
 		return 0;
 	}
 
-
 	@Override
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 
@@ -24,31 +23,26 @@ public class ActionsPastPM extends StepsToReproducePatternMatcher {
 		}
 
 		int numSentences = 0;
+		int bulletedSentences = 0;
 		for (int i = 0; i < sentences.size(); i++) {
 			Sentence sentence = sentences.get(i);
-			numSentences += isActionInPast(sentence);
+
+			List<Token> tokensNoBullet = LabeledListPM.getTokensNoBullet(sentence);
+
+			// no bullet
+			if (tokensNoBullet.isEmpty()) {
+				continue;
+			}
+
+			bulletedSentences++;
+			if (SimplePastParagraphPM
+					.countNumClausesInSimplePast(new Sentence(sentence.getId(), tokensNoBullet)) != 0) {
+				numSentences++;
+			}
 		}
 
-		if (numSentences > 1) {
-			return 1;
-		}
-
-		return 0;
+		return ((float) numSentences) / bulletedSentences > 0.5F ? 1 : 0;
 	}
 
-	private int isActionInPast(Sentence sentence) {
-
-		List<Token> tokensNoBullet = LabeledListPM.getTokensNoBullet(sentence);
-
-		// no bullet
-		if (tokensNoBullet.isEmpty()) {
-			return 0;
-		}
-
-		if (SimplePastParagraphPM.countNumClausesInSimplePresent(new Sentence(sentence.getId(), tokensNoBullet)) != 0) {
-			return 1;
-		}
-		return 0;
-	}
 
 }

@@ -43,13 +43,9 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 	private int checkPresentOrActionClauses(List<Sentence> clauses) {
 		int num = 0;
 		for (Sentence sentence : clauses) {
-			int num2 = ActionsPresentPM.isActionInPresent(sentence, true);
-			boolean isImperative = SentenceUtils.isImperativeSentence(sentence);
-			if (isImperative) {
-				num2++;
+			if (ActionsPresentPM.isSimplePresentSentence(sentence) || SentenceUtils.isImperativeSentence(sentence)) {
+				num++;
 			}
-
-			num += (num2 != 0 ? 1 : 0);
 		}
 		return num;
 	}

@@ -26,7 +26,7 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 		int numImperativeSentences = 0;
 		int idxLastSentence = -1;
 
-		// check for at least numImperativeSentences imperative sentences
+		// check for at least minNumOfSentences imperative sentences
 		List<Sentence> sentences = paragraph.getSentences();
 		for (int i = 0; i < sentences.size(); i++) {
 			idxLastSentence = i;

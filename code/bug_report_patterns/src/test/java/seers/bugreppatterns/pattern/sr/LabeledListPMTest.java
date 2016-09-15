@@ -14,8 +14,7 @@ public class LabeledListPMTest extends BaseTest {
 	@Test
 	public void testPositives() throws Exception {
 		String[] txts = {
-
-		};
+ };
 
 		TestUtils.testParagraphs(txts, pm, 1);
 	}
@@ -58,7 +57,8 @@ public class LabeledListPMTest extends BaseTest {
 						+ "8 Save, close, and reopen document.\n" + "Alternate:\n" + "5 Type \"test\".\n"
 						+ "6 Format -> Paragraph -> Borders -> add bottom line in User-defined box.\n"
 						+ "7 Save, close, and reopen document.\n" + "Result:\n"
-						+ "\"test\" and line are overlapping each other.\n" + "There is also a red triangle." };
+						+ "\"test\" and line are overlapping each other.\n" + "There is also a red triangle.",
+				"", };
 
 		TestUtils.testParagraphs(txts, pm, 0);
 	}

@@ -23,28 +23,35 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 
 		List<Sentence> sentences = paragraph.getSentences();
-		if (sentences.size() > 1) {
-			int labelIdx = getLabelIndex(sentences);
 
-			// there is label
-			if (labelIdx != -1) {
-				for (int i = labelIdx + 1; i < sentences.size(); i++) {
-					Sentence sentence = sentences.get(i);
-					List<Token> tokensNoBullet = getTokensNoBullet(sentence);
+		int numSentences = 0;
+		int bulletedSentences = 0;
 
-					if (tokensNoBullet.isEmpty()) {
-						continue;
-					}
+		int labelIdx = getLabelIndex(sentences);
 
-					if (SentenceUtils.isImperativeSentence(tokensNoBullet) || isANounPhrase(tokensNoBullet)
-							|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)
-							|| isPastTenseAction(tokensNoBullet)) {
-						return 1;
-					}
-				}
+		// no label
+		if (labelIdx == -1) {
+			return 0;
+		}
+
+		for (int i = labelIdx + 1; i < sentences.size(); i++) {
+			Sentence sentence = sentences.get(i);
+			List<Token> tokensNoBullet = getTokensNoBullet(sentence);
+
+			if (tokensNoBullet.isEmpty()) {
+				continue;
+			}
+
+			bulletedSentences++;
+			if (SentenceUtils.isImperativeSentence(tokensNoBullet) || isANounPhrase(tokensNoBullet)
+					|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)
+					|| isPastTenseAction(tokensNoBullet)) {
+				numSentences++;
 			}
 		}
-		return 0;
+
+		int match = ((float) numSentences) / bulletedSentences >= 0.5F ? 1 : 0;
+		return match;
 	}
 
 	private boolean isPastTenseAction(List<Token> tokensNoBullet) {
@@ -56,7 +63,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 	}
 
 	private boolean isPresentTense(List<Token> tokensNoBullet) {
-		return ActionsPresentPM.isActionInPresent(new Sentence("-1", tokensNoBullet), true) == 1;
+		return ActionsPresentPM.isSimplePresentSentence(new Sentence("-1", tokensNoBullet));
 	}
 
 	/**
@@ -90,7 +97,8 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 
 	private static final Set<String> UNDETECTED_LABELS = JavaUtils.getSet("step to reproduce", "step to repro",
 			"reproduce step", "step by step :", "str :", "s2r :", "bulleted list bug :",
-			"- step to replicate on the app", "reproduce as follow :", "what I have try :", "a similar bug :", "here be the step :");
+			"- step to replicate on the app", "reproduce as follow :", "what I have try :", "a similar bug :",
+			"here be the step :", "reproduction step :");
 
 	private static final String REGEX_ENDING_CHAR = "(:|\\.|\\-|\\(|#)";
 

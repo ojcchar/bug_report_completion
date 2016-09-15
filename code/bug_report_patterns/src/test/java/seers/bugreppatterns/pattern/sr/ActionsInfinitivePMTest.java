@@ -55,4 +55,20 @@ public class ActionsInfinitivePMTest extends BaseTest {
                         "There is also a red triangle."};
         TestUtils.testParagraphs(paragraphs, pm, 1);
     }
+
+    @Test
+    public void testNegatives() throws Exception {
+        String[] paragraphs = {
+        		 "creating new table\n" +
+                         "fill Cell \"A1\" with i.e. \"Text1\"\n" +
+                         "autofill 10 lines down (Text1, Text2, Text3 ...)\n" +
+                         "insert comment to one cell, i.e. A5 (\"Text5\")\n" +
+                         "show comment\n" +
+                         "insert comment to another cell, i.e. A7, and also show comment\n" +
+                         "hide line 7 (comment remains visible)\n" +
+                         "copy whole table with context menu\n" +
+                         "now hide line 5 in new created table\n" +
+                         "all comments double (see atachement)"};
+        TestUtils.testParagraphs(paragraphs, pm, 0);
+    }
 }
