@@ -450,4 +450,66 @@ public class SentenceUtils {
 		return -1;
 	}
 
+	/**
+	 * Breaks a given sentence based on parenthesis symbols. Thus each sentence within parenthesis is extracted from the
+	 * original sentence and added to the returned list. For example, a sentence such as:
+	 * 
+	 * "On a side note (which may or may not be related), the total number of potential matches changes."
+	 * 
+	 * is broken into: - which may or may not be related - On a side note, the total number of potential matches
+	 * changes.
+	 * 
+	 * @param sentence
+	 * @return list of sentences within the given sentence
+	 */
+	public static List<Sentence> breakByParenthesis(Sentence sentence) {
+
+		List<Sentence> subSentences = new ArrayList<Sentence>();
+		Sentence subSentence = new Sentence(sentence.getId(), new ArrayList<Token>());
+		List<Token> tokens = sentence.getTokens();
+
+		for (int j = 0; j < tokens.size(); j++) {
+			Token current = tokens.get(j);
+
+			// if (current.getLemma().equals(".")) {
+			// subSentences.add(subSentence);
+			// subSentence = new Sentence(sentence.getId(), new ArrayList<Token>());
+			// } else
+			if (current.getLemma().equals("-lrb-")) {
+
+				Sentence s1 = closingParSentence(sentence, j + 1);
+				int s1size = s1.getTokens().size();
+
+				int end = j + s1size + 1;
+				if (end < tokens.size() && tokens.get(end).getLemma().equals("-rrb-")) {
+					subSentences.add(s1);
+					j = end;
+				} else {
+					subSentence.addToken(current);
+				}
+			} else {
+				subSentence.addToken(current);
+			}
+		}
+
+		if (subSentence != null && !subSentence.getTokens().isEmpty()) {
+			subSentences.add(subSentence);
+		}
+		return subSentences;
+	}
+
+	private static Sentence closingParSentence(Sentence sentence, int start) {
+		Sentence subSentence = new Sentence(sentence.getId(), new ArrayList<Token>());
+		List<Token> tokens = sentence.getTokens();
+		for (int j = start; j < tokens.size(); j++) {
+			Token current = tokens.get(j);
+
+			if (current.getLemma().equals("-rrb-")) {
+				return subSentence;
+			} else {
+				subSentence.addToken(current);
+			}
+		}
+		return subSentence;
+	}
 }

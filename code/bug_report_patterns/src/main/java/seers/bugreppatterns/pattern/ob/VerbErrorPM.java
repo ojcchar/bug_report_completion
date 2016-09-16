@@ -22,7 +22,7 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 		// System.out.println("\n" + sentence);
 
-		for (Sentence subSentence : SimplePresentPM.findSubsentences(sentence)) {
+		for (Sentence subSentence : SentenceUtils.breakByParenthesis(sentence)) {
 
 			List<Token> tokens = subSentence.getTokens();
 			List<Integer> verbs = findAllVerbs(tokens);
