@@ -43,7 +43,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 			}
 
 			bulletedSentences++;
-			if (SentenceUtils.isImperativeSentence(tokensNoBullet) || isANounPhrase(tokensNoBullet)
+			if (checkImperativeClauses(tokensNoBullet) || isANounPhrase(tokensNoBullet)
 					|| startsWithNounPhrase(tokensNoBullet) || isPresentTense(tokensNoBullet)
 					|| isPastTenseAction(tokensNoBullet)) {
 				numSentences++;
@@ -52,6 +52,16 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 
 		int match = ((float) numSentences) / bulletedSentences >= 0.5F ? 1 : 0;
 		return match;
+	}
+
+	private boolean checkImperativeClauses(List<Token> tokensNoBullet) {
+		List<Sentence> clauses = SentenceUtils.extractClauses(new Sentence("0", tokensNoBullet));
+		for (Sentence clause : clauses) {
+			if (SentenceUtils.isImperativeSentence(clause)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean isPastTenseAction(List<Token> tokensNoBullet) {

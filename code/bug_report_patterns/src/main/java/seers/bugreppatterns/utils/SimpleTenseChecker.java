@@ -8,10 +8,24 @@ import java.util.Set;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
+/**
+ * @author ojcch
+ *
+ */
 public class SimpleTenseChecker {
 
+	/**
+	 * POSs of the verbs, to indicate the tense: present (VBP, VBZ) or past
+	 * (VBD, VBN)
+	 */
 	private Set<String> partOfSpeeches;
+	/**
+	 * Verbs incorrectly detected/labeled
+	 */
 	private Set<String> undetectedVerbs;
+	/**
+	 * Set of verbs to avoid matching
+	 */
 	private Set<String> verbsToAvoid;
 
 	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs) {
@@ -27,7 +41,7 @@ public class SimpleTenseChecker {
 
 	public int countNumClauses(Sentence sentence) {
 
-		int num = 0;
+		int numClauses = 0;
 
 		List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 
@@ -36,27 +50,27 @@ public class SimpleTenseChecker {
 
 		// first clause found
 		if (idxFirstClause != -1) {
-			num++;
+			numClauses++;
 
 			// check the remaining clauses such as "deleted...", this is
 			// done to match sentences such as "i performed..., deleted,
 			// and create...."
 			List<Sentence> remainingClauses = clauses.subList(idxFirstClause + 1, clauses.size());
 			for (Sentence clause : remainingClauses) {
-				if (checkClauseInTense(clause)) {
-					num++;
+				if (checkClauseInTense(clause) || checkClauseInTenseWithPronoun(clause)) {
+					numClauses++;
 				}
 			}
 		} else {
 
-			// check for sentence starting with the verb in past
+			// check for sentence starting with the verb in the sentence
 			for (Sentence clause : clauses) {
 				if (checkClauseInTense(clause)) {
-					num++;
+					numClauses++;
 				}
 			}
 		}
-		return num;
+		return numClauses;
 	}
 
 	private boolean checkClauseInTense(Sentence clause) {
@@ -67,7 +81,7 @@ public class SimpleTenseChecker {
 
 		Token token = clause.getTokens().get(0);
 
-		// case: performed
+		// case: perform(ed)
 		if (checkForVerb(token)) {
 			return true;
 		}
@@ -78,36 +92,55 @@ public class SimpleTenseChecker {
 		for (int i = 0; i < clauses.size(); i++) {
 			Sentence sentence = clauses.get(i);
 
-			List<Token> tokens = sentence.getTokens();
-			List<Integer> verbs = findVerbsInTense(tokens);
-
-			for (Integer verb : verbs) {
-
-				if (verb - 1 >= 0) {
-
-					// case: I performed
-					Token prevToken = tokens.get(verb - 1);
-					if (checkForSubject(prevToken)) {
-						return i;
-
-						// case: I then tried
-					} else if (prevToken.getGeneralPos().equals("RB")) {
-						if (verb - 2 >= 0) {
-							Token prevToken2 = tokens.get(verb - 2);
-							if (checkForSubject(prevToken2)) {
-								return i;
-							}
-						}
-					}
-				}
-
+			boolean isValid = checkClauseInTenseWithPronoun(sentence);
+			if (isValid) {
+				return i;
 			}
+
 		}
 		return -1;
 	}
 
+	private boolean checkClauseInTenseWithPronoun(Sentence sentence) {
+
+		List<Token> tokens = sentence.getTokens();
+		List<Integer> verbs = findVerbsInTense(tokens);
+
+		for (Integer verbIdx : verbs) {
+
+			if (verbIdx - 1 >= 0) {
+
+				boolean isNegative = verbIdx + 1 < tokens.size() ? tokens.get(verbIdx + 1).getLemma().equals("not")
+						: false;
+				boolean isPerfectTense = tokens.get(verbIdx).getLemma().equals("have") && verbIdx + 1 < tokens.size()
+						? tokens.get(verbIdx + 1).getGeneralPos().equals("VB") : false;
+
+				Token prevToken = tokens.get(verbIdx - 1);
+
+				// case: I/we/this perform(s|ed)
+				// avoid negatives: i did not
+				if (checkForSubject(prevToken) && !isNegative && !isPerfectTense) {
+					return true;
+
+					// case: I/we then tr(y|ied)
+				} else if (prevToken.getGeneralPos().equals("RB")) {
+					if (verbIdx - 2 >= 0) {
+						Token prevToken2 = tokens.get(verbIdx - 2);
+						// avoid negatives: i then did not
+						if (checkForSubject(prevToken2) && !isNegative && !isPerfectTense) {
+							return true;
+						}
+					}
+				}
+			}
+
+		}
+		return false;
+	}
+
 	private boolean checkForSubject(Token prevToken) {
-		return prevToken.getGeneralPos().equals("PRP") || prevToken.getGeneralPos().equals("NN");
+		return prevToken.getGeneralPos().equals("PRP") || prevToken.getGeneralPos().equals("NN")
+				|| prevToken.getLemma().equals("i");
 	}
 
 	private List<Integer> findVerbsInTense(List<Token> tokens) {

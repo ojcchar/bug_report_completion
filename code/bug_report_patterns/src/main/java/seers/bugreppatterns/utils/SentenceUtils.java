@@ -119,7 +119,7 @@ public class SentenceUtils {
 		return null;
 	}
 
-	public static final String[] CLAUSE_SEPARATORS = { ";", ",", "-", "_", "--" };
+	public static final String[] CLAUSE_SEPARATORS = { ";", ",", "-", "_", "--", ":" };
 
 	/**
 	 * Extract clauses or subsentences in the provided sentence, based on
@@ -301,7 +301,7 @@ public class SentenceUtils {
 	 * labels at the beginning of the sentence, such as "exp. behavior: run the
 	 * program"
 	 * 
-	 * @param tokens
+	 * @param sentence
 	 * @return
 	 */
 	public static boolean isImperativeSentence(Sentence sentence) {

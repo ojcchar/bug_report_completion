@@ -14,7 +14,13 @@ public class LabeledListPMTest extends BaseTest {
 	@Test
 	public void testPositives() throws Exception {
 		String[] txts = {
- };
+				"Steps to Reproduce:\n" + "1. At the site <http://www.nm-msp.org/>, click on 'Find a Course'.\n" + "\n"
+						+ "2. You'll be presented with a chance to enter a ZIP and mileage radius: enter\n"
+						+ "87110 and leave the default radius at '50'.\n" + "\n"
+						+ "3. This takes you to a page of Albuquerque classes. On the left hand side of\n"
+						+ "each class listing is a tiny magnifying glass icon.\n" + "\n"
+						+ "4. If I click on this in Firefox, I am looped back to the same page. In IE or\n"
+						+ "Safari, I am taken to a map and class description." };
 
 		TestUtils.testParagraphs(txts, pm, 1);
 	}

@@ -12,8 +12,9 @@ import seers.textanalyzer.entity.Token;
 
 public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 
-	public final static Set<String> POS = JavaUtils.getSet("VBP", "VBZ");
-	public final static Set<String> EXCLUDED_VERBS = JavaUtils.getSet("do", "be", "have", "seem");
+	public final static Set<String> POS = JavaUtils.getSet("VBP", "VBZ", "VB");
+	public final static Set<String> EXCLUDED_VERBS = JavaUtils.getSet("be", "seem");
+	public static final Set<String> UNDETECTED_VERBS = JavaUtils.getSet("set", "put", "close");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -77,7 +78,7 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 	}
 
 	public static boolean isSimplePresentSentence(Sentence sentence) {
-		SimpleTenseChecker checker = new SimpleTenseChecker(POS, null, EXCLUDED_VERBS);
+		SimpleTenseChecker checker = new SimpleTenseChecker(POS, UNDETECTED_VERBS, EXCLUDED_VERBS);
 		return checker.countNumClauses(sentence) != 0;
 	}
 
