@@ -390,9 +390,10 @@ public class SentenceUtils {
 			return true;
 		} else {
 
-			// case: the sentence starts with an adverb and then with a verb
+			// case: the sentence starts with an adverb/adjective and then with
+			// a verb
 			if (secondToken != null) {
-				if (firstToken.getPos().equals("RB")
+				if ((firstToken.getPos().equals("RB") || firstToken.getPos().equals("JJ"))
 						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP"))
 						&& tokensNoSpecialChar.size() > 2) {
 					return true;

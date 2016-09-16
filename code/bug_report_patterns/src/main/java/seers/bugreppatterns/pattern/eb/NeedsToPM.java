@@ -20,40 +20,45 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		List<Token> tokens = sentence.getTokens();
+		List<Token> tokens2 = sentence.getTokens();
 
-		// questions?
+		// no questions allowed
 		if (SentenceUtils.isQuestion(sentence)) {
 			return 0;
 		}
 
-		if (SentenceUtils.tokensContainAnyLemmaIn(tokens, JavaUtils.getSet("please"))) {
+		//no sentences with please
+		if (SentenceUtils.tokensContainAnyLemmaIn(tokens2, JavaUtils.getSet("please"))) {
 			return 0;
 		}
 
-		// -------------------
+		List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 
-		List<Integer> needTokens = getNeedTokens(tokens);
+		//check clause by clause
+		int numValidClauses = 0;
+		for (Sentence clause : clauses) {
+			List<Token> tokens = clause.getTokens();
+			// -------------------
 
-		for (Integer needTok : needTokens) {
+			List<Integer> needTokens = getNeedTokens(tokens);
 
-			// conditional sentence?
-			if (conditionalBefore(needTok, tokens)) {
-				return 0;
-			}
+			for (Integer needTok : needTokens) {
 
-			Token needToken = tokens.get(needTok);
-			if (needToken.getGeneralPos().equals("VB")) {
-				return 1;
-			} else {
-				if (needTok + 1 < tokens.size()) {
+				// no conditional clause
+				if (conditionalBefore(needTok, tokens)) {
+					continue;
+				}
 
-					Token nextToken = tokens.get(needTok + 1);
-					if (nextToken.getLemma().equals("to")) {
-						return 1;
-					}
+				// accept the clause if it contains need!
+				Token needToken = tokens.get(needTok);
+				if (needToken.getGeneralPos().equals("VB")) {
+					numValidClauses++;
 				}
 			}
+		}
+
+		if (numValidClauses > 0) {
+			return 1;
 		}
 
 		return 0;
