@@ -13,56 +13,59 @@ import seers.textanalyzer.entity.Token;
 
 public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
-	public final static Set<String> FALSE_VERBS = JavaUtils.getSet( "build", "httpd", "stack" );
+	public final static Set<String> FALSE_VERBS = JavaUtils.getSet("build", "httpd", "stack");
 
-	private final static Set<String> SUBJECTS = JavaUtils.getSet( "NN", "VB", "DT", "RB", "EX", "IN" );
+	private final static Set<String> SUBJECTS = JavaUtils.getSet("NN", "VB", "DT", "RB", "EX", "IN");
 
-	private static final Set<String> PUNCTUATION = JavaUtils.getSet( ":", ".", ";", "-LRB-", "-RRB-", "``", "''" );
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet(":", ";", "``", "''");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		// System.out.println(sentence);
-		List<Token> tokens = sentence.getTokens();
 
-		// divide sentence by punctuation
-		List<Integer> punctuation = findPunctuation(tokens);
-		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, punctuation);
+		for (Sentence ss : SentenceUtils.breakByParenthesis(sentence)) {
+			// System.out.println(sentence);
+			List<Token> tokens = ss.getTokens();
 
-		boolean match = false;
+			// divide sentence by punctuation
+			List<Integer> punctuation = findPunctuation(tokens);
+			List<Sentence> subSentences = SentenceUtils.findSubSentences(ss, punctuation);
 
-		for (Iterator<Sentence> iterator = subSentences.iterator(); iterator.hasNext();) {
-			Sentence subSentence = iterator.next();
+			boolean match = false;
 
-			// divide sentence by prepositions
-			List<Integer> prepositions = findPrepositions(subSentence.getTokens());
-			List<Sentence> phrases = SentenceUtils.findSubSentences(subSentence, prepositions);
+			for (Iterator<Sentence> iterator = subSentences.iterator(); iterator.hasNext();) {
+				Sentence subSentence = iterator.next();
 
-			// there's only one phrase (i.e., no preps)
-			if (phrases.size() == 1) {
-				match = match || matchSubSentence(phrases.get(0)) == 1;
-			} else {
+				// divide sentence by prepositions
+				List<Integer> prepositions = findPrepositions(subSentence.getTokens());
+				List<Sentence> phrases = SentenceUtils.findSubSentences(subSentence, prepositions);
 
-				for (Iterator<Sentence> iterator2 = phrases.iterator(); iterator2.hasNext();) {
-					Sentence phrase = (Sentence) iterator2.next();
+				// there's only one phrase (i.e., no preps)
+				if (phrases.size() == 1) {
+					match = match || matchSubSentence(phrases.get(0)) == 1;
+				} else {
 
-					// the S_OB_PROBLEM_IN case
-					if (matchSubSentence(phrase) == 1) {
-						if (iterator2.hasNext()) {
-							return 0;
+					for (Iterator<Sentence> iterator2 = phrases.iterator(); iterator2.hasNext();) {
+						Sentence phrase = (Sentence) iterator2.next();
+
+						// the S_OB_PROBLEM_IN case
+						if (matchSubSentence(phrase) == 1) {
+							if (iterator2.hasNext()) {
+								return 0;
+							} else {
+								match = match || true;
+							}
 						} else {
-							match = match || true;
+							match = match || false;
 						}
-					} else {
-						match = match || false;
-					}
 
+					}
 				}
+
 			}
 
+			if (match)
+				return 1;
 		}
-
-		if (match)
-			return 1;
 		return 0;
 	}
 
