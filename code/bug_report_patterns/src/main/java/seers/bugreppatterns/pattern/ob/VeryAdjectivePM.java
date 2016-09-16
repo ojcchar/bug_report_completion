@@ -14,7 +14,7 @@ public class VeryAdjectivePM extends ObservedBehaviorPatternMatcher {
 
 	public final static String VERY = "very";
 
-	private static final Set<String> PUNCTUATION = JavaUtils.getSet( ",", "_", ".", ";" );
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet( ",", "_", ";" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
