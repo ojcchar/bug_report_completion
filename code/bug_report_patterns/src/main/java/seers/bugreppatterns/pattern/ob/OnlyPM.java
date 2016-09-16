@@ -21,7 +21,7 @@ public class OnlyPM extends ObservedBehaviorPatternMatcher {
 
 	private static Set<String> PRESENT_TENSE_VERBS = JavaUtils.getSet("crash", "build", "return", "copy");
 
-	private static Set<String> PUNCTUATION = JavaUtils.getSet(",", ".", ";", ":", "--");
+	private static Set<String> PUNCTUATION = JavaUtils.getSet(",", ";", ":", "--");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

@@ -17,19 +17,23 @@ public class AllowPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM() };
 
-	private static final Set<String> PUNCTUATION = JavaUtils.getSet(";", ",", "_", "-", "-LRB-", "-RRB-", ".");
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet(";", ",", "_", "-");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, findPunctuation(sentence.getTokens()));
 
-		for (Sentence subSentence : subSentences) {
-			List<Integer> allows = findAllows(subSentence.getTokens());
+		for (Sentence ss : SentenceUtils.breakByParenthesis(sentence)) {
+			List<Sentence> subSentences = SentenceUtils.findSubSentences(ss,
+					findPunctuation(ss.getTokens()));
 
-			if (!allows.isEmpty() && !isEBModal(subSentence.getTokens()) && !isNegative(subSentence)) {
-				return 1;
+			for (Sentence subSentence : subSentences) {
+				List<Integer> allows = findAllows(subSentence.getTokens());
+
+				if (!allows.isEmpty() && !isEBModal(subSentence.getTokens()) && !isNegative(subSentence)) {
+					return 1;
+				}
+
 			}
-
 		}
 		return 0;
 	}

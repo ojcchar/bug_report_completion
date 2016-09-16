@@ -16,7 +16,7 @@ public class ErrorTermsParagraphPM extends ObservedBehaviorPatternMatcher {
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ProblemInPM(), new ErrorTermSubjectPM(),
 			new ErrorNounPhrasePM() };
 
-	private final static Set<String> PUNCTUATION = JavaUtils.getSet(",", ".", ";");
+	private final static Set<String> PUNCTUATION = JavaUtils.getSet(",", ";");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

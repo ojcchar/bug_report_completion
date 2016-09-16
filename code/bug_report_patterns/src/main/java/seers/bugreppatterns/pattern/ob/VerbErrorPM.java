@@ -22,35 +22,41 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 		// System.out.println("\n" + sentence);
 
-		List<Token> tokens = sentence.getTokens();
-		List<Integer> verbs = findAllVerbs(tokens);
-		for (int verb = 0; verb < verbs.size(); verb++) {
-			// there's something after the verb
-			if (verbs.get(verb) + 1 < tokens.size()) {
-				int start = verbs.get(verb) + 1;
-				Token afterVerbToken = tokens.get(start);
+		for (Sentence subSentence : SentenceUtils.breakByParenthesis(sentence)) {
 
-				// the token after the verb is a preposition or a personal pronoun
-				while (tokenIsPrep(afterVerbToken) || afterVerbToken.getGeneralPos().equals("PRP")) {
-					start++;
-					if (start < tokens.size()) {
-						afterVerbToken = tokens.get(start);
-					} else {
-						return 0;
+			List<Token> tokens = subSentence.getTokens();
+			List<Integer> verbs = findAllVerbs(tokens);
+			
+			verbloop:
+			for (int verb = 0; verb < verbs.size(); verb++) {
+				// there's something after the verb
+				if (verbs.get(verb) + 1 < tokens.size()) {
+					int start = verbs.get(verb) + 1;
+					Token afterVerbToken = tokens.get(start);
+
+					// the token after the verb is a preposition or a personal pronoun
+					while (tokenIsPrep(afterVerbToken) || afterVerbToken.getGeneralPos().equals("PRP")) {
+						start++;
+						if (start < tokens.size()) {
+							afterVerbToken = tokens.get(start);
+						} else {
+							break verbloop;
+							//return 0;
+						}
+
+					}
+
+					int end = start + 1;
+
+					while (end <= tokens.size()) {
+						Sentence clause = new Sentence(sentence.getId(), tokens.subList(start, end));
+						if (isNegative(clause)) {
+							return 1;
+						}
+						end++;
 					}
 
 				}
-
-				int end = start + 1;
-
-				while (end <= tokens.size()) {
-					Sentence subSentence = new Sentence(sentence.getId(), tokens.subList(start, end));
-					if (isNegative(subSentence)) {
-						return 1;
-					}
-					end++;
-				}
-
 			}
 		}
 
@@ -62,8 +68,7 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> verbs = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if ((token.getGeneralPos().equals("VB")
-					||SentenceUtils.lemmasContainToken(VERB_TERMS, token)
+			if ((token.getGeneralPos().equals("VB") || SentenceUtils.lemmasContainToken(VERB_TERMS, token)
 					&& !SentenceUtils.lemmasContainToken(NOT_VERBS, token))) {
 				// if (i + 1 < tokens.size() && !tokens.get(i + 1).getGeneralPos().equals("VB"))
 				verbs.add(i);

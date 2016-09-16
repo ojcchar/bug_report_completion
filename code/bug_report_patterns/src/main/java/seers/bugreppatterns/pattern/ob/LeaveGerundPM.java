@@ -12,21 +12,24 @@ import seers.textanalyzer.entity.Token;
 
 public class LeaveGerundPM extends ObservedBehaviorPatternMatcher {
 
-	private static final Set<String> PUNCTUATION = JavaUtils.getSet(":", ";", ".", "-lrb-");
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet(":", ";");
 
 	private static final String LEAVE = "leave";
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		List<Integer> leaveIndexes = findLeaves(sentence.getTokens());
+		for (Sentence ss : SentenceUtils.breakByParenthesis(sentence)) {
 
-		if (!leaveIndexes.isEmpty() && !isEBModal(sentence.getTokens())) {
-			List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, leaveIndexes);
+			List<Integer> leaveIndexes = findLeaves(ss.getTokens());
 
-			for (Sentence subSentence : subSentences) {
-				if (containsGerund(subSentence)) {
-					return 1;
+			if (!leaveIndexes.isEmpty() && !isEBModal(ss.getTokens())) {
+				List<Sentence> subSentences = SentenceUtils.findSubSentences(ss, leaveIndexes);
+
+				for (Sentence subSentence : subSentences) {
+					if (containsGerund(subSentence)) {
+						return 1;
+					}
 				}
 			}
 		}

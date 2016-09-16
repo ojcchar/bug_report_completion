@@ -18,16 +18,12 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 
 	public final static Set<String> AFTER = JavaUtils.getSet("after");
 
-	private static final Set<String> PERIOD = JavaUtils.getSet(".");
 	private static final Set<String> PUNCTUATION = JavaUtils.getSet(",", "_", "-");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		// System.out.println(TextProcessor.getStringFromTerms(sentence));
-		List<Token> tokens = sentence.getTokens();
-
 		// split sentences based on "."
-		List<Sentence> superSentences = SentenceUtils.findSubSentences(sentence, findPeriod(tokens));
+		List<Sentence> superSentences = SentenceUtils.breakByParenthesis(sentence);
 
 		for (Sentence superSentence : superSentences) {
 
@@ -90,9 +86,4 @@ public class AfterNegativePM extends ObservedBehaviorPatternMatcher {
 		}
 		return symbols;
 	}
-
-	private List<Integer> findPeriod(List<Token> tokens) {
-		return SentenceUtils.findLemmasInTokens(PERIOD, tokens);
-	}
-
 }

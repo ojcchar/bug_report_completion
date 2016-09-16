@@ -12,7 +12,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ButPM extends ObservedBehaviorPatternMatcher {
 
-	private static final Set<String> PUNCTUATION = JavaUtils.getSet(".", ";", "--");
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet(";", "--");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

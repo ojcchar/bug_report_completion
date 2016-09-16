@@ -25,7 +25,7 @@ public class PassiveVoicePM extends ObservedBehaviorPatternMatcher {
 		FORBIDDEN_TERMS.addAll(JavaUtils.getSet("after", "because"));
 	}
 
-	public static final Set<String> PUNCTUATION = JavaUtils.getSet(";", "-", "_", "--", ".");
+	public static final Set<String> PUNCTUATION = JavaUtils.getSet(";", "-", "_", "--");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

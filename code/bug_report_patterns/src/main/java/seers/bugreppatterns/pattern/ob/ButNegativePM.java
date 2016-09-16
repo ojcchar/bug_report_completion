@@ -19,7 +19,7 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 
 	final static Set<String> NEGATIVE_TERMS = JavaUtils.getSet("no", "nothing", "not", "never" );
 
-	private static final Set<String> PUNCTUATION = JavaUtils.getSet( ".", ";", "--" );
+	private static final Set<String> PUNCTUATION = JavaUtils.getSet( ";", "--" );
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
