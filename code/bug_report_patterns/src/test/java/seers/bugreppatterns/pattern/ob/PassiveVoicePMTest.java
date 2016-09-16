@@ -12,14 +12,17 @@ public class PassiveVoicePMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] sentences = {};
+		String[] sentences = { "Docker option SELinux are (both enabled)" };
 
 		TestUtils.testSentences(sentences, pm, 0);
 	}
-	
+
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = {"The class name BBB is highlighted in editor correctly."};
+		String[] sentences = { "The class name BBB is highlighted in editor correctly.",
+				"Docker option SELinux are both enabled.", 
+				"Docker option SELinux are (both) enabled",
+				};
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}
