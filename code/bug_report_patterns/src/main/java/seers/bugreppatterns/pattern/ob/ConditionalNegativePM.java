@@ -1,7 +1,6 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +18,7 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		// split sentences based on "."
-		List<Sentence> superSentences = SentenceUtils.findSubSentences(sentence, findPeriod(sentence.getTokens()));
+		List<Sentence> superSentences = SentenceUtils.breakByParenthesis(sentence);
 
 		for (Sentence superSentence : superSentences) {
 			List<Token> tokens = superSentence.getTokens();
@@ -93,24 +92,6 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 		List<Integer> symbols = SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
 		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
 			return symbols.subList(0, symbols.size() - 1);
-		}
-		return symbols;
-	}
-
-	private List<Integer> findPeriod(List<Token> tokens) {
-		List<Integer> symbols = new ArrayList<>();
-		LinkedList<Character> pars = new LinkedList<>();
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (token.getWord().equals("-LRB-")) {
-				pars.add('(');
-			}
-			if (token.getWord().equals("-RRB-")) {
-				pars.removeLast();
-			}
-			if (token.getWord().equals(".") && pars.isEmpty()) {
-				symbols.add(i);
-			}
 		}
 		return symbols;
 	}
