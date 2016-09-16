@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -17,16 +18,26 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		int numValidClauses = 0;
 		for (Sentence clause : clauses) {
 
-			// check for no prepositions
-			List<Integer> prepositions = findPrepositions(clause.getTokens());
-			if (!prepositions.isEmpty()) {
-				continue;
-			}
-			
-//			List<Sentence> subClauses = SentenceUtils.extractSubClauses(clause);
+			// get sub-clauses (by ")
+			List<Integer> punctuation = SentenceUtils.findLemmasInTokens(JavaUtils.getSet("\"", "``"),
+					clause.getTokens());
+			List<Sentence> subClauses = SentenceUtils.findSubSentences(clause, punctuation);
 
-			// check for noun phrases
-			numValidClauses += checkErrorNounPhrase(clause.getTokens());
+			for (Sentence subClause : subClauses) {
+
+				// check for no prepositions
+				List<Integer> prepositions = findPrepositions(subClause.getTokens());
+				if (!prepositions.isEmpty()) {
+					continue;
+				}
+
+				// check for noun phrases
+				if (checkErrorNounPhrase(subClause.getTokens()) != 0) {
+					numValidClauses++;
+					break;
+				}
+			}
+
 		}
 
 		if (numValidClauses > 0) {
@@ -85,7 +96,6 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 			// token.getGeneralPos().equals("NN")) {
 			// return 1;
 			// }
-
 			// negative adjectives
 			else if (SentenceUtils.lemmasContainToken(NegativeTerms.ADJECTIVES, token)
 					&& (token.getGeneralPos().equals("JJ") || token.getGeneralPos().equals("NN")
@@ -97,11 +107,14 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 			}
 
 			// stack trace
-			// else if (token.getLemma().equalsIgnoreCase("stack") && i + 1 <
-			// tokens.size()
-			// && tokens.get(i + 1).getLemma().equalsIgnoreCase("trace")) {
-			// return 1;
-			// }
+			else if (token.getLemma().equalsIgnoreCase("stack") && i + 1 < tokens.size()
+					&& tokens.get(i + 1).getLemma().equalsIgnoreCase("trace")) {
+				return 1;
+				
+				//missing labeled as VBG
+			}else if(token.getLemma().equals("miss") && token.getPos().equals("VBG") ){
+				return 1;
+			}
 		}
 		return 0;
 	}
