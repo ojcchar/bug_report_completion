@@ -14,13 +14,25 @@ public class PassiveVoicePM extends ObservedBehaviorPatternMatcher {
 
 	private final static Set<String> AUXILIARS = JavaUtils.getSet("be", "get");
 
-	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM() };
+	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
+			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
+			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(), new ErrorNounPhrasePM(),
+			new NoLongerPM() };
+
+	private final static Set<String> FORBIDDEN_TERMS = CONDITIONAL_TERMS;
+	{
+		FORBIDDEN_TERMS.addAll(CONTRAST_TERMS);
+		FORBIDDEN_TERMS.addAll(JavaUtils.getSet("after", "because"));
+	}
+
+	public static final Set<String> PUNCTUATION = JavaUtils.getSet(";", "-", "_", "--", ".");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 
-		if (isPassive(tokens) && !isEBModal(tokens) && !isNegative(sentence)) {
+		if (isPassive(tokens) && !isEBModal(tokens) && !isNegative(sentence)
+				&& !SentenceUtils.sentenceContainsAnyLemmaIn(sentence, FORBIDDEN_TERMS)) {
 			return 1;
 		}
 
@@ -28,23 +40,35 @@ public class PassiveVoicePM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private boolean isPassive(List<Token> tokens) {
-
-		for (int i = 0; i < tokens.size() - 1; i++) {
+		int i = 0;
+		boolean containsAuxiliar = false;
+		int par = 0;
+		while (i < tokens.size()) {
 			Token current = tokens.get(i);
-
-			if (current.getGeneralPos().equals("VB") && SentenceUtils.lemmasContainToken(AUXILIARS, current)) {
-				Token next = tokens.get(i + 1);
-				if (next.getPos().equals("VBN")) {
-					return true;
-				} else if (next.getGeneralPos().equals("NN") && i + 2 < tokens.size()) {
-					next = tokens.get(i + 2);
-					if (next.getPos().equals("VBN")) {
-						return true;
-					}
-				}
-
+			if (current.getGeneralPos().equals("VB") && SentenceUtils.lemmasContainToken(AUXILIARS, current)
+					&& par == 0) {
+				containsAuxiliar = true;
+				i++;
+				break;
+			} else if (current.getLemma().equals("-lrb-")) {
+				par++;
+			} else if (current.getLemma().equals("-rrb-")) {
+				par--;
 			}
-
+			i++;
+		}
+		while (containsAuxiliar && i < tokens.size()) {
+			Token current = tokens.get(i);
+			if ((current.getPos().equals("VBN") || current.getPos().equals("VBD")) && par == 0) {
+				return true;
+			} else if (SentenceUtils.lemmasContainToken(PUNCTUATION, current)) {
+				return false;
+			} else if (current.getLemma().equals("-lrb-")) {
+				par++;
+			} else if (current.getLemma().equals("-rrb-")) {
+				par--;
+			}
+			i++;
 		}
 		return false;
 	}

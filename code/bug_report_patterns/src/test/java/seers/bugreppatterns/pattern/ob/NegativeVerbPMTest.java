@@ -35,7 +35,10 @@ public class NegativeVerbPMTest extends BaseTest {
 				"The Browser is simply gone.",
 				"This possibility has been gone since LO 3.6.",
 				"From my own experience and those of my users I ve found that ad blocking software can block the Add Application page by default (e.g. IE7 Pro s Ad Blocker). ",
-				"Container can kill docker daemon"};
+				"Container can kill docker daemon",
+				"geo location gets cleared on updating the post",
+				"5 Update/publish, the post geo tag gets cleared (verified on the site)"
+				};
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}
