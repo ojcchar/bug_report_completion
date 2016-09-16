@@ -1,7 +1,6 @@
 package seers.bugreppatterns.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -119,7 +118,7 @@ public class SentenceUtils {
 		return null;
 	}
 
-	public static final String[] CLAUSE_SEPARATORS = { ";", ",", "-", "_", "--", ":" };
+	public static final Set<String> CLAUSE_SEPARATORS = JavaUtils.getSet(";", ",", "-", "_", "--", ":");
 
 	/**
 	 * Extract clauses or subsentences in the provided sentence, based on
@@ -202,8 +201,8 @@ public class SentenceUtils {
 	 * @param token
 	 * @return true if there is any match, false otherwise
 	 */
-	public static boolean matchTermsByLemma(String[] terms, Token token) {
-		return Arrays.stream(terms).anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
+	public static boolean matchTermsByLemma(Set<String> terms, Token token) {
+		return terms.stream().anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
 	}
 
 	/**

@@ -17,12 +17,10 @@ public class AttachRefPM extends ObservedBehaviorPatternMatcher {
 			"file", "sample", "example", "docx", "test", "project");
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ErrorNounPhrasePM(), new NegativeAdjOrAdvPM(),
-			new NoNounPM(), new ErrorTermSubjectPM(), new InsteadOfOBPM() };
+			new NoNounPM(), new ErrorTermSubjectPM(), new InsteadOfOBPM(), new NegativeVerbPM() };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		// System.out.println(sentence);
-		// System.out.println(TextProcessor.getStringFromTerms(sentence));
 		if (containsAttachment(sentence.getTokens()) && isNegative(sentence)) {
 			return 1;
 		}
@@ -36,6 +34,7 @@ public class AttachRefPM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token current = tokens.get(i);
 
+			// check for the noun "attachment" or verb "attach"
 			if ((current.getGeneralPos().equals("NN") && current.getLemma().equals(ATTACH_NOUN))
 					|| (current.getGeneralPos().equals("VB") && current.getLemma().equals(ATTACH_VERB))) {
 
@@ -47,6 +46,8 @@ public class AttachRefPM extends ObservedBehaviorPatternMatcher {
 				} else {
 					attachTerm = true;
 				}
+
+				// to match cases such as: "example/test" or "test.odb"
 			} else if (current.getGeneralPos().equals("NN") && ATTACHMENTS.stream()
 					.anyMatch(t -> current.getLemma().matches("[A-Za-z]*[/.]?" + t + "[/.]?[A-Za-z]*"))) {
 				attachedElement = true;
@@ -54,6 +55,7 @@ public class AttachRefPM extends ObservedBehaviorPatternMatcher {
 
 		}
 
+		// check if there's any attachment term and the element that is attached
 		return attachTerm && attachedElement;
 	}
 
