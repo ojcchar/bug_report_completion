@@ -19,7 +19,7 @@ public class ComparativeAdjectivePMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negs = {};
+		String[] negs = {"Resize the firefox window so it is very thin, the location widget shrinks correctly until it gets smaller than the URL icon."};
 
 		TestUtils.testSentences(negs, pm, 1);
 	}
