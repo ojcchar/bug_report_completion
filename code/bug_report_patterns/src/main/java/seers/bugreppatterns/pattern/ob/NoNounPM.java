@@ -14,7 +14,7 @@ public class NoNounPM extends ObservedBehaviorPatternMatcher {
 
 	private final static Set<String> NO_TERMS = JavaUtils.getSet("no", "nothing", "none", "neither");
 
-	private final static String[] POST_NO_TERMS = { "NN", "VB", "DT", "MD", "IN", "JJ", "RP", "WH" };
+	private final static String[] POST_NO_TERMS = { "NN", "VB", "DT", "MD", "IN", "JJ", "RP", "WH", "``" };
 
 	private final static String[] PRE_NO_POS = { "VB" };
 
@@ -22,18 +22,16 @@ public class NoNounPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 
-		if (!tokens.isEmpty()) {
-			int start = 0;
-			while (start < tokens.size()) {
-				Token current = tokens.get(start);
-				String previousGenPos = start == 0 ? "OK" : tokens.get(start - 1).getGeneralPos();
-				// if there is a verb before the NO_TERM, the pattern is S_OB_VERB_NO
-				if (SentenceUtils.lemmasContainToken(NO_TERMS, current)
-						&& !Arrays.stream(PRE_NO_POS).anyMatch(t -> previousGenPos.equals(t))) {
-					return matchSubSentence(new Sentence(sentence.getId(), tokens.subList(start, tokens.size())));
-				}
-				start++;
+		int start = 0;
+		while (start < tokens.size()) {
+			Token current = tokens.get(start);
+			String previousGenPos = start == 0 ? "OK" : tokens.get(start - 1).getGeneralPos();
+			// if there is a verb before the NO_TERM, the pattern is S_OB_VERB_NO
+			if (SentenceUtils.lemmasContainToken(NO_TERMS, current)
+					&& !Arrays.stream(PRE_NO_POS).anyMatch(t -> previousGenPos.equals(t))) {
+				return matchSubSentence(new Sentence(sentence.getId(), tokens.subList(start, tokens.size())));
 			}
+			start++;
 		}
 
 		return 0;

@@ -14,14 +14,17 @@ public class ErrorCondPM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		List<Token> tokens = sentence.getTokens();
-		List<Integer> condIndexes = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, tokens);
-		if (!condIndexes.isEmpty()) {
-			for (Integer condIndex : condIndexes) {
-				if (condIndex > 0 && (condIndex < tokens.size() - 1)) {
-					Sentence errorClause = new Sentence(sentence.getId(), tokens.subList(0, condIndex));
-					if (isNegative(errorClause)) {
-						return 1;
+
+		for (Sentence ss : SentenceUtils.breakByParenthesis(sentence)) {
+			List<Token> tokens = ss.getTokens();
+			List<Integer> condIndexes = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, tokens);
+			if (!condIndexes.isEmpty()) {
+				for (Integer condIndex : condIndexes) {
+					if (condIndex > 0 && (condIndex < tokens.size() - 1)) {
+						Sentence errorClause = new Sentence(ss.getId(), tokens.subList(0, condIndex));
+						if (isNegative(errorClause)) {
+							return 1;
+						}
 					}
 				}
 			}
