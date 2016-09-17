@@ -21,25 +21,32 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		// System.out.println(sentence);
-		List<Token> tokens = sentence.getTokens();
-		List<Integer> preps = findPrepositions(tokens);
 
-		List<Integer> verbs = findProblematicVerbs(tokens);
-		if (!verbs.isEmpty()) {
-			return 0;
-		}
+		for (Sentence ss : SentenceUtils.breakByParenthesis(sentence)) {
+			List<Sentence> subSentences = SentenceUtils.findSubSentences(ss,
+					SentenceUtils.findLemmasInTokens(JavaUtils.getSet("-", "--", ":"), ss.getTokens()));
+			for (Sentence subSentence : subSentences) {
+				List<Token> tokens = subSentence.getTokens();
+				List<Integer> preps = findPrepositions(tokens);
 
-		int i = 0;
-		int j = 0;
+				List<Integer> verbs = findProblematicVerbs(tokens);
+				if (!verbs.isEmpty()) {
+					continue;
+				}
 
-		while (j < preps.size()) {
+				int i = 0;
+				int j = 0;
 
-			Sentence sentence2 = new Sentence(sentence.getId(), tokens.subList(i, preps.get(j)));
-			if (isNegative(sentence2)) {
-				return 1;
+				while (j < preps.size()) {
+
+					Sentence sentence2 = new Sentence(subSentence.getId(), tokens.subList(i, preps.get(j)));
+					if (isNegative(sentence2)) {
+						return 1;
+					}
+
+					j++;
+				}
 			}
-
-			j++;
 		}
 
 		return 0;
