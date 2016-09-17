@@ -27,14 +27,14 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 			return 0;
 		}
 
-		//no sentences with please
+		// no sentences with please
 		if (SentenceUtils.tokensContainAnyLemmaIn(tokens2, JavaUtils.getSet("please"))) {
 			return 0;
 		}
 
 		List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 
-		//check clause by clause
+		// check clause by clause
 		int numValidClauses = 0;
 		for (Sentence clause : clauses) {
 			List<Token> tokens = clause.getTokens();
@@ -45,7 +45,7 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 			for (Integer needTok : needTokens) {
 
 				// no conditional clause
-				if (conditionalBefore(needTok, tokens)) {
+				if (SentenceUtils.containsTermsPriorToIndex(needTok, tokens, CONDITIONAL_TERMS)) {
 					continue;
 				}
 
@@ -62,17 +62,6 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 		}
 
 		return 0;
-	}
-
-	private boolean conditionalBefore(Integer needTok, List<Token> tokens) {
-
-		for (int i = 0; i < needTok; i++) {
-			Token token = tokens.get(i);
-			if (SentenceUtils.lemmasContainToken(CONDITIONAL_TERMS, token)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	private List<Integer> getNeedTokens(List<Token> tokens) {

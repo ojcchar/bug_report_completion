@@ -49,18 +49,20 @@ public class AttachRefPMTest extends BaseTest {
 	@Test
 	public void testPositive() throws Exception {
 		String[] sentences = { 
-				"They'll generate NPEs in ActualTrimDropTarget (I've attached my log).",
-				"[Regression] ReportServiceException is thrown out when preview attached report in Web Viewer",
-				"Problem description: translation of \"Manage configurations\" button label is truncated (word \"konfiguracjami\" is truncated) - please see attached screenshot.",
-				"planet.eclipse.org looks all wacky (see attached screenshot) while planeteclipse.org looks the same as it always did.",
-				"See 2 attached screen shots - the first one is for egit (incorrect displaying) and the second one is gitX (correct displaying).",
-				"The attached test case project shows a situation where using ScrollableResults does not hydrate a proxy object upon join fetch where-as using the JPA getResultList method does.",
-				"The example/test case attached demonstrates the problem; the HibernateCollectionTest succeeds (and uses a model without the UserCollectionType internally), the UserCollectionTest fails with exactly the same operations, but the UserCollectionType (/jpaSandbox/src/main/java/de/soflimo/sandbox/model/impl/CustomList.java) specified in the mapping.",
-				"The following two files attached shows an abnormal and breakage of table rendering under LO 3.4 rc2",
-				"When loading the attached DOCX into LO, and saving back to DOCX - the exported DOCX is corrupted and cannot be opened by MS Word.",
-				"The crash report is attached.",
-				"In the attached test.odb, in the mainform (form) when opened in windows 7, the table has black fonts instead of whites.",
-				"3 If we keep on clicking the next button or the prev button till the list is finished, an error is popped(screenshot attached).", 
+				
+				"Created attachment 68193\nscreen shot of the bug explained above",
+//				"They'll generate NPEs in ActualTrimDropTarget (I've attached my log).",
+//				"[Regression] ReportServiceException is thrown out when preview attached report in Web Viewer",
+//				"Problem description: translation of \"Manage configurations\" button label is truncated (word \"konfiguracjami\" is truncated) - please see attached screenshot.",
+//				"planet.eclipse.org looks all wacky (see attached screenshot) while planeteclipse.org looks the same as it always did.",
+//				"See 2 attached screen shots - the first one is for egit (incorrect displaying) and the second one is gitX (correct displaying).",
+//				"The attached test case project shows a situation where using ScrollableResults does not hydrate a proxy object upon join fetch where-as using the JPA getResultList method does.",
+//				"The example/test case attached demonstrates the problem; the HibernateCollectionTest succeeds (and uses a model without the UserCollectionType internally), the UserCollectionTest fails with exactly the same operations, but the UserCollectionType (/jpaSandbox/src/main/java/de/soflimo/sandbox/model/impl/CustomList.java) specified in the mapping.",
+//				"The following two files attached shows an abnormal and breakage of table rendering under LO 3.4 rc2",
+//				"When loading the attached DOCX into LO, and saving back to DOCX - the exported DOCX is corrupted and cannot be opened by MS Word.",
+//				"The crash report is attached.",
+//				"In the attached test.odb, in the mainform (form) when opened in windows 7, the table has black fonts instead of whites.",
+//				"3 If we keep on clicking the next button or the prev button till the list is finished, an error is popped(screenshot attached).", 
 				};
 
 		TestUtils.testSentences(sentences, pm, 1);

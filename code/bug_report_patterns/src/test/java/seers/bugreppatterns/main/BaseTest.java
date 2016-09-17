@@ -134,7 +134,8 @@ public class BaseTest {
 		if (pm == null || !testSentence) {
 			return;
 		}
-
+		
+		System.out.println();
 		System.out.println("Testing pattern: " + pm.getClass().getSimpleName());
 
 		int numPasses = 0;
@@ -169,6 +170,7 @@ public class BaseTest {
 			return;
 		}
 
+		System.out.println();
 		System.out.println("Testing pattern: " + pm.getClass().getSimpleName());
 
 		int numPasses = 0;

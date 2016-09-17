@@ -34,7 +34,7 @@ public class NegativeTerms {
 			"ignore", "increase", "interfere", "interrupt", "jerk", "jitter", "kill", "lack", "lose", "loose", "mess",
 			"mishandle", "miss", "mute", "outdate", "overlap", "pause", "prohibit", "reduce", "refuse", "reject",
 			"reset", "rest", "restart", "revert", "reverse", "skip", "stick", "stop", "strip", "stuck up", "suffer",
-			"terminate", "throw", "time out", "trim", "truncate", "vanish", "terminate", "trim", "waste", "wipe" );
+			"terminate", "throw", "time out", "trim", "truncate", "vanish", "terminate", "trim", "waste", "wipe", "expire" );
 
 	final public static Set<String> NOUNS = JavaUtils.getSet( "401", "404", "ambiguity", "block", "breakage", "bug", "chaos", "clash",
 			"collision", "conflict", "confusion", "corruption", "crash", "cut", "deadlock", "delay", "disaster",

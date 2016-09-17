@@ -450,13 +450,15 @@ public class SentenceUtils {
 	}
 
 	/**
-	 * Breaks a given sentence based on parenthesis symbols. Thus each sentence within parenthesis is extracted from the
-	 * original sentence and added to the returned list. For example, a sentence such as:
+	 * Breaks a given sentence based on parenthesis symbols. Thus each sentence
+	 * within parenthesis is extracted from the original sentence and added to
+	 * the returned list. For example, a sentence such as:
 	 * 
-	 * "On a side note (which may or may not be related), the total number of potential matches changes."
+	 * "On a side note (which may or may not be related), the total number of
+	 * potential matches changes."
 	 * 
-	 * is broken into: - which may or may not be related - On a side note, the total number of potential matches
-	 * changes.
+	 * is broken into: - which may or may not be related - On a side note, the
+	 * total number of potential matches changes.
 	 * 
 	 * @param sentence
 	 * @return list of sentences within the given sentence
@@ -472,7 +474,8 @@ public class SentenceUtils {
 
 			// if (current.getLemma().equals(".")) {
 			// subSentences.add(subSentence);
-			// subSentence = new Sentence(sentence.getId(), new ArrayList<Token>());
+			// subSentence = new Sentence(sentence.getId(), new
+			// ArrayList<Token>());
 			// } else
 			if (current.getLemma().equals("-lrb-")) {
 
@@ -511,4 +514,19 @@ public class SentenceUtils {
 		}
 		return subSentence;
 	}
+
+	/**
+	 * Checks if any of the terms match any of the lemmas of the provided tokens
+	 * prior to the token at position tokenIdx
+	 * 
+	 * @param tokenIdx
+	 * @param tokens
+	 * @param terms
+	 * @return true if there is match, false otherwise
+	 */
+	public static boolean containsTermsPriorToIndex(Integer tokenIdx, List<Token> tokens, Set<String> terms) {
+		List<Integer> condIndexes = SentenceUtils.findLemmasInTokens(terms, tokens);
+		return condIndexes.stream().anyMatch(condIdx -> condIdx < tokenIdx);
+	}
+
 }
