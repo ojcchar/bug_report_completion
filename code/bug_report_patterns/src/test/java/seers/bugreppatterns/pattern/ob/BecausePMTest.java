@@ -28,14 +28,15 @@ public class BecausePMTest extends BaseTest{
 					"When using the built-in hibernate collection handling, this succeeds; but when specifying the CustomList UserCollectionType in the model mapping, committing this transaction fails because it tries to INSERT [at least] a second row with an identical uniqueKey.",
 					"After upgrade to 4.1.1, our application doesn't work anymore because the sqlEntityIdByNaturalIdString field of the entity persister is null while it shouldn't be.",
 					"The current toolbars are very flexible, but they are painful to manage/edit because you cannot use drag and drop to do so.",
-					"`dmesg -c` in container clears hosts's printk ring buffer because container has CAP_SYSLOG as default."};
+					"`dmesg -c` in container clears hosts's printk ring buffer because container has CAP_SYSLOG as default.",
+					"1 If a cached document is outdated because it is expired, it will be requested again from Tomcat, which is completely correct.",
+					};
 		TestUtils.testSentences(txts, pm, 1);
 	}
 
 	@Test
 	public void testNegatives() throws Exception {
 		String[] txts = {"There is only one consul node, on the same host (because I don't need the multi host network know)",
-				"1 If a cached document is outdated because it is expired, it will be requested again from Tomcat, which is completely correct.",
 				"This would be especially useful if the .class file is present in multiple .jar files because it then would bring to the one implementation that gets really used.",
 				"Perhaps this should be an optional, because it's functionally identical to a normal API call.",
 				"Then because the Content-Length is not changed, when the request post data is received after the filter, it will be truncated to the original Content-Length size (i.e. would get param1=abcde in the previous example).",
