@@ -25,7 +25,8 @@ public class LeadsToNegativePmTest extends BaseTest {
 				"Issue HHH-3965 partly resolved this issue for non-nationalized characters by mapping CLOB to VARCHAR(MAX); however under the {SQLServer2008Dialect} which extends {SQLServer2005Dialect}, using the @Lob and @Nationalized annotations results in mapping to a NCLOB data type which doesn't exist for SQL Server.",
 				"FILESAVE causes lots of artifacts and destroys VIEWING for embedded .svg",
 				"This is causing attempts to load Save Handlers on commits to the DB (where the method name starts with 'save') on non OpenmrsObjects: this results in casting exceptions that will hault the thread in the AOP (RequiredDataAdvice) before the commit is ever executed.",
-				"Exiting a patient from care causes \"not-null property references a null or transient value: org.openmrs.PatientState.dateCreated\""
+				"Exiting a patient from care causes \"not-null property references a null or transient value: org.openmrs.PatientState.dateCreated\"",
+				 "* When the query cache expires first, it won't cache the objects (as described), which will eventually lead to a situation where the query cache is valid and the object cache expired."
 		};
 		TestUtils.testSentences(sentences, pm, 1);
 	}

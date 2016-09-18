@@ -22,7 +22,7 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
 		int indexVerb = indexVerbTokens(tokens);
-		// check for results in interpreted as noun and not as verb
+		// check for results interpreted as noun and not as verb
 		if (indexVerb == -1) {
 			indexVerb = indexResultVerbAsNoun(tokens);
 		}
@@ -30,7 +30,7 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 			Sentence first = new Sentence(sentence.getId(), tokens.subList(0, indexVerb));
 			Sentence second = new Sentence(sentence.getId(), tokens.subList(indexVerb + 1, tokens.size()));
 			// check that in the first sentence there is a noun or pronoun at
-			// least or terms are this
+			// least
 			List<Token> tokensFirst = first.getTokens();
 			boolean isSubject = false;
 			for (int i = 0; i < tokensFirst.size(); i++) {
