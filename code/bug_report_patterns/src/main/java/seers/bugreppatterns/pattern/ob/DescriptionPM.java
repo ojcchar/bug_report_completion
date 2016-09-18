@@ -19,8 +19,9 @@ public class DescriptionPM extends ObservedBehaviorPatternMatcher {
 		List<Sentence> sentences = paragraph.getSentences();
 		Sentence sentence = sentences.get(0);
 		String text = TextProcessor.getStringFromLemmas(sentence);
-		if ((text.startsWith("description :") || text.startsWith("problem description :"))
-				&& (text.matches(".*description :.*"))) {
+		if (text.matches("^[^a-z]*description[ ]?:.*") || text.matches("[^a-z]*problem description[ ]?:.*")
+				|| text.matches("[^a-z]*description of (the )?problem[ ]?:.*")
+				|| text.matches("[^a-z]*describe the result you receive[ ]?:.*")) {
 			return 1;
 		}
 		return 0;

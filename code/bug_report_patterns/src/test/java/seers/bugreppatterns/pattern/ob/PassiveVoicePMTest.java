@@ -22,6 +22,7 @@ public class PassiveVoicePMTest extends BaseTest {
 		String[] sentences = { "The class name BBB is highlighted in editor correctly.",
 				"Docker option SELinux are both enabled.", 
 				"Docker option SELinux are (both) enabled",
+				"The reason is found out to be this:"
 				};
 
 		TestUtils.testSentences(sentences, pm, 1);
