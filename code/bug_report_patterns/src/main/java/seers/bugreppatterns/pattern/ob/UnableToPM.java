@@ -10,7 +10,7 @@ public class UnableToPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		String txt = TextProcessor.getStringFromLemmas(sentence);
-		if (txt.contains("unable to") || txt.contains("not be able")) {
+		if (txt.contains("unable to") || txt.contains("not be able to") || txt.contains("not able to")) {
 			return 1;
 		}
 		return 0;
