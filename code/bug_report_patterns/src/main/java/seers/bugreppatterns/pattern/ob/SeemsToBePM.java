@@ -10,7 +10,7 @@ public class SeemsToBePM extends ObservedBehaviorPatternMatcher{
 	public int matchSentence(Sentence sentence) throws Exception {
 		// TODO Auto-generated method stub
 		String txt = TextProcessor.getStringFromLemmas(sentence);
-		if (txt.matches(".*(appear|seem|look)(ed|s|ing)? to be.*")) {
+		if (txt.matches(".*(appear|seem|look)(ed|s|ing)? to (not )?be.*")) {
 			return 1;
 		}
 		
