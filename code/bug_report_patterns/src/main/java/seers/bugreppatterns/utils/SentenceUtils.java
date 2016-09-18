@@ -41,7 +41,7 @@ public class SentenceUtils {
 
 	/**
 	 * Parse a sentence into tokens
-	 * 
+	 *
 	 * @param sentenceId
 	 * @param sentenceTxt
 	 * @return null if it fails to parse the sentence
@@ -124,7 +124,7 @@ public class SentenceUtils {
 	 * Extract clauses or subsentences in the provided sentence, based on
 	 * CLAUSE_SEPARATORS and Coordinating conjuctions such as "and", "or",
 	 * "but", etc.
-	 * 
+	 *
 	 * @param tokens
 	 * @return
 	 */
@@ -196,7 +196,7 @@ public class SentenceUtils {
 
 	/**
 	 * Matches any of the given terms with the token's lemma (case ignored)
-	 * 
+	 *
 	 * @param terms
 	 * @param token
 	 * @return true if there is any match, false otherwise
@@ -207,7 +207,7 @@ public class SentenceUtils {
 
 	/**
 	 * Checks whether the token's lemma matches any of the strings in lemmas
-	 * 
+	 *
 	 * @param lemmas
 	 *            set of lemmas to compare against with
 	 * @param token
@@ -221,7 +221,7 @@ public class SentenceUtils {
 	/**
 	 * Finds the indexes of the tokens whose lemmas match the given set of
 	 * lemmas
-	 * 
+	 *
 	 * @param lemmas
 	 *            the lemmas to find in the tokens
 	 * @param tokens
@@ -241,7 +241,7 @@ public class SentenceUtils {
 
 	/**
 	 * Checks whether any of the tokens' lemmas matches the lemmas in the set
-	 * 
+	 *
 	 * @param tokens
 	 * @param lemmas
 	 * @return true if any of the tokens's lemmas matches the lemmas in the set,
@@ -253,7 +253,7 @@ public class SentenceUtils {
 
 	/**
 	 * Checks whether any of the sentence's tokens matches the lemmas in the set
-	 * 
+	 *
 	 * @param sentence
 	 * @param lemmas
 	 * @return true if any of the sentence's tokens matches the lemmas in the
@@ -267,7 +267,7 @@ public class SentenceUtils {
 	 * Divides the sentence into subsentences according to the indexes provided
 	 * in separatorIndexes. The subSentences do not include the tokens given by
 	 * the separatorIndexes.
-	 * 
+	 *
 	 * @param sentence
 	 * @param separatorIndexes
 	 * @return
@@ -299,7 +299,7 @@ public class SentenceUtils {
 	 * Check if the sentence/clause is imperative or not. It takes into account
 	 * labels at the beginning of the sentence, such as "exp. behavior: run the
 	 * program"
-	 * 
+	 *
 	 * @param sentence
 	 * @return
 	 */
@@ -311,7 +311,7 @@ public class SentenceUtils {
 	 * Check if the sentence/clause (represented by its list of tokens) is
 	 * imperative or not. It takes into account labels at the beginning of the
 	 * sentence, such as "exp. behavior: run the program"
-	 * 
+	 *
 	 * @param tokens
 	 * @return
 	 */
@@ -350,7 +350,7 @@ public class SentenceUtils {
 	/**
 	 * Check if the combination list of tokens matches the usual wording for an
 	 * imperative sentence: (adverb +) inf. verb + ...
-	 * 
+	 *
 	 * @param tokens
 	 * @return
 	 */
@@ -403,8 +403,32 @@ public class SentenceUtils {
 			if (SentenceUtils.lemmasContainToken(UNDETECTED_VERBS, firstToken)) {
 				return true;
 			}
+
+			// Case: a verb at the beginning is tagged as NN
+			Sentence artificialSentence = appendPronoun(tokensNoSpecialChar);
+
+			if (artificialSentence.getTokens().get(1).getPos().equals("VBP")) {
+				return true;
+			}
 		}
 		return false;
+	}
+
+	/**
+	 * Appends the pronoun "I" to the beginning of the tokens and reassigns PoS tags.
+	 *
+	 * @param tokens Tokens to be modified.
+	 * @return A re-tagged list of tokens.
+	 */
+	private static Sentence appendPronoun(List<Token> tokens) {
+		String sentenceText = String.join(" ", tokens.stream()
+				.map(t -> t.getWord().toLowerCase())
+				.toArray(CharSequence[]::new));
+		// Appends an "I" to the beginning of the tokens, attempting to nudge the tagger
+		// into recognizing an infinitive verb as such.
+		String artificialSentenceText = String.format("I %s", sentenceText);
+
+		return SentenceUtils.parseSentence("0", artificialSentenceText);
 	}
 
 	// -------------------------------------------------------------------------
@@ -416,7 +440,7 @@ public class SentenceUtils {
 	/**
 	 * Finds the first Observed Behavior (OB) sentence in the list of sentences
 	 * provided, matched by any of the default OB pattern matchers
-	 * 
+	 *
 	 * @param sentences
 	 * @param patterns
 	 * @return index of the 1st OB sentence found in the list or -1 otherwise
@@ -429,7 +453,7 @@ public class SentenceUtils {
 	/**
 	 * Finds the first Observed Behavior (OB) sentence in the list of sentences
 	 * provided, matched by any of the OB pattern matchers
-	 * 
+	 *
 	 * @param sentences
 	 * @param patterns
 	 * @return index of the 1st OB sentence found in the list or -1 otherwise
@@ -453,13 +477,13 @@ public class SentenceUtils {
 	 * Breaks a given sentence based on parenthesis symbols. Thus each sentence
 	 * within parenthesis is extracted from the original sentence and added to
 	 * the returned list. For example, a sentence such as:
-	 * 
+	 *
 	 * "On a side note (which may or may not be related), the total number of
 	 * potential matches changes."
-	 * 
+	 *
 	 * is broken into: - which may or may not be related - On a side note, the
 	 * total number of potential matches changes.
-	 * 
+	 *
 	 * @param sentence
 	 * @return list of sentences within the given sentence
 	 */
@@ -518,7 +542,7 @@ public class SentenceUtils {
 	/**
 	 * Checks if any of the terms match any of the lemmas of the provided tokens
 	 * prior to the token at position tokenIdx
-	 * 
+	 *
 	 * @param tokenIdx
 	 * @param tokens
 	 * @param terms
