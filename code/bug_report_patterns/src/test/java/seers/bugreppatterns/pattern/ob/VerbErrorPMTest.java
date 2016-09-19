@@ -31,6 +31,8 @@ public class VerbErrorPMTest extends BaseTest {
 	@Test
 	public void testPositives() throws Exception {
 		String[] n = {
+				"it yields this error and configure exits:",
+				"Which causes the error:",
 				"I installed the new Apache 2.0.40, and when I try to restart the service I get an error saying: Cannot load C:/php-4.2.2-Win32/sapi/php4apache2.dll into server: The specified procedure could not be found.",
 				"it returns with error"};
 

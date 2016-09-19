@@ -17,6 +17,8 @@ public class ImperativeSequencePMTest extends BaseTest {
     @Test
     public void testPositive() throws Exception {
         String[] texts = {"Create a remote connection, open the connection, add a file from outside of geclipse's connections (e.g. using the terminal) to the directory, use the \"refresh\" action in the context menu on the connection - the busy cursor will show up for a short time but the content will not change.",
+                "Launch application",
+                "create a post with two smilies, then view it in the reader.",
                 "Change your mind about reblogging and press physical back button."};
 
         TestUtils.testSentences(texts, pm, 1);

@@ -23,6 +23,7 @@ public class ConditionalAffirmativePMTest extends BaseTest {
 	public void testNegatives() throws Exception {
 
 		String[] txts = { "Feel free to close either of these issues if they're dupes.",
+				"If you go to http://www.new.facebook.com/developers/ at bottom right is a tab called  Status _ which show the Status of the Platform to developers.",
 				"will create a picture post_ but if you change the picture url to:",
 				"However, I'll understand it if you feel this isn't that important.",
 				"But I think there should be a better solution, or at least a warning in the docs not to use % characters while setting HTTP headers from a .",

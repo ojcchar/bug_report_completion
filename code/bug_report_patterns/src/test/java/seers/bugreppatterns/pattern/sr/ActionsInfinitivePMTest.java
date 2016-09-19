@@ -16,6 +16,12 @@ public class ActionsInfinitivePMTest extends BaseTest {
     @Test
     public void testPositive() throws Exception {
         String[] paragraphs = {
+                "\"step1: open liber office and select liber draw\n" +
+                        "step2: Draw rectangle image\n" +
+                        "step3: select the rectangular image and go to modify meanu\n" +
+                        "step4: click convert\n" +
+                        "step5: click convert to polygon\n" +
+                        "step6: rectangle should get converted to polygon\"",
                 "- creating new table\n" +
                         "- fill Cell \"A1\" with i.e. \"Text1\"\n" +
                         "- autofill 10 lines down (Text1, Text2, Text3 ...)\n" +
