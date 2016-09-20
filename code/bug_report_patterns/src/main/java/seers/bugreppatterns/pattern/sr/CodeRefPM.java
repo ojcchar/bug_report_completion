@@ -17,7 +17,7 @@ public class CodeRefPM extends StepsToReproducePatternMatcher {
 			"class", "test", "configure", "build", "excerpt", "config", "program", "screen-shot", "screenshot", "video",
 			"log", "file", "line", "container", "attachment", "env", "build/install", "hql", "call", "apache",
 			"htpasswd", "installer", "command", "dockerfile", "tool", "test case", "example/test", "case", "parameter",
-			"model", "image");
+			"model", "image", "query", "xml");
 
 	final static String NOUN_TERMS_REGEX;
 	static {
