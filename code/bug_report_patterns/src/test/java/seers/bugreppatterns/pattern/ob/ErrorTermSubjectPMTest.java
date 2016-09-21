@@ -10,7 +10,7 @@ public class ErrorTermSubjectPMTest extends BaseTest {
 	public ErrorTermSubjectPMTest() {
 		pm = new ErrorTermSubjectPM();
 	}
-	
+
 	@Test
 	public void testPositive() throws Exception {
 		String[] sentences = {

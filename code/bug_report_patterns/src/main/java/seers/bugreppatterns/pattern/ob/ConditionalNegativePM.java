@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
@@ -17,58 +18,65 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		// split sentences based on "."
-		List<Sentence> superSentences = SentenceUtils.breakByParenthesis(sentence);
+		List<Token> tokens = sentence.getTokens();
+		List<Integer> conditionalIndexes = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 
-		for (Sentence superSentence : superSentences) {
-			List<Token> tokens = superSentence.getTokens();
-			List<Integer> conditionalIndexes = findConditionals(tokens);
+		// no conditionals
+		if (conditionalIndexes.isEmpty()) {
+			return 0;
+		}
 
-			if (!conditionalIndexes.isEmpty()) {
+		// split sentences based on conditionals
+		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, conditionalIndexes);
 
-				// split sentences based on conditionals
-				List<Sentence> subSentences = SentenceUtils.findSubSentences(superSentence, conditionalIndexes);
+		// if there is a sentence before the conditional term, skip it ->
+		// the focus is on what is after the
+		// conditional
+		for (int i = conditionalIndexes.get(0) > 0 ? 1 : 0; i < subSentences.size(); i++) {
 
-				// if there is a sentence before the conditional term, skip it -> the focus is on what is after the
-				// conditional
-				for (int i = conditionalIndexes.get(0) > 0 ? 1 : 0; i < subSentences.size(); i++) {
+			Sentence subSentence = subSentences.get(i);
+			List<Token> subStncTokens = subSentence.getTokens();
 
-					Sentence subSentece = subSentences.get(i);
-					List<Integer> punct = findPunctuation(subSentece.getTokens());
+			// find the punctuation in the sub-sentence
+			List<Integer> punct = SentenceUtils.findLemmasInTokens(PUNCTUATION, subStncTokens);
+			// findPunctuation(subStncTokens);
 
-					// hard case: there is no punctuation. Try subsentences from end to beginning. Check there is
-					// something before the negative sentence.
-					if (punct.isEmpty()) {
-						boolean isNeg = false;
-						for (int j = subSentece.getTokens().size() - 1; j > 0; j--) {
-							Sentence negSent = new Sentence(subSentece.getId(),
-									subSentece.getTokens().subList(j, subSentece.getTokens().size()));
+			// hard case: there is no punctuation. Try subsentences from end
+			// to beginning. Check there is
+			// something before the negative sentence.
+			if (punct.isEmpty()) {
+				boolean isNeg = false;
+				for (int j = subStncTokens.size() - 1; j > 0; j--) {
+					Sentence negSent = new Sentence(subSentence.getId(),
+							subStncTokens.subList(j, subStncTokens.size()));
 
-							if (isNegative(negSent)) {
-								isNeg = true;
-								break;
-							}
-
-						}
-						if (isNeg && subSentece.getTokens().size() > 1
-								&& !findVerbs(subSentece.getTokens()).isEmpty()) {
-							return 1;
-						}
-
+					if (isNegative(negSent)) {
+						isNeg = true;
+						break;
 					}
-					// The easy case: there is punctuation (',', '_', '-'). Make sure that (i) there is something
-					// between the conditional and the punctuation, and (ii) there is a negative sentence after
-					// the punctuation.
-					else {
-						List<Sentence> subSubSentences = SentenceUtils.findSubSentences(subSentece, punct);
-						if (!subSubSentences.get(0).getTokens().isEmpty()) {
-							for (int j = 1; j < subSubSentences.size(); j++) {
 
-								if (isNegative(subSubSentences.get(j))) {
-									return 1;
-								}
+				}
+				if (isNeg && subStncTokens.size() > 1 && !findVerbs(subStncTokens).isEmpty()) {
+					return 1;
+				}
 
+			}
+			// The easy case: there is punctuation (',', '_', '-'). Make
+			// sure that (i) there is something
+			// between the conditional and the punctuation, and (ii) there
+			// is a negative sentence after
+			// the punctuation.
+			else {
+				List<Sentence> subSubSentences = SentenceUtils.findSubSentences(subSentence, punct);
+				if (!subSubSentences.isEmpty()) {
+
+					if (!subSubSentences.get(0).getTokens().isEmpty()) {
+						for (int j = 1; j < subSubSentences.size(); j++) {
+
+							if (isNegative(subSubSentences.get(j))) {
+								return 1;
 							}
+
 						}
 					}
 
@@ -76,24 +84,21 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 			}
 
 		}
-		// If there's at least one conditional and none of the sub-sentences are negative
+
+		// If there's at least one conditional and none of the sub-sentences are
+		// negative
 		return 0;
 	}
 
 	private boolean isNegative(Sentence sentence) throws Exception {
-		return sentenceMatchesAnyPatternIn(sentence, ButNegativePM.NEGATIVE_PMS);
-	}
+		PatternMatcher pattern = findFirstPatternThatMatches(sentence, ButNegativePM.NEGATIVE_PMS);
+		// debugging msgs
+		// if (pattern != null) {
+		// System.out.println(pattern.getClass().getSimpleName());
+		// return true;
+		// }
 
-	private List<Integer> findConditionals(List<Token> tokens) {
-		return SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, tokens);
-	}
-
-	private List<Integer> findPunctuation(List<Token> tokens) {
-		List<Integer> symbols = SentenceUtils.findLemmasInTokens(PUNCTUATION, tokens);
-		if (symbols.size() - 1 >= 0 && symbols.get(symbols.size() - 1) == tokens.size() - 1) {
-			return symbols.subList(0, symbols.size() - 1);
-		}
-		return symbols;
+		return pattern != null;
 	}
 
 	private List<Integer> findVerbs(List<Token> tokens) {
@@ -121,4 +126,5 @@ public class ConditionalNegativePM extends ObservedBehaviorPatternMatcher {
 		}
 		return verbs;
 	}
+
 }

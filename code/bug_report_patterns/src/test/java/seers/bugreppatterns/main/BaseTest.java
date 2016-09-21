@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -25,7 +26,6 @@ public class BaseTest {
 
 	protected PatternMatcher pm;
 	protected boolean testSentence = true;
-	protected boolean testParagraph = false;
 	protected String patternName;
 	protected List<String> testDataParagraph = new ArrayList<>();
 	protected List<String> testDataSentence = new ArrayList<>();
@@ -42,7 +42,6 @@ public class BaseTest {
 
 			if (patternName.startsWith("P_")) {
 				testSentence = false;
-				testParagraph = true;
 			}
 			loadData();
 		}
@@ -62,19 +61,18 @@ public class BaseTest {
 				String pattern2 = sentence.get(9).trim();
 				String pattern3 = sentence.get(10).trim();
 
-				String noTesting = sentence.get(14);
+				String[] patternsNoTesting = sentence.get(14).split(",");
 
 				boolean addSentence = true;
 				boolean addParagraph = true;
-				switch (noTesting) {
-				case "P":
-					addParagraph = false;
-					break;
-				case "S":
-					addSentence = false;
-					break;
-				default:
-					break;
+				if (Arrays.stream(patternsNoTesting).anyMatch(pat -> pat.trim().equalsIgnoreCase(patternName))) {
+					if (testSentence) {
+						addSentence = false;
+						addParagraph = true;
+					} else {
+						addSentence = true;
+						addParagraph = false;
+					}
 				}
 
 				// String instanceId = sentence.get(14);
@@ -134,7 +132,7 @@ public class BaseTest {
 		if (pm == null || !testSentence) {
 			return;
 		}
-		
+
 		System.out.println();
 		System.out.println("Testing pattern: " + pm.getClass().getSimpleName());
 
@@ -146,13 +144,20 @@ public class BaseTest {
 			txt = txt.replace("\"\"", "\"").replace("&lt;", "<").replace("&gt;", ">").replace("&apos;", "'")
 					.replace("&amp;", "&").replace("&quot;", "\"");
 
-			Sentence sentence = SentenceUtils.parseSentence("o", txt);
-			int m = pm.matchSentence(sentence);
-			if (m != 1) {
+			try {
+
+				Sentence sentence = SentenceUtils.parseSentence("o", txt);
+				int m = pm.matchSentence(sentence);
+				if (m != 1) {
+					System.out.println("\n Fail for (" + i + "): \"" + txt + "\"");
+					// pm.matchSentence(sentence);
+				} else {
+					numPasses++;
+				}
+			} catch (Exception e) {
 				System.out.println("\n Fail for (" + i + "): \"" + txt + "\"");
-				// pm.matchSentence(sentence);
-			} else {
-				numPasses++;
+				System.out.println();
+				e.printStackTrace();
 			}
 		}
 
@@ -166,7 +171,7 @@ public class BaseTest {
 	@Test
 	public void testMatchParagraph() throws Exception {
 
-		if (pm == null || !testParagraph) {
+		if (pm == null || testSentence) {
 			return;
 		}
 

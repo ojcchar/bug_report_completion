@@ -1,10 +1,9 @@
 package seers.bugreppatterns.pattern.sr;
 
 import org.junit.Test;
+
 import seers.bugreppatterns.main.BaseTest;
 import seers.bugreppatterns.pattern.utils.TestUtils;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by juan on 9/17/16.

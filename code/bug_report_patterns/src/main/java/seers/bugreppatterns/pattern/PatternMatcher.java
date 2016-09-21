@@ -23,13 +23,12 @@ public abstract class PatternMatcher {
 
 	public static final Set<String> CONDITIONAL_TERMS = JavaUtils.getSet("if", "upon", "when", "whenever", "whereas",
 			"while");
-	
+
 	public static final Set<String> CONTRAST_TERMS = JavaUtils.getSet("although", "but", "however", "nevertheless",
 			"though", "yet");
 
 	public abstract int matchSentence(Sentence sentence) throws Exception;
 
-	
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 		return defaultMatchParagraph(paragraph);
 	}
@@ -103,7 +102,29 @@ public abstract class PatternMatcher {
 	}
 
 	/**
-	 * checks if the sentence matches any of the patterns in the array of patterns
+	 * Finds the first pattern that matches the sentence
+	 * 
+	 * @param sentence
+	 *            sentence to be analyzed
+	 * @param patterns
+	 *            patterns to match the sentence with
+	 * @return the first pattern that matches the sentence, null if no pattern
+	 *         matches
+	 * @throws Exception
+	 */
+	public PatternMatcher findFirstPatternThatMatches(Sentence sentence, PatternMatcher[] patterns) throws Exception {
+		for (PatternMatcher pm : patterns) {
+			int match = pm.matchSentence(sentence);
+			if (match == 1) {
+				return pm;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Checks if the sentence matches any of the patterns in the array of
+	 * patterns
 	 * 
 	 * @param sentence
 	 *            sentence to be analyzed
@@ -113,12 +134,6 @@ public abstract class PatternMatcher {
 	 * @throws Exception
 	 */
 	public boolean sentenceMatchesAnyPatternIn(Sentence sentence, PatternMatcher[] patterns) throws Exception {
-		for (PatternMatcher pm : patterns) {
-			int match = pm.matchSentence(sentence);
-			if (match == 1) {
-				return true;
-			}
-		}
-		return false;
+		return findFirstPatternThatMatches(sentence, patterns) != null;
 	}
 }
