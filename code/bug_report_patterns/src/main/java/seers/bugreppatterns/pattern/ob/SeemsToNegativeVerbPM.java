@@ -17,6 +17,7 @@ public class SeemsToNegativeVerbPM extends ObservedBehaviorPatternMatcher {
 		for (Integer seemsIndex : findSeemVerbs(tokens)) {
 			if (seemsIndex != -1 && tokens.get(seemsIndex + 1).getLemma().equals("to")) {
 				// check that is not SeemsToBe
+
 				PatternMatcher pm = new SeemsToBePM();
 				int match = pm.matchSentence(sentence);
 				if (match == 0) {
@@ -43,7 +44,8 @@ public class SeemsToNegativeVerbPM extends ObservedBehaviorPatternMatcher {
 									return 1;
 								}
 							} else if (tok.getGeneralPos().equals("RB")) {
-								if (SentenceUtils.lemmasContainToken(NegativeTerms.ADJECTIVES, tok)) {
+								if (SentenceUtils.lemmasContainToken(NegativeTerms.ADJECTIVES, tok)
+										|| SentenceUtils.lemmasContainToken(NegativeTerms.ADVERBS, tok)) {
 									return 1;
 								}
 							}
