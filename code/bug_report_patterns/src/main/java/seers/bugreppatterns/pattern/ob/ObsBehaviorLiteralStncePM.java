@@ -12,15 +12,15 @@ public class ObsBehaviorLiteralStncePM extends ObservedBehaviorPatternMatcher {
 
 		// ----------------
 
-		boolean b = text.matches("(?s)[^a-z]*((actual|observed|current) )((result|behavior|description|situation) )?(:|-+).*");
+		boolean b = text.matches("(?s)[^a-z]*((actual|observed|current) )((result|behavior|description|situation) )?([:\\|\\-+]).*");
 		if (b) {
 			return 1;
 		} else {
-			b = text.matches("(?s)[^a-z]*((actual|observed|current) )?((result|behavior|description|situation) )(:|-+).*");
+			b = text.matches("(?s)[^a-z]*((actual|observed|current) )?((result|behavior|description|situation) )([:\\|\\-+]).*");
 			if (b) {
 				return 1;
 			} else {
-				b = text.matches("(?s)[^a-z]*((actual|observed|current) )((result|behavior|description|situation) )(:|-+)?.*");
+				b = text.matches("(?s)[^a-z]*((actual|observed|current) )((result|behavior|description|situation) )([:\\|\\-+])?.*");
 				if (b) {
 					return 1;
 				}

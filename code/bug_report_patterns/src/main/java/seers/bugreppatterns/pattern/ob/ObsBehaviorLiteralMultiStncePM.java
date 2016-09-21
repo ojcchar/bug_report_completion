@@ -17,7 +17,6 @@ public class ObsBehaviorLiteralMultiStncePM extends ObservedBehaviorPatternMatch
 	@Override
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 		List<Sentence> sentences2 = paragraph.getSentences();
-
 		if (sentences2.size() > 1) {
 			Sentence sentence = sentences2.get(0);
 
@@ -25,19 +24,26 @@ public class ObsBehaviorLiteralMultiStncePM extends ObservedBehaviorPatternMatch
 
 			// ----------------
 			boolean matchLabel = false;
-			boolean b = text
-					.matches("(?s)((actual|observed|current) )((result|behavior|description|situation) )?(:|-+)");
+			boolean b = text.matches(
+					"(?s)[^a-z]*((actual|observed|current) )((result|behavior|behaviour|description|situation|symptom|log message|output) )?([*:\\|\\-+])?.*");
 			if (b) {
 				matchLabel = true;
 			} else {
-				b = text.matches("(?s)((actual|observed|current) )?((result|behavior|description|situation) )(:|-+)");
+				b = text.matches(
+						"(?s)[^a-z]*((actual|observed|current) )?((result|behavior|behaviour|description|situation|symptom|log message|output) )([*:\\|\\-+])?.*");
 				if (b) {
 					matchLabel = true;
 				} else {
 					b = text.matches(
-							"(?s)((actual|observed|current) )((result|behavior|description|situation))( (:|-+))?");
+							"(?s)[^a-z]*((actual|observed|current) )((result|behavior|behaviour|description|situation|symptom|log message|output))( [*:\\|\\-+])?.*");
 					if (b) {
 						matchLabel = true;
+					} else {
+						b = text.matches(
+								"(?s)[^a-z]*(currently the )(result|behavior|behaviour|description|situation|symptom|log message|output)( of)[A-Za-z`' ]+(be to)( [*:\\|\\-+])?.*");
+						if (b) {
+							matchLabel = true;
+						}
 					}
 				}
 			}
