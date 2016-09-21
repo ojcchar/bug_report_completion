@@ -44,8 +44,7 @@ public class SeemsToNegativeVerbPM extends ObservedBehaviorPatternMatcher {
 									return 1;
 								}
 							} else if (tok.getGeneralPos().equals("RB")) {
-								if (SentenceUtils.lemmasContainToken(NegativeTerms.ADJECTIVES, tok)
-										|| SentenceUtils.lemmasContainToken(NegativeTerms.ADVERBS, tok)) {
+								if (SentenceUtils.lemmasContainToken(NegativeTerms.ADVERBS, tok)) {
 									return 1;
 								}
 							}
