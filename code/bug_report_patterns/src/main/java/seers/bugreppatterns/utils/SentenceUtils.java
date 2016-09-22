@@ -292,14 +292,16 @@ public class SentenceUtils {
 
 	// ----------------------------------------
 
-	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("show", "boomark", "rename", "run", "select",
-			"post", "stop", "goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use", "start",
-			"paste", "surf", "right-click", "import", "scroll", "scale", "change", "release");
+	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet(
+			"boomark", "build", "cache", "change", "check", "drag", "enter",
+			"file", "goto", "import", "input", "install", "paste", "post",
+			"release", "rename", "return", "right-click", "run", "scale",
+			"scroll", "select", "show", "start", "stop", "surf", "try", "type",
+			"use", "yield");
 
 	/**
-	 * Check if the sentence/clause is imperative or not. It takes into account
-	 * labels at the beginning of the sentence, such as "exp. behavior: run the
-	 * program"
+	 * Check if the sentence/clause is imperative or not. It takes into account labels at the beginning of the sentence,
+	 * such as "exp. behavior: run the program"
 	 *
 	 * @param sentence
 	 * @return

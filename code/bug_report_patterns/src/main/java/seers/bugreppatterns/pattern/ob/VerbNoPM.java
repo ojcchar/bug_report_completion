@@ -16,8 +16,6 @@ public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 			// ,"not", "never"
 	);
 
-	final private static Set<String> ADDITIONAL_VERBS = JavaUtils.getSet( "yield", "show", "return" );
-
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
@@ -44,7 +42,7 @@ public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.getGeneralPos().equals("VB")
-					|| SentenceUtils.lemmasContainToken(ADDITIONAL_VERBS, token)) {
+					|| SentenceUtils.lemmasContainToken(SentenceUtils.UNDETECTED_VERBS, token)) {
 				verbs.add(i);
 			}
 		}
