@@ -5,6 +5,7 @@ import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.pattern.eb.CorrectIsPM;
 import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
@@ -14,9 +15,14 @@ public class OutputPM extends ObservedBehaviorPatternMatcher {
 
 	public final static Set<String> OUTPUT_NOUN_TERMS = JavaUtils.getSet("result", "output");
 
+	private final static PatternMatcher[] NOT_ALLOWED_PMS = { new CorrectIsPM() };
+	
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
+		if (isEBPattern(sentence)) {
+			return 0;
+		}
 		if (checkForOutputIs(tokens)) {
 			PatternMatcher pm = new OutputVerbPM();
 			int match = pm.matchSentence(sentence);
@@ -29,6 +35,10 @@ public class OutputPM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
+	private boolean isEBPattern(Sentence sentence) throws Exception {
+		return sentenceMatchesAnyPatternIn(sentence, NOT_ALLOWED_PMS);
+	}
+	
 	public boolean checkForOutputIs(List<Token> tokens) {
 
 		for (int i = 0; i < (tokens.size() - 1); i++) {
