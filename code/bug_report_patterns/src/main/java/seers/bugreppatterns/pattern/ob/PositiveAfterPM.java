@@ -14,9 +14,9 @@ public class PositiveAfterPM extends ObservedBehaviorPatternMatcher {
 
 	public final static Set<String> AFTER = JavaUtils.getSet("after");
 
-	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
+	private final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
-			new VerbNoPM(), new ProblemInPM(), new FrequencyAdverbPM(), new LeadsToNegativePm(),
+			new VerbNoPM(), new ProblemInPM(), new LeadsToNegativePm(),
 			new ErrorNounPhrasePM(), new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(),
 			new ThereIsNoPM(), new VerbNoPM() };
 
