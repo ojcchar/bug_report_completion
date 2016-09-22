@@ -13,14 +13,16 @@ public class ButNegativePMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = { "But I can't do this.",
+		String[] sentences = { 
+				"BUT, type entry into NAV bar, hit ENTER -- no response.",
+				"But I can't do this.",
 				"I can, however, remove the mistake identifier via the long form by voiding it.",
 
 				"Sometimes, the Variables view shows constants although the option is turned off.",
 				"A new outgoing task with the name \"New Task\" is created although a different summary was cloned.",
 				"when i use FOP to generate my report it took 3 second but in birt it took 45 seconds that alot of difference 45 seconds exclude birt engine start up and the report already optimize in layout to avoid slowness only needed field are bind over the xml to the data binding and tables",
 				"My home page is Google and after it loads the page the wheel stops turning (good) but if I go to any web site then close that web site's tab to return to Google the page loading wheel never stops as if the page is still trying to load and it is not (I don't think).",
-				"However, if I go back to my bookmarks it shows the top of the bookmarks list, rather than being scrolled down to the bottom of the list, where I was before.  ",
+				//"However, if I go back to my bookmarks it shows the top of the bookmarks list, rather than being scrolled down to the bottom of the list, where I was before.  ",
 				"After the configuration I've started it and it's running but if I want to connect to the server my client tells me that it's unable to connect to the remote host.",
 				"In this example the `strace` output shows that `\"Entrypoint\": [\"/bin/bash\"-l\"]` was sent to the server, but inspecting the resulting image shows `\"Entrypoint\": null`.",
 				"* I was expecting `--quiet` to suppress that output, but it only removes the output from commands run in containers, not the rest of the client's output.",

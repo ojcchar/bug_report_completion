@@ -19,7 +19,6 @@ public class PositiveAfterPMTest extends BaseTest {
 				"after it dies",
 				"After tabbing or otherwise navigating through the autocomplete list for the location bar, the last entry selected appears in the location bar but has not loaded (this is correct).",
 				"My issue is that after changing settings a bit, LibreOffice would suddenly no longer do any sort of spell-checking.",
-				"Drop down remains on the screen after selecting it and then hitting the delete key",
 				"The precompiled version does not respond when a client tries to download a big file after about (say) half an hour.",
 				"Apache2 service does not start after httpd.conf is modified.",
 				"Folders in bookmarks menu are inaccessible after moving a bookmark to/in the menu",

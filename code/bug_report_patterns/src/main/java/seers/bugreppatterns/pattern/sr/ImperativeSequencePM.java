@@ -1,14 +1,12 @@
 package seers.bugreppatterns.pattern.sr;
 
-import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.bugreppatterns.utils.SentenceUtils;
-import seers.bugreppatterns.utils.SimpleTenseChecker;
-import seers.textanalyzer.entity.Sentence;
-import seers.textanalyzer.entity.Token;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
+import seers.textanalyzer.entity.Sentence;
+import seers.textanalyzer.entity.Token;
 
 /**
  * Matcher for S_SR_IMPERATIVE_SEQUENCE.

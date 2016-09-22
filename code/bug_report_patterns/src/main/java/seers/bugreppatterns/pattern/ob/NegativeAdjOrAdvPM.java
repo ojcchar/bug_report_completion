@@ -111,6 +111,10 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 		if (str.contains("go cpu bind")) {
 			return 1;
 		}
+		
+		if (str.matches("(.* |^)page( .*)? down .*")) {
+			return 1;
+		}
 
 		return 0;
 	}

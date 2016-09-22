@@ -15,7 +15,6 @@ public class LeadsToNegativePmTest extends BaseTest {
 	public void testPositive() throws Exception {
 		String[] sentences = {
 				"Instead_ links are having  connect  appended which results in the wrong page being displayed.",
-				"This block leads to other content to be pushed down in the plugin.",
 				"This leads to avatars being cut off.",
 				"This small inconsistent behavior causes the user frustration not experienced in other browsers.",
 				"But \"expires\" module isnt enabled in the host, and therefore results in \"500 Internal Server error\" when url is accessed via browser.",

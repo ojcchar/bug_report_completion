@@ -24,10 +24,11 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, findPunctuation(sentence.getTokens()));
+//		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, findPunctuation(sentence.getTokens()));
 
-		for (Sentence subSentence : subSentences) {
-			List<Token> subTokens = subSentence.getTokens();
+//		for (Sentence subSentence : subSentences) {
+			
+			List<Token> subTokens = sentence.getTokens();
 			List<Integer> buts = SentenceUtils.findLemmasInTokens(CONTRAST_TERMS, subTokens);
 
 			for (Integer but : buts) {
@@ -46,7 +47,7 @@ public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 				}
 
 			}
-		}
+//		}
 
 		return 0;
 	}
