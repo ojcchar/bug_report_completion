@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -35,7 +36,7 @@ public class FrequencyAdverbPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> verbs = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getGeneralPos().equals("VB")) {
+			if (token.getGeneralPos().equals("VB") || SentenceUtils.UNDETECTED_VERBS.contains(token.getLemma())) {
 
 				verbs.add(i);
 			}

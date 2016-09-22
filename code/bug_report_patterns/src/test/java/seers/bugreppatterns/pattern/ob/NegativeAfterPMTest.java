@@ -23,7 +23,7 @@ public class NegativeAfterPMTest extends BaseTest {
 				"I was using DynamicFBML/MockAJAX in my application_ it was giving required result just hit my server and got response_ but after last friday 27th june this is not working_",
 				"Something happens after selecting it crashes", "Something happens after this happens, crash",
 				"After tabbing or otherwise navigating through the autocomplete list for the location bar, the last entry selected appears in the location bar but has not loaded (this is correct).",
-				"My issue is that after changing settings a bit, LibreOffice would suddenly no longer do any sort of spell-checking." };
+			 };
 
 		TestUtils.testSentences(negs, pm, 0);
 	}

@@ -293,7 +293,7 @@ public class SentenceUtils {
 
 	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("show", "boomark", "rename", "run", "select",
 			"post", "stop", "goto", "enter", "drag", "check", "file", "try", "build", "install", "type", "use", "start",
-			"paste", "surf", "right-click", "import", "scroll", "scale", "change");
+			"paste", "surf", "right-click", "import", "scroll", "scale", "change", "release");
 
 	/**
 	 * Check if the sentence/clause is imperative or not. It takes into account

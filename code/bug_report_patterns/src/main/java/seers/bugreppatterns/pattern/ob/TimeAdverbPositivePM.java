@@ -4,6 +4,7 @@ import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.utils.SentenceUtils;
+import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -13,21 +14,26 @@ import seers.textanalyzer.entity.Token;
 public class TimeAdverbPositivePM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		List<Token> tokens = sentence.getTokens();
 
-		if (!SentenceUtils.lemmasContainToken(TimeAdverbNegativePM.FIRST_POS_TIME_ADVERBS, tokens.get(0))
-				&& !SentenceUtils.sentenceContainsAnyLemmaIn(sentence, TimeAdverbNegativePM.TIME_ADVERBS)) {
+		List<Sentence> subSentences = SentenceUtils.breakByParenthesis(sentence);
 
-			if (!SentenceUtils.sentenceContainsAnyLemmaIn(sentence, TimeAdverbNegativePM.ADVERBIAL_TIME_CLAUSES)) {
-				return 0;
+		for (Sentence subSentence : subSentences) {
+			List<Token> tokens = subSentence.getTokens();
+
+			if (tokens.isEmpty()) {
+				continue;
+			}
+			if (SentenceUtils.lemmasContainToken(TimeAdverbNegativePM.FIRST_POS_TIME_ADVERBS, tokens.get(0))
+					|| SentenceUtils.sentenceContainsAnyLemmaIn(subSentence, TimeAdverbNegativePM.TIME_ADVERBS)
+					|| TextProcessor.getStringFromLemmas(subSentence)
+							.matches(".*" + TimeAdverbNegativePM.ADVERBIAL_TIME_CLAUSES + ".*")) {
+				
+				if (!isNegative(subSentence)) {
+					return 1;
+				}
 			}
 		}
-
-		if (isNegative(sentence)) {
-			return 0;
-		}
-
-		return 1;
+		return 0;
 	}
 
 	private boolean isNegative(Sentence sentence) throws Exception {

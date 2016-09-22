@@ -15,7 +15,7 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 
 	private static Set<String> PUNCTUATION = JavaUtils.getSet(",", ":", "_", "-", ";");
 
-	private static Set<String> PRESENT_TENSE_VERBS = JavaUtils.getSet("crash", "build", "return");
+	private static Set<String> PRESENT_TENSE_VERBS = JavaUtils.getSet("crash", "build", "return", "drop", "stay");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -42,19 +42,12 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 
 	private List<Token> findPreviousSentence(List<Token> tokens, Integer beforeIndex) {
 		int startSentenceIndex = 0;
-		boolean outsidePar = false;
 		for (int i = beforeIndex; i >= 0; i--) {
 			Token current = tokens.get(i);
 			if (SentenceUtils.lemmasContainToken(PUNCTUATION, current)) {
 				if (current.getLemma().equals("-") && tokens.get(i + 1).getLemma().equals(">")) {
 					continue;
-				} else if (current.getLemma().equals("-rrb-")) {
-					outsidePar = true;
-					continue;
-				} else if (current.getLemma().equals("-lrb-") && outsidePar) {
-					outsidePar = false;
-					continue;
-				}
+				} 
 				startSentenceIndex = i;
 				break;
 			}
@@ -64,18 +57,11 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 
 	private List<Token> findNextSentence(List<Token> tokens, Integer beforeIndex) {
 		int endSentenceIndex = tokens.size();
-		boolean outsidePar = false;
 		for (int i = beforeIndex; i < tokens.size(); i++) {
 			Token current = tokens.get(i);
 			if (SentenceUtils.lemmasContainToken(PUNCTUATION, current)) {
 				if (current.getLemma().equals("-") && i + 1 < tokens.size()
 						&& tokens.get(i + 1).getLemma().equals(">")) {
-					continue;
-				} else if (current.getLemma().equals("-lrb-")) {
-					outsidePar = true;
-					continue;
-				} else if (current.getLemma().equals("-rrb-") && outsidePar) {
-					outsidePar = false;
 					continue;
 				}
 				endSentenceIndex = i;
@@ -90,7 +76,7 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 			Token current = tokens.get(i);
 			if (current.getPos().equals("VBP") || current.getPos().equals("VBZ")
 					|| (i - 1 >= 0 && SentenceUtils.lemmasContainToken(PRESENT_TENSE_VERBS, current)
-							&& current.getPos().equals("NNS") && tokens.get(i - 1).getGeneralPos().equals("NN"))) {
+							&& current.getGeneralPos().equals("NN") && tokens.get(i - 1).getGeneralPos().equals("NN"))) {
 				return true;
 			}
 		}
@@ -117,7 +103,7 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 	private boolean containsVerb(List<Token> tokens) {
 		for (Token current : tokens) {
 			if (current.getGeneralPos().equals("VB") || (SentenceUtils.lemmasContainToken(PRESENT_TENSE_VERBS, current)
-					&& current.getPos().equals("NNS"))) {
+					&& current.getGeneralPos().equals("NN"))) {
 				return true;
 			}
 		}
