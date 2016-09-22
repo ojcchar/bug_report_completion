@@ -38,35 +38,44 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 				// split sentences based on "after"
 				List<Sentence> subSentences = SentenceUtils.findSubSentences(superSentence, afters);
 
-				// if there is a sentence before the "after" term, skip it -> the focus is on what is after the "after"
+				// if there is a sentence before the "after" term, skip it ->
+				// the focus is on what is after the "after"
 				for (int i = afters.get(0) > 0 ? 1 : 0; i < subSentences.size(); i++) {
-					Sentence subSentece = subSentences.get(i);
+					Sentence subSentence = subSentences.get(i);
 
-					List<Integer> punct = findPunctuation(subSentece.getTokens());
+					List<Integer> punct = findPunctuation(subSentence.getTokens());
 
-					// hard case: there is no punctuation. Try subsentences from end to beginning. Check there is
-					// something before the non-negative sentence.
+					// hard case: there is no punctuation. Try subsentences from
+					// end to beginning.
 					if (punct.isEmpty()) {
-						for (int j = subSentece.getTokens().size() - 1; j > 0; j--) {
-							Sentence negSent = new Sentence(subSentece.getId(),
-									subSentece.getTokens().subList(j, subSentece.getTokens().size()));
+						for (int j = subSentence.getTokens().size() - 1; j > 0; j--) {
+							Sentence negSent = new Sentence(subSentence.getId(),
+									subSentence.getTokens().subList(j, subSentence.getTokens().size()));
 
 							if (isNegative(negSent)) {
 								return 0;
 							}
 
 						}
-						if (subSentece.getTokens().size() > 1 && findVerbs(subSentece.getTokens()).size()>1
-								&& !SentenceUtils.sentenceContainsAnyLemmaIn(subSentece, AfterTimePM.TIME_TERMS)) {
+
+						// make sure there is some clause proceeding the "after"
+						// cases like "something happens after clicking" are not
+						// accepted. Two verbs might indicate the presence of
+						// two clauses. That is why the condition is '>1'
+						boolean hasAtLeastTwoClauses = findValidVerbs(subSentence.getTokens()).size() > 1;
+						if (subSentence.getTokens().size() > 1 && hasAtLeastTwoClauses
+								&& !SentenceUtils.sentenceContainsAnyLemmaIn(subSentence, AfterTimePM.TIME_TERMS)) {
 							return 1;
 						}
 
 					}
-					// The easy case: there is punctuation (',', '_', '-'). Make sure that (i) there is something
-					// between the "after" and the punctuation, and (ii) there is no negative sentence after
+					// The easy case: there is punctuation (',', '_', '-'). Make
+					// sure that (i) there is something
+					// between the "after" and the punctuation, and (ii) there
+					// is no negative sentence after
 					// the punctuation.
 					else {
-						List<Sentence> subSubSentences = SentenceUtils.findSubSentences(subSentece, punct);
+						List<Sentence> subSubSentences = SentenceUtils.findSubSentences(subSentence, punct);
 						if (!subSubSentences.get(0).getTokens().isEmpty()) {
 							boolean isPos = true;
 							for (int j = 1; j < subSubSentences.size(); j++) {
@@ -101,17 +110,19 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 		return symbols;
 	}
 
-	private List<Integer> findVerbs(List<Token> tokens) {
+	private List<Integer> findValidVerbs(List<Token> tokens) {
 		List<Integer> verbs = new ArrayList<>();
 		boolean containsAux = false;
 		for (int i = 0; i < tokens.size() - 1; i++) {
 			Token token = tokens.get(i);
 			boolean add = true;
-			if (token.getGeneralPos().equals("VB")) {
-				if (i == 0) {
-					add = false;
-				} else if (token.getLemma().equals("be")
-						|| token.getLemma().equals("have") && !token.getPos().equals("VB")) {
+			if (token.getGeneralPos().equals("VB")
+					|| SentenceUtils.matchTermsByLemma(SentenceUtils.UNDETECTED_VERBS, token)) {
+				// if (i == 0) {
+				// add = false;
+				// } else
+				if ((token.getLemma().equals("be") || token.getLemma().equals("have"))
+						&& !token.getPos().equals("VB")) {
 					containsAux = true;
 				} else if ((token.getPos().equals("VBG") || token.getPos().equals("VBN")) && containsAux) {
 					add = false;
@@ -121,6 +132,7 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 				} else if (i - 1 == 0 && tokens.get(i - 1).getGeneralPos().equals("PRP")) {
 					add = false;
 				}
+
 				if (add) {
 					verbs.add(i);
 				}

@@ -297,7 +297,7 @@ public class SentenceUtils {
 			"file", "goto", "import", "input", "install", "paste", "post",
 			"release", "rename", "return", "right-click", "run", "scale",
 			"scroll", "select", "show", "start", "stop", "surf", "try", "type",
-			"use", "yield");
+			"use", "yield", "typing");
 
 	/**
 	 * Check if the sentence/clause is imperative or not. It takes into account labels at the beginning of the sentence,

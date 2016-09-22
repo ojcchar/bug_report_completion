@@ -33,7 +33,8 @@ public class AfterPositivePMTest extends BaseTest {
 				"After tabbing or otherwise navigating through the autocomplete list for the location bar, the last entry selected appears in the location bar but has not loaded (this is correct).",
 				"After this, the editor did not redraw any more.",
 				"Something happens after selecting it crashes",
-				"Something happens after this happens, crash"
+				"Something happens after this happens, crash",
+				"something happens after clicking"
 			};
 
 		TestUtils.testSentences(negs, pm, 0);
@@ -41,8 +42,11 @@ public class AfterPositivePMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negs = {"after loading start page the loading wheel keeps turning as if still loading page",
-				"After switching from 2.2.8 to 2.2.8 I found out it writes something like this to error.log during startup:",
+		String[] negs = {
+//				"something happens after clicking and doing this",
+				"Hitting ENTER after running the root password on one of the first two screens of the Initialization Wizard will take the user back one step rather than forward.",
+//				"after loading start page the loading wheel keeps turning as if still loading page",
+//				"After switching from 2.2.8 to 2.2.8 I found out it writes something like this to error.log during startup:",
 				 };
 
 		TestUtils.testSentences(negs, pm, 1);
