@@ -27,7 +27,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		TimeAdverbNegativePMTest.class, TimeAdverbPositivePMTest.class, TooSentencePMTest.class, TriesPMTest.class,
 		UnableToPMTest.class, UnfortunatelyPMTest.class, UntilNegPMTest.class, VerbErrorPMTest.class,
 		VerbNoPMTest.class, VeryAdjectivePMTest.class, WhyPMTest.class, WithoutPMTest.class, WorksButPMTest.class,
-		WorksFinePMTest.class })
+		WorksFinePMTest.class, ActionPastFinePMTest.class })
 public class AllOBTests {
 
 }
