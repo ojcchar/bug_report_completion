@@ -19,7 +19,7 @@ public class NegativeTerms {
 			"silly", "slow", "spurious", "squashed", "strange", "stripped", "stuck", "tedious", "terrible", "tiny",
 			"truncated", "twice", "ugly", "unacceptable", "unchecked", "unclickable", "undefined", "undesirable",
 			"undesired", "unexpected", "unfriendly", "uninitialized", "unknown", "unlimited", "unnavigability",
-			"unnecessary", "unreadable", "unreliable", "unresponsive", "unsecure", "unstable", "unstoppable",
+			"unnecessary", "unreadable", "unreliable", "unresponsive", "unrestricted", "unsecure", "unstable", "unstoppable",
 			"unstyled", "untrusted", "userunfriendly", "unusable", "void", "wacky", "weird", "worst", "wrong",
 			"zombie");
 
