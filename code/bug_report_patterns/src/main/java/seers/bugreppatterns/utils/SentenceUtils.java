@@ -233,7 +233,7 @@ public class SentenceUtils {
 		ArrayList<Integer> lemmaIndexesInTokens = new ArrayList<Integer>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (SentenceUtils.lemmasContainToken(lemmas, token)) {
+			if (lemmasContainToken(lemmas, token)) {
 				lemmaIndexesInTokens.add(i);
 			}
 		}

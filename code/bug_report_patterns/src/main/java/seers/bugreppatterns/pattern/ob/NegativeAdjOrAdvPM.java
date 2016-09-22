@@ -111,9 +111,22 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 		if (str.contains("go cpu bind")) {
 			return 1;
 		}
-		
+
 		if (str.matches("(.* |^)page( .*)? down .*")) {
 			return 1;
+		}
+
+		// search for "messed up", not at the beginning of the sentence
+		for (int i = 1; i < tokens.size() - 1; i++) {
+			Token token = tokens.get(i);
+
+			if ((token.getPos().equals("VBD") || token.getPos().equals("VBZ")) && token.getLemma().equals("mess")) {
+				Token nextToken = tokens.get(i + 1);
+				if (nextToken.getLemma().equals("up")) {
+					return 1;
+				}
+			}
+
 		}
 
 		return 0;
