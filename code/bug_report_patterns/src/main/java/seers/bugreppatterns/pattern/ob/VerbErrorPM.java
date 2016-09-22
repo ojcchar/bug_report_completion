@@ -26,37 +26,41 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
 			List<Token> tokens = subSentence.getTokens();
 			List<Integer> verbs = findAllVerbs(tokens);
-			
-			verbloop:
+
+			verbloop: 
 			for (int verb = 0; verb < verbs.size(); verb++) {
-				// there's something after the verb
-				if (verbs.get(verb) + 1 < tokens.size()) {
-					int start = verbs.get(verb) + 1;
-					Token afterVerbToken = tokens.get(start);
+				
+				// there's nothing after the verb
+				if (verbs.get(verb) + 1 >= tokens.size()) {
+					continue;
+				}
 
-					// the token after the verb is a preposition or a personal pronoun
-					while (tokenIsPrep(afterVerbToken) || afterVerbToken.getGeneralPos().equals("PRP")) {
-						start++;
-						if (start < tokens.size()) {
-							afterVerbToken = tokens.get(start);
-						} else {
-							break verbloop;
-							//return 0;
-						}
+				int start = verbs.get(verb) + 1;
+				Token afterVerbToken = tokens.get(start);
 
-					}
-
-					int end = start + 1;
-
-					while (end <= tokens.size()) {
-						Sentence clause = new Sentence(sentence.getId(), tokens.subList(start, end));
-						if (isNegative(clause)) {
-							return 1;
-						}
-						end++;
+				// the token after the verb is a preposition or a personal
+				// pronoun
+				while (tokenIsPrep(afterVerbToken) || afterVerbToken.getGeneralPos().equals("PRP")) {
+					start++;
+					if (start < tokens.size()) {
+						afterVerbToken = tokens.get(start);
+					} else {
+						break verbloop;
+						// return 0;
 					}
 
 				}
+
+				int end = start + 1;
+
+				while (end <= tokens.size()) {
+					Sentence clause = new Sentence(sentence.getId(), tokens.subList(start, end));
+					if (isNegative(clause)) {
+						return 1;
+					}
+					end++;
+				}
+
 			}
 		}
 
@@ -70,7 +74,8 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 			Token token = tokens.get(i);
 			if ((token.getGeneralPos().equals("VB") || SentenceUtils.lemmasContainToken(VERB_TERMS, token)
 					&& !SentenceUtils.lemmasContainToken(NOT_VERBS, token))) {
-				// if (i + 1 < tokens.size() && !tokens.get(i + 1).getGeneralPos().equals("VB"))
+				// if (i + 1 < tokens.size() && !tokens.get(i +
+				// 1).getGeneralPos().equals("VB"))
 				verbs.add(i);
 			}
 		}

@@ -20,4 +20,11 @@ public class TimeAdverbPositivePMTest extends BaseTest {
 				"With the introduction of the function: ap_register_rewrite_mapfunc every Apache Module Writer can now create its own internal RewriteMap.", };
 		TestUtils.testSentences(sentences, pm, 1);
 	}
+
+	@Test
+	public void testNegative() throws Exception {
+		String[] sentences = {
+				"I then went back to the same short form to edit the identifer and saved again, but going back to the form again there are now two identifiers (of the same type) with the old value and the new value respectively." };
+		TestUtils.testSentences(sentences, pm, 0);
+	}
 }
