@@ -1,5 +1,6 @@
 package seers.bugreppatterns.pattern.ob;
 
+import java.util.List;
 import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
@@ -28,7 +29,8 @@ public class SimplePresentPM extends ObservedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		for (Sentence subSentence : SentenceUtils.breakByParenthesis(sentence)) {
+		List<Sentence> subSentences = SentenceUtils.breakByParenthesis(sentence);
+		for (Sentence subSentence : subSentences) {
 			
 			SimpleTenseChecker checker = new SimpleTenseChecker(ActionsPresentPM.POS, SentenceUtils.UNDETECTED_VERBS,
 					SimplePresentPM.EXCLUDED_VERBS);

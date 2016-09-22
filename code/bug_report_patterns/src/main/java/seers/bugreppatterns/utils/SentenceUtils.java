@@ -13,6 +13,7 @@ import seers.bugreppatterns.pattern.ob.NegativeVerbPM;
 import seers.bugreppatterns.pattern.ob.NothingHappensPM;
 import seers.bugreppatterns.pattern.ob.NoticePM;
 import seers.bugreppatterns.pattern.ob.PassiveVoicePM;
+import seers.bugreppatterns.pattern.ob.SimplePresentPM;
 import seers.bugreppatterns.pattern.ob.StillSentencePM;
 import seers.bugreppatterns.pattern.ob.TimeAdverbPositivePM;
 import seers.textanalyzer.TextProcessor;
@@ -438,10 +439,8 @@ public class SentenceUtils {
 
 	public static final ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new ButNegativePM(), new ConditionalNegativePM(), new NegativeAdjOrAdvPM(), new StillSentencePM(),
-			new PassiveVoicePM(), new TimeAdverbPositivePM(), new NoticePM(), new NothingHappensPM()
-			// omitted, it leads to false positives
-			// , new SimplePresentPM()
-	};
+			new PassiveVoicePM(), new TimeAdverbPositivePM(), new NoticePM(), new NothingHappensPM(),
+			new SimplePresentPM() };
 
 	/**
 	 * Finds the first Observed Behavior (OB) sentence in the list of sentences
