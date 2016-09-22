@@ -30,7 +30,7 @@ public class NegativeAfterPMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negs = { "Drop down remains on the screen after selecting it and then hitting the delete key",
+		String[] negs = { 
 				"The precompiled version does not respond when a client tries to download a big file after about (say) half an hour.",
 				"Apache2 service does not start after httpd.conf is modified.",
 				"Folders in bookmarks menu are inaccessible after moving a bookmark to/in the menu",
