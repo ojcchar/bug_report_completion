@@ -407,7 +407,8 @@ public class SentenceUtils {
 			// Case: a verb at the beginning is tagged as NN
 			Sentence artificialSentence = appendPronoun(tokensNoSpecialChar);
 
-			if (artificialSentence.getTokens().get(1).getPos().equals("VBP")) {
+			if (artificialSentence.getTokens().get(1).getPos().equals("VBP")
+					&& !artificialSentence.getTokens().get(2).getGeneralPos().equals("VB")) {
 				return true;
 			}
 		}
@@ -415,16 +416,18 @@ public class SentenceUtils {
 	}
 
 	/**
-	 * Appends the pronoun "I" to the beginning of the tokens and reassigns PoS tags.
+	 * Appends the pronoun "I" to the beginning of the tokens and reassigns PoS
+	 * tags.
 	 *
-	 * @param tokens Tokens to be modified.
+	 * @param tokens
+	 *            Tokens to be modified.
 	 * @return A re-tagged list of tokens.
 	 */
 	private static Sentence appendPronoun(List<Token> tokens) {
-		String sentenceText = String.join(" ", tokens.stream()
-				.map(t -> t.getWord().toLowerCase())
-				.toArray(CharSequence[]::new));
-		// Appends an "I" to the beginning of the tokens, attempting to nudge the tagger
+		String sentenceText = String.join(" ",
+				tokens.stream().map(t -> t.getWord().toLowerCase()).toArray(CharSequence[]::new));
+		// Appends an "I" to the beginning of the tokens, attempting to nudge
+		// the tagger
 		// into recognizing an infinitive verb as such.
 		String artificialSentenceText = String.format("I %s", sentenceText);
 
@@ -435,7 +438,10 @@ public class SentenceUtils {
 
 	public static final ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new ButNegativePM(), new ConditionalNegativePM(), new NegativeAdjOrAdvPM(), new StillSentencePM(),
-			new PassiveVoicePM(), new TimeAdverbPositivePM(), new NoticePM(), new NothingHappensPM() };
+			new PassiveVoicePM(), new TimeAdverbPositivePM(), new NoticePM(), new NothingHappensPM()
+			// omitted, it leads to false positives
+			// , new SimplePresentPM()
+	};
 
 	/**
 	 * Finds the first Observed Behavior (OB) sentence in the list of sentences

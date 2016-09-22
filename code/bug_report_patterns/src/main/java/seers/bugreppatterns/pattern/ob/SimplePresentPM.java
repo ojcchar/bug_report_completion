@@ -29,7 +29,7 @@ public class SimplePresentPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		for (Sentence subSentence : SentenceUtils.breakByParenthesis(sentence)) {
-
+			
 			SimpleTenseChecker checker = new SimpleTenseChecker(ActionsPresentPM.POS, SentenceUtils.UNDETECTED_VERBS,
 					SimplePresentPM.EXCLUDED_VERBS);
 			int numClauses = checker.countNumClauses(subSentence);

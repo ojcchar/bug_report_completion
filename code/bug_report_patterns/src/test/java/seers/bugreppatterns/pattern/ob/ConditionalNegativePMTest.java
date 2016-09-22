@@ -37,7 +37,6 @@ public class ConditionalNegativePMTest extends BaseTest {
 				"If you reload the page at http://dg.kendersoft.org a few times (or surf to links on the left) you will eventually see that the navigation and main black tables will stick to the inside edge of the 'main' table. ",
 				"When user first registers our application and is redirected to the  Request Permission  page_ it will then authenticate with the above URL with http error 400 (Bad request) page after clicking on the  Allow  button.",
 				"when i use FOP to generate my report it took 3 second but in birt it took 45 seconds that alot of difference 45 seconds exclude birt engine start up and the report already optimize in layout to avoid slowness only needed field are bind over the xml to the data binding and tables",
-				"When I use Shift+Tab to decrease indentation level of selected C source lines, these selected C source lines are scrolled up or down (depends on its position on screen), why?",
 				"However when I moved a whole directory from o ne part of the webproject to another I found copies in place places, the new destination and the old source location.",
 				"If the changes are saved to void the address, and a reason is entered in the reason voided box that appears under the person name, later when you click to void the patient name, the reason voided box is already populated with the reason you entered for voiding the address.", };
 		TestUtils.testSentences(sentences, pm, 1);

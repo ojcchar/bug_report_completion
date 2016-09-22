@@ -12,6 +12,13 @@ public class TestUtils {
 
 	public static void testSentences(String[] txts, PatternMatcher pm, int expected) throws Exception {
 
+		System.out.println();
+		if (expected == 1) {
+			System.out.println("Testing pattern (positive cases): " + pm.getClass().getSimpleName());
+		} else {
+			System.out.println("Testing pattern (negative cases): " + pm.getClass().getSimpleName());
+		}
+
 		boolean fail = false;
 		for (int i = 0; i < txts.length; i++) {
 			String txt = txts[i];
@@ -30,6 +37,13 @@ public class TestUtils {
 	}
 
 	public static void testParagraphs(String[] txts, PatternMatcher pm, int expected) throws Exception {
+
+		System.out.println();
+		if (expected == 1) {
+			System.out.println("Testing pattern (positive cases): " + pm.getClass().getSimpleName());
+		} else {
+			System.out.println("Testing pattern (negative cases): " + pm.getClass().getSimpleName());
+		}
 
 		boolean fail = false;
 		for (int i = 0; i < txts.length; i++) {

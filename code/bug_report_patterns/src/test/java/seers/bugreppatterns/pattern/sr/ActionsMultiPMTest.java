@@ -15,7 +15,14 @@ public class ActionsMultiPMTest extends BaseTest {
 	public void testPositives() throws Exception {
 
 		String[] txts = {
-				"Paste &#x633;&#x62A;&#x200C;&#x62A;&#x631; string from Notepad into Writer. Immediate crash." };
+				// "Paste &#x633;&#x62A;&#x200C;&#x62A;&#x631; string from
+				// Notepad into Writer. Immediate crash.",
+				// "Add an item to the library outline.\n"+"Choose the edit
+				// menu.\n"+"Actual: Undo is not available. Ctrl-Z does not undo
+				// the action." ,
+				"Go to http://www.footlocker.com/product/model:148756/sku:14674001/?supercat=home/?cm=HOME\n"
+						+ "Click FB Share button\n" + "Post comment and share\n"
+						+ "Result: In IE8_ after posting a comment the window doesn t automatically close as indicated." };
 		TestUtils.testParagraphs(txts, pm, 1);
 
 	}

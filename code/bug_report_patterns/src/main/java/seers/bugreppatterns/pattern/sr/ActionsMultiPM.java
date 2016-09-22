@@ -47,7 +47,7 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 			}
 		}
 
-		// check for and OB clause
+		// check for an OB clause
 		if (numImperativeSentences >= minNumOfSentences) {
 			int idx = SentenceUtils.findObsBehaviorSentence(sentences.subList(idxLastSentence, sentences.size()));
 			if (idx != -1) {

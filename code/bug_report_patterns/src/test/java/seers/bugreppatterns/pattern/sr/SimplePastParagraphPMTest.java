@@ -13,10 +13,12 @@ public class SimplePastParagraphPMTest extends BaseTest {
 
 	@Test
 	public void testPositives() throws Exception {
-		String[] txts = { "I ran: java -jar standalone-1.1.1.jar \n"
-				+ "The log from the launch utility can be see here:\n" + "http://paste.pocoo.org/show/545980/\n"
-				+ "I then tried manually from that utility: File.Launch-Browser.\n" + "the log is here:\n"
-				+ "http://paste.pocoo.org/show/545982/" };
+		String[] txts = {
+				"I ran: java -jar standalone-1.1.1.jar \n" + "The log from the launch utility can be see here:\n"
+						+ "http://paste.pocoo.org/show/545980/\n"
+						+ "I then tried manually from that utility: File.Launch-Browser.\n" + "the log is here:\n"
+						+ "http://paste.pocoo.org/show/545982/",
+				"I copied common/headerhtml to common/headerhtm, and added some text to header.htm to distinguish it from header.html.  Upon reloading the page (which calls for header.html), the file header.htm is loaded instead." };
 		TestUtils.testParagraphs(txts, pm, 1);
 	}
 
