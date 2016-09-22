@@ -134,7 +134,7 @@ public class BaseTest {
 		}
 
 		System.out.println();
-		System.out.println("Testing pattern: " + pm.getClass().getSimpleName());
+		System.out.println("Testing pattern (labeled sentences): " + pm.getClass().getSimpleName());
 
 		int numPasses = 0;
 		for (int i = 0; i < testDataSentence.size(); i++) {
@@ -176,7 +176,7 @@ public class BaseTest {
 		}
 
 		System.out.println();
-		System.out.println("Testing pattern: " + pm.getClass().getSimpleName());
+		System.out.println("Testing pattern (labeled paragraphs): " + pm.getClass().getSimpleName());
 
 		int numPasses = 0;
 		for (int i = 0; i < testDataParagraph.size(); i++) {

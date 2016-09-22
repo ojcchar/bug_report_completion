@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
@@ -17,67 +16,89 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 		List<Integer> nots = findNots(tokens);
 
-		for (Integer not : nots) {
+		for (int i = 0; i < nots.size(); i++) {
+			Integer not = nots.get(i);
 
-			try {
-				Token verbToken = tokens.get(not + 1);
+			// no previous token
+			if (not - 1 < 0) {
+				continue;
+			}
 
-				if (not != 0) {
+			Token previousToken = tokens.get(not - 1);
+			// regular case: "the user is not..."
+			if (isAuxiliaryToken(previousToken)) {
+				return 1;
+			}
+			// case: "the user is maybe not..."
+			else if (not - 2 >= 0 && previousToken.getGeneralPos().equals("RB")
+					&& isAuxiliaryToken(tokens.get(not - 2))) {
+				return 1;
 
-					Token auxToken = tokens.get(not - 1);
-					if (isAuxToken(auxToken)
-					// && (verbToken.getGeneralPos().equals("VB")
-					// || verbToken.getGeneralPos().equals("JJ") ||
-					// verbToken.getGeneralPos().equals("RB"))
-					) {
-						return 1;
-					} else if (verbToken.getGeneralPos().equals("VB")) {
-						return 1;
-					} else if (verbToken.getGeneralPos().equals("NN")
-							&& verbToken.getLemma().toLowerCase().endsWith("ing")) {
-						return 1;
-					} else if (verbToken.getGeneralPos().equals("RB")) {
-						if (tokens.get(not + 2).getGeneralPos().equals("VB")) {
-							return 1;
+			}
+			else {
+				// case: the user is ... and (hence also) not ...
+				// the "hence also" is optional
+				// basically we accept a lot of RBs preceding the not and then
+				// an
+				// "and"
+				{
+					// the following condition checks for no previous "not"s
+					if (i == 0) {
+
+						// find the "and" preceding the RBs (if any)
+						int andIdx = -1;
+						boolean allAreTokensRb = true;
+						for (int j = not - 1; j >= 0; j--) {
+							Token currentToken = tokens.get(j);
+							if (allAreTokensRb && currentToken.getGeneralPos().equals("CC")
+									&& currentToken.getLemma().equals("and")) {
+								andIdx = j;
+								break;
+							} else if (!currentToken.getGeneralPos().equals("RB")) {
+								allAreTokensRb = false;
+								break;
+							}
+
+						}
+
+						if (andIdx != -1) {
+							List<Token> subStncTokens = tokens.subList(0, andIdx - 1);
+							// any auxiliary verb?
+							boolean thereIsAuxToken = subStncTokens.stream().anyMatch(tok -> isAuxiliaryToken(tok));
+							if (thereIsAuxToken) {
+								return 1;
+							}
 						}
 					}
-				} else {
-					if (verbToken.getGeneralPos().equals("VB")) {
+				}
+
+				// case: "the user is making [subject] not... "
+				if (not - 3 >= 0) {
+					Token previousToken2 = tokens.get(not - 2);
+					Token previousToken3 = tokens.get(not - 3);
+					if (isAuxiliaryToken(previousToken3) && previousToken2.getPos().equals("VBG")
+							&& previousToken2.equals("make") && previousToken.getGeneralPos().equals("NN")
+							|| previousToken.getGeneralPos().equals("PRP")) {
 						return 1;
-					} else if (verbToken.getGeneralPos().equals("NN")
-							&& verbToken.getLemma().toLowerCase().endsWith("ing")) {
-						return 1;
-					} else if (verbToken.getGeneralPos().equals("RB")) {
-						if (tokens.get(not + 2).getGeneralPos().equals("VB")) {
-							return 1;
-						}
 					}
 
 				}
-			} catch (IndexOutOfBoundsException e) {
+
 			}
 
 		}
 
-		try
-
-		{
-			if (findAdditionalAuxVerbs(tokens)) {
-				return 1;
-			}
-		} catch (
-
-		IndexOutOfBoundsException e)
-
-		{
+		// find misspelled cases
+		if (findAdditionalAuxVerbs(tokens)) {
+			return 1;
 		}
 
 		return 0;
 	}
 
 	final private static String[] ADDITIONAL_AUX_VERBS = { "didnt", "doesn t", "doen t", "dosent", "haven t", "dont",
-			"cant", "cannote", "don t", "s not", "can t", "wont", "isn t", "isnt", "aren t", "ca not", "has no", "have no",
-			"didn t" };
+			"cant", "cannote", "don t", "s not", "can t", "wont", "isn t", "isnt", "aren t", "ca not", "has no",
+			"have no", "didn t", "dose not" };
 
 	private boolean findAdditionalAuxVerbs(List<Token> tokens) {
 
@@ -103,17 +124,11 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	final private static String[] POS_LEMMAS = { "MD-can", "VB-do", "VB-be", "MD-would", "VB-have", "MD-will",
-			"MD-could" };
+			"MD-could", "MD-may" };
 
-	private boolean isAuxToken(Token auxToken) {
+	private boolean isAuxiliaryToken(Token auxToken) {
 		String posLemma = auxToken.getGeneralPos() + "-" + auxToken.getLemma().toLowerCase();
-
 		return Arrays.stream(POS_LEMMAS).anyMatch(p -> posLemma.equals(p));
-	}
-
-	@Override
-	public int matchParagraph(Paragraph paragraph) throws Exception {
-		return defaultMatchParagraph(paragraph);
 	}
 
 	private List<Integer> findNots(List<Token> tokens) {

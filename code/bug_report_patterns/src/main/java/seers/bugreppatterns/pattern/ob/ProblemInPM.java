@@ -29,6 +29,10 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 			for (Sentence subSentence : subSentences) {
 				List<Token> tokens = subSentence.getTokens();
 				List<Integer> preps = findPrepositions(tokens);
+				
+				if (preps.isEmpty()) {
+					continue;
+				}
 
 				List<Integer> verbs = findProblematicVerbs(tokens);
 				if (!verbs.isEmpty()) {
