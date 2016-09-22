@@ -20,7 +20,8 @@ public class ForTimePMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negs = {"I've been waiting for 3 days"};
+		String[] negs = {"I've been waiting for 3 days",
+				"This application has been Pending since February 18th"};
 
 		TestUtils.testSentences(negs, pm, 1);
 	}
