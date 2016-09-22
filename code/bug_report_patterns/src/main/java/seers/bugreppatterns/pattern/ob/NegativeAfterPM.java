@@ -14,9 +14,9 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
-			new VerbNoPM(), new ProblemInPM(), new FrequencyAdverbPM(), new LeadsToNegativePm(),
-			new ErrorNounPhrasePM(), new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(),
-			new ThereIsNoPM(), new VerbNoPM() };
+			new VerbNoPM(), new ProblemInPM(), new LeadsToNegativePm(), new ErrorNounPhrasePM(),
+			new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(), new ThereIsNoPM(),
+			new VerbNoPM() };
 
 	public final static Set<String> AFTER = JavaUtils.getSet("after");
 
@@ -27,16 +27,15 @@ public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 		for (Integer afterIndex : findAfters(tokens)) {
 			if (afterIndex != -1 && afterIndex > 0) {
 				Sentence first = new Sentence(sentence.getId(), tokens.subList(0, afterIndex));
-				//Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
+				// Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
 				List<Token> tokensFirst = first.getTokens();
-				//List<Token> tokensSecond = second.getTokens();
+				// List<Token> tokensSecond = second.getTokens();
 
 				// check that the first part is not EB modal
 				if (!isEBModal(tokensFirst)) {
 					/*
 					 * if(isNegative(first) && !(isNegative(second)) && tokensSecond.size()>0){ return 1; }
 					 */
-
 					if (isNegative(first)) {
 						// if (verbAfter(tokensSecond)) {
 						return 1;
