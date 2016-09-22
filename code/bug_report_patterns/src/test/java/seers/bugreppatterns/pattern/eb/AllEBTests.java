@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		ExpBehaviorLiteralSentencePMTest.class, ExpectSentencePMTest.class, ImperativeSentencePMTest.class,
 		InsteadExpBehaviorPMTest.class, MakeSensePMTest.class, MustSentencePMTest.class, NecessaryPMTest.class,
 		NeedsToPMTest.class, NormallyPMTest.class, RequirePMTest.class, ShouldPMTest.class, SupposedToPMTest.class,
-		UsedToPMTest.class, WantPMTest.class, WasAbleToPMTest.class, WhyFirstPlacePMTest.class,
+		UsedToPMTest.class, WantPMTest.class, WasAbleToPMTest.class, WhyFirstPlacePMTest.class, WhyQuestionNegativePMTest.class,
 		WouldBeSentencePMTest.class, WouldLIkePMTest.class })
 public class AllEBTests {
 
