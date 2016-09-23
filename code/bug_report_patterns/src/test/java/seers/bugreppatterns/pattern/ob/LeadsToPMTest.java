@@ -15,6 +15,7 @@ public class LeadsToPMTest extends BaseTest{
 	@Test
 	public void testPositive() throws Exception {
 		String[] sentences = {
+				"Opening of .docx files containing furigana results in the omission of any characters which have furigana associated with them.",
 				"This block leads to other content to be pushed down in the plugin."
 		};
 		TestUtils.testSentences(sentences, pm, 1);

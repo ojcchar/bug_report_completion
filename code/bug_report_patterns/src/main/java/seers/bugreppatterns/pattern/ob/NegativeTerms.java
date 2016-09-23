@@ -19,9 +19,9 @@ public class NegativeTerms {
 			"silly", "slow", "spurious", "squashed", "strange", "stripped", "stuck", "tedious", "terrible", "tiny",
 			"truncated", "twice", "ugly", "unacceptable", "unchecked", "unclickable", "undefined", "undesirable",
 			"undesired", "unexpected", "unfriendly", "uninitialized", "unknown", "unlimited", "unnavigability",
-			"unnecessary", "unreadable", "unreliable", "unresponsive", "unrestricted", "unsecure", "unstable", "unstoppable",
-			"unstyled", "untrusted", "userunfriendly", "unusable", "void", "wacky", "weird", "worst", "wrong",
-			"zombie");
+			"unnecessary", "unreadable", "unreliable", "unresponsive", "unrestricted", "unsecure", "unstable",
+			"unstoppable", "unstyled", "untrusted", "userunfriendly", "unusable", "void", "wacky", "weird", "worst",
+			"wrong", "zombie");
 
 	final public static Set<String> ADVERBS = JavaUtils.getSet("abnormally", "agressively", "annoyingly", "badly",
 			"blankly", "corruptly", "counter-intuitively", "deadly", "differently", "dirtly", "emptyly", "enourmously",
@@ -40,12 +40,12 @@ public class NegativeTerms {
 			"stop", "strip", "stuck up", "suffer", "terminate", "throw", "time out", "trim", "truncate", "vanish",
 			"terminate", "trim", "waste", "wipe");
 
-	final public static Set<String> NOUNS = JavaUtils.getSet("401", "403", "404", "ambiguity", "block", "breakage",
-			"bug", "chaos", "clash", "collision", "conflict", "confusion", "corruption", "crash", "cut", "deadlock",
-			"delay", "disaster", "duplicate", "error", "errore", "exception", "failure", "fault", "frustration",
-			"glitch", "grief", "inability", "ise", "issue", "leak", "leakage", "lock", "loss", "malware", "mismatch",
-			"misplace", "mistake", "nil", "nonsense", "npe", "npes", "null", "omission", "overlap", "pain", "peek",
-			"poor", "problem", "race", "rarity", "runaway", "segfault", "segmentation", "spam", "stacktrace", "symptom",
-			"trouble", "truncation", "typo", "unavailability", "unnavigability", "violation", "wait", "warn", "warning",
-			"zombie", "slowness");
+	final public static Set<String> NOUNS = JavaUtils.getSet("401", "403", "404", "ambiguity", "ambiguuty", "block",
+			"breakage", "bug", "chaos", "clash", "collision", "conflict", "confusion", "corruption", "crash", "cut",
+			"deadlock", "delay", "disaster", "duplicate", "error", "errore", "exception", "failure", "fault",
+			"frustration", "glitch", "grief", "inability", "ise", "issue", "leak", "leakage", "lock", "loss", "malware",
+			"mismatch", "misplace", "mistake", "nil", "nonsense", "npe", "npes", "null", "omission", "overlap", "pain",
+			"peek", "poor", "problem", "race", "rarity", "runaway", "segfault", "segmentation", "spam", "stacktrace",
+			"symptom", "trouble", "truncation", "typo", "unavailability", "unnavigability", "violation", "wait", "warn",
+			"warning", "zombie", "slowness");
 }

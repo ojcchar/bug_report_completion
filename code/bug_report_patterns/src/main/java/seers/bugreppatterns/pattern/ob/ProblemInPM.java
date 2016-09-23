@@ -29,22 +29,57 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 			for (Sentence subSentence : subSentences) {
 				List<Token> tokens = subSentence.getTokens();
 				List<Integer> preps = findPrepositions(tokens);
-				
+
+				// no prepositions
 				if (preps.isEmpty()) {
 					continue;
 				}
 
-				List<Integer> verbs = findProblematicVerbs(tokens);
-				if (!verbs.isEmpty()) {
-					continue;
-				}
+				for (Integer prepIdx : preps) {
+					Sentence subStnc1 = new Sentence(".1", tokens.subList(0, prepIdx));
+					Sentence subStnc2 = new Sentence(".2", tokens.subList(prepIdx + 1, tokens.size()));
 
-				List<Sentence> phrases = SentenceUtils.findSubSentences(subSentence, preps);
-				for (Sentence phrase : phrases) {
-					if (isNegative(phrase)) {
+					boolean isStnc1Negative = isNegative(subStnc1);
+					boolean isStnc2Negative = isNegative(subStnc2);
+
+					if (isStnc1Negative) {
+						List<Integer> verbs = findProblematicVerbs(subStnc2.getTokens());
+						if (!verbs.isEmpty()) {
+							continue;
+						}
+
+						return 1;
+					} else if (isStnc2Negative) {
+						List<Integer> verbs = findProblematicVerbs(subStnc1.getTokens());
+						if (!verbs.isEmpty()) {
+							continue;
+						}
+
 						return 1;
 					}
+
 				}
+
+				// List<Sentence> phrases =
+				// SentenceUtils.findSubSentences(subSentence, preps);
+				//
+				//
+				//
+				// String txt = TextProcessor.getStringFromLemmas(subSentence);
+				// if (txt.contains("with")) {
+				// System.out.println(txt);
+				// }
+				//// if (phrases.size()>2) {
+				//// System.out.println(TextProcessor.getStringFromLemmas(subSentence));
+				//// }
+				//// System.out.println(phrases.size());
+				// for (Sentence phrase : phrases) {
+				//// System.out.println(phrase);
+				// if (isNegative(phrase)) {
+				//// System.out.println(sentence);
+				// return 1;
+				// }
+				// }
 			}
 		}
 
@@ -86,6 +121,15 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 
 					}
 				} else
+				// disregard the verb "build" if ends the sentence
+				if (token.getLemma().equals("build") && i == tokens.size() - 1) {
+					add = false;
+				} else
+				// disregard the verb "build" precedes the word "panel"
+				if (token.getLemma().equals("build") && i + 1 < tokens.size()
+						&& tokens.get(i + 1).getLemma().equals("panel")) {
+					add = false;
+				} else
 				// disregard verbs that come before preposition
 				if (i - 1 >= 0) {
 					Token prevToken = tokens.get(i - 1);
@@ -102,7 +146,15 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private boolean isNegative(Sentence sentence) throws Exception {
-		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
+		PatternMatcher pattern = findFirstPatternThatMatches(sentence, NEGATIVE_PMS);
+		// debugging msgs
+		// if (pattern != null) {
+		// System.out.println("match: " + pattern.getClass().getSimpleName());
+		// System.out.println(sentence);
+		// return true;
+		// }
+
+		return pattern != null;
 	}
 
 }

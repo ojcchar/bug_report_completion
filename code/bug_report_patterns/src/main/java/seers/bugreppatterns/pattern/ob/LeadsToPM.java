@@ -14,7 +14,7 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
-			new VerbNoPM(), new ProblemInPM(), new ErrorNounPhrasePM() };
+			new VerbNoPM(), new ProblemInPM(), new ErrorNounPhrasePM(), new NegativeConditionalPM() };
 
 	public final static Set<String> CAUSE_VERBS = JavaUtils.getSet("cause", "produce", "yield", "result", "lead");
 
@@ -72,6 +72,13 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	private boolean isNegative(Sentence sentence) throws Exception {
-		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
+		PatternMatcher pattern = findFirstPatternThatMatches(sentence, NEGATIVE_PMS);
+		// debugging msgs
+		if (pattern != null) {
+			System.out.println("match: " + pattern.getClass().getSimpleName());
+			return true;
+		}
+
+		return pattern != null;
 	}
 }
