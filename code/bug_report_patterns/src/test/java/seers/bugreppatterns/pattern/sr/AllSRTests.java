@@ -13,7 +13,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		ImperativeSubordinatesPMTest.class, LabeledListPMTest.class, LabeledParagraphPMTest.class,
 		MenuNavigationPMTest.class, MenuSelectPMTest.class, PurposeActionPMTest.class, SimplePastParagraphPMTest.class,
 		SimplePastPMTest.class, SimplePresentSubordinatesPMTest.class, ToReproParagraphPMTest.class,
-		TriggerSentencePMTest.class, TrySentencePMTest.class, WhenAfterSentencePMTest.class })
+		TriggerSentencePMTest.class, TrySentencePMTest.class, WhenAfterSentencePMTest.class,
+	    ActionsPresentPerfectPMTest.class })
 public class AllSRTests {
 
 }
