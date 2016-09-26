@@ -14,6 +14,7 @@ public class NegativeAuxVerbPMTest extends BaseTest {
 	@Test
 	public void testPositive() throws Exception {
 		String[] negs = {
+				"Users are reporting that they can’t access notifications.",
 				"With Direct Cursor option &#x201C;Tabs and spaces&#x201D; the behaviour is equal and hence also not correct.",
 				"With Direct Cursor option &#x201C;Tabs and spaces&#x201D; the behaviour is equal and also not correct.",
 				"something is making it not work on my system.",

@@ -15,7 +15,9 @@ public class ConditionalCodeParagraphPM extends StepsToReproducePatternMatcher {
 
 	final static Set<String> NOUNS_TERM = JavaUtils.getSet("snippet", "code", "statement", "script", "function",
 			"method", "class", "test", "build", "program", "line", "hql", "installer", "command", "dockerfile", "tool",
-			"test case", "example/test", "query");
+			"test case", "example/test", "query",
+			"docker", "file", "setup", "testcase", "query", "hql", "entity", "mapping", "config", "xml", "table",
+			"macro");
 
 	final static Set<String> VERB_TERMS = JavaUtils.getSet("run", "execute", "compile");
 
