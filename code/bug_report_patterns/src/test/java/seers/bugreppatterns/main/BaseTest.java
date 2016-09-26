@@ -3,8 +3,9 @@ package seers.bugreppatterns.main;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +50,7 @@ public class BaseTest {
 
 	private void loadData() throws IOException {
 		CsvParser csvParser = new CsvParserBuilder().separator(';').multiLine(true).build();
-		try (CsvReader csvReader = new CsvReader(new FileReader(MainMatcher.fileAssignment), csvParser)) {
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(MainMatcher.fileAssignment), "Cp1252"), csvParser)) {
 
 			List<List<String>> allLines = csvReader.readAll();
 
