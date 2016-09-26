@@ -19,7 +19,6 @@ public class ExpectSentencePM extends ExpectedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		// discard sentences with labels such as "expected behavior:"
-
 		ExpBehaviorLiteralSentencePM pm = new ExpBehaviorLiteralSentencePM();
 		int match = pm.matchSentence(sentence);
 

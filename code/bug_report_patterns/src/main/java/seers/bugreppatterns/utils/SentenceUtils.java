@@ -305,9 +305,9 @@ public class SentenceUtils {
 	// ----------------------------------------
 
 	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("boomark", "build", "cache", "change", "check",
-			"drag", "enter", "file", "goto", "import", "input", "install", "paste", "post", "release", "rename",
-			"return", "right-click", "run", "scale", "scroll", "select", "show", "start", "stop", "surf", "try", "type",
-			"use", "yield", "typing");
+			"clic", "click", "drag", "enter", "file", "goto", "import", "input", "install", "load", "paste", "post",
+			"release", "rename", "return", "right-click", "run", "scale", "scroll", "select", "show", "start", "stop",
+			"surf", "try", "type", "typing", "use", "yield");
 
 	/**
 	 * Check if the sentence/clause is imperative or not. It takes into account
@@ -419,12 +419,14 @@ public class SentenceUtils {
 			}
 
 			// Case: a verb at the beginning is tagged as NN
-			Sentence artificialSentence = appendPronoun(tokensNoSpecialChar);
-
-			if (artificialSentence.getTokens().get(1).getPos().equals("VBP")
-					&& !artificialSentence.getTokens().get(2).getGeneralPos().equals("VB")) {
-				return true;
-			}
+			// Sentence artificialSentence = appendPronoun(tokensNoSpecialChar);
+			//
+			// if (artificialSentence.getTokens().get(1).getPos().equals("VBP")
+			// &&
+			// !artificialSentence.getTokens().get(2).getGeneralPos().equals("VB"))
+			// {
+			// return true;
+			// }
 		}
 		return false;
 	}
@@ -437,6 +439,7 @@ public class SentenceUtils {
 	 *            Tokens to be modified.
 	 * @return A re-tagged list of tokens.
 	 */
+	@SuppressWarnings("unused")
 	private static Sentence appendPronoun(List<Token> tokens) {
 		String sentenceText = String.join(" ",
 				tokens.stream().map(t -> t.getWord().toLowerCase()).toArray(CharSequence[]::new));

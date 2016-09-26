@@ -75,7 +75,9 @@ public class ConditionalAffirmativePM extends StepsToReproducePatternMatcher {
 
 	private boolean isSimplePresent(Token nextToken, Integer condTerm, List<Token> clauseTokens, boolean dismissIt) {
 
-		if (nextToken.getGeneralPos().equals("PRP") && (dismissIt || !nextToken.getLemma().equals("it"))) {
+		//is next token a pronoun or a WDT (e.g., which, that, etc)
+		if ((nextToken.getGeneralPos().equals("PRP") || nextToken.getPos().equals("WDT"))
+				&& (dismissIt || !nextToken.getLemma().equals("it"))) {
 			if (condTerm + 2 < clauseTokens.size()) {
 				final Token nextToken2 = clauseTokens.get(condTerm + 2);
 
