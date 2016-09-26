@@ -1,9 +1,10 @@
 package seers.bugreppatterns.main;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
@@ -80,7 +81,7 @@ public class GoldSetGenerator {
 
 	private static List<List<String>> readData() throws IOException {
 		CsvParser csvParser = new CsvParserBuilder().separator(';').multiLine(true).build();
-		try (CsvReader csvReader = new CsvReader(new FileReader(fileAssignment), csvParser)) {
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileAssignment), "Cp1252"), csvParser)) {
 
 			List<List<String>> allLines = csvReader.readAll();
 

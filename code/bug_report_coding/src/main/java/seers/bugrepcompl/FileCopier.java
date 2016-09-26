@@ -1,9 +1,10 @@
 package seers.bugrepcompl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -36,7 +37,7 @@ public class FileCopier {
 
 	private static List<List<String>> readLines(File sampleFile) throws FileNotFoundException, IOException {
 		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(';').build();
-		try (CsvReader csvReader = new CsvReader(new FileReader(sampleFile), csvParser)) {
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(sampleFile), "Cp1252"), csvParser)) {
 			return csvReader.readAll();
 		}
 	}

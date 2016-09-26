@@ -1,9 +1,10 @@
 package seers.bugrepcompl.others;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
@@ -43,7 +44,7 @@ public class MainFacebookDataReader {
 
 	private static List<List<String>> readLines(String fileIn) throws FileNotFoundException, IOException {
 		CsvParser csvParser = new CsvParserBuilder().separator(',').build();
-		try (CsvReader csvReader = new CsvReader(new FileReader(fileIn), csvParser)) {
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileIn), "Cp1252"), csvParser)) {
 			return csvReader.readAll();
 		}
 	}
