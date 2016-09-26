@@ -7,7 +7,7 @@ import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-public class WouldLIkePM extends ExpectedBehaviorPatternMatcher {
+public class WouldLikePM extends ExpectedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

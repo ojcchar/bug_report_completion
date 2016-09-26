@@ -5,15 +5,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
 public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
-
-	private final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM() };
 
 	private static final Pattern OTHER_NEGATIVE_VERBS_PATTERN = Pattern
 			.compile(".* (slow doen|slow down|faile|stucks up|consume 100|get turn into|"

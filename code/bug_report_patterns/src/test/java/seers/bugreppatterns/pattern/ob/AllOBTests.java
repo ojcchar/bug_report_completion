@@ -4,6 +4,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import seers.bugreppatterns.pattern.eb.ButCorrectPMTest;
+import seers.bugreppatterns.pattern.eb.NegativeNounConditionalPMTest;
+import seers.bugreppatterns.pattern.eb.WouldLikePMTest;
+
 @RunWith(Suite.class)
 @SuiteClasses({ AfterNegativePMTest.class, AfterPositivePMTest.class, AfterTimePMTest.class, AllowPMTest.class,
 		AsExpectedPMTest.class, AsIfPMTest.class, AsResultPMTest.class, AssumePMTest.class, AttachRefPMTest.class,
@@ -27,7 +31,9 @@ import org.junit.runners.Suite.SuiteClasses;
 		VerbToBeNegativePMTest.class, TimeAdverbNegativePMTest.class, TimeAdverbPositivePMTest.class,
 		TooSentencePMTest.class, TriesPMTest.class, UnableToPMTest.class, UnfortunatelyPMTest.class,
 		UntilNegPMTest.class, VerbErrorPMTest.class, VerbNoPMTest.class, VeryAdjectivePMTest.class, WhyPMTest.class,
-		WithoutPMTest.class, WorksButPMTest.class, WorksFinePMTest.class, ActionPastFinePMTest.class })
+		WithoutPMTest.class, WorksButPMTest.class, WorksFinePMTest.class, ActionPastFinePMTest.class,
+		ChangedPMTest.class, MultipleSamePMTest.class, ButCorrectPMTest.class, NegativeNounConditionalPMTest.class,
+		TreatAsPMTest.class, WouldLikePMTest.class })
 public class AllOBTests {
 
 }

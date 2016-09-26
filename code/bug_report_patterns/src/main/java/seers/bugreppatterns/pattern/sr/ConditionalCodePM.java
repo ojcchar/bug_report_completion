@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.bugreppatterns.pattern.ob.ConditionalNegativePM;
 import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
@@ -24,7 +23,7 @@ public class ConditionalCodePM extends StepsToReproducePatternMatcher {
 		for (Sentence subordinate : subordinates) {
 			List<Token> tokens = subordinate.getTokens();
 			List<Integer> conditionalPositions = SentenceUtils
-					.findLemmasInTokens(ConditionalNegativePM.CONDITIONAL_TERMS, tokens);
+					.findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 
 			if (!conditionalPositions.isEmpty()) {
 				List<Sentence> clauses = SentenceUtils.findSubSentences(subordinate, conditionalPositions);

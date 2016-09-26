@@ -7,6 +7,6 @@ import seers.bugreppatterns.main.BaseTest;
  */
 public class ConditionalCodePMTest extends BaseTest {
 	{
-		pm = new ConditionalCodePM();
+		pm = new ConditionalCodeParagraphPM();
 	}
 }

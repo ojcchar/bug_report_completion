@@ -12,7 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		InsteadExpBehaviorPMTest.class, MakeSensePMTest.class, MustSentencePMTest.class, NecessaryPMTest.class,
 		NeedsToPMTest.class, NormallyPMTest.class, RequirePMTest.class, ShouldPMTest.class, SupposedToPMTest.class,
 		UsedToPMTest.class, WantPMTest.class, WasAbleToPMTest.class, WhyFirstPlacePMTest.class,
-		WhyQuestionNegativePMTest.class, WouldBeSentencePMTest.class, WouldLIkePMTest.class })
+		WhyQuestionNegativePMTest.class, WouldBeSentencePMTest.class, WouldLikePMTest.class })
 public class AllEBTests {
 
 }
