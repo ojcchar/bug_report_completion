@@ -27,7 +27,8 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 			int end = verbIndexes.get(verbIndexes.size() - 1) == tokens.size() - 1 ? subSentences.size()
 					: subSentences.size() - 1;
 			for (int i = 0; i < end; i++) {
-				if (isNegative(subSentences.get(i))) {
+				Sentence subSentence = subSentences.get(i);
+				if (isNegative(subSentence)) {
 					return 1;
 				}
 			}
@@ -70,6 +71,15 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 				if (i == 0) {
 					add = false;
 				} else
+				// check for the miss-labeled verb stack, when there is "stack
+				// trace" in the sentence
+				if (token.getLemma().equals("stack")) {
+					if (i + 1 < tokens.size()) {
+						if (tokens.get(i + 1).getLemma().equals("trace")) {
+							add = false;
+						}
+					}
+				}
 				// disregard verbs that come after preposition or determiner
 				if (i - 1 >= 0) {
 					Token prevToken = tokens.get(i - 1);

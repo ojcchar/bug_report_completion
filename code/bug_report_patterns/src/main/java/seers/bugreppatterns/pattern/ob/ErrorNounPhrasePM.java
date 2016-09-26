@@ -31,6 +31,11 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 					continue;
 				}
 
+				// no WDT tokens
+				if (subClause.getTokens().stream().anyMatch(tok -> tok.getPos().equals("WDT"))) {
+					continue;
+				}
+
 				// check for noun phrases
 				if (checkErrorNounPhrase(subClause.getTokens()) != 0) {
 					numValidClauses++;
@@ -69,10 +74,10 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 		}
 		return lemmaIndexesInTokens;
 	}
-	
+
 	public static int checkErrorNounPhrase(List<Token> tokens) {
 
-		boolean containsNegativeNoun=false;
+		boolean containsNegativeNoun = false;
 		for (int i = 0; i < tokens.size(); i++) {
 
 			Token token = tokens.get(i);
@@ -80,15 +85,15 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 			// negative nouns
 			if (SentenceUtils.lemmasContainToken(NegativeTerms.NOUNS, token) && (token.getGeneralPos().equals("NN")
 					|| token.getGeneralPos().equals("VB") || token.getGeneralPos().equals("CD"))) {
-				containsNegativeNoun=true;
-break;
+				containsNegativeNoun = true;
+				break;
 				// exceptions
 			} else if (token.getLemma().matches("([A-Za-z0-9.]+)(exception)") && token.getGeneralPos().equals("NN")) {
-				containsNegativeNoun=true;
+				containsNegativeNoun = true;
 				break;
 				// errors
 			} else if (token.getLemma().matches("([A-Za-z0-9.]+)(error)") && token.getGeneralPos().equals("NN")) {
-				containsNegativeNoun=true;
+				containsNegativeNoun = true;
 				break;
 			}
 			// illegal
@@ -102,7 +107,7 @@ break;
 					&& (token.getGeneralPos().equals("JJ") || token.getGeneralPos().equals("NN")
 							|| token.getGeneralPos().equals("RB") || token.getGeneralPos().equals("VB"))) {
 				if (tokens.size() > 1) {
-					containsNegativeNoun=true;
+					containsNegativeNoun = true;
 					break;
 				}
 
@@ -111,22 +116,22 @@ break;
 			// stack trace
 			else if (token.getLemma().equalsIgnoreCase("stack") && i + 1 < tokens.size()
 					&& tokens.get(i + 1).getLemma().equalsIgnoreCase("trace")) {
-				containsNegativeNoun=true;
+				containsNegativeNoun = true;
 				break;
-				
-				//missing labeled as VBG
-			}else if(token.getLemma().equals("miss") && token.getPos().equals("VBG") ){
-				containsNegativeNoun=true;
+
+				// missing labeled as VBG
+			} else if (token.getLemma().equals("miss") && token.getPos().equals("VBG")) {
+				containsNegativeNoun = true;
 				break;
 			}
 		}
-		
-		if (containsNegativeNoun && !(tokens.get(tokens.size()-1).getPos().equals("VBD")||tokens.get(tokens.size()-1).getPos().equals("VBN"))) {
+
+		if (containsNegativeNoun && !(tokens.get(tokens.size() - 1).getPos().equals("VBD")
+				|| tokens.get(tokens.size() - 1).getPos().equals("VBN"))) {
 			return 1;
 		}
 		return 0;
 	}
-
 
 	public static int checkErrorNounPhrase2(List<Token> tokens) {
 
@@ -168,9 +173,9 @@ break;
 			else if (token.getLemma().equalsIgnoreCase("stack") && i + 1 < tokens.size()
 					&& tokens.get(i + 1).getLemma().equalsIgnoreCase("trace")) {
 				return 1;
-				
-				//missing labeled as VBG
-			}else if(token.getLemma().equals("miss") && token.getPos().equals("VBG") ){
+
+				// missing labeled as VBG
+			} else if (token.getLemma().equals("miss") && token.getPos().equals("VBG")) {
 				return 1;
 			}
 		}

@@ -3,8 +3,10 @@ package seers.bugreppatterns.pattern.ob;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -34,8 +36,7 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 					&& isAuxiliaryToken(tokens.get(not - 2))) {
 				return 1;
 
-			}
-			else {
+			} else {
 				// case: the user is ... and (hence also) not ...
 				// the "hence also" is optional
 				// basically we accept a lot of RBs preceding the not and then
@@ -123,12 +124,12 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 		return false;
 	}
 
-	final private static String[] POS_LEMMAS = { "MD-can", "VB-do", "VB-be", "MD-would", "VB-have", "MD-will",
-			"MD-could", "MD-may" };
+	final private static Set<String> POS_LEMMAS = JavaUtils.getSet("MD-can", "VB-do", "VB-be", "MD-would", "VB-have",
+			"MD-will", "MD-could", "MD-may");
 
 	private boolean isAuxiliaryToken(Token auxToken) {
 		String posLemma = auxToken.getGeneralPos() + "-" + auxToken.getLemma().toLowerCase();
-		return Arrays.stream(POS_LEMMAS).anyMatch(p -> posLemma.equals(p));
+		return POS_LEMMAS.stream().anyMatch(p -> posLemma.equals(p));
 	}
 
 	private List<Integer> findNots(List<Token> tokens) {

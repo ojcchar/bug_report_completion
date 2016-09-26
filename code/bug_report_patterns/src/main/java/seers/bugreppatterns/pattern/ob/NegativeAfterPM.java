@@ -13,9 +13,9 @@ import seers.textanalyzer.entity.Token;
 public class NegativeAfterPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
-			new NoLongerPM(), new VerbErrorPM(), new ThereIsNoPM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
+			new NoLongerPM(), new VerbErrorPM(), new VerbToBeNegativePM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
 			new VerbNoPM(), new ProblemInPM(), new LeadsToNegativePm(), new ErrorNounPhrasePM(),
-			new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(), new ThereIsNoPM(),
+			new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(), new VerbToBeNegativePM(),
 			new VerbNoPM() };
 
 	public final static Set<String> AFTER = JavaUtils.getSet("after");

@@ -23,9 +23,10 @@ public class ProblemInPM extends ObservedBehaviorPatternMatcher {
 		// System.out.println(sentence);
 
 		for (Sentence ss : SentenceUtils.breakByParenthesis(sentence)) {
-			List<Sentence> subSentences = SentenceUtils.findSubSentences(ss,
-					SentenceUtils.findLemmasInTokens(JavaUtils.getSet("-", "--", ":"), ss.getTokens()));
-
+			List<Sentence> subSentences = SentenceUtils.extractClauses(ss);
+//					SentenceUtils.findSubSentences(ss,
+//					SentenceUtils.findLemmasInTokens(JavaUtils.getSet("-", "--", ":"), ss.getTokens()));
+			
 			for (Sentence subSentence : subSentences) {
 				List<Token> tokens = subSentence.getTokens();
 				List<Integer> preps = findPrepositions(tokens);

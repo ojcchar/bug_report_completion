@@ -120,6 +120,7 @@ public class SentenceUtils {
 	}
 
 	public static final Set<String> CLAUSE_SEPARATORS = JavaUtils.getSet(";", ",", "-", "_", "--", ":");
+	public static final Set<String> POS_SEPARATORS = JavaUtils.getSet("CC");
 
 	/**
 	 * Extract clauses or subsentences in the provided sentence, based on
@@ -139,7 +140,7 @@ public class SentenceUtils {
 		int currentClause = 0;
 		for (int i = 0; i < tokens.size();) {
 			Token token = tokens.get(i);
-			if (matchTermsByLemma(CLAUSE_SEPARATORS, token) || token.getPos().equals("CC")) {
+			if (matchTermsByLemma(CLAUSE_SEPARATORS, token) || matchTermsByPOS(POS_SEPARATORS, token)) {
 
 				// ---------------------
 
@@ -193,6 +194,17 @@ public class SentenceUtils {
 		}
 		String text = TextProcessor.getStringFromLemmas(new Sentence("0", tokens.subList(ampersandIdx, toIdx)));
 		return text.matches("\\& # \\d+ ;") || text.matches("\\& #[xX] [0-9a-fA-F]+ ;");
+	}
+
+	/**
+	 * Matches any of the given POS with the token's POS (case ignored)
+	 *
+	 * @param pos
+	 * @param token
+	 * @return true if there is any match, false otherwise
+	 */
+	public static boolean matchTermsByPOS(Set<String> pos, Token token) {
+		return pos.stream().anyMatch(t -> token.getPos().equalsIgnoreCase(t));
 	}
 
 	/**
@@ -292,16 +304,15 @@ public class SentenceUtils {
 
 	// ----------------------------------------
 
-	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet(
-			"boomark", "build", "cache", "change", "check", "drag", "enter",
-			"file", "goto", "import", "input", "install", "paste", "post",
-			"release", "rename", "return", "right-click", "run", "scale",
-			"scroll", "select", "show", "start", "stop", "surf", "try", "type",
+	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("boomark", "build", "cache", "change", "check",
+			"drag", "enter", "file", "goto", "import", "input", "install", "paste", "post", "release", "rename",
+			"return", "right-click", "run", "scale", "scroll", "select", "show", "start", "stop", "surf", "try", "type",
 			"use", "yield", "typing");
 
 	/**
-	 * Check if the sentence/clause is imperative or not. It takes into account labels at the beginning of the sentence,
-	 * such as "exp. behavior: run the program"
+	 * Check if the sentence/clause is imperative or not. It takes into account
+	 * labels at the beginning of the sentence, such as "exp. behavior: run the
+	 * program"
 	 *
 	 * @param sentence
 	 * @return
@@ -479,7 +490,7 @@ public class SentenceUtils {
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * Breaks a given sentence based on parenthesis symbols. Thus each sentence
 	 * within parenthesis is extracted from the original sentence and added to
@@ -509,7 +520,7 @@ public class SentenceUtils {
 			// ArrayList<Token>());
 			// } else
 
-			//FIXME: break by squared parentheses as well
+			// FIXME: break by squared parentheses as well
 			if (current.getLemma().equals("-lrb-")) {
 
 				Sentence s1 = closingParSentence(sentence, j + 1);

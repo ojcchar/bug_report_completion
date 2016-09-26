@@ -40,12 +40,14 @@ public class NegativeTerms {
 			"stop", "strip", "stuck up", "suffer", "terminate", "throw", "time out", "trim", "truncate", "vanish",
 			"terminate", "trim", "waste", "wipe");
 
-	final public static Set<String> NOUNS = JavaUtils.getSet("401", "403", "404", "ambiguity", "ambiguuty", "block",
+	final public static Set<String> NOUNS = JavaUtils.getSet("401", "403", "404", "504", "ambiguity", "ambiguuty", "block",
 			"breakage", "bug", "chaos", "clash", "collision", "conflict", "confusion", "corruption", "crash", "cut",
 			"deadlock", "delay", "disaster", "duplicate", "error", "errore", "exception", "failure", "fault",
 			"frustration", "glitch", "grief", "inability", "ise", "issue", "leak", "leakage", "lock", "loss", "malware",
 			"mismatch", "misplace", "mistake", "nil", "nonsense", "npe", "npes", "null", "omission", "overlap", "pain",
 			"peek", "poor", "problem", "race", "rarity", "runaway", "segfault", "segmentation", "spam", "stacktrace",
-			"symptom", "trouble", "truncation", "typo", "unavailability", "unnavigability", "violation", "wait", "warn",
+			"symptom", "trouble", "truncation", "typo", "unavailability", "unnavigability", "violation", 
+			//"wait", 
+			"warn",
 			"warning", "zombie", "slowness");
 }

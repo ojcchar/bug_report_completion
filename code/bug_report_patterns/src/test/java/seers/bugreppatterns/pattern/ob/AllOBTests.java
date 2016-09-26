@@ -23,7 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		OnlyPMTest.class, OutputPMTest.class, OutputVerbPMTest.class, PassiveVoicePMTest.class,
 		PositiveAfterPMTest.class, PositiveConditionalPMTest.class, ProblemInPMTest.class, ProblemIsPMTest.class,
 		SameProblemWhenPMTest.class, SeemsPMTest.class, SeemsToBePMTest.class, SeemsToNegativeVerbPMTest.class,
-		SimplePresentPMTest.class, StillSentencePMTest.class, SuddenlyNegativePMTest.class, ThereIsNoPMTest.class,
+		SimplePresentPMTest.class, StillSentencePMTest.class, SuddenlyNegativePMTest.class, VerbToBeNegativePMTest.class,
 		TimeAdverbNegativePMTest.class, TimeAdverbPositivePMTest.class, TooSentencePMTest.class, TriesPMTest.class,
 		UnableToPMTest.class, UnfortunatelyPMTest.class, UntilNegPMTest.class, VerbErrorPMTest.class,
 		VerbNoPMTest.class, VeryAdjectivePMTest.class, WhyPMTest.class, WithoutPMTest.class, WorksButPMTest.class,

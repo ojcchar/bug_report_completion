@@ -16,20 +16,21 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ProblemInPM(), new ErrorNounPhrasePM() };
 	final public static Set<String> VERB_TERMS = JavaUtils.getSet("output", "return", "got", "get", "result");
 
-	final public static Set<String> NOT_VERBS = JavaUtils.getSet("warning", "spam", "voided");
+	final public static Set<String> NOT_VERBS = JavaUtils.getSet("warning", "spam", "voided",
+			//if there is the verb to-be in the sentence, then it is possible it fits the 
+			"be"
+			);
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		// System.out.println("\n" + sentence);
 
 		for (Sentence subSentence : SentenceUtils.breakByParenthesis(sentence)) {
 
 			List<Token> tokens = subSentence.getTokens();
 			List<Integer> verbs = findAllVerbs(tokens);
 
-			verbloop: 
-			for (int verb = 0; verb < verbs.size(); verb++) {
-				
+			verbloop: for (int verb = 0; verb < verbs.size(); verb++) {
+
 				// there's nothing after the verb
 				if (verbs.get(verb) + 1 >= tokens.size()) {
 					continue;
@@ -53,7 +54,8 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
 				int end = start + 1;
 
-				while (end <= tokens.size()) {
+				while (end <= tokens.size()
+						) {
 					Sentence clause = new Sentence(sentence.getId(), tokens.subList(start, end));
 					if (isNegative(clause)) {
 						return 1;
@@ -72,8 +74,8 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> verbs = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if ((token.getGeneralPos().equals("VB") || SentenceUtils.lemmasContainToken(VERB_TERMS, token)
-					&& !SentenceUtils.lemmasContainToken(NOT_VERBS, token))) {
+			if ((token.getGeneralPos().equals("VB") || SentenceUtils.lemmasContainToken(VERB_TERMS, token))
+					&& !SentenceUtils.lemmasContainToken(NOT_VERBS, token)) {
 				// if (i + 1 < tokens.size() && !tokens.get(i +
 				// 1).getGeneralPos().equals("VB"))
 				verbs.add(i);
@@ -96,6 +98,15 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 				}
 			}
 		}
-		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
+
+		PatternMatcher pattern = findFirstPatternThatMatches(sentence, NEGATIVE_PMS);
+		// debugging msgs
+//		if (pattern != null) {
+//			System.out.println("match: " + pattern.getClass().getSimpleName());
+//			return true;
+//		}
+
+		return pattern != null;
+		// return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}
 }
