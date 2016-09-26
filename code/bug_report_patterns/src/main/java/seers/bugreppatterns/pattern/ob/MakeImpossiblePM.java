@@ -47,7 +47,7 @@ public class MakeImpossiblePM extends ObservedBehaviorPatternMatcher {
 		}
 		return -1;
 	}
-	
+
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);
 	}

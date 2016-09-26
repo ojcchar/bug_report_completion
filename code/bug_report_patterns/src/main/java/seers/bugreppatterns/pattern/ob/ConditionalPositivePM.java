@@ -32,14 +32,16 @@ public class ConditionalPositivePM extends ObservedBehaviorPatternMatcher {
 				// split sentences based on conditionals
 				List<Sentence> subSentences = SentenceUtils.findSubSentences(superSentence, conditionalIndexes);
 
-				// if there is a sentence before the conditional term, skip it -> the focus is on what is after the
+				// if there is a sentence before the conditional term, skip it
+				// -> the focus is on what is after the
 				// conditional
 				for (int i = conditionalIndexes.get(0) > 0 ? 1 : 0; i < subSentences.size(); i++) {
 
 					Sentence subSentece = subSentences.get(i);
 					List<Integer> punct = findPunctuation(subSentece.getTokens());
 
-					// hard case: there is no punctuation. Try subsentences from end to beginning. Check there is
+					// hard case: there is no punctuation. Try subsentences from
+					// end to beginning. Check there is
 					// something before the non-negative sentence.
 					if (punct.isEmpty()) {
 						boolean isNeg = false;
@@ -59,8 +61,10 @@ public class ConditionalPositivePM extends ObservedBehaviorPatternMatcher {
 						}
 
 					}
-					// The easy case: there is punctuation (',', '_', '-'). Make sure that (i) there is something
-					// between the conditional and the punctuation, and (ii) there is no negative sentence after
+					// The easy case: there is punctuation (',', '_', '-'). Make
+					// sure that (i) there is something
+					// between the conditional and the punctuation, and (ii)
+					// there is no negative sentence after
 					// the punctuation.
 					else {
 						List<Sentence> subSubSentences = SentenceUtils.findSubSentences(subSentece, punct);

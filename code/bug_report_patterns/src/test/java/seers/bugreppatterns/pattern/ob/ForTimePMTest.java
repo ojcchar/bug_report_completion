@@ -13,15 +13,14 @@ public class ForTimePMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] negs = {"20 mins for now", "10 mins from now"};
+		String[] negs = { "20 mins for now", "10 mins from now" };
 
 		TestUtils.testSentences(negs, pm, 0);
 	}
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negs = {"I've been waiting for 3 days",
-				"This application has been Pending since February 18th"};
+		String[] negs = { "I've been waiting for 3 days", "This application has been Pending since February 18th" };
 
 		TestUtils.testSentences(negs, pm, 1);
 	}

@@ -46,7 +46,8 @@ public class NoticePM extends ObservedBehaviorPatternMatcher {
 									|| previous.getWord().toLowerCase().equals("i"))) {
 						finds.add(i);
 					}
-					// the one preceded by another verb/modal that is preceded by a pronoun
+					// the one preceded by another verb/modal that is preceded
+					// by a pronoun
 					else if ((previous.getGeneralPos().equals("VB")
 							|| (previous.getGeneralPos().equals("MD") && !isEBModal(tokens.subList(i - 1, i))))
 							&& i - 2 >= 0) {
@@ -54,7 +55,8 @@ public class NoticePM extends ObservedBehaviorPatternMatcher {
 							finds.add(i);
 						}
 					}
-					// the one preceded by a conjunction, which is preceded at some point by a pronoun
+					// the one preceded by a conjunction, which is preceded at
+					// some point by a pronoun
 					else if (previous.getGeneralPos().equals("CC")) {
 						for (int j = i - 2; j >= 0; j--) {
 							if (tokens.get(j).getGeneralPos().equals("PRP")) {

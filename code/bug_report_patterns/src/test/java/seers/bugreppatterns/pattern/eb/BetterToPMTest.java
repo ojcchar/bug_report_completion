@@ -19,7 +19,8 @@ public class BetterToPMTest extends BaseTest {
 
 	@Test
 	public void testNegatives() throws Exception {
-		String[] txts = {"Something is definitely broken, and even if this doesn't look dangerous, it's better to be checked and fixed."};
+		String[] txts = {
+				"Something is definitely broken, and even if this doesn't look dangerous, it's better to be checked and fixed." };
 		TestUtils.testSentences(txts, pm, 0);
 	}
 

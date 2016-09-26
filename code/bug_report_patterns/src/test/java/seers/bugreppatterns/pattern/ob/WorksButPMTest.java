@@ -2,9 +2,9 @@ package seers.bugreppatterns.pattern.ob;
 
 import seers.bugreppatterns.main.BaseTest;
 
-public class WorksButPMTest extends BaseTest{
+public class WorksButPMTest extends BaseTest {
 
-	public WorksButPMTest(){
+	public WorksButPMTest() {
 		pm = new WorksButPM();
 	}
 }

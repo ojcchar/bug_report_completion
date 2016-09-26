@@ -13,16 +13,14 @@ public class MakeImpossiblePMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] sentences = {
-		};
+		String[] sentences = {};
 
 		TestUtils.testSentences(sentences, pm, 0);
 	}
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = {
-		};
+		String[] sentences = {};
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

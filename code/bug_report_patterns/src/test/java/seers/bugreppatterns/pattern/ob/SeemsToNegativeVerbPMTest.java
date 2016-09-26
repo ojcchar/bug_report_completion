@@ -2,9 +2,9 @@ package seers.bugreppatterns.pattern.ob;
 
 import seers.bugreppatterns.main.BaseTest;
 
-public class SeemsToNegativeVerbPMTest extends BaseTest{
+public class SeemsToNegativeVerbPMTest extends BaseTest {
 
-	public SeemsToNegativeVerbPMTest (){
+	public SeemsToNegativeVerbPMTest() {
 		pm = new SeemsToNegativeVerbPM();
 	}
 }

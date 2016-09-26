@@ -6,6 +6,7 @@ import java.util.List;
 import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.ob.NegativeAuxVerbPM;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -18,6 +19,11 @@ public class MakeSensePM extends ExpectedBehaviorPatternMatcher {
 
 		// no negative sentences
 		if (isNegative(sentence)) {
+			return 0;
+		}
+
+		// no questions
+		if (SentenceUtils.isQuestion(sentence)) {
 			return 0;
 		}
 

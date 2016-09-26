@@ -17,9 +17,9 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.bugreppatterns.pattern.PatternMatcher;
-import seers.bugreppatterns.pattern.predictor.LabelPredictor;
 import seers.bugreppatterns.pattern.predictor.AnyMatchPredictor;
 import seers.bugreppatterns.pattern.predictor.CombinationPredictor;
+import seers.bugreppatterns.pattern.predictor.LabelPredictor;
 import seers.bugreppatterns.processor.SystemProcessor;
 
 public class MainHRClassifier {

@@ -23,8 +23,7 @@ public class AllowPM extends ObservedBehaviorPatternMatcher {
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		for (Sentence ss : SentenceUtils.breakByParenthesis(sentence)) {
-			List<Sentence> subSentences = SentenceUtils.findSubSentences(ss,
-					findPunctuation(ss.getTokens()));
+			List<Sentence> subSentences = SentenceUtils.findSubSentences(ss, findPunctuation(ss.getTokens()));
 
 			for (Sentence subSentence : subSentences) {
 				List<Integer> allows = findAllows(subSentence.getTokens());
@@ -49,11 +48,13 @@ public class AllowPM extends ObservedBehaviorPatternMatcher {
 					&& current.getLemma().equals(ALLOW)) {
 				Token previous = tokens.get(i - 1);
 
-				// The right "allow": the one that comes after a noun, pronoun or wh-determiner
+				// The right "allow": the one that comes after a noun, pronoun
+				// or wh-determiner
 				if (isRightSubject(previous)) {
 					assumes.add(i);
 				}
-				// Sometimes there are parenthesis in between. We skip their content and look for a
+				// Sometimes there are parenthesis in between. We skip their
+				// content and look for a
 				// noun/pronoun/wh-determiner before the parenthesis
 				else if (previous.getGeneralPos().equals("-RRB-")) {
 					int j = i - 2;
@@ -76,7 +77,8 @@ public class AllowPM extends ObservedBehaviorPatternMatcher {
 					while (j >= 0 && tokens.get(j).getGeneralPos().equals("VB")) {
 						j--;
 					}
-					// verify that there is a noun/pronoun/wh-determiner before the verb(s)
+					// verify that there is a noun/pronoun/wh-determiner before
+					// the verb(s)
 					if (j >= 0) {
 						if (isRightSubject(tokens.get(j))) {
 							assumes.add(i);

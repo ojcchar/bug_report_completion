@@ -17,9 +17,9 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 	final public static Set<String> VERB_TERMS = JavaUtils.getSet("output", "return", "got", "get", "result");
 
 	final public static Set<String> NOT_VERBS = JavaUtils.getSet("warning", "spam", "voided",
-			//if there is the verb to-be in the sentence, then it is possible it fits the 
-			"be"
-			);
+			// if there is the verb to-be in the sentence, then it is possible
+			// it fits the
+			"be");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -54,8 +54,7 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
 				int end = start + 1;
 
-				while (end <= tokens.size()
-						) {
+				while (end <= tokens.size()) {
 					Sentence clause = new Sentence(sentence.getId(), tokens.subList(start, end));
 					if (isNegative(clause)) {
 						return 1;
@@ -101,10 +100,10 @@ public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
 		PatternMatcher pattern = findFirstPatternThatMatches(sentence, NEGATIVE_PMS);
 		// debugging msgs
-//		if (pattern != null) {
-//			System.out.println("match: " + pattern.getClass().getSimpleName());
-//			return true;
-//		}
+		// if (pattern != null) {
+		// System.out.println("match: " + pattern.getClass().getSimpleName());
+		// return true;
+		// }
 
 		return pattern != null;
 		// return sentenceMatchesAnyPatternIn(sentence, NEGATIVE_PMS);

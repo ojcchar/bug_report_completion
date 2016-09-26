@@ -27,10 +27,11 @@ public class SimpleTenseChecker {
 	 * Set of verbs to avoid matching
 	 */
 	private Set<String> verbsToAvoid;
-//	/**
-//	 * Check or not for sentence starting with verbs (i.e., missing the subject)
-//	 */
-//	private boolean checkForStartingVerb;
+	// /**
+	// * Check or not for sentence starting with verbs (i.e., missing the
+	// subject)
+	// */
+	// private boolean checkForStartingVerb;
 
 	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs) {
 		this(partOfSpeeches, undetectedVerbs, null);
@@ -41,7 +42,7 @@ public class SimpleTenseChecker {
 		this.partOfSpeeches = partOfSpeeches == null ? new HashSet<>() : partOfSpeeches;
 		this.undetectedVerbs = undetectedVerbs == null ? new HashSet<>() : undetectedVerbs;
 		this.verbsToAvoid = verbsToAvoid == null ? new HashSet<>() : verbsToAvoid;
-//		this.checkForStartingVerb = checkForStartingVerb;
+		// this.checkForStartingVerb = checkForStartingVerb;
 	}
 
 	public int countNumClauses(Sentence sentence) {
@@ -67,15 +68,15 @@ public class SimpleTenseChecker {
 				}
 			}
 		} else {
-//			if (checkForStartingVerb) {
-//
-//				// check for sentence starting with the verb in the sentence
-//				for (Sentence clause : clauses) {
-//					if (checkClauseInTense(clause)) {
-//						numClauses++;
-//					}
-//				}
-//			}
+			// if (checkForStartingVerb) {
+			//
+			// // check for sentence starting with the verb in the sentence
+			// for (Sentence clause : clauses) {
+			// if (checkClauseInTense(clause)) {
+			// numClauses++;
+			// }
+			// }
+			// }
 		}
 		return numClauses;
 	}

@@ -10,10 +10,10 @@ public class NoMatterPMTest extends BaseTest {
 		pm = new NoMatterPM();
 	}
 
-	
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = { "Now, in 4.1 it always starts with slide 1, regardless what I try to set in the options."};
+		String[] sentences = {
+				"Now, in 4.1 it always starts with slide 1, regardless what I try to set in the options." };
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

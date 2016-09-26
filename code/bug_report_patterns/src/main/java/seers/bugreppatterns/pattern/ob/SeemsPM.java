@@ -13,7 +13,7 @@ import seers.textanalyzer.entity.Token;
 
 public class SeemsPM extends ObservedBehaviorPatternMatcher {
 
-	public final static Set<String> SEEM_VERBS =  JavaUtils.getSet( "seem", "appear", "look" );
+	public final static Set<String> SEEM_VERBS = JavaUtils.getSet("seem", "appear", "look");
 
 	public final static PatternMatcher[] OTHER_SEEM = { new SeemsToNegativeVerbPM(), new SeemsToBePM() };
 

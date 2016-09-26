@@ -12,22 +12,17 @@ public class ExceptPMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] negs = {
-				"This shouldn't be the case except for this special character.",
+		String[] negs = { "This shouldn't be the case except for this special character.",
 				"This shouldn't be the case except for this special character and except when the",
-				"Except when this happens, this shouldn't be like this",
-				};
+				"Except when this happens, this shouldn't be like this", };
 
 		TestUtils.testSentences(negs, pm, 0);
 	}
-	
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negs = {
-				"This is working well except for this special character.",
-				"Except when this happens, this works",
-				};
+		String[] negs = { "This is working well except for this special character.",
+				"Except when this happens, this works", };
 
 		TestUtils.testSentences(negs, pm, 1);
 	}

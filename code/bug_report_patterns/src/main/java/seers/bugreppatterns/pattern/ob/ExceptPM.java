@@ -11,7 +11,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ExceptPM extends ObservedBehaviorPatternMatcher {
 
-	private static final Set<String> EXCEPT = JavaUtils.getSet("except" );
+	private static final Set<String> EXCEPT = JavaUtils.getSet("except");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

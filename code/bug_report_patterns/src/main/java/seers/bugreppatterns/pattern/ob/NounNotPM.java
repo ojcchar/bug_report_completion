@@ -11,7 +11,7 @@ import seers.textanalyzer.entity.Token;
 
 public class NounNotPM extends ObservedBehaviorPatternMatcher {
 
-	public final static Set<String> NOT = JavaUtils.getSet( "not" );
+	public final static Set<String> NOT = JavaUtils.getSet("not");
 
 	public NounNotPM() {
 	}

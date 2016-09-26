@@ -24,14 +24,13 @@ public class UsedToPMTest extends BaseTest {
 				"When I use entityManager.persist(), it works fine as with actual instance passed to persist() is used to invoke callback method.",
 				"With version4, key F9 is used to write formule or modify formula.",
 				"Rephrase the whole thing to: \"A term that can be used to search for this concept, but that is not valid for display purposes (e.g. a common misspelling or a drug code name)",
-				"The issue here is that if you want to do anything even vaguely research-related with a system, every patient should have a non-MRN ID that can be used to re-identify them later.",
-				// TODO: these ones should pass, but it depends on the meaning
-				// of the "used to"
-				// "Command line used to start eclipse:",
-				// "Here is the **dockerfile** I used to create my gocd image",
-		};
+				"The issue here is that if you want to do anything even vaguely research-related with a system, every patient should have a non-MRN ID that can be used to re-identify them later.", };
 
 		TestUtils.testSentences(sentences, pm, 0);
+
+		@SuppressWarnings("unused")
+		String[] trickySentences = { "Command line used to start eclipse:",
+				"Here is the **dockerfile** I used to create my gocd image", };
 	}
 
 	@Test

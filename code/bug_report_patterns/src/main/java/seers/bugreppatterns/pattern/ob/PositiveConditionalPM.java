@@ -33,7 +33,7 @@ public class PositiveConditionalPM extends ObservedBehaviorPatternMatcher {
 	private boolean isNegative(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, NegativeAfterPM.NEGATIVE_PMS);
 	}
-	
+
 	private List<Integer> findConditionals(List<Token> tokens) {
 		return SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, tokens);
 	}

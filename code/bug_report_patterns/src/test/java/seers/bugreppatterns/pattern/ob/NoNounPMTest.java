@@ -9,7 +9,7 @@ public class NoNounPMTest extends BaseTest {
 	public NoNounPMTest() {
 		pm = new NoNounPM();
 	}
-	
+
 	@Test
 	public void testNegative() throws Exception {
 		String[] sentences = {};
@@ -19,9 +19,7 @@ public class NoNounPMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = {
-				"no \"tag\" field for the image"
-		};
+		String[] sentences = { "no \"tag\" field for the image" };
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

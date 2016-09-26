@@ -34,8 +34,6 @@ public class SentenceUtils {
 		}
 		if (tokens.get(tokens.size() - 1).getLemma().equals("?")) {
 			return true;
-		} else if (tokens.size() > 1 && tokens.get(tokens.size() - 1).getLemma().equals("?")) {
-			return true;
 		}
 		return false;
 	}

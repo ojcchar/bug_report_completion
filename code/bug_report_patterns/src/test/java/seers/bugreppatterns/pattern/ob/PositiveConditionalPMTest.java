@@ -25,9 +25,9 @@ public class PositiveConditionalPMTest extends BaseTest {
 		String[] sentences = {
 				"With a certain configuration of Virtual hosts with SSL Engine enabled, Apache beliefs the client is connecting to server port 80 with protocol HTTP, while in reality the client is connected to server port 443 with protocol HTTPS",
 				"Configure exits when using --enable-mods-shared=all on mod_auth_digest",
-				 "EDITING: Comments double when copying Sheets",
-				 
-				};
+				"EDITING: Comments double when copying Sheets",
+
+		};
 		TestUtils.testSentences(sentences, pm, 1);
 	}
 }

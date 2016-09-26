@@ -13,7 +13,8 @@ import seers.textanalyzer.entity.Token;
  * Matcher for S_OB_OUTPUT_VERB
  */
 public class OutputVerbPM extends ObservedBehaviorPatternMatcher {
-	public static final Set<String> OUTPUT_VERBS = JavaUtils.getSet("output", "display", "show", "return", "report", "pop");
+	public static final Set<String> OUTPUT_VERBS = JavaUtils.getSet("output", "display", "show", "return", "report",
+			"pop");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

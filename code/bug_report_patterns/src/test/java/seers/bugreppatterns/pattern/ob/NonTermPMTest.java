@@ -18,16 +18,14 @@ public class NonTermPMTest extends BaseTest {
 				"The issue here is that if you want to do anything even vaguely research-related with a system, every patient should have a non-MRN ID that can be used to re-identify them later.",
 				"It would make the most sense if this tag and its contents simply disappeared when a non-friend/non-fan views an application tab.",
 				"1 This is running as a cloud init so the installation should be non interactive, so how to avoid this prompt and force it to install with new configuration",
-				"and none of the concept words are actually updated.",
-		};
+				"and none of the concept words are actually updated.", };
 
 		TestUtils.testSentences(sentences, pm, 0);
 	}
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = {
-				"Accessing apps via https:// produces a warning about non-ssl content",
+		String[] sentences = { "Accessing apps via https:// produces a warning about non-ssl content",
 				"Going to the main non-SSL page led to a 403 error, even though permissions are set correctly and the server is running as user www group www, same as with previous Apache.",
 				"Additionally, due to the fact that mod_cache uses the quick_handler hook, it interrupts (if deciding to return cached content) most down-stream modules so that they cannot make decisions about caching or non-caching content.",
 				"I'm trying to create an image with docker builder, but the command \"ADD index.js in /src\" gives me the error message: Error build: The command [/bin/sh -c #(nop) ADD index.js in /src] returned a non-zero code: 255.",
@@ -42,8 +40,7 @@ public class NonTermPMTest extends BaseTest {
 				"However, the validator only tests against non-retired workflows, which I believe is in error.",
 				"Since some of these options definitely have a non-mandatory flavor when considering some compliance levels (aka JavaCore.COMPILER_PB_ASSERT_IDENTIFIER for 1.3 or 1.4), rendering the effective behavior in a concise documentation may turn out to be a bit challenging.",
 				"We have a number of non-US users of our application (primarily Australia) and a large number of them encounter an untrusted security certificate warning when they access https://www.facebook.com/login.",
-				"produces a prompt about a non secure content",
-				"firefox default theme button text non center",
+				"produces a prompt about a non secure content", "firefox default theme button text non center",
 				"Using the default Firefox theme with Icons and Text, some of the text for the buttons are *slightly* non center, with the Stop button being the most noticable.",
 				"Package libreoffice-common left non upgraded.",
 				"This is causing attempts to load Save Handlers on commits to the DB (where the method name starts with 'save') on non OpenmrsObjects: this results in casting exceptions that will hault the thread in the AOP (RequiredDataAdvice) before the commit is ever executed.",
@@ -51,7 +48,7 @@ public class NonTermPMTest extends BaseTest {
 				"However, if I replace the 'USER nonroot' line with 'RUN /bin/su nonroot' everything is copacetic.",
 				"Actual Results:  Striped firefox-bin and shared libraries end up in the firefox- directory while nonstriped shared libraries end up in the firefox-devel directory.",
 				"In IE7_ I m getting a security warning  This page contains both secure and nonsecure items. ",
-							
+
 		};
 
 		TestUtils.testSentences(sentences, pm, 1);

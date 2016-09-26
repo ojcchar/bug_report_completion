@@ -11,11 +11,11 @@ import seers.textanalyzer.entity.Token;
 
 public class WorksButPM extends ObservedBehaviorPatternMatcher {
 
-	public final static Set<String> FINE_TERM = JavaUtils.getSet( "fine", "great", "ok", "normally", "correctly", "flawlessly",
-			"perfectly", "properly" );
+	public final static Set<String> FINE_TERM = JavaUtils.getSet("fine", "great", "ok", "normally", "correctly",
+			"flawlessly", "perfectly", "properly");
 
-	public final static Set<String> BUT_TERM = JavaUtils.getSet( "but", "except", "until", "however", "then", "although", "though",
-			"nevertheless" );
+	public final static Set<String> BUT_TERM = JavaUtils.getSet("but", "except", "until", "however", "then", "although",
+			"though", "nevertheless");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

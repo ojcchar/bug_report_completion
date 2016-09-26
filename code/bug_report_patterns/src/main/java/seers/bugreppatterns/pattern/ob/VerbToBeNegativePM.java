@@ -49,35 +49,36 @@ public class VerbToBeNegativePM extends ObservedBehaviorPatternMatcher {
 					Token nextToken = subClauseTokens.get(subj + 1);
 					int indxNxtTok2 = 2;
 
-					//if the current token is modal, then check the next token
+					// if the current token is modal, then check the next token
 					if (isModal(nextToken)) {
 						nextToken = subClauseTokens.get(subj + 2);
 						indxNxtTok2 = 3;
 					}
 
-					//enough tokens?
+					// enough tokens?
 					if (subj + indxNxtTok2 >= subClauseTokens.size()) {
 						continue;
 					}
 
-					//verb to-be?
+					// verb to-be?
 					if (nextToken.getLemma().equals("be")) {
 
 						Token nextToken2 = subClauseTokens.get(subj + indxNxtTok2);
 
-						//case: there is no/nothing
+						// case: there is no/nothing
 						if (SentenceUtils.lemmasContainToken(NEGATIVE_TERMS, nextToken2)) {
 							return 1;
 						} else {
-							
-							//case: there is a bug/error/etc.
+
+							// case: there is a bug/error/etc.
 							Sentence newClause = new Sentence(sentence.getId(),
 									subClauseTokens.subList(subj + indxNxtTok2, subClauseTokens.size()));
 							if (isNegative(newClause)) {
 								return 1;
-							}else 
-								//case: there are differences...
-								if (newClause.getTokens().stream().anyMatch(tok -> tok.getLemma().equalsIgnoreCase("difference"))) {
+							} else
+							// case: there are differences...
+							if (newClause.getTokens().stream()
+									.anyMatch(tok -> tok.getLemma().equalsIgnoreCase("difference"))) {
 								return 1;
 							}
 						}

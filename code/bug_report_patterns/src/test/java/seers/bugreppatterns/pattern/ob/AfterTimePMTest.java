@@ -31,7 +31,7 @@ public class AfterTimePMTest extends BaseTest {
 				"Something happens after this happens, crash",
 				"after loading start page the loading wheel keeps turning as if still loading page",
 				"After switching from 2.2.8 to 2.2.8 I found out it writes something like this to error.log during startup:",
-				"After it waits 4 minutes"};
+				"After it waits 4 minutes" };
 
 		TestUtils.testSentences(negs, pm, 0);
 	}

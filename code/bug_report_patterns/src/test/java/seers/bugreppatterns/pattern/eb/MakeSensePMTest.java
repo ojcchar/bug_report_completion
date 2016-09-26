@@ -31,11 +31,8 @@ public class MakeSensePMTest extends BaseTest {
 				"http://docs.docker.com/docker-hub/accounts/Sam%20Alba%3Csam@docker.com%3E, does not work and even if it did, it would not make sense.",
 				"This doesn't seem to make sense, as creating a TTY handles all three signals - I shouldn't need/want to attach them separately afterwards.",
 				"In brief, it doesn't seem to make sense that --tty and --attach can be used together, and doing so cause unexpected results.",
-				"The best I can do right now is redirect stderr and stdout to /dev/null to suppress them, and generate a unique tag name myself to pass in with `-t` (parsing stdout just doesn't make sense)."
-				// ,
-				// "I understand why a upper limit make sense, but a 4 character
-				// lower limit?"
-		};
+				"The best I can do right now is redirect stderr and stdout to /dev/null to suppress them, and generate a unique tag name myself to pass in with `-t` (parsing stdout just doesn't make sense).",
+				"I understand why a upper limit make sense, but a 4 character lower limit?" };
 		TestUtils.testSentences(txts, pm, 0);
 
 	}

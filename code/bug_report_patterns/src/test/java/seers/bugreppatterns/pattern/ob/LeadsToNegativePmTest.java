@@ -25,8 +25,7 @@ public class LeadsToNegativePmTest extends BaseTest {
 				"FILESAVE causes lots of artifacts and destroys VIEWING for embedded .svg",
 				"This is causing attempts to load Save Handlers on commits to the DB (where the method name starts with 'save') on non OpenmrsObjects: this results in casting exceptions that will hault the thread in the AOP (RequiredDataAdvice) before the commit is ever executed.",
 				"Exiting a patient from care causes \"not-null property references a null or transient value: org.openmrs.PatientState.dateCreated\"",
-				 "* When the query cache expires first, it won't cache the objects (as described), which will eventually lead to a situation where the query cache is valid and the object cache expired."
-		};
+				"* When the query cache expires first, it won't cache the objects (as described), which will eventually lead to a situation where the query cache is valid and the object cache expired." };
 		TestUtils.testSentences(sentences, pm, 1);
 	}
 
@@ -34,7 +33,7 @@ public class LeadsToNegativePmTest extends BaseTest {
 	public void testNegative() throws Exception {
 		String[] sentences = {
 
-				 };
+		};
 		TestUtils.testSentences(sentences, pm, 0);
 	}
 }

@@ -19,17 +19,17 @@ public class DueToNegativePM extends ObservedBehaviorPatternMatcher {
 
 		if (!dueTos.isEmpty()) {
 			for (int i = 0; i < dueTos.size(); i++) {
-				
+
 				// The sentence after due to must be negative
 				int start = dueTos.get(i) + 2;
 				int end = i == dueTos.size() - 1 ? tokens.size() : dueTos.get(i + 1);
 				Sentence subSentence = new Sentence(sentence.getId(), tokens.subList(start, end));
-			
+
 				if (isNegative(subSentence)) {
 					return 1;
 				}
 			}
-			
+
 		}
 
 		return 0;

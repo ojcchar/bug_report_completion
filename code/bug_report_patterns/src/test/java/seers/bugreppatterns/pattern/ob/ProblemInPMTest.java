@@ -28,7 +28,7 @@ public class ProblemInPMTest extends BaseTest {
 				"Possibility for unnavigability", };
 
 		TestUtils.testSentences(sentences, pm, 1);
-		
+
 		@SuppressWarnings("unused")
 		String[] trickySentences = {
 				"Besides the error message on the webpage [an error occurred while\n"

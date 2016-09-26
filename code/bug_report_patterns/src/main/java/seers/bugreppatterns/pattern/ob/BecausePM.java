@@ -11,7 +11,7 @@ import seers.textanalyzer.entity.Token;
 
 public class BecausePM extends ObservedBehaviorPatternMatcher {
 
-	public final static Set<String> BECAUSE = JavaUtils.getSet( "because" );
+	public final static Set<String> BECAUSE = JavaUtils.getSet("because");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

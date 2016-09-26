@@ -25,14 +25,14 @@ public class FoundPMTest extends BaseTest {
 				"Domain class not found when creating JAXBContext", "App page giving Page Not Found errors suddenly",
 				"It seems that the img parameter isn t recognized at all because the reference to the thumb image cannot be found in the resulting html embed code.",
 				"The user gets a notification_ however no comment is found.",
-				"If no browser is open it will only open a blank page, and if a window is open, it will say that the file ...htm could not be found."};
+				"If no browser is open it will only open a blank page, and if a window is open, it will say that the file ...htm could not be found." };
 
 		TestUtils.testSentences(negs, pm, 0);
 	}
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negs = { };
+		String[] negs = {};
 
 		TestUtils.testSentences(negs, pm, 1);
 	}

@@ -11,12 +11,12 @@ import seers.textanalyzer.entity.Token;
 
 public class SuddenlyNegativePM extends ObservedBehaviorPatternMatcher {
 
-	public final static Set<String> SUDDEN_TERMS = JavaUtils.getSet( "sudden", "suddenly");
-	
+	public final static Set<String> SUDDEN_TERMS = JavaUtils.getSet("sudden", "suddenly");
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
-		
+
 		List<Integer> sudden = findSuddenTerms(tokens);
 
 		if (!sudden.isEmpty() && isNegative(sentence)) {

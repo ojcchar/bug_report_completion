@@ -32,13 +32,15 @@ public class AfterTimePM extends ObservedBehaviorPatternMatcher {
 				// split sentences based on "after"
 				List<Sentence> subSentences = SentenceUtils.findSubSentences(superSentence, afters);
 
-				// if there is a sentence before the "after" term, skip it -> the focus is on what is after the "after"
+				// if there is a sentence before the "after" term, skip it ->
+				// the focus is on what is after the "after"
 				for (int i = afters.get(0) > 0 ? 1 : 0; i < subSentences.size(); i++) {
 					Sentence subSentece = subSentences.get(i);
 
 					List<Integer> punct = findPunctuation(subSentece.getTokens());
 
-					// hard case: there is no punctuation. Check for time terms and verify there is no verb before them.
+					// hard case: there is no punctuation. Check for time terms
+					// and verify there is no verb before them.
 
 					if (punct.isEmpty()) {
 						List<Integer> timeTokens = SentenceUtils.findLemmasInTokens(TIME_TERMS, subSentece.getTokens());
@@ -48,8 +50,10 @@ public class AfterTimePM extends ObservedBehaviorPatternMatcher {
 						}
 
 					}
-					// The easy case: there is punctuation (',', '_', '-'). Make sure that the sentence between the
-					// "after" and punctuation contains time terms and that there are no verbs before them.
+					// The easy case: there is punctuation (',', '_', '-'). Make
+					// sure that the sentence between the
+					// "after" and punctuation contains time terms and that
+					// there are no verbs before them.
 					else {
 						List<Sentence> subSubSentences = SentenceUtils.findSubSentences(subSentece, punct);
 

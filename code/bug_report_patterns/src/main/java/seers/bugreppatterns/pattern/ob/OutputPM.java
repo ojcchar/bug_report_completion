@@ -16,7 +16,7 @@ public class OutputPM extends ObservedBehaviorPatternMatcher {
 	public final static Set<String> OUTPUT_NOUN_TERMS = JavaUtils.getSet("result", "output");
 
 	private final static PatternMatcher[] NOT_ALLOWED_PMS = { new CorrectIsPM() };
-	
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
@@ -38,7 +38,7 @@ public class OutputPM extends ObservedBehaviorPatternMatcher {
 	private boolean isEBPattern(Sentence sentence) throws Exception {
 		return sentenceMatchesAnyPatternIn(sentence, NOT_ALLOWED_PMS);
 	}
-	
+
 	public boolean checkForOutputIs(List<Token> tokens) {
 
 		for (int i = 0; i < (tokens.size() - 1); i++) {

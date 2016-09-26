@@ -16,7 +16,7 @@ public class TimeAdverbNegativePMTest extends BaseTest {
 	@Test
 	public void testPositive() throws Exception {
 		String[] sentences = {
-					"### Actual behavior Right now `timestamp`, being used as a sorting criteria, even when sometimes a value other than an actual timestamp is assigned to such `timestamp` attribute, which is misleading." };
+				"### Actual behavior Right now `timestamp`, being used as a sorting criteria, even when sometimes a value other than an actual timestamp is assigned to such `timestamp` attribute, which is misleading." };
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

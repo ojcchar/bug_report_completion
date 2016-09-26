@@ -46,13 +46,15 @@ public class FoundPM extends ObservedBehaviorPatternMatcher {
 									|| previous.getWord().toLowerCase().equals("i"))) {
 						finds.add(i);
 					}
-					// The one preceded by a verb that is in turn preceded by a pronoun
+					// The one preceded by a verb that is in turn preceded by a
+					// pronoun
 					else if (previous.getGeneralPos().equals("VB") && i - 2 >= 0) {
 						if (tokens.get(i - 2).getGeneralPos().equals("PRP")) {
 							finds.add(i);
 						}
 					}
-					// The one preceded by a conjunction that is in turn preceded by a pronoun
+					// The one preceded by a conjunction that is in turn
+					// preceded by a pronoun
 					else if (previous.getGeneralPos().equals("CC")) {
 						for (int j = i - 2; j >= 0; j--) {
 							if (tokens.get(j).getGeneralPos().equals("PRP")) {

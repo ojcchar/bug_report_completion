@@ -48,8 +48,8 @@ public class DespitePM extends ObservedBehaviorPatternMatcher {
 			} else if (i + 1 < tokens.size() && tokens.get(i).getLemma().equals("even")
 					&& tokens.get(i + 1).getLemma().matches("if|though|after|when")) {
 				return i;
-			} else if (i + 2 < tokens.size() && tokens.get(i).getLemma().equals("in") && tokens.get(i + 1).getLemma().equals("spite")
-					&& tokens.get(i + 2).getLemma().equals("of")) {
+			} else if (i + 2 < tokens.size() && tokens.get(i).getLemma().equals("in")
+					&& tokens.get(i + 1).getLemma().equals("spite") && tokens.get(i + 2).getLemma().equals("of")) {
 				return i;
 			}
 		}

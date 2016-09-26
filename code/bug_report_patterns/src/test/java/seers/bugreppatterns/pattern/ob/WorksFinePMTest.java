@@ -12,14 +12,14 @@ public class WorksFinePMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] negs = {"It doesn't work correctly", "it hasn't been working correctly", "it hasn't worked"};
+		String[] negs = { "It doesn't work correctly", "it hasn't been working correctly", "it hasn't worked" };
 
 		TestUtils.testSentences(negs, pm, 0);
 	}
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negs = {"it works", "it has been working"};
+		String[] negs = { "it works", "it has been working" };
 
 		TestUtils.testSentences(negs, pm, 1);
 	}

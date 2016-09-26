@@ -25,10 +25,11 @@ public class AllowPMTest extends BaseTest {
 				"user gets really long error message that wont allow 'copy &amp; paste'   :-(",
 				"Expected Results:  allowed popups",
 				"Firefox forgets which sites are allowed to create popups after extended use. complete restart temporarily fixes problem",
-				"popups occuring form one site on the allow list (www.we-love-anime.com/forum great anime forum...) on an average of 1 every one to two minutes.", "Some place there must be something to change that will allow me to use my new email address.",
+				"popups occuring form one site on the allow list (www.we-love-anime.com/forum great anime forum...) on an average of 1 every one to two minutes.",
+				"Some place there must be something to change that will allow me to use my new email address.",
 				"The pasting should be allowed with the user's permission.",
 				"Pasting in rich text editor context menus is not allowed.",
-				"when i have access control like &lt;LocationMatch ^/engine/request/&gt; Order Deny,Allow Allow from all"};
+				"when i have access control like &lt;LocationMatch ^/engine/request/&gt; Order Deny,Allow Allow from all" };
 
 		TestUtils.testSentences(sentences, pm, 0);
 	}
@@ -37,7 +38,7 @@ public class AllowPMTest extends BaseTest {
 	public void testPositive() throws Exception {
 		String[] sentences = {
 				"When focus is in the editor, which allows the refresh action to be executed, the refresh action in debugger views is enabled as a side effect.",
-				"it does allow to merge"};
+				"it does allow to merge" };
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

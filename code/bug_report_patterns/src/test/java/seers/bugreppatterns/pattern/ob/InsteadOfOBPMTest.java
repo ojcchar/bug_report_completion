@@ -12,7 +12,8 @@ public class InsteadOfOBPMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = { "Upon reloading the page (which calls for header.html), the file header.htm is loaded instead."};
+		String[] sentences = {
+				"Upon reloading the page (which calls for header.html), the file header.htm is loaded instead." };
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

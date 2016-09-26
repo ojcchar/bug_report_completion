@@ -10,12 +10,12 @@ public class ExpectSentencePMTest extends BaseTest {
 	public ExpectSentencePMTest() {
 		pm = new ExpectSentencePM();
 	}
+
 	@Test
 	public void testPositive() throws Exception {
 
-		String[] txts = { 
-				"Result: The Underline button changes - as expected - to pressed state while the caret is within the underlined part."
-		};
+		String[] txts = {
+				"Result: The Underline button changes - as expected - to pressed state while the caret is within the underlined part." };
 		TestUtils.testSentences(txts, pm, 1);
 
 	}

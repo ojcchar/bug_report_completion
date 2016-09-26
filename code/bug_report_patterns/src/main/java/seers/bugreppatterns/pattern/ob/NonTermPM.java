@@ -36,8 +36,8 @@ public class NonTermPM extends ObservedBehaviorPatternMatcher {
 	private boolean containsNonTerm(List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token current = tokens.get(i);
-			if ((current.getGeneralPos().equals("NN") || current.getGeneralPos().equals("JJ")) && current.getLemma().matches("non([-])?[a-z]+")
-					&& !current.getLemma().equals("none")) {
+			if ((current.getGeneralPos().equals("NN") || current.getGeneralPos().equals("JJ"))
+					&& current.getLemma().matches("non([-])?[a-z]+") && !current.getLemma().equals("none")) {
 				return true;
 			} else if (current.getGeneralPos().equals("JJ") && current.getLemma().equals("non")) {
 				return true;

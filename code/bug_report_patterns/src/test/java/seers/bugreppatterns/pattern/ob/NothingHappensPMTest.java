@@ -12,7 +12,7 @@ public class NothingHappensPMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] negs = { "Nothing happened"};
+		String[] negs = { "Nothing happened" };
 
 		TestUtils.testSentences(negs, pm, 1);
 	}

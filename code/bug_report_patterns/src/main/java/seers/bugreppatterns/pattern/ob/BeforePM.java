@@ -47,7 +47,7 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 			if (SentenceUtils.lemmasContainToken(PUNCTUATION, current)) {
 				if (current.getLemma().equals("-") && tokens.get(i + 1).getLemma().equals(">")) {
 					continue;
-				} 
+				}
 				startSentenceIndex = i;
 				break;
 			}
@@ -76,7 +76,8 @@ public class BeforePM extends ObservedBehaviorPatternMatcher {
 			Token current = tokens.get(i);
 			if (current.getPos().equals("VBP") || current.getPos().equals("VBZ")
 					|| (i - 1 >= 0 && SentenceUtils.lemmasContainToken(PRESENT_TENSE_VERBS, current)
-							&& current.getGeneralPos().equals("NN") && tokens.get(i - 1).getGeneralPos().equals("NN"))) {
+							&& current.getGeneralPos().equals("NN")
+							&& tokens.get(i - 1).getGeneralPos().equals("NN"))) {
 				return true;
 			}
 		}

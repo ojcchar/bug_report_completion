@@ -27,17 +27,13 @@ public class AfterNegativePMTest extends BaseTest {
 				"The precompiled version does not respond when a client tries to download a big file after about (say) half an hour.",
 				"Runaway processes after ssl proxy use", "Apache2 service does not start after httpd.conf is modified.",
 				"After switching from 2.2.8 to 2.2.8 I found out it writes something like this to error.log during startup:",
-				"Something happens after crash",
-				"after it dies",
-				};
+				"Something happens after crash", "after it dies", };
 
 		TestUtils.testSentences(negs, pm, 0);
-		
+
 		@SuppressWarnings("unused")
-		String[] trickyOnes = {
-				"Drop down remains on the screen after selecting it and then hitting the delete key",
-				"Firefox forgets which sites are allowed to create popups after extended use. complete restart temporarily fixes problem",
-		};
+		String[] trickyOnes = { "Drop down remains on the screen after selecting it and then hitting the delete key",
+				"Firefox forgets which sites are allowed to create popups after extended use. complete restart temporarily fixes problem", };
 	}
 
 	@Test
@@ -46,11 +42,9 @@ public class AfterNegativePMTest extends BaseTest {
 				"After login_ the user is redirected to the web-based Facebook home page and not the url specified in the redirect parameter.",
 				"After this, the editor did not redraw any more.",
 				"I was using DynamicFBML/MockAJAX in my application_ it was giving required result just hit my server and got response_ but after last friday 27th june this is not working_",
-				"Something happens after selecting it crashes",
-				"Something happens after this happens, crash",
+				"Something happens after selecting it crashes", "Something happens after this happens, crash",
 				"After tabbing or otherwise navigating through the autocomplete list for the location bar, the last entry selected appears in the location bar but has not loaded (this is correct).",
-				"User Comments appear after 10-15 minutes delay!",
-				};
+				"User Comments appear after 10-15 minutes delay!", };
 
 		TestUtils.testSentences(negs, pm, 1);
 	}

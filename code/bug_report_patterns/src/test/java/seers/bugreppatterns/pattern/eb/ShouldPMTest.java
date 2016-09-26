@@ -13,9 +13,7 @@ public class ShouldPMTest extends BaseTest {
 
 	@Test
 	public void testPositives() throws Exception {
-		String[] txts = {
-				"Seems like there are two things that should be addressed.",
-				"We should document:",
+		String[] txts = { "Seems like there are two things that should be addressed.", "We should document:",
 				"If I create a new category from within the app it seems like it should be checked in the categories list by default." };
 		TestUtils.testSentences(txts, pm, 1);
 	}

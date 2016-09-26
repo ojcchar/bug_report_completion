@@ -27,7 +27,7 @@ public class EndUpPM extends ObservedBehaviorPatternMatcher {
 				return true;
 			} else if (current.getGeneralPos().equals("NN") && current.getLemma().equals("d") && i - 1 >= 0) {
 				Token previous = tokens.get(i - 1);
-				if(previous.getGeneralPos().equals("NN") || previous.getGeneralPos().equals("PRP")) {
+				if (previous.getGeneralPos().equals("NN") || previous.getGeneralPos().equals("PRP")) {
 					return true;
 				}
 			}

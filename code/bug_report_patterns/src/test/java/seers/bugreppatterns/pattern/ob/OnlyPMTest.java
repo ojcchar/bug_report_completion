@@ -29,11 +29,14 @@ public class OnlyPMTest extends BaseTest {
 				"Expected Results:  only the first 2 tabs should be reloaded.",
 				"There is an important discrepancy and I think only the javadoc makes sense.",
 				"Read-only and immutable entities that are in persistent state when deleted are updated before being deleted.",
-				"First, if I edit the sentence at C:43, \"SENAST KOLLAD 23 NOVEMBER\" to \"SENAST KOLLAD 26 NOVEMBER\" by only changing the 3 to a 6, then save the document, close it, and reopen it, all the comments are gone.",
-				// TODO: the next one shouldn't pass, but the last part should be "readonly" or "read-only"
-				// "Pivot filter not working on read only file",
+				"First, if I edit the sentence at C:43, \"SENAST KOLLAD 23 NOVEMBER\" to \"SENAST KOLLAD 26 NOVEMBER\" by only changing the 3 to a 6, then save the document, close it, and reopen it, all the comments are gone.", };
+		TestUtils.testSentences(sentences, pm, 0);
+		@SuppressWarnings("unused")
+		String[] failingSentences = {
+				// TODO: the next one shouldn't pass, but the last part should
+				// be "readonly" or "read-only"
+				"Pivot filter not working on read only file",
 
 		};
-		TestUtils.testSentences(sentences, pm, 0);
 	}
 }

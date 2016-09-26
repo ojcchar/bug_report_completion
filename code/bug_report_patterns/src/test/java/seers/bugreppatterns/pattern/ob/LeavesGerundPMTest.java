@@ -5,10 +5,10 @@ import org.junit.Test;
 import seers.bugreppatterns.main.BaseTest;
 import seers.bugreppatterns.pattern.utils.TestUtils;
 
-public class LeaveGerundPMTest extends BaseTest {
+public class LeavesGerundPMTest extends BaseTest {
 
-	public LeaveGerundPMTest() {
-		pm = new LeaveGerundPM();
+	public LeavesGerundPMTest() {
+		pm = new LeavesGerundPM();
 	}
 
 	@Test

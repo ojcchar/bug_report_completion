@@ -18,7 +18,6 @@ public class UsedToPM extends ObservedBehaviorPatternMatcher {
 		return 0;
 	}
 
-
 	private boolean containsUsedTo(List<Token> tokens) {
 		for (int i = 0; i < tokens.size() - 1; i++) {
 			Token current = tokens.get(i);
@@ -28,7 +27,7 @@ public class UsedToPM extends ObservedBehaviorPatternMatcher {
 			// Find every "used to"
 			if ((current.getGeneralPos().equals("VB") && current.getWord().equalsIgnoreCase("used"))
 					&& (next.getGeneralPos().equals("TO"))) {
-				
+
 				// do not consider "used to" preceded by verb "to be"
 				if (previous == null || (!previous.getGeneralPos().equals("VB") && !previous.getLemma().equals("be"))) {
 					return true;

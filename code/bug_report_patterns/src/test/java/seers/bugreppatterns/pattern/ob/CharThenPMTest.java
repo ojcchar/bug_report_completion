@@ -15,8 +15,7 @@ public class CharThenPMTest extends BaseTest {
 	public void testPositives() throws Exception {
 		String[] txts = { " ==&gt; no method comment for run()", " ==&gt; NPE:",
 				"DatabaseInformationImpl -&gt; extractionContext variable never release.",
-				"Page Tabs &gt; FBML &gt; Signed Request -&gt;  page  value missing",
-				};
+				"Page Tabs &gt; FBML &gt; Signed Request -&gt;  page  value missing", };
 		TestUtils.testSentences(txts, pm, 1);
 	}
 

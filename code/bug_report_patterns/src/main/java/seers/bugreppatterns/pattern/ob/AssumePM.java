@@ -37,7 +37,8 @@ public class AssumePM extends ObservedBehaviorPatternMatcher {
 				if (previous.getGeneralPos().equals("NN")) {
 					assumes.add(i);
 				}
-				// Sometimes there are parenthesis in between. We skip their content and look for a noun before the
+				// Sometimes there are parenthesis in between. We skip their
+				// content and look for a noun before the
 				// parenthesis
 				else if (previous.getGeneralPos().equals("-RRB-")) {
 					int j = i - 2;
@@ -53,7 +54,7 @@ public class AssumePM extends ObservedBehaviorPatternMatcher {
 							assumes.add(i);
 						}
 					}
-				} 
+				}
 				// the auxiliar case
 				else if (previous.getGeneralPos().equals("VB")) {
 					int j = i - 2;

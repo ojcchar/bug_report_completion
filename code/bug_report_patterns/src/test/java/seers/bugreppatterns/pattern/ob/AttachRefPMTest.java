@@ -47,9 +47,7 @@ public class AttachRefPMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = {
-				// "Created attachment 68193\nscreen shot of the bug explained
-				// above",
+		String[] sentences = { "Created attachment 68193\nscreen shot of the bug explained above",
 				"They'll generate NPEs in ActualTrimDropTarget (I've attached my log).",
 				"[Regression] ReportServiceException is thrown out when preview attached report in Web Viewer",
 				"Problem description: translation of \"Manage configurations\" button label is truncated (word \"konfiguracjami\" is truncated) - please see attached screenshot.",

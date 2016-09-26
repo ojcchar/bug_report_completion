@@ -22,11 +22,13 @@ public class AfterPM extends StepsToReproducePatternMatcher {
 		// first token is "after"
 		if (tokens.size() > 3 && tokens.get(0).getLemma().equals(AFTER)) {
 
-			// the "after" is followed by a verb in gerund and there is some other verb after that.
+			// the "after" is followed by a verb in gerund and there is some
+			// other verb after that.
 			if (isGerundVerb(tokens.get(1)) && !findVerbs(tokens.subList(2, tokens.size())).isEmpty()) {
 				return 1;
 			}
-			// the "after" is followed by an adverb, which in turn is followed by a verb in gerund. There is some other
+			// the "after" is followed by an adverb, which in turn is followed
+			// by a verb in gerund. There is some other
 			// verb after that.
 			else if (isAdverb(tokens.get(1)) && isGerundVerb(tokens.get(2))
 					&& !findVerbs(tokens.subList(3, tokens.size())).isEmpty()) {

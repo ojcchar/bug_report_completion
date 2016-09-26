@@ -34,11 +34,13 @@ public class BecomesAdjPM extends ObservedBehaviorPatternMatcher {
 				if (i + 1 < tokens.size()) {
 					Token next = tokens.get(i + 1);
 
-					// The right "become": the one that comes before an adjective
-					if (next.getGeneralPos().equals("JJ") || next.getPos().equals("VBN") || next.getPos().equals("RB")) {
+					// The right "become": the one that comes before an
+					// adjective
+					if (next.getGeneralPos().equals("JJ") || next.getPos().equals("VBN")
+							|| next.getPos().equals("RB")) {
 						becomes.add(i);
 					}
-					
+
 				}
 			}
 

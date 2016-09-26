@@ -20,6 +20,5 @@ public abstract class ObservedBehaviorPatternMatcher extends PatternMatcher {
 		}
 		return false;
 	}
-	
-	
+
 }

@@ -26,7 +26,8 @@ public class NoNounPM extends ObservedBehaviorPatternMatcher {
 		while (start < tokens.size()) {
 			Token current = tokens.get(start);
 			String previousGenPos = start == 0 ? "OK" : tokens.get(start - 1).getGeneralPos();
-			// if there is a verb before the NO_TERM, the pattern is S_OB_VERB_NO
+			// if there is a verb before the NO_TERM, the pattern is
+			// S_OB_VERB_NO
 			if (SentenceUtils.lemmasContainToken(NO_TERMS, current)
 					&& !Arrays.stream(PRE_NO_POS).anyMatch(t -> previousGenPos.equals(t))) {
 				return matchSubSentence(new Sentence(sentence.getId(), tokens.subList(start, tokens.size())));

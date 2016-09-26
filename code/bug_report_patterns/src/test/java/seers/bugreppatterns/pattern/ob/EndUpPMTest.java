@@ -23,8 +23,7 @@ public class EndUpPMTest extends BaseTest {
 
 	@Test
 	public void testNegatives() throws Exception {
-		String[] txts = {
-				"I d be fine with it if they at least ended up on the right page after sending the invites.",
+		String[] txts = { "I d be fine with it if they at least ended up on the right page after sending the invites.",
 				"It would also be nice if when one included the \"--enable-static\" option one really ended up with a *STATIC* firefox (which would load faster than those that may require searching through many directories many times for shared object libraries).", };
 		TestUtils.testSentences(txts, pm, 0);
 	}

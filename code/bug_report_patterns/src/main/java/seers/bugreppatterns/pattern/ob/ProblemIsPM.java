@@ -27,7 +27,7 @@ public class ProblemIsPM extends ObservedBehaviorPatternMatcher {
 			i++;
 			current = tokens.get(i);
 		}
-		
+
 		if (SentenceUtils.lemmasContainToken(PROBLEM_TERMS, current) && current.getGeneralPos().equals("NN")) {
 			i++;
 			current = tokens.get(i);

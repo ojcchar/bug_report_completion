@@ -39,13 +39,14 @@ public class ObservePM extends ObservedBehaviorPatternMatcher {
 					// the one in the first position
 					if (i == 0) {
 						observe.add(i);
-					} 
+					}
 					// the one followed by ":" or "that"
 					else if (i + 1 < tokens.size() && (tokens.get(i + 1).getLemma().equals(":")
 							|| tokens.get(i + 1).getLemma().equals("that"))) {
 						observe.add(i);
-					} 
-					// the one preceded by an item marker, cardinal number, or pronoun
+					}
+					// the one preceded by an item marker, cardinal number, or
+					// pronoun
 					else if (i - 1 >= 0 && (tokens.get(i - 1).getGeneralPos().equals("LS")
 							|| tokens.get(i - 1).getGeneralPos().equals("CD")
 							|| tokens.get(i - 1).getGeneralPos().equals("PRP"))) {

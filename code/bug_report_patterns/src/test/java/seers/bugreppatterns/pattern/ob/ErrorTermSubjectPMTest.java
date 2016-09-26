@@ -13,11 +13,9 @@ public class ErrorTermSubjectPMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = {
-				"Full stack trace of any exception that occurs:",
+		String[] sentences = { "Full stack trace of any exception that occurs:",
 				"Unavailability of a method which tells if a user has given an extended permission to an application",
-				"the issues are" 
-				};
+				"the issues are" };
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

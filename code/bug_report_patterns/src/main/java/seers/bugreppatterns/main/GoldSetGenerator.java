@@ -22,8 +22,7 @@ import seers.bugreppatterns.goldset.GoldSetProcessor.TextInstance;
 import seers.bugreppatterns.pattern.predictor.Labels;
 
 public class GoldSetGenerator {
-	static String fileAssignment = "test_data" + File.separator + "matcher" + File.separator +
-            "sentences_coding.csv";
+	static String fileAssignment = "test_data" + File.separator + "matcher" + File.separator + "sentences_coding.csv";
 
 	private static CsvWriter goldSetWriterSentences;
 	private static CsvWriter goldSetWriterParagraphs;

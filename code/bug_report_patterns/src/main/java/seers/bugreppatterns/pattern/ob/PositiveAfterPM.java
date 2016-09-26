@@ -16,9 +16,9 @@ public class PositiveAfterPM extends ObservedBehaviorPatternMatcher {
 
 	private final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new NoLongerPM(), new VerbErrorPM(), new VerbToBeNegativePM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
-			new VerbNoPM(), new ProblemInPM(), new LeadsToNegativePm(),
-			new ErrorNounPhrasePM(), new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(),
-			new VerbToBeNegativePM(), new VerbNoPM() };
+			new VerbNoPM(), new ProblemInPM(), new LeadsToNegativePm(), new ErrorNounPhrasePM(),
+			new ErrorTermSubjectPM(), new NoNounPM(), new NounNotPM(), new ProblemIsPM(), new VerbToBeNegativePM(),
+			new VerbNoPM() };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -31,7 +31,8 @@ public class PositiveAfterPM extends ObservedBehaviorPatternMatcher {
 
 				if (afterIndex != -1 && afterIndex > 0) {
 					Sentence first = new Sentence(ss.getId(), tokens.subList(0, afterIndex));
-					// Sentence second = new Sentence(sentence.getId(), tokens.subList(afterIndex + 1, tokens.size()));
+					// Sentence second = new Sentence(sentence.getId(),
+					// tokens.subList(afterIndex + 1, tokens.size()));
 					List<Token> tokensFirst = first.getTokens();
 					// List<Token> tokensSecond = second.getTokens();
 

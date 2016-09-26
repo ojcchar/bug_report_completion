@@ -34,11 +34,12 @@ public class BeingPM extends ObservedBehaviorPatternMatcher {
 				if (i + 1 < tokens.size()) {
 					Token next = tokens.get(i + 1);
 
-					// The right "being": the one that comes before a past participle verb
-					if (next.getPos().equals("VBN") ) {
+					// The right "being": the one that comes before a past
+					// participle verb
+					if (next.getPos().equals("VBN")) {
 						beings.add(i);
 					}
-					
+
 				}
 			}
 

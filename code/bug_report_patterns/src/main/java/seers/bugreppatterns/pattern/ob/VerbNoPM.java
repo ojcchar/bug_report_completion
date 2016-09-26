@@ -12,8 +12,8 @@ import seers.textanalyzer.entity.Token;
 
 public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 
-	final private static Set<String> NEGATIVE_TERMS = JavaUtils.getSet( "no", "nothing"
-			// ,"not", "never"
+	final private static Set<String> NEGATIVE_TERMS = JavaUtils.getSet("no", "nothing"
+	// ,"not", "never"
 	);
 
 	@Override
@@ -26,7 +26,7 @@ public class VerbNoPM extends ObservedBehaviorPatternMatcher {
 
 			for (int i = verb + 1; i <= verb + 4 && i < tokens.size(); i++) {
 				Token nextToken = tokens.get(i);
-				if (SentenceUtils.lemmasContainToken(NEGATIVE_TERMS,nextToken)) {
+				if (SentenceUtils.lemmasContainToken(NEGATIVE_TERMS, nextToken)) {
 					return 1;
 				}
 			}

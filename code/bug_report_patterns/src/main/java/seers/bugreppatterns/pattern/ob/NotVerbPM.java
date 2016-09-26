@@ -17,8 +17,8 @@ public class NotVerbPM extends ObservedBehaviorPatternMatcher {
 		if (tokens.size() >= 2) {
 			Token firstToken = tokens.get(0);
 			Token secondToken = tokens.get(1);
-			
-			if(firstToken.getLemma().equals(NOT) && secondToken.getPos().equals("VBG")) {
+
+			if (firstToken.getLemma().equals(NOT) && secondToken.getPos().equals("VBG")) {
 				return 1;
 			}
 		}

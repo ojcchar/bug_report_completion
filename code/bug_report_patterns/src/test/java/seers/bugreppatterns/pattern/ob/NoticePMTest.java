@@ -12,8 +12,7 @@ public class NoticePMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] negs = {
-				"I should notice that", "I noticed" };
+		String[] negs = { "I should notice that", "I noticed" };
 
 		TestUtils.testSentences(negs, pm, 0);
 	}

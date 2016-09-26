@@ -14,7 +14,7 @@ public class ObservePMTest extends BaseTest {
 	public void testNegative() throws Exception {
 		String[] negs = {
 				"When the performance hit is observed we notice that there are repeated continuous requests to our cross-domain receiver file (as passed into FB.init()).",
-				"The Data Entry Statistics module (version 1.3) includes voided encounters and observations in the table of data entry statistics."};
+				"The Data Entry Statistics module (version 1.3) includes voided encounters and observations in the table of data entry statistics." };
 
 		TestUtils.testSentences(negs, pm, 0);
 	}

@@ -13,10 +13,8 @@ public class SimplePresentSubordinatesPMTest extends BaseTest {
 
 	@Test
 	public void testPositives() throws Exception {
-		String[] txts = {
-				// "- I do a Java Search and sort the results by Parent Path"
-				// "i create an application and i set it in a tab fan page. "
-				"On the Tomcat / mod_jk side I use:" };
+		String[] txts = { "- I do a Java Search and sort the results by Parent Path",
+				"i create an application and i set it in a tab fan page. ", "On the Tomcat / mod_jk side I use:" };
 
 		TestUtils.testSentences(txts, pm, 1);
 	}

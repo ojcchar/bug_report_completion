@@ -24,8 +24,8 @@ public class ToReproParagraphPM extends StepsToReproducePatternMatcher {
 		if (labelIdx != -1) {
 			return 0;
 		}
-		
-		//-------------------------------------
+
+		// -------------------------------------
 
 		int idxPrefixSentence = -1;
 		for (int i = 0; i < sentences.size() && idxPrefixSentence == -1; i++) {
@@ -35,8 +35,8 @@ public class ToReproParagraphPM extends StepsToReproducePatternMatcher {
 				idxPrefixSentence = i;
 			}
 		}
-		
-		//----------------------------
+
+		// ----------------------------
 
 		int numImperative = 0;
 		if (idxPrefixSentence != -1) {

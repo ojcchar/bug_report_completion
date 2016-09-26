@@ -10,7 +10,7 @@ import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-public class LeaveGerundPM extends ObservedBehaviorPatternMatcher {
+public class LeavesGerundPM extends ObservedBehaviorPatternMatcher {
 
 	private static final Set<String> PUNCTUATION = JavaUtils.getSet(":", ";");
 

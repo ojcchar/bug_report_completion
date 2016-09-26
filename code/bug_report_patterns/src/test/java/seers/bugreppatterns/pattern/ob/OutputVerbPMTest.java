@@ -17,8 +17,8 @@ public class OutputVerbPMTest extends BaseTest {
 
 	public void testPositives() throws Exception {
 		String[] txts = {
-				"In this example the `strace` output shows that Entrypoint: [/bin/bash,-l]` was sent to the server, but inspecting the resulting image shows `Entrypoint: null`.", 
-				"2 Microsoft security essentials will pop up with the attached screenshot"};
+				"In this example the `strace` output shows that Entrypoint: [/bin/bash,-l]` was sent to the server, but inspecting the resulting image shows `Entrypoint: null`.",
+				"2 Microsoft security essentials will pop up with the attached screenshot" };
 		TestUtils.testSentences(txts, pm, 1);
 	}
 

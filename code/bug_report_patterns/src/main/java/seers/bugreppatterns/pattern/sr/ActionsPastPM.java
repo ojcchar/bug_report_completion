@@ -44,5 +44,4 @@ public class ActionsPastPM extends StepsToReproducePatternMatcher {
 		return ((float) numSentences) / bulletedSentences > 0.5F ? 1 : 0;
 	}
 
-
 }
