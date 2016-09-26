@@ -15,7 +15,7 @@ public class NegativeNounConditionalPM extends ExpectedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		List<Token> tokens = sentence.getTokens();
-		if (tokens.get(0).getWord().toLowerCase().equals("no")) {
+		if (tokens.get(0).getWord().toLowerCase().equals("no") && tokens.size() >= 2) {
 			Token secondToken = tokens.get(1);
 			if (secondToken.getGeneralPos().equals("NN") && NegativeTerms.NOUNS.contains(secondToken.getLemma())
 					&& !SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, tokens).isEmpty()) {

@@ -19,19 +19,24 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		// -----------------------------
 
 		int idxImpClause = 0;
-		boolean isImperative = SentenceUtils.isImperativeSentence(clauses.get(idxImpClause));
+		boolean isImperative = SentenceUtils
+				.isImperativeSentence(clauses.get(idxImpClause));
 		if (!isImperative) {
 			idxImpClause++;
-			isImperative = SentenceUtils.isImperativeSentence(clauses.get(idxImpClause));
-			if (!isImperative) {
-				return 0;
+			if (idxImpClause < clauses.size()) {
+				isImperative = SentenceUtils
+						.isImperativeSentence(clauses.get(idxImpClause));
+				if (!isImperative) {
+					return 0;
+				}
 			}
 		}
 
 		// -----------------------------
 
 		if (clauses.size() > idxImpClause + 1) {
-			int numCl = checkPresentOrActionClauses(clauses.subList(idxImpClause + 1, clauses.size()));
+			int numCl = checkPresentOrActionClauses(
+					clauses.subList(idxImpClause + 1, clauses.size()));
 			if (numCl != 0) {
 				return 1;
 			}

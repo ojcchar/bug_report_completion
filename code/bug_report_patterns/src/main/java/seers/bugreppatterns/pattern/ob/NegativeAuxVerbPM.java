@@ -62,7 +62,7 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 
 						}
 
-						if (andIdx != -1) {
+						if (andIdx != -1 && andIdx - 1 > 0) {
 							List<Token> subStncTokens = tokens.subList(0, andIdx - 1);
 							// any auxiliary verb?
 							boolean thereIsAuxToken = subStncTokens.stream().anyMatch(tok -> isAuxiliaryToken(tok));

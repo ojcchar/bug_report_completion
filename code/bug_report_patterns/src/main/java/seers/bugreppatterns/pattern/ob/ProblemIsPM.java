@@ -23,21 +23,24 @@ public class ProblemIsPM extends ObservedBehaviorPatternMatcher {
 		int i = 0;
 		Token current = tokens.get(i);
 
-		while (PREV_PROB_POS.contains(current.getGeneralPos())) {
+		while (PREV_PROB_POS.contains(current.getGeneralPos()) && i < tokens.size() - 1) {
 			i++;
 			current = tokens.get(i);
 		}
 
-		if (SentenceUtils.lemmasContainToken(PROBLEM_TERMS, current) && current.getGeneralPos().equals("NN")) {
+		if (SentenceUtils.lemmasContainToken(PROBLEM_TERMS, current)
+				&& current.getGeneralPos().equals("NN") && i < tokens.size() - 1) {
 			i++;
 			current = tokens.get(i);
 
-			while (!current.getGeneralPos().equals("VB")) {
+			while (!current.getGeneralPos().equals("VB") && i < tokens.size() - 1) {
 				i++;
 				current = tokens.get(i);
 			}
 
-			if (current.getLemma().equals("be") && (current.getPos().equals("VBP") || current.getPos().equals("VBZ"))) {
+			if (current.getLemma().equals("be")
+					&& (current.getPos().equals("VBP")
+							|| current.getPos().equals("VBZ"))) {
 				return 1;
 			}
 		}

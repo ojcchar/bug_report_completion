@@ -15,7 +15,7 @@ public class SeemsToNegativeVerbPM extends ObservedBehaviorPatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 
 		for (Integer seemsIndex : findSeemVerbs(tokens)) {
-			if (seemsIndex != -1 && tokens.get(seemsIndex + 1).getLemma().equals("to")) {
+			if (seemsIndex != -1 && seemsIndex + 1 < tokens.size() && tokens.get(seemsIndex + 1).getLemma().equals("to")) {
 				// check that is not SeemsToBe
 
 				PatternMatcher pm = new SeemsToBePM();

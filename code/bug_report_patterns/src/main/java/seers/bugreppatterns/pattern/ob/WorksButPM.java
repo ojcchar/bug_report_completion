@@ -22,7 +22,7 @@ public class WorksButPM extends ObservedBehaviorPatternMatcher {
 		List<Token> tokens = sentence.getTokens();
 		int indexWork = workIndex(tokens);
 
-		if (indexWork != -1) {
+		if (indexWork != -1 && indexWork < tokens.size() - 1) {
 			// check for the fine term
 			Token tok = tokens.get(indexWork + 1);
 			if (SentenceUtils.lemmasContainToken(FINE_TERM, tok)) {
@@ -57,7 +57,7 @@ public class WorksButPM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			if (tokens.get(i).getGeneralPos().equals("VB")
 					&& (tokens.get(i).getLemma().equals("succeed") || tokens.get(i).getLemma().equals("work"))) {
-				if (!tokens.get(i - 1).getLemma().equals("not")) {
+				if (i - 1 >= 0 && !tokens.get(i - 1).getLemma().equals("not")) {
 					return i;
 				}
 			}

@@ -24,18 +24,20 @@ public class WhyQuestionNegativePM extends ExpectedBehaviorPatternMatcher {
 			for (Sentence subSentence : subSentences) {
 				List<Token> tokens = subSentence.getTokens();
 
-				Token firstToken = tokens.get(0);
-				Token lastToken = tokens.get(tokens.size() - 1);
-
-				if (firstToken.getLemma().equalsIgnoreCase("why") && lastToken.getLemma().equalsIgnoreCase("?")) {
-					if (tokens.size() - 2 > 1) {
-						Sentence phrase = new Sentence(subSentence.getId(), tokens.subList(1, tokens.size() - 2));
-
-						if (isNegative(phrase) || isNegativeEBModal(phrase)) {
-							return 1;
+				if (!tokens.isEmpty()){
+					Token firstToken = tokens.get(0);
+					Token lastToken = tokens.get(tokens.size() - 1);
+	
+					if (firstToken.getLemma().equalsIgnoreCase("why") && lastToken.getLemma().equalsIgnoreCase("?")) {
+						if (tokens.size() - 2 > 1) {
+							Sentence phrase = new Sentence(subSentence.getId(), tokens.subList(1, tokens.size() - 2));
+	
+							if (isNegative(phrase) || isNegativeEBModal(phrase)) {
+								return 1;
+							}
 						}
+	
 					}
-
 				}
 			}
 		}

@@ -18,7 +18,7 @@ public class PurposeActionPM extends StepsToReproducePatternMatcher {
 		if (clauses.size() == 2) {
 			List<Token> firstTokens = clauses.get(0).getTokens();
 
-			if (firstTokens.get(0).getPos().equals("TO") && firstTokens.get(1).getPos().equals("VB")) {
+			if (firstTokens.size() >= 2 && firstTokens.get(0).getPos().equals("TO") && firstTokens.get(1).getPos().equals("VB")) {
 
 				// Loop the second clause until we find a verb that works
 				for (Token token : clauses.get(1).getTokens()) {
