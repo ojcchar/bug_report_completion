@@ -28,7 +28,7 @@ public class ConditionalExamplePM extends ObservedBehaviorPatternMatcher {
 		List<Integer> conditionalIndexes = SentenceUtils.findLemmasInTokens(ConditionalNegativePM.CONDITIONAL_TERMS,
 				tokens);
 
-		if (conditionalIndexes.get(0) == 0 && tokens.size() >= 4) {
+		if (!conditionalIndexes.isEmpty() && conditionalIndexes.get(0) == 0 && tokens.size() >= 4) {
 			int tokensSize = tokens.size();
 			List<Token> firstSentenceEnding = tokens.subList(tokensSize - 3, tokensSize - 1);
 

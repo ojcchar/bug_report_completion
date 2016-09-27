@@ -174,9 +174,12 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
 	}
 
 	private boolean hasVerbInPos(Sentence sentence, int position) {
-		Token token = sentence.getTokens().get(position);
+		if(position >= 0 && position < sentence.getTokens().size()) {
+			Token token = sentence.getTokens().get(position);
 
-		return token.getPos().equals("VB") || token.getPos().equals("VBP")
+			return token.getPos().equals("VB") || token.getPos().equals("VBP")
 				|| Stream.of(MISTAGGED_VERBS).anyMatch(v -> token.getWord().toLowerCase().equals(v));
+		}
+		return false;
 	}
 }
