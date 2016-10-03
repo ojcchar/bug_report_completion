@@ -24,17 +24,13 @@ public class MainFeatures {
 
 		String goldSetFolderPrefix = "";
 		String outputFolderPrefix = "";
-		boolean ourData = false;
+		boolean ourData = true;
 
 		// command line arguments
 		if (args.length > 0) {
 			goldSetFolderPrefix = args[0] + File.separator;
-			if (args.length > 1) {
-				outputFolderPrefix = args[1] + File.separator;
-				if (args.length > 2) {
-					ourData = "y".equalsIgnoreCase(args[2]);
-				}
-			}
+			outputFolderPrefix = args[1] + File.separator;
+			ourData = "y".equalsIgnoreCase(args[2]);
 		}
 
 		String[] granularities = { "B", "P", "S" };
@@ -56,9 +52,7 @@ public class MainFeatures {
 			File prefeaturesFile = new File(outputFolderPrefix + "output-pre-features-" + granularity + ".csv");
 			File goldSetFile = new File(goldSetFolderPrefix + "gold-set-" + granularity + ".csv");
 			if (granularity.equals("B")) {
-				if (ourData) {
-					goldSetFile = new File(goldSetFolderPrefix + "all_data_only_bugs_coded_data.csv");
-				} else {
+				if (!ourData) {
 					goldSetFile = new File(goldSetFolderPrefix + "all_data_only_bugs_davies.csv");
 				}
 			}
@@ -71,12 +65,12 @@ public class MainFeatures {
 					CsvWriter featuresSRWriter = new CsvWriterBuilder(
 							new FileWriter("features-sr-" + granularity + ".txt")).separator(' ')
 									.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
-			
-				//instances file
+
+				// instances file
 				File instancesFile = new File("instances-" + granularity + ".txt");
 				instancesFile.delete();
 
-				//read goldset and prefeatures
+				// read goldset and prefeatures
 				HashMap<String, Integer> goldSetMap = new LinkedHashMap<>();
 				List<List<String>> linesGoldSet = readGoldSetFile2(goldSetMap, goldSetFile);
 				List<List<String>> featuresLines = readPrefeaturesFile2(prefeaturesFile);
@@ -87,7 +81,7 @@ public class MainFeatures {
 					String system = featureLine.get(0);
 					String bugId = featureLine.get(1);
 					String instanceId = featureLine.get(2);
-					
+
 					List<String> featureList = featureLine.subList(3, featureLine.size());
 
 					// instance
@@ -114,8 +108,8 @@ public class MainFeatures {
 					if (!sr.trim().isEmpty()) {
 						classSr = "1";
 					}
-					
-					//file writin
+
+					// file writin
 
 					List<String> nextLine = new ArrayList<>();
 					nextLine.add(classEb);

@@ -7,13 +7,14 @@
 	1.6 Check the /bug_report_patterns/test_data/matcher/conflicts-coded-parsed.csv file
 
 2. To generate gold sets:
-	2.1 Modify the seers.bugreppatterns.main.GoldSetGenerator path to the CSV file with the coded data (same as 1.4)
-	2.2 Run seers.bugreppatterns.main.GoldSetGenerator
+	2.1 Run seers.bugreppatterns.main.GoldSetGenerator with the arguments:
+			- path of the CSV file with the coded data
+			- folder where the output files will be stored
+			- path of the goldset of Davis' data ('all_data_only_bugs_davies.csv')
 	
 3. To generate the features
-	3.1 Update the all_data_only_bugs_coded_data.csv file, whose data comes gold-set-B.csv file.
-	3.2 Update and run the MainHRClassifierRunner class to generate the output-pre-features
-	3.3 Run MainFeatures class
+	3.1 Update and run the MainHRClassifierRunner class to generate the output-pre-features
+	3.1 Run MainFeatures class
 
 Files required to run the ML predictor:
 1. The gold-sets
