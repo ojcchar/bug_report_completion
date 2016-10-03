@@ -45,7 +45,6 @@ public class BugReportProcessor extends TextInstanceProcessor {
 			} catch (Exception e) {
 				LOGGER.error("[" + system + "] Error for file: " + file + ", " + e.getClass().getSimpleName() + ": "
 						+ e.getMessage(), e);
-				// LOGGER.error("[" + system + "] Error for file: " + file, e);
 			}
 		}
 	}
