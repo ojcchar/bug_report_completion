@@ -49,7 +49,7 @@ public class MainFeatures {
 			// -------------------------------------------------------
 			// output file and gold set
 
-			File prefeaturesFile = new File(outputFolderPrefix + "output-pre-features-" + granularity + ".csv");
+			File prefeaturesFile = new File(goldSetFolderPrefix + "output-pre-features-" + granularity + ".csv");
 			File goldSetFile = new File(goldSetFolderPrefix + "gold-set-" + granularity + ".csv");
 			if (granularity.equals("B")) {
 				if (!ourData) {
@@ -60,10 +60,10 @@ public class MainFeatures {
 			// -------------------------------------------------------
 
 			try (CsvWriter featuresEBWriter = new CsvWriterBuilder(
-					new FileWriter("features-eb-" + granularity + ".txt")).separator(' ')
+					new FileWriter(outputFolderPrefix + "features-eb-" + granularity + ".txt")).separator(' ')
 							.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
 					CsvWriter featuresSRWriter = new CsvWriterBuilder(
-							new FileWriter("features-sr-" + granularity + ".txt")).separator(' ')
+							new FileWriter(outputFolderPrefix + "features-sr-" + granularity + ".txt")).separator(' ')
 									.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
 
 				// instances file
@@ -109,7 +109,7 @@ public class MainFeatures {
 						classSr = "1";
 					}
 
-					// file writin
+					// file writing
 
 					List<String> nextLine = new ArrayList<>();
 					nextLine.add(classEb);
