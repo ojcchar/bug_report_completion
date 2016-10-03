@@ -83,7 +83,7 @@ public class MainHRClassifier {
 			String[] title = new String[] { "system", "bug_id", "instance_id", "is_ob", "is_eb", "is_sr" };
 			csvw1.writeNext(Arrays.asList(title));
 
-			ThreadExecutor.executeOneByOne(Arrays.asList(systems), SystemProcessor.class, params, systems.length);
+			ThreadExecutor.executeOneByOne(Arrays.asList(systems), SystemProcessor.class, params, systems.length * 2);
 
 		}
 
