@@ -67,7 +67,7 @@ public class MainFeatures {
 									.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
 
 				// instances file
-				File instancesFile = new File("instances-" + granularity + ".txt");
+				File instancesFile = new File(outputFolderPrefix + "instances-" + granularity + ".txt");
 				instancesFile.delete();
 
 				// read goldset and prefeatures
