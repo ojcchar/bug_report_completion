@@ -33,6 +33,11 @@ public class GoldSetProcessor extends ThreadProcessor {
 			String bugId = sentence.get(1);
 			String instanceId = sentence.get(13);
 
+			// no project or bug id
+			if (project.trim().isEmpty() || bugId.trim().isEmpty()) {
+				continue;
+			}
+
 			// no titles
 			if (instanceId.startsWith("0")) {
 				continue;
