@@ -6,9 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.quux00.simplecsv.CsvParser;
 import net.quux00.simplecsv.CsvParserBuilder;
@@ -37,11 +39,11 @@ public class GoldSetGenerator {
 		// if there are no arguments, the defaults values are used
 		String codedDataFile = fileAssignment2;
 		String outputFolderPrefix = "";
+		String davisDataPath = "all_data_only_bugs_davies.csv";
 		if (args.length > 0) {
 			codedDataFile = args[0];
-			if (args.length > 1) {
-				outputFolderPrefix = args[1] + File.separator;
-			}
+			outputFolderPrefix = args[1] + File.separator;
+			davisDataPath = args[2];
 		}
 
 		goldSetWriterSentences = new CsvWriterBuilder(new FileWriter(outputFolderPrefix + "gold-set-S.csv"))
@@ -53,25 +55,75 @@ public class GoldSetGenerator {
 
 		try {
 
+			// read the coded data
 			List<List<String>> codedData = readData(codedDataFile);
+
+			// read Davis' gold set
+			HashMap<TextInstance, Labels> davisGoldSetBugs = readDavisGoldSet(davisDataPath);
 
 			System.out.println(codedData.size());
 
+			// generate titles
 			generateTitles();
 
+			// process the data to generate the gold sets
 			Class<? extends ThreadProcessor> class1 = GoldSetProcessor.class;
 			ThreadParameters params = new ThreadParameters();
 			ThreadExecutor.executePaginated(codedData.subList(1, codedData.size()), class1, params, 5);
 
+			// merge both gold sets (Davis' and ours)
+			updateBugsGoldSet(davisGoldSetBugs, GoldSetProcessor.goldSetBugs);
+
+			// write the gold sets
 			writeGoldSets(GoldSetProcessor.goldSetBugs.entrySet(), goldSetWriterDocuments);
 			writeGoldSets(GoldSetProcessor.goldSetParagraphs.entrySet(), goldSetWriterParagraphs);
 			writeGoldSets(GoldSetProcessor.goldSetSentences.entrySet(), goldSetWriterSentences);
+
 		} finally {
 			goldSetWriterSentences.close();
 			goldSetWriterParagraphs.close();
 			goldSetWriterDocuments.close();
 		}
 
+	}
+
+	private static void updateBugsGoldSet(HashMap<TextInstance, Labels> davisGoldSetBugs,
+			ConcurrentHashMap<TextInstance, Labels> goldSetBugs) {
+
+		Set<Entry<TextInstance, Labels>> entrySet = davisGoldSetBugs.entrySet();
+		for (Entry<TextInstance, Labels> entry : entrySet) {
+			if (!goldSetBugs.containsKey(entry.getKey())) {
+				goldSetBugs.put(entry.getKey(), entry.getValue());
+			}
+
+		}
+
+	}
+
+	private static HashMap<TextInstance, Labels> readDavisGoldSet(String davisDataPath) throws IOException {
+		HashMap<TextInstance, Labels> davidsGoldSet = new HashMap<>();
+		CsvParser csvParser = new CsvParserBuilder().separator(';').build();
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(davisDataPath), "Cp1252"),
+				csvParser)) {
+
+			List<List<String>> allLines = csvReader.readAll();
+
+			for (List<String> fields : allLines.subList(1, allLines.size())) {
+
+				String project = fields.get(0);
+				String bugId = fields.get(1);
+				String instanceId = fields.get(2);
+				String isOB = fields.get(3);
+				String isEB = fields.get(4);
+				String isSR = fields.get(5);
+
+				TextInstance instance = new TextInstance(project, bugId, instanceId);
+				Labels labels = new Labels(isOB, isEB, isSR);
+				davidsGoldSet.put(instance, labels);
+			}
+
+		}
+		return davidsGoldSet;
 	}
 
 	private static void writeGoldSets(Set<Entry<TextInstance, Labels>> entrySet, CsvWriter writer) {
