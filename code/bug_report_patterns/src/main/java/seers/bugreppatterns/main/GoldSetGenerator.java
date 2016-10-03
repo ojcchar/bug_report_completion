@@ -23,7 +23,9 @@ import seers.bugreppatterns.goldset.GoldSetProcessor.TextInstance;
 import seers.bugreppatterns.pattern.predictor.Labels;
 
 public class GoldSetGenerator {
-	static String fileAssignment = "test_data" + File.separator + "matcher" + File.separator + "sentences_coding.csv";
+
+	private final static String fileAssignment2 = "test_data" + File.separator + "matcher" + File.separator
+			+ "sentences_coding.csv";
 
 	private static CsvWriter goldSetWriterSentences;
 	private static CsvWriter goldSetWriterParagraphs;
@@ -31,13 +33,27 @@ public class GoldSetGenerator {
 
 	public static void main(String[] args) throws Exception {
 
-		goldSetWriterSentences = new CsvWriterBuilder(new FileWriter("gold-set-S.csv")).separator(';').build();
-		goldSetWriterParagraphs = new CsvWriterBuilder(new FileWriter("gold-set-P.csv")).separator(';').build();
-		goldSetWriterDocuments = new CsvWriterBuilder(new FileWriter("gold-set-B.csv")).separator(';').build();
+		// command line arguments processing
+		// if there are no arguments, the defaults values are used
+		String codedDataFile = fileAssignment2;
+		String outputFolderPrefix = "";
+		if (args.length > 0) {
+			codedDataFile = args[0];
+			if (args.length > 1) {
+				outputFolderPrefix = args[1] + File.separator;
+			}
+		}
 
-		List<List<String>> codedData = readData();
+		goldSetWriterSentences = new CsvWriterBuilder(new FileWriter(outputFolderPrefix + "gold-set-S.csv"))
+				.separator(';').build();
+		goldSetWriterParagraphs = new CsvWriterBuilder(new FileWriter(outputFolderPrefix + "gold-set-P.csv"))
+				.separator(';').build();
+		goldSetWriterDocuments = new CsvWriterBuilder(new FileWriter(outputFolderPrefix + "gold-set-B.csv"))
+				.separator(';').build();
 
 		try {
+
+			List<List<String>> codedData = readData(codedDataFile);
 
 			System.out.println(codedData.size());
 
@@ -47,9 +63,9 @@ public class GoldSetGenerator {
 			ThreadParameters params = new ThreadParameters();
 			ThreadExecutor.executePaginated(codedData.subList(1, codedData.size()), class1, params, 5);
 
-			generateGoldSets(GoldSetProcessor.goldSetBugs.entrySet(), goldSetWriterDocuments);
-			generateGoldSets(GoldSetProcessor.goldSetParagraphs.entrySet(), goldSetWriterParagraphs);
-			generateGoldSets(GoldSetProcessor.goldSetSentences.entrySet(), goldSetWriterSentences);
+			writeGoldSets(GoldSetProcessor.goldSetBugs.entrySet(), goldSetWriterDocuments);
+			writeGoldSets(GoldSetProcessor.goldSetParagraphs.entrySet(), goldSetWriterParagraphs);
+			writeGoldSets(GoldSetProcessor.goldSetSentences.entrySet(), goldSetWriterSentences);
 		} finally {
 			goldSetWriterSentences.close();
 			goldSetWriterParagraphs.close();
@@ -58,7 +74,7 @@ public class GoldSetGenerator {
 
 	}
 
-	private static void generateGoldSets(Set<Entry<TextInstance, Labels>> entrySet, CsvWriter writer) {
+	private static void writeGoldSets(Set<Entry<TextInstance, Labels>> entrySet, CsvWriter writer) {
 
 		for (Entry<TextInstance, Labels> entry : entrySet) {
 			TextInstance key = entry.getKey();
@@ -79,9 +95,10 @@ public class GoldSetGenerator {
 
 	}
 
-	private static List<List<String>> readData() throws IOException {
+	private static List<List<String>> readData(String codedDataFile) throws IOException {
 		CsvParser csvParser = new CsvParserBuilder().separator(';').multiLine(true).build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileAssignment), "Cp1252"), csvParser)) {
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(codedDataFile), "Cp1252"),
+				csvParser)) {
 
 			List<List<String>> allLines = csvReader.readAll();
 
