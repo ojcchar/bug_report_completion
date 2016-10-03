@@ -43,9 +43,9 @@ public class TimeAdverbPositivePM extends ObservedBehaviorPatternMatcher {
 
 	private boolean isNegative(Sentence sentence) throws Exception {
 		PatternMatcher pm = findFirstPatternThatMatches(sentence, ButNegativePM.NEGATIVE_PMS);
-		if (pm != null) {
-			System.out.println(pm.getClass().getSimpleName());
-		}
+		// if (pm != null) {
+		// System.out.println(pm.getClass().getSimpleName());
+		// }
 		return pm != null;
 	}
 }

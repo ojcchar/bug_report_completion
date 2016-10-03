@@ -74,10 +74,10 @@ public class LeadsToPM extends ObservedBehaviorPatternMatcher {
 	private boolean isNegative(Sentence sentence) throws Exception {
 		PatternMatcher pattern = findFirstPatternThatMatches(sentence, NEGATIVE_PMS);
 		// debugging msgs
-		if (pattern != null) {
-			System.out.println("match: " + pattern.getClass().getSimpleName());
-			return true;
-		}
+//		if (pattern != null) {
+//			System.out.println("match: " + pattern.getClass().getSimpleName());
+//			return true;
+//		}
 
 		return pattern != null;
 	}
