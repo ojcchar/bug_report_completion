@@ -1,10 +1,10 @@
 package seers.bugreppatterns.pattern.ob;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -12,15 +12,15 @@ import seers.textanalyzer.entity.Token;
 
 public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 
-	private static final Pattern OTHER_NEGATIVE_VERBS_PATTERN = Pattern
-			.compile(".* (slow doen|slow down|faile|stucks up|consume 100|get turn into|"
-					+ "be out of|pull out|faul|hangs/get|failes|timing out|go away|be ([a-zA-Z]+ )?go|jitter|failing).*");
+	private static final Set<String> OTHER_NEGATIVE_TERMS = JavaUtils.getSet("slow doen", "slow down", "faile",
+			"stucks up", "consume 100", "get turn into", "be out of", "pull out", "faul", "hangs/get", "failes",
+			"timing out", "go away", "jitter", "failing", "be simply go", "be go");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		List<Sentence> clausesNoParethesis = SentenceUtils.breakByParenthesis(sentence);
-		for (Sentence clause : clausesNoParethesis) {
+		List<Sentence> clausesNoParentheses = SentenceUtils.breakByParenthesis(sentence);
+		for (Sentence clause : clausesNoParentheses) {
 
 			List<Sentence> subClauses = SentenceUtils.extractClauses(clause);
 			for (Sentence subClause : subClauses) {
@@ -30,9 +30,9 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 				for (int i = 0; i < subClauseTokens.size(); i++) {
 
 					Token token = subClauseTokens.get(i);
-					if (SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, token)
-							&& (token.getGeneralPos().equals("VB") || token.getGeneralPos().equals("NN")
-									|| token.getGeneralPos().equals("JJ"))) {
+					if ((token.getGeneralPos().equals("VB") || token.getGeneralPos().equals("NN")
+							|| token.getGeneralPos().equals("JJ"))
+							&& SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, token)) {
 						// no conditional clause
 						// avoid cases: "if you delete"
 						// if (!SentenceUtils.containsTermsPriorToIndex(i,
@@ -43,10 +43,15 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 				}
 
 				String txt = TextProcessor.getStringFromLemmas(subClause);
-				Matcher otherVerbsMatcher = OTHER_NEGATIVE_VERBS_PATTERN.matcher(txt);
-				if (otherVerbsMatcher.find()) {
+
+				if (OTHER_NEGATIVE_TERMS.stream().anyMatch(negTerm -> txt.contains(" " + negTerm))) {
 					return 1;
 				}
+
+//				Matcher otherVerbsMatcher = OTHER_NEGATIVE_VERBS_PATTERN.matcher(txt);
+//				if (otherVerbsMatcher.find()) {
+//					return 1;
+//				}
 			}
 		}
 

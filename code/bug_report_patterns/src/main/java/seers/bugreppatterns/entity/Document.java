@@ -3,6 +3,8 @@ package seers.bugreppatterns.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import seers.textanalyzer.entity.Sentence;
+
 public class Document {
 	private String id;
 	private List<Paragraph> paragraphs;
@@ -30,6 +32,24 @@ public class Document {
 
 	public void addParagraph(Paragraph paragraph) {
 		paragraphs.add(paragraph);
+	}
+
+	public int getNumOfSentences() {
+		int numOfSentences = 0;
+		for (Paragraph paragraph : paragraphs) {
+			numOfSentences += paragraph.getSentences().size();
+		}
+		return numOfSentences;
+	}
+
+	public int getNumOfTokensInSentences() {
+		int numOfTokens = 0;
+		for (Paragraph paragraph : paragraphs) {
+			for (Sentence sentence : paragraph.getSentences()) {
+				numOfTokens += sentence.getTokens().size();
+			}
+		}
+		return numOfTokens;
 	}
 
 }

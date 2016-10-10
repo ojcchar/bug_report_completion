@@ -22,6 +22,7 @@ public class BugReportProcessor extends TextInstanceProcessor {
 	@Override
 	public void executeJob() throws Exception {
 
+		// System.out.println("Processing " + files.size() + " files");
 		for (File file : files) {
 
 			try {
@@ -29,6 +30,9 @@ public class BugReportProcessor extends TextInstanceProcessor {
 				BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
 				Document bugReport = parseDocument(bugRep);
 				LinkedHashMap<PatternMatcher, Integer> patternMatches = new LinkedHashMap<>();
+
+				// int numOfSentences = bugReport.getNumOfSentences();
+				// int numOfTokens = bugReport.getNumOfTokensInSentences();
 
 				for (PatternMatcher patternMatcher : patterns) {
 					int numMatches = patternMatcher.matchDocument(bugReport);

@@ -47,7 +47,7 @@ public class SystemProcessor extends ThreadProcessor {
 		ThreadParameters newParams = new ThreadParameters(params);
 		newParams.addParam(MainHRClassifier.SYSTEM, system);
 
-		ThreadExecutor.executePaginated(files, class1, newParams, 15);
+		ThreadExecutor.executePaginated(files, class1, newParams, 50, 15);
 
 		LOGGER.debug("[" + system + "]: " + " Done!");
 
