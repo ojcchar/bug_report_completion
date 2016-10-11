@@ -5,11 +5,18 @@ library(pwr)
 
 #----------- parameters ----------------------------
 
-granularities = c('B','P','S')
-granularities = c('B')
+args <- commandArgs(TRUE)
+if (length(args)==0) {
+  stop("At least one argument must be supplied", call.=FALSE)
+}
 
-project_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/'
-out_folder = paste(project_folder,'test_data/output/', sep = "")
+granularities = c('B','P','S')
+
+input_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/'
+out_folder = paste(input_folder,'test_data/output/', sep = "")
+
+input_folder = args[1]
+out_folder = args[2]
 
 set.seed(644480808)
 num_sample_revision = 10
@@ -99,36 +106,30 @@ compute_stats2 <- function(data2){
   results
 }
 
-##------------------------------------- ---------------------------------
+##----------------------------------------------------------------------
 
 for (granularity in granularities) {
-
    
-    pr_file= paste(project_folder,'test_data/output/output-prediction-',granularity,'.csv', sep = "")
+    pr_file= paste(input_folder,'/output-prediction-',granularity,'.csv', sep = "")
+    gs_file= paste(input_folder,'/gold-set-',granularity,'.csv', sep = "")
     
-    if(granularity != "B"){
-      gs_file= paste(project_folder,'gold-set-',granularity,'.csv', sep = "")
-    } else{
-      gs_file = paste(project_folder,'all_data_only_bugs_coded_data.csv', sep = "")
-    }
+    #---------------------------------------
     
-    
-    out_file_all =paste(out_folder,'stats_all_',granularity,'.csv', sep = "")
-    out_file_all_eb =paste(out_folder,'data_all_eb_',granularity,'.csv', sep = "")
-    out_file_all_sr =paste(out_folder,'data_all_sr_',granularity,'.csv', sep = "")
-    out_file_all_eb_sample =paste(out_folder,'data_all_eb_sample_',granularity,'.csv', sep = "")
-    out_file_all_sr_sample =paste(out_folder,'data_all_sr_sample_',granularity,'.csv', sep = "")
-    out_file_sys =paste(out_folder,'stats_sys_',granularity,'.csv', sep = "")
+    out_file_all =paste(out_folder,'/stats_all_',granularity,'.csv', sep = "")
+    out_file_all_eb =paste(out_folder,'/data_all_eb_',granularity,'.csv', sep = "")
+    out_file_all_sr =paste(out_folder,'/data_all_sr_',granularity,'.csv', sep = "")
+    out_file_all_eb_sample =paste(out_folder,'/data_all_eb_sample_',granularity,'.csv', sep = "")
+    out_file_all_sr_sample =paste(out_folder,'/data_all_sr_sample_',granularity,'.csv', sep = "")
+    out_file_sys =paste(out_folder,'/stats_sys_',granularity,'.csv', sep = "")
     
     #---------------------------------------
     
     gold_set = read.csv(gs_file, sep = ";", header = TRUE)
     prediction_set = read.csv(pr_file, sep = ";", header = TRUE)
     
-    
     #---------------------------------------
-    overlap = merge(gold_set, prediction_set, by=c("system","bug_id","instance_id"))
     
+    overlap = merge(gold_set, prediction_set, by=c("system","bug_id","instance_id"))
     
     cols = c('is_eb.x','is_sr.x' )
     filtered_data = overlap[,(names(overlap) %in% cols)]
@@ -139,7 +140,6 @@ for (granularity in granularities) {
     filtered_data = overlap[,(names(overlap) %in% cols)]
     a = summary(filtered_data)
     t(a)
-    
     
     #-----------------------------------
 
@@ -156,6 +156,4 @@ for (granularity in granularities) {
     write.table(all_data_stats$data_sr_sample, out_file_all_sr_sample, append=FALSE, sep=";", row.names = FALSE, col.names = TRUE)
     
     #-----------------------------------
-    
-
 }
