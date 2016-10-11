@@ -20,6 +20,8 @@ goldset_folder = args[2]
 out_folder = args[3]
 granularities = unlist(strsplit(args[4], ","))
 
+cat('Processing:',prediction_folder,'\n')
+
 set.seed(644480808)
 num_sample_revision = 10
 
