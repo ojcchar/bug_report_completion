@@ -12,11 +12,12 @@ if (length(args)==0) {
 
 granularities = c('B','P','S')
 
-input_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/'
-out_folder = paste(input_folder,'test_data/output/', sep = "")
+input_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/test_data/output'
+out_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/test_data/output/eval'
 
 input_folder = args[1]
 out_folder = args[2]
+
 
 set.seed(644480808)
 num_sample_revision = 10
@@ -109,6 +110,8 @@ compute_stats2 <- function(data2){
 ##----------------------------------------------------------------------
 
 for (granularity in granularities) {
+  
+    cat('Processing granularity:',granularity,'\n')
    
     pr_file= paste(input_folder,'/output-prediction-',granularity,'.csv', sep = "")
     gs_file= paste(input_folder,'/gold-set-',granularity,'.csv', sep = "")
@@ -124,8 +127,8 @@ for (granularity in granularities) {
     
     #---------------------------------------
     
-    gold_set = read.csv(gs_file, sep = ";", header = TRUE)
-    prediction_set = read.csv(pr_file, sep = ";", header = TRUE)
+    gold_set = read.csv(gs_file, sep = ";", header = TRUE, colClasses=c(rep("factor",6)))
+    prediction_set = read.csv(pr_file, sep = ";", header = TRUE, colClasses=c(rep("factor",6)))
     
     #---------------------------------------
     

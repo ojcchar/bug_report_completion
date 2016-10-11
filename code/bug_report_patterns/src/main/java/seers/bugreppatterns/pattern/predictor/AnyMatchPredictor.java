@@ -1,8 +1,7 @@
 package seers.bugreppatterns.pattern.predictor;
 
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import seers.bugreppatterns.pattern.PatternMatcher;
 
@@ -15,21 +14,16 @@ public class AnyMatchPredictor extends LabelPredictor {
 		String isEB = "";
 		String isSR = "";
 
-		List<PatternMatcher> patterns = patternMatches.keySet().stream()
-				.filter(p -> PatternMatcher.OB.equals(p.getType())).collect(Collectors.toList());
-		if (!patterns.isEmpty()) {
+		Set<PatternMatcher> keySet = patternMatches.keySet();
+		if (keySet.stream().anyMatch(p -> PatternMatcher.OB.equals(p.getType()))) {
 			isOB = "x";
 		}
 
-		patterns = patternMatches.keySet().stream().filter(p -> PatternMatcher.EB.equals(p.getType()))
-				.collect(Collectors.toList());
-		if (!patterns.isEmpty()) {
+		if (keySet.stream().anyMatch(p -> PatternMatcher.EB.equals(p.getType()))) {
 			isEB = "x";
 		}
 
-		patterns = patternMatches.keySet().stream().filter(p -> PatternMatcher.SR.equals(p.getType()))
-				.collect(Collectors.toList());
-		if (!patterns.isEmpty()) {
+		if (keySet.stream().anyMatch(p -> PatternMatcher.SR.equals(p.getType()))) {
 			isSR = "x";
 		}
 

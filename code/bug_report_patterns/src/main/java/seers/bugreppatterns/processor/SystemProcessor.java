@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
-import seers.bugreppatterns.main.MainHRClassifier;
+import seers.bugreppatterns.main.HeuristicsClassifier;
 
 public class SystemProcessor extends ThreadProcessor {
 
@@ -30,9 +30,9 @@ public class SystemProcessor extends ThreadProcessor {
 	public SystemProcessor(ThreadParameters params) {
 		super(params);
 
-		dataFolder = params.getStringParam(MainHRClassifier.DATA_FOLDER);
+		dataFolder = params.getStringParam(HeuristicsClassifier.DATA_FOLDER);
 		system = params.getStringParam(ThreadExecutor.ELEMENT_PARAM);
-		granularity = params.getStringParam(MainHRClassifier.GRANULARITY);
+		granularity = params.getStringParam(HeuristicsClassifier.GRANULARITY);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class SystemProcessor extends ThreadProcessor {
 
 		Class<? extends ThreadProcessor> class1 = getProcessor();
 		ThreadParameters newParams = new ThreadParameters(params);
-		newParams.addParam(MainHRClassifier.SYSTEM, system);
+		newParams.addParam(HeuristicsClassifier.SYSTEM, system);
 
 		ThreadExecutor.executePaginated(files, class1, newParams, 50, 15);
 

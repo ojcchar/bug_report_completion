@@ -1,6 +1,6 @@
 package seers.bugreppatterns.main;
 
-import seers.bugreppatterns.main.MainHRClassifier.Predictor;
+import seers.bugreppatterns.main.HeuristicsClassifier.Predictor;
 
 public class FeaturesRunner {
 

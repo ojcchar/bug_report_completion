@@ -2,6 +2,8 @@ package seers.bugreppatterns.main;
 
 import java.io.File;
 
+import seers.bugreppatterns.main.HeuristicsClassifier.Predictor;
+
 public class ClassifierRunner {
 
 	public static void main(String[] args) throws Exception {
@@ -18,7 +20,7 @@ public class ClassifierRunner {
 		String[] granularities = { "B" };
 
 		for (String g : granularities) {
-			String[] args2 = { dataFolder, g, systems, outputFolder, MainHRClassifier.Predictor.ANY_MATCH.toString(),
+			String[] args2 = { dataFolder, g, systems, outputFolder, Predictor.ANY_MATCH.toString(),
 					pattersFile };
 			MainHRClassifier.main(args2);
 		}

@@ -14,7 +14,7 @@ import seers.appcore.threads.processor.ThreadProcessor;
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.entity.xml.DescriptionSentence;
-import seers.bugreppatterns.main.MainHRClassifier;
+import seers.bugreppatterns.main.HeuristicsClassifier;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
 import seers.bugreppatterns.pattern.predictor.Labels;
@@ -36,15 +36,15 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 	public TextInstanceProcessor(ThreadParameters params) {
 		super(params);
 
-		dataFolder = params.getStringParam(MainHRClassifier.DATA_FOLDER);
-		predictionWriter = params.getParam(CsvWriter.class, MainHRClassifier.PREDICTION_WRITER);
-		patterns = params.getListParam(PatternMatcher.class, MainHRClassifier.PATTERNS);
+		dataFolder = params.getStringParam(HeuristicsClassifier.DATA_FOLDER);
+		predictionWriter = params.getParam(CsvWriter.class, HeuristicsClassifier.PREDICTION_WRITER);
+		patterns = params.getListParam(PatternMatcher.class, HeuristicsClassifier.PATTERNS);
 		files = params.getListParam(File.class, ThreadExecutor.ELEMENTS_PARAM);
-		granularity = params.getStringParam(MainHRClassifier.GRANULARITY);
-		system = params.getStringParam(MainHRClassifier.SYSTEM);
-		featuresWriter = params.getParam(CsvWriter.class, MainHRClassifier.FEATURES_WRITER);
-		featuresWriter2 = params.getParam(CsvWriter.class, MainHRClassifier.FEATURES_WRITER2);
-		predictor = params.getParam(LabelPredictor.class, MainHRClassifier.PREDICTOR);
+		granularity = params.getStringParam(HeuristicsClassifier.GRANULARITY);
+		system = params.getStringParam(HeuristicsClassifier.SYSTEM);
+		featuresWriter = params.getParam(CsvWriter.class, HeuristicsClassifier.FEATURES_WRITER);
+		featuresWriter2 = params.getParam(CsvWriter.class, HeuristicsClassifier.FEATURES_WRITER2);
+		predictor = params.getParam(LabelPredictor.class, HeuristicsClassifier.PREDICTOR);
 	}
 
 	protected void writePrediction(String bugRepId, String instanceId, Labels labels) throws Exception {
