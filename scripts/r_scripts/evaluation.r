@@ -11,13 +11,14 @@ if (length(args)==0) {
 }
 
 granularities = c('B','P','S')
-
-input_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/test_data/output'
+prediction_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/test_data/output'
+goldset_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/test_data/output'
 out_folder = 'C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/test_data/output/eval'
 
-input_folder = args[1]
-out_folder = args[2]
-
+prediction_folder = args[1]
+goldset_folder = args[2]
+out_folder = args[3]
+granularities = unlist(strsplit(args[4], ","))
 
 set.seed(644480808)
 num_sample_revision = 10
@@ -113,8 +114,8 @@ for (granularity in granularities) {
   
     cat('Processing granularity:',granularity,'\n')
    
-    pr_file= paste(input_folder,'/output-prediction-',granularity,'.csv', sep = "")
-    gs_file= paste(input_folder,'/gold-set-',granularity,'.csv', sep = "")
+    pr_file= paste(prediction_folder,'/output-prediction-',granularity,'.csv', sep = "")
+    gs_file= paste(goldset_folder,'/gold-set-',granularity,'.csv', sep = "")
     
     #---------------------------------------
     
