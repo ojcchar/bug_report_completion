@@ -160,3 +160,5 @@ for (granularity in granularities) {
     
     #-----------------------------------
 }
+
+cat('Done!\n')

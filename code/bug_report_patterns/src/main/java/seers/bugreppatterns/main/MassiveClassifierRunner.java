@@ -35,6 +35,8 @@ public class MassiveClassifierRunner {
 			List<PatternMatcher> filteredPatterns = new LinkedList<>(patterns);
 			PatternMatcher pattern = filteredPatterns.remove(i);
 
+			LOGGER.debug("** Excluding " + pattern.getName());
+
 			// create the output folder
 			String outputFolder2 = outputFolder + File.separator + pattern.getName();
 			boolean created = new File(outputFolder2).mkdir();
