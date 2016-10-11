@@ -39,10 +39,13 @@ public class MassiveClassifierRunner {
 
 			// create the output folder
 			String outputFolder2 = outputFolder + File.separator + pattern.getName();
-			boolean created = new File(outputFolder2).mkdir();
-			if (!created) {
-				LOGGER.warn("Could not create out folder for pattern " + pattern.getName());
-				continue;
+			File folder = new File(outputFolder2);
+			if (!folder.exists()) {
+				boolean created = folder.mkdir();
+				if (!created) {
+					LOGGER.warn("Could not create out folder for pattern " + pattern.getName());
+					continue;
+				}
 			}
 
 			// run the classifier
