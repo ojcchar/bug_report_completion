@@ -40,6 +40,8 @@ public class BaseTest {
 
 		if (patternName == null) {
 			findPatternName();
+			
+			pm.setName(patternName);
 
 			if (patternName.startsWith("P_")) {
 				testSentence = false;

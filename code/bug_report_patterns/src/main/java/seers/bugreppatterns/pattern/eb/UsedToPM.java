@@ -2,11 +2,11 @@ package seers.bugreppatterns.pattern.eb;
 
 import java.util.List;
 
-import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-public class UsedToPM extends ObservedBehaviorPatternMatcher {
+public class UsedToPM extends ExpectedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

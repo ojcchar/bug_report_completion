@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import seers.bugreppatterns.pattern.PatternMatcher;
-import seers.textanalyzer.entity.Sentence;
 
 public class CombinationPredictor extends LabelPredictor {
 
@@ -163,19 +162,8 @@ public class CombinationPredictor extends LabelPredictor {
 	}
 
 	private boolean didPatternMatch(LinkedHashMap<PatternMatcher, Integer> patternMatches, String name) {
-		PatternMatcher patt = new PatternMatcher() {
-
-			@Override
-			public int matchSentence(Sentence sentence) throws Exception {
-				return 0;
-			}
-
-			@Override
-			public String getType() {
-				return null;
-			}
-		};
-		patt.setName(name);
+		
+		PatternMatcher patt =PatternMatcher.createFakePattern(name); 
 		Integer integer = patternMatches.get(patt);
 		if (integer != null) {
 			return true;

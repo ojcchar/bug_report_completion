@@ -38,7 +38,8 @@ public class UsedToPMTest extends BaseTest {
 		String[] sentences = {
 				"* no matter if you use annotation or mapping files, test will fail using javassist (it used to fail with previous version too)",
 				"The Groovy module used to capture printed output and would return the evaluated result iff nothing was printed.",
-				"Reader: change endpoint used to request single reader post" };
+				"Reader: change endpoint used to request single reader post",
+				"It used to terminate only the process being executed and was going back to the shell prompt. "};
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

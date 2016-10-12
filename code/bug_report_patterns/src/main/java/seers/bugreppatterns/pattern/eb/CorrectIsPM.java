@@ -3,14 +3,14 @@ package seers.bugreppatterns.pattern.eb;
 import java.util.List;
 import java.util.Set;
 
-import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.pattern.ExpectedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.ob.NegativeAfterPM;
 import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-public class CorrectIsPM extends ObservedBehaviorPatternMatcher {
+public class CorrectIsPM extends ExpectedBehaviorPatternMatcher {
 
 	final private static Set<String> CORRECT_TERMS = JavaUtils.getSet("correct", "right");
 

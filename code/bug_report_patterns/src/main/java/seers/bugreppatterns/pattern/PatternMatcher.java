@@ -29,10 +29,29 @@ public abstract class PatternMatcher {
 
 	public abstract int matchSentence(Sentence sentence) throws Exception;
 
+	/**
+	 * Match the sentences of the paragraph with the current pattern. By
+	 * default, it returns the # of sentences matched in the paragraph.
+	 * 
+	 * If the pattern is a paragraph-level pattern, then the method returns 1 if
+	 * the pattern matches the paragraph, otherwise returns 0
+	 * 
+	 * @param paragraph
+	 * @return # of the sentences matched (by default)
+	 * @throws Exception
+	 */
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 		return defaultMatchParagraph(paragraph);
 	}
 
+	/**
+	 * Match the paragraphs of the bug report with the current pattern
+	 * 
+	 * @param bugReport
+	 *            the bug report
+	 * @return # of matches of the current pattern
+	 * @throws Exception
+	 */
 	public int matchDocument(Document bugReport) throws Exception {
 
 		int numMatches = 0;
@@ -75,7 +94,20 @@ public abstract class PatternMatcher {
 	}
 
 	public void setName(String name) {
+		validateName(name);
 		this.name = name;
+	}
+
+	private void validateName(String name) {
+		String superClassName = this.getClass().getSuperclass().getSimpleName();
+
+		if ((name.contains("_EB_") && !ExpectedBehaviorPatternMatcher.class.getSimpleName().equals(superClassName))
+				|| (name.contains("_SR_")
+						&& !StepsToReproducePatternMatcher.class.getSimpleName().equals(superClassName))
+				|| (name.contains("_OB_")
+						&& !ObservedBehaviorPatternMatcher.class.getSimpleName().equals(superClassName))) {
+			throw new RuntimeException("Wrong pattern-class mapping for " + name + ": " + superClassName);
+		}
 	}
 
 	@Override
@@ -136,5 +168,22 @@ public abstract class PatternMatcher {
 	 */
 	public boolean sentenceMatchesAnyPatternIn(Sentence sentence, PatternMatcher[] patterns) throws Exception {
 		return findFirstPatternThatMatches(sentence, patterns) != null;
+	}
+
+	public static PatternMatcher createFakePattern(String name2) {
+		PatternMatcher pm = new PatternMatcher() {
+
+			@Override
+			public int matchSentence(Sentence sentence) throws Exception {
+				return 0;
+			}
+
+			@Override
+			public String getType() {
+				return null;
+			}
+		};
+		pm.name = name2;
+		return pm;
 	}
 }

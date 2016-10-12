@@ -10,14 +10,14 @@ public class ClassifierRunner {
 
 //		String systems = "eclipse,facebook,firefox,httpd,docker,hibernate,libreoffice,openmrs,wordpress-android";
 		String systems = "docker";
-		String dataFolder = "test_data" + File.separator + "data";
+		String dataFolder = "test_data" + File.separator + "data2";
 		String outputFolder = "test_data" + File.separator + "output";
 
 		String pattersFile = "patterns.csv";
 
 		// String[] granularities = { "B", "P", "S" };
 
-		String[] granularities = { "B" };
+		String[] granularities = { "S" };
 
 		for (String g : granularities) {
 			String[] args2 = { dataFolder, g, systems, outputFolder, Predictor.ANY_MATCH.toString(),
