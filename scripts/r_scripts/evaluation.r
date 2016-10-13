@@ -36,7 +36,7 @@ compute_sample_size <- function (population_size){
   sample_size = z_val^2 * prob * (1-prob) / error^2  #nomal_distribution
   sample_size = ceiling(sample_size/(1+((sample_size-1)/population_size))) #correction for finite population
   
-  cat('Sample size:',population_size,'->',sample_size,'\n')
+  #cat('Sample size:',population_size,'->',sample_size,'\n')
   
   sample_size
   
