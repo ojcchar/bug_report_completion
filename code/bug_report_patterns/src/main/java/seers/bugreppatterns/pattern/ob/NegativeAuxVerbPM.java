@@ -137,11 +137,14 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> nots = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			String pos = token.getPos();
-			if ((pos.equals("RB") && token.getLemma().equalsIgnoreCase("not")) || token.getWord().equals("NOT")) {
+			if (isNot(token)) {
 				nots.add(i);
 			}
 		}
 		return nots;
+	}
+
+	public static boolean isNot(Token token) {
+		return (token.getPos().equals("RB") && token.getLemma().equalsIgnoreCase("not")) || token.getWord().equals("NOT") || token.getLemma().equalsIgnoreCase("n`t");
 	}
 }
