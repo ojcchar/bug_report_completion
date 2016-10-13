@@ -7,9 +7,12 @@ import seers.textanalyzer.entity.Sentence;
  * Created by juan on 4/19/16.
  */
 public class WantPM extends ExpectedBehaviorPatternMatcher {
+	
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		return sentence.getTokens().stream().filter(t -> t.getGeneralPos().equals("VB") && t.getLemma().equals("want"))
 				.findFirst().isPresent() ? 1 : 0;
+//		return 0;
 	}
+	
 }

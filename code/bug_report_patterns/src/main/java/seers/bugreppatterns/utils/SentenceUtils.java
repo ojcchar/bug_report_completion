@@ -570,8 +570,8 @@ public class SentenceUtils {
 	 * @return true if there is match, false otherwise
 	 */
 	public static boolean containsTermsPriorToIndex(Integer tokenIdx, List<Token> tokens, Set<String> terms) {
-		List<Integer> condIndexes = SentenceUtils.findLemmasInTokens(terms, tokens);
-		return condIndexes.stream().anyMatch(condIdx -> condIdx < tokenIdx);
+		List<Integer> indexes = SentenceUtils.findLemmasInTokens(terms, tokens);
+		return indexes.stream().anyMatch(condIdx -> condIdx < tokenIdx);
 	}
 
 }

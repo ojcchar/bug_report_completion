@@ -21,20 +21,21 @@ public class CorrectIsPM extends ExpectedBehaviorPatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		if (!isNegative(sentence)) {
-			List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence,
-					findPunctuation(sentence.getTokens()));
+		if (isNegative(sentence)) {
+			return 0;
+		}
 
-			for (Sentence subSentence : subSentences) {
+		List<Sentence> subSentences = SentenceUtils.findSubSentences(sentence, findPunctuation(sentence.getTokens()));
 
-				List<Token> tokens = subSentence.getTokens();
-				if (containsCorrectTerm(tokens) && isNounPhrase(tokens)) {
-					return 1;
-				} else if (containsCorrectTerm(tokens) && containsPresentBeOrWouldBe(tokens)) {
-					return 1;
-				}
+		for (Sentence subSentence : subSentences) {
 
+			List<Token> tokens = subSentence.getTokens();
+			if (containsCorrectTerm(tokens) && isNounPhrase(tokens)) {
+				return 1;
+			} else if (containsCorrectTerm(tokens) && containsPresentBeOrWouldBe(tokens)) {
+				return 1;
 			}
+
 		}
 
 		return 0;
@@ -42,7 +43,41 @@ public class CorrectIsPM extends ExpectedBehaviorPatternMatcher {
 	}
 
 	private boolean containsCorrectTerm(List<Token> tokens) {
-		return SentenceUtils.tokensContainAnyLemmaIn(tokens, CORRECT_TERMS);
+		List<Integer> idxs = SentenceUtils.findLemmasInTokens(CORRECT_TERMS, tokens);
+		for (Integer idx : idxs) {
+
+			if (idx + 1 < tokens.size()) {
+
+				// no cases like "right now", "right away"
+				Token token = tokens.get(idx + 1);
+				if (token.getGeneralPos().equals("RB")) {
+					return false;
+				}
+				
+			}
+
+			// no cases like "the upper right links"
+			if (idx - 1 >= 0 && idx + 1 < tokens.size()) {
+				Token priorToken = tokens.get(idx - 1);
+				Token nextToken = tokens.get(idx + 1);
+				if (priorToken.getGeneralPos().equals("JJ") && nextToken.getGeneralPos().equals("NN")) {
+					return false;
+				}
+			}
+			
+			// no noun after the term
+			if (idx + 1 < tokens.size()) {
+				Token token = tokens.get(idx + 1);
+				if (!token.getGeneralPos().equals("NN")) {
+					return false;
+				}
+				
+			}
+			
+
+		}
+
+		return !idxs.isEmpty();
 	}
 
 	private boolean containsPresentBeOrWouldBe(List<Token> tokens) {

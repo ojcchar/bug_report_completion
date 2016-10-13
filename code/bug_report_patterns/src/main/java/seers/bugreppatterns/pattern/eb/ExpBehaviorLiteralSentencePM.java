@@ -13,11 +13,11 @@ public class ExpBehaviorLiteralSentencePM extends ExpectedBehaviorPatternMatcher
 
 		// ----------------
 
-		String regexPrefix = "(?s)(\\W+ )?expect(ed)?( (result|behavio(u)?r))?( (:|-+))?";
+		String regexPrefix = "(?s)(\\W+ )?expect(ed)?( (result|behavio(u)?r))?( (:|-+))";
 		boolean b = text.matches(regexPrefix + ".+");
 		if (b) {
 			// check for only "expect behavior", with no text after the label
-			b = text.matches("(?s)(\\W+ )?expect(ed)?( (result|behavio(u)?r))?( (:|-+))?");
+			b = text.matches(regexPrefix);
 			if (b) {
 				return 0;
 			} else {
@@ -26,6 +26,11 @@ public class ExpBehaviorLiteralSentencePM extends ExpectedBehaviorPatternMatcher
 		} else {
 
 			b = text.matches("expectation :.+");
+			if (b) {
+				return 1;
+			}
+			
+			b = text.matches("(?s)(\\W+ )expect(ed)?( (result|behavio(u)?r)) .+");
 			if (b) {
 				return 1;
 			}

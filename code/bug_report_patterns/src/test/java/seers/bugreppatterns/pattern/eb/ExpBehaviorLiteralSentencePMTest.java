@@ -27,7 +27,8 @@ public class ExpBehaviorLiteralSentencePMTest extends BaseTest {
 		String[] txts = {
 				"My Expected Results are: \nshortened the box to fit within the viewable screen, or opened it in the other\ndirection (up).",
 				"5 Result: you get some 'garbage' text instead of expected results:", "Expected behavior",
-				"### Expected behaviour", "expected", "expected:" };
+				"### Expected behaviour", "expected", "expected:",
+				"Expected http://specs.openid.net/auth/2.0/identifier_select_ got https://secure.mp/s/anthony.mp/server" };
 		TestUtils.testSentences(txts, pm, 0);
 
 	}

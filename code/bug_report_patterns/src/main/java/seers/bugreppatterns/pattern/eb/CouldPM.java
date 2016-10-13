@@ -21,6 +21,11 @@ public class CouldPM extends ExpectedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			if (tokens.get(i).getGeneralPos().equals("MD") && (tokens.get(i).getLemma().equals("could"))) {
 
+				if (i - 1 >= 0 && tokens.get(i - 1).getGeneralPos().equals("PRP")
+						&& !tokens.get(i - 1).getLemma().equals("it")) {
+					continue;
+				}
+
 				PatternMatcher pm = new CouldQuestionSentencePM();
 				int match = pm.matchSentence(sentence);
 				if (match == 0) {

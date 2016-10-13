@@ -49,6 +49,34 @@ public class NeedsToPM extends ExpectedBehaviorPatternMatcher {
 					continue;
 				}
 
+				// ------------------
+
+				// no verbs before the "need" token
+				boolean containsVerbs = false;
+				for (int i = 0; i < needTok; i++) {
+					Token token = tokens.get(i);
+					if (token.getGeneralPos().equals("VB")) {
+						containsVerbs = true;
+						break;
+					}
+
+				}
+
+				if (containsVerbs) {
+					continue;
+				}
+
+				// -------------
+
+				//no cases like: "I need..."
+				if (needTok - 1 >= 0) {
+					if (tokens.get(needTok - 1).getLemma().equalsIgnoreCase("I")) {
+						continue;
+					}
+				}
+
+				// --------------------
+
 				// accept the clause if it contains need!
 				Token needToken = tokens.get(needTok);
 				if (needToken.getGeneralPos().equals("VB")) {
