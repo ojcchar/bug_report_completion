@@ -23,9 +23,20 @@ granularities = unlist(strsplit(args[4], ","))
 cat('Processing:',prediction_folder,'\n')
 
 set.seed(644480808)
-num_sample_revision = 10
 
 ##---------- functions ---------------------------------
+
+compute_sample_size <- function (population_size){
+  
+  prob = 0.5
+  error = 0.05
+  confidence_level = 1-error
+  z_val = qnorm(confidence_level + error/2)
+  
+  sample_size = z_val^2 * prob * (1-prob) / error^2  #nomal_distribution
+  sample_size = ceiling(sample_size/(1+((sample_size-1)/population_size))) #correction for finite population
+  sample_size
+}
 
 compute_numbers <- function (data1, cols){
   
@@ -64,12 +75,12 @@ compute_numbers <- function (data1, cols){
   #---------------------------
   #sample for revision
   
-  num_sam = num_sample_revision
+  num_sam = compute_sample_size(fp)
   if (fp <num_sam) {
     num_sam = fp
   }
   fp_data_sample = fp_data[sample(1:nrow(fp_data), num_sam),]
-  num_sam = num_sample_revision
+  num_sam = compute_sample_size(fn)
   if (fn <num_sam) {
     num_sam = fn
   }
