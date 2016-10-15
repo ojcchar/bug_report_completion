@@ -25,8 +25,11 @@ cat('Processing:',prediction_folder,'\n')
 set.seed(644480808)
 
 ##---------- functions ---------------------------------
-
 compute_sample_size <- function (population_size){
+  population_size
+}
+
+compute_sample_size2 <- function (population_size){
   
   prob = 0.5
   error = 0.05
