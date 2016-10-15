@@ -11,15 +11,10 @@ import net.quux00.simplecsv.CsvWriter;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
-import seers.bugreppatterns.entity.Paragraph;
-import seers.bugreppatterns.entity.xml.DescriptionParagraph;
-import seers.bugreppatterns.entity.xml.DescriptionSentence;
 import seers.bugreppatterns.main.HeuristicsClassifier;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
 import seers.bugreppatterns.pattern.predictor.Labels;
-import seers.bugreppatterns.utils.SentenceUtils;
-import seers.textanalyzer.entity.Sentence;
 
 public abstract class TextInstanceProcessor extends ThreadProcessor {
 
@@ -84,28 +79,6 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 
 		featuresWriter2.writeNext(nextLine2);
 
-	}
-
-	protected Paragraph parseParagraph(String bugId, DescriptionParagraph paragraph) {
-
-		Paragraph par = new Paragraph(paragraph.getId());
-
-		List<DescriptionSentence> elements = paragraph.getSentences();
-		if (elements != null) {
-			for (DescriptionSentence descSentence : elements) {
-
-				String sentenceId = descSentence.getId();
-				String sentenceTxt = descSentence.getValue();
-
-				Sentence sentence = SentenceUtils.parseSentence(sentenceId, sentenceTxt);
-				if (sentence != null) {
-					par.addSentence(sentence);
-				}
-
-			}
-		}
-
-		return par;
 	}
 
 }

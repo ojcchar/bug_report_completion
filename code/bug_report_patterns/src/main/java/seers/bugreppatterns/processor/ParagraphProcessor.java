@@ -11,6 +11,7 @@ import seers.bugreppatterns.entity.xml.BugReport;
 import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.Labels;
+import seers.bugreppatterns.utils.ParsingUtils;
 
 public class ParagraphProcessor extends TextInstanceProcessor {
 
@@ -32,7 +33,7 @@ public class ParagraphProcessor extends TextInstanceProcessor {
 
 					LinkedHashMap<PatternMatcher, Integer> patternMatches = new LinkedHashMap<>();
 
-					Paragraph parsedParagraph = parseParagraph(bugRep.getId(), paragraph);
+					Paragraph parsedParagraph = ParsingUtils.parseParagraph(bugRep.getId(), paragraph);
 
 					if (parsedParagraph.isEmpty()) {
 						continue;

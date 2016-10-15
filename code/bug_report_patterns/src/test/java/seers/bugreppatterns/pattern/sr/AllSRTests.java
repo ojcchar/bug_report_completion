@@ -7,7 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ ActionsInfinitivePMTest.class, ActionsMultiPMTest.class, ActionsPastPMTest.class,
 		ActionsPresentPMTest.class, ActionsSeparatorPMTest.class, AfterPMTest.class, ByActionPMTest.class,
-		CodeRefPMTest.class, ConditionalAffirmativePMTest.class, ConditionalCodePMTest.class,
+		CodeRefPMTest.class, ConditionalCodePMTest.class,
 		ConditionalSequencePMTest.class, CondSequenceParagrahPMTest.class, ContinuousPresentPMTest.class,
 		ContinuousPresentSentencePMTest.class, HaveSequencePMTest.class, ImperativeSequencePMTest.class,
 		ImperativeSubordinatesPMTest.class, LabeledListPMTest.class, LabeledParagraphPMTest.class,

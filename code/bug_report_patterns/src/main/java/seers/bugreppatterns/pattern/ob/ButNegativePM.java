@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
@@ -12,7 +11,7 @@ import seers.textanalyzer.entity.Token;
 
 public class ButNegativePM extends ObservedBehaviorPatternMatcher {
 
-	public final static PatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
+	public final static ObservedBehaviorPatternMatcher[] NEGATIVE_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new NoLongerPM(), new VerbErrorPM(), new VerbToBeNegativePM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
 			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(), new ErrorNounPhrasePM(),
 			new NothingHappensPM() };

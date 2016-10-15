@@ -52,4 +52,10 @@ public class Document {
 		return numOfTokens;
 	}
 
+	public List<Sentence> getSentences() {
+		final List<Sentence> allSentences = new ArrayList<>();
+		paragraphs.forEach(p -> allSentences.addAll(p.getSentences()));
+		return allSentences;
+	}
+
 }

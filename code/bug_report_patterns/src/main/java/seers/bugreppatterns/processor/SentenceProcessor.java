@@ -11,6 +11,7 @@ import seers.bugreppatterns.entity.xml.BugReport;
 import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.Labels;
+import seers.bugreppatterns.utils.ParsingUtils;
 import seers.textanalyzer.entity.Sentence;
 
 public class SentenceProcessor extends TextInstanceProcessor {
@@ -30,7 +31,7 @@ public class SentenceProcessor extends TextInstanceProcessor {
 
 				for (DescriptionParagraph paragraph : paragraphs) {
 
-					Paragraph par = parseParagraph(bugRep.getId(), paragraph);
+					Paragraph par = ParsingUtils.parseParagraph(bugRep.getId(), paragraph);
 
 					if (par.isEmpty()) {
 						continue;

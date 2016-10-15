@@ -2,16 +2,14 @@ package seers.bugreppatterns.processor;
 
 import java.io.File;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.xml.XMLHelper;
 import seers.bugreppatterns.entity.Document;
-import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.entity.xml.BugReport;
-import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.Labels;
+import seers.bugreppatterns.utils.ParsingUtils;
 
 public class BugReportProcessor extends TextInstanceProcessor {
 
@@ -28,7 +26,7 @@ public class BugReportProcessor extends TextInstanceProcessor {
 			try {
 
 				BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
-				Document bugReport = parseDocument(bugRep);
+				Document bugReport = ParsingUtils.parseDocument(system, bugRep);
 				LinkedHashMap<PatternMatcher, Integer> patternMatches = new LinkedHashMap<>();
 
 				// int numOfSentences = bugReport.getNumOfSentences();
@@ -51,21 +49,6 @@ public class BugReportProcessor extends TextInstanceProcessor {
 						+ e.getMessage(), e);
 			}
 		}
-	}
-
-	private Document parseDocument(BugReport bugRep) {
-		Document doc = new Document(bugRep.getId());
-		List<DescriptionParagraph> paragraphs = bugRep.getDescription().getParagraphs();
-		for (DescriptionParagraph par : paragraphs) {
-			Paragraph paragraph = parseParagraph(bugRep.getId(), par);
-			if (paragraph.isEmpty()) {
-				LOGGER.warn("[" + system + "] Bug " + bugRep.getId() + ", paragraph " + paragraph.getId()
-						+ " is empty, skipping it!");
-				continue;
-			}
-			doc.addParagraph(paragraph);
-		}
-		return doc;
 	}
 
 }

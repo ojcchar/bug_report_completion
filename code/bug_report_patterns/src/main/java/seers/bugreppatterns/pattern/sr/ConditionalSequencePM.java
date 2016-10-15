@@ -29,7 +29,7 @@ public class ConditionalSequencePM extends StepsToReproducePatternMatcher {
 			if (condTerm + 1 < tokens.size()) {
 				Token nextToken = tokens.get(condTerm + 1);
 				if (nextToken.getPos().equals("VBG")
-						&& !SentenceUtils.lemmasContainToken(ConditionalAffirmativePM.EXCLUDED_VERBS, nextToken)) {
+						&& !SentenceUtils.lemmasContainToken(ConditionalObservedBehaviorPM.EXCLUDED_VERBS, nextToken)) {
 					if (tokens.subList(condTerm + 1, tokens.size()).stream()
 							.anyMatch(t -> t.getLemma().equals("then"))) {
 						return 1;
@@ -39,7 +39,7 @@ public class ConditionalSequencePM extends StepsToReproducePatternMatcher {
 						Token nextToken2 = tokens.get(condTerm + 2);
 						if ((nextToken2.getPos().equals("VBP") || nextToken2.getPos().equals("VBZ")
 								|| nextToken2.getPos().equals("VB"))
-								&& !SentenceUtils.lemmasContainToken(ConditionalAffirmativePM.EXCLUDED_VERBS,
+								&& !SentenceUtils.lemmasContainToken(ConditionalObservedBehaviorPM.EXCLUDED_VERBS,
 										nextToken2)) {
 							if (SentenceUtils.tokensContainAnyLemmaIn(tokens.subList(condTerm + 2, tokens.size()),
 									JavaUtils.getSet("then"))) {
