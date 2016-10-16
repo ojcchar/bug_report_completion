@@ -1,5 +1,6 @@
 package seers.bugreppatterns.pattern.ob;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public class PassiveVoicePM extends ObservedBehaviorPatternMatcher {
 			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(), new ErrorNounPhrasePM(),
 			new NoLongerPM() };
 
-	private final static Set<String> FORBIDDEN_TERMS = CONDITIONAL_TERMS;
+	private final static Set<String> FORBIDDEN_TERMS = new HashSet<>(CONDITIONAL_TERMS);
 	{
 		FORBIDDEN_TERMS.addAll(CONTRAST_TERMS);
 		FORBIDDEN_TERMS.addAll(JavaUtils.getSet("after", "because"));

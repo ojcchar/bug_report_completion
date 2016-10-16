@@ -12,12 +12,12 @@ import seers.textanalyzer.entity.Token;
 
 public class CodeRefPM extends StepsToReproducePatternMatcher {
 
-	final static Set<String> NOUNS_TERM = JavaUtils.getSet("snippet", "code", "sample", "configuration", "statement",
-			"script", "html/ssi", "html/fbml", "html", "trace", "test.htm", "example", "project", "function", "method",
-			"class", "test", "configure", "build", "excerpt", "config", "program", "screen-shot", "screenshot", "video",
-			"log", "file", "line", "container", "attachment", "env", "build/install", "hql", "call", "apache",
-			"htpasswd", "installer", "command", "dockerfile", "tool", "test case", "example/test", "case", "parameter",
-			"model", "image", "query", "xml");
+	final static Set<String> NOUNS_TERM = JavaUtils.getSet("apache", "attachment", "build", "build/install", "call",
+			"case", "class", "code", "command", "config", "configuration", "configure", "container", "dockerfile",
+			"env", "example", "example/test", "excerpt", "file", "function", "hql", "html", "html/fbml", "html/ssi",
+			"htpasswd", "image", "installer", "line", "log", "method", "model", "parameter", "program", "project",
+			"query", "sample", "screenshot", "screen-shot", "script", "snippet", "statement", "test", "test case",
+			"test.htm", "tool", "trace", "video", "xml");
 
 	final static String NOUN_TERMS_REGEX;
 	static {

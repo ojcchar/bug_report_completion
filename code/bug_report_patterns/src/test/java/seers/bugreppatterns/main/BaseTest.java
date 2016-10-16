@@ -38,9 +38,14 @@ public class BaseTest {
 			return;
 		}
 
+		if (!this.getClass().getSimpleName().equals(pm.getClass().getSimpleName() + "Test")) {
+			throw new RuntimeException("The pattern matcher may be wrong for this test: "
+					+ pm.getClass().getSimpleName() + " vs. " + this.getClass().getSimpleName());
+		}
+
 		if (patternName == null) {
 			findPatternName();
-			
+
 			pm.setName(patternName);
 
 			if (patternName.startsWith("P_")) {
@@ -52,7 +57,8 @@ public class BaseTest {
 
 	private void loadData() throws IOException {
 		CsvParser csvParser = new CsvParserBuilder().separator(';').multiLine(true).build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(MainMatcher.fileAssignment), "Cp1252"), csvParser)) {
+		try (CsvReader csvReader = new CsvReader(
+				new InputStreamReader(new FileInputStream(MainMatcher.fileAssignment), "Cp1252"), csvParser)) {
 
 			List<List<String>> allLines = csvReader.readAll();
 

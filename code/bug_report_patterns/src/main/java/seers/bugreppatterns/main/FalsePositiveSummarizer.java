@@ -4,14 +4,13 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import net.quux00.simplecsv.CsvParser;
@@ -19,11 +18,8 @@ import net.quux00.simplecsv.CsvParserBuilder;
 import net.quux00.simplecsv.CsvReader;
 import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
-import seers.appcore.xml.XMLHelper;
-import seers.bugreppatterns.entity.Document;
-import seers.bugreppatterns.entity.xml.BugReport;
-import seers.bugreppatterns.utils.ParsingUtils;
-import seers.textanalyzer.entity.Sentence;
+import seers.appcore.threads.ThreadExecutor;
+import seers.appcore.threads.processor.ThreadParameters;
 
 public class FalsePositiveSummarizer {
 
@@ -32,16 +28,18 @@ public class FalsePositiveSummarizer {
 		String sampleFilePath = "test_data\\output\\eval\\data_all_sr_sample_B.csv";
 		String outputPatternsPath = "test_data\\output\\output-patterns-S.csv";
 		String[] patternTypes = { "SR" };
+		String[] inputPatterns = { "S_SR_COND_CODE", "S_SR_COND_OBS", "S_SR_COND_THEN_SEQ", "S_SR_COND_SEQUENCE" };
 		String outputFile = "false-positives.csv";
 		if (args.length != 0) {
 			sampleFilePath = args[0];
 			outputPatternsPath = args[1];
 			patternTypes = args[2].split(",");
+			inputPatterns = args[3].split(",");
 		}
 
 		List<List<String>> falsePositivesEntries = readFalsePositives(sampleFilePath);
-		HashMap<String, HashMap<BugInstance, List<String>>> predictions = readPatternsPredictions(outputPatternsPath,
-				patternTypes);
+		ConcurrentHashMap<String, HashMap<BugInstance, List<String>>> predictions = readPatternsPredictions(
+				outputPatternsPath, patternTypes, inputPatterns);
 
 		HashMap<String, Set<String>> predictionsByBug = new HashMap<>();
 
@@ -89,14 +87,14 @@ public class FalsePositiveSummarizer {
 
 	}
 
-	private static String getSysBugIdKey(String system, String bugId) {
+	public static String getSysBugIdKey(String system, String bugId) {
 		return system + ";" + bugId;
 	}
 
-	private static HashMap<String, HashMap<BugInstance, List<String>>> readPatternsPredictions(
-			String outputPatternsPath, String[] patternTypes) throws Exception {
+	private static ConcurrentHashMap<String, HashMap<BugInstance, List<String>>> readPatternsPredictions(
+			String outputPatternsPath, String[] patternTypes, String[] inputPatterns) throws Exception {
 
-		HashMap<String, HashMap<BugInstance, List<String>>> predictions = new HashMap<>();
+		ConcurrentHashMap<String, HashMap<BugInstance, List<String>>> predictions = new ConcurrentHashMap<>();
 		List<List<String>> allLines = null;
 
 		CsvParser csvParser = new CsvParserBuilder().separator(';').build();
@@ -105,83 +103,14 @@ public class FalsePositiveSummarizer {
 			allLines = csvReader.readAll();
 		}
 
-		for (List<String> line : allLines) {
+		ThreadParameters params = new ThreadParameters();
+		params.addParam("predictions", predictions);
+		params.addParam("patternTypes", patternTypes);
+		params.addParam("inputPatterns", inputPatterns);
 
-			String system = line.get(0);
-			String bugId = line.get(1);
-
-			// -----------------------------------------
-
-			String sysBugIdKey = getSysBugIdKey(system, bugId);
-
-			HashMap<BugInstance, List<String>> sentences = predictions.get(sysBugIdKey);
-			if (sentences == null) {
-				sentences = new HashMap<>();
-				predictions.put(sysBugIdKey, sentences);
-			}
-
-			// -----------------------------------------
-
-			String instanceId = line.get(2);
-			BugInstance instance = new FalsePositiveSummarizer.BugInstance(instanceId, "");
-
-			List<String> patterns = sentences.get(instanceId);
-			if (patterns == null) {
-				patterns = new ArrayList<>();
-				sentences.put(instance, patterns);
-
-				setBugInstanceText(system, bugId, instanceId, instance);
-			}
-
-			// -----------------------------------------
-
-			List<String> patternList = line.subList(3, line.size());
-
-			for (int i = 0; i < patternList.size(); i += 2) {
-				String pattern = patternList.get(i);
-				if (!pattern.isEmpty() && matchPatternTypes(pattern, patternTypes)) {
-					patterns.add(pattern);
-				}
-			}
-		}
+		ThreadExecutor.executePaginated(allLines, FalsePositivesProcessor.class, params);
 
 		return predictions;
-	}
-
-	private static HashMap<String, Document> bugReportsHash = new HashMap<>();
-
-	private static void setBugInstanceText(String system, String bugId, String instanceId, BugInstance instance)
-			throws Exception {
-
-		String sysBugIdKey = getSysBugIdKey(system, bugId);
-		Document bugRepDoc = bugReportsHash.get(sysBugIdKey);
-
-		if (bugRepDoc == null) {
-			String file = "test_data\\data\\" + system + "_parse\\" + bugId + ".xml.parse";
-			BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
-			bugRepDoc = ParsingUtils.parseDocument(system, bugRep);
-			bugReportsHash.put(sysBugIdKey, bugRepDoc);
-		}
-
-		if (instanceId.contains(".")) {
-			Optional<Sentence> first = bugRepDoc.getSentences().stream().filter(sent -> sent.getId().equals(instanceId))
-					.findFirst();
-			instance.text = first.get().getText().replace("\n", "\\n");
-		} else {
-			final StringBuffer buffer = new StringBuffer();
-			List<Sentence> sentences = bugRepDoc.getParagraphs().stream().filter(p -> p.getId().equals(instanceId))
-					.findFirst().get().getSentences();
-			sentences.forEach(s -> {
-				buffer.append(s.getText());
-				buffer.append(". ");
-			});
-			instance.text = buffer.toString().replace("\n", "\\n");
-		}
-
-	}
-
-	private static boolean matchPatternTypes(String pattern, String[] patternTypes) {
-		return Arrays.stream(patternTypes).anyMatch(pattType -> pattern.contains("_" + pattType + "_"));
 	}
 
 	private static List<List<String>> readFalsePositives(String sampleFilePath) throws IOException {
