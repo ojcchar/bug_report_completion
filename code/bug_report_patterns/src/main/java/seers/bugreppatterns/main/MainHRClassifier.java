@@ -3,7 +3,10 @@ package seers.bugreppatterns.main;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.EnumUtils;
@@ -29,20 +32,22 @@ public class MainHRClassifier {
 		List<PatternMatcher> patterns = loadPatterns(new File(pathFilePatterns));
 
 		// ------------------------------------------
-		
-		HeuristicsClassifier classifier = new HeuristicsClassifier(dataFolder, granularity, systems, outputFolder, predictionMethod, patterns);
+
+		HeuristicsClassifier classifier = new HeuristicsClassifier(dataFolder, granularity, systems, outputFolder,
+				predictionMethod, patterns);
 		classifier.runClassifier();
 
 		// ------------------------------------------
 
 	}
-	
+
 	public static List<PatternMatcher> loadPatterns(File filePatterns)
 			throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
 		List<String> allPatterns = FileUtils.readLines(filePatterns);
 
 		List<PatternMatcher> patterns = new ArrayList<>();
+		HashMap<String, Integer> patternMapping = new HashMap<>();
 
 		for (String patternNameClassIndex : allPatterns) {
 
@@ -68,7 +73,21 @@ public class MainHRClassifier {
 			pattern.setCode(code);
 			pattern.setName(patternName);
 
+			Integer num = patternMapping.get(className);
+			if (num == null) {
+				patternMapping.put(className, 1);
+			} else {
+				patternMapping.put(className, num + 1);
+			}
+
 			patterns.add(pattern);
+		}
+
+		List<Entry<String, Integer>> invalidMappings = patternMapping.entrySet().stream()
+				.filter(entry -> entry.getValue() > 1).collect(Collectors.toList());
+
+		if (!invalidMappings.isEmpty()) {
+			throw new RuntimeException("The following classes have more than 1 pattern assigned: " + invalidMappings);
 		}
 
 		return patterns;

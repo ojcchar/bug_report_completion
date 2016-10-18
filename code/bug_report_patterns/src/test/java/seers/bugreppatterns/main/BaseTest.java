@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -110,9 +111,10 @@ public class BaseTest {
 		// assertFalse("No testing data!", testDataSentence.isEmpty());
 	}
 
-	private void findPatternName() throws IOException {
+	private HashMap<String, String> loadClassNames() throws IOException {
 		List<String> allPatterns = FileUtils.readLines(new File("patterns.csv"));
 
+		HashMap<String, String> mappings = new HashMap<>();
 		for (String patternNameClassIndex : allPatterns) {
 
 			String[] split = patternNameClassIndex.split(" ");
@@ -123,15 +125,28 @@ public class BaseTest {
 			String pName = split2[0];
 			String className = split2[1];
 
-			String simpleName = pm.getClass().getSimpleName();
-			if (simpleName.equals(className)) {
-				patternName = pName;
-				return;
+			String pattName = mappings.get(className);
+			if (pattName != null) {
+				throw new RuntimeException("The following class has more than 1 pattern assigned: " + className);
 			}
+
+			mappings.put(className, pName);
 
 		}
 
-		throw new RuntimeException("Pattern not found!");
+		return mappings;
+
+	}
+
+	private void findPatternName() throws IOException {
+
+		HashMap<String, String> classNames = loadClassNames();
+
+		patternName = classNames.get(pm.getClass().getSimpleName());
+
+		if (patternName == null) {
+			throw new RuntimeException("Pattern not found!");
+		}
 
 	}
 

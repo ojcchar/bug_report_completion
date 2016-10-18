@@ -119,6 +119,7 @@ public class SentenceUtils {
 
 	public static final Set<String> CLAUSE_SEPARATORS = JavaUtils.getSet(";", ",", "-", "_", "--", ":");
 	public static final Set<String> POS_SEPARATORS = JavaUtils.getSet("CC");
+	public static final Set<String> TERM_SEPARATORS = JavaUtils.getSet("and", "or", "but");
 
 	/**
 	 * Extract clauses or subsentences in the provided sentence, based on
@@ -138,7 +139,8 @@ public class SentenceUtils {
 		int currentClause = 0;
 		for (int i = 0; i < tokens.size();) {
 			Token token = tokens.get(i);
-			if (matchTermsByLemma(CLAUSE_SEPARATORS, token) || matchTermsByPOS(POS_SEPARATORS, token)) {
+			if (matchTermsByLemma(CLAUSE_SEPARATORS, token) || matchTermsByPOS(POS_SEPARATORS, token)
+					|| matchTermsByLemma(TERM_SEPARATORS, token)) {
 
 				// ---------------------
 
@@ -491,7 +493,7 @@ public class SentenceUtils {
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * Breaks a given sentence based on parenthesis symbols. Thus each sentence
 	 * within parenthesis is extracted from the original sentence and added to

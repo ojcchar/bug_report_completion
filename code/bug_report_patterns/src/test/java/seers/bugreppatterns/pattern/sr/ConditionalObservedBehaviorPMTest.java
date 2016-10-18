@@ -29,7 +29,6 @@ public class ConditionalObservedBehaviorPMTest extends BaseTest {
 				"However if I delete a comment, save the file and re-open it.",
 				"The problem appears when I call entityManager.merge(myPerson) - there is an information that minimum child number is 1.",
 				
-				
 //				"When I call \nnavigate(boolean next) with next = true, selection jump to first element(great).",
 //				"But if i have selected first and i call it with next = false, it stay on first.",
 //				"However, if you remove a listener when the node is removed, its throws an",
@@ -46,6 +45,10 @@ public class ConditionalObservedBehaviorPMTest extends BaseTest {
 //				"Whenever I use my Mozilla Firefox-browser and log into my Hotmail-account, my automated signature when composing a new email, do not work."
 		};
 		TestUtils.testSentences(txts, pm, 1);
+		
+		@SuppressWarnings("unused")
+		String[] trickyOnes = {
+				"When saving a new (transient) entity by cascading from a JPA merge() operation on its parent, Hibernate will generate two INSERT statements for the new entity when it is held in a UserCollectionType."};
 
 	}
 
@@ -61,6 +64,7 @@ public class ConditionalObservedBehaviorPMTest extends BaseTest {
 				"But I think there should be a better solution, or at least a warning in the docs not to use % characters while setting HTTP headers from a .",
 				"The existing util_ldap.c considers it an error in util_ldap_cache_checkuserid if it searches for a user and gets back more than one entry.",
 				"The mod_reqtimeout module is not dropping connections and returning 408 when dealing with \"slow http header\" or \"slow http body\" requests.",
+				"It would be nice if each about: page has a favicon :\\nabout:config\\nabout:support\\nabout:buildconfig\\nabout:plugins\\nabout:cache\\nabout:memory\\nabout:blank\\nabout:mozilla",
 				
 		
 //		

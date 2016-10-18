@@ -62,7 +62,7 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 			// check if there is OB clause (prefix) prior to the conditional
 			// token
 			List<Token> tokens = clauses.get(idx).getTokens();
-			int idxCond = findConditionalAndPresentToken(tokens);
+			int idxCond = findConditionalAndTenseToken(tokens);
 			if (idxCond != -1) {
 
 				Sentence preClause = new Sentence("0", tokens.subList(0, idxCond));
@@ -110,10 +110,10 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 		return false;
 	}
 
-	private int findFirstCondClauseInPresent(List<Sentence> clauses) {
+	public static int findFirstCondClauseInPresent(List<Sentence> clauses) {
 		for (int i = 0; i < clauses.size(); i++) {
 			List<Token> clauseTokens = clauses.get(i).getTokens();
-			boolean isValid = checkConditionalAndPresent(clauseTokens);
+			boolean isValid = checkConditionalAndTense(clauseTokens);
 			if (isValid) {
 				return i;
 			}
@@ -122,7 +122,7 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 		return -1;
 	}
 
-	private int findConditionalAndPresentToken(List<Token> clauseTokens) {
+	private static int findConditionalAndTenseToken(List<Token> clauseTokens) {
 		List<Integer> condTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, clauseTokens);
 
 		for (Integer condTerm : condTerms) {
@@ -144,11 +144,11 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 		return -1;
 	}
 
-	private boolean checkConditionalAndPresent(List<Token> clauseTokens) {
-		return findConditionalAndPresentToken(clauseTokens) != -1;
+	public static boolean checkConditionalAndTense(List<Token> clauseTokens) {
+		return findConditionalAndTenseToken(clauseTokens) != -1;
 	}
 
-	private boolean isPresentPerfect(Integer condTerm, List<Token> clauseTokens) {
+	private static boolean isPresentPerfect(Integer condTerm, List<Token> clauseTokens) {
 
 		if (condTerm + 3 >= clauseTokens.size()) {
 			return false;
@@ -167,7 +167,7 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 		return false;
 	}
 
-	private boolean isSimpleTenseWithPronoun(Token nextToken, Integer condTerm, List<Token> clauseTokens,
+	private static boolean isSimpleTenseWithPronoun(Token nextToken, Integer condTerm, List<Token> clauseTokens,
 			boolean acceptItPronoun) {
 
 		// is next token a pronoun or a WDT (e.g., which, that, etc), but not
@@ -189,7 +189,7 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 	}
 
 	// this method checks for simple present or past tense
-	private boolean isSimpleTense(Integer condTerm, Token nextToken2, List<Token> clauseTokens) {
+	private static boolean isSimpleTense(Integer condTerm, Token nextToken2, List<Token> clauseTokens) {
 		// case: "when I run..."
 		if ((nextToken2.getPos().equals("VBP") || nextToken2.getPos().equals("VBZ") || nextToken2.getPos().equals("VB")
 				|| nextToken2.getPos().equals("VBD") || nextToken2.getPos().equals("VBN"))
