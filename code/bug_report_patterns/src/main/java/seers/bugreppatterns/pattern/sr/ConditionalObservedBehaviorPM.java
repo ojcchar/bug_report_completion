@@ -15,6 +15,7 @@ import seers.bugreppatterns.pattern.ob.NoNounPM;
 import seers.bugreppatterns.pattern.ob.NothingHappensPM;
 import seers.bugreppatterns.pattern.ob.PassiveVoicePM;
 import seers.bugreppatterns.pattern.ob.ProblemInPM;
+import seers.bugreppatterns.pattern.ob.SeemsPM;
 import seers.bugreppatterns.pattern.ob.StillSentencePM;
 import seers.bugreppatterns.pattern.ob.UnableToPM;
 import seers.bugreppatterns.pattern.ob.VerbErrorPM;
@@ -35,26 +36,51 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 	public final static ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
 			new NoLongerPM(), new VerbErrorPM(), new VerbToBeNegativePM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
 			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(), new ErrorNounPhrasePM(),
-			new NothingHappensPM(), new PassiveVoicePM(), new StillSentencePM() };
+			new NothingHappensPM(), new PassiveVoicePM(), new StillSentencePM(), new SeemsPM() };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
 		List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 
-		if (clauses.size() < 2) {
-			return 0;
-		}
-
 		int idx = findFirstCondClauseInPresent(clauses);
 
 		// no valid conditional clause
-		if (idx == -1 || idx == clauses.size() - 1) {
+		if (idx == -1) {
 			return 0;
 		}
 
-		// search for OB clauses
+		// ------------------------------------
+
 		List<Sentence> remainingClauses = clauses.subList(idx + 1, clauses.size());
+
+		boolean validSentence = checkForRemainingClauses(remainingClauses);
+		if (validSentence) {
+			return 1;
+		} else {
+
+			// check if there is OB clause (prefix) prior to the conditional
+			// token
+			List<Token> tokens = clauses.get(idx).getTokens();
+			int idxCond = findConditionalAndPresentToken(tokens);
+			if (idxCond != -1) {
+
+				Sentence preClause = new Sentence("0", tokens.subList(0, idxCond));
+
+				for (ObservedBehaviorPatternMatcher pm : OB_PMS) {
+					if (pm.matchSentence(preClause) == 1) {
+						return 1;
+					}
+				}
+			}
+		}
+
+		// -----------------------------------------------
+
+		return 0;
+	}
+
+	private boolean checkForRemainingClauses(List<Sentence> remainingClauses) throws Exception {
 
 		// check for present tense clauses
 		int idxLastPresentClause = -1;
@@ -63,23 +89,25 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 			List<Token> clauseTokens = clause.getTokens();
 			if (!clauseTokens.isEmpty()) {
 
-				if (isSimplePresent(clauseTokens.get(0), -1, clauseTokens, true)) {
+				if (isSimpleTenseWithPronoun(clauseTokens.get(0), -1, clauseTokens, true)) {
+					idxLastPresentClause = i;
+				} else if (isSimpleTense(-1, clauseTokens.get(0), clauseTokens)) {
 					idxLastPresentClause = i;
 				}
 			}
 		}
 
 		if (idxLastPresentClause != -1) {
-			return 1;
+			return true;
 		}
 
 		// search for OB clauses
 		int idx2 = SentenceUtils.findObsBehaviorSentence(remainingClauses, OB_PMS);
 		if (idx2 != -1) {
-			return 1;
+			return true;
 		}
 
-		return 0;
+		return false;
 	}
 
 	private int findFirstCondClauseInPresent(List<Sentence> clauses) {
@@ -94,7 +122,7 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 		return -1;
 	}
 
-	private boolean checkConditionalAndPresent(List<Token> clauseTokens) {
+	private int findConditionalAndPresentToken(List<Token> clauseTokens) {
 		List<Integer> condTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, clauseTokens);
 
 		for (Integer condTerm : condTerms) {
@@ -104,16 +132,20 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 
 				// case: "when running"
 				if (nextToken.getPos().equals("VBG") && !SentenceUtils.lemmasContainToken(EXCLUDED_VERBS, nextToken)) {
-					return true;
-				} else if (isSimplePresent(nextToken, condTerm, clauseTokens, false)) {
-					return true;
+					return condTerm;
+				} else if (isSimpleTenseWithPronoun(nextToken, condTerm, clauseTokens, false)) {
+					return condTerm;
 				} else if (isPresentPerfect(condTerm, clauseTokens)) {
-					return true;
+					return condTerm;
 				}
 
 			}
 		}
-		return false;
+		return -1;
+	}
+
+	private boolean checkConditionalAndPresent(List<Token> clauseTokens) {
+		return findConditionalAndPresentToken(clauseTokens) != -1;
 	}
 
 	private boolean isPresentPerfect(Integer condTerm, List<Token> clauseTokens) {
@@ -135,37 +167,49 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 		return false;
 	}
 
-	private boolean isSimplePresent(Token nextToken, Integer condTerm, List<Token> clauseTokens, boolean dismissIt) {
+	private boolean isSimpleTenseWithPronoun(Token nextToken, Integer condTerm, List<Token> clauseTokens,
+			boolean acceptItPronoun) {
 
-		// is next token a pronoun or a WDT (e.g., which, that, etc)
+		// is next token a pronoun or a WDT (e.g., which, that, etc), but not
+		// the "it" pronoun (if acceptItPronoun=false)?
 		if ((nextToken.getGeneralPos().equals("PRP") || nextToken.getPos().equals("WDT"))
-				&& (dismissIt || !nextToken.getLemma().equals("it"))) {
+				&& (acceptItPronoun || !nextToken.getLemma().equals("it"))) {
 
 			if (condTerm + 2 < clauseTokens.size()) {
+
 				final Token nextToken2 = clauseTokens.get(condTerm + 2);
-
-				// case: "when I run..."
-				if ((nextToken2.getPos().equals("VBP") || nextToken2.getPos().equals("VBZ")
-						|| nextToken2.getPos().equals("VB"))
-						&& !SentenceUtils.lemmasContainToken(EXCLUDED_VERBS, nextToken2)) {
+				if (isSimpleTense(condTerm, nextToken2, clauseTokens)) {
 					return true;
-
-				} else
-				// there is an adverb before the verb
-				// case: "when I simply run..."
-				if (nextToken2.getPos().equals("RB")) {
-					if (condTerm + 3 < clauseTokens.size()) {
-						final Token nextToken3 = clauseTokens.get(condTerm + 3);
-						if ((nextToken3.getPos().equals("VBP") || nextToken3.getPos().equals("VBZ")
-								|| nextToken3.getPos().equals("VB"))
-								&& !SentenceUtils.lemmasContainToken(EXCLUDED_VERBS, nextToken3)) {
-							return true;
-						}
-					}
 				}
+
 			}
 		}
 
+		return false;
+	}
+
+	// this method checks for simple present or past tense
+	private boolean isSimpleTense(Integer condTerm, Token nextToken2, List<Token> clauseTokens) {
+		// case: "when I run..."
+		if ((nextToken2.getPos().equals("VBP") || nextToken2.getPos().equals("VBZ") || nextToken2.getPos().equals("VB")
+				|| nextToken2.getPos().equals("VBD") || nextToken2.getPos().equals("VBN"))
+				&& !SentenceUtils.lemmasContainToken(EXCLUDED_VERBS, nextToken2)) {
+			return true;
+
+		} else
+		// there is an adverb before the verb
+		// case: "when I simply run..."
+		if (nextToken2.getPos().equals("RB")) {
+			if (condTerm + 3 < clauseTokens.size()) {
+				final Token nextToken3 = clauseTokens.get(condTerm + 3);
+				if ((nextToken3.getPos().equals("VBP") || nextToken3.getPos().equals("VBZ")
+						|| nextToken3.getPos().equals("VB") || nextToken2.getPos().equals("VBD")
+						|| nextToken2.getPos().equals("VBN"))
+						&& !SentenceUtils.lemmasContainToken(EXCLUDED_VERBS, nextToken3)) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 }

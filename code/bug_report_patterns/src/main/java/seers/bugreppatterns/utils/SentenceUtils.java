@@ -491,7 +491,7 @@ public class SentenceUtils {
 		}
 		return -1;
 	}
-
+	
 	/**
 	 * Breaks a given sentence based on parenthesis symbols. Thus each sentence
 	 * within parenthesis is extracted from the original sentence and added to
