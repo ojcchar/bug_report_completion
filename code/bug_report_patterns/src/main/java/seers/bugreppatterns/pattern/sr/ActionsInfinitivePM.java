@@ -3,7 +3,6 @@ package seers.bugreppatterns.pattern.sr;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
@@ -33,9 +32,16 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
 
 	@Override
 	public int matchParagraph(Paragraph paragraph) throws Exception {
+
+		List<Sentence> sentences = paragraph.getSentences();
+
+		if (sentences.size() < 2) {
+			return 0;
+		}
+
 		int bulletedSentences = 0;
-		int infinitiveSentences = 0;
-		for (Sentence sentence : paragraph.getSentences()) {
+		int imperativeSentences = 0;
+		for (Sentence sentence : sentences) {
 			// Determines if the sentence contains bullets.
 			int firstNonBulletIndex = findFirstNonBulletIndex(sentence);
 			if (firstNonBulletIndex == 0 || firstNonBulletIndex >= sentence.getTokens().size()) {
@@ -46,96 +52,28 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
 				bulletedSentences++;
 			}
 
-			Sentence noBullets = new Sentence("0",
+			Sentence noBulletsSentece = new Sentence("0",
 					sentence.getTokens().subList(firstNonBulletIndex, sentence.getTokens().size()));
 
-			// If the first word is an infinitive verb
-			if (hasVerbInPos(noBullets, 0)) {
-				infinitiveSentences++;
-			} else {
-				Sentence modifiedSentence = noBullets;
+			List<Sentence> clauses = SentenceUtils.extractClauses(noBulletsSentece);
 
-				if (!noBullets.getTokens().get(0).getGeneralPos().equals("NN")) {
-					Sentence trimmedSentence = attemptTrim(noBullets);
-					if (trimmedSentence != null) {
-						if (hasVerbInPos(trimmedSentence, 0)) {
-							infinitiveSentences++;
-							continue;
-						} else {
-							modifiedSentence = trimmedSentence;
-						}
-					}
-				}
+			// check just first 2 clauses
+			for (int i = 0; i < clauses.size() && i < 2; i++) {
+				Sentence clause = clauses.get(i);
 
-				Sentence artificialSentence = appendPronoun(modifiedSentence);
-
-				if (artificialSentence != null && hasVerbInPos(artificialSentence, 1)) {
-					infinitiveSentences++;
+				boolean isImp = SentenceUtils.isImperativeSentence(clause, true);
+				if (isImp) {
+					imperativeSentences++;
+					break;
 				}
 			}
+
 		}
+
+		// System.out.println(imperativeSentences +" - "+bulletedSentences);
 
 		// Match if most bulleted sentences are in infinitive
-		return ((float) infinitiveSentences) / bulletedSentences > 0.5F ? 1 : 0;
-	}
-
-	/**
-	 * Tries to remove a clause from the beginning of a sentence. Returns null
-	 * if there are no clauses to remove.
-	 *
-	 * @param sentence
-	 *            A sentence.
-	 * @return A trimmed sentence or null.
-	 */
-
-	private Sentence attemptTrim(Sentence sentence) {
-		List<Token> tokens = sentence.getTokens();
-
-		// Remove initial conjunction
-		if (tokens.get(0).getPos().equals("CC")) {
-			return new Sentence("", tokens.subList(1, tokens.size()));
-		}
-
-		// Try to trim everything before the first comma found
-		int tokenAmount = tokens.size();
-		for (int i = 0; i < tokenAmount; i++) {
-			Token token = tokens.get(i);
-			if (token.getLemma().equals(",") && i + 1 < tokenAmount) {
-				return new Sentence("", tokens.subList(i + 1, tokenAmount));
-			}
-		}
-
-		// Search for initial prepositions
-		if (tokens.get(0).getGeneralPos().equals("IN")) {
-			// Trim until the first noun found, inclusive
-			for (int i = 0; i < tokenAmount; i++) {
-				Token token = tokens.get(i);
-				if (token.getGeneralPos().equals("NN") && i + 1 < tokenAmount) {
-					return new Sentence("", tokens.subList(i + 1, tokenAmount));
-				}
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * Appends the pronoun "I" to the beginning of the sentence and reassigns
-	 * PoS tags.
-	 *
-	 * @param sentence
-	 *            Sentence to be modified
-	 * @return A re-tagged sentence
-	 */
-	private Sentence appendPronoun(Sentence sentence) {
-		String sentenceText = String.join(" ",
-				sentence.getTokens().stream().map(t -> t.getWord().toLowerCase()).toArray(CharSequence[]::new));
-		// Appends an "I" to the beginning of the sentence, attempting to nudge
-		// the tagger
-		// into recognizing an infinitive verb as such.
-		String artificialSentenceText = String.format("I %s", sentenceText);
-
-		return SentenceUtils.parseSentence("0", artificialSentenceText);
+		return ((float) imperativeSentences) / bulletedSentences >= 0.5F ? 1 : 0;
 	}
 
 	private int findFirstNonBulletIndex(Sentence sentence) {
@@ -173,13 +111,4 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
 		return sentenceStart;
 	}
 
-	private boolean hasVerbInPos(Sentence sentence, int position) {
-		if(position >= 0 && position < sentence.getTokens().size()) {
-			Token token = sentence.getTokens().get(position);
-
-			return token.getPos().equals("VB") || token.getPos().equals("VBP")
-				|| Stream.of(MISTAGGED_VERBS).anyMatch(v -> token.getWord().toLowerCase().equals(v));
-		}
-		return false;
-	}
 }

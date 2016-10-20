@@ -28,7 +28,8 @@ public class ConditionalObservedBehaviorPMTest extends BaseTest {
 				"I just did apt-get docker-engine on my ubunbu machine, but when I checked the version, I got this  docker version",
 				"However if I delete a comment, save the file and re-open it.",
 				"The problem appears when I call entityManager.merge(myPerson) - there is an information that minimum child number is 1.",
-				"Any call to Graph API over album or photo never returns the comment list_ and if you try to get it explicitly_ the answer is an empty data list."
+				"Any call to Graph API over album or photo never returns the comment list_ and if you try to get it explicitly_ the answer is an empty data list.",
+				"Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data."
 				
 //				"When I call \nnavigate(boolean next) with next = true, selection jump to first element(great).",
 //				"But if i have selected first and i call it with next = false, it stay on first.",

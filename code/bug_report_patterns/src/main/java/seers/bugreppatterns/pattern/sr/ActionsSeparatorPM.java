@@ -30,7 +30,7 @@ public class ActionsSeparatorPM extends StepsToReproducePatternMatcher {
 		int numImperClause = 0;
 		for (int i = 0; i < clauses.size(); i++) {
 			List<Token> clause = clauses.get(i);
-			boolean isImperative = SentenceUtils.isImperativeSentence(clause);
+			boolean isImperative = SentenceUtils.isImperativeSentence(clause, false);
 			if (isImperative) {
 				lastImperClause = i;
 				numImperClause++;

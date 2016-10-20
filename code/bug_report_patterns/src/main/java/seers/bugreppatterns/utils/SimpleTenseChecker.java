@@ -35,27 +35,28 @@ public class SimpleTenseChecker {
 
 	private Set<String> pronounsGnralPOS;
 	private Set<String> pronounsLemmas;
+	private Set<String> pronounsPOSLemmas;
 
 	public static final Set<String> DEFAULT_PRONOUN_POS = JavaUtils.getSet("PRP", "NN");
 	public static final Set<String> DEFAULT_PRONOUN_LEMMAS = JavaUtils.getSet("i");
 
 	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs, Set<String> verbsToAvoid) {
-		this(partOfSpeeches, undetectedVerbs, verbsToAvoid, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS);
+		this(partOfSpeeches, undetectedVerbs, verbsToAvoid, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS, null);
 	}
 
 	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs) {
-		this(partOfSpeeches, undetectedVerbs, null, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS);
+		this(partOfSpeeches, undetectedVerbs, null, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS, null);
 
 	}
 
 	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs, Set<String> verbsToAvoid,
-			Set<String> pronounsGnralPOS, Set<String> pronounsLemmas) {
+			Set<String> pronounsGnralPOS, Set<String> pronounsLemmas, Set<String> pronounsPosLemmas) {
 		this.partOfSpeeches = partOfSpeeches == null ? new HashSet<>() : partOfSpeeches;
 		this.undetectedVerbs = undetectedVerbs == null ? new HashSet<>() : undetectedVerbs;
 		this.verbsToAvoid = verbsToAvoid == null ? new HashSet<>() : verbsToAvoid;
 		this.pronounsGnralPOS = pronounsGnralPOS == null ? new HashSet<>() : pronounsGnralPOS;
 		this.pronounsLemmas = pronounsLemmas == null ? new HashSet<>() : pronounsLemmas;
-		// this.checkForStartingVerb = checkForStartingVerb;
+		this.pronounsPOSLemmas = pronounsPosLemmas == null ? new HashSet<>() : pronounsPosLemmas;
 	}
 
 	public int countNumClauses(Sentence sentence) {
@@ -183,9 +184,12 @@ public class SimpleTenseChecker {
 		return false;
 	}
 
-	private boolean checkForSubject(Token prevToken) {
-		return pronounsGnralPOS.stream().anyMatch(pos -> prevToken.getGeneralPos().equals(pos))
-				|| pronounsLemmas.stream().anyMatch(lemma -> prevToken.getLemma().equalsIgnoreCase(lemma));
+	private boolean checkForSubject(Token token) {
+		String generalPos = token.getGeneralPos();
+		String lemma = token.getLemma().toLowerCase();
+		return pronounsGnralPOS.stream().anyMatch(pos -> generalPos.equals(pos))
+				|| pronounsLemmas.stream().anyMatch(lem -> lemma.equals(lem))
+				|| pronounsPOSLemmas.stream().anyMatch(posLemma -> posLemma.equals(generalPos + "-" + lemma));
 	}
 
 	private List<Integer> findVerbsInTense(List<Token> tokens) {

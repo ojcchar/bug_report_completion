@@ -13,8 +13,12 @@ public class SimplePresentSubordinatesPMTest extends BaseTest {
 
 	@Test
 	public void testPositives() throws Exception {
-		String[] txts = { "- I do a Java Search and sort the results by Parent Path",
-				"i create an application and i set it in a tab fan page. ", "On the Tomcat / mod_jk side I use:" };
+		String[] txts = { 
+				"- I do a Java Search and sort the results by Parent Path",
+				"i create an application and i set it in a tab fan page. ", "On the Tomcat / mod_jk side I use:",
+				"The scenario is that the user selects an Exit Type that has a final state \"trigger\" associated with it.",
+				"I do npm install and then remove the build tools like python"
+				};
 
 		TestUtils.testSentences(txts, pm, 1);
 	}

@@ -161,8 +161,10 @@ public class SentenceUtils {
 				// -----------------------------
 
 				if (allowSplit) {
-					clauses.add(new Sentence(sentence.getId() + "." + currentClause++, clauseTokens));
-					clauseTokens = new ArrayList<>();
+					if (!clauseTokens.isEmpty()) {
+						clauses.add(new Sentence(sentence.getId() + "." + currentClause++, clauseTokens));
+						clauseTokens = new ArrayList<>();
+					}
 					i++;
 				} else {
 
@@ -305,9 +307,9 @@ public class SentenceUtils {
 	// ----------------------------------------
 
 	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("boomark", "build", "cache", "change", "check",
-			"clic", "click", "drag", "enter", "file", "goto", "import", "input", "install", "load", "paste", "post",
-			"release", "rename", "return", "right-click", "run", "scale", "scroll", "select", "show", "start", "stop",
-			"surf", "try", "type", "typing", "use", "yield");
+			"clic", "click", "copy", "drag", "enter", "file", "fill", "goto", "import", "input", "insert", "install",
+			"load", "paste", "post", "press","release", "rename", "return", "right-click", "run", "scale", "scroll", "select",
+			"show", "start", "stop", "surf", "try", "type", "typing", "use", "visit", "yield");
 
 	public final static Set<String> AMBIGUOUS_POS_VERBS = JavaUtils.getSet("put", "set", "cut", "quit", "shut");
 
@@ -320,22 +322,26 @@ public class SentenceUtils {
 	 * @return
 	 */
 	public static boolean isImperativeSentence(Sentence sentence) {
-		return isImperativeSentence(sentence.getTokens());
+		return isImperativeSentence(sentence.getTokens(), false);
 	}
 
 	/**
 	 * Check if the sentence/clause (represented by its list of tokens) is
 	 * imperative or not. It takes into account labels at the beginning of the
 	 * sentence, such as "exp. behavior: run the program"
+	 * 
+	 * If enableVerbTaggedAsNouns is true, the method tries to detect imperative
+	 * sentences when verbs are incorrectly tagged as nouns
 	 *
 	 * @param tokens
+	 * @param enableVerbTaggedAsNouns
 	 * @return
 	 */
-	public static boolean isImperativeSentence(List<Token> tokens) {
+	public static boolean isImperativeSentence(List<Token> tokens, boolean enableVerbTaggedAsNouns) {
 
 		// --------------------------------
 
-		if (checkForImperativeTokens(tokens)) {
+		if (checkForImperativeTokens(tokens, enableVerbTaggedAsNouns)) {
 			return true;
 		}
 
@@ -355,7 +361,7 @@ public class SentenceUtils {
 		// if the ":" is found, check for the imperative tokens
 		if (idx != -1) {
 			if (idx + 2 < tokens.size()) {
-				return checkForImperativeTokens(tokens.subList(idx + 1, tokens.size()));
+				return checkForImperativeTokens(tokens.subList(idx + 1, tokens.size()), enableVerbTaggedAsNouns);
 			}
 		}
 
@@ -366,11 +372,15 @@ public class SentenceUtils {
 	/**
 	 * Check if the combination list of tokens matches the usual wording for an
 	 * imperative sentence: (adverb +) inf. verb + ...
+	 * 
+	 * If enableVerbTaggedAsNouns is true, the method tries to detect imperative
+	 * tokens when verbs are incorrectly tagged as nouns
 	 *
 	 * @param tokens
+	 * @param enableVerbTaggedAsNouns
 	 * @return
 	 */
-	private static boolean checkForImperativeTokens(List<Token> tokens) {
+	private static boolean checkForImperativeTokens(List<Token> tokens, boolean enableVerbTaggedAsNouns) {
 
 		// make sure we discard non-word tokens at the beginning of the sentence
 		int idx = -1;
@@ -426,15 +436,16 @@ public class SentenceUtils {
 				return true;
 			}
 
-			// Case: a verb at the beginning is tagged as NN
-			// Sentence artificialSentence = appendPronoun(tokensNoSpecialChar);
-			//
-			// if (artificialSentence.getTokens().get(1).getPos().equals("VBP")
-			// &&
-			// !artificialSentence.getTokens().get(2).getGeneralPos().equals("VB"))
-			// {
-			// return true;
-			// }
+			if (enableVerbTaggedAsNouns) {
+
+				// Case: a verb at the beginning is tagged as NN
+				Sentence artificialSentence = appendPronoun(tokensNoSpecialChar);
+
+				if (artificialSentence.getTokens().get(1).getPos().equals("VBP")
+						&& !artificialSentence.getTokens().get(2).getGeneralPos().equals("VB")) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -447,7 +458,6 @@ public class SentenceUtils {
 	 *            Tokens to be modified.
 	 * @return A re-tagged list of tokens.
 	 */
-	@SuppressWarnings("unused")
 	private static Sentence appendPronoun(List<Token> tokens) {
 		String sentenceText = String.join(" ",
 				tokens.stream().map(t -> t.getWord().toLowerCase()).toArray(CharSequence[]::new));
@@ -582,6 +592,22 @@ public class SentenceUtils {
 	public static boolean containsTermsPriorToIndex(Integer tokenIdx, List<Token> tokens, Set<String> terms) {
 		List<Integer> indexes = SentenceUtils.findLemmasInTokens(terms, tokens);
 		return indexes.stream().anyMatch(condIdx -> condIdx < tokenIdx);
+	}
+
+	/**
+	 * Check if the sentence/clause is imperative or not. It takes into account
+	 * labels at the beginning of the sentence, such as "exp. behavior: run the
+	 * program".
+	 * 
+	 * If enableVerbTaggedAsNouns is true, the method tries to detect imperative
+	 * sentences when verbs are incorrectly tagged as nouns
+	 *
+	 * @param sentence
+	 * @param enableVerbTaggedAsNouns
+	 * @return
+	 */
+	public static boolean isImperativeSentence(Sentence sentence, boolean enableVerbTaggedAsNouns) {
+		return isImperativeSentence(sentence.getTokens(), enableVerbTaggedAsNouns);
 	}
 
 }

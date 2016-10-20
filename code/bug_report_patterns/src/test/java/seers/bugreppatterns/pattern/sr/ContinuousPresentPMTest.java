@@ -15,19 +15,15 @@ public class ContinuousPresentPMTest extends BaseTest {
 	}
 
 	@Test
-	public void testAdditionals() throws Exception {
+	public void testPositives() throws Exception {
 		String[] txts = {
-				"When the method {{list}} of a query ({{QueryImpl.java}}) is getting called, Hibernate delegates to {{SessionImpl.list()}}. After having loaded the list, {{SessionImpl.list()}} calls {{SessionImpl.afterOperation()}}, which calls {{jdbcContext.afterNontransactionalQuery()}} (as there is no active transaction). This leads to {{ConnectionManager.afterTransaction()}} which releases the JDBC connection. This is exactly what I expect to happen.",
-				"Then this created docker images is used as the base image for another docker "
-						+ "file where I do npm install and then remove the build tools like python, "
-						+ "make and g++ after npm install. Following is the docker file\nFROM "
-						+ "dockerbase:latest\nMAINTAINER xxx@xxx.com \nCOPY common /opt/project1324/"
-						+ "common\nRUN /usr/bin/npm install\nRUN apk del python\nRUN apk del make\n"
-						+ "RUN apk del g++",
 				"I have an image whose size is roughly 800M.\nI start a container on it using\n"
 						+ "`docker run -i -t &lt;myimage&gt;`\nThen i do `du -shx /` inside.",
 				"I am authenticating using. $appapikey =  XXX ;\n$appsecret =  XXX ;\n$facebook = new Facebook($appapikey_ $appsecret);\n$fb_user\t=$facebook-&gt;get_loggedin_user();",
-				"then calling. \n\n$details = $facebook-&gt;api_client-&gt;users_getInfo($fb_user_array( first_name _ last_name _ pic_square _ birthday_date _ sex _ username _ current_location ));" };
+				"I was starting a big workspace and I was wondering why it was taking time. Trying to find someone to blame ;-) I debugged and randomly stop and here is the capture of the stack at this point.",
+				"i was trying to docker build https://github.com/dotcloud/hipache running docker build . \n"+"in the repository root produces the following output: https://gist.github.com/hansent/5815177"
+		
+		};
 
 		TestUtils.testParagraphs(txts, pm, 1);
 

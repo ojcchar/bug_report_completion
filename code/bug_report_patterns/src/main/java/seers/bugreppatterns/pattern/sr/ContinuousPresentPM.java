@@ -4,6 +4,7 @@ import java.util.List;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.utils.SimpleTenseChecker;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -21,6 +22,8 @@ public class ContinuousPresentPM extends StepsToReproducePatternMatcher {
 		// TODO: match OB sentence at the end and make more specific
 		List<Sentence> sentences = paragraph.getSentences();
 
+		// System.out.println(sentences.size());
+
 		if (sentences.size() < 2) {
 			return 0;
 		}
@@ -28,9 +31,20 @@ public class ContinuousPresentPM extends StepsToReproducePatternMatcher {
 		// The amount of sentences that are either continuous or present
 		int matchingSentences = 0;
 
+		SimpleTenseChecker presentChecker = new SimpleTenseChecker(ActionsPresentPM.POS,
+				ActionsPresentPM.UNDETECTED_VERBS, SimplePresentSubordinatesPM.EXCLUDED_VERBS,
+				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS, SimplePresentSubordinatesPM.DEFAULT_PRONOUN_LEMMAS,
+				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS_LEMMA);
+
+		SimpleTenseChecker pastChecker = new SimpleTenseChecker(SimplePastParagraphPM.POSs,
+				SimplePastParagraphPM.UNDETECTED_VERBS, SimplePresentSubordinatesPM.EXCLUDED_VERBS,
+				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS, SimplePresentSubordinatesPM.DEFAULT_PRONOUN_LEMMAS,
+				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS_LEMMA);
+
 		// Find at least one continuous or present verb in each sentence
 		for (Sentence sentence : sentences) {
-			if (containsContinuousOrPresent(sentence)) {
+			if (ContinuousPresentSentencePM.countNumClauses(sentence) > 0
+					|| presentChecker.countNumClauses(sentence) > 0 || pastChecker.countNumClauses(sentence) > 0) {
 				matchingSentences++;
 			}
 		}
@@ -38,9 +52,11 @@ public class ContinuousPresentPM extends StepsToReproducePatternMatcher {
 		int sentencesWithVerbs = countSentencesWithVerbs(paragraph);
 		float matchingSentenceRatio = (float) matchingSentences / sentencesWithVerbs;
 
+		// System.out.println(matchingSentenceRatio);
+
 		// Return a match if most sentences with verbs are either continuous or
 		// present tense
-		return matchingSentenceRatio > 0.5 ? 1 : 0;
+		return matchingSentenceRatio >= 0.5 ? 1 : 0;
 	}
 
 	private int countSentencesWithVerbs(Paragraph paragraph) {
@@ -55,30 +71,5 @@ public class ContinuousPresentPM extends StepsToReproducePatternMatcher {
 		}
 
 		return sentencesWithVerbs;
-	}
-
-	private boolean containsContinuousOrPresent(Sentence sentence) {
-		int baseVerbs = 0;
-		int otherVerbs = 0;
-		int continuousOrPresentVerbs = 0;
-
-		for (Token token : sentence.getTokens()) {
-			if (token.getGeneralPos().equals("VB")) {
-				String pos = token.getPos();
-				if (pos.equals("VB")) {
-					baseVerbs++;
-				} else if (pos.equals("VBG") || pos.equals("VBN") || pos.equals("VBP") || pos.equals("VBZ")) {
-					continuousOrPresentVerbs++;
-				} else {
-					otherVerbs++;
-				}
-			}
-		}
-
-		if (continuousOrPresentVerbs > 0) {
-			return true;
-		} else {
-			return otherVerbs == 0 && baseVerbs > 0;
-		}
 	}
 }

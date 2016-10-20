@@ -1,7 +1,7 @@
 system;bug_id;coded_sent_id;paragraph;sentence;is_obs_behavior;is_exp_behavior;is_steps_to_repr;pattern_code1;pattern_code2;pattern_code3;comments;main_coder;parsed_instance_id;no_testing (PATTERN1,PATTERN2,etc);is_title?;sys-bug-ob;sys-bug-eb;sys-bug-sr;sys-bug;;;;
 eclipse;150;1;"While merging changes from my stream into HEAD, I had to merge a couple of conflicts. When I was
 prompted to save, it took &gt;15 seconds to perform the save. The icon did not change to an hourglass
-and for a second I thought that Eclipse was dying a slow death. ";;;x;;P_SR_COND_SEQUENCE;;;;Oscar;1;;;eclipse150;eclipse150x;eclipse150;eclipse150;;;;
+and for a second I thought that Eclipse was dying a slow death. ";;;;x;P_SR_COND_SEQUENCE;;;;Oscar;1;;;eclipse150;eclipse150;eclipse150x;eclipse150;;;;
 eclipse;150;2;"While merging changes from my stream into HEAD, I had to merge a couple of conflicts. When I was
 prompted to save, it took &gt;15 seconds to perform the save. The icon did not change to an hourglass
 and for a second I thought that Eclipse was dying a slow death. ";"The icon did not change to an hourglass
@@ -864,7 +864,7 @@ eclipse;228223;1;"1. Load the /org.eclipse.cosmos.rm.example.datacenter project 
 eclipse;228223;2;The issues causing these errors to be reported are also causing all tests in TestPluginMainValidator to fail.;The issues causing these errors to be reported are also causing all tests in TestPluginMainValidator to fail.;x;;;S_OB_LEADS_TO_NEG;S_OB_ERROR_AS_SUBJECT;;;Juan;2.1;;;eclipse228223x;eclipse228223;eclipse228223;eclipse228223;;;;
 eclipse;228223;3;"1. Load the /org.eclipse.cosmos.rm.example.datacenter project into the workspace and select Validate SML-IF from the context menu.
 2. Observe there are 93 errors flagged in the project.";1. Load the /org.eclipse.cosmos.rm.example.datacenter project into the workspace and select Validate SML-IF from the context menu.;;;x;S_SR_MENU_SELECT;;;;Juan;1.1;;;eclipse228223;eclipse228223;eclipse228223x;eclipse228223;;;;
-eclipse;230933;1;I saved a file, got a hot code replace error, deleted a method, saved, deleted a field, got an error dialog that a save action caused an exception.;;;;x;P_SR_SIMPLE_PAST;;;;Fiorella;3;;;eclipse230933;eclipse230933;eclipse230933x;eclipse230933;;;;
+eclipse;230933;1;I saved a file, got a hot code replace error, deleted a method, saved, deleted a field, got an error dialog that a save action caused an exception.;I saved a file, got a hot code replace error, deleted a method, saved, deleted a field, got an error dialog that a save action caused an exception.;;;x;S_SR_SIMPLE_PAST;;;;Fiorella;3.1;;;eclipse230933;eclipse230933;eclipse230933x;eclipse230933;;;;
 eclipse;230933;2;After this, the editor did not redraw any more. Trying to reproduce...;After this, the editor did not redraw any more. ;x;;;S_OB_NEG_AUX_VERB;S_OB_AFTER_NEG;;;Fiorella;4.1;;;eclipse230933x;eclipse230933;eclipse230933;eclipse230933;;;;
 eclipse;230933;3;Cleanup save action caused ISE;Cleanup save action caused ISE;x;;;S_OB_VERB_ERROR;;;;Fiorella;0.1;;y;eclipse230933xy;eclipse230933y;eclipse230933y;eclipse230933;;;;
 eclipse;235058;1;which is almost meaningless.;which is almost meaningless.;x;;;S_OB_NEG_ADV_ADJ;;;;Fiorella;2.1;;;eclipse235058x;eclipse235058;eclipse235058;eclipse235058;;;;
@@ -1473,7 +1473,7 @@ $facebook = new Facebook($appapikey_ $appsecret);
 $fb_user\t=$facebook-&gt;get_loggedin_user();";;;;x;P_SR_CONTINOUS_PRESENT;;;;Oscar;2;;;facebook7892;facebook7892;facebook7892x;facebook7892;;;;
 facebook;7892;2;"then calling
 
-$details = $facebook-&gt;api_client-&gt;users_getInfo($fb_user_array( first_name _ last_name _ pic_square _ birthday_date _ sex _ username _ current_location ));";;;;x;P_SR_CONTINOUS_PRESENT;;;;Oscar;4;;;facebook7892;facebook7892;facebook7892x;facebook7892;;;;
+$details = $facebook-&gt;api_client-&gt;users_getInfo($fb_user_array( first_name _ last_name _ pic_square _ birthday_date _ sex _ username _ current_location ));";;;;x;P_SR_CONTINOUS_PRESENT;;;;Oscar;4;P_SR_CONTINOUS_PRESENT;;facebook7892;facebook7892;facebook7892x;facebook7892;;;;
 facebook;7892;3;When calling users.getInfo from the API (using the PHP client)_ current_location is always blank_ even when using my own userid.;When calling users.getInfo from the API (using the PHP client)_ current_location is always blank_ even when using my own userid.;X;;;S_OB_COND_NEG;S_OB_DESPITE;;;Oscar;1.1;;;facebook7892X;facebook7892;facebook7892;facebook7892;;;;
 facebook;7892;4;users.getInfo does not return current_location info;users.getInfo does not return current_location info;X;;;S_OB_NEG_AUX_VERB;;;;Oscar;0.1;;y;facebook7892Xy;facebook7892y;facebook7892y;facebook7892;;;;
 facebook;7905;1;I just developed an app which is FBML with an IFrame which uses Facebook Connect to do it s wall posts.  I noticed that you can not in any way redirect the Application link to a page other than the Facebook Connect URL.;I noticed that you can not in any way redirect the Application link to a page other than the Facebook Connect URL.;X;;;S_OB_NOTICE;;;;Oscar;2.2;;;facebook7905X;facebook7905;facebook7905;facebook7905;;;;
@@ -2427,58 +2427,52 @@ Firefox (0.9.3)"" when 1.0PR is installed) in the software list.";x;;;S_OB_COND_
 firefox;266508;5;"Actual Results:  
 Two entries were created in the software menu.";"Actual Results:  
 Two entries were created in the software menu.";x;;;S_OB_OBS_BEHAVIOR;;;;Oscar;5.1;;;firefox266508x;firefox266508;firefox266508;firefox266508;;;;
-firefox;266896;1;"I am using labview to open a html file in the default browser.  It has a canned
-DDE call using WWW_OpenURL.  This works fine in IE, but in Firefox it truncates
-the URL.  If no browser is open it will only open a blank page, and if a window
-is open, it will say that the file ...htm could not be found.  It seems to trim
-off the last character.  If I try to open a .htm file it will report that it
-tried to open a .ht file and failed.  It seems to report the error twice.";;;;x;P_SR_CONTINOUS_PRESENT;;;;Juan;2;;;firefox266896;firefox266896;firefox266896x;firefox266896;;;;
-firefox;266896;2;"Reproducible: Always
+firefox;266896;1;"Reproducible: Always
 Steps to Reproduce:
 1.Send DDE WWW_OpenURL to Firefox
 2.send url with .html
 3.browser will report no .htm file found.";;;;x;P_SR_LABELED_LIST;;;;Juan;3;;;firefox266896;firefox266896;firefox266896x;firefox266896;;;;
-firefox;266896;3;"Expected Results:  
+firefox;266896;2;"Expected Results:  
 it should have opened the .html file as the url was sent.";"Expected Results:  
 it should have opened the .html file as the url was sent.";;x;;S_EB_SHOULD;;;;Juan;5.1;;;firefox266896;firefox266896x;firefox266896;firefox266896;;;;
-firefox;266896;4;"I am using labview to open a html file in the default browser.  It has a canned
+firefox;266896;3;"I am using labview to open a html file in the default browser.  It has a canned
 DDE call using WWW_OpenURL.  This works fine in IE, but in Firefox it truncates
 the URL.  If no browser is open it will only open a blank page, and if a window
 is open, it will say that the file ...htm could not be found.  It seems to trim
 off the last character.  If I try to open a .htm file it will report that it
 tried to open a .ht file and failed.  It seems to report the error twice.";"It seems to trim
 off the last character.";x;;;S_OB_SEEMS_TO_NEG_VERB;;;;Juan;2.5;;;firefox266896x;firefox266896;firefox266896;firefox266896;;;;
-firefox;266896;5;"I am using labview to open a html file in the default browser.  It has a canned
+firefox;266896;4;"I am using labview to open a html file in the default browser.  It has a canned
 DDE call using WWW_OpenURL.  This works fine in IE, but in Firefox it truncates
 the URL.  If no browser is open it will only open a blank page, and if a window
 is open, it will say that the file ...htm could not be found.  It seems to trim
 off the last character.  If I try to open a .htm file it will report that it
 tried to open a .ht file and failed.  It seems to report the error twice.";It seems to report the error twice.;x;;;S_OB_SEEMS;S_OB_NEG_ADV_ADJ;;;Juan;2.9;;;firefox266896x;firefox266896;firefox266896;firefox266896;;;;
-firefox;266896;6;"I am using labview to open a html file in the default browser.  It has a canned
+firefox;266896;5;"I am using labview to open a html file in the default browser.  It has a canned
 DDE call using WWW_OpenURL.  This works fine in IE, but in Firefox it truncates
 the URL.  If no browser is open it will only open a blank page, and if a window
 is open, it will say that the file ...htm could not be found.  It seems to trim
 off the last character.  If I try to open a .htm file it will report that it
 tried to open a .ht file and failed.  It seems to report the error twice.";"This works fine in IE, but in Firefox it truncates
 the URL.";x;;;S_OB_BUT_NEG;S_OB_WORKS_BUT;;;Juan;2.3;;;firefox266896x;firefox266896;firefox266896;firefox266896;;;;
-firefox;266896;7;"I am using labview to open a html file in the default browser.  It has a canned
+firefox;266896;6;"I am using labview to open a html file in the default browser.  It has a canned
 DDE call using WWW_OpenURL.  This works fine in IE, but in Firefox it truncates
 the URL.  If no browser is open it will only open a blank page, and if a window
 is open, it will say that the file ...htm could not be found.  It seems to trim
 off the last character.  If I try to open a .htm file it will report that it
 tried to open a .ht file and failed.  It seems to report the error twice.";"If no browser is open it will only open a blank page, and if a window
 is open, it will say that the file ...htm could not be found.";x;;;S_OB_COND_NEG;S_OB_ONLY;;;Juan;2.4;;;firefox266896x;firefox266896;firefox266896;firefox266896;;;;
-firefox;266896;8;"I am using labview to open a html file in the default browser.  It has a canned
+firefox;266896;7;"I am using labview to open a html file in the default browser.  It has a canned
 DDE call using WWW_OpenURL.  This works fine in IE, but in Firefox it truncates
 the URL.  If no browser is open it will only open a blank page, and if a window
 is open, it will say that the file ...htm could not be found.  It seems to trim
 off the last character.  If I try to open a .htm file it will report that it
 tried to open a .ht file and failed.  It seems to report the error twice.";"If I try to open a .htm file it will report that it
 tried to open a .ht file and failed.";x;;;S_OB_COND_NEG;;;;Juan;2.6;S_OB_COND_NEG;;firefox266896x;firefox266896;firefox266896;firefox266896;;;;
-firefox;266896;9;"Actual Results:  
+firefox;266896;8;"Actual Results:  
 error box will open saying the file could not be found.";"Actual Results:  
 error box will open saying the file could not be found.";x;;;S_OB_OBS_BEHAVIOR;;;;Juan;4.1;;;firefox266896x;firefox266896;firefox266896;firefox266896;;;;
-firefox;266896;10;using DDE and WWW_OpenURL to open a file results in a truncated file name;using DDE and WWW_OpenURL to open a file results in a truncated file name;x;;;S_OB_LEADS_TO_NEG;;;;Juan;0.1;;y;firefox266896xy;firefox266896y;firefox266896y;firefox266896;;;;
+firefox;266896;9;using DDE and WWW_OpenURL to open a file results in a truncated file name;using DDE and WWW_OpenURL to open a file results in a truncated file name;x;;;S_OB_LEADS_TO_NEG;;;;Juan;0.1;;y;firefox266896xy;firefox266896y;firefox266896y;firefox266896;;;;
 firefox;268527;1;"Reproducible: Always
 Steps to Reproduce:
 1. Right click the Navigation Toolbar and hit customize.
@@ -3348,7 +3342,7 @@ an new window opens with the report
 then scale the text larger or smaller
 (ctrl+scroll wheel or ctrl + '+'/'-')
 
-then both windows text scales. the new window and the parent one where the ""prepare report to print"" came from.";;;;x;P_SR_CONTINOUS_PRESENT;;;;Oscar;2;;;firefox451552;firefox451552;firefox451552x;firefox451552;;;;
+then both windows text scales. the new window and the parent one where the ""prepare report to print"" came from.";;;;x;P_SR_CONTINOUS_PRESENT;;;;Oscar;2;P_SR_CONTINOUS_PRESENT;;firefox451552;firefox451552;firefox451552x;firefox451552;;;;
 firefox;451552;3;"Steps to Reproduce:
 1.go to: http://www.labourmarketinformation.ca/standard.asp?ppid=82&amp;lcode=E&amp;prov=35&amp;gaid=9219&amp;occ=5123&amp;job=&amp;search_key=3&amp;search_type=&amp;employer_potential=&amp;new_search=#printOptions
 
@@ -3642,12 +3636,16 @@ httpd;7798;1;"I compiled Apache 2.0.35 on OpenBSD 3.0, configured with these opt
 # ./configure  --enable-module=ssl --enable-module=auth_db --enable-
 module=proxy --enable-module=speling --enable-module=status --e
 nable-module=rewrite
-#";;;;x;P_SR_SIMPLE_PAST;;;;Juan;2;;;httpd7798;httpd7798;httpd7798x;httpd7798;;;;
+#";"I compiled Apache 2.0.35 on OpenBSD 3.0, configured with these options:
+# ./configure  --enable-module=ssl --enable-module=auth_db --enable-
+module=proxy --enable-module=speling --enable-module=status --e
+nable-module=rewrite
+#";;;x;S_SR_SIMPLE_PAST;;;;Juan;2.1;S_SR_SIMPLE_PAST;;httpd7798;httpd7798;httpd7798x;httpd7798;;;;
 httpd;7798;2;"I modified the default configs to point to my existing htdocs and cgi-bins,
 but using the default server root, to avoid conflict with the existing
 server.
 I shut down the existing server and started up Apache 2 with
-""apachectl startssl"".";;;;x;P_SR_SIMPLE_PAST;;;;Juan;4;;;httpd7798;httpd7798;httpd7798x;httpd7798;;;;
+""apachectl startssl"".";;;;x;P_SR_SIMPLE_PAST;;;;Juan;4;P_SR_SIMPLE_PAST;;httpd7798;httpd7798;httpd7798x;httpd7798;;;;
 httpd;7798;3;"This created a bunch of processes running with ""-DSSL"", but nothing listening
 on port 443.  The appropriate SSL logs did not appear in the log dir.  Going to 
 the main non-SSL page led to a 403 error, even though permissions are set 
@@ -4402,7 +4400,9 @@ httpd;23728;1;"but this does not work as db3-devel is required but Red Hat has m
 seems, and now only db4-devel is available. I edited the httpd.spec to reflect
 this and it proceeded to build the package with ""rpmbuild -ba httpd.spec"" from
 within the source tree. Then when it was putting together the file list the
-following was printed out:";;;;x;P_SR_SIMPLE_PAST;;;;Oscar;5;;;httpd23728;httpd23728;httpd23728x;httpd23728;;;;
+following was printed out:";"I edited the httpd.spec to reflect
+this and it proceeded to build the package with ""rpmbuild -ba httpd.spec"" from
+within the source tree.";;;x;S_SR_SIMPLE_PAST;;;;Oscar;5.2;;;httpd23728;httpd23728;httpd23728x;httpd23728;;;;
 httpd;23728;2;"I modified the actual httpd.spec but one would should really modify
 build/rpm/httpd.spec.in and re-run ""buildconf"".";"I modified the actual httpd.spec but one would should really modify
 build/rpm/httpd.spec.in and re-run ""buildconf"".";;x;;S_EB_SHOULD;;;;Oscar;15.1;;;httpd23728;httpd23728x;httpd23728;httpd23728;;;;
@@ -4739,12 +4739,13 @@ Then I changed DocumentRoot and the related Directory to
 /public_html/www and attempted to restart the server.
 Apache would not start.
 No results from the lsof -i:80 command, and no httpd.pif file comfirmed that.
-No error log is produced and no error message appears in the terminal.";;;;x;P_SR_SIMPLE_PAST;;;;Juan;1;;;httpd33679;httpd33679;httpd33679x;httpd33679;;;;
+No error log is produced and no error message appears in the terminal.";"Then I changed DocumentRoot and the related Directory to
+/public_html/www and attempted to restart the server.";;;x;S_SR_SIMPLE_PAST;;;;Juan;1.2;;;httpd33679;httpd33679;httpd33679x;httpd33679;;;;
 httpd;33679;2;"Next I tried to get sneaky. I changed the DocumentRoot and Directory back to
 /var/www/html (default). Then I created /var/www/html.link, which is a symbolic
 link to /public_html/www. Then I ran apachectl startssl and renamed
 /var/www/html.link to /var/www/html and renamed the actual folder /var/www/html
-to /var/www/html.old.";;;;x;P_SR_SIMPLE_PAST;;;;Juan;3;;;httpd33679;httpd33679;httpd33679x;httpd33679;;;;
+to /var/www/html.old.";;;;x;P_SR_SIMPLE_PAST;;;;Juan;3;P_SR_SIMPLE_PAST;;httpd33679;httpd33679;httpd33679x;httpd33679;;;;
 httpd;33679;3;"What it seems to boil down to is that I can't change DocumentRoot to a location
 on a partition other than the one where Apache is installed.";"What it seems to boil down to is that I can't change DocumentRoot to a location
 on a partition other than the one where Apache is installed.";x;;;S_OB_SEEMS;S_OB_NEG_AUX_VERB;;;Juan;6.1;;;httpd33679x;httpd33679;httpd33679;httpd33679;;;;
@@ -4772,7 +4773,7 @@ worked great.  Then I changed DocumentRoot and the related Directory to
 /public_html/www and attempted to restart the server.  Apache would not start. 
 No results from the lsof -i:80 command, and no httpd.pif file comfirmed that. 
 No error log is produced and no error message appears in the terminal.";"I ran Apache after the RPM install with PHP and mod_ssl on Fedora Core 3 and it
-worked great.";x;;;S_OB_WORKS_FINE;;;;Juan;1.1;;;httpd33679x;httpd33679;httpd33679;httpd33679;;;;
+worked great.";x;;x;S_OB_WORKS_FINE;S_SR_SIMPLE_PAST;;;Juan;1.1;;;httpd33679x;httpd33679;httpd33679x;httpd33679;;;;
 httpd;33724;1;"also, apache needs uri header conversation module
 (i'm korean, and this is most korean server needs)";"also, apache needs uri header conversation module
 (i'm korean, and this is most korean server needs)";;x;;S_EB_NEED_TO;;;;Oscar;5.1;;;httpd33724;httpd33724x;httpd33724;httpd33724;;;;
@@ -5165,7 +5166,7 @@ Then, the file provided correctly.";;;;X;P_SR_CONTINOUS_PRESENT;;;Not sure about
 httpd;43250;2;"Next, I name the file ""FooBar.Baz.html"" and try access to ""/FooBar.Baz"".
 the server returned status ""404 Object Not Found"" and logged below line.
 &gt; Negotiation: discovered file(s) matching 
-request: /home/mayuki/tmp/apache/htdocs/FooBar.Baz (None could be negotiated).";;;;X;P_SR_CONTINOUS_PRESENT;;;;Oscar;2;;;httpd43250;httpd43250;httpd43250X;httpd43250;;;;
+request: /home/mayuki/tmp/apache/htdocs/FooBar.Baz (None could be negotiated).";"Next, I name the file ""FooBar.Baz.html"" and try access to ""/FooBar.Baz"".";;;X;S_SR_SIMPLE_PRESENT_SUBORDINATES;;;;Oscar;2.1;;;httpd43250;httpd43250;httpd43250X;httpd43250;;;;
 httpd;43250;3;"But, I expected return the file ""FooBar.Baz.html"".";"But, I expected return the file ""FooBar.Baz.html"".";;X;;S_EB_EXPECTED;;;;Oscar;3.1;;;httpd43250;httpd43250X;httpd43250;httpd43250;;;;
 httpd;43250;4;mod_negotiation can't match file when filename has an uppercase chars;mod_negotiation can't match file when filename has an uppercase chars;X;;;S_OB_NEG_AUX_VERB;;;;Oscar;0.1;;y;httpd43250Xy;httpd43250y;httpd43250y;httpd43250;;;;
 httpd;43250;5;"Next, I name the file ""FooBar.Baz.html"" and try access to ""/FooBar.Baz"".
@@ -5414,7 +5415,7 @@ docker;943;1;ADD instruction fails (Dockerfile build fails on hipache Dockfile);
 docker;943;2;"i was trying to docker build https://github.com/dotcloud/hipache
 running docker build . 
 in the repository root produces the following output:
-https://gist.github.com/hansent/5815177";;;;x;P_SR_CONTINOUS_PRESENT;;;;Laura;1;;;docker943;docker943;docker943x;docker943;;;;
+https://gist.github.com/hansent/5815177";;;;x;P_SR_CONTINOUS_PRESENT;;;;Laura;1;P_SR_CONTINOUS_PRESENT;;docker943;docker943;docker943x;docker943;;;;
 docker;943;3;"i was trying to docker build https://github.com/dotcloud/hipache
 running docker build . 
 in the repository root produces the following output:
@@ -5506,32 +5507,8 @@ Fetched 19.0 MB in 51s (369 kB/s)
 
 2014/01/04 14:55:36 no such file or directory
 ```";Hi, sorry if this isn't the right place to report this or if it's already been reported, but after I upgraded from Docker 0.7.2 to 0.7.3, a [Dockerfile I'm working with](https://github.com/bamos/docker-llvm-polly-pocl/blob/master/llvm-3.4/Dockerfile) fails to run `apt-get update` with the following error message. ;x;;;S_OB_VERB_ERROR;S_OB_AFTER_NEG;;;Fiorella;1.1;;;docker3451x;docker3451;docker3451;docker3451;;;;
-docker;3451;3;"I'm running this in Arch Linux, and the Docker version for this was:
-
-```
-Docker version 0.7.3, build 8502ad4
-```
-
-After downgrading back to:
-
-```
-Docker version 0.7.2, build 28b162e
-```
-
-this error doesn't occur.";;;;x;P_SR_CONTINOUS_PRESENT;;;;Fiorella;4;;;docker3451;docker3451;docker3451x;docker3451;;;;
-docker;3451;4;"I'm running this in Arch Linux, and the Docker version for this was:
-
-```
-Docker version 0.7.3, build 8502ad4
-```
-
-After downgrading back to:
-
-```
-Docker version 0.7.2, build 28b162e
-```
-
-this error doesn't occur.";this error doesn't occur.;x;;;S_OB_NEG_AUX_VERB;;;;Fiorella;8.1;;;docker3451x;docker3451;docker3451;docker3451;;;;
+docker;3451;3;I'm running this in Arch Linux, and the Docker version for this was:;I'm running this in Arch Linux, and the Docker version for this was:;;;x;S_SR_CONTINOUS_PRESENT;;;;Fiorella;4.1;;;docker3451;docker3451;docker3451x;docker3451;;;;
+docker;3451;4;this error doesn't occur.;this error doesn't occur.;x;;;S_OB_NEG_AUX_VERB;;;;Fiorella;8.1;;;docker3451x;docker3451;docker3451;docker3451;;;;
 docker;3677;1;Error: Conflict between containers and images;;x;;;P_OB_ERROR_TERMS_PARAGRAPH;;;;Fiorella;0.1;;y;docker3677xy;docker3677y;docker3677y;docker3677;;;;
 docker;3677;2;Each time I run a container, (restart an existing one or start a new one) I get this error: `2014/01/20 17:26:59 Error: Conflict between containers and images`;Each time I run a container, (restart an existing one or start a new one) I get this error: `2014/01/20 17:26:59 Error: Conflict between containers and images`;x;;;S_OB_VERB_ERROR;;;;Fiorella;1.1;;;docker3677x;docker3677;docker3677;docker3677;;;;
 docker;3677;3;The run command is the following: `docker run -p 1337:1337 -d -v /host-folder:/media/hub -name containerA containerA-image`;The run command is the following: `docker run -p 1337:1337 -d -v /host-folder:/media/hub -name containerA containerA-image`;;;x;S_SR_CODE_REF;;;;Fiorella;2.1;;;docker3677;docker3677;docker3677x;docker3677;;;;
@@ -5888,7 +5865,7 @@ ubuntu latest 8eaa4ff06b53 2 weeks ago 188.3 MB
 hello-world latest e45a5af57b00 2 weeks ago 910 B
 dockerfiles/django-uwsgi-nginx latest 184bcb8fc8d3 13 months ago 925.5 MB
 ------------------------------------------------------------
-```";;;;x;P_SR_CONTINOUS_PRESENT;;;;Fiorella;1;;;docker10166;docker10166;docker10166x;docker10166;;;;
+```";;;;x;P_SR_CONTINOUS_PRESENT;;;;Fiorella;1;P_SR_CONTINOUS_PRESENT;;docker10166;docker10166;docker10166x;docker10166;;;;
 docker;10166;3;"## Step 1: Using ```docker exec``` to login a container and execute some commands 
 ```
 ~/learn/docker &#xBB; docker exec -it Easons.Debian su - e 
@@ -6114,7 +6091,7 @@ docker;12158;4;"Repro:
 3. docker.exe exited. You're now in cmd.exe prompt.";;;;x;P_SR_LABELED_LIST;;;;Oscar;3;;;docker12158;docker12158;docker12158x;docker12158;;;;
 docker;12174;1;Docker selects wrong container based on name after extended container thrashing;Docker selects wrong container based on name after extended container thrashing;x;;;S_OB_NEG_AFTER;S_OB_VERB_ERROR;;;Jing;4.1;;;docker12174x;docker12174;docker12174;docker12174;;;;
 docker;12174;2;instead of getting the db logs, I am getting the logs for a different container. If I use the long or short id instead of the name, I get the correct logs.;instead of getting the db logs, I am getting the logs for a different container. ;x;;;S_OB_INSTEAD_OF;;;;Jing;4.2;;;docker12174x;docker12174;docker12174;docker12174;;;;
-docker;12174;3;instead of getting the db logs, I am getting the logs for a different container. ;If I use the long or short id instead of the name, I get the correct logs.;x;;;S_OB_COND_POS;;;;;0.1;;y;docker12174xy;docker12174y;docker12174y;docker12174;;;;
+docker;12174;3;instead of getting the db logs, I am getting the logs for a different container. ;If I use the long or short id instead of the name, I get the correct logs.;x;;;S_OB_COND_POS;;;;Jing;0.1;;y;docker12174xy;docker12174y;docker12174y;docker12174;;;;
 docker;12186;1;Building Docker docs fails due to missing extends.md configuration (from compose);Building Docker docs fails due to missing extends.md configuration (from compose);x;;;S_OB_NEG_VERB;;;;Juan;0.1;;y;docker12186xy;docker12186y;docker12186y;docker12186;;;;
 docker;12186;2;Bulding Docker docs (`make docs`) fails with the following error:;Bulding Docker docs (`make docs`) fails with the following error:;x;;;S_OB_NEG_VERB;;;;Juan;1.1;;;docker12186x;docker12186;docker12186;docker12186;;;;
 docker;12186;3;Since `extends.md` is new, an entry for it should be added in `docs/mkdocs.yml`.;Since `extends.md` is new, an entry for it should be added in `docs/mkdocs.;;x;;S_EB_SHOULD;;;;Juan;3.1;;;docker12186;docker12186x;docker12186;docker12186;;;;
@@ -6358,7 +6335,7 @@ docker;16340;4;1 This is running as a cloud init so the installation should be n
 docker;16340;5;2 why it is getting stuck even after the input is provided;2 why it is getting stuck even after the input is provided;x;;;S_OB_WHY;;;;Laura;8.1;;;docker16340x;docker16340;docker16340;docker16340;;;;
 docker;16763;1;Docker fails to start with firewalld enabled on CentOS 7.1;Docker fails to start with firewalld enabled on CentOS 7.1;x;;;S_OB_NEG_VERB;;;;Jing;0.1;;y;docker16763xy;docker16763y;docker16763y;docker16763;;;;
 docker;16763;2;"###Description of problem:After installed docker with [Install with the script](https://docs.docker.com/installation/centos/#install-with-the-script) method on centos7 , I can't start docker daemon with command &lt;code&gt; systemctl start docker &lt;/code&gt;.";;x;;;P_OB_DESCRIPTION;;;;Jing;1;;;docker16763x;docker16763;docker16763;docker16763;;;;
-docker;16763;3;"###Description of problem:After installed docker with [Install with the script](https://docs.docker.com/installation/centos/#install-with-the-script) method on centos7 , I can't start docker daemon with command &lt;code&gt; systemctl start docker &lt;/code&gt;.";"After installed docker with [Install with the script](https://docs.docker.com/installation/centos/#install-with-the-script) method on centos7 , I can't start docker daemon with command &lt;code&gt; systemctl start docker &lt;/code&gt;.";x;;;S_OB_AFTER_NEG;;;;;1.2;;;docker16763x;docker16763;docker16763;docker16763;;;;
+docker;16763;3;"###Description of problem:After installed docker with [Install with the script](https://docs.docker.com/installation/centos/#install-with-the-script) method on centos7 , I can't start docker daemon with command &lt;code&gt; systemctl start docker &lt;/code&gt;.";"After installed docker with [Install with the script](https://docs.docker.com/installation/centos/#install-with-the-script) method on centos7 , I can't start docker daemon with command &lt;code&gt; systemctl start docker &lt;/code&gt;.";x;;;S_OB_AFTER_NEG;;;;Jing;1.2;;;docker16763x;docker16763;docker16763;docker16763;;;;
 docker;16763;4;"###Steps to Reproduce:
 1. install docker 
 
@@ -6859,11 +6836,11 @@ docker;21403;3;Basically, in VolumeStore when there's a Delete operation holding
 docker;21563;1;"**Steps to reproduce the issue:**
 1. push an image
 2. push the same image again";;;;x;P_SR_LABELED_LIST;;;;Fiorella;9;;;docker21563;docker21563;docker21563x;docker21563;;;;
-docker;21563;3;"**Describe the results you received:**
+docker;21563;#REF!;"**Describe the results you received:**
 Docker is pushing layers when it does not need to.";;x;;;P_OB_DESCRIPTION;;;;Fiorella;13;;;docker21563x;docker21563;docker21563;docker21563;;;;
-docker;21563;4;"**Describe the results you received:**
+docker;21563;#REF!;"**Describe the results you received:**
 Docker is pushing layers when it does not need to.";Docker is pushing layers when it does not need to.;x;;;S_OB_POS_COND;S_OB_NEG_AUX_VERB;;;Fiorella;13.2;;;docker21563x;docker21563;docker21563;docker21563;;;;
-docker;21563;5;"**Describe the results you expected:**
+docker;21563;#REF!;"**Describe the results you expected:**
 To not push layers that already exist in the remote registry";;;x;;P_EB_EXP_BEHAVIOR_MULTI;;;;Fiorella;15;;;docker21563;docker21563x;docker21563;docker21563;;;;
 docker;22358;1;Remove `docker/` prefix from log messages tag;Remove `docker/` prefix from log messages tag;x;;;S_EB_IMPERATIVE;;;;Oscar;0.1;;y;docker22358xy;docker22358y;docker22358y;docker22358;;;;
 docker;22358;2;When I specify [logger tag](https://docs.docker.com/engine/admin/logging/log_tags/) for application running in docker container, I expect all messages of application will have exact same tag, but actually every message tag prefixed with `docker/`. And there is no way to remove this prefix from tag.;When I specify [logger tag](https://docs.docker.com/engine/admin/logging/log_tags/) for application running in docker container, I expect all messages of application will have exact same tag, but actually every message tag prefixed with `docker/`.;x;x;;S_OB_BUT;S_EB_EXPECTED;;;Oscar;1.1;;;docker22358x;docker22358x;docker22358;docker22358;;;;
@@ -7007,16 +6984,32 @@ docker;23383;4;"However, the push API, returns an error containing a list of mis
 * if there's an intersection of the error list and L, push the manifest file";Docker push should:;;x;;S_EB_SHOULD;;;;Oscar;4.2;;;docker23383;docker23383x;docker23383;docker23383;;;;
 docker;23616;1;Can not reduce size of the docker image after deleting the build tools from child image that were installed in base image;Can not reduce size of the docker image after deleting the build tools from child image that were installed in base image;x;;;S_OB_NEG_AFTER;;;;Fiorella;0.1;;y;docker23616xy;docker23616y;docker23616y;docker23616;;;;
 docker;23616;2;I am using docker-alpine 3.3 as the base image and building another image from it. Following is the dockerfile for this;;;;x;P_SR_CONTINOUS_PRESENT;;;;Fiorella;2;;;docker23616;docker23616;docker23616x;docker23616;;;;
-docker;23616;3;"Then this created docker images is used as the base image for another docker file where I do npm install and then remove the build tools like python, make and g++ after npm install. Following is the docker file
+docker;23616;3;I am using docker-alpine 3.3 as the base image and building another image from it. Following is the dockerfile for this;Following is the dockerfile for this;;;x;S_SR_CODE_REF;;;;Oscar;2.2;;;;;;;;;;
+docker;23616;4;"Then this created docker images is used as the base image for another docker file where I do npm install and then remove the build tools like python, make and g++ after npm install. Following is the docker file
 FROM dockerbase:latest
 MAINTAINER xxx@xxx.com 
 COPY common /opt/project1324/common
 RUN /usr/bin/npm install
 RUN apk del python
 RUN apk del make
-RUN apk del g++";;;;x;P_SR_CONTINOUS_PRESENT;;;was P_SR_SIMPLE_PAST_EVENT_PRESENT;Fiorella;4;;;docker23616;docker23616;docker23616x;docker23616;;;;
-docker;23616;4;But the size of the docker image has no difference for the cases when I delete those packages and do not delete those packages. Infact, the size is a little bit more when I delete those packages.;But the size of the docker image has no difference for the cases when I delete those packages and do not delete those packages.;x;;;S_OB_BUT_NEG;;;;Fiorella;5.1;;;docker23616x;docker23616;docker23616;docker23616;;;;
-docker;23616;5;But the size of the docker image has no difference for the cases when I delete those packages and do not delete those packages. Infact, the size is a little bit more when I delete those packages.;Infact, the size is a little bit more when I delete those packages.;x;;;S_OB_POS_COND;;;;Fiorella;5.2;;;docker23616x;docker23616;docker23616;docker23616;;;;
+RUN apk del g++";Then this created docker images is used as the base image for another docker file where I do npm install and then remove the build tools like python, make and g++ after npm install.;;;x;S_SR_SIMPLE_PRESENT_SUBORDINATES;;;;Fiorella;4.1;S_SR_SIMPLE_PRESENT_SUBORDINATES;;docker23616;docker23616;docker23616x;docker23616;;;;
+docker;23616;5;"Then this created docker images is used as the base image for another docker file where I do npm install and then remove the build tools like python, make and g++ after npm install. Following is the docker file
+FROM dockerbase:latest
+MAINTAINER xxx@xxx.com 
+COPY common /opt/project1324/common
+RUN /usr/bin/npm install
+RUN apk del python
+RUN apk del make
+RUN apk del g++";"Following is the docker file
+FROM dockerbase:latest
+MAINTAINER xxx@xxx.com 
+COPY common /opt/project1324/common
+RUN /usr/bin/npm install
+RUN apk del python
+RUN apk del make
+RUN apk del g++";;;x;S_SR_CODE_REF;;;;Oscar;4.2;;;;;;;;;;
+docker;23616;5;But the size of the docker image has no difference for the cases when I delete those packages and do not delete those packages. Infact, the size is a little bit more when I delete those packages.;But the size of the docker image has no difference for the cases when I delete those packages and do not delete those packages.;x;;;S_OB_BUT_NEG;;;;Fiorella;5.1;;;docker23616x;docker23616;docker23616;docker23616;;;;
+docker;23616;6;But the size of the docker image has no difference for the cases when I delete those packages and do not delete those packages. Infact, the size is a little bit more when I delete those packages.;Infact, the size is a little bit more when I delete those packages.;x;;;S_OB_POS_COND;;;;Fiorella;5.2;;;docker23616x;docker23616;docker23616;docker23616;;;;
 firefox;263848;1;parts of page turn gray on user form page after placing cursor in text field box;parts of page turn gray on user form page after placing cursor in text field box;x;;;S_OB_POS_AFTER;;;;Laura;0.1;;y;firefox263848xy;firefox263848y;firefox263848y;firefox263848;;;;
 firefox;263848;2;"Vertical slice of the page turns gray when placing the cursor in one of the
 user-fill text fields; clicking on one of the check boxes on the right below the
@@ -7620,17 +7613,16 @@ hibernate;HHH-4703;1;"* test runs fine with cglib, hb 3.2.4 SP1 + ann 3.2.1
       So focus on instrumentation done using cglib.";* no matter if you use annotation or mapping files, test will fail using javassist (it used to fail with previous version too);x;;;S_OB_NEG_VERB;S_OB_NO_MATTER;;;Juan;2.3;;;hibernateHHH-4703x;hibernateHHH-4703;hibernateHHH-4703;hibernateHHH-4703;;;;
 hibernate;HHH-4808;1;SessionImpl.initializeCollection() does not release JDBC connection (if outside of a transaction);SessionImpl.initializeCollection() does not release JDBC connection (if outside of a transaction);x;;;S_OB_NEG_AUX_VERB;;;The second one takes into account the if statement between parenthesis;Fiorella;0.1;;y;hibernateHHH-4808xy;hibernateHHH-4808y;hibernateHHH-4808y;hibernateHHH-4808;;;;
 hibernate;HHH-4808;2;With {{ConnectionReleaseMode.AFTER_TRANSACTION}} (the default), Hibernate does not release the JDBC connection when resolving a lazily loaded collection, if this happens *outside* of an active transaction.;With {{ConnectionReleaseMode.AFTER_TRANSACTION}} (the default), Hibernate does not release the JDBC connection when resolving a lazily loaded collection, if this happens *outside* of an active transaction.;x;;;S_OB_NEG_COND;;;;Fiorella;1.1;;;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;hibernateHHH-4808;;;;
-hibernate;HHH-4808;3;When the method {{list}} of a query ({{QueryImpl.java}}) is getting called, Hibernate delegates to {{SessionImpl.list()}}. After having loaded the list, {{SessionImpl.list()}} calls {{SessionImpl.afterOperation()}}, which calls {{jdbcContext.afterNontransactionalQuery()}} (as there is no active transaction). This leads to {{ConnectionManager.afterTransaction()}} which releases the JDBC connection. This is exactly what I expect to happen.;;;;x;P_SR_CONTINOUS_PRESENT;;;;Fiorella;3;;;hibernateHHH-4808;hibernateHHH-4808;hibernateHHH-4808x;hibernateHHH-4808;;;;
-hibernate;HHH-4808;4;Now to the lazily loaded collection:;Now to the lazily loaded collection:;x;;;S_OB_ADV_TIME_POS;;;;Fiorella;4.1;;;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;hibernateHHH-4808;;;;
-hibernate;HHH-4808;5;"{{Hibernate.initialize(collection)}} and {{person.getPets().size()}} both end up in {{SessionImpl.initializeCollection()}}.
+hibernate;HHH-4808;3;Now to the lazily loaded collection:;Now to the lazily loaded collection:;x;;;S_OB_ADV_TIME_POS;;;;Fiorella;4.1;;;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;hibernateHHH-4808;;;;
+hibernate;HHH-4808;4;"{{Hibernate.initialize(collection)}} and {{person.getPets().size()}} both end up in {{SessionImpl.initializeCollection()}}.
 This call gets dispatched down to {{Loader.doQueryAndInitializeNonLazyCollections()}} and {{Loader.doQuery()}}.
 The important fact is, that {{ConnectionManager.afterTransaction()}} never gets called (like in the query-example above).";This call gets dispatched down to {{Loader.doQueryAndInitializeNonLazyCollections()}} and {{Loader.doQuery()}}.;x;;;S_OB_NEG_ADV_ADJ;S_OB_VERB_ERROR;;;Fiorella;5.2;S_OB_NEG_ADV_ADJ,S_OB_VERB_ERROR;;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;hibernateHHH-4808;;;;
-hibernate;HHH-4808;6;"{{Hibernate.initialize(collection)}} and {{person.getPets().size()}} both end up in {{SessionImpl.initializeCollection()}}.
+hibernate;HHH-4808;5;"{{Hibernate.initialize(collection)}} and {{person.getPets().size()}} both end up in {{SessionImpl.initializeCollection()}}.
 This call gets dispatched down to {{Loader.doQueryAndInitializeNonLazyCollections()}} and {{Loader.doQuery()}}.
 The important fact is, that {{ConnectionManager.afterTransaction()}} never gets called (like in the query-example above).";The important fact is, that {{ConnectionManager.afterTransaction()}} never gets called (like in the query-example above).;x;;;S_OB_ADV_FREQ;;;;Fiorella;5.3;;;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;hibernateHHH-4808;;;;
-hibernate;HHH-4808;7;The result is, that the JDBC connection is not released.;The result is, that the JDBC connection is not released.;x;;;S_OB_NEG_AUX_VERB;;;;Fiorella;6;;;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;hibernateHHH-4808;;;;
-hibernate;HHH-4808;8;IMHO resolving of a lazily loaded collection should behave like executing a query. {{SessionImpl.initializeCollection()}} should call {{SessionImpl.afterOperation()}} in the same way as {{SessionImpl.list()}} is doing this.;IMHO resolving of a lazily loaded collection should behave like executing a query.;;x;;S_EB_SHOULD;;;;Fiorella;7.1;;;hibernateHHH-4808;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;;;;
-hibernate;HHH-4808;9;IMHO resolving of a lazily loaded collection should behave like executing a query. {{SessionImpl.initializeCollection()}} should call {{SessionImpl.afterOperation()}} in the same way as {{SessionImpl.list()}} is doing this.;{{SessionImpl.initializeCollection()}} should call {{SessionImpl.afterOperation()}} in the same way as {{SessionImpl.list()}} is doing this.;;x;;S_EB_SHOULD;;;;Fiorella;7.2;;;hibernateHHH-4808;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;;;;
+hibernate;HHH-4808;6;The result is, that the JDBC connection is not released.;The result is, that the JDBC connection is not released.;x;;;S_OB_NEG_AUX_VERB;;;;Fiorella;6;;;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;hibernateHHH-4808;;;;
+hibernate;HHH-4808;7;IMHO resolving of a lazily loaded collection should behave like executing a query. {{SessionImpl.initializeCollection()}} should call {{SessionImpl.afterOperation()}} in the same way as {{SessionImpl.list()}} is doing this.;IMHO resolving of a lazily loaded collection should behave like executing a query.;;x;;S_EB_SHOULD;;;;Fiorella;7.1;;;hibernateHHH-4808;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;;;;
+hibernate;HHH-4808;8;IMHO resolving of a lazily loaded collection should behave like executing a query. {{SessionImpl.initializeCollection()}} should call {{SessionImpl.afterOperation()}} in the same way as {{SessionImpl.list()}} is doing this.;{{SessionImpl.initializeCollection()}} should call {{SessionImpl.afterOperation()}} in the same way as {{SessionImpl.list()}} is doing this.;;x;;S_EB_SHOULD;;;;Fiorella;7.2;;;hibernateHHH-4808;hibernateHHH-4808x;hibernateHHH-4808;hibernateHHH-4808;;;;
 hibernate;HHH-4810;1;Persistent immutable and read-only entities are updated before being deleted;Persistent immutable and read-only entities are updated before being deleted;x;;;S_OB_BEING;S_OB_BEFORE;;;Laura;0.1;;y;hibernateHHH-4810xy;hibernateHHH-4810y;hibernateHHH-4810y;hibernateHHH-4810;;;;
 hibernate;HHH-4810;2;Read-only and immutable entities that are in persistent state when deleted are updated before being deleted. Read-only and immutable entities that are detached when deleted are not updated before being deleted.;Read-only and immutable entities that are in persistent state when deleted are updated before being deleted.;x;;;S_OB_BEFORE;;;;Laura;1.1;;;hibernateHHH-4810x;hibernateHHH-4810;hibernateHHH-4810;hibernateHHH-4810;;;;
 hibernate;HHH-4810;3;Read-only and immutable entities that are in persistent state when deleted are updated before being deleted. Read-only and immutable entities that are detached when deleted are not updated before being deleted.;Read-only and immutable entities that are detached when deleted are not updated before being deleted.;x;;;S_OB_BEFORE;;;;Laura;1.2;;;hibernateHHH-4810x;hibernateHHH-4810;hibernateHHH-4810;hibernateHHH-4810;;;;
@@ -8458,12 +8450,11 @@ libreoffice;41577;17;"OBS: this appears to be a problem in the integration betwe
 This also happens if the txt is created with dots instead of commas and base is told to use dot as decimal separator. Base shows things as they should be, and calc shows them messed up. I think it is absurd to have the date autoformatting in DataPilots since the data is being retrieved from a database (and therefore cannot be a typo); it has been suggested before to have an option to disable the autoconverting of strings with numbers and dots into dates and I see here a good reason why the software should be told when it **doesn't** know better than the user. In DataPilots there shouldn't even exist an option to ""autofix"" things, since anything wrong there must be fixed in the database, which relies externally, and should those things be fixed automatically in the spreadsheet, mistakes in the database might get unnoticed.
 As DataPilot cells are locked against formatting, cell formatting is not an option. Also, trying to change the style of text of the DataPilot entries doesn't work. Changing the locale of the whole LibreOffice suite to one that uses dot as decimal separator solves it, but that is **not** an option either (I have documents that must be published countries where comma is the standard for decimal separator) and this behaviour is not what it is supposed to be anyway; calc should be able to understand what data are strings and what are floats anywhere in the world.";"Changing the locale of the whole LibreOffice suite to one that uses dot as decimal separator solves it, but that is **not** an option either (I have documents that must be published countries where comma is the standard for decimal separator) and this behaviour is not what it is supposed to be anyway; calc should be able to understand what data are strings and what are floats anywhere in the world.";x;x;;S_EB_SHOULD;S_OB_NEG_AUX_VERB;;;Laura;10.10;;;libreoffice41577x;libreoffice41577x;libreoffice41577;libreoffice41577;;;;
 libreoffice;42073;1;Writer input fields are not populated using the Java UNO API;Writer input fields are not populated using the Java UNO API;x;;;S_OB_NEG_AUX_VERB;;;;Fiorella;0.1;;y;libreoffice42073xy;libreoffice42073y;libreoffice42073y;libreoffice42073;;;;
-libreoffice;42073;2;"I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.  Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.  Running the same code with LibreOffice 3.3 works flawlessly.  Below is sample code, which I've stepped through in debug mode, and everything is running correctly.  The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged. Updating table cells with 3.4.3, however, is working as expected.  Has something changed with the API that is not documented?";;;;x;P_SR_CONTINOUS_PRESENT;;;;Fiorella;1;;;libreoffice42073;libreoffice42073;libreoffice42073x;libreoffice42073;;;;
-libreoffice;42073;3;"I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.  Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.  Running the same code with LibreOffice 3.3 works flawlessly.  Below is sample code, which I've stepped through in debug mode, and everything is running correctly.  The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged. Updating table cells with 3.4.3, however, is working as expected.  Has something changed with the API that is not documented?";Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.;x;;;S_OB_COND_NEG;;;Upon is used as After;Fiorella;1.2;;;libreoffice42073x;libreoffice42073;libreoffice42073;libreoffice42073;;;;
-libreoffice;42073;4;"I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.  Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.  Running the same code with LibreOffice 3.3 works flawlessly.  Below is sample code, which I've stepped through in debug mode, and everything is running correctly.  The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged. Updating table cells with 3.4.3, however, is working as expected.  Has something changed with the API that is not documented?";Running the same code with LibreOffice 3.3 works flawlessly;x;;;S_OB_WORKS_FINE;;;;Fiorella;1.3;;;libreoffice42073x;libreoffice42073;libreoffice42073;libreoffice42073;;;;
-libreoffice;42073;5;"I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.  Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.  Running the same code with LibreOffice 3.3 works flawlessly.  Below is sample code, which I've stepped through in debug mode, and everything is running correctly.  The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged. Updating table cells with 3.4.3, however, is working as expected.  Has something changed with the API that is not documented?";"The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged.";x;;;S_OB_BUT;;;;Fiorella;1.5;;;libreoffice42073x;libreoffice42073;libreoffice42073;libreoffice42073;;;;
-libreoffice;42073;6;"I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.  Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.  Running the same code with LibreOffice 3.3 works flawlessly.  Below is sample code, which I've stepped through in debug mode, and everything is running correctly.  The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged. Updating table cells with 3.4.3, however, is working as expected.  Has something changed with the API that is not documented?"; Updating table cells with 3.4.3, however, is working as expected. ;x;;;S_OB_WORKS_FINE;S_OB_AS_EXPECTED;;;Fiorella;1.6;;;libreoffice42073x;libreoffice42073;libreoffice42073;libreoffice42073;;;;
-libreoffice;42073;7;"CODE:
+libreoffice;42073;2;"I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.  Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.  Running the same code with LibreOffice 3.3 works flawlessly.  Below is sample code, which I've stepped through in debug mode, and everything is running correctly.  The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged. Updating table cells with 3.4.3, however, is working as expected.  Has something changed with the API that is not documented?";Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.;x;;x;S_OB_COND_NEG;S_SR_COND_OBS;;Upon is used as After;Fiorella;1.2;;;libreoffice42073x;libreoffice42073;libreoffice42073x;libreoffice42073;;;;
+libreoffice;42073;3;"I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.  Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.  Running the same code with LibreOffice 3.3 works flawlessly.  Below is sample code, which I've stepped through in debug mode, and everything is running correctly.  The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged. Updating table cells with 3.4.3, however, is working as expected.  Has something changed with the API that is not documented?";Running the same code with LibreOffice 3.3 works flawlessly;x;;;S_OB_WORKS_FINE;;;;Fiorella;1.3;;;libreoffice42073x;libreoffice42073;libreoffice42073;libreoffice42073;;;;
+libreoffice;42073;4;"I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.  Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.  Running the same code with LibreOffice 3.3 works flawlessly.  Below is sample code, which I've stepped through in debug mode, and everything is running correctly.  The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged. Updating table cells with 3.4.3, however, is working as expected.  Has something changed with the API that is not documented?";"The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged.";x;;;S_OB_BUT;;;;Fiorella;1.5;;;libreoffice42073x;libreoffice42073;libreoffice42073;libreoffice42073;;;;
+libreoffice;42073;5;"I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.  Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.  Running the same code with LibreOffice 3.3 works flawlessly.  Below is sample code, which I've stepped through in debug mode, and everything is running correctly.  The fields are found, but calling xPropertySet.setPropertyValue(""Content"", newValue) leaves the document unchanged. Updating table cells with 3.4.3, however, is working as expected.  Has something changed with the API that is not documented?"; Updating table cells with 3.4.3, however, is working as expected. ;x;;;S_OB_WORKS_FINE;S_OB_AS_EXPECTED;;;Fiorella;1.6;;;libreoffice42073x;libreoffice42073;libreoffice42073;libreoffice42073;;;;
+libreoffice;42073;6;"CODE:
 String file = ""/path/to/SomeFile.ott"";";;;;x;P_SR_LABELED_CODE_FRAGS;;;;Fiorella;2;;;libreoffice42073;libreoffice42073;libreoffice42073x;libreoffice42073;;;;
 libreoffice;42380;1;Trend line displayed linear equation wrong (the tread line is correct);Trend line displayed linear equation wrong (the tread line is correct);x;;;S_OB_NEG_ADV_ADJ;;;;Juan;0.1;;y;libreoffice42380xy;libreoffice42380y;libreoffice42380y;libreoffice42380;;;;
 libreoffice;42380;2;When adding a linear trend line with it equation displayed, the equation shown is sometimes incorrect and does not match the correct trend line displayed.;When adding a linear trend line with it equation displayed, the equation shown is sometimes incorrect and does not match the correct trend line displayed.;x;;;S_OB_COND_NEG;S_OB_NEG_ADV_ADJ;;;Juan;2.1;;;libreoffice42380x;libreoffice42380;libreoffice42380;libreoffice42380;;;;
@@ -9878,7 +9869,13 @@ The log from the launch utility can be see here:
 http://paste.pocoo.org/show/545980/
 I then tried manually from that utility: File.Launch-Browser.
 the log is here:
-http://paste.pocoo.org/show/545982/";;;;x;P_SR_SIMPLE_PAST;;;;Juan;4;;;openmrsTRUNK-3052;openmrsTRUNK-3052;openmrsTRUNK-3052x;openmrsTRUNK-3052;;;;
+http://paste.pocoo.org/show/545982/";I ran: java -jar standalone-1.1.1.jar;;;x;S_SR_SIMPLE_PAST;;;;Juan;4.1;S_SR_SIMPLE_PAST;;openmrsTRUNK-3052;openmrsTRUNK-3052;openmrsTRUNK-3052x;openmrsTRUNK-3052;;;;
+openmrs;TRUNK-3052;3;"I ran: java -jar standalone-1.1.1.jar 
+The log from the launch utility can be see here:
+http://paste.pocoo.org/show/545980/
+I then tried manually from that utility: File.Launch-Browser.
+the log is here:
+http://paste.pocoo.org/show/545982/";I then tried manually from that utility: File.Launch-Browser.;;;x;S_SR_SIMPLE_PAST;;;;Oscar;4.4;;;;;;;;;;
 openmrs;TRUNK-3129;1;Missing options in Concept Drug Management Page;Missing options in Concept Drug Management Page;x;;;S_OB_PROBLEM_IN;;;;Oscar;0.1;;y;openmrsTRUNK-3129xy;openmrsTRUNK-3129y;openmrsTRUNK-3129y;openmrsTRUNK-3129;;;;
 openmrs;TRUNK-3129;2;"On the Concept Drug Management Page (openmrs/admin/concepts/conceptDrug.form), it doesn't include the options of
 1) dosage_form
@@ -10029,7 +10026,7 @@ openmrs;TRUNK-556;3;The Groovy module used to capture printed output and would r
 openmrs;TRUNK-592;1;Error merging two patients - could not insert: [org.openmrs.PersonAddress];Error merging two patients - could not insert: [org.openmrs.PersonAddress];x;;;S_OB_ERROR_HOW;;;;Oscar;0.1;;y;openmrsTRUNK-592xy;openmrsTRUNK-592y;openmrsTRUNK-592y;openmrsTRUNK-592;;;;
 openmrs;TRUNK-592;2;When trying to merge two patients, I get the following error...;When trying to merge two patients, I get the following error...;x;;;S_OB_COND_NEG;;;;Oscar;1.1;;;openmrsTRUNK-592x;openmrsTRUNK-592;openmrsTRUNK-592;openmrsTRUNK-592;;;;
 openmrs;TRUNK-594;1;"Exiting a patient from care causes ""not-null property references a null or transient value: org.openmrs.PatientState.dateCreated""";"Exiting a patient from care causes ""not-null property references a null or transient value: org.openmrs.PatientState.dateCreated""";x;;;S_OB_LEADS_TO_NEG;;;;Laura;0.1;;y;openmrsTRUNK-594xy;openmrsTRUNK-594y;openmrsTRUNK-594y;openmrsTRUNK-594;;;;
-openmrs;TRUNK-594;2;"This occurs when there's an actual state transition during the Exit Patient From Care use case. The scenario is that the user selects an Exit Type that has a final state ""trigger"" associated with it. When this occurs it causes the Exit From Care to actually perform a state transition, which simply pulls the ""transition"" state from the database and persist a new PatientState associated with this state. The code then adds this new PatientState to the PatientProgram and saves the patient program, letting Hibernate cascade the save or update operation down through the dependent objects (TRAC-1063). Since the cascade operation does not use (nor should it) the ProgramWorkflowService.savePatientProgram() method, we miss out on the null-checks for the metadata fields, which means Hiberante tries to persist the PatientState object with null values for some required fields. ";;;;x;P_SR_CONTINOUS_PRESENT;;;;Laura;1;;;openmrsTRUNK-594;openmrsTRUNK-594;openmrsTRUNK-594x;openmrsTRUNK-594;;;;
+openmrs;TRUNK-594;2;"This occurs when there's an actual state transition during the Exit Patient From Care use case. The scenario is that the user selects an Exit Type that has a final state ""trigger"" associated with it. When this occurs it causes the Exit From Care to actually perform a state transition, which simply pulls the ""transition"" state from the database and persist a new PatientState associated with this state. The code then adds this new PatientState to the PatientProgram and saves the patient program, letting Hibernate cascade the save or update operation down through the dependent objects (TRAC-1063). Since the cascade operation does not use (nor should it) the ProgramWorkflowService.savePatientProgram() method, we miss out on the null-checks for the metadata fields, which means Hiberante tries to persist the PatientState object with null values for some required fields. ";"The scenario is that the user selects an Exit Type that has a final state ""trigger"" associated with it.";;;x;S_SR_SIMPLE_PRESENT_SUBORDINATES;;;;Laura;1.2;;;openmrsTRUNK-594;openmrsTRUNK-594;openmrsTRUNK-594x;openmrsTRUNK-594;;;;
 openmrs;TRUNK-594;3;"This occurs when there's an actual state transition during the Exit Patient From Care use case. The scenario is that the user selects an Exit Type that has a final state ""trigger"" associated with it. When this occurs it causes the Exit From Care to actually perform a state transition, which simply pulls the ""transition"" state from the database and persist a new PatientState associated with this state. The code then adds this new PatientState to the PatientProgram and saves the patient program, letting Hibernate cascade the save or update operation down through the dependent objects (TRAC-1063). Since the cascade operation does not use (nor should it) the ProgramWorkflowService.savePatientProgram() method, we miss out on the null-checks for the metadata fields, which means Hiberante tries to persist the PatientState object with null values for some required fields. ";This occurs when there's an actual state transition during the Exit Patient From Care use case.;x;;;S_OB_POS_COND;S_OB_HAPPENS;;;Laura;1.1;;;openmrsTRUNK-594x;openmrsTRUNK-594;openmrsTRUNK-594;openmrsTRUNK-594;;;;
 openmrs;TRUNK-594;4;"This occurs when there's an actual state transition during the Exit Patient From Care use case. The scenario is that the user selects an Exit Type that has a final state ""trigger"" associated with it. When this occurs it causes the Exit From Care to actually perform a state transition, which simply pulls the ""transition"" state from the database and persist a new PatientState associated with this state. The code then adds this new PatientState to the PatientProgram and saves the patient program, letting Hibernate cascade the save or update operation down through the dependent objects (TRAC-1063). Since the cascade operation does not use (nor should it) the ProgramWorkflowService.savePatientProgram() method, we miss out on the null-checks for the metadata fields, which means Hiberante tries to persist the PatientState object with null values for some required fields. ";"When this occurs it causes the Exit From Care to actually perform a state transition, which simply pulls the ""transition"" state from the database and persist a new PatientState associated with this state.";x;;;S_OB_COND_POS;S_OB_LEADS_TO;S_OB_HAPPENS;;Laura;1.3;;;openmrsTRUNK-594x;openmrsTRUNK-594;openmrsTRUNK-594;openmrsTRUNK-594;;;;
 openmrs;TRUNK-594;5;"This occurs when there's an actual state transition during the Exit Patient From Care use case. The scenario is that the user selects an Exit Type that has a final state ""trigger"" associated with it. When this occurs it causes the Exit From Care to actually perform a state transition, which simply pulls the ""transition"" state from the database and persist a new PatientState associated with this state. The code then adds this new PatientState to the PatientProgram and saves the patient program, letting Hibernate cascade the save or update operation down through the dependent objects (TRAC-1063). Since the cascade operation does not use (nor should it) the ProgramWorkflowService.savePatientProgram() method, we miss out on the null-checks for the metadata fields, which means Hiberante tries to persist the PatientState object with null values for some required fields. ";Since the cascade operation does not use (nor should it) the ProgramWorkflowService.savePatientProgram() method, we miss out on the null-checks for the metadata fields, which means Hiberante tries to persist the PatientState object with null values for some required fields.;x;;;S_OB_NEG_AUX_VERB;S_OB_TRY_PRESENT;;;Laura;1.5;;;openmrsTRUNK-594x;openmrsTRUNK-594;openmrsTRUNK-594;openmrsTRUNK-594;;;;
@@ -10180,7 +10177,7 @@ wordpress-android;99;2;"Nexus 7, 4.2.2
 Go to the post list. 
 Tap to share a post detail.
 While the app is ""Attempting to fetch URL"" try to hit the back button to dismiss the modal.
-The modal will not dismiss. ";;;;x;P_SR_ACTIONS_MULTI_OBS_BEHAVIOR;;;;Laura;1;;;wordpress-android99;wordpress-android99;wordpress-android99x;wordpress-android99;;;;
+The modal will not dismiss. ";;;;x;P_SR_ACTIONS_MULTI_OBS_BEHAVIOR;;;;Laura;1;P_SR_ACTIONS_MULTI_OBS_BEHAVIOR;;wordpress-android99;wordpress-android99;wordpress-android99x;wordpress-android99;;;;
 wordpress-android;99;3;"Nexus 7, 4.2.2
 Go to the post list. 
 Tap to share a post detail.

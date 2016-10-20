@@ -34,6 +34,7 @@ public class ContinuousPresentSentencePM extends StepsToReproducePatternMatcher 
 
 		if (numClauses > 0) {
 			List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
+//			System.err.println(numClauses +" - "+clauses.size());
 			return ((float) numClauses) / clauses.size() >= 0.5F ? 1 : 0;
 		}
 		return 0;
@@ -98,7 +99,6 @@ public class ContinuousPresentSentencePM extends StepsToReproducePatternMatcher 
 				if (checkForSubject(prevToken2) && !isNegative && checkForVerbTobe(prevToken)) {
 					return true;
 
-					// case: I/we then tr(y|ied)
 				} else if (prevToken.getGeneralPos().equals("RB")
 				// case: I am/was simply working
 				) {
@@ -157,8 +157,7 @@ public class ContinuousPresentSentencePM extends StepsToReproducePatternMatcher 
 	}
 
 	private static boolean checkForSubject(Token token) {
-		return token.getGeneralPos().equals("PRP")
-				&& DEFAULT_PRONOUN_LEMMAS.stream().anyMatch(lemma -> token.getLemma().equalsIgnoreCase(lemma));
+		return DEFAULT_PRONOUN_LEMMAS.stream().anyMatch(lemma -> token.getLemma().equalsIgnoreCase(lemma));
 	}
 
 	private static List<Integer> findVerbsInTense(List<Token> tokens) {

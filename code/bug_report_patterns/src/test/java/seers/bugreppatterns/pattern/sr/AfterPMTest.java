@@ -29,7 +29,8 @@ public class AfterPMTest extends BaseTest {
 				"After creating a form, when i go to the form list page and select it, it throws an exception with the following stack trace:",
 				"After retiring a relationship type, there is no way for unretiring it.",
 				"After retiring some forms under Manage Form (admin/forms/form.list), those retired forms are still showing up under Patient Dashboard's Form Entry (patientDashboard.form?patientId=123).",
-				"After closing it from the open apps dialog, and then reopening it, the comments loaded.", };
+				"After closing it from the open apps dialog, and then reopening it, the comments loaded.",
+				"After having loaded the list, {{SessionImpl.list()}} calls {{SessionImpl.afterOperation()}}, which calls {{jdbcContext.afterNontransactionalQuery()}} (as there is no active transaction)." };
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

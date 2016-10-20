@@ -23,9 +23,15 @@ public class SimplePastParagraphPM extends StepsToReproducePatternMatcher {
 	@Override
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 
-		int num = 0;
-
 		List<Sentence> sentences = paragraph.getSentences();
+
+		if (sentences.size() < 2) {
+			return 0;
+		}
+
+		int validNumSentences = 0;
+		int numPastSentences = 0;
+
 		for (Sentence sentence : sentences) {
 
 			// no bullets allowed
@@ -34,16 +40,19 @@ public class SimplePastParagraphPM extends StepsToReproducePatternMatcher {
 				continue;
 			}
 
-			num += countNumClausesInSimplePast(sentence);
+			validNumSentences++;
+
+			int num = countNumClausesInSimplePast(sentence);
+			if (num > 0) {
+				numPastSentences++;
+			}
 
 		}
+
+//		 System.out.println(numPastSentences +" - "+validNumSentences);
 
 		// more than 1 match?
-		if (num > 1) {
-			return 1;
-		}
-
-		return 0;
+		return ((float) numPastSentences) / validNumSentences >= 0.5F ? 1 : 0;
 	}
 
 	public static int countNumClausesInSimplePast(Sentence sentence) {

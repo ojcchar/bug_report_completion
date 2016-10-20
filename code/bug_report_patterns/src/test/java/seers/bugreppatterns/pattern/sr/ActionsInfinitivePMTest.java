@@ -16,6 +16,7 @@ public class ActionsInfinitivePMTest extends BaseTest {
 	@Test
 	public void testPositive() throws Exception {
 		String[] paragraphs = {
+				
 				"\"step1: open liber office and select liber draw\n" + "step2: Draw rectangle image\n"
 						+ "step3: select the rectangular image and go to modify meanu\n" + "step4: click convert\n"
 						+ "step5: click convert to polygon\n" + "step6: rectangle should get converted to polygon\"",
@@ -41,7 +42,9 @@ public class ActionsInfinitivePMTest extends BaseTest {
 						+ "8 Save, close, and reopen document.\n" + "Alternate:\n" + "5 Type \"test\".\n"
 						+ "6 Format -> Paragraph -> Borders -> add bottom line in User-defined box.\n"
 						+ "7 Save, close, and reopen document.\n" + "Result:\n"
-						+ "\"test\" and line are overlapping each other.\n" + "There is also a red triangle." };
+						+ "\"test\" and line are overlapping each other.\n" + "There is also a red triangle."
+						
+		};
 		TestUtils.testParagraphs(paragraphs, pm, 1);
 	}
 
@@ -52,7 +55,8 @@ public class ActionsInfinitivePMTest extends BaseTest {
 				+ "insert comment to one cell, i.e. A5 (\"Text5\")\n" + "show comment\n"
 				+ "insert comment to another cell, i.e. A7, and also show comment\n"
 				+ "hide line 7 (comment remains visible)\n" + "copy whole table with context menu\n"
-				+ "now hide line 5 in new created table\n" + "all comments double (see atachement)" };
+				+ "now hide line 5 in new created table\n" + "all comments double (see atachement)",
+				"Steps to Reproduce:. 1 see beneath. 2. 3. ","#### API Request with `docker commit`. "};
 		TestUtils.testParagraphs(paragraphs, pm, 0);
 	}
 }

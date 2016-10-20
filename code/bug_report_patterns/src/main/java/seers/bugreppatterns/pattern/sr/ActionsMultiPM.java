@@ -21,41 +21,52 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 	@Override
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 
-		int minNumOfSentences = 1;
+		List<Sentence> sentences = paragraph.getSentences();
 
-		int numImperativeSentences = 0;
+		if (sentences.size() < 2) {
+			return 0;
+		}
+		
+		
+		int numValidSentences = 0;
 		int idxLastSentence = -1;
+		int numTotalValidSentences = 0;
 
 		// check for at least minNumOfSentences imperative sentences
-		List<Sentence> sentences = paragraph.getSentences();
 		for (int i = 0; i < sentences.size(); i++) {
 			idxLastSentence = i;
 
 			Sentence sentence = sentences.get(i);
+			
+			if (sentence.getTokens().stream().anyMatch(tok -> tok.getLemma().equals("should"))) {
+				continue;
+			}
+			
+			numTotalValidSentences++;
 
 			// check if any of the clauses is imperative
 			List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 			for (Sentence clause : clauses) {
 				if (SentenceUtils.isImperativeSentence(clause)) {
-					numImperativeSentences++;
-					break;
+					numValidSentences++;
 				}
 			}
 
-			if (numImperativeSentences >= minNumOfSentences) {
-				break;
-			}
 		}
 
+		
 		// check for an OB clause
-		if (numImperativeSentences >= minNumOfSentences) {
+		if (idxLastSentence!=-1) {
 			int idx = SentenceUtils.findObsBehaviorSentence(sentences.subList(idxLastSentence, sentences.size()));
 			if (idx != -1) {
-				return 1;
+				numValidSentences++;
 			}
 		}
+		
+		float matchingSentenceRatio = (float) numValidSentences / numTotalValidSentences;
+		
+		return matchingSentenceRatio >= 0.5 ? 1 : 0;
 
-		return 0;
 
 	}
 

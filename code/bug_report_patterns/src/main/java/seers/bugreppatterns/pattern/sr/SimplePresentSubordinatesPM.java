@@ -15,6 +15,7 @@ public class SimplePresentSubordinatesPM extends StepsToReproducePatternMatcher 
 			"experience", "see");
 	public static final Set<String> DEFAULT_PRONOUN_LEMMAS = JavaUtils.getSet("i", "we");
 	public static final Set<String> DEFAULT_PRONOUN_POS = JavaUtils.getSet("PRP");
+	public static final Set<String> DEFAULT_PRONOUN_POS_LEMMA = JavaUtils.getSet("NN-user");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -30,7 +31,7 @@ public class SimplePresentSubordinatesPM extends StepsToReproducePatternMatcher 
 		}
 
 		SimpleTenseChecker checker = new SimpleTenseChecker(ActionsPresentPM.POS, ActionsPresentPM.UNDETECTED_VERBS,
-				EXCLUDED_VERBS, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS);
+				EXCLUDED_VERBS, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS, DEFAULT_PRONOUN_POS_LEMMA);
 		int numClauses = checker.countNumClauses(sentence);
 
 		if (numClauses > 0) {
