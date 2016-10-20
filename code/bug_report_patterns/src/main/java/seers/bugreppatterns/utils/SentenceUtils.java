@@ -309,6 +309,8 @@ public class SentenceUtils {
 			"release", "rename", "return", "right-click", "run", "scale", "scroll", "select", "show", "start", "stop",
 			"surf", "try", "type", "typing", "use", "yield");
 
+	public final static Set<String> AMBIGUOUS_POS_VERBS = JavaUtils.getSet("put", "set", "cut", "quit", "shut");
+
 	/**
 	 * Check if the sentence/clause is imperative or not. It takes into account
 	 * labels at the beginning of the sentence, such as "exp. behavior: run the
@@ -398,6 +400,10 @@ public class SentenceUtils {
 		Token firstToken = tokensNoSpecialChar.get(0);
 		Token secondToken = tokensNoSpecialChar.get(1);
 
+		if (firstToken.getPos().equals("VBN") || firstToken.getPos().equals("VBD")) {
+			return false;
+		}
+
 		// regular case, the sentence starts with a verb
 		if ((firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP"))) {
 			return true;
@@ -407,14 +413,16 @@ public class SentenceUtils {
 			// a verb
 			if (secondToken != null) {
 				if ((firstToken.getPos().equals("RB") || firstToken.getPos().equals("JJ"))
-						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP"))
+						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP")
+								|| SentenceUtils.lemmasContainToken(AMBIGUOUS_POS_VERBS, secondToken))
 						&& tokensNoSpecialChar.size() > 2) {
 					return true;
 				}
 			}
 
 			// case: the first token is an undetected verb
-			if (SentenceUtils.lemmasContainToken(UNDETECTED_VERBS, firstToken)) {
+			if (SentenceUtils.lemmasContainToken(UNDETECTED_VERBS, firstToken)
+					|| SentenceUtils.lemmasContainToken(AMBIGUOUS_POS_VERBS, firstToken)) {
 				return true;
 			}
 

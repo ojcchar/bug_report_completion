@@ -58,12 +58,15 @@ public class BaseTest {
 
 	private void loadData() throws IOException {
 		CsvParser csvParser = new CsvParserBuilder().separator(';').multiLine(true).build();
+
+		boolean noTestingInstances = false;
 		try (CsvReader csvReader = new CsvReader(
 				new InputStreamReader(new FileInputStream(MainMatcher.fileAssignment), "Cp1252"), csvParser)) {
 
 			List<List<String>> allLines = csvReader.readAll();
 
-			allLines.forEach(sentence -> {
+			for (List<String> sentence : allLines) {
+
 				String paragraphTxt = sentence.get(3);
 				String sentenceTxt = sentence.get(4);
 
@@ -76,6 +79,7 @@ public class BaseTest {
 				boolean addSentence = true;
 				boolean addParagraph = true;
 				if (Arrays.stream(patternsNoTesting).anyMatch(pat -> pat.trim().equalsIgnoreCase(patternName))) {
+					noTestingInstances = true;
 					if (testSentence) {
 						addSentence = false;
 						addParagraph = true;
@@ -99,11 +103,11 @@ public class BaseTest {
 					}
 					// }
 				}
-			});
+			}
 
 		}
 
-		if (testDataParagraph.isEmpty() || testDataSentence.isEmpty()) {
+		if ( (testDataParagraph.isEmpty() || testDataSentence.isEmpty() ) && !noTestingInstances) {
 			throw new RuntimeException("No testing data for " + pm.getClass().getSimpleName());
 		}
 

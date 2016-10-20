@@ -33,15 +33,28 @@ public class SimpleTenseChecker {
 	// */
 	// private boolean checkForStartingVerb;
 
+	private Set<String> pronounsGnralPOS;
+	private Set<String> pronounsLemmas;
+
+	public static final Set<String> DEFAULT_PRONOUN_POS = JavaUtils.getSet("PRP", "NN");
+	public static final Set<String> DEFAULT_PRONOUN_LEMMAS = JavaUtils.getSet("i");
+
+	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs, Set<String> verbsToAvoid) {
+		this(partOfSpeeches, undetectedVerbs, verbsToAvoid, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS);
+	}
+
 	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs) {
-		this(partOfSpeeches, undetectedVerbs, null);
+		this(partOfSpeeches, undetectedVerbs, null, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS);
 
 	}
 
-	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs, Set<String> verbsToAvoid) {
+	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs, Set<String> verbsToAvoid,
+			Set<String> pronounsGnralPOS, Set<String> pronounsLemmas) {
 		this.partOfSpeeches = partOfSpeeches == null ? new HashSet<>() : partOfSpeeches;
 		this.undetectedVerbs = undetectedVerbs == null ? new HashSet<>() : undetectedVerbs;
 		this.verbsToAvoid = verbsToAvoid == null ? new HashSet<>() : verbsToAvoid;
+		this.pronounsGnralPOS = pronounsGnralPOS == null ? new HashSet<>() : pronounsGnralPOS;
+		this.pronounsLemmas = pronounsLemmas == null ? new HashSet<>() : pronounsLemmas;
 		// this.checkForStartingVerb = checkForStartingVerb;
 	}
 
@@ -83,15 +96,36 @@ public class SimpleTenseChecker {
 
 	private boolean checkClauseInTense(Sentence clause) {
 
-		if (clause.getTokens().size() < 2) {
+		List<Token> tokens = clause.getTokens();
+		if (tokens.size() < 2) {
 			return false;
 		}
 
-		Token token = clause.getTokens().get(0);
+		Token token = tokens.get(0);
 
 		// case: perform(ed)
 		if (checkForVerb(token)) {
 			return true;
+
+		} else {
+
+			// case: simply perform(ed)
+			if (tokens.size() > 2) {
+
+				Token nextToken = tokens.get(1);
+
+				if (token.getGeneralPos().equals("RB")
+						// typo: then -> than
+						|| token.getLemma().equals("than")) {
+					if (checkForVerb(nextToken)) {
+						return true;
+
+					}
+
+				}
+
+			}
+
 		}
 		return false;
 	}
@@ -131,7 +165,10 @@ public class SimpleTenseChecker {
 					return true;
 
 					// case: I/we then tr(y|ied)
-				} else if (prevToken.getGeneralPos().equals("RB")) {
+				} else if (prevToken.getGeneralPos().equals("RB")
+				// typo: then -> than
+				// || prevToken.getLemma().equals("than")
+				) {
 					if (verbIdx - 2 >= 0) {
 						Token prevToken2 = tokens.get(verbIdx - 2);
 						// avoid negatives: i then did not
@@ -147,8 +184,8 @@ public class SimpleTenseChecker {
 	}
 
 	private boolean checkForSubject(Token prevToken) {
-		return prevToken.getGeneralPos().equals("PRP") || prevToken.getGeneralPos().equals("NN")
-				|| prevToken.getLemma().equals("i");
+		return pronounsGnralPOS.stream().anyMatch(pos -> prevToken.getGeneralPos().equals(pos))
+				|| pronounsLemmas.stream().anyMatch(lemma -> prevToken.getLemma().equalsIgnoreCase(lemma));
 	}
 
 	private List<Integer> findVerbsInTense(List<Token> tokens) {

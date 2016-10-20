@@ -16,16 +16,23 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 			return 0;
 		}
 
+		if (SentenceUtils.isQuestion(sentence)) {
+			return 0;
+		}
+
+		List<Integer> condTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, sentence.getTokens());
+		if (!condTerms.isEmpty()) {
+			return 0;
+		}
+
 		// -----------------------------
 
 		int idxImpClause = 0;
-		boolean isImperative = SentenceUtils
-				.isImperativeSentence(clauses.get(idxImpClause));
+		boolean isImperative = SentenceUtils.isImperativeSentence(clauses.get(idxImpClause));
 		if (!isImperative) {
 			idxImpClause++;
 			if (idxImpClause < clauses.size()) {
-				isImperative = SentenceUtils
-						.isImperativeSentence(clauses.get(idxImpClause));
+				isImperative = SentenceUtils.isImperativeSentence(clauses.get(idxImpClause));
 				if (!isImperative) {
 					return 0;
 				}
@@ -35,8 +42,7 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 		// -----------------------------
 
 		if (clauses.size() > idxImpClause + 1) {
-			int numCl = checkPresentOrActionClauses(
-					clauses.subList(idxImpClause + 1, clauses.size()));
+			int numCl = checkPresentOrActionClauses(clauses.subList(idxImpClause + 1, clauses.size()));
 			if (numCl != 0) {
 				return 1;
 			}
@@ -48,7 +54,9 @@ public class ImperativeSubordinatesPM extends StepsToReproducePatternMatcher {
 	private int checkPresentOrActionClauses(List<Sentence> clauses) {
 		int num = 0;
 		for (Sentence sentence : clauses) {
-			if (ActionsPresentPM.isSimplePresentSentence(sentence) || SentenceUtils.isImperativeSentence(sentence)) {
+			if (ActionsPresentPM.isSimplePresentSentence(sentence) 
+//					|| SentenceUtils.isImperativeSentence(sentence)
+					) {
 				num++;
 			}
 		}

@@ -23,8 +23,13 @@ public class ImperativeSubordinatesPMTest extends BaseTest {
 	@Test
 	public void testNegatives() throws Exception {
 
-		String[] txts = { "Sent printed output to client and modified that",
-				"In Reader, click on a post to view full post.", "Open the url http://www.buyanorgan.net/test.xml" };
+		String[] txts = {
+
+				"Sent printed output to client and modified that", "In Reader, click on a post to view full post.",
+				"Open the url http://www.buyanorgan.net/test.xml", "passwd:     files ldap\ngroup:      files ldap",
+				"import javax.persistence.Entity;\nimport javax.persistence.Table;"
+
+		};
 		TestUtils.testSentences(txts, pm, 0);
 
 	}

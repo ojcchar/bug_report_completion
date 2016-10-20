@@ -12,12 +12,14 @@ import seers.textanalyzer.entity.Token;
 
 public class CodeRefPM extends StepsToReproducePatternMatcher {
 
-	final static Set<String> NOUNS_TERM = JavaUtils.getSet("apache", "attachment", "build", "build/install", "call",
-			"case", "class", "code", "command", "config", "configuration", "configure", "container", "dockerfile",
-			"env", "example", "example/test", "excerpt", "file", "function", "hql", "html", "html/fbml", "html/ssi",
-			"htpasswd", "image", "installer", "line", "log", "method", "model", "parameter", "program", "project",
-			"query", "sample", "screenshot", "screen-shot", "script", "snippet", "statement", "test", "test case",
-			"test.htm", "tool", "trace", "video", "xml");
+	final static Set<String> NOUNS_TERM = JavaUtils.getSet("attachment", "build/install", "call", "class", "code",
+			"command", "config", "configuration", "configure", "container", "dockerfile", 
+			"env",
+			"example",
+			"example/test", "excerpt", "file", "function", "hql", "html", "html/fbml", "html/ssi", "htpasswd", "image",
+			"installer", "line", "method", "model", "parameter", "program", "project", "query", "sample", "screenshot",
+			"screen-shot", "script", "snippet", "statement", "test", "test case", "test.htm", "tool", "trace", "video",
+			"xml");
 
 	final static String NOUN_TERMS_REGEX;
 	static {
@@ -128,8 +130,9 @@ public class CodeRefPM extends StepsToReproducePatternMatcher {
 		if (nounIdx != -1 && !tokensNoLabel.stream().anyMatch(t -> t.getGeneralPos().equals("VB"))) {
 			return 1;
 
-			// case allowed: "validated file"
-		} else if (nounIdx != -1 && nounIdx - 1 >= 0) {
+		} else
+		// case allowed: "validated file"
+		if (nounIdx != -1 && nounIdx - 1 >= 0) {
 			if (tokensNoLabel.get(nounIdx - 1).getPos().equals("VBN")) {
 				boolean otherTokensOk = true;
 				for (int i = 0; i < tokensNoLabel.size(); i++) {

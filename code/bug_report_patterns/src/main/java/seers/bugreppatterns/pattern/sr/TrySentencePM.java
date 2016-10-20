@@ -14,6 +14,10 @@ public class TrySentencePM extends StepsToReproducePatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
+		if (SentenceUtils.isQuestion(sentence)) {
+			return 0;
+		}
+
 		List<Token> tokens = sentence.getTokens();
 
 		// avoid clauses suggesting solutions, using "please"

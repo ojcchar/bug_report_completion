@@ -14,6 +14,17 @@ import seers.textanalyzer.entity.Token;
 public class ImperativeSequencePM extends StepsToReproducePatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
+
+		List<Integer> condTerms = SentenceUtils.findLemmasInTokens(CONDITIONAL_TERMS, sentence.getTokens());
+		if (!condTerms.isEmpty()) {
+			return 0;
+		}
+
+		boolean question = SentenceUtils.isQuestion(sentence);
+		if (question) {
+			return 0;
+		}
+
 		List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 
 		// Needed to recognize the case in which there are no imperatives at all

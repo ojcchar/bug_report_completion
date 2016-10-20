@@ -21,16 +21,20 @@ public class PurposeActionPM extends StepsToReproducePatternMatcher {
 			if (firstTokens.size() >= 2 && firstTokens.get(0).getPos().equals("TO") && firstTokens.get(1).getPos().equals("VB")) {
 
 				// Loop the second clause until we find a verb that works
-				for (Token token : clauses.get(1).getTokens()) {
-					if (token.getGeneralPos().equals("VB")) {
-						if (token.getPos().equals("VB") || token.getPos().equals("VBP")
-								|| token.getPos().equals("VBD")) {
-							return 1;
-						} else {
-							break;
-						}
-					}
+				boolean isImper = SentenceUtils.isImperativeSentence(clauses.get(1));
+				if (isImper) {
+					return 1;
 				}
+//				for (Token token : clauses.get(1).getTokens()) {
+//					if (token.getGeneralPos().equals("VB")) {
+//						if (token.getPos().equals("VB") || token.getPos().equals("VBP")
+//								|| token.getPos().equals("VBD")) {
+//							return 1;
+//						} else {
+//							break;
+//						}
+//					}
+//				}
 			}
 		}
 

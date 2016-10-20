@@ -22,4 +22,18 @@ public class ImperativeSequencePMTest extends BaseTest {
 
 		TestUtils.testSentences(texts, pm, 1);
 	}
+
+	@Test
+	public void testNegative() throws Exception {
+		String[] texts = {
+
+				"Am not sure if the Problem is on the PHP or the Apache side....",
+				"Installed Apache on WIN2K ADVANCED SERVER with SP3.",
+//				"See what \\nhappens:"
+
+		};
+
+		TestUtils.testSentences(texts, pm, 0);
+	}
+
 }

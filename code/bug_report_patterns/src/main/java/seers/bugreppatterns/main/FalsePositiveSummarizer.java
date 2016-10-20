@@ -26,9 +26,9 @@ public class FalsePositiveSummarizer {
 	public static void main(String[] args) throws Exception {
 
 		String sampleFilePath = "test_data\\output\\eval\\data_all_sr_sample_B.csv";
-		String outputPatternsPath = "test_data\\output\\output-patterns-S.csv";
+		String outputPatternsPath = "test_data\\output\\output-patterns-P.csv";
 		String[] patternTypes = { "SR" };
-		String[] inputPatterns = { "S_SR_COND_CODE", "S_SR_COND_OBS", "S_SR_COND_THEN_SEQ", "S_SR_COND_SEQUENCE" };
+		String[] inputPatterns = { };
 		String outputFile = "false-positives.csv";
 		if (args.length != 0) {
 			sampleFilePath = args[0];
@@ -43,31 +43,33 @@ public class FalsePositiveSummarizer {
 
 		HashMap<String, Set<String>> predictionsByBug = new HashMap<>();
 
-		CsvWriter cw = new CsvWriterBuilder(new FileWriter(outputFile)).separator(';').build();
+		try (CsvWriter cw = new CsvWriterBuilder(new FileWriter(outputFile)).separator(';').build()) {
 
-		for (List<String> fpEntry : falsePositivesEntries) {
+			for (List<String> fpEntry : falsePositivesEntries) {
 
-			String system = fpEntry.get(0);
-			String bugId = fpEntry.get(1);
+				String system = fpEntry.get(0);
+				String bugId = fpEntry.get(1);
 
-			String sysBugIdKey = getSysBugIdKey(system, bugId);
-			HashMap<BugInstance, List<String>> sentences = predictions.get(sysBugIdKey);
+				String sysBugIdKey = getSysBugIdKey(system, bugId);
+				HashMap<BugInstance, List<String>> sentences = predictions.get(sysBugIdKey);
 
-			for (Entry<BugInstance, List<String>> sentence : sentences.entrySet()) {
-				for (String pattern : sentence.getValue()) {
-					BugInstance instance = sentence.getKey();
+				for (Entry<BugInstance, List<String>> sentence : sentences.entrySet()) {
+					for (String pattern : sentence.getValue()) {
+						BugInstance instance = sentence.getKey();
 
-					cw.writeNext(Arrays.asList(new String[] { system, bugId, instance.id, pattern, instance.text }));
+						List<String> asList = Arrays.asList(new String[] { system, bugId, instance.id, pattern, instance.text });
+						cw.writeNext(asList);
 
-					Set<String> patterns = predictionsByBug.get(sysBugIdKey);
-					if (patterns == null) {
-						patterns = new HashSet<>();
-						predictionsByBug.put(sysBugIdKey, patterns);
+						Set<String> patterns = predictionsByBug.get(sysBugIdKey);
+						if (patterns == null) {
+							patterns = new HashSet<>();
+							predictionsByBug.put(sysBugIdKey, patterns);
+						}
+						patterns.add(pattern);
 					}
-					patterns.add(pattern);
 				}
-			}
 
+			}
 		}
 
 		// --------------------------------

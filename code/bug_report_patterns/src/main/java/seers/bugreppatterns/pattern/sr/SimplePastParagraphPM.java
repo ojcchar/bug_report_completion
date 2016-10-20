@@ -12,8 +12,8 @@ import seers.textanalyzer.entity.Token;
 
 public class SimplePastParagraphPM extends StepsToReproducePatternMatcher {
 
-	private final static Set<String> POSs = JavaUtils.getSet("VBD", "VBN");
-	private final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("set");
+	final static Set<String> POSs = JavaUtils.getSet("VBD", "VBN");
+	final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("set", "put");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
