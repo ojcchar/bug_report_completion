@@ -80,14 +80,23 @@ public class LabeledParagraphPM extends StepsToReproducePatternMatcher {
 			}
 
 		} else {
+			
+			boolean thereAreBullets = false;
 
 			// regular cases, when there are multiple sentences after the label
 			for (int i = labelIdx + 1; i < sentences.size(); i++) {
 				Sentence sentence = sentences.get(i);
 				List<Token> tokensNoBullet = LabeledListPM.getTokensNoBullet(sentence);
-				if (tokensNoBullet.isEmpty()) {
-					match = 1;
+				
+				//this means there are bullets
+				if (!tokensNoBullet.isEmpty()) {
+					thereAreBullets = true;
+					break;
 				}
+			}
+			
+			if (!thereAreBullets) {
+				match =1;
 			}
 		}
 

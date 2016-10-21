@@ -28,6 +28,10 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 		if (LabeledListPM.isParagraphLabeled(sentences)) {
 			return 0;
 		}
+		
+		if (sentences.size()<2) {
+			return 0;
+		}
 
 		int numSentences = 0;
 		int bulletedSentences = 0;
@@ -46,8 +50,14 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 				numSentences++;
 			}
 		}
+		
+		if (bulletedSentences<2) {
+			return 0;
+		}
 
 		numSentences += isUsingWould(sentences.get(sentences.size() - 1));
+		
+//		System.out.println(numSentences + "-" + bulletedSentences + "-" + sentences.size());
 
 		return ((float) numSentences) / bulletedSentences > 0.5F ? 1 : 0;
 	}
@@ -79,7 +89,7 @@ public class ActionsPresentPM extends StepsToReproducePatternMatcher {
 
 	public static boolean isSimplePresentSentence(Sentence sentence) {
 		SimpleTenseChecker checker = new SimpleTenseChecker(POS, UNDETECTED_VERBS, EXCLUDED_VERBS);
-		return checker.countNumClauses(sentence) != 0;
+		return checker.countNumClauses(sentence) > 0;
 	}
 
 }

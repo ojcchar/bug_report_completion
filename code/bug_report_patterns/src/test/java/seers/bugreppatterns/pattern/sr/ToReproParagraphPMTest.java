@@ -17,7 +17,10 @@ public class ToReproParagraphPMTest extends BaseTest {
 		String[] txts = { "Steps to reproduce:\n		Preview attached report in Web Viewer/HTML/PDF",
 				"Unfortunately, I don't have steps to reproduce, since it does not happen every time.",
 				"I am afraid this might be rather difficult to reproduce, as it is related to speed of typing: I am using Writer to take notes during classes, and so typing rather fast (at least as fast as I can...) in French language.",
-				"1 Use windows CLI to run `docker run -it ubuntu bash`, you get bash prompt." };
+				"1 Use windows CLI to run `docker run -it ubuntu bash`, you get bash prompt.",
+		"I don't have an easy way to reproduce this race condition, but I was able to track it down by re-installing DTR, removing the containers, deleting volumes and trying to create theme again.. ",
+		"I've not been able to reproduce this but it keeps happening several times each\nhour.. Since we've got a fair share of traffic to this host I can't really gdb\nApache and wait for a crash and see what's going on.. "
+		};
 		TestUtils.testParagraphs(txts, pm, 0);
 
 	}

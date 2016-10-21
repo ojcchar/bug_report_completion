@@ -8,6 +8,7 @@ import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
 import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
+import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -60,8 +61,14 @@ public class LabeledCodeFragmentsPM extends StepsToReproducePatternMatcher {
 		Sentence sentence1 = paragraph.getSentences().get(0);
 		List<Token> stnc1Tokens = sentence1.getTokens();
 
-		if (SentenceUtils.findLemmasInTokens(ConditionalCodeParagraphPM.NOUNS_TERM, stnc1Tokens).isEmpty()
-				&& SentenceUtils.findLemmasInTokens(OTHER_LABEL_TOKENS, stnc1Tokens).isEmpty()) {
+		String txt1 = TextProcessor.getStringFromLemmas(sentence1);
+		
+		if ((SentenceUtils.findLemmasInTokens(ConditionalCodeParagraphPM.NOUNS_TERM, stnc1Tokens).isEmpty()
+				&& SentenceUtils.findLemmasInTokens(OTHER_LABEL_TOKENS, stnc1Tokens).isEmpty())
+
+				// additional checks
+				// 12: determined based on the data (max length of 1st sentence)
+				|| txt1.matches(".*-lcb- code -rcb-.*") || stnc1Tokens.size() > 12) {
 			return 0;
 		}
 		// --------------------------------------------------
@@ -72,9 +79,16 @@ public class LabeledCodeFragmentsPM extends StepsToReproducePatternMatcher {
 		int sentenceNumTokens = 0;
 		for (int i = 0; i < otherSentences.size(); i++) {
 			Sentence sentence = otherSentences.get(i);
-			
+
 			sentenceNumTokens += sentence.getTokens().size();
 		}
+
+		// if there is small # of tokens (10 was determined based on the data,
+		// this is the min # of tokens found in the data)
+		if (sentenceNumTokens < 10) {
+			return 0;
+		}
+
 		// --------------------------------------------------
 
 		// check for code

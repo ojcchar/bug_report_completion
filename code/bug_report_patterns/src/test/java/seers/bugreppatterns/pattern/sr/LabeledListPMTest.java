@@ -20,7 +20,14 @@ public class LabeledListPMTest extends BaseTest {
 						+ "3. This takes you to a page of Albuquerque classes. On the left hand side of\n"
 						+ "each class listing is a tiny magnifying glass icon.\n" + "\n"
 						+ "4. If I click on this in Firefox, I am looped back to the same page. In IE or\n"
-						+ "Safari, I am taken to a map and class description." };
+						+ "Safari, I am taken to a map and class description.",
+						
+						"Steps to reproduce:\n"+
+								"1. Open LibreOffice from the LibreOffice.app icon. The start center opens.\n"+
+								"2a. WITHOUT clicking on anything or defocusing the window, press Cmd+O to open a file.\n"+
+								"2b. OR choose File -> Open from the menu.\n"+
+								"3. A dialog saying \"LibreOffice 5.0 - Fatal Error\" and \"Given module is not a frame nor a window, controller or model.\" opens. When you close the dialog, LO closes."
+		};
 
 		TestUtils.testParagraphs(txts, pm, 1);
 	}
@@ -64,7 +71,10 @@ public class LabeledListPMTest extends BaseTest {
 						+ "6 Format -> Paragraph -> Borders -> add bottom line in User-defined box.\n"
 						+ "7 Save, close, and reopen document.\n" + "Result:\n"
 						+ "\"test\" and line are overlapping each other.\n" + "There is also a red triangle.",
-				"", };
+				"",
+				"Steps to reproduce:. 1 ....Not sure. 2 ..... 3 ....." 
+		
+		};
 
 		TestUtils.testParagraphs(txts, pm, 0);
 	}

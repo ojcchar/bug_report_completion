@@ -4,6 +4,7 @@ import java.util.List;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
+import seers.bugreppatterns.pattern.ob.NegativeAuxVerbPM;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -25,11 +26,18 @@ public class ToReproParagraphPM extends StepsToReproducePatternMatcher {
 			return 0;
 		}
 
+		NegativeAuxVerbPM pm = new NegativeAuxVerbPM();
+
 		// -------------------------------------
 
 		int idxPrefixSentence = -1;
 		for (int i = 0; i < sentences.size() && idxPrefixSentence == -1; i++) {
 			Sentence sentence = sentences.get(i);
+
+			if (pm.matchSentence(sentence) == 1) {
+				continue;
+			}
+
 			List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 			if (containsToReproPrefix(clauses.get(0))) {
 				idxPrefixSentence = i;

@@ -243,7 +243,7 @@ public class BaseTest {
 			}
 
 			// bullets normalization
-			if (line.matches("(\\W*)\\d((\\.\\))|\\.|\\)|,|-)(.*)")) {
+			if (line.matches("(\\W*)\\d(\\w)?((\\.\\))|\\.|\\)|,|-)(.*)")) {
 				line = line.replaceFirst("((\\.\\))|\\.|\\)|,|-)\\s*", " ");
 			}
 

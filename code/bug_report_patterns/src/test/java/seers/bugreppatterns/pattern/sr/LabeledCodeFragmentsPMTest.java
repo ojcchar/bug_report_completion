@@ -26,7 +26,17 @@ public class LabeledCodeFragmentsPMTest extends BaseTest {
 
 				"If i run this code:\n" + "sudo docker run alexl/test /usr/sbin/httpd -D FOREGROUND\n" + "\n"
 						+ "and then press ctrl-c, then the docker daemon dies with:\n"
-						+ "2013/09/24 14:28:38 Received signal 'terminated', exiting", };
+						+ "2013/09/24 14:28:38 Received signal 'terminated', exiting",
+						
+				"{code}. Caused by: org.hibernate.PropertyAccessException: IllegalArgumentException occurred calling getter of nl.msw.compraventa.model.location.Country.countryCode. 	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.get(BasicPropertyAccessor.java:187). 	at org.hibernate.tuple.entity.AbstractEntityTuplizer.getPropertyValue(AbstractEntityTuplizer.java:630). 	at org.hibernate.persister.entity.AbstractEntityPersister.getPropertyValue(AbstractEntityPersister.java:4535). 	at or. 	... 87 more. {code}. ",
+				
+				"(Note: this is filed as a meta bug as part of the â€œPaper Cutâ€? bugs since we assume that there are multiple existing bugs related to this behavior.. Please make them block this bug.). ",
+				
+				"Method. --. ",
+				
+				"DetachedCriteria subselect = DetachedCriteria.forClass(EntityThree.class);\nsubselect.add(Restrictions.like(\name\",\"test\",MatchMode.START)).. setProjection(Projections.id())"
+
+		};
 		TestUtils.testParagraphs(txts, pm, 0);
 
 		@SuppressWarnings("unused")

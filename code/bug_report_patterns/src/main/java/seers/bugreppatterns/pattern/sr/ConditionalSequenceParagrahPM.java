@@ -7,7 +7,7 @@ import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 
-public class CondSequenceParagrahPM extends StepsToReproducePatternMatcher {
+public class ConditionalSequenceParagrahPM extends StepsToReproducePatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -18,16 +18,31 @@ public class CondSequenceParagrahPM extends StepsToReproducePatternMatcher {
 	public int matchParagraph(Paragraph paragraph) throws Exception {
 
 		List<Sentence> sentences = paragraph.getSentences();
+
+		if (sentences.size() < 2) {
+			return 0;
+		}
+
+		int lastCondSentence = -1;
 		int numMatchedSentences = 0;
-		for (Sentence sentence : sentences) {
+		for (int i = 0; i < sentences.size(); i++) {
+			Sentence sentence = sentences.get(i);
 			if (isConditional(sentence)) {
+				lastCondSentence = i;
 				numMatchedSentences++;
 			}
 		}
 
-		int match = numMatchedSentences > 1 ? 1 : 0;
+		if (lastCondSentence != -1) {
+			int idx = SentenceUtils.findObsBehaviorSentence(sentences.subList(lastCondSentence, sentences.size()));
+			if (idx != -1) {
+				numMatchedSentences++;
+			}
+		}
 
-		return match;
+		// System.out.println(numMatchedSentences +" - "+sentences.size());
+
+		return ((float) numMatchedSentences) / sentences.size() >= 0.5F ? 1 : 0;
 	}
 
 	private boolean isConditional(Sentence sentence) {

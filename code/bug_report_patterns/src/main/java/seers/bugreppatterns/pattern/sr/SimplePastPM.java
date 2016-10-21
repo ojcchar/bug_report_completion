@@ -26,13 +26,14 @@ public class SimplePastPM extends StepsToReproducePatternMatcher {
 		}
 
 		SimpleTenseChecker checker = new SimpleTenseChecker(SimplePastParagraphPM.POSs,
-				SimplePastParagraphPM.UNDETECTED_VERBS, SimplePresentSubordinatesPM.EXCLUDED_VERBS, SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS,
-				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_LEMMAS, SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS_LEMMA);
+				SimplePastParagraphPM.UNDETECTED_VERBS, SimplePresentSubordinatesPM.EXCLUDED_VERBS,
+				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS, SimplePresentSubordinatesPM.DEFAULT_PRONOUN_LEMMAS,
+				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS_LEMMA);
 		int numClauses = checker.countNumClauses(sentence);
 
 		if (numClauses > 0) {
 			List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
-			 System.out.println(numClauses +" - "+clauses.size() );
+			// System.out.println(numClauses +" - "+clauses.size() );
 			return ((float) numClauses) / clauses.size() >= 0.5F ? 1 : 0;
 		}
 		return 0;

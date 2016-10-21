@@ -49,6 +49,8 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 				numSentences++;
 			}
 		}
+		
+//		System.out.println(numSentences +"-"+bulletedSentences);
 
 		int match = ((float) numSentences) / bulletedSentences >= 0.5F ? 1 : 0;
 		return match;
@@ -148,7 +150,8 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 				return false;
 			}
 		}
-		return true;
+		
+		return tokens.stream().anyMatch(tok -> tok.getGeneralPos().equals("NN") && !tok.getLemma().equals("...")) ;
 	}
 
 	public boolean startsWithNounPhrase(List<Token> tokens) throws Exception {

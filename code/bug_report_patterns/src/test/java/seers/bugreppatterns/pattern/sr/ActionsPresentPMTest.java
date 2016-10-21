@@ -16,8 +16,7 @@ public class ActionsPresentPMTest extends BaseTest {
 		String[] txts = {
 				"1. Assuming all caches all empty, we run a query. The ids of the returned objects are stored in the query cache and the objects are stored in the L2 object cache. Great so far.\n"
 						+ "2. Now, the query cache expires before the object cache does. The query is re-ran and the ids of the returned objects are cached in the query cache.\n"
-						+ "3. The object cache expires. The query cache is still valid, so the ids are returned from the query cache. Unfortunately, the objects are no longer cached and hibernate fetches them all one-by-one, which takes forever.",
-				"- If you leave the site, a popup will show up. You close it but it keeps coming back. You have no option but to kill Firef" };
+						+ "3. The object cache expires. The query cache is still valid, so the ids are returned from the query cache. Unfortunately, the objects are no longer cached and hibernate fetches them all one-by-one, which takes forever.", };
 
 		TestUtils.testParagraphs(txts, pm, 1);
 	}
@@ -34,7 +33,11 @@ public class ActionsPresentPMTest extends BaseTest {
 				"- It contains no Cache-Control header\n   - and the request is placed shortly after 1. such that the document is\n     not expired already",
 				"reasons\n- it does not make sense to select thing thing you are already looking at\n- if you open the list then press down arrow you skip over all items above the \ncurrent item\n- this is particularly bad when the editor is in single tab mode as the \nselection goes straight to the bottom",
 				"Steps to Reproduce:\n1 you need nview tool to be enabled (the additional symbols in window frame)\n1 open demo_crash.htm, stored locally or on a server\n2 click to the link on top of the page 5-8 times\n3 firefox hangs and uses 100% of one core of your cpu\n4 when killing firefox now by task manager, another process will take 100%\n5 you can loop step 4 forever, finally you will have to reboot your machine\nActual Results:  \nSystem is not useable anymore after doing this test until rebooting the system.",
-				"1. Create and publish a post\n2. A notification \"Post published\" appears\n3. Update that post\n4. A second notification \"Post published\" appears, the first one should be reused" };
+				"1. Create and publish a post\n2. A notification \"Post published\" appears\n3. Update that post\n4. A second notification \"Post published\" appears, the first one should be reused",
+				"I use a Laptop with a high resolution monitor (1920x1200) which I keep at the\nhighest resolution because I like the extra space (good for image editing).. However, to comfortably read the text on some websites (cnn.com,groklaw.net) I\nuse Control + to adjust the text.. Unfortunately on some sites (particularly\ncnn.com) the layout and images become jumbled when I do this.. So it would be\nreally super if the layout and images also proportionally enlarged (since\notherwise I have to squint to read any text the might be on the image).. ",
+				"1 Three way compare determination needs to be improvided in RemoteSyncElement.. Currently, three way compare does not work properly for conflicting additions. ",
+//				"1 dont use iframes_ this not only a big accessibility flaw but it s just not good for compliancy. 2 add wmode transparent to your flash embeds because the banner over laps the chat bat at bottom and any open chat conversation that lays below it and therefor your unable to close chat to a person_ type to a person etc..... " 
+				};
 
 		TestUtils.testParagraphs(txts, pm, 0);
 	}
