@@ -39,8 +39,11 @@ public class ToReproParagraphPM extends StepsToReproducePatternMatcher {
 			}
 
 			List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
-			if (containsToReproPrefix(clauses.get(0))) {
-				idxPrefixSentence = i;
+
+			if (!clauses.isEmpty()) {
+				if (containsToReproPrefix(clauses.get(0))) {
+					idxPrefixSentence = i;
+				}
 			}
 		}
 
