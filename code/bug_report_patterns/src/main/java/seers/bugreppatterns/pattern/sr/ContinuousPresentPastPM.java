@@ -11,7 +11,7 @@ import seers.textanalyzer.entity.Token;
 /**
  * Created by juan on 4/18/16.
  */
-public class ContinuousPresentPM extends StepsToReproducePatternMatcher {
+public class ContinuousPresentPastPM extends StepsToReproducePatternMatcher {
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 		return 0;
@@ -31,17 +31,10 @@ public class ContinuousPresentPM extends StepsToReproducePatternMatcher {
 		// The amount of sentences that are either continuous or present
 		int matchingSentences = 0;
 
-		SimpleTenseChecker presentChecker = new SimpleTenseChecker(ActionsPresentPM.POS,
-				ActionsPresentPM.UNDETECTED_VERBS, SimplePresentSubordinatesPM.EXCLUDED_VERBS,
-				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS, SimplePresentSubordinatesPM.DEFAULT_PRONOUN_LEMMAS,
-				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS_LEMMA);
+		SimpleTenseChecker presentChecker = SimpleTenseChecker.createPresentChecker(SimplePresentSubordinatesPM.EXCLUDED_VERBS);
+		SimpleTenseChecker pastChecker = SimpleTenseChecker.createPastChecker(SimplePresentSubordinatesPM.EXCLUDED_VERBS);
 
-		SimpleTenseChecker pastChecker = new SimpleTenseChecker(SimplePastParagraphPM.POSs,
-				SimplePastParagraphPM.UNDETECTED_VERBS, SimplePresentSubordinatesPM.EXCLUDED_VERBS,
-				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS, SimplePresentSubordinatesPM.DEFAULT_PRONOUN_LEMMAS,
-				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS_LEMMA);
-
-		// Find at least one continuous or present verb in each sentence
+		// Find at least one continuous or present/past sentence
 		for (Sentence sentence : sentences) {
 			if (ContinuousPresentSentencePM.countNumClauses(sentence) > 0
 					|| presentChecker.countNumClauses(sentence) > 0 || pastChecker.countNumClauses(sentence) > 0) {
@@ -52,10 +45,8 @@ public class ContinuousPresentPM extends StepsToReproducePatternMatcher {
 		int sentencesWithVerbs = countSentencesWithVerbs(paragraph);
 		float matchingSentenceRatio = (float) matchingSentences / sentencesWithVerbs;
 
-		// System.out.println(matchingSentenceRatio);
+//		 System.out.println(matchingSentences +" - " + sentencesWithVerbs);
 
-		// Return a match if most sentences with verbs are either continuous or
-		// present tense
 		return matchingSentenceRatio >= 0.5 ? 1 : 0;
 	}
 

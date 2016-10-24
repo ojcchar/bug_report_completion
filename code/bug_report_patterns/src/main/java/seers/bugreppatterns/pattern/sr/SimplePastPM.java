@@ -25,11 +25,9 @@ public class SimplePastPM extends StepsToReproducePatternMatcher {
 			return 0;
 		}
 
-		SimpleTenseChecker checker = new SimpleTenseChecker(SimplePastParagraphPM.POSs,
-				SimplePastParagraphPM.UNDETECTED_VERBS, SimplePresentSubordinatesPM.EXCLUDED_VERBS,
-				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS, SimplePresentSubordinatesPM.DEFAULT_PRONOUN_LEMMAS,
-				SimplePresentSubordinatesPM.DEFAULT_PRONOUN_POS_LEMMA);
-		int numClauses = checker.countNumClauses(sentence);
+		SimpleTenseChecker pastChecker = SimpleTenseChecker
+				.createPastCheckerOnlyPronouns(SimplePresentSubordinatesPM.EXCLUDED_VERBS);
+		int numClauses = pastChecker.countNumClauses(sentence);
 
 		if (numClauses > 0) {
 			List<Sentence> clauses = SentenceUtils.extractClauses(sentence);

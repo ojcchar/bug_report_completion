@@ -45,9 +45,9 @@ public class ActionsPastPM extends StepsToReproducePatternMatcher {
 			return 0;
 		}
 
-		// System.out.println(numSentences + "-" + bulletedSentences);
+		 System.out.println(numSentences + "-" + bulletedSentences);
 
-		return ((float) numSentences) / bulletedSentences > 0.5F ? 1 : 0;
+		return ((float) numSentences) / bulletedSentences >= 0.5F ? 1 : 0;
 	}
 
 }

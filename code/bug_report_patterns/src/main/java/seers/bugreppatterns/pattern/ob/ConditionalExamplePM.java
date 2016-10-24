@@ -1,11 +1,9 @@
 package seers.bugreppatterns.pattern.ob;
 
-import java.util.Collections;
 import java.util.List;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
-import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.bugreppatterns.utils.SimpleTenseChecker;
 import seers.textanalyzer.entity.Sentence;
@@ -34,8 +32,7 @@ public class ConditionalExamplePM extends ObservedBehaviorPatternMatcher {
 
 			if (firstSentenceEnding.get(0).getLemma().equals("like")
 					&& firstSentenceEnding.get(1).getLemma().equals("this")) {
-				SimpleTenseChecker simplePresentChecker = new SimpleTenseChecker(JavaUtils.getSet("VBP", "VBZ"),
-						Collections.emptySet());
+				SimpleTenseChecker simplePresentChecker = SimpleTenseChecker.createPresentCheckerOnlyPronouns(null);
 
 				if (sentences.subList(1, sentences.size()).stream()
 						.anyMatch(s -> simplePresentChecker.countNumClauses(s) > 0)) {

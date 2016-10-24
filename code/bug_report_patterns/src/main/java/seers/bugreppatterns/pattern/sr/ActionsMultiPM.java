@@ -34,7 +34,6 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 
 		// check for at least minNumOfSentences imperative sentences
 		for (int i = 0; i < sentences.size(); i++) {
-			idxLastSentence = i;
 
 			Sentence sentence = sentences.get(i);
 			
@@ -49,6 +48,8 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 			for (Sentence clause : clauses) {
 				if (SentenceUtils.isImperativeSentence(clause)) {
 					numValidSentences++;
+					idxLastSentence = i;
+					break;
 				}
 			}
 
@@ -61,7 +62,11 @@ public class ActionsMultiPM extends StepsToReproducePatternMatcher {
 			if (idx != -1) {
 				numValidSentences++;
 			}
+		}else{
+			return 0;
 		}
+		
+//		System.out.println(numValidSentences +"-"+numTotalValidSentences);
 		
 		float matchingSentenceRatio = (float) numValidSentences / numTotalValidSentences;
 		

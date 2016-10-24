@@ -12,6 +12,20 @@ public class ActionsPastPMTest extends BaseTest {
 	}
 
 	@Test
+	public void testPositives() throws Exception {
+		String[] txts = {
+				"- I typed in an identifier for an interface that didn't exist.\n"+
+				"- Quick Fix (Ctrl-1), accidentally chose Create Class\n"+
+				"- I'm pretty sure I hit Enter twice but then was able to select Cancel\n"+
+				"- Within the editor, I couldn't open the new class but I could no longer create it again because it already existed\n"+
+				"- Checking the filesystem, the Java file was there\n"+
+				"- Deleting the file fixed the problem"
+		};
+		TestUtils.testParagraphs(txts, pm, 1);
+	}
+	
+
+	@Test
 	public void testNegatives() throws Exception {
 		String[] txts = {
 				"I ran: java -jar standalone-1.1.1.jar \n" + "The log from the launch utility can be see here:\n"

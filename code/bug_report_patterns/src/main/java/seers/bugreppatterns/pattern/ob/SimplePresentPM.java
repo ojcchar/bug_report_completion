@@ -6,7 +6,6 @@ import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
-import seers.bugreppatterns.pattern.sr.ActionsPresentPM;
 import seers.bugreppatterns.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.bugreppatterns.utils.SimpleTenseChecker;
@@ -18,8 +17,6 @@ public class SimplePresentPM extends ObservedBehaviorPatternMatcher {
 			new NoLongerPM(), new VerbErrorPM(), new VerbToBeNegativePM(), new NegativeAdjOrAdvPM(), new UnableToPM(),
 			new VerbNoPM(), new ProblemInPM(), new NoNounPM(), new ErrorTermSubjectPM(), new ErrorNounPhrasePM(),
 			new NoLongerPM(), new PassiveVoicePM() };
-
-	private final static Set<String> EXCLUDED_VERBS = JavaUtils.getSet();
 
 	private final static Set<String> FORBIDDEN_TERMS = new HashSet<>( CONDITIONAL_TERMS);
 	{
@@ -33,8 +30,7 @@ public class SimplePresentPM extends ObservedBehaviorPatternMatcher {
 		List<Sentence> subSentences = SentenceUtils.breakByParenthesis(sentence);
 		for (Sentence subSentence : subSentences) {
 
-			SimpleTenseChecker checker = new SimpleTenseChecker(ActionsPresentPM.POS, SentenceUtils.UNDETECTED_VERBS,
-					SimplePresentPM.EXCLUDED_VERBS);
+			SimpleTenseChecker checker = SimpleTenseChecker.createPresentCheckerPronounsAndNouns(null);
 			int numClauses = checker.countNumClauses(subSentence);
 
 			if (numClauses > 0 && !isNegative(subSentence)

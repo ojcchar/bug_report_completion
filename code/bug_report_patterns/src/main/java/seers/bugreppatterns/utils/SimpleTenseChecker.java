@@ -14,6 +14,25 @@ import seers.textanalyzer.entity.Token;
  */
 public class SimpleTenseChecker {
 
+	public final static Set<String> PRESENT_POS = JavaUtils.getSet("VBP", "VBZ", "VB");
+	public final static Set<String> PRESENT_EXCLUDED_VERBS = JavaUtils.getSet("be", "seem", "can");
+	public static final Set<String> PRESENT_UNDETECTED_VERBS = JavaUtils.getSet("set", "put", "close", "cache", "scale",
+			"change");
+
+	// {
+	// PRESENT_UNDETECTED_VERBS.addAll(SentenceUtils.UNDETECTED_VERBS);
+	// }
+
+	public final static Set<String> PAST_POS = JavaUtils.getSet("VBD", "VBN");
+	public final static Set<String> PAST_UNDETECTED_VERBS = JavaUtils.getSet("set", "put");
+
+	public static final Set<String> DEFAULT_PRONOUN_LEMMAS = JavaUtils.getSet("i", "we");
+	public static final Set<String> DEFAULT_PRONOUN_POS_LEMMA = JavaUtils.getSet("NN-user", "PRP-i", "PRP-we",
+			"PRP-you");
+	public static final Set<String> DEFAULT_PRONOUN_POS = JavaUtils.getSet("PRP");
+
+	private boolean isCheckerPresent;
+
 	/**
 	 * POSs of the verbs, to indicate the tense: present (VBP, VBZ) or past
 	 * (VBD, VBN)
@@ -37,19 +56,42 @@ public class SimpleTenseChecker {
 	private Set<String> pronounsLemmas;
 	private Set<String> pronounsPOSLemmas;
 
-	public static final Set<String> DEFAULT_PRONOUN_POS = JavaUtils.getSet("PRP", "NN");
-	public static final Set<String> DEFAULT_PRONOUN_LEMMAS = JavaUtils.getSet("i");
-
-	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs, Set<String> verbsToAvoid) {
-		this(partOfSpeeches, undetectedVerbs, verbsToAvoid, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS, null);
+	public static SimpleTenseChecker createPresentChecker(Set<String> verbsToAvoid) {
+		SimpleTenseChecker checker = new SimpleTenseChecker(PRESENT_POS, PRESENT_UNDETECTED_VERBS, verbsToAvoid, null,
+				DEFAULT_PRONOUN_LEMMAS, DEFAULT_PRONOUN_POS_LEMMA);
+		checker.isCheckerPresent = true;
+		return checker;
 	}
 
-	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs) {
-		this(partOfSpeeches, undetectedVerbs, null, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS, null);
-
+	public static SimpleTenseChecker createPresentCheckerOnlyPronouns(Set<String> verbsToAvoid) {
+		SimpleTenseChecker checker = new SimpleTenseChecker(PRESENT_POS, PRESENT_UNDETECTED_VERBS, verbsToAvoid,
+				DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS, DEFAULT_PRONOUN_POS_LEMMA);
+		checker.isCheckerPresent = true;
+		return checker;
 	}
 
-	public SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs, Set<String> verbsToAvoid,
+	public static SimpleTenseChecker createPresentCheckerPronounsAndNouns(Set<String> verbsToAvoid) {
+		SimpleTenseChecker checker = new SimpleTenseChecker(PRESENT_POS, PRESENT_UNDETECTED_VERBS, verbsToAvoid,
+				JavaUtils.getSet("PRP", "NN"), DEFAULT_PRONOUN_LEMMAS, DEFAULT_PRONOUN_POS_LEMMA);
+		checker.isCheckerPresent = true;
+		return checker;
+	}
+
+	public static SimpleTenseChecker createPastChecker(Set<String> verbsToAvoid) {
+		SimpleTenseChecker checker = new SimpleTenseChecker(PAST_POS, PAST_UNDETECTED_VERBS, verbsToAvoid, null,
+				DEFAULT_PRONOUN_LEMMAS, DEFAULT_PRONOUN_POS_LEMMA);
+		checker.isCheckerPresent = false;
+		return checker;
+	}
+
+	public static SimpleTenseChecker createPastCheckerOnlyPronouns(Set<String> verbsToAvoid) {
+		SimpleTenseChecker checker = new SimpleTenseChecker(PAST_POS, PAST_UNDETECTED_VERBS, verbsToAvoid,
+				DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS, DEFAULT_PRONOUN_POS_LEMMA);
+		checker.isCheckerPresent = false;
+		return checker;
+	}
+
+	private SimpleTenseChecker(Set<String> partOfSpeeches, Set<String> undetectedVerbs, Set<String> verbsToAvoid,
 			Set<String> pronounsGnralPOS, Set<String> pronounsLemmas, Set<String> pronounsPosLemmas) {
 		this.partOfSpeeches = partOfSpeeches == null ? new HashSet<>() : partOfSpeeches;
 		this.undetectedVerbs = undetectedVerbs == null ? new HashSet<>() : undetectedVerbs;
@@ -177,6 +219,14 @@ public class SimpleTenseChecker {
 							return true;
 						}
 					}
+
+					// case I/we do tr(y|ied)
+				} else if (prevToken.getLemma().equals("do") && verbIdx - 2 >= 0) {
+
+					Token prevToken2 = tokens.get(verbIdx - 2);
+					if (checkForSubject(prevToken2) && !isNegative && !isPerfectTense) {
+						return true;
+					}
 				}
 			}
 
@@ -197,8 +247,34 @@ public class SimpleTenseChecker {
 		List<Integer> idxs = new ArrayList<>();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
+
 			if (checkForVerb(token)) {
-				idxs.add(i);
+				// no auxiliary
+				if (token.getLemma().equals("do") && i + 1 < tokens.size()) {
+					Token nextToken = tokens.get(i + 1);
+					if (!(nextToken.getGeneralPos().equals("VB")
+							|| undetectedVerbs.stream().anyMatch(verb -> nextToken.getLemma().equals(verb)))) {
+						idxs.add(i);
+					}
+
+				} else {
+					idxs.add(i);
+				}
+			} else {
+				
+				// case: "I did execute..."
+				// if the sentence is in past i should check this token for
+				// present tense and the previous token for past tense and the
+				// verb "do"
+				if (!isCheckerPresent) {
+					if (i - 1 >= 0 && (PRESENT_POS.stream().anyMatch(pos -> token.getPos().equals(pos))
+							|| undetectedVerbs.stream().anyMatch(verb -> token.getLemma().equals(verb)))) {
+						Token previousToken = tokens.get(i - 1);
+						if (previousToken.getLemma().equals("do") && checkForVerb(previousToken)) {
+							idxs.add(i);
+						}
+					}
+				}
 			}
 		}
 		return idxs;
@@ -209,4 +285,5 @@ public class SimpleTenseChecker {
 				|| undetectedVerbs.stream().anyMatch(verb -> token.getLemma().equals(verb)))
 				&& verbsToAvoid.stream().noneMatch(verb -> token.getLemma().equals(verb));
 	}
+
 }

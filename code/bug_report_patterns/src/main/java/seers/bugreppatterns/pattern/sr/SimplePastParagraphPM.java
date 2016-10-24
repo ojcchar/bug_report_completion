@@ -12,8 +12,7 @@ import seers.textanalyzer.entity.Token;
 
 public class SimplePastParagraphPM extends StepsToReproducePatternMatcher {
 
-	final static Set<String> POSs = JavaUtils.getSet("VBD", "VBN");
-	final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("set", "put");
+	private static final Set<String> EXCLUDED_VERBS = JavaUtils.getSet("notice");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -56,8 +55,9 @@ public class SimplePastParagraphPM extends StepsToReproducePatternMatcher {
 	}
 
 	public static int countNumClausesInSimplePast(Sentence sentence) {
-		SimpleTenseChecker checker = new SimpleTenseChecker(POSs, UNDETECTED_VERBS);
-		return checker.countNumClauses(sentence);
+		SimpleTenseChecker pastChecker = SimpleTenseChecker
+				.createPastCheckerOnlyPronouns(EXCLUDED_VERBS);
+		return pastChecker.countNumClauses(sentence);
 	}
 
 }

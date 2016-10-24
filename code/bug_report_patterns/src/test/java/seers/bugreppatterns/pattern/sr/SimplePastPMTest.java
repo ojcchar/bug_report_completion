@@ -16,7 +16,7 @@ public class SimplePastPMTest extends BaseTest {
 	@Test
 	public void testPositive() throws Exception {
 		String[] texts = { 
-				
+				"I did enter the following status message via the Facebook web app: ",
 				"I entered the following status message via the Facebook web app: ",
 				"For giggles, I removed the file extension from an image before uploading it to the media library.",
 				"I just tried out the Patient Summary module in a demo and I got the stack trace below.",

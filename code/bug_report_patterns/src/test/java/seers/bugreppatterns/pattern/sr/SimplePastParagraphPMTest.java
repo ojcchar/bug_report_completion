@@ -14,20 +14,22 @@ public class SimplePastParagraphPMTest extends BaseTest {
 	@Test
 	public void testPositives() throws Exception {
 		String[] txts = {
-		
+
 				"I copied common/headerhtml to common/headerhtm, and added some text to header.htm to distinguish it from header.html.  Upon reloading the page (which calls for header.html), the file header.htm is loaded instead.",
-				"I modified the default configs to point to my existing htdocs and cgi-bins, but using the default server root, to avoid conflict with the existing server.\n"+"I shut down the existing server and started up Apache 2 with \"apachectl startssl\"."				
-		};
+				"I modified the default configs to point to my existing htdocs and cgi-bins, but using the default server root, to avoid conflict with the existing server.\n"
+						+ "I shut down the existing server and started up Apache 2 with \"apachectl startssl\"." };
 		TestUtils.testParagraphs(txts, pm, 1);
 	}
 
 	@Test
 	public void testNegatives() throws Exception {
-		String[] txts = { "- Typed in an identifier for an interface that didn't exist.\n"
+		String[] txts = { 
+				"- Typed in an identifier for an interface that didn't exist.\n"
 				+ "- Quick Fix (Ctrl-1), accidentally chose Create Class\n"
 				+ "- I'm pretty sure I hit Enter twice but then was able to select Cancel\n"
 				+ "- Within the editor, I couldn't open the new class but I could no longer create it again because it already existed\n"
-				+ "- Checking the filesystem, the Java file was there\n" + "- Deleting the file fixed the problem" };
+				+ "- Checking the filesystem, the Java file was there\n" + "- Deleting the file fixed the problem",
+				"I would like to display the network names without storing them locally...  The problem with fb:networklink is that it links to the now defunct network pages_ and it is not currently possible to turn off the link. If you could make the tag linked= false  available_ then I could access the network name without the link." };
 		TestUtils.testParagraphs(txts, pm, 0);
 	}
 

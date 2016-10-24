@@ -49,8 +49,8 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 				numSentences++;
 			}
 		}
-		
-//		System.out.println(numSentences +"-"+bulletedSentences);
+
+		// System.out.println(numSentences +"-"+bulletedSentences);
 
 		int match = ((float) numSentences) / bulletedSentences >= 0.5F ? 1 : 0;
 		return match;
@@ -98,9 +98,31 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 			if (text.matches("^(\\d+ \\-+).+")) {
 				tokensNoBullet = tokens.subList(2, tokens.size());
 
-				// cases like: 1. or -
-			} else if (text.matches("^(\\d+|\\-|\\*).+")) {
+			} else
+			// cases like: [1], (1), {1}
+			// ---------------
+			if (text.matches("^(-lsb- \\d+(\\w+)? -rsb-).+")) {
+
+				tokensNoBullet = tokens.subList(3, tokens.size());
+
+			} else if (text.matches("^(-lcb- \\d+(\\w+)? -rcb-).+")) {
+
+				tokensNoBullet = tokens.subList(3, tokens.size());
+
+			} else if (text.matches("^(-lrb- \\d+(\\w+)? -lsb-).+")) {
+
+				tokensNoBullet = tokens.subList(3, tokens.size());
+
+			} else
+			// ---------------
+			// cases like: 1. or -
+			if (text.matches("^(\\d+|\\-|\\*).+")) {
 				tokensNoBullet = tokens.subList(1, tokens.size());
+
+			} else
+			// cases like: step1 :
+			if (text.matches("^[a-zA-Z]+\\d+ :.*")) {
+				tokensNoBullet = tokens.subList(2, tokens.size());
 			}
 		}
 
@@ -150,8 +172,8 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 				return false;
 			}
 		}
-		
-		return tokens.stream().anyMatch(tok -> tok.getGeneralPos().equals("NN") && !tok.getLemma().equals("...")) ;
+
+		return tokens.stream().anyMatch(tok -> tok.getGeneralPos().equals("NN") && !tok.getLemma().equals("..."));
 	}
 
 	public boolean startsWithNounPhrase(List<Token> tokens) throws Exception {

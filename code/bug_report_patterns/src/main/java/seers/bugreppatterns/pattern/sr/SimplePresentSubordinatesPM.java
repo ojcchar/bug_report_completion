@@ -12,10 +12,7 @@ import seers.textanalyzer.entity.Sentence;
 public class SimplePresentSubordinatesPM extends StepsToReproducePatternMatcher {
 
 	public final static Set<String> EXCLUDED_VERBS = JavaUtils.getSet("be", "seem", "have", "volunteer", "want",
-			"experience", "see");
-	public static final Set<String> DEFAULT_PRONOUN_LEMMAS = JavaUtils.getSet("i", "we");
-	public static final Set<String> DEFAULT_PRONOUN_POS = JavaUtils.getSet("PRP");
-	public static final Set<String> DEFAULT_PRONOUN_POS_LEMMA = JavaUtils.getSet("NN-user");
+			"experience", "see", "can");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -30,12 +27,14 @@ public class SimplePresentSubordinatesPM extends StepsToReproducePatternMatcher 
 			return 0;
 		}
 
-		SimpleTenseChecker checker = new SimpleTenseChecker(ActionsPresentPM.POS, ActionsPresentPM.UNDETECTED_VERBS,
-				EXCLUDED_VERBS, DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS, DEFAULT_PRONOUN_POS_LEMMA);
+		SimpleTenseChecker checker = SimpleTenseChecker.createPresentChecker(EXCLUDED_VERBS);
 		int numClauses = checker.countNumClauses(sentence);
 
 		if (numClauses > 0) {
 			List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
+			
+			System.out.println(numClauses + " - "+ clauses.size());
+			
 			return ((float) numClauses) / clauses.size() >= 0.5F ? 1 : 0;
 		}
 		return 0;

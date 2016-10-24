@@ -8,7 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ ActionsInfinitivePMTest.class, ActionsMultiPMTest.class, ActionsPastPMTest.class,
 		ActionsPresentPMTest.class, ActionsSeparatorPMTest.class, AfterPMTest.class, ByActionPMTest.class,
 		CodeRefPMTest.class, ConditionalThenSequencePMTest.class, ConditionalSequenceParagrahPMTest.class,
-		ContinuousPresentPMTest.class, ContinuousPresentSentencePMTest.class, HaveSequencePMTest.class,
+		ContinuousPresentPastPMTest.class, ContinuousPresentSentencePMTest.class, HaveSequencePMTest.class,
 		ImperativeSequencePMTest.class, ImperativeSubordinatesPMTest.class, LabeledListPMTest.class,
 		LabeledParagraphPMTest.class, MenuNavigationPMTest.class, MenuSelectPMTest.class, PurposeActionPMTest.class,
 		SimplePastParagraphPMTest.class, SimplePastPMTest.class, SimplePresentSubordinatesPMTest.class,

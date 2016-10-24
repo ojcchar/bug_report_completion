@@ -33,16 +33,17 @@ public class ConditionalSequenceParagrahPM extends StepsToReproducePatternMatche
 			}
 		}
 
-		if (lastCondSentence != -1) {
-			int idx = SentenceUtils.findObsBehaviorSentence(sentences.subList(lastCondSentence, sentences.size()));
+		if (lastCondSentence != -1 && lastCondSentence != sentences.size() - 1) {
+			int idx = SentenceUtils.findObsBehaviorSentence(sentences.subList(lastCondSentence + 1, sentences.size()));
 			if (idx != -1) {
 				numMatchedSentences++;
+
 			}
 		}
 
-		// System.out.println(numMatchedSentences +" - "+sentences.size());
+//		System.out.println(numMatchedSentences + " - " + sentences.size());
 
-		return ((float) numMatchedSentences) / sentences.size() >= 0.5F ? 1 : 0;
+		return ((float) numMatchedSentences) / sentences.size() >= 0.5F && numMatchedSentences > 1 ? 1 : 0;
 	}
 
 	private boolean isConditional(Sentence sentence) {

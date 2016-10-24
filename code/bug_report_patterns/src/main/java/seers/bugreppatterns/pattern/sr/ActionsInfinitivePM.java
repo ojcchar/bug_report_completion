@@ -42,18 +42,26 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
 		int bulletedSentences = 0;
 		int imperativeSentences = 0;
 		for (Sentence sentence : sentences) {
-			// Determines if the sentence contains bullets.
-			int firstNonBulletIndex = findFirstNonBulletIndex(sentence);
-			if (firstNonBulletIndex == 0 || firstNonBulletIndex >= sentence.getTokens().size()) {
-				// If it doesn't contain bullets or consists only of special
-				// characters, ignore
+
+			List<Token> tokensNoBullet = LabeledListPM.getTokensNoBullet(sentence);
+
+			if (tokensNoBullet.isEmpty()) {
 				continue;
-			} else {
-				bulletedSentences++;
 			}
 
-			Sentence noBulletsSentece = new Sentence("0",
-					sentence.getTokens().subList(firstNonBulletIndex, sentence.getTokens().size()));
+			bulletedSentences++;
+
+//			// Determines if the sentence contains bullets.
+//			int firstNonBulletIndex = findFirstNonBulletIndex(sentence);
+//			if (firstNonBulletIndex == 0 || firstNonBulletIndex >= sentence.getTokens().size()) {
+//				// If it doesn't contain bullets or consists only of special
+//				// characters, ignore
+//				continue;
+//			} else {
+//				bulletedSentences++;
+//			}
+
+			Sentence noBulletsSentece = new Sentence("0", tokensNoBullet);
 
 			List<Sentence> clauses = SentenceUtils.extractClauses(noBulletsSentece);
 
@@ -76,6 +84,7 @@ public class ActionsInfinitivePM extends StepsToReproducePatternMatcher {
 		return ((float) imperativeSentences) / bulletedSentences >= 0.5F ? 1 : 0;
 	}
 
+	@SuppressWarnings("unused")
 	private int findFirstNonBulletIndex(Sentence sentence) {
 		List<Token> tokens = sentence.getTokens();
 

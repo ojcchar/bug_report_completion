@@ -54,7 +54,7 @@ public class ActionsSeparatorPM extends StepsToReproducePatternMatcher {
 			}
 
 			String text = TextProcessor.getStringFromLemmas(lastSentence);
-			if (text.matches(".*there be.*")) {
+			if (text.matches(".*there be.*") || text.matches(".* close$")) {
 				return 1;
 			}
 

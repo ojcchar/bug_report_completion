@@ -308,8 +308,8 @@ public class SentenceUtils {
 
 	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("boomark", "build", "cache", "change", "check",
 			"clic", "click", "copy", "drag", "enter", "file", "fill", "goto", "import", "input", "insert", "install",
-			"load", "paste", "post", "press","release", "rename", "return", "right-click", "run", "scale", "scroll", "select",
-			"show", "start", "stop", "surf", "try", "type", "typing", "use", "visit", "yield");
+			"load", "paste", "post", "press", "release", "rename", "return", "right-click", "run", "scale", "scroll",
+			"select", "show", "start", "stop", "surf", "try", "type", "typing", "use", "visit", "yield");
 
 	public final static Set<String> AMBIGUOUS_POS_VERBS = JavaUtils.getSet("put", "set", "cut", "quit", "shut");
 
@@ -410,7 +410,8 @@ public class SentenceUtils {
 		Token firstToken = tokensNoSpecialChar.get(0);
 		Token secondToken = tokensNoSpecialChar.get(1);
 
-		if (firstToken.getPos().equals("VBN") || firstToken.getPos().equals("VBD")) {
+		if (firstToken.getPos().equals("VBN") || firstToken.getPos().equals("VBD") || firstToken.getPos().equals("VBG")
+				|| firstToken.getPos().equals("VBZ")) {
 			return false;
 		}
 
