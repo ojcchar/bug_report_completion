@@ -33,7 +33,7 @@ public class SimplePresentSubordinatesPM extends StepsToReproducePatternMatcher 
 		if (numClauses > 0) {
 			List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 			
-			System.out.println(numClauses + " - "+ clauses.size());
+//			System.out.println(numClauses + " - "+ clauses.size());
 			
 			return ((float) numClauses) / clauses.size() >= 0.5F ? 1 : 0;
 		}
