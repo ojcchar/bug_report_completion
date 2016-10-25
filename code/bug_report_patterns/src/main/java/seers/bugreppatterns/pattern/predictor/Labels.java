@@ -6,6 +6,10 @@ public class Labels {
 	private String isEB = "";
 	private String isSR = "";
 
+	private String codedBy = "seers";
+
+	public static final String CODED_BY_DAVIS = "davis";
+
 	public Labels(String isOB, String isEB, String isSR) {
 		super();
 		this.isOB = new String(isOB);
@@ -41,6 +45,14 @@ public class Labels {
 
 	public void setIsSR(String isSR) {
 		this.isSR = isSR;
+	}
+
+	public String getCodedBy() {
+		return codedBy;
+	}
+
+	public void setCodedBy(String codedBy) {
+		this.codedBy = codedBy;
 	}
 
 }

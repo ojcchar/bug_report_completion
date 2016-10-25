@@ -89,10 +89,11 @@ public class GoldSetGenerator {
 	private static void updateBugsGoldSet(HashMap<TextInstance, Labels> davisGoldSetBugs,
 			ConcurrentHashMap<TextInstance, Labels> goldSetBugs) {
 
-		Set<Entry<TextInstance, Labels>> entrySet = davisGoldSetBugs.entrySet();
-		for (Entry<TextInstance, Labels> entry : entrySet) {
-			if (!goldSetBugs.containsKey(entry.getKey())) {
-				goldSetBugs.put(entry.getKey(), entry.getValue());
+		for (Entry<TextInstance, Labels> davidEntry : davisGoldSetBugs.entrySet()) {
+			if (!goldSetBugs.containsKey(davidEntry.getKey())) {
+				Labels davidLabels = davidEntry.getValue();
+				davidLabels.setCodedBy(Labels.CODED_BY_DAVIS);
+				goldSetBugs.put(davidEntry.getKey(), davidLabels);
 			}
 
 		}
@@ -131,7 +132,7 @@ public class GoldSetGenerator {
 			TextInstance key = entry.getKey();
 			Labels value2 = entry.getValue();
 			String[] value = new String[] { key.getProject(), key.getBugId(), key.getInstanceId(), value2.getIsOB(),
-					value2.getIsEB(), value2.getIsSR() };
+					value2.getIsEB(), value2.getIsSR(), value2.getCodedBy() };
 			writer.writeNext(Arrays.asList(value));
 		}
 
@@ -139,7 +140,7 @@ public class GoldSetGenerator {
 
 	private static void generateTitles() {
 
-		String[] title = new String[] { "system", "bug_id", "instance_id", "is_ob", "is_eb", "is_sr" };
+		String[] title = new String[] { "system", "bug_id", "instance_id", "is_ob", "is_eb", "is_sr", "coded_by" };
 		goldSetWriterSentences.writeNext(Arrays.asList(title));
 		goldSetWriterParagraphs.writeNext(Arrays.asList(title));
 		goldSetWriterDocuments.writeNext(Arrays.asList(title));
