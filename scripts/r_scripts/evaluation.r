@@ -19,8 +19,10 @@ prediction_folder = args[1]
 goldset_folder = args[2]
 out_folder = args[3]
 granularities = unlist(strsplit(args[4], ","))
+dataset_type = args[5]
 
 cat('Processing:',prediction_folder,'\n')
+cat('Dataset:',dataset_type,'\n')
 
 set.seed(644480808)
 
@@ -149,6 +151,12 @@ for (granularity in granularities) {
     #---------------------------------------
     
     gold_set = read.csv(gs_file, sep = ";", header = TRUE, colClasses=c(rep("factor",6)))
+    
+    #filter the goldset: all, seers (training), davis (testing)
+    if (dataset_type != "all" & granularity == 'B') {
+      gold_set = subset(gold_set, coded_by = dataset_type)
+    }
+    
     prediction_set = read.csv(pr_file, sep = ";", header = TRUE, colClasses=c(rep("factor",6)))
     
     #---------------------------------------
