@@ -141,12 +141,17 @@ for (granularity in granularities) {
     
     #---------------------------------------
     
-    out_file_all =paste(out_folder,'/stats_all_',granularity,'.csv', sep = "")
-    out_file_all_eb =paste(out_folder,'/data_all_eb_',granularity,'.csv', sep = "")
-    out_file_all_sr =paste(out_folder,'/data_all_sr_',granularity,'.csv', sep = "")
-    out_file_all_eb_sample =paste(out_folder,'/data_all_eb_sample_',granularity,'.csv', sep = "")
-    out_file_all_sr_sample =paste(out_folder,'/data_all_sr_sample_',granularity,'.csv', sep = "")
-    out_file_sys =paste(out_folder,'/stats_sys_',granularity,'.csv', sep = "")
+    out_files_postfix = paste(granularity, '.csv', sep = "")
+    if (granularity == 'B') {
+        out_files_postfix = paste(granularity,"_",dataset_type,'.csv', sep = "")
+    }
+    
+    out_file_all =paste(out_folder,'/stats_all_',out_files_postfix, sep = "")
+    out_file_all_eb =paste(out_folder,'/data_all_eb_',out_files_postfix, sep = "")
+    out_file_all_sr =paste(out_folder,'/data_all_sr_',out_files_postfix, sep = "")
+    out_file_all_eb_sample =paste(out_folder,'/data_all_eb_sample_',out_files_postfix, sep = "")
+    out_file_all_sr_sample =paste(out_folder,'/data_all_sr_sample_',out_files_postfix, sep = "")
+    out_file_sys =paste(out_folder,'/stats_sys_',out_files_postfix, sep = "")
     
     #---------------------------------------
     

@@ -8,7 +8,7 @@ public class Labels {
 
 	private String codedBy = "seers";
 
-	public static final String CODED_BY_DAVIS = "davis";
+	public static final String CODED_BY_DAVIES = "davies";
 
 	public Labels(String isOB, String isEB, String isSR) {
 		super();

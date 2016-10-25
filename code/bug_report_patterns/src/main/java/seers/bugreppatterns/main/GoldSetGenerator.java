@@ -92,7 +92,7 @@ public class GoldSetGenerator {
 		for (Entry<TextInstance, Labels> davidEntry : davisGoldSetBugs.entrySet()) {
 			if (!goldSetBugs.containsKey(davidEntry.getKey())) {
 				Labels davidLabels = davidEntry.getValue();
-				davidLabels.setCodedBy(Labels.CODED_BY_DAVIS);
+				davidLabels.setCodedBy(Labels.CODED_BY_DAVIES);
 				goldSetBugs.put(davidEntry.getKey(), davidLabels);
 			}
 
