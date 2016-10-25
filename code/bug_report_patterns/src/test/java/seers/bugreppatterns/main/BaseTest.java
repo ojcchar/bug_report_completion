@@ -3,9 +3,7 @@ package seers.bugreppatterns.main;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,9 +13,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import net.quux00.simplecsv.CsvParser;
-import net.quux00.simplecsv.CsvParserBuilder;
-import net.quux00.simplecsv.CsvReader;
+import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.utils.SentenceUtils;
@@ -57,55 +54,50 @@ public class BaseTest {
 	}
 
 	private void loadData() throws IOException {
-		CsvParser csvParser = new CsvParserBuilder().separator(';').multiLine(true).build();
 
 		boolean noTestingInstances = false;
-		try (CsvReader csvReader = new CsvReader(
-				new InputStreamReader(new FileInputStream(MainMatcher.fileAssignment), "Cp1252"), csvParser)) {
 
-			List<List<String>> allLines = csvReader.readAll();
+		List<CodedDataEntry> readCodedData = DataReader.readCodedData(MainMatcher.fileAssignment);
 
-			for (List<String> sentence : allLines) {
+		for (CodedDataEntry sentence : readCodedData) {
 
-				String paragraphTxt = sentence.get(3);
-				String sentenceTxt = sentence.get(4);
+			String paragraphTxt = sentence.paragraphTxt;
+			String sentenceTxt = sentence.sentenceTxt;
 
-				String pattern1 = sentence.get(8).trim();
-				String pattern2 = sentence.get(9).trim();
-				String pattern3 = sentence.get(10).trim();
-				String pattern4 = sentence.get(11).trim();
+			String pattern1 = sentence.pattern1;
+			String pattern2 = sentence.pattern2;
+			String pattern3 = sentence.pattern3;
+			String pattern4 = sentence.pattern4;
 
-				String[] patternsNoTesting = sentence.get(15).split(",");
+			String[] patternsNoTesting = sentence.patternsNoTesting;
 
-				boolean addSentence = true;
-				boolean addParagraph = true;
-				if (Arrays.stream(patternsNoTesting).anyMatch(pat -> pat.trim().equalsIgnoreCase(patternName))) {
-					noTestingInstances = true;
-					if (testSentence) {
-						addSentence = false;
-						addParagraph = true;
-					} else {
-						addSentence = true;
-						addParagraph = false;
-					}
-				}
-
-				// String instanceId = sentence.get(14);
-
-				if (patternName.equalsIgnoreCase(pattern1) || patternName.equalsIgnoreCase(pattern2)
-						|| patternName.equalsIgnoreCase(pattern3) || patternName.equalsIgnoreCase(pattern4)) {
-					// no titles
-					// if (!instanceId.startsWith("0")) {
-					if (addParagraph) {
-						testDataParagraph.add(paragraphTxt);
-					}
-					if (addSentence) {
-						testDataSentence.add(sentenceTxt);
-					}
-					// }
+			boolean addSentence = true;
+			boolean addParagraph = true;
+			if (Arrays.stream(patternsNoTesting).anyMatch(pat -> pat.trim().equalsIgnoreCase(patternName))) {
+				noTestingInstances = true;
+				if (testSentence) {
+					addSentence = false;
+					addParagraph = true;
+				} else {
+					addSentence = true;
+					addParagraph = false;
 				}
 			}
 
+			// String instanceId = sentence.get(14);
+
+			if (patternName.equalsIgnoreCase(pattern1) || patternName.equalsIgnoreCase(pattern2)
+					|| patternName.equalsIgnoreCase(pattern3) || patternName.equalsIgnoreCase(pattern4)) {
+				// no titles
+				// if (!instanceId.startsWith("0")) {
+				if (addParagraph) {
+					testDataParagraph.add(paragraphTxt);
+				}
+				if (addSentence) {
+					testDataSentence.add(sentenceTxt);
+				}
+				// }
+			}
 		}
 
 		if ((testDataParagraph.isEmpty() || testDataSentence.isEmpty()) && !noTestingInstances) {

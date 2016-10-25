@@ -1,10 +1,7 @@
 package seers.bugreppatterns.main;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -13,14 +10,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.quux00.simplecsv.CsvParser;
-import net.quux00.simplecsv.CsvParserBuilder;
-import net.quux00.simplecsv.CsvReader;
 import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
+import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.matcher.SentenceMatcherProcessor;
 
 public class MainMatcher {
@@ -41,7 +37,7 @@ public class MainMatcher {
 			new LinkedHashMap<>());
 
 	public static void main(String[] args) throws Exception {
-		List<List<String>> codedData = readData();
+		List<CodedDataEntry> codedData = DataReader.readCodedData(fileAssignment);
 
 		conflictsWriter = new CsvWriterBuilder(new FileWriter("conflicts-coded-parsed.csv")).separator(';').build();
 
@@ -105,17 +101,6 @@ public class MainMatcher {
 			List<String> nextLine = new ArrayList<>(entry.getKey().toList());
 			nextLine.addAll(entry.getValue().toList());
 			goldSetWriterDocuments.writeNext(nextLine);
-		}
-	}
-
-	private static List<List<String>> readData() throws IOException {
-		CsvParser csvParser = new CsvParserBuilder().separator(';').multiLine(true).build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileAssignment), "Cp1252"), csvParser)) {
-
-			List<List<String>> allLines = csvReader.readAll();
-
-			return allLines;
-
 		}
 	}
 

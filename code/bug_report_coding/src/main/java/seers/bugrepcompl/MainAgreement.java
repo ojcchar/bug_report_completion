@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 import net.quux00.simplecsv.CsvParser;
 import net.quux00.simplecsv.CsvParserBuilder;
 import net.quux00.simplecsv.CsvReader;
+import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.utils.DataReader;
 
 public class MainAgreement {
 
@@ -35,8 +37,8 @@ public class MainAgreement {
 
 		List<CodingAssigment> assignment = readDataAssignment(fileAssignment, coder1, coder2);
 
-		List<CodedDataEntry> data1 = readDataCoder(fileCoder1);
-		List<CodedDataEntry> data2 = readDataCoder(fileCoder2);
+		List<CodedDataEntry> data1 = DataReader.readCodedData(fileCoder1);
+		List<CodedDataEntry> data2 = DataReader.readCodedData(fileCoder2);
 
 		processData(assignment, data1, data2);
 
@@ -47,7 +49,7 @@ public class MainAgreement {
 
 		Comparator<CodedDataEntry> comparator = Comparator.comparing(e -> e.project);
 		comparator = comparator.thenComparing(Comparator.comparing(e -> e.bugId));
-		comparator = comparator.thenComparing(Comparator.comparing(e -> e.sentenceId));
+		comparator = comparator.thenComparing(Comparator.comparing(e -> e.instanceId));
 
 		data1.sort(comparator);
 		data2.sort(comparator);
@@ -90,7 +92,7 @@ public class MainAgreement {
 			for (CodedDataEntry e1 : st1) {
 
 				Optional<CodedDataEntry> entry = st2.stream().filter(
-						e2 -> (e2.paragraph + e2.sentence).trim().equalsIgnoreCase((e1.paragraph + e1.sentence)))
+						e2 -> (e2.paragraphTxt + e2.sentenceTxt).trim().equalsIgnoreCase((e1.paragraphTxt + e1.sentenceTxt)))
 						.findAny();
 
 				if (!entry.isPresent()) {
@@ -174,7 +176,8 @@ public class MainAgreement {
 			throws IOException {
 
 		CsvParser csvParser = new CsvParserBuilder().separator(';').build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileAssignment), "Cp1252"), csvParser)) {
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileAssignment), "Cp1252"),
+				csvParser)) {
 
 			List<List<String>> allLines = csvReader.readAll();
 
@@ -197,66 +200,6 @@ public class MainAgreement {
 		}
 	}
 
-	private static List<CodedDataEntry> readDataCoder(String fileCoder1) throws IOException {
-		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(';').build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileCoder1), "Cp1252"), csvParser)) {
-
-			List<List<String>> allLines = csvReader.readAll();
-
-			List<CodedDataEntry> entries = new ArrayList<>();
-
-			allLines.subList(1, allLines.size()).forEach(line -> {
-				CodedDataEntry entry = new CodedDataEntry();
-
-				if (line.get(0).isEmpty() || line.get(1).isEmpty() || line.get(2).isEmpty()) {
-					return;
-				}
-
-				// System.out.println(line);
-
-				entry.project = line.get(0);
-				entry.bugId = Integer.valueOf(line.get(1));
-				entry.sentenceId = Integer.valueOf(line.get(2));
-				entry.paragraph = line.get(3);
-				entry.sentence = line.get(4);
-				entry.isObsBehavior = line.get(5).equalsIgnoreCase("x");
-				entry.isExpecBehavior = line.get(6).equalsIgnoreCase("x");
-				entry.isStepsToRepro = line.get(7).equalsIgnoreCase("x");
-				entry.pattern1 = line.get(8);
-				entry.pattern2 = line.get(9);
-				entry.pattern3 = line.get(10);
-
-				entries.add(entry);
-
-			});
-
-			return entries;
-		}
-	}
-
-	public static class CodedDataEntry {
-
-		public String project;
-		public Integer bugId;
-		public Integer sentenceId;
-		public String paragraph;
-		public String sentence;
-		public boolean isObsBehavior;
-		public boolean isExpecBehavior;
-		public boolean isStepsToRepro;
-		public String pattern1;
-		public String pattern2;
-		public String pattern3;
-
-		@Override
-		public String toString() {
-			return "[project=" + project + ", bugId=" + bugId + ", sentenceId=" + sentenceId + ", paragraph="
-					+ paragraph + ", sentence=" + sentence + ", isObsBehavior=" + isObsBehavior + ", isExpecBehavior="
-					+ isExpecBehavior + ", isStepsToRepro=" + isStepsToRepro + ", pattern1=" + pattern1 + ", pattern2="
-					+ pattern2 + ", pattern3=" + pattern3 + "]";
-		}
-
-	}
 
 	public static class CodingAssigment {
 

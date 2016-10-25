@@ -9,6 +9,7 @@ import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
 import seers.appcore.xml.XMLHelper;
+import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugreppatterns.entity.xml.BugReport;
 import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.entity.xml.DescriptionSentence;
@@ -19,7 +20,7 @@ import seers.textanalyzer.entity.Sentence;
 
 public class SentenceMatcherProcessor extends ThreadProcessor {
 
-	private List<List<String>> sentences;
+	private List<CodedDataEntry> sentences;
 
 	@SuppressWarnings("unchecked")
 	public SentenceMatcherProcessor(ThreadParameters params) {
@@ -29,11 +30,7 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 
 	@Override
 	public void executeJob() throws Exception {
-		for (List<String> sentence : sentences) {
-
-			if (sentence.isEmpty() || isLineEmpty(sentence)) {
-				continue;
-			}
+		for (CodedDataEntry sentence : sentences) {
 
 			boolean error = checkSentencePattern(sentence);
 
@@ -41,8 +38,8 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 				continue;
 			}
 
-			String project = sentence.get(0);
-			String bugId = sentence.get(1);
+			String project = sentence.project;
+			String bugId = sentence.bugId;
 			String fileToRead = "test_data" + File.separator + "data" + File.separator + project + "_parse"
 					+ File.separator + bugId + ".xml.parse";
 
@@ -57,63 +54,54 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 		}
 	}
 
-	private boolean isLineEmpty(List<String> sentence) {
+	private boolean checkSentencePattern(CodedDataEntry sentence) {
 
-		for (String field : sentence) {
-			if (!field.trim().isEmpty()) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private boolean checkSentencePattern(List<String> sentence) {
-
-		String project = sentence.get(0);
-		String bugId = sentence.get(1);
-		String sentenceId = sentence.get(2);
-		String paragraphTxt = sentence.get(3);
-		String sentenceTxt = sentence.get(4);
+		String project = sentence.project;
+		String bugId = sentence.bugId;
+		String instanceId = sentence.instanceId;
+		String paragraphTxt = sentence.paragraphTxt;
+		String sentenceTxt = sentence.sentenceTxt;
 
 		if (paragraphTxt.trim().isEmpty()) {
 
 			MainMatcher.conflictsWriter.writeNext(
-					Arrays.asList(new String[] { "paragraph", project, bugId, sentenceId, "paragraph empty" }));
+					Arrays.asList(new String[] { "paragraph", project, bugId, instanceId, "paragraph empty" }));
 			return true;
 		}
 
-		String cl1 = sentence.get(5);
-		String cl2 = sentence.get(6);
-		String cl3 = sentence.get(7);
+		String cl1 = sentence.isObsBehavior ? "x" : "";
+		String cl2 = sentence.isExpecBehavior ? "x" : "";
+		String cl3 = sentence.isStepsToRepro ? "x" : "";
 
 		if ((cl1 + cl2 + cl3).trim().isEmpty()) {
 
 			MainMatcher.conflictsWriter.writeNext(
-					Arrays.asList(new String[] { "sentence", project, bugId, sentenceId, "no class assigned" }));
+					Arrays.asList(new String[] { "sentence", project, bugId, instanceId, "no class assigned" }));
 			return true;
 		}
 
-		String pattern1 = sentence.get(8);
-		String pattern2 = sentence.get(9);
-		String pattern3 = sentence.get(10);
+		String pattern1 = sentence.pattern1;
+		String pattern2 = sentence.pattern2;
+		String pattern3 = sentence.pattern3;
+		String pattern4 = sentence.pattern4;
 
-		if ((pattern1 + pattern2 + pattern2).trim().isEmpty()) {
+		if ((pattern1 + pattern2 + pattern3 + pattern4).trim().isEmpty()) {
 			MainMatcher.conflictsWriter
-					.writeNext(Arrays.asList(new String[] { "sentence", project, bugId, sentenceId, "need pattern" }));
+					.writeNext(Arrays.asList(new String[] { "sentence", project, bugId, instanceId, "need pattern" }));
 		} else {
 
 			if (sentenceTxt.trim().isEmpty()) {
 				if (pattern1.trim().startsWith("S_") || pattern2.trim().startsWith("S_")
-						|| pattern3.trim().startsWith("S_")) {
+						|| pattern3.trim().startsWith("S_") || pattern4.trim().startsWith("S_")) {
 					MainMatcher.conflictsWriter.writeNext(Arrays
-							.asList(new String[] { "sentence", project, bugId, sentenceId, "pattern assignment" }));
+							.asList(new String[] { "sentence", project, bugId, instanceId, "pattern assignment" }));
 					return true;
 				}
 			} else {
 				if (!(pattern1.trim().startsWith("S_") || pattern2.trim().startsWith("S_")
-						|| pattern3.trim().startsWith("S_"))) {
+						|| pattern3.trim().startsWith("S_") || pattern4.trim().startsWith("S_"))) {
 					MainMatcher.conflictsWriter.writeNext(Arrays.asList(
-							new String[] { "sentence", project, bugId, sentenceId, "possible pattern assignment" }));
+							new String[] { "sentence", project, bugId, instanceId, "possible pattern assignment" }));
 				}
 			}
 		}
@@ -121,17 +109,17 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 		return false;
 	}
 
-	private void checkSentence(List<String> sentence, BugReport bug) {
+	private void checkSentence(CodedDataEntry sentence, BugReport bug) {
 
-		String project = sentence.get(0);
-		String bugId = sentence.get(1);
-		String sentenceId = sentence.get(2);
-		String paragraphTxt = sentence.get(3);
-		String sentenceTxt = sentence.get(4);
+		String project = sentence.project;
+		String bugId = sentence.bugId;
+		String instanceId = sentence.instanceId;
+		String paragraphTxt = sentence.paragraphTxt;
+		String sentenceTxt = sentence.sentenceTxt;
 
-		String cl1 = sentence.get(5).toLowerCase().trim();
-		String cl2 = sentence.get(6).toLowerCase().trim();
-		String cl3 = sentence.get(7).toLowerCase().trim();
+		String cl1 = sentence.isObsBehavior ? "x" : "";
+		String cl2 = sentence.isExpecBehavior ? "x" : "";
+		String cl3 = sentence.isStepsToRepro ? "x" : "";
 
 		paragraphTxt = paragraphTxt.replace("\"\"", "\"").replace("&lt;", "<").replace("&gt;", ">")
 				.replace("&apos;", "'").replace("&amp;", "&").replace("&quot;", "\"");
@@ -140,9 +128,9 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 
 		if (sentenceTxt != null && !sentenceTxt.trim().isEmpty()) {
 
-			processSentence(bug, project, bugId, sentenceId, sentenceTxt, cl1, cl2, cl3);
+			processSentence(bug, project, bugId, instanceId, sentenceTxt, cl1, cl2, cl3);
 		} else {
-			processParagraph(bug, project, bugId, sentenceId, paragraphTxt, cl1, cl2, cl3);
+			processParagraph(bug, project, bugId, instanceId, paragraphTxt, cl1, cl2, cl3);
 		}
 	}
 

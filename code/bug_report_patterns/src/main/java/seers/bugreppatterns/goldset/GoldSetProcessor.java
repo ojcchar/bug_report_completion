@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
+import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugreppatterns.pattern.predictor.Labels;
 
 public class GoldSetProcessor extends ThreadProcessor {
@@ -13,7 +14,7 @@ public class GoldSetProcessor extends ThreadProcessor {
 	public static ConcurrentHashMap<TextInstance, Labels> goldSetBugs = new ConcurrentHashMap<>();
 	public static ConcurrentHashMap<TextInstance, Labels> goldSetParagraphs = new ConcurrentHashMap<>();
 	public static ConcurrentHashMap<TextInstance, Labels> goldSetSentences = new ConcurrentHashMap<>();
-	private List<List<String>> sentences;
+	private List<CodedDataEntry> sentences;
 
 	@SuppressWarnings("unchecked")
 	public GoldSetProcessor(ThreadParameters params) {
@@ -23,15 +24,11 @@ public class GoldSetProcessor extends ThreadProcessor {
 
 	@Override
 	public void executeJob() throws Exception {
-		for (List<String> sentence : sentences) {
+		for (CodedDataEntry sentence : sentences) {
 
-			if (sentence.isEmpty() || isLineEmpty(sentence)) {
-				continue;
-			}
-
-			String project = sentence.get(0);
-			String bugId = sentence.get(1);
-			String instanceId = sentence.get(13);
+			String project = sentence.project;
+			String bugId = sentence.bugId;
+			String instanceId = sentence.instanceId;
 
 			// no project or bug id
 			if (project.trim().isEmpty() || bugId.trim().isEmpty()) {
@@ -43,14 +40,14 @@ public class GoldSetProcessor extends ThreadProcessor {
 				continue;
 			}
 
-			String ob = sentence.get(5);
-			String eb = sentence.get(6);
-			String sr = sentence.get(7);
+			boolean ob = sentence.isObsBehavior;
+			boolean eb = sentence.isExpecBehavior;
+			boolean sr = sentence.isStepsToRepro;
 
 			instanceId = instanceId.replace(",", ".");
 
 			TextInstance ins = new TextInstance(project, bugId, instanceId);
-			Labels label = new Labels(ob.toLowerCase(), eb.toLowerCase(), sr.toLowerCase());
+			Labels label = new Labels(ob ? "x" : "", eb ? "x" : "", sr ? "x" : "");
 
 			boolean isSentence = instanceId.matches("\\d+\\.\\d+");
 
@@ -108,16 +105,6 @@ public class GoldSetProcessor extends ThreadProcessor {
 			labels2.setIsSR(label.getIsSR());
 		}
 		return labels2;
-	}
-
-	private boolean isLineEmpty(List<String> sentence) {
-
-		for (String field : sentence) {
-			if (!field.trim().isEmpty()) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	public static class TextInstance {

@@ -20,14 +20,13 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
+import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.goldset.GoldSetProcessor;
 import seers.bugreppatterns.goldset.GoldSetProcessor.TextInstance;
 import seers.bugreppatterns.pattern.predictor.Labels;
 
 public class GoldSetGenerator {
-
-	private final static String fileAssignment2 = "test_data" + File.separator + "matcher" + File.separator
-			+ "sentences_coding.csv";
 
 	private static CsvWriter goldSetWriterSentences;
 	private static CsvWriter goldSetWriterParagraphs;
@@ -37,7 +36,7 @@ public class GoldSetGenerator {
 
 		// command line arguments processing
 		// if there are no arguments, the defaults values are used
-		String codedDataFile = fileAssignment2;
+		String codedDataFile = MainMatcher.fileAssignment;
 		String outputFolderPrefix = "";
 		String davisDataPath = "all_data_only_bugs_davies.csv";
 		if (args.length > 0) {
@@ -56,7 +55,7 @@ public class GoldSetGenerator {
 		try {
 
 			// read the coded data
-			List<List<String>> codedData = readData(codedDataFile);
+			List<CodedDataEntry> codedData = DataReader.readCodedData(codedDataFile);
 
 			// read Davis' gold set
 			HashMap<TextInstance, Labels> davisGoldSetBugs = readDavisGoldSet(davisDataPath);
@@ -147,15 +146,4 @@ public class GoldSetGenerator {
 
 	}
 
-	private static List<List<String>> readData(String codedDataFile) throws IOException {
-		CsvParser csvParser = new CsvParserBuilder().separator(';').multiLine(true).build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(codedDataFile), "Cp1252"),
-				csvParser)) {
-
-			List<List<String>> allLines = csvReader.readAll();
-
-			return allLines;
-
-		}
-	}
 }
