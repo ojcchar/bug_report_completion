@@ -20,6 +20,7 @@ goldset_folder = args[2]
 out_folder = args[3]
 granularities = unlist(strsplit(args[4], ","))
 dataset_type = args[5]
+systems = unlist(strsplit(args[6], ","))
 
 cat('Processing:',prediction_folder,'\n')
 cat('Dataset:',dataset_type,'\n')
@@ -162,6 +163,9 @@ for (granularity in granularities) {
       gold_set = subset(gold_set, coded_by == dataset_type)
     }
     
+    #filter by system
+    gold_set = subset(gold_set, system %in% systems)
+      
     prediction_set = read.csv(pr_file, sep = ";", header = TRUE, colClasses=c(rep("factor",6)))
     
     #---------------------------------------
