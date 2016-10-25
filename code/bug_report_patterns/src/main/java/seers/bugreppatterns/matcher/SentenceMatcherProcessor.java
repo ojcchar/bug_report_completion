@@ -58,7 +58,7 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 
 		String project = sentence.project;
 		String bugId = sentence.bugId;
-		String instanceId = sentence.instanceId;
+		String instanceId = sentence.entryId;
 		String paragraphTxt = sentence.paragraphTxt;
 		String sentenceTxt = sentence.sentenceTxt;
 
@@ -113,7 +113,7 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 
 		String project = sentence.project;
 		String bugId = sentence.bugId;
-		String instanceId = sentence.instanceId;
+		String instanceId = sentence.entryId;
 		String paragraphTxt = sentence.paragraphTxt;
 		String sentenceTxt = sentence.sentenceTxt;
 

@@ -49,7 +49,7 @@ public class MainAgreement {
 
 		Comparator<CodedDataEntry> comparator = Comparator.comparing(e -> e.project);
 		comparator = comparator.thenComparing(Comparator.comparing(e -> e.bugId));
-		comparator = comparator.thenComparing(Comparator.comparing(e -> e.instanceId));
+		comparator = comparator.thenComparing(Comparator.comparing(e -> e.entryId));
 
 		data1.sort(comparator);
 		data2.sort(comparator);

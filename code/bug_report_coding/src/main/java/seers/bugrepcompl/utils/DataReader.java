@@ -42,10 +42,12 @@ public class DataReader {
 				String pattern3 = line.get(10).trim();
 				String pattern4 = line.get(11).trim();
 				
+				String mainCoder = line.get(13).trim();
+				String instanceId = line.get(14).trim();
 				String[] patternsNoTesting = line.get(15).split(",");
 
 				CodedDataEntry entry = new CodedDataEntry(project, bugId, sentenceId, paragraph, sentence,
-						isObsBehavior, isExpecBehavior, isStepsToRepro, pattern1, pattern2, pattern3, pattern4, patternsNoTesting);
+						isObsBehavior, isExpecBehavior, isStepsToRepro, pattern1, pattern2, pattern3, pattern4,mainCoder, instanceId, patternsNoTesting);
 				entries.add(entry);
 
 			});
