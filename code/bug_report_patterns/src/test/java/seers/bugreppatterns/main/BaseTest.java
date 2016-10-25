@@ -73,8 +73,9 @@ public class BaseTest {
 				String pattern1 = sentence.get(8).trim();
 				String pattern2 = sentence.get(9).trim();
 				String pattern3 = sentence.get(10).trim();
+				String pattern4 = sentence.get(11).trim();
 
-				String[] patternsNoTesting = sentence.get(14).split(",");
+				String[] patternsNoTesting = sentence.get(15).split(",");
 
 				boolean addSentence = true;
 				boolean addParagraph = true;
@@ -92,7 +93,7 @@ public class BaseTest {
 				// String instanceId = sentence.get(14);
 
 				if (patternName.equalsIgnoreCase(pattern1) || patternName.equalsIgnoreCase(pattern2)
-						|| patternName.equalsIgnoreCase(pattern3)) {
+						|| patternName.equalsIgnoreCase(pattern3) || patternName.equalsIgnoreCase(pattern4)) {
 					// no titles
 					// if (!instanceId.startsWith("0")) {
 					if (addParagraph) {
@@ -107,7 +108,7 @@ public class BaseTest {
 
 		}
 
-		if ( (testDataParagraph.isEmpty() || testDataSentence.isEmpty() ) && !noTestingInstances) {
+		if ((testDataParagraph.isEmpty() || testDataSentence.isEmpty()) && !noTestingInstances) {
 			throw new RuntimeException("No testing data for " + pm.getClass().getSimpleName());
 		}
 

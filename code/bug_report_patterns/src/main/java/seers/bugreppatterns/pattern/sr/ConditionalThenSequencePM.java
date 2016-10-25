@@ -1,6 +1,5 @@
 package seers.bugreppatterns.pattern.sr;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,8 +29,8 @@ public class ConditionalThenSequencePM extends StepsToReproducePatternMatcher {
 				Token nextToken = tokens.get(condTerm + 1);
 				if (nextToken.getPos().equals("VBG")
 						&& !SentenceUtils.lemmasContainToken(ConditionalObservedBehaviorPM.EXCLUDED_VERBS, nextToken)) {
-					if (tokens.subList(condTerm + 1, tokens.size()).stream()
-							.anyMatch(t -> t.getLemma().equals("then"))) {
+					List<Token> subList = tokens.subList(condTerm + 1, tokens.size());
+					if (checkForThenSequence(subList)) {
 						return 1;
 					}
 				} else if (nextToken.getGeneralPos().equals("PRP") && !nextToken.getLemma().equals("it")) {
@@ -41,24 +40,9 @@ public class ConditionalThenSequencePM extends StepsToReproducePatternMatcher {
 								|| nextToken2.getPos().equals("VB"))
 								&& !SentenceUtils.lemmasContainToken(ConditionalObservedBehaviorPM.EXCLUDED_VERBS,
 										nextToken2)) {
-							if (SentenceUtils.tokensContainAnyLemmaIn(tokens.subList(condTerm + 2, tokens.size()),
-									JavaUtils.getSet("then"))) {
+							List<Token> subList = tokens.subList(condTerm + 2, tokens.size());
+							if (checkForThenSequence(subList)) {
 								return 1;
-							}
-						}
-					}
-				} else {
-					List<Integer> tobes = findToBeVerbs(tokens, condTerm + 1);
-					for (Integer tobe : tobes) {
-						if (tobe + 1 < tokens.size()) {
-							Token nexTok = tokens.get(tobe + 1);
-
-							if (nexTok.getPos().equals("VBN") || nexTok.getPos().equals("VB")
-									|| nexTok.getGeneralPos().equals("JJ")) {
-								if (SentenceUtils.tokensContainAnyLemmaIn(tokens.subList(tobe + 1, tokens.size()),
-										JavaUtils.getSet("then"))) {
-									return 1;
-								}
 							}
 						}
 					}
@@ -70,16 +54,9 @@ public class ConditionalThenSequencePM extends StepsToReproducePatternMatcher {
 		return 0;
 	}
 
-	private List<Integer> findToBeVerbs(List<Token> tokens, int j) {
-		List<Integer> tobes = new ArrayList<>();
-		for (int i = j; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			String pos = token.getGeneralPos();
-			if (pos.equals("VB") && token.getLemma().equalsIgnoreCase("be")) {
-				tobes.add(i);
-			}
-		}
-		return tobes;
+	private boolean checkForThenSequence(List<Token> tokens) {
+		return tokens.stream()
+				.filter(t -> t.getLemma().equals("then")).count() >1;
 	}
 
 }
