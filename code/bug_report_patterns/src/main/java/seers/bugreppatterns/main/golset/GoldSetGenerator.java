@@ -1,4 +1,4 @@
-package seers.bugreppatterns.main;
+package seers.bugreppatterns.main.golset;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +24,7 @@ import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.goldset.GoldSetProcessor;
 import seers.bugreppatterns.goldset.GoldSetProcessor.TextInstance;
+import seers.bugreppatterns.main.validation.MainMatcher;
 import seers.bugreppatterns.pattern.predictor.Labels;
 
 public class GoldSetGenerator {
@@ -36,7 +37,7 @@ public class GoldSetGenerator {
 
 		// command line arguments processing
 		// if there are no arguments, the defaults values are used
-		String codedDataFile = MainMatcher.fileAssignment;
+		String codedDataFile = MainMatcher.fileCodedData;
 		String outputFolderPrefix = "";
 		String davisDataPath = "all_data_only_bugs_davies.csv";
 		if (args.length > 0) {
@@ -58,7 +59,7 @@ public class GoldSetGenerator {
 			List<CodedDataEntry> codedData = DataReader.readCodedData(codedDataFile);
 
 			// read Davis' gold set
-			HashMap<TextInstance, Labels> davisGoldSetBugs = readDavisGoldSet(davisDataPath);
+			HashMap<TextInstance, Labels> daviesGoldSetBugs = readDavisGoldSet(davisDataPath);
 
 			System.out.println(codedData.size());
 
@@ -71,7 +72,7 @@ public class GoldSetGenerator {
 			ThreadExecutor.executePaginated(codedData.subList(1, codedData.size()), class1, params, 5);
 
 			// merge both gold sets (Davis' and ours)
-			updateBugsGoldSet(davisGoldSetBugs, GoldSetProcessor.goldSetBugs);
+			updateBugsGoldSet(daviesGoldSetBugs, GoldSetProcessor.goldSetBugs);
 
 			// write the gold sets
 			writeGoldSets(GoldSetProcessor.goldSetBugs.entrySet(), goldSetWriterDocuments);
@@ -86,14 +87,14 @@ public class GoldSetGenerator {
 
 	}
 
-	private static void updateBugsGoldSet(HashMap<TextInstance, Labels> davisGoldSetBugs,
+	private static void updateBugsGoldSet(HashMap<TextInstance, Labels> daviesGoldSetBugs,
 			ConcurrentHashMap<TextInstance, Labels> goldSetBugs) {
 
-		for (Entry<TextInstance, Labels> davidEntry : davisGoldSetBugs.entrySet()) {
+		for (Entry<TextInstance, Labels> davidEntry : daviesGoldSetBugs.entrySet()) {
 			if (!goldSetBugs.containsKey(davidEntry.getKey())) {
-				Labels davidLabels = davidEntry.getValue();
-				davidLabels.setCodedBy(Labels.CODED_BY_DAVIES);
-				goldSetBugs.put(davidEntry.getKey(), davidLabels);
+				Labels daviesLabels = davidEntry.getValue();
+				daviesLabels.setCodedBy(Labels.CODED_BY_DAVIES);
+				goldSetBugs.put(davidEntry.getKey(), daviesLabels);
 			}
 
 		}

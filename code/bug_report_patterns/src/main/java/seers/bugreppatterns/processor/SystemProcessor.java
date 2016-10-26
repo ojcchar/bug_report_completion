@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
-import seers.bugreppatterns.main.HeuristicsClassifier;
+import seers.bugreppatterns.main.prediction.HeuristicsClassifier;
 
 public class SystemProcessor extends ThreadProcessor {
 

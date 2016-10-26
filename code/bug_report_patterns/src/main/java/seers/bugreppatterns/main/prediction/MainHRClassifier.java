@@ -1,4 +1,4 @@
-package seers.bugreppatterns.main;
+package seers.bugreppatterns.main.prediction;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.EnumUtils;
 
-import seers.bugreppatterns.main.HeuristicsClassifier.Predictor;
+import seers.bugreppatterns.main.prediction.HeuristicsClassifier.Predictor;
 import seers.bugreppatterns.pattern.PatternMatcher;
 
 public class MainHRClassifier {
@@ -26,6 +26,7 @@ public class MainHRClassifier {
 		String outputFolder = args[3];
 		Predictor predictionMethod = EnumUtils.getEnum(Predictor.class, args[4]);
 		String pathFilePatterns = args[5];
+		String configFolder = args[6];
 
 		// ------------------------------------------
 
@@ -34,7 +35,7 @@ public class MainHRClassifier {
 		// ------------------------------------------
 
 		HeuristicsClassifier classifier = new HeuristicsClassifier(dataFolder, granularity, systems, outputFolder,
-				predictionMethod, patterns);
+				predictionMethod, patterns, configFolder);
 		classifier.runClassifier();
 
 		// ------------------------------------------

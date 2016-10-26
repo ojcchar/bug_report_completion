@@ -13,8 +13,8 @@ import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugreppatterns.entity.xml.BugReport;
 import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.entity.xml.DescriptionSentence;
-import seers.bugreppatterns.main.MainMatcher;
-import seers.bugreppatterns.main.MainMatcher.GoldSetClasses;
+import seers.bugreppatterns.main.validation.MainMatcher;
+import seers.bugreppatterns.main.validation.MainMatcher.GoldSetClasses;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 

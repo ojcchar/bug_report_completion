@@ -10,6 +10,9 @@ public class Labels {
 
 	public static final String CODED_BY_DAVIES = "davies";
 
+	public Labels(){
+	}
+
 	public Labels(String isOB, String isEB, String isSR) {
 		super();
 		this.isOB = new String(isOB);

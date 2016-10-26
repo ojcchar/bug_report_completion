@@ -1,4 +1,4 @@
-package seers.bugreppatterns.main;
+package seers.bugreppatterns.main.falsepositives;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;

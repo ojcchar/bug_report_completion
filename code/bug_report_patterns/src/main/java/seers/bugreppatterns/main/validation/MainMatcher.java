@@ -1,4 +1,4 @@
-package seers.bugreppatterns.main;
+package seers.bugreppatterns.main.validation;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -21,7 +21,7 @@ import seers.bugreppatterns.matcher.SentenceMatcherProcessor;
 
 public class MainMatcher {
 
-	static String fileAssignment = "test_data" + File.separator + "matcher" + File.separator + "sentences_coding.csv";
+	public static String fileCodedData = "test_data" + File.separator + "matcher" + File.separator + "sentences_coding.csv";
 	public static CsvWriter conflictsWriter;
 
 	public static CsvWriter matchedWriterSentences;
@@ -37,7 +37,7 @@ public class MainMatcher {
 			new LinkedHashMap<>());
 
 	public static void main(String[] args) throws Exception {
-		List<CodedDataEntry> codedData = DataReader.readCodedData(fileAssignment);
+		List<CodedDataEntry> codedData = DataReader.readCodedData(fileCodedData);
 
 		conflictsWriter = new CsvWriterBuilder(new FileWriter("conflicts-coded-parsed.csv")).separator(';').build();
 

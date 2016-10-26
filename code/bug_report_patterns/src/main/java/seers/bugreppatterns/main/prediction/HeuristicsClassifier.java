@@ -1,4 +1,4 @@
-package seers.bugreppatterns.main;
+package seers.bugreppatterns.main.prediction;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -16,7 +16,9 @@ import seers.appcore.threads.processor.ThreadParameters;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.AnyMatchPredictor;
 import seers.bugreppatterns.pattern.predictor.CombinationPredictor;
+import seers.bugreppatterns.pattern.predictor.CoocurrencePredictor;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
+import seers.bugreppatterns.pattern.predictor.StrictCoocurrencePredictor;
 import seers.bugreppatterns.processor.SystemProcessor;
 
 public class HeuristicsClassifier {
@@ -24,7 +26,7 @@ public class HeuristicsClassifier {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HeuristicsClassifier.class);
 
 	public enum Predictor {
-		ANY_MATCH, COMBIN
+		ANY_MATCH, COMBIN, COOCCUR, COOCCUR_STRICT1, COOCCUR_STRICT2
 	}
 
 	public static final String DATA_FOLDER = "DATA_FOLDER";
@@ -42,10 +44,11 @@ public class HeuristicsClassifier {
 	private String outputFolder;
 	private Predictor predictionMethod;
 	private List<PatternMatcher> patterns;
+	private String configFolder;
 	
 
 	public HeuristicsClassifier(String dataFolder, String granularity, String[] systems, String outputFolder,
-			Predictor predictionMethod, List<PatternMatcher> patterns) {
+			Predictor predictionMethod, List<PatternMatcher> patterns, String configFolder) {
 		super();
 		this.dataFolder = dataFolder;
 		this.granularity = granularity;
@@ -53,9 +56,10 @@ public class HeuristicsClassifier {
 		this.outputFolder = outputFolder;
 		this.predictionMethod = predictionMethod;
 		this.patterns = patterns;
+		this.configFolder = configFolder;
 	}
 
-	public void runClassifier() throws Exception, IOException {
+	public void runClassifier() throws Exception {
 		LOGGER.debug("#patterns: " + patterns.size());
 
 		// ------------------------------------------
@@ -78,7 +82,7 @@ public class HeuristicsClassifier {
 			params.addParam(FEATURES_WRITER, csvw2);
 			params.addParam(FEATURES_WRITER2, csvw3);
 
-			LabelPredictor predictor = getPredictor(predictionMethod);
+			LabelPredictor predictor = getPredictor(predictionMethod, configFolder);
 			params.addParam(PREDICTOR, predictor);
 
 			// titles
@@ -92,12 +96,18 @@ public class HeuristicsClassifier {
 		LOGGER.debug("Done " + granularity + "!");
 	}
 
-	private LabelPredictor getPredictor(Predictor predictionMethod) {
+	private LabelPredictor getPredictor(Predictor predictionMethod, String configFolder) throws IOException {
 		switch (predictionMethod) {
 		case ANY_MATCH:
 			return new AnyMatchPredictor();
 		case COMBIN:
 			return new CombinationPredictor();
+		case COOCCUR:
+			return new CoocurrencePredictor(configFolder);
+		case COOCCUR_STRICT1:
+			return new StrictCoocurrencePredictor(configFolder, false);
+		case COOCCUR_STRICT2:
+			return new StrictCoocurrencePredictor(configFolder, true);
 		default:
 			break;
 		}

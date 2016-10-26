@@ -1,4 +1,4 @@
-package seers.bugreppatterns.main;
+package seers.bugreppatterns.main.falsepositives;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import seers.appcore.threads.processor.ThreadProcessor;
 import seers.appcore.xml.XMLHelper;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.xml.BugReport;
-import seers.bugreppatterns.main.FalsePositiveSummarizer.BugInstance;
+import seers.bugreppatterns.main.falsepositives.FalsePositiveSummarizer.BugInstance;
 import seers.bugreppatterns.utils.ParsingUtils;
 import seers.textanalyzer.entity.Sentence;
 

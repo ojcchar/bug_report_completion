@@ -16,6 +16,7 @@ import org.junit.Test;
 import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.entity.Paragraph;
+import seers.bugreppatterns.main.validation.MainMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
@@ -57,7 +58,7 @@ public class BaseTest {
 
 		boolean noTestingInstances = false;
 
-		List<CodedDataEntry> readCodedData = DataReader.readCodedData(MainMatcher.fileAssignment);
+		List<CodedDataEntry> readCodedData = DataReader.readCodedData(MainMatcher.fileCodedData);
 
 		for (CodedDataEntry sentence : readCodedData) {
 

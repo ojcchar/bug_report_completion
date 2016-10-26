@@ -1,6 +1,8 @@
 package seers.bugrepcompl.utils;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -12,11 +14,24 @@ import net.quux00.simplecsv.CsvReader;
 import seers.bugrepcompl.entity.CodedDataEntry;
 
 public class DataReader {
+	
+	public static List<List<String>> readLines(File inputFile) throws IOException {
+		char separator = ';';
+		return readLines(inputFile, separator);
+	}
 
-	public static List<CodedDataEntry> readCodedData(String fileCoder1) throws IOException {
+	public static List<List<String>> readLines(File inputFile, char separator)
+			throws IOException {
+		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(separator).build();
+		try (CsvReader csvReader = new CsvReader(new FileReader(inputFile), csvParser)) {
+			return csvReader.readAll();
+		}
+	}
+
+	public static List<CodedDataEntry> readCodedData(String dataFilePath) throws IOException {
 
 		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(';').build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileCoder1), "Cp1252"),
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(dataFilePath), "Cp1252"),
 				csvParser)) {
 
 			List<List<String>> allLines = csvReader.readAll();

@@ -1,4 +1,4 @@
-package seers.bugreppatterns.main;
+package seers.bugreppatterns.main.prediction;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -8,7 +8,7 @@ import org.apache.commons.lang3.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import seers.bugreppatterns.main.HeuristicsClassifier.Predictor;
+import seers.bugreppatterns.main.prediction.HeuristicsClassifier.Predictor;
 import seers.bugreppatterns.pattern.PatternMatcher;
 
 public class MassiveClassifierRunner {
@@ -24,6 +24,7 @@ public class MassiveClassifierRunner {
 		String outputFolder = args[3];
 		Predictor predictionMethod = EnumUtils.getEnum(Predictor.class, args[4]);
 		String pathFilePatterns = args[5];
+		String configFolder= args[6];
 
 		// read the list of patterns
 		List<PatternMatcher> patterns = MainHRClassifier.loadPatterns(new File(pathFilePatterns));
@@ -52,7 +53,7 @@ public class MassiveClassifierRunner {
 			for (String granularity : granularities) {
 
 				HeuristicsClassifier classifier = new HeuristicsClassifier(dataFolder, granularity, systems,
-						outputFolder2, predictionMethod, filteredPatterns);
+						outputFolder2, predictionMethod, filteredPatterns, configFolder);
 				classifier.runClassifier();
 
 			}

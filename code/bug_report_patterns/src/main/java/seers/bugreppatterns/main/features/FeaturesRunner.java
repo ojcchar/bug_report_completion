@@ -1,6 +1,7 @@
-package seers.bugreppatterns.main;
+package seers.bugreppatterns.main.features;
 
-import seers.bugreppatterns.main.HeuristicsClassifier.Predictor;
+import seers.bugreppatterns.main.prediction.MainHRClassifier;
+import seers.bugreppatterns.main.prediction.HeuristicsClassifier.Predictor;
 
 public class FeaturesRunner {
 
