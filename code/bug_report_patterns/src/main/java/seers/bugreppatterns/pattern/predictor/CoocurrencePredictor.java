@@ -88,9 +88,9 @@ public class CoocurrencePredictor extends LabelPredictor {
 		LOGGER.debug("Co-occurring patterns: " + cooccurringPatternsOB.size() + " OB, " + cooccurringPatternsEB.size()
 				+ " EB, " + cooccurringPatternsSR.size() + " SR");
 
-		LOGGER.debug(cooccurringPatternsOB.toString());
-		LOGGER.debug(cooccurringPatternsEB.toString());
-		LOGGER.debug(cooccurringPatternsSR.toString());
+//		LOGGER.debug(cooccurringPatternsOB.toString());
+//		LOGGER.debug(cooccurringPatternsEB.toString());
+//		LOGGER.debug(cooccurringPatternsSR.toString());
 	}
 
 	private void addIndividualPatterns(Set<String> individualCooccurring, Set<String> individualNonCooccurring,
