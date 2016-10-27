@@ -22,7 +22,7 @@ public class ClassifierRunner {
 		String[] granularities = { "B" };
 
 		for (String g : granularities) {
-			String[] args2 = { dataFolder, g, systems, outputFolder, Predictor.COOCCUR_STRICT2.toString(), pattersFile,
+			String[] args2 = { dataFolder, g, systems, outputFolder, Predictor.COOCCUR.toString(), pattersFile,
 					configFolder };
 			MainHRClassifier.main(args2);
 		}

@@ -88,9 +88,9 @@ public class CoocurrencePredictor extends LabelPredictor {
 		LOGGER.debug("Co-occurring patterns: " + cooccurringPatternsOB.size() + " OB, " + cooccurringPatternsEB.size()
 				+ " EB, " + cooccurringPatternsSR.size() + " SR");
 
-//		LOGGER.debug(cooccurringPatternsOB.toString());
-//		LOGGER.debug(cooccurringPatternsEB.toString());
-//		LOGGER.debug(cooccurringPatternsSR.toString());
+		LOGGER.debug(cooccurringPatternsOB.toString());
+		LOGGER.debug(cooccurringPatternsEB.toString());
+		LOGGER.debug(cooccurringPatternsSR.toString());
 	}
 
 	private void addIndividualPatterns(Set<String> individualCooccurring, Set<String> individualNonCooccurring,
@@ -112,9 +112,11 @@ public class CoocurrencePredictor extends LabelPredictor {
 		}
 
 		if (patternList.size() == 1) {
-			individualNonCooccurring.add(patternList.get(0));
+			if (!patternList.get(0).isEmpty()) {
+				individualNonCooccurring.add(patternList.get(0));
+			}
 		} else {
-			cooccurringPatterns.add(new LinkedHashSet<>( patternList));
+			cooccurringPatterns.add(new LinkedHashSet<>(patternList));
 			individualCooccurring.addAll(patternList);
 		}
 
@@ -130,7 +132,13 @@ public class CoocurrencePredictor extends LabelPredictor {
 
 		List<String> patternList = new ArrayList<>();
 		for (String pattern : patternArray) {
-			patternList.add(pattern.trim());
+			if (!pattern.trim().isEmpty()) {
+				patternList.add(pattern.trim());
+			}
+		}
+		
+		if (patternList.isEmpty()) {
+			return null;
 		}
 
 		return patternList;
@@ -171,11 +179,11 @@ public class CoocurrencePredictor extends LabelPredictor {
 			LinkedHashMap<PatternMatcher, Integer> patternMatches) {
 
 		LinkedHashSet<String> cooccur = null;
-		
+
 		Set<PatternMatcher> patternMatchesSet = patternMatches.keySet();
 
 		for (LinkedHashSet<String> patterns : cooccurringPatterns) {
-			
+
 			boolean aPatternDoesNotMatch = patterns.stream()
 					.anyMatch(pattern -> !containsPattern(pattern, patternMatchesSet));
 			boolean allPatternsMatch = !aPatternDoesNotMatch;

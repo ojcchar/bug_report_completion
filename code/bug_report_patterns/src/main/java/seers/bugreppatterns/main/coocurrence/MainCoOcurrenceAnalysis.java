@@ -17,12 +17,16 @@ import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.goldset.GoldSetProcessor.TextInstance;
 import seers.bugreppatterns.main.validation.MainMatcher;
+import seers.bugreppatterns.utils.JavaUtils;
 
 public class MainCoOcurrenceAnalysis {
 
 	static ConcurrentHashMap<TextInstance, Set<String>> sentenceCooccurrences = new ConcurrentHashMap<>();
 	static ConcurrentHashMap<TextInstance, Set<String>> paragraphCooccurrences = new ConcurrentHashMap<>();
 	static ConcurrentHashMap<TextInstance, Set<String>> bugsCooccurrences = new ConcurrentHashMap<>();
+
+	static final Set<String> PATTERNS_TO_AVOID = JavaUtils.getSet("S_EB_CAN", "S_EB_IMPERATIVE");
+//	static final Set<String> PATTERNS_TO_AVOID = JavaUtils.getSet();
 
 	public static void main(String[] args) throws Exception {
 
@@ -139,17 +143,17 @@ public class MainCoOcurrenceAnalysis {
 			cooccurrenceSet.put(txtInstance, patterns);
 		}
 
-		if (!dataEntry.pattern1.trim().isEmpty()) {
+		if (!dataEntry.pattern1.trim().isEmpty() && !PATTERNS_TO_AVOID.contains(dataEntry.pattern1.trim())) {
 			patterns.add(dataEntry.pattern1.trim());
 		}
-		if (!dataEntry.pattern2.trim().isEmpty()) {
+		if (!dataEntry.pattern2.trim().isEmpty() && !PATTERNS_TO_AVOID.contains(dataEntry.pattern2.trim())) {
 			patterns.add(dataEntry.pattern2.trim());
 		}
-		if (!dataEntry.pattern2.trim().isEmpty()) {
-			patterns.add(dataEntry.pattern2.trim());
+		if (!dataEntry.pattern3.trim().isEmpty() && !PATTERNS_TO_AVOID.contains(dataEntry.pattern3.trim())) {
+			patterns.add(dataEntry.pattern3.trim());
 		}
-		if (!dataEntry.pattern2.trim().isEmpty()) {
-			patterns.add(dataEntry.pattern2.trim());
+		if (!dataEntry.pattern4.trim().isEmpty() && !PATTERNS_TO_AVOID.contains(dataEntry.pattern4.trim())) {
+			patterns.add(dataEntry.pattern4.trim());
 		}
 	}
 }

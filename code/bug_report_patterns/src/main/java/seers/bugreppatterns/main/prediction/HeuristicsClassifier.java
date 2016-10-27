@@ -61,6 +61,7 @@ public class HeuristicsClassifier {
 
 	public void runClassifier() throws Exception {
 		LOGGER.debug("#patterns: " + patterns.size());
+		LOGGER.debug("predictor: " + PREDICTOR);
 
 		// ------------------------------------------
 
