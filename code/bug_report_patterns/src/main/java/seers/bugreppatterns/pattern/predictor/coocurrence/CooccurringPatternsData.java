@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import seers.bugrepcompl.utils.DataReader;
+import seers.bugreppatterns.pattern.PatternMatcher;
 
 public class CooccurringPatternsData {
 
@@ -22,11 +23,11 @@ public class CooccurringPatternsData {
 	protected Set<CooccurringPattern> cooccurringPatternsEB;
 	protected Set<CooccurringPattern> cooccurringPatternsSR;
 
-	public CooccurringPatternsData(String dataFilePath) throws IOException {
-		loadCooccurringPatterns(dataFilePath);
+	public CooccurringPatternsData(String dataFilePath, List<PatternMatcher> patterns) throws IOException {
+		loadCooccurringPatterns(dataFilePath, patterns);
 	}
 
-	private void loadCooccurringPatterns(String dataFilePath) throws IOException {
+	private void loadCooccurringPatterns(String dataFilePath, List<PatternMatcher> patterns) throws IOException {
 
 		LOGGER.debug("Loading co-occurring patterns: " + dataFilePath);
 
@@ -74,9 +75,9 @@ public class CooccurringPatternsData {
 
 		// ----------------------------------------
 
-		addIndividualPatterns(individualCooccurringOb, individualNonCooccurringOb, cooccurringPatternsOB);
-		addIndividualPatterns(individualCooccurringEb, individualNonCooccurringEb, cooccurringPatternsEB);
-		addIndividualPatterns(individualCooccurringSr, individualNonCooccurringSr, cooccurringPatternsSR);
+		addIndividualPatterns(individualCooccurringOb, individualNonCooccurringOb, cooccurringPatternsOB, patterns);
+		addIndividualPatterns(individualCooccurringEb, individualNonCooccurringEb, cooccurringPatternsEB, patterns);
+		addIndividualPatterns(individualCooccurringSr, individualNonCooccurringSr, cooccurringPatternsSR, patterns);
 
 		LOGGER.debug("Co-occurring patterns: " + cooccurringPatternsOB.size() + " OB, " + cooccurringPatternsEB.size()
 				+ " EB, " + cooccurringPatternsSR.size() + " SR");
@@ -87,16 +88,28 @@ public class CooccurringPatternsData {
 	}
 
 	private void addIndividualPatterns(Set<String> individualCooccurring, Set<String> individualNonCooccurring,
-			Set<CooccurringPattern> cooccurringPatterns) {
+			Set<CooccurringPattern> cooccurringPatterns, List<PatternMatcher> patterns) {
 
 		individualNonCooccurring.stream().forEach(pattern -> {
 			if (!individualCooccurring.contains(pattern)) {
-				CooccurringPattern cooccurPattern = new CooccurringPattern(
+				int patternId = findPatternId(patterns, pattern);
+				CooccurringPattern cooccurPattern = new CooccurringPattern(patternId,
 						new LinkedHashSet<>(new LinkedHashSet<>(Arrays.asList(new String[] { pattern }))), true);
 				cooccurringPatterns.add(cooccurPattern);
 			}
 		});
 
+	}
+
+	private int findPatternId(List<PatternMatcher> patterns, String pattern) {
+		PatternMatcher patt = PatternMatcher.createFakePattern(pattern);
+		int idx = patterns.indexOf(patt);
+
+		if (idx == -1) {
+			throw new RuntimeException("Pattern not found: " + pattern);
+		}
+
+		return patterns.get(idx).getCode();
 	}
 
 	private void addCooccurringPatterns(List<String> patternList, Set<String> individualCooccurring,
@@ -113,7 +126,7 @@ public class CooccurringPatternsData {
 		} else {
 			CooccurringPattern cooccurPattern = new CooccurringPattern(new LinkedHashSet<>(patternList), false);
 			cooccurringPatterns.add(cooccurPattern);
-			
+
 			individualCooccurring.addAll(patternList);
 		}
 

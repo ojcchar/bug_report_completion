@@ -17,8 +17,9 @@ public class StrictCoocurrencePredictor extends CoocurrencePredictor {
 
 	private boolean strict;
 
-	public StrictCoocurrencePredictor(String granularity, String configFolder, boolean strict) throws IOException {
-		super(granularity, configFolder);
+	public StrictCoocurrencePredictor(List<PatternMatcher> patterns, String granularity, boolean includeIndivFeatures,
+			String configFolder, boolean strict) throws IOException {
+		super(patterns, granularity, includeIndivFeatures, configFolder);
 		this.strict = strict;
 	}
 
@@ -36,7 +37,10 @@ public class StrictCoocurrencePredictor extends CoocurrencePredictor {
 		String isEB = "";
 		String isSR = "";
 
-		List<PatternFeature> features = new ArrayList<>(getFeaturesMatched(patternMatches));
+		List<PatternFeature> features = new ArrayList<>();
+		if (includeIndivFeatures) {
+			features = new ArrayList<>(getFeaturesMatched(patternMatches));
+		}
 
 		Set<PatternMatcher> obPatterns = getPatterns(patternMatches, PatternMatcher.OB);
 		List<CooccurringPattern> cooccurMatchesOB = getCooccurringMatches(cooccurringPatternsData.cooccurringPatternsOB,

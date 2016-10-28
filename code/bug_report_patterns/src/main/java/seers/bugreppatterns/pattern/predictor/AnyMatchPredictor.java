@@ -2,6 +2,7 @@ package seers.bugreppatterns.pattern.predictor;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 import seers.bugreppatterns.pattern.PatternMatcher;
@@ -9,8 +10,8 @@ import seers.bugreppatterns.pattern.predictor.coocurrence.CooccurringPattern;
 
 public class AnyMatchPredictor extends LabelPredictor {
 
-	public AnyMatchPredictor(String granularity) {
-		super(granularity);
+	public AnyMatchPredictor(List<PatternMatcher> patterns, String granularity, boolean includeIndivFeatures) {
+		super(patterns, granularity, includeIndivFeatures);
 	}
 
 	@Override

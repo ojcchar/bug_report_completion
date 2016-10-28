@@ -19,8 +19,9 @@ public class CoocurrencePredictor extends LabelPredictor {
 	protected static CooccurringPatternsData cooccurringPatterns;
 	protected static Set<CooccurringPattern> allCooccurringPatterns;
 
-	public CoocurrencePredictor(String granularity, String configFolder) throws IOException {
-		super(granularity);
+	public CoocurrencePredictor(List<PatternMatcher> patterns, String granularity, boolean includeIndivFeatures, String configFolder)
+			throws IOException {
+		super(patterns, granularity, includeIndivFeatures);
 		loadCooccurringPatterns(configFolder);
 	}
 
@@ -32,7 +33,7 @@ public class CoocurrencePredictor extends LabelPredictor {
 		}
 
 		String dataFilePath = configFolder + File.separator + "coocurrence-" + granularity + ".csv";
-		cooccurringPatterns = new CooccurringPatternsData(dataFilePath);
+		cooccurringPatterns = new CooccurringPatternsData(dataFilePath, patterns);
 
 		allCooccurringPatterns = new LinkedHashSet<>();
 		allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsOB);
@@ -53,7 +54,10 @@ public class CoocurrencePredictor extends LabelPredictor {
 		String isEB = "";
 		String isSR = "";
 
-		List<PatternFeature> features = new ArrayList<>(getFeaturesMatched(patternMatches));
+		List<PatternFeature> features = new ArrayList<>();
+		if (includeIndivFeatures) {
+			features = new ArrayList<>(getFeaturesMatched(patternMatches));
+		}
 
 		List<CooccurringPattern> cooccurMatchesOB = getCooccurringMatches(cooccurringPatternsData.cooccurringPatternsOB,
 				patternMatches);
@@ -85,7 +89,13 @@ public class CoocurrencePredictor extends LabelPredictor {
 		List<PatternFeature> features = new ArrayList<>();
 
 		cooccurMatches.forEach(pattern -> {
-			if (!pattern.isIndividual()) {
+
+			if (includeIndivFeatures) {
+				if (!pattern.isIndividual()) {
+					PatternFeature feature = new PatternFeature(pattern.getId().toString(), pattern.getName(), "1");
+					features.add(feature);
+				}
+			} else {
 				PatternFeature feature = new PatternFeature(pattern.getId().toString(), pattern.getName(), "1");
 				features.add(feature);
 			}

@@ -45,9 +45,11 @@ public class HeuristicsClassifier {
 	private Predictor predictionMethod;
 	private List<PatternMatcher> patterns;
 	private String configFolder;
+	private boolean includeIndivFeatures;
 
 	public HeuristicsClassifier(String dataFolder, String granularity, String[] systems, String outputFolder,
-			Predictor predictionMethod, List<PatternMatcher> patterns, String configFolder) {
+			Predictor predictionMethod, List<PatternMatcher> patterns, String configFolder,
+			boolean includeIndivFeatures) {
 		super();
 		this.dataFolder = dataFolder;
 		this.granularity = granularity;
@@ -56,6 +58,7 @@ public class HeuristicsClassifier {
 		this.predictionMethod = predictionMethod;
 		this.patterns = patterns;
 		this.configFolder = configFolder;
+		this.includeIndivFeatures = includeIndivFeatures;
 	}
 
 	public void runClassifier() throws Exception {
@@ -111,10 +114,12 @@ public class HeuristicsClassifier {
 
 		// ------------------------
 
-		for (PatternMatcher patternMatcher : patterns) {
-			List<String> nextLine = Arrays
-					.asList(new String[] { patternMatcher.getName(), patternMatcher.getCode().toString() });
-			featuresDefinitionsWriter.writeNext(nextLine);
+		if (includeIndivFeatures) {
+			for (PatternMatcher patternMatcher : patterns) {
+				List<String> nextLine = Arrays
+						.asList(new String[] { patternMatcher.getName(), patternMatcher.getCode().toString() });
+				featuresDefinitionsWriter.writeNext(nextLine);
+			}
 		}
 
 		for (CooccurringPattern occurrringPatterns : predictor.getCooccurringFeatures()) {
@@ -128,13 +133,13 @@ public class HeuristicsClassifier {
 	private LabelPredictor getPredictor() throws IOException {
 		switch (predictionMethod) {
 		case ANY_MATCH:
-			return new AnyMatchPredictor(granularity);
+			return new AnyMatchPredictor(patterns, granularity, includeIndivFeatures);
 		case COOCCUR:
-			return new CoocurrencePredictor(granularity, configFolder);
+			return new CoocurrencePredictor(patterns, granularity, includeIndivFeatures, configFolder);
 		case COOCCUR_STRICT1:
-			return new StrictCoocurrencePredictor(granularity, configFolder, false);
+			return new StrictCoocurrencePredictor(patterns, granularity, includeIndivFeatures, configFolder, false);
 		case COOCCUR_STRICT2:
-			return new StrictCoocurrencePredictor(granularity, configFolder, true);
+			return new StrictCoocurrencePredictor(patterns, granularity, includeIndivFeatures, configFolder, true);
 		default:
 			break;
 		}

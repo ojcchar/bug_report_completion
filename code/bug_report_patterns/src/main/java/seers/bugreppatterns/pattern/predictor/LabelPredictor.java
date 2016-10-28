@@ -12,10 +12,14 @@ import seers.bugreppatterns.processor.PatternFeature;
 public abstract class LabelPredictor {
 	
 	protected String granularity;
+	protected boolean includeIndivFeatures;
+	protected List<PatternMatcher> patterns;
 
-	public LabelPredictor(String granularity) {
+	public LabelPredictor(List<PatternMatcher> patterns, String granularity, boolean includeIndivFeatures) {
 		super();
 		this.granularity = granularity;
+		this.includeIndivFeatures = includeIndivFeatures;
+		this.patterns = patterns;
 	}
 
 	public abstract PredictionOutput predictLabels(String bugRepId, String instanceId,

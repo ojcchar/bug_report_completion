@@ -27,6 +27,7 @@ public class MainHRClassifier {
 		Predictor predictionMethod = EnumUtils.getEnum(Predictor.class, args[4]);
 		String pathFilePatterns = args[5];
 		String configFolder = args[6];
+		boolean includeIndivFeatures = "y".equalsIgnoreCase(args[7]);
 
 		// ------------------------------------------
 
@@ -35,7 +36,7 @@ public class MainHRClassifier {
 		// ------------------------------------------
 
 		HeuristicsClassifier classifier = new HeuristicsClassifier(dataFolder, granularity, systems, outputFolder,
-				predictionMethod, patterns, configFolder);
+				predictionMethod, patterns, configFolder, includeIndivFeatures);
 		classifier.runClassifier();
 
 		// ------------------------------------------

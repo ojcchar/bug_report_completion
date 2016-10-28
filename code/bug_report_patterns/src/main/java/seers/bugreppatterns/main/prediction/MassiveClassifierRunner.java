@@ -25,6 +25,7 @@ public class MassiveClassifierRunner {
 		Predictor predictionMethod = EnumUtils.getEnum(Predictor.class, args[4]);
 		String pathFilePatterns = args[5];
 		String configFolder= args[6];
+		boolean includeIndivFeatures = "y".equalsIgnoreCase(args[7]);
 
 		// read the list of patterns
 		List<PatternMatcher> patterns = MainHRClassifier.loadPatterns(new File(pathFilePatterns));
@@ -53,7 +54,7 @@ public class MassiveClassifierRunner {
 			for (String granularity : granularities) {
 
 				HeuristicsClassifier classifier = new HeuristicsClassifier(dataFolder, granularity, systems,
-						outputFolder2, predictionMethod, filteredPatterns, configFolder);
+						outputFolder2, predictionMethod, filteredPatterns, configFolder, includeIndivFeatures);
 				classifier.runClassifier();
 
 			}

@@ -14,8 +14,8 @@ public class ClassifierRunner {
 		String dataFolder = "test_data" + File.separator + "data";
 		String outputFolder = "test_data" + File.separator + "output2";
 		String configFolder = "test_data";
-
 		String pattersFile = "patterns.csv";
+		boolean includeIndivFeatures = true;
 
 		// String[] granularities = { "B", "P", "S" };
 
@@ -23,7 +23,7 @@ public class ClassifierRunner {
 
 		for (String g : granularities) {
 			String[] args2 = { dataFolder, g, systems, outputFolder, Predictor.COOCCUR.toString(), pattersFile,
-					configFolder };
+					configFolder, includeIndivFeatures ? "y" : "n" };
 			MainHRClassifier.main(args2);
 		}
 	}

@@ -13,8 +13,12 @@ public class CooccurringPattern {
 	private boolean isIndividual;
 
 	public CooccurringPattern(LinkedHashSet<String> cooccurringPatterns, boolean isIndividual) {
+		this(ID_SEQUENCE.getAndIncrement(), cooccurringPatterns, isIndividual);
+	}
+
+	public CooccurringPattern(int id, LinkedHashSet<String> cooccurringPatterns, boolean isIndividual) {
 		super();
-		this.id = ID_SEQUENCE.getAndIncrement();
+		this.id = id;
 		this.cooccurringPatterns = cooccurringPatterns;
 		this.isIndividual = isIndividual;
 		assignName(cooccurringPatterns);
@@ -75,7 +79,5 @@ public class CooccurringPattern {
 			return false;
 		return true;
 	}
-	
-	
 
 }
