@@ -15,7 +15,7 @@ public class ClassifierRunner {
 		String outputFolder = "test_data" + File.separator + "output2";
 		String configFolder = "test_data";
 		String pattersFile = "patterns.csv";
-		boolean includeIndivFeatures = true;
+		boolean includeIndivFeatures = false;
 
 		// String[] granularities = { "B", "P", "S" };
 

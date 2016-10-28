@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
@@ -19,8 +20,8 @@ public class CoocurrencePredictor extends LabelPredictor {
 	protected static CooccurringPatternsData cooccurringPatterns;
 	protected static Set<CooccurringPattern> allCooccurringPatterns;
 
-	public CoocurrencePredictor(List<PatternMatcher> patterns, String granularity, boolean includeIndivFeatures, String configFolder)
-			throws IOException {
+	public CoocurrencePredictor(List<PatternMatcher> patterns, String granularity, boolean includeIndivFeatures,
+			String configFolder) throws IOException {
 		super(patterns, granularity, includeIndivFeatures);
 		loadCooccurringPatterns(configFolder);
 	}
@@ -36,9 +37,18 @@ public class CoocurrencePredictor extends LabelPredictor {
 		cooccurringPatterns = new CooccurringPatternsData(dataFilePath, patterns);
 
 		allCooccurringPatterns = new LinkedHashSet<>();
-		allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsOB);
-		allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsEB);
-		allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsSR);
+		if (includeIndivFeatures) {
+			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsOB.stream()
+					.filter(p -> !p.isIndividual()).collect(Collectors.toList()));
+			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsEB.stream()
+					.filter(p -> !p.isIndividual()).collect(Collectors.toList()));
+			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsSR.stream()
+					.filter(p -> !p.isIndividual()).collect(Collectors.toList()));
+		} else {
+			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsOB);
+			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsEB);
+			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsSR);
+		}
 	}
 
 	@Override
