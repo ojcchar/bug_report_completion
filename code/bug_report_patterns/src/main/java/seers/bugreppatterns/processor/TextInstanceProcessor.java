@@ -3,9 +3,7 @@ package seers.bugreppatterns.processor;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import net.quux00.simplecsv.CsvWriter;
 import seers.appcore.threads.ThreadExecutor;
@@ -22,11 +20,10 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 	protected CsvWriter predictionWriter;
 	protected List<PatternMatcher> patterns;
 	protected List<File> files;
-	protected String granularity;
 	protected String system;
-	private CsvWriter featuresWriter;
+	private CsvWriter preFeaturesWriter;
 	protected LabelPredictor predictor;
-	private CsvWriter featuresWriter2;
+	private CsvWriter patternsPreFeaturesWriter;
 
 	public TextInstanceProcessor(ThreadParameters params) {
 		super(params);
@@ -35,10 +32,9 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 		predictionWriter = params.getParam(CsvWriter.class, HeuristicsClassifier.PREDICTION_WRITER);
 		patterns = params.getListParam(PatternMatcher.class, HeuristicsClassifier.PATTERNS);
 		files = params.getListParam(File.class, ThreadExecutor.ELEMENTS_PARAM);
-		granularity = params.getStringParam(HeuristicsClassifier.GRANULARITY);
 		system = params.getStringParam(HeuristicsClassifier.SYSTEM);
-		featuresWriter = params.getParam(CsvWriter.class, HeuristicsClassifier.FEATURES_WRITER);
-		featuresWriter2 = params.getParam(CsvWriter.class, HeuristicsClassifier.FEATURES_WRITER2);
+		preFeaturesWriter = params.getParam(CsvWriter.class, HeuristicsClassifier.PRE_FEATURES_WRITER);
+		patternsPreFeaturesWriter = params.getParam(CsvWriter.class, HeuristicsClassifier.PATTERN_PRE_FEATURES_WRITER);
 		predictor = params.getParam(LabelPredictor.class, HeuristicsClassifier.PREDICTOR);
 	}
 
@@ -49,35 +45,31 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 		predictionWriter.writeNext(nextLine);
 	}
 
-	protected void writeFeatures(String bugRepId, String instanceId,
-			LinkedHashMap<PatternMatcher, Integer> patternMatches) {
+	protected void writePreFeatures(String bugRepId, String instanceId, List<PatternFeature> features) {
 		List<String> nextLine = new ArrayList<>();
 		nextLine.add(system);
 		nextLine.add(bugRepId);
 		nextLine.add(instanceId);
 
-		patternMatches.forEach((k, v) -> {
-			nextLine.add(k.getCode() + ":" + v);
+		features.forEach(f -> {
+			nextLine.add(f.getId() + ":" + f.getValue());
 		});
 
-		featuresWriter.writeNext(nextLine);
+		preFeaturesWriter.writeNext(nextLine);
 
 		// --------------------------
-
-		List<Entry<PatternMatcher, Integer>> entrySet = new ArrayList<>(patternMatches.entrySet());
-		entrySet.sort((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()));
 
 		List<String> nextLine2 = new ArrayList<>();
 		nextLine2.add(system);
 		nextLine2.add(bugRepId);
 		nextLine2.add(instanceId);
 
-		entrySet.forEach(e -> {
-			nextLine2.add(e.getKey().getName());
-			nextLine2.add(String.valueOf(e.getValue()));
+		features.forEach(e -> {
+			nextLine2.add(e.getName());
+			nextLine2.add(e.getValue().toString());
 		});
 
-		featuresWriter2.writeNext(nextLine2);
+		patternsPreFeaturesWriter.writeNext(nextLine2);
 
 	}
 

@@ -48,7 +48,14 @@ public class MainHRClassifier {
 		List<String> allPatterns = FileUtils.readLines(filePatterns);
 
 		List<PatternMatcher> patterns = new ArrayList<>();
+
+		// -----------------------------
+		// For validation:
+
 		HashMap<String, Integer> patternMapping = new HashMap<>();
+		HashMap<Integer, Integer> patternIds = new HashMap<>();
+
+		// -----------------------------
 
 		for (String patternNameClassIndex : allPatterns) {
 
@@ -60,6 +67,8 @@ public class MainHRClassifier {
 			String[] split2 = patternNameClass.split(";");
 			String patternName = split2[0];
 			String className = split2[1];
+
+			// -----------------------------
 
 			if (patternName.contains("_EB_")) {
 				className = "seers.bugreppatterns.pattern.eb." + className;
@@ -74,6 +83,17 @@ public class MainHRClassifier {
 			pattern.setCode(code);
 			pattern.setName(patternName);
 
+			// -----------------------------
+			// For validation: unique IDs and classes uniquely assigned to
+			// patterns
+
+			Integer freq = patternIds.get(code);
+			if (freq == null) {
+				patternIds.put(code, 1);
+			} else {
+				patternIds.put(code, freq + 1);
+			}
+
 			Integer num = patternMapping.get(className);
 			if (num == null) {
 				patternMapping.put(className, 1);
@@ -82,7 +102,12 @@ public class MainHRClassifier {
 			}
 
 			patterns.add(pattern);
+
+			// -----------------------------
 		}
+
+		// ----------------------------------------------
+		// Validation
 
 		List<Entry<String, Integer>> invalidMappings = patternMapping.entrySet().stream()
 				.filter(entry -> entry.getValue() > 1).collect(Collectors.toList());
@@ -90,6 +115,15 @@ public class MainHRClassifier {
 		if (!invalidMappings.isEmpty()) {
 			throw new RuntimeException("The following classes have more than 1 pattern assigned: " + invalidMappings);
 		}
+
+		List<Entry<Integer, Integer>> invalidMappings2 = patternIds.entrySet().stream()
+				.filter(entry -> entry.getValue() > 1).collect(Collectors.toList());
+
+		if (!invalidMappings2.isEmpty()) {
+			throw new RuntimeException("The following IDs ares assigned more than once: " + invalidMappings2);
+		}
+
+		// ----------------------------------------------
 
 		return patterns;
 	}

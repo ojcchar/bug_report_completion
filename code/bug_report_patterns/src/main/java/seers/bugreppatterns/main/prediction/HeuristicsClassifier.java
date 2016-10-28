@@ -15,10 +15,10 @@ import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.AnyMatchPredictor;
-import seers.bugreppatterns.pattern.predictor.CombinationPredictor;
-import seers.bugreppatterns.pattern.predictor.CoocurrencePredictor;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
-import seers.bugreppatterns.pattern.predictor.StrictCoocurrencePredictor;
+import seers.bugreppatterns.pattern.predictor.coocurrence.CooccurringPattern;
+import seers.bugreppatterns.pattern.predictor.coocurrence.CoocurrencePredictor;
+import seers.bugreppatterns.pattern.predictor.coocurrence.StrictCoocurrencePredictor;
 import seers.bugreppatterns.processor.SystemProcessor;
 
 public class HeuristicsClassifier {
@@ -26,7 +26,7 @@ public class HeuristicsClassifier {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HeuristicsClassifier.class);
 
 	public enum Predictor {
-		ANY_MATCH, COMBIN, COOCCUR, COOCCUR_STRICT1, COOCCUR_STRICT2
+		ANY_MATCH, COOCCUR, COOCCUR_STRICT1, COOCCUR_STRICT2
 	}
 
 	public static final String DATA_FOLDER = "DATA_FOLDER";
@@ -34,9 +34,9 @@ public class HeuristicsClassifier {
 	public static final String GRANULARITY = "GRANULARITY";
 	public static final String PREDICTION_WRITER = "PREDICTION_WRITER";
 	public static final String PATTERNS = "PATTERNS";
-	public static final String FEATURES_WRITER = "FEATURES_WRITER";
+	public static final String PRE_FEATURES_WRITER = "PRE_FEATURES_WRITER";
 	public static final String PREDICTOR = "PREDICTOR";
-	public static final String FEATURES_WRITER2 = "FEATURES_WRITER2";
+	public static final String PATTERN_PRE_FEATURES_WRITER = "PATTERN_PRE_FEATURES_WRITER";
 
 	private String dataFolder;
 	private String granularity;
@@ -45,7 +45,6 @@ public class HeuristicsClassifier {
 	private Predictor predictionMethod;
 	private List<PatternMatcher> patterns;
 	private String configFolder;
-	
 
 	public HeuristicsClassifier(String dataFolder, String granularity, String[] systems, String outputFolder,
 			Predictor predictionMethod, List<PatternMatcher> patterns, String configFolder) {
@@ -61,34 +60,35 @@ public class HeuristicsClassifier {
 
 	public void runClassifier() throws Exception {
 		LOGGER.debug("#patterns: " + patterns.size());
-		LOGGER.debug("predictor: " + PREDICTOR);
+		LOGGER.debug("predictor: " + predictionMethod);
 
 		// ------------------------------------------
 
-		try (CsvWriter csvw1 = new CsvWriterBuilder(
-				new FileWriter(outputFolder + File.separator + "output-prediction-" + granularity + ".csv"))
-						.separator(';').build();
-				CsvWriter csvw2 = new CsvWriterBuilder(
-						new FileWriter(outputFolder + File.separator + "output-pre-features-" + granularity + ".csv"))
-								.separator(';').build();
-				CsvWriter csvw3 = new CsvWriterBuilder(
-						new FileWriter(outputFolder + File.separator + "output-patterns-" + granularity + ".csv"))
-								.separator(';').build();) {
+		try (CsvWriter predictionWriter = createWriter("output-prediction");
+				CsvWriter prefeaturesWriter = createWriter("output-pre-features");
+				CsvWriter patternsPreFeaturesWriter = createWriter("output-patterns");
+				CsvWriter featuresDefinitionsWriter = createWriter("feature-definitions", ' ');) {
 
 			ThreadParameters params = new ThreadParameters();
 			params.addParam(DATA_FOLDER, dataFolder);
-			params.addParam(PREDICTION_WRITER, csvw1);
+			params.addParam(PREDICTION_WRITER, predictionWriter);
 			params.addParam(PATTERNS, patterns);
 			params.addParam(GRANULARITY, granularity);
-			params.addParam(FEATURES_WRITER, csvw2);
-			params.addParam(FEATURES_WRITER2, csvw3);
+			params.addParam(PRE_FEATURES_WRITER, prefeaturesWriter);
+			params.addParam(PATTERN_PRE_FEATURES_WRITER, patternsPreFeaturesWriter);
 
-			LabelPredictor predictor = getPredictor(predictionMethod, configFolder);
+			LabelPredictor predictor = getPredictor();
 			params.addParam(PREDICTOR, predictor);
+
+			// ------------------------------------------------
+
+			writeFeatures(featuresDefinitionsWriter, predictor);
+
+			// ------------------------------------------------
 
 			// titles
 			String[] title = new String[] { "system", "bug_id", "instance_id", "is_ob", "is_eb", "is_sr" };
-			csvw1.writeNext(Arrays.asList(title));
+			predictionWriter.writeNext(Arrays.asList(title));
 
 			ThreadExecutor.executeOneByOne(Arrays.asList(systems), SystemProcessor.class, params, systems.length * 2);
 
@@ -97,18 +97,44 @@ public class HeuristicsClassifier {
 		LOGGER.debug("Done " + granularity + "!");
 	}
 
-	private LabelPredictor getPredictor(Predictor predictionMethod, String configFolder) throws IOException {
+	private CsvWriter createWriter(String prefixFileName) throws IOException {
+		return createWriter(prefixFileName, ';');
+	}
+
+	private CsvWriter createWriter(String prefixFileName, char separator) throws IOException {
+		return new CsvWriterBuilder(
+				new FileWriter(outputFolder + File.separator + prefixFileName + "-" + granularity + ".csv"))
+						.separator(separator).quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
+	}
+
+	private void writeFeatures(CsvWriter featuresDefinitionsWriter, LabelPredictor predictor) {
+
+		// ------------------------
+
+		for (PatternMatcher patternMatcher : patterns) {
+			List<String> nextLine = Arrays
+					.asList(new String[] { patternMatcher.getName(), patternMatcher.getCode().toString() });
+			featuresDefinitionsWriter.writeNext(nextLine);
+		}
+
+		for (CooccurringPattern occurrringPatterns : predictor.getCooccurringFeatures()) {
+			List<String> nextLine = Arrays
+					.asList(new String[] { occurrringPatterns.getName(), occurrringPatterns.getId().toString() });
+			featuresDefinitionsWriter.writeNext(nextLine);
+		}
+
+	}
+
+	private LabelPredictor getPredictor() throws IOException {
 		switch (predictionMethod) {
 		case ANY_MATCH:
-			return new AnyMatchPredictor();
-		case COMBIN:
-			return new CombinationPredictor();
+			return new AnyMatchPredictor(granularity);
 		case COOCCUR:
-			return new CoocurrencePredictor(configFolder);
+			return new CoocurrencePredictor(granularity, configFolder);
 		case COOCCUR_STRICT1:
-			return new StrictCoocurrencePredictor(configFolder, false);
+			return new StrictCoocurrencePredictor(granularity, configFolder, false);
 		case COOCCUR_STRICT2:
-			return new StrictCoocurrencePredictor(configFolder, true);
+			return new StrictCoocurrencePredictor(granularity, configFolder, true);
 		default:
 			break;
 		}

@@ -1,15 +1,21 @@
 package seers.bugreppatterns.pattern.predictor;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
 import seers.bugreppatterns.pattern.PatternMatcher;
+import seers.bugreppatterns.pattern.predictor.coocurrence.CooccurringPattern;
 
 public class AnyMatchPredictor extends LabelPredictor {
 
+	public AnyMatchPredictor(String granularity) {
+		super(granularity);
+	}
+
 	@Override
-	public Labels predictLabels(String bugRepId, String instanceId,
-			LinkedHashMap<PatternMatcher, Integer> patternMatches, String granularity) throws Exception {
+	public PredictionOutput predictLabels(String bugRepId, String instanceId,
+			LinkedHashMap<PatternMatcher, Integer> patternMatches) throws Exception {
 
 		String isOB = "";
 		String isEB = "";
@@ -31,7 +37,15 @@ public class AnyMatchPredictor extends LabelPredictor {
 			isSR = "x";
 		}
 
-		return new Labels(isOB, isEB, isSR);
+		PredictionOutput output = new PredictionOutput(new Labels(isOB, isEB, isSR),
+				getFeaturesMatched(patternMatches));
+
+		return output;
+	}
+
+	@Override
+	public Set<CooccurringPattern> getCooccurringFeatures() {
+		return new HashSet<>();
 	}
 
 }

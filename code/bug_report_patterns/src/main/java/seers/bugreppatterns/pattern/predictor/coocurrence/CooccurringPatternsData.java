@@ -1,11 +1,10 @@
-package seers.bugreppatterns.pattern.predictor;
+package seers.bugreppatterns.pattern.predictor.coocurrence;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,30 +13,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import seers.bugrepcompl.utils.DataReader;
-import seers.bugreppatterns.pattern.PatternMatcher;
 
-public class CoocurrencePredictor extends LabelPredictor {
+public class CooccurringPatternsData {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CoocurrencePredictor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CooccurringPatternsData.class);
 
-	protected static Set<LinkedHashSet<String>> cooccurringPatternsOB;
-	protected static Set<LinkedHashSet<String>> cooccurringPatternsEB;
-	protected static Set<LinkedHashSet<String>> cooccurringPatternsSR;
+	protected Set<CooccurringPattern> cooccurringPatternsOB;
+	protected Set<CooccurringPattern> cooccurringPatternsEB;
+	protected Set<CooccurringPattern> cooccurringPatternsSR;
 
-	public CoocurrencePredictor(String configFolder) throws IOException {
-		loadCooccurringPatterns(configFolder);
+	public CooccurringPatternsData(String dataFilePath) throws IOException {
+		loadCooccurringPatterns(dataFilePath);
 	}
 
-	private synchronized void loadCooccurringPatterns(String configFolder) throws IOException {
+	private void loadCooccurringPatterns(String dataFilePath) throws IOException {
 
-		// patterns already loaded
-		if (cooccurringPatternsOB != null && cooccurringPatternsEB != null && cooccurringPatternsSR != null) {
-			return;
-		}
+		LOGGER.debug("Loading co-occurring patterns: " + dataFilePath);
 
-		LOGGER.debug("Loading co-occurring patterns");
-
-		List<List<String>> lines = DataReader.readLines(new File(configFolder + File.separator + "coocurrence-B.csv"));
+		List<List<String>> lines = DataReader.readLines(new File(dataFilePath));
 
 		// ----------------------------------------
 
@@ -88,24 +81,26 @@ public class CoocurrencePredictor extends LabelPredictor {
 		LOGGER.debug("Co-occurring patterns: " + cooccurringPatternsOB.size() + " OB, " + cooccurringPatternsEB.size()
 				+ " EB, " + cooccurringPatternsSR.size() + " SR");
 
-//		LOGGER.debug(cooccurringPatternsOB.toString());
-//		LOGGER.debug(cooccurringPatternsEB.toString());
-//		LOGGER.debug(cooccurringPatternsSR.toString());
+		// LOGGER.debug(cooccurringPatternsOB.toString());
+		// LOGGER.debug(cooccurringPatternsEB.toString());
+		// LOGGER.debug(cooccurringPatternsSR.toString());
 	}
 
 	private void addIndividualPatterns(Set<String> individualCooccurring, Set<String> individualNonCooccurring,
-			Set<LinkedHashSet<String>> cooccurringPatterns) {
+			Set<CooccurringPattern> cooccurringPatterns) {
 
 		individualNonCooccurring.stream().forEach(pattern -> {
 			if (!individualCooccurring.contains(pattern)) {
-				cooccurringPatterns.add(new LinkedHashSet<>(Arrays.asList(new String[] { pattern })));
+				CooccurringPattern cooccurPattern = new CooccurringPattern(
+						new LinkedHashSet<>(new LinkedHashSet<>(Arrays.asList(new String[] { pattern }))), true);
+				cooccurringPatterns.add(cooccurPattern);
 			}
 		});
 
 	}
 
 	private void addCooccurringPatterns(List<String> patternList, Set<String> individualCooccurring,
-			Set<String> individualNonCooccurring, Set<LinkedHashSet<String>> cooccurringPatterns) {
+			Set<String> individualNonCooccurring, Set<CooccurringPattern> cooccurringPatterns) {
 
 		if (patternList == null || patternList.isEmpty()) {
 			return;
@@ -116,7 +111,9 @@ public class CoocurrencePredictor extends LabelPredictor {
 				individualNonCooccurring.add(patternList.get(0));
 			}
 		} else {
-			cooccurringPatterns.add(new LinkedHashSet<>(patternList));
+			CooccurringPattern cooccurPattern = new CooccurringPattern(new LinkedHashSet<>(patternList), false);
+			cooccurringPatterns.add(cooccurPattern);
+			
 			individualCooccurring.addAll(patternList);
 		}
 
@@ -136,74 +133,12 @@ public class CoocurrencePredictor extends LabelPredictor {
 				patternList.add(pattern.trim());
 			}
 		}
-		
+
 		if (patternList.isEmpty()) {
 			return null;
 		}
 
 		return patternList;
-	}
-
-	@Override
-	public Labels predictLabels(String bugRepId, String instanceId,
-			LinkedHashMap<PatternMatcher, Integer> patternMatches, String granularity) throws Exception {
-
-		if ("B".equals(granularity)) {
-			return predictLabelsForBugs(patternMatches);
-		}
-
-		return new Labels();
-	}
-
-	private Labels predictLabelsForBugs(LinkedHashMap<PatternMatcher, Integer> patternMatches) {
-		String isOB = "";
-		String isEB = "";
-		String isSR = "";
-
-		if (matchesAnyPattern(cooccurringPatternsOB, patternMatches)) {
-			isOB = "x";
-		}
-
-		if (matchesAnyPattern(cooccurringPatternsEB, patternMatches)) {
-			isEB = "x";
-		}
-
-		if (matchesAnyPattern(cooccurringPatternsSR, patternMatches)) {
-			isSR = "x";
-		}
-
-		return new Labels(isOB, isEB, isSR);
-	}
-
-	private boolean matchesAnyPattern(Set<LinkedHashSet<String>> cooccurringPatterns,
-			LinkedHashMap<PatternMatcher, Integer> patternMatches) {
-
-		LinkedHashSet<String> cooccur = null;
-
-		Set<PatternMatcher> patternMatchesSet = patternMatches.keySet();
-
-		for (LinkedHashSet<String> patterns : cooccurringPatterns) {
-
-			boolean aPatternDoesNotMatch = patterns.stream()
-					.anyMatch(pattern -> !containsPattern(pattern, patternMatchesSet));
-			boolean allPatternsMatch = !aPatternDoesNotMatch;
-			if (allPatternsMatch) {
-				cooccur = patterns;
-				break;
-			}
-
-		}
-
-		// if (cooccur != null) {
-		// LOGGER.debug(cooccur.toString());
-		// }
-
-		return cooccur != null;
-	}
-
-	protected boolean containsPattern(String pattern, Set<PatternMatcher> patternMatches) {
-		PatternMatcher patt = PatternMatcher.createFakePattern(pattern);
-		return patternMatches.contains(patt);
 	}
 
 }
