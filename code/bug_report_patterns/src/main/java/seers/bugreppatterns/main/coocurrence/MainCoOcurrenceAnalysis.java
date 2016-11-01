@@ -15,7 +15,7 @@ import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugrepcompl.utils.DataReader;
-import seers.bugreppatterns.goldset.GoldSetProcessor.TextInstance;
+import seers.bugreppatterns.goldset.TextInstance;
 import seers.bugreppatterns.main.validation.MainMatcher;
 import seers.bugreppatterns.utils.JavaUtils;
 

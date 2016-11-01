@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +23,9 @@ import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
 import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugrepcompl.utils.DataReader;
+import seers.bugreppatterns.goldset.BugListProcessor;
 import seers.bugreppatterns.goldset.GoldSetProcessor;
-import seers.bugreppatterns.goldset.GoldSetProcessor.TextInstance;
+import seers.bugreppatterns.goldset.TextInstance;
 import seers.bugreppatterns.main.validation.MainMatcher;
 import seers.bugreppatterns.pattern.predictor.Labels;
 
@@ -40,10 +42,15 @@ public class GoldSetGenerator {
 		String codedDataFile = MainMatcher.fileCodedData;
 		String outputFolderPrefix = "";
 		String davisDataPath = "all_data_only_bugs_davies.csv";
+		// only sentences and paragraphs
+		boolean includeNonCodedInstances = true;
+		String bugsDataFolder = "test_data" + File.separator + "data";
 		if (args.length > 0) {
 			codedDataFile = args[0];
 			outputFolderPrefix = args[1] + File.separator;
 			davisDataPath = args[2];
+			includeNonCodedInstances = "y".equalsIgnoreCase(args[3]);
+			bugsDataFolder = args[4];
 		}
 
 		goldSetWriterSentences = new CsvWriterBuilder(new FileWriter(outputFolderPrefix + "gold-set-S.csv"))
@@ -71,7 +78,18 @@ public class GoldSetGenerator {
 			ThreadParameters params = new ThreadParameters();
 			ThreadExecutor.executePaginated(codedData.subList(1, codedData.size()), class1, params, 5);
 
-			// merge both gold sets (Davis' and ours)
+			if (includeNonCodedInstances) {
+				
+				ArrayList<TextInstance> bugs = new ArrayList<>(GoldSetProcessor.goldSetBugs.keySet());
+
+				// process the data to generate the gold sets
+				Class<? extends ThreadProcessor> class2 = BugListProcessor.class;
+				ThreadParameters params2 = new ThreadParameters();
+				params2.addParam("bugsDataFolder", bugsDataFolder);
+				ThreadExecutor.executePaginated(bugs, class2, params2, 5);
+			}
+
+			// merge both gold sets (Davies' and ours)
 			updateBugsGoldSet(daviesGoldSetBugs, GoldSetProcessor.goldSetBugs);
 
 			// write the gold sets
