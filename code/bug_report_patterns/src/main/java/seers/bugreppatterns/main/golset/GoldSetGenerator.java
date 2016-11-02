@@ -22,10 +22,10 @@ import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
 import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.entity.TextInstance;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.goldset.BugListProcessor;
 import seers.bugreppatterns.goldset.GoldSetProcessor;
-import seers.bugreppatterns.goldset.TextInstance;
 import seers.bugreppatterns.main.validation.MainMatcher;
 import seers.bugreppatterns.pattern.predictor.Labels;
 

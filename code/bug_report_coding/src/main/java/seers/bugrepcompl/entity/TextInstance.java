@@ -1,4 +1,4 @@
-package seers.bugreppatterns.goldset;
+package seers.bugrepcompl.entity;
 
 public class TextInstance {
 	String project;

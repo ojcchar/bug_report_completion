@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.entity.TextInstance;
 import seers.bugrepcompl.utils.DataReader;
-import seers.bugreppatterns.goldset.TextInstance;
 import seers.bugreppatterns.main.validation.MainMatcher;
 import seers.bugreppatterns.utils.JavaUtils;
 
@@ -61,11 +61,13 @@ public class MainCoOcurrenceAnalysis {
 				// sentences
 
 				addSentencePatterns(txtInstance, dataEntry);
+				
 			} else {
 
 				/// ------------------------------------
 				// paragraphs
 				addParagraphPatterns(txtInstance, dataEntry);
+				
 			}
 
 		}

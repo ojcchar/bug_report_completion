@@ -7,6 +7,7 @@ import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
 import seers.appcore.xml.XMLHelper;
+import seers.bugrepcompl.entity.TextInstance;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.entity.xml.BugReport;
