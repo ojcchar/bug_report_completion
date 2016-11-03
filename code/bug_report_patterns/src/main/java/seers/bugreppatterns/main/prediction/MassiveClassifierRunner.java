@@ -8,6 +8,7 @@ import org.apache.commons.lang3.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import seers.bugreppatterns.main.prediction.HeuristicsClassifier.CooccurringFeaturesOption;
 import seers.bugreppatterns.main.prediction.HeuristicsClassifier.Predictor;
 import seers.bugreppatterns.pattern.PatternMatcher;
 
@@ -24,8 +25,9 @@ public class MassiveClassifierRunner {
 		String outputFolder = args[3];
 		Predictor predictionMethod = EnumUtils.getEnum(Predictor.class, args[4]);
 		String pathFilePatterns = args[5];
-		String configFolder= args[6];
-		boolean includeIndivFeatures = "y".equalsIgnoreCase(args[7]);
+		String configFolder = args[6];
+		CooccurringFeaturesOption cooccurrOption = CooccurringFeaturesOption.valueOf(args[7]);
+		String goldSetPath = args[8];
 
 		// read the list of patterns
 		List<PatternMatcher> patterns = MainHRClassifier.loadPatterns(new File(pathFilePatterns));
@@ -54,7 +56,7 @@ public class MassiveClassifierRunner {
 			for (String granularity : granularities) {
 
 				HeuristicsClassifier classifier = new HeuristicsClassifier(dataFolder, granularity, systems,
-						outputFolder2, predictionMethod, filteredPatterns, configFolder, includeIndivFeatures);
+						outputFolder2, predictionMethod, filteredPatterns, configFolder, cooccurrOption, goldSetPath);
 				classifier.runClassifier();
 
 			}

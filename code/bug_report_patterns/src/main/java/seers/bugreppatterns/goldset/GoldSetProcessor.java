@@ -7,8 +7,8 @@ import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
 import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugreppatterns.pattern.predictor.Labels;
 
 public class GoldSetProcessor extends ThreadProcessor {
 

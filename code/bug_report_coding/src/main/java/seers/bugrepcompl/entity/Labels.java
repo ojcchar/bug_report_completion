@@ -1,4 +1,4 @@
-package seers.bugreppatterns.pattern.predictor;
+package seers.bugrepcompl.entity;
 
 public class Labels {
 

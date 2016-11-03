@@ -22,18 +22,14 @@ import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
 import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.goldset.BugListProcessor;
 import seers.bugreppatterns.goldset.GoldSetProcessor;
 import seers.bugreppatterns.main.validation.MainMatcher;
-import seers.bugreppatterns.pattern.predictor.Labels;
 
 public class GoldSetGenerator {
-
-	private static CsvWriter goldSetWriterSentences;
-	private static CsvWriter goldSetWriterParagraphs;
-	private static CsvWriter goldSetWriterDocuments;
 
 	public static void main(String[] args) throws Exception {
 
@@ -43,35 +39,40 @@ public class GoldSetGenerator {
 		String outputFolderPrefix = "";
 		String davisDataPath = "all_data_only_bugs_davies.csv";
 		// only sentences and paragraphs
-		boolean includeNonCodedInstances = true;
+		boolean includeNonCodedInstances = false;
 		String bugsDataFolder = "test_data" + File.separator + "data";
+		boolean includeDaviesData = false;
 		if (args.length > 0) {
 			codedDataFile = args[0];
 			outputFolderPrefix = args[1] + File.separator;
 			davisDataPath = args[2];
 			includeNonCodedInstances = "y".equalsIgnoreCase(args[3]);
 			bugsDataFolder = args[4];
+			includeDaviesData = "y".equalsIgnoreCase(args[5]);
 		}
 
-		goldSetWriterSentences = new CsvWriterBuilder(new FileWriter(outputFolderPrefix + "gold-set-S.csv"))
-				.separator(';').build();
-		goldSetWriterParagraphs = new CsvWriterBuilder(new FileWriter(outputFolderPrefix + "gold-set-P.csv"))
-				.separator(';').build();
-		goldSetWriterDocuments = new CsvWriterBuilder(new FileWriter(outputFolderPrefix + "gold-set-B.csv"))
-				.separator(';').build();
-
-		try {
+		try (CsvWriter goldSetWriterSentences = new CsvWriterBuilder(
+				new FileWriter(outputFolderPrefix + "gold-set-S.csv")).separator(';').build();
+				CsvWriter goldSetWriterParagraphs = new CsvWriterBuilder(
+						new FileWriter(outputFolderPrefix + "gold-set-P.csv")).separator(';').build();
+				CsvWriter goldSetWriterDocuments = new CsvWriterBuilder(
+						new FileWriter(outputFolderPrefix + "gold-set-B.csv")).separator(';').build();
+				CsvWriter davisOnlyBugsWriter = new CsvWriterBuilder(
+						new FileWriter(outputFolderPrefix + "gold-set-B-only-davies.csv")).separator(';').build();) {
 
 			// read the coded data
 			List<CodedDataEntry> codedData = DataReader.readCodedData(codedDataFile);
 
-			// read Davis' gold set
+			// read Davies' gold set
 			HashMap<TextInstance, Labels> daviesGoldSetBugs = readDavisGoldSet(davisDataPath);
 
 			System.out.println(codedData.size());
 
 			// generate titles
-			generateTitles();
+			generateTitles(goldSetWriterSentences);
+			generateTitles(goldSetWriterParagraphs);
+			generateTitles(goldSetWriterDocuments);
+			generateTitles(davisOnlyBugsWriter);
 
 			// process the data to generate the gold sets
 			Class<? extends ThreadProcessor> class1 = GoldSetProcessor.class;
@@ -79,7 +80,7 @@ public class GoldSetGenerator {
 			ThreadExecutor.executePaginated(codedData.subList(1, codedData.size()), class1, params, 5);
 
 			if (includeNonCodedInstances) {
-				
+
 				ArrayList<TextInstance> bugs = new ArrayList<>(GoldSetProcessor.goldSetBugs.keySet());
 
 				// process the data to generate the gold sets
@@ -89,20 +90,39 @@ public class GoldSetGenerator {
 				ThreadExecutor.executePaginated(bugs, class2, params2, 5);
 			}
 
-			// merge both gold sets (Davies' and ours)
-			updateBugsGoldSet(daviesGoldSetBugs, GoldSetProcessor.goldSetBugs);
+			if (includeDaviesData) {
+				// merge both gold sets (Davies' and ours)
+				updateBugsGoldSet(daviesGoldSetBugs, GoldSetProcessor.goldSetBugs);
+			} else {
+				// write only the bugs coded by Davies
+				HashMap<TextInstance, Labels> onlyBugsBydavies = getOnlyBugsCodedByDavies(daviesGoldSetBugs);
+				writeGoldSets(onlyBugsBydavies.entrySet(), davisOnlyBugsWriter);
+			}
 
 			// write the gold sets
 			writeGoldSets(GoldSetProcessor.goldSetBugs.entrySet(), goldSetWriterDocuments);
 			writeGoldSets(GoldSetProcessor.goldSetParagraphs.entrySet(), goldSetWriterParagraphs);
 			writeGoldSets(GoldSetProcessor.goldSetSentences.entrySet(), goldSetWriterSentences);
 
-		} finally {
-			goldSetWriterSentences.close();
-			goldSetWriterParagraphs.close();
-			goldSetWriterDocuments.close();
 		}
 
+	}
+
+	private static HashMap<TextInstance, Labels> getOnlyBugsCodedByDavies(
+			HashMap<TextInstance, Labels> daviesGoldSetBugs) {
+
+		HashMap<TextInstance, Labels> onlyBugsBydavies = new HashMap<>();
+		daviesGoldSetBugs.forEach((e, v) -> {
+
+			if (GoldSetProcessor.goldSetBugs.get(e) != null) {
+				return;
+			}
+
+			v.setCodedBy(Labels.CODED_BY_DAVIES);
+			onlyBugsBydavies.put(e, v);
+		});
+
+		return onlyBugsBydavies;
 	}
 
 	private static void updateBugsGoldSet(HashMap<TextInstance, Labels> daviesGoldSetBugs,
@@ -157,12 +177,9 @@ public class GoldSetGenerator {
 
 	}
 
-	private static void generateTitles() {
-
+	private static void generateTitles(CsvWriter writer) {
 		String[] title = new String[] { "system", "bug_id", "instance_id", "is_ob", "is_eb", "is_sr", "coded_by" };
-		goldSetWriterSentences.writeNext(Arrays.asList(title));
-		goldSetWriterParagraphs.writeNext(Arrays.asList(title));
-		goldSetWriterDocuments.writeNext(Arrays.asList(title));
+		writer.writeNext(Arrays.asList(title));
 
 	}
 

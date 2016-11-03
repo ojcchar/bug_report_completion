@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,6 +14,9 @@ import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
+import seers.bugrepcompl.entity.Labels;
+import seers.bugrepcompl.entity.TextInstance;
+import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.AnyMatchPredictor;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
@@ -29,6 +33,10 @@ public class HeuristicsClassifier {
 		ANY_MATCH, COOCCUR, COOCCUR_STRICT1, COOCCUR_STRICT2
 	}
 
+	public enum CooccurringFeaturesOption {
+		ONLY_INDIV, ONLY_COOCCURRING, INDIV_AND_COOCCURR
+	}
+
 	public static final String DATA_FOLDER = "DATA_FOLDER";
 	public static final String SYSTEM = "SYSTEM";
 	public static final String GRANULARITY = "GRANULARITY";
@@ -37,6 +45,7 @@ public class HeuristicsClassifier {
 	public static final String PRE_FEATURES_WRITER = "PRE_FEATURES_WRITER";
 	public static final String PREDICTOR = "PREDICTOR";
 	public static final String PATTERN_PRE_FEATURES_WRITER = "PATTERN_PRE_FEATURES_WRITER";
+	public static final String GOLDSET = "GOLDSET";
 
 	private String dataFolder;
 	private String granularity;
@@ -45,11 +54,12 @@ public class HeuristicsClassifier {
 	private Predictor predictionMethod;
 	private List<PatternMatcher> patterns;
 	private String configFolder;
-	private boolean includeIndivFeatures;
+	private CooccurringFeaturesOption coocurrOption;
+	private String goldSetPath;
 
 	public HeuristicsClassifier(String dataFolder, String granularity, String[] systems, String outputFolder,
 			Predictor predictionMethod, List<PatternMatcher> patterns, String configFolder,
-			boolean includeIndivFeatures) {
+			CooccurringFeaturesOption coocurrOption, String goldSetPath) {
 		super();
 		this.dataFolder = dataFolder;
 		this.granularity = granularity;
@@ -58,12 +68,23 @@ public class HeuristicsClassifier {
 		this.predictionMethod = predictionMethod;
 		this.patterns = patterns;
 		this.configFolder = configFolder;
-		this.includeIndivFeatures = includeIndivFeatures;
+		this.coocurrOption = coocurrOption;
+		this.goldSetPath = goldSetPath;
 	}
 
 	public void runClassifier() throws Exception {
 		LOGGER.debug("#patterns: " + patterns.size());
 		LOGGER.debug("predictor: " + predictionMethod);
+
+		if (coocurrOption.equals(CooccurringFeaturesOption.ONLY_INDIV)
+				&& (predictionMethod.equals(Predictor.COOCCUR) || predictionMethod.equals(Predictor.COOCCUR_STRICT1)
+						|| predictionMethod.equals(Predictor.COOCCUR_STRICT2))) {
+			throw new Exception(
+					"Incompatible coocurrOption and predictor: " + coocurrOption + " - " + predictionMethod);
+
+		}
+
+		HashMap<TextInstance, Labels> goldSet = DataReader.readGoldSet(goldSetPath);
 
 		// ------------------------------------------
 
@@ -79,6 +100,7 @@ public class HeuristicsClassifier {
 			params.addParam(GRANULARITY, granularity);
 			params.addParam(PRE_FEATURES_WRITER, prefeaturesWriter);
 			params.addParam(PATTERN_PRE_FEATURES_WRITER, patternsPreFeaturesWriter);
+			params.addParam(GOLDSET, goldSet);
 
 			LabelPredictor predictor = getPredictor();
 			params.addParam(PREDICTOR, predictor);
@@ -112,34 +134,49 @@ public class HeuristicsClassifier {
 
 	private void writeFeatures(CsvWriter featuresDefinitionsWriter, LabelPredictor predictor) {
 
-		// ------------------------
-
-		if (includeIndivFeatures) {
-			for (PatternMatcher patternMatcher : patterns) {
-				List<String> nextLine = Arrays
-						.asList(new String[] { patternMatcher.getName(), patternMatcher.getCode().toString() });
-				featuresDefinitionsWriter.writeNext(nextLine);
-			}
+		switch (coocurrOption) {
+		case ONLY_INDIV:
+			writeIndividualFeatures(featuresDefinitionsWriter);
+			break;
+		case ONLY_COOCCURRING:
+			writeCoocurringFeatures(featuresDefinitionsWriter, predictor);
+			break;
+		case INDIV_AND_COOCCURR:
+			writeIndividualFeatures(featuresDefinitionsWriter);
+			writeCoocurringFeatures(featuresDefinitionsWriter, predictor);
+			break;
+		default:
+			break;
 		}
 
+	}
+
+	private void writeCoocurringFeatures(CsvWriter featuresDefinitionsWriter, LabelPredictor predictor) {
 		for (CooccurringPattern occurrringPatterns : predictor.getCooccurringFeatures()) {
 			List<String> nextLine = Arrays
 					.asList(new String[] { occurrringPatterns.getName(), occurrringPatterns.getId().toString() });
 			featuresDefinitionsWriter.writeNext(nextLine);
 		}
+	}
 
+	private void writeIndividualFeatures(CsvWriter featuresDefinitionsWriter) {
+		for (PatternMatcher patternMatcher : patterns) {
+			List<String> nextLine = Arrays
+					.asList(new String[] { patternMatcher.getName(), patternMatcher.getCode().toString() });
+			featuresDefinitionsWriter.writeNext(nextLine);
+		}
 	}
 
 	private LabelPredictor getPredictor() throws IOException {
 		switch (predictionMethod) {
 		case ANY_MATCH:
-			return new AnyMatchPredictor(patterns, granularity, includeIndivFeatures);
+			return new AnyMatchPredictor(patterns, granularity, coocurrOption);
 		case COOCCUR:
-			return new CoocurrencePredictor(patterns, granularity, includeIndivFeatures, configFolder);
+			return new CoocurrencePredictor(patterns, granularity, coocurrOption, configFolder);
 		case COOCCUR_STRICT1:
-			return new StrictCoocurrencePredictor(patterns, granularity, includeIndivFeatures, configFolder, false);
+			return new StrictCoocurrencePredictor(patterns, granularity, coocurrOption, configFolder, false);
 		case COOCCUR_STRICT2:
-			return new StrictCoocurrencePredictor(patterns, granularity, includeIndivFeatures, configFolder, true);
+			return new StrictCoocurrencePredictor(patterns, granularity, coocurrOption, configFolder, true);
 		default:
 			break;
 		}

@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import seers.bugreppatterns.main.prediction.HeuristicsClassifier.CooccurringFeaturesOption;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.coocurrence.CooccurringPattern;
 import seers.bugreppatterns.processor.PatternFeature;
@@ -12,13 +13,13 @@ import seers.bugreppatterns.processor.PatternFeature;
 public abstract class LabelPredictor {
 	
 	protected String granularity;
-	protected boolean includeIndivFeatures;
+	protected CooccurringFeaturesOption coocurrOption;
 	protected List<PatternMatcher> patterns;
 
-	public LabelPredictor(List<PatternMatcher> patterns, String granularity, boolean includeIndivFeatures) {
+	public LabelPredictor(List<PatternMatcher> patterns, String granularity, CooccurringFeaturesOption coocurrOption) {
 		super();
 		this.granularity = granularity;
-		this.includeIndivFeatures = includeIndivFeatures;
+		this.coocurrOption = coocurrOption;
 		this.patterns = patterns;
 	}
 

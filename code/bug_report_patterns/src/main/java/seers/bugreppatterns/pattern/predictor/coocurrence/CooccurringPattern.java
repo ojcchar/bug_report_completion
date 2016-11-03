@@ -80,4 +80,11 @@ public class CooccurringPattern {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "CooccurringPattern [id=" + id + ", name=" + name + "]";
+	}
+	
+	
+
 }

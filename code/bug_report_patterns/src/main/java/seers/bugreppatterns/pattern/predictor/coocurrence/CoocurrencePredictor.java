@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import seers.bugrepcompl.entity.Labels;
+import seers.bugreppatterns.main.prediction.HeuristicsClassifier.CooccurringFeaturesOption;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
-import seers.bugreppatterns.pattern.predictor.Labels;
 import seers.bugreppatterns.pattern.predictor.PredictionOutput;
 import seers.bugreppatterns.processor.PatternFeature;
 
@@ -20,9 +21,9 @@ public class CoocurrencePredictor extends LabelPredictor {
 	protected static CooccurringPatternsData cooccurringPatterns;
 	protected static Set<CooccurringPattern> allCooccurringPatterns;
 
-	public CoocurrencePredictor(List<PatternMatcher> patterns, String granularity, boolean includeIndivFeatures,
-			String configFolder) throws IOException {
-		super(patterns, granularity, includeIndivFeatures);
+	public CoocurrencePredictor(List<PatternMatcher> patterns, String granularity,
+			CooccurringFeaturesOption coocurrOption, String configFolder) throws IOException {
+		super(patterns, granularity, coocurrOption);
 		loadCooccurringPatterns(configFolder);
 	}
 
@@ -33,21 +34,28 @@ public class CoocurrencePredictor extends LabelPredictor {
 			return;
 		}
 
+		// load co-occurring patterns
 		String dataFilePath = configFolder + File.separator + "coocurrence-" + granularity + ".csv";
 		cooccurringPatterns = new CooccurringPatternsData(dataFilePath, patterns);
 
+		// add all co-occurring patterns (or features)
 		allCooccurringPatterns = new LinkedHashSet<>();
-		if (includeIndivFeatures) {
+		switch (coocurrOption) {
+		case ONLY_COOCCURRING:
+			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsOB);
+			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsEB);
+			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsSR);
+			break;
+		case INDIV_AND_COOCCURR:
 			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsOB.stream()
 					.filter(p -> !p.isIndividual()).collect(Collectors.toList()));
 			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsEB.stream()
 					.filter(p -> !p.isIndividual()).collect(Collectors.toList()));
 			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsSR.stream()
 					.filter(p -> !p.isIndividual()).collect(Collectors.toList()));
-		} else {
-			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsOB);
-			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsEB);
-			allCooccurringPatterns.addAll(cooccurringPatterns.cooccurringPatternsSR);
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -60,14 +68,14 @@ public class CoocurrencePredictor extends LabelPredictor {
 
 	private PredictionOutput predictLabels(LinkedHashMap<PatternMatcher, Integer> patternMatches,
 			CooccurringPatternsData cooccurringPatternsData) {
+
+		// ---------------------------------------------
+
 		String isOB = "";
 		String isEB = "";
 		String isSR = "";
 
-		List<PatternFeature> features = new ArrayList<>();
-		if (includeIndivFeatures) {
-			features = new ArrayList<>(getFeaturesMatched(patternMatches));
-		}
+		List<PatternFeature> features = createListOfFeatures(patternMatches);
 
 		List<CooccurringPattern> cooccurMatchesOB = getCooccurringMatches(cooccurringPatternsData.cooccurringPatternsOB,
 				patternMatches);
@@ -86,8 +94,8 @@ public class CoocurrencePredictor extends LabelPredictor {
 		List<CooccurringPattern> cooccurMatchesSR = getCooccurringMatches(cooccurringPatternsData.cooccurringPatternsSR,
 				patternMatches);
 		if (!cooccurMatchesSR.isEmpty()) {
-			features.addAll(getCooccurringFeatures(cooccurMatchesSR));
 			isSR = "x";
+			features.addAll(getCooccurringFeatures(cooccurMatchesSR));
 		}
 
 		Labels labels = new Labels(isOB, isEB, isSR);
@@ -95,12 +103,20 @@ public class CoocurrencePredictor extends LabelPredictor {
 		return output;
 	}
 
+	protected List<PatternFeature> createListOfFeatures(LinkedHashMap<PatternMatcher, Integer> patternMatches) {
+		List<PatternFeature> features = new ArrayList<>();
+		if (coocurrOption.equals(CooccurringFeaturesOption.INDIV_AND_COOCCURR)) {
+			features = new ArrayList<>(getFeaturesMatched(patternMatches));
+		}
+		return features;
+	}
+
 	protected List<PatternFeature> getCooccurringFeatures(List<CooccurringPattern> cooccurMatches) {
 		List<PatternFeature> features = new ArrayList<>();
 
 		cooccurMatches.forEach(pattern -> {
 
-			if (includeIndivFeatures) {
+			if (coocurrOption.equals(CooccurringFeaturesOption.INDIV_AND_COOCCURR)) {
 				if (!pattern.isIndividual()) {
 					PatternFeature feature = new PatternFeature(pattern.getId().toString(), pattern.getName(), "1");
 					features.add(feature);

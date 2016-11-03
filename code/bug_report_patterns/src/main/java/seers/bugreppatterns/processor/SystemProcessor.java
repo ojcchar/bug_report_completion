@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
+import seers.bugrepcompl.entity.Labels;
+import seers.bugrepcompl.entity.TextInstance;
 import seers.bugreppatterns.main.prediction.HeuristicsClassifier;
 
 public class SystemProcessor extends ThreadProcessor {
@@ -27,12 +30,16 @@ public class SystemProcessor extends ThreadProcessor {
 	private String system;
 	private String granularity;
 
+	private HashMap<TextInstance, Labels> goldSet;
+
+	@SuppressWarnings("unchecked")
 	public SystemProcessor(ThreadParameters params) {
 		super(params);
 
 		dataFolder = params.getStringParam(HeuristicsClassifier.DATA_FOLDER);
 		system = params.getStringParam(ThreadExecutor.ELEMENT_PARAM);
 		granularity = params.getStringParam(HeuristicsClassifier.GRANULARITY);
+		goldSet = params.getParam(HashMap.class, HeuristicsClassifier.GOLDSET);
 	}
 
 	@Override
@@ -65,7 +72,6 @@ public class SystemProcessor extends ThreadProcessor {
 		case "S":
 			class1 = SentenceProcessor.class;
 			break;
-
 		default:
 			break;
 		}
@@ -84,10 +90,27 @@ public class SystemProcessor extends ThreadProcessor {
 		Files.walkFileTree(Paths.get(sysFolder), new SimpleFileVisitor<Path>() {
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-				if (!attrs.isDirectory()) {
-					if (file.toFile().getName().endsWith(".xml.parse")) {
-						files.add(file.toFile());
-					}
+
+				// no directories
+				if (attrs.isDirectory()) {
+					return FileVisitResult.CONTINUE;
+				}
+
+				String fullFileName = file.toFile().getName();
+
+				// does the file end with ".xml.parse"
+				int idx = fullFileName.indexOf(".xml.parse");
+				if (idx == -1 || !fullFileName.endsWith(".xml.parse")) {
+					return FileVisitResult.CONTINUE;
+				}
+
+				String fileName = fullFileName.substring(0, idx);
+				TextInstance txtInst = new TextInstance(system, fileName, "0");
+
+				// does the file is in the gold-set
+				Labels labels = goldSet.get(txtInst);
+				if (labels != null) {
+					files.add(file.toFile());
 				}
 				return FileVisitResult.CONTINUE;
 			}

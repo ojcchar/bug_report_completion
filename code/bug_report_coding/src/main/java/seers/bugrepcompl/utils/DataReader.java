@@ -13,6 +13,7 @@ import net.quux00.simplecsv.CsvParser;
 import net.quux00.simplecsv.CsvParserBuilder;
 import net.quux00.simplecsv.CsvReader;
 import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
 
 public class DataReader {
@@ -102,13 +103,43 @@ public class DataReader {
 				String bugId = line.get(1);
 				String instanceId = "0";
 				String bugType = line.get(4).trim();
-				
+
 				if (bugType.isEmpty()) {
 					return;
 				}
-				
+
 				TextInstance instance = new TextInstance(project, bugId, instanceId);
 				entries.put(instance, bugType);
+			});
+
+			return entries;
+		}
+	}
+
+	public static HashMap<TextInstance, Labels> readGoldSet(String goldSetPath) throws IOException {
+		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(';').build();
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(goldSetPath), "Cp1252"),
+				csvParser)) {
+
+			List<List<String>> allLines = csvReader.readAll();
+
+			HashMap<TextInstance, Labels> entries = new HashMap<>();
+
+			allLines.subList(1, allLines.size()).forEach(line -> {
+
+				String project = line.get(0);
+				String bugId = line.get(1);
+				String instanceId = line.get(2);
+				String isOB = line.get(3).trim();
+				String isEB = line.get(4).trim();
+				String isSR = line.get(5).trim();
+				String codedBy = line.get(6).trim();
+
+				Labels labels = new Labels(isOB, isEB, isSR);
+				labels.setCodedBy(codedBy);
+				TextInstance instance = new TextInstance(project, bugId, instanceId);
+
+				entries.put(instance, labels);
 			});
 
 			return entries;

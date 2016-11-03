@@ -2,6 +2,7 @@ package seers.bugreppatterns.pattern.predictor;
 
 import java.util.List;
 
+import seers.bugrepcompl.entity.Labels;
 import seers.bugreppatterns.processor.PatternFeature;
 
 public class PredictionOutput {

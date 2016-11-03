@@ -9,10 +9,10 @@ import net.quux00.simplecsv.CsvWriter;
 import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
+import seers.bugrepcompl.entity.Labels;
 import seers.bugreppatterns.main.prediction.HeuristicsClassifier;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.LabelPredictor;
-import seers.bugreppatterns.pattern.predictor.Labels;
 
 public abstract class TextInstanceProcessor extends ThreadProcessor {
 

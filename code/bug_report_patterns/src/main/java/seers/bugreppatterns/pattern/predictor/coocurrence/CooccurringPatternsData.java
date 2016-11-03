@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -53,6 +54,7 @@ public class CooccurringPatternsData {
 		// -----------------------------
 
 		for (List<String> line : lines) {
+
 			String obPatterns = line.get(4);
 			String ebPatterns = line.get(5);
 			String srPatterns = line.get(6);
@@ -79,12 +81,26 @@ public class CooccurringPatternsData {
 		addIndividualPatterns(individualCooccurringEb, individualNonCooccurringEb, cooccurringPatternsEB, patterns);
 		addIndividualPatterns(individualCooccurringSr, individualNonCooccurringSr, cooccurringPatternsSR, patterns);
 
+		cooccurringPatternsOB = sortPatterns(cooccurringPatternsOB);
+		cooccurringPatternsEB = sortPatterns(cooccurringPatternsEB);
+		cooccurringPatternsSR = sortPatterns(cooccurringPatternsSR);
+
 		LOGGER.debug("Co-occurring patterns: " + cooccurringPatternsOB.size() + " OB, " + cooccurringPatternsEB.size()
 				+ " EB, " + cooccurringPatternsSR.size() + " SR");
 
 		// LOGGER.debug(cooccurringPatternsOB.toString());
 		// LOGGER.debug(cooccurringPatternsEB.toString());
 		// LOGGER.debug(cooccurringPatternsSR.toString());
+	}
+
+	private LinkedHashSet<CooccurringPattern> sortPatterns(Set<CooccurringPattern> cooccurringPatterns) {
+		LinkedList<CooccurringPattern> patternList = new LinkedList<>(cooccurringPatterns);
+
+		// sort the list by descendant order of the list of the co-occurring
+		// patterns
+		patternList.sort((p1, p2) -> Integer.compare(p2.getCooccurringPatterns().size(), p1.getCooccurringPatterns().size()));
+
+		return new LinkedHashSet<>(patternList);
 	}
 
 	private void addIndividualPatterns(Set<String> individualCooccurring, Set<String> individualNonCooccurring,

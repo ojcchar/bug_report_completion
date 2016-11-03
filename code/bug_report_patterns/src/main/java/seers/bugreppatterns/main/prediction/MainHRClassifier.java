@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.EnumUtils;
 
+import seers.bugreppatterns.main.prediction.HeuristicsClassifier.CooccurringFeaturesOption;
 import seers.bugreppatterns.main.prediction.HeuristicsClassifier.Predictor;
 import seers.bugreppatterns.pattern.PatternMatcher;
 
@@ -27,7 +28,8 @@ public class MainHRClassifier {
 		Predictor predictionMethod = EnumUtils.getEnum(Predictor.class, args[4]);
 		String pathFilePatterns = args[5];
 		String configFolder = args[6];
-		boolean includeIndivFeatures = "y".equalsIgnoreCase(args[7]);
+		CooccurringFeaturesOption cooccurrOption = CooccurringFeaturesOption.valueOf(args[7]);
+		String goldSetPath = args[8];
 
 		// ------------------------------------------
 
@@ -36,7 +38,7 @@ public class MainHRClassifier {
 		// ------------------------------------------
 
 		HeuristicsClassifier classifier = new HeuristicsClassifier(dataFolder, granularity, systems, outputFolder,
-				predictionMethod, patterns, configFolder, includeIndivFeatures);
+				predictionMethod, patterns, configFolder, cooccurrOption, goldSetPath);
 		classifier.runClassifier();
 
 		// ------------------------------------------

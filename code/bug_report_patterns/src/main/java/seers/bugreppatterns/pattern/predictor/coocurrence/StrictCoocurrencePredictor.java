@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import seers.bugrepcompl.entity.Labels;
+import seers.bugreppatterns.main.prediction.HeuristicsClassifier.CooccurringFeaturesOption;
 import seers.bugreppatterns.pattern.PatternMatcher;
-import seers.bugreppatterns.pattern.predictor.Labels;
 import seers.bugreppatterns.pattern.predictor.PredictionOutput;
 import seers.bugreppatterns.processor.PatternFeature;
 
@@ -17,9 +18,9 @@ public class StrictCoocurrencePredictor extends CoocurrencePredictor {
 
 	private boolean strict;
 
-	public StrictCoocurrencePredictor(List<PatternMatcher> patterns, String granularity, boolean includeIndivFeatures,
+	public StrictCoocurrencePredictor(List<PatternMatcher> patterns, String granularity, CooccurringFeaturesOption coocurrOption,
 			String configFolder, boolean strict) throws IOException {
-		super(patterns, granularity, includeIndivFeatures, configFolder);
+		super(patterns, granularity, coocurrOption, configFolder);
 		this.strict = strict;
 	}
 
@@ -37,10 +38,7 @@ public class StrictCoocurrencePredictor extends CoocurrencePredictor {
 		String isEB = "";
 		String isSR = "";
 
-		List<PatternFeature> features = new ArrayList<>();
-		if (includeIndivFeatures) {
-			features = new ArrayList<>(getFeaturesMatched(patternMatches));
-		}
+		List<PatternFeature> features = createListOfFeatures(patternMatches);
 
 		Set<PatternMatcher> obPatterns = getPatterns(patternMatches, PatternMatcher.OB);
 		List<CooccurringPattern> cooccurMatchesOB = getCooccurringMatches(cooccurringPatternsData.cooccurringPatternsOB,
