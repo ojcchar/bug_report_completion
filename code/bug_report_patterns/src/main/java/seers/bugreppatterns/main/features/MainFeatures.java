@@ -68,21 +68,21 @@ public class MainFeatures {
 
 		// -------------------------------------------------------
 
+		// instances file
+		File instancesFile = new File(outputFolderPrefix + "instances-" + granularity + ".txt");
+		instancesFile.delete();
+
+		// read goldset and prefeatures
+		HashMap<String, Integer> goldSetMap = new LinkedHashMap<>();
+		List<List<String>> linesGoldSet = readGoldSetFile2(goldSetMap, goldSetFile);
+		List<List<String>> featuresLines = readPrefeaturesFile2(prefeaturesFile);
+
 		try (CsvWriter featuresEBWriter = new CsvWriterBuilder(
 				new FileWriter(outputFolderPrefix + "features-eb-" + granularity + ".txt")).separator(' ')
 						.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
 				CsvWriter featuresSRWriter = new CsvWriterBuilder(
 						new FileWriter(outputFolderPrefix + "features-sr-" + granularity + ".txt")).separator(' ')
 								.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
-
-			// instances file
-			File instancesFile = new File(outputFolderPrefix + "instances-" + granularity + ".txt");
-			instancesFile.delete();
-
-			// read goldset and prefeatures
-			HashMap<String, Integer> goldSetMap = new LinkedHashMap<>();
-			List<List<String>> linesGoldSet = readGoldSetFile2(goldSetMap, goldSetFile);
-			List<List<String>> featuresLines = readPrefeaturesFile2(prefeaturesFile);
 
 			// --------------------------------------------
 
