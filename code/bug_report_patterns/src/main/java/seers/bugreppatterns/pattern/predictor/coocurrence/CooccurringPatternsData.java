@@ -159,6 +159,7 @@ public class CooccurringPatternsData {
 
 		List<String> patternList = new ArrayList<>();
 		for (String pattern : patternArray) {
+			
 			if (pattern.trim().isEmpty()) {
 				continue;
 			}
@@ -166,7 +167,7 @@ public class CooccurringPatternsData {
 			PatternMatcher patt = PatternMatcher.createFakePattern(pattern);
 			int idx = patterns2.indexOf(patt);
 
-			if (idx == -1) {
+			if (idx != -1) {
 				patternList.add(pattern.trim());
 			}
 		}
