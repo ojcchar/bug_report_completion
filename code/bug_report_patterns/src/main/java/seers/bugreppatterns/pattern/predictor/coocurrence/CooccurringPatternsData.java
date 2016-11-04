@@ -60,9 +60,9 @@ public class CooccurringPatternsData {
 			String srPatterns = line.get(6);
 
 			// ---------------------
-			List<String> obPatternsList = getPatternsList(obPatterns);
-			List<String> ebPatternsList = getPatternsList(ebPatterns);
-			List<String> srPatternsList = getPatternsList(srPatterns);
+			List<String> obPatternsList = getPatternsList(obPatterns, patterns);
+			List<String> ebPatternsList = getPatternsList(ebPatterns, patterns);
+			List<String> srPatternsList = getPatternsList(srPatterns, patterns);
 
 			// ----------------------------------------
 
@@ -98,7 +98,8 @@ public class CooccurringPatternsData {
 
 		// sort the list by descendant order of the list of the co-occurring
 		// patterns
-		patternList.sort((p1, p2) -> Integer.compare(p2.getCooccurringPatterns().size(), p1.getCooccurringPatterns().size()));
+		patternList.sort(
+				(p1, p2) -> Integer.compare(p2.getCooccurringPatterns().size(), p1.getCooccurringPatterns().size()));
 
 		return new LinkedHashSet<>(patternList);
 	}
@@ -148,7 +149,7 @@ public class CooccurringPatternsData {
 
 	}
 
-	private List<String> getPatternsList(String patterns) {
+	private List<String> getPatternsList(String patterns, List<PatternMatcher> patterns2) {
 
 		StringBuffer buffer = new StringBuffer(patterns);
 		buffer.deleteCharAt(0);
@@ -158,7 +159,14 @@ public class CooccurringPatternsData {
 
 		List<String> patternList = new ArrayList<>();
 		for (String pattern : patternArray) {
-			if (!pattern.trim().isEmpty()) {
+			if (pattern.trim().isEmpty()) {
+				continue;
+			}
+
+			PatternMatcher patt = PatternMatcher.createFakePattern(pattern);
+			int idx = patterns2.indexOf(patt);
+
+			if (idx == -1) {
 				patternList.add(pattern.trim());
 			}
 		}
