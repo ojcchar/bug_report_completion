@@ -58,7 +58,7 @@ public class CooccurringPatternsData {
 			String obPatterns = line.get(4);
 			String ebPatterns = line.get(5);
 			String srPatterns = line.get(6);
-
+			
 			// ---------------------
 			List<String> obPatternsList = getPatternsList(obPatterns, patterns);
 			List<String> ebPatternsList = getPatternsList(ebPatterns, patterns);
@@ -77,9 +77,9 @@ public class CooccurringPatternsData {
 
 		// ----------------------------------------
 
-		addIndividualPatterns(individualCooccurringOb, individualNonCooccurringOb, cooccurringPatternsOB, patterns);
-		addIndividualPatterns(individualCooccurringEb, individualNonCooccurringEb, cooccurringPatternsEB, patterns);
-		addIndividualPatterns(individualCooccurringSr, individualNonCooccurringSr, cooccurringPatternsSR, patterns);
+//		addIndividualPatterns(individualCooccurringOb, individualNonCooccurringOb, cooccurringPatternsOB, patterns);
+//		addIndividualPatterns(individualCooccurringEb, individualNonCooccurringEb, cooccurringPatternsEB, patterns);
+//		addIndividualPatterns(individualCooccurringSr, individualNonCooccurringSr, cooccurringPatternsSR, patterns);
 
 		cooccurringPatternsOB = sortPatterns(cooccurringPatternsOB);
 		cooccurringPatternsEB = sortPatterns(cooccurringPatternsEB);
@@ -135,7 +135,7 @@ public class CooccurringPatternsData {
 		if (patternList == null || patternList.isEmpty()) {
 			return;
 		}
-
+		
 		if (patternList.size() == 1) {
 			if (!patternList.get(0).isEmpty()) {
 				individualNonCooccurring.add(patternList.get(0));
@@ -160,21 +160,24 @@ public class CooccurringPatternsData {
 		List<String> patternList = new ArrayList<>();
 		for (String pattern : patternArray) {
 			
-			if (pattern.trim().isEmpty()) {
+			String patternTrimmed = pattern.trim();
+			if (patternTrimmed.isEmpty()) {
 				continue;
 			}
 
-			PatternMatcher patt = PatternMatcher.createFakePattern(pattern);
+			PatternMatcher patt = PatternMatcher.createFakePattern(patternTrimmed);
 			int idx = patterns2.indexOf(patt);
 
 			if (idx != -1) {
-				patternList.add(pattern.trim());
+				patternList.add(patternTrimmed);
 			}
 		}
-
+		
 		if (patternList.isEmpty()) {
 			return null;
 		}
+		
+//		System.out.println(patterns +" --> " +patternList);
 
 		return patternList;
 	}

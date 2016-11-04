@@ -15,7 +15,7 @@ public class ClassifierRunner {
 		String dataFolder = "test_data" + File.separator + "data";
 		String outputFolder = "test_data" + File.separator + "output2";
 		String configFolder = "test_data";
-		String pattersFile = "patterns.csv";
+		String pattersFile = "patterns_SR.csv";
 		CooccurringFeaturesOption cooccurrOption = CooccurringFeaturesOption.ONLY_COOCCURRING;
 		String goldSetPath = "gold-set-B.csv";
 
