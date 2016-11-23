@@ -24,11 +24,13 @@ public class CooccurringPatternsData {
 	protected Set<CooccurringPattern> cooccurringPatternsEB;
 	protected Set<CooccurringPattern> cooccurringPatternsSR;
 
-	public CooccurringPatternsData(String dataFilePath, List<PatternMatcher> patterns) throws IOException {
-		loadCooccurringPatterns(dataFilePath, patterns);
+	public CooccurringPatternsData(String dataFilePath, List<PatternMatcher> patterns,
+			boolean addCooccuringPatternsForPrediction) throws IOException {
+		loadCooccurringPatterns(dataFilePath, patterns, addCooccuringPatternsForPrediction);
 	}
 
-	private void loadCooccurringPatterns(String dataFilePath, List<PatternMatcher> patterns) throws IOException {
+	private void loadCooccurringPatterns(String dataFilePath, List<PatternMatcher> patterns,
+			boolean addCooccuringPatternsForPrediction) throws IOException {
 
 		LOGGER.debug("Loading co-occurring patterns: " + dataFilePath);
 
@@ -58,7 +60,7 @@ public class CooccurringPatternsData {
 			String obPatterns = line.get(4);
 			String ebPatterns = line.get(5);
 			String srPatterns = line.get(6);
-			
+
 			// ---------------------
 			List<String> obPatternsList = getPatternsList(obPatterns, patterns);
 			List<String> ebPatternsList = getPatternsList(ebPatterns, patterns);
@@ -77,9 +79,12 @@ public class CooccurringPatternsData {
 
 		// ----------------------------------------
 
-//		addIndividualPatterns(individualCooccurringOb, individualNonCooccurringOb, cooccurringPatternsOB, patterns);
-//		addIndividualPatterns(individualCooccurringEb, individualNonCooccurringEb, cooccurringPatternsEB, patterns);
-//		addIndividualPatterns(individualCooccurringSr, individualNonCooccurringSr, cooccurringPatternsSR, patterns);
+		if (addCooccuringPatternsForPrediction) {
+
+			addIndividualPatterns(individualCooccurringOb, individualNonCooccurringOb, cooccurringPatternsOB, patterns);
+			addIndividualPatterns(individualCooccurringEb, individualNonCooccurringEb, cooccurringPatternsEB, patterns);
+			addIndividualPatterns(individualCooccurringSr, individualNonCooccurringSr, cooccurringPatternsSR, patterns);
+		}
 
 		cooccurringPatternsOB = sortPatterns(cooccurringPatternsOB);
 		cooccurringPatternsEB = sortPatterns(cooccurringPatternsEB);
@@ -135,7 +140,7 @@ public class CooccurringPatternsData {
 		if (patternList == null || patternList.isEmpty()) {
 			return;
 		}
-		
+
 		if (patternList.size() == 1) {
 			if (!patternList.get(0).isEmpty()) {
 				individualNonCooccurring.add(patternList.get(0));
@@ -151,6 +156,10 @@ public class CooccurringPatternsData {
 
 	private List<String> getPatternsList(String patterns, List<PatternMatcher> patterns2) {
 
+		if (patterns.trim().isEmpty()) {
+			return null;
+		}
+
 		StringBuffer buffer = new StringBuffer(patterns);
 		buffer.deleteCharAt(0);
 		buffer.deleteCharAt(buffer.length() - 1);
@@ -159,7 +168,7 @@ public class CooccurringPatternsData {
 
 		List<String> patternList = new ArrayList<>();
 		for (String pattern : patternArray) {
-			
+
 			String patternTrimmed = pattern.trim();
 			if (patternTrimmed.isEmpty()) {
 				continue;
@@ -172,12 +181,12 @@ public class CooccurringPatternsData {
 				patternList.add(patternTrimmed);
 			}
 		}
-		
+
 		if (patternList.isEmpty()) {
 			return null;
 		}
-		
-//		System.out.println(patterns +" --> " +patternList);
+
+		// System.out.println(patterns +" --> " +patternList);
 
 		return patternList;
 	}

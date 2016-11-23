@@ -28,6 +28,8 @@ public class MassiveClassifierRunner {
 		String configFolder = args[6];
 		CooccurringFeaturesOption cooccurrOption = CooccurringFeaturesOption.valueOf(args[7]);
 		String goldSetPath = args[8];
+		boolean addCooccuringPatternsForPrediction = "y".equals(args[9]);
+		String cooccurFileSuffix = args[10];
 
 		// read the list of patterns
 		List<PatternMatcher> patterns = MainHRClassifier.loadPatterns(new File(pathFilePatterns));
@@ -56,7 +58,8 @@ public class MassiveClassifierRunner {
 			for (String granularity : granularities) {
 
 				HeuristicsClassifier classifier = new HeuristicsClassifier(dataFolder, granularity, systems,
-						outputFolder2, predictionMethod, filteredPatterns, configFolder, cooccurrOption, goldSetPath);
+						outputFolder2, predictionMethod, filteredPatterns, configFolder, cooccurrOption, goldSetPath,
+						addCooccuringPatternsForPrediction, cooccurFileSuffix);
 				classifier.runClassifier();
 
 			}

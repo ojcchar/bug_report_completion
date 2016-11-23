@@ -15,12 +15,14 @@ public abstract class LabelPredictor {
 	protected String granularity;
 	protected CooccurringFeaturesOption coocurrOption;
 	protected List<PatternMatcher> patterns;
+	protected boolean addCooccuringPatternsForPrediction;
 
-	public LabelPredictor(List<PatternMatcher> patterns, String granularity, CooccurringFeaturesOption coocurrOption) {
+	public LabelPredictor(List<PatternMatcher> patterns, String granularity, CooccurringFeaturesOption coocurrOption, boolean addCooccuringPatternsForPrediction) {
 		super();
 		this.granularity = granularity;
 		this.coocurrOption = coocurrOption;
 		this.patterns = patterns;
+		this.addCooccuringPatternsForPrediction = addCooccuringPatternsForPrediction;
 	}
 
 	public abstract PredictionOutput predictLabels(String bugRepId, String instanceId,

@@ -73,4 +73,11 @@ public class TextInstance {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "[proj=" + project + ", bugId=" + bugId + ", instId=" + instanceId + "]";
+	}
+	
+	
+
 }

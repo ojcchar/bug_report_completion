@@ -12,8 +12,8 @@ import seers.bugreppatterns.pattern.predictor.coocurrence.CooccurringPattern;
 
 public class AnyMatchPredictor extends LabelPredictor {
 
-	public AnyMatchPredictor(List<PatternMatcher> patterns, String granularity, CooccurringFeaturesOption coocurrOption) {
-		super(patterns, granularity, coocurrOption);
+	public AnyMatchPredictor(List<PatternMatcher> patterns, String granularity, CooccurringFeaturesOption coocurrOption, boolean addCooccuringPatternsForPrediction) {
+		super(patterns, granularity, coocurrOption, addCooccuringPatternsForPrediction);
 	}
 
 	@Override

@@ -20,10 +20,13 @@ public class CoocurrencePredictor extends LabelPredictor {
 
 	protected static CooccurringPatternsData cooccurringPatterns;
 	protected static Set<CooccurringPattern> allCooccurringPatterns;
+	private String cooccurFileSuffix;
 
 	public CoocurrencePredictor(List<PatternMatcher> patterns, String granularity,
-			CooccurringFeaturesOption coocurrOption, String configFolder) throws IOException {
-		super(patterns, granularity, coocurrOption);
+			CooccurringFeaturesOption coocurrOption, String configFolder, boolean addCooccuringPatternsForPrediction,
+			String cooccurFileSuffix) throws IOException {
+		super(patterns, granularity, coocurrOption, addCooccuringPatternsForPrediction);
+		this.cooccurFileSuffix = cooccurFileSuffix;
 		loadCooccurringPatterns(configFolder);
 	}
 
@@ -35,8 +38,15 @@ public class CoocurrencePredictor extends LabelPredictor {
 		}
 
 		// load co-occurring patterns
-		String dataFilePath = configFolder + File.separator + "coocurrence-" + granularity + ".csv";
-		cooccurringPatterns = new CooccurringPatternsData(dataFilePath, patterns);
+		String suffix = cooccurFileSuffix.trim();
+		if ("null".equals(suffix)) {
+			suffix = "";
+		} else {
+			suffix = "-" + suffix;
+		}
+
+		String dataFilePath = configFolder + File.separator + "coocurrence-" + granularity + suffix + ".csv";
+		cooccurringPatterns = new CooccurringPatternsData(dataFilePath, patterns, addCooccuringPatternsForPrediction);
 
 		// add all co-occurring patterns (or features)
 		allCooccurringPatterns = new LinkedHashSet<>();
@@ -130,6 +140,17 @@ public class CoocurrencePredictor extends LabelPredictor {
 		return features;
 	}
 
+	/**
+	 * Return the elements in cooccurringPatterns which all their components
+	 * exist in patternMatches, even if extra patterns exist in patternMatches.
+	 * 
+	 * For example, the element {pattern1-pattern2} will be return if
+	 * patternMatches contain {pattern1, pattern2, pattern3}
+	 * 
+	 * @param cooccurringPatterns
+	 * @param patternMatches
+	 * @return
+	 */
 	private List<CooccurringPattern> getCooccurringMatches(Set<CooccurringPattern> cooccurringPatterns,
 			LinkedHashMap<PatternMatcher, Integer> patternMatches) {
 

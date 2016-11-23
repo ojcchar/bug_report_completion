@@ -14,7 +14,7 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.bugrepcompl.entity.TextInstance;
 import seers.bugrepcompl.utils.DataReader;
 
-public class MainPatternsData2 {
+public class MainPatternsByTypeOfPattern {
 
 	static LinkedHashMap<TextInstance, LinkedHashSet<String>> sentenceOrderedPatterns = new LinkedHashMap<>();
 

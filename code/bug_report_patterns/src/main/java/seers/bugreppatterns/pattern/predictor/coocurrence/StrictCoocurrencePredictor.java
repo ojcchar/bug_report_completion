@@ -18,9 +18,9 @@ public class StrictCoocurrencePredictor extends CoocurrencePredictor {
 
 	private boolean strict;
 
-	public StrictCoocurrencePredictor(List<PatternMatcher> patterns, String granularity, CooccurringFeaturesOption coocurrOption,
-			String configFolder, boolean strict) throws IOException {
-		super(patterns, granularity, coocurrOption, configFolder);
+	public StrictCoocurrencePredictor(List<PatternMatcher> patterns, String granularity,
+			CooccurringFeaturesOption coocurrOption, String configFolder, boolean strict, boolean addCooccuringPatternsForPrediction, String cooccurFileSuffix) throws IOException {
+		super(patterns, granularity, coocurrOption, configFolder, addCooccuringPatternsForPrediction, cooccurFileSuffix);
 		this.strict = strict;
 	}
 
@@ -75,6 +75,30 @@ public class StrictCoocurrencePredictor extends CoocurrencePredictor {
 				.collect(Collectors.toList()));
 	}
 
+	/**
+	 * If strict is true:
+	 * 
+	 * Return the elements in cooccurringPatterns which all their components
+	 * exist in patternMatches and there is no extra patterns in patternMatches.
+	 * 
+	 * For example, the element {pattern1-pattern2} will be returned if and only
+	 * if patternMatches contain {pattern1, pattern2}
+	 * 
+	 * -----------------------------
+	 * 
+	 * If strict is false:
+	 * 
+	 * Return the elements in cooccurringPatterns which their components match
+	 * all the patterns in patternMatches
+	 * 
+	 * For example, the elements {pattern1-pattern2} and
+	 * {pattern1-pattern2-pattern3} will be returned if patternMatches contain
+	 * {pattern1, pattern2}
+	 * 
+	 * @param cooccurringPatterns
+	 * @param patternMatches
+	 * @return
+	 */
 	private List<CooccurringPattern> getCooccurringMatches(Set<CooccurringPattern> cooccurringPatterns,
 			Set<PatternMatcher> patternMatches) {
 

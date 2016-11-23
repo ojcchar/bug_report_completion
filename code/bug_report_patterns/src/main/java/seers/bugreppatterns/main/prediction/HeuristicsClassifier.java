@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,10 +57,12 @@ public class HeuristicsClassifier {
 	private String configFolder;
 	private CooccurringFeaturesOption coocurrOption;
 	private String goldSetPath;
+	private boolean addCooccuringPatternsForPrediction;
+	private String cooccurFileSuffix;
 
 	public HeuristicsClassifier(String dataFolder, String granularity, String[] systems, String outputFolder,
 			Predictor predictionMethod, List<PatternMatcher> patterns, String configFolder,
-			CooccurringFeaturesOption coocurrOption, String goldSetPath) {
+			CooccurringFeaturesOption coocurrOption, String goldSetPath, boolean addCooccuringPatternsForPrediction, String cooccurFileSuffix) {
 		super();
 		this.dataFolder = dataFolder;
 		this.granularity = granularity;
@@ -70,6 +73,8 @@ public class HeuristicsClassifier {
 		this.configFolder = configFolder;
 		this.coocurrOption = coocurrOption;
 		this.goldSetPath = goldSetPath;
+		this.addCooccuringPatternsForPrediction = addCooccuringPatternsForPrediction;
+		this.cooccurFileSuffix = cooccurFileSuffix;
 	}
 
 	public void runClassifier() throws Exception {
@@ -152,7 +157,8 @@ public class HeuristicsClassifier {
 	}
 
 	private void writeCoocurringFeatures(CsvWriter featuresDefinitionsWriter, LabelPredictor predictor) {
-		for (CooccurringPattern occurrringPatterns : predictor.getCooccurringFeatures()) {
+		Set<CooccurringPattern> cooccurringFeatures = predictor.getCooccurringFeatures();
+		for (CooccurringPattern occurrringPatterns : cooccurringFeatures) {
 			List<String> nextLine = Arrays
 					.asList(new String[] { occurrringPatterns.getName(), occurrringPatterns.getId().toString() });
 			featuresDefinitionsWriter.writeNext(nextLine);
@@ -170,13 +176,13 @@ public class HeuristicsClassifier {
 	private LabelPredictor getPredictor() throws IOException {
 		switch (predictionMethod) {
 		case ANY_MATCH:
-			return new AnyMatchPredictor(patterns, granularity, coocurrOption);
+			return new AnyMatchPredictor(patterns, granularity, coocurrOption, addCooccuringPatternsForPrediction);
 		case COOCCUR:
-			return new CoocurrencePredictor(patterns, granularity, coocurrOption, configFolder);
+			return new CoocurrencePredictor(patterns, granularity, coocurrOption, configFolder, addCooccuringPatternsForPrediction, cooccurFileSuffix);
 		case COOCCUR_STRICT1:
-			return new StrictCoocurrencePredictor(patterns, granularity, coocurrOption, configFolder, false);
+			return new StrictCoocurrencePredictor(patterns, granularity, coocurrOption, configFolder, false, addCooccuringPatternsForPrediction, cooccurFileSuffix);
 		case COOCCUR_STRICT2:
-			return new StrictCoocurrencePredictor(patterns, granularity, coocurrOption, configFolder, true);
+			return new StrictCoocurrencePredictor(patterns, granularity, coocurrOption, configFolder, true, addCooccuringPatternsForPrediction, cooccurFileSuffix);
 		default:
 			break;
 		}
