@@ -1,5 +1,6 @@
 package seers.bugreppatterns.entity.xml;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,6 +18,21 @@ public class DescriptionParagraph {
 
 	@XmlElement(name = "sentence")
 	private List<DescriptionSentence> sentences;
+
+	public DescriptionParagraph() {
+	}
+
+	public DescriptionParagraph(DescriptionParagraph descriptionParagraph) {
+		this.id = descriptionParagraph.id;
+
+		if (descriptionParagraph.sentences != null) {
+
+			this.sentences = new ArrayList<>();
+			for (DescriptionSentence descriptionSentence : descriptionParagraph.sentences) {
+				this.sentences.add(new DescriptionSentence(descriptionSentence));
+			}
+		}
+	}
 
 	public String getId() {
 		return id;

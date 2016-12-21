@@ -14,6 +14,14 @@ public class DescriptionSentence {
 	private String id;
 	@XmlValue
 	private String value;
+	
+	public DescriptionSentence() {
+	}
+
+	public DescriptionSentence(DescriptionSentence descriptionSentence) {
+		this.id = descriptionSentence.id;
+		this.value = descriptionSentence.value;
+	}
 
 	public String getId() {
 		return id;

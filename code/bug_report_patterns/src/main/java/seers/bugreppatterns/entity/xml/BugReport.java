@@ -15,8 +15,14 @@ public class BugReport {
 	private String title;
 	@XmlElement(name = "description")
 	private BugReportDescription description;
-
+	
 	public BugReport() {
+	}
+
+	public BugReport(BugReport bugReport) {
+		this.id = bugReport.id;
+		this.title = bugReport.title;
+		this.description = new BugReportDescription(bugReport.description);
 	}
 
 	public BugReport(String id, String title, BugReportDescription description) {

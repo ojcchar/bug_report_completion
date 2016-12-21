@@ -14,6 +14,17 @@ public class BugReportDescription {
 
 	@XmlElement(name = "paragraph")
 	private List<DescriptionParagraph> paragraphs;
+	
+	public BugReportDescription() {
+	}
+
+	public BugReportDescription(BugReportDescription description) {
+		this.paragraphs = new ArrayList<>();
+		
+		for (DescriptionParagraph descriptionParagraph : description.paragraphs) {
+			this.paragraphs.add(new DescriptionParagraph(descriptionParagraph)); 
+		}
+	}
 
 	public List<DescriptionParagraph> getParagraphs() {
 		return paragraphs;
