@@ -20,16 +20,26 @@ import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.TextInstance;
 import seers.bugrepcompl.entity.parse.BugReport;
 
-public class XMLCoding {
+public class XMLCodingMain {
 
+//	static HashSet<String> allowedCoders = new HashSet<String>(
+//			Arrays.asList(new String[] { "andi", "juan", "laura", "fiorella", "jing", "oscar" }));
 	static HashSet<String> allowedCoders = new HashSet<String>(
-			Arrays.asList(new String[] { "andi", "juan", "laura", "fiorella", "jing", "oscar" }));
+	Arrays.asList(new String[] { "oscar", "lau", "leo", "alejo" }));
+//	static HashSet<String> allowedCoders = new HashSet<String>(
+//			Arrays.asList(new String[] { "alex" }));
+	
+	static boolean copyOriginal = false;
 
 	public static void main(String[] args) throws Exception {
 
-		String inFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
-		String xmlFilesDir = "C:/Users/ojcch/Documents/Dropbox/Research/BUG_REPORT_PROJECT_JING/Data/final_coding";
-		String outFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/xml_coding_files";
+//		String inFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
+//		String xmlFilesDir = "C:/Users/ojcch/Documents/Dropbox/Research/BUG_REPORT_PROJECT_JING/Data/final_coding";
+//		String outFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data/alex_xml";
+
+		String inFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/old_data_coding.csv";
+		String xmlFilesDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/old_data";
+		String outFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample_old_data";
 
 		HashMap<String, List<TextInstance>> sample1 = readSample(inFile, false);
 		HashMap<String, List<TextInstance>> sample2 = readSample(inFile, true);
@@ -110,6 +120,10 @@ public class XMLCoding {
 	}
 
 	private static void copyOriginal(TextInstance bug, File bugsDir, String xmlFilesDir) throws IOException {
+		
+		if (!copyOriginal) {
+			return;
+		}
 
 		File srcFile = new File(xmlFilesDir + File.separator + "bugs" + File.separator + bug.getProject()
 				+ File.separator + bug.getBugId() + ".xml");

@@ -9,6 +9,7 @@ import seers.appcore.threads.processor.ThreadProcessor;
 import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
+import seers.bugrepcompl.xmlcoding.AgreementMain;
 
 public class GoldSetProcessor extends ThreadProcessor {
 
@@ -72,7 +73,7 @@ public class GoldSetProcessor extends ThreadProcessor {
 		if (labels == null) {
 			labels = label;
 		} else {
-			labels = mergeLabels(labels, label);
+			labels = AgreementMain.mergeLabels(labels, label);
 		}
 
 		goldSetParagraphs.put(ins, labels);
@@ -87,27 +88,11 @@ public class GoldSetProcessor extends ThreadProcessor {
 		if (labels == null) {
 			labels = label;
 		} else {
-			labels = mergeLabels(labels, label);
+			labels = AgreementMain.mergeLabels(labels, label);
 		}
 
 		goldSetBugs.put(ins, labels);
 	}
-
-	private Labels mergeLabels(Labels labels, Labels label) {
-
-		Labels labels2 = new Labels(labels);
-		if (labels2.getIsOB().isEmpty()) {
-			labels2.setIsOB(label.getIsOB());
-		}
-		if (labels2.getIsEB().isEmpty()) {
-			labels2.setIsEB(label.getIsEB());
-		}
-		if (labels2.getIsSR().isEmpty()) {
-			labels2.setIsSR(label.getIsSR());
-		}
-		return labels2;
-	}
-
 	
 
 }

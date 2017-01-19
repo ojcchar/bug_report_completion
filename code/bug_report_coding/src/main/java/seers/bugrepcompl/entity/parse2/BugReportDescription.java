@@ -49,14 +49,18 @@ public class BugReportDescription {
 	public List<DescriptionSentence> getAllSentences() {
 
 		List<DescriptionSentence> sentences = new ArrayList<>();
+		
+		if (paragraphs==null) {
+			return sentences;
+		}
+		
 		for (DescriptionParagraph par : paragraphs) {
 			List<DescriptionSentence> sentences2 = par.getSentences();
 
-			if (sentences2 == null) {
-				throw new RuntimeException("Paragraph " + par.getId() + " has no sentences");
+			if (sentences2 != null) {
+				sentences.addAll(sentences2);
 			}
 
-			sentences.addAll(sentences2);
 		}
 		return sentences;
 	}
