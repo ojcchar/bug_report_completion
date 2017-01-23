@@ -25,14 +25,28 @@ import seers.bugrepcompl.entity.parse2.DescriptionSentence;
 
 public class CodingConverterMain {
 
+	// ** new coded data **
+	// // xml files folder
+	// static String xmlFilesFolder =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/xml_coding_files/originals";
+	// // coder
+	// static String coder = "alex";
+	// // copded data folder
+	// static String codedDataFolder =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
+	// // output folder
+	// static String outputFolder =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data2";
+
+	// ** old coded data **
 	// xml files folder
-	static String xmlFilesFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/xml_coding_files/originals";
+	static String xmlFilesFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/xml_coding_files_old_data";
 	// coder
-	static String coder = "alex";
+	static String coder = "laura";
 	// copded data folder
-	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
+	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_old_data_csv";
 	// output folder
-	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data2";
+	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_old_data";
 
 	static Set<TextInstance> noBugs = new LinkedHashSet<>();
 	static Set<TextInstance> bugs = new LinkedHashSet<>();
@@ -49,26 +63,37 @@ public class CodingConverterMain {
 			TextInstance bugInstance = bugEntry.getKey();
 			Set<Entry<TextInstance, Labels>> codedSentences = bugEntry.getValue().entrySet();
 
-			// read XML of bug
-			File xmlFile = new File(
-					xmlFilesFolder + File.separator + coder + File.separator + "bugs_parsed" + File.separator
-							+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
-			if (!xmlFile.exists()) {
-				System.err.println("File does not exist: " + xmlFile);
-				continue;
+			try {
+				// read XML of bug
+				File xmlFile = new File(
+						xmlFilesFolder + File.separator + coder + File.separator + "bugs_parsed" + File.separator
+								+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
+				if (!xmlFile.exists()) {
+					xmlFile = new File(xmlFilesFolder + File.separator + bugInstance.getProject() + File.separator
+							+ bugInstance.getBugId() + ".parse.xml");
+					if (!xmlFile.exists()) {
+						System.err.println("File does not exist: " + xmlFile);
+						continue;
+					}
+				}
+				BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
+
+				// merge
+				mergeCoding(bugRep, codedSentences);
+
+				File systemFolder = new File(outputFolder + File.separator + coder + File.separator + "bugs_parsed"
+						+ File.separator + bugInstance.getProject());
+				FileUtils.forceMkdir(systemFolder);
+
+				// write XML
+				File outputFile = new File(systemFolder + File.separator + bugInstance.getBugId() + ".parse.xml");
+				XMLHelper.writeXML(BugReport.class, bugRep, outputFile);
+
+				processedBugs.add(bugInstance);
+			} catch (Exception e) {
+				System.err.println("Error for: " + bugInstance);
+				e.printStackTrace();
 			}
-			BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
-
-			// merge
-			mergeCoding(bugRep, codedSentences);
-
-			// write XML
-			File outputFile = new File(
-					outputFolder + File.separator + coder + File.separator + "bugs_parsed" + File.separator
-							+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
-			XMLHelper.writeXML(BugReport.class, bugRep, outputFile);
-
-			processedBugs.add(bugInstance);
 		}
 
 		// ---------------------------
@@ -79,13 +104,18 @@ public class CodingConverterMain {
 		}
 
 		for (TextInstance bugInstance : bugs) {
-			File srcFile = new File(
-					xmlFilesFolder + File.separator + coder + File.separator + "bugs_parsed" + File.separator
-							+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
-			File destFile = new File(
-					outputFolder + File.separator + coder + File.separator + "bugs_parsed" + File.separator
-							+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
-			FileUtils.copyFile(srcFile, destFile);
+			try {
+				File srcFile = new File(
+						xmlFilesFolder + File.separator + coder + File.separator + "bugs_parsed" + File.separator
+								+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
+				File destFile = new File(
+						outputFolder + File.separator + coder + File.separator + "bugs_parsed" + File.separator
+								+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
+				FileUtils.copyFile(srcFile, destFile);
+			} catch (Exception e) {
+				System.err.println("Error for (when copying): " + bugInstance);
+				e.printStackTrace();
+			}
 		}
 
 		// ---------------------------
@@ -119,17 +149,24 @@ public class CodingConverterMain {
 
 			// sentence
 			if (instanceId.contains(".")) {
-				Optional<DescriptionSentence> sent = bugRep.getDescription().getAllSentences().stream()
-						.filter(s -> s.getId().equals(instanceId)).findFirst();
+				if (instanceId.equals("0.1")) {
+					bugRep.getTitle().setOb(labels.getIsOB());
+					bugRep.getTitle().setEb(labels.getIsEB());
+					bugRep.getTitle().setSr(labels.getIsSR());
+				} else {
 
-				if (!sent.isPresent()) {
-					System.err.println("Sentence not found: " + sentInst);
-					continue;
+					Optional<DescriptionSentence> sent = bugRep.getDescription().getAllSentences().stream()
+							.filter(s -> s.getId().equals(instanceId)).findFirst();
+
+					if (!sent.isPresent()) {
+						System.err.println("Sentence not found: " + sentInst);
+						continue;
+					}
+
+					sent.get().setOb(labels.getIsOB());
+					sent.get().setEb(labels.getIsEB());
+					sent.get().setSr(labels.getIsSR());
 				}
-
-				sent.get().setOb(labels.getIsOB());
-				sent.get().setEb(labels.getIsEB());
-				sent.get().setSr(labels.getIsSR());
 			} else {
 				// paragraph or title
 

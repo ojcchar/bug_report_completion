@@ -22,13 +22,22 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 
 public class ConflictsPackagerMain {
 
-	static String conflictsFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement/conflicts.csv";
-	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/conflicts_data";
-	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
+	// new data
+	// static String conflictsFile =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement/conflicts.csv";
+	// static String outputFolder =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/conflicts_data";
+	// static String codedDataFolder =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
+
+	// old data
+	static String conflictsFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement_old_data/conflicts.csv";
+	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/conflicts_data_old";
+	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_old_data - Copy";
 
 	public static void main(String[] args) throws Exception {
 
-		List<List<String>> conflicts = readConflicts();
+		List<List<String>> conflicts = readConflicts(conflictsFile);
 		HashMap<String, List<List<String>>> codersConflicts = new HashMap<>();
 
 		for (List<String> conflict : conflicts) {
@@ -41,15 +50,19 @@ public class ConflictsPackagerMain {
 
 			File srcFile1 = new File(codedDataFolder + File.separator + coder1 + File.separator + "bugs_parsed"
 					+ File.separator + project + File.separator + bugId + ".parse.xml");
-			File destFile1 = new File(outputFolder + File.separator + reviewer + File.separator + project
-					+ File.separator + bugId + "_1.parse.xml");
-			FileUtils.copyFile(srcFile1, destFile1);
+			if (srcFile1.exists()) {
+				File destFile1 = new File(outputFolder + File.separator + reviewer + File.separator + project
+						+ File.separator + bugId + "_1.parse.xml");
+				FileUtils.copyFile(srcFile1, destFile1);
+			}
 
 			File srcFile2 = new File(codedDataFolder + File.separator + coder2 + File.separator + "bugs_parsed"
 					+ File.separator + project + File.separator + bugId + ".parse.xml");
-			File destFile2 = new File(outputFolder + File.separator + reviewer + File.separator + project
-					+ File.separator + bugId + "_2.parse.xml");
-			FileUtils.copyFile(srcFile2, destFile2);
+			if (srcFile2.exists()) {
+				File destFile2 = new File(outputFolder + File.separator + reviewer + File.separator + project
+						+ File.separator + bugId + "_2.parse.xml");
+				FileUtils.copyFile(srcFile2, destFile2);
+			}
 
 			// ----------------------
 
@@ -79,27 +92,26 @@ public class ConflictsPackagerMain {
 				List<String> header = Arrays.asList(
 						"project;bug_id;is_bug1;is_bug2;has_ob1;has_ob2;has_eb1;has_eb2;has_sr1;has_sr1;comments");
 				wr.writeNext(header);
-				
-				//--
+
+				// --
 				List<List<String>> coderConflicts = codersConflicts.get(reviewer);
-				
-				
+
 				Comparator<List<String>> comparator = Comparator.comparing(confl -> confl.get(0));
-			    comparator = comparator.thenComparing(Comparator.comparing(confl -> confl.get(1)));
-			    
-			    List<List<String>> sortedConflicts = coderConflicts.stream().sorted(comparator).collect(Collectors.toList());
-				
-				
-				//----
+				comparator = comparator.thenComparing(Comparator.comparing(confl -> confl.get(1)));
+
+				List<List<String>> sortedConflicts = coderConflicts.stream().sorted(comparator)
+						.collect(Collectors.toList());
+
+				// ----
 				wr.writeAll(sortedConflicts);
 			}
 		}
 
 	}
 
-	private static List<List<String>> readConflicts() throws Exception {
+	public static List<List<String>> readConflicts(String conflictsFile2) throws Exception {
 		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(';').build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(conflictsFile), "Cp1252"),
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(conflictsFile2), "Cp1252"),
 				csvParser)) {
 			List<List<String>> allLines = csvReader.readAll();
 			return allLines.subList(1, allLines.size());

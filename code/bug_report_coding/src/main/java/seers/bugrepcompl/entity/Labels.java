@@ -58,4 +58,49 @@ public class Labels {
 		this.codedBy = codedBy;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codedBy == null) ? 0 : codedBy.hashCode());
+		result = prime * result + ((isEB == null) ? 0 : isEB.hashCode());
+		result = prime * result + ((isOB == null) ? 0 : isOB.hashCode());
+		result = prime * result + ((isSR == null) ? 0 : isSR.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Labels other = (Labels) obj;
+		if (codedBy == null) {
+			if (other.codedBy != null)
+				return false;
+		} else if (!codedBy.equals(other.codedBy))
+			return false;
+		if (isEB == null) {
+			if (other.isEB != null)
+				return false;
+		} else if (!isEB.equals(other.isEB))
+			return false;
+		if (isOB == null) {
+			if (other.isOB != null)
+				return false;
+		} else if (!isOB.equals(other.isOB))
+			return false;
+		if (isSR == null) {
+			if (other.isSR != null)
+				return false;
+		} else if (!isSR.equals(other.isSR))
+			return false;
+		return true;
+	}
+	
+	
+
 }

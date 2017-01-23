@@ -28,14 +28,30 @@ import seers.bugrepcompl.entity.parse2.DescriptionSentence;
 
 public class AgreementMain {
 
-	static List<String> allowedCoders = new ArrayList<>(
-			new HashSet<String>(Arrays.asList("alex", "juan", "laura", "fiorella", "jing", "oscar", "alejo")));
 	// static HashSet<String> allowedCoders = new
 	// HashSet<String>(Arrays.asList(new String[] { "jing", "oscar" }));
 
-	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
-	static String codedDataPath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
-	static String outFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement";
+	// new data coding
+	// static List<String> allowedCoders = new ArrayList<>(
+	// new HashSet<String>(Arrays.asList("alex", "juan", "laura", "fiorella",
+	// "jing", "oscar", "alejo")));
+	// static String completeSamplePath =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
+	// static String codedDataPath =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
+	// static String outFolder =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement";
+
+	// old data coding
+
+	private static List<String> allowedCoders = new ArrayList<>(
+			new HashSet<String>(Arrays.asList("juan", "laura", "fiorella", "jing", "oscar", "alejo", "ana", "daniel", "davies"
+			// , "lau"
+			)));
+	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/old_data_coding.csv";
+	static String codedDataPath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_old_data - Copy";
+	static String outFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement_old_data";
+
 	static boolean onlyBugs = true;
 
 	static HashMap<String, Set<String>> noBugsCoders = new HashMap<>();
@@ -44,7 +60,7 @@ public class AgreementMain {
 	public static void main(String[] args) throws Exception {
 
 		// read complete sample with allowed coders
-		List<SampleEntry> sample = readCompleteSample();
+		List<SampleEntry> sample = readCompleteSample(completeSamplePath, allowedCoders);
 
 		// print size of the sample
 		System.out.println("# of entries in filtered sample: " + sample.size());
@@ -225,6 +241,8 @@ public class AgreementMain {
 				return analyzeBugRep(bugRep);
 			}
 
+			// --------------------------
+
 		} catch (Exception e) {
 			System.err.println("Error for " + bugInstance + " - " + coder);
 			e.printStackTrace();
@@ -233,7 +251,7 @@ public class AgreementMain {
 		throw new RuntimeException("No coded bug for " + sampleEntry.getInstance() + " - " + coder);
 	}
 
-	private static CodedBug analyzeBugRep(BugReport bugRep) {
+	public static CodedBug analyzeBugRep(BugReport bugRep) {
 
 		List<DescriptionSentence> allSentences = bugRep.getDescription().getAllSentences();
 		List<DescriptionParagraph> paragraphs = bugRep.getDescription().getParagraphs();
@@ -266,14 +284,74 @@ public class AgreementMain {
 
 		for (String coder : allowedCoders) {
 			readNoBugs(coder);
-			readCodedBugs(coder);
+			boolean success = readCodedBugs(coder);
+			if (!success) {
+				readCodedBugsAtBugLevel(coder);
+			}
+		}
+
+		// --------------------
+
+	}
+
+	private static void readCodedBugsAtBugLevel(String coder) throws Exception {
+
+		HashMap<TextInstance, Labels> bugCoding = codedBugsCoder.get(coder);
+		if (bugCoding == null) {
+			bugCoding = new LinkedHashMap<>();
+			codedBugsCoder.put(coder, bugCoding);
+		}
+
+		File file = new File(
+				codedDataPath + File.separator + coder + File.separator + "bugs_coded_bug_level_" + coder + ".csv");
+
+		if (!file.exists()) {
+			return;
+		}
+
+		System.out.println("Reading coding (at bug level) for " + coder);
+
+		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(';').build();
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(file), "Cp1252"),
+				csvParser)) {
+
+			List<List<String>> allLines = csvReader.readAll();
+			List<List<String>> subList = allLines.subList(1, allLines.size());
+
+			// ----------------------------------
+
+			for (List<String> line : subList) {
+
+				String project = line.get(0);
+				String bugId = line.get(1);
+
+				// ----------------------------------
+
+				String isOB = line.get(3);
+				String isEB = line.get(4);
+				String isSR = line.get(5);
+
+				// ----------------------------------
+
+				TextInstance instance = new TextInstance(project, bugId, "0");
+				Labels labels = bugCoding.get(instance);
+				if (labels == null) {
+					labels = new Labels(isOB, isEB, isSR);
+				} else {
+					Labels label = new Labels(isOB, isEB, isSR);
+					labels = mergeLabels(labels, label);
+
+				}
+
+				bugCoding.put(instance, labels);
+			}
 		}
 
 	}
 
 	// static HashMap<String, HashMap<TextInstance, Labels>> codedBugsCoder =
 	// new HashMap<>();
-	private static void readCodedBugs(String coder) throws Exception {
+	private static boolean readCodedBugs(String coder) throws Exception {
 
 		// ---------------------------------
 
@@ -289,7 +367,7 @@ public class AgreementMain {
 				codedDataPath + File.separator + coder + File.separator + "1_bug_coding_" + coder + ".csv");
 
 		if (!file.exists()) {
-			return;
+			return false;
 		}
 
 		System.out.println("Reading coding for " + coder);
@@ -337,6 +415,8 @@ public class AgreementMain {
 			}
 
 		}
+
+		return true;
 
 	}
 
@@ -388,10 +468,11 @@ public class AgreementMain {
 
 	}
 
-	private static List<SampleEntry> readCompleteSample() throws Exception {
+	public static List<SampleEntry> readCompleteSample(String completeSamplePath2, List<String> allowedCoders2)
+			throws Exception {
 		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(';').build();
 		try (CsvReader csvReader = new CsvReader(
-				new InputStreamReader(new FileInputStream(completeSamplePath), "Cp1252"), csvParser)) {
+				new InputStreamReader(new FileInputStream(completeSamplePath2), "Cp1252"), csvParser)) {
 
 			List<List<String>> allLines = csvReader.readAll();
 
@@ -414,7 +495,7 @@ public class AgreementMain {
 				String coder1 = line.get(2);
 				String coder2 = line.get(3);
 
-				if (allowedCoders.contains(coder1) && allowedCoders.contains(coder2)) {
+				if (allowedCoders2.contains(coder1) && allowedCoders2.contains(coder2)) {
 					TextInstance instance = new TextInstance(project, bugId, "0");
 					entries.add(new SampleEntry(instance, coder1, coder2));
 				}

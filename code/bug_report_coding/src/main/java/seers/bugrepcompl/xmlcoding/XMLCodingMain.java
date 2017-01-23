@@ -25,7 +25,7 @@ public class XMLCodingMain {
 //	static HashSet<String> allowedCoders = new HashSet<String>(
 //			Arrays.asList(new String[] { "andi", "juan", "laura", "fiorella", "jing", "oscar" }));
 	static HashSet<String> allowedCoders = new HashSet<String>(
-	Arrays.asList(new String[] { "oscar", "lau", "leo", "alejo" }));
+	Arrays.asList(new String[] { "oscar", "lau", "ana", "daniel", "alejo" }));
 //	static HashSet<String> allowedCoders = new HashSet<String>(
 //			Arrays.asList(new String[] { "alex" }));
 	
