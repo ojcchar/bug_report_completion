@@ -44,10 +44,8 @@ public class AgreementMain {
 
 	// old data coding
 
-	private static List<String> allowedCoders = new ArrayList<>(
-			new HashSet<String>(Arrays.asList("juan", "laura", "fiorella", "jing", "oscar", "alejo", "ana", "daniel", "davies"
-			// , "lau"
-			)));
+	private static List<String> allowedCoders = new ArrayList<>(new HashSet<String>(
+			Arrays.asList("juan", "laura", "fiorella", "jing", "oscar", "alejo", "ana", "daniel", "davies", "lau")));
 	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/old_data_coding.csv";
 	static String codedDataPath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_old_data - Copy";
 	static String outFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement_old_data";

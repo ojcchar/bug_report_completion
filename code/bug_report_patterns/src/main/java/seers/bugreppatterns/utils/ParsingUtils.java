@@ -13,10 +13,13 @@ import seers.bugreppatterns.entity.xml.DescriptionSentence;
 import seers.textanalyzer.entity.Sentence;
 
 public class ParsingUtils {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParsingUtils.class);
-	
-	
+
+	public static Document parseDocument(BugReport bugRep) {
+		return parseDocument(" -- ", bugRep);
+	}
+
 	public static Document parseDocument(String system, BugReport bugRep) {
 		Document doc = new Document(bugRep.getId());
 		List<DescriptionParagraph> paragraphs = bugRep.getDescription().getParagraphs();
@@ -31,7 +34,7 @@ public class ParsingUtils {
 		}
 		return doc;
 	}
-	
+
 	public static Paragraph parseParagraph(String bugId, DescriptionParagraph paragraph) {
 
 		Paragraph par = new Paragraph(paragraph.getId());
@@ -53,6 +56,5 @@ public class ParsingUtils {
 
 		return par;
 	}
-
 
 }

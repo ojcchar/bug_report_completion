@@ -100,6 +100,11 @@ public class Labels {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Labels [isOB=" + isOB + ", isEB=" + isEB + ", isSR=" + isSR + ", codedBy=" + codedBy + "]";
+	}
 	
 	
 
