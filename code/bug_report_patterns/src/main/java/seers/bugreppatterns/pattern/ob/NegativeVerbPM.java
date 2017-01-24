@@ -33,12 +33,21 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 					if ((token.getGeneralPos().equals("VB") || token.getGeneralPos().equals("NN")
 							|| token.getGeneralPos().equals("JJ"))
 							&& SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, token)) {
-						// no conditional clause
-						// avoid cases: "if you delete"
-						// if (!SentenceUtils.containsTermsPriorToIndex(i,
-						// subClauseTokens, JavaUtils.getSet("if"))) {
-						return 1;
-						// }
+
+						if (i - 1 >= 0) {
+							if (!(subClauseTokens.get(i - 1).getLemma().equals("a")
+									|| subClauseTokens.get(i - 1).getLemma().equals("the"))) {
+								return 1;
+							}
+						} else {
+
+							// no conditional clause
+							// avoid cases: "if you delete"
+							// if (!SentenceUtils.containsTermsPriorToIndex(i,
+							// subClauseTokens, JavaUtils.getSet("if"))) {
+							return 1;
+							// }
+						}
 					}
 				}
 
@@ -48,10 +57,11 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 					return 1;
 				}
 
-//				Matcher otherVerbsMatcher = OTHER_NEGATIVE_VERBS_PATTERN.matcher(txt);
-//				if (otherVerbsMatcher.find()) {
-//					return 1;
-//				}
+				// Matcher otherVerbsMatcher =
+				// OTHER_NEGATIVE_VERBS_PATTERN.matcher(txt);
+				// if (otherVerbsMatcher.find()) {
+				// return 1;
+				// }
 			}
 		}
 

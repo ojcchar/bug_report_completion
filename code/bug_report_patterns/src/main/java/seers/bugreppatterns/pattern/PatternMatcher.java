@@ -148,7 +148,7 @@ public abstract class PatternMatcher {
 		for (PatternMatcher pm : patterns) {
 			int match = pm.matchSentence(sentence);
 			if (match == 1) {
-				// System.out.println(pm.getClass().getSimpleName());
+//				 System.out.println(pm.getClass().getSimpleName());
 				return pm;
 			}
 		}

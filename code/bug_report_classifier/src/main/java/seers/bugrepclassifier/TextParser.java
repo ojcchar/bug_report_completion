@@ -18,7 +18,7 @@ public class TextParser {
 
 	public TextParser() {
 		Properties props = new Properties();
-		props.setProperty("annotators", "tokenize, ssplit, pos, lemma, parse");
+		props.setProperty("annotators", "tokenize, ssplit, parse");
 		pipeline = new StanfordCoreNLP(props);
 	}
 
@@ -108,7 +108,7 @@ public class TextParser {
 				if (parseSentence.startsWith("java.") || parseSentence.startsWith("	at ")
 						|| parseSentence.startsWith("\"") || parseSentence.startsWith("org.apache")) {// parseSentence.matches("(\\W*)(at
 																										// )(\\w+\\.){3,}(.*)")){
-					System.out.println("NOT processing: " + parseSentence);
+//					System.out.println("NOT processing: " + parseSentence);
 					splittedSentence.add(parseSentence);
 					if (sid == parseSentences.size() - 1) {
 						paragraphSplit.add(splittedSentence);

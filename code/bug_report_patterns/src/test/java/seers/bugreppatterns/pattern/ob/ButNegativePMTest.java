@@ -22,7 +22,6 @@ public class ButNegativePMTest extends BaseTest {
 				"My home page is Google and after it loads the page the wheel stops turning (good) but if I go to any web site then close that web site's tab to return to Google the page loading wheel never stops as if the page is still trying to load and it is not (I don't think).",
 				"After the configuration I've started it and it's running but if I want to connect to the server my client tells me that it's unable to connect to the remote host.",
 				"In this example the `strace` output shows that `\"Entrypoint\": [\"/bin/bash\"-l\"]` was sent to the server, but inspecting the resulting image shows `\"Entrypoint\": null`.",
-				"* I was expecting `--quiet` to suppress that output, but it only removes the output from commands run in containers, not the rest of the client's output.",
 				"However, when I create a new Bestellung object, then the column for @OrderColumn isn't updated.",
 				"Issue HHH-3965 partly resolved this issue for non-nationalized characters by mapping CLOB to VARCHAR(MAX); however under the {SQLServer2008Dialect} which extends {SQLServer2005Dialect}, using the @Lob and @Nationalized annotations results in mapping to a NCLOB data type which doesn't exist for SQL Server.",
 				"When saving to ODT a modified document from any other format (DOC or RTF being most often with me) the Save As dialog doesn't pre-fill the 'File name' field with the original DOC filename leaving it empty, but only if no other ODT documents being already in the destination folder present.",

@@ -13,6 +13,8 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
+		
+		VerbToBeNegativePM pm = new VerbToBeNegativePM();
 
 		List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
 		int numValidClauses = 0;
@@ -37,7 +39,7 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 				}
 
 				// check for noun phrases
-				if (checkErrorNounPhrase(subClause.getTokens()) != 0) {
+				if (checkErrorNounPhrase(subClause.getTokens()) != 0 && pm.matchSentence(new Sentence(sentence.getId(), subClause.getTokens())) == 0) {
 					numValidClauses++;
 					break;
 				}
@@ -111,6 +113,11 @@ public class ErrorNounPhrasePM extends ObservedBehaviorPatternMatcher {
 					break;
 				}
 
+			}
+			
+			//additional negative adjectives (checking by word)
+			else if(SentenceUtils.wordsContainToken(NegativeTerms.ADJECTIVES, token) && i -1 >=0 && tokens.get(i-1).getGeneralPos().equals("DT")){
+				containsNegativeNoun = true;
 			}
 
 			// stack trace

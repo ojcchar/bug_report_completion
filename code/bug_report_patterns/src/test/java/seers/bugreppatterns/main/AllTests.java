@@ -9,7 +9,7 @@ import seers.bugreppatterns.pattern.ob.AllOBTests;
 import seers.bugreppatterns.pattern.sr.AllSRTests;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AllEBTests.class, AllSRTests.class, AllOBTests.class })
+@SuiteClasses({ AllSRTests.class, AllEBTests.class, AllOBTests.class })
 public class AllTests {
 
 }

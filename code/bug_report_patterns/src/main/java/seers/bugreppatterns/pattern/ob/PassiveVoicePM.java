@@ -30,11 +30,23 @@ public class PassiveVoicePM extends ObservedBehaviorPatternMatcher {
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
-		List<Token> tokens = sentence.getTokens();
 
-		if (isPassive(tokens) && !isEBModal(tokens) && !isNegative(sentence)
-				&& !SentenceUtils.sentenceContainsAnyLemmaIn(sentence, FORBIDDEN_TERMS)) {
-			return 1;
+		List<Sentence> subSentences = SentenceUtils.breakByParenthesis(sentence);
+
+		for (Sentence subSentence : subSentences) {
+
+			List<Sentence> clauses = SentenceUtils.extractClauses(subSentence);
+
+			for (Sentence clause : clauses) {
+
+				List<Token> tokens = clause.getTokens();
+
+				if (isPassive(tokens) && !isEBModal(tokens) && !isNegative(clause)
+						&& !SentenceUtils.sentenceContainsAnyLemmaIn(clause, FORBIDDEN_TERMS)) {
+					return 1;
+				}
+
+			}
 		}
 
 		return 0;

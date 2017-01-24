@@ -13,15 +13,16 @@ public class NegativeVerbPMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] negs = {
-
+		String[] negs = { 
+				"there is a crash",
 				"Currently the live-stream box has an initial message that states update your status on this event .",
 				"Currently, the login information is kept in the server, so each time you do a docker login,\nthe client requests the default username/email from the server, send send the new configuration to the docker server which communicates with the index.",
 				"Currently, if you try to use the MessageService to send an email, the body of the email is always set to \"text/plain\".",
 				"2.0M3 If a Node Mapping has two Feature Label Mappings, only the first is processed to resolve its View Pattern, the second retains its default text.",
 				"When I use Shift+Tab to decrease indentation level of selected C source lines, these selected C source lines are scrolled up or down (depends on its position on screen), why?",
 				"If the directory gets closed and opened again the right contents will show up.",
-				"Indeed, when I run `docker inspect xxx_default` I got:" };
+				"Indeed, when I run `docker inspect xxx_default` I got:" 
+				};
 
 		TestUtils.testSentences(negs, pm, 0);
 		@SuppressWarnings("unused")

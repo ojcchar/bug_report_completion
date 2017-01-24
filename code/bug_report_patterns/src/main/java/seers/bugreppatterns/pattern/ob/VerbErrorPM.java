@@ -14,52 +14,62 @@ import seers.textanalyzer.entity.Token;
 public class VerbErrorPM extends ObservedBehaviorPatternMatcher {
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ProblemInPM(), new ErrorNounPhrasePM() };
-	final public static Set<String> VERB_TERMS = JavaUtils.getSet("output", "return", "got", "get", "result");
+	final public static Set<String> VERB_TERMS = JavaUtils.getSet("output", "return", "got", "get", "result", "crash");
 
 	final public static Set<String> NOT_VERBS = JavaUtils.getSet("warning", "spam", "voided",
 			// if there is the verb to-be in the sentence, then it is possible
 			// it fits the
 			"be");
 
+	public static final Set<String> CLAUSE_SEPARATORS = JavaUtils.getSet(";", ",");
+
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
-		for (Sentence subSentence : SentenceUtils.breakByParenthesis(sentence)) {
+		List<Sentence> sentences = SentenceUtils.breakByParenthesis(sentence);
 
-			List<Token> tokens = subSentence.getTokens();
-			List<Integer> verbs = findAllVerbs(tokens);
+		for (Sentence sent : sentences) {
 
-			verbloop: for (int verb = 0; verb < verbs.size(); verb++) {
+			List<Sentence> subSentences = SentenceUtils.extractClauses(sent, CLAUSE_SEPARATORS);
 
-				// there's nothing after the verb
-				if (verbs.get(verb) + 1 >= tokens.size()) {
-					continue;
-				}
+			for (Sentence subSentence : subSentences) {
 
-				int start = verbs.get(verb) + 1;
-				Token afterVerbToken = tokens.get(start);
+				List<Token> tokens = subSentence.getTokens();
+				List<Integer> verbs = findAllVerbs(tokens);
 
-				// the token after the verb is a preposition or a personal
-				// pronoun
-				while (tokenIsPrep(afterVerbToken) || afterVerbToken.getGeneralPos().equals("PRP")) {
-					start++;
-					if (start < tokens.size()) {
-						afterVerbToken = tokens.get(start);
-					} else {
-						break verbloop;
-						// return 0;
+				verbloop: for (int verb = 0; verb < verbs.size(); verb++) {
+
+					// there's nothing after the verb
+					if (verbs.get(verb) + 1 >= tokens.size()) {
+						continue;
 					}
 
-				}
+					int start = verbs.get(verb) + 1;
+					Token afterVerbToken = tokens.get(start);
 
-				int end = start + 1;
+					// the token after the verb is a preposition or a personal
+					// pronoun
+					while (tokenIsPrep(afterVerbToken) || afterVerbToken.getGeneralPos().equals("PRP")) {
+						start++;
+						if (start < tokens.size()) {
+							afterVerbToken = tokens.get(start);
+						} else {
+							break verbloop;
+							// return 0;
+						}
 
-				while (end <= tokens.size()) {
-					Sentence clause = new Sentence(sentence.getId(), tokens.subList(start, end));
-					if (isNegative(clause)) {
-						return 1;
 					}
-					end++;
+
+					int end = start + 1;
+
+					while (end <= tokens.size()) {
+						Sentence clause = new Sentence(sentence.getId(), tokens.subList(start, end));
+						if (isNegative(clause)) {
+							return 1;
+						}
+						end++;
+					}
+
 				}
 
 			}

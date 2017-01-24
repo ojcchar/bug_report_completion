@@ -6,8 +6,8 @@ import seers.bugreppatterns.utils.JavaUtils;
 
 public class NegativeTerms {
 	final public static Set<String> ADJECTIVES = JavaUtils.getSet("abnormal", "agressive", "ambiguous", "annoying",
-			"bad", "bizarre", "blank", "blocked", "bloken", "broken", "buggy", "challenging", "confusing", "counter-intuitive",
-			"corrupt", "corrupted", "cpu-bound", "dead", "different", "dirty",
+			"bad", "bizarre", "blank", "blocked", "bloken", "broken", "buggy", "challenging", "confusing",
+			"counter-intuitive", "corrupt", "corrupted", "cpu-bound", "dead", "different", "dirty",
 			// down is really not a negative adj
 			// "down",
 			"duplicated", "empty", "enormous", "erroneous", "excessive", "expensive", "extra", "faulty", "frustrating",

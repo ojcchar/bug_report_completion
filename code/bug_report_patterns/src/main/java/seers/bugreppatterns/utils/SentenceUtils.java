@@ -129,8 +129,7 @@ public class SentenceUtils {
 	 * @param tokens
 	 * @return
 	 */
-	public static List<Sentence> extractClauses(Sentence sentence) {
-
+	public static List<Sentence> extractClauses(Sentence sentence, Set<String> clauseSeparators) {
 		List<Token> tokens = sentence.getTokens();
 
 		List<Sentence> clauses = new ArrayList<>();
@@ -139,7 +138,7 @@ public class SentenceUtils {
 		int currentClause = 0;
 		for (int i = 0; i < tokens.size();) {
 			Token token = tokens.get(i);
-			if (matchTermsByLemma(CLAUSE_SEPARATORS, token) || matchTermsByPOS(POS_SEPARATORS, token)
+			if (matchTermsByLemma(clauseSeparators, token) || matchTermsByPOS(POS_SEPARATORS, token)
 					|| matchTermsByLemma(TERM_SEPARATORS, token)) {
 
 				// ---------------------
@@ -186,7 +185,18 @@ public class SentenceUtils {
 		}
 
 		return clauses;
+	}
 
+	/**
+	 * Extract clauses or subsentences in the provided sentence, based on
+	 * CLAUSE_SEPARATORS and Coordinating conjuctions such as "and", "or",
+	 * "but", etc.
+	 *
+	 * @param tokens
+	 * @return
+	 */
+	public static List<Sentence> extractClauses(Sentence sentence) {
+		return extractClauses(sentence, CLAUSE_SEPARATORS);
 	}
 
 	private static boolean checkHtmlCode(List<Token> tokens, int ampersandIdx) {
@@ -231,6 +241,19 @@ public class SentenceUtils {
 	 */
 	public static boolean lemmasContainToken(Set<String> lemmas, Token token) {
 		return lemmas.stream().anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
+	}
+
+	/**
+	 * Checks whether the token's word matches any of the strings in words
+	 *
+	 * @param words
+	 *            set of words to compare against with
+	 * @param token
+	 *            the token to match
+	 * @return true if the token matches any of the words, false otherwise
+	 */
+	public static boolean wordsContainToken(Set<String> words, Token token) {
+		return words.stream().anyMatch(t -> token.getWord().equalsIgnoreCase(t));
 	}
 
 	/**

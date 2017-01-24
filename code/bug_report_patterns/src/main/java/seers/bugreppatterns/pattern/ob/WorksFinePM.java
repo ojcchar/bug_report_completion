@@ -76,7 +76,9 @@ public class WorksFinePM extends ObservedBehaviorPatternMatcher {
 					}
 					// The one that precedes a preposition
 					// case: "it works to something"
-					else if (next.getGeneralPos().equals("TO") || next.getGeneralPos().equals("IN")) {
+					else if (next.getGeneralPos().equals("TO")
+					// || next.getGeneralPos().equals("IN")
+					) {
 						finds.add(i);
 					}
 					// The one that ends a sentence

@@ -14,6 +14,8 @@ public class LeadsToNegativePmTest extends BaseTest {
 	@Test
 	public void testPositive() throws Exception {
 		String[] sentences = {
+				
+				"using DDE and WWW_OpenURL to open a file results in a truncated file name",
 				"Instead_ links are having  connect  appended which results in the wrong page being displayed.",
 				"This leads to avatars being cut off.",
 				"This small inconsistent behavior causes the user frustration not experienced in other browsers.",
@@ -25,7 +27,9 @@ public class LeadsToNegativePmTest extends BaseTest {
 				"FILESAVE causes lots of artifacts and destroys VIEWING for embedded .svg",
 				"This is causing attempts to load Save Handlers on commits to the DB (where the method name starts with 'save') on non OpenmrsObjects: this results in casting exceptions that will hault the thread in the AOP (RequiredDataAdvice) before the commit is ever executed.",
 				"Exiting a patient from care causes \"not-null property references a null or transient value: org.openmrs.PatientState.dateCreated\"",
-				"* When the query cache expires first, it won't cache the objects (as described), which will eventually lead to a situation where the query cache is valid and the object cache expired." };
+				"* When the query cache expires first, it won't cache the objects (as described), which will eventually lead to a situation where the query cache is valid and the object cache expired." 
+				
+		};
 		TestUtils.testSentences(sentences, pm, 1);
 	}
 
