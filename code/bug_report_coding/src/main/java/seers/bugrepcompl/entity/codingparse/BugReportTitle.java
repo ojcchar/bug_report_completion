@@ -1,4 +1,4 @@
-package seers.bugrepcompl.entity.parse2;
+package seers.bugrepcompl.entity.codingparse;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,17 +19,6 @@ public class BugReportTitle {
 
 	@XmlValue
 	private String value;
-	
-	public BugReportTitle() {
-	}
-
-	public BugReportTitle(String ob, String eb, String sr, String value) {
-		super();
-		this.ob = ob;
-		this.eb = eb;
-		this.sr = sr;
-		this.value = value;
-	}
 
 	public String getOb() {
 		return ob;
@@ -66,6 +55,10 @@ public class BugReportTitle {
 	@Override
 	public String toString() {
 		return "BugReportTitle [ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", value=" + value + "]";
+	}
+
+	public seers.bugrepcompl.entity.shortcodingparse.BugReportTitle toTitle2() {
+		return new seers.bugrepcompl.entity.shortcodingparse.BugReportTitle(ob, eb, sr, value);
 	}
 
 }

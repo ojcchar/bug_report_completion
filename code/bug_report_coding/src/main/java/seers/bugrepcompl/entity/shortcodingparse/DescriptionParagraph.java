@@ -1,6 +1,5 @@
-package seers.bugreppatterns.entity.xml;
+package seers.bugrepcompl.entity.shortcodingparse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,29 +8,33 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "paragraph")
+@XmlRootElement(name = "parg")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DescriptionParagraph {
 
 	@XmlAttribute
+	private String ob = "";
+	@XmlAttribute
+	private String eb = "";
+	@XmlAttribute
+	private String sr = "";
+
+	@XmlAttribute
 	private String id;
 
-	@XmlElement(name = "sentence")
+	@XmlElement(name = "st")
 	private List<DescriptionSentence> sentences;
-
+	
 	public DescriptionParagraph() {
 	}
 
-	public DescriptionParagraph(DescriptionParagraph descriptionParagraph) {
-		this.id = descriptionParagraph.id;
-
-		if (descriptionParagraph.sentences != null) {
-
-			this.sentences = new ArrayList<>();
-			for (DescriptionSentence descriptionSentence : descriptionParagraph.sentences) {
-				this.sentences.add(new DescriptionSentence(descriptionSentence));
-			}
-		}
+	public DescriptionParagraph(String ob, String eb, String sr, String id, List<DescriptionSentence> sentences) {
+		super();
+		this.ob = ob;
+		this.eb = eb;
+		this.sr = sr;
+		this.id = id;
+		this.sentences = sentences;
 	}
 
 	public String getId() {
@@ -50,9 +53,34 @@ public class DescriptionParagraph {
 		this.sentences = sentences;
 	}
 
+	public String getOb() {
+		return ob;
+	}
+
+	public String getEb() {
+		return eb;
+	}
+
+	public String getSr() {
+		return sr;
+	}
+
+	public void setOb(String ob) {
+		this.ob = ob;
+	}
+
+	public void setEb(String eb) {
+		this.eb = eb;
+	}
+
+	public void setSr(String sr) {
+		this.sr = sr;
+	}
+
 	@Override
 	public String toString() {
-		return "\t[id= " + id + ", [sentences=\r\n" + getStrElements() + "\t]";
+		return "\t[id= " + id + ", ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", [sentences=\r\n" + getStrElements()
+				+ "\t]";
 	}
 
 	private String getStrElements() {
@@ -75,7 +103,6 @@ public class DescriptionParagraph {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((sentences == null) ? 0 : sentences.hashCode());
 		return result;
 	}
 
@@ -92,11 +119,6 @@ public class DescriptionParagraph {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (sentences == null) {
-			if (other.sentences != null)
-				return false;
-		} else if (!sentences.equals(other.sentences))
 			return false;
 		return true;
 	}

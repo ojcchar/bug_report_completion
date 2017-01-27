@@ -3,9 +3,9 @@ package seers.bugrepclassifier;
 import java.io.File;
 import java.util.LinkedHashMap;
 
+import seers.bugrepcompl.entity.regularparse.BugReport;
+import seers.bugrepcompl.entity.regularparse.BugReportDescription;
 import seers.bugreppatterns.entity.Document;
-import seers.bugreppatterns.entity.xml.BugReport;
-import seers.bugreppatterns.entity.xml.BugReportDescription;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.AnyMatchPredictor;
 import seers.bugreppatterns.pattern.predictor.PredictionOutput;

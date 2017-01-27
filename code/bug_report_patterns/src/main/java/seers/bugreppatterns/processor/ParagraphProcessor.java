@@ -6,9 +6,9 @@ import java.util.List;
 
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.xml.XMLHelper;
+import seers.bugrepcompl.entity.regularparse.BugReport;
+import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
 import seers.bugreppatterns.entity.Paragraph;
-import seers.bugreppatterns.entity.xml.BugReport;
-import seers.bugreppatterns.entity.xml.DescriptionParagraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.PredictionOutput;
 import seers.bugreppatterns.utils.ParsingUtils;

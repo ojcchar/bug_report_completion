@@ -31,7 +31,7 @@ public class ConflictsPackagerMain {
 	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
 
 	// old data
-	static String conflictsFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement_old_data/conflicts.csv";
+	static String conflictsFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement_old_data/conflicts/conflicts.csv";
 	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/conflicts_data_old";
 	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_old_data - Copy";
 
@@ -87,10 +87,10 @@ public class ConflictsPackagerMain {
 		for (String reviewer : reviewers) {
 			try (CsvWriter wr = new CsvWriterBuilder(new FileWriter(
 					outputFolder + File.separator + reviewer + File.separator + "conflicts_" + reviewer + ".csv"))
-							.separator(';').quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
+							.separator(',').quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
 
-				List<String> header = Arrays.asList(
-						"project;bug_id;is_bug1;is_bug2;has_ob1;has_ob2;has_eb1;has_eb2;has_sr1;has_sr1;comments");
+				List<String> header = Arrays.asList("project", "bug_id", "is_bug1", "is_bug2", "has_ob1", "has_ob2",
+						"has_eb1", "has_eb2", "has_sr1", "has_sr2", "comments");
 				wr.writeNext(header);
 
 				// --

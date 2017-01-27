@@ -12,7 +12,7 @@ import org.apache.commons.io.FileUtils;
 
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.parse2.BugReport;
+import seers.bugrepcompl.entity.shortcodingparse.BugReport;
 
 public class FinalCodingMain1 {
 

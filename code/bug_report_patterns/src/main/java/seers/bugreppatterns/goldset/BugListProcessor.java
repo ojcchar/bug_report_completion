@@ -9,9 +9,9 @@ import seers.appcore.threads.processor.ThreadProcessor;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
+import seers.bugrepcompl.entity.regularparse.BugReport;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.Paragraph;
-import seers.bugreppatterns.entity.xml.BugReport;
 import seers.bugreppatterns.utils.ParsingUtils;
 import seers.textanalyzer.entity.Sentence;
 

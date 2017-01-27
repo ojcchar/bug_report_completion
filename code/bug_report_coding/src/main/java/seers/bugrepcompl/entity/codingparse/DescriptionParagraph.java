@@ -1,5 +1,6 @@
-package seers.bugrepcompl.entity.parse2;
+package seers.bugrepcompl.entity.codingparse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,7 +9,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "parg")
+@XmlRootElement(name = "paragraph")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DescriptionParagraph {
 
@@ -22,22 +23,10 @@ public class DescriptionParagraph {
 	@XmlAttribute
 	private String id;
 
-	@XmlElement(name = "st")
+	@XmlElement(name = "sentence")
 	private List<DescriptionSentence> sentences;
-	
-	public DescriptionParagraph() {
-	}
 
-	public DescriptionParagraph(String ob, String eb, String sr, String id, List<DescriptionSentence> sentences) {
-		super();
-		this.ob = ob;
-		this.eb = eb;
-		this.sr = sr;
-		this.id = id;
-		this.sentences = sentences;
-	}
-
-	public String getId() {
+	 public String getId() {
 		return id;
 	}
 
@@ -98,31 +87,21 @@ public class DescriptionParagraph {
 		return buf.toString();
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph toParagraph2() {
+		List<seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence> sentences2 = toSentences2();
+		return new seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph(ob, eb, sr, id, sentences2);
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DescriptionParagraph other = (DescriptionParagraph) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	private List<seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence> toSentences2() {
+		if (this.sentences == null) {
+			return null;
+		}
+
+		List<seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence> sentences2 = new ArrayList<>();
+		for (DescriptionSentence sent : this.sentences) {
+			sentences2.add(sent.toSentence2());
+		}
+		return sentences2;
 	}
-	
-	
 
 }

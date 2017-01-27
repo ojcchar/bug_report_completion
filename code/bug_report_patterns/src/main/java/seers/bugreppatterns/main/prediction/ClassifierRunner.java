@@ -12,7 +12,7 @@ public class ClassifierRunner {
 		String systems = "eclipse,facebook,firefox,httpd,docker,hibernate,libreoffice,openmrs,wordpress-android";
 		// String systems = "docker";
 		String dataFolder = "test_data" + File.separator + "data";
-		String outputFolder = "test_data" + File.separator + "output2";
+		String outputFolder = "test_data" + File.separator + "output";
 		String configFolder = "test_data";
 		String pattersFile = "patterns.csv";
 		CooccurringFeaturesOption cooccurrOption = CooccurringFeaturesOption.ONLY_INDIV;

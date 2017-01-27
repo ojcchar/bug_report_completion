@@ -8,9 +8,9 @@ import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
-import seers.bugreppatterns.entity.xml.BugReportDescription;
-import seers.bugreppatterns.entity.xml.DescriptionParagraph;
-import seers.bugreppatterns.entity.xml.DescriptionSentence;
+import seers.bugrepcompl.entity.regularparse.BugReportDescription;
+import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
+import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
 
 public class TextParser {
 

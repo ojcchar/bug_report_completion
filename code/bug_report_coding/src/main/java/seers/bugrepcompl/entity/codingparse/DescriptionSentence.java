@@ -1,4 +1,4 @@
-package seers.bugrepcompl.entity.parse;
+package seers.bugrepcompl.entity.codingparse;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -67,8 +67,8 @@ public class DescriptionSentence {
 		return "stnc [ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", id=" + id + ", val=" + value + "]";
 	}
 
-	public seers.bugrepcompl.entity.parse2.DescriptionSentence toSentence2() {
-		return new seers.bugrepcompl.entity.parse2.DescriptionSentence(ob, eb, sr, id, value);
+	public seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence toSentence2() {
+		return new seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence(ob, eb, sr, id, value);
 	}
 
 	// @Override

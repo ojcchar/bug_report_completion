@@ -1,4 +1,4 @@
-package seers.bugreppatterns.entity.xml;
+package seers.bugrepcompl.entity.regularparse;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -1,4 +1,4 @@
-package seers.bugreppatterns.entity.xml;
+package seers.bugrepcompl.entity.codingparse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +14,6 @@ public class BugReportDescription {
 
 	@XmlElement(name = "paragraph")
 	private List<DescriptionParagraph> paragraphs;
-	
-	public BugReportDescription() {
-	}
-
-	public BugReportDescription(BugReportDescription description) {
-		this.paragraphs = new ArrayList<>();
-		
-		for (DescriptionParagraph descriptionParagraph : description.paragraphs) {
-			this.paragraphs.add(new DescriptionParagraph(descriptionParagraph)); 
-		}
-	}
 
 	public List<DescriptionParagraph> getParagraphs() {
 		return paragraphs;
@@ -64,30 +53,23 @@ public class BugReportDescription {
 		return sentences;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((paragraphs == null) ? 0 : paragraphs.hashCode());
-		return result;
+	public seers.bugrepcompl.entity.shortcodingparse.BugReportDescription toDescription2() {
+		List<seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph> paragraphs2 = toParagraphs2();
+		return new seers.bugrepcompl.entity.shortcodingparse.BugReportDescription(paragraphs2);
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BugReportDescription other = (BugReportDescription) obj;
-		if (paragraphs == null) {
-			if (other.paragraphs != null)
-				return false;
-		} else if (!paragraphs.equals(other.paragraphs))
-			return false;
-		return true;
+	private List<seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph> toParagraphs2() {
+		if (this.paragraphs==null) {
+			return null;
+		}
+		
+		List<seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph> pars2 = new ArrayList<>();
+		for (DescriptionParagraph par : this.paragraphs) {
+			
+			pars2.add(par.toParagraph2());
+			
+		}
+		
+		return pars2;
 	}
-	
-	
 }

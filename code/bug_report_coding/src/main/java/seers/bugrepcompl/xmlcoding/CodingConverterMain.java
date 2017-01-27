@@ -19,9 +19,9 @@ import net.quux00.simplecsv.CsvReader;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.parse2.BugReport;
-import seers.bugrepcompl.entity.parse2.DescriptionParagraph;
-import seers.bugrepcompl.entity.parse2.DescriptionSentence;
+import seers.bugrepcompl.entity.shortcodingparse.BugReport;
+import seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph;
+import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
 
 public class CodingConverterMain {
 

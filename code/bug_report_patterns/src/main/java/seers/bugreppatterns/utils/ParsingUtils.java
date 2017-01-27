@@ -5,11 +5,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import seers.bugrepcompl.entity.regularparse.BugReport;
+import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
+import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.Paragraph;
-import seers.bugreppatterns.entity.xml.BugReport;
-import seers.bugreppatterns.entity.xml.DescriptionParagraph;
-import seers.bugreppatterns.entity.xml.DescriptionSentence;
 import seers.textanalyzer.entity.Sentence;
 
 public class ParsingUtils {

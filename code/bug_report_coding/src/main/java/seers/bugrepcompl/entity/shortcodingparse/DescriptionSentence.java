@@ -1,4 +1,4 @@
-package seers.bugreppatterns.entity.xml;
+package seers.bugrepcompl.entity.shortcodingparse;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -6,21 +6,32 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
-@XmlRootElement(name = "sentence")
+@XmlRootElement(name = "sent")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DescriptionSentence {
+
+	@XmlAttribute
+	private String ob = "";
+	@XmlAttribute
+	private String eb = "";
+	@XmlAttribute
+	private String sr = "";
 
 	@XmlAttribute(name = "id")
 	private String id;
 	@XmlValue
 	private String value;
-
+	
 	public DescriptionSentence() {
 	}
 
-	public DescriptionSentence(DescriptionSentence descriptionSentence) {
-		this.id = descriptionSentence.id;
-		this.value = descriptionSentence.value;
+	public DescriptionSentence(String ob, String eb, String sr, String id, String value) {
+		super();
+		this.ob = ob;
+		this.eb = eb;
+		this.sr = sr;
+		this.id = id;
+		this.value = value;
 	}
 
 	public String getId() {
@@ -39,9 +50,33 @@ public class DescriptionSentence {
 		this.value = value;
 	}
 
+	public String getOb() {
+		return ob;
+	}
+
+	public String getEb() {
+		return eb;
+	}
+
+	public String getSr() {
+		return sr;
+	}
+
+	public void setOb(String ob) {
+		this.ob = ob;
+	}
+
+	public void setEb(String eb) {
+		this.eb = eb;
+	}
+
+	public void setSr(String sr) {
+		this.sr = sr;
+	}
+
 	@Override
 	public String toString() {
-		return "stnc [" + getId() + ", " + value + "]";
+		return "stnc [ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", id=" + id + ", val=" + value + "]";
 	}
 
 	@Override
@@ -49,7 +84,6 @@ public class DescriptionSentence {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
 
@@ -67,12 +101,14 @@ public class DescriptionSentence {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		} else if (!value.equals(other.value))
-			return false;
 		return true;
 	}
+
+	// @Override
+	// public String toString() {
+	// return "stnc [" + getId() + ", " + value + "]";
+	// }
+	
+	
 
 }

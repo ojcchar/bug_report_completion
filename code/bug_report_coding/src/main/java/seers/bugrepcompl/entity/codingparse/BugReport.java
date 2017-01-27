@@ -1,4 +1,4 @@
-package seers.bugrepcompl.entity.parse;
+package seers.bugrepcompl.entity.codingparse;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -77,8 +77,8 @@ public class BugReport {
 				+ ", com=" + comments + "]";
 	}
 
-	public seers.bugrepcompl.entity.parse2.BugReport toBugReport2() {
-		seers.bugrepcompl.entity.parse2.BugReport bug2 = new seers.bugrepcompl.entity.parse2.BugReport(id, title.toTitle2(), description.toDescription2());
+	public seers.bugrepcompl.entity.shortcodingparse.BugReport toBugReport2() {
+		seers.bugrepcompl.entity.shortcodingparse.BugReport bug2 = new seers.bugrepcompl.entity.shortcodingparse.BugReport(id, title.toTitle2(), description.toDescription2());
 		return bug2;
 	}
 

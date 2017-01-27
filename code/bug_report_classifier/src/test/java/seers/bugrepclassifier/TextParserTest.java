@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.BugReport;
-import seers.bugreppatterns.entity.xml.BugReportDescription;
+import seers.bugrepcompl.entity.regularparse.BugReportDescription;
 
 public class TextParserTest {
 
@@ -25,8 +25,8 @@ public class TextParserTest {
 			BugReportDescription parsedDesc = parser.parseText(bug.getDescription());
 
 			File parsedFile = new File("test_data/text_parser/parsed_bugs/" + file.getName() + ".parse");
-			seers.bugreppatterns.entity.xml.BugReport parsedBug = XMLHelper
-					.readXML(seers.bugreppatterns.entity.xml.BugReport.class, parsedFile);
+			seers.bugrepcompl.entity.regularparse.BugReport parsedBug = XMLHelper
+					.readXML(seers.bugrepcompl.entity.regularparse.BugReport.class, parsedFile);
 
 			System.out.print("Testing " + bug.getId() + "... ");
 
