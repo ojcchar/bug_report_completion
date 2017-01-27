@@ -78,5 +78,14 @@ public class BugReport {
 				+ "]";
 	}
 
+	public seers.bugrepcompl.entity.regularparse.BugReport toRegularParsedBug() {
+		seers.bugrepcompl.entity.regularparse.BugReport bug = new seers.bugrepcompl.entity.regularparse.BugReport();
+		bug.setId(id);
+		bug.setTitle(this.getTitle().getValue());
+		if (this.description != null) {
+			bug.setDescription(this.description.toRegularParsedDescription());
+		}
+		return bug;
+	}
 
 }

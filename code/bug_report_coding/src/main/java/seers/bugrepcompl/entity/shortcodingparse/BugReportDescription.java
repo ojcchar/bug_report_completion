@@ -14,10 +14,10 @@ public class BugReportDescription {
 
 	@XmlElement(name = "parg")
 	private List<DescriptionParagraph> paragraphs;
-	
+
 	public BugReportDescription() {
 	}
-	
+
 	public BugReportDescription(List<DescriptionParagraph> paragraphs) {
 		super();
 		this.paragraphs = paragraphs;
@@ -49,11 +49,11 @@ public class BugReportDescription {
 	public List<DescriptionSentence> getAllSentences() {
 
 		List<DescriptionSentence> sentences = new ArrayList<>();
-		
-		if (paragraphs==null) {
+
+		if (paragraphs == null) {
 			return sentences;
 		}
-		
+
 		for (DescriptionParagraph par : paragraphs) {
 			List<DescriptionSentence> sentences2 = par.getSentences();
 
@@ -63,5 +63,26 @@ public class BugReportDescription {
 
 		}
 		return sentences;
+	}
+
+	public seers.bugrepcompl.entity.regularparse.BugReportDescription toRegularParsedDescription() {
+
+		seers.bugrepcompl.entity.regularparse.BugReportDescription desc = new seers.bugrepcompl.entity.regularparse.BugReportDescription();
+
+		List<seers.bugrepcompl.entity.regularparse.DescriptionParagraph> paragraphs2 = null;
+		if (paragraphs != null) {
+			paragraphs2 = new ArrayList<>();
+
+			for (DescriptionParagraph par : paragraphs) {
+				if (par != null) {
+					paragraphs2.add(par.toRegularParsedParagraph());
+				}
+
+			}
+		}
+
+		desc.setParagraphs(paragraphs2);
+
+		return desc;
 	}
 }

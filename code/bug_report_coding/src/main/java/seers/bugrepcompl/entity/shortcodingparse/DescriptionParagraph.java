@@ -1,5 +1,6 @@
 package seers.bugrepcompl.entity.shortcodingparse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -24,7 +25,7 @@ public class DescriptionParagraph {
 
 	@XmlElement(name = "st")
 	private List<DescriptionSentence> sentences;
-	
+
 	public DescriptionParagraph() {
 	}
 
@@ -122,7 +123,24 @@ public class DescriptionParagraph {
 			return false;
 		return true;
 	}
-	
-	
+
+	public seers.bugrepcompl.entity.regularparse.DescriptionParagraph toRegularParsedParagraph() {
+
+		seers.bugrepcompl.entity.regularparse.DescriptionParagraph par = new seers.bugrepcompl.entity.regularparse.DescriptionParagraph();
+		par.setId(id);
+		List<seers.bugrepcompl.entity.regularparse.DescriptionSentence> sentences2 = null;
+		if (sentences != null) {
+			sentences2 = new ArrayList<>();
+
+			for (DescriptionSentence sent : sentences) {
+				if (sent != null) {
+					sentences2.add(sent.toRegularParsedSentence());
+				}
+
+			}
+		}
+		par.setSentences(sentences2);
+		return par;
+	}
 
 }

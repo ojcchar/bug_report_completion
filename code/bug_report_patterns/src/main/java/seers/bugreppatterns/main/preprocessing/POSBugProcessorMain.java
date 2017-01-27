@@ -18,9 +18,15 @@ import seers.textanalyzer.entity.Sentence;
 
 public class POSBugProcessorMain {
 
-	private static String xmlBugDir = "C:/Users/ojcch/Documents/Dropbox/Research/BUG_REPORT_PROJECT_JING/Data/final_data/fixed_parsed_data";
-	private static String goldSetFile = "C:/Users/ojcch/Documents/Dropbox/Research/BUG_REPORT_PROJECT_JING/Data/final_data/gold_sets4/gold-set-B-all_data.csv";
-	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/data/preprocessed_data/no_preprocessing_but_pos";
+//	//old data (no double coding)
+//	private static String xmlBugDir = "C:/Users/ojcch/Documents/Dropbox/Research/BUG_REPORT_PROJECT_JING/Data/final_data/fixed_parsed_data";
+//	private static String goldSetFile = "C:/Users/ojcch/Documents/Dropbox/Research/BUG_REPORT_PROJECT_JING/Data/final_data/gold_sets4/gold-set-B-all_data.csv";
+//	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/data/preprocessed_data/no_preprocessing_but_pos";
+	
+	//new data
+	private static String xmlBugDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data/regular_parsed_data";
+	private static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data/gold_set.csv";
+	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data/regular_parsed_data_with_pos";
 
 	public static void main(String[] args) throws Exception {
 

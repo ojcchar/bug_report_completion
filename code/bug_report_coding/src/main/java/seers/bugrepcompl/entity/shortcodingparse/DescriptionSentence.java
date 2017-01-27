@@ -104,6 +104,13 @@ public class DescriptionSentence {
 		return true;
 	}
 
+	public seers.bugrepcompl.entity.regularparse.DescriptionSentence toRegularParsedSentence() {
+		seers.bugrepcompl.entity.regularparse.DescriptionSentence  sent = new seers.bugrepcompl.entity.regularparse.DescriptionSentence();
+		sent.setId(id);
+		sent.setValue(this.value);
+		return sent;
+	}
+
 	// @Override
 	// public String toString() {
 	// return "stnc [" + getId() + ", " + value + "]";

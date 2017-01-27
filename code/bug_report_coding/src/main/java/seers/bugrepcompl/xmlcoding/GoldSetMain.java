@@ -41,9 +41,12 @@ public class GoldSetMain {
 		try (CsvWriter gsWr = new CsvWriterBuilder(new FileWriter(outputFolder + File.separator + "gold_set.csv"))
 				.separator(';').quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
 				CsvWriter nbWr = new CsvWriterBuilder(new FileWriter(outputFolder + File.separator + "no_bugs.csv"))
-						.separator(';').quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
+						.separator(';').quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
+				CsvWriter bndWr = new CsvWriterBuilder(
+						new FileWriter(outputFolder + File.separator + "bugs_no_description.csv")).separator(';')
+								.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
 
-			writeHeaders(gsWr, nbWr);
+			writeHeaders(gsWr, nbWr, bndWr);
 
 			// for each entry in complete sample
 			for (SampleEntry sampleEntry : sample) {
@@ -59,27 +62,36 @@ public class GoldSetMain {
 							codedDataFolder + File.separator + project + File.separator + bugId + ".parse.xml");
 					BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
 
+					boolean bugHasDescription = true;
+
 					CodedBug codedBug = AgreementMain.analyzeBugRep(bugRep);
 
 					if (codedBug.isBug()) {
 
 						cleanBugReport(bugRep, bugInstance);
 
-						CodedBug codedBug2 = AgreementMain.analyzeBugRep(bugRep);
+						if (bugRep.getDescription() == null || bugRep.getDescription().getParagraphs() == null
+								|| bugRep.getDescription().getParagraphs().isEmpty()) {
+							bugHasDescription = false;
+						} else {
 
-						if (!codedBug.equals(codedBug2)) {
-							throw new RuntimeException("Coding is not the same after cleaning");
-						}
+							CodedBug codedBug2 = AgreementMain.analyzeBugRep(bugRep);
 
-						File systemFolder = new File(finalDataFolder + File.separator + project);
-						if (!systemFolder.exists()) {
-							systemFolder.mkdir();
+							if (!codedBug.equals(codedBug2)) {
+								throw new RuntimeException("Coding is not the same after cleaning");
+							}
+
+							File systemFolder = new File(finalDataFolder + File.separator + project);
+							if (!systemFolder.exists()) {
+								systemFolder.mkdir();
+							}
+							File bugFile = new File(systemFolder + File.separator + bugId + ".parse.xml");
+							XMLHelper.writeXML(BugReport.class, bugRep, bugFile);
+
 						}
-						File bugFile = new File(systemFolder + File.separator + bugId + ".parse.xml");
-						XMLHelper.writeXML(BugReport.class, bugRep, bugFile);
 					}
 
-					writeOutputs(gsWr, nbWr, bugInstance, codedBug, coder1);
+					writeOutputs(gsWr, nbWr, bndWr, bugInstance, codedBug, coder1, bugHasDescription);
 
 					numOfBugs++;
 				} catch (Exception e) {
@@ -94,16 +106,23 @@ public class GoldSetMain {
 		}
 	}
 
-	private static void writeOutputs(CsvWriter gsWr, CsvWriter nbWr, TextInstance bugInstance, CodedBug codedBug,
-			String coder1) {
+	private static void writeOutputs(CsvWriter gsWr, CsvWriter nbWr, CsvWriter bndWr, TextInstance bugInstance,
+			CodedBug codedBug, String coder1, boolean bugHasDescription) {
 		Labels labels = codedBug.getLabels();
 		String codedBy = allowedCoders.contains(coder1) ? "seers" : "davies";
 
 		if (codedBug.isBug()) {
-			List<String> entry = Arrays.asList(bugInstance.getProject(), bugInstance.getBugId(), "0",
-					labels.getIsOB().toLowerCase(), labels.getIsEB().toLowerCase(), labels.getIsSR().toLowerCase(),
-					codedBy);
-			gsWr.writeNext(entry);
+
+			if (bugHasDescription) {
+				List<String> entry = Arrays.asList(bugInstance.getProject(), bugInstance.getBugId(), "0",
+						labels.getIsOB().toLowerCase(), labels.getIsEB().toLowerCase(), labels.getIsSR().toLowerCase(),
+						codedBy);
+				gsWr.writeNext(entry);
+			}else{
+
+				List<String> entry = Arrays.asList(bugInstance.getProject(), bugInstance.getBugId());
+				bndWr.writeNext(entry);
+			}
 
 		} else {
 			List<String> entry = Arrays.asList(bugInstance.getProject(), bugInstance.getBugId());
@@ -111,13 +130,14 @@ public class GoldSetMain {
 		}
 	}
 
-	private static void writeHeaders(CsvWriter gsWr, CsvWriter nbWr) {
+	private static void writeHeaders(CsvWriter gsWr, CsvWriter nbWr, CsvWriter bndWr) {
 
 		List<String> header = Arrays.asList("system", "bug_id", "instance_id", "is_ob", "is_eb", "is_sr", "coded_by");
 		gsWr.writeNext(header);
 
 		header = Arrays.asList("system", "bug_id");
 		nbWr.writeNext(header);
+		bndWr.writeNext(header);
 	}
 
 	private static void cleanBugReport(BugReport bugRep, TextInstance bugInstance) {
