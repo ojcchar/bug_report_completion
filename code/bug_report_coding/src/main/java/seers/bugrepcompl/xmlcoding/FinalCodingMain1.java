@@ -16,13 +16,23 @@ import seers.bugrepcompl.entity.shortcodingparse.BugReport;
 
 public class FinalCodingMain1 {
 
-	static String conflictsFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement/conflicts.csv";
-	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
-	static String conflictSolutionsFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/conflicts_solved";
-	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
-	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data_after_conflicts";
+//	//new data
+//	static String conflictsFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement/conflicts.csv";
+//	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
+//	static String conflictSolutionsFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/conflicts_solved";
+//	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
+//	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data_after_conflicts";
+//	private static List<String> allowedCoders = new ArrayList<>(
+//			new HashSet<String>(Arrays.asList("alex", "juan", "laura", "fiorella", "jing", "oscar", "alejo")));
+
+	//old data
+	static String conflictsFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement_old_data/conflicts/conflicts.csv";
+	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/old_data_coding.csv";
+	static String conflictSolutionsFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/conflicts_solved_old";
+	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_old_data - Copy";
+	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data_after_conflicts_old";
 	private static List<String> allowedCoders = new ArrayList<>(
-			new HashSet<String>(Arrays.asList("alex", "juan", "laura", "fiorella", "jing", "oscar", "alejo")));
+			new HashSet<String>(Arrays.asList( "juan", "laura", "fiorella", "jing", "oscar", "alejo", "ana", "daniel", "davies", "lau")));
 
 	public static void main(String[] args) throws Exception {
 
@@ -43,6 +53,7 @@ public class FinalCodingMain1 {
 			String project = bugInstance.getProject();
 			String bugId = bugInstance.getBugId();
 			String coder1 = sampleEntry.getCoder1();
+			String coder2 = sampleEntry.getCoder2();
 
 			String reviewer = conflictReviewers.get(bugInstance);
 
@@ -53,6 +64,10 @@ public class FinalCodingMain1 {
 					// copy the file from coded data
 					srcFile = new File(codedDataFolder + File.separator + coder1 + File.separator + "bugs_parsed"
 							+ File.separator + project + File.separator + bugId + ".parse.xml");
+					if (!srcFile.exists()) {
+						srcFile = new File(codedDataFolder + File.separator + coder2 + File.separator + "bugs_parsed"
+								+ File.separator + project + File.separator + bugId + ".parse.xml");
+					}
 
 				} else {
 					// if in conflicts

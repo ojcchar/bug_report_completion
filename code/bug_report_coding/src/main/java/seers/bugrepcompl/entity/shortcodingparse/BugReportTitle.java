@@ -68,4 +68,49 @@ public class BugReportTitle {
 		return "BugReportTitle [ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", value=" + value + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((eb == null) ? 0 : eb.hashCode());
+		result = prime * result + ((ob == null) ? 0 : ob.hashCode());
+		result = prime * result + ((sr == null) ? 0 : sr.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BugReportTitle other = (BugReportTitle) obj;
+		if (eb == null) {
+			if (other.eb != null)
+				return false;
+		} else if (!eb.equals(other.eb))
+			return false;
+		if (ob == null) {
+			if (other.ob != null)
+				return false;
+		} else if (!ob.equals(other.ob))
+			return false;
+		if (sr == null) {
+			if (other.sr != null)
+				return false;
+		} else if (!sr.equals(other.sr))
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		return true;
+	}
+	
+	
+
 }
