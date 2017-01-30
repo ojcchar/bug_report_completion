@@ -160,7 +160,7 @@ for (granularity in granularities) {
     
     #filter the goldset: all, seers (training), davis (testing)
     if (dataset_type != "all" & granularity == 'B') {
-      gold_set = subset(gold_set, coded_by == dataset_type)
+      gold_set = subset(gold_set, used_for_patterns == dataset_type)
     }
     
     #filter by system
