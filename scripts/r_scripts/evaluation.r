@@ -165,6 +165,8 @@ for (granularity in granularities) {
     
     #filter by system
     gold_set = subset(gold_set, system %in% systems)
+
+    cat('# entries in gold set:',nrow(gold_set),'\n')
       
     prediction_set = read.csv(pr_file, sep = ";", header = TRUE, colClasses=c(rep("factor",6)))
     
@@ -200,3 +202,4 @@ for (granularity in granularities) {
 }
 
 cat('Done!\n')
+cat('----------------------------------------------------\n')
