@@ -158,7 +158,7 @@ for (granularity in granularities) {
     
     gold_set = read.csv(gs_file, sep = ";", header = TRUE, colClasses=c(rep("factor",6)))
     
-    #filter the goldset: all, seers (training), davis (testing)
+    #filter the goldset: all, yes (training), no (testing)
     if (dataset_type != "all" & granularity == 'B') {
       gold_set = subset(gold_set, used_for_patterns == dataset_type)
     }
