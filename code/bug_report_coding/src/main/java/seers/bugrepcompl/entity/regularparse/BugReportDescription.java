@@ -14,15 +14,15 @@ public class BugReportDescription {
 
 	@XmlElement(name = "paragraph")
 	private List<DescriptionParagraph> paragraphs;
-	
+
 	public BugReportDescription() {
 	}
 
 	public BugReportDescription(BugReportDescription description) {
 		this.paragraphs = new ArrayList<>();
-		
+
 		for (DescriptionParagraph descriptionParagraph : description.paragraphs) {
-			this.paragraphs.add(new DescriptionParagraph(descriptionParagraph)); 
+			this.paragraphs.add(new DescriptionParagraph(descriptionParagraph));
 		}
 	}
 
@@ -55,11 +55,14 @@ public class BugReportDescription {
 		for (DescriptionParagraph par : paragraphs) {
 			List<DescriptionSentence> sentences2 = par.getSentences();
 
-			if (sentences2 == null) {
-				throw new RuntimeException("Paragraph " + par.getId() + " has no sentences");
+			if (sentences2 != null) {
+				sentences.addAll(sentences2);
+			} else {
+				// throw new RuntimeException("Paragraph " + par.getId() + " has
+				// no
+				// sentences");
 			}
 
-			sentences.addAll(sentences2);
 		}
 		return sentences;
 	}
@@ -88,6 +91,5 @@ public class BugReportDescription {
 			return false;
 		return true;
 	}
-	
-	
+
 }

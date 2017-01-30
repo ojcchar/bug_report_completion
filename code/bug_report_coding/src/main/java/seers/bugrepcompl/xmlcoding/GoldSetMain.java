@@ -19,11 +19,19 @@ import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
 
 public class GoldSetMain {
 
+	//new data
 	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data_after_conflicts";
 	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
 	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data";
 	private static List<String> allowedCoders = new ArrayList<>(new HashSet<String>(
 			Arrays.asList("alex", "juan", "laura", "fiorella", "jing", "oscar", "alejo", "ana", "daniel", "lau")));
+
+	//old data
+//	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data_after_conflicts_old";
+//	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/old_data_coding.csv";
+//	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old";
+//	private static List<String> allowedCoders = new ArrayList<>(new HashSet<String>(
+//			Arrays.asList("alex", "juan", "laura", "fiorella", "jing", "oscar", "alejo", "ana", "daniel", "lau", "davies")));
 
 	public static void main(String[] args) throws Exception {
 
@@ -44,9 +52,12 @@ public class GoldSetMain {
 						.separator(';').quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
 				CsvWriter bndWr = new CsvWriterBuilder(
 						new FileWriter(outputFolder + File.separator + "bugs_no_description.csv")).separator(';')
+								.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
+				CsvWriter csWr = new CsvWriterBuilder(
+						new FileWriter(outputFolder + File.separator + "changed_sentences.csv")).separator(';')
 								.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
 
-			writeHeaders(gsWr, nbWr, bndWr);
+			writeHeaders(gsWr, nbWr, bndWr, csWr);
 
 			// for each entry in complete sample
 			for (SampleEntry sampleEntry : sample) {
@@ -66,9 +77,10 @@ public class GoldSetMain {
 
 					CodedBug codedBug = AgreementMain.analyzeBugRep(bugRep);
 
+					List<List<String>> changedSentences = null;
 					if (codedBug.isBug()) {
 
-						cleanBugReport(bugRep, bugInstance);
+						changedSentences = cleanBugReport(bugRep, bugInstance);
 
 						if (bugRep.getDescription() == null || bugRep.getDescription().getParagraphs() == null
 								|| bugRep.getDescription().getParagraphs().isEmpty()) {
@@ -91,7 +103,8 @@ public class GoldSetMain {
 						}
 					}
 
-					writeOutputs(gsWr, nbWr, bndWr, bugInstance, codedBug, coder1, bugHasDescription);
+					writeOutputs(gsWr, nbWr, bndWr, csWr, bugInstance, codedBug, coder1, bugHasDescription,
+							changedSentences);
 
 					numOfBugs++;
 				} catch (Exception e) {
@@ -106,8 +119,9 @@ public class GoldSetMain {
 		}
 	}
 
-	private static void writeOutputs(CsvWriter gsWr, CsvWriter nbWr, CsvWriter bndWr, TextInstance bugInstance,
-			CodedBug codedBug, String coder1, boolean bugHasDescription) {
+	private static void writeOutputs(CsvWriter gsWr, CsvWriter nbWr, CsvWriter bndWr, CsvWriter csWr,
+			TextInstance bugInstance, CodedBug codedBug, String coder1, boolean bugHasDescription,
+			List<List<String>> changedSentences) {
 		Labels labels = codedBug.getLabels();
 		String codedBy = allowedCoders.contains(coder1) ? "seers" : "davies";
 
@@ -118,7 +132,7 @@ public class GoldSetMain {
 						labels.getIsOB().toLowerCase(), labels.getIsEB().toLowerCase(), labels.getIsSR().toLowerCase(),
 						codedBy);
 				gsWr.writeNext(entry);
-			}else{
+			} else {
 
 				List<String> entry = Arrays.asList(bugInstance.getProject(), bugInstance.getBugId());
 				bndWr.writeNext(entry);
@@ -128,9 +142,13 @@ public class GoldSetMain {
 			List<String> entry = Arrays.asList(bugInstance.getProject(), bugInstance.getBugId());
 			nbWr.writeNext(entry);
 		}
+
+		if (changedSentences != null) {
+			csWr.writeAll(changedSentences);
+		}
 	}
 
-	private static void writeHeaders(CsvWriter gsWr, CsvWriter nbWr, CsvWriter bndWr) {
+	private static void writeHeaders(CsvWriter gsWr, CsvWriter nbWr, CsvWriter bndWr, CsvWriter csWr) {
 
 		List<String> header = Arrays.asList("system", "bug_id", "instance_id", "is_ob", "is_eb", "is_sr", "coded_by");
 		gsWr.writeNext(header);
@@ -138,19 +156,22 @@ public class GoldSetMain {
 		header = Arrays.asList("system", "bug_id");
 		nbWr.writeNext(header);
 		bndWr.writeNext(header);
+
+		header = Arrays.asList("system", "bug_id", "old_id", "new_id");
+		csWr.writeNext(header);
 	}
 
-	private static void cleanBugReport(BugReport bugRep, TextInstance bugInstance) {
+	private static List<List<String>> cleanBugReport(BugReport bugRep, TextInstance bugInstance) {
 
 		BugReportDescription description = bugRep.getDescription();
 
 		if (description == null) {
-			return;
+			return null;
 		}
 
 		List<DescriptionParagraph> paragraphs = description.getParagraphs();
 		if (paragraphs == null) {
-			return;
+			return null;
 		}
 		List<DescriptionParagraph> paragraphsToDelete = new ArrayList<>();
 
@@ -213,14 +234,32 @@ public class GoldSetMain {
 
 		// ----------------------------------
 		// re-number the sentences
+		List<List<String>> changedLines = new ArrayList<>();
 
 		Integer paragraphId = 1;
 		for (DescriptionParagraph paragraph : paragraphs) {
+
+			String parId = paragraph.getId();
+
+			if (!parId.equals(paragraphId.toString())) {
+				changedLines.add(
+						Arrays.asList(bugInstance.getProject(), bugInstance.getBugId(), parId, paragraphId.toString()));
+			}
+
 			paragraph.setId(paragraphId.toString());
 
 			Integer sentId = 1;
 			for (DescriptionSentence sent : paragraph.getSentences()) {
-				sent.setId(paragraphId.toString() + "." + sentId.toString());
+
+				String oldSentId = sent.getId();
+				String newSentId = paragraphId.toString() + "." + sentId.toString();
+
+				if (!oldSentId.equals(newSentId)) {
+					changedLines
+							.add(Arrays.asList(bugInstance.getProject(), bugInstance.getBugId(), oldSentId, newSentId));
+				}
+
+				sent.setId(newSentId);
 				sentId++;
 			}
 
@@ -236,6 +275,8 @@ public class GoldSetMain {
 				System.out.println("Bug changed: " + bugInstance);
 			}
 		}
+
+		return changedLines;
 
 	}
 

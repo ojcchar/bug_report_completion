@@ -12,9 +12,18 @@ import seers.bugrepcompl.utils.DataReader;
 
 public class FinalDataMain {
 
+	// new data
 	static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data/gold_set.csv";
 	static String finalCodingFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data/final_data";
 	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data/regular_parsed_data";
+
+	// old data
+	// static String goldSetFile =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/gold_set.csv";
+	// static String finalCodingFolder =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/final_data";
+	// static String outputFolder =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/regular_parsed_data";
 
 	public static void main(String[] args) throws Exception {
 
@@ -35,7 +44,7 @@ public class FinalDataMain {
 
 			seers.bugrepcompl.entity.regularparse.BugReport regularBug = codedBug.toRegularParsedBug();
 
-			File projectFolder = new File(outputFolder + File.separator + project+"_parse");
+			File projectFolder = new File(outputFolder + File.separator + project + "_parse");
 			if (!projectFolder.exists()) {
 				projectFolder.mkdirs();
 			}

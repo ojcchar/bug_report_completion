@@ -24,9 +24,9 @@ public class POSBugProcessorMain {
 //	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/data/preprocessed_data/no_preprocessing_but_pos";
 	
 	//new data
-	private static String xmlBugDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data/regular_parsed_data";
-	private static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data/gold_set.csv";
-	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data/regular_parsed_data_with_pos";
+	private static String xmlBugDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/regular_parsed_data";
+	private static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/gold_set.csv";
+	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/regular_parsed_data_with_pos";
 
 	public static void main(String[] args) throws Exception {
 
@@ -58,7 +58,7 @@ public class POSBugProcessorMain {
 		}
 	}
 
-	private static void writeBug(BugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
+	public static void writeBug(BugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
 		File projectFolder = new File(outputFolder + File.separator + bug.getProject() + "_parse");
 		if (!projectFolder.exists()) {
 			projectFolder.mkdir();
@@ -80,7 +80,7 @@ public class POSBugProcessorMain {
 		return stncTxt;
 	}
 
-	private static BugReport readBug(String inputFolder, TextInstance bug) throws Exception {
+	public static BugReport readBug(String inputFolder, TextInstance bug) throws Exception {
 		String filepath = inputFolder + File.separator + bug.getProject() + "_parse" + File.separator + bug.getBugId()
 				+ ".xml.parse";
 		BugReport xmlBug = XMLHelper.readXML(BugReport.class, filepath);
