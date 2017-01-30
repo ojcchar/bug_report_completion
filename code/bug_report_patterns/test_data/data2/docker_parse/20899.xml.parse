@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20899</id>
+    <title>docker 1.10.2 crashed on arm64</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Output of 'docker version':
+Client:
+ Version: 1.10.2
+ API version: 1.22
+ Go version: go1.6 gccgo (20150806) 6.0.0 20160218 (experimental)
+ Git commit: 389a38e1e5145e89dd0f36cc232d5d7c269aed3b
+ Built: 
+ OS/Arch: linux/unknown
+Cannot connect to the Docker daemon.</sentence>
+            <sentence id="1.2">Is the docker daemon running on this host?</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Output of 'docker info':
+segfault with docker daemon, so there is no output with 'docker info'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">(paste your output here)
+INFO[0000] [graphdriver] using prior storage driver "overlay" 
+INFO[0000] Graph migration to content-addressability took 0.00 seconds 
+INFO[0000] Default bridge (docker0) is assigned with an IP address 172.17.0.0/16.</sentence>
+            <sentence id="3.2">Daemon option --bip can be used to set a preferred IP address 
+acquirep: p-&gt;m=0x0(0) p-&gt;status=256
+fatal error: acquirep: invalid p state</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">runtime stack:
+runtime_dopanic
+ /usr1/zhangyichao/src/gcc-newest/libgo/runtime/panic.c:135
+runtime_throw
+ /usr1/zhangyichao/src/gcc-newest/libgo/runtime/panic.c:193
+acquirep
+ /usr1/zhangyichao/src/gcc-newest/libgo/runtime/proc.c:2797
+stopm
+ /usr1/zhangyichao/src/gcc-newest/libgo/runtime/proc.c:1466
+startlockedm
+ /usr1/zhangyichao/src/gcc-newest/libgo/runtime/proc.c:1604
+schedule
+ /usr1/zhangyichao/src/gcc-newest/libgo/runtime/proc.c:1854
+goexit0
+ /usr1/zhangyichao/src/gcc-newest/libgo/runtime/proc.c:1977
+runtime_mstart
+ /usr1/zhangyichao/src/gcc-newest/libgo/runtime/proc.c:1076</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">[1]+ Segmentation fault docker-1.10.2-debug daemon</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Provide additional environment details (AWS, VirtualBox, physical, etc.):
+use gccgo 6.0, go 1.6, on arm64 big-endian.</sentence>
+            <sentence id="6.2">and little endian arm64 run fine, no any error.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Describe the results you received:
+crashed on big endian arm64</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Describe the results you expected:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Provide additional info you think is important:
+segfault in libgo, does any one run docker on big endian arm64 successfully??</sentence>
+        </paragraph>
+    </description>
+</bug>

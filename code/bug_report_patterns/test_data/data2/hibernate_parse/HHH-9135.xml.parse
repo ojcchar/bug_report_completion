@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9135</id>
+    <title>SchemaExport ignores the "hibernate.hbm2ddl.auto" property</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi guys,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">i'm trying to use the SchemaExport tool programmatically to export the schema in a sql file.</sentence>
+            <sentence id="2.2">It all works good and I can export the whole schema in a file.</sentence>
+            <sentence id="2.3">Unfortunately I cannot export only the diff with the database :( .</sentence>
+            <sentence id="2.4">.</sentence>
+            <sentence id="2.5">I tried setting the hbm2ddl property:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{code}
+final org.hibernate.cfg.Configuration config = new ValidationConfiguration();</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">config.setProperty("hibernate.dialect", sfi.getDialect().</sentence>
+            <sentence id="4.2">getClass().</sentence>
+            <sentence id="4.3">getCanonicalName());
+ config.setProperty("hibernate.hbm2ddl.auto", "validate");
+ config.setProperty("hibernate.show_sql", "true");
+ config.buildMappings();</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">final SchemaExport export = new SchemaExport(config, connection);
+{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Unfortunately the SchemaExport is ignoring the hbm2ddl property and is exporting the whole schema again, and not just the diff with the database.</sentence>
+        </paragraph>
+    </description>
+</bug>

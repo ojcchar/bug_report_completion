@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27130</id>
+    <title>Dockerd crash on CoreOS</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">---</sentence>
+            <sentence id="1.2">## BUG REPORT INFORMATION</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">**Description**</sentence>
+            <sentence id="2.2">Docker daemon crash noticed twice on same CoreOS machine</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+Sep 23 19:47:07 server01 dockerd[1532]: fatal error: schedule: holding locks
+...
+Sep 28 22:51:01 server01 dockerd[30561]: fatal error: scan missed a g
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">More detailed log are provided below in the end.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="5.2">Not Known</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'
+Client:
+ Version: 1.10.3
+ API version: 1.22
+ Go version: go1.5.4
+ Git commit: 1f8f545
+ Built: 
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Server:
+ Version: 1.10.3
+ API version: 1.22
+ Go version: go1.5.4
+ Git commit: 1f8f545
+ Built: 
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'
+Containers: 5
+ Running: 5
+ Paused: 0
+ Stopped: 0
+Images: 10
+Server Version: 1.10.3
+Storage Driver: overlay
+ Backing Filesystem: extfs
+Execution Driver: native-0.2
+Logging Driver: json-file
+Plugins: 
+ Volume: local
+ Network: bridge null host
+Kernel Version: 4.7.0-coreos
+Operating System: CoreOS 1122.2.0 (MoreOS)
+OSType: linux
+Architecture: x86_64
+CPUs: 38
+Total Memory: 125.9 GiB
+Name: server01
+ID: HP6O:34WP:CUSH:WBIG:V2YO:4HGT:EHGB:A2FC:ED3J:2T6Z:KU4Q:2SCN
+Username: redacted
+Registry: https://index.docker.io/v1/
+"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="11.2">CoreOS 1122.2.0 VM deployed on Vmware ESXi</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**journald excerpt**</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17252</id>
+    <title>docker 1.8.2 pull/push to IPv6-enabled registry fails</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">A 'docker push' (or pull) fails on ping attempt to registry.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">root@docker-v6-2:~# docker push docker-v6-1.</sentence>
+            <sentence id="2.2">example.com:5000/ubuntu
+The push refers to a repository [docker-v6-1.</sentence>
+            <sentence id="2.3">example.com:5000/ubuntu] (len: 1)
+unable to ping registry endpoint https://docker-v6-1.example.com:5000/v0/
+v2 ping attempt failed with error: Get https://docker-v6-1.example.com:5000/v2/: dial tcp: no suitable address found
+ v1 ping attempt failed with error: Get https://docker-v6-1.example.com:5000/v1/_ping: dial tcp: no suitable address found</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">IPv6 works to Docker Registry:
+root@docker-v6-2:~# ping6 -n docker-v6-1.example.com</sentence>
+            <sentence id="3.2">PING docker-v6-1.</sentence>
+            <sentence id="3.3">example.com(fd15:4ba5:5a2b:1009:20c:29ff:fef3:f848) 56 data bytes
+64 bytes from fd15:4ba5:5a2b:1009:20c:29ff:fef3:f848: icmp_seq=1 ttl=64 time=0.257 ms
+64 bytes from fd15:4ba5:5a2b:1009:20c:29ff:fef3:f848: icmp_seq=2 ttl=64 time=0.421 ms</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">root@docker-v6-2:~# wget --no-check-certificate https://docker-v6-1.example.com:5000/v2/</sentence>
+            <sentence id="4.2">--2015-10-21 14:15:30-- https://docker-v6-1.example.com:5000/v2/</sentence>
+            <sentence id="4.3">Resolving docker-v6-1.</sentence>
+            <sentence id="4.4">example.com (docker-v6-1.</sentence>
+            <sentence id="4.5">example.com)... fd15:4ba5:5a2b:1009:20c:29ff:fef3:f848</sentence>
+            <sentence id="4.6">Connecting to docker-v6-1.</sentence>
+            <sentence id="4.7">example.com (docker-v6-1.</sentence>
+            <sentence id="4.8">example.com)|fd15:4ba5:5a2b:1009:20c:29ff:fef3:f848|:5000... connected.</sentence>
+            <sentence id="4.9">WARNING: cannot verify docker-v6-1.</sentence>
+            <sentence id="4.10">example.com's certificate, issued by ‘/C=US/ST=CO/L=Boulder/O=example/CN=docker-v6-1.example.com/emailAddress=eyepv6@example.com’:</sentence>
+            <sentence id="4.11">Self-signed certificate encountered.</sentence>
+            <sentence id="4.12">HTTP request sent, awaiting response... 200 OK</sentence>
+            <sentence id="4.13">Length: 2 [application/json]</sentence>
+            <sentence id="4.14">Saving to: ‘index.html’</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">100%[=========================================================================================&gt;] 2 --.</sentence>
+            <sentence id="5.2">-K/s in 0s</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">2015-10-21 14:15:30 (501 KB/s) - ‘index.html’ saved [2/2]</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">So the issue seems to be in the 'docker push' logic where it tries to first ping the registry and since its ping syntax or protocol dependency is broken then the ping test fails.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Environment:
+Tested on both physical HW and VMs (Fusion).</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">root@docker-v6-2:~# docker version
+Client:
+ Version: 1.8.2
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: 0a8c2e3
+ Built: Thu Sep 10 19:19:00 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Server:</sentence>
+            <sentence id="10.2"> Version: 1.8.2</sentence>
+            <sentence id="10.3"> API version: 1.20</sentence>
+            <sentence id="10.4"> Go version: go1.4.2</sentence>
+            <sentence id="10.5"> Git commit: 0a8c2e3</sentence>
+            <sentence id="10.6"> Built: Thu Sep 10 19:19:00 UTC 2015</sentence>
+            <sentence id="10.7"> OS/Arch: linux/amd64</sentence>
+            <sentence id="10.8">root@docker-v6-2:~# docker info</sentence>
+            <sentence id="10.9">Containers: 1</sentence>
+            <sentence id="10.10">Images: 8</sentence>
+            <sentence id="10.11">Storage Driver: aufs</sentence>
+            <sentence id="10.12"> Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="10.13"> Backing Filesystem: extfs</sentence>
+            <sentence id="10.14"> Dirs: 10</sentence>
+            <sentence id="10.15"> Dirperm1 Supported: false</sentence>
+            <sentence id="10.16">Execution Driver: native-0.2</sentence>
+            <sentence id="10.17">Logging Driver: json-file</sentence>
+            <sentence id="10.18">Kernel Version: 3.13.0-63-generic</sentence>
+            <sentence id="10.19">Operating System: Ubuntu 14.04.3 LTS</sentence>
+            <sentence id="10.20">CPUs: 2</sentence>
+            <sentence id="10.21">Total Memory: 3.854 GiB</sentence>
+            <sentence id="10.22">Name: docker-v6-2</sentence>
+            <sentence id="10.23">ID: JYQW:CGZU:Q6P7:J46F:XIAG:VO6Y:TPLU:JBMF:QIMW:7ANO:P5LI:LAEU</sentence>
+            <sentence id="10.24">WARNING: No swap limit support</sentence>
+            <sentence id="10.25">root@docker-v6-2:~# uname -a</sentence>
+            <sentence id="10.26">Linux docker-v6-2 3.13.0-63-generic #103-Ubuntu SMP Fri Aug 14 21:42:59 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+        </paragraph>
+    </description>
+</bug>

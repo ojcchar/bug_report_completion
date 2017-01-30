@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1954</id>
+    <title>Proxies are never unassociated (evicted) from a session</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When evicting (either directly or by cascade) a proxy from a session, the proxy is removed from an internal map (proxiesByKey), but the proxy's lazy initializer still has reference to the session.</sentence>
+            <sentence id="1.2">This allows for lazy initialization of a proxy even after the proxy is evicted.</sentence>
+            <sentence id="1.3">This seems semantically incorrect: The documentation of LazyInitializer.getSession() reads: "Get the session, if this proxy is attached" an proxy evicted from a session should cleary not remain attached to the session.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The current implementation leads to concurrent modification exceptions, when one thread detaches entities from one session and another attaches these entities to another.</sentence>
+            <sentence id="2.2">The method AbstractLazyInitializer.isConnectedToSession() is called when locking a proxy to a session.</sentence>
+            <sentence id="2.3">This will search the old session for the proxy (in the containsProxy() call).</sentence>
+            <sentence id="2.4">When another thread is manipulating this sessions proxy ByLey map, a concurrent modification exception will occure.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Note that each session is used in a thread-safe context by the application!</sentence>
+            <sentence id="3.2">When reassociating a proxy to the new session, hibernate breaks the thread-safety by querying the other session.</sentence>
+        </paragraph>
+    </description>
+</bug>

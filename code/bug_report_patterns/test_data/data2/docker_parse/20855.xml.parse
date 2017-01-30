@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20855</id>
+    <title>Replace docker 1.8.1 with docker 1.11.0-dev run would failed to run container</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;!</sentence>
+            <sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+            <sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+            <sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+            <sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+            <sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------------------------------------------------</sentence>
+            <sentence id="4.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="4.3">---------------------------------------------------</sentence>
+            <sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="4.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I have old environment with Fedora 21 Atomic (integrated with docker 1.8.1).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Since I am helping debug the issue https://github.com/docker/docker/pull/20829
+I need to compier the docker code into 1.11.0-dev binary, and then replace that 1.8.1 daemon with 1.11.0-dev to verify if that #20829 fix the volume plugin issue.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I found the new binary would not run simple containers</sentence>
+            <sentence id="7.2">[**Note: I did not use volume-driver here]</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">The following is about when run 'docker-1.11.0-dev info'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'</sentence>
+            <sentence id="9.2">Containers: 6</sentence>
+            <sentence id="9.3"> Running: 0</sentence>
+            <sentence id="9.4"> Paused: 0</sentence>
+            <sentence id="9.5"> Stopped: 6</sentence>
+            <sentence id="9.6">Images: 10</sentence>
+            <sentence id="9.7">Server Version: 1.11.0-dev</sentence>
+            <sentence id="9.8">Storage Driver: devicemapper</sentence>
+            <sentence id="9.9"> Pool Name: docker-docker--pool</sentence>
+            <sentence id="9.10"> Pool Blocksize: 524.3 kB</sentence>
+            <sentence id="9.11"> Base Device Size: 107.4 GB</sentence>
+            <sentence id="9.12"> Backing Filesystem: xfs</sentence>
+            <sentence id="9.13"> Data file: </sentence>
+            <sentence id="9.14"> Metadata file: </sentence>
+            <sentence id="9.15"> Data Space Used: 245.4 MB</sentence>
+            <sentence id="9.16"> Data Space Total: 2.147 GB</sentence>
+            <sentence id="9.17"> Data Space Available: 1.902 GB</sentence>
+            <sentence id="9.18"> Metadata Space Used: 147.5 kB</sentence>
+            <sentence id="9.19"> Metadata Space Total: 8.389 MB</sentence>
+            <sentence id="9.20"> Metadata Space Available: 8.241 MB</sentence>
+            <sentence id="9.21"> Udev Sync Supported: false</sentence>
+            <sentence id="9.22"> Deferred Removal Enabled: false</sentence>
+            <sentence id="9.23"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="9.24"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="9.25"> Library Version: 1.02.82 (2013-10-04)</sentence>
+            <sentence id="9.26">Execution Driver: native-0.2</sentence>
+            <sentence id="9.27">Logging Driver: json-file</sentence>
+            <sentence id="9.28">Plugins: </sentence>
+            <sentence id="9.29"> Volume: rexray local</sentence>
+            <sentence id="9.30"> Network: null host bridge</sentence>
+            <sentence id="9.31">Kernel Version: 3.17.4-301.fc21.x86_64</sentence>
+            <sentence id="9.32">Operating System: Fedora 21 (Twenty One)</sentence>
+            <sentence id="9.33">OSType: linux</sentence>
+            <sentence id="9.34">Architecture: x86_64</sentence>
+            <sentence id="9.35">CPUs: 1</sentence>
+            <sentence id="9.36">Total Memory: 1.955 GiB</sentence>
+            <sentence id="9.37">Name: sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal</sentence>
+            <sentence id="9.38">ID: YG5J:AFK2:E7OI:ALFE:PQUV:FOG2:ZX4K:SZQZ:GTOG:QP2Q:E2GE:HN3N</sentence>
+            <sentence id="9.39">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="9.40">Debug mode (client): false</sentence>
+            <sentence id="9.41">Debug mode (server): true</sentence>
+            <sentence id="9.42"> File Descriptors: 15</sentence>
+            <sentence id="9.43"> Goroutines: 22</sentence>
+            <sentence id="9.44"> System Time: 2016-03-02T09:51:20.613804637Z</sentence>
+            <sentence id="9.45"> EventsListeners: 0</sentence>
+            <sentence id="9.46">WARNING: bridge-nf-call-iptables is disabled</sentence>
+            <sentence id="9.47">WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+            <sentence id="9.48">"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Provide additional environment details (AWS, VirtualBox, physical, etc.):</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">List the steps to reproduce the issue:</sentence>
+            <sentence id="11.2">1 Compier docker master branch code into binary</sentence>
+            <sentence id="11.3">2 Replace systemd service bin start to use the new binary( for example 1.11.0-dev)</sentence>
+            <sentence id="11.4">as following</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"'</sentence>
+            <sentence id="12.2">ExecStart=/home/fedora/docker-1.11.0-dev daemon -D -H fd:// \</sentence>
+            <sentence id="12.3">-H tcp://0.0.0.0:2375 \</sentence>
+            <sentence id="12.4">$OPTIONS \</sentence>
+            <sentence id="12.5">$DOCKER_STORAGE_OPTIONS \</sentence>
+            <sentence id="12.6">$DOCKER_NETWORK_OPTIONS \</sentence>
+            <sentence id="12.7">$INSECURE_REGISTRY</sentence>
+            <sentence id="12.8">LimitNOFILE=1048576</sentence>
+            <sentence id="12.9">"'</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">1 And then start docker.</sentence>
+            <sentence id="13.2">2 Just run 'docker run -it busybox sh'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">It would failed with</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"'</sentence>
+            <sentence id="15.2">Mar 02 10:00:00 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T10:00:00.633076264Z" level=debug msg="Client and server don't have the same version (client: 1.8.1.fc21, server: 1.11.0-dev)"</sentence>
+            <sentence id="15.3">Mar 02 10:00:00 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T10:00:00.631870148Z" level=debug msg="GET /v1.20/images/json"</sentence>
+            <sentence id="15.4">Mar 02 10:00:00 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T10:00:00.616856128Z" level=debug msg="Calling GET /v1.20/images/json"</sentence>
+            <sentence id="15.5">Mar 02 09:56:55 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:55.185038887Z" level=error msg="Handler for POST /v1.23/containers/eedf7d2a7afcb8313ed9c7a8bf7034048993a3b964182b3c31d7ead3f5d69848/start returned error: devmapper: Error mounting '/dev/mapper/docker-253:0-4202207-c800ec8253154755d449fa8189b3bcc70db270d0a9a42fe5e3274a42f4f6b740' on '/var/lib/docker/devicemapper/mnt/c800ec8253154755d449fa8189b3bcc70db270d0a9a42fe5e3274a42f4f6b740': no such file or directory"</sentence>
+            <sentence id="15.6">Mar 02 09:56:55 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:55.183696354Z" level=error msg="Error unmounting container eedf7d2a7afcb8313ed9c7a8bf7034048993a3b964182b3c31d7ead3f5d69848: invalid argument"</sentence>
+            <sentence id="15.7">Mar 02 09:56:55 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:55.175278808Z" level=error msg="devmapper: Error unmounting device c800ec8253154755d449fa8189b3bcc70db270d0a9a42fe5e3274a42f4f6b740: invalid argument"</sentence>
+            <sentence id="15.8">Mar 02 09:56:55 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:55.174295362Z" level=debug msg="devmapper: UnmountDevice(hash=c800ec8253154755d449fa8189b3bcc70db270d0a9a42fe5e3274a42f4f6b740) END"</sentence>
+            <sentence id="15.9">Mar 02 09:56:55 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:55.173728081Z" level=debug msg="devmapper: Unmount(/var/lib/docker/devicemapper/mnt/c800ec8253154755d449fa8189b3bcc70db270d0a9a42fe5e3274a42f4f6b740)"</sentence>
+            <sentence id="15.10">Mar 02 09:56:55 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:55.172077400Z" level=warning msg="devmapper: Mount count of device went negative. Put() called without matching Get(). Resetting count to 0"</sentence>
+            <sentence id="15.11">Mar 02 09:56:55 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:55.171592162Z" level=debug msg="devmapper: UnmountDevice(hash=c800ec8253154755d449fa8189b3bcc70db270d0a9a42fe5e3274a42f4f6b740)"</sentence>
+            <sentence id="15.12">Mar 02 09:56:55 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:55.161107759Z" level=warning msg="failed to cleanup ipc mounts:</sentence>
+            <sentence id="15.13">failed to umount /var/lib/docker/containers/eedf7d2a7afcb8313ed9c7a8bf7034048993a3b964182b3c31d7ead3f5d69848/shm: no such file or directory"</sentence>
+            <sentence id="15.14">Mar 02 09:56:54 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:54.838224332Z" level=debug msg="devmapper: activateDeviceIfNeeded(c800ec8253154755d449fa8189b3bcc70db270d0a9a42fe5e3274a42f4f6b740)"</sentence>
+            <sentence id="15.15">Mar 02 09:56:54 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:54.658059181Z" level=debug msg="POST /v1.23/containers/eedf7d2a7afcb8313ed9c7a8bf7034048993a3b964182b3c31d7ead3f5d69848/start"</sentence>
+            <sentence id="15.16">Mar 02 09:56:54 sw-s5lcdlw5ktj-0-jserl73ppvan-swarm-node-lscjkrmyn6rx.novalocal docker-1.11.0-dev[2999]: time="2016-03-02T09:56:54.645789098Z" level=debug msg="Calling POST /v1.23/containers/eedf</sentence>
+            <sentence id="15.17">"'</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Describe the results you received:
+ the new binary could not start containers</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Describe the results you expected:
+I would expect new docker binary can start containers</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Provide additional info you think is important:
+nothing else</sentence>
+        </paragraph>
+    </description>
+</bug>

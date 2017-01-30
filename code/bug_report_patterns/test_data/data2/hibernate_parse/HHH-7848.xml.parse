@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7848</id>
+    <title> criteria on association w/ fetch=join, get n+1 queries</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When I specify a restriction on an one-to-many association in a criteria query, Hibernate executes n+1 queries even though the first query is joining the two tables correctly with an inner join.</sentence>
+            <sentence id="1.2">This happens if I use createAlias or createCriteria to specify the restriction on the association.</sentence>
+            <sentence id="1.3">If I don't specify a restriction on the association then I do not get n+1 queries and the association is populated.</sentence>
+            <sentence id="1.4">This seems like a bug as all the data is returned in the initial query and the following queries are not needed.</sentence>
+            <sentence id="1.5">There is already a post on this in the forum (https://forum.hibernate.org/viewtopic.php?f=1&amp;t=1002270) with no response.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Criteria Query:
+final DetachedCriteria criteria = DetachedCriteria.forClass(A.class);
+criteria.add(Restrictions.eq("column1", value1))
+.</sentence>
+            <sentence id="2.2">createAlias("someSetofB", "h")
+.</sentence>
+            <sentence id="2.3">add(Restrictions.in("h.code", new String[] {"A","B","C"}));
+final List&lt;A&gt; list = getHibernateTemplate().</sentence>
+            <sentence id="2.4">findByCriteria(criteria);</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Association Mapping:
+&lt;set name="someSetofB" lazy="false" fetch="join"&gt;
+&lt;key&gt;
+&lt;column name="SOME_ID" /&gt;
+&lt;/key&gt;
+&lt;one-to-many class="B" /&gt;
+&lt;/set&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">SQL:
+select .</sentence>
+            <sentence id="4.2">.</sentence>
+            <sentence id="4.3">(every column from A and B).</sentence>
+            <sentence id="4.4">.</sentence>
+            <sentence id="4.5">from A this_ inner join B h1_ on this_.</sentence>
+            <sentence id="4.6">SOME_ID=h1_.</sentence>
+            <sentence id="4.7">SOME_ID where this_.</sentence>
+            <sentence id="4.8">COLUMN_ONE=?</sentence>
+            <sentence id="4.9">and h1_.</sentence>
+            <sentence id="4.10">CODE in (?</sentence>
+            <sentence id="4.11">, ?</sentence>
+            <sentence id="4.12">, ?)</sentence>
+            <sentence id="4.13">select .... from B someSetOfB0_ where someSetOfB0_.</sentence>
+            <sentence id="4.14">SOME_ID=?</sentence>
+            <sentence id="4.15">select .... from B someSetOfB0_ where someSetOfB0_.</sentence>
+            <sentence id="4.16">SOME_ID=?</sentence>
+            <sentence id="4.17">..... selects for as many A's returned by first query</sentence>
+        </paragraph>
+    </description>
+</bug>

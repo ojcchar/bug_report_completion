@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3150</id>
+    <title>"true" and "false" concepts loaded improperly in ConceptServiceImpl</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The designated concept id for "true" and "false" are stored as global properties within the system.</sentence>
+            <sentence id="1.2">The ConceptServiceImpl has two static variables, trueConcept and falseConcept, that stores these "true" and "false" concepts.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">However, instead of loading the true and false concepts from the DB, ConceptServiceImpl initializes trueConcept and falseConcept by creating dummy concepts initialized with the appropriate concept ids.</sentence>
+            <sentence id="2.2">Therefore the trueConcept and falseConcept variables get random uuids, not the uuids of the underlying concepts.</sentence>
+            <sentence id="2.3">This is problematic--for one, starting in OpenMRS 1.9 object comparsions are done using uuids, so  someObs.getValueAsBoolean() will *always* return null.</sentence>
+        </paragraph>
+    </description>
+</bug>

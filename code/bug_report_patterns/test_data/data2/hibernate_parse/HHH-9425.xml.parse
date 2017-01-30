@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9425</id>
+    <title>Dynamic-Update and unchanged entity SQLGrammerException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have an entity mapped with "dynamic-update" and a version column.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Updating an unchanged detached entity results in an empty SQL update statement which leads to a SQLGrammarException.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">UPDATE foo SET WHERE ID = 1 AND Version = 1</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">My update method I pass a detached unchanged entity to:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">public static void update(final Session session, final Object entity)
+	{
+		if (session.contains(entity))
+			return;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">final Serializable identifier = HibernateUtils.getIdentifier(session, entity).</sentence>
+            <sentence id="6.2">getValue();</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">final Object sessionEntity = session.load(entity.getClass(), identifier);
+		if (sessionEntity !</sentence>
+            <sentence id="7.2">= null)
+			session.evict(sessionEntity);
+		session.update(entity);
+	}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">This is very annoying on the client if someone presses update button without having changed any form values.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20276</id>
+    <title>Existing containers may attach to volumes from wrong driver if initial driver is not responding</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">cc @cpuguy83</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This relates to using common volume names across storage drivers.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This is another corner case to cover that I just ran into.</sentence>
+            <sentence id="3.2">If you have a container hat was initially attached to a certain volume driver and the container was not deleted then the following situation can occur.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If the container is restarted then it will wait for a timeout from the previously used driver that does not exist or is not responding.</sentence>
+            <sentence id="4.2">If the driver does not respond then "Error: No such volume: newvol2001" is returned.</sentence>
+            <sentence id="4.3">However, if the docker daemon is restarted then it will retrieve the next responding volume driver.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">With the startup of the container or the startup of another container the volume attached will be the wrong one.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I believe that if a volume driver is associated to a volume name, that there should be no time that it would be re-associated to another volume driver.</sentence>
+        </paragraph>
+    </description>
+</bug>

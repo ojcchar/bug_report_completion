@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10455</id>
+    <title>MapJoin results in NPE when using key()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The setup:</sentence>
+            <sentence id="1.2">{code:java}
+@Entity
+@Table(name = "batch")
+@SequenceGenerator(name = "BatchGen", sequenceName = "seq_batch", allocationSize = 1)
+public class Batch implements Serializable {
+ ...
+ 
+	@ElementCollection
+	@CollectionTable(
+		name = "batch_node",
+		//uniqueConstraints = @UniqueConstraint(columnNames = {"batch_id", "node_id"}),
+		//foreignKey = @ForeignKey,
+		joinColumns = @JoinColumn(name = "batch_id", nullable = false))
+	@MapKeyJoinColumn(name = "node_id")
+	private Map&lt;Node, BatchNodeMetadata&gt; batchNodeMetadata = new HashMap&lt;&gt;();
+	
+	...
+}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">@Entity
+@Table(name= "node")
+@SequenceGenerator(name="NodeGen", sequenceName="seq_node", allocationSize=1)
+public class Node implements Serializable {
+	...
+}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">@Embeddable
+public class BatchNodeMetadata implements Serializable {</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private NodeMigration migrering = NodeMigration.TOTAL;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">public NodeMigration getMigrering() {
+		return migrering;
+	}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">public void setMigrering(NodeMigration migrering) {
+		this.migrering = migrering;
+	}
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Testcase
+{code:java}
+class Test {</sentence>
+            <sentence id="7.2">@Test
+	public void testGetNodesInBatch() {
+		Node n = new Node();
+		n.setName("Test");
+		nodeDAO.create(n);</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Batch b = new Batch();
+		b.setName("Test");
+		b.getBatchNodeMetadata().</sentence>
+            <sentence id="8.2">put(n, new BatchNodeMetadata());
+		batchDAO.create(b);
+		
+		Collection&lt;String&gt; actual = batchDAO.getNodesInBatch(b);
+		Assert.assertEquals(1, actual.size());
+	}
+}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">class Dao {
+	public Collection&lt;Node&gt; getNodesInBatch(Batch batch) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery&lt;Node&gt; query = cb.createQuery(Node.class);
+		Root&lt;Batch&gt; root = query.from(Batch.class);</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">MapJoin&lt;Batch, Node, BatchNodeMetadata&gt; nodes = root.join(Batch_.</sentence>
+            <sentence id="10.2">batchNodeMetadata);</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">query.select(nodes.key());
+		query.where(cb.equal(root, batch));</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">return em.createQuery(query).</sentence>
+            <sentence id="12.2">getResultList();
+	}
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">*Output*</sentence>
+            <sentence id="13.2">Everything from the setup seems to be correct</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">{noformat}</sentence>
+            <sentence id="14.2">Hibernate: create table batch (id integer not null, current_activity varchar(255), name varchar(255) not null, pretty_current_activity varchar(255), visas_utanför_fabriken boolean, primary key (id))</sentence>
+            <sentence id="14.3">Hibernate: create table batch_node (batch_id integer not null, migrering varchar(255) not null, node_id integer not null, primary key (batch_id, node_id))</sentence>
+            <sentence id="14.4">Hibernate: create table node (id integer not null, edgar_complexity varchar(255), long_name varchar(255), municipal_area varchar(255), "name" varchar(255) not null, primary key (id))</sentence>
+            <sentence id="14.5">Hibernate: alter table batch add constraint UK_ea6wjj8co7qtkcek0at693sh5 unique (name)</sentence>
+            <sentence id="14.6">Hibernate: alter table node add constraint UK_fwigxdmj6bsrpcmhcgpmlsirh unique ("name")</sentence>
+            <sentence id="14.7">Hibernate: alter table batch_node add constraint FK_hp7ye0ce3g9xb2h9newetnar5 foreign key (node_id) references node</sentence>
+            <sentence id="14.8">Hibernate: alter table batch_node add constraint FK_cdi1tq0y36ylqqm4dbvghaxk foreign key (batch_id) references batch</sentence>
+            <sentence id="14.9">Hibernate: call next value for seq_node</sentence>
+            <sentence id="14.10">Hibernate: insert into node (edgar_complexity, long_name, municipal_area, "name", id) values (?, ?, ?, ?, ?)</sentence>
+            <sentence id="14.11">Hibernate: call next value for seq_batch</sentence>
+            <sentence id="14.12">Hibernate: insert into batch (current_activity, name, pretty_current_activity, visas_utanför_fabriken, id) values (?, ?, ?, ?, ?)</sentence>
+            <sentence id="14.13">Hibernate: insert into batch_node (batch_id, node_id, migrering) values (?, ?, ?)</sentence>
+            <sentence id="14.14">{noformat}</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">NPE when executing the criteria</sentence>
+            <sentence id="15.2">{code:java}</sentence>
+            <sentence id="15.3">java.lang.NullPointerException: null</sentence>
+            <sentence id="15.4">	at org.hibernate.hql.internal.ast.HqlSqlWalker.lookupProperty(HqlSqlWalker.java:592)</sentence>
+            <sentence id="15.5">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.addrExpr(HqlSqlBaseWalker.java:4980)</sentence>
+            <sentence id="15.6">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.expr(HqlSqlBaseWalker.java:1263)</sentence>
+            <sentence id="15.7">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.exprOrSubquery(HqlSqlBaseWalker.java:4686)</sentence>
+            <sentence id="15.8">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.arithmeticExpr(HqlSqlBaseWalker.java:3215)</sentence>
+            <sentence id="15.9">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectExpr(HqlSqlBaseWalker.java:2382)</sentence>
+            <sentence id="15.10">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectExprList(HqlSqlBaseWalker.java:2194)</sentence>
+            <sentence id="15.11">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectClause(HqlSqlBaseWalker.java:1476)</sentence>
+            <sentence id="15.12">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:573)</sentence>
+            <sentence id="15.13">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:301)</sentence>
+            <sentence id="15.14">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:249)</sentence>
+            <sentence id="15.15">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:278)</sentence>
+            <sentence id="15.16">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:206)</sentence>
+            <sentence id="15.17">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:158)</sentence>
+            <sentence id="15.18">	at org.hibernate.engine.query.spi.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:131)</sentence>
+            <sentence id="15.19">	at org.hibernate.engine.query.spi.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:93)</sentence>
+            <sentence id="15.20">	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:167)</sentence>
+            <sentence id="15.21">	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:301)</sentence>
+            <sentence id="15.22">	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:236)</sentence>
+            <sentence id="15.23">	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1800)</sentence>
+            <sentence id="15.24">	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:568)</sentence>
+            <sentence id="15.25">	at org.hibernate.jpa.criteria.CriteriaQueryImpl$1.buildCompiledQuery(CriteriaQueryImpl.java:336)</sentence>
+            <sentence id="15.26">	at org.hibernate.jpa.criteria.compile.CriteriaCompiler.compile(CriteriaCompiler.java:147)</sentence>
+            <sentence id="15.27">	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:736)</sentence>
+            <sentence id="15.28">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="15.29">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="15.30">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="15.31">	at java.lang.reflect.Method.invoke(Method.java:497)</sentence>
+            <sentence id="15.32">	at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:262)</sentence>
+            <sentence id="15.33">	at com.sun.proxy.$Proxy47.createQuery(Unknown Source)</sentence>
+            <sentence id="15.34">	at com.dbmodel.dao.BatchDAO.getNodesInBatchStr(BatchDAO.java:132)</sentence>
+            <sentence id="15.35">	at com.dbmodel.dao.BatchDAO$$FastClassBySpringCGLIB$$b9d5b01c.invoke(&lt;generated&gt;)</sentence>
+            <sentence id="15.36">	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)</sentence>
+            <sentence id="15.37">	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:708)</sentence>
+            <sentence id="15.38">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)</sentence>
+            <sentence id="15.39">	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:98)</sentence>
+            <sentence id="15.40">	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:262)</sentence>
+            <sentence id="15.41">	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:95)</sentence>
+            <sentence id="15.42">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)</sentence>
+            <sentence id="15.43">	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:644)</sentence>
+            <sentence id="15.44">	at com.dbmodel.dao.BatchDAO$$EnhancerBySpringCGLIB$$4e2a04ba.getNodesInBatchStr(&lt;generated&gt;)</sentence>
+            <sentence id="15.45">	at com.dbmodel.dao.BatchDAOIT.testGetNodesInBatch(BatchDAOIT.java:79)</sentence>
+            <sentence id="15.46">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

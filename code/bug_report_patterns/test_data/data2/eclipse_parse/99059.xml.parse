@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>99059</id>
+    <title>[Connection] Network connection problems being written to the Eclipse log</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">N20050608-0010</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Found this in my log.</sentence>
+            <sentence id="2.2">This seems to be a normal network connection problem, not
+a bug in Eclipse.</sentence>
+            <sentence id="2.3">It should not be written to the log.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Could not connect to :aoeuaoeu:saoeuu@aoeuaoeu:/home/aouaoeu: I/O exception
+occurred: Connection refused: /home/aouaoeu: no such repository</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">java.io.IOException: Connection refused: /home/aouaoeu: no such repository</sentence>
+            <sentence id="4.2">at</sentence>
+            <sentence id="4.3">org.eclipse.team.internal.ccvs.core.connection.PServerConnection.authenticate(PServerConnection.java:196)</sentence>
+            <sentence id="4.4">at</sentence>
+            <sentence id="4.5">org.eclipse.team.internal.ccvs.core.connection.PServerConnection.open(PServerConnection.java:108)</sentence>
+            <sentence id="4.6">at</sentence>
+            <sentence id="4.7">org.eclipse.team.internal.ccvs.core.connection.Connection.open(Connection.java:128)</sentence>
+            <sentence id="4.8">at</sentence>
+            <sentence id="4.9">org.eclipse.team.internal.ccvs.core.connection.CVSRepositoryLocation.createConnection(CVSRepositoryLocation.java:494)</sentence>
+            <sentence id="4.10">at</sentence>
+            <sentence id="4.11">org.eclipse.team.internal.ccvs.core.connection.CVSRepositoryLocation.openConnection(CVSRepositoryLocation.java:735)</sentence>
+            <sentence id="4.12">at org.eclipse.team.internal.ccvs.core.client.Session.open(Session.java:149)</sentence>
+            <sentence id="4.13">at</sentence>
+            <sentence id="4.14">org.eclipse.team.internal.ccvs.core.resources.RemoteFolderMemberFetcher.performUpdate(RemoteFolderMemberFetcher.java:95)</sentence>
+            <sentence id="4.15">at</sentence>
+            <sentence id="4.16">org.eclipse.team.internal.ccvs.ui.operations.FetchMembersOperation$InternalRemoteFolderMemberFetcher.performUpdate(FetchMembersOperation.java:69)</sentence>
+            <sentence id="4.17">at</sentence>
+            <sentence id="4.18">org.eclipse.team.internal.ccvs.core.resources.RemoteFolderMemberFetcher.fetchMembers(RemoteFolderMemberFetcher.java:62)</sentence>
+            <sentence id="4.19">at</sentence>
+            <sentence id="4.20">org.eclipse.team.internal.ccvs.core.resources.RemoteFolderMemberFetcher.fetchMembers(RemoteFolderMemberFetcher.java:53)</sentence>
+            <sentence id="4.21">at</sentence>
+            <sentence id="4.22">org.eclipse.team.internal.ccvs.ui.operations.FetchMembersOperation.execute(FetchMembersOperation.java:107)</sentence>
+            <sentence id="4.23">at</sentence>
+            <sentence id="4.24">org.eclipse.team.internal.ccvs.ui.operations.CVSOperation.run(CVSOperation.java:79)</sentence>
+            <sentence id="4.25">at</sentence>
+            <sentence id="4.26">org.eclipse.team.internal.ccvs.ui.model.CVSTagElement.fetchDeferredChildren(CVSTagElement.java:134)</sentence>
+            <sentence id="4.27">at</sentence>
+            <sentence id="4.28">org.eclipse.ui.progress.DeferredTreeContentManager$1.run(DeferredTreeContentManager.java:192)</sentence>
+            <sentence id="4.29">at org.eclipse.core.internal.jobs.Worker.run(Worker.java:76)</sentence>
+        </paragraph>
+    </description>
+</bug>

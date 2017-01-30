@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13468</id>
+    <title>Directories created for volumes on boot initialisation, when the corresponding container is not running, causing issues with host applications writing to the directories</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm having an issue (well, a number of related issues) with containers and volumes.</sentence>
+            <sentence id="1.2">Some of these issues are mentioned elsewhere, but this particular instance is not.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I am running a container to allow execution of a legacy Wordpress Install.</sentence>
+            <sentence id="2.2">As this is on my development system I didn't want to have a separate mysql container, rather just use the mysql container on my host.</sentence>
+            <sentence id="2.3">Therefore I tried runing docker with the following:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">'docker run -d --name php53 -v /home/sites/example.</sentence>
+            <sentence id="3.2">org/www:/var/www -v /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock precise_apache_php53 /usr/sbin/apache2ctl -D FOREGROUND'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The issue is with:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">'-v /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The purpose being to expose my host mysql server to the container.</sentence>
+            <sentence id="6.2">This worked beautifully, until my development server was rebooted after a power failure.</sentence>
+            <sentence id="6.3">The mysql stopped working.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">It seems on reboot that because '/var/run/mysqld/mysqld.sock' does not exist it's being created by docker _even though no container is running_ (it's also creating it as a directory, but that's a seperate issue: #13121 ).</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">So, I decided to change the param to</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">'-v /var/run/mysqld:/var/run/mysqld'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">As '/var/run/mysqld' is persistent over reboots.</sentence>
+            <sentence id="10.2">However when I do this, having stopped the container before reboot, it appears that mysql still cannot create the socket file in that directory _even though the permissions for the directory are correct_.</sentence>
+            <sentence id="10.3">I have to issue a</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">'docker rm php53'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">command before I reboot to stop docker from creating (or taking control of) '/var/run/mysqld'</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">This is problematic as I don't believe docker should be doing anything on my local filesystem until I run a container, and the container is not run automatically at boot.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">_docker version_
+Client version: 1.6.2
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): 7c8fca2
+OS/Arch (client): linux/amd64
+Server version: 1.6.2
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): 7c8fca2
+OS/Arch (server): linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">_docker info_
+Containers: 29
+Images: 72
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 130
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Kernel Version: 3.16.0-38-generic
+Operating System: Ubuntu 14.10
+CPUs: 8
+Total Memory: 15.64 GiB
+Name: tattve
+ID: EKU2:ETU7:MEQA:TLLN:ZJEU:IFDP:36QJ:JLXM:AE66:ZRSG:EMCC:3FZU
+WARNING: No swap limit support</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">_uname -a_
+Linux tattve 3.16.0-38-generic #52-Ubuntu SMP Thu May 7 10:51:21 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">_Environment_
+Physical ubuntu 14.10</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">_How Reproducible_
+I've been able to reproduce the issue with a number of different images running as containers, over numerous reboots.</sentence>
+            <sentence id="18.2">I tracked the issue down to docker by uninstalling it and the issue went away.</sentence>
+            <sentence id="18.3">Upon re-install it started again (presumably because container info was kept through the uninstall)</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">_Steps to Reproduce_</sentence>
+            <sentence id="19.2">On Ubuntu 14.10 or 14.04 with mysql installed from distro .</sentence>
+            <sentence id="19.3">deb files,default configuration</sentence>
+            <sentence id="19.4">1 'docker run --name bugtest x-v /var/run/mysqld/:/var/run/mysqld/ hello_world'</sentence>
+            <sentence id="19.5">2 'mysql' to access the mysql client, will connect to server (though user/password will be needed)</sentence>
+            <sentence id="19.6">3 'sudo reboot'</sentence>
+            <sentence id="19.7">4 Upon reboot mysqld will not have started due to the issues with '/var/run/mysql'</sentence>
+            <sentence id="19.8">5 'mysql' will return an error could not connect via /var/run/mysqld/mysqld.sock</sentence>
+            <sentence id="19.9">5 'docker rm bugtest'</sentence>
+            <sentence id="19.10">6 'reboot'</sentence>
+            <sentence id="19.11">7 Upon reboot mysqld will have started, 'mysql' will be able to connect</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">_Additional Info_</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">Whilst I'm reporting this issue with mysql as example, I'm simply using that to illustrate a point.</sentence>
+            <sentence id="21.2">The point being that docker seems to be stopping host applications from properly accessing directories which are mapped as volumes, and creating some connection to those directories even when no container is running.</sentence>
+            <sentence id="21.3">I'm not familar enough with Linux Containers to know, but the problem may well be there, rather than docker itself.</sentence>
+        </paragraph>
+    </description>
+</bug>

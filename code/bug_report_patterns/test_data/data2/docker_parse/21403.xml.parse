@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>21403</id>
+    <title>race condition in volume delete and list</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I don't have an easy way to reproduce this race condition, but I was able to track it down by re-installing DTR, removing the containers, deleting volumes and trying to create theme again.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Basically, in VolumeStore when there's a Delete operation holding the named lock for a volume and a List operation has just finished listing volumes, but hasn't attempted to add them to the cache yet the list operation will try to acquire the named lock and block.</sentence>
+            <sentence id="2.2">When the Delete operation has finished it will release the named lock and the List operation will be unblocked and it will put the volume in the cache without checking if it still exists after acquiring the lock on the name.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This happens in docker 1.10 and 1.11/06e98f0a5cf59c040e9f753d60f33ba22256d55c.</sentence>
+            <sentence id="3.2">I haven't tested it in older versions.</sentence>
+        </paragraph>
+    </description>
+</bug>

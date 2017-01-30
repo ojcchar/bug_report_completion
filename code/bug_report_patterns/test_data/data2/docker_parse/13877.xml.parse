@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13877</id>
+    <title>Dockerfile CMD &amp; ENTRYPOINT Gotcha</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Aside from the standard gotchas mentioned in the docs between the array and string forms of 'CMD' and 'ENTRYPOINT' markers, I've noticed another gotcha behaviour that is at the very least SUPER unproductive.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">docker version:
+Client version: 1.6.2
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): 7c8fca2
+OS/Arch (client): darwin/amd64
+Server version: 1.6.2
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): 7c8fca2
+OS/Arch (server): linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">docker info:</sentence>
+            <sentence id="3.2">Containers: 66</sentence>
+            <sentence id="3.3">Images: 122</sentence>
+            <sentence id="3.4">Storage Driver: aufs</sentence>
+            <sentence id="3.5"> Root Dir: /mnt/sda1/var/lib/docker/aufs</sentence>
+            <sentence id="3.6"> Backing Filesystem: extfs</sentence>
+            <sentence id="3.7"> Dirs: 261</sentence>
+            <sentence id="3.8"> Dirperm1 Supported: true</sentence>
+            <sentence id="3.9">Execution Driver: native-0.2</sentence>
+            <sentence id="3.10">Kernel Version: 4.0.3-boot2docker</sentence>
+            <sentence id="3.11">Operating System: Boot2Docker 1.6.2 (TCL 5.4); master : 4534e65 - Wed May 13 21:24:28 UTC 2015</sentence>
+            <sentence id="3.12">CPUs: 4</sentence>
+            <sentence id="3.13">Total Memory: 1.957 GiB</sentence>
+            <sentence id="3.14">Name: dev</sentence>
+            <sentence id="3.15">ID: TSQH:XWVZ:2SDM:5HFL:5AWR:YBWF:PSJF:NX3Q:5LUQ:BNT7:CNSB:NWBQ</sentence>
+            <sentence id="3.16">Debug mode (server): true</sentence>
+            <sentence id="3.17">Debug mode (client): false</sentence>
+            <sentence id="3.18">Fds: 21</sentence>
+            <sentence id="3.19">Goroutines: 66</sentence>
+            <sentence id="3.20">System Time: Thu Jun 11 08:05:29 UTC 2015</sentence>
+            <sentence id="3.21">EventsListeners: 0</sentence>
+            <sentence id="3.22">Init SHA1: 7f9c6798b022e64f04d2aff8c75cbf38a2779493</sentence>
+            <sentence id="3.23">Init Path: /usr/local/bin/docker</sentence>
+            <sentence id="3.24">Docker Root Dir: /mnt/sda1/var/lib/docker</sentence>
+            <sentence id="3.25">Labels:</sentence>
+            <sentence id="3.26"> provider=virtualbox</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">uname -a:
+Darwin Daniels-MBP-2 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">List the steps to reproduce the issue:</sentence>
+            <sentence id="5.2">1 Take the following dockerfile as an example</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"' Dockerfile
+FROM ubuntu:latest
+ENV SOME_BIN_FILE /bin/echo</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">ENTRYPOINT [$SOME_BIN_FILE]</sentence>
+            <sentence id="7.2">CMD ["-"]</sentence>
+            <sentence id="7.3">"'</sentence>
+            <sentence id="7.4">1 docker build -t test .</sentence>
+            <sentence id="7.5">2 docker run test</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Describe the results you received:</sentence>
+            <sentence id="8.2">The result of 'docker run &lt;imagename&gt;' will be:</sentence>
+            <sentence id="8.3">'-: 1: -: [/bin/echo]: not found'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Describe the results you expected:
+Expected behaviour would be that the 'ENTRYPOINT' line be interpreted as:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"' Dockerfile
+ENTRYPOINT ["/bin/echo"]
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

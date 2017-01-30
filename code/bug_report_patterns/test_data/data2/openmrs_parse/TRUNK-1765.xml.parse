@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1765</id>
+    <title>HL7 scheduled task should not roll back transactions after exceptions caught in HL7Service</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If a NullPointerException is encountered at some point during HL7 processing, the HL7Service will  create a new HL7InError object and attempt to move on.</sentence>
+            <sentence id="1.2">Unfortunately, Spring detects this error and rolls back the changes, leaving the HL7 message at the top of the queue and hanging processing indefinitely.</sentence>
+            <sentence id="1.3">This does not occur if an HL7Exception is thrown, only when an unexpected exception occurs.</sentence>
+        </paragraph>
+    </description>
+</bug>

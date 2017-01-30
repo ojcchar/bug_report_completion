@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3427</id>
+    <title>profile.setFBML call returns invalid session error when passing the uid (without session)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We call profile.setFBML in our app passing it just an api key and a uid (thus_ requiring no session).</sentence>
+            <sentence id="1.2">this has worked for a long time.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Suddenly_ starting about 2 hours ago_ the facebook API has been responding to such requests with an error code 102.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">According to the specs (http://wiki.developers.facebook.com/index.php/Profile.setFBML)_ if this call is passed a uid then it does not need a session key.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here is an example of a call we made where we pass the api key_ the uid_ and no session key_ and we get back an Invalid Session error:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">http://pastie.org/private/ujyoucxy5bcbjjhlhu1g</sentence>
+        </paragraph>
+    </description>
+</bug>

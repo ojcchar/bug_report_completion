@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>60012</id>
+    <title>LibreOfficePython.framework in official LO 4.0 RC2 build links against /usr/local/lib/libintl.8.dylib</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">At least with &lt;http://download.documentfoundation.org/libreoffice/testing/4.0.0/mac/x86/LibreOffice_4.0.0.2_MacOS_x86.dmg&gt;,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&gt; $ find /Volumes/LibreOffice/LibreOffice.app/Contents/MacOS -name \*.dylib -exec bash -c 'otool -L "$0" | grep -F libintl. &amp;&amp; printf "^^^%s</sentence>
+            <sentence id="2.2">" "$0"' {} \;</sentence>
+            <sentence id="2.3">&gt;  /usr/local/lib/libintl.8.dylib (compatibility version 10.0.0, current version 10.1.0)</sentence>
+            <sentence id="2.4">&gt; ^^^/Volumes/LibreOffice/LibreOffice.app/Contents/MacOS/LibreOfficePython.framework/Versions/3.3/lib/libpython3.3.dylib</sentence>
+            <sentence id="2.5">&gt;  /usr/local/lib/libintl.8.dylib (compatibility version 10.0.0, current version 10.1.0)</sentence>
+            <sentence id="2.6">&gt; ^^^/Volumes/LibreOffice/LibreOffice.app/Contents/MacOS/LibreOfficePython.framework/Versions/3.3/lib/libpython3.3m.dylib</sentence>
+            <sentence id="2.7">&gt;  /usr/local/lib/libintl.8.dylib (compatibility version 10.0.0, current version 10.1.0)</sentence>
+            <sentence id="2.8">&gt; ^^^/Volumes/LibreOffice/LibreOffice.app/Contents/MacOS/LibreOfficePython.framework/Versions/3.3/lib/python3.3/config-3.3m/libpython3.3.dylib</sentence>
+            <sentence id="2.9">&gt;  /usr/local/lib/libintl.8.dylib (compatibility version 10.0.0, current version 10.1.0)</sentence>
+            <sentence id="2.10">&gt; ^^^/Volumes/LibreOffice/LibreOffice.app/Contents/MacOS/LibreOfficePython.framework/Versions/3.3/lib/python3.3/config-3.3m/libpython3.3m.dylib</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">shows that libraries in the contained LibreOfficePython.framework link against some /usr/local/lib/libintl.8.dylib that apparently happened to be available on the build machine ("TinderBox: MacOSX TDF Release" according to "LibreOffice - About LibreOffice"), but not on the Mac OS X 10.7.5 machine I try to run this on.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This causes Python-related functionality in LO to fail.</sentence>
+            <sentence id="4.2">For one, "File - Wizards - Letter..." and "File - Wizards - Fax..." do nothing, see bug 59248.</sentence>
+            <sentence id="4.3">For another "Tools - Macros - Organize Macros - Python... - LibreOffice Macros" lists no macros when you click the triangle in front of it.</sentence>
+        </paragraph>
+    </description>
+</bug>

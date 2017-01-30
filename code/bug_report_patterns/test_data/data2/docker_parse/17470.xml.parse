@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17470</id>
+    <title>docker do not copy data to volume when use -v command to mount a volume</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">hi ~~</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I found docker do not copy the mount point data to volume when use `-v` command to mount a volume.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">however, it copy the data to the volume when use `VOLUME` instrument in the Dockerfile.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">here is my Docker file:</sentence>
+            <sentence id="4.2">``` shell
+# Pull base image.</sentence>
+            <sentence id="4.3">FROM ubuntu</sentence>
+            <sentence id="4.4">EXPOSE 9000
+RUN mkdir -p /usr/apps
+ADD ./package.tgz /usr/apps/</sentence>
+            <sentence id="4.5"># Define default command.</sentence>
+            <sentence id="4.6">CMD ["bash"]
+```</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">when i start the image use -v command, `ls` show the directory is empty;</sentence>
+            <sentence id="5.2">``` shell
+docker run --name sandbox -v /home/apps:/usr/apps sandbox ls /usr/apps
+```</sentence>
+            <sentence id="5.3">
+how ever when i use `VOLUME` instrument，it works; `ls` show the directory has files.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">why?</sentence>
+            <sentence id="6.2">is the two way some different?</sentence>
+            <sentence id="6.3">i need your help.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">thanks.</sentence>
+        </paragraph>
+    </description>
+</bug>

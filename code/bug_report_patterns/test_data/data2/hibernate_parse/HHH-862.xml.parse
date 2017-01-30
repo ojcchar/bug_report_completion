@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-862</id>
+    <title>lazy="true" on e.g. many-to-one</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">According to the doc, a many-to-one mapping may have an attribute lazy with possible values true, proxy or false.</sentence>
+            <sentence id="1.2">However, I noted that eventhough I had lazy="true", the asociated entity was eager loaded.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I believe the reason is in org.hibernate.cfg.HbmBinder method initLaziness, line 1408.</sentence>
+            <sentence id="2.2">There the value of lazy attribute is only compared with "proxy" so "true" will acctually result in lazy=false.</sentence>
+        </paragraph>
+    </description>
+</bug>

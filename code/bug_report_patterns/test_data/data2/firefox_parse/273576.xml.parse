@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>273576</id>
+    <title>Attribute "hidden" on bookmarks.html causes profile directory being filled with files bookmarks-1.html ... bookmarks-9999.html</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (OS/2; U; Warp 4.5; en-US; rv:1.7.5) Gecko/20041109 Firefox/1.0
+Build Identifier: Mozilla/5.0 (OS/2; U; Warp 4.5; en-US; rv:1.7.5) Gecko/20041109 Firefox/1.0</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Somehow, my bookmarks.html file got the "hidden" attribute set.</sentence>
+            <sentence id="2.2">When a need
+arose to update the bookmarks (e. g. a change in "last visited"), Firefox
+started to fill the profile directory with 10000 versions of the file, named
+bookmarks-1.html up to bookmarks-9999.html.</sentence>
+            <sentence id="2.3">This occured serveral times a
+minute, hogging my system because FF tried to read in the complete directory
+every time.</sentence>
+            <sentence id="2.4">I guess that an each try, a new version of the file was created
+until the final limit, 9999, had been reached.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+            <sentence id="3.2">Steps to Reproduce:</sentence>
+            <sentence id="3.3">1 go to profile directory (should work in OS/2 and Windows the same way)</sentence>
+            <sentence id="3.4">2 attrib +h bookmarks.html</sentence>
+            <sentence id="3.5">3 start FF</sentence>
+            <sentence id="3.6">4 update a bookmark or simply load a page from a bookmark; the latter should</sentence>
+            <sentence id="3.7">update the "last visited" field of that bookmark and cause an update of the file</sentence>
+            <sentence id="3.8">5 Let FF run and watch the profile directory.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Actual Results:  
+The profile directory contained 10000 copies of bookmarks.html, named
+bookmarks-1.html to bookmarks-9999.html</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Expected Results:  
+Update the single bookmarks.html file.</sentence>
+        </paragraph>
+    </description>
+</bug>

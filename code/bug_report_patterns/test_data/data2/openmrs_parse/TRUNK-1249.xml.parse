@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1249</id>
+    <title>OpenMRS API Does Not Work in Standalone Mode</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The following occurs upon an attempt to call Context.authenticate( "admin", "test" );
+Code at bottom.</sentence>
+            <sentence id="1.2">Exception follows:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code}Exception in thread "main" org.openmrs.api.APIException: contextDAO is null</sentence>
+            <sentence id="2.2">        at org.openmrs.api.context.Context.getContextDAO(Context.java:110)</sentence>
+            <sentence id="2.3">        at org.openmrs.api.context.Context.authenticate(Context.java:208)</sentence>
+            <sentence id="2.4">        at openmrstest.Main.main(Main.java:21)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Java Result: 1
+{code}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{code}package openmrstest;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">import org.openmrs.api.context.Context;
+import org.openmrs.api.context.ContextAuthenticationException;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">/**</sentence>
+            <sentence id="6.2">*</sentence>
+            <sentence id="6.3">* @author tchubs</sentence>
+            <sentence id="6.4">*/</sentence>
+            <sentence id="6.5">public class Main</sentence>
+            <sentence id="6.6">\{</sentence>
+            <sentence id="6.7">/**</sentence>
+            <sentence id="6.8">* @param args the command line arguments</sentence>
+            <sentence id="6.9">*/</sentence>
+            <sentence id="6.10">public static void main( String[] args )</sentence>
+            <sentence id="6.11">\{</sentence>
+            <sentence id="6.12">try</sentence>
+            <sentence id="6.13">\{</sentence>
+            <sentence id="6.14">Context.authenticate( "admin", "test" );</sentence>
+            <sentence id="6.15">\}</sentence>
+            <sentence id="6.16">catch( ContextAuthenticationException e )</sentence>
+            <sentence id="6.17">\{</sentence>
+            <sentence id="6.18">e.printStackTrace();</sentence>
+            <sentence id="6.19">\}</sentence>
+            <sentence id="6.20">\}</sentence>
+            <sentence id="6.21">\}</sentence>
+            <sentence id="6.22">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9108</id>
+    <title>Envers with Embeddable having a collection of other entities results in PropertyAccessException: IllegalArgumentException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">It is impossible to save with Envers Auditing enabled when the model has an embeddable that has a collection of other entities.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{noformat}</sentence>
+            <sentence id="2.2">org.hibernate.PropertyAccessException: IllegalArgumentException occurred calling getter of org.hibernate.bugs.Item.header</sentence>
+            <sentence id="2.3">	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.get(BasicPropertyAccessor.java:192)</sentence>
+            <sentence id="2.4">	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.getForInsert(BasicPropertyAccessor.java:204)</sentence>
+            <sentence id="2.5">	at org.hibernate.tuple.entity.AbstractEntityTuplizer.getPropertyValuesToInsert(AbstractEntityTuplizer.java:624)</sentence>
+            <sentence id="2.6">	at org.hibernate.tuple.entity.PojoEntityTuplizer.getPropertyValuesToInsert(PojoEntityTuplizer.java:382)</sentence>
+            <sentence id="2.7">	at org.hibernate.persister.entity.AbstractEntityPersister.getPropertyValuesToInsert(AbstractEntityPersister.java:4817)</sentence>
+            <sentence id="2.8">	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:267)</sentence>
+            <sentence id="2.9">	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:194)</sentence>
+            <sentence id="2.10">	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:125)</sentence>
+            <sentence id="2.11">	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.saveWithGeneratedOrRequestedId(DefaultSaveOrUpdateEventListener.java:209)</sentence>
+            <sentence id="2.12">	at org.hibernate.event.internal.DefaultSaveEventListener.saveWithGeneratedOrRequestedId(DefaultSaveEventListener.java:55)</sentence>
+            <sentence id="2.13">	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.entityIsTransient(DefaultSaveOrUpdateEventListener.java:194)</sentence>
+            <sentence id="2.14">	at org.hibernate.event.internal.DefaultSaveEventListener.performSaveOrUpdate(DefaultSaveEventListener.java:49)</sentence>
+            <sentence id="2.15">	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.onSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:90)</sentence>
+            <sentence id="2.16">	at org.hibernate.internal.SessionImpl.fireSave(SessionImpl.java:715)</sentence>
+            <sentence id="2.17">	at org.hibernate.internal.SessionImpl.save(SessionImpl.java:707)</sentence>
+            <sentence id="2.18">	at org.hibernate.envers.strategy.DefaultAuditStrategy.performCollectionChange(DefaultAuditStrategy.java:41)</sentence>
+            <sentence id="2.19">	at org.hibernate.envers.internal.synchronization.work.PersistentCollectionChangeWorkUnit.perform(PersistentCollectionChangeWorkUnit.java:97)</sentence>
+            <sentence id="2.20">	at org.hibernate.envers.internal.synchronization.AuditProcess.executeInSession(AuditProcess.java:119)</sentence>
+            <sentence id="2.21">	at org.hibernate.envers.internal.synchronization.AuditProcess.doBeforeTransactionCompletion(AuditProcess.java:161)</sentence>
+            <sentence id="2.22">	at org.hibernate.envers.internal.synchronization.AuditProcessManager$1.doBeforeTransactionCompletion(AuditProcessManager.java:63)</sentence>
+            <sentence id="2.23">	at org.hibernate.engine.spi.ActionQueue$BeforeTransactionCompletionProcessQueue.beforeTransactionCompletion(ActionQueue.java:715)</sentence>
+            <sentence id="2.24">	at org.hibernate.engine.spi.ActionQueue.beforeTransactionCompletion(ActionQueue.java:389)</sentence>
+            <sentence id="2.25">	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:516)</sentence>
+            <sentence id="2.26">	at org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction.beforeTransactionCommit(JdbcTransaction.java:105)</sentence>
+            <sentence id="2.27">	at org.hibernate.engine.transaction.spi.AbstractTransactionImpl.commit(AbstractTransactionImpl.java:177)</sentence>
+            <sentence id="2.28">	at org.hibernate.bugs.Hhh9105.testEmbeddableWithCollection(Hhh9105.java:74)</sentence>
+            <sentence id="2.29">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="2.30">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</sentence>
+            <sentence id="2.31">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="2.32">	at java.lang.reflect.Method.invoke(Method.java:601)</sentence>
+            <sentence id="2.33">	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)</sentence>
+            <sentence id="2.34">	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)</sentence>
+            <sentence id="2.35">	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)</sentence>
+            <sentence id="2.36">	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)</sentence>
+            <sentence id="2.37">	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)</sentence>
+            <sentence id="2.38">	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)</sentence>
+            <sentence id="2.39">	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)</sentence>
+            <sentence id="2.40">	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)</sentence>
+            <sentence id="2.41">	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)</sentence>
+            <sentence id="2.42">	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)</sentence>
+            <sentence id="2.43">	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)</sentence>
+            <sentence id="2.44">	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)</sentence>
+            <sentence id="2.45">	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)</sentence>
+            <sentence id="2.46">	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)</sentence>
+            <sentence id="2.47">	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)</sentence>
+            <sentence id="2.48">	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)</sentence>
+            <sentence id="2.49">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)</sentence>
+            <sentence id="2.50">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)</sentence>
+            <sentence id="2.51">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)</sentence>
+            <sentence id="2.52">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)</sentence>
+            <sentence id="2.53">Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class</sentence>
+            <sentence id="2.54">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="2.55">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</sentence>
+            <sentence id="2.56">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="2.57">	at java.lang.reflect.Method.invoke(Method.java:601)</sentence>
+            <sentence id="2.58">	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.get(BasicPropertyAccessor.java:169)</sentence>
+            <sentence id="2.59">	... 49 more</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{noformat}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{code:title=Header.java}
+@Audited
+@Entity
+@Table(name = "ENVERS_HEADER")
+public class Header {</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">private Long id;
+	
+	private String name;
+	
+	private EmbeddableWithCollection embeddableWithCollection;
+	
+	public Header() {
+		
+	}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">public void setId(Long id) {
+		this.id = id;
+	}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">@Column
+	public String getName() {
+		return name;
+	}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">public void setName(String name) {
+		this.name = name;
+	}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">@Embedded
+	public EmbeddableWithCollection getEmbeddableWithCollection() {
+		return embeddableWithCollection;
+	}</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">public void setEmbeddableWithCollection(EmbeddableWithCollection embeddableWithCollection) {
+		if (embeddableWithCollection !</sentence>
+            <sentence id="11.2">= null) {
+			this.embeddableWithCollection = embeddableWithCollection;
+		} else if (this.embeddableWithCollection !</sentence>
+            <sentence id="11.3">= null) {
+			this.embeddableWithCollection.getItems().</sentence>
+            <sentence id="11.4">clear();
+		}
+	}
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">{code:title=Item.java}
+@Entity
+@Table(name = "ENVERS_ITEM")
+@Audited
+public class Item {
+	
+	private Long id;
+	
+	private String name;
+	
+	private Header header;
+	
+	private Integer position;
+	
+	public Item() {
+		
+	}</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">public void setId(Long id) {
+		this.id = id;
+	}</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">@Column
+	public String getName() {
+		return name;
+	}</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">public void setName(String name) {
+		this.name = name;
+	}</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">@ManyToOne
+	@JoinColumn(name = "C_HDR", insertable = false, updatable = false, nullable = false)
+	public Header getHeader() {
+		return header;
+	}</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">public void setHeader(Header header) {
+		this.header = header;
+	}</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">@Column(name = "C_POSITION", insertable = false, updatable = false)
+	public Integer getPosition() {
+		return position;
+	}</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">public void setPosition(Integer position) {
+		this.position = position;
+	}
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">{code:title=EmbeddableWithCollection.java}
+@Embeddable
+@Audited
+public class EmbeddableWithCollection {
+	
+	private List&lt;Item&gt; items;
+	
+	public EmbeddableWithCollection() {
+		
+	}</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "C_HDR", foreignKey = @ForeignKey(name = "ENVERS_ITEM_FK_ENVERS_HEADER"), nullable = false)
+	@OrderColumn(name = "C_POSITION", nullable = false)
+	@AuditMappedBy(mappedBy = "header", positionMappedBy = "position")
+	public List&lt;Item&gt; getItems() {
+		return items;
+	}</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">public void setItems(List&lt;Item&gt; items) {
+		this.items = items;
+	}
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">Test Code project structure taken from HHH-9105 attachment.</sentence>
+            <sentence id="24.2">{code:title=Test.java}
+public class Hhh9105 {
+	private Configuration config;</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">private SessionFactory sessionFactory;</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">@SuppressWarnings("deprecation")
+	@Before
+	public void setup() {
+		config = new Configuration();</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">// add your entities here e.g.:
+		//  config.addAnnotatedClass(Customer.class);
+		config.addAnnotatedClass(Header.class);
+		config.addAnnotatedClass(Item.class);</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">config.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
+		config.setProperty("hibernate.connection.url", "jdbc:hsqldb:mem:myunittests");
+		config.setProperty("hibernate.connection.username", "sa");
+		config.setProperty("hibernate.connection.password", "");
+		config.setProperty("hibernate.connection.pool_size", "1");
+		config.setProperty("hibernate.current_session_context_class", "thread");
+		config.setProperty("hibernate.hbm2ddl.auto", "update");
+		config.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+		config.setProperty("hibernate.show_sql", "true");</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">sessionFactory = config.buildSessionFactory();
+	}</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">	// perform your tests using standard junit test cases</sentence>
+            <sentence id="30.2">	@Test</sentence>
+            <sentence id="30.3">	public void testEmbeddableWithCollection() {</sentence>
+            <sentence id="30.4">		Header h1 = new Header();</sentence>
+            <sentence id="30.5">		h1.setName("h1");</sentence>
+            <sentence id="30.6">		EmbeddableWithCollection ewc = new EmbeddableWithCollection();</sentence>
+            <sentence id="30.7">		List&lt;Item&gt; items = new ArrayList&lt;Item&gt;();</sentence>
+            <sentence id="30.8">		Item i1 = new Item();</sentence>
+            <sentence id="30.9">		i1.setHeader(h1);</sentence>
+            <sentence id="30.10">		i1.setName("h1-item1");</sentence>
+            <sentence id="30.11">		i1.setPosition(0);</sentence>
+            <sentence id="30.12">		Item i2 = new Item();</sentence>
+            <sentence id="30.13">		i2.setHeader(h1);</sentence>
+            <sentence id="30.14">		i2.setName("h1-item2");</sentence>
+            <sentence id="30.15">		i2.setPosition(1);</sentence>
+            <sentence id="30.16">		items.add(i1);</sentence>
+            <sentence id="30.17">		items.add(i2);</sentence>
+            <sentence id="30.18">		ewc.setItems(items);</sentence>
+            <sentence id="30.19">		h1.setEmbeddableWithCollection(ewc);</sentence>
+            <sentence id="30.20">		sessionFactory.getCurrentSession().beginTransaction();</sentence>
+            <sentence id="30.21">		Long headerId = (Long) sessionFactory.getCurrentSession().save(h1);</sentence>
+            <sentence id="30.22">		sessionFactory.getCurrentSession().getTransaction().commit();</sentence>
+            <sentence id="30.23">		Header persistedHeader = (Header) sessionFactory.getCurrentSession()</sentence>
+            <sentence id="30.24">				.createCriteria(Header.class)</sentence>
+            <sentence id="30.25">				.add(Restrictions.idEq(headerId))</sentence>
+            <sentence id="30.26">				.uniqueResult();</sentence>
+            <sentence id="30.27">		Assert.assertEquals(2, persistedHeader.getEmbeddableWithCollection().getItems().size());</sentence>
+            <sentence id="30.28">		sessionFactory.getCurrentSession().beginTransaction();</sentence>
+            <sentence id="30.29">		AuditReader reader = AuditReaderFactory.get(sessionFactory.getCurrentSession());</sentence>
+            <sentence id="30.30">		Header auditedHeader = reader.find(Header.class, headerId, Integer.MAX_VALUE);</sentence>
+            <sentence id="30.31">		List&lt;Item&gt; auditedHeader1Items = auditedHeader.getEmbeddableWithCollection().getItems(); </sentence>
+            <sentence id="30.32">		Assert.assertEquals(2, auditedHeader1Items.size());</sentence>
+            <sentence id="30.33">		Assert.assertEquals("h1-item1", auditedHeader1Items.get(0).getName());</sentence>
+            <sentence id="30.34">		Assert.assertEquals(Long.valueOf(0), auditedHeader1Items.get(0).getPosition());</sentence>
+            <sentence id="30.35">		Assert.assertEquals(headerId, auditedHeader1Items.get(0).getHeader().getId());</sentence>
+            <sentence id="30.36">		Assert.assertEquals("h1-item2", auditedHeader1Items.get(1).getName());</sentence>
+            <sentence id="30.37">		Assert.assertEquals(Long.valueOf(1), auditedHeader1Items.get(1).getPosition());</sentence>
+            <sentence id="30.38">		Assert.assertEquals(headerId, auditedHeader1Items.get(1).getHeader().getId());</sentence>
+            <sentence id="30.39">		sessionFactory.getCurrentSession().getTransaction().commit();</sentence>
+            <sentence id="30.40">		sessionFactory.getCurrentSession().close();</sentence>
+            <sentence id="30.41">	}</sentence>
+            <sentence id="30.42">}</sentence>
+            <sentence id="30.43">{code}</sentence>
+        </paragraph>
+        <paragraph id="31">
+            <sentence id="31.1">{code:title=pom.xml}</sentence>
+            <sentence id="31.2">&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"</sentence>
+            <sentence id="31.3">	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;</sentence>
+            <sentence id="31.4">	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</sentence>
+            <sentence id="31.5">	&lt;prerequisites&gt;</sentence>
+            <sentence id="31.6">		&lt;maven&gt;3.0.4&lt;/maven&gt;</sentence>
+            <sentence id="31.7">	&lt;/prerequisites&gt;</sentence>
+            <sentence id="31.8">	&lt;groupId&gt;org.hibernate.bugs&lt;/groupId&gt;</sentence>
+            <sentence id="31.9">	&lt;artifactId&gt;hhh-9105&lt;/artifactId&gt;</sentence>
+            <sentence id="31.10">	&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</sentence>
+            <sentence id="31.11">	&lt;name&gt;Hibernate Bug Report Test Case Example&lt;/name&gt;</sentence>
+            <sentence id="31.12">	&lt;properties&gt;</sentence>
+            <sentence id="31.13">		&lt;slf4j.version&gt;1.7.2&lt;/slf4j.version&gt;</sentence>
+            <sentence id="31.14">	&lt;/properties&gt;</sentence>
+            <sentence id="31.15">	&lt;dependencies&gt;</sentence>
+            <sentence id="31.16">		&lt;dependency&gt;</sentence>
+            <sentence id="31.17">			&lt;groupId&gt;org.slf4j&lt;/groupId&gt;</sentence>
+            <sentence id="31.18">			&lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;</sentence>
+            <sentence id="31.19">			&lt;version&gt;${slf4j.version}&lt;/version&gt;</sentence>
+            <sentence id="31.20">		&lt;/dependency&gt;</sentence>
+            <sentence id="31.21">		&lt;dependency&gt;</sentence>
+            <sentence id="31.22">			&lt;groupId&gt;org.hibernate&lt;/groupId&gt;</sentence>
+            <sentence id="31.23">			&lt;artifactId&gt;hibernate-core&lt;/artifactId&gt;</sentence>
+            <sentence id="31.24">			&lt;version&gt;4.3.5.Final&lt;/version&gt;</sentence>
+            <sentence id="31.25">		&lt;/dependency&gt;</sentence>
+            <sentence id="31.26">		&lt;dependency&gt;</sentence>
+            <sentence id="31.27">			&lt;groupId&gt;org.hibernate&lt;/groupId&gt;</sentence>
+            <sentence id="31.28">			&lt;artifactId&gt;hibernate-testing&lt;/artifactId&gt;</sentence>
+            <sentence id="31.29">			&lt;version&gt;4.3.5.Final&lt;/version&gt;</sentence>
+            <sentence id="31.30">		&lt;/dependency&gt;</sentence>
+            <sentence id="31.31">		&lt;dependency&gt;</sentence>
+            <sentence id="31.32">			&lt;groupId&gt;org.hibernate&lt;/groupId&gt;</sentence>
+            <sentence id="31.33">			&lt;artifactId&gt;hibernate-envers&lt;/artifactId&gt;</sentence>
+            <sentence id="31.34">			&lt;version&gt;4.3.5.Final&lt;/version&gt;</sentence>
+            <sentence id="31.35">		&lt;/dependency&gt;		</sentence>
+            <sentence id="31.36">		&lt;dependency&gt;</sentence>
+            <sentence id="31.37">			&lt;groupId&gt;org.hsqldb&lt;/groupId&gt;</sentence>
+            <sentence id="31.38">			&lt;artifactId&gt;hsqldb&lt;/artifactId&gt;</sentence>
+            <sentence id="31.39">			&lt;version&gt;2.3.2&lt;/version&gt;</sentence>
+            <sentence id="31.40">			&lt;scope&gt;test&lt;/scope&gt;</sentence>
+            <sentence id="31.41">		&lt;/dependency&gt;</sentence>
+            <sentence id="31.42">		&lt;dependency&gt;</sentence>
+            <sentence id="31.43">			&lt;groupId&gt;junit&lt;/groupId&gt;</sentence>
+            <sentence id="31.44">			&lt;artifactId&gt;junit&lt;/artifactId&gt;</sentence>
+            <sentence id="31.45">			&lt;version&gt;4.11&lt;/version&gt;</sentence>
+            <sentence id="31.46">			&lt;scope&gt;test&lt;/scope&gt;</sentence>
+            <sentence id="31.47">		&lt;/dependency&gt;</sentence>
+            <sentence id="31.48">	&lt;/dependencies&gt;</sentence>
+            <sentence id="31.49">	&lt;build&gt;</sentence>
+            <sentence id="31.50">		&lt;plugins&gt;</sentence>
+            <sentence id="31.51">			&lt;plugin&gt;</sentence>
+            <sentence id="31.52">				&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</sentence>
+            <sentence id="31.53">				&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</sentence>
+            <sentence id="31.54">				&lt;version&gt;3.1&lt;/version&gt;</sentence>
+            <sentence id="31.55">				&lt;configuration&gt;</sentence>
+            <sentence id="31.56">					&lt;source&gt;1.7&lt;/source&gt;</sentence>
+            <sentence id="31.57">					&lt;target&gt;1.7&lt;/target&gt;</sentence>
+            <sentence id="31.58">				&lt;/configuration&gt;</sentence>
+            <sentence id="31.59">			&lt;/plugin&gt;</sentence>
+            <sentence id="31.60">		&lt;/plugins&gt;</sentence>
+            <sentence id="31.61">	&lt;/build&gt;</sentence>
+            <sentence id="31.62">&lt;/project&gt;</sentence>
+            <sentence id="31.63">{code}</sentence>
+        </paragraph>
+        <paragraph id="32">
+            <sentence id="32.1">{code:title=log4j.properties}
+# Root logger option
+log4j.rootLogger=INFO, stdout
+ 
+# Direct log messages to stdout
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

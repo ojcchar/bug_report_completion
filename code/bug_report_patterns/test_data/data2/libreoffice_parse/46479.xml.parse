@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>46479</id>
+    <title>UI - FILESAVE WIN file dialog name field empty on Windows XP with certain settings</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Problem description:</sentence>
+            <sentence id="1.2">When saving to ODT a modified document from any other format (DOC or RTF being most often with me) the Save As dialog doesn't pre-fill the 'File name' field with the original DOC filename leaving it empty, but only if no other ODT documents being already in the destination folder present.</sentence>
+            <sentence id="1.3">If there is at least one other ODT document, the filename is pre-filled.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This behaviour is the same with Spreadsheets (tested with XLS to ODS) so I believe all other modules behave the same way.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Observerd in OpenOffice 3.2 as well, so this is quite old.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to reproduce:</sentence>
+            <sentence id="4.2">1 Create folder, put 2 RTF documents into it with any content named Test1.rtf and Test2.rtf....</sentence>
+            <sentence id="4.3">2 Open Test1.rtf, make some changes, save, choose save as ODT</sentence>
+            <sentence id="4.4">3 Save As dialog's File name filed will be empty.</sentence>
+            <sentence id="4.5">4 Fill in text Test1 into the File name filed and save the document.</sentence>
+            <sentence id="4.6">Test1.odt will be created.</sentence>
+            <sentence id="4.7">5 Open the Test2.rtf, make some changes, save, choose as ODT</sentence>
+            <sentence id="4.8">6 Save As dialog's File name filed will be pre-filled with text Test2 now</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Current behavior:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected behavior:</sentence>
+            <sentence id="6.2">Save As dialog's File name filed should be pre-filled with the document's name even if the destination folder doesn't contain any other ODT documents</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Platform (if different from the browser): 
+              
+Browser: Mozilla/5.0 (Windows NT 5.1; rv:10.0.1) Gecko/20100101 Firefox/10.0.1
+Also true on Windows 7 x64 Professional or Ultimate (I believe any other Windows based OS suffers from this, possibly all OSs)</sentence>
+        </paragraph>
+    </description>
+</bug>

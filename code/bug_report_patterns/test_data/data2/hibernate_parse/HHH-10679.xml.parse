@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10679</id>
+    <title>Subselect fetching is not used for collections if their entity owners are initialized in a batch</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">An entity class is batch enabled and is using SUBSELECT fetch.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code}
+@Entity
+@BatchSize(size = 1000)
+public class EmployeeGroupSubselect {
+        ...
+        @OneToMany(cascade = CascadeType.ALL)
+        @Fetch(FetchMode.SUBSELECT)
+        private List&lt;Employee&gt; employees = new ArrayList&lt;Employee&gt;();
+        ....
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">When loading a set of entities and their associations using ID based proxies created with {{em.getReference(...)}}, rather than using subselect each assocation is loaded with an individual query like the below:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{code:sql}
+    select
+        employees0_.</sentence>
+            <sentence id="4.2">EmployeeGroupSubselect_departmentName as Employee1_3_0_,
+        employees0_.</sentence>
+            <sentence id="4.3">EmployeeGroupSubselect_groupName as Employee2_3_0_,
+        employees0_.</sentence>
+            <sentence id="4.4">employees_id as employee3_3_0_,
+        employee1_.</sentence>
+            <sentence id="4.5">id as id1_1_1_,
+        employee1_.</sentence>
+            <sentence id="4.6">name as name2_1_1_ 
+    from
+        EmployeeGroupSubselect_Employee employees0_ 
+    inner join
+        Employee employee1_ 
+            on employees0_.</sentence>
+            <sentence id="4.7">employees_id=employee1_.</sentence>
+            <sentence id="4.8">id 
+    where
+        employees0_.</sentence>
+            <sentence id="4.9">EmployeeGroupSubselect_departmentName=?</sentence>
+            <sentence id="4.10">and employees0_.</sentence>
+            <sentence id="4.11">EmployeeGroupSubselect_groupName=?</sentence>
+            <sentence id="4.12">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

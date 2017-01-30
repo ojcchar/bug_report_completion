@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8057</id>
+    <title>Bad proxy behavior when using store_data_at_delete and audited parent/child relationships</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Use hibernate.envers.store_data_at_delete = true
+ 
+{code}
+class Parent {
+  @Audited
+  String name;</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Set&lt;Child&gt; children;
+}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">class Child {
+  @Audited
+  String name;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">@Audited
+  Parent parent;</sentence>
+            <sentence id="4.2">public int hashCode() {
+    return Objects.hashCode(name, parent);
+  }
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Transaction 1:</sentence>
+            <sentence id="5.2">Creates a parent.</sentence>
+            <sentence id="5.3">Creates a child for it.</sentence>
+            <sentence id="5.4">You get one revision, one Parent_AUD (create), and one Child_AUD (create).</sentence>
+            <sentence id="5.5">Transaction 2:</sentence>
+            <sentence id="5.6">Deletes the parent.</sentence>
+            <sentence id="5.7">Deletes the child.</sentence>
+            <sentence id="5.8">In my case, this is via cascade.</sentence>
+            <sentence id="5.9">You get one revision, one Parent_AUD (delete), and one Child_AUD (delete).</sentence>
+            <sentence id="5.10">Transaction 3:</sentence>
+            <sentence id="5.11">Lookup using the following code:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">{code}
+AuditReaderFactory.get(em)
+.</sentence>
+            <sentence id="6.2">createQuery()
+.</sentence>
+            <sentence id="6.3">forRevisionsOfEntity(Child.class, true, true)
+.</sentence>
+            <sentence id="6.4">getResultList();
+{code}</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This throws an exception:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">{noformat}</sentence>
+            <sentence id="8.2">javax.persistence.EntityNotFoundException: Unable to find com.cloudera.cmf.model.DbService with id 1</sentence>
+            <sentence id="8.3">          at org.hibernate.ejb.Ejb3Configuration$Ejb3EntityNotFoundDelegate.handleEntityNotFound(Ejb3Configuration.java:155)</sentence>
+            <sentence id="8.4">          at org.hibernate.proxy.AbstractLazyInitializer.checkTargetState(AbstractLazyInitializer.java:171)</sentence>
+            <sentence id="8.5">          at org.hibernate.proxy.AbstractLazyInitializer.initialize(AbstractLazyInitializer.java:160)</sentence>
+            <sentence id="8.6">          at org.hibernate.proxy.AbstractLazyInitializer.getImplementation(AbstractLazyInitializer.java:195)</sentence>
+            <sentence id="8.7">          at org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer.invoke(JavassistLazyInitializer.java:185)</sentence>
+            <sentence id="8.8">          at Parent_$$_javassist_2.hashCode(Parent_$$_javassist_2.java)</sentence>
+            <sentence id="8.9">          at java.util.Arrays.hashCode(Arrays.java:3655)</sentence>
+            <sentence id="8.10">          at com.google.common.base.Objects.hashCode(Objects.java:77)</sentence>
+            <sentence id="8.11">          at Child.hashCode(Child.java:385)</sentence>
+            <sentence id="8.12">          at org.hibernate.envers.tools.Triple.hashCode(Triple.java:74)</sentence>
+            <sentence id="8.13">          at java.util.HashMap.put(HashMap.java:372)</sentence>
+            <sentence id="8.14">          at org.hibernate.envers.reader.FirstLevelCache.putOnEntityNameCache(FirstLevelCache.java:87)</sentence>
+            <sentence id="8.15">          at org.hibernate.envers.entities.EntityInstantiator.createInstanceFromVersionsEntity(EntityInstantiator.java:104)</sentence>
+            <sentence id="8.16">          at org.hibernate.envers.query.impl.RevisionsOfEntityQuery.list(RevisionsOfEntityQuery.java:134)</sentence>
+            <sentence id="8.17">          at org.hibernate.envers.query.impl.AbstractAuditQuery.getResultList(AbstractAuditQuery.java:105)</sentence>
+            <sentence id="8.18">          ...</sentence>
+            <sentence id="8.19">{noformat}</sentence>
+            <sentence id="8.20">When store_data_at_delete is true, the second Child_AUD entry contains a link to Parent_AUD, instead of a NULL.</sentence>
+            <sentence id="8.21">The audit query tries to build Child entities out of the two Child_AUD entries but fails for the second one.</sentence>
+            <sentence id="8.22">Why does it fail?</sentence>
+            <sentence id="8.23">Because the SQL query it uses to fetch the correct Parent_AUD entry ignores entries with revision type DEL.</sentence>
+            <sentence id="8.24">Here's the corresponding comment from EntitiesAtRevisionQuery.list():</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">{code}</sentence>
+            <sentence id="9.2">/*</sentence>
+            <sentence id="9.3">* The query that we need to create:</sentence>
+            <sentence id="9.4">*   SELECT new list(e) FROM versionsReferencedEntity e</sentence>
+            <sentence id="9.5">*   WHERE</sentence>
+            <sentence id="9.6">* (all specified conditions, transformed, on the "e" entity) AND</sentence>
+            <sentence id="9.7">* (selecting e entities at revision :revision)</sentence>
+            <sentence id="9.8">*   --&gt; for DefaultAuditStrategy:</sentence>
+            <sentence id="9.9">*     e.revision = (SELECT max(e2.revision) FROM versionsReferencedEntity e2</sentence>
+            <sentence id="9.10">*       WHERE e2.revision &lt;= :revision AND e2.id = e.id)</sentence>
+            <sentence id="9.11">*</sentence>
+            <sentence id="9.12">*   --&gt; for ValidityAuditStrategy:</sentence>
+            <sentence id="9.13">*     e.revision &lt;= :revision and (e.endRevision &gt; :revision or e.endRevision is null)</sentence>
+            <sentence id="9.14">*</sentence>
+            <sentence id="9.15">*     AND</sentence>
+            <sentence id="9.16">* (only non-deleted entities)</sentence>
+            <sentence id="9.17">*     e.revision_type !</sentence>
+            <sentence id="9.18">= DEL</sentence>
+            <sentence id="9.19">*/</sentence>
+            <sentence id="9.20">{code}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">I think the right thing to do here is relax that last condition when we're fetching a relation for a DEL audit entry.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Here's the corresponding forum post: https://community.jboss.org/message/800890</sentence>
+        </paragraph>
+    </description>
+</bug>

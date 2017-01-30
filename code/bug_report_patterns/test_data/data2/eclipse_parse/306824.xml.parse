@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>306824</id>
+    <title>Builders returning null scheduling rule can't work safely with other builders overriding #getRule()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">+++ This bug was initially created as a clone of Bug #305858 +++
+&gt; Apart from the NPE there seems to be no good reason why null should not be 
+&gt; allowed.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">There's a problem with relaxing scheduling rules, and allowing some builders to return null.</sentence>
+            <sentence id="2.2">If the project contains a combination of builders:</sentence>
+            <sentence id="2.3">(1) at least one returns null (and expects to modify resources)</sentence>
+            <sentence id="2.4">(2) at least one specified a scheduling rule</sentence>
+            <sentence id="2.5">The build will fail, as the build MultiRule representing (2) doesn't contain the resources which will be modified by the builder (1).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The problem with the API is that builders (1) &amp; (2) don't know anything about each other.</sentence>
+            <sentence id="3.2">Builder (1) is using the API to be as flexible as possible -- don't lock anything -- and Builder (2) wants some subset of the tree to be locked.</sentence>
+            <sentence id="3.3">The MultiRule generated isn't compatible with builder (1).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Problems occurred building the selected resources.</sentence>
+            <sentence id="4.2">Errors running builder 'CDT Builder' on project 'SrpDownlink'.</sentence>
+            <sentence id="4.3">Attempted to beginRule: P/p1, does not match outer scope rule: MultiRule[F/p1/Debug]
+    Attempted to beginRule: P/p1, does not match outer scope rule: MultiRule[F/p1/Debug]
+  Attempted to beginRule: P/p1, does not match outer scope rule: MultiRule[F/p1/Debug]
+  Attempted to beginRule: P/p1, does not match outer scope rule: MultiRule[F/p1/Debug]
+  Errors running builder 'Scanner Configuration Builder' on project 'SrpDownlink'.</sentence>
+            <sentence id="4.4">Attempted to beginRule: R/, does not match outer scope rule: MultiRule[F/p1/Debug]</sentence>
+        </paragraph>
+    </description>
+</bug>

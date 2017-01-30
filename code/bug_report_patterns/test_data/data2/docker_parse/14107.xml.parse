@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14107</id>
+    <title>Error creating containers - a container has already joined the endpoint</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Simple repro.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The setup</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+curl -sSL https://experimental.docker.com/ | sudo sh
+...
+$ docker version 
+Client version: 1.8.0-dev
+Client API version: 1.20
+Go version (client): go1.4.2
+Git commit (client): f39b9a0
+OS/Arch (client): linux/amd64
+Experimental (client): true
+Server version: 1.8.0-dev
+Server API version: 1.20
+Go version (server): go1.4.2
+Git commit (server): f39b9a0
+OS/Arch (server): linux/amd64
+Experimental (server): true
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The repro</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+docker rm -f delete_me; while docker run -tid --net=host --name delete_me busybox; do docker rm -f delete_me; done
+delete_me
+7eef409fefbfebfa552ad795f9cb7bff18c8da7588fdd6966cc757161214d348
+delete_me
+f7b02d2e5ea29180ff52443297a25c86b2897ca30518d5505d5a4e75f6ed17f7
+Error response from daemon: Cannot start container f7b02d2e5ea29180ff52443297a25c86b2897ca30518d5505d5a4e75f6ed17f7: a container has already joined the endpoint
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Some docker logs</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'</sentence>
+            <sentence id="7.2">INFO[0002] DELETE /v1.20/containers/delete_me?force=1 </sentence>
+            <sentence id="7.3">DEBU[0002] Sending 9 to 7eef409fefbfebfa552ad795f9cb7bff18c8da7588fdd6966cc757161214d348 </sentence>
+            <sentence id="7.4">ERRO[0002] Leave all failed for 7eef409fefbfebfa552ad795f9cb7bff18c8da7588fdd6966cc757161214d348: could not find sandbox for container id 7eef409fefbfebfa552ad795f9cb7bff18c8da7588fdd6966cc757161214d348 </sentence>
+            <sentence id="7.5">DEBU[0002] Calling POST /containers/create </sentence>
+            <sentence id="7.6">INFO[0002] POST /v1.20/containers/create?name=delete_me </sentence>
+            <sentence id="7.7">DEBU[0002] Calling POST /containers/{name:.*}/start </sentence>
+            <sentence id="7.8">INFO[0002] POST /v1.20/containers/f7b02d2e5ea29180ff52443297a25c86b2897ca30518d5505d5a4e75f6ed17f7/start </sentence>
+            <sentence id="7.9">ERRO[0002] Leave all failed for f7b02d2e5ea29180ff52443297a25c86b2897ca30518d5505d5a4e75f6ed17f7: could not find sandbox for container id f7b02d2e5ea29180ff52443297a25c86b2897ca30518d5505d5a4e75f6ed17f7 </sentence>
+            <sentence id="7.10">"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">This is broken since #14071 went in.</sentence>
+        </paragraph>
+    </description>
+</bug>

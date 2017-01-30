@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2490</id>
+    <title>ClassCastException causes a logging statement to throw another ClassCastException upon inconsistent instantiation of NullableType</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">(Have me excused that I don't know well the internalities of Hibernate, 
+but I think that you get the point from some kind of "bird's perpective" anyhow).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">My pojo is defined in my xml mapping with a column/field as follows:
+...</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;property name="encrypted"
+		          type="string"
+		          column="encrypted"
+	 	          insert="true"
+	 	          update="true"
+	 	          not-null="true"/&gt;
+...
+The corresponding POJO class is defined with two access methods:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">String getEncrypted();
+and
+boolean isEncrypted();
+The field is a String with possible values "f" or "t".</sentence>
+            <sentence id="4.2">Of convenience reasons I have added a parallell method 
+operating on boolean.</sentence>
+            <sentence id="4.3">My database is designed with a CHAR(1) 
+for booleans.</sentence>
+            <sentence id="4.4">(All this because the dam... RDBMS standard doesn't 
+advice a consistent boolean data type, a really big blunder from 
+time back in System R. OT ok, but I got it out.)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">When Hibernate parses my instantiated pojo, a Boolean instance is generated. </sentence>
+            <sentence id="5.2">But it's "repository" is prepared with a StringType as a consequence of my XML configuration file.</sentence>
+            <sentence id="5.3">During the course, the method nullSafeSet of class NullableType is called with the value parameter Boolean. </sentence>
+            <sentence id="5.4">Eventually the "public abstract String toString(Object value) throws HibernateException;" method is called for StringType, which is implemented with a simple typecast.</sentence>
+            <sentence id="5.5">Exception received. </sentence>
+            <sentence id="5.6">Whether this behavior is ok or not is one discussion. </sentence>
+            <sentence id="5.7">But there's a second problem to it also: When the exception is received,NullableType tries to log the event: </sentence>
+            <sentence id="5.8">...</sentence>
+            <sentence id="5.9">catch ( RuntimeException re ) {</sentence>
+            <sentence id="5.10">			log().info( "could not bind value '" + nullSafeToString( value ) + "' to parameter: " + index + "; " + re.getMessage() );</sentence>
+            <sentence id="5.11">			throw re;</sentence>
+            <sentence id="5.12">		}</sentence>
+            <sentence id="5.13">...</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">And the same shit happens again.</sentence>
+            <sentence id="6.2">So the developer does not receive the actual exception, 
+but the exception received from the logging statement.</sentence>
+            <sentence id="6.3">A strong golden rule of thumb: 
+A logging statement should never ever throw.</sentence>
+            <sentence id="6.4">This is what I would call a bug in Hibernate.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Setting the log level to ERROR will of course not solve the problem, 
+because the string paramater is evaluated before the log statement is ever reached.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">A variant of this issue is described under: "HHH-2034"</sentence>
+        </paragraph>
+    </description>
+</bug>

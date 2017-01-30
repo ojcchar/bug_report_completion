@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10283</id>
+    <title>Entity table is not auto-quoted in native query with hibernate.auto_quote_keyword=true</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">DB2 regards "simple" as a keyword, so with hibernate.auto_quote_keyword=true, the table generated for entity Simple will be auto-quoted.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{{org.hibernate.test.legacy.SQLLoaderTest}} has an entity named {{Simple}}.</sentence>
+            <sentence id="2.2">The following tests create native SQL queries involving {{Simple}}, which fail using DB2 because the resulting SQL does not have the table name auto-quoted:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{{#testFindBySQLStar}}
+{{session.createSQLQuery( "select {simple.</sentence>
+            <sentence id="3.2">*} from Simple {simple}" ).</sentence>
+            <sentence id="3.3">addEntity( "simple", Simple.class ).</sentence>
+            <sentence id="3.4">list();}}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{{#testTS}}
+{{session.createSQLQuery( "select {sim.</sentence>
+            <sentence id="4.2">*} from Simple {sim} where {sim}.</sentence>
+            <sentence id="4.3">date_ = ?" )</sentence>
+            <sentence id="4.4">.</sentence>
+            <sentence id="4.5">addEntity( "sim", Simple.class )}}</sentence>
+        </paragraph>
+    </description>
+</bug>

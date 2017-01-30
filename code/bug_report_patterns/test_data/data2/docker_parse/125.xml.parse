@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>125</id>
+    <title>Unable to attach to a container that needs stdin</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Steps to create:</sentence>
+            <sentence id="1.2">- Run `docker run -a -i -t base /bin/bash`</sentence>
+            <sentence id="1.3">- It will prompt bash shell in newly created container</sentence>
+            <sentence id="1.4">- Exit out (type exit or ctrl+c), which will stop the container</sentence>
+            <sentence id="1.5">- Start the container again by issuing `docker start &lt;CONTAINER ID&gt;`</sentence>
+            <sentence id="1.6">- Try to attach to it by issuing `docker attach &lt;CONTAINER ID&gt;`</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Shell drops to next line after this but it does not allow any interaction with the attached container.</sentence>
+        </paragraph>
+    </description>
+</bug>

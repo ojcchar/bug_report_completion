@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10738</id>
+    <title>Exec format error : Cannot start container &lt;id&gt; : exec format error </title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I tried to create a docker image using a precise ubuntu base.</sentence>
+            <sentence id="1.2">I have a my startup script that looks like this but when I run this using docker run command I get the Exec format errors.</sentence>
+            <sentence id="1.3">Tried debugging this several time but no use.</sentence>
+            <sentence id="1.4">Anyway to look into docker event logs or turn on verbose to see what might be going wrong?</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If I comment out the CMD line in my DockerFile everything works fine.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here's the startup script called startup-stanbol.sh which has execute permission.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">!</sentence>
+            <sentence id="4.2">/usr/bin/env bash
+if [[ $1 = "-d" ]]; then
+ while true; do sleep 1000; done
+fi
+if [[ $1 = "-bash" ]]; then
+ echo "Using Bash"
+ /bin/bash
+fi
+java -Xmx1g -jar org.apache.stanbol.launchers.stable-1.0.0-SNAPSHOT.jar -p 9080</sentence>
+        </paragraph>
+    </description>
+</bug>

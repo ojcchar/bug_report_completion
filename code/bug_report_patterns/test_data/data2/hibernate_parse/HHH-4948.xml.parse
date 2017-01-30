@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4948</id>
+    <title>Session.flush() does not always cascade save or update to read-only or immutable entities</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When the session contains only read-only or immutable entities, Session.flush() does not cascade save or update operations to these entities unless the session contains at least one entity that is mutable and not read-only.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Flush should cascade the save-update operation as mapped, but save-update operations should not affect read-only or immutable entities themselves.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-282</id>
+    <title>Importing a composite-id ( XML )</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">XML mapping:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;class entity-name="A" node="A" table="A"&gt;
+	&lt;composite-id node="A_key"&gt;
+		&lt;key-property name="fk1_id" type="integer" length="6"&gt;&lt;/key-property&gt;
+		&lt;key-property name="fk2_id" type="integer" length="6"&gt;&lt;/key-property&gt;		
+	&lt;/composite-id&gt;
+	&lt;property name="property" type="integer" length="6" node="property"/&gt;
+&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Export output:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;A&gt;
+  &lt;fk1_id&gt;758&lt;/fk1_id&gt;
+  &lt;fk2_id&gt;301&lt;/fk2_id&gt;
+  &lt;property&gt;1&lt;/property&gt;
+&lt;/A&gt;
+&lt;A&gt;
+  &lt;fk1_id&gt;758&lt;/fk1_id&gt;
+  &lt;fk2_id&gt;323&lt;/fk2_id&gt;
+  &lt;property&gt;2&lt;/property&gt;
+&lt;/A&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Exception:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Exception in thread "main" java.lang.ClassCastException: org.dom4j.tree.DefaultElement</sentence>
+            <sentence id="6.2">	at org.hibernate.type.ComponentType.toLoggableString(ComponentType.java:279)</sentence>
+            <sentence id="6.3">	at org.hibernate.pretty.MessageHelper.infoString(MessageHelper.java:68)</sentence>
+            <sentence id="6.4">	at org.hibernate.persister.entity.BasicEntityPersister.getCurrentVersion(BasicEntityPersister.java:1043)</sentence>
+            <sentence id="6.5">	at org.hibernate.event.def.DefaultReplicateEventListener.onReplicate(DefaultReplicateEventListener.java:76)</sentence>
+            <sentence id="6.6">	at org.hibernate.impl.SessionImpl.replicate(SessionImpl.java:639)</sentence>
+            <sentence id="6.7">	...</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Java:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">...</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Session session = sessions.openSession();
+Session dom4jSession = session.getSession( EntityMode.DOM4J );</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">...</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">dom4jSession.replicate("A", item, ReplicationMode.OVERWRITE);</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">...</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">SQL:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">CREATE TABLE A
+(
+  fk1_id numeric(6) NOT NULL,
+  fk2_id numeric(6) NOT NULL,
+  property numeric(6) NOT NULL
+)</sentence>
+        </paragraph>
+    </description>
+</bug>

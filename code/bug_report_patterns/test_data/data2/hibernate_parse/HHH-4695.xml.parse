@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4695</id>
+    <title> Some annotations tests in IndexedCollectionTest fail due to "foreign key constraint" failure on MySQL InnoDB</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Test following tests are failing due to "foreign key constraint fail" in MySQL:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">org.hibernate.test.annotations.indexcoll.IndexedCollectionTest.testDefaultMapKey
+org.hibernate.test.annotations.indexcoll.IndexedCollectionTest.testMapKeyToEntity
+org.hibernate.test.annotations.indexcoll.IndexedCollectionTest.testComponentSubPropertyMapKey
+org.hibernate.test.annotations.indexcoll.IndexedCollectionTest.testMapKeyEntityEntity</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Sample stack trace of the failure:</sentence>
+            <sentence id="3.2">org.hibernate.exception.ConstraintViolationException: Could not execute JDBC batch update</sentence>
+            <sentence id="3.3">at org.hibernate.exception.SQLStateConverter.convert(SQLStateConverter.java:71)</sentence>
+            <sentence id="3.4">at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:43)</sentence>
+            <sentence id="3.5">at org.hibernate.jdbc.AbstractBatcher.executeBatch(AbstractBatcher.java:254)</sentence>
+            <sentence id="3.6">at org.hibernate.engine.ActionQueue.executeActions(ActionQueue.java:237)</sentence>
+            <sentence id="3.7">at org.hibernate.engine.ActionQueue.executeActions(ActionQueue.java:141)</sentence>
+            <sentence id="3.8">at org.hibernate.event.def.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:298)</sentence>
+            <sentence id="3.9">at org.hibernate.event.def.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:27)</sentence>
+            <sentence id="3.10">at org.hibernate.impl.SessionImpl.flush(SessionImpl.java:1000)</sentence>
+            <sentence id="3.11">at org.hibernate.impl.SessionImpl.managedFlush(SessionImpl.java:338)</sentence>
+            <sentence id="3.12">at org.hibernate.transaction.JDBCTransaction.commit(JDBCTransaction.java:106)</sentence>
+            <sentence id="3.13">at org.hibernate.test.annotations.indexcoll.IndexedCollectionTest.testDefaultMapKey(Unknown Source)</sentence>
+            <sentence id="3.14">at org.hibernate.test.annotations.TestCase.runTest(Unknown Source)</sentence>
+            <sentence id="3.15">Caused by: java.sql.BatchUpdateException: Cannot add or update a child row: a foreign key constraint fails ('platformae/addressentry', CONSTRAINT 'FK181B28FE1355AC4A' FOREIGN KEY ('firstname', 'lastname') REFERENCES 'addressentry' ('firstname', 'lastname'))</sentence>
+            <sentence id="3.16">at com.mysql.jdbc.ServerPreparedStatement.executeBatch(ServerPreparedStatement.java:665)</sentence>
+            <sentence id="3.17">at org.hibernate.jdbc.BatchingBatcher.doExecuteBatch(BatchingBatcher.java:48)</sentence>
+            <sentence id="3.18">at org.hibernate.jdbc.AbstractBatcher.executeBatch(AbstractBatcher.java:247) </sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">these testes only fail on MySQL5InnoDBDialect AND MySQLInnoDBDialect, they pass MySQL5Dialect and MySQLDialect</sentence>
+        </paragraph>
+    </description>
+</bug>

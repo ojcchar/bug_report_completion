@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-931</id>
+    <title>ObjectNotFoundException When Editing a Role or User</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As found by tmdugan:
+{code}*org.hibernate.ObjectNotFoundException*
+No row with the given identifier exists: [Tribes|org.openmrs.Privilege#Manage]</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Here is part of the stack trace:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">org.hibernate.impl.SessionFactoryImpl$1.</sentence>
+            <sentence id="3.2">handleEntityNotFound(SessionFactoryImpl.java:377)</sentence>
+            <sentence id="3.3">org.hibernate.event.def.DefaultLoadEventListener.load(DefaultLoadEventListener.java:145)</sentence>
+            <sentence id="3.4">org.hibernate.event.def.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:195)</sentence>
+            <sentence id="3.5">org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:103)</sentence>
+            <sentence id="3.6">org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:878)</sentence>
+            <sentence id="3.7">org.hibernate.impl.SessionImpl.internalLoad(SessionImpl.java:846)</sentence>
+            <sentence id="3.8">org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:557)</sentence>
+            <sentence id="3.9">org.hibernate.type.EntityType.resolve(EntityType.java:379)</sentence>
+            <sentence id="3.10">org.hibernate.type.EntityType.nullSafeGet(EntityType.java:204)</sentence>
+            <sentence id="3.11">org.hibernate.persister.collection.AbstractCollectionPersister.readElement(AbstractCollectionPersister.java:703)</sentence>
+            <sentence id="3.12">org.hibernate.collection.PersistentSet.readFrom(PersistentSet.java:318)</sentence>
+            <sentence id="3.13">org.hibernate.loader.Loader.readCollectionElement(Loader.java:1008)</sentence>
+            <sentence id="3.14">org.hibernate.loader.Loader.readCollectionElements(Loader.java:646)</sentence>
+            <sentence id="3.15">org.hibernate.loader.Loader.getRowFromResultSet(Loader.java:591)</sentence>
+            <sentence id="3.16">org.hibernate.loader.Loader.doQuery(Loader.java:701)</sentence>
+            <sentence id="3.17">org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:236)</sentence>
+            <sentence id="3.18">org.hibernate.loader.Loader.loadCollection(Loader.java:1994)</sentence>
+            <sentence id="3.19">org.hibernate.loader.collection.CollectionLoader.initialize(CollectionLoader.java:36)</sentence>
+            <sentence id="3.20">org.hibernate.persister.collection.AbstractCollectionPersister.initialize(AbstractCollectionPersister.java:565)</sentence>
+            <sentence id="3.21">org.hibernate.event.def.DefaultInitializeCollectionEventListener.onInitializeCollection(DefaultInitializeCollectionEventListener.java:60)</sentence>
+            <sentence id="3.22">org.hibernate.impl.SessionImpl.initializeCollection(SessionImpl.java:1716)</sentence>
+            <sentence id="3.23">org.hibernate.collection.AbstractPersistentCollection.forceInitialization(AbstractPersistentCollection.java:454)</sentence>
+            <sentence id="3.24">org.hibernate.engine.StatefulPersistenceContext.initializeNonLazyCollections(StatefulPersistenceContext.java:797)</sentence>
+            <sentence id="3.25">org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:241)</sentence>
+            <sentence id="3.26">org.hibernate.loader.Loader.doList(Loader.java:2220)</sentence>
+            <sentence id="3.27">org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2104)</sentence>
+            <sentence id="3.28">org.hibernate.loader.Loader.list(Loader.java:2099)</sentence>
+            <sentence id="3.29">org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:378)</sentence>
+            <sentence id="3.30">org.hibernate.hql.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:338)</sentence>
+            <sentence id="3.31">org.hibernate.engine.query.HQLQueryPlan.performList(HQLQueryPlan.java:172)</sentence>
+            <sentence id="3.32">org.hibernate.impl.SessionImpl.list(SessionImpl.java:1121)</sentence>
+            <sentence id="3.33">org.hibernate.impl.QueryImpl.list(QueryImpl.java:79)</sentence>
+            <sentence id="3.34">*org.openmrs.api.db.hibernate.HibernateUserDAO.getAllRoles(HibernateUserDAO.java:287)*</sentence>
+            <sentence id="3.35">*org.openmrs.api.impl.UserServiceImpl.getAllRoles(UserServiceImpl.java:258)*</sentence>
+            <sentence id="3.36">*org.openmrs.api.impl.UserServiceImpl.getRoles(UserServiceImpl.java:251)*</sentence>
+            <sentence id="3.37">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

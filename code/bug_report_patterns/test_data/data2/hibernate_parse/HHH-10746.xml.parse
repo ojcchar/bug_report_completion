@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10746</id>
+    <title>Criteria API drastically degrades performance</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Especially in multi-threaded in environments, the classloader is accessed way to often to convert the Criteria Query into SQL.</sentence>
+            <sentence id="1.2">In some containers like Tomcat we observed that the classloader is synchronized.</sentence>
+            <sentence id="1.3">This combination drastically degrades performance of our application servers.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">see</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">http://dimovelev.blogspot.ch/2015/02/performance-pitfalls-hibernate-criteria.html</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">or</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">http://stackoverflow.com/questions/26608973/synchronized-classloader-calls-from-hibernate/37279205#37279205</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">or</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">https://hibernate.atlassian.net/browse/HHH-9895</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">which was closed without further information.</sentence>
+            <sentence id="8.2">The code in question:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">{code}</sentence>
+            <sentence id="9.2">Thread [main] (Suspended (breakpoint at line 191 in ReflectHelper))	</sentence>
+            <sentence id="9.3">owns: QueryTranslatorImpl (id=8378)	</sentence>
+            <sentence id="9.4">ReflectHelper.classForName(String) line: 191	</sentence>
+            <sentence id="9.5">ReflectHelper.getConstantValue(String) line: 279	</sentence>
+            <sentence id="9.6">QueryTranslatorImpl$JavaConstantConverter.handleDotStructure(AST) line: 624	</sentence>
+            <sentence id="9.7">QueryTranslatorImpl$JavaConstantConverter.visit(AST) line: 619	</sentence>
+            <sentence id="9.8">NodeTraverser.visitDepthFirst(AST) line: 78	</sentence>
+            <sentence id="9.9">NodeTraverser.traverseDepthFirst(AST) line: 67	</sentence>
+            <sentence id="9.10">QueryTranslatorImpl.parse(boolean) line: 300	</sentence>
+            <sentence id="9.11">QueryTranslatorImpl.doCompile(Map, boolean, String) line: 203	</sentence>
+            <sentence id="9.12">QueryTranslatorImpl.compile(Map, boolean) line: 158	</sentence>
+            <sentence id="9.13">HQLQueryPlan.&lt;init&gt;(String, String, boolean, Map&lt;String,Filter&gt;, SessionFactoryImplementor, EntityGraphQueryHint) line: 131	</sentence>
+            <sentence id="9.14">HQLQueryPlan.&lt;init&gt;(String, boolean, Map&lt;String,Filter&gt;, SessionFactoryImplementor) line: 93	</sentence>
+            <sentence id="9.15">QueryPlanCache.getHQLQueryPlan(String, boolean, Map&lt;String,Filter&gt;) line: 167	</sentence>
+            <sentence id="9.16">SessionImpl(AbstractSessionImpl).getHQLQueryPlan(String, boolean) line: 301	</sentence>
+            <sentence id="9.17">SessionImpl(AbstractSessionImpl).createQuery(String) line: 236	</sentence>
+            <sentence id="9.18">SessionImpl.createQuery(String) line: 1800	</sentence>
+            <sentence id="9.19">EntityManagerImpl(AbstractEntityManagerImpl).createQuery(String, Class&lt;T&gt;, Selection, QueryOptions) line: 568	</sentence>
+            <sentence id="9.20">CriteriaQueryImpl$1.buildCompiledQuery(HibernateEntityManagerImplementor, InterpretedParameterMetadata) line: 336	</sentence>
+            <sentence id="9.21">CriteriaCompiler.compile(CompilableCriteria) line: 147	</sentence>
+            <sentence id="9.22">EntityManagerImpl(AbstractEntityManagerImpl).createQuery(CriteriaQuery&lt;T&gt;) line: 736</sentence>
+            <sentence id="9.23">Activity</sentence>
+            <sentence id="9.24">{code}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">A solution/workaround for this problem is necssary.</sentence>
+        </paragraph>
+    </description>
+</bug>

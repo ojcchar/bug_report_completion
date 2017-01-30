@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>613580</id>
+    <title>Shift-clicking the back button or middle-clicking it with browser.tabs.opentabfor.middleclick=false flashes the tabbar</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (X11; Linux i686; rv:2.0b8pre) Gecko/20101013 Firefox/4.0b8pre
+Build Identifier: Mozilla/5.0 (X11; Linux i686; rv:2.0b8pre) Gecko/20101013 Firefox/4.0b8pre</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Click actions on the back and forward buttons that will result in a new window, when the tabbar is auto-hidden because there is only one tab, briefly show the tab=bar with a single tab.</sentence>
+            <sentence id="2.2">Then the tab-bar disappears again and a new window opens.</sentence>
+            <sentence id="2.3">This behaviour was introduced by the fix for bug 609700.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">1 Set browser.tabs.autohide true (and optionally set browser.tabs.opentabfor.middleclick false)</sentence>
+            <sentence id="4.3">2 Open a window containing a single tab so that the tabbar auto-hides</sentence>
+            <sentence id="4.4">3 Browse from one page to another to activate the back button</sentence>
+            <sentence id="4.5">4 Shift-click the back button (or middle click if browser.tabs.opentabfor.middleclick is false)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual Results:</sentence>
+            <sentence id="5.2">The tab-bar briefly flashes a single tab before a new window appears, then the tab-bar is gone again.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected Results:  
+The new window should appear without showing the tab-bar, as happens with shift-clicks and middle-clicks on links and other elements.</sentence>
+            <sentence id="6.2">At no point is there more than one tab in any window and browser.tabs.autohide is true.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">A quick loook at the patch for the fix to bug 609700 suggests that the initial click opens a new tab which causes the tab-bar to appear, then the tab is cloned out to a new window which causes it to disappear again.</sentence>
+        </paragraph>
+    </description>
+</bug>

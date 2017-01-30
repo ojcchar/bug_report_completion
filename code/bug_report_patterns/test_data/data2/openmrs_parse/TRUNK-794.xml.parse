@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-794</id>
+    <title>ObsGroup branch merge wasn't entirely successful...</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This is a 'major' priority for me, although the fix takes about 5 seconds...</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In Obs.hbm.xml, where the one-to-many relationship between the parent Obs and members in its groupMembers set is defined, the mapping:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;set name="groupMembers" inverse="true" cascade="all" order-by="obs_id"&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">should be:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;set name="groupMembers" inverse="false" cascade="all" order-by="obs_id"&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">What happened with the former code is that a save cascade called from the parent created the child obs, but then obs_group_id for these children was being left null  (so that they couldn't be later retrieved).</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Changing the 'inverse' setting to false causes the obs_group_id column to be properly populated for child obs.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">(small note:  the unit tests for Obs succeed, even without obs_group_id getting set for the child obs -- would it be worth digging out the unit tests on the old obsGroup branch, or were we testing what we thought we were testing?)</sentence>
+        </paragraph>
+    </description>
+</bug>

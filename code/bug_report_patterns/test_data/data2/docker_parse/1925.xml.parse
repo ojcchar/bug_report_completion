@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>1925</id>
+    <title>HOME and PATH vars lost when using FROM</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Building a Dockerfile against an existing image appears to import all of the ENV variables except HOME and PATH.</sentence>
+            <sentence id="1.2">This is making it very difficult to build a good base image for my project...</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">**base/Dockerfile:**</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+FROM ubuntu</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">ENV TEST testing
+ENV HOME testing
+RUN echo $TEST
+RUN echo $HOME
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**test/Dockerfile:**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+FROM base</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">RUN echo $TEST
+RUN echo $HOME
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I build the base image using 'docker build -t base base' and get:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'</sentence>
+            <sentence id="9.2">Step 1 : FROM ubuntu</sentence>
+            <sentence id="9.3">---&gt; 8dbd9e392a96</sentence>
+            <sentence id="9.4">Step 2 : ENV TEST testing</sentence>
+            <sentence id="9.5">---&gt; Using cache</sentence>
+            <sentence id="9.6">---&gt; 03189a4e1cad</sentence>
+            <sentence id="9.7">Step 3 : ENV HOME testing</sentence>
+            <sentence id="9.8">---&gt; Running in 8694a38f91c0</sentence>
+            <sentence id="9.9">---&gt; 5bd2cd8fac6c</sentence>
+            <sentence id="9.10">Step 4 : RUN echo $TEST</sentence>
+            <sentence id="9.11">---&gt; Running in 1220ad497a65</sentence>
+            <sentence id="9.12">testing</sentence>
+            <sentence id="9.13">---&gt; d3d242da33a1</sentence>
+            <sentence id="9.14">Step 5 : RUN echo $HOME</sentence>
+            <sentence id="9.15">---&gt; Running in c569f8495edb</sentence>
+            <sentence id="9.16">testing</sentence>
+            <sentence id="9.17">---&gt; a8ae5089946b</sentence>
+            <sentence id="9.18">Successfully built a8ae5089946b</sentence>
+            <sentence id="9.19">"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">But when I build the test image using 'docker build test' I get:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'</sentence>
+            <sentence id="11.2">Step 1 : FROM base</sentence>
+            <sentence id="11.3">---&gt; a8ae5089946b</sentence>
+            <sentence id="11.4">Step 2 : RUN echo $TEST</sentence>
+            <sentence id="11.5">---&gt; Running in fe20966e3b1b</sentence>
+            <sentence id="11.6">testing</sentence>
+            <sentence id="11.7">---&gt; 04d52fdd8e2e</sentence>
+            <sentence id="11.8">Step 3 : RUN echo $HOME</sentence>
+            <sentence id="11.9">---&gt; Running in efd4225b64bb</sentence>
+            <sentence id="11.10">/</sentence>
+            <sentence id="11.11">---&gt; 3dd050897e72</sentence>
+            <sentence id="11.12">Successfully built 3dd050897e72</sentence>
+            <sentence id="11.13">"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">As you can see, the 'TEST' var keeps it's value while 'HOME' does not.</sentence>
+            <sentence id="12.2">The 'PATH' var also loses it's value.</sentence>
+        </paragraph>
+    </description>
+</bug>

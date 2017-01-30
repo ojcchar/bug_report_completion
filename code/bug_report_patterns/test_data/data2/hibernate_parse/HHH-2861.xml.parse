@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2861</id>
+    <title>cascade="delete-orphan,all" is ignored</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In HbmBinder.java, the following code has a bug in which it will ignore the "delete-orphan" value if it appears at position 0:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">private static void validateCascade(Element node, String path) {
+		String cascade = node.attributeValue("cascade");
+		if ( cascade!</sentence>
+            <sentence id="2.2">=null &amp;&amp; cascade.indexOf("delete-orphan")&gt;0 ) {
+			throw new MappingException("single-valued associations do not support orphan delete: " + path);
+		}
+	}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Instead, it should be:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">if ( cascade!</sentence>
+            <sentence id="4.2">=null &amp;&amp; cascade.indexOf("delete-orphan")&gt;=0 ) {</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">As a result, the user will not be warned if "delete-orphan,all" was specified in the cascade attribute, which is meaningless.</sentence>
+        </paragraph>
+    </description>
+</bug>

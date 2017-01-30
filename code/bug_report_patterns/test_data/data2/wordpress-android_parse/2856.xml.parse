@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2856</id>
+    <title>Crash report 4.1 - NPE showing a toast</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">[Failure](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/libs/utils/WordPressUtils/src/main/java/org/wordpress/android/util/ToastUtils.java#L23) making a toast from [NetworkUtils](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/libs/utils/WordPressUtils/src/main/java/org/wordpress/android/util/NetworkUtils.java#L83).</sentence>
+            <sentence id="1.2">Need to make sure context isn't null.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String android.content.Context.getString(int)' on a null object reference</sentence>
+            <sentence id="2.3"> at org.wordpress.android.util.ToastUtils.showToast(ToastUtils.java:23)</sentence>
+            <sentence id="2.4"> at org.wordpress.android.util.ToastUtils.showToast(ToastUtils.java:19)</sentence>
+            <sentence id="2.5"> at org.wordpress.android.util.NetworkUtils.checkConnection(NetworkUtils.java:83)</sentence>
+            <sentence id="2.6"> at org.wordpress.android.ui.stats.StatsVisitorsAndViewsFragment.onBarTapped(StatsVisitorsAndViewsFragment.java:693)</sentence>
+            <sentence id="2.7"> at org.wordpress.android.ui.stats.StatsBarGraph$MyGestureListener.highlightBarAndBroadcastDate(StatsBarGraph.java:91)</sentence>
+            <sentence id="2.8"> at org.wordpress.android.ui.stats.StatsBarGraph$MyGestureListener.onShowPress(StatsBarGraph.java:72)</sentence>
+            <sentence id="2.9"> at android.view.GestureDetector$GestureHandler.handleMessage(GestureDetector.java:262)</sentence>
+            <sentence id="2.10"> at android.os.Handler.dispatchMessage(Handler.java:102)</sentence>
+            <sentence id="2.11"> at android.os.Looper.loop(Looper.java:135)</sentence>
+            <sentence id="2.12"> at android.app.ActivityThread.main(ActivityThread.java:5351)</sentence>
+            <sentence id="2.13"> at java.lang.reflect.Method.invoke(Method.java)</sentence>
+            <sentence id="2.14"> at java.lang.reflect.Method.invoke(Method.java:372)</sentence>
+            <sentence id="2.15"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:908)</sentence>
+            <sentence id="2.16"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:703)</sentence>
+            <sentence id="2.17">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

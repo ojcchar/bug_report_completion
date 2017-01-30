@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>6450</id>
+    <title>Links should not break if the linked container is restarted</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Consider the following scenario:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+$ docker pull svendowideit/ambassador
+$ docker pull busybox
+$ docker run -d --name redis_ambassador --expose 6379 -e REDIS_PORT_6379_TCP=tcp://192.168.0.1:6379 svendowideit/ambassador
+$ docker run -it --link redis:redis busybox sh
+/ # env | grep REDIS
+REDIS_PORT=tcp://172.17.0.13:6379
+REDIS_PORT_6379_TCP_ADDR=172.17.0.13
+REDIS_NAME=/jolly_thompson/redis
+REDIS_PORT_6379_TCP_PORT=6379
+REDIS_PORT_6379_TCP_PROTO=tcp
+REDIS_PORT_6379_TCP=tcp://172.17.0.13:6379
+/ # cat /etc/hosts | grep redis
+172.17.0.13 redis
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">All great so far.</sentence>
+            <sentence id="3.2">Now switch to another terminal and run 'docker restart redis_ambassador'.</sentence>
+            <sentence id="3.3">Now if you run 'docker inspect redis_ambassador' you will see that it has a different IP address.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+$ docker restart redis_ambassador
+redis_ambassador
+$ docker inspect redis_ambassador | grep IPAddress
+ "IPAddress": "172.17.0.38",
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Go back to the still running busybox container shell and you will find that neither /etc/hosts nor the environment have changed - everything still points to the old and now non-existant IP address.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">So - if there is a named service and some other container has a link to that name, then when a new service with the same name is started, it must get the same internal IP address so that all linked services can continue to work.</sentence>
+            <sentence id="6.2">This must work both in "decker restart" and "docker stop; docker rm; docker run" scenarios.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">There are two key use cases for this</sentence>
+            <sentence id="7.2">1 containerized services (such as Redis and MySQL) - we wouldn't want to have to restart all dependent services when we have to restart MySQL or Redis and then miss some of them at some point;</sentence>
+            <sentence id="7.3">2 ambassadors - the whole purpose of ambassador containers is to provide handi named tcp redirection for other containers, they loose all their purpose if you have to restart all their linked containers when the ambassador changes (to change the destination of the redirect)</sentence>
+        </paragraph>
+    </description>
+</bug>

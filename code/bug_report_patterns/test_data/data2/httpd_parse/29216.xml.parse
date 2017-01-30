@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>29216</id>
+    <title>Infinite loop while viewing cache stats page</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The following code in util_ldap_cache_mgr.c gets stuck in an infinite loop:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">for (i=0; i &lt; cache-&gt;size; ++i) {
+        if (cache-&gt;nodes[i] !</sentence>
+            <sentence id="2.2">= NULL) {
+            nchains++;
+&gt;&gt;          for (n = cache-&gt;nodes[i]; n !</sentence>
+            <sentence id="2.3">= NULL; n = n-&gt;next)
+	        totchainlen++;
+        }
+    }</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">In the above case, the variables n, cache-&gt;nodes[i] and n-&gt;next all point to the
+same object, so "n = n-&gt;next" causes an infinite loop.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10402</id>
+    <title>Hibernate maps enum types as tinyblob even when @Enumeration(EnumType.ORDINAL) is specified</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The attached case shows Serializable and non-serializable entity classes, all enums are mapped to tinyblob types.</sentence>
+            <sentence id="1.2">The @Basic and @Enumeration annotations seem to be ignored.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This is breaking existing applications that rely on the EnumType.ORDINAL mapping as stated in JSR-338.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{code:java}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">@Entity
+@Access(AccessType.FIELD)
+public class Book implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Column
+    private String            author;
+    @Column
+    private String            code;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long              id;
+    @Column
+    private String            name;
+    @Column
+    @Lob
+    private byte[]            pdf;
+    @Column
+    private BookType          type;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">....
+}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">public enum BookType {Used, New};
+{code}</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">After deploying the ear file:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">mysql&gt; desc book;</sentence>
+            <sentence id="8.2">+--------+--------------+------+-----+---------+-------+</sentence>
+            <sentence id="8.3">| Field  | Type         | Null | Key | Default | Extra |</sentence>
+            <sentence id="8.4">+--------+--------------+------+-----+---------+-------+</sentence>
+            <sentence id="8.5">| id     | bigint(20)   | NO   | PRI | NULL    |       |</sentence>
+            <sentence id="8.6">| author | varchar(255) | YES  |     | NULL    |       |</sentence>
+            <sentence id="8.7">| code   | varchar(255) | YES  |     | NULL    |       |</sentence>
+            <sentence id="8.8">| name   | varchar(255) | YES  |     | NULL    |       |</sentence>
+            <sentence id="8.9">| pdf    | longblob     | YES  |     | NULL    |       |</sentence>
+            <sentence id="8.10">| type   |+*{color:red} tinyblob {color}*+    | YES  |     | NULL    |       |</sentence>
+            <sentence id="8.11">+--------+--------------+------+-----+---------+-------+</sentence>
+            <sentence id="8.12">6 rows in set (0.02 sec)</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Notice the {color:red}tinyblob {color}type in book table.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Am I doing something wrong here?</sentence>
+            <sentence id="10.2">How can I make sure that hibernate maps my enums as ordinals?</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Thanks,</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Juan</sentence>
+        </paragraph>
+    </description>
+</bug>

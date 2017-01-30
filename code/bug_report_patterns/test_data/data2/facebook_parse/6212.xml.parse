@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>6212</id>
+    <title>pulling in fb:serverfbml wrapped fb:multi-friend-selector via AJAX doesn t work</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created an attachment (id=1198)
+screenshot of  [object HTMLUnknownElement][object Text] appearing in div</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I m trying to show the multi-friend-selector via ajax in a div that would appear like one of the facebook dialogs (streamPublish_ etc).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I m returning the following html:
+&lt;fb:serverfbml style= width: 755px; &gt;  
+    &lt;script type= text/fbml &gt;  
+        &lt;fb:fbml&gt;  
+            &lt;fb:request-form action= {{ request_confirmation_url }}  method= POST 
+                invite= true  type= Event  content= {{story_data.</sentence>
+            <sentence id="3.2">message|escape}} &gt;  &lt;fb:multi-friend-selector showborder= false  actiontext= Really want your friends to know?</sentence>
+            <sentence id="3.3">Send them an invitation!</sentence>
+            <sentence id="3.4">style=   /&gt;  
+            &lt;/fb:request-form&gt;  
+        &lt;/fb:fbml&gt;  
+    &lt;/script&gt;  
+&lt;/fb:serverfbml&gt;
+&lt;script type= text/javascript &gt;
+    FB.XFBML.Host.parseDomTree();
+&lt;/script&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The page that I m pulling this into has the line:
+&lt;html xmlns= http://www.w3.org/1999/xhtml  xmlns:fb= http://www.facebook.com/2008/fbml &gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">fb:name and fb:profile-pic do work properly on that page when returned via ajax.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Would have thought that the call to parseDomTree() would have forced the render properly.</sentence>
+            <sentence id="6.2">However this is all that shows up:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">[object HTMLUnknownElement][object Text]</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I ve also tried loading it into an iframe_ but submitting the form triggers a popup block.</sentence>
+            <sentence id="8.2">If you choose to show the popup in firefox_ a facebook page not found displays in the iframe.</sentence>
+        </paragraph>
+    </description>
+</bug>

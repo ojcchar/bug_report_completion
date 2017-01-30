@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>42070</id>
+    <title>ab reports a wrong port number</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">apr_port_t is unsined, but %hd is used in printf.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">*How To reproduce</sentence>
+            <sentence id="2.2">(1 you start webserver at port 40000.</sentence>
+            <sentence id="2.3">(2 ab -n 1 -c 1 http://localhost:40000/</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">*Actual Result</sentence>
+            <sentence id="3.2">Server Software:        Apache/2.2.4</sentence>
+            <sentence id="3.3">Server Hostname:        localhost</sentence>
+            <sentence id="3.4">Server Port:            -25536</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">*Expected Result</sentence>
+            <sentence id="4.2">Server Software:        Apache/2.2.4</sentence>
+            <sentence id="4.3">Server Hostname:        localhost</sentence>
+            <sentence id="4.4">Server Port:            40000</sentence>
+        </paragraph>
+    </description>
+</bug>

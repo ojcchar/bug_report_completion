@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18529</id>
+    <title>Flaky test: TestRunGroupAdd can fail after TestPullImageWithAllTagFromCentralRegistry</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If run TestRunGroupAdd alone, busybox image is:
+busybox latest 8c2e06607696 7 months ago 2.43 MB
+and it has dbus group in /etc/group</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">But busybox latest image pulled from docker-hub is:
+busybox latest ac6a7980c6c2 14 hours ago 1.113 MB
+and it doesn't have dbus group.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Running along with another tests(after TestPullImageWithAllTagFromCentralRegistry) busybox image changes and it is from central registry, not from tar archive and thus TestRunGroupAdd fails.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Run just those two tests on fedora 20(docker branch v1.8.3 f4bf5c70268, added MYTEST prefix to show the problem more clearly):</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+sudo TESTFLAGS='-race -test.v -check.f DockerSuite.TestMYTEST*' make test-integration-cli
+...
+=== RUN Test
+PASS: docker_cli_pull_test.go:137: DockerSuite.TestMYTESTPullImageWithAllTagFromCentralRegistry 144.357s</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">----------------------------------------------------------------------</sentence>
+            <sentence id="6.2">FAIL: docker_cli_run_test.</sentence>
+            <sentence id="6.3">go:747: DockerSuite.TestMYTESTRunGroupAdd</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">docker_cli_run_test.go:749:</sentence>
+            <sentence id="7.2"> out, _ := dockerCmd(c, "run", "--group-add=audio", "--group-add=dbus", "--group-add=777", "busybox", "sh", "-c", "id")</sentence>
+            <sentence id="7.3">github.com/docker/docker/integration-cli/_test/_obj_test/docker_utils.go:746:</sentence>
+            <sentence id="7.4"> ...open github.com/docker/docker/integration-cli/_test/_obj_test/docker_utils.go: no such file or directory</sentence>
+            <sentence id="7.5">... value *exec.ExitError = &amp;exec.ExitError{ProcessState:(*os.ProcessState)(0xc208265b60)} ("exit status 1")</sentence>
+            <sentence id="7.6">... "run --group-add=audio --group-add=dbus --group-add=777 busybox sh -c id" failed with errors: Unable to find group dbus</sentence>
+            <sentence id="7.7">Error response from daemon: Cannot start container 3400da8e5beb4cb0214923be98035744121e1422fdd2666a0cf8845ca142c70c: [8] System error: Unable to find group dbus</sentence>
+            <sentence id="7.8">, exit status 1</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">OOPS: 1 passed, 1 FAILED
+"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Additional info:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'</sentence>
+            <sentence id="10.2">sudo docker info</sentence>
+            <sentence id="10.3">Containers: 4</sentence>
+            <sentence id="10.4">Images: 115</sentence>
+            <sentence id="10.5">Storage Driver: devicemapper</sentence>
+            <sentence id="10.6"> Pool Name: docker-253:1-1311778-pool</sentence>
+            <sentence id="10.7"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="10.8"> Backing Filesystem: extfs</sentence>
+            <sentence id="10.9"> Data file: /dev/loop0</sentence>
+            <sentence id="10.10"> Metadata file: /dev/loop1</sentence>
+            <sentence id="10.11"> Data Space Used: 6.023 GB</sentence>
+            <sentence id="10.12"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="10.13"> Data Space Available: 36.83 GB</sentence>
+            <sentence id="10.14"> Metadata Space Used: 9.257 MB</sentence>
+            <sentence id="10.15"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="10.16"> Metadata Space Available: 2.138 GB</sentence>
+            <sentence id="10.17"> Udev Sync Supported: true</sentence>
+            <sentence id="10.18"> Deferred Removal Enabled: false</sentence>
+            <sentence id="10.19"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="10.20"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="10.21"> Library Version: 1.02.85 (2014-04-10)</sentence>
+            <sentence id="10.22">Execution Driver: native-0.2</sentence>
+            <sentence id="10.23">Logging Driver: json-file</sentence>
+            <sentence id="10.24">Kernel Version: 3.19.8-100.fc20.x86_64</sentence>
+            <sentence id="10.25">Operating System: Fedora 20 (Heisenbug)</sentence>
+            <sentence id="10.26">CPUs: 4</sentence>
+            <sentence id="10.27">Total Memory: 15.55 GiB</sentence>
+            <sentence id="10.28">Name: dhcp-10-30-28-101.sw.ru</sentence>
+            <sentence id="10.29">ID: Q3EP:SQO6:I3JK:PDAS:2QAY:GWEQ:M7ZN:CEEF:OBZO:QEHR:HVJ3:ETAR</sentence>
+            <sentence id="10.30">"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'
+docker --version
+Docker version 1.8.3, build f4bf5c7
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

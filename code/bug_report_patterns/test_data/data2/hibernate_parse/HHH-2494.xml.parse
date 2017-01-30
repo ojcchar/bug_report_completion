@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2494</id>
+    <title>ClassCastException from Subquery with Criteria created via DetachedCriteria</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If I create a DetachedCriteria object, then call "createCriteria" to on it, then pass a Subquery to the new Criteria, I get this exception:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">java.lang.ClassCastException: org.hibernate.impl.CriteriaImpl$Subcriteria cannot be cast to org.hibernate.impl.CriteriaImpl</sentence>
+            <sentence id="2.2">	at org.hibernate.criterion.SubqueryExpression.toSqlString(SubqueryExpression.java:43)</sentence>
+            <sentence id="2.3">	at org.hibernate.loader.criteria.CriteriaQueryTranslator.getWhereCondition(CriteriaQueryTranslator.java:334)</sentence>
+            <sentence id="2.4">	at org.hibernate.loader.criteria.CriteriaJoinWalker.&lt;init&gt;(CriteriaJoinWalker.java:82)</sentence>
+            <sentence id="2.5">	at org.hibernate.loader.criteria.CriteriaLoader.&lt;init&gt;(CriteriaLoader.java:67)</sentence>
+            <sentence id="2.6">	at org.hibernate.impl.SessionImpl.list(SessionImpl.java:1550)</sentence>
+            <sentence id="2.7">	at org.hibernate.impl.CriteriaImpl.list(CriteriaImpl.java:283)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">example:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">public class EntityOne {
+ private long entityOneID
+ private EntityTwo entityTwo
+ ...
+}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">public class EntityTwo {
+ private long entityTwoID
+ private EntityThree entityThree
+ ...
+}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">public class EntityThree {
+ private long entityThreeID;
+ private String name;
+ ...
+}</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">DetachedCriteria subselect = DetachedCriteria.forClass(EntityThree.class);
+subselect.add(Restrictions.like("name","test",MatchMode.START)).</sentence>
+            <sentence id="7.2">setProjection(Projections.id());</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">DetachedCriteria mainselect = DetachedCriteria.forClass(EntityOne.class);
+mainselect.createCriteria("entityTwo").</sentence>
+            <sentence id="8.2">add(Subquery.in("entityThree",subselect));</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">mainselect.getExecutableCriteria(session).</sentence>
+            <sentence id="9.2">list();</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">This results in the ClasCastException error.</sentence>
+        </paragraph>
+    </description>
+</bug>

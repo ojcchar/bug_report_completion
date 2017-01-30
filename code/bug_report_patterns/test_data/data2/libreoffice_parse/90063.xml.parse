@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>90063</id>
+    <title>duplicated attribute names in svx/source/items/svxitems.src</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In svx/source/items/svxitems.src there is the StringArray RID_ATTR_NAMES.</sentence>
+            <sentence id="1.2">There are some attributes that share the same en-US label.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt; "Indent"      ;               SID_ATTR_PARA_LRSPACE ; &gt; ;
+        &lt; "Indent"      ;               SID_ATTR_LRSPACE ; &gt; ;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt; "Spacing"     ;               SID_ATTR_PARA_ULSPACE ; &gt; ;
+        &lt; "Spacing"     ;               SID_ATTR_ULSPACE ; &gt; ;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt; "Blinking"    ;               SID_ATTR_CHAR_AUTOKERN ; &gt; ;
+        &lt; "Blinking"        ;           SID_ATTR_FLASH ; &gt; ;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt; "Scale"       ;               SID_ATTR_CHAR_SCALEWIDTH ; &gt; ;
+        &lt; "Scale"           ;           SID_ATTR_ZOOM ; &gt; ;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The l10ntools extract strings from this file, these duplicates result in identical entries in the .</sentence>
+            <sentence id="6.2">pot file, which makes the .</sentence>
+            <sentence id="6.3">pot file invalid.</sentence>
+            <sentence id="6.4">This could be fixed in l10ntools.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">On the other hand, isn't it a problem on its own, that we have the same labels for different attributes?</sentence>
+            <sentence id="7.2">This StringArray is used in Search dialog, where the labels are deduplicated.</sentence>
+            <sentence id="7.3">So when the user searches for e.g. "Blinking", what does LibreOffice do?</sentence>
+            <sentence id="7.4">Does it search for SID_ATTR_CHAR_AUTOKERN, or SID_ATTR_FLASH, or both?</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I think that different attributes should have different names.</sentence>
+            <sentence id="8.2">But I don't know what the difference is between the different attributes with the same labels.</sentence>
+        </paragraph>
+    </description>
+</bug>

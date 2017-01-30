@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>46110</id>
+    <title>maybe creates bogus rewritelog</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">mod_rewrite.</sentence>
+            <sentence id="1.2">c line 4681 (of r683284)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">rewritelog((r, 2, "init rewrite engine with requested uri %s",
+            r-&gt;filename));</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The third argument of do_rewritelog is not fmt but perdir.</sentence>
+            <sentence id="3.2">I don't know when r-&gt;filename is NULL, so I haven't reproduced the bug,
+but this obviously creates a bogus rewritelog.</sentence>
+        </paragraph>
+    </description>
+</bug>

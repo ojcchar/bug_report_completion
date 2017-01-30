@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>1498</id>
+    <title>data.getCookies returns strange xml</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Here is the xml I get back from this call_ after calling data.setCookie with  test  and  kamchatka :</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;?</sentence>
+            <sentence id="2.2">xml version=\ 1.0\  encoding=\ UTF-8\ ?</sentence>
+            <sentence id="2.3">&gt;
+&lt;data_getCookies_response xmlns=\ http://api.facebook.com/1.0/\  xmlns:xsi=\ http://www.w3.org/2001/XMLSchema-instance\  xsi:schemaLocation=\ http://api.facebook.com/1.0/ http://api.facebook.com/1.0/facebook.xsd\  list=\ true\ &gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;data_getCookies_response_elt list=\ true\ &gt;
+&lt;data_getCookies_response_elt_elt&gt;745478915&lt;/data_getCookies_response_elt_elt&gt;
+&lt;data_getCookies_response_elt_elt&gt;test&lt;/data_getCookies_response_elt_elt&gt; &lt;data_getCookies_response_elt_elt&gt;kamchatka&lt;/data_getCookies_response_elt_elt&gt;
+&lt;data_getCookies_response_elt_elt&gt;0&lt;/data_getCookies_response_elt_elt&gt;
+&lt;data_getCookies_response_elt_elt&gt;/&lt;/data_getCookies_response_elt_elt&gt;
+&lt;/data_getCookies_response_elt&gt;
+&lt;/data_getCookies_response&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">That has the right info in the values_ but the XML tags do not match the documentation.</sentence>
+        </paragraph>
+    </description>
+</bug>

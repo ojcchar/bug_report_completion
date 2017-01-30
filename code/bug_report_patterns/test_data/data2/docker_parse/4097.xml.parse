@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4097</id>
+    <title>docker run not reliable</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm running docker on openSUSE 13.1 using the official openSUSE packages.</sentence>
+            <sentence id="1.2">Sometimes starting a container does not work, the command fails immediately with the following message: '&lt;TIMESTAMP&gt; Error: start: Cannot start container &lt;ID&gt;: exit status 1'.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I started the server in debug mode and I looked at its output.</sentence>
+            <sentence id="2.2">Unfortunately I didn't find anything useful.</sentence>
+            <sentence id="2.3">I've attached the log inside of [this gist](https://gist.github.com/flavio/8956842).</sentence>
+            <sentence id="2.4">## System details</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">openSUSE 13.1 x86_64:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+uname -a
+Linux gemini 3.11.10-7-desktop #1 SMP PREEMPT Mon Feb 3 09:41:24 UTC 2014 (750023e) x86_64 x86_64 x86_64 GNU/Linu
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">docker version:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+Client version: 0.8.0
+Go version (client): go1.2
+Git commit (client): cc3a8c8
+Server version: 0.8.0
+Git commit (server): cc3a8c8
+Go version (server): go1.2
+dockLast stable version: 0.8.0
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">docker info:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'</sentence>
+            <sentence id="8.2">Containers: 39</sentence>
+            <sentence id="8.3">Images: 118</sentence>
+            <sentence id="8.4">Driver: devicemapper</sentence>
+            <sentence id="8.5">Pool Name: docker-8:8-263592-pool</sentence>
+            <sentence id="8.6">Data file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="8.7">Metadata file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="8.8">Data Space Used: 7476.9 Mb</sentence>
+            <sentence id="8.9">Data Space Total: 102400.0 Mb</sentence>
+            <sentence id="8.10">Metadata Space Used: 11.0 Mb</sentence>
+            <sentence id="8.11">Metadata Space Total: 2048.0 Mb</sentence>
+            <sentence id="8.12">Debug mode (server): false</sentence>
+            <sentence id="8.13">Debug mode (client): false</sentence>
+            <sentence id="8.14">Fds: 13</sentence>
+            <sentence id="8.15">Goroutines: 22</sentence>
+            <sentence id="8.16">Execution Driver: lxc-1.0.0.</sentence>
+            <sentence id="8.17">beta1</sentence>
+            <sentence id="8.18">EventsListeners: 16</sentence>
+            <sentence id="8.19">Kernel Version: 3.11.10-7-desktop</sentence>
+            <sentence id="8.20">Init SHA1: 9cd27e3240bcec4e9bf820a1ca96227f2587224f</sentence>
+            <sentence id="8.21">Init Path: /usr/lib64/docker/dockerinit</sentence>
+            <sentence id="8.22">"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">## How to reproduce the issue</sentence>
+            <sentence id="9.2">- run openSUSE 13.1</sentence>
+            <sentence id="9.3">- install docker from packages using the official guidelines</sentence>
+            <sentence id="9.4">- run 'docker run -t -i busybox /bin/sh'.</sentence>
+            <sentence id="9.5">Sometimes it fails immediately, other times it takes more attempts.</sentence>
+        </paragraph>
+    </description>
+</bug>

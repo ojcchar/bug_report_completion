@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2373</id>
+    <title>Merging a persistent object leads to cascading failure in collections</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">class Empire {
+   ...
+   @OneToMany(cascade.ALL)
+   public Set&lt;Colony&gt; colonies;
+}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Then</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">roman = (Empire) em.get( Empire.class, roman.getId() );
+Colony gaule = new Colony();
+roman.getColonies().</sentence>
+            <sentence id="3.2">add(gaule);
+em.merge( roman ); //If commented, will work
+em.flush();
+em.clear();
+roman =(Empire) em.get(Empire.class, roman.getId() );
+assertEquals( 1, roman.getColonies().</sentence>
+            <sentence id="3.3">size() );</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I believe the issue is about having a persistent copy of gaule (according to the merge API), not part of roman.getColonies() (colonies containing the transient gaule object)</sentence>
+        </paragraph>
+    </description>
+</bug>

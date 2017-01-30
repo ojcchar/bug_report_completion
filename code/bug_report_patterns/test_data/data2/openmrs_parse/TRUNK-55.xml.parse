@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-55</id>
+    <title>NumberFormatExecption in Concept Dictionary Maintenance</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">when you open the Concept Dictionary Maintenance, enter "*" as search phrase and press enter a message is shown saying "You must have at least 3 search characters" when you press enter again 
+a request to http://localhost:8080/openmrs/dictionary/concept.htm?conceptId=undefined is made.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This leads to a number format exception.</sentence>
+            <sentence id="3.2">Stack Trace see below.</sentence>
+            <sentence id="3.3">I patched ConceptFormController.java to solve this problem.</sentence>
+            <sentence id="3.4">It's attached to this ticket.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Thanks,</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Thomas</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Stack Trace:</sentence>
+            <sentence id="6.2">java.lang.NumberFormatException.forInputString(Unknown Source)</sentence>
+            <sentence id="6.3">java.lang.Integer.parseInt(Unknown Source)</sentence>
+            <sentence id="6.4">java.lang.Integer.valueOf(Unknown Source)</sentence>
+            <sentence id="6.5">org.openmrs.web.controller.ConceptFormController.formBackingObject(ConceptFormController.java:212)</sentence>
+            <sentence id="6.6">org.openmrs.web.controller.ConceptFormController.formBackingObject(ConceptFormController.java:73)</sentence>
+            <sentence id="6.7">org.springframework.web.servlet.mvc.AbstractFormController.getErrorsForNewForm(AbstractFormController.java:358)</sentence>
+            <sentence id="6.8">org.springframework.web.servlet.mvc.AbstractFormController.showNewForm(AbstractFormController.java:338)</sentence>
+            <sentence id="6.9">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:278)</sentence>
+            <sentence id="6.10">org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)</sentence>
+            <sentence id="6.11">org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:48)</sentence>
+            <sentence id="6.12">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:875)</sentence>
+            <sentence id="6.13">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:807)</sentence>
+            <sentence id="6.14">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:571)</sentence>
+            <sentence id="6.15">org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:501)</sentence>
+            <sentence id="6.16">javax.servlet.http.HttpServlet.service(HttpServlet.java:689)</sentence>
+            <sentence id="6.17">javax.servlet.http.HttpServlet.service(HttpServlet.java:802)</sentence>
+            <sentence id="6.18">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:252)</sentence>
+            <sentence id="6.19">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+            <sentence id="6.20">org.openmrs.web.filter.GZIPFilter.doFilterInternal(GZIPFilter.java:60)</sentence>
+            <sentence id="6.21">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+            <sentence id="6.22">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+            <sentence id="6.23">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+            <sentence id="6.24">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+            <sentence id="6.25">org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+            <sentence id="6.26">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+            <sentence id="6.27">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+            <sentence id="6.28">org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:112)</sentence>
+            <sentence id="6.29">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+            <sentence id="6.30">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+            <sentence id="6.31">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+            <sentence id="6.32">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+            <sentence id="6.33">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+            <sentence id="6.34">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+            <sentence id="6.35">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+            <sentence id="6.36">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:82)</sentence>
+            <sentence id="6.37">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+            <sentence id="6.38">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+            <sentence id="6.39">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:82)</sentence>
+            <sentence id="6.40">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+            <sentence id="6.41">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+            <sentence id="6.42">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:82)</sentence>
+            <sentence id="6.43">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+            <sentence id="6.44">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+            <sentence id="6.45">org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:96)</sentence>
+            <sentence id="6.46">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+            <sentence id="6.47">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202)</sentence>
+            <sentence id="6.48">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173)</sentence>
+            <sentence id="6.49">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:213)</sentence>
+            <sentence id="6.50">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:178)</sentence>
+            <sentence id="6.51">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:126)</sentence>
+            <sentence id="6.52">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:105)</sentence>
+            <sentence id="6.53">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:107)</sentence>
+            <sentence id="6.54">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:148)</sentence>
+            <sentence id="6.55">org.apache.jk.server.JkCoyoteHandler.invoke(JkCoyoteHandler.java:199)</sentence>
+            <sentence id="6.56">org.apache.jk.common.HandlerRequest.invoke(HandlerRequest.java:282)</sentence>
+            <sentence id="6.57">org.apache.jk.common.ChannelSocket.invoke(ChannelSocket.java:767)</sentence>
+            <sentence id="6.58">org.apache.jk.common.ChannelSocket.processConnection(ChannelSocket.java:697)</sentence>
+            <sentence id="6.59">org.apache.jk.common.ChannelSocket$SocketConnection.runIt(ChannelSocket.java:889)</sentence>
+            <sentence id="6.60">org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684)</sentence>
+            <sentence id="6.61">java.lang.Thread.run(Unknown Source)</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>39464</id>
+    <title>Page corrupted with SSI include over 255 characters on apache 2.2.2</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have a shtml page, parsed using SSI (test.shtml) as follows</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;Head&gt; &lt;Title&gt; Test&lt;/Title&gt;&lt;/Head&gt;
+&lt;Body&gt;
+&lt;!</sentence>
+            <sentence id="2.2">--#include virtual="/include_test.</sentence>
+            <sentence id="2.3">html" --&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;/Body&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If the size of inlude_test.html is above 255 characters the browser is served a
+corrupt page (A couple of numbers dependant on size of include file) and the
+follow error appears in the error logs</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">(14)Bad address: core_output_filter: writing data to the network</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">include_test.</sentence>
+            <sentence id="6.2">html is</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&lt;!</sentence>
+            <sentence id="7.2">-- this is a comment designed to pad out to 255
+ this is a comment designed to pad out to 255
+ this is a comment designed to pad out to 255
+ this is a comment designed to pad out to 255
+ this is a comment designed to pad out to 255
+ this is a comment designed to pad out to 255--&gt;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">OS: Solaris 10</sentence>
+            <sentence id="8.2">env:</sentence>
+            <sentence id="8.3">HOME=/</sentence>
+            <sentence id="8.4">HZ=</sentence>
+            <sentence id="8.5">LC_COLLATE=en_GB.</sentence>
+            <sentence id="8.6">ISO8859-15</sentence>
+            <sentence id="8.7">LC_CTYPE=en_GB.</sentence>
+            <sentence id="8.8">ISO8859-1</sentence>
+            <sentence id="8.9">LC_MESSAGES=C</sentence>
+            <sentence id="8.10">LC_MONETARY=en_GB.</sentence>
+            <sentence id="8.11">ISO8859-15</sentence>
+            <sentence id="8.12">LC_NUMERIC=en_GB.</sentence>
+            <sentence id="8.13">ISO8859-15</sentence>
+            <sentence id="8.14">LOGNAME=root</sentence>
+            <sentence id="8.15">MAIL=/var/mail/root</sentence>
+            <sentence id="8.16">PATH=/usr/ccs/bin/:/usr/bin:/bin:/usr/sbin:/opt/local/bin:/usr/sfw/bin:/usr/local/bin</sentence>
+            <sentence id="8.17">SHELL=/sbin/sh</sentence>
+            <sentence id="8.18">TERM=xterm</sentence>
+            <sentence id="8.19">TZ=GB</sentence>
+            <sentence id="8.20">HOSTTYPE=sun4</sentence>
+            <sentence id="8.21">VENDOR=sun</sentence>
+            <sentence id="8.22">OSTYPE=solaris</sentence>
+            <sentence id="8.23">MACHTYPE=sparc</sentence>
+            <sentence id="8.24">SHLVL=1</sentence>
+            <sentence id="8.25">PWD=/source/httpd-2.2.2</sentence>
+            <sentence id="8.26">LDFLAGS=-R/usr/local/ssl/lib:/usr/local/lib:/usr/sfw/lib -L/usr/local/lib</sentence>
+            <sentence id="8.27">-L/usr/local/ssl/lib -L/usr/sfw/lib</sentence>
+            <sentence id="8.28">CPPFLAGS=-I/usr/local/include -I/usr/local/ssl/include -I/usr/sfw/include</sentence>
+            <sentence id="8.29">LD=/usr/ccs/bin/ld -R/usr/local/ssl/lib:/usr/local/lib:/usr/sfw/lib</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">compiled with the solaris 10 shipped gcc in /usr/sfw/bin
+compile steps
+.</sentence>
+            <sentence id="9.2">/configure
+make depend
+make
+make install</sentence>
+        </paragraph>
+    </description>
+</bug>

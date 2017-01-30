@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8805</id>
+    <title>[SchemaUpdate] javax.persistence.ForeignKey doesn't respect ConstraintMode.NO_CONSTRAINT</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">@JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">hibernate will still try to add constraint</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">2013-12-18 11:25:37,036 localhost-startStop-1 org.hibernate.tool.hbm2ddl.SchemaUpdate ERROR HHH000388: Unsuccessful: alter table oauth_client add constraint FK_43dmxuh3574xhqwmvkt8gdwqf foreign key (owner) references `user` (id)</sentence>
+        </paragraph>
+    </description>
+</bug>

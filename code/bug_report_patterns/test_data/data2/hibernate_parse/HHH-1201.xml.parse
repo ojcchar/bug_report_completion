@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1201</id>
+    <title>Classic parser does not support DML style operations</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Exception in thread "Thread-134" org.springframework.orm.hibernate3.HibernateQueryException: query must begin with SELECT or FROM: delete [delete from UnarchivedSample u where u.CABLE_MODEM_SAMPLE_ID = :CM_ID]; nested exception is org.hibernate.QueryException: query must begin with SELECT or FROM: delete [delete from UnarchivedSample u where u.CABLE_MODEM_SAMPLE_ID = :CM_ID]</sentence>
+            <sentence id="1.2">org.hibernate.QueryException: query must begin with SELECT or FROM: delete [delete from UnarchivedSample u where u.CABLE_MODEM_SAMPLE_ID = :CM_ID]</sentence>
+            <sentence id="1.3">	at org.hibernate.hql.classic.ClauseParser.token(ClauseParser.java:83)</sentence>
+            <sentence id="1.4">	at org.hibernate.hql.classic.PreprocessingParser.token(PreprocessingParser.java:108)</sentence>
+            <sentence id="1.5">	at org.hibernate.hql.classic.ParserHelper.parse(ParserHelper.java:28)</sentence>
+            <sentence id="1.6">	at org.hibernate.hql.classic.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:178)</sentence>
+            <sentence id="1.7">	at org.hibernate.hql.classic.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:154)</sentence>
+            <sentence id="1.8">	at org.hibernate.engine.query.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:74)</sentence>
+            <sentence id="1.9">	at org.hibernate.engine.query.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:53)</sentence>
+            <sentence id="1.10">	at org.hibernate.engine.query.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:71)</sentence>
+            <sentence id="1.11">	at org.hibernate.impl.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:108)</sentence>
+            <sentence id="1.12">	at org.hibernate.impl.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:88)</sentence>
+            <sentence id="1.13">	at nl.nutsmaas.marvin.domain.persistence.hibernate.HibernateCableModemDao.archiveSamples(HibernateCableModemDao.java:195)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Code:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">String hqlDelete = "delete from UnarchivedSample u where u.CABLE_MODEM_SAMPLE_ID = :CM_ID";</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">int deletedEntities = getSessionFactory().</sentence>
+            <sentence id="4.2">getCurrentSession().</sentence>
+            <sentence id="4.3">createQuery( hqlDelete )
+				.</sentence>
+            <sentence id="4.4">setLong( ":CM_ID", cableModem.getId()).</sentence>
+            <sentence id="4.5">executeUpdate();</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">log.info("Deleted " + deletedEntities + " unarchived cable modem samples");</sentence>
+        </paragraph>
+    </description>
+</bug>

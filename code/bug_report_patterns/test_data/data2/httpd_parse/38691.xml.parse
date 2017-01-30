@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>38691</id>
+    <title>Virtual host naming problem</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When the virtual host name contains the character "_" (underscore), the cookie
+function of all applications failed to work.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The problem was discovered while using PHP 4.3.9 to initialize a new session,
+where refreshing the same page keeps on generating a new session instead of
+being in the current session.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The headers had Set-Cookie throughout in the HTTP-Reponse, but no Cookie in any
+HTTP-Request, which is supposed to be there for a normal session operation.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">We traced into httpd.conf, php.ini, file system setting, file permission,
+running services, etc., and in the end we discovered that it was the virtual
+host naming that was causing the problem.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">On the same server, same setup, sessions and cookies run fine on a virtual
+server without the "_" in its name.</sentence>
+            <sentence id="5.2">(i.e. proj_doc.</sentence>
+            <sentence id="5.3">somewhere.com would fail, but
+projdoc.somewhere.com would work).</sentence>
+        </paragraph>
+    </description>
+</bug>

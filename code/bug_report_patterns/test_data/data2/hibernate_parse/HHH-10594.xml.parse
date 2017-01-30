@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10594</id>
+    <title>@Covert annotation not honored when used with @IdClass composite key</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When JPA2.1 @Convert annotation is used on a composite primary key mapped by @IdClass, the @Convert annotation is ignored.</sentence>
+            <sentence id="1.2">However, when the @Convert annotation is used on a composite primary key mapped by @Embeddable and @EmbeddedId, it is honored.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Broken example code:
+{code}
+public enum FooBarType {
+    Foo,
+    Bar;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">@javax.</sentence>
+            <sentence id="3.2">persistence.Converter
+    public static class Converter implements AttributeConverter&lt;FooBarType, String&gt; {
+        @Override
+        public String convertToDatabaseColumn(FooBarType t) {
+            return t.toString();
+        }</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">@Override
+        public FooBarType convertToEntityAttribute(String s) {
+            for (FooBarType value : FooBarType.values()) {
+                if (value.name().</sentence>
+            <sentence id="4.2">equalsIgnoreCase(s)) {
+                    return value;
+                }
+            }</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">throw new IllegalArgumentException("Invalid value for enum: " + s);
+        }
+    }
+}
+{code}
+Entity:
+{code}
+@Table
+@IdClass(FooBar.PrimaryKey.class)
+public class FooBar {
+    @Id
+    @Column(name = "id")
+    public String id;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">@Id
+    @Column(name = "fooBarType")
+    @Convert(converter = FooBarType.Converter.class)
+    public FooBarType fooBarType;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">@Column(name = "value")
+    public int value;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">public static class PrimaryKey implements Serializable {
+        public String id;
+        public FooBarType fooBarType;
+    }
+}
+{code}
+Repository:
+{code}
+public interface FooBarRepository extends Repository&lt;FooBar, FooBar.PrimaryKey&gt; {
+    FooBar getByIdAndFooBarType(String id, FooBarType fooBarType);
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Exception thrown when trying to call the repository method:</sentence>
+            <sentence id="9.2">{code}</sentence>
+            <sentence id="9.3">    org.springframework.orm.jpa.JpaSystemException: org.hibernate.exception.GenericJDBCException: could not execute query; nested exception is javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: could not execute query</sentence>
+            <sentence id="9.4">            at org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:418)</sentence>
+            <sentence id="9.5">            at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:418)</sentence>
+            <sentence id="9.6">            at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:59)</sentence>
+            <sentence id="9.7">            at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:213)</sentence>
+            <sentence id="9.8">            at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:147)</sentence>
+            <sentence id="9.9">            at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)</sentence>
+            <sentence id="9.10">            at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:131)</sentence>
+            <sentence id="9.11">            at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)</sentence>
+            <sentence id="9.12">            at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)</sentence>
+            <sentence id="9.13">            at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)</sentence>
+            <sentence id="9.14">            at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:208)</sentence>
+            <sentence id="9.15">            at com.sun.proxy.$Proxy49.getByUserIdAndAppType(Unknown Source)</sentence>
+            <sentence id="9.16">            at com.treeboxsolutions.services.onCredentialService.databaseProviders.dataAccessLayer.repositories.CurrentCredentialRepositoryTest.saveShouldCorrectlySave(CurrentCredentialRepositoryTest.java:49)</sentence>
+            <sentence id="9.17">            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="9.18">            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="9.19">            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="9.20">            at java.lang.reflect.Method.invoke(Method.java:498)</sentence>
+            <sentence id="9.21">            at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)</sentence>
+            <sentence id="9.22">            at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)</sentence>
+            <sentence id="9.23">            at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)</sentence>
+            <sentence id="9.24">            at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)</sentence>
+            <sentence id="9.25">            at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:75)</sentence>
+            <sentence id="9.26">            at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:86)</sentence>
+            <sentence id="9.27">            at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:84)</sentence>
+            <sentence id="9.28">            at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)</sentence>
+            <sentence id="9.29">            at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:254)</sentence>
+            <sentence id="9.30">            at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:89)</sentence>
+            <sentence id="9.31">            at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)</sentence>
+            <sentence id="9.32">            at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)</sentence>
+            <sentence id="9.33">            at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)</sentence>
+            <sentence id="9.34">            at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)</sentence>
+            <sentence id="9.35">            at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)</sentence>
+            <sentence id="9.36">            at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)</sentence>
+            <sentence id="9.37">            at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)</sentence>
+            <sentence id="9.38">            at org.junit.runners.ParentRunner.run(ParentRunner.java:363)</sentence>
+            <sentence id="9.39">            at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:193)</sentence>
+            <sentence id="9.40">            at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)</sentence>
+            <sentence id="9.41">            at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)</sentence>
+            <sentence id="9.42">            at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)</sentence>
+            <sentence id="9.43">            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="9.44">            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="9.45">            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="9.46">            at java.lang.reflect.Method.invoke(Method.java:498)</sentence>
+            <sentence id="9.47">            at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)</sentence>
+            <sentence id="9.48">            at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)</sentence>
+            <sentence id="9.49">            at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)</sentence>
+            <sentence id="9.50">            at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)</sentence>
+            <sentence id="9.51">            at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)</sentence>
+            <sentence id="9.52">    Caused by: javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: could not execute query</sentence>
+            <sentence id="9.53">            at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1763)</sentence>
+            <sentence id="9.54">            at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1677)</sentence>
+            <sentence id="9.55">            at org.hibernate.jpa.internal.QueryImpl.getSingleResult(QueryImpl.java:524)</sentence>
+            <sentence id="9.56">            at org.hibernate.jpa.criteria.compile.CriteriaQueryTypeQueryAdapter.getSingleResult(CriteriaQueryTypeQueryAdapter.java:71)</sentence>
+            <sentence id="9.57">            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="9.58">            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="9.59">            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="9.60">            at java.lang.reflect.Method.invoke(Method.java:498)</sentence>
+            <sentence id="9.61">            at org.springframework.orm.jpa.SharedEntityManagerCreator$DeferredQueryInvocationHandler.invoke(SharedEntityManagerCreator.java:364)</sentence>
+            <sentence id="9.62">            at com.sun.proxy.$Proxy50.getSingleResult(Unknown Source)</sentence>
+            <sentence id="9.63">            at org.springframework.data.jpa.repository.query.JpaQueryExecution$SingleEntityExecution.doExecute(JpaQueryExecution.java:206)</sentence>
+            <sentence id="9.64">            at org.springframework.data.jpa.repository.query.JpaQueryExecution.execute(JpaQueryExecution.java:78)</sentence>
+            <sentence id="9.65">            at org.springframework.data.jpa.repository.query.AbstractJpaQuery.doExecute(AbstractJpaQuery.java:100)</sentence>
+            <sentence id="9.66">            at org.springframework.data.jpa.repository.query.AbstractJpaQuery.execute(AbstractJpaQuery.java:91)</sentence>
+            <sentence id="9.67">            at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:462)</sentence>
+            <sentence id="9.68">            at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:440)</sentence>
+            <sentence id="9.69">            at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)</sentence>
+            <sentence id="9.70">            at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:61)</sentence>
+            <sentence id="9.71">            at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)</sentence>
+            <sentence id="9.72">            at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)</sentence>
+            <sentence id="9.73">            at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:281)</sentence>
+            <sentence id="9.74">            at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)</sentence>
+            <sentence id="9.75">            at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)</sentence>
+            <sentence id="9.76">            at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:136)</sentence>
+            <sentence id="9.77">            ... 43 more</sentence>
+            <sentence id="9.78">    Caused by: org.hibernate.exception.GenericJDBCException: could not execute query</sentence>
+            <sentence id="9.79">            at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:54)</sentence>
+            <sentence id="9.80">            at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:126)</sentence>
+            <sentence id="9.81">            at org.hibernate.loader.Loader.doList(Loader.java:2557)</sentence>
+            <sentence id="9.82">            at org.hibernate.loader.Loader.doList(Loader.java:2540)</sentence>
+            <sentence id="9.83">            at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2370)</sentence>
+            <sentence id="9.84">            at org.hibernate.loader.Loader.list(Loader.java:2365)</sentence>
+            <sentence id="9.85">            at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:497)</sentence>
+            <sentence id="9.86">            at org.hibernate.hql.internal.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:387)</sentence>
+            <sentence id="9.87">            at org.hibernate.engine.query.spi.HQLQueryPlan.performList(HQLQueryPlan.java:236)</sentence>
+            <sentence id="9.88">            at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1300)</sentence>
+            <sentence id="9.89">            at org.hibernate.internal.QueryImpl.list(QueryImpl.java:103)</sentence>
+            <sentence id="9.90">            at org.hibernate.jpa.internal.QueryImpl.list(QueryImpl.java:573)</sentence>
+            <sentence id="9.91">            at org.hibernate.jpa.internal.QueryImpl.getSingleResult(QueryImpl.java:495)</sentence>
+            <sentence id="9.92">            ... 64 more</sentence>
+            <sentence id="9.93">    Caused by: java.sql.SQLException: Invalid value for getInt() - 'Foo'</sentence>
+            <sentence id="9.94">            at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1055)</sentence>
+            <sentence id="9.95">            at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:956)</sentence>
+            <sentence id="9.96">            at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:926)</sentence>
+            <sentence id="9.97">            at com.mysql.jdbc.ResultSetImpl.getInt(ResultSetImpl.java:2705)</sentence>
+            <sentence id="9.98">            at com.mysql.jdbc.ResultSetImpl.getInt(ResultSetImpl.java:2793)</sentence>
+            <sentence id="9.99">            at org.hibernate.type.EnumType$OrdinalEnumValueMapper.getValue(EnumType.java:372)</sentence>
+            <sentence id="9.100">            at org.hibernate.type.EnumType.nullSafeGet(EnumType.java:107)</sentence>
+            <sentence id="9.101">            at org.hibernate.type.CustomType.nullSafeGet(CustomType.java:127)</sentence>
+            <sentence id="9.102">            at org.hibernate.type.AbstractType.hydrate(AbstractType.java:106)</sentence>
+            <sentence id="9.103">            at org.hibernate.type.ComponentType.hydrate(ComponentType.java:641)</sentence>
+            <sentence id="9.104">            at org.hibernate.loader.Loader.extractKeysFromResultSet(Loader.java:785)</sentence>
+            <sentence id="9.105">            at org.hibernate.loader.Loader.getRowFromResultSet(Loader.java:721)</sentence>
+            <sentence id="9.106">            at org.hibernate.loader.Loader.processResultSet(Loader.java:953)</sentence>
+            <sentence id="9.107">            at org.hibernate.loader.Loader.doQuery(Loader.java:921)</sentence>
+            <sentence id="9.108">            at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:355)</sentence>
+            <sentence id="9.109">            at org.hibernate.loader.Loader.doList(Loader.java:2554)</sentence>
+            <sentence id="9.110">            ... 74 more</sentence>
+            <sentence id="9.111">{code}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Working example code:
+{code}
+public enum FooBarType {
+    Foo,
+    Bar;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">@javax.</sentence>
+            <sentence id="11.2">persistence.Converter
+    public static class Converter implements AttributeConverter&lt;FooBarType, String&gt; {
+        @Override
+        public String convertToDatabaseColumn(FooBarType t) {
+            return t.toString();
+        }</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">@Override
+        public FooBarType convertToEntityAttribute(String s) {
+            for (FooBarType value : FooBarType.values()) {
+                if (value.name().</sentence>
+            <sentence id="12.2">equalsIgnoreCase(s)) {
+                    return value;
+                }
+            }</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">throw new IllegalArgumentException("Invalid value for enum: " + s);
+        }
+    }
+}
+{code}   
+Entity:
+{code}
+@Table
+public class FooBar {
+    @EmbeddedId
+    public PrimaryKey compositeKey;</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">@Column(name = "value")
+    public int value;</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">@Embeddable
+    public static class PrimaryKey implements Serializable {
+        @Column(name = "id")
+        public String id;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">@Column(name = "fooBarType")
+        @Convert(converter = FooBarType.Converter.class)
+        public FooBarType fooBarType;
+    }
+}
+{code}
+Repository:
+{code}
+public interface FooBarRepository extends Repository&lt;FooBar, FooBar.PrimaryKey&gt; {
+    FooBar getByCompositeKey(FooBar.PrimaryKey compositeKey);
+}
+{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

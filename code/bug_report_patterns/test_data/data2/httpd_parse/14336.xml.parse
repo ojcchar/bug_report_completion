@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14336</id>
+    <title>AIX 4.3.3/xlc (vac.C) 5.0.2.5 - httpd 2.0.43 core dumped</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">httpd 2.0.42 with the same config and httpd.conf is working ok.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Compile with or without _LINUX_SOURCE_COMPAT:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">CC="cc_r -g -D_LINUX_SOURCE_COMPAT" \</sentence>
+            <sentence id="3.2">CFLAGS="-qmaxmem=16384 -qarch=604 -qtune=604 -qinline -qsuppress=1500-036" \</sentence>
+            <sentence id="3.3">CPPFLAGS="-D_LARGE_THREADS -DDEFAULT_THREAD_LIMIT=1024" \</sentence>
+            <sentence id="3.4">.</sentence>
+            <sentence id="3.5">/configure \</sentence>
+            <sentence id="3.6">--prefix=/opt/local/apache2 \</sentence>
+            <sentence id="3.7">--enable-mods-shared="access actions alias asis auth autoindex \</sentence>
+            <sentence id="3.8">cgid charset-lite \</sentence>
+            <sentence id="3.9">deflate dir \</sentence>
+            <sentence id="3.10">env expires ext-filter \</sentence>
+            <sentence id="3.11">file_cache \</sentence>
+            <sentence id="3.12">headers \</sentence>
+            <sentence id="3.13">imap include \</sentence>
+            <sentence id="3.14">log_config \</sentence>
+            <sentence id="3.15">mime mime_magic \</sentence>
+            <sentence id="3.16">negotiation \</sentence>
+            <sentence id="3.17">rewrite \</sentence>
+            <sentence id="3.18">setenvif ssl status suexec \</sentence>
+            <sentence id="3.19">unique-id userdir usertrack" \</sentence>
+            <sentence id="3.20">--enable-threads \</sentence>
+            <sentence id="3.21">--enable-http \</sentence>
+            <sentence id="3.22">--enable-so \</sentence>
+            <sentence id="3.23">--disable-ipv6 \</sentence>
+            <sentence id="3.24">--with-mpm=worker \</sentence>
+            <sentence id="3.25">--with-ssl=/usr/linux \</sentence>
+            <sentence id="3.26">--with-egd=/etc/entropy \</sentence>
+            <sentence id="3.27">\</sentence>
+            <sentence id="3.28">--with-suexec-caller=httpd \</sentence>
+            <sentence id="3.29">--with-suexec-uidmin=xxx \</sentence>
+            <sentence id="3.30">--with-suexec-gidmin=xxx \</sentence>
+            <sentence id="3.31">--with-suexec-docroot=/var/httpd/htdocs \</sentence>
+            <sentence id="3.32">--with-suexec-logfile=/var/httpd/logs/suexec_log</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------------------------------------------------------------------------------</sentence>
+            <sentence id="4.2"># dbx .</sentence>
+            <sentence id="4.3">/httpd</sentence>
+            <sentence id="4.4">Type 'help' for help.</sentence>
+            <sentence id="4.5">reading symbolic information ...</sentence>
+            <sentence id="4.6">(dbx) run</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Segmentation fault in create_auth_dir_config at line 99 in file "" ($t1)</sentence>
+            <sentence id="5.2">could not read "mod_auth.c"</sentence>
+            <sentence id="5.3">(dbx) where</sentence>
+            <sentence id="5.4">create_auth_dir_config(p = 0x200ea634, d = (nil)), line 99 in "mod_auth.c"</sentence>
+            <sentence id="5.5">mod_auth.register_hooks(p = 0x20088470), line 343 in "mod_auth.c"</sentence>
+            <sentence id="5.6">ap_register_hooks(0x200ea0d8, 0x20088470), line 439 in "config.c"</sentence>
+            <sentence id="5.7">ap_add_module(0x200ea0d8, 0x20088470), line 510 in "config.c"</sentence>
+            <sentence id="5.8">ap_add_loaded_module(0x200ea0d8, 0x20088470), line 565 in "config.c"</sentence>
+            <sentence id="5.9">load_module(0x2ff227c0, 0x2ff206ec, 0x200ba660, 0x200ba670), line 323 in</sentence>
+            <sentence id="5.10">"mod_so.c"</sentence>
+            <sentence id="5.11">invoke_cmd(0x200668f0, 0x2ff227c0, 0x2ff206ec, 0x2ff20792), line 739 in</sentence>
+            <sentence id="5.12">"config.c"</sentence>
+            <sentence id="5.13">execute_now(0x200ba610, 0x2ff20773, 0x2ff227c0, 0x20088470, 0x200b8170,</sentence>
+            <sentence id="5.14">0x2ff206ec, 0x0), line 1345 in "config.c"</sentence>
+            <sentence id="5.15">unnamed block $b88, line 942 in "config.c"</sentence>
+            <sentence id="5.16">ap_build_config_sub(0x20088470, 0x200b8170, 0x2ff20768, 0x2ff227c0, 0x2ff20760,</sentence>
+            <sentence id="5.17">0x2ff20764, 0x20065598), line 942 in "config.c"</sentence>
+            <sentence id="5.18">ap_build_config(0x2ff227c0, 0x20088470, 0x200b8170, 0x20065598), line 1149 in</sentence>
+            <sentence id="5.19">"config.c"</sentence>
+            <sentence id="5.20">ap_process_resource_config(0x200a6230, 0x200a69a0, 0x20065598, 0x20088470,</sentence>
+            <sentence id="5.21">0x200b8170), line 1554 in "config.c"</sentence>
+            <sentence id="5.22">ap_read_config(0x200864e0, 0x200b8170, 0x2005b600, 0x20065598), line 1832 in</sentence>
+            <sentence id="5.23">"config.c"</sentence>
+            <sentence id="5.24">main(argc = 1, argv = 0x2ff22ab0), line 557 in "main.c"</sentence>
+        </paragraph>
+    </description>
+</bug>

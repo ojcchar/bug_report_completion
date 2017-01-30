@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>36507</id>
+    <title>mod_proxy_balancer does not handle sticky sessions with tomcat correctly</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Apache Tomcat uses JSESSIONID values like
+95C5BB2B084DB06938BF798FCF3B3994.</sentence>
+            <sentence id="1.2">tomcat2 for sticky sessions.</sentence>
+            <sentence id="1.3">"tomcat2" is the
+route set in jvmRoute in the Engine element in server.xml.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I expected that mod_proxy_balancer would match its path argument against the
+part after the . from JSESSIONID, but it tries to match against the whole cookie
+and fails obviousely.</sentence>
+            <sentence id="2.2">(in httpd-2.1.6-alpha/modules/proxy/mod_proxy_balancer.</sentence>
+            <sentence id="2.3">c,
+find_route_worker function)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">That way, balancer is useless as a replacement for mod_jk load balancing with
+sticky sessions.</sentence>
+        </paragraph>
+    </description>
+</bug>

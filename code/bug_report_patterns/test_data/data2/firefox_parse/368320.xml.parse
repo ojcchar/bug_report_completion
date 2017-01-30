@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>368320</id>
+    <title>Use HTML/XML language attribute to autodetect the appropriate spell checker dictionnary</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Why do the spellchecker doesn't use html/xml language code of the page rendered to automatically select the appropriate dictionary on a page?</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Each page is supposed to have a html and/or xml language attribute attached, and each html/xml element within it can cascade the language attribute from it or have it's own lang attribute.</sentence>
+            <sentence id="3.2">So it shouldn't be difficult for the spellchecker to detect the appropriate language (and if something goes wrong, the user still can manually select one).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual Results:  
+Right now, the dictionary selected is the last one selected, period.</sentence>
+            <sentence id="5.2">When you switch web board in 2 or 3 languages every time, you have to change the dictionary by hand every time.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected Results:  
+A possible scenario :</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">1 Each time the contextual spell checker is applied on a form, it will check for a HTML or XML language attribute for that form.</sentence>
+            <sentence id="7.2">If there isn't one, it will go up in the tree of the document, tag by tag, until it found one.</sentence>
+            <sentence id="7.3">2 It will select the appropriate dictionary of that language, if it's installed.</sentence>
+            <sentence id="7.4">3 If the dictionary is not installed, it will display a small message along the line of "this form seems to ask for French text but you don't have the French dictionnary on your Firefox, do you want to install it?"</sentence>
+            <sentence id="7.5">when and only when the spell checker is called (maybe some kind of icon with a "more information" bubble?)</sentence>
+            <sentence id="7.6">.</sentence>
+            <sentence id="7.7">4 If no language attribute was found in the page rendered, then the default behavior comes back.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3052</id>
+    <title>org.hibernate.hql.ast.tree.SqlNode cannot be cast to org.hibernate.hql.ast.tree.ResolvableNode</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">ClassCastException received when executing this query:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">select subset from com.alphait.domain.snomed.object.SubsetImpl as subset join fetch subset.members as member left join fetch member.children.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">A SubsetMember has a one to many (recursive) association with other SubsetMembers.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Please refer to the attached Java classes</sentence>
+        </paragraph>
+    </description>
+</bug>

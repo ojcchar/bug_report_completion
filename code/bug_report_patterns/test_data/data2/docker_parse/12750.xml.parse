@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>12750</id>
+    <title>Intermittent devicemapper error when building images</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Sometimes when I do 'docker build', I get this error:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+INFO[0000] Error getting container 
+b26beb3a69f3ba809c57431206def5272db0e2b9d0326682682d6917d1fdf91c 
+from driver devicemapper: open 
+/dev/mapper/docker-253:1-135656-b26beb3a69f3ba809c57431206def5272db0e2b9d0326682682d6917d1fdf91c:
+no such file or directory
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I sometimes have to retry a few times before it works again.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+monkey@marca-teamcity-agent:~/profileweb$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description: Ubuntu 14.04.1 LTS
+Release: 14.04
+Codename: trusty</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">monkey@marca-teamcity-agent:~/profileweb$ docker version
+Client version: 1.6.0
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): 4749651
+OS/Arch (client): linux/amd64
+Server version: 1.6.0
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): 4749651
+OS/Arch (server): linux/amd64
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

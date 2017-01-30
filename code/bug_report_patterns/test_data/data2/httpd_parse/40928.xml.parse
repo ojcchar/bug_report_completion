@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>40928</id>
+    <title>Configure failure when using external PCRE library</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've frequently compiled / installed Apache on plenty of different Hardware / OS
+combinations and never come across this before, so I thought I'd sumbit it to
+help out, although I highly doubt it's a major issue.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When running configure on an Apache 2.2.3 release, I decided (for the hell of it) to link it against my pre-installed PCRE library (in /usr/local, version 6 7) and configure fails stating:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">configure: error: Size of "void *" is less than size of "long"</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Well, sadly, that's just not true.</sentence>
+            <sentence id="4.2">On my architecture, a void pointer is 4
+bytes, and so is a long.</sentence>
+            <sentence id="4.3">I've confirmed this just to make certain:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">enoch:~$ cat test.c
+#include &lt;stdio.h&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">int main(){
+        printf("Sizeof void *: %d\nSizeof long: %d\n",sizeof(void *), sizeof(long));
+        return 0;
+}
+enoch:~$ gcc -o test.run test.c
+enoch:~$ .</sentence>
+            <sentence id="6.2">/test.run
+Sizeof void *: 4
+Sizeof long: 4</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Okay, so that's that.</sentence>
+            <sentence id="7.2">Take out the configure option "--with-pcre=/usr/local"
+and it configures, compiles and installs just fine.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Just thought I'd let you know!</sentence>
+        </paragraph>
+    </description>
+</bug>

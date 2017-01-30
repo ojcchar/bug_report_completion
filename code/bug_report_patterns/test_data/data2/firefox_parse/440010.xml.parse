@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>440010</id>
+    <title>Firefox 3 - css - absolute position div within relative position div not positioning correctly.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9) Gecko/2008052906 Firefox/3.0
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9) Gecko/2008052906 Firefox/3.0</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In Firefox 2, if I position a div absolute within a relative div container, the absolute div is positioned inside that relative div, and the top and left values offset from the top left corner of the containing div.</sentence>
+            <sentence id="2.2">Now, in FF3, the absolute positioned div is being offset from the entire document instead of the parent div.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">Use the following HTML:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;div style="margin-top:300px;"&gt;
+ &lt;div style="position: relative; display: inline-table; width: 263px;height:36px;"&gt;
+	&lt;div style="line-height: 36px; font-weight: bold; font-size: 11px; color: #000; position: absolute; left: 215px; top: 0px;"&gt;
+		(545)
+	&lt;/div&gt;
+	&lt;img src="/images/search/tab_ondemand_off.</sentence>
+            <sentence id="5.2">jpg" /&gt;&lt;br /&gt;
+&lt;/div&gt;
+&lt;/div&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Actual Results:  
+The numbers in the absolute div show up at the top of the page, offset 215px from the left.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Expected Results:  
+The numbers in the absolute div should show up 300px down on the page, which would be inside the container div.</sentence>
+        </paragraph>
+    </description>
+</bug>

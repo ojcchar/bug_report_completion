@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-401</id>
+    <title>Hibernate cannot handle zero-length arrays as parameter values in in-clauses</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hibernate will produce wrong sql syntax when using zero-length arrays
+as parameters for variables in in-clauses.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Example:</sentence>
+            <sentence id="2.2">Session s = hibSessionFactory.openSession();
+Query q = s.createQuery("from testInQuery.TestTable where id in (:ids)");
+q.setParameterList("ids", new Integer[0]);
+q.list();</sentence>
+            <sentence id="2.3">produced sql by hibernate: select testtable0_.</sentence>
+            <sentence id="2.4">ID as ID from TESTTABLE testtable0_ where (id in())</sentence>
+            <sentence id="2.5">Exception in thread "main" org.hibernate.exception.SQLGrammarException: could not execute query</sentence>
+            <sentence id="2.6">	at org.hibernate.exception.ErrorCodeConverter.convert(ErrorCodeConverter.java:70)</sentence>
+            <sentence id="2.7">	at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:43)</sentence>
+            <sentence id="2.8">	at org.hibernate.loader.Loader.doList(Loader.java:1525)</sentence>
+            <sentence id="2.9">	at org.hibernate.loader.Loader.list(Loader.java:1505)</sentence>
+            <sentence id="2.10">	at org.hibernate.hql.classic.QueryTranslatorImpl.list(QueryTranslatorImpl.java:883)</sentence>
+            <sentence id="2.11">	at org.hibernate.impl.SessionImpl.list(SessionImpl.java:791)</sentence>
+            <sentence id="2.12">	at org.hibernate.impl.QueryImpl.list(QueryImpl.java:74)</sentence>
+            <sentence id="2.13">	at testInQuery.AbstractDatabase.main(AbstractDatabase.java:35)</sentence>
+            <sentence id="2.14">Caused by: java.sql.SQLException: ORA-00936: missing expression</sentence>
+            <sentence id="2.15">	at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:125)</sentence>
+            <sentence id="2.16">	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:305)</sentence>
+            <sentence id="2.17">	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:272)</sentence>
+            <sentence id="2.18">	at oracle.jdbc.driver.T4C8Oall.receive(T4C8Oall.java:623)</sentence>
+            <sentence id="2.19">	at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:181)</sentence>
+            <sentence id="2.20">	at oracle.jdbc.driver.T4CPreparedStatement.execute_for_describe(T4CPreparedStatement.java:420)</sentence>
+            <sentence id="2.21">	at oracle.jdbc.driver.OracleStatement.execute_maybe_describe(OracleStatement.java:896)</sentence>
+            <sentence id="2.22">	at oracle.jdbc.driver.T4CPreparedStatement.execute_maybe_describe(T4CPreparedStatement.java:452)</sentence>
+            <sentence id="2.23">	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:986)</sentence>
+            <sentence id="2.24">	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:2888)</sentence>
+            <sentence id="2.25">	at oracle.jdbc.driver.OraclePreparedStatement.executeQuery(OraclePreparedStatement.java:2929)</sentence>
+            <sentence id="2.26">	at org.hibernate.jdbc.AbstractBatcher.getResultSet(AbstractBatcher.java:118)</sentence>
+            <sentence id="2.27">	at org.hibernate.loader.Loader.getResultSet(Loader.java:1204)</sentence>
+            <sentence id="2.28">	at org.hibernate.loader.Loader.doQuery(Loader.java:368)</sentence>
+            <sentence id="2.29">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:208)</sentence>
+            <sentence id="2.30">	at org.hibernate.loader.Loader.doList(Loader.java:1522)</sentence>
+        </paragraph>
+    </description>
+</bug>

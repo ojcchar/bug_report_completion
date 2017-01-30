@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18141</id>
+    <title>Start docker.socket via systemd, run into failed state. </title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I use 'CentOS 7' OS.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Linux xx 3.10.0-229.el7.x86_64 #1 SMP Fri Mar 6 11:36:42 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I do not want to do 'wget -qO- https://get.docker.com/ | sh' or 'curl', instead of rolling the 'docker.socket' and 'docker.service' myself.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">'/etc/systemd/system/docker.socket', content attached below</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+[Unit]
+Description=Docker Socket for the API
+PartOf=docker.service</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">[Socket]
+ListenStream=/var/run/docker.</sentence>
+            <sentence id="6.2">sock
+SocketMode=0660
+SocketUser=root
+SocketGroup=docker</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">[Install]
+WantedBy=sockets.target
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Then Run 'systemd' command to start 'docker.socket'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+sudo systemctl daemon-reload
+sudo systemctl enable docker.socket
+sudo systemctl start docker.socket
+"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Then I run into an error state, I could not figure out how to bypass it.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'</sentence>
+            <sentence id="11.2">-- Logs begin at Sat 2015-11-21 07:28:07 UTC, end at Sat 2015-11-21 07:52:32 UTC.</sentence>
+            <sentence id="11.3">--</sentence>
+            <sentence id="11.4">Nov 21 07:29:56 kube-node-02 systemd[1]: Starting Docker Socket for the API.</sentence>
+            <sentence id="11.5">Nov 21 07:29:56 kube-node-02 systemd[1]: Socket service docker.service not loaded, refusing.</sentence>
+            <sentence id="11.6">Nov 21 07:29:56 kube-node-02 systemd[1]: Failed to listen on Docker Socket for the API.</sentence>
+            <sentence id="11.7">Nov 21 07:29:56 kube-node-02 systemd[1]: Starting Docker Socket for the API.</sentence>
+            <sentence id="11.8">Nov 21 07:29:56 kube-node-02 systemd[1]: docker.socket control process exited, code=exited status=216</sentence>
+            <sentence id="11.9">Nov 21 07:29:56 kube-node-02 systemd[1]: Failed to listen on Docker Socket for the API.</sentence>
+            <sentence id="11.10">Nov 21 07:29:56 kube-node-02 systemd[1]: Unit docker.socket entered failed state.</sentence>
+            <sentence id="11.11">Nov 21 07:32:30 kube-node-02 systemd[1]: Starting Docker Socket for the API.</sentence>
+            <sentence id="11.12">Nov 21 07:32:30 kube-node-02 systemd[1]: docker.socket control process exited, code=exited status=216</sentence>
+            <sentence id="11.13">Nov 21 07:32:30 kube-node-02 systemd[1]: Failed to listen on Docker Socket for the API.</sentence>
+            <sentence id="11.14">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10561</id>
+    <title>Join on treated root not rendered in HQL</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When treating the root of a query as a subclass, joins on the treated root are not rendered in the resulting HQL, resulting in 'Invalid path' errors.</sentence>
+            <sentence id="1.2">For example, the following query:</sentence>
+            <sentence id="1.3">{code}
+CriteriaQuery&lt;Cheese&gt; criteria = cb.createQuery(Cheese.class);
+Root&lt;Cheese&gt; root = criteria.from(Cheese.class);
+Root&lt;SmellyCheese&gt; treatedRoot = cb.treat(root, SmellyCheese.class);
+criteria.where(
+	cb.equal(
+		treatedRoot.</sentence>
+            <sentence id="1.4">&lt;SmellyCheese, Smell&gt;join("odour").</sentence>
+            <sentence id="1.5">&lt;String&gt;get("name"),
+		"real bad"));
+entityManager.createQuery(criteria.select(treatedRoot)).</sentence>
+            <sentence id="1.6">getSingleResult();
+{code}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Renders the following HQL:
+{code}
+select treat(generatedAlias0 as org.hibernate.bugs.SmellyCheese) from org.hibernate.bugs.Cheese as generatedAlias0 where generatedAlias1.name=:param0
+{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The join to Smell is not part of the resulting query, causing the following stacktrace when trying to execute the query:</sentence>
+            <sentence id="3.2">{code}</sentence>
+            <sentence id="3.3">java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.QuerySyntaxException: Invalid path: 'generatedAlias1.name' [select treat(generatedAlias0 as org.hibernate.bugs.SmellyCheese) from org.hibernate.bugs.Cheese as generatedAlias0 where generatedAlias1.name=:param0]</sentence>
+            <sentence id="3.4">	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1679)</sentence>
+            <sentence id="3.5">	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1602)</sentence>
+            <sentence id="3.6">	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1608)</sentence>
+            <sentence id="3.7">	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:551)</sentence>
+            <sentence id="3.8">	at org.hibernate.jpa.criteria.CriteriaQueryImpl$1.buildCompiledQuery(CriteriaQueryImpl.java:319)</sentence>
+            <sentence id="3.9">	at org.hibernate.jpa.criteria.compile.CriteriaCompiler.compile(CriteriaCompiler.java:130)</sentence>
+            <sentence id="3.10">	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:699)</sentence>
+            <sentence id="3.11">	at org.hibernate.bugs.JPAUnitTestCase.hhh123Test(JPAUnitTestCase.java:44)</sentence>
+            <sentence id="3.12">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="3.13">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="3.14">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="3.15">	at java.lang.reflect.Method.invoke(Method.java:498)</sentence>
+            <sentence id="3.16">	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)</sentence>
+            <sentence id="3.17">	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)</sentence>
+            <sentence id="3.18">	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)</sentence>
+            <sentence id="3.19">	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)</sentence>
+            <sentence id="3.20">	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)</sentence>
+            <sentence id="3.21">	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)</sentence>
+            <sentence id="3.22">	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)</sentence>
+            <sentence id="3.23">	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)</sentence>
+            <sentence id="3.24">	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)</sentence>
+            <sentence id="3.25">	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)</sentence>
+            <sentence id="3.26">	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)</sentence>
+            <sentence id="3.27">	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)</sentence>
+            <sentence id="3.28">	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)</sentence>
+            <sentence id="3.29">	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)</sentence>
+            <sentence id="3.30">	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)</sentence>
+            <sentence id="3.31">	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)</sentence>
+            <sentence id="3.32">	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)</sentence>
+            <sentence id="3.33">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)</sentence>
+            <sentence id="3.34">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)</sentence>
+            <sentence id="3.35">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)</sentence>
+            <sentence id="3.36">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)</sentence>
+            <sentence id="3.37">Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: Invalid path: 'generatedAlias1.name' [select treat(generatedAlias0 as org.hibernate.bugs.SmellyCheese) from org.hibernate.bugs.Cheese as generatedAlias0 where generatedAlias1.name=:param0]</sentence>
+            <sentence id="3.38">	at org.hibernate.hql.internal.ast.QuerySyntaxException.convert(QuerySyntaxException.java:74)</sentence>
+            <sentence id="3.39">	at org.hibernate.hql.internal.ast.ErrorCounter.throwQueryException(ErrorCounter.java:91)</sentence>
+            <sentence id="3.40">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:268)</sentence>
+            <sentence id="3.41">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:190)</sentence>
+            <sentence id="3.42">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:142)</sentence>
+            <sentence id="3.43">	at org.hibernate.engine.query.spi.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:115)</sentence>
+            <sentence id="3.44">	at org.hibernate.engine.query.spi.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:76)</sentence>
+            <sentence id="3.45">	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:150)</sentence>
+            <sentence id="3.46">	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:298)</sentence>
+            <sentence id="3.47">	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:236)</sentence>
+            <sentence id="3.48">	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1821)</sentence>
+            <sentence id="3.49">	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:531)</sentence>
+            <sentence id="3.50">	... 29 more</sentence>
+            <sentence id="3.51">{code}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">For this simple query, a work around is to start the query on SmellyCheese, eliminating the treat entirely, but in more complex situations (like dynamically generated queries), this is not always possible.</sentence>
+        </paragraph>
+    </description>
+</bug>

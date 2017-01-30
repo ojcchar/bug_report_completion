@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>31247</id>
+    <title>Intermittent Segmentation Faults in mod_cgi</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm Running RedHat 9 and I seem to be getting Segmentation Faults in mod_cgi.</sentence>
+            <sentence id="1.2">I've seen a lot of intermittent Segmentation Faults in my error logs:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">[Wed Sep 15 01:29:24 2004] [notice] child pid 8684 exit signal Segmentation</sentence>
+            <sentence id="2.2">fault (11)</sentence>
+            <sentence id="2.3">[Wed Sep 15 01:29:28 2004] [notice] child pid 10121 exit signal Segmentation</sentence>
+            <sentence id="2.4">fault (11)</sentence>
+            <sentence id="2.5">[Wed Sep 15 04:20:56 2004] [notice] child pid 13464 exit signal Segmentation</sentence>
+            <sentence id="2.6">fault (11)</sentence>
+            <sentence id="2.7">[Wed Sep 15 04:20:58 2004] [notice] child pid 12372 exit signal Segmentation</sentence>
+            <sentence id="2.8">fault (11)</sentence>
+            <sentence id="2.9">[Wed Sep 15 07:13:50 2004] [notice] child pid 15836 exit signal Segmentation</sentence>
+            <sentence id="2.10">fault (11)</sentence>
+            <sentence id="2.11">[Wed Sep 15 09:47:34 2004] [error] [client 216.209.83.196] request failed: URI</sentence>
+            <sentence id="2.12">too long (longer than 8190)</sentence>
+            <sentence id="2.13">[Wed Sep 15 10:03:56 2004] [notice] child pid 20783 exit signal Segmentation</sentence>
+            <sentence id="2.14">fault (11), possible coredump in /tmp</sentence>
+            <sentence id="2.15">[Wed Sep 15 10:03:57 2004] [notice] child pid 18637 exit signal Segmentation</sentence>
+            <sentence id="2.16">fault (11)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Upon examing the coredump created at 10:03:56 this morning I got the following</sentence>
+            <sentence id="3.2">backtrace:</sentence>
+            <sentence id="3.3">#0  0x40852ce2 in cgi_bucket_read (b=0x8311f10, str=0xbfffdbb8,</sentence>
+            <sentence id="3.4">    len=0xbfffdbbc, block=APR_BLOCK_READ) at mod_cgi.c:660</sentence>
+            <sentence id="3.5">#1  0x4001d56c in apr_brigade_length (bb=0x74203a65, read_all=1,</sentence>
+            <sentence id="3.6">    length=0xbfffdc18) at apr_brigade.c:182</sentence>
+            <sentence id="3.7">#2  0x08064141 in ap_byterange_filter (f=0x83143b0, bb=0x831cd00)</sentence>
+            <sentence id="3.8">    at http_protocol.c:2925</sentence>
+            <sentence id="3.9">#3  0x08071372 in ap_pass_brigade (next=0x40855520, bb=0x831cd68)</sentence>
+            <sentence id="3.10">    at util_filter.c:511</sentence>
+            <sentence id="3.11">#4  0x401c13ed in send_parsed_content (f=0x8320498, bb=0x831c848)</sentence>
+            <sentence id="3.12">    at mod_include.c:3431</sentence>
+            <sentence id="3.13">#5  0x08071372 in ap_pass_brigade (next=0x40855520, bb=0x831cd68)</sentence>
+            <sentence id="3.14">    at util_filter.c:511</sentence>
+            <sentence id="3.15">#6  0x08077ace in default_handler (r=0x8313760) at core.c:3553</sentence>
+            <sentence id="3.16">#7  0x08067152 in ap_run_handler (r=0x8313760) at config.c:152</sentence>
+            <sentence id="3.17">#8  0x0806766a in ap_invoke_handler (r=0x8313760) at config.c:358</sentence>
+            <sentence id="3.18">#9  0x08064a8f in ap_process_request (r=0x8313760) at http_request.c:246</sentence>
+            <sentence id="3.19">#10 0x08060b79 in ap_process_http_connection (c=0x830d320) at http_core.c:250</sentence>
+            <sentence id="3.20">#11 0x0806f32a in ap_run_process_connection (c=0x830d320) at connection.c:42</sentence>
+            <sentence id="3.21">#12 0x08065cd7 in child_main (child_num_arg=1948269157) at prefork.c:609</sentence>
+            <sentence id="3.22">#13 0x08065df4 in make_child (s=0x809c010, slot=5) at prefork.c:703</sentence>
+            <sentence id="3.23">#14 0x0806603a in perform_idle_server_maintenance (p=0x809a270)</sentence>
+            <sentence id="3.24">    at prefork.c:838</sentence>
+            <sentence id="3.25">#15 0x080665ce in ap_mpm_run (_pconf=0x0, plog=0x80c4318, s=0x0)</sentence>
+            <sentence id="3.26">    at prefork.c:1039</sentence>
+            <sentence id="3.27">#16 0x0806b572 in main (argc=3, argv=0xbfffe024) at main.c:617</sentence>
+            <sentence id="3.28">#17 0x42015704 in __libc_start_main () from /lib/tls/libc.so.6</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">So I far I haven't been able to correlate the segmentation faults with the
+invocation on any particular cgi scripts, however, they only started to appear
+after we upgraded from Apache 1.3.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I'm also having a possibly related problem with explosive growth in memory usage
+by Apache.</sentence>
+            <sentence id="5.2">It's also intermittent, sometimes showing up minutes after Apache is
+restarted, sometimes showing up hours later.</sentence>
+            <sentence id="5.3">Over the course of a few seconds
+an apache process will grow from it's normal size of approximately 50 megs to
+500 megs.</sentence>
+        </paragraph>
+    </description>
+</bug>

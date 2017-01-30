@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1592</id>
+    <title>Can't AOP around a call to another module within a module</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In the atd module, I want to AOP around a call to a method in the dssmodule.</sentence>
+            <sentence id="1.2">According to the module page, I can do this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"Module services can be extended via AOP as well."</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I get the following error when I try to load the atd module into the webapp:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Error while trying to start module: A proxy factory for: 'interface org.openmrs.module.dssmodule.DssService' doesn't exist</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I am using the require_modules tag:
+ &lt;require_modules&gt;
+  &lt;require_module&gt;org.openmrs.module.dssmodule&lt;/require_module&gt;
+ &lt;/require_modules&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This error should be present in the currently committed versions of dssmodule and atd module.</sentence>
+            <sentence id="6.2">The error is somewhat intermittent.</sentence>
+            <sentence id="6.3">If I do the right combination of things (not sure what), the modules will work in harmony.</sentence>
+        </paragraph>
+    </description>
+</bug>

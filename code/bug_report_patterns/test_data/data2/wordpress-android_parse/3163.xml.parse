@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3163</id>
+    <title>Reader: change endpoint used to request single reader post</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Currently the reader uses `read/sites/{siteId}/posts/{postId}` to request a single post, which is done when entering the detail view to ensure the most recent copy of the post is reflected.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">That endpoint is missing the newer feedbag additions, such as `word-count`, which are used by the Calypso reader.</sentence>
+            <sentence id="2.2">To correct this, we should switch to the new v1.2 `/read/feed/:feed/posts/:item` endpoint in both [requestPost()](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/WordPress/src/main/java/org/wordpress/android/ui/reader/actions/ReaderPostActions.java#L216) and [updatePost()](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/WordPress/src/main/java/org/wordpress/android/ui/reader/actions/ReaderPostActions.java#L103).</sentence>
+        </paragraph>
+    </description>
+</bug>

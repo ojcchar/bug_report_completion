@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9462</id>
+    <title>Updating non-@Version-ed entity with LockModeType.OPTIMISTIC throws NullPointerException: null 	at org.hibernate.action.internal.EntityVerifyVersionProcess.doBeforeTransactionCompletion</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When querying then 'merge()'-ing an entity without '@Version', Hibernate throws NPE:</sentence>
+            <sentence id="1.2">{code}</sentence>
+            <sentence id="1.3">14:50:36.200 ERROR |            |                                                                                                    | eduler_Worker-10 | o.h.AssertionFailure             | HHH000099: an assertion failure occured (this may indicate a bug in Hibernate, but is more likely due to unsafe use of the session): java.lang.NullPointerException</sentence>
+            <sentence id="1.4">14:50:36.202 ERROR |            |                                                                                                    | eduler_Worker-10 | i.c.b.c.ExpireCartLineJob        | Can not to cancel cartLine for cart 52ce397d-91f5-43fe-a8d0-027db3ac938d line 71e4995c-15e9-4d7a-acb6-8c9497bdd868 at scheduled Wed Oct 29 03:20:02 VET 2014: Could not commit JPA transaction; nested exception is javax.persistence.RollbackException: Error while committing the transaction</sentence>
+            <sentence id="1.5">org.springframework.transaction.TransactionSystemException: Could not commit JPA transaction; nested exception is javax.persistence.RollbackException: Error while committing the transaction</sentence>
+            <sentence id="1.6">	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:524) ~[spring-orm-4.1.0.RELEASE.jar:4.1.0.RELEASE]</sentence>
+            <sentence id="1.7">	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:757) ~[spring-tx-4.1.0.RELEASE.jar:4.1.0.RELEASE]</sentence>
+            <sentence id="1.8">	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:726) ~[spring-tx-4.1.0.RELEASE.jar:4.1.0.RELEASE]</sentence>
+            <sentence id="1.9">	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:150) ~[spring-tx-4.1.0.RELEASE.jar:4.1.0.RELEASE]</sentence>
+            <sentence id="1.10">	at id.co.bippo.cart.JpaCartManagerImpl.expireCartLine(JpaCartManagerImpl.java:789) ~[classes/:na]</sentence>
+            <sentence id="1.11">	at id.co.bippo.cart.ExpireCartLineJob.doExecute(ExpireCartLineJob.java:81) ~[classes/:na]</sentence>
+            <sentence id="1.12">	at org.soluvas.schedule.TenantJob.execute(TenantJob.java:117) [classes/:na]</sentence>
+            <sentence id="1.13">	at org.quartz.core.JobRunShell.run(JobRunShell.java:202) ~[quartz-2.2.1.jar:na]</sentence>
+            <sentence id="1.14">	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573) ~[quartz-2.2.1.jar:na]</sentence>
+            <sentence id="1.15">Caused by: javax.persistence.RollbackException: Error while committing the transaction</sentence>
+            <sentence id="1.16">	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:94) ~[hibernate-entitymanager-4.3.6.Final.jar:4.3.6.Final]</sentence>
+            <sentence id="1.17">	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:515) ~[spring-orm-4.1.0.RELEASE.jar:4.1.0.RELEASE]</sentence>
+            <sentence id="1.18">	... 8 common frames omitted</sentence>
+            <sentence id="1.19">Caused by: org.hibernate.AssertionFailure: Unable to perform beforeTransactionCompletion callback</sentence>
+            <sentence id="1.20">	at org.hibernate.engine.spi.ActionQueue$BeforeTransactionCompletionProcessQueue.beforeTransactionCompletion(ActionQueue.java:721) ~[hibernate-core-4.3.6.Final.jar:4.3.6.Final]</sentence>
+            <sentence id="1.21">	at org.hibernate.engine.spi.ActionQueue.beforeTransactionCompletion(ActionQueue.java:389) ~[hibernate-core-4.3.6.Final.jar:4.3.6.Final]</sentence>
+            <sentence id="1.22">	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:516) ~[hibernate-core-4.3.6.Final.jar:4.3.6.Final]</sentence>
+            <sentence id="1.23">	at org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction.beforeTransactionCommit(JdbcTransaction.java:105) ~[hibernate-core-4.3.6.Final.jar:4.3.6.Final]</sentence>
+            <sentence id="1.24">	at org.hibernate.engine.transaction.spi.AbstractTransactionImpl.commit(AbstractTransactionImpl.java:177) ~[hibernate-core-4.3.6.Final.jar:4.3.6.Final]</sentence>
+            <sentence id="1.25">	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:77) ~[hibernate-entitymanager-4.3.6.Final.jar:4.3.6.Final]</sentence>
+            <sentence id="1.26">	... 9 common frames omitted</sentence>
+            <sentence id="1.27">Caused by: java.lang.NullPointerException: null</sentence>
+            <sentence id="1.28">	at org.hibernate.action.internal.EntityVerifyVersionProcess.doBeforeTransactionCompletion(EntityVerifyVersionProcess.java:59) ~[hibernate-core-4.3.6.Final.jar:4.3.6.Final]</sentence>
+            <sentence id="1.29">	at org.hibernate.engine.spi.ActionQueue$BeforeTransactionCompletionProcessQueue.beforeTransactionCompletion(ActionQueue.java:715) ~[hibernate-core-4.3.6.Final.jar:4.3.6.Final]</sentence>
+            <sentence id="1.30">	... 14 common frames omitted</sentence>
+            <sentence id="1.31">{code}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Hibernate should throw an exception with technical explanation reason of the failure, for example whether a required annotation is missing.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Similar issues:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">1 https://developer.jboss.org/thread/173302?_sscc=t</sentence>
+            <sentence id="4.2">2 http://stackoverflow.com/questions/5727565/hibernate-throws-nullpointerexception-in-entityverifyversionprocess</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Tag [~ceefour]</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>311358</id>
+    <title>double clicking on a word highlights the word to the right if formats differ</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.7.12) Gecko/20050919 Firefox/1.0.7
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.7.12) Gecko/20050919 Firefox/1.0.7</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example, in the page "about:mozilla" there is some text.</sentence>
+            <sentence id="2.2">Let's suppose that
+I decided I wanted highlight the word "strength" on the second line, I would
+ordinarily double click on it.</sentence>
+            <sentence id="2.3">However, because the word to the right has a
+different format (the word "renewed" is a larger font), the highlight extends to
+cover that word as well.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I ran Firefox 1.07 in safe mode and tried this and it still does it.</sentence>
+            <sentence id="3.2">I tried it
+with a HTML file I knocked up quickly with words change format as they go and it
+still does it.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Not a biggy but not quite how I would expect the double click on a word to
+behave.</sentence>
+            <sentence id="4.2">I checked my config and this value:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">layout.word_select.eat_space_to_next_word is at it's default value of true.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Steps to Reproduce:</sentence>
+            <sentence id="7.2">Using about:mozilla as an example</sentence>
+            <sentence id="7.3">1 Double click on the word "strength" on the second line</sentence>
+            <sentence id="7.4">2 -</sentence>
+            <sentence id="7.5">3 -</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Actual Results:  
+It highlights the word to the right as well, rather than just the word "strength"</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Expected Results:  
+Only highlight the word "strength"</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Default theme
+Does the same if I run FireFox in safe mode or with all the plugins running.</sentence>
+            <sentence id="10.2">Makes no difference.</sentence>
+        </paragraph>
+    </description>
+</bug>

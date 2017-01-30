@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24845</id>
+    <title>Docker-in-Docker networking/port exposure broken</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;!</sentence>
+            <sentence id="1.2">--</sentence>
+            <sentence id="1.3">---------------------------------------------------</sentence>
+            <sentence id="1.4">BUG REPORT INFORMATION</sentence>
+            <sentence id="1.5">---------------------------------------------------</sentence>
+            <sentence id="1.6">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="1.7">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="1.8">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+docker version
+Client:
+ Version: 1.11.2
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: b9f10c9
+ Built: Wed Jun 1 21:47:50 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Server:
+ Version: 1.11.2
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: b9f10c9
+ Built: Wed Jun 1 21:47:50 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'</sentence>
+            <sentence id="7.2">docker info</sentence>
+            <sentence id="7.3">Containers: 3</sentence>
+            <sentence id="7.4"> Running: 3</sentence>
+            <sentence id="7.5"> Paused: 0</sentence>
+            <sentence id="7.6"> Stopped: 0</sentence>
+            <sentence id="7.7">Images: 41</sentence>
+            <sentence id="7.8">Server Version: 1.11.2</sentence>
+            <sentence id="7.9">Storage Driver: devicemapper</sentence>
+            <sentence id="7.10"> Pool Name: docker-252:1-784647-pool</sentence>
+            <sentence id="7.11"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="7.12"> Base Device Size: 10.74 GB</sentence>
+            <sentence id="7.13"> Backing Filesystem: ext4</sentence>
+            <sentence id="7.14"> Data file: /dev/loop2</sentence>
+            <sentence id="7.15"> Metadata file: /dev/loop3</sentence>
+            <sentence id="7.16"> Data Space Used: 11.83 GB</sentence>
+            <sentence id="7.17"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="7.18"> Data Space Available: 40.49 GB</sentence>
+            <sentence id="7.19"> Metadata Space Used: 12.58 MB</sentence>
+            <sentence id="7.20"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="7.21"> Metadata Space Available: 2.135 GB</sentence>
+            <sentence id="7.22"> Udev Sync Supported: true</sentence>
+            <sentence id="7.23"> Deferred Removal Enabled: false</sentence>
+            <sentence id="7.24"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="7.25"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="7.26"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="7.27"> WARNING: Usage of loopback devices is strongly discouraged for production use. Either use '--storage-opt dm.thinpooldev' or use '--storage-opt dm.no_warn_on_loop_devices=true' to suppress this warning.</sentence>
+            <sentence id="7.28"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="7.29"> Library Version: 1.02.77 (2012-10-15)</sentence>
+            <sentence id="7.30">Logging Driver: json-file</sentence>
+            <sentence id="7.31">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="7.32">Plugins: </sentence>
+            <sentence id="7.33"> Volume: local</sentence>
+            <sentence id="7.34"> Network: host bridge null</sentence>
+            <sentence id="7.35">Kernel Version: 3.13.0-92-generic</sentence>
+            <sentence id="7.36">Operating System: Ubuntu 14.04.4 LTS</sentence>
+            <sentence id="7.37">OSType: linux</sentence>
+            <sentence id="7.38">Architecture: x86_64</sentence>
+            <sentence id="7.39">CPUs: 4</sentence>
+            <sentence id="7.40">Total Memory: 11.74 GiB</sentence>
+            <sentence id="7.41">Name: vserv</sentence>
+            <sentence id="7.42">ID: U4N4:QOV6:SUTB:LQS2:OED6:3GOF:KTJ7:C5DV:XA5O:PXUW:D6PD:PUHP</sentence>
+            <sentence id="7.43">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="7.44">Debug mode (client): false</sentence>
+            <sentence id="7.45">Debug mode (server): false</sentence>
+            <sentence id="7.46">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="7.47">WARNING: No swap limit support</sentence>
+            <sentence id="7.48">"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="8.2">Running on a vserver.</sentence>
+            <sentence id="8.3">All packages are up-to-date, all Docker images were downloaded on 7/20/2016.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I'm trying to analyze possibly harmful binaries in a docker container and currently I'm trying to intercept their TLS traffic via mitmproxy.</sentence>
+            <sentence id="9.2">Since this is going to be automated, it is required to start/stop mitmproxy on demand from inside the container.</sentence>
+            <sentence id="9.3">Unfortunately, networking using Docker-in-Docker behaves different than suspected</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="10.2">1 Start [docker-in-docker](https://hub.docker.com/_/docker/) container</sentence>
+            <sentence id="10.3">2 Start analysis container linked to docker-in-docker container (for this example, the same image again)</sentence>
+            <sentence id="10.4">3 Start mitmproxy docker container from analysis image</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you received:**</sentence>
+            <sentence id="11.2">mitmproxy container is running, but port is not exposed and container therefore not reachable.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Describe the results you expected:**</sentence>
+            <sentence id="12.2">mitmproxy container is running, but port is exposed and container therefore reachable.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="13.2">Complete log of my commands.</sentence>
+            <sentence id="13.3">First I'm verifying that the basic idea (mitmproxy running in a container attached to the host) works, afterwards I'm setting up the dind image as described in it's documentation and repeating the mitmproxy steps without success.</sentence>
+            <sentence id="13.4">I also tried using '--net=host' for the inner container, but it didn't work either and I wanted to keep the steps as pure as possible</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"'</sentence>
+            <sentence id="14.2">[edermi@serv ~]$ docker ps</sentence>
+            <sentence id="14.3">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+            <sentence id="14.4">[edermi@serv ~]$ docker run -d --privileged -p 8080:8080 mitmproxy/releases:0.17 mitmdump</sentence>
+            <sentence id="14.5">47f6c8cdc94ad85636a5301c25c4612d7add9afd939f136c9d00027093cfbb62</sentence>
+            <sentence id="14.6">[edermi@serv ~]$ docker ps</sentence>
+            <sentence id="14.7">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+            <sentence id="14.8">47f6c8cdc94a mitmproxy/releases:0.17 "mitmdump" 5 seconds ago Up 4 seconds 0.0.0.0:8080-&gt;8080/tcp, 8081/tcp agitated_leavitt</sentence>
+            <sentence id="14.9">[edermi@serv ~]$ sudo netstat -tunapl | grep 8080</sentence>
+            <sentence id="14.10">tcp6 0 0 :::8080 :::* LISTEN 20896/docker-proxy</sentence>
+            <sentence id="14.11">[edermi@serv ~]$ sudo netstat -tunapl | grep docker</sentence>
+            <sentence id="14.12">tcp6 0 0 :::8080 :::* LISTEN 20896/docker-proxy</sentence>
+            <sentence id="14.13">[edermi@serv ~]$ docker run --privileged --name some-docker -d docker:1.8-dind</sentence>
+            <sentence id="14.14">f08cc3599ab2371ac18f5f5adcd4130e938e2cdae39ce0418330bfce6352b934</sentence>
+            <sentence id="14.15">[edermi@serv ~]$ docker ps</sentence>
+            <sentence id="14.16">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+            <sentence id="14.17">f08cc3599ab2 docker:1.8-dind "dockerd-entrypoint.</sentence>
+            <sentence id="14.18">s" 18 seconds ago Up 17 seconds 2375/tcp some-docker</sentence>
+            <sentence id="14.19">47f6c8cdc94a mitmproxy/releases:0.17 "mitmdump" About a minute ago Up About a minute 0.0.0.0:8080-&gt;8080/tcp, 8081/tcp agitated_leavitt</sentence>
+            <sentence id="14.20">[edermi@serv ~]$ docker run -it --rm --link some-docker:docker docker:1.8 sh</sentence>
+            <sentence id="14.21">/ # netstat -tunapl</sentence>
+            <sentence id="14.22">Active Internet connections (servers and established)</sentence>
+            <sentence id="14.23">Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name</sentence>
+            <sentence id="14.24">/ # docker run -d --privileged -p 9000:8080 mitmproxy/releases:0.17 mitmdump</sentence>
+            <sentence id="14.25">Unable to find image 'mitmproxy/releases:0.17' locally</sentence>
+            <sentence id="14.26">0 17: Pulling from mitmproxy/releases</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">a69b8ea9fb09: Pull complete </sentence>
+            <sentence id="15.2">22fc28f98e69: Pull complete </sentence>
+            <sentence id="15.3">06ecfac601f7: Pull complete </sentence>
+            <sentence id="15.4">a0c505410350: Pull complete </sentence>
+            <sentence id="15.5">3ff5c25fce5d: Pull complete </sentence>
+            <sentence id="15.6">c9107636844d: Pull complete </sentence>
+            <sentence id="15.7">053ed4a35712: Pull complete </sentence>
+            <sentence id="15.8">7d9f80bb710a: Pull complete </sentence>
+            <sentence id="15.9">00a19eda6328: Pull complete </sentence>
+            <sentence id="15.10">Digest: sha256:130fd9355d450e391554ce66372e8d18dac88ce52341993d9d91ef94152a6ad2</sentence>
+            <sentence id="15.11">Status: Downloaded newer image for mitmproxy/releases:0.17</sentence>
+            <sentence id="15.12">a2df504eaa8acad0f7f6da240aae1252d6e9158d059fa024bad59da70fa726d6</sentence>
+            <sentence id="15.13">/ # docker ps</sentence>
+            <sentence id="15.14">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+            <sentence id="15.15">a2df504eaa8a mitmproxy/releases:0.17 "mitmdump" 7 seconds ago Up 4 seconds 8081/tcp, 0.0.0.0:9000-&gt;8080/tcp modest_poitras</sentence>
+            <sentence id="15.16">/ # netstat -tunapl</sentence>
+            <sentence id="15.17">Active Internet connections (servers and established)</sentence>
+            <sentence id="15.18">Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name </sentence>
+            <sentence id="15.19">tcp 0 0 172.17.0.4:53085 172.17.0.3:2375 TIME_WAIT -</sentence>
+            <sentence id="15.20">tcp 0 0 172.17.0.4:53125 172.17.0.3:2375 TIME_WAIT -</sentence>
+            <sentence id="15.21">/ # </sentence>
+            <sentence id="15.22">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

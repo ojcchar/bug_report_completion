@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>215262</id>
+    <title>autocomplete in location bar not cancelled if location changed manually</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.5a) Gecko/20030728 Mozilla Firebird/0.6.1
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.5a) Gecko/20030728 Mozilla Firebird/0.6.1</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">After tabbing or otherwise navigating through the autocomplete list for the
+location bar, the last entry selected appears in the location bar but is not
+loaded (this is correct).</sentence>
+            <sentence id="2.2">However, if I then modify the URL in the location bar
+to something not in the autocomplete list and press enter, the autocomplete
+entry (pre-modification) is loaded instead of the URL that is currently showing
+in the location bar.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">1 Open a new tab or reuse an existing tab.</sentence>
+            <sentence id="4.3">2 Begin typing a URL in the location bar so at least one autocomplete entry is</sentence>
+            <sentence id="4.4">displayed in a dropdown.</sentence>
+            <sentence id="4.5">3 Use tab or arrow keys to highlight an autocomplete entry.</sentence>
+            <sentence id="4.6">It appears in the</sentence>
+            <sentence id="4.7">location bar.</sentence>
+            <sentence id="4.8">4 Click in the location bar and change the URL to something not in the</sentence>
+            <sentence id="4.9">autocomplete list (the change, it appears, needs to be after the last / in the</sentence>
+            <sentence id="4.10">URL, so as not to start up autocomplete again), then hit enter.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual Results:  
+The previously selected autocomplete entry loads.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected Results:  
+The location entered manually in the location bar should load.</sentence>
+        </paragraph>
+    </description>
+</bug>

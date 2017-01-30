@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>525</id>
+    <title>panic: exec format error</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Using Docker to run the following command:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;code&gt;docker run -i -t -p 8000 amrabed/webserver /bin/bash &lt; start &lt;/code&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">works normally.</sentence>
+            <sentence id="3.2">However,</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;code&gt;docker run -i -t -p 8000 amrabed/webserver /webserver/start&lt;/code&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">(same script within the docker image) generates the following error:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">panic: exec format error</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">goroutine 1 [running]:
+github.com/dotcloud/docker.executeProgram(0x7fff8baf8f43, 0x7fff00000010, 0xf84007f0a0, 0x100000001, 0x6b5d2c, ...)
+ /build/buildd/lxc-docker-0.2.1/src/github.</sentence>
+            <sentence id="7.2">com/dotcloud/docker/sysinit.go:78 +0x1bc
+github.com/dotcloud/docker.SysInit()
+ /build/buildd/lxc-docker-0.2.1/src/github.</sentence>
+            <sentence id="7.3">com/dotcloud/docker/sysinit.go:101 +0x247
+main.main()
+ /build/buildd/lxc-docker-0.2.1/src/github.</sentence>
+            <sentence id="7.4">com/dotcloud/docker/docker/docker.</sentence>
+            <sentence id="7.5">go:25 +0x60</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">goroutine 2 [syscall]:
+created by runtime.main
+ /usr/lib/go/src/pkg/runtime/proc.c:221</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">goroutine 3 [syscall]:
+os/signal.</sentence>
+            <sentence id="9.2">loop()
+ /usr/lib/go/src/pkg/os/signal/signal_unix.go:20 +0x1c
+created by os/signal.</sentence>
+            <sentence id="9.3">init·1
+ /usr/lib/go/src/pkg/os/signal/signal_unix.go:26 +0x2f</sentence>
+        </paragraph>
+    </description>
+</bug>

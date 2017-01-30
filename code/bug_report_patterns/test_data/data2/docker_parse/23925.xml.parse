@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23925</id>
+    <title>Flakey test: TestDockerNetworkConnectWithMac</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As encountered on #23919 at https://jenkins.dockerproject.org/job/Docker-PRs-experimental/20467/console</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">00:39:51 ----------------------------------------------------------------------</sentence>
+            <sentence id="2.3">00:39:51 FAIL: docker_cli_network_unix_test.go:1170: DockerNetworkSuite.TestDockerNetworkConnectWithMac</sentence>
+            <sentence id="2.4">00:39:51 </sentence>
+            <sentence id="2.5">00:39:51 docker_cli_network_unix_test.go:1177:</sentence>
+            <sentence id="2.6">00:39:51 dockerCmd(c, "network", "connect", "mynetwork", "test")</sentence>
+            <sentence id="2.7">00:39:51 /go/src/github.com/docker/docker/pkg/integration/dockerCmd_utils.go:42:</sentence>
+            <sentence id="2.8">00:39:51 c.Assert(err, check.IsNil, check.Commentf(quote+"%v"+quote+" failed with errors: %s, %v", strings.Join(args, " "), out, err))</sentence>
+            <sentence id="2.9">00:39:51 ... value *exec.ExitError = &amp;exec.ExitError{ProcessState:(*os.ProcessState)(0xc823771660), Stderr:[]uint8(nil)} ("exit status 1")</sentence>
+            <sentence id="2.10">00:39:51 ... "network connect mynetwork test" failed with errors: Error response from daemon: failed to add interface veth9e6c0a3 to sandbox: failed to set namespace on link "veth9e6c0a3": invalid argument</sentence>
+            <sentence id="2.11">00:39:51 , exit status 1</sentence>
+            <sentence id="2.12">00:39:51 </sentence>
+            <sentence id="2.13">00:40:22 </sentence>
+            <sentence id="2.14">00:40:22 ----------------------------------------------------------------------</sentence>
+            <sentence id="2.15">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

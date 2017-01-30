@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>28314</id>
+    <title>Docker network create doesn't inherit the MTU set in the Docker deamon</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;!</sentence>
+            <sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+            <sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+            <sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+            <sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+            <sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------------------------------------------------</sentence>
+            <sentence id="4.2">GENERAL SUPPORT INFORMATION</sentence>
+            <sentence id="4.3">---------------------------------------------------</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The GitHub issue tracker is for bug reports and feature requests.</sentence>
+            <sentence id="5.2">General support can be found at the following locations:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">- Docker Support Forums - https://forums.docker.com</sentence>
+            <sentence id="6.2">- IRC - irc.freenode.net #docker channel</sentence>
+            <sentence id="6.3">- Post a question on StackOverflow, using the Docker tag</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">---------------------------------------------------</sentence>
+            <sentence id="7.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="7.3">---------------------------------------------------</sentence>
+            <sentence id="7.4">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="7.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="7.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Docker network create doesn't inherit the MTU set in the Docker deamon**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The Docker deamon dockerd on some of our hosts has the mtu set to 1450 using the flag "--mtu=1450".</sentence>
+            <sentence id="9.2">When a network is created using "docker network create &lt;name&gt;" the mtu for the bridge is set at 1500.</sentence>
+            <sentence id="9.3">It would make sense for the network to use the mtu setting specified as</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="10.2">1 run docker with a custom mtu "dockerd --mtu=1450"</sentence>
+            <sentence id="10.3">"'</sentence>
+            <sentence id="10.4">/usr/bin/dockerd --mtu=1400 --debug=true -H unix:///var/run/docker.</sentence>
+            <sentence id="10.5">sock</sentence>
+            <sentence id="10.6">"'</sentence>
+            <sentence id="10.7">2 docker create a network called test</sentence>
+            <sentence id="10.8">"'</sentence>
+            <sentence id="10.9">docker network create test</sentence>
+            <sentence id="10.10">8fbf416d37582ee1f0352625cb0cdff786e3516d10b8540e5bac458bebf53d95</sentence>
+            <sentence id="10.11">"'</sentence>
+            <sentence id="10.12">3 list the networks</sentence>
+            <sentence id="10.13">"'</sentence>
+            <sentence id="10.14">docker network ls</sentence>
+            <sentence id="10.15">NETWORK ID NAME DRIVER SCOPE</sentence>
+            <sentence id="10.16">e9c21cb405c9 bridge bridge local</sentence>
+            <sentence id="10.17">bd0f75218012 host host local</sentence>
+            <sentence id="10.18">3d81c322c790 none null local</sentence>
+            <sentence id="10.19">8fbf416d3758 test bridge local</sentence>
+            <sentence id="10.20">"'</sentence>
+            <sentence id="10.21">4 ip link show | grep 8fbf416d3758</sentence>
+            <sentence id="10.22">"'</sentence>
+            <sentence id="10.23">543: br-8fbf416d3758: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN</sentence>
+            <sentence id="10.24">"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">I expected the network created to honour the MTU set at the daemon level</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Any networks created the MTU is set to 1500</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">I am aware that I can set the MTU manually.</sentence>
+            <sentence id="16.2">This means I need to have knowledge about the docker I'm running on.</sentence>
+            <sentence id="16.3">I just want to be unaware of the underlying hardware and network configuration</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">"'
+docker version
+Client:
+ Version: 1.12.2
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 19fddc2
+ Built: 
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">Server:
+ Version: 1.12.2
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 19fddc2
+ Built: 
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">"'</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">"'</sentence>
+            <sentence id="22.2">docker info</sentence>
+            <sentence id="22.3">Containers: 15</sentence>
+            <sentence id="22.4"> Running: 7</sentence>
+            <sentence id="22.5"> Paused: 0</sentence>
+            <sentence id="22.6"> Stopped: 8</sentence>
+            <sentence id="22.7">Images: 37</sentence>
+            <sentence id="22.8">Server Version: 1.12.2</sentence>
+            <sentence id="22.9">Storage Driver: btrfs</sentence>
+            <sentence id="22.10"> Build Version: Btrfs v4.2.2</sentence>
+            <sentence id="22.11"> Library Version: 101</sentence>
+            <sentence id="22.12">Logging Driver: json-file</sentence>
+            <sentence id="22.13">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="22.14">Plugins:</sentence>
+            <sentence id="22.15"> Volume: local</sentence>
+            <sentence id="22.16"> Network: bridge host null overlay</sentence>
+            <sentence id="22.17">Swarm: inactive</sentence>
+            <sentence id="22.18">Runtimes: runc</sentence>
+            <sentence id="22.19">Default Runtime: runc</sentence>
+            <sentence id="22.20">Security Options:</sentence>
+            <sentence id="22.21">Kernel Version: 4.1.12-61.1.17.el6uek.x86_64</sentence>
+            <sentence id="22.22">Operating System: Oracle Linux Server 6.7</sentence>
+            <sentence id="22.23">OSType: linux</sentence>
+            <sentence id="22.24">Architecture: x86_64</sentence>
+            <sentence id="22.25">CPUs: 2</sentence>
+            <sentence id="22.26">Total Memory: 3.858 GiB</sentence>
+            <sentence id="22.27">Name: **********.novalocal</sentence>
+            <sentence id="22.28">ID: P5PR:YBOT:SLNB:IPES:KTV6:GO26:6UU3:FUWC:UKU5:TFY6:P2VI:Z3MP</sentence>
+            <sentence id="22.29">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="22.30">Debug Mode (client): false</sentence>
+            <sentence id="22.31">Debug Mode (server): true</sentence>
+            <sentence id="22.32"> File Descriptors: 59</sentence>
+            <sentence id="22.33"> Goroutines: 87</sentence>
+            <sentence id="22.34"> System Time: 2016-11-11T12:03:02.740206819-05:00</sentence>
+            <sentence id="22.35"> EventsListeners: 0</sentence>
+            <sentence id="22.36">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="22.37">"'</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="23.2">Openstack, physical mix</sentence>
+        </paragraph>
+    </description>
+</bug>

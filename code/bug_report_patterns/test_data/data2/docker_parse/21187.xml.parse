@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>21187</id>
+    <title>Flaky test: TestRunStdinBlockedAfterContainerExit</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Seen failing on WindowsTP4 in https://github.com/docker/docker/pull/21183 (https://jenkins.dockerproject.org/job/Docker-PRs-WoW-TP4/2677/console)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+15:21:54 SKIP: docker_cli_run_test.go:1633: DockerSuite.TestRunState (Test requires a Linux daemon)
+15:22:25 
+15:22:25 ----------------------------------------------------------------------
+15:22:25 FAIL: docker_cli_run_test.go:3904: DockerSuite.TestRunStdinBlockedAfterContainerExit
+15:22:25 
+15:22:25 docker_cli_run_test.go:3920:
+15:22:25 c.Fatal("timeout waiting for command to exit")
+15:22:25 ... Error: timeout waiting for command to exit
+15:22:25 
+15:22:25 
+15:22:25 ----------------------------------------------------------------------
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>43177</id>
+    <title>Text.setText() triggers two ModifyEvents</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I see this behaviour in Eclipse-GTK I20030916.</sentence>
+            <sentence id="1.2">The relevent lines of code in
+setText(String) are:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">OS.gtk_editable_delete_text (handle, 0, -1);
+	int [] position = new int [1];
+	OS.gtk_editable_insert_text (handle, buffer, buffer.length, position);</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The delete text method triggers a ModifyEvent.</sentence>
+            <sentence id="3.2">However, if you are listening
+for modify events, then the actual new text won't be set yet.</sentence>
+            <sentence id="3.3">For an example,
+see Bug 43168.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This is different than I'd expect and different than how Windows XP SWT works.</sentence>
+            <sentence id="4.2">On win32, the modify event is only sent after the internal state has been
+updated fully.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Is this a limitation of GTK, or an implementation problem with SWT?</sentence>
+        </paragraph>
+    </description>
+</bug>

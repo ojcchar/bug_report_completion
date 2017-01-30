@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>61298</id>
+    <title>warning "cannot reverse-lookup rule. Reverse mapping incomplete?"</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 75342
+typescript with warnings</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The referenced warning message has been mentioned in</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">bug 60504 "EDITING: Sort removes brackets in Queries - Sorting
+      doesn't work in correlated Subqueries"</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">bug 60539 "FILESAVE: Column-width of a Query couldn't be saved"</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">bug 61203 "SQL syntax error inserting new record into empty table"</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I am creating this report to deal with the possibility that it is
+independent of those other problems.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">steps to reproduce ...</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">(1 Download the .</sentence>
+            <sentence id="8.2">odb file attached to bug 61193</sentence>
+            <sentence id="8.3">&lt;https://bugs.freedesktop.org/attachment.cgi?id=75216&gt;.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">(2 At command line, open the file.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Program displays window "New Database1.odb"</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">(3 In the left pane, click &lt;Tables&gt;.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Program displays table name OneColumn in the lower right pane.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">(4 In the lower right pane right-click OneColumn and on the pop-up menu select Open.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Program displays Table Data View window.</sentence>
+            <sentence id="14.2">In the terminal window,
+    observe numerous warnings like the following, but with an
+    assortment of _nRule's ...</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">warn:connectivity.parse:1104:1:workdir/unxlngi6/YaccTarget/connectivity/source/parse/sqlbison.cxx:9223: connectivity::OSQLParser::RuleIDToRule cannot reverse-lookup rule.</sentence>
+            <sentence id="15.2">Reverse mapping incomplete?</sentence>
+            <sentence id="15.3">_nRule='383' yytname[_nRule]='opt_fetch_first_clause'</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">The attached typescript has 77 instances of the warning.</sentence>
+            <sentence id="16.2">Doing some
+counting gives us ...</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">_nRule  times  yytname[_nRule]</sentence>
+            <sentence id="17.2">------  -----  ------------------------</sentence>
+            <sentence id="17.3">367     15  opt_all_distinct</sentence>
+            <sentence id="17.4">378     10  opt_result_offset_clause</sentence>
+            <sentence id="17.5">383     10  opt_fetch_first_clause</sentence>
+            <sentence id="17.6">387     10  opt_limit_offset_clause</sentence>
+            <sentence id="17.7">398     10  opt_group_by_clause</sentence>
+            <sentence id="17.8">400     10  opt_having_clause</sentence>
+            <sentence id="17.9">418      2  null_predicate_part_2</sentence>
+            <sentence id="17.10">489     10  opt_window_clause</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">I observed this with master commit 2e367c0, pulled around 2013-02-17,
+built and running on ubuntu-natty (11.04) 32-bit.</sentence>
+            <sentence id="18.2">My configuration
+options are ...</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">--enable-dbgutil</sentence>
+            <sentence id="19.2">--enable-crashdump</sentence>
+            <sentence id="19.3">--disable-build-mozilla</sentence>
+            <sentence id="19.4">--without-system-postgresql</sentence>
+            <sentence id="19.5">--without-myspell-dicts</sentence>
+            <sentence id="19.6">--without-help</sentence>
+            <sentence id="19.7">--with-extra-buildid</sentence>
+        </paragraph>
+    </description>
+</bug>

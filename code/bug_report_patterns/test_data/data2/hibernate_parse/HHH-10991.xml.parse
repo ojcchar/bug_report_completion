@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10991</id>
+    <title>Wrong order parameter binding when filters are used in conjunction with component type parameters and subqueries</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hibernate creates a SQL-statement with position based parameters in the wrong order. That is, the sql statement creation works as expected but the parameters that are placed into the place holders are in the wrong order.</sentence>
+            <sentence id="1.2">This only happens if a filter ist used in a query and a subquery with entities that have a composite-id . For some reason hibernate does not set the parameter of the second filter in the subquery but uses the next parameter instead.</sentence>
+            <sentence id="1.3">Constructing such a statement is very easy. All you need is a filter, and an entities with a composite-id.</sentence>
+            <sentence id="1.4">Make sure the filter is used by the entity. (in the entitie's (*.).hbm.xml or annotation) </sentence>
+            <sentence id="1.5">Then create a Createria from the class and add a Restriction for that classes composite id.</sentence>
+            <sentence id="1.6">Furthermore create a DetachedCriteria that will be used in a subquery, which consists of a restriction and any Projection. After that, append the DetachedCriteria with a Property to the first Criteria.</sentence>
+            <sentence id="1.7">and then call list() on the Criteria.</sentence>
+            <sentence id="1.8">The result is a SQL statement with the filter in the main statement and the sub statement, and parameters assigned by position. But in the subquery, the parameters are mixed and therefore appended at the wrong place in the query.</sentence>
+            <sentence id="1.9">In the beste case this statement crashes because of parameter type missmatch, but it's also possible that the parameter types fit and an invalid entry will be created silently.</sentence>
+            <sentence id="1.10">A complete Test is appended to this ticket.</sentence>
+        </paragraph>
+    </description>
+</bug>

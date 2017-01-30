@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>325755</id>
+    <title>[compiler] wrong initialization state after conditional expression</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">N20100919-2000 - works in 3.7 M2.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Not sure whether this is caused by recent changes in PDE build or Equinox.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">1 check out a bundle from CVS, e.g. org.eclipse.core.filebuffers</sentence>
+            <sentence id="3.2">2 File &gt; Export... &gt; Deployable plug-ins and fragments</sentence>
+            <sentence id="3.3">==&gt; NPE:</sentence>
+            <sentence id="3.4">!</sentence>
+            <sentence id="3.5">ENTRY org.eclipse.core.jobs 4 2 2010-09-20 15:52:26.567</sentence>
+            <sentence id="3.6">!</sentence>
+            <sentence id="3.7">MESSAGE An internal error occurred during: "Export Plug-ins".</sentence>
+            <sentence id="3.8">!</sentence>
+            <sentence id="3.9">STACK 0</sentence>
+            <sentence id="3.10">java.lang.NullPointerException</sentence>
+            <sentence id="3.11">	at org.eclipse.osgi.framework.internal.core.FilterImpl$Parser.&lt;init&gt;(FilterImpl.java:1373)</sentence>
+            <sentence id="3.12">	at org.eclipse.osgi.framework.internal.core.FilterImpl.newInstance(FilterImpl.java:142)</sentence>
+            <sentence id="3.13">	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.createFilter(BundleContextImpl.java:915)</sentence>
+            <sentence id="3.14">	at org.eclipse.pde.internal.build.BundleHelper.createFilter(BundleHelper.java:123)</sentence>
+            <sentence id="3.15">	at org.eclipse.pde.internal.build.BundleHelper.getFilter(BundleHelper.java:165)</sentence>
+            <sentence id="3.16">	at org.eclipse.pde.internal.build.builder.ClasspathComputer3_0.matchFilter(ClasspathComputer3_0.java:574)</sentence>
+            <sentence id="3.17">	at org.eclipse.pde.internal.build.builder.ClasspathComputer3_0.addPluginAndPrerequisites(ClasspathComputer3_0.java:566)</sentence>
+            <sentence id="3.18">	at org.eclipse.pde.internal.build.builder.ClasspathComputer3_0.addPrerequisites(ClasspathComputer3_0.java:528)</sentence>
+            <sentence id="3.19">	at org.eclipse.pde.internal.build.builder.ClasspathComputer3_0.getClasspath(ClasspathComputer3_0.java:120)</sentence>
+            <sentence id="3.20">	at org.eclipse.pde.internal.build.builder.ModelBuildScriptGenerator.generateBuildJarsTarget(ModelBuildScriptGenerator.java:1260)</sentence>
+            <sentence id="3.21">	at org.eclipse.pde.internal.build.builder.ModelBuildScriptGenerator.generateBuildScript(ModelBuildScriptGenerator.java:307)</sentence>
+            <sentence id="3.22">	at org.eclipse.pde.internal.build.builder.ModelBuildScriptGenerator.generate(ModelBuildScriptGenerator.java:161)</sentence>
+            <sentence id="3.23">	at org.eclipse.pde.internal.build.builder.BuildDirector.generateModels(BuildDirector.java:520)</sentence>
+            <sentence id="3.24">	at org.eclipse.pde.internal.build.builder.BuildDirector.generateChildrenScripts(BuildDirector.java:265)</sentence>
+            <sentence id="3.25">	at org.eclipse.pde.internal.build.builder.BuildDirector.generate(BuildDirector.java:199)</sentence>
+            <sentence id="3.26">	at org.eclipse.pde.internal.build.builder.BuildDirector.generate(BuildDirector.java:192)</sentence>
+            <sentence id="3.27">	at org.eclipse.pde.internal.build.BuildScriptGenerator.generateFeatures(BuildScriptGenerator.java:238)</sentence>
+            <sentence id="3.28">	at org.eclipse.pde.internal.build.BuildScriptGenerator.generate(BuildScriptGenerator.java:112)</sentence>
+            <sentence id="3.29">	at org.eclipse.pde.internal.core.exports.FeatureExportOperation.doExport(FeatureExportOperation.java:258)</sentence>
+            <sentence id="3.30">	at org.eclipse.pde.internal.core.exports.FeatureBasedExportOperation.run(FeatureBasedExportOperation.java:50)</sentence>
+            <sentence id="3.31">	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)</sentence>
+        </paragraph>
+    </description>
+</bug>

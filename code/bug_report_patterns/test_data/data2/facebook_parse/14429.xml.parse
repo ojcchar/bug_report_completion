@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14429</id>
+    <title>error code 1: unknown error occurred_ while fetching news feed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Since yesterday (Tuesday_ 12/29)_ we ve seen a sudden increase in  unknown error occurred  errors across our user base when fetching news feed posts.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">After some experimentation_ it seems that facebook seems to run out of resources handling the number of posts being requested.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For example_ for a specific user:
+https://graph.facebook.com/me/home?limit=36&amp;access_token=[token]</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">will work_ but:
+https://graph.facebook.com/me/home?limit=37&amp;access_token=[token]</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">will return:
+{
+  error_code: 1
+  error_msg:  An unknown error occurred 
+}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The weird thing is_ this problem is completely reproducible for the specific users who run into this problem_ whereas for other users we can fetch 200 items without a problem.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This is a very concerning problem for us_ since a number of our users are completely unable to view their content.</sentence>
+            <sentence id="7.2">Could you please take a look?</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Thanks!</sentence>
+            <sentence id="8.2">Amy</sentence>
+        </paragraph>
+    </description>
+</bug>

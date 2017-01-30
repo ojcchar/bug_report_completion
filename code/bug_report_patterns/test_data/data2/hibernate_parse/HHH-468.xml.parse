@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-468</id>
+    <title>MysqlDialect incorrectly maps java.lang.Boolean to SQL BIT</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I didn't track down how java.lang.Boolean gets mapped to Types.BIT in hibernate, but you probably _don't_ want to map to "bit" like you do in MysqlDialect.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"bit", according to SQL99 (it's not in the core standard, and the type was actually dropped for sql2k3) is a bitfield, not a boolean value.</sentence>
+            <sentence id="2.2">You can of course define a bit(1), but it is technically more correct for java.lang.Boolean to map to a SQL BOOLEAN for MySQL since we support a BOOLEAN and a BIT. </sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">It looks like the JDBC-3.0 guys ignored what the standard said, because in reality you'd want BIT to map to something like byte[], or java.util.BitSet if you were tracking how the SQL standard defines BIT.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I'm guessing you probably want to map to "boolean", which the JDBC driver will automagically convert for you, as it silently maps to TINYINT(1) on the server side.</sentence>
+        </paragraph>
+    </description>
+</bug>

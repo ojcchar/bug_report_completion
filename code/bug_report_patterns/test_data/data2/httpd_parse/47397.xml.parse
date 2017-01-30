@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>47397</id>
+    <title>apxs does not handle enable/disable module correct</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There is a miss behavior in the apxs script from apache22 (other versions not tested)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you install a apache22 the LoadModule lines look like the following</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">LoadModule *whitespace* ${modulename}_module *whitespace* libexec/apache22/mod_${modulename}.</sentence>
+            <sentence id="3.2">so</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If you try now to activate/deactivate a module with apxs the result will differ from what you expect</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">fire up the following commands</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">$&gt; apxs -e -a -n autoindex mod_autoindex.</sentence>
+            <sentence id="6.2">so
+[activating module `autoindex' in /usr/local/etc/apache22/httpd.</sentence>
+            <sentence id="6.3">conf]
+$&gt; apxs -e -a -n cgi mod_cgi.</sentence>
+            <sentence id="6.4">so
+[activating module `cgi' in /usr/local/etc/apache22/httpd.</sentence>
+            <sentence id="6.5">conf]</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This will result into the following httpd.conf</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">$&gt; grep -e autoindex_ -e cgi_ httpd.conf
+LoadModule autoindex_module libexec/apache22/mod_autoindex.so
+LoadModule cgi_module libexec/apache22/mod_cgi.so
+LoadModule autoindex_module   libexec/apache22/mod_autoindex.so
+LoadModule cgi_module         libexec/apache22/mod_cgi.so</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">As you notice the modules are now loaded twice</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Now try to deactivate for the loaded ssl module</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">$&gt; grep ssl_ httpd.conf
+LoadModule ssl_module libexec/apache22/mod_ssl.so</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">$&gt; apxs -e -A -n ssl mod_ssl.</sentence>
+            <sentence id="12.2">so
+[preparing module `ssl' in /usr/local/etc/apache22/httpd.</sentence>
+            <sentence id="12.3">conf]</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">$&gt; grep ssl_ httpd.conf
+LoadModule ssl_module libexec/apache22/mod_ssl.so
+#LoadModule ssl_module         libexec/apache22/mod_ssl.so</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Instead to deactivate the module a new line will be insert.</sentence>
+        </paragraph>
+    </description>
+</bug>

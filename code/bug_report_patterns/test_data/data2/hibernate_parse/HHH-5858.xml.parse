@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5858</id>
+    <title>Cannot load entities with Clob or Lob properties into stateless sessions</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have a an entity with a Clob property:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code:java}
+@Lob
+private Clob clobProperty;
+{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">When I try and load it in a stateless session, I get:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{noformat}</sentence>
+            <sentence id="4.2">Exception in thread "main" java.lang.ClassCastException: org.hibernate.impl.StatelessSessionImpl cannot be cast to org.hibernate.engine.jdbc.LobCreationContext</sentence>
+            <sentence id="4.3">	at org.hibernate.Hibernate.getLobCreator(Hibernate.java:420)</sentence>
+            <sentence id="4.4">	at org.hibernate.type.ClobType.nullSafeGet(ClobType.java:114)</sentence>
+            <sentence id="4.5">	at org.hibernate.type.AbstractType.hydrate(AbstractType.java:105)</sentence>
+            <sentence id="4.6">	at org.hibernate.persister.entity.AbstractEntityPersister.hydrate(AbstractEntityPersister.java:2267)</sentence>
+            <sentence id="4.7">	at org.hibernate.loader.Loader.loadFromResultSet(Loader.java:1423)</sentence>
+            <sentence id="4.8">	at org.hibernate.loader.Loader.instanceNotYetLoaded(Loader.java:1351)</sentence>
+            <sentence id="4.9">	at org.hibernate.loader.Loader.getRow(Loader.java:1251)</sentence>
+            <sentence id="4.10">	at org.hibernate.loader.Loader.getRowFromResultSet(Loader.java:619)</sentence>
+            <sentence id="4.11">	at org.hibernate.loader.Loader.loadSingleRow(Loader.java:307)</sentence>
+            <sentence id="4.12">	at org.hibernate.impl.ScrollableResultsImpl.prepareCurrentRow(ScrollableResultsImpl.java:254)</sentence>
+            <sentence id="4.13">	at org.hibernate.impl.ScrollableResultsImpl.next(ScrollableResultsImpl.java:123)</sentence>
+            <sentence id="4.14">{noformat}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">If Lobs in stateless sessions isn't supported, then at very least an error message to that effect should be thrown and the docs should be updated to reflect this, but I don't see why that should be the case, especially considering that both Lobs and stateless session both serve very similar purposes, they are for use when dealing with large datasets that may not fit in memory, and so could well be used together.</sentence>
+        </paragraph>
+    </description>
+</bug>

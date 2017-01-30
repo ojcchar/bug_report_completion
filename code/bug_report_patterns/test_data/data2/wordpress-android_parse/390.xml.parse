@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>390</id>
+    <title>DB migration fails when DB version &lt;= 10</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">While testing, I noticed the migrateDrafts method fails because localdrafts table doesn't exist / is not previously created.</sentence>
+            <sentence id="1.2">We probably need to catch this exception and continue the migration.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;pre&gt;&lt;code&gt;</sentence>
+            <sentence id="2.2">android.database.sqlite.SQLiteException: no such table: localdrafts (code 1): , while compiling: SELECT blogID, title, content, picturePaths, date, categories, tags, status, password, latitude, longitude FROM localdrafts ORDER BY id desc</sentence>
+            <sentence id="2.3"> at android.database.sqlite.SQLiteConnection.nativePrepareStatement(Native Method)</sentence>
+            <sentence id="2.4"> at android.database.sqlite.SQLiteConnection.acquirePreparedStatement(SQLiteConnection.java:889)</sentence>
+            <sentence id="2.5"> at android.database.sqlite.SQLiteConnection.prepare(SQLiteConnection.java:500)</sentence>
+            <sentence id="2.6"> at android.database.sqlite.SQLiteSession.prepare(SQLiteSession.java:588)</sentence>
+            <sentence id="2.7"> at android.database.sqlite.SQLiteProgram.&lt;init&gt;(SQLiteProgram.java:58)</sentence>
+            <sentence id="2.8"> at android.database.sqlite.SQLiteQuery.&lt;init&gt;(SQLiteQuery.java:37)</sentence>
+            <sentence id="2.9"> at android.database.sqlite.SQLiteDirectCursorDriver.query(SQLiteDirectCursorDriver.java:44)</sentence>
+            <sentence id="2.10"> at android.database.sqlite.SQLiteDatabase.rawQueryWithFactory(SQLiteDatabase.java:1314)</sentence>
+            <sentence id="2.11"> at android.database.sqlite.SQLiteDatabase.queryWithFactory(SQLiteDatabase.java:1161)</sentence>
+            <sentence id="2.12"> at android.database.sqlite.SQLiteDatabase.query(SQLiteDatabase.java:1032)</sentence>
+            <sentence id="2.13"> at android.database.sqlite.SQLiteDatabase.query(SQLiteDatabase.java:1200)</sentence>
+            <sentence id="2.14"> at org.wordpress.android.WordPressDB.migrateDrafts(WordPressDB.java:263)</sentence>
+            <sentence id="2.15"> at org.wordpress.android.WordPressDB.&lt;init&gt;(WordPressDB.java:197)</sentence>
+            <sentence id="2.16"> at org.wordpress.android.TestUtils.loadDBFromDump(TestUtils.java:22)</sentence>
+            <sentence id="2.17">&lt;/code&gt;&lt;/pre&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

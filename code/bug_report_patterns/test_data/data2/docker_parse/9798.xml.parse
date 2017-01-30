@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9798</id>
+    <title>"docker tag -f" is inconsistent</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There are a number of commands that will directly overwrite a tag without so much as a warning, so it's strange that 'docker tag' is the only one that fatal errors when you try to do so without '--force'.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">To name a few:</sentence>
+            <sentence id="2.2">- 'docker pull'</sentence>
+            <sentence id="2.3">- 'docker build'</sentence>
+            <sentence id="2.4">- 'docker import'</sentence>
+            <sentence id="2.5">- 'docker load'</sentence>
+            <sentence id="2.6">- 'docker commit'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">It looks like this was the intentional behavior of 'docker tag' since at least as far back as 0.8.0 (since e71dbf4ee5add5736f595948fc20bd01af56a744 has 'docker tag -f' as a thing), but it wasn't until #8511 that it actually worked, which only just recently was released in 1.4.0.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Can anyone explain the rationale for what makes 'docker tag' so special, especially when the arguments to it are already required to be deliberately specified (just like all those other commands listed above)?</sentence>
+        </paragraph>
+    </description>
+</bug>

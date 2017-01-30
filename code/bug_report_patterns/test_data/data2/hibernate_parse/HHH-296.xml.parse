@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-296</id>
+    <title>merge sorted map/set</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When merging an entity parent that has property children mapped as sorted map(sorted=natural), each child in turn has property grand-children mapped as sorted map(sorted=natural),
+hibernate throws an below exception.</sentence>
+            <sentence id="1.2">&lt;b&gt;When merging by method saveOrUpdateCopy() in Hibernate2.1, no error happens.</sentence>
+            <sentence id="1.3">&lt;b&gt;
+If structure is only parent -&gt; children, no error happens too.</sentence>
+            <sentence id="1.4">When I try debugging into hibernate code, the grand-chilren property is null, instead of return a new TreeMap(sorted), a new HashMap is returned.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">mapping file:
+&lt;hibernate-mapping package="dummy"&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;!</sentence>
+            <sentence id="3.2">-- parent --&gt;
+	&lt;class lazy="true" name="Parent" table="parent"&gt;
+		&lt;id name="id" type="java.lang.Long" column="ID"&gt;
+			&lt;generator class="native" /&gt;
+		&lt;/id&gt;
+		&lt;property name="name" column="name" type="java.lang.String" /&gt;
+		&lt;map name="children" lazy="true" inverse="false"
+			cascade="all-delete-orphan" sort="natural"&gt;
+			&lt;key column="parent_id" /&gt;
+			&lt;index column="orders" type="java.lang.Integer" /&gt;
+			&lt;one-to-many class="Child" /&gt;
+		&lt;/map&gt;
+	&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;!</sentence>
+            <sentence id="4.2">-- child --&gt;
+	&lt;class lazy="true" name="Child" table="child"&gt;
+		&lt;id name="id" type="java.lang.Long" column="ID"&gt;
+			&lt;generator class="native" /&gt;
+		&lt;/id&gt;
+		&lt;property name="name" column="name" type="java.lang.String" /&gt;
+		&lt;property name="order" column="orders" type="java.lang.Integer" /&gt;
+		&lt;many-to-one name="parent" class="Parent" column="parent_id" /&gt;
+		&lt;map name="children" lazy="true" inverse="false"
+			cascade="all-delete-orphan" sort="natural"&gt;
+			&lt;key column="parent_id" /&gt;
+			&lt;index column="orders" type="java.lang.Integer" /&gt;
+			&lt;one-to-many class="GrandChild" /&gt;
+		&lt;/map&gt;
+	&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;!</sentence>
+            <sentence id="5.2">-- grand child --&gt;
+	&lt;class lazy="true" name="GrandChild" table="grand_child"&gt;
+		&lt;id name="id" type="java.lang.Long" column="ID"&gt;
+			&lt;generator class="native" /&gt;
+		&lt;/id&gt;
+		&lt;property name="name" column="name" type="java.lang.String" /&gt;
+		&lt;many-to-one name="parent" class="Child" column="parent_id" /&gt;
+		&lt;property name="order" column="orders" type="java.lang.Integer" /&gt;
+	&lt;/class&gt;
+&lt;/hibernate-mapping&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">test case:
+    public void testMerge() {
+        Parent parent = new Parent("parent name", null);
+        Long id = (Long) save(parent);
+        parent = (Parent) load(Parent.class, id);</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">restartSession();</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Child child = new Child("child name",null, null, null);
+        GrandChild grandChild = new GrandChild("grand child name", null,null);
+        child.addGrandChild(grandChild);
+        parent.addChild(child);</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Parent parent1 = (Parent) hibSess.get(Parent.class, id);
+        beginTrans();
+        //cannot call hibSess.update(parent) because instance with the same id parent1 was loaded already
+        hibSess.merge(parent);//error
+        commit();
+    }</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">trace:</sentence>
+            <sentence id="10.2">org.hibernate.PropertyAccessException: exception setting property value with CGLIB (set hibernate.cglib.use_reflection_optimizer=false for more info) setter of dummy.Child.setChildren</sentence>
+            <sentence id="10.3">	at org.hibernate.tuple.PojoTuplizer.setPropertyValuesWithOptimizer(PojoTuplizer.java:198)</sentence>
+            <sentence id="10.4">	at org.hibernate.tuple.PojoTuplizer.setPropertyValues(PojoTuplizer.java:168)</sentence>
+            <sentence id="10.5">	at org.hibernate.persister.entity.BasicEntityPersister.setPropertyValues(BasicEntityPersister.java:2922)</sentence>
+            <sentence id="10.6">	at org.hibernate.event.def.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:247)</sentence>
+            <sentence id="10.7">	at org.hibernate.event.def.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:149)</sentence>
+            <sentence id="10.8">	at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:104)</sentence>
+            <sentence id="10.9">	at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:492)</sentence>
+            <sentence id="10.10">	at org.hibernate.engine.Cascades$6.cascade(Cascades.java:175)</sentence>
+            <sentence id="10.11">	at org.hibernate.engine.Cascades.cascade(Cascades.java:721)</sentence>
+            <sentence id="10.12">	at org.hibernate.engine.Cascades.cascadeCollection(Cascades.java:860)</sentence>
+            <sentence id="10.13">	at org.hibernate.engine.Cascades.cascade(Cascades.java:739)</sentence>
+            <sentence id="10.14">	at org.hibernate.engine.Cascades.cascade(Cascades.java:817)</sentence>
+            <sentence id="10.15">	at org.hibernate.event.def.DefaultMergeEventListener.cascadeOnMerge(DefaultMergeEventListener.java:263)</sentence>
+            <sentence id="10.16">	at org.hibernate.event.def.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:222)</sentence>
+            <sentence id="10.17">	at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:102)</sentence>
+            <sentence id="10.18">	at org.hibernate.event.def.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:54)</sentence>
+            <sentence id="10.19">	at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:483)</sentence>
+            <sentence id="10.20">	at org.hibernate.impl.SessionImpl.merge(SessionImpl.java:487)</sentence>
+            <sentence id="10.21">	at dummy.TestMerge.testMerge(TestMerge.java:34)</sentence>
+            <sentence id="10.22">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="10.23">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+            <sentence id="10.24">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+            <sentence id="10.25">	at java.lang.reflect.Method.invoke(Method.java:324)</sentence>
+            <sentence id="10.26">	at junit.framework.TestCase.runTest(TestCase.java:154)</sentence>
+            <sentence id="10.27">	at junit.framework.TestCase.runBare(TestCase.java:127)</sentence>
+            <sentence id="10.28">	at junit.framework.TestResult$1.protect(TestResult.java:106)</sentence>
+            <sentence id="10.29">	at junit.framework.TestResult.runProtected(TestResult.java:124)</sentence>
+            <sentence id="10.30">	at junit.framework.TestResult.run(TestResult.java:109)</sentence>
+            <sentence id="10.31">	at junit.framework.TestCase.run(TestCase.java:118)</sentence>
+            <sentence id="10.32">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:421)</sentence>
+            <sentence id="10.33">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:305)</sentence>
+            <sentence id="10.34">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:186)</sentence>
+            <sentence id="10.35">Caused by: net.sf.cglib.beans.BulkBeanException</sentence>
+            <sentence id="10.36">	at dummy.Child$$BulkBeanByCGLIB$$bd203ea1.setPropertyValues(&lt;generated&gt;)</sentence>
+            <sentence id="10.37">	at org.hibernate.tuple.PojoTuplizer.setPropertyValuesWithOptimizer(PojoTuplizer.java:195)</sentence>
+            <sentence id="10.38">	... 31 more</sentence>
+            <sentence id="10.39">Caused by: java.lang.ClassCastException</sentence>
+            <sentence id="10.40">	... 33 more</sentence>
+        </paragraph>
+    </description>
+</bug>

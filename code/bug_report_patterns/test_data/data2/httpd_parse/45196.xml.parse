@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>45196</id>
+    <title>Apache 2.2.8 segfaults when trying to connect to a LDAP server</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 22120
+Backtrace</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I'm using an Apache 2.2.8 on Linux 2.6.16.13-4-smp and tried to open a
+LDAP connection using mod_authz_ldap and mod_auth_digest, but I got a
+Segmentation Fault.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The intereting part of my configuration file follows.</sentence>
+            <sentence id="3.2">Obviously personal
+data have been changed due to privacy.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">========
+NameVirtualHost myhost:80</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">ServerName myhost.myintranet</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">DavLockDB /tmp/DavLockDB
+&lt;AuthnProviderAlias ldap ldap-alias1&gt;
+AuthLDAPBindDN webdav@myserver.myintranet
+AuthLDAPBindPassword mypass
+AuthLDAPURL
+"ldap://myserver.myintranet:389/CN=Users,DC=adlab,DC=intranet?sAMAccountName?"</sentence>
+            <sentence id="6.2">&lt;/AuthnProviderAlias&gt;
+&lt;VirtualHost myhost:myintranet&gt;
+        ServerName myhost.myintranet
+        ServerAlias localhost
+        ExpiresActive On
+        ExpiresDefault now
+        Header add Pragma no-cache
+        Header add Pragma no-store
+        FileETag none</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">DocumentRoot /home/myhost/</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">&lt;Location /&gt;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Options +Indexes
+Dav On
+AuthType Digest
+AuthName LDAP_Protected_Place
+AuthDigestProvider ldap-alias1
+AuthzLDAPAuthoritative on
+AuthLDAPGroupAttributeIsDN on
+Order deny,allow
+Allow from all
+  require valid-user</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">&lt;/Location&gt;
+&lt;Location /ldap-status&gt;
+SetHandler ldap-status
+&lt;/Location&gt;
+&lt;/VirtualHost&gt;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">====</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">The next file is the strace of the httpd proccess during an
+authentication and the following crash</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">===</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">[pid 29353] &lt;... epoll_wait resumed&gt; {{EPOLLIN, {u32=135864328,</sentence>
+            <sentence id="14.2">u64=583532467631759368}}}, 2, -1) = 1</sentence>
+            <sentence id="14.3">[pid 29353] accept(4, {sa_family=AF_INET, sin_port=htons(44829),</sentence>
+            <sentence id="14.4">sin_addr=inet_addr("172.22.33.136")}, [16]) = 7</sentence>
+            <sentence id="14.5">[pid 29353] semop(17956929, 0xb7f0d70e, 1) = 0</sentence>
+            <sentence id="14.6">[pid 29353] futex(0x8140af8, 0x5 /* FUTEX_??? */, 1 &lt;unfinished ...&gt;</sentence>
+            <sentence id="14.7">[pid 29342] &lt;... futex resumed&gt; )       = 0</sentence>
+            <sentence id="14.8">[pid 29353] &lt;... futex resumed&gt; )       = 1</sentence>
+            <sentence id="14.9">[pid 29353] semop(17956929, 0xb7f0d708, 1) = 0</sentence>
+            <sentence id="14.10">[pid 29353] epoll_wait(6,  &lt;unfinished ...&gt;</sentence>
+            <sentence id="14.11">[pid 29342] futex(0x8140ac4, FUTEX_WAKE, 1) = 0</sentence>
+            <sentence id="14.12">[pid 29342] gettimeofday({1213294759, 951728}, NULL) = 0</sentence>
+            <sentence id="14.13">[pid 29342] fcntl64(7, F_GETFL)         = 0x2 (flags O_RDWR)</sentence>
+            <sentence id="14.14">[pid 29342] fcntl64(7, F_SETFL, O_RDWR|O_NONBLOCK) = 0</sentence>
+            <sentence id="14.15">[pid 29342] gettimeofday({1213294759, 952080}, NULL) = 0</sentence>
+            <sentence id="14.16">[pid 29342] read(7, "GET / HTTP/1.1\r\nHost: im5:8080\r\nUser-Agent:</sentence>
+            <sentence id="14.17">Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9) Gecko/2008061015</sentence>
+            <sentence id="14.18">Firefox/3.0\r\nAccept: text/html,application/xhtml</sentence>
+            <sentence id="14.19">+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: en-us,en;q=0.5</sentence>
+            <sentence id="14.20">\r\nAccept-Encoding: gzip,deflate\r\nAccept-Charset:</sentence>
+            <sentence id="14.21">ISO-8859-1,utf-8;q=0.7,*;q=0.7\r\nKeep-Alive: 300\r\nConnection:</sentence>
+            <sentence id="14.22">keep-alive\r\nAuthorization: Digest username=\"lalala\", realm=</sentence>
+            <sentence id="14.23">\"LDAP_Protected_Place\", nonce=</sentence>
+            <sentence id="14.24">\"Ba4MKHxPBAA=7d90825f04dcd95723aba0abfb0745c7ad3617b5\", uri=\"/\",</sentence>
+            <sentence id="14.25">algorithm=MD5, resp"..., 8000) = 605</sentence>
+            <sentence id="14.26">[pid 29342] gettimeofday({1213294759, 952604}, NULL) = 0</sentence>
+            <sentence id="14.27">[pid 29342] gettimeofday({1213294759, 952806}, NULL) = 0</sentence>
+            <sentence id="14.28">[pid 29342] gettimeofday({1213294759, 952917}, NULL) = 0</sentence>
+            <sentence id="14.29">[pid 29342] stat64("/home/myhost/", {st_mode=S_IFDIR|0755,</sentence>
+            <sentence id="14.30">st_size=160, ...}) = 0</sentence>
+            <sentence id="14.31">[pid 29342] open("/.htaccess", O_RDONLY|O_LARGEFILE) = -1 ENOENT (No</sentence>
+            <sentence id="14.32">such file or directory)</sentence>
+            <sentence id="14.33">[pid 29342] open("/home/myhost/.htaccess", O_RDONLY|O_LARGEFILE) = -1</sentence>
+            <sentence id="14.34">ENOENT (No such file or directory)</sentence>
+            <sentence id="14.35">[pid 29342] open("/home/myhost/.htaccess", O_RDONLY|O_LARGEFILE) = -1</sentence>
+            <sentence id="14.36">ENOENT (No such file or directory)</sentence>
+            <sentence id="14.37">[pid 29342] open("/home/myhost/.htaccess", O_RDONLY|O_LARGEFILE) = -1</sentence>
+            <sentence id="14.38">ENOENT (No such file or directory)</sentence>
+            <sentence id="14.39">[pid 29342] --- SIGSEGV (Segmentation fault) @ 0 (0) ---</sentence>
+            <sentence id="14.40">Process 29342 detached</sentence>
+            <sentence id="14.41">[pid 29325] &lt;... rt_sigtimedwait resumed&gt; 0xbfba83f8) = -1 EINTR</sentence>
+            <sentence id="14.42">(Interrupted system call)</sentence>
+            <sentence id="14.43">[pid 29339] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.44">call)</sentence>
+            <sentence id="14.45">[pid 29338] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.46">call)</sentence>
+            <sentence id="14.47">[pid 29333] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.48">call)</sentence>
+            <sentence id="14.49">[pid 29335] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.50">call)</sentence>
+            <sentence id="14.51">[pid 29332] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.52">call)</sentence>
+            <sentence id="14.53">[pid 29352] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.54">call)</sentence>
+            <sentence id="14.55">[pid 29351] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.56">call)</sentence>
+            <sentence id="14.57">[pid 29350] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.58">call)</sentence>
+            <sentence id="14.59">[pid 29349] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.60">call)</sentence>
+            <sentence id="14.61">[pid 29337] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.62">call)</sentence>
+            <sentence id="14.63">[pid 29340] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.64">call)</sentence>
+            <sentence id="14.65">[pid 29328] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.66">call)</sentence>
+            <sentence id="14.67">[pid 29330] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.68">call)</sentence>
+            <sentence id="14.69">[pid 29343] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.70">call)</sentence>
+            <sentence id="14.71">[pid 29341] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.72">call)</sentence>
+            <sentence id="14.73">[pid 29329] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.74">call)</sentence>
+            <sentence id="14.75">[pid 29331] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.76">call)</sentence>
+            <sentence id="14.77">[pid 29334] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.78">call)</sentence>
+            <sentence id="14.79">[pid 29336] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.80">call)</sentence>
+            <sentence id="14.81">[pid 29345] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.82">call)</sentence>
+            <sentence id="14.83">[pid 29348] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.84">call)</sentence>
+            <sentence id="14.85">[pid 29347] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.86">call)</sentence>
+            <sentence id="14.87">[pid 29346] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.88">call)</sentence>
+            <sentence id="14.89">[pid 29344] &lt;... futex resumed&gt; )       = -1 EINTR (Interrupted system</sentence>
+            <sentence id="14.90">call)</sentence>
+            <sentence id="14.91">[pid 29353] &lt;... epoll_wait resumed&gt; 8191fb8, 2, -1) = -1 EINTR</sentence>
+            <sentence id="14.92">(Interrupted system call)</sentence>
+            <sentence id="14.93">[pid 29339] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.94">Process 29339 detached</sentence>
+            <sentence id="14.95">[pid 29338] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.96">Process 29338 detached</sentence>
+            <sentence id="14.97">[pid 29333] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.98">Process 29333 detached</sentence>
+            <sentence id="14.99">[pid 29335] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.100">Process 29335 detached</sentence>
+            <sentence id="14.101">[pid 29332] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.102">Process 29332 detached</sentence>
+            <sentence id="14.103">[pid 29352] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.104">Process 29352 detached</sentence>
+            <sentence id="14.105">[pid 29351] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.106">Process 29351 detached</sentence>
+            <sentence id="14.107">[pid 29350] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.108">Process 29350 detached</sentence>
+            <sentence id="14.109">[pid 29349] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.110">Process 29349 detached</sentence>
+            <sentence id="14.111">[pid 29337] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.112">Process 29337 detached</sentence>
+            <sentence id="14.113">[pid 29340] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.114">Process 29340 detached</sentence>
+            <sentence id="14.115">[pid 29328] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.116">Process 29328 detached</sentence>
+            <sentence id="14.117">[pid 29330] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.118">Process 29330 detached</sentence>
+            <sentence id="14.119">[pid 29343] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.120">Process 29343 detached</sentence>
+            <sentence id="14.121">[pid 29341] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.122">Process 29341 detached</sentence>
+            <sentence id="14.123">[pid 29329] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.124">Process 29329 detached</sentence>
+            <sentence id="14.125">[pid 29331] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.126">Process 29331 detached</sentence>
+            <sentence id="14.127">[pid 29334] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.128">Process 29334 detached</sentence>
+            <sentence id="14.129">[pid 29336] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.130">Process 29336 detached</sentence>
+            <sentence id="14.131">[pid 29345] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.132">Process 29345 detached</sentence>
+            <sentence id="14.133">[pid 29348] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.134">Process 29348 detached</sentence>
+            <sentence id="14.135">[pid 29347] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.136">Process 29347 detached</sentence>
+            <sentence id="14.137">[pid 29346] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.138">Process 29346 detached</sentence>
+            <sentence id="14.139">[pid 29344] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.140">Process 29344 detached</sentence>
+            <sentence id="14.141">[pid 29353] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.142">Process 29353 detached</sentence>
+            <sentence id="14.143">[pid 29325] +++ killed by SIGSEGV +++</sentence>
+            <sentence id="14.144">Process 29325 detached</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">===</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Then, I'll add the last lines of the ltrace of the httpd.</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">===</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">geteuid()</sentence>
+            <sentence id="18.2">= 0</sentence>
+            <sentence id="18.3">setuid(65534)</sentence>
+            <sentence id="18.4">= 0</sentence>
+            <sentence id="18.5">apr_time_now(5, 11, 20, 39, 24)</sentence>
+            <sentence id="18.6">= 0x8e162468</sentence>
+            <sentence id="18.7">apr_snprintf(0xbfcd84e7, 8165, 0x8096d80, 0x80924c8, 24)</sentence>
+            <sentence id="18.8">= 8</sentence>
+            <sentence id="18.9">apr_snprintf(0xbfcd84ef, 8157, 0x8096d86, 0xb7ad9e64, 1670)</sentence>
+            <sentence id="18.10">= 20</sentence>
+            <sentence id="18.11">apr_vsnprintf(0xbfcd64cc, 8137, 0xb7ad9af0, 0xbfcda538, 1670)</sentence>
+            <sentence id="18.12">= 72</sentence>
+            <sentence id="18.13">apr_file_puts(0xbfcd84cc, 0x80a70d8, 8137, 0xbfcda538, 1670)</sentence>
+            <sentence id="18.14">= 0</sentence>
+            <sentence id="18.15">apr_file_flush(0x80a70d8, 0x80a70d8, 8137, 0xbfcda538, 1670)</sentence>
+            <sentence id="18.16">= 0</sentence>
+            <sentence id="18.17">apr_time_now(0xb7ad9e64, 0xbfcd8503, 0xbfcda4d8, 0x80787bc, 0xb7ad9e64)</sentence>
+            <sentence id="18.18">= 0x8e162742</sentence>
+            <sentence id="18.19">apr_snprintf(0xbfcd84d7, 8165, 0x8096d80, 0x80924c8, 0xb7ad9e64)</sentence>
+            <sentence id="18.20">= 8</sentence>
+            <sentence id="18.21">apr_snprintf(0xbfcd84df, 8157, 0x8096d86, 0xb7ad9e64, 1761)</sentence>
+            <sentence id="18.22">= 20</sentence>
+            <sentence id="18.23">apr_vsnprintf(0xbfcd64bc, 8137, 0xb7ad99f8, 0xbfcda528, 1761)</sentence>
+            <sentence id="18.24">= 71</sentence>
+            <sentence id="18.25">apr_file_puts(0xbfcd84bc, 0x80a70d8, 8137, 0xbfcda528, 1761)</sentence>
+            <sentence id="18.26">= 0</sentence>
+            <sentence id="18.27">apr_file_flush(0x80a70d8, 0x80a70d8, 8137, 0xbfcda528, 1761)</sentence>
+            <sentence id="18.28">= 0</sentence>
+            <sentence id="18.29">apr_setup_signal_thread(0x8140920, 0x80aaf98, 0x8140920, 0x80a3008, 0)</sentence>
+            <sentence id="18.30">= 0</sentence>
+            <sentence id="18.31">calloc(1, 100)</sentence>
+            <sentence id="18.32">= 0x8188e18</sentence>
+            <sentence id="18.33">apr_palloc(0x8140920, 16, 0x8140920, 0x80a3008, 0)</sentence>
+            <sentence id="18.34">= 0x8140a40</sentence>
+            <sentence id="18.35">apr_threadattr_create(0xbfcda5e8, 0x8140920, 0x8140920, 0x80a3008, 0)</sentence>
+            <sentence id="18.36">= 0</sentence>
+            <sentence id="18.37">apr_threadattr_detach_set(0x8140a50, 0, 0x8140920, 0x80a3008, 0)</sentence>
+            <sentence id="18.38">= 0</sentence>
+            <sentence id="18.39">apr_thread_create(0xbfcda5e4, 0x8140a50, 0x8087810, 0x8140a40, 0x8140920</sentence>
+            <sentence id="18.40">&lt;unfinished ...&gt;</sentence>
+            <sentence id="18.41">+++ killed by SIGTRAP +++</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">===</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">The backtrace of the error is attached.</sentence>
+        </paragraph>
+    </description>
+</bug>

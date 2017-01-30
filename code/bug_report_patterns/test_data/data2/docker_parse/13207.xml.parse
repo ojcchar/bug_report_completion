@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13207</id>
+    <title>Docker unable to identify hosts</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I initially assumed a DNS issue, but 'docker run -dns 8.8.8.8 ubuntu ping www.docker.io' returns 'ping: unknown host www.docker.io'.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Additionally, I've tried:</sentence>
+            <sentence id="2.2">1 Restarting the docker daemon</sentence>
+            <sentence id="2.3">2 Restarting my entire machine</sentence>
+            <sentence id="2.4">3 Running the docker daemon with 'docker -d -dns 8.8.8.8'</sentence>
+            <sentence id="2.5">4 The reset [here](https://github.com/docker/docker/issues/866#issuecomment-19218300)</sentence>
+            <sentence id="2.6">5 The NetworkManager.conf fix found [here](https://github.com/docker/docker/issues/1809)</sentence>
+            <sentence id="2.7">6 Uninstalling and reinstalling 'docker-io' via yum</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">And yet, when I try to build a dockerfile witih 'apt-get install' in it, I get</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">'W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/trusty/InRelease' et.</sentence>
+            <sentence id="4.2">cetera for the various sources, with the daemon output of:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">'INFO[0085] +job build() </sentence>
+            <sentence id="5.2">INFO[0086] +job allocate_interface(7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1) </sentence>
+            <sentence id="5.3">INFO[0086] -job allocate_interface(7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1) = OK (0) </sentence>
+            <sentence id="5.4">INFO[0086] +job log(start, 7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1, 6aef879eb2b9) </sentence>
+            <sentence id="5.5">INFO[0086] -job log(start, 7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1, 6aef879eb2b9) = OK (0) </sentence>
+            <sentence id="5.6">INFO[0096] +job log(die, 7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1, 6aef879eb2b9) </sentence>
+            <sentence id="5.7">INFO[0096] -job log(die, 7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1, 6aef879eb2b9) = OK (0) </sentence>
+            <sentence id="5.8">INFO[0096] +job release_interface(7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1) </sentence>
+            <sentence id="5.9">INFO[0096] -job release_interface(7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1) = OK (0) </sentence>
+            <sentence id="5.10">ERRO[0106] Error waiting for device 7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1 to close: Timeout while waiting for device 7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1 to close </sentence>
+            <sentence id="5.11">ERRO[0117] Error unmounting device 7f418be5c910a6d6ed0de24c70598b2fb99349452da8f2b321fb0dca014c2bd1: Device is Busy </sentence>
+            <sentence id="5.12">The command [/bin/sh -c apt-get -qq update &amp;&amp; apt-get install -y python3-pip python-dev libpq-dev] returned a non-zero code: 100</sentence>
+            <sentence id="5.13">INFO[0117] -job build() = ERR (1)'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Any thoughts?</sentence>
+            <sentence id="6.2">I'm at a loss.</sentence>
+        </paragraph>
+    </description>
+</bug>

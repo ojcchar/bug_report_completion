@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>21125</id>
+    <title>hack/make/.detect-daemon-osarch fails on linux/arm</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;!</sentence>
+            <sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+            <sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+            <sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+            <sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+            <sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------------------------------------------------</sentence>
+            <sentence id="4.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="4.3">---------------------------------------------------</sentence>
+            <sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="4.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+Client version: 1.6.2
+Client API version: 1.18
+Go version (client): go1.3.3
+Git commit (client): 7c8fca2
+OS/Arch (client): linux/arm
+Server version: 1.6.2
+Server API version: 1.18
+Go version (server): go1.3.3
+Git commit (server): 7c8fca2
+OS/Arch (server): linux/arm
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+Storage Driver: btrfs
+ Build Version: Btrfs v3.17
+ Library Version: 101
+Execution Driver: native-0.2
+Kernel Version: 4.4.1-sunxi
+Operating System: Debian GNU/Linux 8 (jessie)
+"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">When trying to build the docker-dev image (with 'make build') I noticed that the script was using the usual Dockerfile instead of the Dockerfile.armhf, which of course resulted in a failure.</sentence>
+            <sentence id="9.2">(Can't run the AMD64 image on armhf)
+I looked into the Makefile and saw that it is pulling the "DOCKER_OSARCH" variable from the script hack/make/.</sentence>
+            <sentence id="9.3">detect-daemon-osarch, which exports DOCKER_ENGINE_OSARCH, DOCKER_ENGINE_GOOS, DOCKER_ENGINE_GOARCH and DOCKER_CLIENT_OSARCH</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Describe the results you received:**</sentence>
+            <sentence id="10.2">"'
+/bin/bash
+$ source hack/make/.detect-daemon-osarch
+$ echo $DOCKER_ENGINE_OSARCH
+(empty line)
+$ echo $DOCKER_CLIENT_OSARCH
+(empty line)
+"'</sentence>
+            <sentence id="10.3">The variables DOCKER_ENGINE_GOOS and DOCKER_ENGINE_GOARCH both depend on DOCKER_ENGINE_OSARCH, therefore they are false, too.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"'
+/bin/bash
+$ source hack/make/.detect-daemon-osarch
+$ echo $DOCKER_ENGINE_OSARCH
+linux/arm
+$ echo $DOCKER_CLIENT_OSARCH
+linux/arm
+"'</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"'</sentence>
+            <sentence id="14.2">$ uname -srmo</sentence>
+            <sentence id="14.3">Linux 4.4.1-sunxi armv7l GNU/Linux</sentence>
+            <sentence id="14.4">$ cat /etc/debian_version</sentence>
+            <sentence id="14.5">8 3</sentence>
+            <sentence id="14.6">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

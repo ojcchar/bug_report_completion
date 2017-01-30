@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10254</id>
+    <title>Schema-validation: missing column looking for camel case instead of snake case</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Switching to hibernate 5.0.3 from 4.3.11 I started getting an error during schema validation when my service starts up:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code:java}</sentence>
+            <sentence id="2.2">org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing column [ProcessingSolution_processing_solution_id] in table [processing_solutions_processing_datasets]</sentence>
+            <sentence id="2.3">	at org.hibernate.tool.schema.internal.SchemaValidatorImpl.validateTable(SchemaValidatorImpl.java:85)</sentence>
+            <sentence id="2.4">	at org.hibernate.tool.schema.internal.SchemaValidatorImpl.doValidation(SchemaValidatorImpl.java:50)</sentence>
+            <sentence id="2.5">	at org.hibernate.tool.hbm2ddl.SchemaValidator.validate(SchemaValidator.java:91)</sentence>
+            <sentence id="2.6">	at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:484)</sentence>
+            <sentence id="2.7">	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:444)</sentence>
+            <sentence id="2.8">	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:708)</sentence>
+            <sentence id="2.9">	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)</sentence>
+            <sentence id="2.10">	at com.cerner.wolfe.service.util.HibernateUtil.buildSessionFactory(HibernateUtil.java:25)</sentence>
+            <sentence id="2.11">{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I did not get this error with 4.3.11.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">It looks like hibernate is now looking for a column named "ProcessingSolution_processing_solution_id" where previously it was looking for "processing_solutions_processing_solution_id".</sentence>
+            <sentence id="4.2">This column is on a join table created with:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">{code:java}
+create table processing_solutions_processing_datasets (
+    processing_solutions_processing_solution_id varchar(100) not null,
+    datasets_processing_dataset_id varchar(100) not null,
+    primary key (processing_solutions_processing_solution_id, datasets_processing_dataset_id)
+);
+{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The joined entities are (fields removed):</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">{code:java}
+@Entity
+@Table(name = "processing_solutions")
+public class ProcessingSolution {
+    @Id
+    @Column(name = "processing_solution_id", nullable = false, unique = true, columnDefinition = "varchar(100)")
+    private String identifier;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">@OneToMany
+    @Cascade(CascadeType.ALL)
+    private Set&lt;ProcessingDataset&gt; datasets = new HashSet&lt;&gt;(0);
+{code}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">and</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">{code:java}
+@Entity
+@Table(name = "processing_datasets")
+public class ProcessingDataset {
+    @Id
+    @Column(name = "processing_dataset_id", nullable = false, columnDefinition = "varchar(100)")
+    private String identifier;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">@ElementCollection
+    @CollectionTable(name = "processing_dataset_sources", joinColumns = @JoinColumn(name = "processing_dataset_id"))
+    @Column(name = "source", nullable = false, columnDefinition = "varchar(100)")
+    private Set&lt;String&gt; sources = new HashSet&lt;&gt;(0);</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">@ElementCollection
+    @CollectionTable(name = "processing_dataset_entitytypes", joinColumns = @JoinColumn(name = "processing_dataset_id"))
+    @Column(name = "entity_type", nullable = false, columnDefinition = "varchar(190)")
+    private Set&lt;String&gt; entityTypes = new HashSet&lt;String&gt;(0);
+{code}</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">If I'm doing something wrong, please advise.</sentence>
+            <sentence id="13.2">As mentioned above, this was working under 4.3.11 but does not work under 5.0.0 nor 5.0.3.</sentence>
+        </paragraph>
+    </description>
+</bug>

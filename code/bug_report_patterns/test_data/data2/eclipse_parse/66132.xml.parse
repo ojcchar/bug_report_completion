@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>66132</id>
+    <title>Eclipse consumes 100% CPU -  RC1</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I just resumed my computer and noticed it was running really slow.</sentence>
+            <sentence id="1.2">TaskManager 
+shows java.exe taking 99% CPU time while doing nothing in Eclipse.</sentence>
+            <sentence id="1.3">The UI is 
+responding.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have Yourkit version 2.5 installed, I'm not sure if this is the culprit or 
+not.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here is a thread dump, if it helps any:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"Worker-184" prio=5 tid=0x040cb008 nid=0xdb8 runnable [4adf000.</sentence>
+            <sentence id="4.2">.4adfd8c]</sentence>
+            <sentence id="4.3">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="4.4">at org.eclipse.ui.internal.Semaphore.acquire(Semaphore.java:37)</sentence>
+            <sentence id="4.5">- locked &lt;0x104d2a18&gt; (a org.eclipse.ui.internal.Semaphore)</sentence>
+            <sentence id="4.6">at org.eclipse.ui.internal.UISynchronizer.syncExec</sentence>
+            <sentence id="4.7">(UISynchronizer.java:42)</sentence>
+            <sentence id="4.8">at org.eclipse.swt.widgets.Display.syncExec(Display.java:3040)</sentence>
+            <sentence id="4.9">at org.eclipse.ui.internal.RectangleAnimation.run</sentence>
+            <sentence id="4.10">(RectangleAnimation.java:166)</sentence>
+            <sentence id="4.11">at org.eclipse.core.internal.jobs.Worker.run(Worker.java:66)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"Worker-183" prio=5 tid=0x042e8320 nid=0xa3c runnable [46ff000.</sentence>
+            <sentence id="5.2">.46ffd8c]</sentence>
+            <sentence id="5.3">at java.lang.Thread.isInterrupted(Native Method)</sentence>
+            <sentence id="5.4">at java.lang.Thread.interrupted(Thread.java:752)</sentence>
+            <sentence id="5.5">at org.eclipse.ui.internal.Semaphore.acquire(Semaphore.java:26)</sentence>
+            <sentence id="5.6">- locked &lt;0x10539ca8&gt; (a org.eclipse.ui.internal.Semaphore)</sentence>
+            <sentence id="5.7">at org.eclipse.ui.internal.UISynchronizer.syncExec</sentence>
+            <sentence id="5.8">(UISynchronizer.java:42)</sentence>
+            <sentence id="5.9">at org.eclipse.swt.widgets.Display.syncExec(Display.java:3040)</sentence>
+            <sentence id="5.10">at org.eclipse.ui.internal.RectangleAnimation.run</sentence>
+            <sentence id="5.11">(RectangleAnimation.java:166)</sentence>
+            <sentence id="5.12">at org.eclipse.core.internal.jobs.Worker.run(Worker.java:66)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"Worker-182" prio=5 tid=0x04059da8 nid=0x1dc in Object.wait() [4a1f000.</sentence>
+            <sentence id="6.2">.4a1fd8c]</sentence>
+            <sentence id="6.3">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="6.4">at org.eclipse.core.internal.jobs.WorkerPool.sleep(WorkerPool.java:209)</sentence>
+            <sentence id="6.5">- locked &lt;0x12f094a8&gt; (a org.eclipse.core.internal.jobs.WorkerPool)</sentence>
+            <sentence id="6.6">at org.eclipse.core.internal.jobs.WorkerPool.startJob</sentence>
+            <sentence id="6.7">(WorkerPool.java:236)</sentence>
+            <sentence id="6.8">at org.eclipse.core.internal.jobs.Worker.run(Worker.java:59)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"StandardManager[/help]" daemon prio=7 tid=0x043b7448 nid=0x690 waiting on </sentence>
+            <sentence id="7.2">condition [6c9f000..6c9fd8c]</sentence>
+            <sentence id="7.3">        at java.lang.Thread.sleep(Native Method)</sentence>
+            <sentence id="7.4">        at org.apache.catalina.session.StandardManager.threadSleep</sentence>
+            <sentence id="7.5">(StandardManager.java:810)</sentence>
+            <sentence id="7.6">        at org.apache.catalina.session.StandardManager.run</sentence>
+            <sentence id="7.7">(StandardManager.java:869)</sentence>
+            <sentence id="7.8">        at java.lang.Thread.run(Thread.java:534)</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"TP-Monitor" daemon prio=7 tid=0x03ff2350 nid=0x57c in Object.wait()</sentence>
+            <sentence id="8.2">[6c5f000.</sentence>
+            <sentence id="8.3">.6c5fd8c]</sentence>
+            <sentence id="8.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="8.5">- waiting on &lt;0x1525f550&gt; (a</sentence>
+            <sentence id="8.6">org.apache.tomcat.util.threads.ThreadPool$MonitorRunnable)</sentence>
+            <sentence id="8.7">at org.apache.tomcat.util.threads.ThreadPool$MonitorRunnable.run</sentence>
+            <sentence id="8.8">(ThreadPool.java:560)</sentence>
+            <sentence id="8.9">- locked &lt;0x1525f550&gt; (a</sentence>
+            <sentence id="8.10">org.apache.tomcat.util.threads.ThreadPool$MonitorRunnable)</sentence>
+            <sentence id="8.11">at java.lang.Thread.run(Thread.java:534)</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"TP-Processor4" daemon prio=7 tid=0x041f8f98 nid=0xb1c runnable</sentence>
+            <sentence id="9.2">[6c1f000.</sentence>
+            <sentence id="9.3">.6c1fd8c]</sentence>
+            <sentence id="9.4">at java.net.PlainSocketImpl.socketAccept(Native Method)</sentence>
+            <sentence id="9.5">at java.net.PlainSocketImpl.accept(PlainSocketImpl.java:353)</sentence>
+            <sentence id="9.6">- locked &lt;0x1525f600&gt; (a java.net.PlainSocketImpl)</sentence>
+            <sentence id="9.7">at java.net.ServerSocket.implAccept(ServerSocket.java:448)</sentence>
+            <sentence id="9.8">at java.net.ServerSocket.accept(ServerSocket.java:419)</sentence>
+            <sentence id="9.9">at org.apache.tomcat.util.net.DefaultServerSocketFactory.acceptSocket</sentence>
+            <sentence id="9.10">(DefaultServerSocketFactory</sentence>
+            <sentence id="9.11">at org.apache.tomcat.util.net.PoolTcpEndpoint.acceptSocket</sentence>
+            <sentence id="9.12">(PoolTcpEndpoint.java:387)</sentence>
+            <sentence id="9.13">at org.apache.tomcat.util.net.TcpWorkerThread.runIt</sentence>
+            <sentence id="9.14">(PoolTcpEndpoint.java:557)</sentence>
+            <sentence id="9.15">at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run</sentence>
+            <sentence id="9.16">(ThreadPool.java:683)</sentence>
+            <sentence id="9.17">at java.lang.Thread.run(Thread.java:534)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"TP-Processor3" daemon prio=7 tid=0x043b72e8 nid=0xb04 in Object.wait()</sentence>
+            <sentence id="10.2">[6bdf000.</sentence>
+            <sentence id="10.3">.6bdfd8c]</sentence>
+            <sentence id="10.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="10.5">- waiting on &lt;0x1525f7d0&gt; (a</sentence>
+            <sentence id="10.6">org.apache.tomcat.util.threads.ThreadPool$ControlRunnable)</sentence>
+            <sentence id="10.7">at java.lang.Object.wait(Object.java:429)</sentence>
+            <sentence id="10.8">at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run</sentence>
+            <sentence id="10.9">(ThreadPool.java:656)</sentence>
+            <sentence id="10.10">- locked &lt;0x1525f7d0&gt; (a</sentence>
+            <sentence id="10.11">org.apache.tomcat.util.threads.ThreadPool$ControlRunnable)</sentence>
+            <sentence id="10.12">at java.lang.Thread.run(Thread.java:534)</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"TP-Processor2" daemon prio=7 tid=0x03fc12c8 nid=0xd48 in Object.wait()</sentence>
+            <sentence id="11.2">[6b9f000.</sentence>
+            <sentence id="11.3">.6b9fd8c]</sentence>
+            <sentence id="11.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="11.5">- waiting on &lt;0x1525f850&gt; (a</sentence>
+            <sentence id="11.6">org.apache.tomcat.util.threads.ThreadPool$ControlRunnable)</sentence>
+            <sentence id="11.7">at java.lang.Object.wait(Object.java:429)</sentence>
+            <sentence id="11.8">at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run</sentence>
+            <sentence id="11.9">(ThreadPool.java:656)</sentence>
+            <sentence id="11.10">- locked &lt;0x1525f850&gt; (a</sentence>
+            <sentence id="11.11">org.apache.tomcat.util.threads.ThreadPool$ControlRunnable)</sentence>
+            <sentence id="11.12">at java.lang.Thread.run(Thread.java:534)</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"TP-Processor1" daemon prio=7 tid=0x041f9778 nid=0xbe8 in Object.wait()</sentence>
+            <sentence id="12.2">[6b5f000.</sentence>
+            <sentence id="12.3">.6b5fd8c]</sentence>
+            <sentence id="12.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="12.5">- waiting on &lt;0x1525f8d0&gt; (a</sentence>
+            <sentence id="12.6">org.apache.tomcat.util.threads.ThreadPool$ControlRunnable)</sentence>
+            <sentence id="12.7">at java.lang.Object.wait(Object.java:429)</sentence>
+            <sentence id="12.8">at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run</sentence>
+            <sentence id="12.9">(ThreadPool.java:656)</sentence>
+            <sentence id="12.10">- locked &lt;0x1525f8d0&gt; (a</sentence>
+            <sentence id="12.11">org.apache.tomcat.util.threads.ThreadPool$ControlRunnable)</sentence>
+            <sentence id="12.12">at java.lang.Thread.run(Thread.java:534)</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"StandardManager[]" daemon prio=7 tid=0x041079c0 nid=0x76c waiting on condition </sentence>
+            <sentence id="13.2">[6b1f000..6b1fd8c]</sentence>
+            <sentence id="13.3">        at java.lang.Thread.sleep(Native Method)</sentence>
+            <sentence id="13.4">        at org.apache.catalina.session.StandardManager.threadSleep</sentence>
+            <sentence id="13.5">(StandardManager.java:810)</sentence>
+            <sentence id="13.6">        at org.apache.catalina.session.StandardManager.run</sentence>
+            <sentence id="13.7">(StandardManager.java:869)</sentence>
+            <sentence id="13.8">        at java.lang.Thread.run(Thread.java:534)</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"YJP Listener Thread" prio=7 tid=0x03484890 nid=0x6c8 runnable</sentence>
+            <sentence id="14.2">[4a9f000.</sentence>
+            <sentence id="14.3">.4a9fd8c]</sentence>
+            <sentence id="14.4">at java.net.PlainSocketImpl.socketAccept(Native Method)</sentence>
+            <sentence id="14.5">at java.net.PlainSocketImpl.accept(PlainSocketImpl.java:353)</sentence>
+            <sentence id="14.6">- locked &lt;0x13675c38&gt; (a java.net.PlainSocketImpl)</sentence>
+            <sentence id="14.7">at java.net.ServerSocket.implAccept(ServerSocket.java:448)</sentence>
+            <sentence id="14.8">at java.net.ServerSocket.accept(ServerSocket.java:419)</sentence>
+            <sentence id="14.9">at com.yourkit.b.a.a(a:116)</sentence>
+            <sentence id="14.10">at com.yourkit.b.a.run(a:185)</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"Java indexing" daemon prio=4 tid=0x02fd2e18 nid=0x90c in Object.wait()</sentence>
+            <sentence id="15.2">[3d9f000.</sentence>
+            <sentence id="15.3">.3d9fd8c]</sentence>
+            <sentence id="15.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="15.5">- waiting on &lt;0x12fcd068&gt; (a</sentence>
+            <sentence id="15.6">org.eclipse.jdt.internal.core.search.indexing.IndexManager)</sentence>
+            <sentence id="15.7">at java.lang.Object.wait(Object.java:429)</sentence>
+            <sentence id="15.8">at org.eclipse.jdt.internal.core.search.processing.JobManager.run</sentence>
+            <sentence id="15.9">(JobManager.java:344)</sentence>
+            <sentence id="15.10">- locked &lt;0x12fcd068&gt; (a</sentence>
+            <sentence id="15.11">org.eclipse.jdt.internal.core.search.indexing.IndexManager)</sentence>
+            <sentence id="15.12">at java.lang.Thread.run(Thread.java:534)</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">"Reference Cleaner - 2" prio=7 tid=0x02fe79b8 nid=0x934 in Object.wait()</sentence>
+            <sentence id="16.2">[3d0f000.</sentence>
+            <sentence id="16.3">.3d0fd8c]</sentence>
+            <sentence id="16.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="16.5">at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:111)</sentence>
+            <sentence id="16.6">- locked &lt;0x130e97d8&gt; (a java.lang.ref.ReferenceQueue$Lock)</sentence>
+            <sentence id="16.7">at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:127)</sentence>
+            <sentence id="16.8">at</sentence>
+            <sentence id="16.9">org.eclipse.jface.action.ActionContributionItem$ImageCache$ReferenceCleanerThrea</sentence>
+            <sentence id="16.10">d.run(ActionC</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">"Reference Cleaner - 1" prio=7 tid=0x00a0c020 nid=0x970 in Object.wait()</sentence>
+            <sentence id="17.2">[3ccf000.</sentence>
+            <sentence id="17.3">.3ccfd8c]</sentence>
+            <sentence id="17.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="17.5">- waiting on &lt;0x130e9848&gt; (a java.lang.ref.ReferenceQueue$Lock)</sentence>
+            <sentence id="17.6">at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:111)</sentence>
+            <sentence id="17.7">- locked &lt;0x130e9848&gt; (a java.lang.ref.ReferenceQueue$Lock)</sentence>
+            <sentence id="17.8">at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:127)</sentence>
+            <sentence id="17.9">at</sentence>
+            <sentence id="17.10">org.eclipse.jface.action.ActionContributionItem$ImageCache$ReferenceCleanerThrea</sentence>
+            <sentence id="17.11">d.run(ActionC</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">"Start Level Event Dispatcher" daemon prio=5 tid=0x02ff6c00 nid=0xad4 in</sentence>
+            <sentence id="18.2">Object.wait() [30ef000.</sentence>
+            <sentence id="18.3">.30efd8c</sentence>
+            <sentence id="18.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="18.5">- waiting on &lt;0x12a50060&gt; (a</sentence>
+            <sentence id="18.6">org.eclipse.osgi.framework.eventmgr.EventThread)</sentence>
+            <sentence id="18.7">at java.lang.Object.wait(Object.java:429)</sentence>
+            <sentence id="18.8">at org.eclipse.osgi.framework.eventmgr.EventThread.getNextEvent</sentence>
+            <sentence id="18.9">(EventThread.java:162)</sentence>
+            <sentence id="18.10">- locked &lt;0x12a50060&gt; (a</sentence>
+            <sentence id="18.11">org.eclipse.osgi.framework.eventmgr.EventThread)</sentence>
+            <sentence id="18.12">at org.eclipse.osgi.framework.eventmgr.EventThread.run</sentence>
+            <sentence id="18.13">(EventThread.java:100)</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">"Framework Event Dispatcher" daemon prio=5 tid=0x00a5e970 nid=0xd70 in</sentence>
+            <sentence id="19.2">Object.wait() [30af000.</sentence>
+            <sentence id="19.3">.30afd8c]</sentence>
+            <sentence id="19.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="19.5">- waiting on &lt;0x12a50300&gt; (a</sentence>
+            <sentence id="19.6">org.eclipse.osgi.framework.eventmgr.EventThread)</sentence>
+            <sentence id="19.7">at java.lang.Object.wait(Object.java:429)</sentence>
+            <sentence id="19.8">at org.eclipse.osgi.framework.eventmgr.EventThread.getNextEvent</sentence>
+            <sentence id="19.9">(EventThread.java:162)</sentence>
+            <sentence id="19.10">- locked &lt;0x12a50300&gt; (a</sentence>
+            <sentence id="19.11">org.eclipse.osgi.framework.eventmgr.EventThread)</sentence>
+            <sentence id="19.12">at org.eclipse.osgi.framework.eventmgr.EventThread.run</sentence>
+            <sentence id="19.13">(EventThread.java:100)</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">"Signal Dispatcher" daemon prio=10 tid=0x009ffd58 nid=0xe64 waiting on 
+condition [0.</sentence>
+            <sentence id="20.2">.0]</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">"Finalizer" daemon prio=9 tid=0x00a0ee60 nid=0xc4 in Object.wait()</sentence>
+            <sentence id="21.2">[2d6f000.</sentence>
+            <sentence id="21.3">.2d6fd8c]</sentence>
+            <sentence id="21.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="21.5">at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:111)</sentence>
+            <sentence id="21.6">- locked &lt;0x12a50428&gt; (a java.lang.ref.ReferenceQueue$Lock)</sentence>
+            <sentence id="21.7">at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:127)</sentence>
+            <sentence id="21.8">at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:159)</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">"Reference Handler" daemon prio=10 tid=0x00a0ec60 nid=0xc28 in Object.wait()</sentence>
+            <sentence id="22.2">[2d2f000.</sentence>
+            <sentence id="22.3">.2d2fd8c]</sentence>
+            <sentence id="22.4">at java.lang.Object.wait(Native Method)</sentence>
+            <sentence id="22.5">at java.lang.Object.wait(Object.java:429)</sentence>
+            <sentence id="22.6">at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:115)</sentence>
+            <sentence id="22.7">- locked &lt;0x12a500b0&gt; (a java.lang.ref.Reference$Lock)</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">"main" prio=5 tid=0x00035078 nid=0xb98 runnable [7f000..7fc3c]</sentence>
+            <sentence id="23.2">        at org.eclipse.swt.internal.win32.OS.WaitMessage(Native Method)</sentence>
+            <sentence id="23.3">        at org.eclipse.swt.widgets.Display.sleep(Display.java:3020)</sentence>
+            <sentence id="23.4">        at org.eclipse.ui.application.WorkbenchAdvisor.eventLoopIdle</sentence>
+            <sentence id="23.5">(WorkbenchAdvisor.java:344)</sentence>
+            <sentence id="23.6">        at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:1364)</sentence>
+            <sentence id="23.7">        at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:1334)</sentence>
+            <sentence id="23.8">        at org.eclipse.ui.internal.Workbench.createAndRunWorkbench</sentence>
+            <sentence id="23.9">(Workbench.java:253)</sentence>
+            <sentence id="23.10">        at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:141)</sentence>
+            <sentence id="23.11">        at org.eclipse.ui.internal.ide.IDEApplication.run</sentence>
+            <sentence id="23.12">(IDEApplication.java:96)</sentence>
+            <sentence id="23.13">        at org.eclipse.core.internal.runtime.PlatformActivator$1.run</sentence>
+            <sentence id="23.14">(PlatformActivator.java:334)</sentence>
+            <sentence id="23.15">        at org.eclipse.core.runtime.adaptor.EclipseStarter.run</sentence>
+            <sentence id="23.16">(EclipseStarter.java:273)</sentence>
+            <sentence id="23.17">        at org.eclipse.core.runtime.adaptor.EclipseStarter.run</sentence>
+            <sentence id="23.18">(EclipseStarter.java:128)</sentence>
+            <sentence id="23.19">        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="23.20">        at sun.reflect.NativeMethodAccessorImpl.invoke</sentence>
+            <sentence id="23.21">(NativeMethodAccessorImpl.java:39)</sentence>
+            <sentence id="23.22">        at sun.reflect.DelegatingMethodAccessorImpl.invoke</sentence>
+            <sentence id="23.23">(DelegatingMethodAccessorImpl.java:25)</sentence>
+            <sentence id="23.24">        at java.lang.reflect.Method.invoke(Method.java:324)</sentence>
+            <sentence id="23.25">        at org.eclipse.core.launcher.Main.basicRun(Main.java:185)</sentence>
+            <sentence id="23.26">        at org.eclipse.core.launcher.Main.run(Main.java:638)</sentence>
+            <sentence id="23.27">        at org.eclipse.core.launcher.Main.main(Main.java:622)</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">"VM Thread" prio=5 tid=0x009bd9c8 nid=0x8b8 runnable</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">"VM Periodic Task Thread" prio=10 tid=0x00a10008 nid=0xf00 waiting on condition
+"Suspend Checker Thread" prio=10 tid=0x00a02100 nid=0xe68 runnable</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2707</id>
+    <title>Dockerfile and VOLUME</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This issues has probobly allrdy been discussed but i cant seem to find much information regarding it</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have two simple dockerfiles:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Dockerfile1</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+FROM ubuntu:precise
+RUN mkdir -p /data/repo.git &amp;&amp; mkdir -p /data/source
+VOLUME /data
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Dockerfile2</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+FROM dockerfile1
+RUN mkdir -p /data/source/test
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">i run the following commands</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+cat Dockerfile1 | docker build -t dockerfile1 -
+cat Dockerfile2 | docker build -t dockerfile2 -
+"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Image dockerfile1 looks the way it should, with the data directory correct.. but image dockerfile2 dosent.. it has the same data directory stucture as dockerfile1.</sentence>
+            <sentence id="9.2">That is the test directory hasnt been created..</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Is this the correct behavior or might it be related to Issue #Num: #819</sentence>
+        </paragraph>
+    </description>
+</bug>

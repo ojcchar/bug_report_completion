@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-76</id>
+    <title>hql and group by problem</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">old parser in hibernate3 and hibernate2 parser create wrong sql from next hql (new parser work fine) :
+select bid.item.id,bid.item.name,min(bid.created)
+from Bid bid"
+group by bid.item.id,bid.item.name</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">created sql is (old parser) :</sentence>
+            <sentence id="2.2">1</sentence>
+            <sentence id="2.3">select item1_.</sentence>
+            <sentence id="2.4">ITEM_ID as col_0_0_,</sentence>
+            <sentence id="2.5">item1_.</sentence>
+            <sentence id="2.6">NAME as col_1_0_, min(bid0_.</sentence>
+            <sentence id="2.7">CREATED) as col_2_0_</sentence>
+            <sentence id="2.8">from BID bid0_, ITEM item1_</sentence>
+            <sentence id="2.9">where bid0_.</sentence>
+            <sentence id="2.10">ITEM_ID=item1_.</sentence>
+            <sentence id="2.11">ITEM_ID</sentence>
+            <sentence id="2.12">group by bid0_.</sentence>
+            <sentence id="2.13">ITEM_ID , item1_.</sentence>
+            <sentence id="2.14">NAME</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">new parser return this query :</sentence>
+            <sentence id="3.2">2</sentence>
+            <sentence id="3.3">select bid0_.</sentence>
+            <sentence id="3.4">ITEM_ID as col_0_0_,</sentence>
+            <sentence id="3.5">item1_.</sentence>
+            <sentence id="3.6">NAME as col_1_0_, min(bid0_.</sentence>
+            <sentence id="3.7">CREATED) as col_2_0_</sentence>
+            <sentence id="3.8">from BID bid0_, ITEM item1_</sentence>
+            <sentence id="3.9">where bid0_.</sentence>
+            <sentence id="3.10">ITEM_ID=item1_.</sentence>
+            <sentence id="3.11">ITEM_ID</sentence>
+            <sentence id="3.12">group by bid0_.</sentence>
+            <sentence id="3.13">ITEM_ID , item1_.</sentence>
+            <sentence id="3.14">NAME</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">query 1 doesn't work with oracle and postgresql (not group by column)
+in select list exists item1_.ITEM_ID and in group by bid0_.ITEM_ID</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Problem is in parsing - select clause is resolved on the end and then exists aliasPath for bid.item - group by is resolved before creating alias</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>113516</id>
+    <title>NPE thrown out when preview the cascading parameter group which contains a static parameter</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">description:
+NPE thrown out when preview the cascading parameter group which contains a 
+static parameter</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">steps to reproduce:</sentence>
+            <sentence id="2.2">1 new a cascading parameter group</sentence>
+            <sentence id="2.3">2 new a static parameter and drag the static to cascading parameter group</sentence>
+            <sentence id="2.4">3 preview</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">actual result:
+NullPointerException thrown out</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">expected result:
+The same thing happened when the static parameter's display type is text 
+As static parameter can't bind to a data set column, the action of dragging 
+static parameter to cascading parameter group should be forbidden
+Or just generate a binding field for the static parameter</sentence>
+        </paragraph>
+    </description>
+</bug>

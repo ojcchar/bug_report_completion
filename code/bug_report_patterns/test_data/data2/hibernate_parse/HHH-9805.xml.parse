@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9805</id>
+    <title>Column name specified in @JoinColumn is not quoted with option hibernate.globally_quoted_identifiers=true</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We want to support H2 and PostgreSQL, so there is no opition with manually adding quotes around every identification.</sentence>
+            <sentence id="1.2">And we use flag hibernate.globally_quoted_identifiers=true instead.</sentence>
+            <sentence id="1.3">But it happen that it doesn't work for column names in @JoinColumn annotation!</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Suppose we have 2 entity classes:</sentence>
+            <sentence id="2.2">{{@javax.</sentence>
+            <sentence id="2.3">persistence.Entity
+public class City extends Entity {
+	@Column(name = "sName", nullable = false)
+	private String name;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "nID_Region", insertable = false, updatable = false, nullable = false)
+	private Region region;</sentence>
+            <sentence id="2.4">public String getName() {
+		return name;
+	}</sentence>
+            <sentence id="2.5">public void setName(String name) {
+		this.name = name;
+	}</sentence>
+            <sentence id="2.6">public Region getRegion() {
+		return region;
+	}</sentence>
+            <sentence id="2.7">public void setRegion(Region region) {
+		this.region = region;
+	}
+}
+}}
+@javax.</sentence>
+            <sentence id="2.8">persistence.Entity
+public class Region extends Entity {
+   @Column(name = "sName", nullable = false)
+   private String name;</sentence>
+            <sentence id="2.9">@OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
+   @LazyCollection(LazyCollectionOption.FALSE)
+   @OrderBy("name asc")
+   private List&lt;City&gt; cities;</sentence>
+            <sentence id="2.10">public String getName() {
+      return name;
+   }</sentence>
+            <sentence id="2.11">public void setName(String name) {
+      this.name = name;
+   }</sentence>
+            <sentence id="2.12">public List&lt;City&gt; getCities() {
+      return cities;
+   }</sentence>
+            <sentence id="2.13">public void setCities(List&lt;City&gt; cities) {
+      this.cities = cities;
+   }
+}</sentence>
+            <sentence id="2.14">and base class:
+@MappedSuperclass
+public abstract class Entity {</sentence>
+            <sentence id="2.15">@Id
+   @Column(name="nID")
+   private Integer id;</sentence>
+            <sentence id="2.16">@Identifier
+   public Integer getId() {
+      return id;
+   }
+   public void setId(Integer id) {
+      this.id = id;
+   }
+}</sentence>
+            <sentence id="2.17">session factory:
+&lt;bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"&gt;
+			&lt;property name="dataSource" ref="dataSource"/&gt;
+			&lt;property name="packagesToScan"&gt;
+				&lt;array&gt;
+					&lt;value&gt;org.wf.dp.dniprorada.model&lt;/value&gt;
+				&lt;/array&gt;
+			&lt;/property&gt;</sentence>
+            <sentence id="2.18">&lt;property name="hibernateProperties"&gt;
+				&lt;props&gt;
+					&lt;prop key="hibernate.dialect"&gt;org.hibernate.dialect.PostgreSQL9Dialect&lt;/prop&gt;
+					&lt;prop key="hibernate.globally_quoted_identifiers"&gt;true&lt;/prop&gt;
+                                        &lt;prop key="hibernate.show_sql"&gt;true&lt;/prop&gt;
+				&lt;/props&gt;
+			&lt;/property&gt;
+		&lt;/bean&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here is generated query:
+Hibernate: select cities0_.</sentence>
+            <sentence id="3.2">nID_Region as nID_Regi3_2_0, cities0_.</sentence>
+            <sentence id="3.3">"nID" as nID1_1_0, cities0_.</sentence>
+            <sentence id="3.4">"nID" as nID1_1_1, cities0_.</sentence>
+            <sentence id="3.5">"sName" as sName2_1_1, cities0_.</sentence>
+            <sentence id="3.6">nID_Region as nID_Regi3_1_1 from "City" cities0 where cities0_.</sentence>
+            <sentence id="3.7">nID_Region=?</sentence>
+            <sentence id="3.8">order by cities0_.</sentence>
+            <sentence id="3.9">"sName" asc</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">as you can see all is quoted except : nID_Region
+which in the end leads to exception.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6943</id>
+    <title>hbm with xsd is not working</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">While using any of the following xsd in hbm.xml</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-mapping http://www.hibernate.org/xsd/hibernate-mapping/hibernate-mapping-4.0.xsd"&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Or</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-mapping hibernate-mapping-4.0.</sentence>
+            <sentence id="4.2">xsd"&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">or</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">&lt;hh:hibernate-mapping xmlns:hh="http://www.hibernate.org/xsd/hibernate-mapping"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-mapping hibernate-mapping-4.0.</sentence>
+            <sentence id="6.2">xsd"&gt;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Its throwing the following error</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Caused by: java.lang.NullPointerException</sentence>
+            <sentence id="8.2">	at org.hibernate.metamodel.source.hbm.ColumnSourceImpl.isUnique(ColumnSourceImpl.java:109) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.3">	at org.hibernate.metamodel.source.binder.Binder.makeColumn(Binder.java:1091) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.4">	at org.hibernate.metamodel.source.binder.Binder.bindRelationalValues(Binder.java:1023) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.5">	at org.hibernate.metamodel.source.binder.Binder.doBasicSingularAttributeBindingCreation(Binder.java:747) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.6">	at org.hibernate.metamodel.source.binder.Binder.bindSimpleIdentifier(Binder.java:331) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.7">	at org.hibernate.metamodel.source.binder.Binder.bindIdentifier(Binder.java:314) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.8">	at org.hibernate.metamodel.source.binder.Binder.makeRootEntityBinding(Binder.java:183) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.9">	at org.hibernate.metamodel.source.binder.Binder.createBasicEntityBinding(Binder.java:159) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.10">	at org.hibernate.metamodel.source.binder.Binder.doCreateEntityBinding(Binder.java:147) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.11">	at org.hibernate.metamodel.source.binder.Binder.createEntityBinding(Binder.java:132) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.12">	at org.hibernate.metamodel.source.binder.Binder.processEntityHierarchy(Binder.java:108) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.13">	at org.hibernate.metamodel.source.hbm.HbmMetadataSourceProcessorImpl.processMappingMetadata(HbmMetadataSourceProcessorImpl.java:88) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.14">	at org.hibernate.metamodel.source.internal.MetadataImpl.bindMappingMetadata(MetadataImpl.java:195) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.15">	at org.hibernate.metamodel.source.internal.MetadataImpl.&lt;init&gt;(MetadataImpl.java:165) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.16">	at org.hibernate.metamodel.source.internal.MetadataBuilderImpl.buildMetadata(MetadataBuilderImpl.java:83) [hibernate-core-4.0.0.Final.jar:]</sentence>
+            <sentence id="8.17">	at org.hibernate.metamodel.MetadataSources.buildMetadata(MetadataSources.java:112) [hibernate-core-4.0.0.Final.jar:]</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I'm attaching one of my hbm file which creating this error.</sentence>
+        </paragraph>
+    </description>
+</bug>

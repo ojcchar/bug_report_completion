@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6304</id>
+    <title>Error "Cannot create TypedQuery for query with more than one return" with named queries</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Constructor queries (SELECT NEW xyz(a,b)...) with more than one parameter in the constructor are resulting in an java.lang.IllegalArgumentException: Cannot create TypedQuery for query with more than one return.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Code snippet for testing:
+List&lt;ListResult&gt; resultList = em.createQuery("SELECT NEW domain.results.ListResult(p.name, p.adress) FROM Person p", ListResult.class).</sentence>
+            <sentence id="2.2">getResultList();</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Moreover queries with one paramater in ctor result in an </sentence>
+            <sentence id="3.2">java.lang.IllegalArgumentException: Type specified for TypedQuery [com.evva.keyxs.backend.domain.results.ListResult] is incompatible with query return type [class java.lang.String]</sentence>
+            <sentence id="3.3">at org.hibernate.ejb.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:286)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">More on this in HHH-5348.</sentence>
+            <sentence id="4.2">Its not fixed yet.</sentence>
+            <sentence id="4.3">http://opensource.atlassian.com/projects/hibernate/browse/HHH-5348</sentence>
+        </paragraph>
+    </description>
+</bug>

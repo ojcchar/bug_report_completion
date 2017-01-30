@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3833</id>
+    <title>Null tag for Reader causes crash when opening app</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">NullPointer exception when opening the app for the first time.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.wordpress.android.models.ReaderTag.getTagNameForLog()' on a null object reference</sentence>
+            <sentence id="2.3">at org.wordpress.android.ui.reader.ReaderPostListFragment.updatePostsWithTag(ReaderPostListFragment.java:896)</sentence>
+            <sentence id="2.4">at org.wordpress.android.ui.reader.ReaderPostListFragment.updateCurrentTag(ReaderPostListFragment.java:901)</sentence>
+            <sentence id="2.5">at org.wordpress.android.ui.reader.ReaderPostListFragment.access$1900(ReaderPostListFragment.java:68)</sentence>
+            <sentence id="2.6">at org.wordpress.android.ui.reader.ReaderPostListFragment$9$1.run(ReaderPostListFragment.java:920)</sentence>
+            <sentence id="2.7">at android.os.Handler.handleCallback(Handler.java:739)</sentence>
+            <sentence id="2.8">at android.os.Handler.dispatchMessage(Handler.java:95)</sentence>
+            <sentence id="2.9">at android.os.Looper.loop(Looper.java:148)</sentence>
+            <sentence id="2.10">at android.app.ActivityThread.main(ActivityThread.java:5417)</sentence>
+            <sentence id="2.11">at java.lang.reflect.Method.invoke(Native Method)</sentence>
+            <sentence id="2.12">at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:726)</sentence>
+            <sentence id="2.13">at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)</sentence>
+            <sentence id="2.14">"'</sentence>
+            <sentence id="2.15">### Expected behavior</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Opening the app should not crash the app
+### Actual behavior</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Opening the app crashes the app
+### Steps to reproduce the behavior</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Open the app
+##### Tested on Nexus 6P, Android 6.0.1</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10855</id>
+    <title>Documentation seems to provide an incorrect example on adding hosts file entry for docker host</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">An example is provided on this page</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">https://docs.docker.com/reference/commandline/cli/#adding-entries-to-a-container-hosts-file</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">...detailing how to add an entry in the docker container's hosts file to the docker host.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">As far as I can see this actually injects the ip of the default gateway on the parent host which doesn't help.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Perhaps a better example would be to inject the ip of the docker0 interface as follows:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">$ docker run --add-host=docker:'ip route show | grep docker0 | awk '{print \$9}'' --rm -it debian</sentence>
+        </paragraph>
+    </description>
+</bug>

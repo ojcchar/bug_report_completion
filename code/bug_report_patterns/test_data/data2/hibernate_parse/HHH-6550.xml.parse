@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6550</id>
+    <title>NullPointerException if a &lt;column&gt; element is used without "not-null" attribute in HBM XML</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">To reproduce, add a column element to the "name" property in:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">hibernate-core/src/test/java/org/hibernate/metamodel/binding/SimpleEntity.</sentence>
+            <sentence id="2.2">hbm.xml</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">and run org.hibernate.metamodel.binding.BasicHbmBindingTests .</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">For example:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;property name="name"&gt;
+            &lt;column name="name"/&gt;
+        &lt;/property&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">IIRC, after adding "not-null" attribute, the test will still fail with an NPE due to a different attribute that has no default.</sentence>
+        </paragraph>
+    </description>
+</bug>

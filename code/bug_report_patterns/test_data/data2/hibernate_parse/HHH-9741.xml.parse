@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9741</id>
+    <title>Incorrect unique index created on element collection of Embeddables</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hibernate is incorrectly generating a unique index on and emdeddable collection - the uniqueness of the index is stopping certain rows being added to the collection.The test case is very simple.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Define an embeddable. </sentence>
+            <sentence id="2.2">@Embeddable</sentence>
+            <sentence id="2.3">public class Address {</sentence>
+            <sentence id="2.4">	private int houseNumber = 0;</sentence>
+            <sentence id="2.5">	private String streetName;</sentence>
+            <sentence id="2.6">}</sentence>
+            <sentence id="2.7">Then define an Entity </sentence>
+            <sentence id="2.8">@Entity</sentence>
+            <sentence id="2.9">public class AddressBook {</sentence>
+            <sentence id="2.10">	@Id</sentence>
+            <sentence id="2.11">	@GeneratedValue</sentence>
+            <sentence id="2.12">	private long id;</sentence>
+            <sentence id="2.13">	@ElementCollection</sentence>
+            <sentence id="2.14">	@CollectionTable(name = "ADDRESS_BOOK_SET")</sentence>
+            <sentence id="2.15">	private Set&lt;Address&gt; addresses = new HashSet&lt;Address&gt;();</sentence>
+            <sentence id="2.16">}</sentence>
+            <sentence id="2.17">Then is a test case add 2 Addresses to the address book with the same house number but a different street.</sentence>
+            <sentence id="2.18">	@Test </sentence>
+            <sentence id="2.19">	public void test99() {</sentence>
+            <sentence id="2.20">		TransactionStatus tstat = txManager.getTransaction(null);</sentence>
+            <sentence id="2.21">		AddressBook e = new AddressBook();</sentence>
+            <sentence id="2.22">		Address address1 = new Address(12, "High Street");</sentence>
+            <sentence id="2.23">		Address address2 = new Address(12, "Park Avenue");</sentence>
+            <sentence id="2.24">		e.getAddresses().add(address1);</sentence>
+            <sentence id="2.25">		e.getAddresses().add(address2);</sentence>
+            <sentence id="2.26">		dao.save(e);</sentence>
+            <sentence id="2.27">		txManager.commit(tstat);</sentence>
+            <sentence id="2.28">	}</sentence>
+            <sentence id="2.29">This will throw a DataIntegrityException on commit as the index on join table is on the columns (ADDRESSBOOK_ID, HOUSENUMBER) </sentence>
+            <sentence id="2.30">BUT it is a unique index meaning you can have 2 addresses in your address book with the same house number even if they are on different streets! </sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Test case attached.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2269</id>
+    <title>Crash report 3.6: null host passed to `getXmlrpcByUserEnteredPath`</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">"'</sentence>
+            <sentence id="1.2">java.lang.IllegalArgumentException: Host name may not be null</sentence>
+            <sentence id="1.3"> at org.apache.http.HttpHost.(HttpHost.java:83)</sentence>
+            <sentence id="1.4"> at org.apache.http.impl.client.DefaultRequestDirector.handleResponse(DefaultRequestDirector.java:2894)</sentence>
+            <sentence id="1.5"> at org.apache.http.impl.client.DefaultRequestDirector.executeOriginal(DefaultRequestDirector.java:1347)</sentence>
+            <sentence id="1.6"> at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:677)</sentence>
+            <sentence id="1.7"> at org.apache.http.impl.client.AbstractHttpClient.execute(AbstractHttpClient.java:567)</sentence>
+            <sentence id="1.8"> at org.apache.http.impl.client.AbstractHttpClient.execute(AbstractHttpClient.java:491)</sentence>
+            <sentence id="1.9"> at org.apache.http.impl.client.AbstractHttpClient.execute(AbstractHttpClient.java:469)</sentence>
+            <sentence id="1.10"> at org.xmlrpc.android.XMLRPCClient$Caller.callXMLRPC(XMLRPCClient.java:466)</sentence>
+            <sentence id="1.11"> at org.xmlrpc.android.XMLRPCClient$Caller.access$000(XMLRPCClient.java:396)</sentence>
+            <sentence id="1.12"> at org.xmlrpc.android.XMLRPCClient.call(XMLRPCClient.java:216)</sentence>
+            <sentence id="1.13"> at org.xmlrpc.android.XMLRPCClient.call(XMLRPCClient.java:211)</sentence>
+            <sentence id="1.14"> at org.wordpress.android.ui.accounts.helpers.FetchBlogListWPOrg.getXmlrpcByUserEnteredPath(FetchBlogListWPOrg.java:159)</sentence>
+            <sentence id="1.15"> at org.wordpress.android.ui.accounts.helpers.FetchBlogListWPOrg.getSelfHostedXmlrpcUrl(FetchBlogListWPOrg.java:266)</sentence>
+            <sentence id="1.16"> at org.wordpress.android.ui.accounts.helpers.FetchBlogListWPOrg.fetchBlogList(FetchBlogListWPOrg.java:109)</sentence>
+            <sentence id="1.17"> at org.wordpress.android.ui.accounts.helpers.FetchBlogListAbstract$1.run(FetchBlogListAbstract.java:26)</sentence>
+            <sentence id="1.18">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

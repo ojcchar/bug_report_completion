@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>15923</id>
+    <title>Directory Index, Content Negotiation Does Not Work in &lt;DirectoryMatch&gt; under Apache 2.0.43</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I had built a standard httpd, which includes mod_mime, mod_dir,
+mod_autoindex and mod_negotiation.</sentence>
+            <sentence id="1.2">Also I was using content negotiation on my
+multi-lingual website.</sentence>
+            <sentence id="1.3">But content negotiation failed on the directory index
+when it is under some &lt;DirectoryMatch&gt;.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I tried to build a simpliest environment.</sentence>
+            <sentence id="2.2">I built Apache as:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">imacat@rinse ~ % /usr/sbin/httpd2 -l
+Compiled in modules:
+  core.c
+  worker.c
+  http_core.</sentence>
+            <sentence id="3.2">c
+  mod_mime.</sentence>
+            <sentence id="3.3">c
+  mod_autoindex.</sentence>
+            <sentence id="3.4">c
+  mod_negotiation.</sentence>
+            <sentence id="3.5">c
+  mod_dir.</sentence>
+            <sentence id="3.6">c
+imacat@rinse ~ %</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">My document root is:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">imacat@rinse ~ % ls /var/tmp/htdocs
+index.html.en  index.html.zh-tw
+imacat@rinse ~ %</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">If my httpd.conf is:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">imacat@rinse ~ % cat /etc/apache/httpd2.</sentence>
+            <sentence id="7.2">conf
+User            nobody
+Group           nogroup
+DocumentRoot    /var/tmp/htdocs
+PidFile         /var/run/httpd2.</sentence>
+            <sentence id="7.3">pid
+Listen          50080
+LogLevel        debug
+ErrorLog        /var/log/apache/error_log
+Options         +MultiViews
+DirectoryIndex  index.html</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">AddLanguage             en              .</sentence>
+            <sentence id="8.2">en
+AddLanguage             zh-tw           .</sentence>
+            <sentence id="8.3">zh-tw
+LanguagePriority        zh-tw en
+imacat@rinse ~ % /usr/sbin/httpd2 -t -f /etc/apache/httpd2.</sentence>
+            <sentence id="8.4">conf
+Syntax OK
+imacat@rinse ~ %</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Then I can work properly.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">imacat@rinse ~ % lynx -dump http://localhost:50080/
+                            Test Page index.html.en</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">This is test page index.html.en.</sentence>
+            <sentence id="11.2">imacat@rinse ~ % lynx -dump http://localhost:50080/index.html
+                            Test Page index.html.en</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">This is test page index.html.en.</sentence>
+            <sentence id="12.2">imacat@rinse ~ %</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">But if I add an arbitrarily &lt;DirectoryMatch&gt; there:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">imacat@rinse ~ % cat /etc/apache/httpd2.</sentence>
+            <sentence id="14.2">conf
+User            nobody
+Group           nogroup
+DocumentRoot    /var/tmp/htdocs
+PidFile         /var/run/httpd2.</sentence>
+            <sentence id="14.3">pid
+Listen          50080
+LogLevel        debug
+ErrorLog        /var/log/apache/error_log
+Options         +MultiViews
+DirectoryIndex  index.html</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">AddLanguage             en              .</sentence>
+            <sentence id="15.2">en
+AddLanguage             zh-tw           .</sentence>
+            <sentence id="15.3">zh-tw
+LanguagePriority        zh-tw en</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">&lt;DirectoryMatch /var/tmp/htdocs&gt;
+&lt;/DirectoryMatch&gt;
+imacat@rinse ~ % /usr/sbin/httpd2 -t -f /etc/apache/httpd2.</sentence>
+            <sentence id="16.2">conf
+Syntax OK
+imacat@rinse ~ %</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Then it breaks the content-negotiation on the directory index:</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">imacat@rinse ~ % lynx -dump http://localhost:50080/
+                                  Index of /</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">* [1]index.html.en</sentence>
+            <sentence id="19.2">* [2]index.html.zh-tw</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">References</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">1 http://localhost:50080/index.html.en</sentence>
+            <sentence id="21.2">2 http://localhost:50080/index.html.zh-tw</sentence>
+            <sentence id="21.3">imacat@rinse ~ % lynx -dump http://localhost:50080/index.html</sentence>
+            <sentence id="21.4">Test Page index.html.en</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">This is test page index.html.en.</sentence>
+            <sentence id="22.2">imacat@rinse ~ % cp /var/tmp/htdocs/index.html.en /var/tmp/htdocs/index.html
+imacat@rinse ~ % lynx -dump http://localhost:50080/</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">Test Page index.html.en</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">This is test page index.html.en.</sentence>
+            <sentence id="24.2">imacat@rinse ~ %</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">It breaks if directory index and content negotiation work together
+under some &lt;DirectoryMatch&gt;.</sentence>
+            <sentence id="25.2">But they work well seperately.</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">My environment is Linux 2.4.20, Debian 3.0r0, gcc 3.2.1, glibc 2.3.1.</sentence>
+            <sentence id="26.2">But I
+have also tested it on an Linux 2.4.20, Red Hat 7.3, gcc 3.2.1, glibc 2.2.5;
+Linux 2.4.20, Red Hat 7.3, gcc 2.96, glibc 2.2.5; Linux 2.4.20, Debian 3.0r0,
+gcc 2.95, glibc 2.2.5.</sentence>
+            <sentence id="26.3">Please tell me if you have any question about the above
+procedure.</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">Please tell me if you need more infomation or help on this problem.</sentence>
+        </paragraph>
+    </description>
+</bug>

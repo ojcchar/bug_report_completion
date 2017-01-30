@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>41006</id>
+    <title>Z-order lost for objects within a frame</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">References:
+http://openoffice.org/bugzilla/show_bug.cgi?id=116135
+http://www.oooforum.org/forum/viewtopic.phtml?t=112264&amp;highlight=zorder</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In large documents, the z-order of objects within a graphics frame can be corrupted when the document is saved and then reopened, as noted in the OpenOffice bug report above, which includes test cases.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I had come to suspect that the corruption takes place when saving the document, as the test case files above always seemed to render identically on different machines for me, although this may be coincidence.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Happy to supply additional info/test cases as required.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Below are my notes from the OpenOffice bug report:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">------------------------------------------------------</sentence>
+            <sentence id="6.2">It appears that the Z-order of objects within a frame can be scrambled when saving an odt file in Writer.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Example file:
+http://dl.dropbox.com/u/1735103/Figure%20z%20order%20problems%204.odt</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">In the example file linked above, the arrows were all placed above the JPEG
+images when the file was created, however, when it is opened, figures 9 onwards
+have been corrupted, and the arrows are now below the JPEG images.</sentence>
+            <sentence id="8.2">This file
+seems to render identically on different computers running the same version of
+OOo (3.2.0) on Windows XP.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Second example file:
+http://dl.dropbox.com/u/1735103/Figure%20z%20order%20problems%205.odt</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">The same file, again with all of the arrows positioned above the JPEG images,
+was saved to odt format using a different (slower) computer running the same
+version of OOo.</sentence>
+            <sentence id="10.2">This file again appears to render identically on different
+computers, but the corruption of the images is different to that in the
+previous
+file.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">This implies to me that the corruption is taking place when the file is saved,
+rather than when it is opened, although I may be wrong.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">This erroneous behaviour seems to be highly variable.</sentence>
+            <sentence id="12.2">It only seems to affect
+files with many images - the attached files exhibited no problems until around
+12 complex images with Z ordered features were added.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">I see a few other OpenOffice bug reports relating to Z order, but in slightly different
+ways:
+#62094
+#77355 (#103338)</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Best regards,
+Richard Walker.</sentence>
+        </paragraph>
+    </description>
+</bug>

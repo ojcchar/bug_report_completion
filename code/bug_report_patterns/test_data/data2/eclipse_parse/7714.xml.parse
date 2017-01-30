@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>7714</id>
+    <title>Deleting a Project and say "no" to deleting sub data still deletes data.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Steps to Reproduce:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">1 Create a Simple Project.</sentence>
+            <sentence id="2.2">2 Add two folders to the project, and add a file to each folder.</sentence>
+            <sentence id="2.3">3 Make the first folder read-only.</sentence>
+            <sentence id="2.4">4 In the Navigator, right click on the Project and select Delete.</sentence>
+            <sentence id="2.5">5 When prompted to delete the containing data in the Project choose "No".</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Result:
+The user is then prompted to delete the read/only folders.</sentence>
+            <sentence id="3.2">This dialog 
+shouldn't be appearing.</sentence>
+            <sentence id="3.3">Choose “No” to the prompt to not delete the read-only folder.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Result:
+The read/write folder and its contents are all deleted.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Expected:
+It is expected that none of the data is deleted nor is the user prompted after 
+the first time to delete any of the data.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This is a major file loss issue</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>28936</id>
+    <title>Strange permission issues with named containers on 1.12.3</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">One of my container stopped to work after a version upgrade to 1.12.3, with my move from Fedora 24 to Fedora 25.</sentence>
+            <sentence id="2.2">It uses a named volume to store some files.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">After the upgrade, permissions and ownership are strange, with ???</sentence>
+            <sentence id="3.2">all over.</sentence>
+            <sentence id="3.3">Of course, I get "permission denied" for any operation in that folder.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Steps to reproduce the issue:**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I can reproduce the issue with this Dockerfile, for instance: https://hub.docker.com/r/phocean/etherpad/</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I run it with:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'
+docker run -ti --name etherpad -p 80:9001 -v etherpad:/opt/etherpad-lite/var:Z -t phocean/etherpad /bin/bash
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">So the named volume "etherpad" is created:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+% docker volume inspect etherpad
+[
+{
+"Name": "etherpad",
+"Driver": "local",
+"Mountpoint": "/var/lib/docker/volumes/etherpad/_data",
+"Labels": null,
+"Scope": "local"
+}
+]
+"'
+It used to work perfectly for two years with previous Docker versions.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Now, I can strange permission issue from within the container (see the permission denied whereas I am root and the ???</sentence>
+            <sentence id="10.2">permissions):</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'</sentence>
+            <sentence id="11.2">root@7d8ce7d4c042:/opt/etherpad-lite# chown -R etherpad:etherpad /opt/etherpad-lite/var/*</sentence>
+            <sentence id="11.3">chown: cannot access '/opt/etherpad-lite/var/etherpad.db': Permission denied</sentence>
+            <sentence id="11.4">root@7d8ce7d4c042:/opt/etherpad-lite# ls -la /opt/etherpad-lite/var/</sentence>
+            <sentence id="11.5">ls: cannot access /opt/etherpad-lite/var/.</sentence>
+            <sentence id="11.6">gitignore: Permission denied</sentence>
+            <sentence id="11.7">ls: cannot access /opt/etherpad-lite/var/etherpad.db: Permission denied</sentence>
+            <sentence id="11.8">total 4</sentence>
+            <sentence id="11.9">drwxr-xr-x.</sentence>
+            <sentence id="11.10">2 etherpad etherpad 43 Nov 28 18:25 .</sentence>
+            <sentence id="11.11">drwxr-xr-x.</sentence>
+            <sentence id="11.12">9 etherpad etherpad 4096 Nov 28 18:25 .</sentence>
+            <sentence id="11.13">.</sentence>
+            <sentence id="11.14">-??????????</sentence>
+            <sentence id="11.15">?</sentence>
+            <sentence id="11.16">?</sentence>
+            <sentence id="11.17">?</sentence>
+            <sentence id="11.18">?</sentence>
+            <sentence id="11.19">?</sentence>
+            <sentence id="11.20">.</sentence>
+            <sentence id="11.21">gitignore</sentence>
+            <sentence id="11.22">-??????????</sentence>
+            <sentence id="11.23">?</sentence>
+            <sentence id="11.24">?</sentence>
+            <sentence id="11.25">?</sentence>
+            <sentence id="11.26">?</sentence>
+            <sentence id="11.27">?</sentence>
+            <sentence id="11.28">etherpad.db</sentence>
+            <sentence id="11.29">"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Another weired example (I can create a file but not remove it):</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"'
+root@9ae14752a22e:/opt/etherpad-lite/var# touch test
+root@9ae14752a22e:/opt/etherpad-lite/var# rm test 
+rm: cannot remove 'test': Permission denied
+"'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Other output regarding SELinux (I get no error from there):</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"'</sentence>
+            <sentence id="15.2">root@9ae14752a22e:/opt/etherpad-lite/var# ls -laZ /opt/etherpad-lite/var</sentence>
+            <sentence id="15.3">ls: cannot access /opt/etherpad-lite/var/.</sentence>
+            <sentence id="15.4">gitignore: Permission denied</sentence>
+            <sentence id="15.5">ls: cannot access /opt/etherpad-lite/var/test: Permission denied</sentence>
+            <sentence id="15.6">total 4</sentence>
+            <sentence id="15.7">drwxr-xr-x.</sentence>
+            <sentence id="15.8">2 etherpad etherpad system_u:object_r:container_var_lib_t:s0 36 Nov 29 11:26 .</sentence>
+            <sentence id="15.9">drwxr-xr-x.</sentence>
+            <sentence id="15.10">9 etherpad etherpad system_u:object_r:container_file_t:s0:c730,c773 4096 Nov 28 18:44 .</sentence>
+            <sentence id="15.11">.</sentence>
+            <sentence id="15.12">-??????????</sentence>
+            <sentence id="15.13">?</sentence>
+            <sentence id="15.14">?</sentence>
+            <sentence id="15.15">?</sentence>
+            <sentence id="15.16">0 ?</sentence>
+            <sentence id="15.17">?</sentence>
+            <sentence id="15.18">.</sentence>
+            <sentence id="15.19">gitignore</sentence>
+            <sentence id="15.20">-??????????</sentence>
+            <sentence id="15.21">?</sentence>
+            <sentence id="15.22">?</sentence>
+            <sentence id="15.23">?</sentence>
+            <sentence id="15.24">0 ?</sentence>
+            <sentence id="15.25">?</sentence>
+            <sentence id="15.26">test</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">root@9ae14752a22e:/opt/etherpad-lite/var# ps -Z
+LABEL PID TTY TIME CMD
+system_u:system_r:container_t:s0:c730,c773 1 ?</sentence>
+            <sentence id="16.2">00:00:00 bash
+system_u:system_r:container_t:s0:c730,c773 25 ?</sentence>
+            <sentence id="16.3">00:00:00 ps
+"'</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">"'
+% docker version
+Client:
+ Version: 1.12.3
+ API version: 1.24
+ Package version: docker-common-1.12.3-9.git47e22f2.fc25.x86_64
+ Go version: go1.7.3
+ Git commit: 47e22f2/1.12.3
+ Built: 
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">Server:
+ Version: 1.12.3
+ API version: 1.24
+ Package version: docker-common-1.12.3-9.</sentence>
+            <sentence id="19.2">git47e22f2.fc25.x86_64
+ Go version: go1.7.3
+ Git commit: 47e22f2/1.12.3
+ Built: 
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">"'</sentence>
+            <sentence id="21.2">% docker info</sentence>
+            <sentence id="21.3">Containers: 2</sentence>
+            <sentence id="21.4"> Running: 2</sentence>
+            <sentence id="21.5"> Paused: 0</sentence>
+            <sentence id="21.6"> Stopped: 0</sentence>
+            <sentence id="21.7">Images: 93</sentence>
+            <sentence id="21.8">Server Version: 1.12.3</sentence>
+            <sentence id="21.9">Storage Driver: devicemapper</sentence>
+            <sentence id="21.10"> Pool Name: docker-253:1-2873722-pool</sentence>
+            <sentence id="21.11"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="21.12"> Base Device Size: 10.74 GB</sentence>
+            <sentence id="21.13"> Backing Filesystem: xfs</sentence>
+            <sentence id="21.14"> Data file: /dev/loop0</sentence>
+            <sentence id="21.15"> Metadata file: /dev/loop1</sentence>
+            <sentence id="21.16"> Data Space Used: 7.798 GB</sentence>
+            <sentence id="21.17"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="21.18"> Data Space Available: 25.84 GB</sentence>
+            <sentence id="21.19"> Metadata Space Used: 11.91 MB</sentence>
+            <sentence id="21.20"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="21.21"> Metadata Space Available: 2.136 GB</sentence>
+            <sentence id="21.22"> Thin Pool Minimum Free Space: 10.74 GB</sentence>
+            <sentence id="21.23"> Udev Sync Supported: true</sentence>
+            <sentence id="21.24"> Deferred Removal Enabled: false</sentence>
+            <sentence id="21.25"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="21.26"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="21.27"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="21.28"> WARNING: Usage of loopback devices is strongly discouraged for production use. Use '--storage-opt dm.thinpooldev' to specify a custom block storage device.</sentence>
+            <sentence id="21.29"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="21.30"> Library Version: 1.02.131 (2016-07-15)</sentence>
+            <sentence id="21.31">Logging Driver: journald</sentence>
+            <sentence id="21.32">Cgroup Driver: systemd</sentence>
+            <sentence id="21.33">Plugins:</sentence>
+            <sentence id="21.34"> Volume: local</sentence>
+            <sentence id="21.35"> Network: host bridge null overlay</sentence>
+            <sentence id="21.36">Swarm: inactive</sentence>
+            <sentence id="21.37">Runtimes: oci runc</sentence>
+            <sentence id="21.38">Default Runtime: oci</sentence>
+            <sentence id="21.39">Security Options: seccomp selinux</sentence>
+            <sentence id="21.40">Kernel Version: 4.8.8-300.fc25.x86_64</sentence>
+            <sentence id="21.41">Operating System: Fedora 25 (Workstation Edition)</sentence>
+            <sentence id="21.42">OSType: linux</sentence>
+            <sentence id="21.43">Architecture: x86_64</sentence>
+            <sentence id="21.44">Number of Docker Hooks: 2</sentence>
+            <sentence id="21.45">CPUs: 4</sentence>
+            <sentence id="21.46">Total Memory: 15.56 GiB</sentence>
+            <sentence id="21.47">Name: localhost.localdomain</sentence>
+            <sentence id="21.48">ID: 5PGY:JSWR:FE7C:W7WO:B7PY:XOV2:V5AH:BJAD:SQRM:C7ZQ:NYH4:7ICZ</sentence>
+            <sentence id="21.49">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="21.50">Debug Mode (client): false</sentence>
+            <sentence id="21.51">Debug Mode (server): false</sentence>
+            <sentence id="21.52">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="21.53">Insecure Registries:</sentence>
+            <sentence id="21.54"> 127.0.0.0/8</sentence>
+            <sentence id="21.55">Registries: docker.io (secure)</sentence>
+            <sentence id="21.56">"'</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">NB: I posted this request on the forum and IRC but no solution so far.</sentence>
+        </paragraph>
+    </description>
+</bug>

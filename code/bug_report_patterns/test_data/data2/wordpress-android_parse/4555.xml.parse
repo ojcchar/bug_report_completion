@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4555</id>
+    <title>Crash report 5.8: SecurityException in MediaUtils.downloadExternalMedia</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Looks like a Permission issue for at least one kind of content resolver:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">Fatal Exception: java.lang.RuntimeException: An error occurred while executing doInBackground()</sentence>
+            <sentence id="2.3"> at android.os.AsyncTask$3.done(AsyncTask.java:309)</sentence>
+            <sentence id="2.4"> at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:354)</sentence>
+            <sentence id="2.5"> at java.util.concurrent.FutureTask.setException(FutureTask.java:223)</sentence>
+            <sentence id="2.6"> at java.util.concurrent.FutureTask.run(FutureTask.java:242)</sentence>
+            <sentence id="2.7"> at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:234)</sentence>
+            <sentence id="2.8"> at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1113)</sentence>
+            <sentence id="2.9"> at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:588)</sentence>
+            <sentence id="2.10"> at java.lang.Thread.run(Thread.java:818)</sentence>
+            <sentence id="2.11">Caused by java.lang.SecurityException: Permission Denial: opening provider com.android.providers.media.MediaDocumentsProvider from ProcessRecord{80397e6 26364:org.wordpress.android/u0a238} (pid=26364, uid=10238) requires android.permission.MANAGE_DOCUMENTS or android.permission.MANAGE_DOCUMENTS</sentence>
+            <sentence id="2.12"> at android.os.Parcel.readException(Parcel.java:1627)</sentence>
+            <sentence id="2.13"> at android.os.Parcel.readException(Parcel.java:1579)</sentence>
+            <sentence id="2.14"> at android.app.ActivityManagerProxy.getContentProvider(ActivityManagerNative.java:3565)</sentence>
+            <sentence id="2.15"> at android.app.ActivityThread.acquireProvider(ActivityThread.java:4878)</sentence>
+            <sentence id="2.16"> at android.app.ContextImpl$ApplicationContentResolver.acquireUnstableProvider(ContextImpl.java:2004)</sentence>
+            <sentence id="2.17"> at android.content.ContentResolver.acquireUnstableProvider(ContentResolver.java:1477)</sentence>
+            <sentence id="2.18"> at android.content.ContentResolver.openTypedAssetFileDescriptor(ContentResolver.java:1095)</sentence>
+            <sentence id="2.19"> at android.content.ContentResolver.openAssetFileDescriptor(ContentResolver.java:948)</sentence>
+            <sentence id="2.20"> at android.content.ContentResolver.openInputStream(ContentResolver.java:668)</sentence>
+            <sentence id="2.21"> at org.wordpress.android.util.MediaUtils.downloadExternalMedia(MediaUtils.java:200)</sentence>
+            <sentence id="2.22"> at org.wordpress.android.ui.posts.EditPostActivity.addMedia(EditPostActivity.java:1517)</sentence>
+            <sentence id="2.23"> at org.wordpress.android.ui.posts.EditPostActivity.access$2300(EditPostActivity.java:127)</sentence>
+            <sentence id="2.24"> at org.wordpress.android.ui.posts.EditPostActivity$8.doInBackground(EditPostActivity.java:1452)</sentence>
+            <sentence id="2.25"> at org.wordpress.android.ui.posts.EditPostActivity$8.doInBackground(EditPostActivity.java:1443)</sentence>
+            <sentence id="2.26"> at android.os.AsyncTask$2.call(AsyncTask.java:295)</sentence>
+            <sentence id="2.27"> at java.util.concurrent.FutureTask.run(FutureTask.java:237)</sentence>
+            <sentence id="2.28"> at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:234)</sentence>
+            <sentence id="2.29"> at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1113)</sentence>
+            <sentence id="2.30"> at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:588)</sentence>
+            <sentence id="2.31"> at java.lang.Thread.run(Thread.java:818)</sentence>
+            <sentence id="2.32">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

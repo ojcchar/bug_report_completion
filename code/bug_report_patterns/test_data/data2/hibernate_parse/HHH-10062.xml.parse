@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10062</id>
+    <title>ScrollableResults with join fetch reuses proxy rather than loading actual object.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The attached test case project shows a situation where using ScrollableResults does not hydrate a proxy object upon join fetch where-as using the JPA getResultList method does.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Start test-case application using maven:</sentence>
+            <sentence id="2.2">mvn tomcat7:run</sentence>
+            <sentence id="2.3"># http://localhost:8080/proxy-fetch-test-case/good</sentence>
+            <sentence id="2.4">Association loaded successfully using getResultList()</sentence>
+            <sentence id="2.5"># http://localhost:8080/proxy-fetch-test-case/bad</sentence>
+            <sentence id="2.6">Association not loaded with lazily loaded exception using ScrollableResults</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The expectation was that objects would be loaded identically regardless of using scrollable results or using get result list from JPA.</sentence>
+        </paragraph>
+    </description>
+</bug>

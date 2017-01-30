@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>165342</id>
+    <title>org.xml.sax.SAXParseException: XML document structures must start and end within the same entity.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The setup:
+new technology Agent Controller (release 4.3.0-200610310100) on a Linux machine,
+Agent Controller client (using tptpcore.jar) on Windows,
+Agent Controller client (using tptpcore.jar) on Linux.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Both clients call 'getAgent' on the AgentController class in a loop.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The client on Windows works fine.</sentence>
+            <sentence id="3.2">The client on Linux prints the following stacktrace on the console:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">org.xml.sax.SAXParseException: XML document structures must start and end within the same entity.</sentence>
+            <sentence id="4.2">        at org.apache.xerces.util.ErrorHandlerWrapper.createSAXParseException(Unknown Source)</sentence>
+            <sentence id="4.3">        at org.apache.xerces.util.ErrorHandlerWrapper.fatalError(Unknown Source)</sentence>
+            <sentence id="4.4">        at org.apache.xerces.impl.XMLErrorReporter.reportError(Unknown Source)</sentence>
+            <sentence id="4.5">        at org.apache.xerces.impl.XMLErrorReporter.reportError(Unknown Source)</sentence>
+            <sentence id="4.6">        at org.apache.xerces.impl.XMLScanner.reportFatalError(Unknown Source)</sentence>
+            <sentence id="4.7">        at org.apache.xerces.impl.XMLDocumentFragmentScannerImpl.endEntity(Unknown Source)</sentence>
+            <sentence id="4.8">        at org.apache.xerces.impl.XMLDocumentScannerImpl.endEntity(Unknown Source)</sentence>
+            <sentence id="4.9">        at org.apache.xerces.impl.XMLEntityManager.endEntity(Unknown Source)</sentence>
+            <sentence id="4.10">        at org.apache.xerces.impl.XMLEntityScanner.load(Unknown Source)</sentence>
+            <sentence id="4.11">        at org.apache.xerces.impl.XMLEntityScanner.skipChar(Unknown Source)</sentence>
+            <sentence id="4.12">        at org.apache.xerces.impl.XMLDocumentFragmentScannerImpl$FragmentContentDispatcher.dispatch(Unknown Source)</sentence>
+            <sentence id="4.13">        at org.apache.xerces.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)</sentence>
+            <sentence id="4.14">        at org.apache.xerces.parsers.XML11Configuration.parse(Unknown Source)</sentence>
+            <sentence id="4.15">        at org.apache.xerces.parsers.XML11Configuration.parse(Unknown Source)</sentence>
+            <sentence id="4.16">        at org.apache.xerces.parsers.XMLParser.parse(Unknown Source)</sentence>
+            <sentence id="4.17">        at org.apache.xerces.parsers.AbstractSAXParser.parse(Unknown Source)</sentence>
+            <sentence id="4.18">        at org.apache.xerces.jaxp.SAXParserImpl.parse(Unknown Source)</sentence>
+            <sentence id="4.19">        at org.eclipse.tptp.platform.execution.util.internal.TPTPXMLParse.setParser(TPTPXMLParse.java:105)</sentence>
+            <sentence id="4.20">        at org.eclipse.tptp.platform.execution.client.core.internal.ControlMessage.readACCommands(ControlMessage.java:421)</sentence>
+            <sentence id="4.21">        at org.eclipse.tptp.platform.execution.client.core.internal.ControlMessage.readFromBuffer(ControlMessage.java:301)</sentence>
+            <sentence id="4.22">        at org.eclipse.tptp.platform.execution.client.core.internal.ConnectionImpl.processControlMessage(ConnectionImpl.java:803)</sentence>
+            <sentence id="4.23">        at org.eclipse.tptp.platform.execution.client.core.internal.ConnectionImpl$SocketReaderThread.run(ConnectionImpl.java:1021)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">After investigating, I narrowed the problem to the 'readTPTPCmdStringFromBuffer' method in TPTPMessageUtil.java.</sentence>
+            <sentence id="5.2">The problem is that the position of the command in the binary buffer is not correctly calculated.</sentence>
+            <sentence id="5.3">It is not appropriate to use lengths calculated on the character representation to reason about the binary buffer, because some characters
+(such as new lines) may be represented in a different amount of bytes.</sentence>
+            <sentence id="5.4">I implemented a quick and dirty fix, which happens to work:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">public static int readTPTPCmdStringFromBuffer(byte[] buffer, int offset, TPTPString rastring)</sentence>
+            <sentence id="6.2">	{	</sentence>
+            <sentence id="6.3">		int commandLengthInBytes = 0;</sentence>
+            <sentence id="6.4">		String data = "";</sentence>
+            <sentence id="6.5">		try {</sentence>
+            <sentence id="6.6">			String endOfCommand = "&lt;/Cmd&gt;";</sentence>
+            <sentence id="6.7">			byte[] endOfCommandBytes = endOfCommand.getBytes("UTF-8");</sentence>
+            <sentence id="6.8">			int endOfCommandIndex = -1;</sentence>
+            <sentence id="6.9">			for (int i = offset; i &lt;= (buffer.length - endOfCommandBytes.length); ++i) {</sentence>
+            <sentence id="6.10">				boolean matchEndOfCommand = true;</sentence>
+            <sentence id="6.11">				for (int j = 0; j &lt; endOfCommandBytes.length; ++j) {</sentence>
+            <sentence id="6.12">					if (endOfCommandBytes[j] != buffer[i+j]) {</sentence>
+            <sentence id="6.13">						matchEndOfCommand = false;</sentence>
+            <sentence id="6.14">						break;</sentence>
+            <sentence id="6.15">					}</sentence>
+            <sentence id="6.16">				}</sentence>
+            <sentence id="6.17">				if (matchEndOfCommand) {</sentence>
+            <sentence id="6.18">					endOfCommandIndex = i;</sentence>
+            <sentence id="6.19">				}</sentence>
+            <sentence id="6.20">			}</sentence>
+            <sentence id="6.21">			if (-1 != endOfCommandIndex) {</sentence>
+            <sentence id="6.22">				commandLengthInBytes = endOfCommandBytes.length+endOfCommandIndex-offset;</sentence>
+            <sentence id="6.23">				data = new String(buffer, offset, commandLengthInBytes, "UTF-8");</sentence>
+            <sentence id="6.24">			}</sentence>
+            <sentence id="6.25">		} catch (java.io.UnsupportedEncodingException ignore) {}</sentence>
+            <sentence id="6.26">		rastring.setData(data);</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">return offset+commandLengthInBytes;
+	}</sentence>
+        </paragraph>
+    </description>
+</bug>

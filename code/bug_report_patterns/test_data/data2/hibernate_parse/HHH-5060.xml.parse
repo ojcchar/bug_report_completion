@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5060</id>
+    <title>MappedSuperclass in the middle of class hierarchy - column not found</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We've got model with MappedSuperclass in the middle of class hierarchy:
+Person(Entity) -&gt; EmployeeBasic(MappedSuperclass) -&gt; Employee(Entity) -&gt; BossBasic(MappedSuperclass) -&gt; Boss(Entity)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Following exception occurs when we run query: "SELECT p1 FROM Employee p1", which should return instances of Employee and Boss (attached: test.CMappedSuperclassTestCase.testSimpleQueryModel()):</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">javax.persistence.PersistenceException: org.hibernate.exception.SQLGrammarException: could not execute query</sentence>
+            <sentence id="3.2">	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1167)</sentence>
+            <sentence id="3.3">	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1100)</sentence>
+            <sentence id="3.4">[...]</sentence>
+            <sentence id="3.5">Caused by: java.sql.SQLException: Column not found: OWNED11_1_</sentence>
+            <sentence id="3.6">	at org.hsqldb.jdbc.Util.sqlException(Unknown Source)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Query against the same model works well when we eliminate MappedSuperclass from hierarchy (attached: test.CMappedSuperclassTestCase.testSimpleQueryModel2()).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Issue didn't occure in previous release: 3.3.2.</sentence>
+            <sentence id="5.2">GA.</sentence>
+        </paragraph>
+    </description>
+</bug>

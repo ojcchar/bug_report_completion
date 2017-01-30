@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>16554</id>
+    <title>COPY failing with OverlayFS</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This Dockerfile</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">https://github.com/zopyx/docker-plone5</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">fails on Fedora 22 with OverlayFS badly:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">ocker build -t zopyx/plone-50-demo .</sentence>
+            <sentence id="4.2">Sending build context to Docker daemon 108 kB</sentence>
+            <sentence id="4.3">Step 0 : FROM fedora:latest</sentence>
+            <sentence id="4.4">---&gt; ded7cd95e059</sentence>
+            <sentence id="4.5">Step 1 : RUN dnf -y update</sentence>
+            <sentence id="4.6">---&gt; Using cache</sentence>
+            <sentence id="4.7">---&gt; c230c3dea2d7</sentence>
+            <sentence id="4.8">Step 2 : RUN dnf -y install python-virtualenv</sentence>
+            <sentence id="4.9">---&gt; Using cache</sentence>
+            <sentence id="4.10">---&gt; b827fb98ff7f</sentence>
+            <sentence id="4.11">Step 3 : RUN virtualenv /tmp/plone</sentence>
+            <sentence id="4.12">---&gt; Running in 45ba6643c9ba</sentence>
+            <sentence id="4.13">New python executable in /tmp/plone/bin/python2</sentence>
+            <sentence id="4.14">Also creating executable in /tmp/plone/bin/python</sentence>
+            <sentence id="4.15">Installing setuptools, pip...done.</sentence>
+            <sentence id="4.16">---&gt; a24458abb09d</sentence>
+            <sentence id="4.17">Removing intermediate container 45ba6643c9ba</sentence>
+            <sentence id="4.18">Step 4 : WORKDIR /tmp/plone</sentence>
+            <sentence id="4.19">---&gt; Running in f7832276c94d</sentence>
+            <sentence id="4.20">---&gt; 5c6c3436c727</sentence>
+            <sentence id="4.21">Removing intermediate container f7832276c94d</sentence>
+            <sentence id="4.22">Step 5 : ADD bootstrap.py /tmp/plone</sentence>
+            <sentence id="4.23">stat /var/lib/docker/overlay/dc2353f5521ec2e5ac6698582c66f3d66ae5e371afb39557613f98692ee29f15/merged/tmp/plone/bootstrap.</sentence>
+            <sentence id="4.24">py: no such file or directory</sentence>
+            <sentence id="4.25">Makefile:2: recipe for target 'build' failed</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">docker info
+Containers: 39
+Images: 164
+Storage Driver: overlay
+ Backing Filesystem: xfs
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 4.1.7-200.</sentence>
+            <sentence id="5.2">fc22.x86_64
+Operating System: Fedora 22 (Twenty Two)
+CPUs: 2
+Total Memory: 5.828 GiB
+Name: vmd9666.contabo.host
+ID: VE35:UXKH:WPZ2:CNFH:IV7S:L6SW:GZKZ:LGID:YNAU:46PM:4ONF:VF5I</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">docker version
+Client:
+ Version: 1.8.1.</sentence>
+            <sentence id="6.2">fc22
+ API version: 1.20
+ Package Version: docker-1.8.1-3.</sentence>
+            <sentence id="6.3">git32b8b25.fc22.x86_64
+ Go version: go1.4.2
+ Git commit: 32b8b25/1.8.1
+ Built:
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Server:
+ Version: 1.8.1.</sentence>
+            <sentence id="7.2">fc22
+ API version: 1.20
+ Package Version:
+ Go version: go1.4.2
+ Git commit: 32b8b25/1.8.1
+ Built:
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Linux vmd9666.contabo.host 4.1.7-200.</sentence>
+            <sentence id="8.2">fc22.x86_64 #1 SMP Mon Sep 14 20:19:24 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+        </paragraph>
+    </description>
+</bug>

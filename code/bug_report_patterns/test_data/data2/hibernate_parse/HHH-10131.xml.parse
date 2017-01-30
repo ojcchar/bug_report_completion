@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10131</id>
+    <title>CacheableFileXmlSource.doBind returns null instead of created binding when .hbm.xml.bin have not been created yet</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Using MetadataSources.addCacheableFile with a .hbm.xml file that exists but without a .hbm.xml.bin file (not created yet at this point) results in a null binding because of https://github.com/hibernate/hibernate-orm/blob/5.0.1.Final/hibernate-core/src/main/java/org/hibernate/boot/jaxb/internal/CacheableFileXmlSource.java#L98.</sentence>
+            <sentence id="1.2">In the end it results in a NPE:</sentence>
+            <sentence id="1.3">{noformat}</sentence>
+            <sentence id="1.4">java.lang.NullPointerException</sentence>
+            <sentence id="1.5">	at org.hibernate.boot.model.source.internal.hbm.HbmMetadataSourceProcessorImpl.&lt;init&gt;(HbmMetadataSourceProcessorImpl.java:53)</sentence>
+            <sentence id="1.6">	at org.hibernate.boot.model.source.internal.hbm.HbmMetadataSourceProcessorImpl.&lt;init&gt;(HbmMetadataSourceProcessorImpl.java:40)</sentence>
+            <sentence id="1.7">	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess$1.&lt;init&gt;(MetadataBuildingProcess.java:142)</sentence>
+            <sentence id="1.8">	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:141)</sentence>
+            <sentence id="1.9">	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:83)</sentence>
+            <sentence id="1.10">	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:418)</sentence>
+            <sentence id="1.11">	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:87)</sentence>
+            <sentence id="1.12">	at org.hibernate.boot.MetadataSources.buildMetadata(MetadataSources.java:179)</sentence>
+            <sentence id="1.13">{noformat}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Instead, I think that the binding should be returned after having been serialized (now the .hbm.xml.bin file exists).</sentence>
+            <sentence id="2.2">That is, "return binding" after https://github.com/hibernate/hibernate-orm/blob/5.0.1.Final/hibernate-core/src/main/java/org/hibernate/boot/jaxb/internal/CacheableFileXmlSource.java#L95.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I have attached a patch that seems to fix the problem for me.</sentence>
+        </paragraph>
+    </description>
+</bug>

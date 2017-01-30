@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10258</id>
+    <title>Docker push in v1.4.1 doesn't work against private registry running behind nginx ssl proxy (with suggested config)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When pushing against a private registry (running v0.9.1), it fails with the following message:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">```shell
+FATA[0051] mux: variable "hcg-uwsgi" doesn't match, expected "^(?</sentence>
+            <sentence id="2.2">:[a-z0-9]+(?</sentence>
+            <sentence id="2.3">:[.</sentence>
+            <sentence id="2.4">_-][a-z0-9]+)*/){1,4}[a-z0-9]+(?</sentence>
+            <sentence id="2.5">:[.</sentence>
+            <sentence id="2.6">_-][a-z0-9]+)*$" 
+```</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">commands run:</sentence>
+            <sentence id="3.2">```shell
+docker tag hcg-uwsgi docker.example.com/hcg-uwsgi:latest
+docker --debug=true push docker.example.com/hcg-uwsgi
+````</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The reason is because v1.4.1 attempts to hit ``https://docker.example.com/v2/``.</sentence>
+            <sentence id="4.2">With the suggested nginx config (https://github.com/docker/docker-registry/blob/f96d5ec35a797953cee18a35410e5c0cd5394e56/contrib/nginx/nginx_1-3-9.conf#L30), this returns a 401 (unauthorized).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Forcing a 404 for the ``/v2/`` url makes docker v1.4.1 fallback to the ``/v1/`` restful endpoint, and everything works great.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Example:</sentence>
+            <sentence id="6.2">```nginx
+ location /v2/ {
+ auth_basic off;
+ return 404;
+ }
+```</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Output of ``docker info``:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">```shell</sentence>
+            <sentence id="8.2">Containers: 22</sentence>
+            <sentence id="8.3">Images: 120</sentence>
+            <sentence id="8.4">Storage Driver: devicemapper</sentence>
+            <sentence id="8.5"> Pool Name: docker-253:0-1194892-pool</sentence>
+            <sentence id="8.6"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="8.7"> Backing Filesystem: extfs</sentence>
+            <sentence id="8.8"> Data file: /dev/loop0</sentence>
+            <sentence id="8.9"> Metadata file: /dev/loop1</sentence>
+            <sentence id="8.10"> Data Space Used: 4.443 GB</sentence>
+            <sentence id="8.11"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="8.12"> Metadata Space Used: 7.512 MB</sentence>
+            <sentence id="8.13"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="8.14"> Udev Sync Supported: false</sentence>
+            <sentence id="8.15"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="8.16"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="8.17"> Library Version: 1.02.82-git (2013-10-04)</sentence>
+            <sentence id="8.18">Execution Driver: native-0.2</sentence>
+            <sentence id="8.19">Kernel Version: 3.16.3-200.fc20.x86_64</sentence>
+            <sentence id="8.20">Operating System: Fedora 20 (Heisenbug)</sentence>
+            <sentence id="8.21">CPUs: 2</sentence>
+            <sentence id="8.22">Total Memory: 1.955 GiB</sentence>
+            <sentence id="8.23">Name: &lt;redacted&gt;</sentence>
+            <sentence id="8.24">ID: &lt;redacted&gt;</sentence>
+            <sentence id="8.25">```</sentence>
+        </paragraph>
+    </description>
+</bug>

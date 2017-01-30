@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18160</id>
+    <title>Failed to remove multiple networks with one docker network rm command</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hy,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I create multiple bridge network and wanted to remove them with one command but it failed with
+"docker: "network rm" requires 1 argument."</sentence>
+            <sentence id="2.2">.</sentence>
+            <sentence id="2.3">Okay I can workaround it with for example "docker network ls | grep "almafa\|kortefa" | xargs docker network rm", but I think it should work the same way how it works in case of images or containers.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">How reproducible:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to reproduce:</sentence>
+            <sentence id="4.2">1 Run docker daemon</sentence>
+            <sentence id="4.3">2 Create two default networks: docker network create csillamponi &amp;&amp; docker network create unicorn</sentence>
+            <sentence id="4.4">2 Try to remove them: docker network rm csilamponi unicorn</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual result:</sentence>
+            <sentence id="5.2">"docker: "network rm" requires 1 argument"</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected result:</sentence>
+            <sentence id="6.2">The daemon removes both of the networks.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">`docker version`:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Client:
+ Version: 1.9.0
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: 76d6bc9
+ Built: Tue Nov 3 17:43:42 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Server:
+ Version: 1.9.0
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: 76d6bc9
+ Built: Tue Nov 3 17:43:42 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">`docker info`:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Containers: 0</sentence>
+            <sentence id="11.2">Images: 25</sentence>
+            <sentence id="11.3">Server Version: 1.9.0</sentence>
+            <sentence id="11.4">Storage Driver: aufs</sentence>
+            <sentence id="11.5"> Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="11.6"> Backing Filesystem: extfs</sentence>
+            <sentence id="11.7"> Dirs: 25</sentence>
+            <sentence id="11.8"> Dirperm1 Supported: true</sentence>
+            <sentence id="11.9">Execution Driver: native-0.2</sentence>
+            <sentence id="11.10">Logging Driver: json-file</sentence>
+            <sentence id="11.11">Kernel Version: 3.16.0-30-generic</sentence>
+            <sentence id="11.12">Operating System: Ubuntu 14.04.2 LTS</sentence>
+            <sentence id="11.13">CPUs: 1</sentence>
+            <sentence id="11.14">Total Memory: 993.7 MiB</sentence>
+            <sentence id="11.15">Name: lmesz-node1</sentence>
+            <sentence id="11.16">ID: XNAE:LJE6:MS6U:BPSA:I4LG:5AK6:HNBH:G4A7:2TTI:OSFH:JOOS:QHVY</sentence>
+            <sentence id="11.17">Debug mode (server): true</sentence>
+            <sentence id="11.18"> File Descriptors: 18</sentence>
+            <sentence id="11.19"> Goroutines: 47</sentence>
+            <sentence id="11.20"> System Time: 2015-11-12T12:26:07.781316158-05:00</sentence>
+            <sentence id="11.21"> EventsListeners: 0</sentence>
+            <sentence id="11.22"> Init SHA1: 787da34bb103f11fd6114d8782217bc4f7032e3e</sentence>
+            <sentence id="11.23"> Init Path: /usr/lib/docker/dockerinit</sentence>
+            <sentence id="11.24"> Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="11.25">WARNING: No swap limit support</sentence>
+            <sentence id="11.26">Cluster store: etcd://10.121.1.66:2379/dockerNetwork</sentence>
+            <sentence id="11.27">Cluster advertise: 10.121.1.66:22222</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">`uname -a`:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Linux lmesz-node1 3.16.0-30-generic #40~14.04.1-Ubuntu SMP Thu Jan 15 17:43:14 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Environment details (AWS, VirtualBox, physical, etc.):</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">I guess doesn't matter.</sentence>
+            <sentence id="15.2">But it is a virtualbox virtual machine.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>47895</id>
+    <title>Incorrect 413 error handling</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Apache incorrectly sends the file content after sending 413 error message, for example:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">POST /robots.txt HTTP/1.0
+Content-Length: -75000000</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">HTTP/1.1 413 Request Entity Too Large
+Date: Thu, 24 Sep 2009 10:42:30 GMT
+Server: Apache/2.2.11 (Unix)
+Connection: close
+Content-Type: text/html; charset=iso-8859-1</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;!</sentence>
+            <sentence id="4.2">DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"&gt;
+&lt;html&gt;&lt;head&gt;
+&lt;title&gt;413 Request Entity Too Large&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Request Entity Too Large&lt;/h1&gt;
+The requested resource&lt;br /&gt;/robots.txt&lt;br /&gt;
+does not allow request data with POST requests, or the amount of data provided in
+the request exceeds the capacity limit.</sentence>
+            <sentence id="4.3">&lt;/body&gt;&lt;/html&gt;
+User-agent: *
+Disallow: /d2/
+Crawl-delay: 1</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Apache should close the connection after sending &lt;/html&gt; but it doesn't.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">It's a big problem when PHP scripts are requested with a wrong Content-Length because the source code is sent to a client after the error message:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&lt;!</sentence>
+            <sentence id="7.2">DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"&gt;
+&lt;html&gt;&lt;head&gt;
+&lt;title&gt;413 Request Entity Too Large&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Request Entity Too Large&lt;/h1&gt;
+The requested resource&lt;br /&gt;/test.php&lt;br /&gt;
+does not allow request data with POST requests, or the amount of data
+provided in
+the request exceeds the capacity limit.</sentence>
+            <sentence id="7.3">&lt;/body&gt;&lt;/html&gt;
+&lt;?</sentence>
+            <sentence id="7.4">php
+$dblogin = 'admin';
+$dbpass = 'secret';
+mysql_connect('localhost', $dblogin, $dbpass);
+echo 'some output';
+?</sentence>
+            <sentence id="7.5">&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

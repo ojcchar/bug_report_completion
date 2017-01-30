@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10045</id>
+    <title>bridge IPv6 does not match existing bridge configuration fe80::1</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">ping @MalteJ
+Adding --ipv6 when invoking daemon yields:</sentence>
+            <sentence id="1.2">"FATA[0000] bridge IPv6 does not match existing bridge configuration fe80::1'</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">My network configuration is:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"' sh
+root@emsi-docker:~# ifconfig docker0
+docker0 Link encap:Ethernet HWaddr 56:84:7a:fe:97:99
+ inet addr:172.17.42.1 Bcast:0.0.0.0 Mask:255.255.0.0
+ inet6 addr: fe80::5484:7aff:fefe:9799/64 Scope:Link
+ inet6 addr: 2001:db8::1/48 Scope:Global
+ UP BROADCAST MULTICAST MTU:1500 Metric:1
+ RX packets:77925980 errors:0 dropped:0 overruns:0 frame:0
+ TX packets:157133033 errors:0 dropped:0 overruns:0 carrier:0
+ collisions:0 txqueuelen:0
+ RX bytes:159287511078 (148.3 GiB) TX bytes:165247062972 (153.8 GiB)
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I tried '--fixed-cidr-v6=2001:db8::/64' as well as '--fixed-cidr-v6=fe80::/64'.</sentence>
+        </paragraph>
+    </description>
+</bug>

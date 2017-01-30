@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>477583</id>
+    <title>Backups of bookmarks stops working if a future backup exists</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6 (.</sentence>
+            <sentence id="1.2">NET CLR 3.5.30729)
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6 (.</sentence>
+            <sentence id="1.3">NET CLR 3.5.30729)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Backups of bookmarks will stop working as soon as a *.json file with a newer date is found in the backup folder.</sentence>
+            <sentence id="2.2">If you happen move ahead the date on your computer, to test some software in my case, and during that time open and close Mozilla a backup will be created and stamped with the fake date.</sentence>
+            <sentence id="2.3">Once you set the computer calendar to the real date and time Mozilla backup will stop working.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">1 Open and close all running instances of Mozilla.</sentence>
+            <sentence id="4.3">(This step should create a backup file.</sentence>
+            <sentence id="4.4">*.</sentence>
+            <sentence id="4.5">json)</sentence>
+            <sentence id="4.6">2 Move forwared the computer date (lets say 30 days)</sentence>
+            <sentence id="4.7">3 Open and close Mozilla.</sentence>
+            <sentence id="4.8">4 Check the backup folder for the latest backup file (*.json) It will be stamped with the current date +30 days</sentence>
+            <sentence id="4.9">5 Move back the date to the current one.</sentence>
+            <sentence id="4.10">6 Open Mozilla, then close it.</sentence>
+            <sentence id="4.11">7 Check the backup folder and you will notice that no new backups are being made.</sentence>
+            <sentence id="4.12">Actual Results:</sentence>
+            <sentence id="4.13">Backups of bookmarks stop working</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Expected Results:  
+Backup of bookmarks should work</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The software has to be able to always make backups.</sentence>
+            <sentence id="6.2">Probably, the software will have to label the backups differently to distinguish them from the rest.</sentence>
+        </paragraph>
+    </description>
+</bug>

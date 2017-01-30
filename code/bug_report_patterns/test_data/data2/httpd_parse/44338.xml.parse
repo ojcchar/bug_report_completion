@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>44338</id>
+    <title>mod_deflate crashes and does not return response</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">- I downloaded and installed apache_2.0.63-win32-x86-no_ssl.</sentence>
+            <sentence id="1.2">msi</sentence>
+            <sentence id="1.3">- activated the delfate module by adding the following line to httpd.conf</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">LoadModule deflate_module modules/mod_deflate.so</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">- configured the following compression settings:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;Location /&gt;
+	# Insert filter
+	AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1"># NOTE: Due to a bug in mod_setenvif up to Apache 2.0.48
+	# the above regex won't work.</sentence>
+            <sentence id="5.2">You can use the following
+	# workaround to get the desired effect:
+	BrowserMatch \bMSI[E] !</sentence>
+            <sentence id="5.3">no-gzip !</sentence>
+            <sentence id="5.4">gzip-only-text/html</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1"># Don't compress images
+	SetEnvIfNoCase Request_URI \
+	\.</sentence>
+            <sentence id="6.2">(?</sentence>
+            <sentence id="6.3">:gif|jpe?g|png|pdf|gz|zip)$ no-gzip dont-vary</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1"># Make sure proxies don't deliver the wrong content
+	Header append Vary User-Agent env=!</sentence>
+            <sentence id="7.2">dont-vary
+&lt;/Location&gt;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">&lt;Files *.</sentence>
+            <sentence id="8.2">js&gt;
+	ForceType text/javascript
+&lt;/Files&gt;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">- After restarting apache and reloading the default index.html mod_deflate crashes and wants to start a debug session - no content is delivery to the client browser</sentence>
+        </paragraph>
+    </description>
+</bug>

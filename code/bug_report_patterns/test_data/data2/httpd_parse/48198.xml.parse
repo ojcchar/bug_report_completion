@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>48198</id>
+    <title>Changes in apache rc script conflicts with FIB patch of rc.subr</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Patch of rc.subr
+http://server.in/softdev/fib_patch.html</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">in 2.2.11 you write:</sentence>
+            <sentence id="2.2">[ -z "$apache22_fib" ] &amp;&amp; apache22_fib="NO"</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">instead of old one:</sentence>
+            <sentence id="3.2">[ -z "$apache22_fib" ] &amp;&amp; apache22_fib="0"</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">That your update case a hack in rc.subr:
+                      if [ "${name}_fib" &amp;&amp; "${name}_fib" ne "NO" ]; then</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">instead of old one:
+                      if [ "${name}_fib" ]; then</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Let's guess what is better OLD or NEW form?</sentence>
+            <sentence id="6.2">I think OLD form is better, becase of apache_fib="NO" really means to use FIB by default.</sentence>
+            <sentence id="6.3">That is fib with '0'.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">So in your script you must chech if apache_fib eq '0' or 'NO' 
+then return 0 
+else 
+command="setfib -F ${apache22_fib} ${command}"</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Are you agree?</sentence>
+        </paragraph>
+    </description>
+</bug>

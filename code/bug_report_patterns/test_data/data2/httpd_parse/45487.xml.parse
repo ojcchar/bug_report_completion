@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>45487</id>
+    <title>broken log messages on startup in win32 version</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">After switching from 2.2.8 to 2.2.8 I found out it writes something like this to error.log during startup:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Starting the Apache2.2 service
+The Apache2.2 service is running.
+]</sentence>
+            <sentence id="2.2">Apache/2.2.9 (Win32) PHP/5.2.6 configured -- resuming normal operations</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Before, it was only writing this:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">[Sun Jul 13 06:00:04 2008] [notice] Apache/2.2.8 (Win32) PHP/5.2.6 configured -- resuming normal operations</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">What I find wrong is that "] " in the beginning of line that 2.2.9 writes.</sentence>
+            <sentence id="5.2">Something is definitely broken, and even if this doesn't look dangerous, it's better to be checked and fixed.</sentence>
+        </paragraph>
+    </description>
+</bug>

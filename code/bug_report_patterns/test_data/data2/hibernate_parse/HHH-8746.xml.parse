@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8746</id>
+    <title>Regresion after upgrade to 4.2.0: hibernate merge detached Object twice</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi i have two entities in OneToMany relation like this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code:borderStyle=solid}
+@Entity(name = "Ppv")
+  @Table(name = "PPV")
+  public static class Ppv {</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">@Id
+    Long ppvId;
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "ppv", orphanRemoval = true)
+    Set&lt;Uvazek&gt; uvazeks = new HashSet&lt;Uvazek&gt;(0);
+    
+  }</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">@Entity(name = "Uvazek")
+  @Table(name = "UVAZEK")
+  public static class Uvazek {
+    
+    @Id
+    Long uvazekId;
+    
+    @ManyToOne
+    @JoinColumn(name = "PPV_FXID")
+    Ppv ppv;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">and use case like this:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">{code:borderStyle=solid}
+Ppv ppv = (Ppv) getSession().</sentence>
+            <sentence id="7.2">get(Ppv.class, 1l);</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">getSession().</sentence>
+            <sentence id="8.2">clear();
+    
+    ppv.uvazeks.remove(ppv.uvazeks.iterator().</sentence>
+            <sentence id="8.3">next());
+    getSession().</sentence>
+            <sentence id="8.4">merge(ppv);
+    getSession().</sentence>
+            <sentence id="8.5">flush();
+    
+    getSession().</sentence>
+            <sentence id="8.6">clear();
+    
+    ppv.uvazeks.remove(ppv.uvazeks.iterator().</sentence>
+            <sentence id="8.7">next());
+    getSession().</sentence>
+            <sentence id="8.8">merge(ppv);
+    //this flush cause exception
+    getSession().</sentence>
+            <sentence id="8.9">flush();
+{code}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">caused exception</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">{code:borderStyle=solid}</sentence>
+            <sentence id="10.2">org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [test.hibernate.TestPrepravkaOsobaSAdresou$Uvazek#2]</sentence>
+            <sentence id="10.3">	at org.hibernate.internal.SessionFactoryImpl$1$1.handleEntityNotFound(SessionFactoryImpl.java:244)</sentence>
+            <sentence id="10.4">	at org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:212)</sentence>
+            <sentence id="10.5">	at org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:262)</sentence>
+            <sentence id="10.6">	at org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:150)</sentence>
+            <sentence id="10.7">	at org.hibernate.internal.SessionImpl.fireLoad(SessionImpl.java:1098)</sentence>
+            <sentence id="10.8">	at org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1025)</sentence>
+            <sentence id="10.9">	at org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:671)</sentence>
+            <sentence id="10.10">	at org.hibernate.type.EntityType.resolve(EntityType.java:489)</sentence>
+            <sentence id="10.11">	at org.hibernate.type.EntityType.replace(EntityType.java:353)</sentence>
+            <sentence id="10.12">	at org.hibernate.type.CollectionType.preserveSnapshot(CollectionType.java:580)</sentence>
+            <sentence id="10.13">	at org.hibernate.type.CollectionType.replaceElements(CollectionType.java:532)</sentence>
+            <sentence id="10.14">	at org.hibernate.type.CollectionType.replace(CollectionType.java:660)</sentence>
+            <sentence id="10.15">	at org.hibernate.type.TypeHelper.replace(TypeHelper.java:177)</sentence>
+            <sentence id="10.16">	at org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:372)</sentence>
+            <sentence id="10.17">	at org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:309)</sentence>
+            <sentence id="10.18">	at org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:151)</sentence>
+            <sentence id="10.19">	at org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:76)</sentence>
+            <sentence id="10.20">	at org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:914)</sentence>
+            <sentence id="10.21">	at org.hibernate.internal.SessionImpl.merge(SessionImpl.java:898)</sentence>
+            <sentence id="10.22">	at org.hibernate.internal.SessionImpl.merge(SessionImpl.java:902)</sentence>
+            <sentence id="10.23">	at test.hibernate.TestPrepravkaOsobaSAdresou.testSessionGet(TestPrepravkaOsobaSAdresou.java:90)</sentence>
+            <sentence id="10.24">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="10.25">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+            <sentence id="10.26">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+            <sentence id="10.27">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+            <sentence id="10.28">	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)</sentence>
+            <sentence id="10.29">	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)</sentence>
+            <sentence id="10.30">	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)</sentence>
+            <sentence id="10.31">	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)</sentence>
+            <sentence id="10.32">	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)</sentence>
+            <sentence id="10.33">	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:74)</sentence>
+            <sentence id="10.34">	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:83)</sentence>
+            <sentence id="10.35">	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:72)</sentence>
+            <sentence id="10.36">	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:231)</sentence>
+            <sentence id="10.37">	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)</sentence>
+            <sentence id="10.38">	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)</sentence>
+            <sentence id="10.39">	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)</sentence>
+            <sentence id="10.40">	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)</sentence>
+            <sentence id="10.41">	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)</sentence>
+            <sentence id="10.42">	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)</sentence>
+            <sentence id="10.43">	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)</sentence>
+            <sentence id="10.44">	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:71)</sentence>
+            <sentence id="10.45">	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)</sentence>
+            <sentence id="10.46">	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:174)</sentence>
+            <sentence id="10.47">	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:49)</sentence>
+            <sentence id="10.48">	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)</sentence>
+            <sentence id="10.49">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)</sentence>
+            <sentence id="10.50">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)</sentence>
+            <sentence id="10.51">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)</sentence>
+            <sentence id="10.52">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)</sentence>
+            <sentence id="10.53">{code}</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Simple maven test case attached.</sentence>
+        </paragraph>
+    </description>
+</bug>

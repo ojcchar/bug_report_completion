@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>35702</id>
+    <title>Using with https URL, ab freezes or gets SIGSEGV on 2.1.6-alpha</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Because of historical apache library implementation, ab does apr_pollset_add()
+multiple times for the same port.</sentence>
+            <sentence id="1.2">It causes some confusion and inefficiency
+inside pollset structure.</sentence>
+            <sentence id="1.3">The behavior varies by the operating system because APR-1.</sentence>
+            <sentence id="1.4">x uses different
+asynchronous I/O by operating systems.</sentence>
+            <sentence id="1.5">i.e. port.c for Solaris 10, epoll.c for Linux 2.6, and kqueue.c for recent BSD.</sentence>
+            <sentence id="1.6">When I use ab with "https:" URL, ab freezes on Solaris 10 while it gets SIGSEGV
+on Linux.</sentence>
+            <sentence id="1.7">There is another problem in apr/poll/unix/port.c as I reported on bug
+#35701.</sentence>
+            <sentence id="1.8">We have to fix both.</sentence>
+        </paragraph>
+    </description>
+</bug>

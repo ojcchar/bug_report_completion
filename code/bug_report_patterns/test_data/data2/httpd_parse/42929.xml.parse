@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>42929</id>
+    <title>Apache display wrong port and wrong protocol when using HTTPS VirtualHosts</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Summary:
+With a certain configuration of Virtual hosts with SSL Engine enabled, Apache
+beliefs the client is connecting to server port 80 with protocol HTTP, while in
+reality the client is connected to server port 443 with protocol HTTPS</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Steps to reproduce:</sentence>
+            <sentence id="2.2">1 Install apache with mod_ssl and mod_info.</sentence>
+            <sentence id="2.3">2 Create a SSL certificate.</sentence>
+            <sentence id="2.4">If you do it properly, create one with two</sentence>
+            <sentence id="2.5">hostnames (using the altSubjectName x509 parameter); however, if you don't mind</sentence>
+            <sentence id="2.6">clicking "yeah, I trust it, even though the hostname does not match" a couple of</sentence>
+            <sentence id="2.7">times, you can just use any self-signed certificate.</sentence>
+            <sentence id="2.8">2 Configure httpd.conf as displayed in the attachment, httpd.error.conf:</sentence>
+            <sentence id="2.9">two name-based virtual hosts, listening on port 443.</sentence>
+            <sentence id="2.10">The first with SSL</sentence>
+            <sentence id="2.11">parameters, the second without SSL parameters.</sentence>
+            <sentence id="2.12">3 For debugging, add SetHandler server-info.</sentence>
+            <sentence id="2.13">4 Visit the URL with the servername in the second virtual hosts.</sentence>
+            <sentence id="2.14">E.g.</sentence>
+            <sentence id="2.15">http://www2.example.org/server-info if you use the names in httpd.error.conf</sentence>
+            <sentence id="2.16">5 Read what is says underneath "Server Settings" &gt; "Hostname/port"</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Expected result:
+I expected it to read "www2.example.org:443"
+Or I expected a critical error during start time of Apache because the
+configuration file is arguably inconsistent (see below)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Actual result:
+It reads "www2.example.org:80"</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Notes:
+* With this configuration, Apache is not even listening to port 80!</sentence>
+            <sentence id="5.2">* If you would include mod_php, and add a script saying phpinfo();, you will see
+that the HTTPS parameter is not set.</sentence>
+            <sentence id="5.3">I expected it to be "on"</sentence>
+            <sentence id="5.4">* This "identity crisis" (wrong port, wrong protocol) results that a COPY
+request for webdav results in a 502 Bad Gateway error.</sentence>
+            <sentence id="5.5">* Note that virtual hosts with SSL is possible, as long as the same certificate
+is used for both vhosts (as in this case, using subjectAltName)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Regression:
+There is an easy work-around.</sentence>
+            <sentence id="6.2">The "correct" configuration is listed in the
+attachment "httpd.good.conf".</sentence>
+            <sentence id="6.3">In here, both VirtualHosts do have "SSLEngine on",
+and the other SSL parameters are shared among all vhosts instances (in
+httpd.bad.conf, only the first vhost had SSL parameters, the second had none).</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I fully understand that mod_ssl does not have knownledge of virtual hosts at the
+time the SSL handshake is made.</sentence>
+            <sentence id="7.2">Presumably, it decides to use SSL or not based
+on the first vhost for a certain IP:port combination.</sentence>
+            <sentence id="7.3">That is fine, and I think
+perhaps desirable behaviour.</sentence>
+            <sentence id="7.4">What is undesirable that if port 443 and HTTPS is
+used in reality, Apache thinks that port 80 and HTTP is used.</sentence>
+            <sentence id="7.5">That should always
+be consistent.</sentence>
+        </paragraph>
+    </description>
+</bug>

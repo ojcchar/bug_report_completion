@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1906</id>
+    <title>Incorrect code in Hibernate 3.1.1 Reference PDF</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">the last code snippet in section 1.3.3 on page 13 shows the following code:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Long eventId = mgr.createAndStoreEvent("My Event", new Date());
+    Long personId = mgr.createAndStorePerson("Foo", "Bar");</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Both methods are defined as returning void, not Long.</sentence>
+            <sentence id="3.2">Therefore, the code causes a compiler error.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The code snippet is also missing a closing "}".</sentence>
+        </paragraph>
+    </description>
+</bug>

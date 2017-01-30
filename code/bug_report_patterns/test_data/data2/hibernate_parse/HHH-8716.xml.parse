@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8716</id>
+    <title>Missing generated attribute for entity with access type PROPERTY and getter gettStart</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Suppose having an entity class with fields like {{tStart}}, {{tEnd}}, {{tModify}}  (with second letter in upper case).</sentence>
+            <sentence id="1.2">Having property access type the metamodel generated is missing these attribute.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The error is in method {{org.hibernate.jpamodelgen.util.StringUtil#checkPropertyName}}.</sentence>
+            <sentence id="2.2">The method {{gettStart}} is the correct getter method for property {{tStart}} (see javabeans spec), but the check fail to recognize it.</sentence>
+            <sentence id="2.3">The metamodel is generated correctly if the access type is FIELD.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5079</id>
+    <title>ManyToOne fails to bind via annotations in 3.5</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I am trying to migrate our large 50+ entity hibernate application from 3.3 to 3.5, but it seems to be failing on annotated bindings that use @OneToMany.</sentence>
+            <sentence id="1.2">Perhaps this might be a hibernate-annotations bug?</sentence>
+            <sentence id="1.3">I have done various migrations from 3.0 to 3.3 without any issues until now.</sentence>
+            <sentence id="1.4">Any help is much appreciated.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Here is the full error.</sentence>
+            <sentence id="2.2">Basically ArticleComment Failing to reference Article.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I have included source for articlecomment/article and "datedpojo" the base class that both entities inherit from.</sentence>
+            <sentence id="3.2">Hope that helps.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jTransactionManager' defined in class path resource [c3p0.xml]: Cannot resolve reference to bean 'sessionFactory' while setting bean property 'sessionFactory'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sessionFactory' defined in class path resource [context.xml]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: A Foreign key refering com.fab40.service.pojos.Article from com.fab40.service.pojos.ArticleComment has the wrong number of column.</sentence>
+            <sentence id="4.2">should be 2</sentence>
+            <sentence id="4.3">at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:328)</sentence>
+            <sentence id="4.4">at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:106)</sentence>
+            <sentence id="4.5">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1317)</sentence>
+            <sentence id="4.6">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1076)</sentence>
+            <sentence id="4.7">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:517)</sentence>
+            <sentence id="4.8">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</sentence>
+            <sentence id="4.9">at org.springframework.beans.factory.support.AbstractBeanFactory$1.</sentence>
+            <sentence id="4.10">getObject(AbstractBeanFactory.java:291)</sentence>
+            <sentence id="4.11">at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)</sentence>
+            <sentence id="4.12">at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:288)</sentence>
+            <sentence id="4.13">at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:190)</sentence>
+            <sentence id="4.14">at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:563)</sentence>
+            <sentence id="4.15">at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:872)</sentence>
+            <sentence id="4.16">at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:423)</sentence>
+            <sentence id="4.17">at org.springframework.web.context.ContextLoader.createWebApplicationContext(ContextLoader.java:276)</sentence>
+            <sentence id="4.18">at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:197)</sentence>
+            <sentence id="4.19">at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:47)</sentence>
+            <sentence id="4.20">at org.mortbay.jetty.handler.ContextHandler.startContext(ContextHandler.java:548)</sentence>
+            <sentence id="4.21">at org.mortbay.jetty.servlet.Context.startContext(Context.java:136)</sentence>
+            <sentence id="4.22">at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1234)</sentence>
+            <sentence id="4.23">at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:517)</sentence>
+            <sentence id="4.24">at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:460)</sentence>
+            <sentence id="4.25">at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)</sentence>
+            <sentence id="4.26">at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)</sentence>
+            <sentence id="4.27">at org.mortbay.jetty.Server.doStart(Server.java:222)</sentence>
+            <sentence id="4.28">at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)</sentence>
+            <sentence id="4.29">at com.fab40.StandAlone.main(StandAlone.java:27)</sentence>
+            <sentence id="4.30">Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sessionFactory' defined in class path resource [context.xml]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: A Foreign key refering com.fab40.service.pojos.Article from com.fab40.service.pojos.ArticleComment has the wrong number of column.</sentence>
+            <sentence id="4.31">should be 2</sentence>
+            <sentence id="4.32">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1412)</sentence>
+            <sentence id="4.33">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:519)</sentence>
+            <sentence id="4.34">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</sentence>
+            <sentence id="4.35">at org.springframework.beans.factory.support.AbstractBeanFactory$1.</sentence>
+            <sentence id="4.36">getObject(AbstractBeanFactory.java:291)</sentence>
+            <sentence id="4.37">at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)</sentence>
+            <sentence id="4.38">at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:288)</sentence>
+            <sentence id="4.39">at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:190)</sentence>
+            <sentence id="4.40">at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:322)</sentence>
+            <sentence id="4.41">... 25 more</sentence>
+            <sentence id="4.42">Caused by: org.hibernate.AnnotationException: A Foreign key refering com.fab40.service.pojos.Article from com.fab40.service.pojos.ArticleComment has the wrong number of column.</sentence>
+            <sentence id="4.43">should be 2</sentence>
+            <sentence id="4.44">at org.hibernate.cfg.annotations.TableBinder.bindFk(TableBinder.java:421)</sentence>
+            <sentence id="4.45">at org.hibernate.cfg.ToOneFkSecondPass.doSecondPass(ToOneFkSecondPass.java:111)</sentence>
+            <sentence id="4.46">at org.hibernate.cfg.AnnotationConfiguration.processEndOfQueue(AnnotationConfiguration.java:541)</sentence>
+            <sentence id="4.47">at org.hibernate.cfg.AnnotationConfiguration.processFkSecondPassInOrder(AnnotationConfiguration.java:523)</sentence>
+            <sentence id="4.48">at org.hibernate.cfg.AnnotationConfiguration.secondPassCompile(AnnotationConfiguration.java:380)</sentence>
+            <sentence id="4.49">at org.hibernate.cfg.Configuration.buildMappings(Configuration.java:1206)</sentence>
+            <sentence id="4.50">at org.springframework.orm.hibernate3.LocalSessionFactoryBean.buildSessionFactory(LocalSessionFactoryBean.java:717)</sentence>
+            <sentence id="4.51">at org.springframework.orm.hibernate3.AbstractSessionFactoryBean.afterPropertiesSet(AbstractSessionFactoryBean.java:211)</sentence>
+            <sentence id="4.52">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1469)</sentence>
+            <sentence id="4.53">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1409)</sentence>
+            <sentence id="4.54">... 32 more</sentence>
+            <sentence id="4.55">*** ERROR [main]: Failed startup of context org.mortbay.jetty.webapp.WebAppContext@1b1c7295{/,src/webapp}</sentence>
+            <sentence id="4.56">org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jTransactionManager' defined in class path resource [c3p0.xml]: Cannot resolve reference to bean 'sessionFactory' while setting bean property 'sessionFactory'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sessionFactory' defined in class path resource [context.xml]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: A Foreign key refering com.fab40.service.pojos.Article from com.fab40.service.pojos.ArticleComment has the wrong number of column.</sentence>
+            <sentence id="4.57">should be 2</sentence>
+            <sentence id="4.58">at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:328)</sentence>
+            <sentence id="4.59">at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:106)</sentence>
+            <sentence id="4.60">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1317)</sentence>
+            <sentence id="4.61">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1076)</sentence>
+            <sentence id="4.62">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:517)</sentence>
+            <sentence id="4.63">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</sentence>
+            <sentence id="4.64">at org.springframework.beans.factory.support.AbstractBeanFactory$1.</sentence>
+            <sentence id="4.65">getObject(AbstractBeanFactory.java:291)</sentence>
+            <sentence id="4.66">at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)</sentence>
+            <sentence id="4.67">at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:288)</sentence>
+            <sentence id="4.68">at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:190)</sentence>
+            <sentence id="4.69">at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:563)</sentence>
+            <sentence id="4.70">at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:872)</sentence>
+            <sentence id="4.71">at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:423)</sentence>
+            <sentence id="4.72">at org.springframework.web.context.ContextLoader.createWebApplicationContext(ContextLoader.java:276)</sentence>
+            <sentence id="4.73">at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:197)</sentence>
+            <sentence id="4.74">at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:47)</sentence>
+            <sentence id="4.75">at org.mortbay.jetty.handler.ContextHandler.startContext(ContextHandler.java:548)</sentence>
+            <sentence id="4.76">at org.mortbay.jetty.servlet.Context.startContext(Context.java:136)</sentence>
+            <sentence id="4.77">at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1234)</sentence>
+            <sentence id="4.78">at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:517)</sentence>
+            <sentence id="4.79">at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:460)</sentence>
+            <sentence id="4.80">at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)</sentence>
+            <sentence id="4.81">at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)</sentence>
+            <sentence id="4.82">at org.mortbay.jetty.Server.doStart(Server.java:222)</sentence>
+            <sentence id="4.83">at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)</sentence>
+            <sentence id="4.84">at com.fab40.StandAlone.main(StandAlone.java:27)</sentence>
+            <sentence id="4.85">Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sessionFactory' defined in class path resource [context.xml]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: A Foreign key refering com.fab40.service.pojos.Article from com.fab40.service.pojos.ArticleComment has the wrong number of column.</sentence>
+            <sentence id="4.86">should be 2</sentence>
+            <sentence id="4.87">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1412)</sentence>
+            <sentence id="4.88">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:519)</sentence>
+            <sentence id="4.89">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</sentence>
+            <sentence id="4.90">at org.springframework.beans.factory.support.AbstractBeanFactory$1.</sentence>
+            <sentence id="4.91">getObject(AbstractBeanFactory.java:291)</sentence>
+            <sentence id="4.92">at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)</sentence>
+            <sentence id="4.93">at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:288)</sentence>
+            <sentence id="4.94">at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:190)</sentence>
+            <sentence id="4.95">at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:322)</sentence>
+            <sentence id="4.96">... 25 more</sentence>
+            <sentence id="4.97">Caused by: org.hibernate.AnnotationException: A Foreign key refering com.fab40.service.pojos.Article from com.fab40.service.pojos.ArticleComment has the wrong number of column.</sentence>
+            <sentence id="4.98">should be 2</sentence>
+            <sentence id="4.99">at org.hibernate.cfg.annotations.TableBinder.bindFk(TableBinder.java:421)</sentence>
+            <sentence id="4.100">at org.hibernate.cfg.ToOneFkSecondPass.doSecondPass(ToOneFkSecondPass.java:111)</sentence>
+            <sentence id="4.101">at org.hibernate.cfg.AnnotationConfiguration.processEndOfQueue(AnnotationConfiguration.java:541)</sentence>
+            <sentence id="4.102">at org.hibernate.cfg.AnnotationConfiguration.processFkSecondPassInOrder(AnnotationConfiguration.java:523)</sentence>
+            <sentence id="4.103">at org.hibernate.cfg.AnnotationConfiguration.secondPassCompile(AnnotationConfiguration.java:380)</sentence>
+            <sentence id="4.104">at org.hibernate.cfg.Configuration.buildMappings(Configuration.java:1206)</sentence>
+            <sentence id="4.105">at org.springframework.orm.hibernate3.LocalSessionFactoryBean.buildSessionFactory(LocalSessionFactoryBean.java:717)</sentence>
+            <sentence id="4.106">at org.springframework.orm.hibernate3.AbstractSessionFactoryBean.afterPropertiesSet(AbstractSessionFactoryBean.java:211)</sentence>
+            <sentence id="4.107">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1469)</sentence>
+            <sentence id="4.108">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1409)</sentence>
+            <sentence id="4.109">... 32 more</sentence>
+            <sentence id="4.110">*** ERROR [main]: Nested in org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jTransactionManager' defined in class path resource [c3p0.xml]: Cannot resolve reference to bean 'sessionFactory' while setting bean property 'sessionFactory'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sessionFactory' defined in class path resource [context.xml]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: A Foreign key refering com.fab40.service.pojos.Article from com.fab40.service.pojos.ArticleComment has the wrong number of column.</sentence>
+            <sentence id="4.111">should be 2:</sentence>
+            <sentence id="4.112">org.hibernate.AnnotationException: A Foreign key refering com.fab40.service.pojos.Article from com.fab40.service.pojos.ArticleComment has the wrong number of column.</sentence>
+            <sentence id="4.113">should be 2</sentence>
+            <sentence id="4.114">at org.hibernate.cfg.annotations.TableBinder.bindFk(TableBinder.java:421)</sentence>
+            <sentence id="4.115">at org.hibernate.cfg.ToOneFkSecondPass.doSecondPass(ToOneFkSecondPass.java:111)</sentence>
+            <sentence id="4.116">at org.hibernate.cfg.AnnotationConfiguration.processEndOfQueue(AnnotationConfiguration.java:541)</sentence>
+            <sentence id="4.117">at org.hibernate.cfg.AnnotationConfiguration.processFkSecondPassInOrder(AnnotationConfiguration.java:523)</sentence>
+            <sentence id="4.118">at org.hibernate.cfg.AnnotationConfiguration.secondPassCompile(AnnotationConfiguration.java:380)</sentence>
+            <sentence id="4.119">at org.hibernate.cfg.Configuration.buildMappings(Configuration.java:1206)</sentence>
+            <sentence id="4.120">at org.springframework.orm.hibernate3.LocalSessionFactoryBean.buildSessionFactory(LocalSessionFactoryBean.java:717)</sentence>
+            <sentence id="4.121">at org.springframework.orm.hibernate3.AbstractSessionFactoryBean.afterPropertiesSet(AbstractSessionFactoryBean.java:211)</sentence>
+            <sentence id="4.122">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1469)</sentence>
+            <sentence id="4.123">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1409)</sentence>
+            <sentence id="4.124">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:519)</sentence>
+            <sentence id="4.125">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</sentence>
+            <sentence id="4.126">at org.springframework.beans.factory.support.AbstractBeanFactory$1.</sentence>
+            <sentence id="4.127">getObject(AbstractBeanFactory.java:291)</sentence>
+            <sentence id="4.128">at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)</sentence>
+            <sentence id="4.129">at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:288)</sentence>
+            <sentence id="4.130">at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:190)</sentence>
+            <sentence id="4.131">at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:322)</sentence>
+            <sentence id="4.132">at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:106)</sentence>
+            <sentence id="4.133">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1317)</sentence>
+            <sentence id="4.134">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1076)</sentence>
+            <sentence id="4.135">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:517)</sentence>
+            <sentence id="4.136">at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</sentence>
+            <sentence id="4.137">at org.springframework.beans.factory.support.AbstractBeanFactory$1.</sentence>
+            <sentence id="4.138">getObject(AbstractBeanFactory.java:291)</sentence>
+            <sentence id="4.139">at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)</sentence>
+            <sentence id="4.140">at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:288)</sentence>
+            <sentence id="4.141">at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:190)</sentence>
+            <sentence id="4.142">at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:563)</sentence>
+            <sentence id="4.143">at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:872)</sentence>
+            <sentence id="4.144">at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:423)</sentence>
+            <sentence id="4.145">at org.springframework.web.context.ContextLoader.createWebApplicationContext(ContextLoader.java:276)</sentence>
+            <sentence id="4.146">at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:197)</sentence>
+            <sentence id="4.147">at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:47)</sentence>
+            <sentence id="4.148">at org.mortbay.jetty.handler.ContextHandler.startContext(ContextHandler.java:548)</sentence>
+            <sentence id="4.149">at org.mortbay.jetty.servlet.Context.startContext(Context.java:136)</sentence>
+            <sentence id="4.150">at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1234)</sentence>
+            <sentence id="4.151">at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:517)</sentence>
+            <sentence id="4.152">at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:460)</sentence>
+            <sentence id="4.153">at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)</sentence>
+            <sentence id="4.154">at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)</sentence>
+            <sentence id="4.155">at org.mortbay.jetty.Server.doStart(Server.java:222)</sentence>
+            <sentence id="4.156">at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)</sentence>
+            <sentence id="4.157">at com.fab40.StandAlone.main(StandAlone.java:27)</sentence>
+            <sentence id="4.158">*** INFO  [main]: Started SocketConnector@0.0.0.0:8090</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">package com.fab40.service.pojos;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">import com.base.persistance.defaults.defaulters.DefaultBooleanValue;
+import com.base.persistance.pojo.IndexedDatedPojo;
+import com.fab40.annotations.PostablePage;
+import com.fab40.annotations.VoteComment;
+import com.fab40.pages.ViewArticle;
+import org.hibernate.annotations.</sentence>
+            <sentence id="6.2">*;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">import javax.persistence.</sentence>
+            <sentence id="7.2">*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">@Entity
+@org.</sentence>
+            <sentence id="8.2">hibernate.annotations.Entity(dynamicUpdate = true, selectBeforeUpdate = true, dynamicInsert = true)
+@Indexed
+@Table(name = "articles")
+@org.</sentence>
+            <sentence id="8.3">hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@PostablePage(pageClass = ViewArticle.class)
+@VoteComment(clazz = ArticleComment.class)
+public class Article extends IndexedDatedPojo implements IPicturePostable, ICategoryPostable, ISlug, IVote, IPublish {
+    private static final long serialVersionUID = 1L;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">@Column(name = "up_vote_count", nullable = false)
+    private int upVoteCount = 0;
+    @Column(name = "down_vote_count", nullable = false)
+    private int downVoteCount = 0;</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">@Field(index = Index.TOKENIZED, store = Store.NO)
+    @Column(name = "subject", nullable = false, unique = true)
+    private String subject;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">@Lob
+    @Column(name = "json", nullable = true)
+    private String json;</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">@ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">@Column(name = "slug", nullable = false, unique = true)
+    private String slug;</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">@Lob
+    @Field(index = Index.TOKENIZED, store = Store.NO)
+    @Column(name = "body", nullable = false)
+    private String body;</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">@NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">@Column(name = "image", nullable = false)
+    private String image;</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">@Column(name = "popularity", nullable = false)
+    private int popularity;</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">@Column(name = "producer_url", nullable = false)
+    private String producerUrl;</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">@Column(name = "author", nullable = false)
+    private String author;</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">@DefaultBooleanValue(true)
+    @Column(name = "published", nullable = false)
+    private Boolean published;</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">@Column(name = "date_published")
+    private Date datePublished;</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">@OneToMany(targetEntity = ArticleComment.class, mappedBy = "article", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @OrderBy("created asc")
+    private Set&lt;IComment&gt; comments = new HashSet&lt;IComment&gt;();</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">public String getSubject() {
+        return subject;
+    }</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">public void setSubject(final String subject) {
+        this.subject = subject;
+    }</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">public String getBody() {
+        return body;
+    }</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">public void setBody(final String body) {
+        this.body = body;
+    }</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">public Category getCategory() {
+        return category;
+    }</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">public void setCategory(final Category category) {
+        this.category = category;
+    }</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">public void setImage(final String image) {
+        this.image = image;
+    }</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">public String getImage() {
+        return image;
+    }</sentence>
+        </paragraph>
+        <paragraph id="31">
+            <sentence id="31.1">public void setProducerUrl(final String producerUrl) {
+        this.producerUrl = producerUrl;
+    }</sentence>
+        </paragraph>
+        <paragraph id="32">
+            <sentence id="32.1">public String getProducerUrl() {
+        return producerUrl;
+    }</sentence>
+        </paragraph>
+        <paragraph id="33">
+            <sentence id="33.1">public void setAuthor(final String author) {
+        this.author = author;
+    }</sentence>
+        </paragraph>
+        <paragraph id="34">
+            <sentence id="34.1">public String getAuthor() {
+        return author;
+    }</sentence>
+        </paragraph>
+        <paragraph id="35">
+            <sentence id="35.1">public void setPublished(final Boolean published) {
+        this.published = published;
+    }</sentence>
+        </paragraph>
+        <paragraph id="36">
+            <sentence id="36.1">public Boolean getPublished() {
+        return published;
+    }</sentence>
+        </paragraph>
+        <paragraph id="37">
+            <sentence id="37.1">public void setComments(final Set&lt;IComment&gt; comments) {
+        this.comments = comments;
+    }</sentence>
+        </paragraph>
+        <paragraph id="38">
+            <sentence id="38.1">public Set&lt;IComment&gt; getComments() {
+        return comments;
+    }</sentence>
+        </paragraph>
+        <paragraph id="39">
+            <sentence id="39.1">public void setPopularity(final int popularity) {
+        this.popularity = popularity;
+    }
+    public int getPopularity() {
+        return popularity;
+    }</sentence>
+        </paragraph>
+        <paragraph id="40">
+            <sentence id="40.1">public void setUser(final User user) {
+        this.user = user;
+    }</sentence>
+        </paragraph>
+        <paragraph id="41">
+            <sentence id="41.1">public User getUser() {
+        return user;
+    }</sentence>
+        </paragraph>
+        <paragraph id="42">
+            <sentence id="42.1">public void setSlug(final String slug) {
+        this.slug = slug;
+    }</sentence>
+        </paragraph>
+        <paragraph id="43">
+            <sentence id="43.1">public String getSlug() {
+        return slug;
+    }</sentence>
+        </paragraph>
+        <paragraph id="44">
+            <sentence id="44.1">public void setUpVoteCount(final int upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }</sentence>
+        </paragraph>
+        <paragraph id="45">
+            <sentence id="45.1">public int getUpVoteCount() {
+        return upVoteCount;
+    }</sentence>
+        </paragraph>
+        <paragraph id="46">
+            <sentence id="46.1">public void setDownVoteCount(final int downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }</sentence>
+        </paragraph>
+        <paragraph id="47">
+            <sentence id="47.1">public int getDownVoteCount() {
+        return downVoteCount;
+    }</sentence>
+        </paragraph>
+        <paragraph id="48">
+            <sentence id="48.1">public void setDatePublished(final Date datePublished) {
+        this.datePublished = datePublished;
+    }</sentence>
+        </paragraph>
+        <paragraph id="49">
+            <sentence id="49.1">public Date getDatePublished() {
+        return datePublished;
+    }</sentence>
+        </paragraph>
+        <paragraph id="50">
+            <sentence id="50.1">public String getJson() {
+        return json;
+    }</sentence>
+        </paragraph>
+        <paragraph id="51">
+            <sentence id="51.1">public void setJson(String json) {
+        this.json = json;
+    }
+}</sentence>
+        </paragraph>
+        <paragraph id="52">
+            <sentence id="52.1">package com.fab40.service.pojos;</sentence>
+        </paragraph>
+        <paragraph id="53">
+            <sentence id="53.1">import com.base.persistance.pojo.DatedPojo;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.</sentence>
+            <sentence id="53.2">*;</sentence>
+        </paragraph>
+        <paragraph id="54">
+            <sentence id="54.1">import javax.persistence.CascadeType;
+import javax.persistence.</sentence>
+            <sentence id="54.2">*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;</sentence>
+        </paragraph>
+        <paragraph id="55">
+            <sentence id="55.1">@Entity
+@org.</sentence>
+            <sentence id="55.2">hibernate.annotations.Entity(dynamicUpdate = true, selectBeforeUpdate = true, dynamicInsert = true)
+@Table(name = "article_comments")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+public class ArticleComment extends DatedPojo implements IComment, IFeed, IVote {
+    private static final long serialVersionUID = 1L;</sentence>
+        </paragraph>
+        <paragraph id="56">
+            <sentence id="56.1">@Column(name = "up_vote_count", nullable = false)
+    private int upVoteCount = 0;
+    @Column(name = "down_vote_count", nullable = false)
+    private int downVoteCount = 0;</sentence>
+        </paragraph>
+        <paragraph id="57">
+            <sentence id="57.1">@OneToMany(mappedBy = "articleComment", cascade = CascadeType.ALL)
+    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    private Set&lt;FeedAction&gt; feedActions = new HashSet&lt;FeedAction&gt;();</sentence>
+        </paragraph>
+        <paragraph id="58">
+            <sentence id="58.1">@ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;</sentence>
+        </paragraph>
+        <paragraph id="59">
+            <sentence id="59.1">@ManyToOne(optional = false)
+    @JoinColumn(name = "article_id", nullable = false)
+    private Article article;</sentence>
+        </paragraph>
+        <paragraph id="60">
+            <sentence id="60.1">@Lob
+    @Column(name = "body", nullable = false)
+    private String body;</sentence>
+        </paragraph>
+        <paragraph id="61">
+            <sentence id="61.1">public User getUser() {
+        return user;
+    }</sentence>
+        </paragraph>
+        <paragraph id="62">
+            <sentence id="62.1">public void setUser(final User user) {
+        this.user = user;
+    }</sentence>
+        </paragraph>
+        <paragraph id="63">
+            <sentence id="63.1">public Article getArticle() {
+        return article;
+    }</sentence>
+        </paragraph>
+        <paragraph id="64">
+            <sentence id="64.1">public void setArticle(final Article article) {
+        this.article = article;
+    }</sentence>
+        </paragraph>
+        <paragraph id="65">
+            <sentence id="65.1">public String getBody() {
+        return body;
+    }</sentence>
+        </paragraph>
+        <paragraph id="66">
+            <sentence id="66.1">public void setBody(final String body) {
+        this.body = body;
+    }</sentence>
+        </paragraph>
+        <paragraph id="67">
+            <sentence id="67.1">public IPostable getPostable() {
+        return article;
+    }</sentence>
+        </paragraph>
+        <paragraph id="68">
+            <sentence id="68.1">public void setPostable(final IPostable postable) {
+        article = (Article) postable;
+    }</sentence>
+        </paragraph>
+        <paragraph id="69">
+            <sentence id="69.1">public void setFeedActions(final Set&lt;FeedAction&gt; feedActions) {
+        this.feedActions = feedActions;
+    }</sentence>
+        </paragraph>
+        <paragraph id="70">
+            <sentence id="70.1">public Set&lt;FeedAction&gt; getFeedActions() {
+        return feedActions;
+    }</sentence>
+        </paragraph>
+        <paragraph id="71">
+            <sentence id="71.1">public void setUpVoteCount(final int upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }</sentence>
+        </paragraph>
+        <paragraph id="72">
+            <sentence id="72.1">public int getUpVoteCount() {
+        return upVoteCount;
+    }</sentence>
+        </paragraph>
+        <paragraph id="73">
+            <sentence id="73.1">public void setDownVoteCount(final int downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }</sentence>
+        </paragraph>
+        <paragraph id="74">
+            <sentence id="74.1">public int getDownVoteCount() {
+        return downVoteCount;
+    }</sentence>
+        </paragraph>
+        <paragraph id="75">
+            <sentence id="75.1">}</sentence>
+        </paragraph>
+        <paragraph id="76">
+            <sentence id="76.1">package com.base.persistance.pojo;</sentence>
+        </paragraph>
+        <paragraph id="77">
+            <sentence id="77.1">import java.io.Serializable;
+import java.util.Date;</sentence>
+        </paragraph>
+        <paragraph id="78">
+            <sentence id="78.1">import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;</sentence>
+        </paragraph>
+        <paragraph id="79">
+            <sentence id="79.1">import com.base.persistance.defaults.defaulters.DefaultDateValue;
+import com.base.persistance.defaults.defaulters.DateSaveType.DateSave;</sentence>
+        </paragraph>
+        <paragraph id="80">
+            <sentence id="80.1">@MappedSuperclass
+public abstract class DatedPojo implements Serializable, BasePojo {</sentence>
+        </paragraph>
+        <paragraph id="81">
+            <sentence id="81.1">@Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private int id;</sentence>
+        </paragraph>
+        <paragraph id="82">
+            <sentence id="82.1">@DefaultDateValue(DateSave.SAVE_CREATED)
+   @Column(name = "created", nullable = false)
+   @Temporal(TemporalType.TIMESTAMP)
+   private Date created = new Date();</sentence>
+        </paragraph>
+        <paragraph id="83">
+            <sentence id="83.1">@DefaultDateValue(DateSave.SAVE_UPDATED)
+   @Column(name = "updated", nullable = false)
+   @Temporal(TemporalType.TIMESTAMP)
+   private Date updated = new Date();</sentence>
+        </paragraph>
+        <paragraph id="84">
+            <sentence id="84.1">public DatedPojo() {
+   }</sentence>
+        </paragraph>
+        <paragraph id="85">
+            <sentence id="85.1">public DatedPojo(final int id) {
+      this.id = id;
+   }</sentence>
+        </paragraph>
+        <paragraph id="86">
+            <sentence id="86.1">/*</sentence>
+            <sentence id="86.2">* (non-Javadoc)</sentence>
+            <sentence id="86.3">*</sentence>
+            <sentence id="86.4">* @see com.base.persistance.pojo.BasePojo#setCreated(java.util.Date)</sentence>
+            <sentence id="86.5">*/</sentence>
+            <sentence id="86.6">public void setCreated(final Date created) {</sentence>
+            <sentence id="86.7">this.created = created;</sentence>
+            <sentence id="86.8">}</sentence>
+        </paragraph>
+        <paragraph id="87">
+            <sentence id="87.1">/*</sentence>
+            <sentence id="87.2">* (non-Javadoc)</sentence>
+            <sentence id="87.3">*</sentence>
+            <sentence id="87.4">* @see com.base.persistance.pojo.BasePojo#getCreated()</sentence>
+            <sentence id="87.5">*/</sentence>
+            <sentence id="87.6">public Date getCreated() {</sentence>
+            <sentence id="87.7">return created;</sentence>
+            <sentence id="87.8">}</sentence>
+        </paragraph>
+        <paragraph id="88">
+            <sentence id="88.1">/*</sentence>
+            <sentence id="88.2">* (non-Javadoc)</sentence>
+            <sentence id="88.3">*</sentence>
+            <sentence id="88.4">* @see com.base.persistance.pojo.BasePojo#setUpdated(java.util.Date)</sentence>
+            <sentence id="88.5">*/</sentence>
+            <sentence id="88.6">public void setUpdated(final Date updated) {</sentence>
+            <sentence id="88.7">this.updated = updated;</sentence>
+            <sentence id="88.8">}</sentence>
+        </paragraph>
+        <paragraph id="89">
+            <sentence id="89.1">/*</sentence>
+            <sentence id="89.2">* (non-Javadoc)</sentence>
+            <sentence id="89.3">*</sentence>
+            <sentence id="89.4">* @see com.base.persistance.pojo.BasePojo#getUpdated()</sentence>
+            <sentence id="89.5">*/</sentence>
+            <sentence id="89.6">public Date getUpdated() {</sentence>
+            <sentence id="89.7">return updated;</sentence>
+            <sentence id="89.8">}</sentence>
+        </paragraph>
+        <paragraph id="90">
+            <sentence id="90.1">/*</sentence>
+            <sentence id="90.2">* (non-Javadoc)</sentence>
+            <sentence id="90.3">*</sentence>
+            <sentence id="90.4">* @see com.base.persistance.pojo.BasePojo#setId(long)</sentence>
+            <sentence id="90.5">*/</sentence>
+            <sentence id="90.6">public void setId(final int id) {</sentence>
+            <sentence id="90.7">this.id = id;</sentence>
+            <sentence id="90.8">}</sentence>
+        </paragraph>
+        <paragraph id="91">
+            <sentence id="91.1">/*</sentence>
+            <sentence id="91.2">* (non-Javadoc)</sentence>
+            <sentence id="91.3">*</sentence>
+            <sentence id="91.4">* @see com.base.persistance.pojo.BasePojo#getId()</sentence>
+            <sentence id="91.5">*/</sentence>
+            <sentence id="91.6">public int getId() {</sentence>
+            <sentence id="91.7">return id;</sentence>
+            <sentence id="91.8">}</sentence>
+        </paragraph>
+        <paragraph id="92">
+            <sentence id="92.1">@Override
+   public boolean equals(final Object obj) {
+      if (this == obj) {
+         return true;
+      }</sentence>
+        </paragraph>
+        <paragraph id="93">
+            <sentence id="93.1">if (obj == null) {
+         return false;
+      }</sentence>
+        </paragraph>
+        <paragraph id="94">
+            <sentence id="94.1">BasePojo p = (BasePojo) obj;</sentence>
+        </paragraph>
+        <paragraph id="95">
+            <sentence id="95.1">if (getId() == 0 || p.getId() == 0) {
+         return false;
+      }</sentence>
+        </paragraph>
+        <paragraph id="96">
+            <sentence id="96.1">if (this.getId() == p.getId()) {
+         return true;
+      } else {
+         return false;
+      }
+   }</sentence>
+        </paragraph>
+        <paragraph id="97">
+            <sentence id="97.1">@Override
+   public int hashCode() {
+      return 29 + this.getId();
+   }
+}</sentence>
+        </paragraph>
+        <paragraph id="98">
+            <sentence id="98.1">package com.base.persistance.pojo;</sentence>
+        </paragraph>
+        <paragraph id="99">
+            <sentence id="99.1">import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;</sentence>
+        </paragraph>
+        <paragraph id="100">
+            <sentence id="100.1">import org.hibernate.search.annotations.DocumentId;</sentence>
+        </paragraph>
+        <paragraph id="101">
+            <sentence id="101.1">@MappedSuperclass
+public abstract class IndexedDatedPojo extends DatedPojo {
+   private static final long serialVersionUID = 1L;</sentence>
+        </paragraph>
+        <paragraph id="102">
+            <sentence id="102.1">@Id
+   @DocumentId
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private int id;</sentence>
+        </paragraph>
+        <paragraph id="103">
+            <sentence id="103.1">@Override
+   public void setId(final int id) {
+      this.id = id;
+   }</sentence>
+        </paragraph>
+        <paragraph id="104">
+            <sentence id="104.1">@Override
+   public int getId() {
+      return id;
+   }
+}</sentence>
+        </paragraph>
+    </description>
+</bug>

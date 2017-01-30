@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7318</id>
+    <title>Hibernate incorrecly registers BIGINT as corresponding to Java's BigInteger type.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The JDBC type BIGINT, per the JDBC specification, corresponds to the Java type long.</sentence>
+            <sentence id="1.2">However, in dialect.java, BIGINT is registered as shown below.</sentence>
+            <sentence id="1.3">Most, if not all databases, use 64 bit integers for BIGINT.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Currently:
+registerHibernateType( Types.BIGINT, StandardBasicTypes.BIG_INTEGER.getName() );</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Expected:
+registerHibernateType( Types.BIGINT, StandardBasicTypes.LONG.getName() );</sentence>
+        </paragraph>
+    </description>
+</bug>

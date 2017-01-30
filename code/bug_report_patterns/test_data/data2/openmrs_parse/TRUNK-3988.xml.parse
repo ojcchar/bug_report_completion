@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3988</id>
+    <title>When a module fails to start because a required module is not available, explicitly display which module is missing</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When you try to start a module, and not all of its required modules are available, the error message lists _all_ required modules, rather than just the missing ones.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example in Mirebalais I might see this:</sentence>
+            <sentence id="2.2">Unable to start module 'Mirebalais Hospital Module'.  All required modules are not available: org.openmrs.module.uiframework 2.5.2-SNAPSHOT, org.openmrs.module.pacsintegration 1.1-SNAPSHOT, org.openmrs.module.htmlformentry 2.0.8, org.openmrs.module.registrationapp 1.0-SNAPSHOT, org.openmrs.module.reporting 0.7.6, org.openmrs.module.metadatasharing 1.1.8, org.openmrs.module.namephonetics 1.3.6, org.openmrs.module.importpatientfromws 1.0-SNAPSHOT, org.openmrs.module.uicommons 1.0-SNAPSHOT, org.openmrs.module.patientregistration 2.2-SNAPSHOT, org.openmrs.module.idgen 2.6-SNAPSHOT, org.openmrs.module.appframework 2.0-SNAPSHOT, org.openmrs.module.radiologyapp 1.0-SNAPSHOT, org.openmrs.module.providermanagement 1.1.3, org.openmrs.module.htmlformentry19ext 1.1-SNAPSHOT, org.openmrs.calculation 1.0, org.openmrs.module.mirebalaismetadata 1.0-SNAPSHOT</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Instead, the error message should only list the unsatisfied requirements, e.g. something like:
+Unable to start module 'Mirebalais Hospital Module'.</sentence>
+            <sentence id="3.2">The following required modules are missing or have the wrong version: org.openmrs.module.reporting 0.7.6</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Relevant code to change is ModuleFactory.startModuleInternal(Module) around the comment "check for required modules".</sentence>
+        </paragraph>
+    </description>
+</bug>

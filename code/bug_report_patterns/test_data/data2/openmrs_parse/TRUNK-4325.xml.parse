@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4325</id>
+    <title>Randomly failing tests in ShortPatientFormControllerTest</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We observe these tests to fail randomly:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">ShortPatientFormControllerTest saveShortPatient_shouldVoidAddressIfItWasChanged</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">ShortPatientFormControllerTest saveShortPatient_shouldNotVoidAddressIfItWasNotChanged</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{code}</sentence>
+            <sentence id="4.2">java.lang.NullPointerException</sentence>
+            <sentence id="4.3">	at org.openmrs.web.controller.patient.ShortPatientFormValidator.validate(ShortPatientFormValidator.java:91)</sentence>
+            <sentence id="4.4">	at org.openmrs.web.controller.patient.ShortPatientFormController.saveShortPatient(ShortPatientFormController.java:217)</sentence>
+            <sentence id="4.5">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="4.6">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</sentence>
+            <sentence id="4.7">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="4.8">	at java.lang.reflect.Method.invoke(Method.java:622)</sentence>
+            <sentence id="4.9">	at org.springframework.web.bind.annotation.support.HandlerMethodInvoker.invokeHandlerMethod(HandlerMethodInvoker.java:176)</sentence>
+            <sentence id="4.10">(39 more lines...)</sentence>
+            <sentence id="4.11">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

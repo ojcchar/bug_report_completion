@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>186</id>
+    <title>Crash in PostsListFragment loadPosts()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I can't reproduce this, but I got this crash after scrolling down the post list and loading more posts:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2"> java.lang.ClassCastException: org.wordpress.android.ui.posts.PostsListFragment$PostListAdapter cannot be cast to android.widget.HeaderViewListAdapter</sentence>
+            <sentence id="2.3"> at android.widget.ListView.removeFooterView(ListView.java:390)</sentence>
+            <sentence id="2.4"> at org.wordpress.android.ui.posts.PostsListFragment.loadPosts(PostsListFragment.java:259)</sentence>
+            <sentence id="2.5"> at org.wordpress.android.ui.posts.PostsListFragment$getRecentPostsTask$1.run(PostsListFragment.java:644)</sentence>
+            <sentence id="2.6"> at android.app.Activity.runOnUiThread(Activity.java:4673)</sentence>
+            <sentence id="2.7"> at org.wordpress.android.ui.posts.PostsListFragment$getRecentPostsTask.onPostExecute(PostsListFragment.java:640)</sentence>
+            <sentence id="2.8"> at org.wordpress.android.ui.posts.PostsListFragment$getRecentPostsTask.onPostExecute(PostsListFragment.java:609)</sentence>
+            <sentence id="2.9"> at android.os.AsyncTask.finish(AsyncTask.java:631)</sentence>
+            <sentence id="2.10"> at android.os.AsyncTask.access$600(AsyncTask.java:177)</sentence>
+            <sentence id="2.11"> at android.os.AsyncTask$InternalHandler.handleMessage(AsyncTask.java:644)</sentence>
+            <sentence id="2.12"> at android.os.Handler.dispatchMessage(Handler.java:99)</sentence>
+            <sentence id="2.13"> at android.os.Looper.loop(Looper.java:137)</sentence>
+            <sentence id="2.14"> at android.app.ActivityThread.main(ActivityThread.java:5103)</sentence>
+            <sentence id="2.15"> at java.lang.reflect.Method.invokeNative(Native Method)</sentence>
+            <sentence id="2.16"> at java.lang.reflect.Method.invoke(Method.java:525)</sentence>
+            <sentence id="2.17"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:737)</sentence>
+            <sentence id="2.18"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:553)</sentence>
+            <sentence id="2.19"> at dalvik.system.NativeStart.main(Native Method)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

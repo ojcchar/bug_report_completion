@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>50773</id>
+    <title>Dav lock database corruption</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 26653
+Patch for httpd 2.2.17</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have a database corruption (with error 500) if I do the following :</sentence>
+            <sentence id="2.2">- lock a collection with DEPTH Infinity and a Timeout (exemple 20 seconds) (the collection must have sub collections) : exemple : LOCK /myCollection/</sentence>
+            <sentence id="2.3">- Put a file in an existing sub collection of the locked collection (using a If header) : exemple : PUT /myCollection/mySubCollection/file.</sentence>
+            <sentence id="2.4">txt</sentence>
+            <sentence id="2.5">- Wait until the lock timeout is elapsed</sentence>
+            <sentence id="2.6">- lock again the collection : exemple LOCK /myCollection/</sentence>
+            <sentence id="2.7">=&gt; there we get an error 500</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">It's seem that the bug is comming from method dav_fs_get_locks in file modules/dav/fs/lock.c.</sentence>
+            <sentence id="3.2">When the lock is applicated to the new file (inherited from parent), the timeout is setted to 0 (because of partial request).</sentence>
+            <sentence id="3.3">Then when trying to lock again, the indirect lock of the file seem to be valid (no timeout) but the direct lock related is not.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I looked for a correction in httpd 2.2.17 (just by reading the sources) and I didn't found any.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">When I change the sources like the patch in attachement, I have no error 500 any more.</sentence>
+        </paragraph>
+    </description>
+</bug>

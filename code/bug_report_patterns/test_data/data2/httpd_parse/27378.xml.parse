@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27378</id>
+    <title>open_logs hook called before post_config hook</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Why is the open_logs hook run before the post_config hook?</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I am working on the mod_log_sql module (new maintainer), and have some code in
+the post_config hook to assign global defaults ( i have a global per module
+config structure as well as per server configuration) if they have not been set
+by a configuration directive that need to be setup BEFORE the initial connection
+to the database called in open_logs.</sentence>
+            <sentence id="2.2">However after placing many APLOG_DEBUG and
+step by step gdb debugging, I find that post_config is called after open_logs.</sentence>
+            <sentence id="2.3">.</sentence>
+            <sentence id="2.4">I'm thinking that this is a bug as it makes much more sense to call post_config
+before open_logs.</sentence>
+        </paragraph>
+    </description>
+</bug>

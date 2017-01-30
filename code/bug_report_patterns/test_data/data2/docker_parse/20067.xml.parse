@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20067</id>
+    <title>docker network namespace ethernet interfaces race condition</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I started compiling this bug report while being on Docker 1.9.</sentence>
+            <sentence id="1.2">Then I realized 1.10 is out, so I upgraded.</sentence>
+            <sentence id="1.3">Then I found the problem persisted (and got even more undeterministic).</sentence>
+            <sentence id="1.4"># docker version</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Client:
+ Version: 1.10.0
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: 590d5108
+ Built: Thu Feb 4 18:16:19 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.10.0
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: 590d5108
+ Built: Thu Feb 4 18:16:19 2016
+ OS/Arch: linux/amd64
+# docker info</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Containers: 20
+ Running: 10
+ Paused: 0
+ Stopped: 10
+Images: 309
+Server Version: 1.10.0
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 538
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Logging Driver: json-file
+Plugins:
+ Volume: local
+ Network: bridge host null
+Kernel Version: 3.16.0-4-amd64
+Operating System: Debian GNU/Linux 8 (jessie)
+OSType: linux
+Architecture: x86_64
+CPUs: 2
+Total Memory: 2.985 GiB
+Name: builder
+ID: DJQ3:G446:H6DX:GRRV:YTTX:EKUF:HUB2:UFUO:MFVA:G3EB:XPOU:PIAM
+WARNING: No cpu cfs quota support
+WARNING: No cpu cfs period support</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I noticed that network interfaces in the network stack of containers sometimes are not listed in the same order, although the containers were started by the same commands in the same order.</sentence>
+            <sentence id="5.2">In case source ip is not bound explicitly by applications, the kernel binds the address of the first listed interface, not the eth0's one.</sentence>
+            <sentence id="5.3">This in turn affects my firewall configuration.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected order of interfaces:
+lo
+eth0: main_network (the one used with run or create)
+eth1: other_network (connected by docker network command)
+### With Docker 1.9</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">WIth Docker 1.9 I used the following commands:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">docker run --name=container --net=main_network ...
+docker network connect other_network container</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I managed to reproduce the problem by repeating the above run/connect commands in a simple for loop.</sentence>
+            <sentence id="9.2">The order of the network interfaces was the "expected" about 98-99 times in 100 attempts.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">An example when something was messed up:</sentence>
+            <sentence id="10.2">512: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</sentence>
+            <sentence id="10.3"> link/ether 02:42:ac:16:00:68 brd ff:ff:ff:ff:ff:ff</sentence>
+            <sentence id="10.4"> inet 172.22.0.104/16 scope global eth1</sentence>
+            <sentence id="10.5"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="10.6"> inet6 fe80::42:acff:fe16:68/64 scope link</sentence>
+            <sentence id="10.7"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="10.8">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default</sentence>
+            <sentence id="10.9"> link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</sentence>
+            <sentence id="10.10"> inet 127.0.0.1/8 scope host lo</sentence>
+            <sentence id="10.11"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="10.12"> inet6 ::1/128 scope host</sentence>
+            <sentence id="10.13"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="10.14">510: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</sentence>
+            <sentence id="10.15"> link/ether 02:42:ac:12:00:67 brd ff:ff:ff:ff:ff:ff</sentence>
+            <sentence id="10.16"> inet 172.18.0.103/16 scope global eth0</sentence>
+            <sentence id="10.17"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="10.18"> inet6 fe80::42:acff:fe12:67/64 scope link</sentence>
+            <sentence id="10.19"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="10.20">### With Docker 1.10</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">WIth Docker 1.10 I used the following commands:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">docker create --name=container --net=main_network ...
+docker network connect other_network container
+docker start container</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">By running these commands in a loop, the order of the network interfaces became more diverse (than it was with 1.9).</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">An example when the interfaces were not in the expected order:</sentence>
+            <sentence id="14.2">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default</sentence>
+            <sentence id="14.3"> link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</sentence>
+            <sentence id="14.4"> inet 127.0.0.1/8 scope host lo</sentence>
+            <sentence id="14.5"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="14.6"> inet6 ::1/128 scope host</sentence>
+            <sentence id="14.7"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="14.8">878: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</sentence>
+            <sentence id="14.9"> link/ether 02:42:ac:12:00:68 brd ff:ff:ff:ff:ff:ff</sentence>
+            <sentence id="14.10"> inet 172.18.0.104/16 scope global eth1</sentence>
+            <sentence id="14.11"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="14.12"> inet6 fe80::42:acff:fe12:68/64 scope link</sentence>
+            <sentence id="14.13"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="14.14">880: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</sentence>
+            <sentence id="14.15"> link/ether 02:42:ac:16:00:69 brd ff:ff:ff:ff:ff:ff</sentence>
+            <sentence id="14.16"> inet 172.22.0.105/16 scope global eth0</sentence>
+            <sentence id="14.17"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="14.18"> inet6 fe80::42:acff:fe16:69/64 scope link</sentence>
+            <sentence id="14.19"> valid_lft forever preferred_lft forever</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20855</id>
+    <title>Internal Server error if accented characters in query string  to an Action-enabled script</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have the following directives in httpd.conf</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Action etat-ge-tdb /cgi-bin/tdb.</sentence>
+            <sentence id="2.2">cgi
+AddHandler etat-ge-tdb .</sentence>
+            <sentence id="2.3">tdb</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">If there are accented characters in the query string, like
+   http://myintranet/tdb/pjdoc/pjdoc.tdb?S=général
+I get an Internal Server Error
+(22)Invalid argument: couldn't spawn child process: E:/Apache/cgi-bin/tdb.</sentence>
+            <sentence id="3.2">cgi</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This is new with Apache 2; our Internet server still runs Apache1.3 and does 
+not exhibit the same problem :
+  http://justice.geneve.ch/jurisprudence/pjdoc.tdb?S=général</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Hint : I have another problem with mod_actions on Apache2, which has to do 
+with REMOTE_USER; I don't know if the two problems are related or not (cf. bug 
+10678)</sentence>
+        </paragraph>
+    </description>
+</bug>

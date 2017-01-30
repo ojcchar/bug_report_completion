@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20029</id>
+    <title>New embedded DNS server doesn't answer (times out)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have a setup with two containers and a user-defined network, which I create like this:
+docker network create --driver=bridge my-net
+Both containers run in this network via the "--net my-net --name my-name" command-line switch.</sentence>
+            <sentence id="1.2">In Docker 1.9 they could see each other (via /etc/hosts), now in Docker 1.10 they can't (via the embedded DNS server).</sentence>
+            <sentence id="1.3">When I log in to one of my containers I see this in resolv.conf:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">search some.local.domain.com
+nameserver 127.0.0.11
+options ndots:0</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I can ping 127.0.0.11, but it doesn't answer to DNS queries:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">host www.google.com
+;; connection timed out; no servers could be reached</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">It appears to have nothing to do with Google or Internet access, because it also times out when I look for "my-name", which is the containers own name that previously was listed in /etc/hosts, but isn't anymore.</sentence>
+        </paragraph>
+    </description>
+</bug>

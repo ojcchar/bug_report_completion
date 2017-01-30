@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>44114</id>
+    <title>CGI files doesn't compile</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello everybody,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have a hard issue with the execution of a web application.</sentence>
+            <sentence id="2.2">I have compiled and
+built an Apache server with the following config:
+Apache/2.0.59 (Unix) mod_ssl/2.0.59 OpenSSL/0.9.8f DAV/2 PHP/5.2.3
+mod_apreq2-20051231/2.6.0 mod_perl/2.0.3 Perl/v5.8.4</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I have a mixture of php and cgi scripts in my web application, using mod_perl.</sentence>
+            <sentence id="3.2">I
+can init without problems the Apache server, but when I try to request a cgi
+page , the browser doesn't show anything but the Apache's "error_log" print out
+a line like this:
+"child pid xxxxx exit signal Segmentation fault (11), possible coredump in
+/export/home/cores" (however, when I try to request a php page, it loads without
+errors nor segfaults).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">While debugging with gdb that corefile and doing a backtrace, I get:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">#0  0xd21d727c in finddatum () from /usr/lib/libc.</sentence>
+            <sentence id="5.2">so.1</sentence>
+            <sentence id="5.3">#1  0xd21d634b in dbm_store () from /usr/lib/libc.</sentence>
+            <sentence id="5.4">so.1</sentence>
+            <sentence id="5.5">#2  0xd0f41b27 in XS_NDBM_File_STORE ()</sentence>
+            <sentence id="5.6">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/auto/NDBM_File/NDBM_File.so</sentence>
+            <sentence id="5.7">#3  0xd1e5943a in Perl_pp_entersub ()</sentence>
+            <sentence id="5.8">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.9">so.1</sentence>
+            <sentence id="5.10">#4  0xd1e8431c in Perl_runops_standard ()</sentence>
+            <sentence id="5.11">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.12">so.1</sentence>
+            <sentence id="5.13">#5  0xd1e2e34b in S_call_body ()</sentence>
+            <sentence id="5.14">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.15">so.1</sentence>
+            <sentence id="5.16">#6  0xd1e2e281 in Perl_call_sv ()</sentence>
+            <sentence id="5.17">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.18">so.1</sentence>
+            <sentence id="5.19">#7  0xd1e2dcf0 in Perl_call_method ()</sentence>
+            <sentence id="5.20">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.21">so.1</sentence>
+            <sentence id="5.22">#8  0xd1e16d92 in S_magic_methcall ()</sentence>
+            <sentence id="5.23">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.24">so.1</sentence>
+            <sentence id="5.25">#9  0xd1e17098 in Perl_magic_setpack ()</sentence>
+            <sentence id="5.26">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.27">so.1</sentence>
+            <sentence id="5.28">#10 0xd1e14ca4 in Perl_mg_set ()</sentence>
+            <sentence id="5.29">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.30">so.1</sentence>
+            <sentence id="5.31">#11 0xd1e526ae in Perl_pp_sassign ()</sentence>
+            <sentence id="5.32">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.33">so.1</sentence>
+            <sentence id="5.34">#12 0xd1e8431c in Perl_runops_standard ()</sentence>
+            <sentence id="5.35">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.36">so.1</sentence>
+            <sentence id="5.37">#13 0xd1e2e34b in S_call_body ()</sentence>
+            <sentence id="5.38">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.39">so.1</sentence>
+            <sentence id="5.40">#14 0xd1e2e175 in Perl_call_sv ()</sentence>
+            <sentence id="5.41">---Type &lt;return&gt; to continue, or q &lt;return&gt; to quit---</sentence>
+            <sentence id="5.42">from /usr/perl5/5.8.4/lib/i86pc-solaris-64int/CORE/libperl.</sentence>
+            <sentence id="5.43">so.1</sentence>
+            <sentence id="5.44">#15 0xd20b95be in modperl_callback (handler=0x8193840, p=0x8b367b0, r=0x8b367e8,</sentence>
+            <sentence id="5.45">s=0x8111678,</sentence>
+            <sentence id="5.46">args=0x8aa2c0c) at modperl_callback.</sentence>
+            <sentence id="5.47">c:101</sentence>
+            <sentence id="5.48">#16 0xd20b9be8 in modperl_callback_run_handlers (idx=6, type=4, r=0x8b367e8, c=0x0,</sentence>
+            <sentence id="5.49">s=0x8111678, pconf=0x0, plog=0x0, ptemp=0x0, run_mode=MP_HOOK_RUN_FIRST)</sentence>
+            <sentence id="5.50">at modperl_callback.</sentence>
+            <sentence id="5.51">c:262</sentence>
+            <sentence id="5.52">#17 0xd20b9f70 in modperl_callback_per_dir (idx=6, r=0x8b367e8,</sentence>
+            <sentence id="5.53">run_mode=MP_HOOK_RUN_FIRST)</sentence>
+            <sentence id="5.54">at modperl_callback.</sentence>
+            <sentence id="5.55">c:369</sentence>
+            <sentence id="5.56">#18 0xd20b5c86 in modperl_response_handler_run (r=0x8b367e8, finish=0) at</sentence>
+            <sentence id="5.57">mod_perl.</sentence>
+            <sentence id="5.58">c:995</sentence>
+            <sentence id="5.59">#19 0xd20b5ec2 in modperl_response_handler_cgi (r=0x8b367e8) at mod_perl.</sentence>
+            <sentence id="5.60">c:1090</sentence>
+            <sentence id="5.61">#20 0x080b0426 in ap_run_handler (r=0x88cb97c) at config.c:152</sentence>
+            <sentence id="5.62">#21 0x080b07f1 in ap_invoke_handler (r=0x8b367e8) at config.c:364</sentence>
+            <sentence id="5.63">#22 0x0808b825 in ap_process_request (r=0x8b367e8) at http_request.</sentence>
+            <sentence id="5.64">c:249</sentence>
+            <sentence id="5.65">#23 0x08087339 in ap_process_http_connection (c=0x8b308a8) at http_core.</sentence>
+            <sentence id="5.66">c:253</sentence>
+            <sentence id="5.67">#24 0x080b9a76 in ap_run_process_connection (c=0x8b308a8) at connection.c:43</sentence>
+            <sentence id="5.68">#25 0x080aec3d in child_main (child_num_arg=0) at prefork.c:610</sentence>
+            <sentence id="5.69">#26 0x080aee67 in make_child (s=0xf, slot=7) at prefork.c:704</sentence>
+            <sentence id="5.70">#27 0x080af829 in ap_mpm_run (_pconf=0x1, plog=0x814a208, s=0x2) at prefork.c:839</sentence>
+            <sentence id="5.71">#28 0x080b4853 in main (argc=3, argv=0x8047434) at main.c:623</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">For me it is obvious that is an error related to mod_perl, so give you more
+info, here is part of httpd.conf and startup.pl:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">httpd.conf</sentence>
+            <sentence id="7.2">------------</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">LoadModule perl_module  modules/mod_perl.so
+LoadModule apreq_module    modules/mod_apreq2.so
+LoadModule auth_ldap_module   modules/mod_auth_ldap.</sentence>
+            <sentence id="8.2">so
+LoadModule php5_module        modules/libphp5.</sentence>
+            <sentence id="8.3">so</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">PerlInitHandler Apache2::Reload
+PerlSetVar ReloadAll On
+PerlSetVar ReloadTouchFile /usr/local/apache2/conf/reload_modules
+PerlRequire "conf/startup.</sentence>
+            <sentence id="9.2">pl"
+...
+...
+...
+&lt;Directory /&gt;
+    Options FollowSymLinks IncludesNoExec ExecCGI
+    AllowOverride None
+&lt;/Directory&gt;
+...
+...
+...
+AddHandler cgi-script .</sentence>
+            <sentence id="9.3">cgi</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">startup.pl</sentence>
+            <sentence id="10.2">------------</sentence>
+            <sentence id="10.3">#!</sentence>
+            <sentence id="10.4">/usr/local/bin/perl</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">#use Apache2 ();</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1"># enable if the mod_perl 1.0 compatibility is needed
+# use Apache::compat ();</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1"># preload all mp2 modules
+# use ModPerl::MethodLookup;
+# ModPerl::MethodLookup::preload_all_modules();</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">use ModPerl::Util (); #for CORE::GLOBAL::exit</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">use Apache2::RequestRec ();
+use Apache2::RequestIO ();
+use Apache2::RequestUtil ();</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">#use Apache::Server ();
+use Apache2::ServerUtil ();
+use Apache2::Connection ();
+use Apache2::Log ();</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">use APR::Table ();</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">use ModPerl::Registry ();</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">use Apache2::Const -compile =&gt; ':common';
+use APR::Const -compile =&gt; ':common';</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">use Net::LDAP ();
+use LWP::Simple ();
+use AnyDBM_File ();</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">use lib qw(/misc1/temp_project/bel_ngnsite/libs);
+use CgiLib;
+use ScmConf;
+use ScmLib;
+use CinsLib;
+use HtmlLib;
+use GlossaryLib;
+use RefLib;
+use DDTSRefLib;
+use PccLib;
+use HistoryLib;
+use CommentLib;
+use Dictionary;</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">1;</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">I have disabled the "use Apache2 ();" and "use Apache::Server", and also
+renaming the other Apache calls from Apache to Apache2 as given in
+"http://perl.apache.org/docs/2.0/user/porting/compat.html".</sentence>
+            <sentence id="23.2">I also have modified
+the libraries and scripts according to that web instructions.</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">If anyone could help with this it should be great, because I have been checking
+a lot of things, but I haven't found any solution to this issue.</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">Thanks in advance, and if you need some several info, please ask me for it
+Hector</sentence>
+        </paragraph>
+    </description>
+</bug>

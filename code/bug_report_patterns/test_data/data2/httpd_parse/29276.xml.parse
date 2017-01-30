@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>29276</id>
+    <title>PHP as CGI becomes a zombie when loaded too often</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Sorry for posting this again and again, but I still experience this problem and
+there seems to be no way for me to solve it.</sentence>
+            <sentence id="1.2">I've got confirmation from others
+that this problem is not only mine, so please take the time to read this.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I've tried Apache 1.3 and 2.0, both on Linux 2.4.</sentence>
+            <sentence id="2.2">I've tried using suEXEC and
+not using suEXEC, and I even tried modules that stop script execution at a
+specific load average (tested with 1.00!)</sentence>
+            <sentence id="2.3">or number of processes (tested with
+10!)</sentence>
+            <sentence id="2.4">.</sentence>
+            <sentence id="2.5">But nothing seems to help in the following case:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I run PHP as CGI because I don't want to have world-readable scripts and</sentence>
+            <sentence id="3.2">mod_perchild is not ready yet.</sentence>
+            <sentence id="3.3">When I do a hard reload - i.e. reloading the same</sentence>
+            <sentence id="3.4">script for about 10 seconds continously which should open quite a lot of scripts</sentence>
+            <sentence id="3.5">- I can crash the server.</sentence>
+            <sentence id="3.6">PHP-CGI-processes become zombies, I get a load average</sentence>
+            <sentence id="3.7">of about 90 (!)</sentence>
+            <sentence id="3.8">and it can take up to 30 minutes until the system responds</sentence>
+            <sentence id="3.9">again.</sentence>
+            <sentence id="3.10">This happens even with the simplest PHP scripts like a phpinfo call, but</sentence>
+            <sentence id="3.11">Perl scripts make absolutely no problem.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The PHP developers say it's an Apache problem, the Apache developers say it's a
+PHP problem.</sentence>
+            <sentence id="4.2">So *PLEASE* take the time to review this one again - I'm helpless
+right now!</sentence>
+            <sentence id="4.3">:-( I know there must be a solution, because some providers run PHP
+as CGI without problems, but I don't know what it could be.</sentence>
+            <sentence id="4.4">:-(</sentence>
+        </paragraph>
+    </description>
+</bug>

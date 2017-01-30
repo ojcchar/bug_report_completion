@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-602</id>
+    <title>Patient Summary module throws NPE on Obs with null values</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I just tried out the Patient Summary module in a demo and I got the stack trace below.</sentence>
+            <sentence id="1.2">Basically I have a bunch of obs whose concepts are included in the gp patientsummary.notesConceptIds that have value_text is null.</sentence>
+            <sentence id="1.3">(I don't know why our demo database has null values in many obs, btw, which is why I'm cc-ing Ellen.)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The quick fix would be to add a line in prepareNotes() before line 416 to say:
+{code}if (o.getValueText() !</sentence>
+            <sentence id="2.2">= null)
+{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Yaw, I can make this change if you want.</sentence>
+            <sentence id="3.2">I don't know if I have permission to post a new omod on the module repo though.</sentence>
+            <sentence id="3.3">Let me know.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">java.lang.NullPointerException</sentence>
+            <sentence id="4.2">org.openmrs.module.patientsummary.web.controller.PatientSummaryFormController.referenceData(PatientSummaryFormController.java:156)</sentence>
+            <sentence id="4.3">org.springframework.web.servlet.mvc.AbstractFormController.showForm(AbstractFormController.java:574)</sentence>
+            <sentence id="4.4">org.springframework.web.servlet.mvc.SimpleFormController.showForm(SimpleFormController.java:198)</sentence>
+            <sentence id="4.5">org.springframework.web.servlet.mvc.SimpleFormController.showForm(SimpleFormController.java:175)</sentence>
+            <sentence id="4.6">org.springframework.web.servlet.mvc.AbstractFormController.showNewForm(AbstractFormController.java:338)</sentence>
+            <sentence id="4.7">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:278)</sentence>
+            <sentence id="4.8">org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)</sentence>
+            <sentence id="4.9">org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:48)</sentence>
+            <sentence id="4.10">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:875)</sentence>
+            <sentence id="4.11">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:809)</sentence>
+            <sentence id="4.12">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:476)</sentence>
+            <sentence id="4.13">org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:431)</sentence>
+            <sentence id="4.14">javax.servlet.http.HttpServlet.service(HttpServlet.java:690)</sentence>
+            <sentence id="4.15">javax.servlet.http.HttpServlet.service(HttpServlet.java:803)</sentence>
+            <sentence id="4.16">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+            <sentence id="4.17">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.18">org.openmrs.web.OpenmrsFilter.doFilter(OpenmrsFilter.java:124)</sentence>
+            <sentence id="4.19">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.20">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.21">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+            <sentence id="4.22">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:75)</sentence>
+            <sentence id="4.23">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.24">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.25">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+            <sentence id="4.26">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:175)</sentence>
+            <sentence id="4.27">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:128)</sentence>
+            <sentence id="4.28">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+            <sentence id="4.29">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+            <sentence id="4.30">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:286)</sentence>
+            <sentence id="4.31">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:844)</sentence>
+            <sentence id="4.32">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:583)</sentence>
+            <sentence id="4.33">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:447)</sentence>
+            <sentence id="4.34">java.lang.Thread.run(Thread.java:619)</sentence>
+        </paragraph>
+    </description>
+</bug>

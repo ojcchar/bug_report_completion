@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>172636</id>
+    <title>[2.1.2][Regression]Eclipse will hang if add multiple drivers at one time</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build version:  2.1.2.v20070202-0700 Build &lt;20070202-0700&gt;</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Description:
+Eclipse will hang if add multiple drivers one time.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Steps to reproduce:</sentence>
+            <sentence id="3.2">1 New a datasource, select "JDBC Data Source".</sentence>
+            <sentence id="3.3">2 Click "Manage Drivers.</sentence>
+            <sentence id="3.4">."</sentence>
+            <sentence id="3.5">, and add 6 drivers a time.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Expected result:
+It works without any problem.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual result:
+Eclipse will hanp up, and no reponse.</sentence>
+            <sentence id="5.2">Error log generates.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Error:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">An unexpected exception has been detected in native code outside the VM.</sentence>
+            <sentence id="7.2">Unexpected Signal : EXCEPTION_ACCESS_VIOLATION (0xc0000005) occurred at PC=0x2DA44A1
+Function=[Unknown.]</sentence>
+            <sentence id="7.3">Library=C:\WINDOWS\system32\micsupp.dll</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">NOTE: We are unable to locate the function name symbol for the error
+      just occurred.</sentence>
+            <sentence id="8.2">Please refer to release documentation for possible
+      reason and solutions.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Current Java thread:</sentence>
+            <sentence id="9.2">	at java.lang.ClassLoader.defineClass0(Native Method)</sentence>
+            <sentence id="9.3">	at java.lang.ClassLoader.defineClass(ClassLoader.java:539)</sentence>
+            <sentence id="9.4">	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.defineClass(DefaultClassLoader.java:160)</sentence>
+            <sentence id="9.5">	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.defineClass(ClasspathManager.java:498)</sentence>
+            <sentence id="9.6">	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findClassImpl(ClasspathManager.java:468)</sentence>
+            <sentence id="9.7">	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClassImpl(ClasspathManager.java:427)</sentence>
+            <sentence id="9.8">- locked &lt;0x11649a68&gt; (a org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader)</sentence>
+            <sentence id="9.9">	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:410)</sentence>
+            <sentence id="9.10">	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:188)</sentence>
+            <sentence id="9.11">	at org.eclipse.osgi.framework.internal.core.BundleLoader.findLocalClass(BundleLoader.java:334)</sentence>
+            <sentence id="9.12">	at org.eclipse.osgi.framework.internal.core.BundleLoader.findClass(BundleLoader.java:386)</sentence>
+            <sentence id="9.13">	at org.eclipse.osgi.framework.internal.core.BundleLoader.findClass(BundleLoader.java:347)</sentence>
+            <sentence id="9.14">	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:83)</sentence>
+            <sentence id="9.15">	at java.lang.ClassLoader.loadClass(ClassLoader.java:235)</sentence>
+            <sentence id="9.16">	at java.lang.ClassLoader.loadClassInternal(ClassLoader.java:302)</sentence>
+            <sentence id="9.17">- locked &lt;0x11649a68&gt; (a org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader)</sentence>
+            <sentence id="9.18">	at org.eclipse.jdt.internal.compiler.Compiler.initializeParser(Compiler.java:575)</sentence>
+            <sentence id="9.19">	at org.eclipse.jdt.internal.compiler.Compiler.&lt;init&gt;(Compiler.java:259)</sentence>
+            <sentence id="9.20">	at org.eclipse.jdt.internal.compiler.Compiler.&lt;init&gt;(Compiler.java:194)</sentence>
+            <sentence id="9.21">	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.newCompiler(AbstractImageBuilder.java:423)</sentence>
+            <sentence id="9.22">	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.&lt;init&gt;(AbstractImageBuilder.java:90)</sentence>
+            <sentence id="9.23">	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.&lt;init&gt;(BatchImageBuilder.java:31)</sentence>
+            <sentence id="9.24">	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:248)</sentence>
+            <sentence id="9.25">	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:174)</sentence>
+            <sentence id="9.26">	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:603)</sentence>
+            <sentence id="9.27">	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)</sentence>
+            <sentence id="9.28">	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:167)</sentence>
+            <sentence id="9.29">	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:201)</sentence>
+            <sentence id="9.30">	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:230)</sentence>
+            <sentence id="9.31">	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)</sentence>
+            <sentence id="9.32">	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:233)</sentence>
+            <sentence id="9.33">	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:252)</sentence>
+            <sentence id="9.34">	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:285)</sentence>
+            <sentence id="9.35">	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:145)</sentence>
+            <sentence id="9.36">	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:208)</sentence>
+            <sentence id="9.37">	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:58)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Dynamic libraries:</sentence>
+            <sentence id="10.2">0x00400000 - 0x0040B000 	C:\j2sdk1.4.2_08\bin\javaw.exe</sentence>
+            <sentence id="10.3">0x7C900000 - 0x7C9B0000 	C:\WINDOWS\system32\ntdll.dll</sentence>
+            <sentence id="10.4">0x7C800000 - 0x7C8F4000 	C:\WINDOWS\system32\kernel32.dll</sentence>
+            <sentence id="10.5">0x77DD0000 - 0x77E6B000 	C:\WINDOWS\system32\ADVAPI32.dll</sentence>
+            <sentence id="10.6">0x77E70000 - 0x77F01000 	C:\WINDOWS\system32\RPCRT4.dll</sentence>
+            <sentence id="10.7">0x77D40000 - 0x77DD0000 	C:\WINDOWS\system32\USER32.dll</sentence>
+            <sentence id="10.8">0x77F10000 - 0x77F57000 	C:\WINDOWS\system32\GDI32.dll</sentence>
+            <sentence id="10.9">0x77C10000 - 0x77C68000 	C:\WINDOWS\system32\MSVCRT.dll</sentence>
+            <sentence id="10.10">0x76390000 - 0x763AD000 	C:\WINDOWS\system32\IMM32.DLL</sentence>
+            <sentence id="10.11">0x629C0000 - 0x629C9000 	C:\WINDOWS\system32\LPK.DLL</sentence>
+            <sentence id="10.12">0x74D90000 - 0x74DFB000 	C:\WINDOWS\system32\USP10.dll</sentence>
+            <sentence id="10.13">0x10000000 - 0x10018000 	C:\WINDOWS\system32\MicIPCU.dll</sentence>
+            <sentence id="10.14">0x08000000 - 0x08138000 	C:\j2sdk1.4.2_08\jre\bin\client\jvm.dll</sentence>
+            <sentence id="10.15">0x76B40000 - 0x76B6D000 	C:\WINDOWS\system32\WINMM.dll</sentence>
+            <sentence id="10.16">0x00AA0000 - 0x00AA7000 	C:\j2sdk1.4.2_08\jre\bin\hpi.dll</sentence>
+            <sentence id="10.17">0x00AC0000 - 0x00ACE000 	C:\j2sdk1.4.2_08\jre\bin\verify.dll</sentence>
+            <sentence id="10.18">0x00AD0000 - 0x00AE9000 	C:\j2sdk1.4.2_08\jre\bin\java.dll</sentence>
+            <sentence id="10.19">0x00AF0000 - 0x00AFE000 	C:\j2sdk1.4.2_08\jre\bin\zip.dll</sentence>
+        </paragraph>
+    </description>
+</bug>

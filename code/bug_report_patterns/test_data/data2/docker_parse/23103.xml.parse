@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23103</id>
+    <title>`-h` inconsistency with dockerd/docker daemon</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">'dockerd' re-introduces '-h' as an alias for '--help' _in its help message_:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"' bash</sentence>
+            <sentence id="2.2">root@85796c413084:~# dockerd --help | grep -e --help</sentence>
+            <sentence id="2.3">Usage: dockerd [ --help | -v | --version ]</sentence>
+            <sentence id="2.4">-h, --help Print usage</sentence>
+            <sentence id="2.5">"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Not surprisingly, this is also the case when 'dockerd' is called as 'docker daemon':</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"' bash</sentence>
+            <sentence id="4.2">root@85796c413084:~# docker daemon --help | grep -e --help</sentence>
+            <sentence id="4.3">Usage: dockerd [ --help | -v | --version ]</sentence>
+            <sentence id="4.4">-h, --help Print usage</sentence>
+            <sentence id="4.5">"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">And that's the point: all other 'docker' subcommands got rid of this flag in the help messages, so this introduces an inconsistency into the 'docker' command.</sentence>
+            <sentence id="5.2">Examples:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"' bash</sentence>
+            <sentence id="6.2">root@85796c413084:~# docker run --help | grep -e --help</sentence>
+            <sentence id="6.3">--help Print usage</sentence>
+            <sentence id="6.4">root@85796c413084:~# docker images --help | grep -e --help</sentence>
+            <sentence id="6.5">--help Print usage</sentence>
+            <sentence id="6.6">root@85796c413084:~# docker ps --help | grep -e --help</sentence>
+            <sentence id="6.7">--help Print usage</sentence>
+            <sentence id="6.8">"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The simplest solution would be to remove '-h' from the help message.</sentence>
+            <sentence id="7.2">A more sophisticated solution could check the name of the command being called and include '-h' only if the command were 'dockerd', but I dont't think it's worth the effort.</sentence>
+        </paragraph>
+    </description>
+</bug>

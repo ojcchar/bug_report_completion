@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>77681</id>
+    <title>Sorting Columns with Empty Headers Should Respect "Range Contains Column Headers" Option</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Problem description:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In certain cases, the "header-identifying heuristic" misbehaves, thus glitching the sort.</sentence>
+            <sentence id="2.2">This happens under the following conditions:</sentence>
+            <sentence id="2.3">* not all header cells are filled out</sentence>
+            <sentence id="2.4">* the data is text (it worked for some combination of text and numbers, thus this constraint)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Steps to reproduce:</sentence>
+            <sentence id="3.2">1 Create a table, containing the following data (CSV syntax):</sentence>
+            <sentence id="3.3">TITLE, (empty cell)
+Beta1, Beta2
+Zeta1, Zeta2
+Alfa1, Alfa2
+Delta1, Delta2</sentence>
+            <sentence id="3.4">2 a) Select cells "Beta1" to "Delta2", or</sentence>
+            <sentence id="3.5">2 b) select cells "TITLE" to "Delta2".</sentence>
+            <sentence id="3.6">3 Sort ascending.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Current behavior:</sentence>
+            <sentence id="4.2">In case of 2.a), the "sorted" table looks like:</sentence>
+            <sentence id="4.3">TITLE, (empty cell)
+Beta1, Beta2
+Alfa1, Alfa2
+Delta1, Delta2
+Zeta1, Zeta2</sentence>
+            <sentence id="4.4">Which is obviously wrong—the row "Alfa" should come _before_ "Beta".</sentence>
+            <sentence id="4.5">Apparently, Calc tried to be smart and identified the "Beta"-row to be a header; which it is not.</sentence>
+            <sentence id="4.6">Well, that's actually kind of cool—unfortunately, that's not what I wanted.</sentence>
+            <sentence id="4.7">So I figure I just have to select the header-row, too… So now to 2.b).</sentence>
+            <sentence id="4.8">In case of 2.b), the "sorted" table ends up looking like:</sentence>
+            <sentence id="4.9">Alfa1, Alfa2
+Beta1, Beta2
+Delta1, Delta2
+TITLE, (empty cell)
+Zeta1, Zeta2</sentence>
+            <sentence id="4.10">Which—again—is not what I wanted: Judging by the result of 2.</sentence>
+            <sentence id="4.11">a), it is not even what I expected.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Expected behavior:</sentence>
+            <sentence id="5.2">The sorted table should look like:</sentence>
+            <sentence id="5.3">TITLE, (empty cell)
+Alfa1, Alfa2
+Beta1, Beta2
+Delta1, Delta2
+Zeta1, Zeta2</sentence>
+            <sentence id="5.4">Ideally, it should look like this *both times* (though I understand that the heuristic would be basically impossible to define).</sentence>
+            <sentence id="5.5">More realistically, the sorting should be possible to do at all.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Current workaround: Fill the empty cell in the header row with dummy data and then sort—sorting works as expected.</sentence>
+            <sentence id="6.2">(Optionally, subsequently remove the dummy data.)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Operating System: Mac OS X
+Version: 4.1.5.3 release</sentence>
+        </paragraph>
+    </description>
+</bug>

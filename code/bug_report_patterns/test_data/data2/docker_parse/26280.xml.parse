@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26280</id>
+    <title>`docker node inspect &lt;node&gt; --pretty` needs an extra newline at the end</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: Thu Aug 18 17:52:38 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: Thu Aug 18 17:52:38 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'</sentence>
+            <sentence id="5.2">Containers: 0</sentence>
+            <sentence id="5.3"> Running: 0</sentence>
+            <sentence id="5.4"> Paused: 0</sentence>
+            <sentence id="5.5"> Stopped: 0</sentence>
+            <sentence id="5.6">Images: 1</sentence>
+            <sentence id="5.7">Server Version: 1.12.1</sentence>
+            <sentence id="5.8">Storage Driver: aufs</sentence>
+            <sentence id="5.9"> Root Dir: /mnt/sda1/var/lib/docker/aufs</sentence>
+            <sentence id="5.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="5.11"> Dirs: 3</sentence>
+            <sentence id="5.12"> Dirperm1 Supported: true</sentence>
+            <sentence id="5.13">Logging Driver: json-file</sentence>
+            <sentence id="5.14">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="5.15">Plugins:</sentence>
+            <sentence id="5.16"> Volume: local</sentence>
+            <sentence id="5.17"> Network: bridge overlay null host</sentence>
+            <sentence id="5.18">Swarm: inactive</sentence>
+            <sentence id="5.19">Runtimes: runc</sentence>
+            <sentence id="5.20">Default Runtime: runc</sentence>
+            <sentence id="5.21">Security Options: seccomp</sentence>
+            <sentence id="5.22">Kernel Version: 4.4.17-boot2docker</sentence>
+            <sentence id="5.23">Operating System: Boot2Docker 1.12.1 (TCL 7.2); HEAD : ef7d0b4 - Thu Aug 18 21:18:06 UTC 2016</sentence>
+            <sentence id="5.24">OSType: linux</sentence>
+            <sentence id="5.25">Architecture: x86_64</sentence>
+            <sentence id="5.26">CPUs: 1</sentence>
+            <sentence id="5.27">Total Memory: 995.9 MiB</sentence>
+            <sentence id="5.28">Name: manager1</sentence>
+            <sentence id="5.29">ID: RMAG:RV3A:3NK6:ALTJ:JVZQ:UXXC:TBPR:ZS6T:TPJZ:E6JK:NUL3:MMWI</sentence>
+            <sentence id="5.30">Docker Root Dir: /mnt/sda1/var/lib/docker</sentence>
+            <sentence id="5.31">Debug Mode (client): false</sentence>
+            <sentence id="5.32">Debug Mode (server): true</sentence>
+            <sentence id="5.33"> File Descriptors: 20</sentence>
+            <sentence id="5.34"> Goroutines: 43</sentence>
+            <sentence id="5.35"> System Time: 2016-09-02T17:25:35.747014573Z</sentence>
+            <sentence id="5.36"> EventsListeners: 0</sentence>
+            <sentence id="5.37">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="5.38">Labels:</sentence>
+            <sentence id="5.39"> provider=virtualbox</sentence>
+            <sentence id="5.40">Insecure Registries:</sentence>
+            <sentence id="5.41"> 127.0.0.0/8</sentence>
+            <sentence id="5.42">"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="6.2">1 Run 'docker node inspect worker1 --pretty'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Describe the results you received:**</sentence>
+            <sentence id="7.2">Get the following output, elided together with the Bash prompt when the command returns:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'</sentence>
+            <sentence id="8.2">ID: ayk24kdxkvc8e2nwmeqfrlwod</sentence>
+            <sentence id="8.3">Hostname: worker1</sentence>
+            <sentence id="8.4">Joined at: 2016-09-02 16:29:11.260379221 +0000 utc</sentence>
+            <sentence id="8.5">Status:</sentence>
+            <sentence id="8.6">State: Ready</sentence>
+            <sentence id="8.7">Availability: Active</sentence>
+            <sentence id="8.8">Platform:</sentence>
+            <sentence id="8.9">Operating System: linux</sentence>
+            <sentence id="8.10">Architecture: x86_64</sentence>
+            <sentence id="8.11">Resources:</sentence>
+            <sentence id="8.12">CPUs: 1</sentence>
+            <sentence id="8.13">Memory: 995.9 MiB</sentence>
+            <sentence id="8.14">Plugins:</sentence>
+            <sentence id="8.15">Network: bridge, host, null, overlay</sentence>
+            <sentence id="8.16">Volume: local</sentence>
+            <sentence id="8.17">Engine Version: 1.12.1</sentence>
+            <sentence id="8.18">Engine Labels:</sentence>
+            <sentence id="8.19">- provider = virtualbox[misty@cheezel beginner-tutorial](master)$</sentence>
+            <sentence id="8.20">"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Describe the results you expected:**</sentence>
+            <sentence id="9.2">Get the following output, with a newline before the Bash prompt after the command:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'</sentence>
+            <sentence id="10.2">ID: ayk24kdxkvc8e2nwmeqfrlwod</sentence>
+            <sentence id="10.3">Hostname: worker1</sentence>
+            <sentence id="10.4">Joined at: 2016-09-02 16:29:11.260379221 +0000 utc</sentence>
+            <sentence id="10.5">Status:</sentence>
+            <sentence id="10.6">State: Ready</sentence>
+            <sentence id="10.7">Availability: Active</sentence>
+            <sentence id="10.8">Platform:</sentence>
+            <sentence id="10.9">Operating System: linux</sentence>
+            <sentence id="10.10">Architecture: x86_64</sentence>
+            <sentence id="10.11">Resources:</sentence>
+            <sentence id="10.12">CPUs: 1</sentence>
+            <sentence id="10.13">Memory: 995.9 MiB</sentence>
+            <sentence id="10.14">Plugins:</sentence>
+            <sentence id="10.15">Network: bridge, host, null, overlay</sentence>
+            <sentence id="10.16">Volume: local</sentence>
+            <sentence id="10.17">Engine Version: 1.12.1</sentence>
+            <sentence id="10.18">Engine Labels:</sentence>
+            <sentence id="10.19">- provider = virtualbox</sentence>
+            <sentence id="10.20">[misty@cheezel beginner-tutorial](master)$</sentence>
+            <sentence id="10.21">"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">I think I have the fix and will send a PR after I test it.</sentence>
+        </paragraph>
+    </description>
+</bug>

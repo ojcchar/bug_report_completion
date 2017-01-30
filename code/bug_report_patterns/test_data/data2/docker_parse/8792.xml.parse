@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8792</id>
+    <title>docker --format not working</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have 2 ubuntu 14.04.1 hosts that both return the following output on any container, but same docker version.</sentence>
+            <sentence id="1.2">I also got this error when using docker version 1.x.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If I try anything in the --format flag I get this:
+Template parsing error: template: :1: unexpected unclosed action in command</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This error smells like https://github.com/docker/docker/issues/6313 but I'm not trying ranges.</sentence>
+            <sentence id="3.2"># docker version</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Client version: 1.3.0
+Client API version: 1.15
+Go version (client): go1.3.3
+Git commit (client): c78088f
+OS/Arch (client): linux/amd64
+Server version: 1.3.0
+Server API version: 1.15
+Go version (server): go1.3.3
+Git commit (server): c78088f
+# lsb_release -a</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">No LSB modules are available.</sentence>
+            <sentence id="5.2">Distributor ID: Ubuntu
+Description: Ubuntu 14.04.1 LTS
+Release: 14.04
+Codename: trusty
+# uname -a</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Linux goAwayS 3.13.0-38-generic #65-Ubuntu SMP Thu Oct 9 11:36:50 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+# docker ps</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+334a0bd7ec99 sameersbn/bind:latest "/start" 38 hours ago Up 53 seconds 10000/tcp, 0.0.0.0:53-&gt;53/udp bind 
+# docker inspect -f '{{ .</sentence>
+            <sentence id="7.2">NetworkSettings }}' bind</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Template parsing error: template: :1: unexpected unclosed action in command
+2014/10/26 23:09:02 Template parsing error: template: :1: unexpected unclosed action in command
+# docker inspect -f '{{ .</sentence>
+            <sentence id="8.2">ResolvConfPath }}' bind</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Template parsing error: template: :1: unexpected unclosed action in command
+2014/10/26 23:14:45 Template parsing error: template: :1: unexpected unclosed action in command
+# docker inspect bind | head</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">[{
+ "Args": [],
+ "Config": {
+ "AttachStderr": false,
+ "AttachStdin": false,
+ "AttachStdout": false,
+ "Cmd": [
+ "/start"
+ ],
+ "CpuShares": 0,
+# docker inspect bind | grep IPA</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'
+ "IPAddress": "172.17.0.2",
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

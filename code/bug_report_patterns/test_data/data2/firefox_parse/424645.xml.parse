@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>424645</id>
+    <title>"-profile" and "-P" command line arguments don't work properly, they don't add default bookmarks.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.9b5pre) Gecko/2008032204 Minefield/3.0b5pre
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.9b5pre) Gecko/2008032204 Minefield/3.0b5pre</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">On Firefox 3 preBeta5 I've founds 2 bugs:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"firefox.exe -profile" and "firefox.exe -P" command line arguments don't insert, on the new profile, default bookmarks and RSS.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">To reproduce "-profile" command:</sentence>
+            <sentence id="4.2">1 Unzip the last nightly on a specific folder;</sentence>
+            <sentence id="4.3">2 Create into the new folder a new folder named profile1;</sentence>
+            <sentence id="4.4">3 Create a new BAT file named run.bat or firefox.bat;</sentence>
+            <sentence id="4.5">4 Insert on the new BAT file: "start firefox.exe -profile profile1" and run it;</sentence>
+            <sentence id="4.6">5 Now, see that default bookmarks aren't present.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">To reproduce "-P" command:</sentence>
+            <sentence id="5.2">1 Unzip the last nightly on a specific folder;</sentence>
+            <sentence id="5.3">2 Create into the new folder a new folder named profile1;</sentence>
+            <sentence id="5.4">3 Create a new BAT file named run.bat or firefox.bat;</sentence>
+            <sentence id="5.5">4 Insert on the new BAT file: "start firefox.exe -P TEST" and run it;</sentence>
+            <sentence id="5.6">5 See the Profile Manager and create a new profile named TEST on the folder profile1;</sentence>
+            <sentence id="5.7">6 Select the profile and run Minefield;</sentence>
+            <sentence id="5.8">7 Now, see that default bookmarks aren't present.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Screen: http://img253.imageshack.us/my.php?image=screenwo7.png
+http://kb.mozillazine.org/Command_line_arguments</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Reproducible: Always</sentence>
+        </paragraph>
+    </description>
+</bug>

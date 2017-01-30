@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4791</id>
+    <title>Error: Cannot start container ...: Error getting container ... from driver aufs: bufio.Scanner: token too long</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">https://groups.google.com/forum/#!topic/docker-user/LwtUMmS8U3k</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+I have an application that consists of several containers and is hosted on a KVM machine. All works fine but after the host restarts the containers can't be started again:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1"># docker ps -notrunc -a
+...
+d0c7406fcae7c68c10ebb5b2be939e01464445a3b0e7025aba73d2d77b842818 khu/postgresql93:latest .</sentence>
+            <sentence id="3.2">/start_postgres.</sentence>
+            <sentence id="3.3">sh 3 weeks ago Exit 0 trusting_bardeen</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1"># docker start d0c7406fcae7c68c10ebb5b2be939e01464445a3b0e7025aba73d2d77b842818
+Error: Cannot start container d0c7406fcae7c68c10ebb5b2be939e01464445a3b0e7025aba73d2d77b842818: Error getting container d0c7406fcae7c68c10ebb5b2be939e01464445a3b0e7025aba73d2d77b842818 from driver aufs: bufio.Scanner: token too long
+2014/03/19 10:15:37 Error: failed to start one or more containers</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">but the container dir seems to exist:
+# find / -iname d0c7406fcae7c68c10ebb5b2be939e01464445a3b0e7025aba73d2d77b842818 -print
+/var/lib/docker/aufs/mnt/d0c7406fcae7c68c10ebb5b2be939e01464445a3b0e7025aba73d2d77b842818
+/var/lib/docker/aufs/layers/d0c7406fcae7c68c10ebb5b2be939e01464445a3b0e7025aba73d2d77b842818
+/var/lib/docker/aufs/diff/d0c7406fcae7c68c10ebb5b2be939e01464445a3b0e7025aba73d2d77b842818
+/var/lib/docker/containers/d0c7406fcae7c68c10ebb5b2be939e01464445a3b0e7025aba73d2d77b842818</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This happens for all the other containers as well.</sentence>
+            <sentence id="6.2">I've looked around but haven't found any solution to this problem.</sentence>
+            <sentence id="6.3">Could you please help with that?</sentence>
+            <sentence id="6.4">I'd like to be able to start my app after a host restarts.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Some more details:
+ubuntu 13.04 raring</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1"># docker version 
+Client version: 0.9.0 
+Go version (client): go1.2.1 
+Git commit (client): 2b3fdf2 
+Server version: 0.9.0 
+Git commit (server): 2b3fdf2 
+Go version (server): go1.2.1 
+Last stable version: 0.9.0
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

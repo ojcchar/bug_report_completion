@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8027</id>
+    <title>--rm option in docker run does not make clean up on large stdin</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Example:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"' bash
+seq 100000 | docker run --rm -i ubuntu bash -l -c 'cat | head -1'
+#1
+#2014/09/14 16:45:40 read unix /var/run/docker.sock: connection reset by peer
+docker ps -a
+#CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+#495392c12157 ubuntu:latest "bash -l -c 'cat | h 3 seconds ago Exited (0) 3 seconds ago desperate_ptolemy
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">container does not removed, 
+but</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"' bash
+seq 100 | docker run --rm -i ubuntu bash -l -c 'cat | head -1'
+#1
+docker ps -a
+#CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">all fine</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"' bash</sentence>
+            <sentence id="6.2">uname -a</sentence>
+            <sentence id="6.3">#$Linux masterbase 3.14-0.bpo.2-amd64 #1 SMP Debian 3.14.15-2~bpo70+1 (2014-08-21) x86_64 GNU/Linux</sentence>
+            <sentence id="6.4">docker version</sentence>
+            <sentence id="6.5">#Client version: 1.2.0</sentence>
+            <sentence id="6.6">#Client API version: 1.14</sentence>
+            <sentence id="6.7">#Go version (client): go1.3.1</sentence>
+            <sentence id="6.8">#Git commit (client): fa7b24f</sentence>
+            <sentence id="6.9">#OS/Arch (client): linux/amd64</sentence>
+            <sentence id="6.10">#Server version: 1.2.0</sentence>
+            <sentence id="6.11">#Server API version: 1.14</sentence>
+            <sentence id="6.12">#Go version (server): go1.3.1</sentence>
+            <sentence id="6.13">#Git commit (server): fa7b24f</sentence>
+            <sentence id="6.14">docker -D info</sentence>
+            <sentence id="6.15">#Containers: 1</sentence>
+            <sentence id="6.16">#Images: 58</sentence>
+            <sentence id="6.17">#Storage Driver: aufs</sentence>
+            <sentence id="6.18"># Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="6.19"># Dirs: 60</sentence>
+            <sentence id="6.20">#Execution Driver: native-0.2</sentence>
+            <sentence id="6.21">#Kernel Version: 3.14.0-0.bpo.2-amd64</sentence>
+            <sentence id="6.22">#Operating System: Debian GNU/Linux 7 (wheezy)</sentence>
+            <sentence id="6.23">#Debug mode (server): false</sentence>
+            <sentence id="6.24">#Debug mode (client): true</sentence>
+            <sentence id="6.25">#Fds: 10</sentence>
+            <sentence id="6.26">#Goroutines: 10</sentence>
+            <sentence id="6.27">#EventsListeners: 0</sentence>
+            <sentence id="6.28">#Init Path: /usr/bin/docker</sentence>
+            <sentence id="6.29">#WARNING: No memory limit support</sentence>
+            <sentence id="6.30">#WARNING: No swap limit support</sentence>
+            <sentence id="6.31">"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">PS:
+primitive workaround use sed instead of head (but sed increase total time)</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"' bash
+seq 100000 | docker run --rm -i ubuntu bash -l -c 'cat | sed -n 1,1p'
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

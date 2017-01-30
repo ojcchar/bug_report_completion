@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27320</id>
+    <title>PERF: docker create regressed by 130ms due to #22234</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">@tonistiigi Found by our perf team internally, and as mentioned in https://github.com/docker/docker/pull/22234#issuecomment-221142907</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">It looks like https://github.com/docker/docker/pull/22234 caused a 4x perf degradation (measured on Windows, but affects both Linux and Windows containers).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Measured using HDD, We used to be at 40ms before this change, an went up to about 170ms on HDD.</sentence>
+            <sentence id="3.2">The main reason for that is now we have some additional disk IOs to the following files by docker.exe.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+Line #
+ Disk
+ Path Name
+ Priority
+ IO Type
+ Process
+ Complete Time
+ IO Time
+ Size
+ QD/I - Queue Depth at Init Time
+ Disk Service Time</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">5</sentence>
+            <sentence id="5.2">C:\ProgramData\docker\Containers\8b1227e42fab4d66abb64300c0d1172737b10bf6d9a04d59b8d6736975f73822\.</sentence>
+            <sentence id="5.3">tmp-config.</sentence>
+            <sentence id="5.4">v2.json667108388</sentence>
+            <sentence id="5.5">Normal</sentence>
+            <sentence id="5.6">Write</sentence>
+            <sentence id="5.7">docker.exe (884)</sentence>
+            <sentence id="5.8">0 154756200</sentence>
+            <sentence id="5.9">197.600</sentence>
+            <sentence id="5.10">4096</sentence>
+            <sentence id="5.11">0</sentence>
+            <sentence id="5.12">197.400</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">6</sentence>
+            <sentence id="6.2">C:\ProgramData\docker\Containers\8b1227e42fab4d66abb64300c0d1172737b10bf6d9a04d59b8d6736975f73822\.</sentence>
+            <sentence id="6.3">tmp-config.</sentence>
+            <sentence id="6.4">v2.json723765494</sentence>
+            <sentence id="6.5">Normal</sentence>
+            <sentence id="6.6">Write</sentence>
+            <sentence id="6.7">docker.exe (884)</sentence>
+            <sentence id="6.8">0 204766600</sentence>
+            <sentence id="6.9">184.300</sentence>
+            <sentence id="6.10">4096</sentence>
+            <sentence id="6.11">0</sentence>
+            <sentence id="6.12">184.400</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">7</sentence>
+            <sentence id="7.2">C:\ProgramData\docker\Containers\8b1227e42fab4d66abb64300c0d1172737b10bf6d9a04d59b8d6736975f73822\.</sentence>
+            <sentence id="7.3">tmp-hostconfig.</sentence>
+            <sentence id="7.4">json427733299</sentence>
+            <sentence id="7.5">Normal</sentence>
+            <sentence id="7.6">Write</sentence>
+            <sentence id="7.7">docker.exe (884)</sentence>
+            <sentence id="7.8">0 122284600</sentence>
+            <sentence id="7.9">170.100</sentence>
+            <sentence id="7.10">4096</sentence>
+            <sentence id="7.11">0</sentence>
+            <sentence id="7.12">170.200</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">8
+ C:\ProgramData\docker\Containers\8b1227e42fab4d66abb64300c0d1172737b10bf6d9a04d59b8d6736975f73822\.</sentence>
+            <sentence id="8.2">tmp-hostconfig.</sentence>
+            <sentence id="8.3">json331178461</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

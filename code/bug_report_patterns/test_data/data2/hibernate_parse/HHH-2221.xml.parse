@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2221</id>
+    <title>MySQL temp table DDL and isolation</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">On MySQL, temporary table DDL operations do not cause implicit transaction commits, even though the driver metadata reports that DDL does cause implicit transaction commits.</sentence>
+            <sentence id="1.2">The reason being that MySQL handles temp table DDL operations differently than non-temp DDL, which the JDBC metadata does not account for.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Thus, need a way for the dialect to unequivocally force the temp table DDL to be performed in the current transaction regardless of what the driver reports...</sentence>
+        </paragraph>
+    </description>
+</bug>

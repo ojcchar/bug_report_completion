@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14337</id>
+    <title>Read-only host mounts with read-write sub-mounts</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Here, '/tmp/' from the host is mounted read-only, but the sub-mounts have been propaged read-write.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">root@vorpal:~# mkdir /tmp/danger</sentence>
+            <sentence id="2.3">root@vorpal:~# mount -o bind /tmp/danger /tmp/danger</sentence>
+            <sentence id="2.4">root@vorpal:~# docker run -ti -v /tmp:/tmp:ro ubuntu bash</sentence>
+            <sentence id="2.5">root@fe243ca8f803:/# touch /tmp/x</sentence>
+            <sentence id="2.6">touch: cannot touch '/tmp/x': Read-only file system</sentence>
+            <sentence id="2.7">root@fe243ca8f803:/# touch /tmp/danger/x</sentence>
+            <sentence id="2.8">root@fe243ca8f803:/# exit</sentence>
+            <sentence id="2.9">root@vorpal:~# ls -l /tmp/danger/x</sentence>
+            <sentence id="2.10">-rw-r--r-- 1 root root 0 May 24 23:24 /tmp/danger/x</sentence>
+            <sentence id="2.11">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

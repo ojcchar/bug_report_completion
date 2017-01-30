@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24958</id>
+    <title>Cluster defaults should not be overridden by swarm init</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">'swarm init' creates a 'ClusterSpec' and overwrites the cluster's object spec with this one.</sentence>
+            <sentence id="1.2">This means defaults such as certificate validity period and task history retention are under the client's control.</sentence>
+            <sentence id="1.3">They should be under SwarmKit's control instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">'swarm init' should only change values from the defaults when a value is given through a flag.</sentence>
+            <sentence id="2.2">Currently, it appears to overwrite the whole spec with the client-side defaults when no flags are specified.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">cc @aluzzardi @tonistiigi</sentence>
+        </paragraph>
+    </description>
+</bug>

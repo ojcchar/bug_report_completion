@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>36346</id>
+    <title>Linux Motif zip file on download site contains symlinks</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The zip file for Eclipse SDK 2.1 on the download site contains the following
+entries:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">eclipse/libXm.</sentence>
+            <sentence id="2.2">so           12
+  eclipse/libXm.</sentence>
+            <sentence id="2.3">so.2         12
+  eclipse/libXm.</sentence>
+            <sentence id="2.4">so.2.1  1915756</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The libXm.so and libXm.so.2 entries should be symlinks to libXm.so.2.1, but zip
+files don't do symlinks so they get extracted as normal files.</sentence>
+            <sentence id="3.2">This means that
+launching eclipse fails with a bizarre error (java.lang.UnresolvedLinkError,
+referencing libswt-motif-2133.so, later referencing libXm.so.2), even after the
+Eclipse install directory has been added to the LD_LIBRARY_PATH environment
+variable.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This bit me for a couple of days until I noticed the error.</sentence>
+            <sentence id="4.2">The solution for me
+was obviously to remove the standard files and replace them with the intended
+symlinks, but perhaps the Linux downloads should be tar.gz files instead of zip
+files?</sentence>
+            <sentence id="4.3">Either that or the offending files should be removed from the zip file
+and some comments added to an installation document somewhere.</sentence>
+        </paragraph>
+    </description>
+</bug>

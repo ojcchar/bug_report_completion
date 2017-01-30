@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26238</id>
+    <title>ADD vs COPY causes ghost files</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: Thu Aug 18 05:33:38 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: Thu Aug 18 05:33:38 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'</sentence>
+            <sentence id="5.2">Containers: 5</sentence>
+            <sentence id="5.3"> Running: 0</sentence>
+            <sentence id="5.4"> Paused: 0</sentence>
+            <sentence id="5.5"> Stopped: 5</sentence>
+            <sentence id="5.6">Images: 107</sentence>
+            <sentence id="5.7">Server Version: 1.12.1</sentence>
+            <sentence id="5.8">Storage Driver: aufs</sentence>
+            <sentence id="5.9"> Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="5.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="5.11"> Dirs: 237</sentence>
+            <sentence id="5.12"> Dirperm1 Supported: true</sentence>
+            <sentence id="5.13">Logging Driver: json-file</sentence>
+            <sentence id="5.14">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="5.15">Plugins:</sentence>
+            <sentence id="5.16"> Volume: local</sentence>
+            <sentence id="5.17"> Network: null host bridge overlay</sentence>
+            <sentence id="5.18">Swarm: inactive</sentence>
+            <sentence id="5.19">Runtimes: runc</sentence>
+            <sentence id="5.20">Default Runtime: runc</sentence>
+            <sentence id="5.21">Security Options: apparmor seccomp</sentence>
+            <sentence id="5.22">Kernel Version: 4.4.0-36-generic</sentence>
+            <sentence id="5.23">Operating System: Ubuntu 16.04.1 LTS</sentence>
+            <sentence id="5.24">OSType: linux</sentence>
+            <sentence id="5.25">Architecture: x86_64</sentence>
+            <sentence id="5.26">CPUs: 2</sentence>
+            <sentence id="5.27">Total Memory: 7.795 GiB</sentence>
+            <sentence id="5.28">Name: ip-172-22-45-247</sentence>
+            <sentence id="5.29">ID: JP75:CAYC:MIOQ:BB6C:XZHE:T26V:ROJG:WQXJ:DWJA:W4EE:QA5U:W3FS</sentence>
+            <sentence id="5.30">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="5.31">Debug Mode (client): false</sentence>
+            <sentence id="5.32">Debug Mode (server): false</sentence>
+            <sentence id="5.33">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="5.34">WARNING: No swap limit support</sentence>
+            <sentence id="5.35">Insecure Registries:</sentence>
+            <sentence id="5.36"> 127.0.0.0/8</sentence>
+            <sentence id="5.37">"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Running on an EC2 instance in AWS.</sentence>
+            <sentence id="7.2">Upgraded 14.04 to 16.04.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="8.2">1 Bundle large amount of files into .tar and use ADD to copy and extract the files into the image.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The running apache or nginx inside the container doesn't see some of the files.</sentence>
+            <sentence id="9.2">After I 'exec' into the container and do a 'find' or 'ls' command over the files, then they become visible and get served normally.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">I solved this problem by using 'COPY' in stead to get the .tar file into the image and then just manually extracting the contents to where it should be.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">As mentioned above, the image is being built on an Ubuntu EC2 instance in AWS, but then I build the same image on my local machine using Docker for Mac, it works perfectly.</sentence>
+        </paragraph>
+    </description>
+</bug>

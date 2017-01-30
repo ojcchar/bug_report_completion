@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>524</id>
+    <title>aufs triggers warning on kernel 3.8.11</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">After a few 'run docker-build and clear all containers' cycles, the kernel ran into a problem with aufs:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">[15815.575129] ------------[ cut here ]------------</sentence>
+            <sentence id="2.3">[15815.575140] WARNING: at fs/aufs/plink.c:446 au_plink_put+0x92/0xa0 [aufs]()</sentence>
+            <sentence id="2.4">[15815.575141] Hardware name: VMware Virtual Platform</sentence>
+            <sentence id="2.5">[15815.575142] pseudo-link is not flushed</sentence>
+            <sentence id="2.6">[15815.575143] Modules linked in: aufs xt_addrtype xt_nat veth xt_CLASSIFY sch_prio xt_DSCP xt_length xt_tcpudp iptable_mangle vmxnet(O) vmhgfs(O) openvswitch ipt_MASQUERADE iptable_nat nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat_ipv4 nf_nat nf_conntrack ip_tables x_tables bridge stp llc deflate zlib_deflate ctr twofish_generic twofish_x86_64_3way twofish_x86_64 twofish_common camellia_generic camellia_x86_64 serpent_sse2_x86_64 serpent_generic ablk_helper cryptd xts lrw gf128mul glue_helper blowfish_generic blowfish_x86_64 blowfish_common cast5_generic cast_common des_generic xcbc rmd160 sha512_generic crypto_null af_key xfrm_algo bnep rfcomm bluetooth binfmt_misc snd_ens1371 snd_ac97_codec ac97_bus gameport snd_pcm snd_page_alloc snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device snd_timer snd joydev soundcore mac_hid vmw_balloon lp coretemp ppdev psmouse i2c_piix4 shpchp serio_raw parport_pc microcode vmci(O) parport hid_generic usbhid hid floppy vmwgfx ttm mptsas vmxnet3 mptscsih mptbase scsi_transport_sas drm</sentence>
+            <sentence id="2.7">[15815.575248] Pid: 11874, comm: docker Tainted: G W O 3.8.11 #1</sentence>
+            <sentence id="2.8">[15815.575249] Call Trace:</sentence>
+            <sentence id="2.9">[15815.575255] [&lt;ffffffff81056e13&gt;] warn_slowpath_common+0x93/0xc0</sentence>
+            <sentence id="2.10">[15815.575257] [&lt;ffffffff81056efc&gt;] warn_slowpath_fmt+0x4c/0x50</sentence>
+            <sentence id="2.11">[15815.575261] [&lt;ffffffff8168df52&gt;] ? down_write+0x12/0x40</sentence>
+            <sentence id="2.12">[15815.575268] [&lt;ffffffffa04404b2&gt;] au_plink_put+0x92/0xa0 [aufs]</sentence>
+            <sentence id="2.13">[15815.575272] [&lt;ffffffffa0423cca&gt;] aufs_kill_sb+0xaa/0x150 [aufs]</sentence>
+            <sentence id="2.14">[15815.575276] [&lt;ffffffff811488d2&gt;] ? pcpu_free_area+0x192/0x1a0</sentence>
+            <sentence id="2.15">[15815.575280] [&lt;ffffffff811a9629&gt;] ? free_vfsmnt+0x39/0x40</sentence>
+            <sentence id="2.16">[15815.575282] [&lt;ffffffff8118e4a1&gt;] deactivate_locked_super+0x41/0x80</sentence>
+            <sentence id="2.17">[15815.575284] [&lt;ffffffff8118f0a5&gt;] deactivate_super+0x45/0x50</sentence>
+            <sentence id="2.18">[15815.575286] [&lt;ffffffff811a9eef&gt;] mntput_no_expire+0x13f/0x150</sentence>
+            <sentence id="2.19">[15815.575289] [&lt;ffffffff811ab07e&gt;] sys_umount+0x36e/0x3c0</sentence>
+            <sentence id="2.20">[15815.575291] [&lt;ffffffff81698399&gt;] system_call_fastpath+0x16/0x1b</sentence>
+            <sentence id="2.21">[15815.575293] ---[ end trace 227d09b8d937545b ]---</sentence>
+            <sentence id="2.22">[15897.701854] ------------[ cut here ]------------</sentence>
+            <sentence id="2.23">[15897.701865] WARNING: at fs/aufs/plink.c:446 au_plink_put+0x92/0xa0 [aufs]()</sentence>
+            <sentence id="2.24">[15897.701867] Hardware name: VMware Virtual Platform</sentence>
+            <sentence id="2.25">[15897.701868] pseudo-link is not flushed</sentence>
+            <sentence id="2.26">[15897.701869] Modules linked in: aufs xt_addrtype xt_nat veth xt_CLASSIFY sch_prio xt_DSCP xt_length xt_tcpudp iptable_mangle vmxnet(O) vmhgfs(O) openvswitch ipt_MASQUERADE iptable_nat nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat_ipv4 nf_nat nf_conntrack ip_tables x_tables bridge stp llc deflate zlib_deflate ctr twofish_generic twofish_x86_64_3way twofish_x86_64 twofish_common camellia_generic camellia_x86_64 serpent_sse2_x86_64 serpent_generic ablk_helper cryptd xts lrw gf128mul glue_helper blowfish_generic blowfish_x86_64 blowfish_common cast5_generic cast_common des_generic xcbc rmd160 sha512_generic crypto_null af_key xfrm_algo bnep rfcomm bluetooth binfmt_misc snd_ens1371 snd_ac97_codec ac97_bus gameport snd_pcm snd_page_alloc snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device snd_timer snd joydev soundcore mac_hid vmw_balloon lp coretemp ppdev psmouse i2c_piix4 shpchp serio_raw parport_pc microcode vmci(O) parport hid_generic usbhid hid floppy vmwgfx ttm mptsas vmxnet3 mptscsih mptbase scsi_transport_sas drm</sentence>
+            <sentence id="2.27">[15897.701922] Pid: 8213, comm: docker Tainted: G W O 3.8.11 #1</sentence>
+            <sentence id="2.28">[15897.701923] Call Trace:</sentence>
+            <sentence id="2.29">[15897.701928] [&lt;ffffffff81056e13&gt;] warn_slowpath_common+0x93/0xc0</sentence>
+            <sentence id="2.30">[15897.701930] [&lt;ffffffff81056efc&gt;] warn_slowpath_fmt+0x4c/0x50</sentence>
+            <sentence id="2.31">[15897.701934] [&lt;ffffffff8168df52&gt;] ? down_write+0x12/0x40</sentence>
+            <sentence id="2.32">[15897.701940] [&lt;ffffffffa04404b2&gt;] au_plink_put+0x92/0xa0 [aufs]</sentence>
+            <sentence id="2.33">[15897.701944] [&lt;ffffffffa0423cca&gt;] aufs_kill_sb+0xaa/0x150 [aufs]</sentence>
+            <sentence id="2.34">[15897.701947] [&lt;ffffffff811488d2&gt;] ? pcpu_free_area+0x192/0x1a0</sentence>
+            <sentence id="2.35">[15897.701950] [&lt;ffffffff811a9629&gt;] ? free_vfsmnt+0x39/0x40</sentence>
+            <sentence id="2.36">[15897.701954] [&lt;ffffffff8118e4a1&gt;] deactivate_locked_super+0x41/0x80</sentence>
+            <sentence id="2.37">[15897.701977] [&lt;ffffffff8118f0a5&gt;] deactivate_super+0x45/0x50</sentence>
+            <sentence id="2.38">[15897.701981] [&lt;ffffffff811a9eef&gt;] mntput_no_expire+0x13f/0x150</sentence>
+            <sentence id="2.39">[15897.701983] [&lt;ffffffff811ab07e&gt;] sys_umount+0x36e/0x3c0</sentence>
+            <sentence id="2.40">[15897.701986] [&lt;ffffffff81698399&gt;] system_call_fastpath+0x16/0x1b</sentence>
+            <sentence id="2.41">[15897.701988] ---[ end trace 227d09b8d937545c ]---</sentence>
+            <sentence id="2.42">[16069.831236] ------------[ cut here ]------------</sentence>
+            <sentence id="2.43">[16069.831247] WARNING: at fs/aufs/plink.c:446 au_plink_put+0x92/0xa0 [aufs]()</sentence>
+            <sentence id="2.44">[16069.831248] Hardware name: VMware Virtual Platform</sentence>
+            <sentence id="2.45">[16069.831249] pseudo-link is not flushed</sentence>
+            <sentence id="2.46">[16069.831250] Modules linked in: aufs xt_addrtype xt_nat veth xt_CLASSIFY sch_prio xt_DSCP xt_length xt_tcpudp iptable_mangle vmxnet(O) vmhgfs(O) openvswitch ipt_MASQUERADE iptable_nat nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat_ipv4 nf_nat nf_conntrack ip_tables x_tables bridge stp llc deflate zlib_deflate ctr twofish_generic twofish_x86_64_3way twofish_x86_64 twofish_common camellia_generic camellia_x86_64 serpent_sse2_x86_64 serpent_generic ablk_helper cryptd xts lrw gf128mul glue_helper blowfish_generic blowfish_x86_64 blowfish_common cast5_generic cast_common des_generic xcbc rmd160 sha512_generic crypto_null af_key xfrm_algo bnep rfcomm bluetooth binfmt_misc snd_ens1371 snd_ac97_codec ac97_bus gameport snd_pcm snd_page_alloc snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device snd_timer snd joydev soundcore mac_hid vmw_balloon lp coretemp ppdev psmouse i2c_piix4 shpchp serio_raw parport_pc microcode vmci(O) parport hid_generic usbhid hid floppy vmwgfx ttm mptsas vmxnet3 mptscsih mptbase scsi_transport_sas drm</sentence>
+            <sentence id="2.47">[16069.831327] Pid: 8216, comm: docker Tainted: G W O 3.8.11 #1</sentence>
+            <sentence id="2.48">[16069.831328] Call Trace:</sentence>
+            <sentence id="2.49">[16069.831334] [&lt;ffffffff81056e13&gt;] warn_slowpath_common+0x93/0xc0</sentence>
+            <sentence id="2.50">[16069.831336] [&lt;ffffffff81056efc&gt;] warn_slowpath_fmt+0x4c/0x50</sentence>
+            <sentence id="2.51">[16069.831340] [&lt;ffffffff8168df52&gt;] ? down_write+0x12/0x40</sentence>
+            <sentence id="2.52">[16069.831346] [&lt;ffffffffa04404b2&gt;] au_plink_put+0x92/0xa0 [aufs]</sentence>
+            <sentence id="2.53">[16069.831350] [&lt;ffffffffa0423cca&gt;] aufs_kill_sb+0xaa/0x150 [aufs]</sentence>
+            <sentence id="2.54">[16069.831353] [&lt;ffffffff811488d2&gt;] ? pcpu_free_area+0x192/0x1a0</sentence>
+            <sentence id="2.55">[16069.831356] [&lt;ffffffff811a9629&gt;] ? free_vfsmnt+0x39/0x40</sentence>
+            <sentence id="2.56">[16069.831359] [&lt;ffffffff8118e4a1&gt;] deactivate_locked_super+0x41/0x80</sentence>
+            <sentence id="2.57">[16069.831361] [&lt;ffffffff8118f0a5&gt;] deactivate_super+0x45/0x50</sentence>
+            <sentence id="2.58">[16069.831363] [&lt;ffffffff811a9eef&gt;] mntput_no_expire+0x13f/0x150</sentence>
+            <sentence id="2.59">[16069.831365] [&lt;ffffffff811ab07e&gt;] sys_umount+0x36e/0x3c0</sentence>
+            <sentence id="2.60">[16069.831368] [&lt;ffffffff81698399&gt;] system_call_fastpath+0x16/0x1b</sentence>
+            <sentence id="2.61">[16069.831370] ---[ end trace 227d09b8d937545d ]---</sentence>
+            <sentence id="2.62">"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The aufs version I've used was the one from the stable repository.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>38737</id>
+    <title>keepalives may cause worker MPM on linux to stall during shutdown</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I covered much of the background on this in the following mailing list thread:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">http://marc.theaimsgroup.com/?l=apache-httpd-dev&amp;m=113986864730305&amp;w=2</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The usual firestorm of discussion broke out ... anyway, as I noted, it's
+important to me that even if I issue an ungraceful restart or shutdown that the
+MPM manages, if at all possible, to call apr_pool_destroy(pchild).</sentence>
+            <sentence id="3.2">Otherwise,
+important cleanup functions that are registered against the pool don't get
+invoked; in my case, that's the DB disconnection cleanups in mod_dbd/apr_dbd.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">To summarize, on Linux, poll() doesn't immediately return with EBADF if another
+thread closes the socket descriptor, as described here:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">http://bugme.osdl.org/show_bug.cgi?id=546</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">When a worker thread is running process_socket(), after handling the request it
+then waits for the specified Keep-Alive period.</sentence>
+            <sentence id="6.2">This is actually done inside
+the apr_bucket_read() in ap_rgetline_core(); the apr_socket_recv() function runs
+apr_wait_for_io_or_timeout(), which performs a poll() for the Keep-Alive period.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">When an ungraceful restart or shutdown message is received by the worker MPM, it
+uses close_worker_sockets() to close all the sockets the worker threads might be
+polling on.</sentence>
+            <sentence id="7.2">On Solaris, for example, that has the side-effect of immediately
+causing apr_wait_for_io_or_timeout() to return EBADF, which curtails all the
+calling functions until process_socket() returns and the worker thread notices
+the workers_may_exit flag and exits.</sentence>
+            <sentence id="7.3">That in turn allows join_workers() to run
+to completion, after which clean_child_exit() can run the cleanups on the pchild
+pool and all child memory pools.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">But on Linux, the worker child process is stuck waiting for the Keep-Alive
+period for the polling to timeout, and during this period, the main httpd
+process often decides the child process is non-responsive, and sends SIGKILL.</sentence>
+            <sentence id="8.2">For me, that means my important cleanup functions never run.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The attached patch is the simplest fix I've found; it turns out that by simply
+signalling the worker threads with any signal is sufficient, because then poll()
+wakes up and returns EBADF (because the socket descriptor has been closed).</sentence>
+            <sentence id="9.2">At
+first I assumed poll() would return EINTR, but luckily, that's not the case, so
+the fix gets that much simpler.</sentence>
+        </paragraph>
+    </description>
+</bug>

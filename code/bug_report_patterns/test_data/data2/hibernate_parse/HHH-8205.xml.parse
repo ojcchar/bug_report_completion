@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8205</id>
+    <title>Natural IDs generating duplicate UK_* index</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">my application set hibernate.hbm2ddl.auto=update,hibernate will create UK_* everytime when starting application.</sentence>
+            <sentence id="1.2">I think hibernate must check if index exists before create a new one,index name should not generate by random,I suggest use md5(column_name),so everytime the index name will be the same,so you can use create index if not exists.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>52602</id>
+    <title>Excel Visual Basic compatibility issue in LibreOffice Calc: NumberFormat to date/time</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 64804
+Excel test file with macro</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Excel Visual Basic Date/time formatting does not work, Excel macro code examples:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Example macro:</sentence>
+            <sentence id="3.2">Sub Test_NumberFormat_DateTime()
+    ' Preparing Test:
+    Range("A3").</sentence>
+            <sentence id="3.3">FormulaR1C1 = "40969.6388888889"
+    Range("B3").</sentence>
+            <sentence id="3.4">FormulaR1C1 = "40969.6388888889"
+    Range("C3").</sentence>
+            <sentence id="3.5">FormulaR1C1 = "40969.6388888889"
+    Range("D3").</sentence>
+            <sentence id="3.6">FormulaR1C1 = "40969.6388888889"
+    Range("E3").</sentence>
+            <sentence id="3.7">FormulaR1C1 = "40969.6388888889"
+    Range("F3").</sentence>
+            <sentence id="3.8">FormulaR1C1 = "40969.6388888889"
+    Range("A3").</sentence>
+            <sentence id="3.9">Select</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">' Testing Excel VBA Code in Libre Office:
+    Range("A3").</sentence>
+            <sentence id="4.2">NumberFormat = "hh:mm"
+    Range("B3").</sentence>
+            <sentence id="4.3">NumberFormat = "mm/dd/yyyy hh:mm"
+    Range("C3").</sentence>
+            <sentence id="4.4">NumberFormat = "mm/dd/yyyy hh:mm:ss"
+    Range("D3").</sentence>
+            <sentence id="4.5">NumberFormat = "d/m/yy h:mm"
+    Range("E3").</sentence>
+            <sentence id="4.6">NumberFormat = "d/ mmmm yyyy"
+    Range("F3").</sentence>
+            <sentence id="4.7">NumberFormat = "d/ mmm yyyy"
+End Sub</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The same problem with the NumberFormat function on Windows systems with other regional settings.</sentence>
+            <sentence id="5.2">Example Windows "Regional and Language Options": "German (Germany)" 
+with Formula/List Separator ';' and Decimal Symbol ','</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Sub Test_NumberFormat_Number()
+    Range("A3").</sentence>
+            <sentence id="6.2">NumberFormat = "0,00000000"
+    Range("B3").</sentence>
+            <sentence id="6.3">NumberFormat = "0.00000000"
+    Range("C3").</sentence>
+            <sentence id="6.4">NumberFormat = "#,##0.00000"
+End Sub</sentence>
+        </paragraph>
+    </description>
+</bug>

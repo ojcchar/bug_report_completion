@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4188</id>
+    <title>Stats: NPE when opening the Stats view</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">### Expected behavior</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Stats should be shown
+### Actual behavior</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">NPE on [this line ](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/WordPress/src/main/java/org/wordpress/android/ui/stats/StatsInsightsLatestPostSummaryFragment.java#L64)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'</sentence>
+            <sentence id="4.2">06-07 14:09:27.316 13054-13054/org.wordpress.android E/AndroidRuntime: FATAL EXCEPTION: main</sentence>
+            <sentence id="4.3"> Process: org.wordpress.android, PID: 13054</sentence>
+            <sentence id="4.4"> de.greenrobot.event.EventBusException: Invoking subscriber failed</sentence>
+            <sentence id="4.5"> at de.greenrobot.event.EventBus.handleSubscriberException(EventBus.java:518)</sentence>
+            <sentence id="4.6"> at de.greenrobot.event.EventBus.invokeSubscriber(EventBus.java:500)</sentence>
+            <sentence id="4.7"> at de.greenrobot.event.EventBus.invokeSubscriber(EventBus.java:492)</sentence>
+            <sentence id="4.8"> at de.greenrobot.event.HandlerPoster.handleMessage(HandlerPoster.java:67)</sentence>
+            <sentence id="4.9"> at android.os.Handler.dispatchMessage(Handler.java:102)</sentence>
+            <sentence id="4.10"> at android.os.Looper.loop(Looper.java:135)</sentence>
+            <sentence id="4.11"> at android.app.ActivityThread.main(ActivityThread.java:5254)</sentence>
+            <sentence id="4.12"> at java.lang.reflect.Method.invoke(Native Method)</sentence>
+            <sentence id="4.13"> at java.lang.reflect.Method.invoke(Method.java:372)</sentence>
+            <sentence id="4.14"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)</sentence>
+            <sentence id="4.15"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)</sentence>
+            <sentence id="4.16"> Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'boolean org.wordpress.android.ui.stats.models.InsightsLatestPostModel.isLatestPostAvailable()' on a null object reference</sentence>
+            <sentence id="4.17"> at org.wordpress.android.ui.stats.StatsInsightsLatestPostSummaryFragment.onEventMainThread(StatsInsightsLatestPostSummaryFragment.java:64)</sentence>
+            <sentence id="4.18"> at java.lang.reflect.Method.invoke(Native Method)</sentence>
+            <sentence id="4.19"> at java.lang.reflect.Method.invoke(Method.java:372)</sentence>
+            <sentence id="4.20"> at de.greenrobot.event.EventBus.invokeSubscriber(EventBus.java:498)</sentence>
+            <sentence id="4.21"> at de.greenrobot.event.EventBus.invokeSubscriber(EventBus.java:492) </sentence>
+            <sentence id="4.22"> at de.greenrobot.event.HandlerPoster.handleMessage(HandlerPoster.java:67) </sentence>
+            <sentence id="4.23"> at android.os.Handler.dispatchMessage(Handler.java:102) </sentence>
+            <sentence id="4.24"> at android.os.Looper.loop(Looper.java:135) </sentence>
+            <sentence id="4.25"> at android.app.ActivityThread.main(ActivityThread.java:5254) </sentence>
+            <sentence id="4.26"> at java.lang.reflect.Method.invoke(Native Method) </sentence>
+            <sentence id="4.27"> at java.lang.reflect.Method.invoke(Method.java:372) </sentence>
+            <sentence id="4.28"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903) </sentence>
+            <sentence id="4.29"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698) </sentence>
+            <sentence id="4.30">06-07 14:09:27.359 13054-13193/org.wordpress.android V/WordPress-STATS: Parsing the following Timezone received from WP: 0</sentence>
+            <sentence id="4.31">"'</sentence>
+            <sentence id="4.32">### Steps to reproduce the behavior</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Open the app and go to Stats.</sentence>
+            <sentence id="5.2">Happens consistently with any site.</sentence>
+            <sentence id="5.3">##### Tested on Genmotion Nexus 6, Android 5.1.0</sentence>
+        </paragraph>
+    </description>
+</bug>

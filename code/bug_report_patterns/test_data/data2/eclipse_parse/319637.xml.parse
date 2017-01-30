@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>319637</id>
+    <title>ModeledConstraintProvider.getBatchConstraints() does not invoke IConstraintDescriptor.targetsTypeOf(EObject)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build Identifier: I20100608-0911</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The XmlConstraintProvider used when a constraint is defined inside plugin.xml filters the constraints returned by getBatchConstraints() by invoking IConstraintDescriptor.targetsTypeOf(EObject).</sentence>
+            <sentence id="2.2">ModeledConstraintProvider does not perform this filtering, as a result modeled constraints are evaluated against all the model elements instead of the targeted types.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">1 Create a targeted Java constraint and set a breakpoint on its validate(IValidationContext) method</sentence>
+            <sentence id="4.3">2 Add a reference to the Java constraint inside plugin.xml, note that context.getTarget() returns an EObject of the expected EClass and the breakpoint is only executed once</sentence>
+            <sentence id="4.4">3 Add a reference to the Java constraint in a model.validation, note that context.getTarget() returns every model element and the breakpoint is reached multiple times</sentence>
+        </paragraph>
+    </description>
+</bug>

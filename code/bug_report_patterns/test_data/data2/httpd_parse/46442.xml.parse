@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>46442</id>
+    <title>Semicolon in allow/deny all rules cause reverse lookups</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 23058
+httpd.conf file to cause reverse dns lookups</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">A trailing semicolon in an allow all or deny all rule causes a reverse DNS lookup.</sentence>
+            <sentence id="2.2">Since semicolons, per rfc-952, are used to denote comments in the DNS I think httpd should throw an error condition if it encounters a semicolon in a location where it expects a hostname.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8242</id>
+    <title>Cascaded evictions fail when same entity referenced multiple times</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">IllegalArgumentException "Non-entity object instance passed to evict" is thrown when an entity that (directly or indirectly) references the same entity multiple times.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example this occurs with mappings (see attached test case also):</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;hibernate-mapping&gt;
+   &lt;class entity-name="A" name="com.cyclone.hibernate.A"&gt;
+      &lt;id name="id" access="field" /&gt;
+      &lt;many-to-one name="b1" entity-name="B" cascade="all" /&gt;
+      &lt;many-to-one name="b2" entity-name="B" cascade="all" /&gt;
+   &lt;/class&gt;
+   &lt;class entity-name="B" name="com.cyclone.hibernate.B"&gt;
+      &lt;id name="id" access="field" /&gt;
+   &lt;/class&gt;
+&lt;/hibernate-mapping&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">when a single A entity has both b1 and b2 set to the same B instance and A is evicted from the session.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Happens with code added for HHH-7912 which fails to get a persister the second time DefaultEvictEventListener.onEvict(...) is called for the B entity because the (guessed) entity name is the class name, and not the entity name defined in the mappings.</sentence>
+        </paragraph>
+    </description>
+</bug>

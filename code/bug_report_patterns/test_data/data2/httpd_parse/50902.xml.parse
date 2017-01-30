@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>50902</id>
+    <title>on major load on the server, poll() hangs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi there,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Thought this bug is related to bug #50247, but as per Eric's suggestion I'm opening a new bug.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The httpd in question is 2.2.16 running on EC2.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">We see that after ~10 minutes of significant load, some of the worker processes get hang on poll().</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">By hang I mean that poll() call didn't finish for more than 30 seconds.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This is the stacktrace from one of the processes that are in this state:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">#0  0x00007f76fa70c748 in poll () from /lib64/libc.</sentence>
+            <sentence id="7.2">so.6
+#1  0x00007f76fabe2822 in apr_wait_for_io_or_timeout () from
+/usr/lib64/libapr-1.</sentence>
+            <sentence id="7.3">so.0
+#2  0x00007f76fabdd2da in apr_socket_recv () from /usr/lib64/libapr-1.</sentence>
+            <sentence id="7.4">so.0
+#3  0x00007f76fc0dfddd in ap_lingering_close ()
+#4  0x00007f76fc0eaa7e in ??</sentence>
+            <sentence id="7.5">()
+#5  0x00007f76fc0ead1a in ??</sentence>
+            <sentence id="7.6">()
+#6  0x00007f76fc0eadd0 in ??</sentence>
+            <sentence id="7.7">()
+#7  0x00007f76fc0eb908 in ap_mpm_run ()
+#8  0x00007f76fc0c54fb in main ()</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Please let me know if there's any more information I can provide - this problem
+is obviously a major concern to us.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Thanks,
+Tal</sentence>
+        </paragraph>
+    </description>
+</bug>

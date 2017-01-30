@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>35652</id>
+    <title>Improve error message: "pcfg_openfile: unable to check htaccess file, ensure it is readable"</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">During a recent install of awstats there was a config problem which manifested itself via this error 
+message:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Permission denied: /opt/showcase/awstats/.</sentence>
+            <sentence id="2.2">htaccess pcfg_openfile: unable to check htaccess file, 
+ensure it is readable</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The error message is a little misleading, as it implies that .htaccess exists and is not readable.</sentence>
+            <sentence id="3.2">There is 
+no .htaccess file in that location.</sentence>
+            <sentence id="3.3">However, /opt/showcase/awstats was chmod 700 and thus httpd 
+couldn't CHECK to see if the .</sentence>
+            <sentence id="3.4">htaccess file was there.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The error message would be more helpful if it said:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Permission denied: &lt;path&gt; pcfg_openfile: unable to check for existence of htaccess file or read it if it 
+does exist; make sure &lt;path&gt; is readable by httpd.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Something along those lines.</sentence>
+            <sentence id="6.2">Since the message implied that .</sentence>
+            <sentence id="6.3">htaccess existed, it really threw me for a 
+loop trying to figure out the problem.</sentence>
+        </paragraph>
+    </description>
+</bug>

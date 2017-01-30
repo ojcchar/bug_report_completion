@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23548</id>
+    <title>prefork model on solaris 2.6 mod_ldap leaves connections to ldap in close_wait</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We are running apache 2.0.47 in prefork model on solaris 2.6 and solaris 2.8.</sentence>
+            <sentence id="1.2">We are using the 
+ldap authenticator which is still in experimental mode using the NETSCAPE C libraries (without 
+SSL).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Authentication to ldap using .htaccess files occurs flawlessly.</sentence>
+            <sentence id="2.2">Each apache child holds open a 
+connection to ldap on port 389 for the specified length of time.</sentence>
+            <sentence id="2.3">However, when that time expires 
+or the port 389 connection is closed, the apache child does not reap the connection and it remains 
+stuck in close_wait.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Eventually Apache reaches the file descriptor limit (set to 64) and stop accepting new connections.</sentence>
+            <sentence id="3.2">We don't want to raise the FD limit we would like to get to the root cause.</sentence>
+            <sentence id="3.3">Any ideas?</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">We do not see this on solaris 2.8!</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">APPENDIX (error log , truss, lsof output from parent and children).</sentence>
+            <sentence id="5.2">========
+ERROR LOG INDICATES THE SYMPTOM:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Tue Sep 30 18:40:48 2003] [error] [client 10.0.0.2] (24)Too many open files</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">TRUSS of parent seems normal:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">15598:  poll(0xEFFFDA90, 0, 1000)                       = 0
+15598:  waitid(7, 0, 0xEFFFF9A0, 0107)                  = 0
+15598:        siginfo: SIG#0
+15598:  poll(0xEFFFDA90, 0, 1000)                       = 0
+15598:  waitid(7, 0, 0xEFFFF9A0, 0107)                  = 0
+15598:        siginfo: SIG#0
+15598:  poll(0xEFFFDA90, 0, 1000)                       = 0
+15598:  waitid(7, 0, 0xEFFFF9A0, 0107)                  = 0
+15598:        siginfo: SIG#0
+(SO ON AND SO FORTH)</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">LSOF OF A CHILD SHOWS THE STUCK CLOSE_WAITS:</sentence>
+            <sentence id="9.2">COMMAND  PID     USER   FD   TYPE     DEVICE SIZE/OFF      NODE NAME</sentence>
+            <sentence id="9.3">apache2047   5435 www    9u  inet 0x90c4c9d8     0t37       TCP solars2.6:80-&gt;eam-</sentence>
+            <sentence id="9.4">sj2.cisco.com:37648 (CLOSE_WAIT)</sentence>
+            <sentence id="9.5">apache2047   5435 www   10u  inet 0x9278db10    0t427       TCP solars2.6:50616-&gt;netscape-</sentence>
+            <sentence id="9.6">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.7">apache2047   5435 www   11u  inet 0xad5a3958    0t386       TCP solars2.6:50627-&gt;netscape-</sentence>
+            <sentence id="9.8">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.9">apache2047   5435 www   12u  inet 0x83b41ec8   0t1612       TCP solars2.6:50630-&gt;netscape-</sentence>
+            <sentence id="9.10">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.11">apache2047   5435 www   13u  inet 0x7e1cf160    0t744       TCP solars2.6:50666-&gt;netscape-</sentence>
+            <sentence id="9.12">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.13">apache2047   5435 www   14u  inet 0x7231f7c8   0t3507       TCP solars2.6:50670-&gt;netscape-</sentence>
+            <sentence id="9.14">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.15">apache2047   5435 www   15u  inet 0xad5a2f58    0t361       TCP solars2.6:51412-&gt;netscape-</sentence>
+            <sentence id="9.16">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.17">apache2047   5435 www   16u  inet 0x76985e38  0t12054       TCP solars2.6:35189-&gt;netscape-</sentence>
+            <sentence id="9.18">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.19">apache2047   5435 www   17u  inet 0x9278aa88    0t333       TCP solars2.6:37367-&gt;netscape-</sentence>
+            <sentence id="9.20">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.21">apache2047   5435 www   18u  inet 0x7d6771c0   0t5455       TCP solars2.6:40510-&gt;netscape-</sentence>
+            <sentence id="9.22">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.23">apache2047   5435 www   19u  inet 0x81a710f8   0t3548       TCP solars2.6:41520-&gt;netscape-</sentence>
+            <sentence id="9.24">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.25">apache2047   5435 www   20u  inet 0x7e1cfc60   0t6510       TCP solars2.6:41536-&gt;netscape-</sentence>
+            <sentence id="9.26">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.27">apache2047   5435 www   21u  inet 0x90c74a78    0t732       TCP solars2.6:43119-&gt;netscape-</sentence>
+            <sentence id="9.28">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.29">apache2047   5435 www   22u  inet 0x71cee450   0t6255       TCP solars2.6:52432-&gt;netscape-</sentence>
+            <sentence id="9.30">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.31">apache2047   5435 www   23u  inet 0x759de7d0    0t366       TCP solars2.6:53967-&gt;netscape-</sentence>
+            <sentence id="9.32">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.33">apache2047   5435 www   24u  inet 0x839526b8   0t3942       TCP solars2.6:56627-&gt;netscape-</sentence>
+            <sentence id="9.34">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.35">apache2047   5435 www   25u  inet 0x83b435d0    0t366       TCP solars2.6:57230-&gt;netscape-</sentence>
+            <sentence id="9.36">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.37">apache2047   5435 www   26u  inet 0x9c7aaeb8    0t422       TCP solars2.6:57249-&gt;netscape-</sentence>
+            <sentence id="9.38">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.39">apache2047   5435 www   27u  inet 0x72b4bd58    0t366       TCP solars2.6:57250-&gt;netscape-</sentence>
+            <sentence id="9.40">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.41">apache2047   5435 www   28u  inet 0x83b40548    0t821       TCP solars2.6:57267-&gt;netscape-</sentence>
+            <sentence id="9.42">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.43">apache2047   5435 www   29u  inet 0x9278cd90    0t366       TCP solars2.6:57348-&gt;netscape-</sentence>
+            <sentence id="9.44">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.45">apache2047   5435 www   30u  inet 0x83861140   0t8091       TCP solars2.6:57513-&gt;netscape-</sentence>
+            <sentence id="9.46">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.47">apache2047   5435 www   31u  inet 0x9c79aeb0    0t380       TCP solars2.6:58749-&gt;netscape-</sentence>
+            <sentence id="9.48">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.49">apache2047   5435 www   32u  inet 0x83950730   0t4662       TCP solars2.6:58776-&gt;netscape-</sentence>
+            <sentence id="9.50">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.51">apache2047   5435 www   33u  inet 0x81a70ff8    0t380       TCP solars2.6:59546-&gt;netscape-</sentence>
+            <sentence id="9.52">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.53">apache2047   5435 www   34u  inet 0x7072d540    0t810       TCP solars2.6:59555-&gt;netscape-</sentence>
+            <sentence id="9.54">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.55">apache2047   5435 www   35u  inet 0x9278a388    0t366       TCP solars2.6:59559-&gt;netscape-</sentence>
+            <sentence id="9.56">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.57">apache2047   5435 www   36u  inet 0x83860440    0t403       TCP solars2.6:59576-&gt;netscape-</sentence>
+            <sentence id="9.58">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.59">apache2047   5435 www   37u  inet 0xad6ab4e8    0t380       TCP solars2.6:59640-&gt;netscape-</sentence>
+            <sentence id="9.60">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.61">apache2047   5435 www   38u  inet 0xad6aaf68   0t3142       TCP solars2.6:59643-&gt;netscape-</sentence>
+            <sentence id="9.62">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.63">apache2047   5435 www   39u  inet 0x7dca54f8   0t1084       TCP solars2.6:60061-&gt;netscape-</sentence>
+            <sentence id="9.64">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.65">apache2047   5435 www   40u  inet 0x96072850    0t817       TCP solars2.6:60070-&gt;netscape-</sentence>
+            <sentence id="9.66">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.67">apache2047   5435 www   41u  inet 0x7e1cf560    0t380       TCP solars2.6:60141-&gt;netscape-</sentence>
+            <sentence id="9.68">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.69">apache2047   5435 www   42u  inet 0x83b42fd0   0t1589       TCP solars2.6:60159-&gt;netscape-</sentence>
+            <sentence id="9.70">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.71">apache2047   5435 www   43u  inet 0x7dca8a88    0t380       TCP solars2.6:60375-&gt;netscape-</sentence>
+            <sentence id="9.72">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.73">apache2047   5435 www   44u  inet 0x9c799310   0t3202       TCP solars2.6:60385-&gt;netscape-</sentence>
+            <sentence id="9.74">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.75">apache2047   5435 www   45u  inet 0xad67ba60    0t732       TCP solars2.6:61203-&gt;netscape-</sentence>
+            <sentence id="9.76">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.77">apache2047   5435 www   46u  inet 0x83950f30   0t2381       TCP solars2.6:61243-&gt;netscape-</sentence>
+            <sentence id="9.78">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.79">apache2047   5435 www   47u  inet 0xad6b2af0    0t746       TCP solars2.6:61359-&gt;netscape-</sentence>
+            <sentence id="9.80">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.81">apache2047   5435 www   48u  inet 0x7d6775c0   0t4131       TCP solars2.6:61380-&gt;netscape-</sentence>
+            <sentence id="9.82">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.83">apache2047   5435 www   49u  inet 0x90c4d9d8    0t386       TCP solars2.6:61741-&gt;netscape-</sentence>
+            <sentence id="9.84">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.85">apache2047   5435 www   50u  inet 0x90c74278  0t14254       TCP solars2.6:61756-&gt;netscape-</sentence>
+            <sentence id="9.86">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.87">apache2047   5435 www   51u  inet 0x9278c410   0t2164       TCP solars2.6:63803-&gt;netscape-</sentence>
+            <sentence id="9.88">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.89">apache2047   5435 www   52u  inet 0x7072c0c0    0t420       TCP solars2.6:63816-&gt;netscape-</sentence>
+            <sentence id="9.90">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.91">apache2047   5435 www   53u  inet 0x9c797188   0t1096       TCP solars2.6:63822-&gt;netscape-</sentence>
+            <sentence id="9.92">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.93">apache2047   5435 www   54u  inet 0x769844b8    0t420       TCP solars2.6:63843-&gt;netscape-</sentence>
+            <sentence id="9.94">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.95">apache2047   5435 www   55u  inet 0x7e1d5de8    0t384       TCP solars2.6:63865-&gt;netscape-</sentence>
+            <sentence id="9.96">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.97">apache2047   5435 www   56u  inet 0x7e1d54e8   0t3558       TCP solars2.6:64149-&gt;netscape-</sentence>
+            <sentence id="9.98">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.99">apache2047   5435 www   57u  inet 0xad6b2bf0    0t646       TCP solars2.6:64641-&gt;netscape-</sentence>
+            <sentence id="9.100">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.101">apache2047   5435 www   58u  inet 0x83950230   0t4721       TCP solars2.6:65486-&gt;netscape-</sentence>
+            <sentence id="9.102">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.103">apache2047   5435 www   59u  inet 0x7231e748    0t366       TCP solars2.6:32822-&gt;netscape-</sentence>
+            <sentence id="9.104">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.105">apache2047   5435 www   60u  inet 0x90c75578    0t427       TCP solars2.6:35352-&gt;netscape-</sentence>
+            <sentence id="9.106">ldap:389 (CLOSE_WAIT)</sentence>
+            <sentence id="9.107">apache2047   5435 www   61r  VREG  138,99002        0     16128 /fs/apache2047 (/dev/vx/dsk/</sentence>
+            <sentence id="9.108">ccodg/apache2047vol)</sentence>
+            <sentence id="9.109">apache2047   5435 www   62u  FIFO 0x76dff700      0t0   5476979 PIPE-&gt;0x76dff784</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1978</id>
+    <title>HQL update inserts wrong value for enum</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have an entity with an enumeration type property:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">@Enumerated(value = EnumType.ORDINAL)
+	public SyncState getState() {
+		return state;
+	}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">SyncState is an enum:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">public enum SyncState {
+	NOT_STARTED, STARTED
+}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">If I use session.saveOrUpdate() and other persister methots, the enum is handled correctly, and 0 or 1 is inserted/updated into my table.</sentence>
+            <sentence id="5.2">Though if I use HQL to update a few rows in that table, strange values are stored there.</sentence>
+            <sentence id="5.3">The strange values are the last few bytes of the string "STARTED", so I assume a parameter binder thinks this is an EnumType.STRING, but it is an EnumType.ORDINAL.</sentence>
+        </paragraph>
+    </description>
+</bug>

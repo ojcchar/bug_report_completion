@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22504</id>
+    <title>"Force shutdown daemon" if container uses X11</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Sorry for the nondescriptive title, but I could not think of a better one.</sentence>
+            <sentence id="1.2">The following information should make the problem clearer though.</sentence>
+            <sentence id="1.3"># System Information
+## Docker Version</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+# docker version
+Client:
+ Version: 1.11.0
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 4dc5990
+ Built: Wed Apr 13 18:17:17 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.11.0
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 4dc5990
+ Built: Wed Apr 13 18:17:17 2016
+ OS/Arch: linux/amd64
+"'
+## Docker Info</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'</sentence>
+            <sentence id="4.2"># docker info</sentence>
+            <sentence id="4.3">Containers: 1</sentence>
+            <sentence id="4.4">Running: 1</sentence>
+            <sentence id="4.5">Paused: 0</sentence>
+            <sentence id="4.6">Stopped: 0</sentence>
+            <sentence id="4.7">Images: 6</sentence>
+            <sentence id="4.8">Server Version: 1.11.0</sentence>
+            <sentence id="4.9">Storage Driver: aufs</sentence>
+            <sentence id="4.10">Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="4.11">Backing Filesystem: extfs</sentence>
+            <sentence id="4.12">Dirs: 32</sentence>
+            <sentence id="4.13">Dirperm1 Supported: true</sentence>
+            <sentence id="4.14">Logging Driver: json-file</sentence>
+            <sentence id="4.15">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="4.16">Plugins:</sentence>
+            <sentence id="4.17">Volume: local</sentence>
+            <sentence id="4.18">Network: bridge null host</sentence>
+            <sentence id="4.19">Kernel Version: 3.16.0-4-amd64</sentence>
+            <sentence id="4.20">Operating System: Debian GNU/Linux 8 (jessie)</sentence>
+            <sentence id="4.21">OSType: linux</sentence>
+            <sentence id="4.22">Architecture: x86_64</sentence>
+            <sentence id="4.23">CPUs: 4</sentence>
+            <sentence id="4.24">Total Memory: 3.665 GiB</sentence>
+            <sentence id="4.25">Name: TPC-5</sentence>
+            <sentence id="4.26">ID: %id%</sentence>
+            <sentence id="4.27">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="4.28">Debug mode (client): false</sentence>
+            <sentence id="4.29">Debug mode (server): false</sentence>
+            <sentence id="4.30">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="4.31">WARNING: No memory limit support</sentence>
+            <sentence id="4.32">WARNING: No swap limit support</sentence>
+            <sentence id="4.33">WARNING: No kernel memory limit support</sentence>
+            <sentence id="4.34">WARNING: No oom kill disable support</sentence>
+            <sentence id="4.35">WARNING: No cpu cfs quota support</sentence>
+            <sentence id="4.36">WARNING: No cpu cfs period support</sentence>
+            <sentence id="4.37">"'</sentence>
+            <sentence id="4.38"># Steps to reproduce</sentence>
+            <sentence id="4.39">1 Start X (as root, e.g. via Xorg/xinit)</sentence>
+            <sentence id="4.40">2 Start docker container running a grahical program on the host X (-v /tmp/.X11-unix:/tmp/.X11-unix)</sentence>
+            <sentence id="4.41">3 Restart the system.</sentence>
+            <sentence id="4.42">## What happens?</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The docker daemon hangs for about 10 seconds before force stopping itself.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'</sentence>
+            <sentence id="6.2">#journalctl -f</sentence>
+            <sentence id="6.3">May 04 12:18:02 TPC-5 systemd-logind[508]: Power key pressed.</sentence>
+            <sentence id="6.4">May 04 12:18:02 TPC-5 systemd-logind[508]: Powering Off...</sentence>
+            <sentence id="6.5">May 04 12:18:02 TPC-5 systemd-logind[508]: System is powering down.</sentence>
+            <sentence id="6.6">May 04 12:18:02 TPC-5 sshd[542]: Received signal 15; terminating.</sentence>
+            <sentence id="6.7">May 04 12:18:02 TPC-5 docker[544]: time="2016-05-04T12:18:02+02:00" level=info msg="stopping containerd after receiving terminated"</sentence>
+            <sentence id="6.8">May 04 12:18:02 TPC-5 docker[544]: time="2016-05-04T12:18:02.904005265+02:00" level=info msg="Processing signal 'terminated'"</sentence>
+            <sentence id="6.9">May 04 12:18:02 TPC-5 docker[544]: time="2016-05-04T12:18:02.905488833+02:00" level=error msg="failed to receive event from containerd: rpc error: code = 13 desc = \"transport is closing\""</sentence>
+            <sentence id="6.10">May 04 12:18:02 TPC-5 stunnel4[787]: SSL tunnels disabled, see /etc/default/stunnel4</sentence>
+            <sentence id="6.11">May 04 12:18:02 TPC-5 rc.local[543]: Successfully initialized wpa_supplicant</sentence>
+            <sentence id="6.12">May 04 12:18:02 TPC-5 rc.local[543]: wlan0: CTRL-EVENT-TERMINATING</sentence>
+            <sentence id="6.13">May 04 12:18:03 TPC-5 acpid[521]: exiting</sentence>
+            <sentence id="6.14">May 04 12:18:03 TPC-5 hwclock[783]: hwclock from util-linux 2.25.2</sentence>
+            <sentence id="6.15">May 04 12:18:03 TPC-5 hwclock[783]: Using the /dev interface to the clock.</sentence>
+            <sentence id="6.16">May 04 12:18:03 TPC-5 hwclock[783]: Last drift adjustment done at 1462356715 seconds after 1969</sentence>
+            <sentence id="6.17">May 04 12:18:03 TPC-5 hwclock[783]: Last calibration done at 1462356715 seconds after 1969</sentence>
+            <sentence id="6.18">May 04 12:18:03 TPC-5 hwclock[783]: Hardware clock is on UTC time</sentence>
+            <sentence id="6.19">May 04 12:18:03 TPC-5 hwclock[783]: Assuming hardware clock is kept in UTC time.</sentence>
+            <sentence id="6.20">May 04 12:18:03 TPC-5 hwclock[783]: Waiting for clock tick...</sentence>
+            <sentence id="6.21">May 04 12:18:03 TPC-5 hwclock[783]: ...got clock tick</sentence>
+            <sentence id="6.22">May 04 12:18:03 TPC-5 hwclock[783]: Time read from Hardware Clock: 2016/05/04 10:18:03</sentence>
+            <sentence id="6.23">May 04 12:18:03 TPC-5 hwclock[783]: Hw clock time : 2016/05/04 10:18:03 = 1462357083 seconds since 1969</sentence>
+            <sentence id="6.24">May 04 12:18:03 TPC-5 hwclock[783]: 1462357083.500000 is close enough to 1462357083.500000 (0.000000 &lt; 0.001000)</sentence>
+            <sentence id="6.25">May 04 12:18:03 TPC-5 hwclock[783]: Set RTC to 1462357083 (1462357083 + 0; refsystime = 1462357083.000000)</sentence>
+            <sentence id="6.26">May 04 12:18:03 TPC-5 hwclock[783]: Setting Hardware Clock to 10:18:03 = 1462357083 seconds since 1969</sentence>
+            <sentence id="6.27">May 04 12:18:03 TPC-5 hwclock[783]: ioctl(RTC_SET_TIME) was successful.</sentence>
+            <sentence id="6.28">May 04 12:18:03 TPC-5 hwclock[783]: Not adjusting drift factor because it has been less than a day since the last calibration.</sentence>
+            <sentence id="6.29">May 04 12:18:05 TPC-5 docker[544]: time="2016-05-04T12:18:05.907933993+02:00" level=info msg="New containerd process, pid: 819</sentence>
+            <sentence id="6.30">"</sentence>
+            <sentence id="6.31">May 04 12:18:07 TPC-5 docker[544]: time="2016-05-04T12:18:07.481669735+02:00" level=warning msg="Cannot kill container 5939355107fa6f75e31ac7b116aa7e0d61f49b2b47108d2a1c536945ff5d4330: rpc error: code = 2 desc = \"containerd: container not found\""</sentence>
+            <sentence id="6.32">May 04 12:18:17 TPC-5 docker[544]: time="2016-05-04T12:18:17.481985765+02:00" level=info msg="Container 5939355107fa6f75e31ac7b116aa7e0d61f49b2b47108d2a1c536945ff5d4330 failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="6.33">May 04 12:18:17 TPC-5 docker[544]: time="2016-05-04T12:18:17.483837229+02:00" level=warning msg="Cannot kill container 5939355107fa6f75e31ac7b116aa7e0d61f49b2b47108d2a1c536945ff5d4330: rpc error: code = 2 desc = \"containerd: container not found\""</sentence>
+            <sentence id="6.34">May 04 12:18:17 TPC-5 docker[544]: time="2016-05-04T12:18:17.904266734+02:00" level=error msg="Force shutdown daemon"</sentence>
+            <sentence id="6.35">May 04 12:18:17 TPC-5 docker[544]: time="2016-05-04T12:18:17+02:00" level=info msg="stopping containerd after receiving terminated"</sentence>
+            <sentence id="6.36">May 04 12:18:17 TPC-5 docker[544]: time="2016-05-04T12:18:17.904604880+02:00" level=error msg="failed to receive event from containerd: rpc error: code = 13 desc = \"transport is closing\""</sentence>
+            <sentence id="6.37">May 04 12:18:18 TPC-5 systemd-networkd[518]: Received SIGTERM from PID 1 (systemd).</sentence>
+            <sentence id="6.38">"'</sentence>
+            <sentence id="6.39">## What should happen?</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Maybe a 10 second delay of the docker daemon waiting for the container, but not a crashing container.</sentence>
+            <sentence id="7.2">## Additional Info</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">When killing X (via 'kill $processId'), the docker container is in its Exited state afterwards, so docker should not have to wait for the container.</sentence>
+        </paragraph>
+    </description>
+</bug>

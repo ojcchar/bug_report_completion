@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>87363</id>
+    <title>Regression: MenuDetect no longer opens new menus</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Bug introduced Nov 5, 2004.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Prior to change Control.showMenu did this:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">boolean showMenu (int x, int y) {
+	Event event = new Event ();
+	event.x = x;
+	event.y = y;
+	sendEvent (SWT.MenuDetect, event);
+	if (!</sentence>
+            <sentence id="3.2">event.doit) return true;
+	if (menu !</sentence>
+            <sentence id="3.3">= null &amp;&amp; !</sentence>
+            <sentence id="3.4">menu.isDisposed ()) {
+		if (x !</sentence>
+            <sentence id="3.5">= event.x || y !</sentence>
+            <sentence id="3.6">= event.y) {
+			menu.setLocation (event.x, event.y);
+		}
+		menu.setVisible (true);
+		return true;
+	}
+	return false;
+}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If a menu was created during the MenuDetect listener notification, the menu 
+field was updated and the menu was set visible.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">After Nov 5, 2004 the method was moved to Widget and now looks like this:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">boolean showMenu (Menu menu, int x, int y) {
+	Event event = new Event ();
+	event.x = x;
+	event.y = y;
+	sendEvent (SWT.MenuDetect, event);
+	if (!</sentence>
+            <sentence id="6.2">event.doit) return true;
+	if (menu !</sentence>
+            <sentence id="6.3">= null &amp;&amp; !</sentence>
+            <sentence id="6.4">menu.isDisposed ()) {
+		if (x !</sentence>
+            <sentence id="6.5">= event.x || y !</sentence>
+            <sentence id="6.6">= event.y) {
+			menu.setLocation (event.x, event.y);
+		}
+		menu.setVisible (true);
+		return true;
+	}
+	return false;
+}</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Since menu is just a local variable, it is not updated when a menu is created 
+in the MenuDetect event.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">The following example demonstrates the problem:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">public static void main(String[] args) {
+	Display display = new Display();
+	final Shell shell = new Shell(display);
+	shell.addListener(SWT.MenuDetect, new Listener() {
+		int count = 0;
+		public void handleEvent(Event event) {
+			Menu menu = shell.getMenu();
+			if (menu !</sentence>
+            <sentence id="9.2">= null) menu.dispose();
+			menu = new Menu(shell, SWT.POP_UP);
+			MenuItem item = new MenuItem(menu, SWT.PUSH);
+			item.setText("Menu " + count++);
+			shell.setMenu(menu);
+		}
+	});
+	shell.pack();
+	shell.open();
+	while (!</sentence>
+            <sentence id="9.3">shell.isDisposed()) {
+		if (!</sentence>
+            <sentence id="9.4">display.readAndDispatch()) display.sleep();
+	}
+	display.dispose();
+}</sentence>
+        </paragraph>
+    </description>
+</bug>

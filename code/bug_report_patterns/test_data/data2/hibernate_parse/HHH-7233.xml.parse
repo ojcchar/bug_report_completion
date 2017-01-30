@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7233</id>
+    <title>unmuck EntityManager#getSingleResult wrt auto-setting of max results</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have a DAO method that does the following:</sentence>
+            <sentence id="1.2">{code:borderStyle=solid}
+return this.createNamedQuery( "systemTasks(machineId,status,maxExecuteTimestamp)" )
+  .</sentence>
+            <sentence id="1.3">setParameter( "machineId", machineId )
+  .</sentence>
+            <sentence id="1.4">setParameter( "status", status )
+  .</sentence>
+            <sentence id="1.5">setParameter( "maxExecuteTimestamp", maxExecuteTimestamp )
+  .</sentence>
+            <sentence id="1.6">setLockMode( LockModeType.PESSIMISTIC_WRITE )
+  .</sentence>
+            <sentence id="1.7">setMaxResults( 1 )
+  .</sentence>
+            <sentence id="1.8">getSingleResult();
+{code}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The JPQL is:</sentence>
+            <sentence id="2.2">{code:borderStyle=solid}
+  select st from SystemTask st
+  where st.machineId = :machineId and st.status = :status
+    and st.executeTimestamp &lt;= :maxExecuteTimestamp
+  order by st.executeTimestamp
+{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Hibernate generates the following SQL:</sentence>
+            <sentence id="3.2">{code:borderStyle=solid}
+  select * from (
+    select [column list]
+    from jaseadm.system_task systemtask0_
+    where systemtask0_.</sentence>
+            <sentence id="3.3">machine_id=?</sentence>
+            <sentence id="3.4">and systemtask0_.</sentence>
+            <sentence id="3.5">task_status_id=?</sentence>
+            <sentence id="3.6">and systemtask0_.</sentence>
+            <sentence id="3.7">execute_timestamp&lt;=?</sentence>
+            <sentence id="3.8">order by systemtask0_.</sentence>
+            <sentence id="3.9">execute_timestamp )
+  where rownum &lt;= ?</sentence>
+            <sentence id="3.10">for update
+{code}</sentence>
+            <sentence id="3.11">Which fails with:</sentence>
+            <sentence id="3.12">{noformat}
+  ORA-02014: cannot select FOR UPDATE from view with DISTINCT, GROUP BY, etc.
+{noformat}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The problem is automatic setting of max results when {{getSingleResult}} is called:</sentence>
+            <sentence id="4.2">{code:borderStyle=solid}
+  boolean mucked = false;
+  // IMPL NOTE : the mucking with max results here is attempting to help the user from shooting themselves
+  //		in the foot in the case where they have a large query by limiting the query results to 2 max
+  //    SQLQuery cannot be safely paginated, leaving the user's choice here.</sentence>
+            <sentence id="4.3">if ( getSpecifiedMaxResults() !</sentence>
+            <sentence id="4.4">= 1 &amp;&amp;
+    !</sentence>
+            <sentence id="4.5">( SQLQuery.class.isAssignableFrom( query.getClass() ) ) ) {
+    mucked = true;
+    query.setMaxResults( 2 ); //avoid OOME if the list is huge
+  }
+  List&lt;X&gt; result = query.list();
+  if ( mucked ) {
+    query.setMaxResults( getSpecifiedMaxResults() );
+  }
+{code}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Honestly I would prefer the OOM prevention stuff be removed, or configurable through the session factory, as I end up with a lot of natural key queries that look like:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">select * from ( ... ) where rownum &lt;= 1</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">When I haven't called setMaxResults myself.</sentence>
+        </paragraph>
+    </description>
+</bug>

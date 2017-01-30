@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1076</id>
+    <title>FETCH JOIN with DISTINCT returns duplicate values</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When I make a fetch join (left outer join with FETCH clause) I get duplicated return values even when I specify DISTINCT.</sentence>
+            <sentence id="1.2">Without the FETCH keyword no duplicates are returned.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Examples (see attached test case):</sentence>
+            <sentence id="2.2">* SELECT DISTINCT c.id FROM CustomerData c LEFT JOIN FETCH c.orders o WHERE c.name = 'Alpha' AND o.id &gt; 0</sentence>
+            <sentence id="2.3">* SELECT DISTINCT c.id FROM CustomerData c LEFT JOIN c.orders o WHERE c.name = 'Alpha' AND o.id &gt; 0</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">JAR files are not uploaded due to upload restrictions of my proxy server: commons logging, db driver, hibernate jars</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>661</id>
+    <title>MediaGridFragment can crash on callbacks when fragment isn't attached</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">`if (getActivity() == null)` should be moved into the `run()`method</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;pre&gt;&lt;code&gt;01-09 16:13:53.694 12187-12187/org.wordpress.android E/AndroidRuntime﹕ FATAL EXCEPTION: main</sentence>
+            <sentence id="2.2"> java.lang.NullPointerException</sentence>
+            <sentence id="2.3"> at org.wordpress.android.ui.media.MediaGridFragment.updateFilterText(MediaGridFragment.java:260)</sentence>
+            <sentence id="2.4"> at org.wordpress.android.ui.media.MediaGridFragment.refreshSpinnerAdapter(MediaGridFragment.java:246)</sentence>
+            <sentence id="2.5"> at org.wordpress.android.ui.media.MediaGridFragment$3$1.run(MediaGridFragment.java:356)</sentence>
+            <sentence id="2.6"> at android.app.Activity.runOnUiThread(Activity.java:4673)</sentence>
+            <sentence id="2.7"> at org.wordpress.android.ui.media.MediaGridFragment$3.onSuccess(MediaGridFragment.java:352)</sentence>
+            <sentence id="2.8"> at org.xmlrpc.android.ApiHelper$SyncMediaLibraryTask.onPostExecute(ApiHelper.java:494)</sentence>
+            <sentence id="2.9"> at org.xmlrpc.android.ApiHelper$SyncMediaLibraryTask.onPostExecute(ApiHelper.java:412)</sentence>
+            <sentence id="2.10"> at android.os.AsyncTask.finish(AsyncTask.java:631)</sentence>
+            <sentence id="2.11"> at android.os.AsyncTask.access$600(AsyncTask.java:177)</sentence>
+            <sentence id="2.12"> at android.os.AsyncTask$InternalHandler.handleMessage(AsyncTask.java:644)</sentence>
+            <sentence id="2.13"> at android.os.Handler.dispatchMessage(Handler.java:99)</sentence>
+            <sentence id="2.14"> at android.os.Looper.loop(Looper.java:137)</sentence>
+            <sentence id="2.15"> at android.app.ActivityThread.main(ActivityThread.java:5103)</sentence>
+            <sentence id="2.16"> at java.lang.reflect.Method.invokeNative(Native Method)</sentence>
+            <sentence id="2.17"> at java.lang.reflect.Method.invoke(Method.java:525)</sentence>
+            <sentence id="2.18"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:737)</sentence>
+            <sentence id="2.19"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:553)</sentence>
+            <sentence id="2.20"> at dalvik.system.NativeStart.main(Native Method)</sentence>
+            <sentence id="2.21">&lt;/code&gt;&lt;/pre&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

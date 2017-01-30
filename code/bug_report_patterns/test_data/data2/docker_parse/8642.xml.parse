@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8642</id>
+    <title>On OS X, cannot pipe stdin to docker with `docker -i` as in 1.2.0</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Previously, the following would send the command `echo hi` to a new docker container (and hence print `hi`), and then exit:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">echo "echo hi" | docker run -i ubuntu</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">However, with Docker 1.3.0, the `stdin` connection is kept alive and never closed when running this same command -- ie, `hi` is printed and then the stdin connection is locked.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Is there an alternative way to send information through `stdin` and have it immediately close after, through the console?</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Motivation: I have some `go` code that attempts to pipe commands through `stdin` to newly started containers.</sentence>
+            <sentence id="5.2">```
+kevin:~$ uname -a
+Darwin Kevins-MacBook-Pro.</sentence>
+            <sentence id="5.3">local 13.4.0 Darwin Kernel Version 13.4.0: Sun Aug 17 19:50:11 PDT 2014; root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">kevin:~$ docker version
+Client version: 1.3.0
+Client API version: 1.15
+Go version (client): go1.3.3
+Git commit (client): c78088f
+OS/Arch (client): darwin/amd64
+Server version: 1.3.0
+Server API version: 1.15
+Go version (server): go1.3.3
+Git commit (server): c78088f</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">kevin:~$ docker -D info
+Containers: 31
+Images: 57
+Storage Driver: aufs
+ Root Dir: /mnt/sda1/var/lib/docker/aufs
+ Dirs: 119
+Execution Driver: native-0.2
+Kernel Version: 3.16.4-tinycore64
+Operating System: Boot2Docker 1.3.0 (TCL 5.4); master : a083df4 - Thu Oct 16 17:05:03 UTC 2014
+Debug mode (server): true
+Debug mode (client): true
+Fds: 34
+Goroutines: 47
+EventsListeners: 0
+Init Path: /usr/local/bin/docker</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">kevin:~$ boot2docker version
+Boot2Docker-cli version: v1.3.0
+Git commit: deafc19
+```</sentence>
+        </paragraph>
+    </description>
+</bug>

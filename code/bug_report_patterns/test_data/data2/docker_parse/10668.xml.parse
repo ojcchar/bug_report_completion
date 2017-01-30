@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10668</id>
+    <title>Exec format error : Cannot start container &lt;id&gt; : exec format error </title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build an image where you add a boostrap.sh starting with # which will be run when the container starts.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When docker run, it will produce the following error</sentence>
+            <sentence id="2.2">exec format errorFATA[0000] Error response from daemon: Cannot start container d51c63c1ab2c9d8906aa7a6d427d9f41df8303ffe88b234bab82c9cb983f2f64: exec format error</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Dockerfile</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"' Dockerfile
+FROM centos:6.6
+MAINTAINER Luciano Resende
+USER root
+ADD bootstrap.sh /etc/bootstrap.sh
+RUN chown root:root /etc/bootstrap.sh
+RUN chmod 700 /etc/bootstrap.sh
+ENV BOOTSTRAP /etc/bootstrap.sh
+CMD ["/etc/bootstrap.sh", "-bash"]
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Bootstrap.sh</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"' bash</sentence>
+            <sentence id="6.2">#-------------------------------------------------------------</sentence>
+            <sentence id="6.3"># xxxx</sentence>
+            <sentence id="6.4"># xxxx</sentence>
+            <sentence id="6.5"># xxxx</sentence>
+            <sentence id="6.6"># xxxx</sentence>
+            <sentence id="6.7"># xxxx</sentence>
+            <sentence id="6.8"># xxx</sentence>
+            <sentence id="6.9">#-------------------------------------------------------------</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">#!</sentence>
+            <sentence id="7.2">/usr/bin/env bash
+if [[ $1 = "-d" ]]; then
+ while true; do sleep 1000; done
+fi
+if [[ $1 = "-bash" ]]; then
+ /bin/bash
+fi
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I tested by removing the comments from boostrap.sh and rebuilding it and then the image starts working ok again.</sentence>
+        </paragraph>
+    </description>
+</bug>

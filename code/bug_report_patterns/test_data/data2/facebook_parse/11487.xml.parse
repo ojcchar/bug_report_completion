@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>11487</id>
+    <title>fb:comments - no callback called</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have an iFrame application running in the canvas.</sentence>
+            <sentence id="1.2">The callback specified in the callbackurl  attribute is never called.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">[code]       var htm = </sentence>
+            <sentence id="2.2">        \t &lt;div id= currentComments &gt;  +        \t\t</sentence>
+            <sentence id="2.3">        \t\t &lt;div style= height:400px; width: 470px;  &gt; +</sentence>
+            <sentence id="2.4">        \t\t\t &lt;fb:comments xid= TEST01  canpost= true  width= 470px  simple= true  candelete= false  numposts= 3  publish_feed= false   callbackurl= http:/myserver.com/commentsCallback  title= Comments  css= http://myserver.com/comments.css?v3 &gt;&lt;/fb:comments&gt; + // &lt;fb:comments xid= TEST01  &gt;&lt;fb:title&gt;Comments&lt;/fb:title&gt;&lt;/fb:comments&gt; +\t        \t\t\t</sentence>
+            <sentence id="2.5">        \t\t &lt;/div&gt; +</sentence>
+            <sentence id="2.6">        \t\t &lt;input type= button  id= btn_done   value= Done  title= Done commenting this article   /&gt; +</sentence>
+            <sentence id="2.7">        \t &lt;/div&gt; ;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">$( #comments-cont ).</sentence>
+            <sentence id="3.2">html(htm);</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">FB.XFBML.Host.parseDomElement(document.getElementById( currentComments ));[/code]
+It looks like the previous code generate another iframe in my page but in the code of the page there is no code regarding the call to the callback.</sentence>
+        </paragraph>
+    </description>
+</bug>

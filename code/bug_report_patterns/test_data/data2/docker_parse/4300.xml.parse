@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4300</id>
+    <title>Docker Ghosts can't be stopped/restarted: unexpected EOF</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">After upgrading from 0.7.6 to 0.8.1 I found all my running containers in ghost state.</sentence>
+            <sentence id="1.2">However I can't seem to recover those containers using 'docker stop' or 'docker restart' as advised in the documentation.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+$ docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+673956a34fb3 73f33c0d6a0a micro-inetd 22 /usr/ 6 days ago Ghost 0.0.0.0:49533-&gt;22/tcp, 0.0.0.0:49534-&gt;8080/tcp container-fjakobs-q5-123 
+...</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">$ pgrep -f 673956a34fb3 
+3241</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">$ docker stop 673956a34fb3
+unexpected EOF
+2014/02/24 11:15:48 Error: failed to stop one or more containers</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">$ docker restart 673956a34fb3
+unexpected EOF
+2014/02/24 11:15:52 Error: failed to restart one or more containers
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">my setup:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'
+$ docker info
+Containers: 36
+Images: 45
+Driver: devicemapper
+ Pool Name: docker-8:1-143094-pool
+ Data file: /var/lib/docker/devicemapper/devicemapper/data
+ Metadata file: /var/lib/docker/devicemapper/devicemapper/metadata
+ Data Space Used: 18554.3 Mb
+ Data Space Total: 204800.0 Mb
+ Metadata Space Used: 16.2 Mb
+ Metadata Space Total: 2048.0 Mb</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">$ docker version
+Client version: 0.8.1
+Go version (client): go1.2
+Git commit (client): a1598d1
+Server version: 0.8.1
+Git commit (server): a1598d1
+Go version (server): go1.2
+Last stable version: 0.8.1
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

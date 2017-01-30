@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2690</id>
+    <title>Cascade delete and ternary association after upgrade</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">My classes:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">public class Product {</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">private long id;
+	private String name;
+	private Map/*&lt;Attribute,AttributeValue&gt;*/ attributeValues;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">//getters/setters/hashcode/equals
+}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">public class AttributeValue {</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">private long id;
+	private String value;
+	private Product product;
+	private Attribute attribute;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">//getters/setters/hashcode/equals
+}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">public class Attribute {</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">private long id;
+	private String name;</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">//getters/setters/hashcode/equals
+}</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Fragment of mapping:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">&lt;class name="Product"&gt;
+  &lt;id name="id" column="id" type="long" unsaved-value="0"&gt;
+    &lt;generator class="native"/&gt;
+  &lt;/id&gt;
+  &lt;property name="name" not-null="true"/&gt;
+  &lt;map name="attributeValues" lazy="true" inverse="false" cascade="all-delete-orphan"&gt;
+    &lt;key column="product_id" not-null="true"/&gt;
+    &lt;map-key-many-to-many column="attribute_id" class="Attribute"/&gt;
+    &lt;one-to-many class="AttributeValue"/&gt;
+  &lt;/map&gt;
+&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">... and my exception after upgrading hibernate in my application.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">2007-06-27 20:08:54 org.hibernate.property.BasicPropertyAccessor$BasicGetter get</sentence>
+            <sentence id="14.2">SEVERE: IllegalArgumentException in class: com.mycompany.Attribute, getter method of property: id</sentence>
+            <sentence id="14.3">org.hibernate.PropertyAccessException: IllegalArgumentException occurred calling getter of com.mycompany.Attribute.id</sentence>
+            <sentence id="14.4">	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.get(BasicPropertyAccessor.java:171)</sentence>
+            <sentence id="14.5">	at org.hibernate.tuple.entity.AbstractEntityTuplizer.getIdentifier(AbstractEntityTuplizer.java:183)</sentence>
+            <sentence id="14.6">	at org.hibernate.persister.entity.AbstractEntityPersister.getIdentifier(AbstractEntityPersister.java:3591)</sentence>
+            <sentence id="14.7">	at org.hibernate.persister.entity.AbstractEntityPersister.isTransient(AbstractEntityPersister.java:3307)</sentence>
+            <sentence id="14.8">	at org.hibernate.engine.ForeignKeys.isTransient(ForeignKeys.java:181)</sentence>
+            <sentence id="14.9">	at org.hibernate.engine.ForeignKeys$Nullifier.isNullifiable(ForeignKeys.java:137)</sentence>
+            <sentence id="14.10">	at org.hibernate.engine.ForeignKeys$Nullifier.nullifyTransientReferences(ForeignKeys.java:69)</sentence>
+            <sentence id="14.11">	at org.hibernate.engine.ForeignKeys$Nullifier.nullifyTransientReferences(ForeignKeys.java:47)</sentence>
+            <sentence id="14.12">	at org.hibernate.event.def.DefaultDeleteEventListener.deleteEntity(DefaultDeleteEventListener.java:248)</sentence>
+            <sentence id="14.13">	at org.hibernate.event.def.DefaultDeleteEventListener.onDelete(DefaultDeleteEventListener.java:141)</sentence>
+            <sentence id="14.14">	at org.hibernate.impl.SessionImpl.fireDelete(SessionImpl.java:775)</sentence>
+            <sentence id="14.15">	at org.hibernate.impl.SessionImpl.delete(SessionImpl.java:758)</sentence>
+            <sentence id="14.16">	at org.hibernate.engine.CascadingAction$2.cascade(CascadingAction.java:121)</sentence>
+            <sentence id="14.17">	at org.hibernate.engine.Cascade.cascadeToOne(Cascade.java:268)</sentence>
+            <sentence id="14.18">	at org.hibernate.engine.Cascade.cascadeAssociation(Cascade.java:216)</sentence>
+            <sentence id="14.19">	at org.hibernate.engine.Cascade.cascadeProperty(Cascade.java:169)</sentence>
+            <sentence id="14.20">	at org.hibernate.engine.Cascade.cascadeCollectionElements(Cascade.java:296)</sentence>
+            <sentence id="14.21">	at org.hibernate.engine.Cascade.cascadeCollection(Cascade.java:242)</sentence>
+            <sentence id="14.22">	at org.hibernate.engine.Cascade.cascadeAssociation(Cascade.java:219)</sentence>
+            <sentence id="14.23">	at org.hibernate.engine.Cascade.cascadeProperty(Cascade.java:169)</sentence>
+            <sentence id="14.24">	at org.hibernate.engine.Cascade.cascade(Cascade.java:130)</sentence>
+            <sentence id="14.25">	at org.hibernate.event.def.DefaultDeleteEventListener.cascadeBeforeDelete(DefaultDeleteEventListener.java:307)</sentence>
+            <sentence id="14.26">	at org.hibernate.event.def.DefaultDeleteEventListener.deleteEntity(DefaultDeleteEventListener.java:246)</sentence>
+            <sentence id="14.27">	at org.hibernate.event.def.DefaultDeleteEventListener.onDelete(DefaultDeleteEventListener.java:141)</sentence>
+            <sentence id="14.28">	at org.hibernate.event.def.DefaultDeleteEventListener.onDelete(DefaultDeleteEventListener.java:52)</sentence>
+            <sentence id="14.29">	at org.hibernate.impl.SessionImpl.fireDelete(SessionImpl.java:766)</sentence>
+            <sentence id="14.30">	at org.hibernate.impl.SessionImpl.delete(SessionImpl.java:744)</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">I've tried many versions of hibernate using test from attachment 
+( mvn -Dhibernate.version=&lt;version&gt; clean compile test ) and I think that  
+bug was introduced between 3.2.0.</sentence>
+            <sentence id="15.2">ga and 3.2.1.</sentence>
+            <sentence id="15.3">ga</sentence>
+        </paragraph>
+    </description>
+</bug>

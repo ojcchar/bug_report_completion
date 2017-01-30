@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10666</id>
+    <title>ScriptTargetOutputToFile enforces file append</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">ScriptTargetOutputToFile
+line 46 was changed from 
+return new FileWriter( file);
+to
+return new FileWriter( file, true );</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Which causes that hibernate scheema generator keeps appending to ddl file.</sentence>
+            <sentence id="2.2">It doesn't make much sense to me.</sentence>
+            <sentence id="2.3">Would be nice to rollback to original behavior - override previous schema DDL.</sentence>
+            <sentence id="2.4">Or at least make it configurable.</sentence>
+        </paragraph>
+    </description>
+</bug>

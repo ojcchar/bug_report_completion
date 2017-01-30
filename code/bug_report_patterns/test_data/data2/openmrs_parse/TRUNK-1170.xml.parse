@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1170</id>
+    <title>Error in running Report Template Module</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Module was installed and upon clicking the "Add Template" in the "Report Template Module" Group in the Administration, the error below came out:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">An Internal Error has Occurred
+org.apache.jasper.JasperException
+/WEB-INF/view/module/reporttemplate/reportTemplateForm.</sentence>
+            <sentence id="2.2">jsp(3,0) /WEB-INF/view/module/reporttemplate/localHeader.</sentence>
+            <sentence id="2.3">jsp(9,21) Attribute value request.getRequestURI().</sentence>
+            <sentence id="2.4">contains("reporttemplate/reportTemplate.</sentence>
+            <sentence id="2.5">list") is quoted with " which must be escaped when used within the value</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Consult the help document.</sentence>
+            <sentence id="3.2">Contact your friendly neighborhood administrator if it cannot be resolved.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Hide stack trace</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">{code}** Root cause is: /WEB-INF/view/module/reporttemplate/reportTemplateForm.jsp(3,0) /WEB-INF/view/module/reporttemplate/localHeader.jsp(9,21) Attribute value request.getRequestURI().contains("reporttemplate/reportTemplate.list") is quoted with " which must be escaped when used within the value org.apache.jasper.compiler.DefaultErrorHandler.jspError(DefaultErrorHandler.java:40)</sentence>
+            <sentence id="5.2">org.apache.jasper.compiler.ErrorDispatcher.dispatch(ErrorDispatcher.java:407)</sentence>
+            <sentence id="5.3">org.apache.jasper.compiler.ErrorDispatcher.jspError(ErrorDispatcher.java:88)</sentence>
+            <sentence id="5.4">org.apache.jasper.compiler.Parser.processIncludeDirective(Parser.java:345)</sentence>
+            <sentence id="5.5">org.apache.jasper.compiler.Parser.parseIncludeDirective(Parser.java:378)</sentence>
+            <sentence id="5.6">org.apache.jasper.compiler.Parser.parseDirective(Parser.java:486)</sentence>
+            <sentence id="5.7">org.apache.jasper.compiler.Parser.parseElements(Parser.java:1444)</sentence>
+            <sentence id="5.8">org.apache.jasper.compiler.Parser.parse(Parser.java:138)</sentence>
+            <sentence id="5.9">org.apache.jasper.compiler.ParserController.doParse(ParserController.java:216)</sentence>
+            <sentence id="5.10">org.apache.jasper.compiler.ParserController.parse(ParserController.java:103)</sentence>
+            <sentence id="5.11">org.apache.jasper.compiler.Compiler.generateJava(Compiler.java:154)</sentence>
+            <sentence id="5.12">org.apache.jasper.compiler.Compiler.compile(Compiler.java:315)</sentence>
+            <sentence id="5.13">org.apache.jasper.compiler.Compiler.compile(Compiler.java:295)</sentence>
+            <sentence id="5.14">org.apache.jasper.compiler.Compiler.compile(Compiler.java:282)</sentence>
+            <sentence id="5.15">org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:586)</sentence>
+            <sentence id="5.16">org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:317)</sentence>
+            <sentence id="5.17">org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:342)</sentence>
+            <sentence id="5.18">org.apache.jasper.servlet.JspServlet.service(JspServlet.java:267)</sentence>
+            <sentence id="5.19">javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+            <sentence id="5.20">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+            <sentence id="5.21">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.22">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:70)</sentence>
+            <sentence id="5.23">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="5.24">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.25">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:70)</sentence>
+            <sentence id="5.26">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="5.27">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.28">org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:630)</sentence>
+            <sentence id="5.29">org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:436)</sentence>
+            <sentence id="5.30">org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:374)</sentence>
+            <sentence id="5.31">org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:302)</sentence>
+            <sentence id="5.32">org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:236)</sentence>
+            <sentence id="5.33">org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:257)</sentence>
+            <sentence id="5.34">org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1183)</sentence>
+            <sentence id="5.35">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:902)</sentence>
+            <sentence id="5.36">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:807)</sentence>
+            <sentence id="5.37">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:571)</sentence>
+            <sentence id="5.38">org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:501)</sentence>
+            <sentence id="5.39">javax.servlet.http.HttpServlet.service(HttpServlet.java:617)</sentence>
+            <sentence id="5.40">javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+            <sentence id="5.41">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+            <sentence id="5.42">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.43">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+            <sentence id="5.44">org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+            <sentence id="5.45">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="5.46">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.47">org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:112)</sentence>
+            <sentence id="5.48">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+            <sentence id="5.49">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="5.50">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.51">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+            <sentence id="5.52">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+            <sentence id="5.53">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="5.54">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.55">org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:96)</sentence>
+            <sentence id="5.56">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)</sentence>
+            <sentence id="5.57">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="5.58">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.59">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:82)</sentence>
+            <sentence id="5.60">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="5.61">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.62">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:82)</sentence>
+            <sentence id="5.63">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="5.64">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="5.65">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+            <sentence id="5.66">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</sentence>
+            <sentence id="5.67">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:128)</sentence>
+            <sentence id="5.68">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+            <sentence id="5.69">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+            <sentence id="5.70">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:286)</sentence>
+            <sentence id="5.71">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:845)</sentence>
+            <sentence id="5.72">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:583)</sentence>
+            <sentence id="5.73">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:447)</sentence>
+            <sentence id="5.74">java.lang.Thread.run(Thread.java:636)</sentence>
+            <sentence id="5.75">{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">OpenMRS Version: 1.5.0 Build 10342</sentence>
+        </paragraph>
+    </description>
+</bug>

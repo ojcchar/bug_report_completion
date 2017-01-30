@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>297946</id>
+    <title>ConcurrentModificationException during annotation hover.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build Identifier: I20090611-1540</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This is randomly observable during every day usage although not that frequently.</sentence>
+            <sentence id="2.2">It seems that the xtext validation job and the annotation hover are both concurrently accessing the document.</sentence>
+            <sentence id="2.3">I accidentally wrote a broken validator and figured out how to reproduce it!</sentence>
+            <sentence id="2.4">Stack trace:-</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Caused by: java.util.ConcurrentModificationException</sentence>
+            <sentence id="3.2">at java.util.AbstractList$Itr.checkForComodification(Unknown Source)</sentence>
+            <sentence id="3.3">at java.util.AbstractList$Itr.next(Unknown Source)</sentence>
+            <sentence id="3.4">at java.util.SubList$1.next(Unknown Source)</sentence>
+            <sentence id="3.5">at</sentence>
+            <sentence id="3.6">org.eclipse.jface.text.AbstractDocument.getPositions(AbstractDocument.java:1715)</sentence>
+            <sentence id="3.7">at</sentence>
+            <sentence id="3.8">org.eclipse.jface.text.source.AnnotationModel.getRegionAnnotationIterator(AnnotationModel.java:737)</sentence>
+            <sentence id="3.9">at</sentence>
+            <sentence id="3.10">org.eclipse.jface.text.source.AnnotationModel.getAnnotationIterator(AnnotationModel.java:699)</sentence>
+            <sentence id="3.11">at</sentence>
+            <sentence id="3.12">org.eclipse.jface.text.source.AnnotationModel.getAnnotationIterator(AnnotationModel.java:710)</sentence>
+            <sentence id="3.13">at</sentence>
+            <sentence id="3.14">org.eclipse.jface.text.source.AnnotationRulerColumn.doPaint1(AnnotationRulerColumn.java:718)</sentence>
+            <sentence id="3.15">at</sentence>
+            <sentence id="3.16">org.eclipse.jface.text.source.AnnotationRulerColumn.doubleBufferPaint(AnnotationRulerColumn.java:532)</sentence>
+            <sentence id="3.17">at</sentence>
+            <sentence id="3.18">org.eclipse.jface.text.source.AnnotationRulerColumn.redraw(AnnotationRulerColumn.java:811)</sentence>
+            <sentence id="3.19">at</sentence>
+            <sentence id="3.20">org.eclipse.jface.text.source.AnnotationRulerColumn$6.run(AnnotationRulerColumn.java:798)</sentence>
+            <sentence id="3.21">at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)</sentence>
+            <sentence id="3.22">at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:134)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Reproducible: Sometimes</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Steps to Reproduce:</sentence>
+            <sentence id="5.2">Under normal use you *may* see this randomly if you happen hover your mouse in the margin when a custom validator is asynchronously updating the document's annotations (or so it seems).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">You can reproduce quite easily with the following recipe.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">1 Create a sample xtext project.</sentence>
+            <sentence id="7.2">2 Add the following to MyDslJavaValidator to increase the chances of failure to about 100%</sentence>
+            <sentence id="7.3">@Check</sentence>
+            <sentence id="7.4">public void checkCanCrashIt(final Type type) {</sentence>
+            <sentence id="7.5">for (int i = 0; i &lt; 5000; i++) {</sentence>
+            <sentence id="7.6">error("boom", type, MyDslPackage.TYPE__NAME);</sentence>
+            <sentence id="7.7">}</sentence>
+            <sentence id="7.8">}</sentence>
+            <sentence id="7.9">3 Now launch eclipse + dsl editor</sentence>
+            <sentence id="7.10">4 Show the error log.</sentence>
+            <sentence id="7.11">5 Now try and break it as follows:-</sentence>
+            <sentence id="7.12">5a.Open a dsl/xtext editor with some content which will provoke the validator.</sentence>
+            <sentence id="7.13">5b.Make a minor edit.</sentence>
+            <sentence id="7.14">5c.This will trigger the Xtext validation which you can see running as a job in the status bar.</sentence>
+            <sentence id="7.15">Try to place the mouse cursor in the margin whilst this task is running.</sentence>
+            <sentence id="7.16">Its important that this happens during the validation job.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Provided you get the timing right rather than an annotation hover you'll get the concurrent modification exception logged.</sentence>
+            <sentence id="8.2">After this occurs the editor's annotation hover is 'dead' and doesn't recover until you close/reopen the editor.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">NB It might be wise to kill the spawned eclipse rather than close it or else your test workspace attempts to (de)serialize all the errors which doesn't do it any favours.</sentence>
+        </paragraph>
+    </description>
+</bug>

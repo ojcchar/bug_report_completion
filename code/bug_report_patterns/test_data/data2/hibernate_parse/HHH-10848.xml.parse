@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10848</id>
+    <title> CriteriaBuilder trim over concatination doesn't work in selectCase clause</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Using the same clause
+{code:java}
+cb.trim(cb.concat("."</sentence>
+            <sentence id="1.2">,cb.literal("Test   ")))
+{code}
+in selectCase and outside behaves different.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">So using such query:
+{code:java}
+CriteriaBuilder cb = em.getCriteriaBuilder();
+CriteriaQuery&lt;SomeEntity&gt; c = cb.createQuery(SomeEntity.class);
+Root&lt;SomeEntity&gt; r = c.from(SomeEntity.class);
+c.multiselect(cb.selectCase().</sentence>
+            <sentence id="2.2">when(cb.isNotNull(r.get("someprop")),cb.trim(cb.concat("."</sentence>
+            <sentence id="2.3">,cb.literal("Test   "))))), cb.trim(cb.concat("."</sentence>
+            <sentence id="2.4">,cb.literal("Test   "))));
+....
+{code}
+The output result will be something like:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{code:java}
+".</sentence>
+            <sentence id="3.2">Test  Test"
+{code}                                                     ",".</sentence>
+            <sentence id="3.3">
+So the value in selectCase will not be trimmed.</sentence>
+        </paragraph>
+    </description>
+</bug>

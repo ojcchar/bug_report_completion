@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24679</id>
+    <title>[1.12 rc4]service discovery failed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">now i create two service and network like this</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+ docker network create --driver overlay mynet
+ docker service create --network mynet --name redis redis
+ docker service create --network mynet --name web my-web
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">now i try to connect redis server in my web server but failed</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+➜ ~ docker exec -it web.1.4i3r3f3djfgpwmtkc6kivacvf sh
+# ping redis
+PING redis (10.0.0.2): 56 data bytes
+92 bytes from f8c0f07ea3e3 (10.0.0.5): Destination Host Unreachable
+92 bytes from f8c0f07ea3e3 (10.0.0.5): Destination Host Unreachable
+92 bytes from f8c0f07ea3e3 (10.0.0.5): Destination Host Unreachable
+92 bytes from f8c0f07ea3e3 (10.0.0.5): Destination Host Unreachable
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">because the redis container ip is changed</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'</sentence>
+            <sentence id="6.2">➜ ~ docker exec -it redis.1.6y9v4qwgd68b1e4b04khxl754 sh</sentence>
+            <sentence id="6.3"># ip a</sentence>
+            <sentence id="6.4">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default</sentence>
+            <sentence id="6.5"> link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</sentence>
+            <sentence id="6.6"> inet 127.0.0.1/8 scope host lo</sentence>
+            <sentence id="6.7"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="6.8"> inet6 ::1/128 scope host</sentence>
+            <sentence id="6.9"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="6.10">68: eth0@if69: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1450 qdisc noqueue state UP group default</sentence>
+            <sentence id="6.11"> link/ether 02:42:0a:00:00:03 brd ff:ff:ff:ff:ff:ff</sentence>
+            <sentence id="6.12"> inet 10.0.0.3/24 scope global eth0</sentence>
+            <sentence id="6.13"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="6.14"> inet6 fe80::42:aff:fe00:3/64 scope link</sentence>
+            <sentence id="6.15"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="6.16">70: eth1@if71: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</sentence>
+            <sentence id="6.17"> link/ether 02:42:ac:12:00:03 brd ff:ff:ff:ff:ff:ff</sentence>
+            <sentence id="6.18"> inet 172.18.0.3/16 scope global eth1</sentence>
+            <sentence id="6.19"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="6.20"> inet6 fe80::42:acff:fe12:3/64 scope link</sentence>
+            <sentence id="6.21"> valid_lft forever preferred_lft forever</sentence>
+            <sentence id="6.22">"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**docker version**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'</sentence>
+            <sentence id="8.2">➜ ~ docker info</sentence>
+            <sentence id="8.3">Containers: 1</sentence>
+            <sentence id="8.4"> Running: 1</sentence>
+            <sentence id="8.5"> Paused: 0</sentence>
+            <sentence id="8.6"> Stopped: 0</sentence>
+            <sentence id="8.7">Images: 2</sentence>
+            <sentence id="8.8">Server Version: 1.12.0-rc4</sentence>
+            <sentence id="8.9">Storage Driver: devicemapper</sentence>
+            <sentence id="8.10"> Pool Name: docker-253:0-34333044-pool</sentence>
+            <sentence id="8.11"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="8.12"> Base Device Size: 10.74 GB</sentence>
+            <sentence id="8.13"> Backing Filesystem: xfs</sentence>
+            <sentence id="8.14"> Data file: /dev/loop0</sentence>
+            <sentence id="8.15"> Metadata file: /dev/loop1</sentence>
+            <sentence id="8.16"> Data Space Used: 959.6 MB</sentence>
+            <sentence id="8.17"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="8.18"> Data Space Available: 17.27 GB</sentence>
+            <sentence id="8.19"> Metadata Space Used: 2.425 MB</sentence>
+            <sentence id="8.20"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="8.21"> Metadata Space Available: 2.145 GB</sentence>
+            <sentence id="8.22"> Thin Pool Minimum Free Space: 10.74 GB</sentence>
+            <sentence id="8.23"> Udev Sync Supported: true</sentence>
+            <sentence id="8.24"> Deferred Removal Enabled: false</sentence>
+            <sentence id="8.25"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="8.26"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="8.27"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="8.28"> WARNING: Usage of loopback devices is strongly discouraged for production use. Use '--storage-opt dm.thinpooldev' to specify a custom block storage device.</sentence>
+            <sentence id="8.29"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="8.30"> Library Version: 1.02.107-RHEL7 (2015-10-14)</sentence>
+            <sentence id="8.31">Logging Driver: json-file</sentence>
+            <sentence id="8.32">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="8.33">Plugins:</sentence>
+            <sentence id="8.34"> Volume: local</sentence>
+            <sentence id="8.35"> Network: overlay bridge null host</sentence>
+            <sentence id="8.36">Swarm: active</sentence>
+            <sentence id="8.37"> NodeID: 3q9rse4k6v0jlf12hb68fuelr</sentence>
+            <sentence id="8.38"> IsManager: No</sentence>
+            <sentence id="8.39">Runtimes: runc</sentence>
+            <sentence id="8.40">Default Runtime: runc</sentence>
+            <sentence id="8.41">Security Options: seccomp</sentence>
+            <sentence id="8.42">Kernel Version: 3.10.0-327.el7.x86_64</sentence>
+            <sentence id="8.43">Operating System: CentOS Linux 7 (Core)</sentence>
+            <sentence id="8.44">OSType: linux</sentence>
+            <sentence id="8.45">Architecture: x86_64</sentence>
+            <sentence id="8.46">CPUs: 2</sentence>
+            <sentence id="8.47">Total Memory: 3.703 GiB</sentence>
+            <sentence id="8.48">Name: localhost</sentence>
+            <sentence id="8.49">ID: PD5B:R7W4:Q64C:X5VW:ET6Q:OFQP:GFYE:5NYG:V3DU:XS5Q:B6UL:RWIV</sentence>
+            <sentence id="8.50">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="8.51">Debug Mode (client): false</sentence>
+            <sentence id="8.52">Debug Mode (server): true</sentence>
+            <sentence id="8.53"> File Descriptors: 42</sentence>
+            <sentence id="8.54"> Goroutines: 101</sentence>
+            <sentence id="8.55"> System Time: 2016-07-15T05:15:55.033930206-04:00</sentence>
+            <sentence id="8.56"> EventsListeners: 1</sentence>
+            <sentence id="8.57">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="8.58">WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+            <sentence id="8.59">Experimental: true</sentence>
+            <sentence id="8.60">Insecure Registries:</sentence>
+            <sentence id="8.61"> 127.0.0.0/8</sentence>
+            <sentence id="8.62">"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**service redis**</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'</sentence>
+            <sentence id="10.2">➜ ~ docker service inspect redis</sentence>
+            <sentence id="10.3">[</sentence>
+            <sentence id="10.4"> {</sentence>
+            <sentence id="10.5"> "ID": "8jiozk9zwwm3ujry15kgn0alh",</sentence>
+            <sentence id="10.6"> "Version": {</sentence>
+            <sentence id="10.7"> "Index": 224</sentence>
+            <sentence id="10.8"> },</sentence>
+            <sentence id="10.9"> "CreatedAt": "2016-07-15T08:33:11.804914778Z",</sentence>
+            <sentence id="10.10"> "UpdatedAt": "2016-07-15T08:33:11.808655794Z",</sentence>
+            <sentence id="10.11"> "Spec": {</sentence>
+            <sentence id="10.12"> "Name": "redis",</sentence>
+            <sentence id="10.13"> "TaskTemplate": {</sentence>
+            <sentence id="10.14"> "ContainerSpec": {</sentence>
+            <sentence id="10.15"> "Image": "redis"</sentence>
+            <sentence id="10.16"> },</sentence>
+            <sentence id="10.17"> "Resources": {</sentence>
+            <sentence id="10.18"> "Limits": {},</sentence>
+            <sentence id="10.19"> "Reservations": {}</sentence>
+            <sentence id="10.20"> },</sentence>
+            <sentence id="10.21"> "RestartPolicy": {</sentence>
+            <sentence id="10.22"> "Condition": "any",</sentence>
+            <sentence id="10.23"> "MaxAttempts": 0</sentence>
+            <sentence id="10.24"> },</sentence>
+            <sentence id="10.25"> "Placement": {}</sentence>
+            <sentence id="10.26"> },</sentence>
+            <sentence id="10.27"> "Mode": {</sentence>
+            <sentence id="10.28"> "Replicated": {</sentence>
+            <sentence id="10.29"> "Replicas": 1</sentence>
+            <sentence id="10.30"> }</sentence>
+            <sentence id="10.31"> },</sentence>
+            <sentence id="10.32"> "UpdateConfig": {},</sentence>
+            <sentence id="10.33"> "Networks": [</sentence>
+            <sentence id="10.34"> {</sentence>
+            <sentence id="10.35"> "Target": "28om24odrwbevea8kuwww7kpb"</sentence>
+            <sentence id="10.36"> }</sentence>
+            <sentence id="10.37"> ],</sentence>
+            <sentence id="10.38"> "EndpointSpec": {</sentence>
+            <sentence id="10.39"> "Mode": "vip"</sentence>
+            <sentence id="10.40"> }</sentence>
+            <sentence id="10.41"> },</sentence>
+            <sentence id="10.42"> "Endpoint": {</sentence>
+            <sentence id="10.43"> "Spec": {</sentence>
+            <sentence id="10.44"> "Mode": "vip"</sentence>
+            <sentence id="10.45"> },</sentence>
+            <sentence id="10.46"> "VirtualIPs": [</sentence>
+            <sentence id="10.47"> {</sentence>
+            <sentence id="10.48"> "NetworkID": "28om24odrwbevea8kuwww7kpb",</sentence>
+            <sentence id="10.49"> "Addr": "10.0.0.2/24"</sentence>
+            <sentence id="10.50"> }</sentence>
+            <sentence id="10.51"> ]</sentence>
+            <sentence id="10.52"> }</sentence>
+            <sentence id="10.53"> }</sentence>
+            <sentence id="10.54">]</sentence>
+            <sentence id="10.55">"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**service web**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"'</sentence>
+            <sentence id="12.2">➜ ~ docker service inspect web</sentence>
+            <sentence id="12.3">[</sentence>
+            <sentence id="12.4"> {</sentence>
+            <sentence id="12.5"> "ID": "9zx2r9jpxrb04vsx8mdn10oe2",</sentence>
+            <sentence id="12.6"> "Version": {</sentence>
+            <sentence id="12.7"> "Index": 233</sentence>
+            <sentence id="12.8"> },</sentence>
+            <sentence id="12.9"> "CreatedAt": "2016-07-15T08:35:29.858726294Z",</sentence>
+            <sentence id="12.10"> "UpdatedAt": "2016-07-15T08:35:29.86259807Z",</sentence>
+            <sentence id="12.11"> "Spec": {</sentence>
+            <sentence id="12.12"> "Name": "web",</sentence>
+            <sentence id="12.13"> "TaskTemplate": {</sentence>
+            <sentence id="12.14"> "ContainerSpec": {</sentence>
+            <sentence id="12.15"> "Image": "demoregistry.dataman-inc.com/library/yaoyun-web:0711"</sentence>
+            <sentence id="12.16"> },</sentence>
+            <sentence id="12.17"> "Resources": {</sentence>
+            <sentence id="12.18"> "Limits": {},</sentence>
+            <sentence id="12.19"> "Reservations": {}</sentence>
+            <sentence id="12.20"> },</sentence>
+            <sentence id="12.21"> "RestartPolicy": {</sentence>
+            <sentence id="12.22"> "Condition": "any",</sentence>
+            <sentence id="12.23"> "MaxAttempts": 0</sentence>
+            <sentence id="12.24"> },</sentence>
+            <sentence id="12.25"> "Placement": {}</sentence>
+            <sentence id="12.26"> },</sentence>
+            <sentence id="12.27"> "Mode": {</sentence>
+            <sentence id="12.28"> "Replicated": {</sentence>
+            <sentence id="12.29"> "Replicas": 1</sentence>
+            <sentence id="12.30"> }</sentence>
+            <sentence id="12.31"> },</sentence>
+            <sentence id="12.32"> "UpdateConfig": {},</sentence>
+            <sentence id="12.33"> "Networks": [</sentence>
+            <sentence id="12.34"> {</sentence>
+            <sentence id="12.35"> "Target": "28om24odrwbevea8kuwww7kpb"</sentence>
+            <sentence id="12.36"> }</sentence>
+            <sentence id="12.37"> ],</sentence>
+            <sentence id="12.38"> "EndpointSpec": {</sentence>
+            <sentence id="12.39"> "Mode": "vip"</sentence>
+            <sentence id="12.40"> }</sentence>
+            <sentence id="12.41"> },</sentence>
+            <sentence id="12.42"> "Endpoint": {</sentence>
+            <sentence id="12.43"> "Spec": {</sentence>
+            <sentence id="12.44"> "Mode": "vip"</sentence>
+            <sentence id="12.45"> },</sentence>
+            <sentence id="12.46"> "VirtualIPs": [</sentence>
+            <sentence id="12.47"> {</sentence>
+            <sentence id="12.48"> "NetworkID": "28om24odrwbevea8kuwww7kpb",</sentence>
+            <sentence id="12.49"> "Addr": "10.0.0.4/24"</sentence>
+            <sentence id="12.50"> }</sentence>
+            <sentence id="12.51"> ]</sentence>
+            <sentence id="12.52"> }</sentence>
+            <sentence id="12.53"> }</sentence>
+            <sentence id="12.54">]</sentence>
+            <sentence id="12.55">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

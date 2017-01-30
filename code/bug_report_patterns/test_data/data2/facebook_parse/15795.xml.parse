@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>15795</id>
+    <title>fetching  platformrequests  using graph API is limited to 25</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi_ we use a scheme like below to fetch and delete platform requests_ i.e. invites.</sentence>
+            <sentence id="1.2">We have found the request to fetch these is limited to 25.</sentence>
+            <sentence id="1.3">This is problematic because we use these to determine the gifts to credit for the user.</sentence>
+            <sentence id="1.4">Also_ when we do the DELETE it removes ALL requests so we can never give credit for any of those gifts above the 25 limit.</sentence>
+            <sentence id="1.5">Can you please confirm this and either allow returning ALL requests?</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">$request_url = https://graph.facebook.com/  .</sentence>
+            <sentence id="2.2">$user_id .</sentence>
+            <sentence id="2.3">/platformrequests?</sentence>
+            <sentence id="2.4">.</sentence>
+            <sentence id="2.5">$access_token;</sentence>
+        </paragraph>
+    </description>
+</bug>

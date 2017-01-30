@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24672</id>
+    <title>Error while starting docker: 'Failed to create Switch "DockerNAT": Element not found.'</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When trying to start Docker for Windows it gives the error 'Failed to create Switch "DockerNAT": Element not found.'</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Could not generate this because the docker service does not start.</sentence>
+            <sentence id="3.2">Version is '1.12.0-rc4-beta19 (build: 5465) c84feba'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Could not generate this because the docker service does not start.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Running on Windows 10 Pro - 10.0.10586 Build 10586</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Error dialog pops up with 'An error occured' and showing details:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'
+Failed to create Switch "DockerNAT": Element not found.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1"> at Docker.Core.Pipe.NamedPipeClient.TrySend(String action, Object[] parameters)</sentence>
+            <sentence id="11.2"> at Docker.Core.Pipe.NamedPipeClient.Send(String action, Object[] parameters)</sentence>
+            <sentence id="11.3"> at Docker.Core.Backend.BackendClient.Start(Settings settings)</sentence>
+            <sentence id="11.4"> at Docker.Actions.&lt;&gt;c__DisplayClass28_0.&lt;RestartVm&gt;b__0()</sentence>
+            <sentence id="11.5"> at Docker.Core.TaskQueue.&lt;.ctor&gt;b__16_0()</sentence>
+            <sentence id="11.6">"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Describe the results you expected:**</sentence>
+            <sentence id="12.2">Docker services starts</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="13.2">- 'Reset to factory defaults...' does not resolve the issue</sentence>
+            <sentence id="13.3">- Re-installing does not help</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">See log file:
+[log-2016-07-15_09-24-21.</sentence>
+            <sentence id="14.2">txt](https://github.com/docker/docker/files/365464/log-2016-07-15_09-24-21.txt)</sentence>
+        </paragraph>
+    </description>
+</bug>

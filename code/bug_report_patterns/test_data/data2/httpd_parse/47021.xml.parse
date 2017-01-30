@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>47021</id>
+    <title>A new MPM (security) and mod_selinux module</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We intend to execute web-applications under the restrictive privileges (necessary minimum, if possible) to prevent system resources are unexpectedly accessed using buggy web-applications.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The new MPM (security) spawns a one-time process for each connection, and it gives third-party modules a chance to assign individual privileges prior to invocation of content handlers.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The existing MPM reuses a process or thread to handle multiple requests more than once.</sentence>
+            <sentence id="3.2">It gives us benefit from the perspective of performance, but it also gives us a headache issue.</sentence>
+            <sentence id="3.3">Some of enhanced security mechanism (such as SELinux) does not allow processes to revert its privileges, even if it is dynamically changed, so it means we cannot reuse a process which already handled a request at least.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The mod_selinux is a proof of concept.</sentence>
+            <sentence id="4.2">It assigns individual security context (privileges in SELinux) based on the result of http-authentication, prior to the invocation of web-application but after the authentication.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The MPM is implemented based on the prefork with a bit of hacks.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">- httpd-mpm_security-copied.090414.</sentence>
+            <sentence id="6.2">patch</sentence>
+            <sentence id="6.3">It is just a copy from prefork/ to security/.</sentence>
+            <sentence id="6.4">- httpd-mpm_security-modified.090414.</sentence>
+            <sentence id="6.5">patch</sentence>
+            <sentence id="6.6">It is a differences from the original prefork.</sentence>
+            <sentence id="6.7">- httpd-mod_selinux.090414.</sentence>
+            <sentence id="6.8">patch</sentence>
+            <sentence id="6.9">It is the implementation of mod_selinux module</sentence>
+        </paragraph>
+    </description>
+</bug>

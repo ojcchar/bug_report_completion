@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9295</id>
+    <title>/etc/hostname Device or resource busy</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I am using Chef to update '/etc/hostname' and '/etc/hosts' which fails with this error:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">Errno::EBUSY</sentence>
+            <sentence id="2.3">------------</sentence>
+            <sentence id="2.4">Device or resource busy - (/tmp/.</sentence>
+            <sentence id="2.5">hostname20141123-16-kyb4i1, /etc/hostname)</sentence>
+            <sentence id="2.6">"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This was supposedly [fixed](https://github.com/docker/docker/pull/5129) in 1.2.0.</sentence>
+            <sentence id="3.2">Any ideas what I could be doing wrong or if this is a regression?</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I am running on OS X 10.10 via boot2docker on Ubuntu 12.04.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Here are some more environment details:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+$ uname -a
+Darwin serafina.local 14.0.0 Darwin Kernel Version 14.0.0: Tue Sep 23 23:01:41 PDT 2014; root:xnu-2782.1.97~6/RELEASE_X86_64 x86_64</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">$ docker version
+Client version: 1.3.0
+Client API version: 1.15
+Go version (client): go1.3.3
+Git commit (client): c78088f
+OS/Arch (client): darwin/amd64
+Server version: 1.3.1
+Server API version: 1.15
+Go version (server): go1.3.3
+Git commit (server): 4e9bbfa</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">$ docker -D info
+Containers: 0
+Images: 11
+Storage Driver: aufs
+ Root Dir: /mnt/sda1/var/lib/docker/aufs
+ Dirs: 11
+Execution Driver: native-0.2
+Kernel Version: 3.16.4-tinycore64
+Operating System: Boot2Docker 1.3.1 (TCL 5.4); master : 9a31a68 - Fri Oct 31 03:14:34 UTC 2014
+Debug mode (server): true
+Debug mode (client): true
+Fds: 10
+Goroutines: 13
+EventsListeners: 0
+Init Path: /usr/local/bin/docker
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

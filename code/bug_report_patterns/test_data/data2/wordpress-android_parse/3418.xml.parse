@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3418</id>
+    <title>App acts weird if you're not an Editor or Admin on all of your blogs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">A user reported that the app is unresponsive and sometime lags or exposes unexpected behavior if hte user logged in isn't an Admin or Editor on all sites.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&gt; also the login shows an odd behaviour: After entering my credentials at the login page the app shows a black screen for some moments then again requests the credentials, and again, and again, ...
+&gt; But if I cancel the login request I actually enter the app and my site/statistics/...</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here's the log that shows some 403 and 401 errors:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">WordPress Android version: 4.6
+Android device name: Samsung GT-I8160</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'</sentence>
+            <sentence id="5.2">01 - WordPress.onCreate</sentence>
+            <sentence id="5.3">02 - trackLastActivity, activityId: Me</sentence>
+            <sentence id="5.4">03 - App comes from background</sentence>
+            <sentence id="5.5">04 - ConnectionChangeReceiver.setEnabled true</sentence>
+            <sentence id="5.6">05 - Connection status changed, isConnected=true</sentence>
+            <sentence id="5.7">06 - Deferred Initialisation</sentence>
+            <sentence id="5.8">07 - Already registered for GCM</sentence>
+            <sentence id="5.9">08 - Configuring Simperium</sentence>
+            <sentence id="5.10">09 - Number of old stats deleted : 11</sentence>
+            <sentence id="5.11">10 - Response document received from the server: &lt;?xml version="1.0" encoding="UTF-8"?&gt;</sentence>
+            <sentence id="5.12">&lt;methodResponse&gt;</sentence>
+            <sentence id="5.13"> &lt;fault&gt;</sentence>
+            <sentence id="5.14"> &lt;value&gt;</sentence>
+            <sentence id="5.15"> &lt;struct&gt;</sentence>
+            <sentence id="5.16"> &lt;member&gt;</sentence>
+            <sentence id="5.17"> &lt;name&gt;faultCode&lt;/name&gt;</sentence>
+            <sentence id="5.18"> &lt;value&gt;&lt;int&gt;403&lt;/int&gt;&lt;/value&gt;</sentence>
+            <sentence id="5.19"> &lt;/member&gt;</sentence>
+            <sentence id="5.20"> &lt;member&gt;</sentence>
+            <sentence id="5.21"> &lt;name&gt;faultString&lt;/name&gt;</sentence>
+            <sentence id="5.22"> &lt;value&gt;&lt;string&gt;You are not allowed access to details about this site.&lt;/string&gt;&lt;/value&gt;</sentence>
+            <sentence id="5.23"> &lt;/member&gt;</sentence>
+            <sentence id="5.24"> &lt;/struct&gt;</sentence>
+            <sentence id="5.25"> &lt;/value&gt;</sentence>
+            <sentence id="5.26"> &lt;/fault&gt;</sentence>
+            <sentence id="5.27">&lt;/methodResponse&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">11 - NETWORK_XMLRPC - You are not allowed access to details about this site.</sentence>
+            <sentence id="6.2">[Code: 403] - exception: You are not allowed access to details about this site.</sentence>
+            <sentence id="6.3">[Code: 403]
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">and later in the log</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+46 - Response document received from the server: &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;methodResponse&gt;
+ &lt;fault&gt;
+ &lt;value&gt;
+ &lt;struct&gt;
+ &lt;member&gt;
+ &lt;name&gt;faultCode&lt;/name&gt;
+ &lt;value&gt;&lt;int&gt;403&lt;/int&gt;&lt;/value&gt;
+ &lt;/member&gt;
+ &lt;member&gt;
+ &lt;name&gt;faultString&lt;/name&gt;
+ &lt;value&gt;&lt;string&gt;You are not allowed access to details about this site.&lt;/string&gt;&lt;/value&gt;
+ &lt;/member&gt;
+ &lt;/struct&gt;
+ &lt;/value&gt;
+ &lt;/fault&gt;
+&lt;/methodResponse&gt;
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

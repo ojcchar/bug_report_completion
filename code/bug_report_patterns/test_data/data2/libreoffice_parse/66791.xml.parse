@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>66791</id>
+    <title>[FORMATTING] Incorrect application of "Asian text font"</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 82294
+Screenshot</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If I have an East-Asian character in my (predominantly English) document, followed by a quotation mark (opening or closing), the quotation mark takes the font settings from the "Asian text font" section of the style definition.</sentence>
+            <sentence id="2.2">This results in very ugly copy.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Steps to reproduce:</sentence>
+            <sentence id="3.2">1 Type some western text into LO Writer, surrounded by quotation marks (e.g. "sun").</sentence>
+            <sentence id="3.3">2 Move the cursor to before the opening quotation mark, and type (or paste -- the IME is not relevant) an East-Asian character (e.g. 日).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Current behaviour:
+The initial quotation mark takes the settings from "Asian text font" instead of "Western text font".</sentence>
+            <sentence id="4.2">The behaviour is the same if a (normal-width, western) space comes between the East-Asian character and the opening quotation mark.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Expected behaviour:
+The opening quotation mark, being surrounded by a normal-width space on one side, and a Latin letter ("s" in this case) on the other, should take the "Western text font" settings.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The only way to "work-around" this problem is to select the characters that have been rendered incorrectly and manually force the application of the "Western text font" settings.</sentence>
+            <sentence id="6.2">Of course, this breaks if "Clear Direct Formatting" is used.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">It's not clear to me why typing an opening quotation mark immediately after an East-Asian character results in the insertion of Asian punctuation (e.g. 「 or 『).</sentence>
+            <sentence id="7.2">If I wanted Asian punctuation, I would, of course, type Asian punctuation.</sentence>
+            <sentence id="7.3">I don't know if this is connected.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">ask.libreoffice.org link: http://ask.libreoffice.org/en/question/19750/problem-with-full-width-asian-punctuation/</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">May perhaps be linked to this bug: https://bugs.freedesktop.org/show_bug.cgi?id=60106</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">I'm currently using LO Version 4.0.4.2 (Build ID: 400m0(Build:2)) on Linux Mint 14 amd64, but the problem has been around as long as I can remember and on every platform I've tried.</sentence>
+        </paragraph>
+    </description>
+</bug>

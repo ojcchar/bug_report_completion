@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>282037</id>
+    <title>[content assist] erroneous template suggestion</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">1 create an Xtext grammar</sentence>
+            <sentence id="1.2">grammar org.xtext.example.MyDsl with org.eclipse.xtext.common.Terminals</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">generate myDsl "http://www.xtext.org/example/MyDsl"</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Model : mynode=Mynode;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Mynode: name=ID attribute=STRING;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">2 generate the Xtext artifacts, start a runtime workspace and create a model file with content</sentence>
+            <sentence id="5.2">prefix</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">3 in the DSL's properties add a template:</sentence>
+            <sentence id="6.2">Name: NodeTemplate</sentence>
+            <sentence id="6.3">Context: Mynode (for Model it will never be proposed)</sentence>
+            <sentence id="6.4">Description: a Node</sentence>
+            <sentence id="6.5">Pattern: NodeName "Value"</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">4 invoke auto completion after "pre" in the model file, choose the template and press enter - "pre" is deleted and the pattern inserted before "fix"</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">... I guess the template should not be proposed in the first place.</sentence>
+            <sentence id="8.2">No new node starts after pre and neither does the pattern fit the prefix.</sentence>
+        </paragraph>
+    </description>
+</bug>

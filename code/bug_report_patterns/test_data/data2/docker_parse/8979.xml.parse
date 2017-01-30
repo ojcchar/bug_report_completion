@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8979</id>
+    <title>docker-images displays negative virtual size</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I would be fine with this behaviour if it actually increased the physical capacity of my hard drive.</sentence>
+            <sentence id="1.2">Thus you can either interpret this as a bug report or as a feature request.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;pre&gt;
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
+//scrubbed// latest b82c34c9b7a6 48 minutes ago -2.147e+09 B
+//scrubbed// latest 82640edb0178 About an hour ago -2.147e+09 B
+//scrubbed// latest 9fc9d6285e9d About an hour ago 1.872 GB
+debian 7.5 06af7ad6cff1 3 months ago 85.18 MB
+&lt;/pre&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">- The output of uname -a:</sentence>
+            <sentence id="3.2">&lt;pre&gt;</sentence>
+            <sentence id="3.3">Linux hca 3.16-3-amd64 #1 SMP Debian 3.16.5-1 (2014-10-10) x86_64 GNU/Linux</sentence>
+            <sentence id="3.4">&lt;/pre&gt;</sentence>
+            <sentence id="3.5">- The output of 'docker version':</sentence>
+            <sentence id="3.6">&lt;pre&gt;</sentence>
+            <sentence id="3.7">Client version: 1.3.0</sentence>
+            <sentence id="3.8">Client API version: 1.15</sentence>
+            <sentence id="3.9">Go version (client): go1.3.2</sentence>
+            <sentence id="3.10">Git commit (client): c78088f</sentence>
+            <sentence id="3.11">OS/Arch (client): linux/386</sentence>
+            <sentence id="3.12">Server version: 1.3.0</sentence>
+            <sentence id="3.13">Server API version: 1.15</sentence>
+            <sentence id="3.14">Go version (server): go1.3.2</sentence>
+            <sentence id="3.15">Git commit (server): c78088f</sentence>
+            <sentence id="3.16">&lt;/pre&gt;</sentence>
+            <sentence id="3.17">- The output of 'docker -D info':</sentence>
+            <sentence id="3.18">&lt;pre&gt;</sentence>
+            <sentence id="3.19">Containers: 27</sentence>
+            <sentence id="3.20">Images: 59</sentence>
+            <sentence id="3.21">Storage Driver: aufs</sentence>
+            <sentence id="3.22">Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="3.23">Dirs: 113</sentence>
+            <sentence id="3.24">Execution Driver: native-0.2</sentence>
+            <sentence id="3.25">Kernel Version: 3.16.0-3-amd64</sentence>
+            <sentence id="3.26">Operating System: Debian GNU/Linux jessie/sid</sentence>
+            <sentence id="3.27">Debug mode (server): false</sentence>
+            <sentence id="3.28">Debug mode (client): true</sentence>
+            <sentence id="3.29">Fds: 11</sentence>
+            <sentence id="3.30">Goroutines: 15</sentence>
+            <sentence id="3.31">EventsListeners: 0</sentence>
+            <sentence id="3.32">Init SHA1: 109743bc4105d1b3eff1d8fc989a38a2f7c32f4b</sentence>
+            <sentence id="3.33">Init Path: /usr/lib/docker.</sentence>
+            <sentence id="3.34">io/dockerinit</sentence>
+            <sentence id="3.35">WARNING: No memory limit support</sentence>
+            <sentence id="3.36">WARNING: No swap limit support</sentence>
+            <sentence id="3.37">&lt;/pre&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

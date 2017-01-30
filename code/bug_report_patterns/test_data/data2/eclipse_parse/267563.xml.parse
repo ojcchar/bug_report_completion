@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>267563</id>
+    <title>Password in Property binding is modified after reopen the data source</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description:
+Password in Property binding is modified after reopen the data source</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Build number:</sentence>
+            <sentence id="2.2">2 5.0.v20090309-0630</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Steps to reproduce:</sentence>
+            <sentence id="3.2">1 New a JDBC Data source</sentence>
+            <sentence id="3.3">2 Specify the password in Property Binding page, for example abcdefg and finish the data source</sentence>
+            <sentence id="3.4">3 Check the XML source to make sure the password has been encrypted, in my build the code is YWJjZGVmZw==.</sentence>
+            <sentence id="3.5">4 Reopen the data source and goto Property Binding and Finish data source</sentence>
+            <sentence id="3.6">5 At this time, the report has a dirty mark and save the report and recheck the encrypted code in XML Source, it has been modified to abcdAAAA.</sentence>
+            <sentence id="3.7">6 Do Step4 again and click OK to finsh the data source</sentence>
+            <sentence id="3.8">7 After step6, the report is modified and save the report(after saving, Exception thrown out and block the UI operation)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Expected result:
+The reopen will not change the password in Property Binding</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual result:
+After step4, the encrypted code has been changed, so that the report has a dirty mark and after step6, a Exception thrown out and it will block all the UI operation.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Error log:</sentence>
+            <sentence id="6.2">org.eclipse.birt.report.designer.core.runtime.GUIException: -73</sentence>
+            <sentence id="6.3">	at org.eclipse.birt.report.designer.core.runtime.GUIException.createGUIException(GUIException.java:78)</sentence>
+            <sentence id="6.4">	at org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler.handle(ExceptionHandler.java:169)</sentence>
+            <sentence id="6.5">	at org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler.handle(ExceptionHandler.java:150)</sentence>
+            <sentence id="6.6">	at org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler.handle(ExceptionHandler.java:89)</sentence>
+            <sentence id="6.7">	at org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEFileReportProvider.saveFile(IDEFileReportProvider.java:376)</sentence>
+            <sentence id="6.8">	at org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEFileReportProvider.saveReport(IDEFileReportProvider.java:133)</sentence>
+            <sentence id="6.9">	at org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEFileReportProvider.saveReport(IDEFileReportProvider.java:110)</sentence>
+            <sentence id="6.10">	at org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportEditorWithPalette.doSave(ReportEditorWithPalette.java:1012)</sentence>
+            <sentence id="6.11">	at org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor.doSave(MultiPageReportEditor.java:497)</sentence>
+            <sentence id="6.12">	at org.eclipse.birt.report.designer.ui.editors.IDEMultiPageReportEditor.doSave(IDEMultiPageReportEditor.java:413)</sentence>
+            <sentence id="6.13">	at org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy.doSave(ReportEditorProxy.java:220)</sentence>
+            <sentence id="6.14">	at org.eclipse.ui.internal.SaveableHelper$1.run(SaveableHelper.java:143)</sentence>
+            <sentence id="6.15">	at org.eclipse.ui.internal.SaveableHelper$4.run(SaveableHelper.java:266)</sentence>
+            <sentence id="6.16">	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:464)</sentence>
+            <sentence id="6.17">	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:372)</sentence>
+            <sentence id="6.18">	at org.eclipse.jface.window.ApplicationWindow$1.run(ApplicationWindow.java:759)</sentence>
+            <sentence id="6.19">	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)</sentence>
+            <sentence id="6.20">	at org.eclipse.jface.window.ApplicationWindow.run(ApplicationWindow.java:756)</sentence>
+            <sentence id="6.21">	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2577)</sentence>
+            <sentence id="6.22">	at org.eclipse.ui.internal.SaveableHelper.runProgressMonitorOperation(SaveableHelper.java:274)</sentence>
+            <sentence id="6.23">	at org.eclipse.ui.internal.SaveableHelper.runProgressMonitorOperation(SaveableHelper.java:253)</sentence>
+            <sentence id="6.24">	at org.eclipse.ui.internal.SaveableHelper.savePart(SaveableHelper.java:148)</sentence>
+            <sentence id="6.25">	at org.eclipse.ui.internal.EditorManager.savePart(EditorManager.java:1353)</sentence>
+            <sentence id="6.26">	at org.eclipse.ui.internal.WorkbenchPage.savePart(WorkbenchPage.java:3322)</sentence>
+            <sentence id="6.27">	at org.eclipse.ui.internal.WorkbenchPage.saveEditor(WorkbenchPage.java:3335)</sentence>
+            <sentence id="6.28">	at org.eclipse.ui.internal.SaveAction.run(SaveAction.java:74)</sentence>
+            <sentence id="6.29">	at org.eclipse.jface.action.Action.runWithEvent(Action.java:498)</sentence>
+            <sentence id="6.30">	at org.eclipse.jface.commands.ActionHandler.execute(ActionHandler.java:119)</sentence>
+            <sentence id="6.31">	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:476)</sentence>
+            <sentence id="6.32">	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:508)</sentence>
+            <sentence id="6.33">	at org.eclipse.ui.internal.handlers.HandlerService.executeCommand(HandlerService.java:169)</sentence>
+            <sentence id="6.34">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.executeCommand(WorkbenchKeyboard.java:471)</sentence>
+            <sentence id="6.35">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.press(WorkbenchKeyboard.java:823)</sentence>
+            <sentence id="6.36">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.processKeyEvent(WorkbenchKeyboard.java:879)</sentence>
+            <sentence id="6.37">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.filterKeySequenceBindings(WorkbenchKeyboard.java:570)</sentence>
+            <sentence id="6.38">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard.access$3(WorkbenchKeyboard.java:511)</sentence>
+            <sentence id="6.39">	at org.eclipse.ui.internal.keys.WorkbenchKeyboard$KeyDownFilter.handleEvent(WorkbenchKeyboard.java:126)</sentence>
+            <sentence id="6.40">	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)</sentence>
+            <sentence id="6.41">	at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1190)</sentence>
+            <sentence id="6.42">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1002)</sentence>
+            <sentence id="6.43">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1027)</sentence>
+            <sentence id="6.44">	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1012)</sentence>
+            <sentence id="6.45">	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1040)</sentence>
+            <sentence id="6.46">	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1036)</sentence>
+            <sentence id="6.47">	at org.eclipse.swt.widgets.Widget.wmChar(Widget.java:1358)</sentence>
+            <sentence id="6.48">	at org.eclipse.swt.widgets.Control.WM_CHAR(Control.java:4019)</sentence>
+            <sentence id="6.49">	at org.eclipse.swt.widgets.Tree.WM_CHAR(Tree.java:5825)</sentence>
+            <sentence id="6.50">	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3912)</sentence>
+            <sentence id="6.51">	at org.eclipse.swt.widgets.Tree.windowProc(Tree.java:5821)</sentence>
+            <sentence id="6.52">	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4597)</sentence>
+            <sentence id="6.53">	at org.eclipse.swt.internal.win32.OS.DispatchMessageW(Native Method)</sentence>
+            <sentence id="6.54">	at org.eclipse.swt.internal.win32.OS.DispatchMessage(OS.java:2393)</sentence>
+            <sentence id="6.55">	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3468)</sentence>
+            <sentence id="6.56">	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2388)</sentence>
+            <sentence id="6.57">	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2352)</sentence>
+            <sentence id="6.58">	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2204)</sentence>
+            <sentence id="6.59">	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:499)</sentence>
+            <sentence id="6.60">	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:333)</sentence>
+            <sentence id="6.61">	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:492)</sentence>
+            <sentence id="6.62">	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)</sentence>
+            <sentence id="6.63">	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:113)</sentence>
+            <sentence id="6.64">	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:194)</sentence>
+            <sentence id="6.65">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)</sentence>
+            <sentence id="6.66">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)</sentence>
+            <sentence id="6.67">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:368)</sentence>
+            <sentence id="6.68">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)</sentence>
+            <sentence id="6.69">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="6.70">	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)</sentence>
+            <sentence id="6.71">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)</sentence>
+            <sentence id="6.72">	at java.lang.reflect.Method.invoke(Unknown Source)</sentence>
+            <sentence id="6.73">	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:556)</sentence>
+            <sentence id="6.74">	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:511)</sentence>
+            <sentence id="6.75">	at org.eclipse.equinox.launcher.Main.run(Main.java:1270)</sentence>
+            <sentence id="6.76">Caused by: java.lang.ArrayIndexOutOfBoundsException: -73</sentence>
+            <sentence id="6.77">	at org.apache.commons.codec.binary.Base64.isBase64(Base64.java:137)</sentence>
+            <sentence id="6.78">	at org.apache.commons.codec.binary.Base64.discardNonBase64(Base64.java:478)</sentence>
+            <sentence id="6.79">	at org.apache.commons.codec.binary.Base64.decodeBase64(Base64.java:374)</sentence>
+            <sentence id="6.80">	at org.apache.commons.codec.binary.Base64.decode(Base64.java:220)</sentence>
+            <sentence id="6.81">	at org.eclipse.birt.report.model.metadata.SimpleEncryptionHelper.decrypt(SimpleEncryptionHelper.java:85)</sentence>
+            <sentence id="6.82">	at org.eclipse.birt.report.model.util.EncryptionUtil.decrypt(EncryptionUtil.java:79)</sentence>
+            <sentence id="6.83">	at org.eclipse.birt.report.model.api.elements.structures.PropertyBinding.getIntrinsicProperty(PropertyBinding.java:120)</sentence>
+            <sentence id="6.84">	at org.eclipse.birt.report.model.core.Structure.getLocalProperty(Structure.java:188)</sentence>
+            <sentence id="6.85">	at org.eclipse.birt.report.model.core.Structure.getProperty(Structure.java:159)</sentence>
+            <sentence id="6.86">	at org.eclipse.birt.report.model.core.Structure.getProperty(Structure.java:144)</sentence>
+            <sentence id="6.87">	at org.eclipse.birt.report.model.writer.ModuleWriter.writeStructureList(ModuleWriter.java:1163)</sentence>
+            <sentence id="6.88">	at org.eclipse.birt.report.model.writer.ModuleWriter.visitModule(ModuleWriter.java:1386)</sentence>
+            <sentence id="6.89">	at org.eclipse.birt.report.model.elements.ElementVisitor.visitReportDesign(ElementVisitor.java:402)</sentence>
+            <sentence id="6.90">	at org.eclipse.birt.report.model.writer.DesignWriter.visitReportDesign(DesignWriter.java:74)</sentence>
+            <sentence id="6.91">	at org.eclipse.birt.report.model.elements.ReportDesign.apply(ReportDesign.java:92)</sentence>
+            <sentence id="6.92">	at org.eclipse.birt.report.model.writer.ModuleWriter.writeFile(ModuleWriter.java:309)</sentence>
+            <sentence id="6.93">	at org.eclipse.birt.report.model.writer.ModuleWriter.write(ModuleWriter.java:297)</sentence>
+            <sentence id="6.94">	at org.eclipse.birt.report.model.api.ModuleHandle.serialize(ModuleHandle.java:1610)</sentence>
+            <sentence id="6.95">	at org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEFileReportProvider$2.execute(IDEFileReportProvider.java:330)</sentence>
+            <sentence id="6.96">	at org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEFileReportProvider$2$1.run(IDEFileReportProvider.java:297)</sentence>
+            <sentence id="6.97">	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:1800)</sentence>
+            <sentence id="6.98">	at org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEFileReportProvider$2.run(IDEFileReportProvider.java:310)</sentence>
+            <sentence id="6.99">	at org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation.execute(WorkspaceModifyDelegatingOperation.java:69)</sentence>
+            <sentence id="6.100">	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:106)</sentence>
+            <sentence id="6.101">	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:1800)</sentence>
+            <sentence id="6.102">	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:118)</sentence>
+            <sentence id="6.103">	at org.eclipse.birt.report.designer.internal.ui.ide.adapters.WorkspaceOperationRunner.run(WorkspaceOperationRunner.java:71)</sentence>
+            <sentence id="6.104">	at org.eclipse.birt.report.designer.internal.ui.ide.adapters.WorkspaceOperationRunner.run(WorkspaceOperationRunner.java:63)</sentence>
+            <sentence id="6.105">	at org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEFileReportProvider.saveFile(IDEFileReportProvider.java:364)</sentence>
+            <sentence id="6.106">	... 68 more</sentence>
+        </paragraph>
+    </description>
+</bug>

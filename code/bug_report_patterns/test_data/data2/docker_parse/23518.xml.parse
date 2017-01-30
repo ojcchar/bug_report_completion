@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23518</id>
+    <title>Flaky tests: TestOverlayDiffApply10Files, TestOverlayChanges (ARM)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">These test were failing on ARM, possibly due to it being slower than other builds.</sentence>
+            <sentence id="1.2">They were disabled in https://github.com/docker/docker/pull/23501, but opening this to keep track (so that we can update them to fix)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">/cc @dmcgowan</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+05:33:11 --- FAIL: TestOverlayDiffApply10Files (0.25s)
+05:33:11 graphtest_unix.go:249: Apply diff size different, got 576, expected 640
+05:33:11 --- FAIL: TestOverlayChanges (0.12s)
+05:33:11 graphtest_unix.go:286: unexpected number of changes, expected 21, got 16
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

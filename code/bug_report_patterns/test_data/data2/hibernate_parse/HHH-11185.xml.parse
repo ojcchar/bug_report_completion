@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-11185</id>
+    <title>Implicitly @Inheritance applied for @Subselect</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">By convention models that annotated with @Subselect are not persistable, but if we extends an @Entity with @Table for creating a @Subselect , Hibernate adds DTYPE column on superclass table and put all of child fields on it.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">for example I have a simple class:
+{code:title=SimpleFoo.java|borderStyle=solid}
+@Entity
+@Table(name = "SIMPLE_FOO")
+public class SimpleFoo {
+    @Id
+    int id;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">public int getId() {
+        return id;
+    }</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">public void setId(int id) {
+        this.id = id;
+    }
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">that I need create subselect for adding calculative fields to it:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">{code:title=FooSubselect.java|borderStyle=solid}</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">@Entity
+@Subselect("select f.* , rownum as R_NUM from SIMPLE_FOO f")
+public class FooSubselect extends SimpleFoo {
+    @Column(name = "R_NUM",nullable = false)
+    int rownum;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">public int getRownum() {
+        return rownum;
+    }</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">public void setRownum(int rownum) {
+        this.rownum = rownum;
+    }
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Hibernate adds DTYPE and R_NUM fields on parent Table and prevents working properly</sentence>
+        </paragraph>
+    </description>
+</bug>

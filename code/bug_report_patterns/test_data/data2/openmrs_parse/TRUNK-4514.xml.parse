@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4514</id>
+    <title>OpenMRS does not start if JVM is 1.8</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">org.openmrs.api.APIException: OpenMRS requires Java 6, but is running under 1.8.0_20</sentence>
+            <sentence id="1.2">	at org.openmrs.util.OpenmrsUtil.validateJavaVersion(OpenmrsUtil.java:1203)</sentence>
+            <sentence id="1.3">	at org.openmrs.web.Listener.contextInitialized(Listener.java:121)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">And the initial setup screen is blank, see image attached.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This code doesn't work:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">// check whether the current JVM version is at least Java 6
+		if (JdkVersion.getMajorJavaVersion() &lt; JdkVersion.JAVA_16) {
+			throw new APIException("OpenMRS requires Java 6, but is running under " + JdkVersion.getJavaVersion());
+		}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">JdkVersion.JAVA_16 is a constant = 3
+when jre is 1.6 major version is 3
+when jre is 1.8 major version is 2</sentence>
+        </paragraph>
+    </description>
+</bug>

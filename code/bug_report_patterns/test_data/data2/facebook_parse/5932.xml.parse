@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>5932</id>
+    <title>JS library bails out cause of using non-allowed entity</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Dear Facebook_</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">We re using XHTML1.1 for our pages and a application/xhtml+xml mimetype forcing FireFox into validation mode for XHTML 1.1 - all fine and dandy_ however_ the facebookconnect javascript libraries gave a NS_ERROR_DOM_NOT_SUPPORTED_ERR error.</sentence>
+            <sentence id="2.2">After a quick look at the code on the line it was bailing I ve found a comment in there on how to make sure to not use document.write (as it s not allowed in XHTML).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Then I was greeted by a nice error:  undefined entity :</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Error: undefined entity
+Source File: 
+Line: 6_ Column: 192
+Source Code:
+&lt;h2 class= fb_resetstyles &gt;&lt;div class= fb_dialog_icon &gt;&lt;/div&gt;&lt;span class= fb_dialog_header  id= fb_dialog_header &gt;&lt;/span&gt;&lt;div class= fb_dialog_loading_spinner  id= fb_dialog_loading_spinner &gt;&amp;nbsp;&lt;/div&gt;&lt;a id= fb_dialog_cancel_button  class= fb_dialog_cancel_button  title= close dialog  href= #  onclick= return false; &gt;&amp;nbsp;&lt;/a&gt;&lt;/h2&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">It s the non breaking space &amp;nbsp; entity that s causing the error.</sentence>
+            <sentence id="5.2">According to specs it s not allowed and should be replaced by &amp;#160; as far as I know.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Anyways.</sentence>
+            <sentence id="6.2">Not sure if that s all but at this moment something simple as a non breaking space is breaking compliance :)</sentence>
+        </paragraph>
+    </description>
+</bug>

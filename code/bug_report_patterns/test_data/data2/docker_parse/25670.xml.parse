@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>25670</id>
+    <title>Docker not mounting file using -v</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">---</sentence>
+            <sentence id="1.2">## BUG REPORT INFORMATION</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+Client:
+ Version: 1.12.0
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 8eab29e
+ Built: Thu Jul 28 23:54:00 2016
+ OS/Arch: darwin/amd64</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Server:
+ Version: 1.12.0
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 8eab29e
+ Built: Thu Jul 28 23:54:00 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'</sentence>
+            <sentence id="6.2">Containers: 5</sentence>
+            <sentence id="6.3"> Running: 0</sentence>
+            <sentence id="6.4"> Paused: 0</sentence>
+            <sentence id="6.5"> Stopped: 5</sentence>
+            <sentence id="6.6">Images: 23</sentence>
+            <sentence id="6.7">Server Version: 1.12.0</sentence>
+            <sentence id="6.8">Storage Driver: aufs</sentence>
+            <sentence id="6.9"> Root Dir: /mnt/sda1/var/lib/docker/aufs</sentence>
+            <sentence id="6.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="6.11"> Dirs: 226</sentence>
+            <sentence id="6.12"> Dirperm1 Supported: true</sentence>
+            <sentence id="6.13">Logging Driver: json-file</sentence>
+            <sentence id="6.14">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="6.15">Plugins:</sentence>
+            <sentence id="6.16"> Volume: local</sentence>
+            <sentence id="6.17"> Network: bridge host null overlay</sentence>
+            <sentence id="6.18">Swarm: inactive</sentence>
+            <sentence id="6.19">Runtimes: runc</sentence>
+            <sentence id="6.20">Default Runtime: runc</sentence>
+            <sentence id="6.21">Security Options: seccomp</sentence>
+            <sentence id="6.22">Kernel Version: 4.4.16-boot2docker</sentence>
+            <sentence id="6.23">Operating System: Boot2Docker 1.12.0 (TCL 7.2); HEAD : e030bab - Fri Jul 29 00:29:14 UTC 2016</sentence>
+            <sentence id="6.24">OSType: linux</sentence>
+            <sentence id="6.25">Architecture: x86_64</sentence>
+            <sentence id="6.26">CPUs: 1</sentence>
+            <sentence id="6.27">Total Memory: 7.79 GiB</sentence>
+            <sentence id="6.28">Name: default</sentence>
+            <sentence id="6.29">ID: MZAC:5BPF:O3WE:RBOA:BEGQ:J3T4:WIBA:KZQ7:FW7Y:MZMK:SASY:BG22</sentence>
+            <sentence id="6.30">Docker Root Dir: /mnt/sda1/var/lib/docker</sentence>
+            <sentence id="6.31">Debug Mode (client): false</sentence>
+            <sentence id="6.32">Debug Mode (server): true</sentence>
+            <sentence id="6.33"> File Descriptors: 14</sentence>
+            <sentence id="6.34"> Goroutines: 24</sentence>
+            <sentence id="6.35"> System Time: 2016-08-12T17:12:39.409416142Z</sentence>
+            <sentence id="6.36"> EventsListeners: 0</sentence>
+            <sentence id="6.37">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="6.38">Labels:</sentence>
+            <sentence id="6.39"> provider=virtualbox</sentence>
+            <sentence id="6.40">Insecure Registries:</sentence>
+            <sentence id="6.41"> 127.0.0.0/8</sentence>
+            <sentence id="6.42">"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">VirtualBox Version 5.0.24 r108355</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="9.2">1 If I initial run the following command in maven project without building the war first it runs successfully and I can see that the *.</sentence>
+            <sentence id="9.3">war file is a folder in the container since there was nothing in the host.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'</sentence>
+            <sentence id="10.2">docker run -ti -v "$PWD/target/description-api-dev.</sentence>
+            <sentence id="10.3">war":/test/root.</sentence>
+            <sentence id="10.4">war centos:centos7 bash</sentence>
+            <sentence id="10.5">"'</sentence>
+            <sentence id="10.6">1 Now if I exit the container remove it and then build the *.war on the host I can see that the file exists on both the host and the VM.</sentence>
+            <sentence id="10.7">So I run the command again and I get the following error</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'</sentence>
+            <sentence id="11.2">docker: Error response from daemon: oci runtime error: rootfs_linux.</sentence>
+            <sentence id="11.3">go:53: mounting "/mnt/sda1/var/lib/docker/aufs/mnt/da04aa2043c876b7a14a859a72a2752bf45548280360863f31b0290e95b0be99/test/root.war" to rootfs "/mnt/sda1/var/lib/docker/aufs/mnt/da04aa2043c876b7a14a859a72a2752bf45548280360863f31b0290e95b0be99" caused "not a directory".</sentence>
+            <sentence id="11.4">"'</sentence>
+            <sentence id="11.5">1 If I restart the virtual vm though and then run the command again.</sentence>
+            <sentence id="11.6">It starts successfully and I now see that /test/root.war is the actually file.</sentence>
+            <sentence id="11.7">For some reason if I run the docker first without the file I have to restart the whole VM to remove it from cache.</sentence>
+            <sentence id="11.8">Now I thought it was VirtualBox but I've tested the scenario where cleaned the project, restart the VM, build the project and then ran the command everything happened as expected and the file exists.</sentence>
+            <sentence id="11.9">But if you run the command first before building, you'll have to restart the vm to be able to run the container again.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Is there something I'm doing wrong?</sentence>
+        </paragraph>
+    </description>
+</bug>

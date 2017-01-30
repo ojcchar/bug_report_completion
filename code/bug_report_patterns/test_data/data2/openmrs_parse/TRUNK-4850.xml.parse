@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4850</id>
+    <title>Module.getExtensions() does not call Module.expandExtensionNames() appropriately</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In the current implementation of the [Module|https://github.com/openmrs/openmrs-core/blob/master/api/src/main/java/org/openmrs/module/Module.java] class, the variable extensions can be set using setExtensions(List&lt;Extension&gt;) or it can be set by first setting extensionNames with setExtensionNames(IdentityHashMap&lt;String, String&gt;) then calling getExtensions() to fill extensions using expandExtntionNames().</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">As of now, getExtensions() will only expand extensionNames if the size of extensions and extensionNames do not match.</sentence>
+            <sentence id="2.2">This will cause unintended behavior if they have the same size, but different contents.</sentence>
+            <sentence id="2.3">extensionNames could list different pointIds and className pairs than those that exist in extensions.</sentence>
+            <sentence id="2.4">In this case, extensionNames should be expanded even if it is the same length as extensions.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Another issue with the current implementation is that if extensions starts at a non-zero length, every time getExtensions() is called it will expand extensionNames and add to extensions without replacing the current entries.</sentence>
+            <sentence id="3.2">In this case, extensions and extensionNames will never be the same size unless they are reset with setExtensions or setExtensionNames.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The proposed solution is to replace comparing the sizes of the two variables with a function that will check the contents of the two variables.</sentence>
+            <sentence id="4.2">This way, getExtensions() will only expand extensionNames if extensionNames is not null, not empty, and if its pointId and className pairs do not match the objects in extensions.</sentence>
+            <sentence id="4.3">Additionally, when expandExtensionNames() is called, it will clear extensions before filling it.</sentence>
+            <sentence id="4.4">This way, all the entries in extensions are replaced instead of added to.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">These modifications and accompanying unit tests are in the following pull request: https://github.com/openmrs/openmrs-core/pull/1763</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4899</id>
+    <title>Type not supported: org.hibernate.type.TimestampType</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have included the latest version of Envers (1.2.2) into our Hibernate &amp; Spring application.</sentence>
+            <sentence id="1.2">On Server(Tomcat) startup, the following error occurs:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Caused by: org.hibernate.MappingException: Type not supported: org.hibernate.type.TimestampType</sentence>
+            <sentence id="2.2"> at org.hibernate.envers.configuration.metadata.IdMetadataGenerator.addIdProperties(IdMetadataGenerator.java:71)</sentence>
+            <sentence id="2.3"> at org.hibernate.envers.configuration.metadata.IdMetadataGenerator.addId(IdMetadataGenerator.java:107)</sentence>
+            <sentence id="2.4"> at org.hibernate.envers.configuration.metadata.AuditMetadataGenerator.generateFirstPass(AuditMetadataGenerator.java:380)</sentence>
+            <sentence id="2.5"> at org.hibernate.envers.configuration.EntitiesConfigurator.configure(EntitiesConfigurator.java:102)</sentence>
+            <sentence id="2.6"> at org.hibernate.envers.configuration.AuditConfiguration.&lt;init&gt;(AuditConfiguration.java:86)</sentence>
+            <sentence id="2.7"> at org.hibernate.envers.configuration.AuditConfiguration.getFor(AuditConfiguration.java:99)</sentence>
+            <sentence id="2.8"> at org.hibernate.envers.event.AuditEventListener.initialize(AuditEventListener.java:315)</sentence>
+            <sentence id="2.9"> at org.hibernate.event.EventListeners$1.processListener(EventListeners.java:198)</sentence>
+        </paragraph>
+    </description>
+</bug>

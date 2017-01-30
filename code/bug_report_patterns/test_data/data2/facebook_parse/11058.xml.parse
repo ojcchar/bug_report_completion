@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>11058</id>
+    <title>For the  Double Sleep Mode  feature on Chat_ the server always replies with  service-unavailable</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">For the  Double Sleep Mode  feature_ the server always replies with  service-unavailable .</sentence>
+            <sentence id="1.2">Here follows the typical IQ request and reponse:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Request for  sleep :</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;iq id= some_id  type= set &gt;&lt;sleep xmlns= http://www.facebook.com/xmpp/suspend /&gt;&lt;/iq&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Response:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;iq from= user_jid  to= user_jid/binded_resource  type= error  id= some_id &gt;
+&lt;sleep xmlns= http://www.facebook.com/xmpp/suspend /&gt;
+&lt;error code= 503  type= cancel &gt;&lt;service-unavailable xmlns= urn:ietf:params:xml:ns:xmpp-stanzas /&gt;&lt;/error&gt;
+&lt;/iq&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">For general environment_ the client connects through TCP with X-FACEBOOK-PLATFORM SASL mechanism.</sentence>
+        </paragraph>
+    </description>
+</bug>

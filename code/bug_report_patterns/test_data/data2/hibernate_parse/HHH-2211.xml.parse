@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2211</id>
+    <title>A createQuery() caused ORA-00904 error</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I want to try the following sql under hibernate,it failed.</sentence>
+            <sentence id="1.2">(The project is build on the basis of hibernate3.2's tutorial)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">String hqlAlias = 
+        	"insert into EventHistory ( id, date, title )" +
+        	"  select id, date, title from Event e" +
+        	"    where e.title like 'BUY%'" +
+        	"      and exists" +
+        	"        ( select 1 from PersonEvent p" +
+        	"          where p.id=e.id)";</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">int resultAlias = session.createQuery(hqlAlias).</sentence>
+            <sentence id="3.2">executeUpdate();</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">But it works nice under sqlplus.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">INSERT INTO EVENTS_HISTORY
+  SELECT * FROM EVENTS
+    WHERE TITLE LIKE 'BUY%'
+      AND EXISTS
+        ( SELECT 1 FROM PERSON_EVENT
+          WHERE EVENT_ID=EVENTS.EVENT_ID);</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The 4 lines of error log is like this:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">15:33:29,906 DEBUG SQL:393 - insert into EVENTS_HISTORY ( EVENT_ID, EVENT_DATE, title ) select event0_.EVENT_ID as col_0_0_, event0_.EVENT_DATE as col_1_0_, event0_.title as col_2_0_ from EVENTS event0_ where (event0_.title like 'BUY%') and (exists (select 1 from PERSON_EVENT personeven1_ where personeven1_.EVENT_ID=EVENTS.EVENT_ID))</sentence>
+            <sentence id="7.2">Hibernate: insert into EVENTS_HISTORY ( EVENT_ID, EVENT_DATE, title ) select event0_.EVENT_ID as col_0_0_, event0_.EVENT_DATE as col_1_0_, event0_.title as col_2_0_ from EVENTS event0_ where (event0_.title like 'BUY%') and (exists (select 1 from PERSON_EVENT personeven1_ where personeven1_.EVENT_ID=EVENTS.EVENT_ID))</sentence>
+            <sentence id="7.3">15:33:29,984  WARN JDBCExceptionReporter:71 - SQL Error: 904, SQLState: 42000</sentence>
+            <sentence id="7.4">15:33:29,984 ERROR JDBCExceptionReporter:72 - ORA-00904: "EVENTS"."EVENT_ID": 无效的？？符</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Is there any wrong with the hql,or it's alias?</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Thanks to anyone who pay attetion to this trivial question which I search the forum and google without solutions.</sentence>
+            <sentence id="9.2">Or if I missed them,I would be grateful that you might tell me where can I find the right answer to fix this hql grammar error.</sentence>
+        </paragraph>
+    </description>
+</bug>

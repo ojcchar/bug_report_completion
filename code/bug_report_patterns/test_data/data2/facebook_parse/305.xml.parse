@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>305</id>
+    <title>http://apps.facebook.com/bbciplayerdevsteve/programme/b007ch13/</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When using FBJS_ document.getElementById doesn t seem to wirk when used inside an AJAX ondone handler.</sentence>
+            <sentence id="1.2">Here is the code.</sentence>
+            <sentence id="1.3">This is fine_ i.e. outside the ondone function.</sentence>
+            <sentence id="1.4">.</sentence>
+            <sentence id="1.5">-------------------------------------------------------------------</sentence>
+            <sentence id="1.6">&lt;span id= download &gt;&lt;/span&gt;</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;fb:js-string var= downloadFBML &gt;
+    Download allowed
+&lt;/fb:js-string&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;fb:js-string var= noDownloadFBML &gt;
+    Download not allowed
+&lt;/fb:js-string&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;script&gt;
+&lt;!</sentence>
+            <sentence id="4.2">--
+function checkDownLoad(pid){</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">x = 1
+  if (x == 1) {
+      document.getElementById( download ).</sentence>
+            <sentence id="5.2">setInnerFBML(downloadFBML);
+  } else {
+      document.getElementById( download ).</sentence>
+            <sentence id="5.3">setInnerFBML(downloadFBML);
+  }
+}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">//--&gt;</sentence>
+            <sentence id="6.2">&lt;/script&gt;</sentence>
+            <sentence id="6.3">-------------------------------------------------------------------</sentence>
+            <sentence id="6.4">However_ this doesn t work - I think it doesn t append the appid the front of the arg to document.getElementById_ so can t find (I could well be wrong tho  :-) ):</sentence>
+            <sentence id="6.5">-------------------------------------------------------------------</sentence>
+            <sentence id="6.6">&lt;span id= download &gt;&lt;/span&gt;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&lt;fb:js-string var= downloadFBML &gt;
+    Download allowed
+&lt;/fb:js-string&gt;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">&lt;fb:js-string var= noDownloadFBML &gt;
+    Download not allowed
+&lt;/fb:js-string&gt;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">&lt;script&gt;
+&lt;!</sentence>
+            <sentence id="9.2">--
+function checkDownLoad(pid){</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">var ajax = new Ajax();
+ 
+  ajax.responseType = Ajax.JSON
+  ajax.ondone = function(data) {
+      x = 1
+      if (x == 1) {
+          document.getElementById( download ).</sentence>
+            <sentence id="10.2">setInnerFBML(downloadFBML);
+      } else {
+          document.getElementById( download ).</sentence>
+            <sentence id="10.3">setInnerFBML(downloadFBML);
+      }
+  }
+  ajax.requireLogin = document.getElementById( requirelogin ).</sentence>
+            <sentence id="10.4">getChecked();
+  ajax.post( http://bbc.co.uk//cgi-perl/mediaselector/3/ipmoidcheck.pl?pid= +pid);
+}</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">checkDownLoad( [% programme.versionpid %] ) ;</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">//--&gt;</sentence>
+            <sentence id="12.2">&lt;/script&gt;</sentence>
+            <sentence id="12.3">-------------------------------------------------------------------</sentence>
+            <sentence id="12.4">Obvioulsy I m not even looking at the return JSON yet in this example_ I m just demonstrattnig the problem that the code doen t behave the same inside and outside the ondone handler.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Any advice/workarounds would be most grateful.</sentence>
+            <sentence id="13.2">Cheers in advance_</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Regards_</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">Steve</sentence>
+        </paragraph>
+    </description>
+</bug>

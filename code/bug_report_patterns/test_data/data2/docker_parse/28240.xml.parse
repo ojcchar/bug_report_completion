@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>28240</id>
+    <title>Flaky test: DockerSwarmSuite.TestSwarmRotateUnlockKey</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Seen failing on https://github.com/docker/docker/pull/28221, and https://github.com/docker/docker/pull/28173#issuecomment-259592327</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">@aaronlehmann is working on this, but opening an issue to track https://github.com/docker/docker/pull/27967#issuecomment-259591488</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'</sentence>
+            <sentence id="3.2">04:07:17 ----------------------------------------------------------------------</sentence>
+            <sentence id="3.3">04:07:17 FAIL: docker_cli_swarm_test.go:952: DockerSwarmSuite.TestSwarmRotateUnlockKey</sentence>
+            <sentence id="3.4">04:07:17 </sentence>
+            <sentence id="3.5">04:07:17 [d7e4655c1124a] waiting for daemon to start</sentence>
+            <sentence id="3.6">04:07:17 [d7e4655c1124a] daemon started</sentence>
+            <sentence id="3.7">04:07:17 [d7e4655c1124a] exiting daemon</sentence>
+            <sentence id="3.8">04:07:17 [d7e4655c1124a] waiting for daemon to start</sentence>
+            <sentence id="3.9">04:07:17 [d7e4655c1124a] daemon started</sentence>
+            <sentence id="3.10">04:07:17 [d7e4655c1124a] exiting daemon</sentence>
+            <sentence id="3.11">04:07:17 [d7e4655c1124a] waiting for daemon to start</sentence>
+            <sentence id="3.12">04:07:17 [d7e4655c1124a] daemon started</sentence>
+            <sentence id="3.13">04:07:17 docker_cli_swarm_test.go:1020:</sentence>
+            <sentence id="3.14">04:07:17 c.Assert(err, checker.IsNil, check.Commentf("out: %v", string(out)))</sentence>
+            <sentence id="3.15">04:07:17 ... value *exec.ExitError = &amp;exec.ExitError{ProcessState:(*os.ProcessState)(0xc4203db880), Stderr:[]uint8(nil)} ("exit status 1")</sentence>
+            <sentence id="3.16">04:07:17 ... out: Error response from daemon: swarm could not be unlocked: invalid key provided</sentence>
+            <sentence id="3.17">04:07:17 </sentence>
+            <sentence id="3.18">04:07:17 </sentence>
+            <sentence id="3.19">04:07:17 [d7e4655c1124a] exiting daemon</sentence>
+            <sentence id="3.20">04:07:18 </sentence>
+            <sentence id="3.21">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

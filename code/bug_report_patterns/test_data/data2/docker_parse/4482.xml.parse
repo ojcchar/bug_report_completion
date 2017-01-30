@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4482</id>
+    <title>Runtime error when placing -i after the image in docker run</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When I run this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+~]# docker run --rm scratch -i /usr/bin/bash
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I get this:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'</sentence>
+            <sentence id="4.2">panic: runtime error: index out of range</sentence>
+            <sentence id="4.3">goroutine 1 [running]:</sentence>
+            <sentence id="4.4">runtime.panic(0x694180, 0xa05fb7)</sentence>
+            <sentence id="4.5"> /usr/lib/go/src/pkg/runtime/panic.c:266 +0xb6</sentence>
+            <sentence id="4.6">github.com/dotcloud/docker/pkg/libcontainer/nsinit.(*linuxNs).Init(0xc2100796f0, 0xc21000a0b0, 0xc2100462a0, 0x66, 0x7fff7684ce9c, ...)</sentence>
+            <sentence id="4.7"> /.../docker-git/src/src/github.com/dotcloud/docker/pkg/libcontainer/nsinit/init.go:70 +0xa56</sentence>
+            <sentence id="4.8">github.com/dotcloud/docker/execdriver/native.func·001(0xc2100780c0, 0xc21000b5a0, 0x7fff7684ce8c)</sentence>
+            <sentence id="4.9"> /.../docker-git/src/src/github.com/dotcloud/docker/execdriver/native/driver.go:50 +0x49c</sentence>
+            <sentence id="4.10">github.com/dotcloud/docker/sysinit.executeProgram(0xc2100780c0, 0xc2100780c0, 0xa)</sentence>
+            <sentence id="4.11"> /.../docker-git/src/src/github.com/dotcloud/docker/sysinit/sysinit.go:35 +0xca</sentence>
+            <sentence id="4.12">github.com/dotcloud/docker/sysinit.SysInit()</sentence>
+            <sentence id="4.13"> /.../docker-git/src/src/github.com/dotcloud/docker/sysinit/sysinit.go:89 +0x8db</sentence>
+            <sentence id="4.14">main.main()</sentence>
+            <sentence id="4.15"> /tmp/yaourt-tmp-tobias/aur-docker-git/src/docker/dockerinit/dockerinit.go:9 +0x1a</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">goroutine 3 [syscall]:
+os/signal.</sentence>
+            <sentence id="5.2">loop()
+ /usr/lib/go/src/pkg/os/signal/signal_unix.go:21 +0x1e
+created by os/signal.</sentence>
+            <sentence id="5.3">init·1
+ /usr/lib/go/src/pkg/os/signal/signal_unix.go:27 +0x31
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Putting the -i before the scratch image fails -- as is to be expected -- with a error message about there being no /usr/bin/bash in the scratch image.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Backtraces are scary, please fix this:-)</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I am running a pretty current docker:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+~]# docker version
+Client version: 0.8.1-dev
+Go version (client): go1.2.1
+Git commit (client): ba8d8f0
+Server version: 0.8.1-dev
+Git commit (server): ba8d8f0
+Go version (server): go1.2.1
+Last stable version: 0.8.1
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10489</id>
+    <title>SSI is inconsistent</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">hello</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have been in the process of upgrading my test instance of apache from 1.X to 
+the current 2.0.39 release, before doing the production instance.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I think I have found an inconsistent behaviour with server side includes and the 2.0.39 release (and likely earlier versions of 2.XX).</sentence>
+            <sentence id="3.2">I have posted the problem</sentence>
+            <sentence id="3.3">on comp.infosystems.www.servers.unix and got no replies.</sentence>
+            <sentence id="3.4">I dont believe that</sentence>
+            <sentence id="3.5">the problem is a configuration issue (in as much as I have been trying to start</sentence>
+            <sentence id="3.6">with my older config settings etc. where SSI works fine, and using them with the</sentence>
+            <sentence id="3.7">new config settings for the 2.0.39 release).</sentence>
+            <sentence id="3.8">I have it set up to parse all htm</sentence>
+            <sentence id="3.9">pages, since they all contain headers and</sentence>
+            <sentence id="3.10">footers referenced via includes.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I can get ssi working fine for all html documents in my document root tree, 
+EXCEPT for a document named index.htm at root of the tree.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">If I copy /index.htm  to /index2.htm (or any other name) the SSI directives are 
+processed, but not if the file is titled index.htm at root.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">If I copy index.htm down to a subdirectory,  SSI directives get processed there 
+as well just fine.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">It just is not parsing the includes at the root level for that single
+file called index.htm</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">relevant portions of my new httpd.conf file are:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">&lt;Directory "/wwwadmin/test_web_docs"&gt;</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Options Includes FollowSymLinks
+	SetOutputFilter INCLUDES</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">AllowOverride None
+	order allow,deny
+	allow from XXX
+	deny from *
+	
+&lt;/Directory&gt;</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">and later on....</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">AddType text/html .</sentence>
+            <sentence id="13.2">html
+AddType text/html .</sentence>
+            <sentence id="13.3">htm
+AddOutputFilter INCLUDES .</sentence>
+            <sentence id="13.4">htm</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Could this effect be due to conflict or processing being intercepted by another
+module?</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">Thanks in advance for looking at this.</sentence>
+        </paragraph>
+    </description>
+</bug>

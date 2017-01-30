@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6739</id>
+    <title>JtaIsolationDelegate.doTheWorkInNewTransaction fails to propagate or otherwise report caught exceptions</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The method _org.hibernate.engine.transaction.internal.jta.JtaIsolationDelegate.doTheWorkInNewTransaction(WorkExecutorVisitable&lt;T&gt;, TransactionManager)_ is swallowing exceptions which might happen during the work processing.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I did the mistake of setting _@GeneratedValue(strategy=GenerationType.SEQUENCE)_ on a String identifier (which is nonsense of course) and it seemed like working: it was rolling back all operations without warning me.</sentence>
+        </paragraph>
+    </description>
+</bug>

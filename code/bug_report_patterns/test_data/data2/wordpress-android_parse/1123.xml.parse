@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>1123</id>
+    <title>Sharing of scheduled post</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The XML-RPC endpoint doesn't return the correct post status for Scheduled ("future") posts.</sentence>
+            <sentence id="1.2">Below is an example of response for a scheduled post:
+&lt;code&gt;&lt;member&gt;&lt;name&gt;post_status&lt;/name&gt;&lt;value&gt;&lt;string&gt;publish&lt;/string&gt;&lt;/value&gt;&lt;/member&gt;&lt;/code&gt;</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">We need to compare dates before enabling the sharing feature, like we did in PostsList to display the correct posts status.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7829</id>
+    <title>NullPointerException when manually flushing One-To-One relationship with orphan removal</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When having an inverse one-to-one bi-directional associations between two entities with orphan removal enabled Hibernate throws a NullPointerExceptions under the following conditions:</sentence>
+            <sentence id="1.2">- The bidirectional references are nulled out.</sentence>
+            <sentence id="1.3">- A manual flush is performed during the transaction.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The NullPointerException is raised in the Cascade.cascadeProperty method on performing the flush on commit of the transaction.</sentence>
+            <sentence id="2.2">The problem is that the code tries to retrieve the EntityEntry for the referenced entity and tries to lookup the entity name for it (see Cascade.java:256ff):</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">final EntityEntry valueEntry = eventSource.getPersistenceContext().</sentence>
+            <sentence id="3.2">getEntry(loadedValue );
+final String entityName = valueEntry.getPersister().</sentence>
+            <sentence id="3.3">getEntityName();</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Resolving the entity name fails as the valueEntry is null during the second flush on commit of the transaction.</sentence>
+            <sentence id="4.2">The entity entry has already discarded during the manual flush.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This defect is a relic of fix for issue HHH-5267, which works if you only perform a single flush during the lifecycle of a single entity manager/session.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">In versions prior to 4.1.8 (i.e. before fix HHH-5267) the problem was throwing a org.hibernate.PropertyAccessException since it was using the wrong entity name for delete cascading.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I have attached two test cases show casing the error situations caused by the manual flush on these one-to-one associations.</sentence>
+            <sentence id="7.2">Code wise the test cases are exactly the same but one case uses Hibernate 4.1.8 and the other one 4.1.7.</sentence>
+        </paragraph>
+    </description>
+</bug>

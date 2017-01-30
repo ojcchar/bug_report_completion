@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3720</id>
+    <title>Crash report 5.0: NPE in MySiteFragment</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">"'</sentence>
+            <sentence id="1.2">Fatal Exception: de.greenrobot.event.EventBusException: Invoking subscriber failed</sentence>
+            <sentence id="1.3"> at de.greenrobot.event.EventBus.handleSubscriberException(EventBus.java:518)</sentence>
+            <sentence id="1.4"> at de.greenrobot.event.EventBus.invokeSubscriber(EventBus.java:500)</sentence>
+            <sentence id="1.5"> at de.greenrobot.event.EventBus.postToSubscription(EventBus.java:433)</sentence>
+            <sentence id="1.6"> at de.greenrobot.event.EventBus.postSingleEventForEventType(EventBus.java:410)</sentence>
+            <sentence id="1.7"> at de.greenrobot.event.EventBus.postSingleEvent(EventBus.java:383)</sentence>
+            <sentence id="1.8"> at de.greenrobot.event.EventBus.post(EventBus.java:263)</sentence>
+            <sentence id="1.9"> at org.wordpress.android.ui.accounts.helpers.UpdateBlogListTask$GenericUpdateBlogListTask.onPostExecute(UpdateBlogListTask.java:73)</sentence>
+            <sentence id="1.10"> at org.wordpress.android.ui.accounts.helpers.UpdateBlogListTask$GenericUpdateBlogListTask.onPostExecute(UpdateBlogListTask.java:65)</sentence>
+            <sentence id="1.11"> at android.os.AsyncTask.finish(AsyncTask.java:632)</sentence>
+            <sentence id="1.12"> at android.os.AsyncTask.access$600(AsyncTask.java:177)</sentence>
+            <sentence id="1.13"> at android.os.AsyncTask$InternalHandler.handleMessage(AsyncTask.java:645)</sentence>
+            <sentence id="1.14"> at android.os.Handler.dispatchMessage(Handler.java:102)</sentence>
+            <sentence id="1.15"> at android.os.Looper.loop(Looper.java:145)</sentence>
+            <sentence id="1.16"> at android.app.ActivityThread.main(ActivityThread.java:5972)</sentence>
+            <sentence id="1.17"> at java.lang.reflect.Method.invoke(Method.java)</sentence>
+            <sentence id="1.18"> at java.lang.reflect.Method.invoke(Method.java:372)</sentence>
+            <sentence id="1.19"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1399)</sentence>
+            <sentence id="1.20"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1194)</sentence>
+            <sentence id="1.21">Caused by java.lang.NullPointerException: Attempt to invoke virtual method 'int org.wordpress.android.models.Blog.getLocalTableBlogId()' on a null object reference</sentence>
+            <sentence id="1.22"> at org.wordpress.android.ui.main.MySiteFragment.onEventMainThread(MySiteFragment.java:361)</sentence>
+            <sentence id="1.23"> at java.lang.reflect.Method.invoke(Method.java)</sentence>
+            <sentence id="1.24"> at java.lang.reflect.Method.invoke(Method.java:372)</sentence>
+            <sentence id="1.25"> at de.greenrobot.event.EventBus.invokeSubscriber(EventBus.java:498)</sentence>
+            <sentence id="1.26"> at de.greenrobot.event.EventBus.postToSubscription(EventBus.java:433)</sentence>
+            <sentence id="1.27"> at de.greenrobot.event.EventBus.postSingleEventForEventType(EventBus.java:410)</sentence>
+            <sentence id="1.28"> at de.greenrobot.event.EventBus.postSingleEvent(EventBus.java:383)</sentence>
+            <sentence id="1.29"> at de.greenrobot.event.EventBus.post(EventBus.java:263)</sentence>
+            <sentence id="1.30"> at org.wordpress.android.ui.accounts.helpers.UpdateBlogListTask$GenericUpdateBlogListTask.onPostExecute(UpdateBlogListTask.java:73)</sentence>
+            <sentence id="1.31"> at org.wordpress.android.ui.accounts.helpers.UpdateBlogListTask$GenericUpdateBlogListTask.onPostExecute(UpdateBlogListTask.java:65)</sentence>
+            <sentence id="1.32"> at android.os.AsyncTask.finish(AsyncTask.java:632)</sentence>
+            <sentence id="1.33"> at android.os.AsyncTask.access$600(AsyncTask.java:177)</sentence>
+            <sentence id="1.34"> at android.os.AsyncTask$InternalHandler.handleMessage(AsyncTask.java:645)</sentence>
+            <sentence id="1.35"> at android.os.Handler.dispatchMessage(Handler.java:102)</sentence>
+            <sentence id="1.36"> at android.os.Looper.loop(Looper.java:145)</sentence>
+            <sentence id="1.37"> at android.app.ActivityThread.main(ActivityThread.java:5972)</sentence>
+            <sentence id="1.38"> at java.lang.reflect.Method.invoke(Method.java)</sentence>
+            <sentence id="1.39"> at java.lang.reflect.Method.invoke(Method.java:372)</sentence>
+            <sentence id="1.40"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1399)</sentence>
+            <sentence id="1.41"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1194)</sentence>
+            <sentence id="1.42">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

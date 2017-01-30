@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9327</id>
+    <title>Docker load fails to load xz-compressed image</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The ability to `docker load` xz-compressed images has been broken with docker 1.3.2 (it was working until docker 1.3.1 included).</sentence>
+            <sentence id="1.2">Loading a gzip-compressed version of the same image still works, so the breakage is xz-specific.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Error message is `Error: Untar exit status 1 exec: "xz": executable file not found in $PATH`, even if the xz command is installed as `/usr/bin/xz`.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">With docker 1.3.2:
+```sh
+vagrant@docker-ubuntu-1404:~$ file /docker-images/busybox-trusty.</sentence>
+            <sentence id="3.2">tar.xz 
+/docker-images/busybox-trusty.</sentence>
+            <sentence id="3.3">tar.xz: XZ compressed data
+vagrant@docker-ubuntu-1404:~$ docker --version
+Docker version 1.3.2, build 39fa2fa
+vagrant@docker-ubuntu-1404:~$ sudo docker load --input=/docker-images/busybox-trusty.</sentence>
+            <sentence id="3.4">tar.xz
+2014/11/25 02:13:39 Error: Untar exit status 1 exec: "xz": executable file not found in $PATH
+vagrant@docker-ubuntu-1404:~$ which xz
+/usr/bin/xz
+```</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">With docker 1.3.1:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">```sh
+vagrant@client-ingest-ubuntu-1404:~$ file /docker-images/busybox-trusty.</sentence>
+            <sentence id="5.2">tar.xz 
+/docker-images/busybox-trusty.</sentence>
+            <sentence id="5.3">tar.xz: XZ compressed data
+vagrant@client-ingest-ubuntu-1404:~$ docker --version
+Docker version 1.3.1, build 4e9bbfa
+vagrant@client-ingest-ubuntu-1404:~$ sudo docker load --input=/docker-images/busybox-trusty.</sentence>
+            <sentence id="5.4">tar.xz
+vagrant@client-ingest-ubuntu-1404:~$ which xz
+/usr/bin/xz
+```</sentence>
+        </paragraph>
+    </description>
+</bug>

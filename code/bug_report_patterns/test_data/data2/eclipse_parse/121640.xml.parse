@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>121640</id>
+    <title>[Contributions] CCombo objects contributed to toolbars perceive spurious typing</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I wrapped a CCombo into a ControlContribution and added it to a view toolbar.</sentence>
+            <sentence id="1.2">It thinks that someone is typing at when the view comes up the first time.</sentence>
+            <sentence id="1.3">The stacktrace below shows that some WM_COMMAND is being reinterpreted as typing.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This sure produces funny-looking results, since even if the Editable flag is false and the READ_ONLY property is true, the spurious characters are accepted into the Text and are displayed.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">ProfileComboContribution$1.modifyText(ModifyEvent) line: 93</sentence>
+            <sentence id="3.2">TypedListener.handleEvent(Event) line: 188</sentence>
+            <sentence id="3.3">EventTable.sendEvent(Event) line: 66</sentence>
+            <sentence id="3.4">CCombo(Widget).sendEvent(Event) line: 843</sentence>
+            <sentence id="3.5">CCombo(Widget).sendEvent(int, Event, boolean) line: 867</sentence>
+            <sentence id="3.6">CCombo(Widget).sendEvent(int, Event) line: 852</sentence>
+            <sentence id="3.7">CCombo(Widget).notifyListeners(int, Event) line: 660</sentence>
+            <sentence id="3.8">CCombo.textEvent(Event) line: 1392</sentence>
+            <sentence id="3.9">CCombo$1.handleEvent(Event) line: 93</sentence>
+            <sentence id="3.10">EventTable.sendEvent(Event) line: 66</sentence>
+            <sentence id="3.11">Text(Widget).sendEvent(Event) line: 843</sentence>
+            <sentence id="3.12">Text(Widget).sendEvent(int, Event, boolean) line: 867</sentence>
+            <sentence id="3.13">Text(Widget).sendEvent(int) line: 848</sentence>
+            <sentence id="3.14">Text.wmCommandChild(int, int) line: 2061</sentence>
+            <sentence id="3.15">CCombo(Control).WM_COMMAND(int, int) line: 3164</sentence>
+            <sentence id="3.16">CCombo(Control).windowProc(int, int, int, int) line: 3041</sentence>
+            <sentence id="3.17">Display.windowProc(int, int, int, int) line: 3706</sentence>
+            <sentence id="3.18">OS.CallWindowProcW(int, int, int, int, int) line: not available [native method]</sentence>
+            <sentence id="3.19">OS.CallWindowProc(int, int, int, int, int) line: 1580</sentence>
+            <sentence id="3.20">Text.callWindowProc(int, int, int, int) line: 131</sentence>
+            <sentence id="3.21">Text(Control).windowProc(int, int, int, int) line: 3123</sentence>
+            <sentence id="3.22">Text.windowProc(int, int, int, int) line: 1777</sentence>
+            <sentence id="3.23">Display.windowProc(int, int, int, int) line: 3706</sentence>
+            <sentence id="3.24">OS.SetWindowTextW(int, char[]) line: not available [native method]</sentence>
+            <sentence id="3.25">OS.SetWindowText(int, TCHAR) line: 2355</sentence>
+            <sentence id="3.26">Text.setText(String) line: 1593</sentence>
+            <sentence id="3.27">CCombo.removeAll() line: 1022</sentence>
+            <sentence id="3.28">ProfileComboContribution.fillCombo(CCombo) line: 102</sentence>
+            <sentence id="3.29">ProfileComboContribution.createControl(Composite) line: 96</sentence>
+            <sentence id="3.30">ProfileComboContribution(ControlContribution).fill(ToolBar, int) line: 97</sentence>
+            <sentence id="3.31">ViewPane$PaneToolBarManager(ToolBarManager).update(boolean) line: 313</sentence>
+            <sentence id="3.32">ViewPane.updateActionBars() line: 433</sentence>
+            <sentence id="3.33">ViewActionBars.updateActionBars() line: 58</sentence>
+            <sentence id="3.34">ViewReference.createPartHelper() line: 336</sentence>
+            <sentence id="3.35">ViewReference.createPart() line: 180</sentence>
+            <sentence id="3.36">ViewReference(WorkbenchPartReference).getPart(boolean) line: 552</sentence>
+            <sentence id="3.37">ViewPane(PartPane).setVisible(boolean) line: 283</sentence>
+            <sentence id="3.38">ViewPane.setVisible(boolean) line: 512</sentence>
+            <sentence id="3.39">PresentablePart.setVisible(boolean) line: 126</sentence>
+            <sentence id="3.40">PresentablePartFolder.select(IPresentablePart) line: 268</sentence>
+            <sentence id="3.41">LeftToRightTabOrder.select(IPresentablePart) line: 65</sentence>
+            <sentence id="3.42">TabbedStackPresentation.selectPart(IPresentablePart) line: 391</sentence>
+            <sentence id="3.43">ViewStack(PartStack).refreshPresentationSelection() line: 1102</sentence>
+            <sentence id="3.44">ViewStack(PartStack).createControl(Composite, StackPresentation) line: 591</sentence>
+            <sentence id="3.45">ViewStack(PartStack).createControl(Composite) line: 528</sentence>
+            <sentence id="3.46">ViewSashContainer(PartSashContainer).createControl(Composite) line: 485</sentence>
+            <sentence id="3.47">PerspectiveHelper.activate(Composite) line: 230</sentence>
+            <sentence id="3.48">Perspective.onActivate() line: 813</sentence>
+            <sentence id="3.49">WorkbenchPage.onActivate() line: 2201</sentence>
+        </paragraph>
+    </description>
+</bug>

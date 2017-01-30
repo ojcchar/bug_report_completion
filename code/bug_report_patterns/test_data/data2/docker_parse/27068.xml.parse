@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27068</id>
+    <title>Data from image is not copied to tmpfs named volumes upon container creation</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Data is not copied to tmpfs named volumes upon container creation.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="3.2">1 FROM busybox:latest RUN mkdir /data &amp;&amp; touch /data/atestfile CMD ls -la /data</sentence>
+            <sentence id="3.3">2 docker build -t foo-image .</sentence>
+            <sentence id="3.4">3 docker create -v foo1:/data foo-image # /data/atestfile exists in foo1</sentence>
+            <sentence id="3.5">4 docker volume create --driver local --opt type=tmpfs --opt device=tmpfs --opt o=size=1m,uid=0 --name foo2 # repeat step 3 -&gt; /data/atestfile doesn't exist in foo2</sentence>
+            <sentence id="3.6">5 docker volume create --name foo3 -o o=addr=10.0.0.1,rw,soft -o device=:/share -o type=nfs # repeat step 3 -&gt; /data/atestfile exists in foo3</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+Client:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: Thu Aug 18 05:57:25 2016
+ OS/Arch: linux/amd64
+ Experimental: true</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Server:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: Thu Aug 18 05:57:25 2016
+ OS/Arch: linux/amd64
+ Experimental: true
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'</sentence>
+            <sentence id="8.2">Containers: 5</sentence>
+            <sentence id="8.3"> Running: 1</sentence>
+            <sentence id="8.4"> Paused: 0</sentence>
+            <sentence id="8.5"> Stopped: 4</sentence>
+            <sentence id="8.6">Images: 783</sentence>
+            <sentence id="8.7">Server Version: 1.12.1</sentence>
+            <sentence id="8.8">Storage Driver: aufs</sentence>
+            <sentence id="8.9"> Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="8.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="8.11"> Dirs: 603</sentence>
+            <sentence id="8.12"> Dirperm1 Supported: true</sentence>
+            <sentence id="8.13">Logging Driver: json-file</sentence>
+            <sentence id="8.14">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="8.15">Plugins:</sentence>
+            <sentence id="8.16"> Volume: local</sentence>
+            <sentence id="8.17"> Network: overlay null host bridge</sentence>
+            <sentence id="8.18">Swarm: inactive</sentence>
+            <sentence id="8.19">Runtimes: runc</sentence>
+            <sentence id="8.20">Default Runtime: runc</sentence>
+            <sentence id="8.21">Security Options: apparmor</sentence>
+            <sentence id="8.22">Kernel Version: 3.19.0-66-generic</sentence>
+            <sentence id="8.23">Operating System: Ubuntu 14.04.5 LTS</sentence>
+            <sentence id="8.24">OSType: linux</sentence>
+            <sentence id="8.25">Architecture: x86_64</sentence>
+            <sentence id="8.26">CPUs: 1</sentence>
+            <sentence id="8.27">Total Memory: 993.2 MiB</sentence>
+            <sentence id="8.28">Name: dock-02</sentence>
+            <sentence id="8.29">ID: DBYH:VD7W:KJRG:5G2R:E62M:HLXE:4ZG6:GSCI:JIJN:YLXP:6HI2:63O5</sentence>
+            <sentence id="8.30">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="8.31">Debug Mode (client): false</sentence>
+            <sentence id="8.32">Debug Mode (server): false</sentence>
+            <sentence id="8.33">Http Proxy: http://proxyblue.trasys.be:80</sentence>
+            <sentence id="8.34">Https Proxy: http://proxyblue.trasys.be:80</sentence>
+            <sentence id="8.35">No Proxy: 172.17.52.20</sentence>
+            <sentence id="8.36">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="8.37">WARNING: No swap limit support</sentence>
+            <sentence id="8.38">Experimental: true</sentence>
+            <sentence id="8.39">Insecure Registries:</sentence>
+            <sentence id="8.40"> 172.17.52.20:9090</sentence>
+            <sentence id="8.41"> 127.0.0.0/8</sentence>
+            <sentence id="8.42">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

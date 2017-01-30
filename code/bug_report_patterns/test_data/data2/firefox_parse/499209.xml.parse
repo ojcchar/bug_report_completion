@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>499209</id>
+    <title>Firefox 3.011 breaks Open Directory logins from using Firefox; moving back to 3.010 fixes issue</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10.4; en-US; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10
+Build Identifier: Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10.4; en-US; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.11</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Firefox appears to have not been tested in an Open Directory environment on Mac OS X 10.411 Client/Server.</sentence>
+            <sentence id="2.2">The new version breaks compatibility and the browser will not function at all.</sentence>
+            <sentence id="2.3">Browser functionality is perfect in local admin account, but not any standard user Open Directory Account.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Systems are as follows:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Mac OS X 10.411 PowerPC and Intel machines.</sentence>
+            <sentence id="4.2">Apple Security Update 2009-002 installed, newest Quicktime, Safari, Java updates installed.</sentence>
+            <sentence id="4.3">User is logged in to a Mac OS X Server 10.411 domain environment using non-administrator open directory login.</sentence>
+            <sentence id="4.4">User's login directory is stored on the server (this is called a roaming login).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Steps to Reproduce:</sentence>
+            <sentence id="6.2">1 Login to Open Directory (10.4 Open Directory) with non-administrator login.</sentence>
+            <sentence id="6.3">2 Launch Firefox 3.011 from the dock</sentence>
+            <sentence id="6.4">3 Program behaves as said in details box</sentence>
+            <sentence id="6.5">Actual Results:</sentence>
+            <sentence id="6.6">I am not a programmer, but I assume the newest version needs some sort of local administrator (NetInfo) rights to function properly.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The program will exhibit the following behaviors: not show any of the user's bookmarks in the menu, will not respond to entering in a web page url, will not load the default webpage.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">temporary solution it to revert to Firefox 3.010 or use alternative browser.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Expected Results:  
+Allowed me to surf webpages and access bookmarks with non-administrator OSX 10.4 Open Directory login.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Please check the source code to see if the program accidentally now requires local administrator rights.</sentence>
+            <sentence id="10.2">It is also possible that it was complied incorrectly so that FireFox is not looking at the current user's logged in firefox preferences folder, but one of the local login folders.</sentence>
+            <sentence id="10.3">Since the local login and the local drive is read only permission for a regular OD user, then it is possible that the program might accidentally have been complied to now require write permission to the local drive.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Please fix this issue as soon as you can.</sentence>
+            <sentence id="11.2">Open Directory is used in small cases of OSX users, but many schools and creative institutions rely on Open Directory to lock down Mac systems.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">I have disabled Firefox and am now requiring users to use Safari 4.0 or Camino due to the security now outdated on the only version of Firefox that I can use (3.010).</sentence>
+        </paragraph>
+    </description>
+</bug>

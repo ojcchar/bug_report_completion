@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5579</id>
+    <title>After upgrading from 3.3.2.GA to 3.5.6.Final receiving numerous ORA-00918: column ambiguously defined Exceptions</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">After upgrading from 3.3.2.GA to 3.5.6.Final receiving numerous ORA-00918: column ambiguously defined Exceptions.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">After research it appears to be linked to:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Per HHH-951 setMaxResults causes "ORA-00918: column ambiguously defined" exception 
+http://opensource.atlassian.com/projects/hibernate/browse/HHH-951</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I removed the MaxResults projects as per HHH-951 and I was able to get past that one query, but had to back out until this regression is resolved.</sentence>
+        </paragraph>
+    </description>
+</bug>

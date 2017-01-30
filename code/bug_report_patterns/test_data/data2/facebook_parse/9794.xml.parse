@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9794</id>
+    <title>XFBML fb:like-box ignores css parameter</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">XFBML fb:like-box ignores css parameter_ &lt;link /&gt; to css does not carry through to  generated iframe source.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This was a feature of fb:fan_ and *is* represented in the fb:like-box code in http://connect.facebook.net/en_US/all.js_ however it does not work with fb:like-box:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">...FB.subclass( XFBML.LikeBox _ XFBML.IframeWidget _null_{_visibleAfter: load _setupAndValidate:function(){this.</sentence>
+            <sentence id="3.2">_attr={api_key:FB.</sentence>
+            <sentence id="3.3">_apiKey_connections:this.getAttribute( connections _ 10 )_css:this.getAttribute( css )...</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Example:
+&lt;fb:like-box name= RussellLauren  width= 420  height= 139  connections= 7  stream= false  header= true  css= http://www.russelllauren.com/wp-content/themes/russelllauren/fbsocial.css?ver=1.0.0 &gt;&lt;/fb:like-box&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The generated iframe source for fb:like-box does not contain the expected &lt;link /&gt; (Code below shown from fb:fan):
+&lt;link type= text/css  rel= stylesheet  href= http://external.ak.fbcdn.net/fbml_static_get.php?src=http%3A%2F%2Fwww.russelllauren.com%2Fwp-content%2Fthemes%2Frusselllauren%2Ffbfan.css........</sentence>
+        </paragraph>
+    </description>
+</bug>

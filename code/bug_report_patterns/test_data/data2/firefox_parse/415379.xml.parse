@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>415379</id>
+    <title>Escaped URIs may be sent with a different escaping</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; es-ES; rv:1.9b2) Gecko/2007121120 Firefox/3.0b2
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.9b2) Gecko/2007121120 Firefox/3.0b2</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When you write in the location bar a escaped url, it is converted to local charset, then reencoded to send.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">So if for instance i paste utf8 url and have network.standard.url-encode-utf8 set to false the server gets it on local charset, even when you used a properly utf8 encoded url.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Note it doesn't seem reproductable the other way round as it only auto-decodes utf8 urls, per https://bugzilla.mozilla.org/show_bug.cgi?id=105909#c28</sentence>
+        </paragraph>
+    </description>
+</bug>

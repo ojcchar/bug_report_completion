@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6747</id>
+    <title>ClassCastException when rendering SimpleCaseExpression</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When creating a SimpleCase using CriteriaBuilder.selectCase(Expression&lt;?</sentence>
+            <sentence id="1.2">&gt; arg0), a classcast exception will be thrown when the query is rendered to a TypedQuery.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code}
+CriteriaQuery&lt;Customer&gt; query = builder.createQuery(Customer.class);
+Root&lt;Customer&gt; root = query.from(Customer.class);
+query.select(root);</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">SimpleCase&lt;String, Integer&gt; orderCase = builder.selectCase(root.get(Customer_.</sentence>
+            <sentence id="3.2">EMail));
+orderCase = orderCase.when("test@test.com", 1);
+orderCase = orderCase.when("test2@test.com", 2);
+        
+query.orderBy(builder.asc(orderCase.otherwise(0)));
+        
+em.createQuery(query);
+{code}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{noformat}</sentence>
+            <sentence id="4.2">Exception in thread "main" java.lang.ClassCastException: java.lang.String cannot be cast to org.hibernate.ejb.criteria.Renderable</sentence>
+            <sentence id="4.3">	at org.hibernate.ejb.criteria.expression.SimpleCaseExpression.render(SimpleCaseExpression.java:146)</sentence>
+            <sentence id="4.4">	at org.hibernate.ejb.criteria.CriteriaQueryImpl.render(CriteriaQueryImpl.java:346)</sentence>
+            <sentence id="4.5">	at org.hibernate.ejb.criteria.CriteriaQueryCompiler.compile(CriteriaQueryCompiler.java:223)</sentence>
+            <sentence id="4.6">	at org.hibernate.ejb.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:441)</sentence>
+            <sentence id="4.7">{noformat}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">See attachement for a reproduction project.</sentence>
+        </paragraph>
+    </description>
+</bug>

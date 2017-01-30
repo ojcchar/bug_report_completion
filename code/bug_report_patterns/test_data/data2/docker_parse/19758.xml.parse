@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>19758</id>
+    <title>Docker hang after intensive run/remove operations</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Problem description:</sentence>
+            <sentence id="1.2">Create a container (https://github.com/prasmussen/glot-containers) to compile/execution a source file, read out the output and remove this container.</sentence>
+            <sentence id="1.3">Normally each container will exit in seconds, and we will kill this container if it cannot finish in 30 seconds.</sentence>
+            <sentence id="1.4">We use three threads to repeat the whole process in parallel.</sentence>
+            <sentence id="1.5">Docker hang after thousands of normal operations.</sentence>
+            <sentence id="1.6">One process called 'exe' consumes 100% CPU of one core.</sentence>
+            <sentence id="1.7">I have to reboot the machine to make docker daemon back to work.</sentence>
+            <sentence id="1.8">```</sentence>
+            <sentence id="1.9">uname -a</sentence>
+            <sentence id="1.10">Linux xuyun-workpc 4..-25-generic #30-Ubuntu SMP Mon Jan 18 12:31:50 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+            <sentence id="1.11">```</sentence>
+            <sentence id="1.12">```</sentence>
+            <sentence id="1.13">docker version</sentence>
+            <sentence id="1.14">Client:</sentence>
+            <sentence id="1.15"> Version: 1..</sentence>
+            <sentence id="1.16"> API version: 1.</sentence>
+            <sentence id="1.17"> Go version: go1..</sentence>
+            <sentence id="1.18"> Git commit: a34a1d5</sentence>
+            <sentence id="1.19"> Built: Fri Nov 20 13:20:08 UTC 2015</sentence>
+            <sentence id="1.20"> OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Server:</sentence>
+            <sentence id="2.2"> Version: 1.9.1</sentence>
+            <sentence id="2.3"> API version: 1.21</sentence>
+            <sentence id="2.4"> Go version: go1.4.2</sentence>
+            <sentence id="2.5"> Git commit: a34a1d5</sentence>
+            <sentence id="2.6"> Built: Fri Nov 20 13:20:08 UTC 2015</sentence>
+            <sentence id="2.7"> OS/Arch: linux/amd64</sentence>
+            <sentence id="2.8">```</sentence>
+            <sentence id="2.9">```</sentence>
+            <sentence id="2.10">docker info</sentence>
+            <sentence id="2.11">Containers: 4</sentence>
+            <sentence id="2.12">Images: 131</sentence>
+            <sentence id="2.13">Server Version: 1.9.1</sentence>
+            <sentence id="2.14">Storage Driver: overlay</sentence>
+            <sentence id="2.15"> Backing Filesystem: extfs</sentence>
+            <sentence id="2.16">Execution Driver: native-0.2</sentence>
+            <sentence id="2.17">Logging Driver: json-file</sentence>
+            <sentence id="2.18">Kernel Version: 4.2.0-25-generic</sentence>
+            <sentence id="2.19">Operating System: Ubuntu 15.10</sentence>
+            <sentence id="2.20">CPUs: 4</sentence>
+            <sentence id="2.21">Total Memory: 7.672 GiB</sentence>
+            <sentence id="2.22">Name: xuyun-workpc</sentence>
+            <sentence id="2.23">ID: OI5K:OD3L:U44C:4ZWM:N3LZ:BARZ:KDEQ:5DIY:LLBE:UKHP:VBEN:AY6L</sentence>
+            <sentence id="2.24">WARNING: No swap limit support</sentence>
+            <sentence id="2.25">```</sentence>
+            <sentence id="2.26">After I reboot the machine, I found there are some containers left,</sentence>
+            <sentence id="2.27">```</sentence>
+            <sentence id="2.28">docker ps -a</sentence>
+            <sentence id="2.29">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+            <sentence id="2.30">f72001c02ff1 glot/clang:latest "/home/glot/runner" 15 hours ago Created amazing_engelbart</sentence>
+            <sentence id="2.31">7806233fbb4f glot/java:latest "/home/glot/runner" 15 hours ago Exited (137) 14 hours ago amazing_tesla</sentence>
+            <sentence id="2.32">59694504b3e8 glot/java:latest "/home/glot/runner" 15 hours ago Dead elated_galileo</sentence>
+            <sentence id="2.33">64e63df44436 glot/php:latest "/home/glot/runner" 15 hours ago Exited (137) 14 hours ago thirsty_knuth</sentence>
+            <sentence id="2.34">```</sentence>
+            <sentence id="2.35">And from container 596 I found some clue related to overlay driver. </sentence>
+            <sentence id="2.36">```</sentence>
+            <sentence id="2.37">docker logs 596</sentence>
+            <sentence id="2.38">Error response from daemon: open /var/lib/docker/overlay/59694504b3e88365c9323237c4418c51350941e7498de05584cc37d69f139d09/lower-id: no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">```</sentence>
+        </paragraph>
+    </description>
+</bug>

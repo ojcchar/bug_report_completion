@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1524</id>
+    <title>Error on left outer join with Oracle Dialect: ORA-00936: missing expression</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">With this HQL:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">from Company comp
+left outer join comp.employees empl
+with empl.birthday &gt; :date</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Produce following SQL:
+    select
+        company0_.</sentence>
+            <sentence id="3.2">id as id0_0_,
+        employees1_.</sentence>
+            <sentence id="3.3">id as id1_1_,
+        company0_.</sentence>
+            <sentence id="3.4">companyName as companyN2_0_0_,
+        employees1_.</sentence>
+            <sentence id="3.5">name as name1_1_,
+        employees1_.</sentence>
+            <sentence id="3.6">birthday as birthday1_1_,
+        employees1_.</sentence>
+            <sentence id="3.7">companyId as companyId1_1_ 
+    from
+        TB_COMPANY_TEMP company0_,
+        TB_EMPLOYEE_TEMP employees1_ 
+    where
+        company0_.</sentence>
+            <sentence id="3.8">id=employees1_.</sentence>
+            <sentence id="3.9">companyId(+) 
+        and (employees1_.</sentence>
+            <sentence id="3.10">birthday(+)&gt;(+)=?)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">When it is run, the stacktrace is:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">org.hibernate.exception.SQLGrammarException: could not execute query</sentence>
+            <sentence id="5.2">	at org.hibernate.exception.SQLStateConverter.convert(SQLStateConverter.java:65)</sentence>
+            <sentence id="5.3">	at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:43)</sentence>
+            <sentence id="5.4">	at org.hibernate.loader.Loader.doList(Loader.java:2148)</sentence>
+            <sentence id="5.5">	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2029)</sentence>
+            <sentence id="5.6">	at org.hibernate.loader.Loader.list(Loader.java:2024)</sentence>
+            <sentence id="5.7">	at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:375)</sentence>
+            <sentence id="5.8">	at org.hibernate.hql.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:308)</sentence>
+            <sentence id="5.9">	at org.hibernate.engine.query.HQLQueryPlan.performList(HQLQueryPlan.java:153)</sentence>
+            <sentence id="5.10">	at org.hibernate.impl.SessionImpl.list(SessionImpl.java:1129)</sentence>
+            <sentence id="5.11">	at org.hibernate.impl.QueryImpl.list(QueryImpl.java:79)</sentence>
+            <sentence id="5.12">	at mytest.OuterJoinTest.main(OuterJoinTest.java:28)</sentence>
+            <sentence id="5.13">Caused by: java.sql.SQLException: ORA-00936: missing expression</sentence>
+            <sentence id="5.14">	at oracle.jdbc.dbaccess.DBError.throwSqlException(DBError.java:168)</sentence>
+            <sentence id="5.15">	at oracle.jdbc.ttc7.TTIoer.processError(TTIoer.java:208)</sentence>
+            <sentence id="5.16">	at oracle.jdbc.ttc7.Oall7.receive(Oall7.java:543)</sentence>
+            <sentence id="5.17">	at oracle.jdbc.ttc7.TTC7Protocol.doOall7(TTC7Protocol.java:1405)</sentence>
+            <sentence id="5.18">	at oracle.jdbc.ttc7.TTC7Protocol.parseExecuteDescribe(TTC7Protocol.java:643)</sentence>
+            <sentence id="5.19">	at oracle.jdbc.driver.OracleStatement.doExecuteQuery(OracleStatement.java:1674)</sentence>
+            <sentence id="5.20">	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1870)</sentence>
+            <sentence id="5.21">	at oracle.jdbc.driver.OraclePreparedStatement.executeUpdate(OraclePreparedStatement.java:363)</sentence>
+            <sentence id="5.22">	at oracle.jdbc.driver.OraclePreparedStatement.executeQuery(OraclePreparedStatement.java:314)</sentence>
+            <sentence id="5.23">	at org.hibernate.jdbc.AbstractBatcher.getResultSet(AbstractBatcher.java:139)</sentence>
+            <sentence id="5.24">	at org.hibernate.loader.Loader.getResultSet(Loader.java:1669)</sentence>
+            <sentence id="5.25">	at org.hibernate.loader.Loader.doQuery(Loader.java:662)</sentence>
+            <sentence id="5.26">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:224)</sentence>
+            <sentence id="5.27">	at org.hibernate.loader.Loader.doList(Loader.java:2145)</sentence>
+            <sentence id="5.28">	... 8 more</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The correct where clause should be :
+    where
+        company0_.</sentence>
+            <sentence id="6.2">id=employees1_.</sentence>
+            <sentence id="6.3">companyId(+) 
+        and (employees1_.</sentence>
+            <sentence id="6.4">birthday(+)&gt;=?)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This error don't occur with MySQLDialect or SQLServerDialect.</sentence>
+            <sentence id="7.2">Probably it considers &gt;= as two operators instead of a single operator.</sentence>
+        </paragraph>
+    </description>
+</bug>

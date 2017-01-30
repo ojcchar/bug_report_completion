@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2482</id>
+    <title>In 2.x, uploading a module completely crashes OpenMRS</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I uploaded a module, and I get the following stack trace.</sentence>
+            <sentence id="1.2">(I tried with a custom build of the growthchart module, and with the webservices.rest module, which I know worked earlier today.)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code}
+class java.lang.NullPointerException</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">org.hibernate.cache.impl.bridge.RegionFactoryCacheProviderBridge . nextTimestamp (85)</sentence>
+            <sentence id="3.2">org.hibernate.impl.SessionFactoryImpl . openSession (526)</sentence>
+            <sentence id="3.3">org.hibernate.impl.SessionFactoryImpl . openSession (535)</sentence>
+            <sentence id="3.4">org.springframework.orm.hibernate3.SessionFactoryUtils . doGetSession (318)</sentence>
+            <sentence id="3.5">org.springframework.orm.hibernate3.SessionFactoryUtils . getSession (233)</sentence>
+            <sentence id="3.6">org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor . preHandle (155)</sentence>
+            <sentence id="3.7">org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter . preHandle (54)</sentence>
+            <sentence id="3.8">org.springframework.web.servlet.DispatcherServlet . doDispatch (781)</sentence>
+            <sentence id="3.9">org.springframework.web.servlet.DispatcherServlet . doService (719)</sentence>
+            <sentence id="3.10">org.springframework.web.servlet.FrameworkServlet . processRequest (644)</sentence>
+            <sentence id="3.11">org.springframework.web.servlet.FrameworkServlet . doGet (549)</sentence>
+            <sentence id="3.12">javax.servlet.http.HttpServlet . service (707)</sentence>
+            <sentence id="3.13">javax.servlet.http.HttpServlet . service (820)</sentence>
+            <sentence id="3.14">org.eclipse.jetty.servlet.ServletHolder . handle (530)</sentence>
+            <sentence id="3.15">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1219)</sentence>
+            <sentence id="3.16">org.openmrs.ui2.webapp.filter.OpenmrsFilter . doFilterInternal (95)</sentence>
+            <sentence id="3.17">org.springframework.web.filter.OncePerRequestFilter . doFilter (76)</sentence>
+            <sentence id="3.18">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="3.19">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter . doFilterInternal (198)</sentence>
+            <sentence id="3.20">org.springframework.web.filter.OncePerRequestFilter . doFilter (76)</sentence>
+            <sentence id="3.21">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="3.22">org.openmrs.ui2.webapp.filter.StartupFilter . doFilter (81)</sentence>
+            <sentence id="3.23">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="3.24">org.openmrs.ui2.webapp.filter.StartupFilter . doFilter (81)</sentence>
+            <sentence id="3.25">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="3.26">org.springframework.web.filter.CharacterEncodingFilter . doFilterInternal (88)</sentence>
+            <sentence id="3.27">org.springframework.web.filter.OncePerRequestFilter . doFilter (76)</sentence>
+            <sentence id="3.28">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="3.29">org.eclipse.jetty.servlet.ServletHandler . doHandle (424)</sentence>
+            <sentence id="3.30">org.eclipse.jetty.server.handler.ScopedHandler . handle (119)</sentence>
+            <sentence id="3.31">org.eclipse.jetty.security.SecurityHandler . handle (494)</sentence>
+            <sentence id="3.32">org.eclipse.jetty.server.session.SessionHandler . doHandle (229)</sentence>
+            <sentence id="3.33">org.eclipse.jetty.server.handler.ContextHandler . doHandle (931)</sentence>
+            <sentence id="3.34">org.eclipse.jetty.servlet.ServletHandler . doScope (361)</sentence>
+            <sentence id="3.35">org.eclipse.jetty.server.session.SessionHandler . doScope (186)</sentence>
+            <sentence id="3.36">org.eclipse.jetty.server.handler.ContextHandler . doScope (867)</sentence>
+            <sentence id="3.37">org.eclipse.jetty.server.handler.ScopedHandler . handle (117)</sentence>
+            <sentence id="3.38">org.eclipse.jetty.server.handler.ContextHandlerCollection . handle (245)</sentence>
+            <sentence id="3.39">org.eclipse.jetty.server.handler.HandlerCollection . handle (126)</sentence>
+            <sentence id="3.40">org.eclipse.jetty.server.handler.HandlerWrapper . handle (113)</sentence>
+            <sentence id="3.41">org.eclipse.jetty.server.Server . handle (337)</sentence>
+            <sentence id="3.42">org.eclipse.jetty.server.HttpConnection . handleRequest (581)</sentence>
+            <sentence id="3.43">org.eclipse.jetty.server.HttpConnection$RequestHandler . headerComplete (1005)</sentence>
+            <sentence id="3.44">org.eclipse.jetty.http.HttpParser . parseNext (560)</sentence>
+            <sentence id="3.45">org.eclipse.jetty.http.HttpParser . parseAvailable (222)</sentence>
+            <sentence id="3.46">org.eclipse.jetty.server.HttpConnection . handle (417)</sentence>
+            <sentence id="3.47">org.eclipse.jetty.io.nio.SelectChannelEndPoint . run (474)</sentence>
+            <sentence id="3.48">org.eclipse.jetty.util.thread.QueuedThreadPool$2 . run (437)</sentence>
+            <sentence id="3.49">java.lang.Thread . run (680)</sentence>
+            <sentence id="3.50">{code}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">From that point, any page I visit give s similar stack trace, e.g. admin.page gives:
+{code}
+class java.lang.NullPointerException</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">org.hibernate.cache.impl.bridge.RegionFactoryCacheProviderBridge . nextTimestamp (85)</sentence>
+            <sentence id="5.2">org.hibernate.impl.SessionFactoryImpl . openSession (526)</sentence>
+            <sentence id="5.3">org.hibernate.impl.SessionFactoryImpl . openSession (535)</sentence>
+            <sentence id="5.4">org.springframework.orm.hibernate3.SessionFactoryUtils . doGetSession (318)</sentence>
+            <sentence id="5.5">org.springframework.orm.hibernate3.SessionFactoryUtils . getSession (233)</sentence>
+            <sentence id="5.6">org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor . preHandle (155)</sentence>
+            <sentence id="5.7">org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter . preHandle (54)</sentence>
+            <sentence id="5.8">org.springframework.web.servlet.DispatcherServlet . doDispatch (781)</sentence>
+            <sentence id="5.9">org.springframework.web.servlet.DispatcherServlet . doService (719)</sentence>
+            <sentence id="5.10">org.springframework.web.servlet.FrameworkServlet . processRequest (644)</sentence>
+            <sentence id="5.11">org.springframework.web.servlet.FrameworkServlet . doGet (549)</sentence>
+            <sentence id="5.12">javax.servlet.http.HttpServlet . service (707)</sentence>
+            <sentence id="5.13">javax.servlet.http.HttpServlet . service (820)</sentence>
+            <sentence id="5.14">org.eclipse.jetty.servlet.ServletHolder . handle (530)</sentence>
+            <sentence id="5.15">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1219)</sentence>
+            <sentence id="5.16">org.openmrs.ui2.webapp.filter.OpenmrsFilter . doFilterInternal (95)</sentence>
+            <sentence id="5.17">org.springframework.web.filter.OncePerRequestFilter . doFilter (76)</sentence>
+            <sentence id="5.18">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="5.19">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter . doFilterInternal (198)</sentence>
+            <sentence id="5.20">org.springframework.web.filter.OncePerRequestFilter . doFilter (76)</sentence>
+            <sentence id="5.21">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="5.22">org.openmrs.ui2.webapp.filter.StartupFilter . doFilter (81)</sentence>
+            <sentence id="5.23">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="5.24">org.openmrs.ui2.webapp.filter.StartupFilter . doFilter (81)</sentence>
+            <sentence id="5.25">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="5.26">org.springframework.web.filter.CharacterEncodingFilter . doFilterInternal (88)</sentence>
+            <sentence id="5.27">org.springframework.web.filter.OncePerRequestFilter . doFilter (76)</sentence>
+            <sentence id="5.28">org.eclipse.jetty.servlet.ServletHandler$CachedChain . doFilter (1190)</sentence>
+            <sentence id="5.29">org.eclipse.jetty.servlet.ServletHandler . doHandle (424)</sentence>
+            <sentence id="5.30">org.eclipse.jetty.server.handler.ScopedHandler . handle (119)</sentence>
+            <sentence id="5.31">org.eclipse.jetty.security.SecurityHandler . handle (494)</sentence>
+            <sentence id="5.32">org.eclipse.jetty.server.session.SessionHandler . doHandle (229)</sentence>
+            <sentence id="5.33">org.eclipse.jetty.server.handler.ContextHandler . doHandle (931)</sentence>
+            <sentence id="5.34">org.eclipse.jetty.servlet.ServletHandler . doScope (361)</sentence>
+            <sentence id="5.35">org.eclipse.jetty.server.session.SessionHandler . doScope (186)</sentence>
+            <sentence id="5.36">org.eclipse.jetty.server.handler.ContextHandler . doScope (867)</sentence>
+            <sentence id="5.37">org.eclipse.jetty.server.handler.ScopedHandler . handle (117)</sentence>
+            <sentence id="5.38">org.eclipse.jetty.server.handler.ContextHandlerCollection . handle (245)</sentence>
+            <sentence id="5.39">org.eclipse.jetty.server.handler.HandlerCollection . handle (126)</sentence>
+            <sentence id="5.40">org.eclipse.jetty.server.handler.HandlerWrapper . handle (113)</sentence>
+            <sentence id="5.41">org.eclipse.jetty.server.Server . handle (337)</sentence>
+            <sentence id="5.42">org.eclipse.jetty.server.HttpConnection . handleRequest (581)</sentence>
+            <sentence id="5.43">org.eclipse.jetty.server.HttpConnection$RequestHandler . headerComplete (1005)</sentence>
+            <sentence id="5.44">org.eclipse.jetty.http.HttpParser . parseNext (560)</sentence>
+            <sentence id="5.45">org.eclipse.jetty.http.HttpParser . parseAvailable (222)</sentence>
+            <sentence id="5.46">org.eclipse.jetty.server.HttpConnection . handle (417)</sentence>
+            <sentence id="5.47">org.eclipse.jetty.io.nio.SelectChannelEndPoint . run (474)</sentence>
+            <sentence id="5.48">org.eclipse.jetty.util.thread.QueuedThreadPool$2 . run (437)</sentence>
+            <sentence id="5.49">java.lang.Thread . run (680)</sentence>
+            <sentence id="5.50">{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The "fix" is to restart jetty.</sentence>
+        </paragraph>
+    </description>
+</bug>

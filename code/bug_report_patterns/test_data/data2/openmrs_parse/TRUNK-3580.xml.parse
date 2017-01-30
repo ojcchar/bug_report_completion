@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3580</id>
+    <title>MessageSourceService.getMessage methods that take a MessageSourceResolvable should return the proper default message</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In the UI Framework module, I am working with some Spring errors objects that have multiple message codes (though this isn't specific to the UI Framework module.)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">E.g. if you do errors.reject("myField", "myErrorCode") you'll actually get an error whose message codes, like "myField.commandObjectName", "myField.commandClass", "myField".</sentence>
+            <sentence id="2.2">The last one of these is supposed to be the default one, to be returned if the code fails.</sentence>
+            <sentence id="2.3">(See http://static.springsource.org/spring/docs/2.5.x/api/org/springframework/context/MessageSourceResolvable.html)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">However when I call MessageSourceService.getMessage(springError, Context.getLocale()), if no localization is found, I get back the first code, rather than the last one.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The result is that (assuming a validator returned a plain string as an error message, and not a proper error code), the error message I get back from MSS will be like "Identifier [sdafasdfasdfasfd] does not match required format: \d+.</sentence>
+            <sentence id="4.2">request" (note the incorrect .</sentence>
+            <sentence id="4.3">request)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I think we should do some logic where if the message returned is equal to the first code of the MessageSourceResolvable, we should return the last code rather than the first one.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This is low-priority, since I'll just work around this in the UI Framework module, but I figured I'd mention it.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14451</id>
+    <title>Panic on daemon startup (master)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Got this today (current build '2fe51ec'):</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+panic: sync: unlock of unlocked mutex</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">goroutine 1 [running]:</sentence>
+            <sentence id="3.2">sync.(*Mutex).Unlock(0xc20817e010)</sentence>
+            <sentence id="3.3"> /usr/local/go/src/sync/mutex.go:91 +0x9a</sentence>
+            <sentence id="3.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).removeDevice(0xc20817e000, 0xc2081b8980, 0x19, 0x0, 0x0)</sentence>
+            <sentence id="3.5"> /go/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1402 +0x2f9</sentence>
+            <sentence id="3.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).deactivateDevice(0xc20817e000, 0xc2081ae780, 0x0, 0x0)</sentence>
+            <sentence id="3.7"> /go/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1377 +0x393</sentence>
+            <sentence id="3.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).verifyBaseDeviceUUID(0xc20817e000, 0xc2081ae780, 0x0, 0x0)</sentence>
+            <sentence id="3.9"> /go/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:709 +0x1c2</sentence>
+            <sentence id="3.10">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).setupBaseImage(0xc20817e000, 0x0, 0x0)</sentence>
+            <sentence id="3.11"> /go/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:741 +0x1ee</sentence>
+            <sentence id="3.12">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).initDevmapper(0xc20817e000, 0xc2081c6001, 0x0, 0x0)</sentence>
+            <sentence id="3.13"> /go/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1246 +0x15b2</sentence>
+            <sentence id="3.14">github.com/docker/docker/daemon/graphdriver/devmapper.NewDeviceSet(0xc2081b8860, 0x1c, 0x1, 0x0, 0x0, 0x0, 0x4a27bf, 0x0, 0x0)</sentence>
+            <sentence id="3.15"> /go/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1879 +0x4e7</sentence>
+            <sentence id="3.16">github.com/docker/docker/daemon/graphdriver/devmapper.Init(0xc2081b8860, 0x1c, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="3.17"> /go/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:44 +0x172</sentence>
+            <sentence id="3.18">github.com/docker/docker/daemon/graphdriver.GetDriver(0xfe13b0, 0xc, 0xc2081b65e0, 0xf, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+            <sentence id="3.19"> /go/src/github.com/docker/docker/daemon/graphdriver/driver.go:102 +0x1a4</sentence>
+            <sentence id="3.20">github.com/docker/docker/daemon/graphdriver.New(0xc2081b65e0, 0xf, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="3.21"> /go/src/github.com/docker/docker/daemon/graphdriver/driver.go:126 +0xa9d</sentence>
+            <sentence id="3.22">github.com/docker/docker/daemon.NewDaemon(0x1704800, 0xc208038ac8, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="3.23"> /go/src/github.com/docker/docker/daemon/daemon.go:606 +0x7bf</sentence>
+            <sentence id="3.24">main.mainDaemon()</sentence>
+            <sentence id="3.25"> /go/src/github.com/docker/docker/docker/daemon.go:150 +0x9ef</sentence>
+            <sentence id="3.26">main.main()</sentence>
+            <sentence id="3.27"> /go/src/github.com/docker/docker/docker/docker.go:99 +0x6ef</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">goroutine 5 [syscall]:
+os/signal.</sentence>
+            <sentence id="4.2">loop()
+ /usr/local/go/src/os/signal/signal_unix.</sentence>
+            <sentence id="4.3">go:21 +0x1f
+created by os/signal.</sentence>
+            <sentence id="4.4">init·1
+ /usr/local/go/src/os/signal/signal_unix.</sentence>
+            <sentence id="4.5">go:27 +0x35</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">goroutine 17 [syscall, locked to thread]:
+runtime.goexit()
+ /usr/local/go/src/runtime/asm_amd64.s:2232 +0x1</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">goroutine 12 [chan receive]:</sentence>
+            <sentence id="6.2">github.com/docker/docker/pkg/listenbuffer.(*defaultListener).Accept(0xc2081b82e0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="6.3"> /go/src/github.com/docker/docker/pkg/listenbuffer/buffer.go:73 +0xb6</sentence>
+            <sentence id="6.4">net/http.(*Server).Serve(0xc2081ae0c0, 0x7ff178975f38, 0xc2081b82e0, 0x0, 0x0)</sentence>
+            <sentence id="6.5"> /usr/local/go/src/net/http/server.go:1728 +0x92</sentence>
+            <sentence id="6.6">github.com/docker/docker/api/server.(*HttpServer).Serve(0xc2081b8340, 0x0, 0x0)</sentence>
+            <sentence id="6.7"> /go/src/github.com/docker/docker/api/server/server.go:125 +0x4d</sentence>
+            <sentence id="6.8">github.com/docker/docker/api/server.func·002(0x7ff178975f98, 0xc2081b8340)</sentence>
+            <sentence id="6.9"> /go/src/github.com/docker/docker/api/server/server.go:101 +0x40</sentence>
+            <sentence id="6.10">created by github.com/docker/docker/api/server.(*Server).ServeApi</sentence>
+            <sentence id="6.11"> /go/src/github.com/docker/docker/api/server/server.go:105 +0x6ac</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">goroutine 10 [chan receive]:
+github.com/docker/docker/api/server.</sentence>
+            <sentence id="7.2">(*Server).</sentence>
+            <sentence id="7.3">ServeApi(0xc20805ad40, 0xc208078f50, 0x1, 0x1, 0x0, 0x0)
+ /go/src/github.</sentence>
+            <sentence id="7.4">com/docker/docker/api/server/server.</sentence>
+            <sentence id="7.5">go:110 +0x74f
+main.func·003()
+ /go/src/github.</sentence>
+            <sentence id="7.6">com/docker/docker/docker/daemon.</sentence>
+            <sentence id="7.7">go:136 +0x5f
+created by main.mainDaemon
+ /go/src/github.</sentence>
+            <sentence id="7.8">com/docker/docker/docker/daemon.</sentence>
+            <sentence id="7.9">go:142 +0x877</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">goroutine 11 [chan receive]:
+github.com/docker/docker/daemon.func·021()
+ /go/src/github.</sentence>
+            <sentence id="8.2">com/docker/docker/daemon/debugtrap_unix.go:17 +0x5c
+created by github.com/docker/docker/daemon.setupDumpStackTrap
+ /go/src/github.</sentence>
+            <sentence id="8.3">com/docker/docker/daemon/debugtrap_unix.go:20 +0x18e
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

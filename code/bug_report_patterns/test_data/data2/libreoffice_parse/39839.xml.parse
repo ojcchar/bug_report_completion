@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>39839</id>
+    <title>debug build cannot open table: infinite wait</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">A debug build refuses to open a table (double-click on a table to show/edit the data).</sentence>
+            <sentence id="1.2">GUI-wise, it just silently does nothing.</sentence>
+            <sentence id="1.3">On stderr, one sees:</sentence>
+            <sentence id="1.4">Error: OPropertyArrayAggregationHelper::fillHandles : property names are not sorted!</sentence>
+            <sentence id="1.5">From File /home/master/src/libreoffice/libreoffice-3.4/comphelper/source/property/propagg.cxx at Line 287</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The rest of fillHandles *really* expects the property names to be sorted, as it does binary search on them.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Adding some printf's, I saw that the problem is that "Filter" is before "ApplyFilter", but I'm not sure what objects these properties are of.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here's a backtrace at the point of failed assertion:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">#0  osl_assertFailedLine (pszFileName=0x7f1077629678 "/home/master/src/libreoffice/libreoffice-3.4/comphelper/source/property/propagg.cxx", </sentence>
+            <sentence id="5.2">    nLine=287, pszMessage=0x7f1077629770 "OPropertyArrayAggregationHelper::fillHandles : property names are not sorted!") at diagnose.c:219</sentence>
+            <sentence id="5.3">#1  0x00007f10775f295c in comphelper::OPropertyArrayAggregationHelper::fillHandles (this=0x2b37060, _pHandles=0x328e648, _rPropNames=...)</sentence>
+            <sentence id="5.4">    at /home/master/src/libreoffice/libreoffice-3.4/comphelper/source/property/propagg.cxx:287</sentence>
+            <sentence id="5.5">#2  0x00007f10775f4cc0 in comphelper::OPropertySetAggregationHelper::setPropertyValues (this=0x2b34450, _rPropertyNames=..., _rValues=...)</sentence>
+            <sentence id="5.6">    at /home/master/src/libreoffice/libreoffice-3.4/comphelper/source/property/propagg.cxx:837</sentence>
+            <sentence id="5.7">#3  0x00007f10565bd582 in dbaui::SbaTableQueryBrowser::InitializeForm (this=0x2b33080, i_formProperties=...)</sentence>
+            <sentence id="5.8">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/browser/unodatbr.cxx:601</sentence>
+            <sentence id="5.9">#4  0x00007f10565cc61d in dbaui::SbaTableQueryBrowser::implLoadAnything (this=0x2b33080, _rDataSourceName=..., _rCommand=..., _nCommandType=0, </sentence>
+            <sentence id="5.10">    _bEscapeProcessing=1 '\001', _rxConnection=...)</sentence>
+            <sentence id="5.11">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/browser/unodatbr.cxx:2452</sentence>
+            <sentence id="5.12">#5  0x00007f10565ce80c in dbaui::SbaTableQueryBrowser::implSelect (this=0x2b33080, _pEntry=0x2f3b528)</sentence>
+            <sentence id="5.13">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/browser/unodatbr.cxx:2750</sentence>
+            <sentence id="5.14">#6  0x00007f10565cd574 in dbaui::SbaTableQueryBrowser::implSelect (this=0x2b33080, _rDataSourceName=..., _rCommand=..., _nCommandType=0, </sentence>
+            <sentence id="5.15">    _bEscapeProcessing=1 '\001', _rxConnection=..., _bSelectDirect=1 '\001')</sentence>
+            <sentence id="5.16">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/browser/unodatbr.cxx:2527</sentence>
+            <sentence id="5.17">#7  0x00007f10565d25a1 in dbaui::SbaTableQueryBrowser::impl_initialize (this=0x2b33080)</sentence>
+            <sentence id="5.18">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/browser/unodatbr.cxx:3298</sentence>
+            <sentence id="5.19">#8  0x00007f105658fffa in dbaui::OGenericUnoController::initialize (this=0x2b33080, aArguments=...)</sentence>
+            <sentence id="5.20">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/browser/genericcontroller.cxx:341</sentence>
+            <sentence id="5.21">#9  0x00007f1056573a77 in DBContentLoader::load (this=0x2dc6540, rFrame=..., rURL=..., rArgs=..., rListener=...)</sentence>
+            <sentence id="5.22">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/browser/dbloader.cxx:322</sentence>
+            <sentence id="5.23">#10 0x00007f10649bb24c in framework::LoadEnv::impl_loadContent (this=0x7fff54fa4fc0)</sentence>
+            <sentence id="5.24">    at /home/master/src/libreoffice/libreoffice-3.4/framework/source/loadenv/loadenv.cxx:1145</sentence>
+            <sentence id="5.25">#11 0x00007f10649b7b55 in framework::LoadEnv::startLoading (this=0x7fff54fa4fc0)</sentence>
+            <sentence id="5.26">    at /home/master/src/libreoffice/libreoffice-3.4/framework/source/loadenv/loadenv.cxx:412</sentence>
+            <sentence id="5.27">#12 0x00007f10649b6aa9 in framework::LoadEnv::loadComponentFromURL (xLoader=..., xSMGR=..., sURL=..., sTarget=..., nFlags=0, lArgs=...)</sentence>
+            <sentence id="5.28">    at /home/master/src/libreoffice/libreoffice-3.4/framework/source/loadenv/loadenv.cxx:191</sentence>
+            <sentence id="5.29">#13 0x00007f10649f6637 in framework::Frame::loadComponentFromURL (this=0x2c023a0, sURL=..., sTargetFrameName=..., nSearchFlags=0, lArguments=...)</sentence>
+            <sentence id="5.30">    at /home/master/src/libreoffice/libreoffice-3.4/framework/source/services/frame.cxx:360</sentence>
+            <sentence id="5.31">#14 0x00007f1056491d87 in dbaui::DatabaseObjectView::doDispatch (this=0x2733098, i_rDispatchArgs=...)</sentence>
+            <sentence id="5.32">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/misc/databaseobjectview.cxx:165</sentence>
+            <sentence id="5.33">#15 0x00007f105649179e in dbaui::DatabaseObjectView::doCreateView (this=0x2733098, _rDataSource=..., _rObjectName=..., i_rCreationArgs=...)</sentence>
+            <sentence id="5.34">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/misc/databaseobjectview.cxx:120</sentence>
+            <sentence id="5.35">#16 0x00007f1056491703 in dbaui::DatabaseObjectView::openExisting (this=0x2733098, _rDataSource=..., _rName=..., i_rDispatchArgs=...)</sentence>
+            <sentence id="5.36">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/misc/databaseobjectview.cxx:107</sentence>
+            <sentence id="5.37">#17 0x00007f105660a301 in dbaui::OApplicationController::openElementWithArguments (this=0x2acc9e0, _sName=..., _eType=dbaui::E_TABLE, </sentence>
+            <sentence id="5.38">    _eOpenMode=dbaui::E_OPEN_NORMAL, _nInstigatorCommand=0, _rAdditionalArguments=...)</sentence>
+            <sentence id="5.39">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppController.cxx:1923</sentence>
+            <sentence id="5.40">#18 0x00007f1056609a17 in dbaui::OApplicationController::openElement (this=0x2acc9e0, _sName=..., _eType=dbaui::E_TABLE, </sentence>
+            <sentence id="5.41">    _eOpenMode=dbaui::E_OPEN_NORMAL, _nInstigatorCommand=0)</sentence>
+            <sentence id="5.42">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppController.cxx:1824</sentence>
+            <sentence id="5.43">#19 0x00007f1056608e33 in dbaui::OApplicationController::onEntryDoubleClick (this=0x2acc9e0, _rTree=...)</sentence>
+            <sentence id="5.44">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppController.cxx:1784</sentence>
+            <sentence id="5.45">#20 0x00007f105662ded3 in dbaui::OAppDetailPageHelper::OnEntryDoubleClick (this=0x2ad8558, _pTree=0x2f13dc8)</sentence>
+            <sentence id="5.46">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppDetailPageHelper.cxx:958</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">#21 0x00007f105662de4f in dbaui::OAppDetailPageHelper::LinkStubOnEntryDoubleClick (pThis=0x2ad8558, pCaller=0x2f13dc8)</sentence>
+            <sentence id="6.2">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppDetailPageHelper.cxx:955</sentence>
+            <sentence id="6.3">#22 0x00007f10563ff12e in Link::Call (this=0x2f140d8, pCaller=0x2f13dc8)</sentence>
+            <sentence id="6.4">    at /home/master/src/libreoffice/libreoffice-3.4/solver/340/unxlngx6/inc/tools/link.hxx:140</sentence>
+            <sentence id="6.5">#23 0x00007f1056660fec in dbaui::DBTreeListBox::DoubleClickHdl (this=0x2f13dc8)</sentence>
+            <sentence id="6.6">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/control/dbtreelistbox.cxx:437</sentence>
+            <sentence id="6.7">#24 0x00007f1075919b5d in SvImpLBox::MouseButtonDown (this=0x2f14968, rMEvt=...)</sentence>
+            <sentence id="6.8">    at /home/master/src/libreoffice/libreoffice-3.4/svtools/source/contnr/svimpbox.cxx:2143</sentence>
+            <sentence id="6.9">#25 0x00007f10759482db in SvTreeListBox::MouseButtonDown (this=0x2f13dc8, rMEvt=...)</sentence>
+            <sentence id="6.10">    at /home/master/src/libreoffice/libreoffice-3.4/svtools/source/contnr/svtreebx.cxx:1161</sentence>
+            <sentence id="6.11">#26 0x00007f105666030e in dbaui::DBTreeListBox::MouseButtonDown (this=0x2f13dc8, rMEvt=...)</sentence>
+            <sentence id="6.12">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/control/dbtreelistbox.cxx:214</sentence>
+            <sentence id="6.13">#27 0x00007f1073f8a9ec in ImplHandleMouseEvent (pWindow=0x238fe68, nSVEvent=1, bMouseLeave=0 '', nX=200, nY=398, nMsgTime=2103220566, nCode=1, </sentence>
+            <sentence id="6.14">    nMode=3) at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/window/winproc.cxx:803</sentence>
+            <sentence id="6.15">#28 0x00007f1073f902b2 in ImplHandleSalMouseButtonDown (pWindow=0x238fe68, pEvent=0x7fff54fa6020)</sentence>
+            <sentence id="6.16">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/window/winproc.cxx:2068</sentence>
+            <sentence id="6.17">#29 0x00007f1073f8f4dc in ImplWindowFrameProc (pWindow=0x238fe68, nEvent=3, pEvent=0x7fff54fa6020)</sentence>
+            <sentence id="6.18">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/window/winproc.cxx:2395</sentence>
+            <sentence id="6.19">#30 0x00007f106ba94977 in SalFrame::CallCallback (this=0x22012a8, nEvent=3, pEvent=0x7fff54fa6020) at ../../../inc/vcl/salframe.hxx:294</sentence>
+            <sentence id="6.20">#31 0x00007f106bacebc0 in GtkSalFrame::signalButton (pEvent=0x2dcaea0, frame=0x22012a8)</sentence>
+            <sentence id="6.21">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/unx/gtk/window/gtkframe.cxx:2696</sentence>
+            <sentence id="6.22">#32 0x00007f106b5574c8 in ?? () from /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0</sentence>
+            <sentence id="6.23">#33 0x00007f1069c36dc9 in g_closure_invoke () from /usr/lib/libgobject-2.0.so.0</sentence>
+            <sentence id="6.24">#34 0x00007f1069c488d7 in ?? () from /usr/lib/libgobject-2.0.so.0</sentence>
+            <sentence id="6.25">#35 0x00007f1069c51aa5 in g_signal_emit_valist () from /usr/lib/libgobject-2.0.so.0</sentence>
+            <sentence id="6.26">#36 0x00007f1069c51ed3 in g_signal_emit () from /usr/lib/libgobject-2.0.so.0</sentence>
+            <sentence id="6.27">#37 0x00007f106b6702c1 in ?? () from /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0</sentence>
+            <sentence id="6.28">#38 0x00007f106b5556c3 in gtk_propagate_event () from /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0</sentence>
+            <sentence id="6.29">#39 0x00007f106b555a23 in gtk_main_do_event () from /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0</sentence>
+            <sentence id="6.30">#40 0x00007f106b1c11dc in ?? () from /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0</sentence>
+            <sentence id="6.31">#41 0x00007f106936c4a3 in g_main_context_dispatch () from /lib/libglib-2.0.so.0</sentence>
+            <sentence id="6.32">#42 0x00007f106936cc80 in ?? () from /lib/libglib-2.0.so.0</sentence>
+            <sentence id="6.33">#43 0x00007f106936cf1d in g_main_context_iteration () from /lib/libglib-2.0.so.0</sentence>
+            <sentence id="6.34">#44 0x00007f106ba93fb0 in GtkXLib::Yield (this=0x1466268, bWait=true, bHandleAllCurrentEvents=false)</sentence>
+            <sentence id="6.35">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/unx/gtk/app/gtkdata.cxx:866</sentence>
+            <sentence id="6.36">#45 0x00007f10690a4cb7 in X11SalInstance::Yield (this=0x1465058, bWait=true, bHandleAllCurrentEvents=false)</sentence>
+            <sentence id="6.37">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/unx/source/app/salinst.cxx:282</sentence>
+            <sentence id="6.38">#46 0x00007f1073c7926f in ImplYield (i_bWait=true, i_bAllEvents=false)</sentence>
+            <sentence id="6.39">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/app/svapp.cxx:458</sentence>
+            <sentence id="6.40">#47 0x00007f1073c754d1 in Application::Yield (i_bAllEvents=false)</sentence>
+            <sentence id="6.41">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/app/svapp.cxx:492</sentence>
+            <sentence id="6.42">#48 0x00007f10649b7c26 in framework::LoadEnv::waitWhileLoading (this=0x7fff54fa6860, nTimeout=0)</sentence>
+            <sentence id="6.43">    at /home/master/src/libreoffice/libreoffice-3.4/framework/source/loadenv/loadenv.cxx:443</sentence>
+            <sentence id="6.44">#49 0x00007f10649b6abd in framework::LoadEnv::loadComponentFromURL (xLoader=..., xSMGR=..., sURL=..., sTarget=..., nFlags=0, lArgs=...)</sentence>
+            <sentence id="6.45">    at /home/master/src/libreoffice/libreoffice-3.4/framework/source/loadenv/loadenv.cxx:192</sentence>
+            <sentence id="6.46">#50 0x00007f10649f6637 in framework::Frame::loadComponentFromURL (this=0x2f07e60, sURL=..., sTargetFrameName=..., nSearchFlags=0, lArguments=...)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">    at /home/master/src/libreoffice/libreoffice-3.4/framework/source/services/frame.cxx:360</sentence>
+            <sentence id="7.2">#51 0x00007f1056491d87 in dbaui::DatabaseObjectView::doDispatch (this=0x2be1048, i_rDispatchArgs=...)</sentence>
+            <sentence id="7.3">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/misc/databaseobjectview.cxx:165</sentence>
+            <sentence id="7.4">#52 0x00007f105649179e in dbaui::DatabaseObjectView::doCreateView (this=0x2be1048, _rDataSource=..., _rObjectName=..., i_rCreationArgs=...)</sentence>
+            <sentence id="7.5">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/misc/databaseobjectview.cxx:120</sentence>
+            <sentence id="7.6">#53 0x00007f1056491703 in dbaui::DatabaseObjectView::openExisting (this=0x2be1048, _rDataSource=..., _rName=..., i_rDispatchArgs=...)</sentence>
+            <sentence id="7.7">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/misc/databaseobjectview.cxx:107</sentence>
+            <sentence id="7.8">#54 0x00007f105660a301 in dbaui::OApplicationController::openElementWithArguments (this=0x2acc9e0, _sName=..., _eType=dbaui::E_TABLE, </sentence>
+            <sentence id="7.9">    _eOpenMode=dbaui::E_OPEN_NORMAL, _nInstigatorCommand=0, _rAdditionalArguments=...)</sentence>
+            <sentence id="7.10">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppController.cxx:1923</sentence>
+            <sentence id="7.11">#55 0x00007f1056609a17 in dbaui::OApplicationController::openElement (this=0x2acc9e0, _sName=..., _eType=dbaui::E_TABLE, </sentence>
+            <sentence id="7.12">    _eOpenMode=dbaui::E_OPEN_NORMAL, _nInstigatorCommand=0)</sentence>
+            <sentence id="7.13">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppController.cxx:1824</sentence>
+            <sentence id="7.14">#56 0x00007f1056608e33 in dbaui::OApplicationController::onEntryDoubleClick (this=0x2acc9e0, _rTree=...)</sentence>
+            <sentence id="7.15">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppController.cxx:1784</sentence>
+            <sentence id="7.16">#57 0x00007f105662ded3 in dbaui::OAppDetailPageHelper::OnEntryDoubleClick (this=0x2ad8558, _pTree=0x2f13dc8)</sentence>
+            <sentence id="7.17">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppDetailPageHelper.cxx:958</sentence>
+            <sentence id="7.18">#58 0x00007f105662de4f in dbaui::OAppDetailPageHelper::LinkStubOnEntryDoubleClick (pThis=0x2ad8558, pCaller=0x2f13dc8)</sentence>
+            <sentence id="7.19">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/app/AppDetailPageHelper.cxx:955</sentence>
+            <sentence id="7.20">#59 0x00007f10563ff12e in Link::Call (this=0x2f140d8, pCaller=0x2f13dc8)</sentence>
+            <sentence id="7.21">    at /home/master/src/libreoffice/libreoffice-3.4/solver/340/unxlngx6/inc/tools/link.hxx:140</sentence>
+            <sentence id="7.22">#60 0x00007f1056660fec in dbaui::DBTreeListBox::DoubleClickHdl (this=0x2f13dc8)</sentence>
+            <sentence id="7.23">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/control/dbtreelistbox.cxx:437</sentence>
+            <sentence id="7.24">#61 0x00007f1075919b5d in SvImpLBox::MouseButtonDown (this=0x2f14968, rMEvt=...)</sentence>
+            <sentence id="7.25">    at /home/master/src/libreoffice/libreoffice-3.4/svtools/source/contnr/svimpbox.cxx:2143</sentence>
+            <sentence id="7.26">#62 0x00007f10759482db in SvTreeListBox::MouseButtonDown (this=0x2f13dc8, rMEvt=...)</sentence>
+            <sentence id="7.27">    at /home/master/src/libreoffice/libreoffice-3.4/svtools/source/contnr/svtreebx.cxx:1161</sentence>
+            <sentence id="7.28">#63 0x00007f105666030e in dbaui::DBTreeListBox::MouseButtonDown (this=0x2f13dc8, rMEvt=...)</sentence>
+            <sentence id="7.29">    at /home/master/src/libreoffice/libreoffice-3.4/clone/base/dbaccess/source/ui/control/dbtreelistbox.cxx:214</sentence>
+            <sentence id="7.30">#64 0x00007f1073f8a9ec in ImplHandleMouseEvent (pWindow=0x238fe68, nSVEvent=1, bMouseLeave=0 '', nX=209, nY=396, nMsgTime=2102715556, nCode=1, </sentence>
+            <sentence id="7.31">    nMode=3) at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/window/winproc.cxx:803</sentence>
+            <sentence id="7.32">#65 0x00007f1073f902b2 in ImplHandleSalMouseButtonDown (pWindow=0x238fe68, pEvent=0x7fff54fa78c0)</sentence>
+            <sentence id="7.33">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/window/winproc.cxx:2068</sentence>
+            <sentence id="7.34">#66 0x00007f1073f8f4dc in ImplWindowFrameProc (pWindow=0x238fe68, nEvent=3, pEvent=0x7fff54fa78c0)</sentence>
+            <sentence id="7.35">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/window/winproc.cxx:2395</sentence>
+            <sentence id="7.36">#67 0x00007f106ba94977 in SalFrame::CallCallback (this=0x22012a8, nEvent=3, pEvent=0x7fff54fa78c0) at ../../../inc/vcl/salframe.hxx:294</sentence>
+            <sentence id="7.37">#68 0x00007f106bacebc0 in GtkSalFrame::signalButton (pEvent=0x2f257f0, frame=0x22012a8)</sentence>
+            <sentence id="7.38">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/unx/gtk/window/gtkframe.cxx:2696</sentence>
+            <sentence id="7.39">#69 0x00007f106b5574c8 in ?? () from /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0</sentence>
+            <sentence id="7.40">#70 0x00007f1069c36e7e in g_closure_invoke () from /usr/lib/libgobject-2.0.so.0</sentence>
+            <sentence id="7.41">#71 0x00007f1069c488d7 in ?? () from /usr/lib/libgobject-2.0.so.0</sentence>
+            <sentence id="7.42">#72 0x00007f1069c51aa5 in g_signal_emit_valist () from /usr/lib/libgobject-2.0.so.0</sentence>
+            <sentence id="7.43">#73 0x00007f1069c51ed3 in g_signal_emit () from /usr/lib/libgobject-2.0.so.0</sentence>
+            <sentence id="7.44">#74 0x00007f106b6702c1 in ?? () from /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0</sentence>
+            <sentence id="7.45">#75 0x00007f106b5556c3 in gtk_propagate_event () from /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0</sentence>
+            <sentence id="7.46">#76 0x00007f106b555a23 in gtk_main_do_event () from /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">#77 0x00007f106b1c11dc in ?? () from /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0</sentence>
+            <sentence id="8.2">#78 0x00007f106936c4a3 in g_main_context_dispatch () from /lib/libglib-2.0.so.0</sentence>
+            <sentence id="8.3">#79 0x00007f106936cc80 in ?? () from /lib/libglib-2.0.so.0</sentence>
+            <sentence id="8.4">#80 0x00007f106936cf1d in g_main_context_iteration () from /lib/libglib-2.0.so.0</sentence>
+            <sentence id="8.5">#81 0x00007f106ba93fb0 in GtkXLib::Yield (this=0x1466268, bWait=true, bHandleAllCurrentEvents=false)</sentence>
+            <sentence id="8.6">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/unx/gtk/app/gtkdata.cxx:866</sentence>
+            <sentence id="8.7">#82 0x00007f10690a4cb7 in X11SalInstance::Yield (this=0x1465058, bWait=true, bHandleAllCurrentEvents=false)</sentence>
+            <sentence id="8.8">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/unx/source/app/salinst.cxx:282</sentence>
+            <sentence id="8.9">#83 0x00007f1073c7926f in ImplYield (i_bWait=true, i_bAllEvents=false)</sentence>
+            <sentence id="8.10">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/app/svapp.cxx:458</sentence>
+            <sentence id="8.11">#84 0x00007f1073c754d1 in Application::Yield (i_bAllEvents=false)</sentence>
+            <sentence id="8.12">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/app/svapp.cxx:492</sentence>
+            <sentence id="8.13">#85 0x00007f1073c7546d in Application::Execute () at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/app/svapp.cxx:435</sentence>
+            <sentence id="8.14">#86 0x00007f1078d5d064 in desktop::Desktop::Main (this=0x7fff54fa86a0)</sentence>
+            <sentence id="8.15">    at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-core/desktop/source/app/app.cxx:1902</sentence>
+            <sentence id="8.16">#87 0x00007f1073c7f4d9 in ImplSVMain () at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/app/svmain.cxx:174</sentence>
+            <sentence id="8.17">#88 0x00007f1073c7f61f in SVMain () at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-gui/vcl/source/app/svmain.cxx:211</sentence>
+            <sentence id="8.18">#89 0x00007f1078d915a9 in soffice_main () at /home/master/src/libreoffice/libreoffice-3.4/clone/libs-core/desktop/source/app/sofficemain.cxx:68</sentence>
+            <sentence id="8.19">#90 0x0000000000401084 in sal_main () at main.c:36</sentence>
+            <sentence id="8.20">#91 0x0000000000401069 in main (argc=2, argv=0x7fff54fa8858) at main.c:35</sentence>
+        </paragraph>
+    </description>
+</bug>

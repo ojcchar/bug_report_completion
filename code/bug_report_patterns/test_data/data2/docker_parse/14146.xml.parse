@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14146</id>
+    <title>wget / curl install of experimental on CentOS7.x yielding 1.6.0 instead of 1.8.0</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">On a CentOS 7.x platform, when I do either:
+'wget -qO- https://experimental.docker.com/ | sh'
+or
+'curl -sSL https://experimental.docker.com/ | sh'
+I am getting the standard 1.6.0 release (build 8aae715/1.6.0) instead of the expected 1.8.0 experimental version.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have verified this by performing the above installs both on a local machine running CentOS 7.1, and a VM at Digital Ocean running CentOS 7.1.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">A test install on a Ubuntu 14.04 VM at DO did yield the expected version:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+root@docker-exp01:~# docker --version
+Docker version 1.8.0-dev, build f39b9a0, experimental
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

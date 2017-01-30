@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>5276</id>
+    <title>IP allocation doesn't take inactive containers into account</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If a container was allocated an ip but then it exited, that ip may be reused by another container.</sentence>
+            <sentence id="1.2">If then the old container is started it will try to use the same ip, failing in weird ways (ip addr just hanged when testing this).</sentence>
+        </paragraph>
+    </description>
+</bug>

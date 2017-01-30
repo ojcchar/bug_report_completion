@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22857</id>
+    <title>Mounting a non-existent file creates a directory and mounts it</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">---</sentence>
+            <sentence id="1.2">## BUG REPORT INFORMATION</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="2.2">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="2.3">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Tue Apr 26 23:44:17 2016
+ OS/Arch: windows/amd64</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Server:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Wed Apr 27 00:34:20 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'</sentence>
+            <sentence id="7.2">Containers: 1</sentence>
+            <sentence id="7.3"> Running: 1</sentence>
+            <sentence id="7.4"> Paused: 0</sentence>
+            <sentence id="7.5"> Stopped: 0</sentence>
+            <sentence id="7.6">Images: 175</sentence>
+            <sentence id="7.7">Server Version: 1.11.1</sentence>
+            <sentence id="7.8">Storage Driver: aufs</sentence>
+            <sentence id="7.9"> Root Dir: /mnt/sda1/var/lib/docker/aufs</sentence>
+            <sentence id="7.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="7.11"> Dirs: 101</sentence>
+            <sentence id="7.12"> Dirperm1 Supported: true</sentence>
+            <sentence id="7.13">Logging Driver: json-file</sentence>
+            <sentence id="7.14">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="7.15">Plugins:</sentence>
+            <sentence id="7.16"> Volume: local</sentence>
+            <sentence id="7.17"> Network: null host bridge</sentence>
+            <sentence id="7.18">Kernel Version: 4.4.8-boot2docker</sentence>
+            <sentence id="7.19">Operating System: Boot2Docker 1.11.1 (TCL 7.0); HEAD : 7954f54 - Wed Apr 27 16:36:45 UTC 2016</sentence>
+            <sentence id="7.20">OSType: linux</sentence>
+            <sentence id="7.21">Architecture: x86_64</sentence>
+            <sentence id="7.22">CPUs: 1</sentence>
+            <sentence id="7.23">Total Memory: 995.9 MiB</sentence>
+            <sentence id="7.24">Name: default</sentence>
+            <sentence id="7.25">ID: ZEUM:GEUJ:33UD:BTIU:7Y5L:VCP5:GH47:Z3M7:4E4O:W5AD:JVET:IUIN</sentence>
+            <sentence id="7.26">Docker Root Dir: /mnt/sda1/var/lib/docker</sentence>
+            <sentence id="7.27">Debug mode (client): false</sentence>
+            <sentence id="7.28">Debug mode (server): true</sentence>
+            <sentence id="7.29"> File Descriptors: 17</sentence>
+            <sentence id="7.30"> Goroutines: 42</sentence>
+            <sentence id="7.31"> System Time: 2016-05-20T15:53:06.105472733Z</sentence>
+            <sentence id="7.32"> EventsListeners: 0</sentence>
+            <sentence id="7.33">Username: jonlpercsol</sentence>
+            <sentence id="7.34">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="7.35">Labels:</sentence>
+            <sentence id="7.36"> provider=virtualbox</sentence>
+            <sentence id="7.37">"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="9.2">1 docker run -v "nonexistent file name":/mountpoint image</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">The mount point was created and a directory with the non-existent file name was created as well.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">I really ran into this issue because I was attempting to mount a file in Windows on the C drive in my user directory.</sentence>
+            <sentence id="12.2">However, the boot2docker vm shares the C drive as /c instead of /C.</sentence>
+            <sentence id="12.3">So my files kept being shared as a directory instead of as a file with no errors or explanation, even when running with the -D debug mode.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">I would have expected some kind of error or warning that the file did not exist, not just silent creation of empty directories on the file system.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+    </description>
+</bug>

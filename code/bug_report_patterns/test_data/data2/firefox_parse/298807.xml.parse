@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>298807</id>
+    <title>nsIBookmarksService::ResolveKeyword can make a better use of strings</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">ResolveKeyword is currently declared as string resolveKeyword(in wstring aName, out wstring aPostData)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">What it returns is actually in UTF-8 so that we'd better declare it as AUTF8String resolveKeyword(in wstring aName, out AString aPostData)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">With that, we can avoid ToNewUnicode and ToNewUTF8String in actual
+implementations.Moreover, the string conversion across XPConnect will be done
+properly instead of 'blind inflation'.</sentence>
+        </paragraph>
+    </description>
+</bug>

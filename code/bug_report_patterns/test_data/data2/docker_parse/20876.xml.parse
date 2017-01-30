@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20876</id>
+    <title>Question : my host and container don't see the folder linked by the volume. Is it because of Propagation: rprivate ?</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">the root of the problem is that I am trying to use a ssh key in a docker container (gocd-server) to be able to pull source code from a private git repository.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Now, if I understand correctly, I need to create a volume where I put my ssh keys and config file but the folder created is not shared between my container and my host.</sentence>
+            <sentence id="3.2">It only works if I copy the key inside my container and pull but if I restart the container, the setup is gone and I need to do it again.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I can see that my container is writing on my host for a few volumes but not for others.</sentence>
+            <sentence id="4.2">For example, ./gocd/config (host) and /etc/go (container)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**host : **</sentence>
+            <sentence id="5.2">[20:23:07 - gillouche@arch:~/data/docker/gocd/config]$ ll</sentence>
+            <sentence id="5.3">total 92K</sentence>
+            <sentence id="5.4">-rw-r--r-- 1 go go 2.5K Mar 2 06:22 agentkeystore</sentence>
+            <sentence id="5.5">-rw-r--r-- 1 go go 16 Mar 2 06:22 cipher</sentence>
+            <sentence id="5.6">-rw-r--r-- 1 go go 992 Mar 2 06:22 config.properties</sentence>
+            <sentence id="5.7">-rw-r--r-- 1 go go 304 Mar 2 20:08 cruise-config.</sentence>
+            <sentence id="5.8">xml</sentence>
+            <sentence id="5.9">-rw-r--r-- 1 go go 967 Mar 2 06:22 cruise-config.</sentence>
+            <sentence id="5.10">xml.2016-03-02-05-23-01</sentence>
+            <sentence id="5.11">-rw-r--r-- 1 go go 45K Mar 2 20:08 cruise-config.</sentence>
+            <sentence id="5.12">xsd</sentence>
+            <sentence id="5.13">-rw-r--r-- 1 go go 607 Mar 2 06:23 gadget_truststore.</sentence>
+            <sentence id="5.14">jks</sentence>
+            <sentence id="5.15">-rw-r--r-- 1 go go 799 Mar 2 06:22 go_update_server.</sentence>
+            <sentence id="5.16">pub</sentence>
+            <sentence id="5.17">-rw-r--r-- 1 go go 3.8K Mar 2 06:22 jetty.xml</sentence>
+            <sentence id="5.18">-rw-r--r-- 1 go go 1.5K Mar 2 06:22 keystore</sentence>
+            <sentence id="5.19">-rw-r--r-- 1 go go 1.9K Mar 2 20:08 log4j.properties</sentence>
+            <sentence id="5.20">-rw-r--r-- 1 go go 2.4K Mar 2 06:22 truststore</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">(I never wrote any of those files, they were written by the container)</sentence>
+            <sentence id="6.2">**container**</sentence>
+            <sentence id="6.3">root@746df548519b:/etc/go# ls -l</sentence>
+            <sentence id="6.4">total 4</sentence>
+            <sentence id="6.5">-rw------- 1 go go 1890 Feb 16 16:27 log4j.properties</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I am using a docker-compose file and all my docker containers config/folders etc are in the same folder called docker.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Here is my configurations :</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Docker compose file**</sentence>
+            <sentence id="9.2">gocd-server:</sentence>
+            <sentence id="9.3">container_name: gocd-server</sentence>
+            <sentence id="9.4">image: gocd-server-test</sentence>
+            <sentence id="9.5">ports:</sentence>
+            <sentence id="9.6">- "18153:8153"</sentence>
+            <sentence id="9.7">- "18154:8154"</sentence>
+            <sentence id="9.8">volumes:</sentence>
+            <sentence id="9.9">- .</sentence>
+            <sentence id="9.10">/gocd/db:/var/lib/go-server/db/h2db</sentence>
+            <sentence id="9.11">- .</sentence>
+            <sentence id="9.12">/gocd/plugins:/var/lib/go-server/plugins/external</sentence>
+            <sentence id="9.13">- .</sentence>
+            <sentence id="9.14">/gocd/flyweight:/var/lib/go-server/pipelines/flyweight</sentence>
+            <sentence id="9.15">- .</sentence>
+            <sentence id="9.16">/gocd/config:/etc/go</sentence>
+            <sentence id="9.17">- .</sentence>
+            <sentence id="9.18">/gocd/ssh:/var/go/.</sentence>
+            <sentence id="9.19">ssh</sentence>
+            <sentence id="9.20">- .</sentence>
+            <sentence id="9.21">/gocd/artifacts:/var/lib/go-server/artifacts</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Here is the **docker inspect **of the running container</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">http://pastebin.com/CkXRjfu1</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Here is the **dockerfile** I used to create my gocd image</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">http://pastebin.com/yLq2CpfN</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">**Output of `docker version**`:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">Client:
+ Version: 1.10.2
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: c3959b1
+ Built: Thu Feb 25 09:29:05 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Server:
+ Version: 1.10.2
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: c3959b1
+ Built: Thu Feb 25 09:29:05 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Output of `**docker info**`:</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Containers: 13</sentence>
+            <sentence id="18.2"> Running: 4</sentence>
+            <sentence id="18.3"> Paused: 0</sentence>
+            <sentence id="18.4"> Stopped: 9</sentence>
+            <sentence id="18.5">Images: 28</sentence>
+            <sentence id="18.6">Server Version: 1.10.2</sentence>
+            <sentence id="18.7">Storage Driver: devicemapper</sentence>
+            <sentence id="18.8"> Pool Name: docker-8:3-6684765-pool</sentence>
+            <sentence id="18.9"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="18.10"> Base Device Size: 10.74 GB</sentence>
+            <sentence id="18.11"> Backing Filesystem: xfs</sentence>
+            <sentence id="18.12"> Data file: /dev/loop0</sentence>
+            <sentence id="18.13"> Metadata file: /dev/loop1</sentence>
+            <sentence id="18.14"> Data Space Used: 3.148 GB</sentence>
+            <sentence id="18.15"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="18.16"> Data Space Available: 104.2 GB</sentence>
+            <sentence id="18.17"> Metadata Space Used: 5.943 MB</sentence>
+            <sentence id="18.18"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="18.19"> Metadata Space Available: 2.142 GB</sentence>
+            <sentence id="18.20"> Udev Sync Supported: true</sentence>
+            <sentence id="18.21"> Deferred Removal Enabled: false</sentence>
+            <sentence id="18.22"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="18.23"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="18.24"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="18.25"> WARNING: Usage of loopback devices is strongly discouraged for production use. Either use `--storage-opt dm.thinpooldev` or use `--storage-opt dm.no_warn_on_loop_devices=true` to suppress this warning.</sentence>
+            <sentence id="18.26"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="18.27"> Library Version: 1.02.115 (2016-01-25)</sentence>
+            <sentence id="18.28">Execution Driver: native-0.2</sentence>
+            <sentence id="18.29">Logging Driver: json-file</sentence>
+            <sentence id="18.30">Plugins: </sentence>
+            <sentence id="18.31"> Volume: local</sentence>
+            <sentence id="18.32"> Network: bridge null host</sentence>
+            <sentence id="18.33">Kernel Version: 4.4.1-2-ARCH</sentence>
+            <sentence id="18.34">Operating System: Arch Linux</sentence>
+            <sentence id="18.35">OSType: linux</sentence>
+            <sentence id="18.36">Architecture: x86_64</sentence>
+            <sentence id="18.37">CPUs: 8</sentence>
+            <sentence id="18.38">Total Memory: 15.61 GiB</sentence>
+            <sentence id="18.39">Name: arch</sentence>
+            <sentence id="18.40">ID: BNDD:6TTK:C7YZ:HG7K:FQQT:MQLA:MVQL:2Q57:F6BU:F4BB:ZQVT:PCQS</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">Provide additional environment details (AWS, VirtualBox, physical, etc.):
+No virtualbox, I am trying on my host first before moving everything to a synology NAS.</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">Describe the results you received:
+My container and my hosts don't see the changes on the volume.</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">Describe the results you expected:
+Be able to create file on the host folder and the container can see them.</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">Provide additional info you think is important:</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">Thanks.</sentence>
+        </paragraph>
+    </description>
+</bug>

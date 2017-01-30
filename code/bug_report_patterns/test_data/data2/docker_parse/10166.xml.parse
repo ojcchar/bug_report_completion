@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10166</id>
+    <title>Docker dosen't log exec commands.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">## Step 1: Using ```docker exec``` to login a container and execute some commands</sentence>
+            <sentence id="1.2">```</sentence>
+            <sentence id="1.3">~/learn/docker » docker exec -it Easons.Debian su - e</sentence>
+            <sentence id="1.4">e@eba14468301a:~$ la</sentence>
+            <sentence id="1.5">total 32</sentence>
+            <sentence id="1.6">drwxr-xr-x 3 e sudo 4096 Jan 18 09:21 .</sentence>
+            <sentence id="1.7">drwxr-xr-x 4 root root 4096 Jan 18 08:49 .</sentence>
+            <sentence id="1.8">.</sentence>
+            <sentence id="1.9">-rw------- 1 e sudo 524 Jan 18 09:16 .</sentence>
+            <sentence id="1.10">bash_history</sentence>
+            <sentence id="1.11">-rw-r--r-- 1 e sudo 95 Jan 18 09:06 .</sentence>
+            <sentence id="1.12">bash_profile</sentence>
+            <sentence id="1.13">-rw------- 1 e sudo 1816 Jan 18 09:16 .</sentence>
+            <sentence id="1.14">viminfo</sentence>
+            <sentence id="1.15">-rw-r--r-- 1 e sudo 8 Jan 18 09:16 b</sentence>
+            <sentence id="1.16">drwxr-xr-x 2 e sudo 4096 Jan 18 08:59 eason</sentence>
+            <sentence id="1.17">-rw-r--r-- 1 e sudo 20 Jan 13 09:24 love.log</sentence>
+            <sentence id="1.18">-rw-r--r-- 1 e sudo 0 Jan 18 09:21 test.log</sentence>
+            <sentence id="1.19">e@eba14468301a:~$ vim test.log</sentence>
+            <sentence id="1.20">e@eba14468301a:~$ ll</sentence>
+            <sentence id="1.21">total 16</sentence>
+            <sentence id="1.22">-rw-r--r-- 1 e sudo 8 Jan 18 09:16 b</sentence>
+            <sentence id="1.23">drwxr-xr-x 2 e sudo 4096 Jan 18 08:59 eason</sentence>
+            <sentence id="1.24">-rw-r--r-- 1 e sudo 20 Jan 13 09:24 love.log</sentence>
+            <sentence id="1.25">-rw-r--r-- 1 e sudo 41 Jan 18 09:48 test.log</sentence>
+            <sentence id="1.26">e@eba14468301a:~$ exit</sentence>
+            <sentence id="1.27">logout</sentence>
+            <sentence id="1.28">------------------------------------------------------------</sentence>
+            <sentence id="1.29">~/learn/docker »</sentence>
+            <sentence id="1.30">```</sentence>
+            <sentence id="1.31">## Step 2: Using ```docker logs``` to show the above logs, but **nothing** found.</sentence>
+            <sentence id="1.32">### **Thus I think it may be a bug of docker that should be confirmed.</sentence>
+            <sentence id="1.33">**</sentence>
+            <sentence id="1.34">(NOTE: Following logs were logged by ```docker attach``` commands, but NOT by ```docker exec```)</sentence>
+            <sentence id="1.35">```</sentence>
+            <sentence id="1.36">~/learn/docker » docker logs Easons.Debian</sentence>
+            <sentence id="1.37">...</sentence>
+            <sentence id="1.38">root@eba14468301a:/# whoami</sentence>
+            <sentence id="1.39">root</sentence>
+            <sentence id="1.40">root@eba14468301a:/# pwd</sentence>
+            <sentence id="1.41">/</sentence>
+            <sentence id="1.42">------------------------------------------------------------</sentence>
+            <sentence id="1.43">~/learn/docker » 0;95;c0;95;c0;95;c0;95;c0;95;c</sentence>
+            <sentence id="1.44">```</sentence>
+            <sentence id="1.45">## My docker version info</sentence>
+            <sentence id="1.46">```</sentence>
+            <sentence id="1.47">~/learn/docker » boot2docker version taoheming@Eason</sentence>
+            <sentence id="1.48">Boot2Docker-cli version: v1.4.1</sentence>
+            <sentence id="1.49">Git commit: 43241cb</sentence>
+            <sentence id="1.50">------------------------------------------------------------</sentence>
+            <sentence id="1.51">~/learn/docker » docker version</sentence>
+            <sentence id="1.52">Client version: 1.4.1</sentence>
+            <sentence id="1.53">Client API version: 1.16</sentence>
+            <sentence id="1.54">Go version (client): go1.4</sentence>
+            <sentence id="1.55">Git commit (client): 5bc2ff8</sentence>
+            <sentence id="1.56">OS/Arch (client): darwin/amd64</sentence>
+            <sentence id="1.57">Server version: 1.4.1</sentence>
+            <sentence id="1.58">Server API version: 1.16</sentence>
+            <sentence id="1.59">Go version (server): go1.3.3</sentence>
+            <sentence id="1.60">Git commit (server): 5bc2ff8</sentence>
+            <sentence id="1.61">------------------------------------------------------------</sentence>
+            <sentence id="1.62">```</sentence>
+            <sentence id="1.63">## My docker container and image info</sentence>
+            <sentence id="1.64">```</sentence>
+            <sentence id="1.65">~/learn/docker » docker ps -a | grep Easons.Debian</sentence>
+            <sentence id="1.66">eba14468301a eason/debian:debian_with_e "/bin/bash" 2 hours ago Up 2 hours Easons.Debian</sentence>
+            <sentence id="1.67">------------------------------------------------------------</sentence>
+            <sentence id="1.68">~/learn/docker » docker history eason/debian:debian_with_e</sentence>
+            <sentence id="1.69">IMAGE CREATED CREATED BY SIZE</sentence>
+            <sentence id="1.70">9c2d9d50db1d 5 days ago /bin/bash 328.8 kB</sentence>
+            <sentence id="1.71">479215127fa7 2 weeks ago /bin/sh -c #(nop) CMD [/bin/bash] 0 B</sentence>
+            <sentence id="1.72">1aeada447715 2 weeks ago /bin/sh -c #(nop) ADD file:953478996ebb6e3453 84.99 MB</sentence>
+            <sentence id="1.73">511136ea3c5a 19 months ago 0 B</sentence>
+            <sentence id="1.74">------------------------------------------------------------</sentence>
+            <sentence id="1.75">~/learn/docker » docker images</sentence>
+            <sentence id="1.76">REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE</sentence>
+            <sentence id="1.77">vitess/root latest e848ca8ec47d 2 days ago 1.231 GB</sentence>
+            <sentence id="1.78">eason/debian debian_with_e 9c2d9d50db1d 5 days ago 85.32 MB</sentence>
+            <sentence id="1.79">mysql latest 310c359af360 8 days ago 282.6 MB</sentence>
+            <sentence id="1.80">golang 1.3-wheezy ce4f6aeb7d00 2 weeks ago 374.1 MB</sentence>
+            <sentence id="1.81">debian latest 479215127fa7 2 weeks ago 84.99 MB</sentence>
+            <sentence id="1.82">ubuntu latest 8eaa4ff06b53 2 weeks ago 188.3 MB</sentence>
+            <sentence id="1.83">hello-world latest e45a5af57b00 2 weeks ago 910 B</sentence>
+            <sentence id="1.84">dockerfiles/django-uwsgi-nginx latest 184bcb8fc8d3 13 months ago 925.5 MB</sentence>
+            <sentence id="1.85">------------------------------------------------------------</sentence>
+            <sentence id="1.86">```</sentence>
+        </paragraph>
+    </description>
+</bug>

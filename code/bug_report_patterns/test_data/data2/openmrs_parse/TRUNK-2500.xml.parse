@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2500</id>
+    <title>Synchronized Block in ModuleClassLoader Causing Dead Locks</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There is a synchronized block in the loadClass method of the ModuleClassLoader that is causing the system to deadlock.</sentence>
+            <sentence id="1.2">This occurs when multiple scheduled tasks are attempting to start.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Part of this issue was resolved in a previous ticket, but there was still a leftover synchronized block causing issues.</sentence>
+        </paragraph>
+    </description>
+</bug>

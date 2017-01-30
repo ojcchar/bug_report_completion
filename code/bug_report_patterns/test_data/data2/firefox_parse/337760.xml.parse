@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>337760</id>
+    <title>Live Bookmarks do not recognize Atom feeds with namespace prefixes</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3
+Build Identifier: Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I had an atom feed which specified &lt;atom:feed xmlns:atom="http://www.w3.org/2005/Atom"&gt;... and so forth throughout (all atom elements were prefixed with atom:, and feedvalidator.org confirmed the feed was valid.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Firefox reported "Live Bookmark failed to load" when I'd create a live bookmark for this feed.</sentence>
+            <sentence id="3.2">I changed the header to &lt;feed xmlns="http://www.w3.org/2005/Atom"&gt; , removing the namespace prefix, and the Live Bookmarks load fine.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">For what it's worth NetNewsWire and Bloglines were both okay with the prefixed feed.</sentence>
+            <sentence id="4.2">The namespace prefix is perfectly legal XML.</sentence>
+            <sentence id="4.3">This should have worked.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">As it is, the workaround is to ensure that http://www.w3.org/2005/Atom is the default namespace for any atom feeds you want to use as Live Bookmarks, but this doesn't seem like its the correct behavior.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Steps to Reproduce:</sentence>
+            <sentence id="7.2">1 Start with any valid Atom feed.</sentence>
+            <sentence id="7.3">2 Change the &lt;feed&gt; tag to be &lt;atom:feed xmlns:atom="http://www.w3.org/2005/Atom"&gt;</sentence>
+            <sentence id="7.4">3 Replace each subsequent tag with the atom: namespace prefix (e.g., &lt;title&gt; becomes &lt;atom:title&gt;, etc.)</sentence>
+            <sentence id="7.5">4 Try to load this new file with the namespace prefix as a Live Bookmark.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Actual Results:  
+Live Bookmark failed to load.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Expected Results:  
+The feed should load as Live Bookmarks.</sentence>
+        </paragraph>
+    </description>
+</bug>

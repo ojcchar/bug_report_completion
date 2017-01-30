@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20586</id>
+    <title>Huge memory usage, unresponsive daemon (docker 1.10.1, ubuntu 14.04)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:</sentence>
+            <sentence id="1.2">We're running docker 1.10.1 (recently upgraded from 1.7, using the ubuntu package) on Ubuntu trusty (14.04) and noticing on some of our hosts that the docker daemon is using an incredible amount of memory.</sentence>
+            <sentence id="1.3">As well, the daemon no longer appears to be responsive.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">From top:</sentence>
+            <sentence id="2.2">```</sentence>
+            <sentence id="2.3">%MEM PID USER PR NI VIRT RES SHR S %CPU TIME+ COMMAND</sentence>
+            <sentence id="2.4">54.6 2828 root 20 0 13.579g 8.018g 3892 S 0.0 918:23.14 docker</sentence>
+            <sentence id="2.5">2 3 11131 root 20 0 608444 355684 5504 S 37.6 1:33.79 ruby</sentence>
+            <sentence id="2.6">2 0 12696 root 20 0 542108 308196 5076 S 0.0 0:45.94 ruby</sentence>
+            <sentence id="2.7">2 0 10601 root 20 0 596584 303764 5448 S 42.6 1:39.57 ruby</sentence>
+            <sentence id="2.8">```</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">From `/var/log/upstart/docker.log`:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">```
+ERRO[411070] Handler for GET /v1.22/containers/json returned error: write unix /var/run/docker.sock-&gt;@: write: broken pipe
+2016/02/22 22:10:03 http: multiple response.WriteHeader calls
+```</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Whenever I try any docker commands (`ps`, `info`, `version`) the command hangs.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">`docker version`: Unable to run.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">`docker info`: Unable to run.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">`uname -a`:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">```
+# uname -a
+Linux ip-10-128-9-227 3.13.0-77-generic #121-Ubuntu SMP Wed Jan 20 10:50:42 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+```</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Environment details (AWS, VirtualBox, physical, etc.):</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">AWS, c4.2xlarge</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">How reproducible:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Not sure how to reproduce it yet, the host has been up for about 4 days, and we're not seeing anything this massive on most of our other hosts - though the memory is quite high (using around 2 gigs of memory) on others as well, compared to what we are used to seeing in 1.7 (what we were running before the update).</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">On another host:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">```
+%MEM PID USER PR NI VIRT RES SHR S %CPU TIME+ COMMAND
+17.8 2866 root 20 0 10.495g 2.611g 12312 S 26.3 666:48.92 docker
+```</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">And another:</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">```
+%MEM PID USER PR NI VIRT RES SHR S %CPU TIME+ COMMAND
+19.1 2948 root 20 0 13.683g 2.806g 8528 S 28.9 968:10.26 docker
+```</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Note: We make fairly heavy use of logging through the API via logspout.</sentence>
+            <sentence id="18.2">Logging, back in 1.5 (I believe) was the root cause of this type of issue, but we haven't seen it since getting past that.</sentence>
+        </paragraph>
+    </description>
+</bug>

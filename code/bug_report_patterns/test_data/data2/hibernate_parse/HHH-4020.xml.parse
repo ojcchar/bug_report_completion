@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4020</id>
+    <title>Unable to load PersistentMap with the schema attribute define in the annotation @Table</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hibernate: select permission0_.SecureItem_id as SecureItem1_4_, permission0_.permissions_id as permissi2_4_, (select a11.owner_id from Permission a11 where a11.id=permission0_.permissions_id) as formula0_4_, permission1_.id as id88_0_, permission1_.factoryDefault as factoryD2_88_0_, permission1_.owner_id as owner7_88_0_, permission1_.propertyCreate as property3_88_0_, permission1_.propertyDelete as property4_88_0_, permission1_.propertyEdit as property5_88_0_, permission1_.propertyReadOnly as property6_88_0_, permission1_.secureItem_id as secureItem8_88_0_, secureacce2_.id as id29_1_, secureacce2_.factoryDefault as factoryD2_29_1_, secureacce2_.code as code29_1_, secureacce2_.upperCode as upperCode29_1_, secureacce2_.version as version29_1_, secureacce2_1_.password as password30_1_, secureacce2_2_.activate as activate31_1_, secureacce2_2_.admin as admin31_1_, secureacce2_2_.configurator as configur3_31_1_, secureacce2_2_.email as email31_1_, secureacce2_2_.firstName as firstName31_1_, secureacce2_2_.language_id as language10_31_1_, secureacce2_2_.lastName as lastName31_1_, secureacce2_2_.middleName as middleName31_1_, secureacce2_2_.readOnly as readOnly31_1_, secureacce2_2_.salesRep_id as salesRep11_31_1_, case when secureacce2_2_.id is not null then 2 when secureacce2_1_.id is not null then 1 when secureacce2_3_.id is not null then 3 when secureacce2_.id is not null then 0 else -1 end as clazz_1_, secureitem3_.id as id87_2_, secureitem3_.factoryDefault as factoryD2_87_2_, secureitem3_.name as name87_2_, secureitem3_.parent_id as parent6_87_2_, secureitem3_.securityKey as security4_87_2_, secureitem3_.securityOverride as security5_87_2_, secureitem4_.id as id87_3_, secureitem4_.factoryDefault as factoryD2_87_3_, secureitem4_.name as name87_3_, secureitem4_.parent_id as parent6_87_3_, secureitem4_.securityKey as security4_87_3_, secureitem4_.securityOverride as security5_87_3_ from naid_security.SecureItem_Permission permission0_ left outer join naid_security.Permission permission1_ on permission0_.permissions_id=permission1_.id left outer join naid_security.SecureAccess secureacce2_ on permission1_.owner_id=secureacce2_.id left outer join naid_security.SecurityUser secureacce2_1_ on secureacce2_.id=secureacce2_1_.id left outer join Users secureacce2_2_ on secureacce2_.id=secureacce2_2_.id left outer join naid_security.SecurityGroup secureacce2_3_ on secureacce2_.id=secureacce2_3_.id left outer join naid_security.SecureItem secureitem3_ on permission1_.secureItem_id=secureitem3_.id left outer join naid_security.SecureItem secureitem4_ on secureitem3_.parent_id=secureitem4_.id where permission0_.SecureItem_id=?</sentence>
+            <sentence id="1.2">33033 [Thread-7] ERROR com.netappsid.services.beans.LoaderBean  - Class Loaded : SecureItem</sentence>
+            <sentence id="1.3">Id : 32768</sentence>
+            <sentence id="1.4">could not initialize a collection: [com.netappsid.security.bo.SecureItem.permissions#32770]</sentence>
+            <sentence id="1.5">org.hibernate.exception.SQLGrammarException: could not initialize a collection: [com.netappsid.security.bo.SecureItem.permissions#32770]</sentence>
+            <sentence id="1.6">	at org.hibernate.exception.SQLStateConverter.convert(SQLStateConverter.java:90)</sentence>
+            <sentence id="1.7">	at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:66)</sentence>
+            <sentence id="1.8">	at org.hibernate.loader.Loader.loadCollection(Loader.java:2022)</sentence>
+            <sentence id="1.9">	at org.hibernate.loader.collection.CollectionLoader.initialize(CollectionLoader.java:59)</sentence>
+            <sentence id="1.10">	at org.hibernate.persister.collection.AbstractCollectionPersister.initialize(AbstractCollectionPersister.java:587)</sentence>
+            <sentence id="1.11">	at org.hibernate.event.def.DefaultInitializeCollectionEventListener.onInitializeCollection(DefaultInitializeCollectionEventListener.java:83)</sentence>
+            <sentence id="1.12">	at org.hibernate.impl.SessionImpl.initializeCollection(SessionImpl.java:1743)</sentence>
+            <sentence id="1.13">	at org.hibernate.collection.AbstractPersistentCollection.forceInitialization(AbstractPersistentCollection.java:476)</sentence>
+            <sentence id="1.14">	at org.hibernate.Hibernate.initialize(Hibernate.java:332)</sentence>
+            <sentence id="1.15">	at com.netappsid.dao.GenericDAO.initializeProxy(GenericDAO.java:1200)</sentence>
+            <sentence id="1.16">	at com.netappsid.security.bo.dao.SecureItemDAO.loadSecureItemAssociation(SecureItemDAO.java:29)</sentence>
+            <sentence id="1.17">	at com.netappsid.security.bo.dao.SecureItemDAO.loadSecureItemAssociation(SecureItemDAO.java:26)</sentence>
+            <sentence id="1.18">	at com.netappsid.security.bo.dao.SecureItemDAO.loadAssociations(SecureItemDAO.java:16)</sentence>
+            <sentence id="1.19">	at com.netappsid.services.beans.LoaderBean.findById(LoaderBean.java:140)</sentence>
+            <sentence id="1.20">	at com.netappsid.services.beans.LoaderBean_$$_javassist_43._d27findById(LoaderBean_$$_javassist_43.java)</sentence>
+            <sentence id="1.21">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="1.22">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+            <sentence id="1.23">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+            <sentence id="1.24">	at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+            <sentence id="1.25">	at com.netappsid.ejb3.naming.AbstractService$2.invoke(AbstractService.java:140)</sentence>
+            <sentence id="1.26">	at com.netappsid.services.beans.LoaderBean_$$_javassist_43.findById(LoaderBean_$$_javassist_43.java)</sentence>
+            <sentence id="1.27">	at com.netappsid.security.gui.SecurityAdminGUI$1$1.run(SecurityAdminGUI.java:101)</sentence>
+            <sentence id="1.28">Caused by: java.sql.SQLSyntaxErrorException: Table/View 'PERMISSION' does not exist.</sentence>
+            <sentence id="1.29">	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)</sentence>
+            <sentence id="1.30">	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)</sentence>
+            <sentence id="1.31">	at org.apache.derby.impl.jdbc.TransactionResourceImpl.wrapInSQLException(Unknown Source)</sentence>
+            <sentence id="1.32">	at org.apache.derby.impl.jdbc.TransactionResourceImpl.handleException(Unknown Source)</sentence>
+            <sentence id="1.33">	at org.apache.derby.impl.jdbc.EmbedConnection.handleException(Unknown Source)</sentence>
+            <sentence id="1.34">	at org.apache.derby.impl.jdbc.ConnectionChild.handleException(Unknown Source)</sentence>
+            <sentence id="1.35">	at org.apache.derby.impl.jdbc.EmbedPreparedStatement.&lt;init&gt;(Unknown Source)</sentence>
+            <sentence id="1.36">	at org.apache.derby.impl.jdbc.EmbedPreparedStatement20.&lt;init&gt;(Unknown Source)</sentence>
+            <sentence id="1.37">	at org.apache.derby.impl.jdbc.EmbedPreparedStatement30.&lt;init&gt;(Unknown Source)</sentence>
+            <sentence id="1.38">	at org.apache.derby.impl.jdbc.EmbedPreparedStatement40.&lt;init&gt;(Unknown Source)</sentence>
+            <sentence id="1.39">	at org.apache.derby.jdbc.Driver40.newEmbedPreparedStatement(Unknown Source)</sentence>
+            <sentence id="1.40">	at org.apache.derby.impl.jdbc.EmbedConnection.prepareStatement(Unknown Source)</sentence>
+            <sentence id="1.41">	at org.apache.derby.impl.jdbc.EmbedConnection.prepareStatement(Unknown Source)</sentence>
+            <sentence id="1.42">	at org.hibernate.jdbc.AbstractBatcher.getPreparedStatement(AbstractBatcher.java:534)</sentence>
+            <sentence id="1.43">	at org.hibernate.jdbc.AbstractBatcher.getPreparedStatement(AbstractBatcher.java:452)</sentence>
+            <sentence id="1.44">	at org.hibernate.jdbc.AbstractBatcher.prepareQueryStatement(AbstractBatcher.java:161)</sentence>
+            <sentence id="1.45">	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:1573)</sentence>
+            <sentence id="1.46">	at org.hibernate.loader.Loader.doQuery(Loader.java:696)</sentence>
+            <sentence id="1.47">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:259)</sentence>
+            <sentence id="1.48">	at org.hibernate.loader.Loader.loadCollection(Loader.java:2015)</sentence>
+            <sentence id="1.49">	... 19 more</sentence>
+            <sentence id="1.50">Caused by: java.sql.SQLException: Table/View 'PERMISSION' does not exist.</sentence>
+            <sentence id="1.51">	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)</sentence>
+            <sentence id="1.52">	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)</sentence>
+            <sentence id="1.53">	... 39 more</sentence>
+        </paragraph>
+    </description>
+</bug>

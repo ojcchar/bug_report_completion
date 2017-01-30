@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23302</id>
+    <title>Cannot remove network due to active endpoint, but cannot stop/remove containers</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of `docker version`:**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">```
+Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Tue Apr 26 23:30:23 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Tue Apr 26 23:30:23 2016
+ OS/Arch: linux/amd64
+```</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of `docker info`:**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">```
+Containers: 15
+ Running: 13
+ Paused: 0
+ Stopped: 2
+Images: 215
+Server Version: 1.11.1
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 248
+ Dirperm1 Supported: true
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins: 
+ Volume: local
+ Network: bridge null host overlay
+Kernel Version: 4.4.0-22-generic
+Operating System: Ubuntu 16.04 LTS
+OSType: linux
+Architecture: x86_64
+CPUs: 4
+Total Memory: 7.686 GiB
+Docker Root Dir: /var/lib/docker
+Debug mode (client): false
+Debug mode (server): false
+Registry: https://index.docker.io/v1/
+WARNING: No swap limit support
+Cluster store: consul://xxx
+Cluster advertise: yyy</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">```</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I am trying to delete a network with `docker network rm &lt;network&gt;`, but it complains with</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">```
+Error response from daemon: network xxx_default has active endpoints
+```</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Indeed, when I run `docker inspect xxx_default` I got:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">```
+"Containers": {
+ "ep-3dd9d8a572c1bfa877da875f3f0640dba9fe0bdf7ff6090a2171dcbebc926b55": {
+ "Name": "release_diyaserver_1",
+ "EndpointID": "3dd9d8a572c1bfa877da875f3f0640dba9fe0bdf7ff6090a2171dcbebc926b55",
+ "MacAddress": "02:42:0a:00:03:04",
+ "IPv4Address": "10.0.3.4/24",
+ "IPv6Address": ""
+ },
+ "ep-da1587e9a9fed7d767d79e1ff724a6f6afe56126dae097d9967a9196022ad103": {
+ "Name": "release_server-postgresql_1",
+ "EndpointID": "da1587e9a9fed7d767d79e1ff724a6f6afe56126dae097d9967a9196022ad103",
+ "MacAddress": "02:42:0a:00:03:03",
+ "IPv4Address": "10.0.3.3/24",
+ "IPv6Address": ""
+ }
+ }
+```</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">But when I try to `docker stop/rm` any of these two containers (either by name or ID) I got:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">```
+Error response from daemon: No such container: release_diyaserver_1
+```</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">So basically I'm stuck with a useless network, which I can't rm, and this is a real problem because I need to recreate the containers having that same name, but it complains with I try to recreate them.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Is there a way I can get out of this?</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">It's overlay networks, and I run consul as at the KV store.</sentence>
+            <sentence id="15.2">There is only one consul node, on the same host (because I don't need the multi host network know)</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Thx in advance.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8850</id>
+    <title>UnsupportedOperationException when using addScalar on querys created via NamedSQLQueryDefinition</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When creating an Query via NamedSQLQueryDefinition (eg. via @NamedNativeQuery annotation in JavaEE) an java.lang.UnsupportedOperationException will be thrown when invoking addScalar(..)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This could be verified by exact code review:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For me, the fault seems to be at the constructor org.hibernate.intenal.SQLQueryImpl(NamedSQLQueryDefinition queryDef, SessionImplementor session, ParameterMetadata parameterMetadata).</sentence>
+            <sentence id="3.2">At line 95 the local variable 'queryReturns' is initialized by using Arrays.asList(.</sentence>
+            <sentence id="3.3">.)</sentence>
+            <sentence id="3.4">.</sentence>
+            <sentence id="3.5">This will create an simplified derivation of AbstractList wich will only provide reading operations but when executing the query after adding an scalar SqlQueryImpl.prepare() will call queryReturns.clear() (see line 233).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The other constructor org.hibernate.internal.SQLQueryImpl(final String sql, final String returnAliases[], final Class returnClasses[], final SessionImplementor session, ParameterMetadata parameterMetadata) is doing this better.</sentence>
+            <sentence id="4.2">As you can see at line 140 the local variable 'queryReturns' is initalized by using new ArrayList&lt;NativeSQLQueryReturn&gt;() instead of Arrays.asList(.</sentence>
+            <sentence id="4.3">.)</sentence>
+            <sentence id="4.4">.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">In Hibernate 3 the Bug was allready existent, but the exception has been thrown when calling addScalar(), now it just will be thrown when excecute the query.</sentence>
+        </paragraph>
+    </description>
+</bug>

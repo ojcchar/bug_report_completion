@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3690</id>
+    <title>Foreign key constraint violation on ConceptWord when removing a concept name</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If I call removeConceptName on a concept and then try to save the concept, I get a foreign key constraint violation on ConceptWord.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I shouldn't have to do this to save a concept:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Context.getConceptService().</sentence>
+            <sentence id="3.2">updateConceptIndex(c);
+c = Context.getConceptService().</sentence>
+            <sentence id="3.3">saveConcept(c);</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The fix for this is to clean up the conceptindex/conceptword in the ConceptServiceImpl.saveConcept method before saving the concept via the dao.</sentence>
+            <sentence id="5.2">(currently its immediately after)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Add a unit test to prove that this was failing and is now working.</sentence>
+        </paragraph>
+    </description>
+</bug>

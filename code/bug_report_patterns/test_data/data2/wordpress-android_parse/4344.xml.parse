@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4344</id>
+    <title>Reader: Images with height attribute are displayed with incorrect ratio</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">### Expected behavior</sentence>
+            <sentence id="1.2">Images should be resized in the reader according to the image's original width/height ratio.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">### Actual behavior</sentence>
+            <sentence id="2.2">Images with a height attribute (e.g. '&lt;img src="URL" height="1000" /&gt;') are displayed with the wrong width/height ratio in the reader:</sentence>
+            <sentence id="2.3">!</sentence>
+            <sentence id="2.4">[2016-07-04 15 49 46](https://cloud.githubusercontent.com/assets/8658164/16565781/720a8bda-4207-11e6-9227-bb7e3f61d071.png)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">### Steps to reproduce the behavior</sentence>
+            <sentence id="3.2">1 Create a new post</sentence>
+            <sentence id="3.3">2 Add an image to the post</sentence>
+            <sentence id="3.4">3 Publish the post and view it in the reader.</sentence>
+            <sentence id="3.5">Result: The image ratio is incorrect (too tall)</sentence>
+            <sentence id="3.6">4 Open the post in the editor</sentence>
+            <sentence id="3.7">5 In HTML mode, copy the image tag (to display the image twice in the post) and remove the height attribute from the second image</sentence>
+            <sentence id="3.8">6 Update the post and view it in the reader.</sentence>
+            <sentence id="3.9">Result: The image ratio is correct for the second image</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">(I tested by copying the image instead of directly changing it to make sure I was seeing the updated post in the reader.)</sentence>
+            <sentence id="4.2">##### Tested on Nexus 9, Android 6.0.1, WPAndroid alpha-16</sentence>
+        </paragraph>
+    </description>
+</bug>

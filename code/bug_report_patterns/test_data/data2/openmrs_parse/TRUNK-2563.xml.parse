@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2563</id>
+    <title>Error creating a complex Obs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Picking up on something that I discovered a while back.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This issue is created based on the conversations we had on this matter, plus my subsequent investigations.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The elaborate (and ancient) mail regarding this issue can be found here-</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">http://openmrs-mailing-list-archives.1560443.n2.nabble.com/Getting-an-error-while-trying-to-create-a-complex-observation-td6337087.html</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Basically, I was unable to store an image as a complex Obs using our trunk, as the image I was uploading was not getting detected.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I was able to recreate this in my local machine using tomcat and jetty, plus got Daniel Kaiyawa to also have a go, and he also reported that it will not work.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">However, strangely, it does work on  demo.openmrs.org.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I realized that this is most possibly because of a performance issue.</sentence>
+            <sentence id="8.2">Apparently the newly created complex obs is being validated before the image (or file) had finished uploading.</sentence>
+            <sentence id="8.3">I believe that this issue does not come up in the demo server or other actual implementations possibly because they live in their own dedicated machines, and are more powerful than mine.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">However I think it's best if we fix this so that it will work on everyone's machines regardless of their performance :-)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">It is possible to fix this by changing the way validation is being done (instead of checking for obs.getValueComplex == null in the validator, we check the Multipart request in the controller class)</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">May I change it to that?</sentence>
+            <sentence id="11.2">And also, another issue I discovered - (this exists in both the trunk and the demo server)-
+Apparently you cannot edit a complex obs containing an image - it throws a terrible null pointer, even if you're not really changing any data.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Should I go ahead and fix both these issues ?</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>5322</id>
+    <title>Docker Port Mapping - Preserve / Pass on Original External Port</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">HAProxy 1.4, nginx 1.4.7, docker 0.10.0</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">User --port 80-&gt; HAProxy --10000-&gt; Docker --8080-&gt; Nginx hosting Kibana</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Nginx runs inside Docker listening to port 8080
+Docker maps port 10000 to port 8080
+HAProxy listens port 80 and direct /kibana to port 10000</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The problem seems to be Kibana or Nginx "rewrites/accesses" the URL and so, the user browser indicates Kibana code attempts port 8080 instead of 80.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Here is what is shown on the browser when user tries to go to 192.168.1.200/kibana</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"http://192.168.1.200:8080/kibana/index.html#/dashboard/file/logstash.json"</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">If HAProxy also listens to port 8080, all works.</sentence>
+            <sentence id="7.2">If not, it won't work.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Any idea if the issue of not preserving the external port a Kibana, nginx, or HAProxy setup issue?</sentence>
+            <sentence id="8.2">I figure, somewhere along the path, the external/original port information got lost.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I don't think it is a HAProxy.</sentence>
+            <sentence id="9.2">If HAProxy is eliminated, and docker maps 8080 to nginx 8080, it works.</sentence>
+            <sentence id="9.3">If docker maps any other port number to nginx 8080, it won't work.</sentence>
+            <sentence id="9.4">Perhaps, additional HTTP headers need to be passed along to nginx.</sentence>
+            <sentence id="9.5">nginx only "knows" 8080...I figure...</sentence>
+        </paragraph>
+    </description>
+</bug>

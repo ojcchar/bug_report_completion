@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>266508</id>
+    <title>updating firefox with setup will create multiple windows software entries</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.3) Gecko/20041026 Firefox/1.0RC1
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.3) Gecko/20041026 Firefox/1.0RC1</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When updating Firefox with the .exe installer on Windows, it will create
+multiple entries in the software panel, for example:
+Mozilla Firefox (0.9.3)
+Mozilla Firefox (1.0PR)</sentence>
+            <sentence id="2.2">When updating via the zip file, there will still be an old entry (e.g. "Mozilla
+Firefox (0.9.3)" when 1.0PR is installed) in the software list.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This occurs also in Mozilla Thunderbird.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Reproducible: Always</sentence>
+            <sentence id="4.2">Steps to Reproduce:</sentence>
+            <sentence id="4.3">1 Install an old version of Firefox or Thunderbird</sentence>
+            <sentence id="4.4">2 Install a newer version</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual Results:  
+Two entries were created in the software menu.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected Results:</sentence>
+            <sentence id="6.2">One of the following:</sentence>
+            <sentence id="6.3">* Remove the old entry</sentence>
+            <sentence id="6.4">* Create a non-version specific entry (e.g. "Mozilla Firefox" without version) so the entry gets overwritten automatically</sentence>
+            <sentence id="6.5">* Automatically uninstall the old Mozilla Firefox version before installing the new one</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">A workaround is using the zip files to install Firefox (every time) or
+uninstalling the old version before updating.</sentence>
+        </paragraph>
+    </description>
+</bug>

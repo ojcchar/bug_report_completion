@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-240</id>
+    <title>Google Maps Image Viewer</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Google Maps Image Viewer is inoperable in Version: 1.6.0 Build 12644.</sentence>
+            <sentence id="1.2">I also didn't work in the 1.6 RC.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">It acts like the module isn't installed.</sentence>
+            <sentence id="2.2">It should display a link under Administration (per the documentation), which doesn't appear.</sentence>
+            <sentence id="2.3">And, it's not taking over image viewing for JPG's.</sentence>
+            <sentence id="2.4">Other image types remain untested by me.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The following appears in the catalina log, which may or may no be related.</sentence>
+            <sentence id="3.2">{code}INFO - CommonsLoggingOutput.info(51) |2010-04-05 13:27:35,552| Exec: DWRObsService.getObsByPatientConceptEncounter()</sentence>
+            <sentence id="3.3">INFO - CommonsLoggingOutput.info(51) |2010-04-05 13:27:41,431| Exec: DWRPatientService.getPatient()</sentence>
+            <sentence id="3.4">INFO - CommonsLoggingOutput.info(51) |2010-04-05 13:27:41,456| Exec: DWRPersonService.getPerson()</sentence>
+            <sentence id="3.5">WARN - StatefulPersistenceContext.narrowProxy(615) |2010-04-05 13:27:45,519| Narrowing proxy to class org.openmrs.Patient - this operation breaks ==</sentence>
+            <sentence id="3.6">WARN - StatefulPersistenceContext.narrowProxy(615) |2010-04-05 13:27:45,538| Narrowing proxy to class org.openmrs.Patient - this operation breaks ==</sentence>
+            <sentence id="3.7">INFO - CommonsLoggingOutput.info(51) |2010-04-05 13:27:47,004| Exec: DWRPersonService.getPerson()</sentence>
+            <sentence id="3.8">INFO - CommonsLoggingOutput.info(51) |2010-04-05 13:27:47,018| Exec: DWRConceptService.getConcept()</sentence>
+            <sentence id="3.9">INFO - LoggingAdvice.invoke(102) |2010-04-05 13:28:00,030| In method SchedulerSe</sentence>
+            <sentence id="3.10">rvice.saveTask. Arguments: TaskDefinition=[TaskDefinition  id=2 name=Process HL7 Task class=org.openmrs.scheduler.tasks.ProcessHL7InQueueTask startTime=2006-</sentence>
+            <sentence id="3.11">04-24 00:00:00.0 repeatInterval=30 secondsUntilNext=29],</sentence>
+            <sentence id="3.12">INFO - LoggingAdvice.invoke(102) |2010-04-05 13:28:00,030| In method SchedulerService.saveTask. Arguments: TaskDefinition=[TaskDefinition  id=1 name=Process</sentence>
+            <sentence id="3.13">Form Entry Queue class=org.openmrs.module.formentry.ProcessFormEntryQueueTask startTime=2006-04-24 00:00:00.0 repeatInterval=30 secondsUntilNext=29],</sentence>
+            <sentence id="3.14">INFO - LoggingAdvice.invoke(127) |2010-04-05 13:28:00,034| Exiting method saveTask</sentence>
+            <sentence id="3.15">INFO - LoggingAdvice.invoke(127) |2010-04-05 13:28:00,034| Exiting method saveTask</sentence>
+            <sentence id="3.16">INFO - LoggingAdvice.invoke(102) |2010-04-05 13:28:30,031| In method SchedulerService.saveTask. Arguments: TaskDefinition=[TaskDefinition  id=2 name=Process</sentence>
+            <sentence id="3.17">HL7 Task class=org.openmrs.scheduler.tasks.ProcessHL7InQueueTask startTime=2006-04-24 00:00:00.0 repeatInterval=30 secondsUntilNext=29],</sentence>
+            <sentence id="3.18">INFO - LoggingAdvice.invoke(102) |2010-04-05 13:28:30,031| In method SchedulerService.saveTask. Arguments: TaskDefinition=[TaskDefinition  id=1 name=Process</sentence>
+            <sentence id="3.19">Form Entry Queue class=org.openmrs.module.formentry.ProcessFormEntryQueueTask startTime=2006-04-24 00:00:00.0 repeatInterval=30 secondsUntilNext=29],</sentence>
+            <sentence id="3.20">INFO - LoggingAdvice.invoke(127) |2010-04-05 13:28:30,035| Exiting method saveTask</sentence>
+            <sentence id="3.21">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

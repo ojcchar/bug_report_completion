@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3750</id>
+    <title>Ubuntu 12.04 (LTS) installation fails: `trying to overwrite '/usr/bin/docker', which is also in package docker 1.4-5ubuntu1`</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Trying to install docker on Ubuntu 12.04</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+$ command lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description: Ubuntu 12.04.4 LTS
+Release: 12.04
+Codename: precise
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">by following the [installation notes](http://docs.docker.io/en/latest/installation/ubuntulinux/).</sentence>
+            <sentence id="3.2">I was able to update the kernel to 3.8 but fail to install docker itself as it clashes with some preexisting package.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'</sentence>
+            <sentence id="4.2">sudo apt-get install lxc-docker</sentence>
+            <sentence id="4.3">Reading package lists... Done</sentence>
+            <sentence id="4.4">Building dependency tree </sentence>
+            <sentence id="4.5">Reading state information... Done</sentence>
+            <sentence id="4.6">The following extra packages will be installed:</sentence>
+            <sentence id="4.7"> aufs-tools bridge-utils cgroup-lite cloud-utils debootstrap euca2ools</sentence>
+            <sentence id="4.8"> libapparmor1 lxc lxc-docker-0.7.6 python-boto python-m2crypto</sentence>
+            <sentence id="4.9"> python-paramiko python-yaml</sentence>
+            <sentence id="4.10">Suggested packages:</sentence>
+            <sentence id="4.11"> btrfs-tools lvm2 qemu-user-static</sentence>
+            <sentence id="4.12">The following NEW packages will be installed:</sentence>
+            <sentence id="4.13"> aufs-tools bridge-utils cgroup-lite cloud-utils debootstrap euca2ools</sentence>
+            <sentence id="4.14"> libapparmor1 lxc lxc-docker lxc-docker-0.7.6 python-boto python-m2crypto</sentence>
+            <sentence id="4.15"> python-paramiko python-yaml</sentence>
+            <sentence id="4.16">0 upgraded, 14 newly installed, 0 to remove and 28 not upgraded.</sentence>
+            <sentence id="4.17">Need to get 4,795 kB of archives.</sentence>
+            <sentence id="4.18">After this operation, 28.1 MB of additional disk space will be used.</sentence>
+            <sentence id="4.19">Do you want to continue [Y/n]? Y</sentence>
+            <sentence id="4.20">Get:1 http://nl.archive.ubuntu.com/ubuntu/ precise-updates/main bridge-utils amd64 1.5-2ubuntu7 [32.0 kB]</sentence>
+            <sentence id="4.21">Get:2 http://nl.archive.ubuntu.com/ubuntu/ precise-updates/main libapparmor1 amd64 2.7.102-0ubuntu3.9 [37.6 kB]</sentence>
+            <sentence id="4.22">Get:3 http://nl.archive.ubuntu.com/ubuntu/ precise-updates/universe lxc amd64 0.7.5-3ubuntu69 [173 kB]</sentence>
+            <sentence id="4.23">Get:4 http://nl.archive.ubuntu.com/ubuntu/ precise/main python-m2crypto amd64 0.21.1-2ubuntu2 [157 kB]</sentence>
+            <sentence id="4.24">Get:5 http://get.docker.io/ubuntu/ docker/main lxc-docker-0.7.6 amd64 0.7.6 [2,681 kB]</sentence>
+            <sentence id="4.25">Get:6 http://nl.archive.ubuntu.com/ubuntu/ precise/universe aufs-tools amd64 1:3.0+20111101-1ubuntu1 [98.8 kB]</sentence>
+            <sentence id="4.26">Get:7 http://nl.archive.ubuntu.com/ubuntu/ precise-updates/main python-boto all 2.2.2-0ubuntu3 [441 kB]</sentence>
+            <sentence id="4.27">Get:8 http://nl.archive.ubuntu.com/ubuntu/ precise-updates/main euca2ools all 2.0.0~bzr516-0ubuntu3.1 [179 kB]</sentence>
+            <sentence id="4.28">Get:9 http://nl.archive.ubuntu.com/ubuntu/ precise-updates/main python-paramiko all 1.7.7.1-2ubuntu1 [797 kB]</sentence>
+            <sentence id="4.29">Get:10 http://nl.archive.ubuntu.com/ubuntu/ precise/main python-yaml amd64 3.10-2 [122 kB]</sentence>
+            <sentence id="4.30">Get:11 http://nl.archive.ubuntu.com/ubuntu/ precise-updates/main cgroup-lite all 1.1.5 [4,098 B]</sentence>
+            <sentence id="4.31">Get:12 http://nl.archive.ubuntu.com/ubuntu/ precise-updates/main cloud-utils all 0.25-0ubuntu5.1 [36.2 kB]</sentence>
+            <sentence id="4.32">Get:13 http://nl.archive.ubuntu.com/ubuntu/ precise-updates/main debootstrap all 1.0.40~ubuntu0.4 [34.3 kB]</sentence>
+            <sentence id="4.33">Get:14 http://get.docker.io/ubuntu/ docker/main lxc-docker amd64 0.7.6 [1,870 B]</sentence>
+            <sentence id="4.34">Fetched 4,795 kB in 6s (748 kB/s) </sentence>
+            <sentence id="4.35">Selecting previously unselected package bridge-utils.</sentence>
+            <sentence id="4.36">(Reading database ... 602177 files and directories currently installed.)</sentence>
+            <sentence id="4.37">Unpacking bridge-utils (from .../bridge-utils_1.5-2ubuntu7_amd64.deb) ...</sentence>
+            <sentence id="4.38">Selecting previously unselected package libapparmor1.</sentence>
+            <sentence id="4.39">Unpacking libapparmor1 (from .../libapparmor1_2.7.102-0ubuntu3.9_amd64.deb) ...</sentence>
+            <sentence id="4.40">Selecting previously unselected package lxc.</sentence>
+            <sentence id="4.41">Unpacking lxc (from .../lxc_0.7.5-3ubuntu69_amd64.deb) ...</sentence>
+            <sentence id="4.42">Selecting previously unselected package python-m2crypto.</sentence>
+            <sentence id="4.43">Unpacking python-m2crypto (from .../python-m2crypto_0.21.1-2ubuntu2_amd64.deb) ...</sentence>
+            <sentence id="4.44">Selecting previously unselected package aufs-tools.</sentence>
+            <sentence id="4.45">Unpacking aufs-tools (from .../aufs-tools_1%3a3.0+20111101-1ubuntu1_amd64.deb) ...</sentence>
+            <sentence id="4.46">Selecting previously unselected package python-boto.</sentence>
+            <sentence id="4.47">Unpacking python-boto (from .../python-boto_2.2.2-0ubuntu3_all.deb) ...</sentence>
+            <sentence id="4.48">Selecting previously unselected package euca2ools.</sentence>
+            <sentence id="4.49">Unpacking euca2ools (from .../euca2ools_2.0.0~bzr516-0ubuntu3.1_all.deb) ...</sentence>
+            <sentence id="4.50">Selecting previously unselected package python-paramiko.</sentence>
+            <sentence id="4.51">Unpacking python-paramiko (from .../python-paramiko_1.7.7.1-2ubuntu1_all.deb) ...</sentence>
+            <sentence id="4.52">Selecting previously unselected package python-yaml.</sentence>
+            <sentence id="4.53">Unpacking python-yaml (from .../python-yaml_3.10-2_amd64.deb) ...</sentence>
+            <sentence id="4.54">Selecting previously unselected package cgroup-lite.</sentence>
+            <sentence id="4.55">Unpacking cgroup-lite (from .../cgroup-lite_1.1.5_all.deb) ...</sentence>
+            <sentence id="4.56">Selecting previously unselected package cloud-utils.</sentence>
+            <sentence id="4.57">Unpacking cloud-utils (from .../cloud-utils_0.25-0ubuntu5.1_all.deb) ...</sentence>
+            <sentence id="4.58">Selecting previously unselected package debootstrap.</sentence>
+            <sentence id="4.59">Unpacking debootstrap (from .../debootstrap_1.0.40~ubuntu0.4_all.deb) ...</sentence>
+            <sentence id="4.60">Selecting previously unselected package lxc-docker-0.7.6.</sentence>
+            <sentence id="4.61">Unpacking lxc-docker-0.7.6 (from .../lxc-docker-0.7.6_0.7.6_amd64.deb) ...</sentence>
+            <sentence id="4.62">dpkg: error processing /var/cache/apt/archives/lxc-docker-0.7.6_0.7.6_amd64.deb (--unpack):</sentence>
+            <sentence id="4.63"> trying to overwrite '/usr/bin/docker', which is also in package docker 1.4-5ubuntu1</sentence>
+            <sentence id="4.64">dpkg-deb (subprocess): subprocess data was killed by signal (Broken pipe)</sentence>
+            <sentence id="4.65">dpkg-deb: error: subprocess &lt;decompress&gt; returned error exit status 2</sentence>
+            <sentence id="4.66">Selecting previously unselected package lxc-docker.</sentence>
+            <sentence id="4.67">Unpacking lxc-docker (from .../lxc-docker_0.7.6_amd64.deb) ...</sentence>
+            <sentence id="4.68">Processing triggers for man-db ...</sentence>
+            <sentence id="4.69">Processing triggers for ureadahead ...</sentence>
+            <sentence id="4.70">ureadahead will be reprofiled on next reboot</sentence>
+            <sentence id="4.71">Processing triggers for doc-base ...</sentence>
+            <sentence id="4.72">Processing 5 added doc-base files...</sentence>
+            <sentence id="4.73">Registering documents with scrollkeeper...</sentence>
+            <sentence id="4.74">Errors were encountered while processing:</sentence>
+            <sentence id="4.75"> /var/cache/apt/archives/lxc-docker-0.7.6_0.7.6_amd64.deb</sentence>
+            <sentence id="4.76">E: Sub-process /usr/bin/dpkg returned an error code (1)</sentence>
+            <sentence id="4.77">"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">'man docker' reveals that it is the System tray for KDE3/GNOME2 docklet applications.</sentence>
+            <sentence id="5.2">I don't want to overwrite that.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Is there another way of installing?</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2167</id>
+    <title>Running mod_pagespeed on Apache reverse proxy breaks OpenMRS</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When attempting to deploy mod_pagespeed [0] on http://demo.openmrs.org/ I found that it breaks the dojo search widgets.</sentence>
+            <sentence id="1.2">The scenario for this site is an Apache 2 server with mod_proxy functioning as a reverse proxy to Tomcat.</sentence>
+            <sentence id="1.3">For whoever wants to look at this in more detail, I'm happy to provide additional context.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">[0] http://code.google.com/p/modpagespeed/</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The symptoms encountered were going to /openmrs/findPatient.htm ... the search widget did not appear.</sentence>
+            <sentence id="3.2">At the bottom of the page were rendered the following messages:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">FATAL: Could not load 'dojo.io'; last tried '__package__.</sentence>
+            <sentence id="4.2">js'
+FATAL: Could not load 'dojo.widget.openmrs.PatientSearch'; last tried '__package__.</sentence>
+            <sentence id="4.3">js'</sentence>
+        </paragraph>
+    </description>
+</bug>

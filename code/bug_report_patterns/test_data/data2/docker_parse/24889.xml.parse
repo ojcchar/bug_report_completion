@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24889</id>
+    <title>Docker and Docker-compose : Auto restart not working (Cannot start a container because of oci runtime error(mkdir ID file exists)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello, I have a problem with one of my container (I am using docker-compose version 1.7.1).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">All my containers are configured with autorestart=always</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">They all restart without any problem when I reboot my server.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">But if I do :</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+service docker restart
+Redirecting to /bin/systemctl restart docker.service
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Sometimes** I have a problem with one container !</sentence>
+            <sentence id="6.2">It doesn't restart (always the same container) and when I want to restart it I have this message :</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">'ERROR: for icinga rpc error: code = 6 desc = "mkdir /run/containerd/f850dd365bf7d37d7e2b44aff9ba737654863c9a4da48f487c357d98af613d61: file exists"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+Client:
+ Version: 1.11.2
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: b9f10c9
+ Built: Wed Jun 1 21:23:11 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Server:
+ Version: 1.11.2
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: b9f10c9
+ Built: Wed Jun 1 21:23:11 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"'</sentence>
+            <sentence id="12.2">Containers: 17</sentence>
+            <sentence id="12.3"> Running: 5</sentence>
+            <sentence id="12.4"> Paused: 0</sentence>
+            <sentence id="12.5"> Stopped: 12</sentence>
+            <sentence id="12.6">Images: 44</sentence>
+            <sentence id="12.7">Server Version: 1.11.2</sentence>
+            <sentence id="12.8">Storage Driver: devicemapper</sentence>
+            <sentence id="12.9"> Pool Name: docker-253:3-3407891-pool</sentence>
+            <sentence id="12.10"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="12.11"> Base Device Size: 10.74 GB</sentence>
+            <sentence id="12.12"> Backing Filesystem: xfs</sentence>
+            <sentence id="12.13"> Data file: /dev/loop0</sentence>
+            <sentence id="12.14"> Metadata file: /dev/loop1</sentence>
+            <sentence id="12.15"> Data Space Used: 7.599 GB</sentence>
+            <sentence id="12.16"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="12.17"> Data Space Available: 59.21 GB</sentence>
+            <sentence id="12.18"> Metadata Space Used: 18.27 MB</sentence>
+            <sentence id="12.19"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="12.20"> Metadata Space Available: 2.129 GB</sentence>
+            <sentence id="12.21"> Udev Sync Supported: true</sentence>
+            <sentence id="12.22"> Deferred Removal Enabled: false</sentence>
+            <sentence id="12.23"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="12.24"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="12.25"> Data loop file: /docker/lib/devicemapper/devicemapper/data</sentence>
+            <sentence id="12.26"> WARNING: Usage of loopback devices is strongly discouraged for production use. Either use '--storage-opt dm.thinpooldev' or use '--storage-opt dm.no_warn_on_loop_devices=true' to suppress this warning.</sentence>
+            <sentence id="12.27"> Metadata loop file: /docker/lib/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="12.28"> Library Version: 1.02.107-RHEL7 (2016-06-09)</sentence>
+            <sentence id="12.29">Logging Driver: json-file</sentence>
+            <sentence id="12.30">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="12.31">Plugins:</sentence>
+            <sentence id="12.32"> Volume: local</sentence>
+            <sentence id="12.33"> Network: host bridge null</sentence>
+            <sentence id="12.34">Kernel Version: 3.10.0-327.22.2.el7.x86_64</sentence>
+            <sentence id="12.35">Operating System: CentOS Linux 7 (Core)</sentence>
+            <sentence id="12.36">OSType: linux</sentence>
+            <sentence id="12.37">Architecture: x86_64</sentence>
+            <sentence id="12.38">CPUs: 8</sentence>
+            <sentence id="12.39">Total Memory: 7.797 GiB</sentence>
+            <sentence id="12.40">Name: Hostname_of_my_server</sentence>
+            <sentence id="12.41">ID: WF47:WB7R:MWOO:5MCW:BTOJ:APGT:HM2C:EIS5:E4X3:5JWC:7N3U:D6IC</sentence>
+            <sentence id="12.42">Docker Root Dir: /docker/lib</sentence>
+            <sentence id="12.43">Debug mode (client): false</sentence>
+            <sentence id="12.44">Debug mode (server): false</sentence>
+            <sentence id="12.45">Http Proxy: My_proxy_address</sentence>
+            <sentence id="12.46">Https Proxy: My_proxy_address</sentence>
+            <sentence id="12.47">Username: My_User</sentence>
+            <sentence id="12.48">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="12.49">WARNING: bridge-nf-call-iptables is disabled</sentence>
+            <sentence id="12.50">WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+            <sentence id="12.51">"'</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Steps to reproduce the issue:**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">1 - : Use my docker-compose file :</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"'</sentence>
+            <sentence id="15.2">icinga:</sentence>
+            <sentence id="15.3">image: jordan/icinga2</sentence>
+            <sentence id="15.4">environment:</sentence>
+            <sentence id="15.5">- ICINGA_PASSWORD=password</sentence>
+            <sentence id="15.6">- ICINGA_WEB_PASSWORD=password</sentence>
+            <sentence id="15.7">- ICINGAWEB2_PASSWORD=password</sentence>
+            <sentence id="15.8">- IDO_PASSWORD=password</sentence>
+            <sentence id="15.9">- DIRECTOR_PASSWORD=password</sentence>
+            <sentence id="15.10">- DEBIAN_SYS_MAINT_PASSWORD=password</sentence>
+            <sentence id="15.11">- DIRECTOR_KICKSTART=false</sentence>
+            <sentence id="15.12">ports:</sentence>
+            <sentence id="15.13">- "80:80"</sentence>
+            <sentence id="15.14">restart: always</sentence>
+            <sentence id="15.15">"'</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">3 - Then, create the container and verify if it's working (default http://ip if you did not change the port 80) :</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">'docker-compose up'</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">3 - Restart Docker daemon</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">'service docker restart'</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">4 - Verify if the container restarted</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">'docker ps'</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">If not, try to start it</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">'docker stard id_container'</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">**Describe the results you received:**</sentence>
+            <sentence id="24.2">'ERROR: for icinga rpc error: code = 6 desc = "mkdir /run/containerd/f850dd365bf7d37d7e2b44aff9ba737654863c9a4da48f487c357d98af613d61: file exists"
+'</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">**Describe the results you expected:**</sentence>
+            <sentence id="25.2">Container was suppose to restart automatically</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">Sometimes, If I restart the docker daemon one more time, the container restart...</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">Hope it can help</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10857</id>
+    <title>@Convert annotation on attribute of @Embeddable does not work</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Say I have an entity that contains an element collection of an embeddable type.</sentence>
+            <sentence id="1.2">The embeddable has an attribute that is an enumeration.</sentence>
+            <sentence id="1.3">I want to represent/encode values of the enumeration in the database as a single character, which is why I wrote a converter to do this.</sentence>
+            <sentence id="1.4">Modulo renaming of classes and attributes, the code looks like this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code:java}
+@Entity
+class Entity {
+   // ...
+   @ElementCollection
+   @CollectionTable(name="entity_l", joinColumns=@JoinColumn(name="entity_id"))
+   private List&lt;Embeddable&gt; list;
+   // ...
+}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">@Embeddable
+class Embeddable {
+   @Column(nullable=false, updatable=false)
+   @Convert(converter=MyEnumConverter.class)
+   private MyEnum field;
+}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">class MyEnumConverter implements AttributeConverter&lt;MyEnum, Character&gt; { /*...*/ }
+{code}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Using Postgres, when Hibernate creates the database schema, it will map the embeddable's field to type 'integer' rather than 'character(1)'.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I have also tried the following, without any difference (still 'integer' used in the database):</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">{code:java}
+@Entity
+class Entity {
+   // ...
+   @ElementCollection
+   @CollectionTable(name="entity_l", joinColumns=@JoinColumn(name="entity_id"))
+   @Convert(attributeName = "field", converter=MyEnumConverter.class)
+   // Using @Convert(attributeName = "list.field", converter=MyEnumConverter.class) neither works.</sentence>
+            <sentence id="7.2">private List&lt;Embeddable&gt; list;
+   // ...
+}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">@Embeddable
+class Embeddable {
+   @Column(nullable=false, updatable=false)
+   private MyEnum field;
+}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">class MyEnumConverter implements AttributeConverter&lt;MyEnum, Character&gt; { /*...*/ }
+{code}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">My first question is whether the JPA spec covers this use case.</sentence>
+            <sentence id="10.2">I could not find any explicit statement that this would not be allowed.</sentence>
+            <sentence id="10.3">In fact, the [JPA Wikibook|https://en.wikibooks.org/wiki/Java_Persistence/Basic_Attributes#Converters_.28JPA_2.1.29] makes the following statement: {quote}Another option, if converting a custom type, is to have the Converter applied to *any mapped attribute* that has that type.</sentence>
+            <sentence id="10.4">{quote}
+My interpretation of this statement is that the example described above is a very valid use case.</sentence>
+            <sentence id="10.5">Then, however, the behavior I see seems to be a bug.</sentence>
+            <sentence id="10.6">What do you think?</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">As a last comment, I have other enumeration attributes in *entities* (rather than embeddables) where conversion to a single character works well and where the type in the database is indeed 'character(1)'.</sentence>
+        </paragraph>
+    </description>
+</bug>

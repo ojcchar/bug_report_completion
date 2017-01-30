@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27238</id>
+    <title>Tasks fail with non-zero exit (137)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;!</sentence>
+            <sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+            <sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+            <sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+            <sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+            <sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------------------------------------------------</sentence>
+            <sentence id="4.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="4.3">---------------------------------------------------</sentence>
+            <sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="4.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Im trying to launch a service with Docker engine in swarm mode, but the service fails after a few seconds with the error task: non-zero exit (137).</sentence>
+            <sentence id="6.2">How to debug this issue and where can i find additional logs?</sentence>
+            <sentence id="6.3">docker logs -f containerName does not have any errors.</sentence>
+            <sentence id="6.4">so was not sure how I could debug this.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+Client:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built:
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Server:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built:
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"'
+Client:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built:
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Server:</sentence>
+            <sentence id="13.2"> Version: 1.12.1</sentence>
+            <sentence id="13.3"> API version: 1.24</sentence>
+            <sentence id="13.4"> Go version: go1.6.3</sentence>
+            <sentence id="13.5"> Git commit: 23cf638</sentence>
+            <sentence id="13.6"> Built:</sentence>
+            <sentence id="13.7"> OS/Arch: linux/amd64</sentence>
+            <sentence id="13.8">[saithala@cmcmdmz102 ~]$ sudo docker info</sentence>
+            <sentence id="13.9">Containers: 3</sentence>
+            <sentence id="13.10"> Running: 0</sentence>
+            <sentence id="13.11"> Paused: 0</sentence>
+            <sentence id="13.12"> Stopped: 3</sentence>
+            <sentence id="13.13">Images: 88</sentence>
+            <sentence id="13.14">Server Version: 1.12.1</sentence>
+            <sentence id="13.15">Storage Driver: devicemapper</sentence>
+            <sentence id="13.16"> Pool Name: docker-253:0-1236720-pool</sentence>
+            <sentence id="13.17"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="13.18"> Base Device Size: 10.74 GB</sentence>
+            <sentence id="13.19"> Backing Filesystem: xfs</sentence>
+            <sentence id="13.20"> Data file: /dev/loop0</sentence>
+            <sentence id="13.21"> Metadata file: /dev/loop1</sentence>
+            <sentence id="13.22"> Data Space Used: 3.4 GB</sentence>
+            <sentence id="13.23"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="13.24"> Data Space Available: 34.9 GB</sentence>
+            <sentence id="13.25"> Metadata Space Used: 4.944 MB</sentence>
+            <sentence id="13.26"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="13.27"> Metadata Space Available: 2.143 GB</sentence>
+            <sentence id="13.28"> Thin Pool Minimum Free Space: 10.74 GB</sentence>
+            <sentence id="13.29"> Udev Sync Supported: true</sentence>
+            <sentence id="13.30"> Deferred Removal Enabled: false</sentence>
+            <sentence id="13.31"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="13.32"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="13.33"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="13.34"> WARNING: Usage of loopback devices is strongly discouraged for production use. Use '--storage-opt dm.thinpooldev' to specify a custom block storage device.</sentence>
+            <sentence id="13.35"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="13.36"> Library Version: 1.02.107-RHEL7 (2016-06-09)</sentence>
+            <sentence id="13.37">Logging Driver: json-file</sentence>
+            <sentence id="13.38">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="13.39">Plugins:</sentence>
+            <sentence id="13.40"> Volume: local</sentence>
+            <sentence id="13.41"> Network: overlay null host bridge</sentence>
+            <sentence id="13.42">Swarm: active</sentence>
+            <sentence id="13.43"> NodeID: 689mzi0rdu2munm5ej4x5tdjq</sentence>
+            <sentence id="13.44"> Is Manager: true</sentence>
+            <sentence id="13.45"> ClusterID: eytqq32a3nwwkal9iv6i936jd</sentence>
+            <sentence id="13.46"> Managers: 3</sentence>
+            <sentence id="13.47"> Nodes: 4</sentence>
+            <sentence id="13.48"> Orchestration:</sentence>
+            <sentence id="13.49"> Task History Retention Limit: 5</sentence>
+            <sentence id="13.50"> Raft:</sentence>
+            <sentence id="13.51"> Snapshot Interval: 10000</sentence>
+            <sentence id="13.52"> Heartbeat Tick: 1</sentence>
+            <sentence id="13.53"> Election Tick: 3</sentence>
+            <sentence id="13.54"> Dispatcher:</sentence>
+            <sentence id="13.55"> Heartbeat Period: 5 seconds</sentence>
+            <sentence id="13.56"> CA Configuration:</sentence>
+            <sentence id="13.57"> Expiry Duration: 3 months</sentence>
+            <sentence id="13.58"> Node Address: 10.1.2.57</sentence>
+            <sentence id="13.59">Runtimes: runc</sentence>
+            <sentence id="13.60">Default Runtime: runc</sentence>
+            <sentence id="13.61">Security Options: seccomp</sentence>
+            <sentence id="13.62">Kernel Version: 3.10.0-327.28.2.el7.x86_64</sentence>
+            <sentence id="13.63">Operating System: Red Hat Enterprise Linux Server 7.2 (Maipo)</sentence>
+            <sentence id="13.64">OSType: linux</sentence>
+            <sentence id="13.65">Architecture: x86_64</sentence>
+            <sentence id="13.66">CPUs: 4</sentence>
+            <sentence id="13.67">Total Memory: 47.01 GiB</sentence>
+            <sentence id="13.68">Name: cmcmdmz102</sentence>
+            <sentence id="13.69">ID: X2VM:WZJG:FZ5C:VBTU:IGWV:C6ZU:BOHT:GMRH:OBII:QCP6:ILPR:FDNQ</sentence>
+            <sentence id="13.70">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="13.71">Debug Mode (client): false</sentence>
+            <sentence id="13.72">Debug Mode (server): false</sentence>
+            <sentence id="13.73">Username: cmcdocker</sentence>
+            <sentence id="13.74">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="13.75">WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+            <sentence id="13.76">Insecure Registries:</sentence>
+            <sentence id="13.77"> 127.0.0.0/8</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"'</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"'</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="16.2">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

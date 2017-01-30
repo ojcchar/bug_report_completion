@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8325</id>
+    <title>McAfee firewall: operation attempted on something not a socket. winnt_accept: AcceptEx failed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Running Apache 2.0.36 dev.</sentence>
+            <sentence id="1.2">4-17-1800Z - which got me past bug #7910 -
+The Apache service now starts.</sentence>
+            <sentence id="1.3">Hurrah.</sentence>
+            <sentence id="1.4">But then goes nowhere.</sentence>
+            <sentence id="1.5">Error log reports:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">[Fri Apr 19 10:48:28 2002] [notice] Parent: Created child process 2452
+[Fri Apr 19 10:48:29 2002] [notice] Child 2452: Child process is running
+[Fri Apr 19 10:48:29 2002] [notice] Child 2452: Acquired the start mutex.</sentence>
+            <sentence id="2.2">[Fri Apr 19 10:48:29 2002] [notice] Child 2452: Starting 10 worker threads.</sentence>
+            <sentence id="2.3">[Fri Apr 19 10:48:29 2002] [error] (32538)An operation was attempted on
+something that is not a socket.</sentence>
+            <sentence id="2.4">: winnt_accept: AcceptEx failed.</sentence>
+            <sentence id="2.5">Attempting to
+recover.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Happens both with &amp; without McAfee firewall loaded.</sentence>
+        </paragraph>
+    </description>
+</bug>

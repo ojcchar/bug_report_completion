@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10418</id>
+    <title>ClassCastException thrown in SessionFactoryImpl for named regions containing both entity and collection</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Test case:</sentence>
+            <sentence id="1.2">- using Hibernate 5.0.6 with ehcache;</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code:xml}</sentence>
+            <sentence id="2.2">&lt;?</sentence>
+            <sentence id="2.3">xml version="1.0" encoding="UTF-8"?</sentence>
+            <sentence id="2.4">&gt;</sentence>
+            <sentence id="2.5">&lt;ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"</sentence>
+            <sentence id="2.6">xsi:noNamespaceSchemaLocation="http://www.ehcache.org/ehcache.xsd"</sentence>
+            <sentence id="2.7">updateCheck="false" monitoring="autodetect" dynamicConfig="true"&gt;</sentence>
+            <sentence id="2.8">&lt;cache name="configurationCache" eternal="false" timeToLiveSeconds="3600" maxEntriesLocalHeap="500"/&gt;</sentence>
+            <sentence id="2.9">&lt;/ehcache&gt;</sentence>
+            <sentence id="2.10">{code}</sentence>
+            <sentence id="2.11">- annotating the entity classes with @Cache</sentence>
+            <sentence id="2.12">{code:java}</sentence>
+            <sentence id="2.13">@Entity</sentence>
+            <sentence id="2.14">@Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE, region = "someConfigurationCache")</sentence>
+            <sentence id="2.15">public class SomeConfiguration implements Serializable {</sentence>
+            <sentence id="2.16">@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)</sentence>
+            <sentence id="2.17">@JoinColumn(name = "some_configuration_id", referencedColumnName = "id")</sentence>
+            <sentence id="2.18">@Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE, region = "otherConfigurationCache")</sentence>
+            <sentence id="2.19">private List&lt;OtherConfiguration&gt; confList;</sentence>
+            <sentence id="2.20">}</sentence>
+            <sentence id="2.21">{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">- both "someConfigurationCache" and "otherConfigurationCache" are reused for entity and collection as well.</sentence>
+            <sentence id="3.2">The result is "org.hibernate.cache.ehcache.internal.nonstop.NonstopAwareEntityRegionAccessStrategy cannot be cast to org.hibernate.cache.spi.access.CollectionRegionAccessStrategy", because the method determineCollectionRegionAccessStrategy in SessionFactoryImpl finds a region with the name required, but it is an entity region, not a collection region.</sentence>
+            <sentence id="3.3">The same scenario works with 5.0.3.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10855</id>
+    <title>Hibernate OSGi discovers the wrong entity type</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The Aries transaction control integration tests have an XA integration test where two persistence units are created and used in a two phase commit.</sentence>
+            <sentence id="1.2">The persistence units are defined in different bundles, but use the same name for their one and only Entity Type.</sentence>
+            <sentence id="1.3">This name is org.apache.aries.tx.control.itests.entity.Message.</sentence>
+            <sentence id="1.4">The Entity types are private to the bundle, and so each one is loaded by a different class loader.</sentence>
+            <sentence id="1.5">In summary, the types have the same name, but are not the same (i.e. one cannot be cast to another).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">These tests work reliably on OpenJPA and EclipseLink, however sometimes when running on Hibernate I see the tests fail.</sentence>
+            <sentence id="2.2">Having step debugged the root cause is the following exception:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">org.hibernate.property.access.spi.PropertyAccessException: Error accessing field [public java.lang.Integer org.apache.aries.tx.control.itests.entity.Message.id] by reflection for persistent property [org.apache.aries.tx.control.itests.entity.Message#id] : Message [id=null, message=Hello 1!]</sentence>
+            <sentence id="3.2">	at org.hibernate.property.access.spi.GetterFieldImpl.get(GetterFieldImpl.java:43)</sentence>
+            <sentence id="3.3">	at org.hibernate.tuple.entity.AbstractEntityTuplizer.getIdentifier(AbstractEntityTuplizer.java:223)</sentence>
+            <sentence id="3.4">	at org.hibernate.persister.entity.AbstractEntityPersister.getIdentifier(AbstractEntityPersister.java:4601)</sentence>
+            <sentence id="3.5">	at org.hibernate.persister.entity.AbstractEntityPersister.isTransient(AbstractEntityPersister.java:4313)</sentence>
+            <sentence id="3.6">	at org.hibernate.engine.internal.ForeignKeys.isTransient(ForeignKeys.java:226)</sentence>
+            <sentence id="3.7">	at org.hibernate.event.internal.AbstractSaveEventListener.getEntityState(AbstractSaveEventListener.java:510)</sentence>
+            <sentence id="3.8">	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:99)</sentence>
+            <sentence id="3.9">	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:58)</sentence>
+            <sentence id="3.10">	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:775)</sentence>
+            <sentence id="3.11">	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:748)</sentence>
+            <sentence id="3.12">	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:753)</sentence>
+            <sentence id="3.13">	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:1146)</sentence>
+            <sentence id="3.14">	at org.apache.aries.tx.control.jpa.common.impl.EntityManagerWrapper.persist(EntityManagerWrapper.java:42)</sentence>
+            <sentence id="3.15">	at org.apache.aries.tx.control.jpa.common.impl.EntityManagerWrapper.persist(EntityManagerWrapper.java:42)</sentence>
+            <sentence id="3.16">	at org.apache.aries.tx.control.itests.XAJPATransactionTest.lambda$0(XAJPATransactionTest.java:292)</sentence>
+            <sentence id="3.17">	at org.apache.aries.tx.control.itests.XAJPATransactionTest$$Lambda$38/892040710.call(Unknown Source)</sentence>
+            <sentence id="3.18">	at org.apache.aries.tx.control.service.common.impl.AbstractTransactionControlImpl$TransactionBuilderImpl.doWork(AbstractTransactionControlImpl.java:155)</sentence>
+            <sentence id="3.19">	at org.apache.aries.tx.control.service.common.impl.AbstractTransactionControlImpl$TransactionBuilderImpl.required(AbstractTransactionControlImpl.java:78)</sentence>
+            <sentence id="3.20">	at org.apache.aries.tx.control.service.common.impl.AbstractTransactionControlImpl.required(AbstractTransactionControlImpl.java:243)</sentence>
+            <sentence id="3.21">	at org.apache.aries.tx.control.itests.XAJPATransactionTest.testTwoPhaseCommit(XAJPATransactionTest.java:285)</sentence>
+            <sentence id="3.22">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="3.23">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="3.24">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="3.25">	at java.lang.reflect.Method.invoke(Method.java:483)</sentence>
+            <sentence id="3.26">	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)</sentence>
+            <sentence id="3.27">	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)</sentence>
+            <sentence id="3.28">	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)</sentence>
+            <sentence id="3.29">	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)</sentence>
+            <sentence id="3.30">	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)</sentence>
+            <sentence id="3.31">	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)</sentence>
+            <sentence id="3.32">	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)</sentence>
+            <sentence id="3.33">	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)</sentence>
+            <sentence id="3.34">	at org.ops4j.pax.exam.invoker.junit.internal.ContainerTestRunner.runChild(ContainerTestRunner.java:68)</sentence>
+            <sentence id="3.35">	at org.ops4j.pax.exam.invoker.junit.internal.ContainerTestRunner.runChild(ContainerTestRunner.java:37)</sentence>
+            <sentence id="3.36">	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)</sentence>
+            <sentence id="3.37">	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)</sentence>
+            <sentence id="3.38">	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)</sentence>
+            <sentence id="3.39">	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)</sentence>
+            <sentence id="3.40">	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)</sentence>
+            <sentence id="3.41">	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)</sentence>
+            <sentence id="3.42">	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)</sentence>
+            <sentence id="3.43">	at org.junit.runner.JUnitCore.run(JUnitCore.java:115)</sentence>
+            <sentence id="3.44">	at org.ops4j.pax.exam.invoker.junit.internal.JUnitProbeInvoker.invokeViaJUnit(JUnitProbeInvoker.java:124)</sentence>
+            <sentence id="3.45">	at org.ops4j.pax.exam.invoker.junit.internal.JUnitProbeInvoker.findAndInvoke(JUnitProbeInvoker.java:97)</sentence>
+            <sentence id="3.46">	at org.ops4j.pax.exam.invoker.junit.internal.JUnitProbeInvoker.call(JUnitProbeInvoker.java:73)</sentence>
+            <sentence id="3.47">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="3.48">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="3.49">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="3.50">	at java.lang.reflect.Method.invoke(Method.java:483)</sentence>
+            <sentence id="3.51">	at org.ops4j.pax.swissbox.framework.RemoteFrameworkImpl.invokeMethodOnService(RemoteFrameworkImpl.java:433)</sentence>
+            <sentence id="3.52">	at org.ops4j.pax.swissbox.framework.RemoteFrameworkImpl.invokeMethodOnService(RemoteFrameworkImpl.java:406)</sentence>
+            <sentence id="3.53">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="3.54">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="3.55">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="3.56">	at java.lang.reflect.Method.invoke(Method.java:483)</sentence>
+            <sentence id="3.57">	at sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:323)</sentence>
+            <sentence id="3.58">	at sun.rmi.transport.Transport$1.run(Transport.java:178)</sentence>
+            <sentence id="3.59">	at sun.rmi.transport.Transport$1.run(Transport.java:175)</sentence>
+            <sentence id="3.60">	at java.security.AccessController.doPrivileged(Native Method)</sentence>
+            <sentence id="3.61">	at sun.rmi.transport.Transport.serviceCall(Transport.java:174)</sentence>
+            <sentence id="3.62">	at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:557)</sentence>
+            <sentence id="3.63">	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:812)</sentence>
+            <sentence id="3.64">	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:671)</sentence>
+            <sentence id="3.65">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</sentence>
+            <sentence id="3.66">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</sentence>
+            <sentence id="3.67">	at java.lang.Thread.run(Thread.java:745)</sentence>
+            <sentence id="3.68">Caused by: java.lang.IllegalArgumentException: Can not set java.lang.Integer field org.apache.aries.tx.control.itests.entity.Message.id to org.apache.aries.tx.control.itests.entity.Message</sentence>
+            <sentence id="3.69">	at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:167)</sentence>
+            <sentence id="3.70">	at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:171)</sentence>
+            <sentence id="3.71">	at sun.reflect.UnsafeFieldAccessorImpl.ensureObj(UnsafeFieldAccessorImpl.java:58)</sentence>
+            <sentence id="3.72">	at sun.reflect.UnsafeObjectFieldAccessorImpl.get(UnsafeObjectFieldAccessorImpl.java:36)</sentence>
+            <sentence id="3.73">	at java.lang.reflect.Field.get(Field.java:387)</sentence>
+            <sentence id="3.74">	at org.hibernate.property.access.spi.GetterFieldImpl.get(GetterFieldImpl.java:39)</sentence>
+            <sentence id="3.75">	... 65 more</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This exception indicates that the EntityManagerFactory has discovered the wrong type.</sentence>
+            <sentence id="4.2">I confirmed this by introspecting the MetaModel, which had loaded the Entity type from persistence unit xa-test-unit-1, not xa-test-unit-2.</sentence>
+            <sentence id="4.3">I have attached the persistence unit descriptors if those are of interest.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">My *guess* at the source of the problem is that the scanner has found the right file in the bundle, but by the time it comes to be loaded Hibernate has lost the context of which persistence unit the type should be loaded from.</sentence>
+            <sentence id="5.2">If Hibernate just uses the OSGiClassLoaderService then it will find the Entity from whichever persistence unit first registered.</sentence>
+            <sentence id="5.3">I am not sure why this only sometimes fails.</sentence>
+        </paragraph>
+    </description>
+</bug>

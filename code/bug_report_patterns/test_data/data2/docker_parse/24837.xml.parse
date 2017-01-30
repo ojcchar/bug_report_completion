@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24837</id>
+    <title>Value too large for defined data type when cifs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I use docker for windows, since yesterday after install the 1.12.0-RC4 version, my container have problem when i use a rpmbuild command.</sentence>
+            <sentence id="2.2">The error is Value too large for defined data type on stat on spec file.</sentence>
+            <sentence id="2.3">My spec file is created by my container on a cifs mounted system.</sentence>
+            <sentence id="2.4">The reason is that inode created in container on mounter cifs file system are too long whereas it is correct when it is created on the container file system.</sentence>
+            <sentence id="2.5">Workaroud is to modify in mount command the serverino to noserverino.</sentence>
+            <sentence id="2.6">Is it possible to do it?</sentence>
+            <sentence id="2.7">in doaemon configuration?</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Thanks in advance</sentence>
+        </paragraph>
+    </description>
+</bug>

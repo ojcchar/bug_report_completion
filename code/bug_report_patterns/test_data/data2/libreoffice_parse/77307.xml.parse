@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>77307</id>
+    <title>function ERFC() gets overwritten with ERF() when ERF() is used in cell above</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Steps to reproduce:</sentence>
+            <sentence id="1.2">-open calc document</sentence>
+            <sentence id="1.3">-enter ERF(0.7) in any cell (except bottom row)</sentence>
+            <sentence id="1.4">-enter ERFC(0.7) in cell below the one mentioned above</sentence>
+            <sentence id="1.5">-expected result: ERFC(0.7),</sentence>
+            <sentence id="1.6">actual result ERF(0.7)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Problem also occurs on master; but does not occur on 4.1.5 (openSUSE).</sentence>
+            <sentence id="2.2">O/S Linux as well as Windows.</sentence>
+        </paragraph>
+    </description>
+</bug>

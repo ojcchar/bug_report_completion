@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23782</id>
+    <title>[1.12.0-rc2] Can not connect remote docker instance to running swarm cluster (rpc error: code = 4 desc = context deadline exceeded)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Client (laptop, OSX)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+$&gt; docker version
+Client:
+ Version: 1.12.0-rc2
+ API version: 1.24
+ Go version: go1.6.2
+ Git commit: 906eacd
+ Built: Fri Jun 17 20:35:33 2016
+ OS/Arch: darwin/amd64
+ Experimental: true</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Server:
+ Version: 1.12.0-rc2
+ API version: 1.24
+ Go version: go1.6.2
+ Git commit: a7119de
+ Built: Fri Jun 17 22:09:20 2016
+ OS/Arch: linux/amd64
+ Experimental: true
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Server:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+Client:
+ Version: 1.12.0-rc2
+ API version: 1.24
+ Go version: go1.6.2
+ Git commit: 906eacd-unsupported
+ Built: Fri Jun 17 21:21:56 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Server:
+ Version: 1.12.0-rc2
+ API version: 1.24
+ Go version: go1.6.2
+ Git commit: 906eacd-unsupported
+ Built: Fri Jun 17 21:21:56 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Client:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'</sentence>
+            <sentence id="10.2">Containers: 78</sentence>
+            <sentence id="10.3"> Running: 0</sentence>
+            <sentence id="10.4"> Paused: 0</sentence>
+            <sentence id="10.5"> Stopped: 78</sentence>
+            <sentence id="10.6">Images: 51</sentence>
+            <sentence id="10.7">Server Version: 1.12.0-rc2</sentence>
+            <sentence id="10.8">Storage Driver: aufs</sentence>
+            <sentence id="10.9"> Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="10.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="10.11"> Dirs: 344</sentence>
+            <sentence id="10.12"> Dirperm1 Supported: true</sentence>
+            <sentence id="10.13">Logging Driver: json-file</sentence>
+            <sentence id="10.14">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="10.15">Plugins:</sentence>
+            <sentence id="10.16"> Volume: local</sentence>
+            <sentence id="10.17"> Network: overlay bridge null host</sentence>
+            <sentence id="10.18">Swarm: inactive</sentence>
+            <sentence id="10.19">Runtimes: default</sentence>
+            <sentence id="10.20">Default Runtime: default</sentence>
+            <sentence id="10.21">Security Options: seccomp</sentence>
+            <sentence id="10.22">Kernel Version: 4.4.13-moby</sentence>
+            <sentence id="10.23">Operating System: Alpine Linux v3.4</sentence>
+            <sentence id="10.24">OSType: linux</sentence>
+            <sentence id="10.25">Architecture: x86_64</sentence>
+            <sentence id="10.26">CPUs: 4</sentence>
+            <sentence id="10.27">Total Memory: 1.954 GiB</sentence>
+            <sentence id="10.28">Name: moby</sentence>
+            <sentence id="10.29">ID: AX3N:B5KC:6TY6:V5UW:5MAH:JSD3:PXBN:HC3H:GF3L:GC7L:Z35R:KAIW</sentence>
+            <sentence id="10.30">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="10.31">Debug Mode (client): false</sentence>
+            <sentence id="10.32">Debug Mode (server): true</sentence>
+            <sentence id="10.33"> File Descriptors: 33</sentence>
+            <sentence id="10.34"> Goroutines: 95</sentence>
+            <sentence id="10.35"> System Time: 2016-06-20T22:09:37.819574454Z</sentence>
+            <sentence id="10.36"> EventsListeners: 1</sentence>
+            <sentence id="10.37">No Proxy: *.local, 169.254/16</sentence>
+            <sentence id="10.38">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="10.39">Experimental: true</sentence>
+            <sentence id="10.40">Insecure Registries:</sentence>
+            <sentence id="10.41"> 127.0.0.0/8</sentence>
+            <sentence id="10.42">"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Server (swarm cluster):</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"'</sentence>
+            <sentence id="12.2">Containers: 0</sentence>
+            <sentence id="12.3"> Running: 0</sentence>
+            <sentence id="12.4"> Paused: 0</sentence>
+            <sentence id="12.5"> Stopped: 0</sentence>
+            <sentence id="12.6">Images: 0</sentence>
+            <sentence id="12.7">Server Version: 1.12.0-rc2</sentence>
+            <sentence id="12.8">Storage Driver: aufs</sentence>
+            <sentence id="12.9"> Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="12.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="12.11"> Dirs: 0</sentence>
+            <sentence id="12.12"> Dirperm1 Supported: true</sentence>
+            <sentence id="12.13">Logging Driver: json-file</sentence>
+            <sentence id="12.14">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="12.15">Plugins:</sentence>
+            <sentence id="12.16"> Volume: local</sentence>
+            <sentence id="12.17"> Network: overlay host null bridge</sentence>
+            <sentence id="12.18">Swarm: inactive</sentence>
+            <sentence id="12.19">Runtimes: default</sentence>
+            <sentence id="12.20">Default Runtime: default</sentence>
+            <sentence id="12.21">Security Options: apparmor seccomp</sentence>
+            <sentence id="12.22">Kernel Version: 4.4.0-24-generic</sentence>
+            <sentence id="12.23">Operating System: Ubuntu 16.04 LTS</sentence>
+            <sentence id="12.24">OSType: linux</sentence>
+            <sentence id="12.25">Architecture: x86_64</sentence>
+            <sentence id="12.26">CPUs: 1</sentence>
+            <sentence id="12.27">Total Memory: 991.1 MiB</sentence>
+            <sentence id="12.28">Name: docker1</sentence>
+            <sentence id="12.29">ID: LOR7:TUJW:PXCF:SGKX:L5LU:GQCT:UTRN:G72M:JU32:I24J:JN3R:BN34</sentence>
+            <sentence id="12.30">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="12.31">Debug Mode (client): false</sentence>
+            <sentence id="12.32">Debug Mode (server): false</sentence>
+            <sentence id="12.33">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="12.34">Insecure Registries:</sentence>
+            <sentence id="12.35"> 127.0.0.0/8</sentence>
+            <sentence id="12.36">"'</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Configuration is a group of 4 swarm nodes running ubuntu 16.04.</sentence>
+            <sentence id="14.2">My 'client' is the Docker for Mac beta running on a different network (home).</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">From the swarm node leader:</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">"'
+docker swarm inspect
+[
+ {
+ "ID": "bp450a0g3jbapw0wdsmhkrv3s",
+ "Version": {
+ "Index": 55
+ },
+ "CreatedAt": "2016-06-20T20:22:10.831316894Z",
+ "UpdatedAt": "2016-06-20T20:43:20.317168481Z",
+ "Spec": {
+ "Name": "default",
+ "AcceptancePolicy": {
+ "Policies": [
+ {
+ "Role": "worker",
+ "Autoaccept": true
+ },
+ {
+ "Role": "manager",
+ "Autoaccept": false
+ }
+ ]
+ },
+ "Orchestration": {
+ "TaskHistoryRetentionLimit": 10
+ },
+ "Raft": {
+ "SnapshotInterval": 10000,
+ "LogEntriesForSlowFollowers": 500,
+ "HeartbeatTick": 1,
+ "ElectionTick": 3
+ },
+ "Dispatcher": {
+ "HeartbeatPeriod": 5000000000
+ },
+ "CAConfig": {
+ "NodeCertExpiry": 7776000000000000
+ }
+ }
+ }
+]
+"'</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">4 nodes total talking on a private network:</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">"'
+ID NAME MEMBERSHIP STATUS AVAILABILITY MANAGER STATUS
+09y7cdu03xmuwhta0ykvd72gb docker4 Accepted Ready Active Reachable
+1jkzrkblwbdig3l5u29997n00 docker1 Accepted Ready Active Leader
+41znz1ntskwvvvea8up52wu0m docker2 Accepted Ready Active Reachable
+5bt1bcak4tuzm9a39a7ou9upz docker3 Accepted Ready Active
+"'</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="19.2">1 Configure swarm 1.12 as above - the cluster has four total nodes using a private eth1 network to connect to one another.</sentence>
+            <sentence id="19.3">2 Now, using the docker for mac beta, perform a 'docker swarm join --manager publicIP:2377' you should see the following on the leader:</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">"'
+ID NAME MEMBERSHIP STATUS AVAILABILITY MANAGER STATUS
+09y7cdu03xmuwhta0ykvd72gb docker4 Accepted Ready Active Reachable
+1jkzrkblwbdig3l5u29997n00 docker1 Accepted Ready Active Leader
+41znz1ntskwvvvea8up52wu0m docker2 Accepted Ready Active Reachable
+5bt1bcak4tuzm9a39a7ou9upz docker3 Accepted Ready Active 
+ai6cie5sw35rucks3kfeojdw8 Pending Unknown Active 
+"'</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">you can then run 'docker node accept ai6cie5sw35rucks3kfeojdw8' and we can see the node (the laptop) approved:</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">"'</sentence>
+            <sentence id="22.2">Node ai6cie5sw35rucks3kfeojdw8 accepted in the swarm.</sentence>
+            <sentence id="22.3">"'</sentence>
+            <sentence id="22.4">1 Type 'docker node ls' on the leader:</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">"'
+ID NAME MEMBERSHIP STATUS AVAILABILITY MANAGER STATUS
+09y7cdu03xmuwhta0ykvd72gb docker4 Accepted Ready Active Reachable
+11ghb0yx7ir8ada8wyptmnu0r Pending Unknown Active 
+1jkzrkblwbdig3l5u29997n00 docker1 Accepted Ready Active Leader
+41znz1ntskwvvvea8up52wu0m docker2 Accepted Ready Active Reachable
+5bt1bcak4tuzm9a39a7ou9upz docker3 Accepted Ready Active 
+ai6cie5sw35rucks3kfeojdw8 moby Accepted Ready Active Unreachable
+"'</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">You can see it's in 'unreachable' state.</sentence>
+            <sentence id="24.2">1 Swap back to the client (laptop):</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">"'
+$&gt; docker node ls
+Error response from daemon: rpc error: code = 4 desc = context deadline exceeded
+"'</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">the Swarm cluster goes into an odd state throwing:</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">"'
+Error response from daemon: rpc error: code = 4 desc = context deadline exceeded
+"'</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">Additionally, I can not demote / rm on the leader:</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">"'
+root@docker1:~# docker node demote ai6cie5sw35rucks3kfeojdw8
+Manager ai6cie5sw35rucks3kfeojdw8 demoted in the swarm.
+root@docker1:~# docker node rm ai6cie5sw35rucks3kfeojdw8
+Error response from daemon: rpc error: code = 9 desc = node ai6cie5sw35rucks3kfeojdw8 is not down and can't be removed
+"'</sentence>
+        </paragraph>
+        <paragraph id="31">
+            <sentence id="31.1">in order to get out of that state you must run this on the client, then do the rm from the leader</sentence>
+        </paragraph>
+        <paragraph id="32">
+            <sentence id="32.1">"'
+docker swarm leave --force
+"'</sentence>
+        </paragraph>
+        <paragraph id="33">
+            <sentence id="33.1">**Describe the results you expected:**</sentence>
+            <sentence id="33.2">I expected the client on my remote laptop to be able to join as a manager to be able to deploy services / run cluster administration commands (it seems 'manager' mode is the only way to do this).</sentence>
+            <sentence id="33.3">The documentation doesn't make it clear if you can connect the docker client on one network / system remotely to the full swarm cluster without 'joining' as a master.</sentence>
+        </paragraph>
+        <paragraph id="34">
+            <sentence id="34.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="35">
+            <sentence id="35.1">If you join the 'client' as a default worker in a fresh cluster with only 1 manager, and then promote the remote client, all managers will begin throwing 'Error response from daemon: rpc error: code = 4 desc = context deadline exceeded' effectively going offline.</sentence>
+            <sentence id="35.2">See issue https://github.com/docker/docker/issues/23784</sentence>
+        </paragraph>
+    </description>
+</bug>

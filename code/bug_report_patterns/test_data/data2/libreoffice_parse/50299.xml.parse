@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>50299</id>
+    <title>MOD shows not existing, inconsistent, small remainder with calculated Dividend</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There appears to be a bug in the Calc modulo function.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Here's the description from Axel Reimer's email entitled "Critical bug in LibreOffice Calc when using mod (showstopper for 3.5.4?)"</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">---</sentence>
+            <sentence id="3.2">in LibreOffice Calc 3.5.3 there is a critical bug in the mod function.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">When using</sentence>
+            <sentence id="4.2">=mod=(0,3*100;10) in a cell 3,5527E-015 is displayed as result
+=mod=(0,4*100;10) in a cell 0 is displayed as result
+=mod=(0,5*100;10) in a cell 0 is displayed as result
+=mod=(0,6*100;10) in a cell 7,1054E-015 is displayed as result
+=mod=(0,7*100;10) in a cell 0 is displayed as result
+=mod=(0,8*100;10) in a cell 0 is displayed as result
+=mod=(0,9*100;10) in a cell 0 is displayed as result</sentence>
+            <sentence id="4.3">=mod=(30;10) in a cell 0 is displayed as result
+=mod=(60;10) in a cell 0 is displayed as result</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The values for 0,3*100 and 0,6*100 are definitely wrong.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This could be a showstopper if this still happens in LibreOffice 3.5.4 RC1.</sentence>
+            <sentence id="6.2">Can someone test if this occurs in 3.5.4 RC1?</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Best regards,
+Axel</sentence>
+        </paragraph>
+    </description>
+</bug>

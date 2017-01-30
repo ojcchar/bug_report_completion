@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>49369</id>
+    <title>mod_deflate output filters pass empty brigades down the filter chain</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If mod_deflate's output filters are passed an empty brigade, they will pass the empty brigade to the next filter in the chain.</sentence>
+            <sentence id="1.2">This is contrary to what is recommended by the "Guide to writing output filters" on the httpd website &lt;http://httpd.apache.org/docs/2.3/developer/output-filters.html&gt;.</sentence>
+            <sentence id="1.3">According to that page, empty brigades should be suppressed; upon seeing an empty brigade, the filter should simply return APR_SUCCESS rather than calling ap_pass_brigade.</sentence>
+            <sentence id="1.4">This would be a trivial (2-line) change to mod_deflate.</sentence>
+        </paragraph>
+    </description>
+</bug>

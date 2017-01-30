@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>258049</id>
+    <title>[formatter] Linebreak before trailing statement semicolon not preserved</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Version: 3.5.0 - Build id: I20081209-0100</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">With formatter preferences set to:
+org.eclipse.jdt.core.formatter.join_wrapped_lines=false
+org.eclipse.jdt.core.formatter.join_lines_in_comments=false</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The following code:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">public class X {
+	void foo() {
+		System.out.println()
+		;
+	}
+}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">becomes:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">public class X {
+	void foo() {
+		System.out.println();
+	}
+}</sentence>
+        </paragraph>
+    </description>
+</bug>

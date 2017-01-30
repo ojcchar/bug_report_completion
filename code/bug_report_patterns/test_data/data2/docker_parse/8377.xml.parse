@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8377</id>
+    <title>nil dereference when pulling image</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">panic: runtime error: invalid memory address or nil pointer dereference
+[signal 0xb code=0x1 addr=0x0 pc=0x58149f]</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">goroutine 3667 [running]:</sentence>
+            <sentence id="2.2">runtime.panic(0xb48200, 0x1174573)</sentence>
+            <sentence id="2.3"> /usr/local/go/src/pkg/runtime/panic.c:279 +0xf5</sentence>
+            <sentence id="2.4">github.com/docker/docker/registry.(_Session).GetRemoteImageLayer(0xc2085e45a0, 0xc2083e6540, 0x40, 0xc2083cea00, 0x20, 0xc2086fa350, 0x1, 0x1, 0xb3, 0x0, ...)</sentence>
+            <sentence id="2.5"> /go/src/github.com/docker/docker/registry/session.go:170 +0x95f</sentence>
+            <sentence id="2.6">github.com/docker/docker/graph.(_TagStore).pullImage(0xc2080f50c0, 0xc2085e45a0, 0x7f1714482528, 0xc208669880, 0xc2088480c0, 0x40, 0xc2083cea00, 0x20, 0xc2086fa350, 0x1, ...)</sentence>
+            <sentence id="2.7"> /go/src/github.com/docker/docker/graph/pull.go:270 +0xaa4</sentence>
+            <sentence id="2.8">github.com/docker/docker/graph.func·006(0xc208848400)</sentence>
+            <sentence id="2.9"> /go/src/github.com/docker/docker/graph/pull.go:159 +0xcc5</sentence>
+            <sentence id="2.10">created by github.com/docker/docker/graph.(*TagStore).pullRepository</sentence>
+            <sentence id="2.11"> /go/src/github.com/docker/docker/graph/pull.go:185 +0xa83</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">goroutine 16 [chan receive, 5 minutes]:
+github.com/docker/docker/api/server.ServeApi(0xc208050780, 0x7f171447c460)
+ /go/src/github.</sentence>
+            <sentence id="3.2">com/docker/docker/api/server/server.</sentence>
+            <sentence id="3.3">go:1361 +0x473
+github.com/docker/docker/engine.</sentence>
+            <sentence id="3.4">(*Job).</sentence>
+            <sentence id="3.5">Run(0xc208050780, 0x0, 0x0)
+ /go/src/github.</sentence>
+            <sentence id="3.6">com/docker/docker/engine/job.</sentence>
+            <sentence id="3.7">go:79 +0x7d0
+main.mainDaemon()
+ /go/src/github.</sentence>
+            <sentence id="3.8">com/docker/docker/docker/daemon.</sentence>
+            <sentence id="3.9">go:78 +0x56c
+main.main()
+ /go/src/github.</sentence>
+            <sentence id="3.10">com/docker/docker/docker/docker.</sentence>
+            <sentence id="3.11">go:54 +0x2b1</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">goroutine 19 [finalizer wait]:
+runtime.park(0x41bf90, 0x1193b80, 0x1179889)
+ /usr/local/go/src/pkg/runtime/proc.c:1369 +0x89
+runtime.parkunlock(0x1193b80, 0x1179889)
+ /usr/local/go/src/pkg/runtime/proc.c:1385 +0x3b
+runfinq()
+ /usr/local/go/src/pkg/runtime/mgc0.c:2644 +0xcf
+runtime.goexit()
+ /usr/local/go/src/pkg/runtime/proc.c:1445</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">goroutine 20 [syscall, 5 minutes]:
+os/signal.</sentence>
+            <sentence id="5.2">loop()
+ /usr/local/go/src/pkg/os/signal/signal_unix.go:21 +0x1e
+created by os/signal.</sentence>
+            <sentence id="5.3">init·1
+ /usr/local/go/src/pkg/os/signal/signal_unix.go:27 +0x32</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">goroutine 17 [syscall, 5 minutes]:
+runtime.goexit()
+ /usr/local/go/src/pkg/runtime/proc.c:1445</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">goroutine 23 [chan receive, 5 minutes]:
+github.com/docker/docker/pkg/signal.func·002()
+ /go/src/github.</sentence>
+            <sentence id="7.2">com/docker/docker/pkg/signal/trap.</sentence>
+            <sentence id="7.3">go:29 +0x88
+created by github.com/docker/docker/pkg/signal.Trap
+ /go/src/github.</sentence>
+            <sentence id="7.4">com/docker/docker/pkg/signal/trap.</sentence>
+            <sentence id="7.5">go:53 +0x28f</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">goroutine 25 [IO wait]:</sentence>
+            <sentence id="8.2">net.runtime_pollWait(0x7f1714481998, 0x72, 0x0)</sentence>
+            <sentence id="8.3"> /usr/local/go/src/pkg/runtime/netpoll.goc:146 +0x66</sentence>
+            <sentence id="8.4">net.(_pollDesc).Wait(0xc208124920, 0x72, 0x0, 0x0)</sentence>
+            <sentence id="8.5"> /usr/local/go/src/pkg/net/fd_poll_runtime.go:84 +0x46</sentence>
+            <sentence id="8.6">net.(_pollDesc).WaitRead(0xc208124920, 0x0, 0x0)</sentence>
+            <sentence id="8.7"> /usr/local/go/src/pkg/net/fd_poll_runtime.go:89 +0x42</sentence>
+            <sentence id="8.8">net.(_netFD).accept(0xc2081248c0, 0xd16d88, 0x0, 0x7f171447a418, 0xb)</sentence>
+            <sentence id="8.9"> /usr/local/go/src/pkg/net/fd_unix.go:419 +0x343</sentence>
+            <sentence id="8.10">net.(_UnixListener).AcceptUnix(0xc208171280, 0xc208012900, 0x0, 0x0)</sentence>
+            <sentence id="8.11"> /usr/local/go/src/pkg/net/unixsock_posix.go:293 +0x73</sentence>
+            <sentence id="8.12">net.(_UnixListener).Accept(0xc208171280, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="8.13"> /usr/local/go/src/pkg/net/unixsock_posix.go:304 +0x4b</sentence>
+            <sentence id="8.14">github.com/docker/docker/pkg/listenbuffer.(_defaultListener).Accept(0xc2081712a0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="8.15"> /go/src/github.com/docker/docker/pkg/listenbuffer/buffer.go:41 +0x67</sentence>
+            <sentence id="8.16">net/http.(*Server).Serve(0xc20815ade0, 0x7f1714481a48, 0xc2081712a0, 0x0, 0x0)</sentence>
+            <sentence id="8.17"> /usr/local/go/src/pkg/net/http/server.go:1698 +0x91</sentence>
+            <sentence id="8.18">github.com/docker/docker/api/server.ListenAndServe(0xc2080415c0, 0x4, 0xc2080415c7, 0x14, 0xc208050780, 0x0, 0x0)</sentence>
+            <sentence id="8.19"> /go/src/github.com/docker/docker/api/server/server.go:1334 +0x778</sentence>
+            <sentence id="8.20">github.com/docker/docker/api/server.func·008()</sentence>
+            <sentence id="8.21"> /go/src/github.com/docker/docker/api/server/server.go:1356 +0x1ce</sentence>
+            <sentence id="8.22">created by github.com/docker/docker/api/server.ServeApi</sentence>
+            <sentence id="8.23"> /go/src/github.com/docker/docker/api/server/server.go:1357 +0x3fa</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">goroutine 42 [chan receive, 5 minutes]:
+database/sql.</sentence>
+            <sentence id="9.2">(*DB).</sentence>
+            <sentence id="9.3">connectionOpener(0xc208108580)
+ /usr/local/go/src/pkg/database/sql/sql.</sentence>
+            <sentence id="9.4">go:583 +0x48
+created by database/sql.</sentence>
+            <sentence id="9.5">Open
+ /usr/local/go/src/pkg/database/sql/sql.</sentence>
+            <sentence id="9.6">go:442 +0x27c</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">goroutine 50 [select]:
+net.func·019()
+ /usr/local/go/src/pkg/net/dnsclient_unix.</sentence>
+            <sentence id="10.2">go:184 +0x2ab
+created by net.loadConfig
+ /usr/local/go/src/pkg/net/dnsclient_unix.</sentence>
+            <sentence id="10.3">go:212 +0x153</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">goroutine 1933 [syscall, 2 minutes]:</sentence>
+            <sentence id="11.2">syscall.Syscall6(0x3d, 0xd6b, 0x7f17142ed914, 0x0, 0xc2088b4cf0, 0x0, 0x0, 0x0, 0x44a6c6, 0xc2088b4cf0)</sentence>
+            <sentence id="11.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:46 +0x5</sentence>
+            <sentence id="11.4">syscall.wait4(0xd6b, 0x7f17142ed914, 0x0, 0xc2088b4cf0, 0x42e2ab, 0x0, 0x0)</sentence>
+            <sentence id="11.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:120 +0x7d</sentence>
+            <sentence id="11.6">syscall.Wait4(0xd6b, 0x7f17142ed95c, 0x0, 0xc2088b4cf0, 0x23b, 0x0, 0x0)</sentence>
+            <sentence id="11.7"> /usr/local/go/src/pkg/syscall/syscall_linux.go:222 +0x64</sentence>
+            <sentence id="11.8">os.(_Process).wait(0xc2083ac760, 0x6a5, 0x0, 0x0)</sentence>
+            <sentence id="11.9"> /usr/local/go/src/pkg/os/exec_unix.go:22 +0xfe</sentence>
+            <sentence id="11.10">os.(_Process).Wait(0xc2083ac760, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="11.11"> /usr/local/go/src/pkg/os/doc.go:45 +0x39</sentence>
+            <sentence id="11.12">os/exec.(_Cmd).Wait(0xc208746280, 0x0, 0x0)</sentence>
+            <sentence id="11.13"> /usr/local/go/src/pkg/os/exec/exec.go:357 +0x1db</sentence>
+            <sentence id="11.14">github.com/docker/libcontainer/namespaces.Exec(0xc20830f0a0, 0x0, 0x0, 0x7f171448c390, 0xc2083ceb20, 0x7f171448c390, 0xc2083ceb00, 0x0, 0x0, 0xc2084eb980, ...)</sentence>
+            <sentence id="11.15"> /go/src/github.com/docker/docker/vendor/src/github.com/docker/libcontainer/namespaces/exec.go:106 +0x72f</sentence>
+            <sentence id="11.16">github.com/docker/docker/daemon/execdriver/native.(_driver).Run(0xc2081320f0, 0xc208746280, 0xc2086e3c50, 0xc2083853d0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="11.17"> /go/src/github.com/docker/docker/daemon/execdriver/native/driver.go:127 +0x794</sentence>
+            <sentence id="11.18">github.com/docker/docker/daemon.(_Daemon).Run(0xc20817e360, 0xc208476820, 0xc2086e3c50, 0xc2083853d0, 0x48ff23, 0x0, 0x0)</sentence>
+            <sentence id="11.19"> /go/src/github.com/docker/docker/daemon/daemon.go:970 +0x82</sentence>
+            <sentence id="11.20">github.com/docker/docker/daemon.(_containerMonitor).Start(0xc208180310, 0x0, 0x0)</sentence>
+            <sentence id="11.21"> /go/src/github.com/docker/docker/daemon/monitor.go:136 +0x361</sentence>
+            <sentence id="11.22">github.com/docker/docker/daemon.*containerMonitor.Start·fm(0x0, 0x0)</sentence>
+            <sentence id="11.23"> /go/src/github.com/docker/docker/daemon/container.go:1077 +0x38</sentence>
+            <sentence id="11.24">github.com/docker/docker/utils.func·001()</sentence>
+            <sentence id="11.25"> /go/src/github.com/docker/docker/utils/utils.go:36 +0x2e</sentence>
+            <sentence id="11.26">created by github.com/docker/docker/utils.Go</sentence>
+            <sentence id="11.27"> /go/src/github.com/docker/docker/utils/utils.go:37 +0xa7</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">goroutine 1108 [syscall, 4 minutes]:</sentence>
+            <sentence id="12.2">syscall.Syscall6(0x3d, 0xcb7, 0x7f1710051914, 0x0, 0xc2082b3680, 0x0, 0x0, 0x0, 0x44a6c6, 0xc2082b3680)</sentence>
+            <sentence id="12.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:46 +0x5</sentence>
+            <sentence id="12.4">syscall.wait4(0xcb7, 0x7f1710051914, 0x0, 0xc2082b3680, 0x42e2ab, 0x0, 0x0)</sentence>
+            <sentence id="12.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:120 +0x7d</sentence>
+            <sentence id="12.6">syscall.Wait4(0xcb7, 0x7f171005195c, 0x0, 0xc2082b3680, 0x2a9, 0x0, 0x0)</sentence>
+            <sentence id="12.7"> /usr/local/go/src/pkg/syscall/syscall_linux.go:222 +0x64</sentence>
+            <sentence id="12.8">os.(_Process).wait(0xc2082499a0, 0xcd9, 0x0, 0x0)</sentence>
+            <sentence id="12.9"> /usr/local/go/src/pkg/os/exec_unix.go:22 +0xfe</sentence>
+            <sentence id="12.10">os.(_Process).Wait(0xc2082499a0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="12.11"> /usr/local/go/src/pkg/os/doc.go:45 +0x39</sentence>
+            <sentence id="12.12">os/exec.(_Cmd).Wait(0xc2080ddb80, 0x0, 0x0)</sentence>
+            <sentence id="12.13"> /usr/local/go/src/pkg/os/exec/exec.go:357 +0x1db</sentence>
+            <sentence id="12.14">github.com/docker/libcontainer/namespaces.Exec(0xc20853a460, 0x0, 0x0, 0x7f171448c390, 0xc208262280, 0x7f171448c390, 0xc208262260, 0x0, 0x0, 0xc2084ead80, ...)</sentence>
+            <sentence id="12.15"> /go/src/github.com/docker/docker/vendor/src/github.com/docker/libcontainer/namespaces/exec.go:106 +0x72f</sentence>
+            <sentence id="12.16">github.com/docker/docker/daemon/execdriver/native.(_driver).Run(0xc2081320f0, 0xc2080ddb80, 0xc208572ae0, 0xc208309b70, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="12.17"> /go/src/github.com/docker/docker/daemon/execdriver/native/driver.go:127 +0x794</sentence>
+            <sentence id="12.18">github.com/docker/docker/daemon.(_Daemon).Run(0xc20817e360, 0xc2081bc1a0, 0xc208572ae0, 0xc208309b70, 0x48ff23, 0x0, 0x0)</sentence>
+            <sentence id="12.19"> /go/src/github.com/docker/docker/daemon/daemon.go:970 +0x82</sentence>
+            <sentence id="12.20">github.com/docker/docker/daemon.(_containerMonitor).Start(0xc20811c070, 0x0, 0x0)</sentence>
+            <sentence id="12.21"> /go/src/github.com/docker/docker/daemon/monitor.go:136 +0x361</sentence>
+            <sentence id="12.22">github.com/docker/docker/daemon.*containerMonitor.Start·fm(0x0, 0x0)</sentence>
+            <sentence id="12.23"> /go/src/github.com/docker/docker/daemon/container.go:1077 +0x38</sentence>
+            <sentence id="12.24">github.com/docker/docker/utils.func·001()</sentence>
+            <sentence id="12.25"> /go/src/github.com/docker/docker/utils/utils.go:36 +0x2e</sentence>
+            <sentence id="12.26">created by github.com/docker/docker/utils.Go</sentence>
+            <sentence id="12.27"> /go/src/github.com/docker/docker/utils/utils.go:37 +0xa7</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">goroutine 113 [syscall, 5 minutes]:</sentence>
+            <sentence id="13.2">syscall.Syscall(0x0, 0x14, 0xc2084b2000, 0x8000, 0x7f171448b528, 0xc20843a1c0, 0x42cd2e)</sentence>
+            <sentence id="13.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="13.4">syscall.read(0x14, 0xc2084b2000, 0x8000, 0x8000, 0x7f171446a000, 0x0, 0x0)</sentence>
+            <sentence id="13.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="13.6">syscall.Read(0x14, 0xc2084b2000, 0x8000, 0x8000, 0x1, 0x0, 0x0)</sentence>
+            <sentence id="13.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="13.8">os.(_File).read(0xc20803b9a8, 0xc2084b2000, 0x8000, 0x8000, 0x4318f3, 0x0, 0x0)</sentence>
+            <sentence id="13.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="13.10">os.(_File).Read(0xc20803b9a8, 0xc2084b2000, 0x8000, 0x8000, 0x8000, 0x0, 0x0)</sentence>
+            <sentence id="13.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="13.12">io.Copy(0x7f171448c390, 0xc20827f7e0, 0x7f171447a3c8, 0xc20803b9a8, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="13.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="13.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="13.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="13.16">os/exec.func·004(0xc208259280)</sentence>
+            <sentence id="13.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="13.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="13.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">goroutine 112 [syscall, 5 minutes]:</sentence>
+            <sentence id="14.2">syscall.Syscall(0x0, 0x12, 0xc2084aa000, 0x8000, 0x7f171448b4a8, 0x11962f0, 0x42cd2e)</sentence>
+            <sentence id="14.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="14.4">syscall.read(0x12, 0xc2084aa000, 0x8000, 0x8000, 0x7f171446a000, 0x0, 0x0)</sentence>
+            <sentence id="14.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="14.6">syscall.Read(0x12, 0xc2084aa000, 0x8000, 0x8000, 0x1, 0x0, 0x0)</sentence>
+            <sentence id="14.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="14.8">os.(_File).read(0xc20803b988, 0xc2084aa000, 0x8000, 0x8000, 0x4318f3, 0x0, 0x0)</sentence>
+            <sentence id="14.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="14.10">os.(_File).Read(0xc20803b988, 0xc2084aa000, 0x8000, 0x8000, 0x8000, 0x0, 0x0)</sentence>
+            <sentence id="14.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="14.12">io.Copy(0x7f171448c390, 0xc20827f800, 0x7f171447a3c8, 0xc20803b988, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="14.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="14.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="14.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="14.16">os/exec.func·004(0xc208259220)</sentence>
+            <sentence id="14.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="14.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="14.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">goroutine 110 [syscall, 5 minutes]:</sentence>
+            <sentence id="15.2">syscall.Syscall6(0x3d, 0xc51, 0x7f17142df914, 0x0, 0xc20840e360, 0x0, 0x0, 0x0, 0x44a6c6, 0xc20840e360)</sentence>
+            <sentence id="15.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:46 +0x5</sentence>
+            <sentence id="15.4">syscall.wait4(0xc51, 0x7f17142df914, 0x0, 0xc20840e360, 0x42e2ab, 0x0, 0x0)</sentence>
+            <sentence id="15.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:120 +0x7d</sentence>
+            <sentence id="15.6">syscall.Wait4(0xc51, 0x7f17142df95c, 0x0, 0xc20840e360, 0x222, 0x0, 0x0)</sentence>
+            <sentence id="15.7"> /usr/local/go/src/pkg/syscall/syscall_linux.go:222 +0x64</sentence>
+            <sentence id="15.8">os.(_Process).wait(0xc208259360, 0x6a9, 0x0, 0x0)</sentence>
+            <sentence id="15.9"> /usr/local/go/src/pkg/os/exec_unix.go:22 +0xfe</sentence>
+            <sentence id="15.10">os.(_Process).Wait(0xc208259360, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="15.11"> /usr/local/go/src/pkg/os/doc.go:45 +0x39</sentence>
+            <sentence id="15.12">os/exec.(_Cmd).Wait(0xc20815ef00, 0x0, 0x0)</sentence>
+            <sentence id="15.13"> /usr/local/go/src/pkg/os/exec/exec.go:357 +0x1db</sentence>
+            <sentence id="15.14">github.com/docker/libcontainer/namespaces.Exec(0xc20829ddc0, 0x0, 0x0, 0x7f171448c390, 0xc20827f800, 0x7f171448c390, 0xc20827f7e0, 0x0, 0x0, 0xc2084174a0, ...)</sentence>
+            <sentence id="15.15"> /go/src/github.com/docker/docker/vendor/src/github.com/docker/libcontainer/namespaces/exec.go:106 +0x72f</sentence>
+            <sentence id="15.16">github.com/docker/docker/daemon/execdriver/native.(_driver).Run(0xc2081320f0, 0xc20815ef00, 0xc208132e40, 0xc208292a00, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="15.17"> /go/src/github.com/docker/docker/daemon/execdriver/native/driver.go:127 +0x794</sentence>
+            <sentence id="15.18">github.com/docker/docker/daemon.(_Daemon).Run(0xc20817e360, 0xc2081d8d00, 0xc208132e40, 0xc208292a00, 0x48ff23, 0x0, 0x0)</sentence>
+            <sentence id="15.19"> /go/src/github.com/docker/docker/daemon/daemon.go:970 +0x82</sentence>
+            <sentence id="15.20">github.com/docker/docker/daemon.(_containerMonitor).Start(0xc20800f570, 0x0, 0x0)</sentence>
+            <sentence id="15.21"> /go/src/github.com/docker/docker/daemon/monitor.go:136 +0x361</sentence>
+            <sentence id="15.22">github.com/docker/docker/daemon.*containerMonitor.Start·fm(0x0, 0x0)</sentence>
+            <sentence id="15.23"> /go/src/github.com/docker/docker/daemon/container.go:1077 +0x38</sentence>
+            <sentence id="15.24">github.com/docker/docker/utils.func·001()</sentence>
+            <sentence id="15.25"> /go/src/github.com/docker/docker/utils/utils.go:36 +0x2e</sentence>
+            <sentence id="15.26">created by github.com/docker/docker/utils.Go</sentence>
+            <sentence id="15.27"> /go/src/github.com/docker/docker/utils/utils.go:37 +0xa7</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">goroutine 2460 [syscall]:</sentence>
+            <sentence id="16.2">syscall.Syscall(0x0, 0x2a, 0xc208628000, 0x8000, 0xb0, 0xe9, 0x0)</sentence>
+            <sentence id="16.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="16.4">syscall.read(0x2a, 0xc208628000, 0x8000, 0x8000, 0x2de8b126, 0x0, 0x0)</sentence>
+            <sentence id="16.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="16.6">syscall.Read(0x2a, 0xc208628000, 0x8000, 0x8000, 0x105, 0x0, 0x0)</sentence>
+            <sentence id="16.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="16.8">os.(_File).read(0xc2086efab8, 0xc208628000, 0x8000, 0x8000, 0xc2088dfdd0, 0x0, 0x0)</sentence>
+            <sentence id="16.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="16.10">os.(_File).Read(0xc2086efab8, 0xc208628000, 0x8000, 0x8000, 0x6a, 0x0, 0x0)</sentence>
+            <sentence id="16.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="16.12">io.Copy(0x7f171448c390, 0xc20836e7a0, 0x7f171447a3c8, 0xc2086efab8, 0x1aed, 0x0, 0x0)</sentence>
+            <sentence id="16.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="16.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="16.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="16.16">os/exec.func·004(0xc208356900)</sentence>
+            <sentence id="16.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="16.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="16.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">goroutine 2457 [syscall, 1 minutes]:</sentence>
+            <sentence id="17.2">syscall.Syscall6(0x3d, 0xe1a, 0x7f171017f914, 0x0, 0xc2089113b0, 0x0, 0x0, 0x0, 0x44a6c6, 0xc2089113b0)</sentence>
+            <sentence id="17.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:46 +0x5</sentence>
+            <sentence id="17.4">syscall.wait4(0xe1a, 0x7f171017f914, 0x0, 0xc2089113b0, 0x42e2ab, 0x0, 0x0)</sentence>
+            <sentence id="17.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:120 +0x7d</sentence>
+            <sentence id="17.6">syscall.Wait4(0xe1a, 0x7f171017f95c, 0x0, 0xc2089113b0, 0x222, 0x0, 0x0)</sentence>
+            <sentence id="17.7"> /usr/local/go/src/pkg/syscall/syscall_linux.go:222 +0x64</sentence>
+            <sentence id="17.8">os.(_Process).wait(0xc208356aa0, 0xd0d, 0x0, 0x0)</sentence>
+            <sentence id="17.9"> /usr/local/go/src/pkg/os/exec_unix.go:22 +0xfe</sentence>
+            <sentence id="17.10">os.(_Process).Wait(0xc208356aa0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="17.11"> /usr/local/go/src/pkg/os/doc.go:45 +0x39</sentence>
+            <sentence id="17.12">os/exec.(_Cmd).Wait(0xc208746f00, 0x0, 0x0)</sentence>
+            <sentence id="17.13"> /usr/local/go/src/pkg/os/exec/exec.go:357 +0x1db</sentence>
+            <sentence id="17.14">github.com/docker/libcontainer/namespaces.Exec(0xc20853bea0, 0x0, 0x0, 0x7f171448c390, 0xc20836e7c0, 0x7f171448c390, 0xc20836e7a0, 0x0, 0x0, 0xc20861bd40, ...)</sentence>
+            <sentence id="17.15"> /go/src/github.com/docker/docker/vendor/src/github.com/docker/libcontainer/namespaces/exec.go:106 +0x72f</sentence>
+            <sentence id="17.16">github.com/docker/docker/daemon/execdriver/native.(_driver).Run(0xc2081320f0, 0xc208746f00, 0xc2086e36b0, 0xc2083084a0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="17.17"> /go/src/github.com/docker/docker/daemon/execdriver/native/driver.go:127 +0x794</sentence>
+            <sentence id="17.18">github.com/docker/docker/daemon.(_Daemon).Run(0xc20817e360, 0xc208476b60, 0xc2086e36b0, 0xc2083084a0, 0x48ff23, 0x0, 0x0)</sentence>
+            <sentence id="17.19"> /go/src/github.com/docker/docker/daemon/daemon.go:970 +0x82</sentence>
+            <sentence id="17.20">github.com/docker/docker/daemon.(_containerMonitor).Start(0xc208181730, 0x0, 0x0)</sentence>
+            <sentence id="17.21"> /go/src/github.com/docker/docker/daemon/monitor.go:136 +0x361</sentence>
+            <sentence id="17.22">github.com/docker/docker/daemon.*containerMonitor.Start·fm(0x0, 0x0)</sentence>
+            <sentence id="17.23"> /go/src/github.com/docker/docker/daemon/container.go:1077 +0x38</sentence>
+            <sentence id="17.24">github.com/docker/docker/utils.func·001()</sentence>
+            <sentence id="17.25"> /go/src/github.com/docker/docker/utils/utils.go:36 +0x2e</sentence>
+            <sentence id="17.26">created by github.com/docker/docker/utils.Go</sentence>
+            <sentence id="17.27"> /go/src/github.com/docker/docker/utils/utils.go:37 +0xa7</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">goroutine 1604 [chan receive, 4 minutes]:</sentence>
+            <sentence id="18.2">github.com/docker/docker/daemon.wait(0xc2084164e0, 0xffffffffc4653600, 0x0, 0x0)</sentence>
+            <sentence id="18.3"> /go/src/github.com/docker/docker/daemon/state.go:65 +0x6a</sentence>
+            <sentence id="18.4">github.com/docker/docker/daemon.(_State).WaitStop(0xc2085eb8f0, 0xffffffffc4653600, 0x40, 0x0, 0x0)</sentence>
+            <sentence id="18.5"> /go/src/github.com/docker/docker/daemon/state.go:106 +0xc7</sentence>
+            <sentence id="18.6">github.com/docker/docker/daemon.(_Daemon).ContainerWait(0xc20817e360, 0xc208524200, 0x1)</sentence>
+            <sentence id="18.7"> /go/src/github.com/docker/docker/daemon/wait.go:15 +0x1a4</sentence>
+            <sentence id="18.8">github.com/docker/docker/daemon._Daemon.ContainerWait·fm(0xc208524200, 0x7f171447c460)</sentence>
+            <sentence id="18.9"> /go/src/github.com/docker/docker/daemon/daemon.go:125 +0x30</sentence>
+            <sentence id="18.10">github.com/docker/docker/engine.(_Job).Run(0xc208524200, 0x0, 0x0)</sentence>
+            <sentence id="18.11"> /go/src/github.com/docker/docker/engine/job.go:79 +0x7d0</sentence>
+            <sentence id="18.12">github.com/docker/docker/api/server.postContainersWait(0xc208042160, 0xc208568627, 0x4, 0x7f1714482350, 0xc2083b4000, 0xc20854a5b0, 0xc2080a6360, 0x0, 0x0)</sentence>
+            <sentence id="18.13"> /go/src/github.com/docker/docker/api/server/server.go:771 +0x28b</sentence>
+            <sentence id="18.14">github.com/docker/docker/api/server.func·004(0x7f1714482350, 0xc2083b4000, 0xc20854a5b0)</sentence>
+            <sentence id="18.15"> /go/src/github.com/docker/docker/api/server/server.go:1061 +0x810</sentence>
+            <sentence id="18.16">net/http.HandlerFunc.ServeHTTP(0xc2080f5680, 0x7f1714482350, 0xc2083b4000, 0xc20854a5b0)</sentence>
+            <sentence id="18.17"> /usr/local/go/src/pkg/net/http/server.go:1235 +0x40</sentence>
+            <sentence id="18.18">github.com/gorilla/mux.(_Router).ServeHTTP(0xc208066b40, 0x7f1714482350, 0xc2083b4000, 0xc20854a5b0)</sentence>
+            <sentence id="18.19"> /go/src/github.com/docker/docker/vendor/src/github.com/gorilla/mux/mux.go:98 +0x297</sentence>
+            <sentence id="18.20">net/http.serverHandler.ServeHTTP(0xc20815ade0, 0x7f1714482350, 0xc2083b4000, 0xc20854a5b0)</sentence>
+            <sentence id="18.21"> /usr/local/go/src/pkg/net/http/server.go:1673 +0x19f</sentence>
+            <sentence id="18.22">net/http.(_conn).serve(0xc208524180)</sentence>
+            <sentence id="18.23"> /usr/local/go/src/pkg/net/http/server.go:1174 +0xa7e</sentence>
+            <sentence id="18.24">created by net/http.(*Server).Serve</sentence>
+            <sentence id="18.25"> /usr/local/go/src/pkg/net/http/server.go:1721 +0x313</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">goroutine 3554 [IO wait]:</sentence>
+            <sentence id="19.2">net.runtime_pollWait(0x7f1714481838, 0x72, 0x0)</sentence>
+            <sentence id="19.3"> /usr/local/go/src/pkg/runtime/netpoll.goc:146 +0x66</sentence>
+            <sentence id="19.4">net.(_pollDesc).Wait(0xc2085695d0, 0x72, 0x0, 0x0)</sentence>
+            <sentence id="19.5"> /usr/local/go/src/pkg/net/fd_poll_runtime.go:84 +0x46</sentence>
+            <sentence id="19.6">net.(_pollDesc).WaitRead(0xc2085695d0, 0x0, 0x0)</sentence>
+            <sentence id="19.7"> /usr/local/go/src/pkg/net/fd_poll_runtime.go:89 +0x42</sentence>
+            <sentence id="19.8">net.(_netFD).Read(0xc208569570, 0xc208454000, 0x1000, 0x1000, 0x0, 0x7f171447a418, 0xb)</sentence>
+            <sentence id="19.9"> /usr/local/go/src/pkg/net/fd_unix.go:242 +0x34c</sentence>
+            <sentence id="19.10">net.(_conn).Read(0xc2086ef6b0, 0xc208454000, 0x1000, 0x1000, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="19.11"> /usr/local/go/src/pkg/net/net.go:122 +0xe7</sentence>
+            <sentence id="19.12">net/http.(_liveSwitchReader).Read(0xc208874aa8, 0xc208454000, 0x1000, 0x1000, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="19.13"> /usr/local/go/src/pkg/net/http/server.go:206 +0xaf</sentence>
+            <sentence id="19.14">io.(_LimitedReader).Read(0xc20883f500, 0xc208454000, 0x1000, 0x1000, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="19.15"> /usr/local/go/src/pkg/io/io.go:399 +0xd0</sentence>
+            <sentence id="19.16">bufio.(_Reader).fill(0xc208470840)</sentence>
+            <sentence id="19.17"> /usr/local/go/src/pkg/bufio/bufio.go:97 +0x1b3</sentence>
+            <sentence id="19.18">bufio.(_Reader).ReadSlice(0xc208470840, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="19.19"> /usr/local/go/src/pkg/bufio/bufio.go:298 +0x22c</sentence>
+            <sentence id="19.20">bufio.(_Reader).ReadLine(0xc208470840, 0x0, 0x0, 0x0, 0x42b800, 0x0, 0x0)</sentence>
+            <sentence id="19.21"> /usr/local/go/src/pkg/bufio/bufio.go:326 +0x69</sentence>
+            <sentence id="19.22">net/textproto.(_Reader).readLineSlice(0xc2083fdb60, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="19.23"> /usr/local/go/src/pkg/net/textproto/reader.go:55 +0x9d</sentence>
+            <sentence id="19.24">net/textproto.(_Reader).ReadLine(0xc2083fdb60, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="19.25"> /usr/local/go/src/pkg/net/textproto/reader.go:36 +0x4e</sentence>
+            <sentence id="19.26">net/http.ReadRequest(0xc208470840, 0xc208509ad0, 0x0, 0x0)</sentence>
+            <sentence id="19.27"> /usr/local/go/src/pkg/net/http/request.go:556 +0xc7</sentence>
+            <sentence id="19.28">net/http.(_conn).readRequest(0xc208874a80, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="19.29"> /usr/local/go/src/pkg/net/http/server.go:577 +0x276</sentence>
+            <sentence id="19.30">net/http.(_conn).serve(0xc208874a80)</sentence>
+            <sentence id="19.31"> /usr/local/go/src/pkg/net/http/server.go:1132 +0x61e</sentence>
+            <sentence id="19.32">created by net/http.(_Server).Serve</sentence>
+            <sentence id="19.33"> /usr/local/go/src/pkg/net/http/server.go:1721 +0x313</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">goroutine 2459 [syscall, 1 minutes]:</sentence>
+            <sentence id="20.2">syscall.Syscall(0x0, 0x27, 0xc20892e000, 0x8000, 0x47, 0xa0, 0x0)</sentence>
+            <sentence id="20.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="20.4">syscall.read(0x27, 0xc20892e000, 0x8000, 0x8000, 0x1f424ac1, 0x0, 0x0)</sentence>
+            <sentence id="20.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="20.6">syscall.Read(0x27, 0xc20892e000, 0x8000, 0x8000, 0x100, 0x0, 0x0)</sentence>
+            <sentence id="20.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="20.8">os.(_File).read(0xc2086efa98, 0xc20892e000, 0x8000, 0x8000, 0xc2088dfd40, 0x0, 0x0)</sentence>
+            <sentence id="20.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="20.10">os.(_File).Read(0xc2086efa98, 0xc20892e000, 0x8000, 0x8000, 0x47e, 0x0, 0x0)</sentence>
+            <sentence id="20.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="20.12">io.Copy(0x7f171448c390, 0xc20836e7c0, 0x7f171447a3c8, 0xc2086efa98, 0x4b9, 0x0, 0x0)</sentence>
+            <sentence id="20.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="20.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="20.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="20.16">os/exec.func·004(0xc2083568c0)</sentence>
+            <sentence id="20.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="20.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="20.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">goroutine 1935 [syscall, 1 minutes]:</sentence>
+            <sentence id="21.2">syscall.Syscall(0x0, 0x21, 0xc2085c4000, 0x8000, 0x84, 0xbd, 0x0)</sentence>
+            <sentence id="21.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="21.4">syscall.read(0x21, 0xc2085c4000, 0x8000, 0x8000, 0x267ad7a6, 0x0, 0x0)</sentence>
+            <sentence id="21.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="21.6">syscall.Read(0x21, 0xc2085c4000, 0x8000, 0x8000, 0x101, 0x0, 0x0)</sentence>
+            <sentence id="21.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="21.8">os.(_File).read(0xc2086ee670, 0xc2085c4000, 0x8000, 0x8000, 0xc2088d5680, 0x0, 0x0)</sentence>
+            <sentence id="21.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="21.10">os.(_File).Read(0xc2086ee670, 0xc2085c4000, 0x8000, 0x8000, 0x8e, 0x0, 0x0)</sentence>
+            <sentence id="21.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="21.12">io.Copy(0x7f171448c390, 0xc2083ceb20, 0x7f171447a3c8, 0xc2086ee670, 0x517, 0x0, 0x0)</sentence>
+            <sentence id="21.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="21.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="21.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="21.16">os/exec.func·004(0xc2083ac640)</sentence>
+            <sentence id="21.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="21.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="21.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">goroutine 2232 [syscall, 1 minutes]:</sentence>
+            <sentence id="22.2">syscall.Syscall6(0x3d, 0xdcb, 0x7f16fb7fa914, 0x0, 0xc2086ff3b0, 0x0, 0x0, 0x0, 0x44a6c6, 0xc2086ff3b0)</sentence>
+            <sentence id="22.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:46 +0x5</sentence>
+            <sentence id="22.4">syscall.wait4(0xdcb, 0x7f16fb7fa914, 0x0, 0xc2086ff3b0, 0x42e2ab, 0x0, 0x0)</sentence>
+            <sentence id="22.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:120 +0x7d</sentence>
+            <sentence id="22.6">syscall.Wait4(0xdcb, 0x7f16fb7fa95c, 0x0, 0xc2086ff3b0, 0x227, 0x0, 0x0)</sentence>
+            <sentence id="22.7"> /usr/local/go/src/pkg/syscall/syscall_linux.go:222 +0x64</sentence>
+            <sentence id="22.8">os.(_Process).wait(0xc2083ec2a0, 0x6c9, 0x0, 0x0)</sentence>
+            <sentence id="22.9"> /usr/local/go/src/pkg/os/exec_unix.go:22 +0xfe</sentence>
+            <sentence id="22.10">os.(_Process).Wait(0xc2083ec2a0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="22.11"> /usr/local/go/src/pkg/os/doc.go:45 +0x39</sentence>
+            <sentence id="22.12">os/exec.(_Cmd).Wait(0xc20810aa00, 0x0, 0x0)</sentence>
+            <sentence id="22.13"> /usr/local/go/src/pkg/os/exec/exec.go:357 +0x1db</sentence>
+            <sentence id="22.14">github.com/docker/libcontainer/namespaces.Exec(0xc20853a380, 0x0, 0x0, 0x7f171448c390, 0xc20883e6c0, 0x7f171448c390, 0xc20883e6a0, 0x0, 0x0, 0xc20821e8a0, ...)</sentence>
+            <sentence id="22.15"> /go/src/github.com/docker/docker/vendor/src/github.com/docker/libcontainer/namespaces/exec.go:106 +0x72f</sentence>
+            <sentence id="22.16">github.com/docker/docker/daemon/execdriver/native.(_driver).Run(0xc2081320f0, 0xc20810aa00, 0xc2087e5aa0, 0xc2083a6010, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="22.17"> /go/src/github.com/docker/docker/daemon/execdriver/native/driver.go:127 +0x794</sentence>
+            <sentence id="22.18">github.com/docker/docker/daemon.(_Daemon).Run(0xc20817e360, 0xc2081d9380, 0xc2087e5aa0, 0xc2083a6010, 0x48ff23, 0x0, 0x0)</sentence>
+            <sentence id="22.19"> /go/src/github.com/docker/docker/daemon/daemon.go:970 +0x82</sentence>
+            <sentence id="22.20">github.com/docker/docker/daemon.(_containerMonitor).Start(0xc2085ea620, 0x0, 0x0)</sentence>
+            <sentence id="22.21"> /go/src/github.com/docker/docker/daemon/monitor.go:136 +0x361</sentence>
+            <sentence id="22.22">github.com/docker/docker/daemon.*containerMonitor.Start·fm(0x0, 0x0)</sentence>
+            <sentence id="22.23"> /go/src/github.com/docker/docker/daemon/container.go:1077 +0x38</sentence>
+            <sentence id="22.24">github.com/docker/docker/utils.func·001()</sentence>
+            <sentence id="22.25"> /go/src/github.com/docker/docker/utils/utils.go:36 +0x2e</sentence>
+            <sentence id="22.26">created by github.com/docker/docker/utils.Go</sentence>
+            <sentence id="22.27"> /go/src/github.com/docker/docker/utils/utils.go:37 +0xa7</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">goroutine 2235 [syscall, 1 minutes]:</sentence>
+            <sentence id="23.2">syscall.Syscall(0x0, 0x28, 0xc2085ba000, 0x8000, 0x7f171448f160, 0x80000, 0x42cc38)</sentence>
+            <sentence id="23.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="23.4">syscall.read(0x28, 0xc2085ba000, 0x8000, 0x8000, 0x7f171446a000, 0x0, 0x0)</sentence>
+            <sentence id="23.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="23.6">syscall.Read(0x28, 0xc2085ba000, 0x8000, 0x8000, 0x1, 0x0, 0x0)</sentence>
+            <sentence id="23.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="23.8">os.(_File).read(0xc2086ee650, 0xc2085ba000, 0x8000, 0x8000, 0x4318f3, 0x0, 0x0)</sentence>
+            <sentence id="23.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="23.10">os.(_File).Read(0xc2086ee650, 0xc2085ba000, 0x8000, 0x8000, 0x8000, 0x0, 0x0)</sentence>
+            <sentence id="23.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="23.12">io.Copy(0x7f171448c390, 0xc20883e6a0, 0x7f171447a3c8, 0xc2086ee650, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="23.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="23.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="23.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="23.16">os/exec.func·004(0xc2083ec1c0)</sentence>
+            <sentence id="23.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="23.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="23.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">goroutine 2234 [syscall, 1 minutes]:</sentence>
+            <sentence id="24.2">syscall.Syscall(0x0, 0x26, 0xc2088cc000, 0x8000, 0xa5, 0xde, 0x0)</sentence>
+            <sentence id="24.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="24.4">syscall.read(0x26, 0xc2088cc000, 0x8000, 0x8000, 0x213ee387, 0x0, 0x0)</sentence>
+            <sentence id="24.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="24.6">syscall.Read(0x26, 0xc2088cc000, 0x8000, 0x8000, 0x101, 0x0, 0x0)</sentence>
+            <sentence id="24.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="24.8">os.(_File).read(0xc2086ee610, 0xc2088cc000, 0x8000, 0x8000, 0xc2086fbe60, 0x0, 0x0)</sentence>
+            <sentence id="24.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="24.10">os.(_File).Read(0xc2086ee610, 0xc2088cc000, 0x8000, 0x8000, 0x5f, 0x0, 0x0)</sentence>
+            <sentence id="24.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="24.12">io.Copy(0x7f171448c390, 0xc20883e6c0, 0x7f171447a3c8, 0xc2086ee610, 0x362, 0x0, 0x0)</sentence>
+            <sentence id="24.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="24.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="24.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="24.16">os/exec.func·004(0xc2083ec180)</sentence>
+            <sentence id="24.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="24.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="24.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">goroutine 1936 [syscall, 2 minutes]:</sentence>
+            <sentence id="25.2">syscall.Syscall(0x0, 0x23, 0xc2088d6000, 0x8000, 0x7f16f8479000, 0xc2083ab080, 0x42cd2e)</sentence>
+            <sentence id="25.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="25.4">syscall.read(0x23, 0xc2088d6000, 0x8000, 0x8000, 0x7f171446a000, 0x0, 0x0)</sentence>
+            <sentence id="25.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="25.6">syscall.Read(0x23, 0xc2088d6000, 0x8000, 0x8000, 0x1, 0x0, 0x0)</sentence>
+            <sentence id="25.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="25.8">os.(_File).read(0xc2086ee690, 0xc2088d6000, 0x8000, 0x8000, 0x4318f3, 0x0, 0x0)</sentence>
+            <sentence id="25.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="25.10">os.(_File).Read(0xc2086ee690, 0xc2088d6000, 0x8000, 0x8000, 0x8000, 0x0, 0x0)</sentence>
+            <sentence id="25.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="25.12">io.Copy(0x7f171448c390, 0xc2083ceb00, 0x7f171447a3c8, 0xc2086ee690, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="25.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="25.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="25.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="25.16">os/exec.func·004(0xc2083ac680)</sentence>
+            <sentence id="25.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="25.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="25.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">goroutine 3555 [chan receive]:</sentence>
+            <sentence id="26.2">github.com/docker/docker/graph.(_TagStore).pullRepository(0xc2080f50c0, 0xc2085e45a0, 0x7f1714482528, 0xc208669880, 0xc20866985e, 0x5, 0xc20866985e, 0x5, 0xc208669868, 0x6, ...)</sentence>
+            <sentence id="26.3"> /go/src/github.com/docker/docker/graph/pull.go:193 +0xb43</sentence>
+            <sentence id="26.4">github.com/docker/docker/graph.(_TagStore).CmdPull(0xc2080f50c0, 0xc208874e80, 0x0)</sentence>
+            <sentence id="26.5"> /go/src/github.com/docker/docker/graph/pull.go:69 +0x972</sentence>
+            <sentence id="26.6">github.com/docker/docker/graph._TagStore.CmdPull·fm(0xc208874e80, 0x7f171447c460)</sentence>
+            <sentence id="26.7"> /go/src/github.com/docker/docker/graph/service.go:26 +0x30</sentence>
+            <sentence id="26.8">github.com/docker/docker/engine.(_Job).Run(0xc208874e80, 0x0, 0x0)</sentence>
+            <sentence id="26.9"> /go/src/github.com/docker/docker/engine/job.go:79 +0x7d0</sentence>
+            <sentence id="26.10">github.com/docker/docker/api/server.postImagesCreate(0xc208042160, 0xbb7840, 0x4, 0x7f1714482350, 0xc20892c1e0, 0xc208509ba0, 0xc2085e4180, 0x0, 0x0)</sentence>
+            <sentence id="26.11"> /go/src/github.com/docker/docker/api/server/server.go:515 +0xa3c</sentence>
+            <sentence id="26.12">github.com/docker/docker/api/server.func·004(0x7f1714482350, 0xc20892c1e0, 0xc208509ba0)</sentence>
+            <sentence id="26.13"> /go/src/github.com/docker/docker/api/server/server.go:1061 +0x810</sentence>
+            <sentence id="26.14">net/http.HandlerFunc.ServeHTTP(0xc2080f5b40, 0x7f1714482350, 0xc20892c1e0, 0xc208509ba0)</sentence>
+            <sentence id="26.15"> /usr/local/go/src/pkg/net/http/server.go:1235 +0x40</sentence>
+            <sentence id="26.16">github.com/gorilla/mux.(_Router).ServeHTTP(0xc208066b40, 0x7f1714482350, 0xc20892c1e0, 0xc208509ba0)</sentence>
+            <sentence id="26.17"> /go/src/github.com/docker/docker/vendor/src/github.com/gorilla/mux/mux.go:98 +0x297</sentence>
+            <sentence id="26.18">net/http.serverHandler.ServeHTTP(0xc20815ade0, 0x7f1714482350, 0xc20892c1e0, 0xc208509ba0)</sentence>
+            <sentence id="26.19"> /usr/local/go/src/pkg/net/http/server.go:1673 +0x19f</sentence>
+            <sentence id="26.20">net/http.(_conn).serve(0xc208874e00)</sentence>
+            <sentence id="26.21"> /usr/local/go/src/pkg/net/http/server.go:1174 +0xa7e</sentence>
+            <sentence id="26.22">created by net/http.(*Server).Serve</sentence>
+            <sentence id="26.23"> /usr/local/go/src/pkg/net/http/server.go:1721 +0x313</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">goroutine 1111 [syscall]:</sentence>
+            <sentence id="27.2">syscall.Syscall(0x0, 0x1e, 0xc20882a000, 0x8000, 0x47, 0xa0, 0x0)</sentence>
+            <sentence id="27.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="27.4">syscall.read(0x1e, 0xc20882a000, 0x8000, 0x8000, 0x26523f79, 0x0, 0x0)</sentence>
+            <sentence id="27.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="27.6">syscall.Read(0x1e, 0xc20882a000, 0x8000, 0x8000, 0x104, 0x0, 0x0)</sentence>
+            <sentence id="27.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="27.8">os.(_File).read(0xc20803b348, 0xc20882a000, 0x8000, 0x8000, 0xc2082b22d0, 0x0, 0x0)</sentence>
+            <sentence id="27.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="27.10">os.(_File).Read(0xc20803b348, 0xc20882a000, 0x8000, 0x8000, 0x1, 0x0, 0x0)</sentence>
+            <sentence id="27.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="27.12">io.Copy(0x7f171448c390, 0xc208262260, 0x7f171447a3c8, 0xc20803b348, 0x21a8, 0x0, 0x0)</sentence>
+            <sentence id="27.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="27.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="27.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="27.16">os/exec.func·004(0xc2082497a0)</sentence>
+            <sentence id="27.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="27.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="27.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">goroutine 925 [syscall]:</sentence>
+            <sentence id="28.2">syscall.Syscall(0x0, 0x19, 0xc2084c2000, 0x8000, 0xe9, 0x1cd, 0x0)</sentence>
+            <sentence id="28.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="28.4">syscall.read(0x19, 0xc2084c2000, 0x8000, 0x8000, 0x26e80172, 0x0, 0x0)</sentence>
+            <sentence id="28.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="28.6">syscall.Read(0x19, 0xc2084c2000, 0x8000, 0x8000, 0x100, 0x0, 0x0)</sentence>
+            <sentence id="28.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="28.8">os.(_File).read(0xc20803ad38, 0xc2084c2000, 0x8000, 0x8000, 0xc20817e900, 0x0, 0x0)</sentence>
+            <sentence id="28.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="28.10">os.(_File).Read(0xc20803ad38, 0xc2084c2000, 0x8000, 0x8000, 0xa2, 0x0, 0x0)</sentence>
+            <sentence id="28.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="28.12">io.Copy(0x7f171448c390, 0xc20836f140, 0x7f171447a3c8, 0xc20803ad38, 0x12fc, 0x0, 0x0)</sentence>
+            <sentence id="28.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="28.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="28.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="28.16">os/exec.func·004(0xc208357080)</sentence>
+            <sentence id="28.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="28.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="28.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">goroutine 924 [syscall, 5 minutes]:</sentence>
+            <sentence id="29.2">syscall.Syscall(0x0, 0x17, 0xc2083de000, 0x8000, 0x7f1714488928, 0x0, 0x42cd2e)</sentence>
+            <sentence id="29.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="29.4">syscall.read(0x17, 0xc2083de000, 0x8000, 0x8000, 0x7f171446a000, 0x0, 0x0)</sentence>
+            <sentence id="29.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="29.6">syscall.Read(0x17, 0xc2083de000, 0x8000, 0x8000, 0x1, 0x0, 0x0)</sentence>
+            <sentence id="29.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="29.8">os.(_File).read(0xc20803ad18, 0xc2083de000, 0x8000, 0x8000, 0x4318f3, 0x0, 0x0)</sentence>
+            <sentence id="29.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="29.10">os.(_File).Read(0xc20803ad18, 0xc2083de000, 0x8000, 0x8000, 0x8000, 0x0, 0x0)</sentence>
+            <sentence id="29.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="29.12">io.Copy(0x7f171448c390, 0xc20836f160, 0x7f171447a3c8, 0xc20803ad18, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="29.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="29.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="29.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="29.16">os/exec.func·004(0xc208357020)</sentence>
+            <sentence id="29.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="29.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="29.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">goroutine 1110 [syscall]:</sentence>
+            <sentence id="30.2">syscall.Syscall(0x0, 0x1c, 0xc2084ce000, 0x8000, 0x9f, 0xd8, 0x0)</sentence>
+            <sentence id="30.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:21 +0x5</sentence>
+            <sentence id="30.4">syscall.read(0x1c, 0xc2084ce000, 0x8000, 0x8000, 0x26672e3c, 0x0, 0x0)</sentence>
+            <sentence id="30.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:838 +0x75</sentence>
+            <sentence id="30.6">syscall.Read(0x1c, 0xc2084ce000, 0x8000, 0x8000, 0x102, 0x0, 0x0)</sentence>
+            <sentence id="30.7"> /usr/local/go/src/pkg/syscall/syscall_unix.go:136 +0x5c</sentence>
+            <sentence id="30.8">os.(_File).read(0xc20803b328, 0xc2084ce000, 0x8000, 0x8000, 0xc2082b2240, 0x0, 0x0)</sentence>
+            <sentence id="30.9"> /usr/local/go/src/pkg/os/file_unix.go:190 +0x62</sentence>
+            <sentence id="30.10">os.(_File).Read(0xc20803b328, 0xc2084ce000, 0x8000, 0x8000, 0x59, 0x0, 0x0)</sentence>
+            <sentence id="30.11"> /usr/local/go/src/pkg/os/file.go:95 +0x98</sentence>
+            <sentence id="30.12">io.Copy(0x7f171448c390, 0xc208262280, 0x7f171447a3c8, 0xc20803b328, 0x82f, 0x0, 0x0)</sentence>
+            <sentence id="30.13"> /usr/local/go/src/pkg/io/io.go:353 +0x1f3</sentence>
+            <sentence id="30.14">os/exec.func·003(0x0, 0x0)</sentence>
+            <sentence id="30.15"> /usr/local/go/src/pkg/os/exec/exec.go:214 +0x7e</sentence>
+            <sentence id="30.16">os/exec.func·004(0xc208249760)</sentence>
+            <sentence id="30.17"> /usr/local/go/src/pkg/os/exec/exec.go:321 +0x2c</sentence>
+            <sentence id="30.18">created by os/exec.(*Cmd).Start</sentence>
+            <sentence id="30.19"> /usr/local/go/src/pkg/os/exec/exec.go:322 +0x931</sentence>
+        </paragraph>
+        <paragraph id="31">
+            <sentence id="31.1">goroutine 922 [syscall, 5 minutes]:</sentence>
+            <sentence id="31.2">syscall.Syscall6(0x3d, 0xc7f, 0x7f16fb668914, 0x0, 0xc20817fa70, 0x0, 0x0, 0x0, 0x44a6c6, 0xc20817fa70)</sentence>
+            <sentence id="31.3"> /usr/local/go/src/pkg/syscall/asm_linux_amd64.s:46 +0x5</sentence>
+            <sentence id="31.4">syscall.wait4(0xc7f, 0x7f16fb668914, 0x0, 0xc20817fa70, 0x42e2ab, 0x0, 0x0)</sentence>
+            <sentence id="31.5"> /usr/local/go/src/pkg/syscall/zsyscall_linux_amd64.go:120 +0x7d</sentence>
+            <sentence id="31.6">syscall.Wait4(0xc7f, 0x7f16fb66895c, 0x0, 0xc20817fa70, 0x2ea, 0x0, 0x0)</sentence>
+            <sentence id="31.7"> /usr/local/go/src/pkg/syscall/syscall_linux.go:222 +0x64</sentence>
+            <sentence id="31.8">os.(_Process).wait(0xc208357160, 0x6d4, 0x0, 0x0)</sentence>
+            <sentence id="31.9"> /usr/local/go/src/pkg/os/exec_unix.go:22 +0xfe</sentence>
+            <sentence id="31.10">os.(_Process).Wait(0xc208357160, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="31.11"> /usr/local/go/src/pkg/os/doc.go:45 +0x39</sentence>
+            <sentence id="31.12">os/exec.(_Cmd).Wait(0xc20810af00, 0x0, 0x0)</sentence>
+            <sentence id="31.13"> /usr/local/go/src/pkg/os/exec/exec.go:357 +0x1db</sentence>
+            <sentence id="31.14">github.com/docker/libcontainer/namespaces.Exec(0xc20830ed20, 0x0, 0x0, 0x7f171448c390, 0xc20836f160, 0x7f171448c390, 0xc20836f140, 0x0, 0x0, 0xc208112d80, ...)</sentence>
+            <sentence id="31.15"> /go/src/github.com/docker/docker/vendor/src/github.com/docker/libcontainer/namespaces/exec.go:106 +0x72f</sentence>
+            <sentence id="31.16">github.com/docker/docker/daemon/execdriver/native.(_driver).Run(0xc2081320f0, 0xc20810af00, 0xc2082e5410, 0xc20831ffc0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="31.17"> /go/src/github.com/docker/docker/daemon/execdriver/native/driver.go:127 +0x794</sentence>
+            <sentence id="31.18">github.com/docker/docker/daemon.(_Daemon).Run(0xc20817e360, 0xc2081d9040, 0xc2082e5410, 0xc20831ffc0, 0x419ffd, 0x0, 0x0)</sentence>
+            <sentence id="31.19"> /go/src/github.com/docker/docker/daemon/daemon.go:970 +0x82</sentence>
+            <sentence id="31.20">github.com/docker/docker/daemon.(_containerMonitor).Start(0xc208107d50, 0x0, 0x0)</sentence>
+            <sentence id="31.21"> /go/src/github.com/docker/docker/daemon/monitor.go:136 +0x361</sentence>
+            <sentence id="31.22">github.com/docker/docker/daemon.*containerMonitor.Start·fm(0x0, 0x0)</sentence>
+            <sentence id="31.23"> /go/src/github.com/docker/docker/daemon/container.go:1077 +0x38</sentence>
+            <sentence id="31.24">github.com/docker/docker/utils.func·001()</sentence>
+            <sentence id="31.25"> /go/src/github.com/docker/docker/utils/utils.go:36 +0x2e</sentence>
+            <sentence id="31.26">created by github.com/docker/docker/utils.Go</sentence>
+            <sentence id="31.27"> /go/src/github.com/docker/docker/utils/utils.go:37 +0xa7</sentence>
+        </paragraph>
+    </description>
+</bug>

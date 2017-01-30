@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9112</id>
+    <title>Missing column type for ElementCollection with Convert annotation</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When specifying a converter on an ElementCollection property (Spec: "The Convert annotation may be applied to a basic attribute or to an element collection of basic type (in which case the converter is applied to the elements of the collection)") the generated mapping is missing the proper column type.</sentence>
+            <sentence id="1.2">The code handling this case is unimplemented in CollectionPropertyHolder:
+{code}
+@Override
+	protected AttributeConversionInfo locateAttributeConversionInfo(String path) {
+		// todo : implement
+		return null;
+	}
+{code}
+called from resolveElementAttributeConverterDefinition().</sentence>
+        </paragraph>
+    </description>
+</bug>

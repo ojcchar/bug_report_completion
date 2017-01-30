@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2021</id>
+    <title>org.hibernate.cache.QueryKey has a fragile equals() method</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This one is no great shakes, but the first line of QueryKey.equals() casts the argument to QueryKey without checking for its type.</sentence>
+            <sentence id="1.2">As such, the method is fragile.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">It should be consistent with CacheKey, which does an instanceof check before the cast.</sentence>
+        </paragraph>
+    </description>
+</bug>

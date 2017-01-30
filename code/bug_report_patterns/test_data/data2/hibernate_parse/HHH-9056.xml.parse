@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9056</id>
+    <title>OneToOneTest.testPkOneToOneSelectStatementDoesNotGenerateExtraJoin fails on oracle and postresql databases</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">org.hibernate.test.annotations.onetoone.OneToOneTest.testPkOneToOneSelectStatementDoesNotGenerateExtraJoin</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Stacktrace:</sentence>
+            <sentence id="2.2">{code}</sentence>
+            <sentence id="2.3">java.lang.AssertionError: select hibernate_sequence.nextval from dual expected:&lt;1&gt; but was:&lt;0&gt;</sentence>
+            <sentence id="2.4">	at org.junit.Assert.fail(Assert.java:93)</sentence>
+            <sentence id="2.5">	at org.junit.Assert.failNotEquals(Assert.java:647)</sentence>
+            <sentence id="2.6">	at org.junit.Assert.assertEquals(Assert.java:128)</sentence>
+            <sentence id="2.7">	at org.junit.Assert.assertEquals(Assert.java:472)</sentence>
+            <sentence id="2.8">	at org.hibernate.test.annotations.onetoone.OneToOneTest$JoinCounter.onPrepareStatement(OneToOneTest.java:440)</sentence>
+            <sentence id="2.9">	at org.hibernate.internal.SessionImpl.onPrepareStatement(SessionImpl.java:522)</sentence>
+            <sentence id="2.10">	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.&lt;init&gt;(StatementPreparerImpl.java:173)</sentence>
+            <sentence id="2.11">	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$1.&lt;init&gt;(StatementPreparerImpl.java:93)</sentence>
+            <sentence id="2.12">	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.buildPreparedStatementPreparationTemplate(StatementPreparerImpl.java:93)</sentence>
+            <sentence id="2.13">	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareStatement(StatementPreparerImpl.java:83)</sentence>
+            <sentence id="2.14">	at org.hibernate.id.enhanced.SequenceStructure$1.getNextValue(SequenceStructure.java:96)</sentence>
+            <sentence id="2.15">	at org.hibernate.id.enhanced.OptimizerFactory$NoopOptimizer.generate(OptimizerFactory.java:257)</sentence>
+            <sentence id="2.16">	at org.hibernate.id.enhanced.SequenceStyleGenerator.generate(SequenceStyleGenerator.java:369)</sentence>
+            <sentence id="2.17">	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:117)</sentence>
+            <sentence id="2.18">	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:208)</sentence>
+            <sentence id="2.19">	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:151)</sentence>
+            <sentence id="2.20">	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:78)</sentence>
+            <sentence id="2.21">	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:772)</sentence>
+            <sentence id="2.22">	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:746)</sentence>
+            <sentence id="2.23">	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:750)</sentence>
+            <sentence id="2.24">	at org.hibernate.test.annotations.onetoone.OneToOneTest.testPkOneToOneSelectStatementDoesNotGenerateExtraJoin(OneToOneTest.java:342)</sentence>
+            <sentence id="2.25">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="2.26">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</sentence>
+            <sentence id="2.27">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="2.28">	at java.lang.reflect.Method.invoke(Method.java:606)</sentence>
+            <sentence id="2.29">	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)</sentence>
+            <sentence id="2.30">	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)</sentence>
+            <sentence id="2.31">	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)</sentence>
+            <sentence id="2.32">	at org.hibernate.testing.junit4.ExtendedFrameworkMethod.invokeExplosively(ExtendedFrameworkMethod.java:63)</sentence>
+            <sentence id="2.33">	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)</sentence>
+            <sentence id="2.34">	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)</sentence>
+            <sentence id="2.35">	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:30)</sentence>
+            <sentence id="2.36">	at org.junit.internal.runners.statements.FailOnTimeout$StatementThread.run(FailOnTimeout.java:62)</sentence>
+            <sentence id="2.37">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>28937</id>
+    <title>Docker daemon incorrectly reports "Error response from daemon: Cannot link to a non running container: /live-drupal AS /live-httpd/live-drupal" when container is live-drupal is running</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;!</sentence>
+            <sentence id="2.2">--</sentence>
+            <sentence id="2.3">The Docker daemon throws the error "Error response from daemon: Cannot link to a non running container: /live-drupal AS /live-httpd/live-drupal".</sentence>
+            <sentence id="2.4">However, the live-drupal container is, in fact, up and running.</sentence>
+            <sentence id="2.5">I am able to see it listed as running in "docker ps" and I'm able to make a TCP connection to it.</sentence>
+            <sentence id="2.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="3.2">1 Start container live-drupal</sentence>
+            <sentence id="3.3">2 Start container live-httpd with a link to the live-drupal container</sentence>
+            <sentence id="3.4">3 Cause a fault in live-drupal which will also crash live-httpd</sentence>
+            <sentence id="3.5">4 Start live-drupal container</sentence>
+            <sentence id="3.6">5 Try to start live-httpd container and receive "Cannot link to a non running container" message even though the live-drupal container is running</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Describe the results you received:**</sentence>
+            <sentence id="4.2">"'</sentence>
+            <sentence id="4.3">rone@app6:~$ sudo docker start live-httpd</sentence>
+            <sentence id="4.4">Error response from daemon: Cannot link to a non running container: /live-drupal AS /live-httpd/live-drupal</sentence>
+            <sentence id="4.5">Error: failed to start containers: live-httpd</sentence>
+            <sentence id="4.6">rone@app6:~$</sentence>
+            <sentence id="4.7">"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="6.2">This seems to happen fairly reliably when a fault occurs in our live-drupal container.</sentence>
+            <sentence id="6.3">"'</sentence>
+            <sentence id="6.4">user@app6:~$ sudo docker start live-drupal</sentence>
+            <sentence id="6.5">live-drupal</sentence>
+            <sentence id="6.6">rone@app6:~$ sudo docker start live-httpd</sentence>
+            <sentence id="6.7">Error response from daemon: Cannot link to a non running container: /live-drupal AS /live-httpd/live-drupal</sentence>
+            <sentence id="6.8">Error: failed to start containers: live-httpd</sentence>
+            <sentence id="6.9">rone@app6:~$ sudo docker ps</sentence>
+            <sentence id="6.10">CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+            <sentence id="6.11">6dc80009a363 the.docker.repo.com/drupal:5.6.26-fpm "php-fpm" 28 minutes ago Up 28 minutes 0.0.0.0:9000-&gt;9000/tcp live-drupal</sentence>
+            <sentence id="6.12">602e1618874a the.docker.repo.com/tomcat:8-jdk8 "catalina.sh run" 7 days ago Up 7 days 0.0.0.0:8085-&gt;8080/tcp live-tomcat-auth</sentence>
+            <sentence id="6.13">667a8709e0a7 the.docker.repo.com/tomcat:8-jdk8 "catalina.sh run" 7 days ago Up 11 hours 0.0.0.0:8084-&gt;8080/tcp live-tomcat-service2</sentence>
+            <sentence id="6.14">12f49e5c8d3b the.docker.repo.com/tomcat:8-jdk8 "catalina.sh run" 7 days ago Up 7 days 0.0.0.0:8083-&gt;8080/tcp live-tomcat-admin</sentence>
+            <sentence id="6.15">48e9f8dc5794 the.docker.repo.com/tomcat:8-jdk8 "catalina.sh run" 7 days ago Up 7 days 0.0.0.0:8082-&gt;8080/tcp live-tomcat-service</sentence>
+            <sentence id="6.16">a74f7849dc19 the.docker.repo.com/tomcat:8-jdk8 "catalina.sh run" 7 days ago Up 7 days 0.0.0.0:8081-&gt;8080/tcp live-tomcat-catalog</sentence>
+            <sentence id="6.17">f6b1d8427657 the.docker.repo.com/tomcat:8-jdk8 "catalina.sh run" 7 days ago Up 7 days 0.0.0.0:8080-&gt;8080/tcp live-tomcat-public</sentence>
+            <sentence id="6.18">6e0df1c9b2ed the.docker.repo.com/pgbouncer:live "/bin/sh -c 'rm /var/" 7 days ago Up 7 days 0.0.0.0:6432-&gt;6432/tcp live-pgbouncer</sentence>
+            <sentence id="6.19">6f9abc7e3cc5 the.docker.repo.com/haproxy:live "haproxy -f /etc/hapr" 7 days ago Up 7 days 0.0.0.0:8000-&gt;8000/tcp live-haproxy</sentence>
+            <sentence id="6.20">64acf7d0eae4 the.docker.repo.com/postfix:latest "/bin/sh -c '/opt/ins" 7 days ago Up 7 days 0.0.0.0:25-&gt;25/tcp live-postfix</sentence>
+            <sentence id="6.21">user@app6:~$</sentence>
+            <sentence id="6.22">"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Docker version 1.12.3, build 6b644ec
+"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'</sentence>
+            <sentence id="10.2">Containers: 11</sentence>
+            <sentence id="10.3"> Running: 10</sentence>
+            <sentence id="10.4"> Paused: 0</sentence>
+            <sentence id="10.5"> Stopped: 1</sentence>
+            <sentence id="10.6">Images: 30</sentence>
+            <sentence id="10.7">Server Version: 1.12.3</sentence>
+            <sentence id="10.8">Storage Driver: zfs</sentence>
+            <sentence id="10.9"> Zpool: ebs-zfs</sentence>
+            <sentence id="10.10"> Zpool Health: ONLINE</sentence>
+            <sentence id="10.11"> Parent Dataset: ebs-zfs/docker</sentence>
+            <sentence id="10.12"> Space Used By Parent: 2073217024</sentence>
+            <sentence id="10.13"> Space Available: 27070443520</sentence>
+            <sentence id="10.14"> Parent Quota: no</sentence>
+            <sentence id="10.15"> Compression: off</sentence>
+            <sentence id="10.16">Logging Driver: json-file</sentence>
+            <sentence id="10.17">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="10.18">Plugins:</sentence>
+            <sentence id="10.19"> Volume: local</sentence>
+            <sentence id="10.20"> Network: bridge host overlay null</sentence>
+            <sentence id="10.21">Swarm: inactive</sentence>
+            <sentence id="10.22">Runtimes: runc</sentence>
+            <sentence id="10.23">Default Runtime: runc</sentence>
+            <sentence id="10.24">Security Options: apparmor seccomp</sentence>
+            <sentence id="10.25">Kernel Version: 4.4.0-47-generic</sentence>
+            <sentence id="10.26">Operating System: Ubuntu 16.04.1 LTS</sentence>
+            <sentence id="10.27">OSType: linux</sentence>
+            <sentence id="10.28">Architecture: x86_64</sentence>
+            <sentence id="10.29">CPUs: 2</sentence>
+            <sentence id="10.30">Total Memory: 7.795 GiB</sentence>
+            <sentence id="10.31">Name: app6</sentence>
+            <sentence id="10.32">ID: 2IRG:JFO4:XTNB:W6PN:XXBP:YAEU:TCA6:QZ3B:IAXL:TNCH:SFGX:GMD5</sentence>
+            <sentence id="10.33">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="10.34">Debug Mode (client): false</sentence>
+            <sentence id="10.35">Debug Mode (server): false</sentence>
+            <sentence id="10.36">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="10.37">WARNING: No swap limit support</sentence>
+            <sentence id="10.38">Insecure Registries:</sentence>
+            <sentence id="10.39"> 127.0.0.0/8</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Running into this on AWS EC2 instances in us-east-1 region under Ubuntu 16.04.</sentence>
+        </paragraph>
+    </description>
+</bug>

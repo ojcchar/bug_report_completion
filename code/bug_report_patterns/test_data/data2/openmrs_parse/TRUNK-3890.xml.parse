@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3890</id>
+    <title>Recent changes to tomcat 7 cause NPE when visiting create patient page</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I recently tried running OpenMRS with the latest release of Tomcat 7.0.35.</sentence>
+            <sentence id="1.2">Upon creating a patient, I received a NPE.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">After some digging, I discovered that Tomcat recently made a change to JspWriterImpl (http://svn.apache.org/viewvc?view=revision&amp;revision=1427821) such that they no longer guard against null on an EL expression.</sentence>
+            <sentence id="2.2">On the patient form I noticed that the expression, ${identifier}, evaluated to the value null.</sentence>
+            <sentence id="2.3">I suspect this might cause issues where null was assumed to be a valid value.</sentence>
+            <sentence id="2.4">Apparently, Tomcat decided that was no longer valid any longer (version 7.0.35 on wards)</sentence>
+        </paragraph>
+    </description>
+</bug>

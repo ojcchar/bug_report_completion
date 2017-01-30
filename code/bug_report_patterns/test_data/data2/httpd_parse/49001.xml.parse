@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>49001</id>
+    <title>double result path by alias definition</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I use alias definitions to distinguish between different clients of my appliction, which is placed in filesystem at C:/Sites/myapp .</sentence>
+            <sentence id="1.2">The php application can than detect the client by url.</sentence>
+            <sentence id="1.3">This aliases are defined:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Alias /client_a C:/Sites/myapp 
+Alias /client_a/myapp C:/Sites/myapp 
+Alias /client_b C:/Sites/myapp 
+Alias /client_b/myapp C:/Sites/myapp</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">If I make a call like http://127.0.0.1/client_a this error appears:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">[Sat Mar 27 00:31:42 2010] [error] [client 127.0.0.1] File does not exist: C:/Sites/myapp/myapp</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">In older apache versions the alias definitions working well.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14175</id>
+    <title>Permission denied on accessing host directory in docker in Centos</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi,
+I have faced this problem, when I mount a host directory to a container:
+`docker run -it -v /home/share:/home/share centos /bin/bash`</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">and then in container:
+` cd /home/share `
+ ` ls `
+`ls: cannot open directory .</sentence>
+            <sentence id="2.2">: Permission denied`</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">But I tried it on ubuntu system, it works well.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Docker option SELinux are both enabled.</sentence>
+            <sentence id="4.2">What is the difference between the two system?</sentence>
+            <sentence id="4.3">Can someone give comments?</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Thanks
+Brs,</sentence>
+        </paragraph>
+    </description>
+</bug>

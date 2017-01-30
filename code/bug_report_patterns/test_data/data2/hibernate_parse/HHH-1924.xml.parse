@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1924</id>
+    <title>ForeignKeys: TransientObjectException is thrown without a message because of a wrong bracket in the code</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Line 216 of org.hibernate.engine.ForeignKeys class is this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">throw new TransientObjectException(
+							"object references an unsaved transient instance - save the transient instance before flushing: " +
+							entityName == null ?</sentence>
+            <sentence id="2.2">session.guessEntityName( object ) : entityName
+					);</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">but should rather be this:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">throw new TransientObjectException(
+							"object references an unsaved transient instance - save the transient instance before flushing: " +
+							(entityName == null ?</sentence>
+            <sentence id="4.2">session.guessEntityName( object ) : entityName)
+					);</sentence>
+        </paragraph>
+    </description>
+</bug>

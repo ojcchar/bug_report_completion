@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1212</id>
+    <title>Super minor change to ObsServiceTest</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've attached a patch that changes line 688 in ObsServiceTest to</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">childLeafObs.setDateVoided(new Date(childLeafObs.getDateVoided().</sentence>
+            <sentence id="2.2">getTime() - 5000));</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">from</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">childLeafObs.setDateVoided(new Date()).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The reason for this is that this test was failing intermittently because resetting the dateVoided for childLeafObs was having no effect when the operation was happening in the same millisecond as its original creation.</sentence>
+            <sentence id="5.2">Explicitly subtracting 5 seconds ensures that the dateVoided for childLeafObs is different than the dateVoided for its parent.</sentence>
+        </paragraph>
+    </description>
+</bug>

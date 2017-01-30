@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10599</id>
+    <title>DetachedCriteria with SubqueryExpression criterion are not serializable as intended</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">By design, DetachedCriteria are intended to be serializable and this is something we have been leveraging in our result paging system for years.</sentence>
+            <sentence id="1.2">We are now hitting an issue when adding subqueries to the detached criteria where our session replication breaks on the serialization attempt.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In contrast to the rest of the DetachedCriteria object graph, the following classes are not serializable:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{code}
+org.hibernate.loader.criteria.CriteriaQueryTranslator
+org.hibernate.engine.spi.QueryParameters
+{code}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Instances of these can be present inside of any SubqueryExpression instance, which is connected to a DetachedCriteria as follows:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">{code}
+instance&lt;DetachedCriteria&gt;.</sentence>
+            <sentence id="5.2">criteria&lt;CriteriaImpl&gt;.</sentence>
+            <sentence id="5.3">criterionEntries&lt;List&lt;CriterionEntry&gt;&gt;
+{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">An example criteria that ends up with a PropertySubqueryExpression in that List:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">{code}
+DetachedCriteria mainCriteria = DetachedCriteria.forClass(ParticipantAsset.class);
+DetachedCriteria subQ = DetachedCriteria.forClass(Ownership.class);
+subQ.add(Restrictions.eq("pid", pid));
+subQ.setProjection(Property.forName("guid"));
+mainCriteria.add(Property.forName("participant.guid").</sentence>
+            <sentence id="7.2">in(subQ));
+{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

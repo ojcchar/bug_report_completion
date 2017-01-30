@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22676</id>
+    <title>when pushing with content trust enabled and invalid notary cert, it leaves broken state, preventing future pushes</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">1 set up a private registry with notary</sentence>
+            <sentence id="1.2">2 trust the private registry with --insecure-registry</sentence>
+            <sentence id="1.3">3 DON'T trust the private registry from the docker client (only the server)</sentence>
+            <sentence id="1.4">4 Try to push with DOCKER_CONTENT_TRUST enabled</sentence>
+            <sentence id="1.5">5 It'll fail with a certificate error</sentence>
+            <sentence id="1.6">"'</sentence>
+            <sentence id="1.7">╭─1 [15:04:24] /home/v</sentence>
+            <sentence id="1.8">╰─&lt;")&gt;&lt; docker push 172.17.0.1/admin/repo3:latest</sentence>
+            <sentence id="1.9">The push refers to a repository [172.17.0.1/admin/repo3]</sentence>
+            <sentence id="1.10">eddc2593a1fc: Layer already exists</sentence>
+            <sentence id="1.11">latest: digest: sha256:46f9fdf0e5f59d331faebaa960577f3579aadf12fc8cfa9010af5f408daf6fdf size: 2098</sentence>
+            <sentence id="1.12">Signing and pushing trust metadata</sentence>
+            <sentence id="1.13">x509: certificate signed by unknown authority</sentence>
+            <sentence id="1.14">"'</sentence>
+            <sentence id="1.15">6 Add the registry's cert to '~/.</sentence>
+            <sentence id="1.16">docker/tls/172.17.0.1/ca.crt'</sentence>
+            <sentence id="1.17">7 Push again</sentence>
+            <sentence id="1.18">8 Boom:</sentence>
+            <sentence id="1.19">"'</sentence>
+            <sentence id="1.20">╭─1 [15:04:44] /home/v</sentence>
+            <sentence id="1.21">╰─&lt;")&gt;&lt; docker push 172.17.0.1/admin/repo3:latest</sentence>
+            <sentence id="1.22">The push refers to a repository [172.17.0.1/admin/repo3]</sentence>
+            <sentence id="1.23">eddc2593a1fc: Layer already exists</sentence>
+            <sentence id="1.24">latest: digest: sha256:46f9fdf0e5f59d331faebaa960577f3579aadf12fc8cfa9010af5f408daf6fdf size: 2098</sentence>
+            <sentence id="1.25">Signing and pushing trust metadata</sentence>
+            <sentence id="1.26">Enter passphrase for root key with ID 3d69d25:</sentence>
+            <sentence id="1.27">Enter passphrase for new repository key with ID d897236 (172.17.0.1/admin/repo3):</sentence>
+            <sentence id="1.28">Repeat passphrase for new repository key with ID d897236 (172.17.0.1/admin/repo3):</sentence>
+            <sentence id="1.29">Error: trust data missing for remote repository 172.17.0.1/admin/repo3 or remote repository not found: timestamp key trust data unavailable.</sentence>
+            <sentence id="1.30">Has a notary repository been initialized?</sentence>
+            <sentence id="1.31">"'</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The problem is that the first push leaves behind the following directories and the second push gets confused by them:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+╭─[15:04:42] /home/v/.docker/trust 
+╰─&lt;")&gt;&lt; tree tuf/172.17.0.1/
+tuf/172.17.0.1/
+└── admin
+ └── repo3
+ └── metadata
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+docker version
+Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 39abf31
+ Built: Mon May 9 17:02:33 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Server:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 39abf31
+ Built: Mon May 9 17:02:33 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'</sentence>
+            <sentence id="9.2"> docker info</sentence>
+            <sentence id="9.3">Containers: 34</sentence>
+            <sentence id="9.4"> Running: 16</sentence>
+            <sentence id="9.5"> Paused: 0</sentence>
+            <sentence id="9.6"> Stopped: 18</sentence>
+            <sentence id="9.7">Images: 346</sentence>
+            <sentence id="9.8">Server Version: 1.11.1</sentence>
+            <sentence id="9.9">Storage Driver: overlay</sentence>
+            <sentence id="9.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="9.11">Logging Driver: json-file</sentence>
+            <sentence id="9.12">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="9.13">Plugins: </sentence>
+            <sentence id="9.14"> Volume: local</sentence>
+            <sentence id="9.15"> Network: host overlay bridge null</sentence>
+            <sentence id="9.16">Kernel Version: 4.5.1-1-ARCH</sentence>
+            <sentence id="9.17">Operating System: Arch Linux</sentence>
+            <sentence id="9.18">OSType: linux</sentence>
+            <sentence id="9.19">Architecture: x86_64</sentence>
+            <sentence id="9.20">CPUs: 4</sentence>
+            <sentence id="9.21">Total Memory: 7.709 GiB</sentence>
+            <sentence id="9.22">Name: compooter</sentence>
+            <sentence id="9.23">ID: GKSI:YHZC:YPNI:PAGO:EYPD:AYME:K6BY:BAIH:EBKQ:SOAK:WUFP:6MJM</sentence>
+            <sentence id="9.24">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="9.25">Debug mode (client): false</sentence>
+            <sentence id="9.26">Debug mode (server): true</sentence>
+            <sentence id="9.27"> File Descriptors: 81</sentence>
+            <sentence id="9.28"> Goroutines: 173</sentence>
+            <sentence id="9.29"> System Time: 2016-05-11T15:14:17.412096626-07:00</sentence>
+            <sentence id="9.30"> EventsListeners: 1</sentence>
+            <sentence id="9.31">Username: viktorstanchev</sentence>
+            <sentence id="9.32">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="9.33">Cluster store: etcd://172.17.0.1:12379</sentence>
+            <sentence id="9.34">Cluster advertise: 172.17.0.1:12376</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="11.2">physical</sentence>
+        </paragraph>
+    </description>
+</bug>

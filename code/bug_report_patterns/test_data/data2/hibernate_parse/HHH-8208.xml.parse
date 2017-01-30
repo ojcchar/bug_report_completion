@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8208</id>
+    <title>DuplicateMappingException with multiple subclasses in one mapping file</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">On building a session factory the {{HbmBinder.bindRoot()}} delays subclass entity mapping creation, if one the referenced superclasses has not been loaded, yet.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If one mapping file contains mappings for multiple subclasses, which reference still not loaded superclasses, then there occurs a bug because of the way the queuing works for delayed loading.</sentence>
+            <sentence id="2.2">For each missing superclass there is created one queue entry containing ALL the entities of the mapping file.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Consider the following example:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{panel:title=Subclasses.hbm.xml}{noformat}
+hibernate-mapping&gt;
+&lt;hibernate-mapping&gt;
+  &lt;subclass name="de.di.hibernate.tests.Subclass1" extends="de.di.hibernate.tests.RootClass1"&gt;
+    &lt;property name="age" /&gt;
+  &lt;/subclass&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;subclass name="de.di.hibernate.tests.Subclass2" extends="de.di.hibernate.tests.RootClass2"&gt;
+    &lt;property name="age" /&gt;
+  &lt;/subclass&gt;
+&lt;/hibernate-mapping&gt;
+{noformat}{panel}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">There are referenced two superclasses {{RootClass1}} and {{RootClass2}}.</sentence>
+            <sentence id="6.2">If they both are not loaded yet the created queue entries are:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">{noformat}
+RootClass1 -&gt; [Subclass1, Subclass2]
+RootClass2 -&gt; [Subclass1, Subclass2]
+{noformat}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Later on, when the queued entries are iterated through, the subclasses are going to be mapped twice.</sentence>
+            <sentence id="8.2">This leads to a {{DuplicateMappingException}}.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Workaround 1: define mapping files which contain at most one subclass mapping.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Workaround 2: assure that superclass mappings are always loaded before subclass mappings.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">I think this a bug, as generally it is allowed to define more than one subclass mapping per mapping file.</sentence>
+            <sentence id="11.2">The order in which mapping files are loaded is free, as the {{HbmBinder}} contains a treatment for this case (as mentioned in this bug ticket).</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Test case attached.</sentence>
+        </paragraph>
+    </description>
+</bug>

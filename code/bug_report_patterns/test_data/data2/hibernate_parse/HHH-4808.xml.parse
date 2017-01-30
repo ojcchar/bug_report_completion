@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4808</id>
+    <title>SessionImpl.initializeCollection() does not release JDBC connection (if outside of a transaction)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">With {{ConnectionReleaseMode.AFTER_TRANSACTION}} (the default), Hibernate does not release the JDBC connection when resolving a lazily loaded collection, if this happens *outside* of an active transaction.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">First, I will describe, what happens if Hibernate executes a query outside of a transaction.</sentence>
+            <sentence id="2.2">Then I will describe how lazy collection loading behaves differently.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">When the method {{list}} of a query ({{QueryImpl.java}}) is getting called, Hibernate delegates to {{SessionImpl.list()}}.</sentence>
+            <sentence id="3.2">After having loaded the list, {{SessionImpl.list()}} calls {{SessionImpl.afterOperation()}}, which calls {{jdbcContext.afterNontransactionalQuery()}} (as there is no active transaction).</sentence>
+            <sentence id="3.3">This leads to {{ConnectionManager.afterTransaction()}} which releases the JDBC connection.</sentence>
+            <sentence id="3.4">This is exactly what I expect to happen.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Now to the lazily loaded collection:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">{{Hibernate.initialize(collection)}} and {{person.getPets().size()}} both end up in {{SessionImpl.initializeCollection()}}.</sentence>
+            <sentence id="5.2">This call gets dispatched down to {{Loader.doQueryAndInitializeNonLazyCollections()}} and {{Loader.doQuery()}}.</sentence>
+            <sentence id="5.3">The important fact is, that {{ConnectionManager.afterTransaction()}} never gets called (like in the query-example above).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The result is, that the JDBC connection is not released.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">IMHO resolving of a lazily loaded collection should behave like executing a query.</sentence>
+            <sentence id="7.2">{{SessionImpl.initializeCollection()}} should call {{SessionImpl.afterOperation()}} in the same way as {{SessionImpl.list()}} is doing this.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I will attach a small demo application which shows the difference (concerning {{ConnectionManager}}) between queries and collections.</sentence>
+        </paragraph>
+    </description>
+</bug>

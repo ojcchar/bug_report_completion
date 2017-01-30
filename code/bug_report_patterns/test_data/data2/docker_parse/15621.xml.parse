@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>15621</id>
+    <title>OOMKilled flag isn't always set to true when OOM occurs? </title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I wrote a simple program to allocate memory in python, 1 line:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">'wasted_memory = range(200000000)'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">When I run 'docker run -m 200m --memory-swap -1 -v /Users/putilin/base/example_solutions/waste_memory.</sentence>
+            <sentence id="3.2">py:/waste_memory.</sentence>
+            <sentence id="3.3">py python:2.7 python /waste_memory.</sentence>
+            <sentence id="3.4">py' and then do 'docker inspect', I see '"OOMKilled": true' and '"ExitCode": 137'.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This is expected.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">When I run bash and then run the program from bash(
+'docker run -m 200m --memory-swap -1 -v /Users/putilin/base/example_solutions/waste_memory.</sentence>
+            <sentence id="5.2">py:/waste_memory.</sentence>
+            <sentence id="5.3">py python:2.7 bash')</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I get this:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'</sentence>
+            <sentence id="7.2">root@a9eade3085a5:/# python /waste_memory.</sentence>
+            <sentence id="7.3">py</sentence>
+            <sentence id="7.4">Killed</sentence>
+            <sentence id="7.5">root@a9eade3085a5:/# dmesg | tail -n 5</sentence>
+            <sentence id="7.6">[ 0 000000] pid ] uid tgid total_vm rss nr_ptes nr_pmds swapents oom_score_adj name</sentence>
+            <sentence id="7.7">[19392.000000] 0 19392 5485 755 15 3 125 0 bash</sentence>
+            <sentence id="7.8">[19417.000000] 0 19417 396156 42487 618 4 266041 0 python</sentence>
+            <sentence id="7.9">[ 0 000000] Memory cgroup out of memory: Kill process 19417 (python) score 890 or sacrifice child</sentence>
+            <sentence id="7.10">[ 0 000000] Killed process 19417 (python) total-vm:1584624kB, anon-rss:168368kB, file-rss:1580kB</sentence>
+            <sentence id="7.11">"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">When I exit, I see '"OOMKilled": true,'.</sentence>
+            <sentence id="8.2">This is expected.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">When I increase memory limit to 1000m and run it('docker run -it -m 1000m --memory-swap -1 -v /Users/putilin/base/example_solutions/waste_memory.</sentence>
+            <sentence id="9.2">py:/waste_memory.</sentence>
+            <sentence id="9.3">py python:2.7 python /waste_memory.</sentence>
+            <sentence id="9.4">py'), I get '"OOMKilled": false' but '"ExitCode": 137'.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">However, here is what happens when I run the same code using bash:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'</sentence>
+            <sentence id="11.2">$ docker run -it -m 1000m --memory-swap -1 -v /Users/putilin/base/example_solutions/waste_memory.</sentence>
+            <sentence id="11.3">py:/waste_memory.</sentence>
+            <sentence id="11.4">py python:2.7 bash</sentence>
+            <sentence id="11.5">root@3a5beec90eb5:/# python /waste_memory.</sentence>
+            <sentence id="11.6">py</sentence>
+            <sentence id="11.7">Killed</sentence>
+            <sentence id="11.8">root@3a5beec90eb5:/# dmesg | tail -n 5</sentence>
+            <sentence id="11.9">[26074.000000] 0 26074 501970 219067 962 5 265246 0 python</sentence>
+            <sentence id="11.10">[26075.000000] 0 26075 2441 23 9 3 0 0 getty</sentence>
+            <sentence id="11.11">[ 0 000000] Out of memory: Kill process 26074 (python) score 880 or sacrifice child</sentence>
+            <sentence id="11.12">[ 0 000000] Killed process 26074 (python) total-vm:2007880kB, anon-rss:876268kB, file-rss:0kB</sentence>
+            <sentence id="11.13">[ 0 000000] docker0: port 1(veth8728d13) entered forwarding state</sentence>
+            <sentence id="11.14">"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">It is clearly being killed by OOM killer.</sentence>
+            <sentence id="12.2">However, when I run 'docker inspect' I see '"OOMKilled": false' for some reason.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">PS: I am on OS X, using docker-machine which automatically used boot2docker image.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Providing system information:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">So, I think I provided all the steps, as for the system information.</sentence>
+            <sentence id="15.2">I am on OS X, I am using docker-machine with virtualbox as a driver.</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">"'
+$ docker version
+Client:
+ Version: 1.8.1
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: d12ea79
+ Built: Thu Aug 13 19:47:52 UTC 2015
+ OS/Arch: darwin/amd64</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Server:
+ Version: 1.8.1
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: d12ea79
+ Built: Thu Aug 13 02:49:29 UTC 2015
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">"'</sentence>
+            <sentence id="18.2">$ docker info</sentence>
+            <sentence id="18.3">Containers: 40</sentence>
+            <sentence id="18.4">Images: 37</sentence>
+            <sentence id="18.5">Storage Driver: aufs</sentence>
+            <sentence id="18.6"> Root Dir: /mnt/sda1/var/lib/docker/aufs</sentence>
+            <sentence id="18.7"> Backing Filesystem: extfs</sentence>
+            <sentence id="18.8"> Dirs: 117</sentence>
+            <sentence id="18.9"> Dirperm1 Supported: true</sentence>
+            <sentence id="18.10">Execution Driver: native-0.2</sentence>
+            <sentence id="18.11">Logging Driver: json-file</sentence>
+            <sentence id="18.12">Kernel Version: 4.0.9-boot2docker</sentence>
+            <sentence id="18.13">Operating System: Boot2Docker 1.8.1 (TCL 6.3); master : 7f12e95 - Thu Aug 13 03:24:56 UTC 2015</sentence>
+            <sentence id="18.14">CPUs: 1</sentence>
+            <sentence id="18.15">Total Memory: 996.2 MiB</sentence>
+            <sentence id="18.16">Name: dev</sentence>
+            <sentence id="18.17">ID: ZL7J:LSB7:3B5E:MUWQ:EW5T:5QXF:OWPE:NKW7:7SS2:LP4M:GGRN:ACSR</sentence>
+            <sentence id="18.18">Debug mode (server): true</sentence>
+            <sentence id="18.19">File Descriptors: 11</sentence>
+            <sentence id="18.20">Goroutines: 20</sentence>
+            <sentence id="18.21">System Time: 2015-08-16T19:44:09.773836677Z</sentence>
+            <sentence id="18.22">EventsListeners: 0</sentence>
+            <sentence id="18.23">Init SHA1:</sentence>
+            <sentence id="18.24">Init Path: /usr/local/bin/docker</sentence>
+            <sentence id="18.25">Docker Root Dir: /mnt/sda1/var/lib/docker</sentence>
+            <sentence id="18.26">Username: eleweek</sentence>
+            <sentence id="18.27">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="18.28">Labels:</sentence>
+            <sentence id="18.29"> provider=virtualbox</sentence>
+            <sentence id="18.30">"'</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">"'
+$ uname -a
+Darwin putilin-osx.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

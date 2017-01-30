@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8952</id>
+    <title>NonBatchingBatch releases statements twice</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">{{NonBatchingBatch}} in {{addToBatch()}} method calls {{jdbcCoordinator.release(Statement))}} for every statement, and then calls {{releaseStatements}} method which calls {jrelease}} again. It causes an exception in {{JdbcCoordinatorImpl.close(Statement)}}, and although the exception is caught it causes early exit and I think should be avoided.</sentence>
+            <sentence id="1.2">{code}</sentence>
+            <sentence id="1.3">com.microsoft.sqlserver.jdbc.SQLServerException: The statement is closed.</sentence>
+            <sentence id="1.4">        at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDriverError(SQLServerException.java:190)</sentence>
+            <sentence id="1.5">        at com.microsoft.sqlserver.jdbc.SQLServerStatement.checkClosed(SQLServerStatement.java:980)</sentence>
+            <sentence id="1.6">        at com.microsoft.sqlserver.jdbc.SQLServerStatement.getMaxRows(SQLServerStatement.java:1011)</sentence>
+            <sentence id="1.7">        at net.sf.log4jdbc.StatementSpy.getMaxRows(StatementSpy.java:949)</sentence>
+            <sentence id="1.8">        at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.close(JdbcCoordinatorImpl.java:530)</sentence>
+            <sentence id="1.9">        at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.release(JdbcCoordinatorImpl.java:407)</sentence>
+            <sentence id="1.10">        at org.hibernate.engine.jdbc.batch.internal.AbstractBatchImpl.releaseStatements(AbstractBatchImpl.java:173)</sentence>
+            <sentence id="1.11">        at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:76)</sentence>
+            <sentence id="1.12">        at org.hibernate.persister.entity.AbstractEntityPersister.update(AbstractEntityPersister.java:3281)</sentence>
+            <sentence id="1.13">        at org.hibernate.persister.entity.AbstractEntityPersister.updateOrInsert(AbstractEntityPersister.java:3183)</sentence>
+            <sentence id="1.14">        at org.hibernate.persister.entity.AbstractEntityPersister.update(AbstractEntityPersister.java:3525)</sentence>
+            <sentence id="1.15">        at org.hibernate.action.internal.EntityUpdateAction.execute(EntityUpdateAction.java:158)</sentence>
+            <sentence id="1.16">        at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:453)</sentence>
+            <sentence id="1.17">        at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:345)</sentence>
+            <sentence id="1.18">        at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:350)</sentence>
+            <sentence id="1.19">        at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:56)</sentence>
+            <sentence id="1.20">        at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1218)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

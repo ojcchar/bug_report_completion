@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>1318</id>
+    <title>Weird error when creating a gallery from Media Library</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">During one of my tests I got the following error when testing galleries:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;pre&gt;</sentence>
+            <sentence id="2.2">04-28 16:44:52.879: D/AndroidRuntime(2385): Shutting down VM</sentence>
+            <sentence id="2.3">04-28 16:44:52.879: W/dalvikvm(2385): threadid=1: thread exiting with uncaught exception (group=0x40018578)</sentence>
+            <sentence id="2.4">04-28 16:44:52.899: E/AndroidRuntime(2385): FATAL EXCEPTION: main</sentence>
+            <sentence id="2.5">04-28 16:44:52.899: E/AndroidRuntime(2385): java.lang.RuntimeException: Unable to start activity ComponentInfo{org.wordpress.android/org.wordpress.android.ui.media.MediaBrowserActivity}: android.view.InflateException: Binary XML file line #8: Error inflating class fragment</sentence>
+            <sentence id="2.6">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:1651)</sentence>
+            <sentence id="2.7">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:1667)</sentence>
+            <sentence id="2.8">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.app.ActivityThread.handleRelaunchActivity(ActivityThread.java:2836)</sentence>
+            <sentence id="2.9">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.app.ActivityThread.access$1600(ActivityThread.java:117)</sentence>
+            <sentence id="2.10">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.app.ActivityThread$H.handleMessage(ActivityThread.java:939)</sentence>
+            <sentence id="2.11">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.os.Handler.dispatchMessage(Handler.java:99)</sentence>
+            <sentence id="2.12">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.os.Looper.loop(Looper.java:123)</sentence>
+            <sentence id="2.13">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.app.ActivityThread.main(ActivityThread.java:3687)</sentence>
+            <sentence id="2.14">04-28 16:44:52.899: E/AndroidRuntime(2385): at java.lang.reflect.Method.invokeNative(Native Method)</sentence>
+            <sentence id="2.15">04-28 16:44:52.899: E/AndroidRuntime(2385): at java.lang.reflect.Method.invoke(Method.java:507)</sentence>
+            <sentence id="2.16">04-28 16:44:52.899: E/AndroidRuntime(2385): at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:867)</sentence>
+            <sentence id="2.17">04-28 16:44:52.899: E/AndroidRuntime(2385): at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:625)</sentence>
+            <sentence id="2.18">04-28 16:44:52.899: E/AndroidRuntime(2385): at dalvik.system.NativeStart.main(Native Method)</sentence>
+            <sentence id="2.19">04-28 16:44:52.899: E/AndroidRuntime(2385): Caused by: android.view.InflateException: Binary XML file line #8: Error inflating class fragment</sentence>
+            <sentence id="2.20">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:587)</sentence>
+            <sentence id="2.21">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.view.LayoutInflater.rInflate(LayoutInflater.java:623)</sentence>
+            <sentence id="2.22">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.view.LayoutInflater.inflate(LayoutInflater.java:408)</sentence>
+            <sentence id="2.23">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.view.LayoutInflater.inflate(LayoutInflater.java:320)</sentence>
+            <sentence id="2.24">04-28 16:44:52.899: E/AndroidRuntime(2385): at net.simonvt.menudrawer.MenuDrawer.setContentView(MenuDrawer.java:1369)</sentence>
+            <sentence id="2.25">04-28 16:44:52.899: E/AndroidRuntime(2385): at org.wordpress.android.ui.WPActionBarActivity.createMenuDrawer(WPActionBarActivity.java:189)</sentence>
+            <sentence id="2.26">04-28 16:44:52.899: E/AndroidRuntime(2385): at org.wordpress.android.ui.media.MediaBrowserActivity.onCreate(MediaBrowserActivity.java:97)</sentence>
+            <sentence id="2.27">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1047)</sentence>
+            <sentence id="2.28">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:1615)</sentence>
+            <sentence id="2.29">04-28 16:44:52.899: E/AndroidRuntime(2385): ... 12 more</sentence>
+            <sentence id="2.30">04-28 16:44:52.899: E/AndroidRuntime(2385): Caused by: java.lang.NullPointerException</sentence>
+            <sentence id="2.31">04-28 16:44:52.899: E/AndroidRuntime(2385): at org.wordpress.android.ui.media.MediaBrowserActivity.onCreateActionMode(MediaBrowserActivity.java:660)</sentence>
+            <sentence id="2.32">04-28 16:44:52.899: E/AndroidRuntime(2385): at com.actionbarsherlock.internal.ActionBarSherlockCompat$ActionModeCallbackWrapper.onCreateActionMode(ActionBarSherlockCompat.java:1145)</sentence>
+            <sentence id="2.33">04-28 16:44:52.899: E/AndroidRuntime(2385): at com.actionbarsherlock.internal.app.ActionBarImpl$ActionModeImpl.dispatchOnCreate(ActionBarImpl.java:727)</sentence>
+            <sentence id="2.34">04-28 16:44:52.899: E/AndroidRuntime(2385): at com.actionbarsherlock.internal.app.ActionBarImpl.startActionMode(ActionBarImpl.java:408)</sentence>
+            <sentence id="2.35">04-28 16:44:52.899: E/AndroidRuntime(2385): at com.actionbarsherlock.internal.ActionBarSherlockCompat.startActionMode(ActionBarSherlockCompat.java:172)</sentence>
+            <sentence id="2.36">04-28 16:44:52.899: E/AndroidRuntime(2385): at org.wordpress.android.ui.media.MediaBrowserActivity.onMultiSelectChange(MediaBrowserActivity.java:596)</sentence>
+            <sentence id="2.37">04-28 16:44:52.899: E/AndroidRuntime(2385): at org.wordpress.android.ui.media.MediaGridFragment.restoreState(MediaGridFragment.java:206)</sentence>
+            <sentence id="2.38">04-28 16:44:52.899: E/AndroidRuntime(2385): at org.wordpress.android.ui.media.MediaGridFragment.onCreateView(MediaGridFragment.java:177)</sentence>
+            <sentence id="2.39">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.support.v4.app.Fragment.performCreateView(Fragment.java:1460)</sentence>
+            <sentence id="2.40">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.support.v4.app.FragmentManagerImpl.moveToState(FragmentManager.java:884)</sentence>
+            <sentence id="2.41">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.support.v4.app.FragmentManagerImpl.moveToState(FragmentManager.java:1066)</sentence>
+            <sentence id="2.42">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.support.v4.app.FragmentActivity.onCreateView(FragmentActivity.java:299)</sentence>
+            <sentence id="2.43">04-28 16:44:52.899: E/AndroidRuntime(2385): at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:563)</sentence>
+            <sentence id="2.44">04-28 16:44:52.899: E/AndroidRuntime(2385): ... 20 more</sentence>
+            <sentence id="2.45">04-28 16:44:53.749: D/Cursor(2385): Database path: /data/data/org.wordpress.android/databases/wordpress</sentence>
+            <sentence id="2.46">04-28 16:44:53.749: D/Cursor(2385): Table name : null</sentence>
+            <sentence id="2.47">04-28 16:44:53.749: D/Cursor(2385): SQL : SQLiteQuery: SELECT id as _id, 0_download_all_bugs.sh 1_download_json.sh data log_download_1.txt log_download_2.txt log_download_3.txt only_bugs.csv pull_requests.csv FROM media WHERE blogId=? AND mediaId &lt;&gt; '' AND (uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) ORDER BY (uploadState=?) DESC, date_created_gmt DESC</sentence>
+            <sentence id="2.48">04-28 16:44:53.749: D/Cursor(2385): Database path: /data/data/org.wordpress.android/databases/wordpress</sentence>
+            <sentence id="2.49">04-28 16:44:53.749: D/Cursor(2385): Table name : null</sentence>
+            <sentence id="2.50">04-28 16:44:53.749: D/Cursor(2385): SQL : SQLiteQuery: SELECT id as _id, 0_download_all_bugs.sh 1_download_json.sh data log_download_1.txt log_download_2.txt log_download_3.txt only_bugs.csv pull_requests.csv FROM media WHERE blogId=? AND mediaId &lt;&gt; '' AND (uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) AND postId=0 ORDER BY (uploadState=?) DESC, date_created_gmt DESC</sentence>
+            <sentence id="2.51">04-28 16:44:53.749: D/Cursor(2385): Database path: /data/data/org.wordpress.android/databases/wordpress</sentence>
+            <sentence id="2.52">04-28 16:44:53.749: D/Cursor(2385): Table name : null</sentence>
+            <sentence id="2.53">04-28 16:44:53.749: D/Cursor(2385): SQL : SQLiteQuery: SELECT id as _id, 0_download_all_bugs.sh 1_download_json.sh data log_download_1.txt log_download_2.txt log_download_3.txt only_bugs.csv pull_requests.csv FROM media WHERE blogId=? AND mediaId &lt;&gt; '' AND (uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) AND mimeType LIKE ? ORDER BY (uploadState=?) DESC, date_created_gmt DESC</sentence>
+            <sentence id="2.54">04-28 16:44:53.749: D/Cursor(2385): Database path: /data/data/org.wordpress.android/databases/wordpress</sentence>
+            <sentence id="2.55">04-28 16:44:53.749: D/Cursor(2385): Table name : null</sentence>
+            <sentence id="2.56">04-28 16:44:53.749: D/Cursor(2385): SQL : SQLiteQuery: SELECT id as _id, 0_download_all_bugs.sh 1_download_json.sh data log_download_1.txt log_download_2.txt log_download_3.txt only_bugs.csv pull_requests.csv FROM media WHERE blogId=? AND mediaId &lt;&gt; '' AND title LIKE ? AND (uploadState IS NULL OR uploadState ='uploaded') ORDER BY (uploadState=?) DESC, date_created_gmt DESC</sentence>
+            <sentence id="2.57">&lt;/pre&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">It's probably an isolated case, but may worth to take a look.</sentence>
+            <sentence id="3.2">I tried to reproduce the issue wthout luck.</sentence>
+        </paragraph>
+    </description>
+</bug>

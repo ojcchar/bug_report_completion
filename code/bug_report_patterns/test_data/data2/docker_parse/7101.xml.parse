@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>7101</id>
+    <title>sysfs goes into readonly mode with host networking</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When I run any docker image with host networking enabled, 'sysfs' enters readonly mode.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"' bash
+# before
+$ cat /proc/mounts | grep sysfs
+sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0
+$ docker run -it --rm --net=host ubuntu:12.04 echo "Hello World!"
+Hello World!
+# after
+$ cat /proc/mounts | grep sysfs
+sysfs /sys sysfs ro,nosuid,nodev,noexec,relatime 0 0
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I have to manually remount '/sys' to make it writable again 'mount -o remount,rw /sys'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"' bash
+$ docker version 
+Client version: 1.1.1
+Client API version: 1.13
+Go version (client): go1.2.1
+Git commit (client): bd609d2
+Server version: 1.1.1
+Server API version: 1.13
+Go version (server): go1.2.1
+Git commit (server): bd609d2</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">$ docker info
+Containers: 7
+Images: 247
+Storage Driver: aufs
+ Root Dir: /media/vbox/docker/graphs/aufs
+ Dirs: 262
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-32-generic
+WARNING: No swap limit support
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

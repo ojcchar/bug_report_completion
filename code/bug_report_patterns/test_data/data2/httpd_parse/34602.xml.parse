@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>34602</id>
+    <title>mod_rewrite fails to correctly deal with URLS that have escapes in them</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have a simple redirect rule that looks something like this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">RewriteCond %{QUERY_STRING} Insurrection=rss
+  RewriteRule ^svn/(.</sentence>
+            <sentence id="2.2">*)$ /rss.cgi/$1  [R,L]</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Now, the URL given is to a file which happens to have various strange characters
+in it, thus the URL is very escaped.</sentence>
+            <sentence id="3.2">The URL looks like:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">href="/svn/example/trunk/tests/CanThisWork&amp;amp;amp%3bInSVN%3f/test?</sentence>
+            <sentence id="4.2">Insurrection=rss"</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">and the end result is that the %3f (which is a "?")</sentence>
+            <sentence id="5.2">and all after it is stripped
+off.</sentence>
+            <sentence id="5.3">If I have the page link directly to the target of the rewrite within the
+HTML, it works.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Note that things are even worse if I try to use the [P,L] (proxy) rather than
+just redirect [R,L] as then other escaped characters cause problems.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I have not yet put together a full set of test cases but the following does work
+in [R,L] but not in [P,L]</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">href="/svn/example/trunk/tests/Really%21%7E%23$%25@%5e*%28%29&amp;amp;%20Nasty/test?Insurrection=rss"</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I will put some of the test cases on the public web site at
+http://svn.sinz.com:8000/ using exactly these rewrite rules.</sentence>
+        </paragraph>
+    </description>
+</bug>

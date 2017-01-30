@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-753</id>
+    <title>Install Wizard Fails</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">After I click "Finish" on the install wizard I get the following error:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">INFO: Successfully released change log lock</sentence>
+            <sentence id="2.2">ERROR - StandardWrapperValve.invoke(260) |2009-03-25 17:14:02,338| Servlet.service() for servlet default threw exception</sentence>
+            <sentence id="2.3">org.openmrs.api.APIException: A user context must first be passed to setUserContext()...use openSession() (and closeSession() to prevent memory leaks!) before using the API</sentence>
+            <sentence id="2.4">	at org.openmrs.api.context.Context.getUserContext(Context.java:193)</sentence>
+            <sentence id="2.5">	at org.openmrs.api.context.Context.removeProxyPrivilege(Context.java:577)</sentence>
+            <sentence id="2.6">	at org.openmrs.api.context.Context.checkForDatabaseUpdates(Context.java:929)</sentence>
+            <sentence id="2.7">	at org.openmrs.api.context.Context.startup(Context.java:670)</sentence>
+            <sentence id="2.8">	at org.openmrs.web.filter.initialization.InitializationFilter.doPost(InitializationFilter.java:548)</sentence>
+            <sentence id="2.9">	at org.openmrs.web.filter.initialization.InitializationFilter.doFilter(InitializationFilter.java:154)</sentence>
+            <sentence id="2.10">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:215)</sentence>
+            <sentence id="2.11">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:188)</sentence>
+            <sentence id="2.12">	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:213)</sentence>
+            <sentence id="2.13">	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:172)</sentence>
+            <sentence id="2.14">	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</sentence>
+            <sentence id="2.15">	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:117)</sentence>
+            <sentence id="2.16">	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:108)</sentence>
+            <sentence id="2.17">	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:174)</sentence>
+            <sentence id="2.18">	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:875)</sentence>
+            <sentence id="2.19">	at org.apache.coyote.http11.Http11BaseProtocol$Http11ConnectionHandler.processConnection(Http11BaseProtocol.java:665)</sentence>
+            <sentence id="2.20">	at org.apache.tomcat.util.net.PoolTcpEndpoint.processSocket(PoolTcpEndpoint.java:528)</sentence>
+            <sentence id="2.21">	at org.apache.tomcat.util.net.LeaderFollowerWorkerThread.runIt(LeaderFollowerWorkerThread.java:81)</sentence>
+            <sentence id="2.22">	at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:689)</sentence>
+            <sentence id="2.23">	at java.lang.Thread.run(Thread.java:613)</sentence>
+            <sentence id="2.24">ERROR - HtmlIncludeTag.getInitialRequestUniqueId(122) |2009-03-25 17:14:04,140| Could not find value for +INIT_REQ_UNIQUE_ID+ in pageContext</sentence>
+            <sentence id="2.25">ERROR - HtmlIncludeTag.getInitialRequestUniqueId(122) |2009-03-25 17:14:04,141| Could not find value for +INIT_REQ_UNIQUE_ID+ in pageContext</sentence>
+            <sentence id="2.26">ERROR - HtmlIncludeTag.getInitialRequestUniqueId(122) |2009-03-25 17:14:04,142| Could not find value for +INIT_REQ_UNIQUE_ID+ in pageContext</sentence>
+            <sentence id="2.27">org.openmrs.api.APIException: A user context must first be passed to setUserContext()...use openSession() (and closeSession() to prevent memory leaks!) before using the API</sentence>
+            <sentence id="2.28">	at org.openmrs.api.context.Context.getUserContext(Context.java:193)</sentence>
+            <sentence id="2.29">	at org.openmrs.api.context.Context.removeProxyPrivilege(Context.java:577)</sentence>
+            <sentence id="2.30">	at org.openmrs.api.context.Context.checkForDatabaseUpdates(Context.java:929)</sentence>
+            <sentence id="2.31">	at org.openmrs.api.context.Context.startup(Context.java:670)</sentence>
+            <sentence id="2.32">	at org.openmrs.web.filter.initialization.InitializationFilter.doPost(InitializationFilter.java:548)</sentence>
+            <sentence id="2.33">	at org.openmrs.web.filter.initialization.InitializationFilter.doFilter(InitializationFilter.java:154)</sentence>
+            <sentence id="2.34">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:215)</sentence>
+            <sentence id="2.35">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:188)</sentence>
+            <sentence id="2.36">	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:213)</sentence>
+            <sentence id="2.37">	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:172)</sentence>
+            <sentence id="2.38">	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</sentence>
+            <sentence id="2.39">	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:117)</sentence>
+            <sentence id="2.40">	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:108)</sentence>
+            <sentence id="2.41">	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:174)</sentence>
+            <sentence id="2.42">	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:875)</sentence>
+            <sentence id="2.43">	at org.apache.coyote.http11.Http11BaseProtocol$Http11ConnectionHandler.processConnection(Http11BaseProtocol.java:665)</sentence>
+            <sentence id="2.44">	at org.apache.tomcat.util.net.PoolTcpEndpoint.processSocket(PoolTcpEndpoint.java:528)</sentence>
+            <sentence id="2.45">	at org.apache.tomcat.util.net.LeaderFollowerWorkerThread.runIt(LeaderFollowerWorkerThread.java:81)</sentence>
+            <sentence id="2.46">	at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:689)</sentence>
+            <sentence id="2.47">	at java.lang.Thread.run(Thread.java:613)</sentence>
+        </paragraph>
+    </description>
+</bug>

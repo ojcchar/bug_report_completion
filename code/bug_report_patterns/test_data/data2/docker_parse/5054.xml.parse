@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>5054</id>
+    <title>Can't receive udp broadcasts when specifying ip address on expose</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Starting socat in a container like this:</sentence>
+            <sentence id="1.2">"'
+$ docker run -p 1234:1234/udp socat -u udp-recv:1234 -
+"'</sentence>
+            <sentence id="1.3">then sending a UDP broadcast like that:</sentence>
+            <sentence id="1.4">"'
+echo hello world | socat - UDP-DATAGRAM:255.255.255.255:1234,broadcast
+"'</sentence>
+            <sentence id="1.5">works fine.</sentence>
+            <sentence id="1.6">The socat in the container prints 'hello world' to stdout.</sentence>
+            <sentence id="1.7">But if I specify any IP in docker run, it doesn't receive the udp datagrams anymore:</sentence>
+            <sentence id="1.8">"'
+$ docker run -p &lt;ip-of-lan-interface&gt;:1234:1234/udp socat -u udp-recv:1234 - # doesn't work
+"'</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">(I've also tried it with 127.0.0.1 in case the system sends the datagram locally via a different interface but same result)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I'm not sure if we should allow receiving of broadcasts in a container, but it seems like a bug that it works but only if no ip is specified.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This applies to docker 0.8.1 and 0.9.1.</sentence>
+        </paragraph>
+    </description>
+</bug>

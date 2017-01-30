@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8090</id>
+    <title>includedir not recognized in config.layout</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1"># This is the build/install sequence I am trying to use</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">make clean</sentence>
+            <sentence id="2.2">.</sentence>
+            <sentence id="2.3">/configure --enable-layout=Mine --with-mpm=worker \</sentence>
+            <sentence id="2.4">--enable-mods-shared=most --enable-static-support</sentence>
+            <sentence id="2.5">make</sentence>
+            <sentence id="2.6">make install</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1"># This is an excerpt from config.layout</sentence>
+            <sentence id="3.2">&lt;Layout Mine&gt;</sentence>
+            <sentence id="3.3">    prefix:        /home/apache</sentence>
+            <sentence id="3.4">    exec_prefix:   ${prefix}</sentence>
+            <sentence id="3.5">    bindir:        ${exec_prefix}/bin</sentence>
+            <sentence id="3.6">    sbindir:       ${exec_prefix}/bin</sentence>
+            <sentence id="3.7">    includedir:    ${prefix}/usr/include/apache</sentence>
+            <sentence id="3.8">    libdir:        ${exec_prefix}/usr/lib/apache</sentence>
+            <sentence id="3.9">    mandir:        /usr/share/man</sentence>
+            <sentence id="3.10">    datadir:       ${prefix}/httpd</sentence>
+            <sentence id="3.11">    sysconfdir:    ${datadir}/conf</sentence>
+            <sentence id="3.12">    libexecdir:    ${datadir}/modules</sentence>
+            <sentence id="3.13">    installbuilddir: ${datadir}/build</sentence>
+            <sentence id="3.14">    errordir:      ${datadir}/error</sentence>
+            <sentence id="3.15">    iconsdir:      ${datadir}/icons</sentence>
+            <sentence id="3.16">    htdocsdir:     ${datadir}/html</sentence>
+            <sentence id="3.17">    manualdir:     ${htdocsdir}/manual</sentence>
+            <sentence id="3.18">    cgidir:        ${datadir}/cgi-bin</sentence>
+            <sentence id="3.19">    localstatedir: ${datadir}</sentence>
+            <sentence id="3.20">    runtimedir:    ${localstatedir}/log</sentence>
+            <sentence id="3.21">    logfiledir:    ${localstatedir}/log</sentence>
+            <sentence id="3.22">    proxycachedir: ${localstatedir}/proxy</sentence>
+            <sentence id="3.23">&lt;/Layout&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Works fine except that the apache include files end up in 
+${prefix}/include rather than in the directory specified
+by the layout.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">If I add:</sentence>
+            <sentence id="5.2">--includedir=/home/apache/usr/include/apache</sentence>
+            <sentence id="5.3">to the .</sentence>
+            <sentence id="5.4">/configure command then the include files end up</sentence>
+            <sentence id="5.5">where they should go.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I set this as UNCONFIRMED as I do not know enough to debug the
+configure script to find if there is a problem.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Is this just me?</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Thanks,
+Howard</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24704</id>
+    <title>Cant start dockerd on gentoo with zfs (error initializing graphdriver: no such file or directory)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;!</sentence>
+            <sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+            <sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+            <sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+            <sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+            <sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------------------------------------------------</sentence>
+            <sentence id="4.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="4.3">---------------------------------------------------</sentence>
+            <sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="4.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+Docker version 1.12.0-rc4, build e4a0dbc
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+Cannot connect to the Docker daemon. Is the docker daemon running on this host?
+"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="9.2">I'm running Gentoo with root on ZFS, on a physical machine, my uname -a is:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'
+Linux horus 4.4.6-gentoo #1 SMP PREEMPT Fri Jun 24 09:50:03 2016 x86_64 Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz GenuineIntel GNU/Linux
+"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Installed with emerge -av docker, tried too using "curl -sSL https://get.docker.com" without success.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">I'm using OpenRC, so "/etc/init.d/docker start" didnt start the daemon, checking more I tried to run dockerd with debug:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"'</sentence>
+            <sentence id="13.2">horus docker # dockerd -D</sentence>
+            <sentence id="13.3">DEBU[0000] docker group found. gid: 206 </sentence>
+            <sentence id="13.4">DEBU[0000] Listener created for HTTP on unix (/var/run/docker.sock) </sentence>
+            <sentence id="13.5">INFO[0000] New containerd process, pid: 13386 </sentence>
+            <sentence id="13.6">DEBU[0000] containerd connection state change: TRANSIENT_FAILURE </sentence>
+            <sentence id="13.7">WARN[0000] containerd: low RLIMIT_NOFILE changing to max current=1024 max=4096</sentence>
+            <sentence id="13.8">DEBU[0000] containerd: read past events count=0</sentence>
+            <sentence id="13.9">DEBU[0000] containerd: supervisor running cpus=8 memory=7963 runtime=docker-runc runtimeArgs=[] stateDir=/var/run/docker/libcontainerd/containerd</sentence>
+            <sentence id="13.10">DEBU[0000] containerd: grpc api on /var/run/docker/libcontainerd/docker-containerd.sock </sentence>
+            <sentence id="13.11">DEBU[0001] Using default logging driver json-file </sentence>
+            <sentence id="13.12">DEBU[0001] Golang's threads limit set to 57240 </sentence>
+            <sentence id="13.13">DEBU[0001] received past containerd event: &amp;types.Event{Type:"live", Id:"", Status:0x0, Pid:"", Timestamp:0x578973c9} </sentence>
+            <sentence id="13.14">DEBU[0001] [zfs] ID:fd791c68-b942-4065-815a-3f7f0523ae20 START zfs list -rHp -t filesystem -o name,origin,used,available,mountpoint,compression,type,volsize,quota,written,logicalused,usedbydataset zroot/docker </sentence>
+            <sentence id="13.15">DEBU[0001] [zfs] ID:fd791c68-b942-4065-815a-3f7f0523ae20 FINISH </sentence>
+            <sentence id="13.16">DEBU[0001] Cleaning up old mountid : start. </sentence>
+            <sentence id="13.17">FATA[0001] Error starting daemon: error initializing graphdriver: no such file or directory </sentence>
+            <sentence id="13.18">"'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">I've already create a /var/lib/docker, thats zroot/docker in the above output.</sentence>
+            <sentence id="14.2">The /var/lib/docker is initialized when I run dockerd -D, tried to clean it but didn't change, it contains 2 empty directories:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"'
+drwx------ 2 root root 2 Jul 15 20:07 containers
+drwx------ 2 root root 2 Jul 15 20:07 tmp
+"'</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">I searched for it a couple of days, got some results but are about other problems, like wrong device driver, AFAIK docker got the zfs driver working in my situation.</sentence>
+            <sentence id="16.2">If this is a duplicate please point me to the correct place and sorry for it.</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Thanks for your help</sentence>
+        </paragraph>
+    </description>
+</bug>

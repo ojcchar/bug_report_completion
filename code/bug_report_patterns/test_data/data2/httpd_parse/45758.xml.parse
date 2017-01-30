@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>45758</id>
+    <title>Can't compile apache httpd 2.2.9 with mod_ssl</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Can't compile httpd 2.2.9 on Mac OS X 10.5.4 with OpenSSL 0.9.8h installed.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The configure command is the following:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">CC="darwin-i386-cc" LDFLAGS="-Llibdir"</sentence>
+            <sentence id="3.2">.</sentence>
+            <sentence id="3.3">/configure \</sentence>
+            <sentence id="3.4">--enable-layout=Darwin \</sentence>
+            <sentence id="3.5">--enable-mods-shared='all ssl dav cache proxy logio deflate cgi cgid suexec rewrite spelling expires' \</sentence>
+            <sentence id="3.6">--with-ssl=/usr \</sentence>
+            <sentence id="3.7">--with-included-apr \</sentence>
+            <sentence id="3.8">--with-mpm=prefork</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The last make output lines are the following:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">include -I/sources/httpd-2.2.9/srclib/apr-util/include -I/sources/httpd-2.2.9/server -I/sources/httpd-2.2.9/modules/proxy/../generators -I/usr/include -I/sources/httpd-2.2.9/modules/ssl -I/sources/httpd-2.2.9/modules/dav/main  -prefer-non-pic -static -c ab.c &amp;&amp; touch ab.lo</sentence>
+            <sentence id="5.2">/sources/httpd-2.2.9/srclib/apr/libtool --silent --mode=link gcc -g -O2     -L/usr/lib   -o ab  ab.lo    /sources/httpd-2.2.9/srclib/pcre/libpcre.la /sources/httpd-2.2.9/srclib/apr-util/libaprutil-1.la -lexpat -liconv /sources/httpd-2.2.9/srclib/apr/libapr-1.la -lpthread -lssl -lcrypto</sentence>
+            <sentence id="5.3">Undefined symbols:</sentence>
+            <sentence id="5.4">  "_BIO_set_callback_arg", referenced from:</sentence>
+            <sentence id="5.5">      _start_connect in ab.o</sentence>
+            <sentence id="5.6">  "_BIO_get_callback_arg", referenced from:</sentence>
+            <sentence id="5.7">      _ssl_print_cb in ab.o</sentence>
+            <sentence id="5.8">  "_SSL_CTX_set_info_callback", referenced from:</sentence>
+            <sentence id="5.9">      _main in ab.o</sentence>
+            <sentence id="5.10">  "_BIO_set_callback", referenced from:</sentence>
+            <sentence id="5.11">      _start_connect in ab.o</sentence>
+            <sentence id="5.12">ld: symbol(s) not found</sentence>
+            <sentence id="5.13">collect2: ld returned 1 exit status</sentence>
+            <sentence id="5.14">make[2]: *** [ab] Error 1</sentence>
+            <sentence id="5.15">make[1]: *** [all-recursive] Error 1</sentence>
+            <sentence id="5.16">make: *** [all-recursive] Error 1</sentence>
+        </paragraph>
+    </description>
+</bug>

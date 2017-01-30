@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>48880</id>
+    <title>error on make</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Am attempting to upgrade from 2.2.14 with openssl-0.9.8l to 2.2.15 with openssl-0.9.8m. The os is Red Har Enterprise Linux Server Release 5.4 Tikanga.</sentence>
+            <sentence id="1.2"> I get an error running make. Here is the error:</sentence>
+            <sentence id="1.3">make[1]: Entering directory `/root/Desktop/httpd-2.2.15'</sentence>
+            <sentence id="1.4">gcc -pthread    -DLINUX=2 -D_REENTRANT -D_GNU_SOURCE    -I/root/Desktop/httpd-2.2.15/srclib/pcre -I. -I/root/Desktop/httpd-2.2.15/os/unix -I/root/Desktop/httpd-2.2.15/server/mpm/prefork -I/root/Desktop/httpd-2.2.15/modules/http -I/root/Desktop/httpd-2.2.15/modules/filters -I/root/Desktop/httpd-2.2.15/modules/proxy -I/root/Desktop/httpd-2.2.15/include -I/root/Desktop/httpd-2.2.15/modules/generators -I/root/Desktop/httpd-2.2.15/modules/mappers -I/root/Desktop/httpd-2.2.15/modules/database -I/usr/include/apr-1 -I/root/Desktop/httpd-2.2.15/modules/proxy/../generators -I/usr/kerberos/include -I/root/Desktop/httpd-2.2.15/modules/ssl -I/root/Desktop/httpd-2.2.15/modules/dav/main  -c /root/Desktop/httpd-2.2.15/server/buildmark.c</sentence>
+            <sentence id="1.5">/usr/lib64/apr-1/build/libtool --silent --mode=link gcc -pthread     -L/usr/kerberos/lib64   -o httpd  modules.lo buildmark.o -export-dynamic server/libmain.la modules/aaa/libmod_authn_file.la modules/aaa/libmod_authn_default.la modules/aaa/libmod_authz_host.la modules/aaa/libmod_authz_groupfile.la modules/aaa/libmod_authz_user.la modules/aaa/libmod_authz_default.la modules/aaa/libmod_auth_basic.la modules/aaa/libmod_auth_digest.la modules/filters/libmod_include.la modules/filters/libmod_filter.la modules/loggers/libmod_log_config.la modules/metadata/libmod_env.la modules/metadata/libmod_expires.la modules/metadata/libmod_setenvif.la modules/metadata/libmod_version.la modules/ssl/libmod_ssl.la modules/http/libmod_http.la modules/http/libmod_mime.la modules/dav/main/libmod_dav.la modules/generators/libmod_status.la modules/generators/libmod_autoindex.la modules/generators/libmod_asis.la modules/generators/libmod_cgi.la modules/dav/fs/libmod_dav_fs.la modules/mappers/libmod_negotiation.la modules/mappers/libmod_dir.la modules/mappers/libmod_actions.la modules/mappers/libmod_speling.la modules/mappers/libmod_userdir.la modules/mappers/libmod_alias.la modules/mappers/libmod_rewrite.la modules/mappers/libmod_so.la server/mpm/prefork/libprefork.la os/unix/libos.la -lm /root/Desktop/httpd-2.2.15/srclib/pcre/libpcre.la /usr/lib64/libaprutil-1.la -lldap -llber -ldb-4.3 -lexpat /usr/lib64/libapr-1.la -lpthread -ldl</sentence>
+            <sentence id="1.6">modules/ssl/.libs/libmod_ssl.a(ssl_engine_kernel.o): In function `ssl_hook_ReadReq':</sentence>
+            <sentence id="1.7">ssl_engine_kernel.c:(.text+0x1eb): undefined reference to `SSL_get_servername'</sentence>
+            <sentence id="1.8">modules/ssl/.libs/libmod_ssl.a(ssl_engine_kernel.o): In function `ssl_hook_Fixup':</sentence>
+            <sentence id="1.9">ssl_engine_kernel.c:(.text+0x1f83): undefined reference to `SSL_get_servername'</sentence>
+            <sentence id="1.10">modules/ssl/.libs/libmod_ssl.a(ssl_engine_kernel.o): In function `ssl_callback_ServerNameIndication':</sentence>
+            <sentence id="1.11">ssl_engine_kernel.c:(.text+0x39c8): undefined reference to `SSL_get_servername'</sentence>
+            <sentence id="1.12">modules/ssl/.libs/libmod_ssl.a(ssl_engine_kernel.o): In function `ssl_find_vhost':</sentence>
+            <sentence id="1.13">ssl_engine_kernel.c:(.text+0x3c42): undefined reference to `SSL_set_SSL_CTX'</sentence>
+            <sentence id="1.14">modules/ssl/.libs/libmod_ssl.a(ssl_engine_vars.o): In function `ssl_var_lookup_ssl':</sentence>
+            <sentence id="1.15">ssl_engine_vars.c:(.text+0x11bf): undefined reference to `SSL_get_servername'</sentence>
+            <sentence id="1.16">collect2: ld returned 1 exit status</sentence>
+            <sentence id="1.17">make[1]: *** [httpd] Error 1</sentence>
+            <sentence id="1.18">make[1]: Leaving directory `/root/Desktop/httpd-2.2.15'</sentence>
+            <sentence id="1.19">make: *** [all-recursive] Error 1</sentence>
+        </paragraph>
+    </description>
+</bug>

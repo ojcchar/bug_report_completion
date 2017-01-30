@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6844</id>
+    <title>One-To-One fails to delete both sides if constraint violation occurs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In this example there are two object: User and Credentials and they have a unidirectional one-to-one relationship.</sentence>
+            <sentence id="1.2">If User fails to persist due to a constraint violation on the emailAddress field, then the Credentials are saved but not removed when the exception is thrown.</sentence>
+            <sentence id="1.3">So now in the database there is no User object but there is a Credentials object.</sentence>
+            <sentence id="1.4">I have set the cascade type to ALL so my expectations would be if an error occurs during persisting the User that neither object remains in the database.</sentence>
+            <sentence id="1.5">As a workaround I go and check for orphans.</sentence>
+            <sentence id="1.6">I've tried a bi-directional one-to-one to see if that made any difference but it also failed to cleanup after the exception.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Below is the code.</sentence>
+            <sentence id="2.2">I left out the setters/getters to condense the code.</sentence>
+            <sentence id="2.3">I know the orphanRemoval=true is redundant since I have cascadeType=ALL but was trying different ways to force the orphan to be removed so left it there in this example.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">To test:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">public class Test {</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">public void testPersist() {
+      User user = new User();
+      Credentials credentials = new Credentials();
+      credentials.setUsername("username");
+      credentials.setPassword("password");
+      user.setCredentials(credentials);
+      user.setEmailAddress("myemail@wherever.com");
+      user.persist(); // this will persist as expected.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">User user2 = new User();
+      Credentials credentials2 = new Credentials();
+      credentials2.setUsername("username2");
+      credentials2.setPassword("password");
+      user2.setCredentials(credentials2);
+      user2.setEmailAddress("myemail@wherever.com"); // same email address so will cause a constraint violation
+      user2.persist(); // this will throw a constraint violation.</sentence>
+            <sentence id="6.2">User2 won't be persisted but credentials will leaving an orphan
+   }</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">public class User {</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">@NotNull
+    @Column(unique = true)
+    @Size(min = 1)
+    private String emailAddress;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">@OneToOne(targetEntity=Credentials.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
+    private Credentials credentials;</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">}</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">public class Credentials {</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">@NotNull
+    @Column(unique = true)
+    @Size(min = 1, max=255)
+    private String username;
+    
+    @NotNull
+    @Size(min = 1, max=255)
+    private String password;</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">}</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4857</id>
+    <title>Upload error notifications can't be expanded</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">### Expected behavior</sentence>
+            <sentence id="1.2">If an error occurs when updating / publishing a post, the notification which describes the upload error should be fully expandable so the user can properly read the reason behind the failure.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">### Actual behavior</sentence>
+            <sentence id="2.2">When I'm trying to publish or update a post and an error occurs, a notification is shown but it's not expandable, so the user can't really read the actual reason for failure, as seen in the following screenshot</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">!</sentence>
+            <sentence id="3.2">[badnotif](https://cloud.githubusercontent.com/assets/6597771/20788742/c0424870-b790-11e6-8b01-9921209fde22.png)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">### Steps to reproduce the behavior
+This is not easy to test without making an actual error happen server side or making a proxied request fail.</sentence>
+            <sentence id="4.2">What I did for testing purposes is actually throw an exception right after our XML RPC call to update the post, so to trigger the error path in the code when it should happen, like this:</sentence>
+            <sentence id="4.3">add this line in line 393 in PostUploadService.java:</sentence>
+            <sentence id="4.4">"'
+ testException();
+"'</sentence>
+            <sentence id="4.5">Then add this method right below 'doInBackground()'</sentence>
+            <sentence id="4.6">"'
+ //FIXME delete this method
+ private void testException() throws XMLRPCException{
+ throw new XMLRPCException("HTTP status code: 503 was returned. Service Temporarily Unavailable");
+ }
+"'</sentence>
+            <sentence id="4.7">1 Write a new draft / edit a blog post</sentence>
+            <sentence id="4.8">2 Tap on PUBLISH / UPDATE</sentence>
+            <sentence id="4.9">3 you should see a notification like the above</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">##### Tested on [Nexus 5], Android [6.0.1]</sentence>
+        </paragraph>
+    </description>
+</bug>

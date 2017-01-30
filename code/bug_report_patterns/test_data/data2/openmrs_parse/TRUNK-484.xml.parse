@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-484</id>
+    <title>Error on 404 "missing.jsp" page</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If you browse to a page that is missing you get this error instead of a friendly 404 error message:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code}org.openmrs.api.APIException: A user context must first be passed to setUserContext()...use openSession() (and closeSession() to prevent memory leaks!) before using the API</sentence>
+            <sentence id="2.2">	org.openmrs.api.context.Context.getUserContext(Context.java:194)</sentence>
+            <sentence id="2.3">	org.openmrs.api.context.Context.getAuthenticatedUser(Context.java:533)</sentence>
+            <sentence id="2.4">	org.openmrs.web.taglib.AuthTag.doStartTag(AuthTag.java:29)</sentence>
+            <sentence id="2.5">	org.apache.jsp.WEB_002dINF.view.missing_jsp._jspService(missing_jsp.java:233)</sentence>
+            <sentence id="2.6">	org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:98)</sentence>
+            <sentence id="2.7">	javax.servlet.http.HttpServlet.service(HttpServlet.java:803)</sentence>
+            <sentence id="2.8">	org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:331)</sentence>
+            <sentence id="2.9">	org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:329)</sentence>
+            <sentence id="2.10">	org.apache.jasper.servlet.JspServlet.service(JspServlet.java:265)</sentence>
+            <sentence id="2.11">	javax.servlet.http.HttpServlet.service(HttpServlet.java:803)</sentence>
+            <sentence id="2.12">	org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:236)</sentence>
+            <sentence id="2.13">	org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:257)</sentence>
+            <sentence id="2.14">	org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1183)</sentence>
+            <sentence id="2.15">	org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:902)</sentence>
+            <sentence id="2.16">	org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:807)</sentence>
+            <sentence id="2.17">	org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:571)</sentence>
+            <sentence id="2.18">	org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:501)</sentence>
+            <sentence id="2.19">	javax.servlet.http.HttpServlet.service(HttpServlet.java:690)</sentence>
+            <sentence id="2.20">	javax.servlet.http.HttpServlet.service(HttpServlet.java:803)</sentence>
+            <sentence id="2.21">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

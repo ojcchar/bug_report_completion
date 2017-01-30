@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-998</id>
+    <title>Cannot edit encounter datetime</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This must have broken during API refactoring.</sentence>
+            <sentence id="1.2">I tried editing the date of an encounter that had an obs in it, and got this exception:
+{code}org.springframework.orm.hibernate3.HibernateSystemException</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">a different object with the same identifier value was already associated with the session: [org.openmrs.ObsTRAC-36388]; nested exception is org.hibernate.NonUniqueObjectException: a different object with the same identifier value was already associated with the session: [org.openmrs.ObsTRAC-36388]</sentence>
+            <sentence id="2.2">org.springframework.orm.hibernate3.SessionFactoryUtils.convertHibernateAccessException(SessionFactoryUtils.java:659)</sentence>
+            <sentence id="2.3">org.springframework.orm.hibernate3.HibernateTransactionManager.convertHibernateAccessException(HibernateTransactionManager.java:728)</sentence>
+            <sentence id="2.4">org.springframework.orm.hibernate3.HibernateTransactionManager.doCommit(HibernateTransactionManager.java:604)</sentence>
+            <sentence id="2.5">org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:709)</sentence>
+            <sentence id="2.6">org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:678)</sentence>
+            <sentence id="2.7">org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:319)</sentence>
+            <sentence id="2.8">org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:116)</sentence>
+            <sentence id="2.9">org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)</sentence>
+            <sentence id="2.10">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)</sentence>
+            <sentence id="2.11">$Proxy63.saveEncounter(Unknown Source)</sentence>
+            <sentence id="2.12">sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="2.13">sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+            <sentence id="2.14">sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+            <sentence id="2.15">java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+            <sentence id="2.16">org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:301)</sentence>
+            <sentence id="2.17">org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:198)</sentence>
+            <sentence id="2.18">$Proxy109.saveEncounter(Unknown Source)</sentence>
+            <sentence id="2.19">org.openmrs.web.controller.encounter.EncounterFormController.onSubmit(EncounterFormController.java:151)</sentence>
+            <sentence id="2.20">org.springframework.web.servlet.mvc.SimpleFormController.processFormSubmission(SimpleFormController.java:267)</sentence>
+            <sentence id="2.21">org.openmrs.web.controller.encounter.EncounterFormController.processFormSubmission(EncounterFormController.java:114)</sentence>
+            <sentence id="2.22">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:265)</sentence>
+            <sentence id="2.23">org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)</sentence>
+            <sentence id="2.24">org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:48)</sentence>
+            <sentence id="2.25">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:875)</sentence>
+            <sentence id="2.26">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:809)</sentence>
+            <sentence id="2.27">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:476)</sentence>
+            <sentence id="2.28">org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:441)</sentence>
+            <sentence id="2.29">javax.servlet.http.HttpServlet.service(HttpServlet.java:710)</sentence>
+            <sentence id="2.30">javax.servlet.http.HttpServlet.service(HttpServlet.java:803)</sentence>
+            <sentence id="2.31">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+            <sentence id="2.32">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="2.33">org.openmrs.web.OpenmrsFilter.doFilter(OpenmrsFilter.java:124)</sentence>
+            <sentence id="2.34">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="2.35">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="2.36">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:198)</sentence>
+            <sentence id="2.37">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:75)</sentence>
+            <sentence id="2.38">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="2.39">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="2.40">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+            <sentence id="2.41">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:175)</sentence>
+            <sentence id="2.42">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:128)</sentence>
+            <sentence id="2.43">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+            <sentence id="2.44">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+            <sentence id="2.45">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:286)</sentence>
+            <sentence id="2.46">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:844)</sentence>
+            <sentence id="2.47">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:583)</sentence>
+            <sentence id="2.48">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:447)</sentence>
+            <sentence id="2.49">java.lang.Thread.run(Thread.java:619)</sentence>
+            <sentence id="2.50">{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This is also in PIH's issue tracker at http://dev.pih-emr.org:8080/jira/browse/MODS-37</sentence>
+        </paragraph>
+    </description>
+</bug>

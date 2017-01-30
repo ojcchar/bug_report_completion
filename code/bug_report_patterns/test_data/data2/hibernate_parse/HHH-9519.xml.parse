@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9519</id>
+    <title>NonUniqueObjectException on bidirectional lazy loaded collection update with inheritance</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Updating a lazy loaded bidirectional collection may cause a NonUniqueObjectException when multiple references are referencing the same target.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If the target is not yet loaded for the first reference found and the target entity involves inheritance session.bestGuessEntityName in BaseEnversEventListener.addCollectionChangeWorkUnit may return the base entity name.</sentence>
+            <sentence id="2.2">For the second reference this will return the proper instance class as then the entity is loaded.</sentence>
+            <sentence id="2.3">This causes the deduplication check in addWorkUnit to fail and we end up with two entries sharing the same id in the audit table.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Proper fix seems to be to force the entity load before calling bestGuessEntityName (it is loaded directly afterwards anyways).</sentence>
+        </paragraph>
+    </description>
+</bug>

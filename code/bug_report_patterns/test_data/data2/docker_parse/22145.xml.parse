@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22145</id>
+    <title>docker run leaves directories owned by root after exit</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client:
+ Version: 1.11.0
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 4dc5990
+ Built: Wed Apr 13 18:34:23 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.11.0
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 4dc5990
+ Built: Wed Apr 13 18:34:23 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+Containers: 3
+ Running: 2
+ Paused: 0
+ Stopped: 1
+Images: 450
+Server Version: 1.11.0
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 495
+ Dirperm1 Supported: false
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins: 
+ Volume: local
+ Network: bridge null host
+Kernel Version: 3.13.0-85-generic
+Operating System: Ubuntu 14.04.4 LTS
+OSType: linux
+Architecture: x86_64
+CPUs: 8
+Total Memory: 15.13 GiB
+Name: q
+ID: 73ZX:K7JO:LKAW:VKLY:5ERR:7ULP:XAO3:L7BX:CDWI:5ZFC:MJCT:F4ZW
+Docker Root Dir: /var/lib/docker
+Debug mode (client): false
+Debug mode (server): false
+Registry: https://index.docker.io/v1/
+WARNING: No swap limit support
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 mkdir foo</sentence>
+            <sentence id="7.3">2 mkdir bar</sentence>
+            <sentence id="7.4">3 docker run -i -t -v $PWD/foo:$PWD/foo -v $PWD/bar:$PWD/foo/bar busybox</sentence>
+            <sentence id="7.5">4 ^D</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you received:**</sentence>
+            <sentence id="8.2">ls -l foo</sentence>
+            <sentence id="8.3">total 4</sentence>
+            <sentence id="8.4">drwxr-xr-x 2 **root root** 4096 Apr 19 12:47 bar</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Describe the results you expected:**</sentence>
+            <sentence id="9.2">Directory foo should have been empty.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="10.2">100% reproducible.</sentence>
+        </paragraph>
+    </description>
+</bug>

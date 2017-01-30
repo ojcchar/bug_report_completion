@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>11304</id>
+    <title>Cannot post a link to the wall - getting error  Requires extended permission: share_item </title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When I try to post a link by sending an http POST request_ I get the following error:
+{
+    error : {
+       type :  Exception _
+       message :  (#282) Requires extended permission: share_item 
+   }
+}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The user has granted permissions publish_stream and offline_access to the application.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here is the POST form:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;html&gt; 
+&lt;head&gt; 
+&lt;body&gt; 
+ &lt;form action= https://graph.facebook.com/me/links  method= POST &gt; 
+Token:&lt;INPUT TYPE= TEXT  NAME= access_token &gt;&lt;BR&gt; 
+Link:&lt;INPUT TYPE= TEXT  NAME= link &gt;&lt;BR&gt; 
+Message:&lt;INPUT TYPE= TEXT  NAME= message &gt;&lt;BR&gt; 
+&lt;INPUT TYPE= SUBMIT  NAME= name  VALUE= aubmit &gt; 
+&lt;/form&gt; 
+&lt;/body&gt; 
+&lt;/head&gt; 
+&lt;/html&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Note: a similar problem happens when using  feed  instead of  link .</sentence>
+        </paragraph>
+    </description>
+</bug>

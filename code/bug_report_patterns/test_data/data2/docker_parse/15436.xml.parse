@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>15436</id>
+    <title>Error when building master</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When attempting to build master I received the following error:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">KUBE_RELEASE_RUN_TESTS=n build/release.sh</sentence>
+            <sentence id="2.3">+++ [0809 21:52:49] Verifying Prerequisites....</sentence>
+            <sentence id="2.4">+++ [0809 21:52:49] Setting boot2docker clock</sentence>
+            <sentence id="2.5">+++ [0809 21:52:50] Building Docker image kube-build:cross.</sentence>
+            <sentence id="2.6">+++ [0809 21:52:56] Building Docker image kube-build:build-deea7a2829.</sentence>
+            <sentence id="2.7">+++ [0809 21:53:52] Running build command....</sentence>
+            <sentence id="2.8">+++ [0809 21:53:52] Creating data container</sentence>
+            <sentence id="2.9">+++ [0810 01:53:54] Building go targets for linux/amd64:</sentence>
+            <sentence id="2.10"> cmd/kube-proxy</sentence>
+            <sentence id="2.11"> cmd/kube-apiserver</sentence>
+            <sentence id="2.12"> cmd/kube-controller-manager</sentence>
+            <sentence id="2.13"> cmd/kubelet</sentence>
+            <sentence id="2.14"> cmd/hyperkube</sentence>
+            <sentence id="2.15"> cmd/kubernetes</sentence>
+            <sentence id="2.16"> cmd/linkcheck</sentence>
+            <sentence id="2.17"> plugin/cmd/kube-scheduler</sentence>
+            <sentence id="2.18">go build k8s.io/kubernetes/pkg/ui/data/swagger: /usr/src/go/pkg/tool/linux_amd64/6g: signal: killed</sentence>
+            <sentence id="2.19">!!! Error in /go/src/k8s.io/kubernetes/hack/lib/golang.sh:388</sentence>
+            <sentence id="2.20"> 'go install "${goflags[@]:+${goflags[@]}}" -ldflags "${goldflags}" "${nonstatics[@]:+${nonstatics[@]}}"' exited with status 1</sentence>
+            <sentence id="2.21">Call stack:</sentence>
+            <sentence id="2.22"> 1: /go/src/k8s.io/kubernetes/hack/lib/golang.sh:388 kube::golang::build_binaries_for_platform(...)</sentence>
+            <sentence id="2.23"> 2: /go/src/k8s.io/kubernetes/hack/lib/golang.sh:523 kube::golang::build_binaries(...)</sentence>
+            <sentence id="2.24"> 3: hack/build-cross.sh:28 main(...)</sentence>
+            <sentence id="2.25">Exiting with status 1</sentence>
+            <sentence id="2.26">!!! Error in /go/src/k8s.io/kubernetes/hack/lib/golang.sh:444</sentence>
+            <sentence id="2.27"> '( kube::golang::setup_env; local host_platform; host_platform=$(kube::golang::host_platform); local goflags goldflags; eval "goflags=(${KUBE_GOFLAGS:-})"; goldflags="${KUBE_GOLDFLAGS:-} $(kube::version::ldflags)"; local use_go_build; local -a targets=(); local arg; for arg in "$@";</sentence>
+            <sentence id="2.28">do</sentence>
+            <sentence id="2.29"> if [[ "${arg}" == "--use_go_build" ]]; then</sentence>
+            <sentence id="2.30"> use_go_build=true;</sentence>
+            <sentence id="2.31"> else</sentence>
+            <sentence id="2.32"> if [[ "${arg}" == -* ]]; then</sentence>
+            <sentence id="2.33"> goflags+=("${arg}");</sentence>
+            <sentence id="2.34"> else</sentence>
+            <sentence id="2.35"> targets+=("${arg}");</sentence>
+            <sentence id="2.36"> fi;</sentence>
+            <sentence id="2.37"> fi;</sentence>
+            <sentence id="2.38">done; if [[ ${#targets[@]} -eq 0 ]]; then</sentence>
+            <sentence id="2.39"> targets=("${KUBE_ALL_TARGETS[@]}");</sentence>
+            <sentence id="2.40">fi; local -a platforms=("${KUBE_BUILD_PLATFORMS[@]:+${KUBE_BUILD_PLATFORMS[@]}}"); if [[ ${#platforms[@]} -eq 0 ]]; then</sentence>
+            <sentence id="2.41"> platforms=("${host_platform}");</sentence>
+            <sentence id="2.42">fi; local binaries; binaries=($(kube::golang::binaries_from_targets "${targets[@]}")); local parallel=false; if [[ ${#platforms[@]} -gt 1 ]]; then</sentence>
+            <sentence id="2.43"> local gigs; gigs=$(kube::golang::get_physmem); if [[ ${gigs} -ge ${KUBE_PARALLEL_BUILD_MEMORY} ]]; then</sentence>
+            <sentence id="2.44"> kube::log::status "Multiple platforms requested and available ${gigs}G &gt;= threshold ${KUBE_PARALLEL_BUILD_MEMORY}G, building platforms in parallel"; parallel=true;</sentence>
+            <sentence id="2.45"> else</sentence>
+            <sentence id="2.46"> kube::log::status "Multiple platforms requested, but available ${gigs}G &lt; threshold ${KUBE_PARALLEL_BUILD_MEMORY}G, building platforms in serial"; parallel=false;</sentence>
+            <sentence id="2.47"> fi;</sentence>
+            <sentence id="2.48">fi; if [[ "${parallel}" == "true" ]]; then</sentence>
+            <sentence id="2.49"> kube::log::status "Building go targets for ${platforms[@]} in parallel (output will appear in a burst when complete):" "${targets[@]}"; local platform; for platform in "${platforms[@]}";</sentence>
+            <sentence id="2.50"> do</sentence>
+            <sentence id="2.51"> ( kube::golang::set_platform_envs "${platform}"; kube::log::status "${platform}: go build started"; kube::golang::build_binaries_for_platform ${platform} ${use_go_build:-}; kube::log::status "${platform}: go build finished" ) &amp;&gt; "/tmp//${platform//\//_}.build" &amp;</sentence>
+            <sentence id="2.52"> done; local fails=0; for job in $(jobs -p);</sentence>
+            <sentence id="2.53"> do</sentence>
+            <sentence id="2.54"> wait ${job} || let "fails+=1";</sentence>
+            <sentence id="2.55"> done; for platform in "${platforms[@]}";</sentence>
+            <sentence id="2.56"> do</sentence>
+            <sentence id="2.57"> cat "/tmp//${platform//\//_}.build";</sentence>
+            <sentence id="2.58"> done; exit ${fails};</sentence>
+            <sentence id="2.59">else</sentence>
+            <sentence id="2.60"> for platform in "${platforms[@]}";</sentence>
+            <sentence id="2.61"> do</sentence>
+            <sentence id="2.62"> kube::log::status "Building go targets for ${platform}:" "${targets[@]}"; kube::golang::set_platform_envs "${platform}"; kube::golang::build_binaries_for_platform ${platform} ${use_go_build:-};</sentence>
+            <sentence id="2.63"> done;</sentence>
+            <sentence id="2.64">fi )' exited with status 1</sentence>
+            <sentence id="2.65">Call stack:</sentence>
+            <sentence id="2.66"> 1: /go/src/k8s.io/kubernetes/hack/lib/golang.sh:444 kube::golang::build_binaries(...)</sentence>
+            <sentence id="2.67"> 2: hack/build-cross.sh:28 main(...)</sentence>
+            <sentence id="2.68">Exiting with status 1</sentence>
+            <sentence id="2.69">!!! Error in build/../build/common.sh:441</sentence>
+            <sentence id="2.70"> '"${docker_cmd[@]}" "$@"' exited with status 1</sentence>
+            <sentence id="2.71">Call stack:</sentence>
+            <sentence id="2.72"> 1: build/../build/common.sh:441 kube::build::run_build_command(...)</sentence>
+            <sentence id="2.73"> 2: build/release.sh:32 main(...)</sentence>
+            <sentence id="2.74">Exiting with status 1</sentence>
+            <sentence id="2.75">make: 0_download_all_bugs.sh 1_download_json.sh data data2 log_download_1.txt log_download_2.txt log_download_3.txt log_download_4.txt nohup.out only_bugs.csv pull_requests.csv script2.sh [quick-release] Error 1</sentence>
+            <sentence id="2.76">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

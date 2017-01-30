@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4608</id>
+    <title>Crash report 5.9: ClassCastException in UploadMediaTask</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Looks like certain self hosted responses to upload media return a Boolean (?) instead of a string as the media url.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">Fatal Exception: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String</sentence>
+            <sentence id="2.3"> at org.xmlrpc.android.ApiHelper$UploadMediaTask.onPostExecute(ApiHelper.java:863)</sentence>
+            <sentence id="2.4"> at org.xmlrpc.android.ApiHelper$UploadMediaTask.onPostExecute(ApiHelper.java:744)</sentence>
+            <sentence id="2.5"> at android.os.AsyncTask.finish(AsyncTask.java:636)</sentence>
+            <sentence id="2.6"> at android.os.AsyncTask.access$500(AsyncTask.java:177)</sentence>
+            <sentence id="2.7"> at android.os.AsyncTask$InternalHandler.handleMessage(AsyncTask.java:653)</sentence>
+            <sentence id="2.8"> at android.os.Handler.dispatchMessage(Handler.java:111)</sentence>
+            <sentence id="2.9"> at android.os.Looper.loop(Looper.java:210)</sentence>
+            <sentence id="2.10"> at android.app.ActivityThread.main(ActivityThread.java:5830)</sentence>
+            <sentence id="2.11"> at java.lang.reflect.Method.invoke(Method.java)</sentence>
+            <sentence id="2.12"> at java.lang.reflect.Method.invoke(Method.java:372)</sentence>
+            <sentence id="2.13"> at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1113)</sentence>
+            <sentence id="2.14"> at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:879)</sentence>
+            <sentence id="2.15">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

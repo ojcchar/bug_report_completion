@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>377066</id>
+    <title>GetAnnotationInfo always returns VALUE_TYPE_TEXT as the annotation type</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">GetAnnotationInfo always returns VALUE_TYPE_TEXT as the annotation type.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">From bug 376851</sentence>
+            <sentence id="2.2">+/**</sentence>
+            <sentence id="2.3">+* XXX: You may think the two methods below are reliable.</sentence>
+            <sentence id="2.4">+*</sentence>
+            <sentence id="2.5">+* They simply check the type of the content field, which is always</sentence>
+            <sentence id="2.6">+* VALUE_TYPE_TEXT, How come you're wondering?</sentence>
+            <sentence id="2.7">The field is created as</sentence>
+            <sentence id="2.8">+* LONGVARCHAR, that's how.</sentence>
+            <sentence id="2.9">See InitTables().</sentence>
+            <sentence id="2.10">+*</sentence>
+            <sentence id="2.11">+* The fix would be to add yet another field to the annos table and save the</sentence>
+            <sentence id="2.12">+* type there.</sentence>
+            <sentence id="2.13">This isn't a good use of dietrich's time but we don't really</sentence>
+            <sentence id="2.14">+* have a choice here...</sentence>
+            <sentence id="2.15">+*/</sentence>
+        </paragraph>
+    </description>
+</bug>

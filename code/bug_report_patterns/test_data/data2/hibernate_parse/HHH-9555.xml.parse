@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9555</id>
+    <title>Connection is not associated with a managed connection.org.jboss.jca.adapters.jdbc.jdk6.WrappedConnectionJDK6@25f1d9ee</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When using any of the hibernate versions 4.2.1 to 4.2.16,
+in the below code, inside callback session.doWork , after Iterator it.next() the associated dataSource to wrapper connection WrappedConnectionJDK6@25f1d9ee becomes NULL, subsequently stmt.executeQuery fails with  exception "Connection is not associated with a managed connection.org.jboss.jca.adapters.jdbc.jdk6.WrappedConnectionJDK6@25f1d9ee".</sentence>
+            <sentence id="1.2">We have configured JTA transaction manager, also aware of after_statement connection release mode, however same code with JTA transaction is working fine in hibernate versions 4.1.6 to 4.2.0.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Is this a new feature that now inside doWork callback we call not use connection (with JTA transaction) after Query.list/ Query.iterate.next or this is a longish bug?</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">try {</sentence>
+            <sentence id="3.2">			Configuration configuration = new Configuration();</sentence>
+            <sentence id="3.3">			ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.configure().getProperties()).buildServiceRegistry();</sentence>
+            <sentence id="3.4">			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);</sentence>
+            <sentence id="3.5">			final Session session = sessionFactory.getCurrentSession();</sentence>
+            <sentence id="3.6">			final PrintWriter writer = response.getWriter();</sentence>
+            <sentence id="3.7">			Transaction tx = session.beginTransaction();</sentence>
+            <sentence id="3.8">            session.doWork(new Work() {</sentence>
+            <sentence id="3.9">				public void execute(Connection connection) throws SQLException {</sentence>
+            <sentence id="3.10">					Iterator&lt;ConfigurationScopeElement&gt; it = session.getNamedQuery("suite.foundation.base.ConfigurationScope.getByCode").setCacheable(true).setParameter("code", "suite.default").iterate();</sentence>
+            <sentence id="3.11">					try{</sentence>
+            <sentence id="3.12">						writer.print("&lt;h2&gt;ConfigurationScopeElement ID = " + it.next().getId() + "&lt;/h2&gt;&lt;/br&gt; &lt;/br&gt;");</sentence>
+            <sentence id="3.13">					}catch(Exception e){</sentence>
+            <sentence id="3.14">						e.printStackTrace();</sentence>
+            <sentence id="3.15">					}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Statement stmt = connection.createStatement();
+					ResultSet rs = stmt.executeQuery("select count(*) from t_config_parm"); // Will fail here in Hibernate 4.2.15 with the error as in Summary line ,if previously called iterator it.next or query.list.</sentence>
+            <sentence id="4.2">while(rs.next()){
+						writer.print("&lt;h2&gt; Count of t_config_parm = " + rs.getString(1) + " &lt;/h2&gt;");
+					}
+					
+					rs.close();
+					stmt.close();
+				}
+			});
+            tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}</sentence>
+        </paragraph>
+    </description>
+</bug>

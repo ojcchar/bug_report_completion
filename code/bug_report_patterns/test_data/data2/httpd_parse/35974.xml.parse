@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>35974</id>
+    <title>Occasional seg fault/bus error in NFS hosted includes-parsed files</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We're running Apache 2.0.54 on multiple Solaris 8 machines, using the prefork
+MPM, mmap and sendfile turned off - sharing a NFS mounted docroot hosted by a
+NetApp.</sentence>
+            <sentence id="1.2">Occasionally we are getting child processes die with either a bus error
+or segmentation fault - it seems to be taking the order of 1-2 hours of
+high-load production traffic to happen.</sentence>
+            <sentence id="1.3">From the cores I've inspected, they all
+seem to be when a request is being parsed by mod_include (so I've marked that as
+the component - though something else may be at fault).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Having searched around, bug 34708 and bug 19325 look as if they might be related to this.</sentence>
+            <sentence id="2.2">Certainly the files in our docroot do get modified. </sentence>
+            <sentence id="2.3">The process would be for the file to be removed, and then recreated by another system.</sentence>
+            <sentence id="2.4">So Apache might be getting upset by the file disappearing mid request. </sentence>
+            <sentence id="2.5">It's unlikely (though I guess possible) that a file would be removed and recreated in time for Apache to have one request on the original file and the subsequent request on the new file (ie: without accessing it in the period of "no file"). </sentence>
+            <sentence id="2.6">My attempts at trying to recreate this scenario without production traffic have failed.</sentence>
+            <sentence id="2.7">So it's been difficult to rule out particular system components (though we have unloaded as much of our code as possible).</sentence>
+            <sentence id="2.8">Additionally, we are seeing some errors on a couple of servers that have a different docroot (though still on NFS) where files seldom change (or at least not at the times we've seen errors).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Based on comments in one of the bugs above, and looking at the head revision of
+apr-util-trunk, I've also patched apr_buckets_file.</sentence>
+            <sentence id="3.2">c (two liner - so it checks
+for APR_EOF) - I'll attach the diff.</sentence>
+            <sentence id="3.3">We still get errors (though it doesn't
+appear to hurt so I've left it in for now)...</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I've got two backtraces which I'll attach.</sentence>
+            <sentence id="4.2">Unfortunately we weren't initially
+compiling with debugging symbols, though we have now enabled that.</sentence>
+            <sentence id="4.3">Since
+enabling, we've only had one error - otherwise I'd attach more.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I'd offer to upload the core file but it's 100Mb as we have a huge chunk of
+shared memory in use.</sentence>
+            <sentence id="5.2">Note that I don't think that is to blame because the other
+servers don't use it (waiting for a segfault there so I can upload that
+instead), and because the points of failure don't implicate it at all.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Any questions or things you'd like me to try - please ask.</sentence>
+            <sentence id="6.2">Really keen to get to
+the bottom of this.</sentence>
+        </paragraph>
+    </description>
+</bug>

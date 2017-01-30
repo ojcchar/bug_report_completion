@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>73845</id>
+    <title>PIVOTTABLE: Filter incorrectly restored after FILEOPEN</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 92484
+Sample Spreadsheet that exhibits the faulty behavior</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This looks a lot like bug 66969, but that one is closed for good, so I opened another one, this time with my own Sample.ods.</sentence>
+            <sentence id="2.2">(Check that bug for the beginning of the discussion)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I was checking 4.1.5 RC1 and it still exhibited almost the same faulty behavior:
+Just instead of the first two filter fields being forgotten, it's just the first one now.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I reduced my spreadsheet to the bare minimums and attach it to this comment, same as the 'corrected' filter (how it looked, when I saved the file).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Steps to reproduce:</sentence>
+            <sentence id="5.2">* Open the file PivotProblem.ods</sentence>
+            <sentence id="5.3">* refresh the Pivot Table in tab 'due'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">=&gt; Table collapses
+==&gt; Reason: The filter was not restored correctly when opening the file.</sentence>
+            <sentence id="6.2">The first 'field name' is actually the very first field in the source table, not the one that used to be in the filter when the file was saved.</sentence>
+            <sentence id="6.3">The saving seems to be OK though, since files I saved in 3.5+ were opened just fine (with the correct filter) in 3.4.x.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Steps to resolve:</sentence>
+            <sentence id="7.2">* Open the Pivot-Filter (e.g. Double-Click on 'Filter')</sentence>
+            <sentence id="7.3">* Change the first 'Field Name' to "Eingang", like shown on the attached pic</sentence>
+            <sentence id="7.4">* Hit 'OK' =&gt; table is back</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Additional problem as described before (different bug?)</sentence>
+            <sentence id="8.2">:</sentence>
+            <sentence id="8.3">* Try deselect values in the column filter (e.g. 'debitor')</sentence>
+            <sentence id="8.4">=&gt; the only ones you can de-select are the ones not present (e.g. 'empty')</sentence>
+            <sentence id="8.5">(You'll have to refresh the table, before you can do anything with the column filters, because internally the PT is actually 'empty' before you set the filter again to something including some data.</sentence>
+            <sentence id="8.6">It just displays the contents from the last save)</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I hope this helps narrow it down...</sentence>
+        </paragraph>
+    </description>
+</bug>

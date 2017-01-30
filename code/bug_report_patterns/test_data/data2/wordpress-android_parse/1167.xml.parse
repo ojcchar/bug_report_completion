@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>1167</id>
+    <title>Error 403 on Comment Details View for a Jetpack site</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I see the following error when I open the comment detail view for a comment on eritreo.it/wp37 (Jetpacked site)</sentence>
+            <sentence id="1.2">```</sentence>
+            <sentence id="1.3">03-27 18:53:26.345: E/WordPress(8910): [2711] BasicNetwork.performRequest: Unexpected response code 403 for https://public-api.wordpress.com/rest/v1/sites/59732081/posts/115/?meta=site,likes</sentence>
+            <sentence id="1.4">03-27 18:53:26.736: E/WordPress(8910): [2711] BasicNetwork.performRequest: Unexpected response code 403 for https://public-api.wordpress.com/rest/v1/sites/59732081/posts/115/?meta=site,likes</sentence>
+            <sentence id="1.5">03-27 18:53:27.166: E/WordPress(8910): [2711] BasicNetwork.performRequest: Unexpected response code 403 for https://public-api.wordpress.com/rest/v1/sites/59732081/posts/115/?meta=site,likes</sentence>
+            <sentence id="1.6">03-27 18:53:27.527: E/WordPress(8910): [2711] BasicNetwork.performRequest: Unexpected response code 403 for https://public-api.wordpress.com/rest/v1/sites/59732081/posts/115/?meta=site,likes</sentence>
+            <sentence id="1.7">03-27 18:53:27.527: E/WordPress-READER(8910): null, status 403 - com.android.volley.NetworkResponse@439ee840</sentence>
+            <sentence id="1.8">03-27 18:53:27.527: E/WordPress-READER(8910): com.android.volley.AuthFailureError</sentence>
+            <sentence id="1.9">03-27 18:53:27.527: E/WordPress-READER(8910): 	at com.android.volley.toolbox.BasicNetwork.performRequest(BasicNetwork.java:134)</sentence>
+            <sentence id="1.10">03-27 18:53:27.527: E/WordPress-READER(8910): 	at com.android.volley.NetworkDispatcher.run(NetworkDispatcher.java:105)</sentence>
+            <sentence id="1.11">```</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Thrown in &lt;code&gt;ReaderPostActions-&gt;
+requestPost(final long blogId, final long postId, final ReaderActions.ActionListener actionListener)&lt;/code&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Note: I'm correctly authenticated to WordPress.com and can access Reader and Notifications.</sentence>
+        </paragraph>
+    </description>
+</bug>

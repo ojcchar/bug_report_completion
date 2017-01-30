@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>7216</id>
+    <title>Numeric UID and GID are not validated.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Note: I am using Docker 1.0.0 and RHEL 6.5.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you set the '-u' flag with a ldap account, you receive an error (see issue [7057](https://github.com/dotcloud/docker/issues/7057)):</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+[louden@server ~]$ docker run -u=louden -i -t fedora /bin/bash
+2014/07/24 16:20:31 finalize namespace setup user get supplementary groups Unable to find user louden
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">However, if you use the numeric UID and GID to set the '-u' flag, you can successfully enter the container impersonating any user from any group (or impersonating a non-existent user).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+[louden@server ~]$ docker run -u=[My Numeric UID]:[My Numeric GID] -i -t fedora /bin/bash
+bash-4.2$ exit
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

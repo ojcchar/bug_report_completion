@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9997</id>
+    <title>`docker commit' Driver btrfs failed to create image rootfs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1"># Problem</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have a container that cannot be committed; I tried when it was running, and also now that it's stopped, still failing with same error:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+FATA[0018] Error response from daemon: Driver btrfs failed to create image rootfs 11857348c457a545c5c0756414b644ff0b921b191561d3126d8d69d33b3a7a04: stat /var/lib/docker/btrfs/subvolumes/2a5f6bc606ad782bb84b36bfcca78f304db8d1a551e182cda6fd61b6f6624be5: no such file or directory
+"'
+# Context information</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">On this host images are aggressively attempted to be removed every night, e.g. I attempt to remove all intermediate images.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">A command like: 'docker ps -a -q | xargs docker rmi --force=true'
+# Root cause?</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Is it possible that docker glitched and removed some subvolume that was necessary?</sentence>
+            <sentence id="6.2">May I assume that when this happens, containers will operate in inconsistent state?</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Please connect with other relevant issues, I couldn't find any.</sentence>
+            <sentence id="7.2"># Host information</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">docker info:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+Containers: 75
+Images: 1402
+Storage Driver: btrfs
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-43-generic
+Operating System: Ubuntu 14.04.1 LTS
+CPUs: 18
+Total Memory: 23.53 GiB
+Name: masterblaster
+ID: CAYV:JZX2:LRRO:OK2D:XF2U:XZRZ:AUK5:22HE:TTVY:2RE6:IHF3:QZQI
+Debug mode (server): true
+Debug mode (client): false
+Fds: 481
+Goroutines: 352
+EventsListeners: 0
+Init Path: /usr/bin/docker
+Docker Root Dir: /var/lib/docker
+"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">docker version:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'
+Client version: 1.4.1
+Client API version: 1.16
+Go version (client): go1.3.3
+Git commit (client): 5bc2ff8
+OS/Arch (client): linux/amd64
+Server version: 1.4.1
+Server API version: 1.16
+Go version (server): go1.3.3
+Git commit (server): 5bc2ff8
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

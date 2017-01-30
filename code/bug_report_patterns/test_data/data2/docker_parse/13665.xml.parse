@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13665</id>
+    <title>docker kill sends SIGKILL regardless of -s flag</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As of Docker 1.7 RC1, it seems that 'POST /containers/:name/kill' ignores the 'signal' parameter, always sending SIGKILL.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Here's a quick test run on a 1.7.1 RC machine, sending SIGWINCH to 'top' running in 'busybox':</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+docker@dev:~$ docker version
+Client version: 1.7.0-rc1
+Client API version: 1.19
+Go version (client): go1.4.2
+Git commit (client): 395cced
+OS/Arch (client): linux/amd64
+Server version: 1.7.0-rc1
+Server API version: 1.19
+Go version (server): go1.4.2
+Git commit (server): 395cced
+OS/Arch (server): linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">docker@dev:~$ ID=$(docker run -d busybox top); docker kill -s SIGWINCH $ID; docker inspect -f 'Image: {{.</sentence>
+            <sentence id="4.2">Image}}, Cmd: {{.</sentence>
+            <sentence id="4.3">Config.Cmd}}, Running: {{.</sentence>
+            <sentence id="4.4">State.Running}}' $ID
+d4667497a4504b5bc43f8ae017794bab1c07e1421d5827f935c1c3c3e2f07609
+Image: 8c2e06607696bd4afb3d03b687e361cc43cf8ec1a4a725bc96e39f05ba97dd55, Cmd: {[top]}, Running: false
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Here's the relevant log output:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+time="2015-06-02T14:13:16.420427938Z" level=debug msg="Calling POST /containers/{name:.*}/kill"
+time="2015-06-02T14:13:16.420462290Z" level=info msg="POST /v1.19/containers/d4667497a4504b5bc43f8ae017794bab1c07e1421d5827f935c1c3c3e2f07609/kill?signal=SIGWINCH"
+time="2015-06-02T14:13:16.420486513Z" level=debug msg="Sending 9 to d4667497a4504b5bc43f8ae017794bab1c07e1421d5827f935c1c3c3e2f07609"
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">And the same on a 1.6.2 machine:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+docker@dev-1:~$ docker version
+Client version: 1.6.2
+Client API version: 1.18
+Go version (client): go1.4.2
+Git commit (client): 7c8fca2
+OS/Arch (client): linux/amd64
+Server version: 1.6.2
+Server API version: 1.18
+Go version (server): go1.4.2
+Git commit (server): 7c8fca2
+OS/Arch (server): linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">docker@dev-1:~$ ID=$(docker run -d busybox top); docker kill -s SIGWINCH $ID; docker inspect -f 'Image: {{.</sentence>
+            <sentence id="9.2">Image}}, Cmd: {{.</sentence>
+            <sentence id="9.3">Config.Cmd}}, Running: {{.</sentence>
+            <sentence id="9.4">State.</sentence>
+            <sentence id="9.5">Running}}' $ID
+645070a0919d382d0ab5cb443fbae183fb944569051d33f940edf7af2249b568
+Image: 8c2e06607696bd4afb3d03b687e361cc43cf8ec1a4a725bc96e39f05ba97dd55, Cmd: [top], Running: true
+"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"""
+time="2015-06-02T14:18:05Z" level=debug msg="Calling POST /containers/{name:.*}/kill"
+time="2015-06-02T14:18:05Z" level=info msg="POST /v1.18/containers/15150f649f3a9e228df542e60519bfe7a9839b3a9e51ace77589a602baf3b50a/kill?signal=SIGWINCH"
+time="2015-06-02T14:18:05Z" level=info msg="+job kill(15150f649f3a9e228df542e60519bfe7a9839b3a9e51ace77589a602baf3b50a, SIGWINCH)"
+time="2015-06-02T14:18:05Z" level=debug msg="Sending 28 to 15150f649f3a9e228df542e60519bfe7a9839b3a9e51ace77589a602baf3b50a"
+time="2015-06-02T14:18:05Z" level=info msg="-job kill(15150f649f3a9e228df542e60519bfe7a9839b3a9e51ace77589a602baf3b50a, SIGWINCH) = OK (0)""'
+"""
+</sentence>
+        </paragraph>
+    </description>
+</bug>

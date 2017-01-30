@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>801</id>
+    <title>IndexOutOfBoundsException when pausing EditPostActivity</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Might be the same cause as #797 when saving a post object.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">java.lang.RuntimeException: Unable to pause activity {org.wordpress.android/org.wordpress.android.ui.posts.EditPostActivity}: java.lang.IndexOutOfBoundsException: setSpan (200 ... 199) has end before start</sentence>
+            <sentence id="2.3">at android.app.ActivityThread.performPauseActivity(ActivityThread.java:2366)</sentence>
+            <sentence id="2.4">at android.app.ActivityThread.performPauseActivity(ActivityThread.java:2323)</sentence>
+            <sentence id="2.5">at android.app.ActivityThread.handlePauseActivity(ActivityThread.java:2303)</sentence>
+            <sentence id="2.6">at android.app.ActivityThread.access$1700(ActivityThread.java:121)</sentence>
+            <sentence id="2.7">at android.app.ActivityThread$H.handleMessage(ActivityThread.java:950)</sentence>
+            <sentence id="2.8">at android.os.Handler.dispatchMessage(Handler.java:99)</sentence>
+            <sentence id="2.9">at android.os.Looper.loop(Looper.java:130)</sentence>
+            <sentence id="2.10">at android.app.ActivityThread.main(ActivityThread.java:3770)</sentence>
+            <sentence id="2.11">at java.lang.reflect.Method.invokeNative(Native Method)</sentence>
+            <sentence id="2.12">at java.lang.reflect.Method.invoke(Method.java:507)</sentence>
+            <sentence id="2.13">at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:912)</sentence>
+            <sentence id="2.14">at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:670)</sentence>
+            <sentence id="2.15">at dalvik.system.NativeStart.main(Native Method)</sentence>
+            <sentence id="2.16">Caused by: java.lang.IndexOutOfBoundsException: setSpan (200 ... 199) has end before start</sentence>
+            <sentence id="2.17">at android.text.SpannableStringInternal.checkRange(SpannableStringInternal.java:341)</sentence>
+            <sentence id="2.18">at android.text.SpannableStringInternal.setSpan(SpannableStringInternal.java:77)</sentence>
+            <sentence id="2.19">at android.text.SpannableString.setSpan(SpannableString.java:55)</sentence>
+            <sentence id="2.20">at android.text.SpannableStringInternal.&lt;init&gt;(SpannableStringInternal.java:50)</sentence>
+            <sentence id="2.21">at android.text.SpannableString.&lt;init&gt;(SpannableString.java:30)</sentence>
+            <sentence id="2.22">at android.widget.TextView.onSaveInstanceState(TextView.java:2601)</sentence>
+            <sentence id="2.23">at android.view.View.dispatchSaveInstanceState(View.java:6408)</sentence>
+            <sentence id="2.24">at android.view.ViewGroup.dispatchSaveInstanceState(ViewGroup.java:1190)</sentence>
+            <sentence id="2.25">at android.view.ViewGroup.dispatchSaveInstanceState(ViewGroup.java:1190)</sentence>
+            <sentence id="2.26">at android.view.ViewGroup.dispatchSaveInstanceState(ViewGroup.java:1190)</sentence>
+            <sentence id="2.27">at android.view.View.saveHierarchyState(View.java:6391)</sentence>
+            <sentence id="2.28">at android.support.v4.app.FragmentManagerImpl.saveFragmentViewState(FragmentManager.java:1590)</sentence>
+            <sentence id="2.29">at android.support.v4.app.FragmentManagerImpl.saveFragmentBasicState(FragmentManager.java:1610)</sentence>
+            <sentence id="2.30">at android.support.v4.app.FragmentManagerImpl.saveAllState(FragmentManager.java:1671)</sentence>
+            <sentence id="2.31">at android.support.v4.app.FragmentActivity.onSaveInstanceState(FragmentActivity.java:532)</sentence>
+            <sentence id="2.32">at com.actionbarsherlock.app.SherlockFragmentActivity.onSaveInstanceState(SherlockFragmentActivity.java:126)</sentence>
+            <sentence id="2.33">at org.wordpress.android.ui.posts.EditPostActivity.onSaveInstanceState(EditPostActivity.java:209)</sentence>
+            <sentence id="2.34">at android.app.Activity.performSaveInstanceState(Activity.java:1043)</sentence>
+            <sentence id="2.35">at android.app.Instrumentation.callActivityOnSaveInstanceState(Instrumentation.java:1184)</sentence>
+            <sentence id="2.36">at android.app.ActivityThread.performPauseActivity(ActivityThread.java:2348)</sentence>
+            <sentence id="2.37">... 12 more</sentence>
+            <sentence id="2.38">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

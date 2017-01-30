@@ -1,0 +1,1162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17621</id>
+    <title>Panic during restart of containers attached to multiple networks. Found during testing of fix for #17526.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:</sentence>
+            <sentence id="1.2">Panic during restart of containers attached to multiple networks.</sentence>
+            <sentence id="1.3">Found during testing of fix for #17526.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">'docker version':</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Client:
+ Version: 1.9.0-rc4
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: e6f5a3c
+ Built: Sat Oct 31 05:32:00 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Server:
+ Version: 1.9.0-rc4
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: e6f5a3c
+ Built: Sat Oct 31 05:32:00 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">'docker info':</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Containers: 15</sentence>
+            <sentence id="6.2">Images: 124</sentence>
+            <sentence id="6.3">Server Version: 1.9.0-rc4</sentence>
+            <sentence id="6.4">Storage Driver: devicemapper</sentence>
+            <sentence id="6.5"> Pool Name: docker-253:33-786435-pool</sentence>
+            <sentence id="6.6"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="6.7"> Base Device Size: 107.4 GB</sentence>
+            <sentence id="6.8"> Backing Filesystem: extfs</sentence>
+            <sentence id="6.9"> Data file: /dev/loop0</sentence>
+            <sentence id="6.10"> Metadata file: /dev/loop1</sentence>
+            <sentence id="6.11"> Data Space Used: 7.733 GB</sentence>
+            <sentence id="6.12"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="6.13"> Data Space Available: 32.76 GB</sentence>
+            <sentence id="6.14"> Metadata Space Used: 11.51 MB</sentence>
+            <sentence id="6.15"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="6.16"> Metadata Space Available: 2.136 GB</sentence>
+            <sentence id="6.17"> Udev Sync Supported: true</sentence>
+            <sentence id="6.18"> Deferred Removal Enabled: false</sentence>
+            <sentence id="6.19"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="6.20"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="6.21"> Data loop file: /data/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="6.22"> Metadata loop file: /data/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="6.23"> Library Version: 1.02.77 (2012-10-15)</sentence>
+            <sentence id="6.24">Execution Driver: native-0.2</sentence>
+            <sentence id="6.25">Logging Driver: json-file</sentence>
+            <sentence id="6.26">Kernel Version: 3.19.0-31-generic</sentence>
+            <sentence id="6.27">Operating System: Ubuntu 14.04.3 LTS</sentence>
+            <sentence id="6.28">CPUs: 4</sentence>
+            <sentence id="6.29">Total Memory: 7.797 GiB</sentence>
+            <sentence id="6.30">Name: rob-core</sentence>
+            <sentence id="6.31">ID: B4UZ:VRHT:VORI:KNEQ:6I7A:6DPK:2O2U:VINR:IEOW:U4M4:HEV3:4HFR</sentence>
+            <sentence id="6.32">Labels:</sentence>
+            <sentence id="6.33"> com.docker.network.driver.overlay.bind_interface=eth0</sentence>
+            <sentence id="6.34">Cluster store: etcd://10.0.0.8:3379</sentence>
+            <sentence id="6.35">Cluster advertise: 10.0.0.8:2376</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">'uname -a':</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Linux rob-core 3.19.0-31-generic #36~14.04.1-Ubuntu SMP Thu Oct 8 10:21:08 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Environment details (AWS, VirtualBox, physical, etc.):</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">HP Public Cloud (OpenStack)</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">How reproducible:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Every time</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Steps to Reproduce:</sentence>
+            <sentence id="13.2">1 Run a container, attached to a specific network with '--net=&lt;network&gt;' and '--restart=always'</sentence>
+            <sentence id="13.3">2 Attach the container to a second network with 'docker network connect &lt;network&gt; &lt;container&gt;'</sentence>
+            <sentence id="13.4">3 Reboot container host</sentence>
+            <sentence id="13.5">4 Observe that container is not running.</sentence>
+            <sentence id="13.6">5 Attempt to start with 'docker start &lt;container&gt;'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Actual Results:</sentence>
+            <sentence id="14.2">Container fails to start on boot, subsequent 'docker start &lt;container&gt;' command nets:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"'
+ubuntu@rob-core:~$ docker start hcf-consul-server
+An error occurred trying to connect: Post http:///var/run/docker.sock/v1.21/containers/hcf-consul-server/start: EOF
+Error: failed to start containers: [hcf-consul-server]
+ubuntu@rob-core:~$ docker start hcf-consul-server
+Error response from daemon: Cannot start container hcf-consul-server: container already connected to network bridge
+Error: failed to start containers: [hcf-consul-server]
+"'</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Expected Results:</sentence>
+            <sentence id="16.2">Container should be started, connected to all connected networks at reboot.</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Additional info:</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Log output during shutdown (after issuing 'sudo reboot' command):</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">"'
+ERRO[0016] Error unmounting device bcd07696b371bf1b82b87f94b965e472ba60f1b0e81d38586e42118fa11e8e45: UnmountDevice: device not-mounted id bcd07696b371bf1b82b87f94b965e472ba60f1b0e81d38586e42118fa11e8e45
+WARN[0017] Failed detaching sandbox 73c339a6e256794dbd13177e7341d786bde702408a35394b3993da9c981c40fe from endpoint c094c0108323bc21c675ef7dbe3bb9769de885404e083bb904209f293b4cf5dd: failed to get network from store during leave: network e4434e0ab90c291f80146e5aac139268c92df2a1841d84f0c05d2a8917f659e8 not found</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">WARN[0017] Failed deleting endpoint c094c0108323bc21c675ef7dbe3bb9769de885404e083bb904209f293b4cf5dd: failed to get network during Delete: network e4434e0ab90c291f80146e5aac139268c92df2a1841d84f0c05d2a8917f659e8 not found</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">ERRO[0017] failed to cleanup up stale network sandbox for container c964c22f2553575decd6605b233eb734e8c2c25bbb1bf84c9ce32be0c1e27544
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal 0xb code=0x1 addr=0x0 pc=0x884868]</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">goroutine 736 [running]:</sentence>
+            <sentence id="22.2">github.com/docker/libnetwork.(*sandbox).updateDNS(0xc208c1bba0, 0xc2087c3a00, 0x0, 0x0)</sentence>
+            <sentence id="22.3"> /usr/src/docker/vendor/src/github.com/docker/libnetwork/sandbox.go:769 +0x638</sentence>
+            <sentence id="22.4">github.com/docker/libnetwork.(*endpoint).sbJoin(0xc208eab290, 0x7f05de1baa58, 0xc208c1bba0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="22.5"> /usr/src/docker/vendor/src/github.com/docker/libnetwork/endpoint.go:400 +0xc31</sentence>
+            <sentence id="22.6">github.com/docker/libnetwork.(*endpoint).Join(0xc208e7dd40, 0x7f05de1baa58, 0xc208c1bba0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="22.7"> /usr/src/docker/vendor/src/github.com/docker/libnetwork/endpoint.go:324 +0x1a8</sentence>
+            <sentence id="22.8">github.com/docker/docker/daemon.(*Container).connectToNetwork(0xc208a72400, 0xc208a5ba60, 0x6, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="22.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container_unix.go:1042 +0x905</sentence>
+            <sentence id="22.10">github.com/docker/docker/daemon.(*Container).allocateNetwork(0xc208a72400, 0x0, 0x0)</sentence>
+            <sentence id="22.11"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container_unix.go:937 +0x4c5</sentence>
+            <sentence id="22.12">github.com/docker/docker/daemon.(*Container).initializeNetworking(0xc208a72400, 0x0, 0x0)</sentence>
+            <sentence id="22.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container_unix.go:1084 +0x4c6</sentence>
+            <sentence id="22.14">github.com/docker/docker/daemon.(*Container).Start(0xc208a72400, 0x0, 0x0)</sentence>
+            <sentence id="22.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:276 +0x236</sentence>
+            <sentence id="22.16">github.com/docker/docker/daemon.func·025(0xc208a72400, 0xc208038601)</sentence>
+            <sentence id="22.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="22.18">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="22.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">goroutine 1 [semacquire]:</sentence>
+            <sentence id="23.2">sync.(*WaitGroup).Wait(0xc208a882c0)</sentence>
+            <sentence id="23.3"> /usr/local/go/src/sync/waitgroup.go:132 +0x169</sentence>
+            <sentence id="23.4">github.com/docker/docker/daemon.(*Daemon).restore(0xc208087040, 0x0, 0x0)</sentence>
+            <sentence id="23.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:349 +0xac6</sentence>
+            <sentence id="23.6">github.com/docker/docker/daemon.NewDaemon(0xc2080d7b80, 0xc208038438, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="23.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:829 +0x2dcf</sentence>
+            <sentence id="23.8">main.(*DaemonCli).CmdDaemon(0xc2084f5240, 0xc20800a020, 0x8, 0x8, 0x0, 0x0)</sentence>
+            <sentence id="23.9"> /usr/src/docker/docker/daemon.go:269 +0x1722</sentence>
+            <sentence id="23.10">reflect.callMethod(0xc2085081e0, 0xc208909ce8)</sentence>
+            <sentence id="23.11"> /usr/local/go/src/reflect/value.go:605 +0x179</sentence>
+            <sentence id="23.12">reflect.methodValueCall(0xc20800a020, 0x8, 0x8, 0x1, 0xc2085081e0, 0x0, 0x0, 0xc2085081e0, 0x0, 0x4e207f, ...)</sentence>
+            <sentence id="23.13"> /usr/local/go/src/reflect/asm_amd64.s:29 +0x36</sentence>
+            <sentence id="23.14">github.com/docker/docker/cli.(*Cli).Run(0xc2084d5ec0, 0xc20800a010, 0x9, 0x9, 0x0, 0x0)</sentence>
+            <sentence id="23.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/cli/cli.go:89 +0x38e</sentence>
+            <sentence id="23.16">main.main()</sentence>
+            <sentence id="23.17"> /usr/src/docker/docker/docker.go:65 +0x418</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">goroutine 5 [syscall]:
+os/signal.</sentence>
+            <sentence id="24.2">loop()
+ /usr/local/go/src/os/signal/signal_unix.</sentence>
+            <sentence id="24.3">go:21 +0x1f
+created by os/signal.</sentence>
+            <sentence id="24.4">init·1
+ /usr/local/go/src/os/signal/signal_unix.</sentence>
+            <sentence id="24.5">go:27 +0x35</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">goroutine 17 [syscall, locked to thread]:
+runtime.goexit()
+ /usr/local/go/src/runtime/asm_amd64.s:2232 +0x1</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">goroutine 12 [chan receive]:</sentence>
+            <sentence id="26.2">github.com/docker/docker/pkg/listenbuffer.(*defaultListener).Accept(0xc20850a220, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="26.3"> /usr/src/docker/.gopath/src/github.com/docker/docker/pkg/listenbuffer/buffer.go:73 +0xb6</sentence>
+            <sentence id="26.4">net/http.(*Server).Serve(0xc2080427e0, 0x7f05de1aa648, 0xc20850a220, 0x0, 0x0)</sentence>
+            <sentence id="26.5"> /usr/local/go/src/net/http/server.go:1728 +0x92</sentence>
+            <sentence id="26.6">github.com/docker/docker/api/server.(*HTTPServer).Serve(0xc20850a300, 0x0, 0x0)</sentence>
+            <sentence id="26.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/server.go:113 +0x4d</sentence>
+            <sentence id="26.8">github.com/docker/docker/api/server.func·006(0xc20850a300)</sentence>
+            <sentence id="26.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/server.go:86 +0x163</sentence>
+            <sentence id="26.10">created by github.com/docker/docker/api/server.(*Server).ServeAPI</sentence>
+            <sentence id="26.11"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/server.go:90 +0x144</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">goroutine 10 [chan receive]:
+github.com/docker/docker/api/server.</sentence>
+            <sentence id="27.2">(*Server).</sentence>
+            <sentence id="27.3">ServeAPI(0xc208035900, 0x0, 0x0)
+ /usr/src/docker/.</sentence>
+            <sentence id="27.4">gopath/src/github.</sentence>
+            <sentence id="27.5">com/docker/docker/api/server/server.</sentence>
+            <sentence id="27.6">go:94 +0x1b6
+main.func·007()
+ /usr/src/docker/docker/daemon.</sentence>
+            <sentence id="27.7">go:255 +0x3b
+created by main.</sentence>
+            <sentence id="27.8">(*DaemonCli).</sentence>
+            <sentence id="27.9">CmdDaemon
+ /usr/src/docker/docker/daemon.</sentence>
+            <sentence id="27.10">go:261 +0x1571</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">goroutine 11 [chan receive]:
+github.com/docker/docker/daemon.func·030()
+ /usr/src/docker/.</sentence>
+            <sentence id="28.2">gopath/src/github.</sentence>
+            <sentence id="28.3">com/docker/docker/daemon/debugtrap_unix.go:17 +0x5c
+created by github.com/docker/docker/daemon.setupDumpStackTrap
+ /usr/src/docker/.</sentence>
+            <sentence id="28.4">gopath/src/github.</sentence>
+            <sentence id="28.5">com/docker/docker/daemon/debugtrap_unix.go:20 +0x18e</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">goroutine 13 [chan receive]:</sentence>
+            <sentence id="29.2">github.com/docker/docker/pkg/listenbuffer.(*defaultListener).Accept(0xc20850a3c0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="29.3"> /usr/src/docker/.gopath/src/github.com/docker/docker/pkg/listenbuffer/buffer.go:73 +0xb6</sentence>
+            <sentence id="29.4">net/http.(*Server).Serve(0xc208042840, 0x7f05de1aa648, 0xc20850a3c0, 0x0, 0x0)</sentence>
+            <sentence id="29.5"> /usr/local/go/src/net/http/server.go:1728 +0x92</sentence>
+            <sentence id="29.6">github.com/docker/docker/api/server.(*HTTPServer).Serve(0xc20850a580, 0x0, 0x0)</sentence>
+            <sentence id="29.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/server.go:113 +0x4d</sentence>
+            <sentence id="29.8">github.com/docker/docker/api/server.func·006(0xc20850a580)</sentence>
+            <sentence id="29.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/server.go:86 +0x163</sentence>
+            <sentence id="29.10">created by github.com/docker/docker/api/server.(*Server).ServeAPI</sentence>
+            <sentence id="29.11"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/server.go:90 +0x144</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">goroutine 18 [select]:
+github.com/coreos/etcd/client.</sentence>
+            <sentence id="30.2">(*httpClusterClient).</sentence>
+            <sentence id="30.3">AutoSync(0xc2088ae640, 0x7f05e18dea50, 0xc208028fe0, 0x45d964b800, 0x0, 0x0)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="30.4">com/coreos/etcd/client/client.</sentence>
+            <sentence id="30.5">go:355 +0x1e6
+github.com/docker/libkv/store/etcd.func·001()
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="30.6">com/docker/libkv/store/etcd/etcd.</sentence>
+            <sentence id="30.7">go:90 +0x97
+created by github.com/docker/libkv/store/etcd.New
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="30.8">com/docker/libkv/store/etcd/etcd.</sentence>
+            <sentence id="30.9">go:94 +0x459</sentence>
+        </paragraph>
+        <paragraph id="31">
+            <sentence id="31.1">goroutine 19 [sleep]:
+github.com/docker/docker/daemon.registrationLoop(0x7f05e18dfda0, 0xc2080be460, 0x7fff45205e4c, 0xd)
+ /usr/src/docker/.</sentence>
+            <sentence id="31.2">gopath/src/github.</sentence>
+            <sentence id="31.3">com/docker/docker/daemon/discovery.</sentence>
+            <sentence id="31.4">go:46 +0x19f
+created by github.com/docker/docker/daemon.initDiscovery
+ /usr/src/docker/.</sentence>
+            <sentence id="31.5">gopath/src/github.</sentence>
+            <sentence id="31.6">com/docker/docker/daemon/discovery.</sentence>
+            <sentence id="31.7">go:34 +0x13e</sentence>
+        </paragraph>
+        <paragraph id="32">
+            <sentence id="32.1">goroutine 20 [select]:
+github.com/coreos/etcd/client.</sentence>
+            <sentence id="32.2">(*httpClusterClient).</sentence>
+            <sentence id="32.3">AutoSync(0xc2088ae690, 0x7f05e18dea50, 0xc208028fe0, 0x45d964b800, 0x0, 0x0)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="32.4">com/coreos/etcd/client/client.</sentence>
+            <sentence id="32.5">go:355 +0x1e6
+github.com/docker/libkv/store/etcd.func·001()
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="32.6">com/docker/libkv/store/etcd/etcd.</sentence>
+            <sentence id="32.7">go:90 +0x97
+created by github.com/docker/libkv/store/etcd.New
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="32.8">com/docker/libkv/store/etcd/etcd.</sentence>
+            <sentence id="32.9">go:94 +0x459</sentence>
+        </paragraph>
+        <paragraph id="33">
+            <sentence id="33.1">goroutine 83 [select]:
+github.com/hashicorp/serf/serf.</sentence>
+            <sentence id="33.2">(*serfQueries).</sentence>
+            <sentence id="33.3">stream(0xc208509a40)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="33.4">com/hashicorp/serf/serf/internal_query.go:80 +0x288
+created by github.com/hashicorp/serf/serf.newSerfQueries
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="33.5">com/hashicorp/serf/serf/internal_query.go:73 +0x137</sentence>
+        </paragraph>
+        <paragraph id="34">
+            <sentence id="34.1">goroutine 34 [runnable]:
+github.com/docker/libnetwork.</sentence>
+            <sentence id="34.2">(*controller).</sentence>
+            <sentence id="34.3">watchLoop(0xc20887e630)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="34.4">com/docker/libnetwork/store.go:399 +0x13f
+created by github.com/docker/libnetwork.</sentence>
+            <sentence id="34.5">(*controller).</sentence>
+            <sentence id="34.6">startWatch
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="34.7">com/docker/libnetwork/store.go:413 +0xf0</sentence>
+        </paragraph>
+        <paragraph id="35">
+            <sentence id="35.1">goroutine 82 [select]:
+github.com/hashicorp/serf/serf.coalesceLoop(0xc208785e60, 0xc208785ce0, 0xc208785da0, 0x3b9aca00, 0x2faf080, 0x7f05de1b9b60, 0xc208039130)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="35.2">com/hashicorp/serf/serf/coalesce.</sentence>
+            <sentence id="35.3">go:44 +0x279
+created by github.com/hashicorp/serf/serf.coalescedEventCh
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="35.4">com/hashicorp/serf/serf/coalesce.</sentence>
+            <sentence id="35.5">go:26 +0x8c</sentence>
+        </paragraph>
+        <paragraph id="36">
+            <sentence id="36.1">goroutine 31 [select]:
+net/http.</sentence>
+            <sentence id="36.2">(*persistConn).</sentence>
+            <sentence id="36.3">readLoop(0xc20809e370)
+ /usr/local/go/src/net/http/transport.go:928 +0x9ce
+created by net/http.</sentence>
+            <sentence id="36.4">(*Transport).</sentence>
+            <sentence id="36.5">dialConn
+ /usr/local/go/src/net/http/transport.go:660 +0xc9f</sentence>
+        </paragraph>
+        <paragraph id="37">
+            <sentence id="37.1">goroutine 29 [IO wait]:</sentence>
+            <sentence id="37.2">net.(*pollDesc).Wait(0xc208795720, 0x72, 0x0, 0x0)</sentence>
+            <sentence id="37.3"> /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+            <sentence id="37.4">net.(*pollDesc).WaitRead(0xc208795720, 0x0, 0x0)</sentence>
+            <sentence id="37.5"> /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+            <sentence id="37.6">net.(*netFD).Read(0xc2087956c0, 0xc2087a0000, 0x1000, 0x1000, 0x0, 0x7f05e18de500, 0xc208ecb518)</sentence>
+            <sentence id="37.7"> /usr/local/go/src/net/fd_unix.go:242 +0x40f</sentence>
+            <sentence id="37.8">net.(*conn).Read(0xc208038530, 0xc2087a0000, 0x1000, 0x1000, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="37.9"> /usr/local/go/src/net/net.go:121 +0xdc</sentence>
+            <sentence id="37.10">net/http.noteEOFReader.Read(0x7f05de1b8b48, 0xc208038530, 0xc20809e268, 0xc2087a0000, 0x1000, 0x1000, 0x10784a0, 0x0, 0x0)</sentence>
+            <sentence id="37.11"> /usr/local/go/src/net/http/transport.go:1270 +0x6e</sentence>
+            <sentence id="37.12">net/http.(*noteEOFReader).Read(0xc20884a760, 0xc2087a0000, 0x1000, 0x1000, 0xc208010000, 0x0, 0x0)</sentence>
+            <sentence id="37.13"> &lt;autogenerated&gt;:125 +0xd4</sentence>
+            <sentence id="37.14">bufio.(*Reader).fill(0xc2087c36e0)</sentence>
+            <sentence id="37.15"> /usr/local/go/src/bufio/bufio.go:97 +0x1ce</sentence>
+            <sentence id="37.16">bufio.(*Reader).Peek(0xc2087c36e0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="37.17"> /usr/local/go/src/bufio/bufio.go:132 +0xf0</sentence>
+            <sentence id="37.18">net/http.(*persistConn).readLoop(0xc20809e210)</sentence>
+            <sentence id="37.19"> /usr/local/go/src/net/http/transport.go:842 +0xa4</sentence>
+            <sentence id="37.20">created by net/http.(*Transport).dialConn</sentence>
+            <sentence id="37.21"> /usr/local/go/src/net/http/transport.go:660 +0xc9f</sentence>
+        </paragraph>
+        <paragraph id="38">
+            <sentence id="38.1">goroutine 35 [select]:
+github.com/docker/docker/pkg/discovery/kv.</sentence>
+            <sentence id="38.2">(*Discovery).</sentence>
+            <sentence id="38.3">watchOnce(0xc2080be460, 0xc2087c3b60, 0xc2087c3da0, 0xc2087c3bc0, 0xc2087c3c20, 0x0)
+ /usr/src/docker/.</sentence>
+            <sentence id="38.4">gopath/src/github.</sentence>
+            <sentence id="38.5">com/docker/docker/pkg/discovery/kv/kv.go:102 +0x575
+github.com/docker/docker/pkg/discovery/kv.func·001()
+ /usr/src/docker/.</sentence>
+            <sentence id="38.6">gopath/src/github.</sentence>
+            <sentence id="38.7">com/docker/docker/pkg/discovery/kv/kv.go:146 +0x217
+created by github.com/docker/docker/pkg/discovery/kv.</sentence>
+            <sentence id="38.8">(*Discovery).</sentence>
+            <sentence id="38.9">Watch
+ /usr/src/docker/.</sentence>
+            <sentence id="38.10">gopath/src/github.</sentence>
+            <sentence id="38.11">com/docker/docker/pkg/discovery/kv/kv.go:156 +0x1b8</sentence>
+        </paragraph>
+        <paragraph id="39">
+            <sentence id="39.1">goroutine 456 [IO wait]:</sentence>
+            <sentence id="39.2">net.(*pollDesc).Wait(0xc208795800, 0x72, 0x0, 0x0)</sentence>
+            <sentence id="39.3"> /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+            <sentence id="39.4">net.(*pollDesc).WaitRead(0xc208795800, 0x0, 0x0)</sentence>
+            <sentence id="39.5"> /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+            <sentence id="39.6">net.(*netFD).Read(0xc2087957a0, 0xc208790000, 0x1000, 0x1000, 0x0, 0x7f05e18de500, 0xc208b2ec08)</sentence>
+            <sentence id="39.7"> /usr/local/go/src/net/fd_unix.go:242 +0x40f</sentence>
+            <sentence id="39.8">net.(*conn).Read(0xc208038540, 0xc208790000, 0x1000, 0x1000, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="39.9"> /usr/local/go/src/net/net.go:121 +0xdc</sentence>
+            <sentence id="39.10">net/http.noteEOFReader.Read(0x7f05de1b8b48, 0xc208038540, 0xc20809e3c8, 0xc208790000, 0x1000, 0x1000, 0xc2088bee10, 0x0, 0x0)</sentence>
+            <sentence id="39.11"> /usr/local/go/src/net/http/transport.go:1270 +0x6e</sentence>
+            <sentence id="39.12">net/http.(*noteEOFReader).Read(0xc20884a7e0, 0xc208790000, 0x1000, 0x1000, 0xc2087c30e0, 0x0, 0x0)</sentence>
+            <sentence id="39.13"> &lt;autogenerated&gt;:125 +0xd4</sentence>
+            <sentence id="39.14">bufio.(*Reader).fill(0xc2087c3800)</sentence>
+            <sentence id="39.15"> /usr/local/go/src/bufio/bufio.go:97 +0x1ce</sentence>
+            <sentence id="39.16">bufio.(*Reader).ReadSlice(0xc2087c3800, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="39.17"> /usr/local/go/src/bufio/bufio.go:295 +0x257</sentence>
+            <sentence id="39.18">net/http/internal.readLine(0xc2087c3800, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="39.19"> /usr/local/go/src/net/http/internal/chunked.go:110 +0x5a</sentence>
+            <sentence id="39.20">net/http/internal.(*chunkedReader).beginChunk(0xc208ceff50)</sentence>
+            <sentence id="39.21"> /usr/local/go/src/net/http/internal/chunked.go:47 +0x46</sentence>
+            <sentence id="39.22">net/http/internal.(*chunkedReader).Read(0xc208ceff50, 0xc208045000, 0x200, 0x200, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="39.23"> /usr/local/go/src/net/http/internal/chunked.go:77 +0xbb</sentence>
+            <sentence id="39.24">net/http.(*body).readLocked(0xc208aa4e00, 0xc208045000, 0x200, 0x200, 0xffffffff, 0x0, 0x0)</sentence>
+            <sentence id="39.25"> /usr/local/go/src/net/http/transfer.go:584 +0x7a</sentence>
+            <sentence id="39.26">net/http.(*body).Read(0xc208aa4e00, 0xc208045000, 0x200, 0x200, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="39.27"> /usr/local/go/src/net/http/transfer.go:579 +0x115</sentence>
+            <sentence id="39.28">net/http.(*bodyEOFSignal).Read(0xc208aa4e40, 0xc208045000, 0x200, 0x200, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="39.29"> /usr/local/go/src/net/http/transport.go:1193 +0x285</sentence>
+            <sentence id="39.30">bytes.(*Buffer).ReadFrom(0xc208ad2af0, 0x7f05de1b8de8, 0xc208aa4e40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="39.31"> /usr/local/go/src/bytes/buffer.go:169 +0x25a</sentence>
+            <sentence id="39.32">io/ioutil.readAll(0x7f05de1b8de8, 0xc208aa4e40, 0x200, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="39.33"> /usr/local/go/src/io/ioutil/ioutil.go:33 +0x1b0</sentence>
+            <sentence id="39.34">io/ioutil.ReadAll(0x7f05de1b8de8, 0xc208aa4e40, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="39.35"> /usr/local/go/src/io/ioutil/ioutil.go:42 +0x68</sentence>
+            <sentence id="39.36">github.com/coreos/etcd/client.func·006()</sentence>
+            <sentence id="39.37"> /usr/src/docker/vendor/src/github.com/coreos/etcd/client/client.go:432 +0x7b</sentence>
+            <sentence id="39.38">created by github.com/coreos/etcd/client.(*simpleHTTPClient).Do</sentence>
+            <sentence id="39.39"> /usr/src/docker/vendor/src/github.com/coreos/etcd/client/client.go:434 +0x723</sentence>
+        </paragraph>
+        <paragraph id="40">
+            <sentence id="40.1">goroutine 47 [chan receive]:
+github.com/godbus/dbus.</sentence>
+            <sentence id="40.2">(*Conn).</sentence>
+            <sentence id="40.3">outWorker(0xc2088bab40)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="40.4">com/godbus/dbus/conn.go:370 +0x58
+created by github.com/godbus/dbus.</sentence>
+            <sentence id="40.5">(*Conn).</sentence>
+            <sentence id="40.6">Auth
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="40.7">com/godbus/dbus/auth.go:119 +0xea1</sentence>
+        </paragraph>
+        <paragraph id="41">
+            <sentence id="41.1">goroutine 30 [select]:
+net/http.</sentence>
+            <sentence id="41.2">(*persistConn).</sentence>
+            <sentence id="41.3">writeLoop(0xc20809e210)
+ /usr/local/go/src/net/http/transport.go:945 +0x41d
+created by net/http.</sentence>
+            <sentence id="41.4">(*Transport).</sentence>
+            <sentence id="41.5">dialConn
+ /usr/local/go/src/net/http/transport.go:661 +0xcbc</sentence>
+        </paragraph>
+        <paragraph id="42">
+            <sentence id="42.1">goroutine 32 [select]:
+net/http.</sentence>
+            <sentence id="42.2">(*persistConn).</sentence>
+            <sentence id="42.3">writeLoop(0xc20809e370)
+ /usr/local/go/src/net/http/transport.go:945 +0x41d
+created by net/http.</sentence>
+            <sentence id="42.4">(*Transport).</sentence>
+            <sentence id="42.5">dialConn
+ /usr/local/go/src/net/http/transport.go:661 +0xcbc</sentence>
+        </paragraph>
+        <paragraph id="43">
+            <sentence id="43.1">goroutine 36 [select]:
+github.com/docker/libnetwork/hostdiscovery.</sentence>
+            <sentence id="43.2">(*hostDiscovery).</sentence>
+            <sentence id="43.3">monitorDiscovery(0xc2088d3e00, 0xc2087c3bc0, 0xc2087c3c20, 0xc2088cb0c0, 0xc2088cb0d0, 0xc2088cb0e0)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="43.4">com/docker/libnetwork/hostdiscovery/hostdiscovery.</sentence>
+            <sentence id="43.5">go:52 +0x2bc
+created by github.com/docker/libnetwork/hostdiscovery.</sentence>
+            <sentence id="43.6">(*hostDiscovery).</sentence>
+            <sentence id="43.7">Watch
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="43.8">com/docker/libnetwork/hostdiscovery/hostdiscovery.</sentence>
+            <sentence id="43.9">go:45 +0x144</sentence>
+        </paragraph>
+        <paragraph id="44">
+            <sentence id="44.1">goroutine 46 [IO wait]:</sentence>
+            <sentence id="44.2">net.(*pollDesc).Wait(0xc20878e920, 0x72, 0x0, 0x0)</sentence>
+            <sentence id="44.3"> /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+            <sentence id="44.4">net.(*pollDesc).WaitRead(0xc20878e920, 0x0, 0x0)</sentence>
+            <sentence id="44.5"> /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+            <sentence id="44.6">net.(*netFD).readMsg(0xc20878e8c0, 0xc2088ada50, 0x10, 0x10, 0xc2088cd220, 0x1000, 0x1000, 0xffffffffffffffff, 0x0, 0x0, ...)</sentence>
+            <sentence id="44.7"> /usr/local/go/src/net/fd_unix.go:296 +0x54e</sentence>
+            <sentence id="44.8">net.(*UnixConn).ReadMsgUnix(0xc208038700, 0xc2088ada50, 0x10, 0x10, 0xc2088cd220, 0x1000, 0x1000, 0x51, 0xc2088ad804, 0x4, ...)</sentence>
+            <sentence id="44.9"> /usr/local/go/src/net/unixsock_posix.go:147 +0x167</sentence>
+            <sentence id="44.10">github.com/godbus/dbus.(*oobReader).Read(0xc2088cd200, 0xc2088ada50, 0x10, 0x10, 0xc2088cd200, 0x0, 0x0)</sentence>
+            <sentence id="44.11"> /usr/src/docker/vendor/src/github.com/godbus/dbus/transport_unix.go:21 +0xc5</sentence>
+            <sentence id="44.12">io.ReadAtLeast(0x7f05de1b9478, 0xc2088cd200, 0xc2088ada50, 0x10, 0x10, 0x10, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="44.13"> /usr/local/go/src/io/io.go:298 +0xf1</sentence>
+            <sentence id="44.14">io.ReadFull(0x7f05de1b9478, 0xc2088cd200, 0xc2088ada50, 0x10, 0x10, 0x51, 0x0, 0x0)</sentence>
+            <sentence id="44.15"> /usr/local/go/src/io/io.go:316 +0x6d</sentence>
+            <sentence id="44.16">github.com/godbus/dbus.(*unixTransport).ReadMessage(0xc2088cbd30, 0xc2087a2c00, 0x0, 0x0)</sentence>
+            <sentence id="44.17"> /usr/src/docker/vendor/src/github.com/godbus/dbus/transport_unix.go:85 +0x1bf</sentence>
+            <sentence id="44.18">github.com/godbus/dbus.(*Conn).inWorker(0xc2088bab40)</sentence>
+            <sentence id="44.19"> /usr/src/docker/vendor/src/github.com/godbus/dbus/conn.go:248 +0x58</sentence>
+            <sentence id="44.20">created by github.com/godbus/dbus.(*Conn).Auth</sentence>
+            <sentence id="44.21"> /usr/src/docker/vendor/src/github.com/godbus/dbus/auth.go:118 +0xe84</sentence>
+        </paragraph>
+        <paragraph id="45">
+            <sentence id="45.1">goroutine 38 [select]:</sentence>
+            <sentence id="45.2">github.com/coreos/etcd/client.(*simpleHTTPClient).Do(0xc208a9be00, 0x7f05e18dea50, 0xc208028fe0, 0x7f05de1b9240, 0xc2087c6c10, 0x0, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+            <sentence id="45.3"> /usr/src/docker/vendor/src/github.com/coreos/etcd/client/client.go:436 +0x94d</sentence>
+            <sentence id="45.4">github.com/coreos/etcd/client.(*redirectFollowingHTTPClient).Do(0xc208cfeda0, 0x7f05e18dea50, 0xc208028fe0, 0x7f05de1b9240, 0xc2087c6c10, 0xc2087dbf87, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+            <sentence id="45.5"> /usr/src/docker/vendor/src/github.com/coreos/etcd/client/client.go:471 +0x170</sentence>
+            <sentence id="45.6">github.com/coreos/etcd/client.(*httpClusterClient).Do(0xc2088ae640, 0x7f05e18dea50, 0xc208028fe0, 0x7f05de1b9240, 0xc2087c6c10, 0xc20808be60, 0x0, 0x0, 0x0, 0x0, ...)</sentence>
+            <sentence id="45.7"> /usr/src/docker/vendor/src/github.com/coreos/etcd/client/client.go:275 +0x58c</sentence>
+            <sentence id="45.8">github.com/coreos/etcd/client.(*httpWatcher).Next(0xc2087c6c00, 0x7f05e18dea50, 0xc208028fe0, 0xc208b2e000, 0x0, 0x0)</sentence>
+            <sentence id="45.9"> /usr/src/docker/vendor/src/github.com/coreos/etcd/client/keys.go:428 +0xc8</sentence>
+            <sentence id="45.10">github.com/docker/libkv/store/etcd.func·003()</sentence>
+            <sentence id="45.11"> /usr/src/docker/vendor/src/github.com/docker/libkv/store/etcd/etcd.go:287 +0x1d7</sentence>
+            <sentence id="45.12">created by github.com/docker/libkv/store/etcd.(*Etcd).WatchTree</sentence>
+            <sentence id="45.13"> /usr/src/docker/vendor/src/github.com/docker/libkv/store/etcd/etcd.go:300 +0x2e0</sentence>
+        </paragraph>
+        <paragraph id="46">
+            <sentence id="46.1">goroutine 48 [chan receive]:
+github.com/docker/libnetwork/iptables.signalHandler()
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="46.2">com/docker/libnetwork/iptables/firewalld.</sentence>
+            <sentence id="46.3">go:92 +0x57
+created by github.com/docker/libnetwork/iptables.FirewalldInit
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="46.4">com/docker/libnetwork/iptables/firewalld.</sentence>
+            <sentence id="46.5">go:48 +0x185</sentence>
+        </paragraph>
+        <paragraph id="47">
+            <sentence id="47.1">goroutine 84 [IO wait]:</sentence>
+            <sentence id="47.2">net.(*pollDesc).Wait(0xc208783f70, 0x72, 0x0, 0x0)</sentence>
+            <sentence id="47.3"> /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+            <sentence id="47.4">net.(*pollDesc).WaitRead(0xc208783f70, 0x0, 0x0)</sentence>
+            <sentence id="47.5"> /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+            <sentence id="47.6">net.(*netFD).accept(0xc208783f10, 0x0, 0x7f05e18de500, 0xc208848020)</sentence>
+            <sentence id="47.7"> /usr/local/go/src/net/fd_unix.go:419 +0x40b</sentence>
+            <sentence id="47.8">net.(*TCPListener).AcceptTCP(0xc208039150, 0x49fd43, 0x0, 0x0)</sentence>
+            <sentence id="47.9"> /usr/local/go/src/net/tcpsock_posix.go:234 +0x4e</sentence>
+            <sentence id="47.10">github.com/hashicorp/memberlist.(*Memberlist).tcpListen(0xc2080bcc40)</sentence>
+            <sentence id="47.11"> /usr/src/docker/vendor/src/github.com/hashicorp/memberlist/net.go:174 +0x2f</sentence>
+            <sentence id="47.12">created by github.com/hashicorp/memberlist.newMemberlist</sentence>
+            <sentence id="47.13"> /usr/src/docker/vendor/src/github.com/hashicorp/memberlist/memberlist.go:122 +0xe83</sentence>
+        </paragraph>
+        <paragraph id="48">
+            <sentence id="48.1">goroutine 85 [IO wait]:</sentence>
+            <sentence id="48.2">net.(*pollDesc).Wait(0xc208783fe0, 0x72, 0x0, 0x0)</sentence>
+            <sentence id="48.3"> /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+            <sentence id="48.4">net.(*pollDesc).WaitRead(0xc208783fe0, 0x0, 0x0)</sentence>
+            <sentence id="48.5"> /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+            <sentence id="48.6">net.(*netFD).readFrom(0xc208783f80, 0xc208ee6000, 0x10000, 0x10000, 0x0, 0x0, 0x0, 0x7f05e18de500, 0xc208eca8f8)</sentence>
+            <sentence id="48.7"> /usr/local/go/src/net/fd_unix.go:269 +0x4a1</sentence>
+            <sentence id="48.8">net.(*UDPConn).ReadFromUDP(0xc208039158, 0xc208ee6000, 0x10000, 0x10000, 0x1cc7400, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="48.9"> /usr/local/go/src/net/udpsock_posix.go:67 +0x124</sentence>
+            <sentence id="48.10">net.(*UDPConn).ReadFrom(0xc208039158, 0xc208ee6000, 0x10000, 0x10000, 0x10000, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="48.11"> /usr/local/go/src/net/udpsock_posix.go:82 +0x12e</sentence>
+            <sentence id="48.12">github.com/hashicorp/memberlist.(*Memberlist).udpListen(0xc2080bcc40)</sentence>
+            <sentence id="48.13"> /usr/src/docker/vendor/src/github.com/hashicorp/memberlist/net.go:259 +0x2f2</sentence>
+            <sentence id="48.14">created by github.com/hashicorp/memberlist.newMemberlist</sentence>
+            <sentence id="48.15"> /usr/src/docker/vendor/src/github.com/hashicorp/memberlist/memberlist.go:123 +0xea3</sentence>
+        </paragraph>
+        <paragraph id="49">
+            <sentence id="49.1">goroutine 86 [select]:
+github.com/hashicorp/memberlist.</sentence>
+            <sentence id="49.2">(*Memberlist).</sentence>
+            <sentence id="49.3">udpHandler(0xc2080bcc40)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="49.4">com/hashicorp/memberlist/net.go:344 +0x36d
+created by github.com/hashicorp/memberlist.newMemberlist
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="49.5">com/hashicorp/memberlist/memberlist.go:124 +0xec3</sentence>
+        </paragraph>
+        <paragraph id="50">
+            <sentence id="50.1">goroutine 87 [select]:
+github.com/hashicorp/memberlist.</sentence>
+            <sentence id="50.2">(*Memberlist).</sentence>
+            <sentence id="50.3">triggerFunc(0xc2080bcc40, 0x3b9aca00, 0xc208042900, 0xc208042780, 0xc20886bf90)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="50.4">com/hashicorp/memberlist/state.go:105 +0x151
+created by github.com/hashicorp/memberlist.</sentence>
+            <sentence id="50.5">(*Memberlist).</sentence>
+            <sentence id="50.6">schedule
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="50.7">com/hashicorp/memberlist/state.go:71 +0x18a</sentence>
+        </paragraph>
+        <paragraph id="51">
+            <sentence id="51.1">goroutine 88 [select]:
+github.com/hashicorp/memberlist.</sentence>
+            <sentence id="51.2">(*Memberlist).</sentence>
+            <sentence id="51.3">pushPullTrigger(0xc2080bcc40, 0xc208042780)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="51.4">com/hashicorp/memberlist/state.go:123 +0x259
+created by github.com/hashicorp/memberlist.</sentence>
+            <sentence id="51.5">(*Memberlist).</sentence>
+            <sentence id="51.6">schedule
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="51.7">com/hashicorp/memberlist/state.go:77 +0x2cf</sentence>
+        </paragraph>
+        <paragraph id="52">
+            <sentence id="52.1">goroutine 89 [select]:
+github.com/hashicorp/memberlist.</sentence>
+            <sentence id="52.2">(*Memberlist).</sentence>
+            <sentence id="52.3">triggerFunc(0xc2080bcc40, 0xbebc200, 0xc208042a80, 0xc208042780, 0xc20886bfa0)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="52.4">com/hashicorp/memberlist/state.go:105 +0x151
+created by github.com/hashicorp/memberlist.</sentence>
+            <sentence id="52.5">(*Memberlist).</sentence>
+            <sentence id="52.6">schedule
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="52.7">com/hashicorp/memberlist/state.go:83 +0x3b3</sentence>
+        </paragraph>
+        <paragraph id="53">
+            <sentence id="53.1">goroutine 90 [select]:
+github.com/hashicorp/serf/serf.</sentence>
+            <sentence id="53.2">(*Serf).</sentence>
+            <sentence id="53.3">handleReap(0xc2087dc9c0)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="53.4">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="53.5">go:1339 +0x281
+created by github.com/hashicorp/serf/serf.Create
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="53.6">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="53.7">go:370 +0x1b6e</sentence>
+        </paragraph>
+        <paragraph id="54">
+            <sentence id="54.1">goroutine 91 [select]:
+github.com/hashicorp/serf/serf.</sentence>
+            <sentence id="54.2">(*Serf).</sentence>
+            <sentence id="54.3">handleReconnect(0xc2087dc9c0)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="54.4">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="54.5">go:1355 +0x106
+created by github.com/hashicorp/serf/serf.Create
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="54.6">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="54.7">go:371 +0x1b8e</sentence>
+        </paragraph>
+        <paragraph id="55">
+            <sentence id="55.1">goroutine 92 [select]:
+github.com/hashicorp/serf/serf.</sentence>
+            <sentence id="55.2">(*Serf).</sentence>
+            <sentence id="55.3">checkQueueDepth(0xc2087dc9c0, 0x135fed0, 0x6, 0xc208509a70)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="55.4">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="55.5">go:1445 +0x52e
+created by github.com/hashicorp/serf/serf.Create
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="55.6">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="55.7">go:372 +0x1bcd</sentence>
+        </paragraph>
+        <paragraph id="56">
+            <sentence id="56.1">goroutine 93 [select]:
+github.com/hashicorp/serf/serf.</sentence>
+            <sentence id="56.2">(*Serf).</sentence>
+            <sentence id="56.3">checkQueueDepth(0xc2087dc9c0, 0x135d530, 0x5, 0xc208509aa0)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="56.4">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="56.5">go:1445 +0x52e
+created by github.com/hashicorp/serf/serf.Create
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="56.6">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="56.7">go:373 +0x1c0f</sentence>
+        </paragraph>
+        <paragraph id="57">
+            <sentence id="57.1">goroutine 94 [select]:
+github.com/hashicorp/serf/serf.</sentence>
+            <sentence id="57.2">(*Serf).</sentence>
+            <sentence id="57.3">checkQueueDepth(0xc2087dc9c0, 0x1364550, 0x5, 0xc208509ad0)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="57.4">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="57.5">go:1445 +0x52e
+created by github.com/hashicorp/serf/serf.Create
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="57.6">com/hashicorp/serf/serf/serf.</sentence>
+            <sentence id="57.7">go:374 +0x1c51</sentence>
+        </paragraph>
+        <paragraph id="58">
+            <sentence id="58.1">goroutine 95 [select]:
+github.com/docker/libnetwork/drivers/overlay.</sentence>
+            <sentence id="58.2">(*driver).</sentence>
+            <sentence id="58.3">startSerfLoop(0xc2087600a0, 0xc208785ce0, 0xc2087f4000, 0xc2087f4060)
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="58.4">com/docker/libnetwork/drivers/overlay/ov_serf.go:184 +0x3f5
+created by github.com/docker/libnetwork/drivers/overlay.</sentence>
+            <sentence id="58.5">(*driver).</sentence>
+            <sentence id="58.6">serfInit
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="58.7">com/docker/libnetwork/drivers/overlay/ov_serf.go:68 +0x4a2</sentence>
+        </paragraph>
+        <paragraph id="59">
+            <sentence id="59.1">goroutine 96 [select]:
+github.com/docker/libnetwork/osl.removeUnusedPaths()
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="59.2">com/docker/libnetwork/osl/namespace_linux.go:73 +0x48b
+created by github.com/docker/libnetwork/osl.createBasePath
+ /usr/src/docker/vendor/src/github.</sentence>
+            <sentence id="59.3">com/docker/libnetwork/osl/namespace_linux.go:58 +0xb1</sentence>
+        </paragraph>
+        <paragraph id="60">
+            <sentence id="60.1">goroutine 692 [IO wait]:</sentence>
+            <sentence id="60.2">net.(*pollDesc).Wait(0xc208c4d020, 0x72, 0x0, 0x0)</sentence>
+            <sentence id="60.3"> /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47</sentence>
+            <sentence id="60.4">net.(*pollDesc).WaitRead(0xc208c4d020, 0x0, 0x0)</sentence>
+            <sentence id="60.5"> /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43</sentence>
+            <sentence id="60.6">net.(*netFD).accept(0xc208c4cfc0, 0x0, 0x7f05e18de500, 0xc208c60320)</sentence>
+            <sentence id="60.7"> /usr/local/go/src/net/fd_unix.go:419 +0x40b</sentence>
+            <sentence id="60.8">net.(*UnixListener).AcceptUnix(0xc208c56a20, 0x10, 0x0, 0x0)</sentence>
+            <sentence id="60.9"> /usr/local/go/src/net/unixsock_posix.go:282 +0x56</sentence>
+            <sentence id="60.10">net.(*UnixListener).Accept(0xc208c56a20, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="60.11"> /usr/local/go/src/net/unixsock_posix.go:293 +0x4c</sentence>
+            <sentence id="60.12">github.com/docker/libnetwork.(*controller).acceptClientConnections(0xc20887e630, 0xc208c4cf50, 0x63, 0x7f05de1aa6d0, 0xc208c56a20)</sentence>
+            <sentence id="60.13"> /usr/src/docker/vendor/src/github.com/docker/libnetwork/sandbox_externalkey.go:138 +0x87</sentence>
+            <sentence id="60.14">created by github.com/docker/libnetwork.(*controller).startExternalKeyListener</sentence>
+            <sentence id="60.15"> /usr/src/docker/vendor/src/github.com/docker/libnetwork/sandbox_externalkey.go:132 +0x295</sentence>
+        </paragraph>
+        <paragraph id="61">
+            <sentence id="61.1">goroutine 725 [chan receive]:
+database/sql.</sentence>
+            <sentence id="61.2">(*DB).</sentence>
+            <sentence id="61.3">connectionOpener(0xc208a0c0a0)
+ /usr/local/go/src/database/sql/sql.go:589 +0x4c
+created by database/sql.</sentence>
+            <sentence id="61.4">Open
+ /usr/local/go/src/database/sql/sql.go:452 +0x31c</sentence>
+        </paragraph>
+        <paragraph id="62">
+            <sentence id="62.1">goroutine 729 [chan receive]:
+github.com/docker/docker/daemon.</sentence>
+            <sentence id="62.2">(*Daemon).</sentence>
+            <sentence id="62.3">execCommandGC(0xc208087040)
+ /usr/src/docker/.</sentence>
+            <sentence id="62.4">gopath/src/github.</sentence>
+            <sentence id="62.5">com/docker/docker/daemon/exec.</sentence>
+            <sentence id="62.6">go:300 +0x8c
+created by github.com/docker/docker/daemon.NewDaemon
+ /usr/src/docker/.</sentence>
+            <sentence id="62.7">gopath/src/github.</sentence>
+            <sentence id="62.8">com/docker/docker/daemon/daemon.</sentence>
+            <sentence id="62.9">go:827 +0x2dbc</sentence>
+        </paragraph>
+        <paragraph id="63">
+            <sentence id="63.1">goroutine 728 [chan receive]:
+github.com/docker/docker/daemon.</sentence>
+            <sentence id="63.2">(*statsCollector).</sentence>
+            <sentence id="63.3">run(0xc208a2b140)
+ /usr/src/docker/.</sentence>
+            <sentence id="63.4">gopath/src/github.</sentence>
+            <sentence id="63.5">com/docker/docker/daemon/stats_collector_unix.</sentence>
+            <sentence id="63.6">go:91 +0xb2
+created by github.com/docker/docker/daemon.newStatsCollector
+ /usr/src/docker/.</sentence>
+            <sentence id="63.7">gopath/src/github.</sentence>
+            <sentence id="63.8">com/docker/docker/daemon/stats_collector_unix.</sentence>
+            <sentence id="63.9">go:31 +0x116</sentence>
+        </paragraph>
+        <paragraph id="64">
+            <sentence id="64.1">goroutine 731 [semacquire]:</sentence>
+            <sentence id="64.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="64.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="64.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df0c80, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="64.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="64.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df0c80, 0x40, 0xc208a8d320, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="64.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="64.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df0c80, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="64.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="64.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df0c80, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="64.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="64.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208dfe800, 0x0, 0x0)</sentence>
+            <sentence id="64.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="64.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208dfe800, 0x0, 0x0)</sentence>
+            <sentence id="64.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="64.16">github.com/docker/docker/daemon.(*Container).Start(0xc208dfe800, 0x0, 0x0)</sentence>
+            <sentence id="64.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="64.18">github.com/docker/docker/daemon.func·025(0xc208dfe800, 0xc208038601)</sentence>
+            <sentence id="64.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="64.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="64.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="65">
+            <sentence id="65.1">goroutine 732 [semacquire]:</sentence>
+            <sentence id="65.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="65.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="65.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df1640, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="65.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="65.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df1640, 0x40, 0xc208bcde60, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="65.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="65.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df1640, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="65.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="65.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df1640, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="65.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="65.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208a52000, 0x0, 0x0)</sentence>
+            <sentence id="65.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="65.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208a52000, 0x0, 0x0)</sentence>
+            <sentence id="65.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="65.16">github.com/docker/docker/daemon.(*Container).Start(0xc208a52000, 0x0, 0x0)</sentence>
+            <sentence id="65.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="65.18">github.com/docker/docker/daemon.func·025(0xc208a52000, 0xc208038601)</sentence>
+            <sentence id="65.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="65.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="65.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="66">
+            <sentence id="66.1">goroutine 733 [semacquire]:</sentence>
+            <sentence id="66.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="66.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="66.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df18c0, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="66.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="66.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df18c0, 0x40, 0xc208e3c240, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="66.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="66.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df18c0, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="66.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="66.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df18c0, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="66.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="66.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208a52600, 0x0, 0x0)</sentence>
+            <sentence id="66.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="66.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208a52600, 0x0, 0x0)</sentence>
+            <sentence id="66.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="66.16">github.com/docker/docker/daemon.(*Container).Start(0xc208a52600, 0x0, 0x0)</sentence>
+            <sentence id="66.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="66.18">github.com/docker/docker/daemon.func·025(0xc208a52600, 0xc208038601)</sentence>
+            <sentence id="66.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="66.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="66.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="67">
+            <sentence id="67.1">goroutine 734 [semacquire]:</sentence>
+            <sentence id="67.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="67.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="67.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208a70180, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="67.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="67.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208a70180, 0x40, 0xc208e3ccc0, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="67.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="67.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208a70180, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="67.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="67.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208a70180, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="67.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="67.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208a53e00, 0x0, 0x0)</sentence>
+            <sentence id="67.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="67.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208a53e00, 0x0, 0x0)</sentence>
+            <sentence id="67.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="67.16">github.com/docker/docker/daemon.(*Container).Start(0xc208a53e00, 0x0, 0x0)</sentence>
+            <sentence id="67.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="67.18">github.com/docker/docker/daemon.func·025(0xc208a53e00, 0xc208038601)</sentence>
+            <sentence id="67.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="67.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="67.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="68">
+            <sentence id="68.1">goroutine 735 [semacquire]:</sentence>
+            <sentence id="68.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="68.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="68.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df1400, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="68.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="68.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df1400, 0x40, 0xc208e3cba0, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="68.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="68.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df1400, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="68.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="68.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df1400, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="68.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="68.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208dffa00, 0x0, 0x0)</sentence>
+            <sentence id="68.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="68.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208dffa00, 0x0, 0x0)</sentence>
+            <sentence id="68.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="68.16">github.com/docker/docker/daemon.(*Container).Start(0xc208dffa00, 0x0, 0x0)</sentence>
+            <sentence id="68.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="68.18">github.com/docker/docker/daemon.func·025(0xc208dffa00, 0xc208038601)</sentence>
+            <sentence id="68.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="68.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="68.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="69">
+            <sentence id="69.1">goroutine 737 [semacquire]:</sentence>
+            <sentence id="69.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="69.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="69.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df0880, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="69.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="69.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df0880, 0x40, 0xc208e3c180, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="69.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="69.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df0880, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="69.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="69.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df0880, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="69.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="69.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208b2dc00, 0x0, 0x0)</sentence>
+            <sentence id="69.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="69.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208b2dc00, 0x0, 0x0)</sentence>
+            <sentence id="69.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="69.16">github.com/docker/docker/daemon.(*Container).Start(0xc208b2dc00, 0x0, 0x0)</sentence>
+            <sentence id="69.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="69.18">github.com/docker/docker/daemon.func·025(0xc208b2dc00, 0xc208038601)</sentence>
+            <sentence id="69.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="69.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="69.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="70">
+            <sentence id="70.1">goroutine 738 [syscall, locked to thread]:</sentence>
+            <sentence id="70.2">github.com/docker/docker/pkg/devicemapper._Cfunc_dm_udev_wait(0xd4d7a7f, 0xc200000000)</sentence>
+            <sentence id="70.3"> /usr/src/docker/.gopath/src/github.com/docker/docker/pkg/devicemapper/:188 +0x43</sentence>
+            <sentence id="70.4">github.com/docker/docker/pkg/devicemapper.dmUdevWaitFct(0xd4d7a7f, 0xc208010000)</sentence>
+            <sentence id="70.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/pkg/devicemapper/devmapper_wrapper.go:264 +0x29</sentence>
+            <sentence id="70.6">github.com/docker/docker/pkg/devicemapper.UdevWait(0xc208e628b8, 0x0, 0x0)</sentence>
+            <sentence id="70.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/pkg/devicemapper/devmapper.go:314 +0x44</sentence>
+            <sentence id="70.8">github.com/docker/docker/pkg/devicemapper.activateDevice(0xc208e335c0, 0x25, 0xc208e3dda0, 0x55, 0x5c, 0x1900000000, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="70.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/pkg/devicemapper/devmapper.go:805 +0x859</sentence>
+            <sentence id="70.10">github.com/docker/docker/pkg/devicemapper.ActivateDevice(0xc208e335c0, 0x25, 0xc208e3dda0, 0x55, 0x5c, 0x1900000000, 0x0, 0x0)</sentence>
+            <sentence id="70.11"> /usr/src/docker/.gopath/src/github.com/docker/docker/pkg/devicemapper/devmapper.go:766 +0x89</sentence>
+            <sentence id="70.12">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).activateDeviceIfNeeded(0xc208068300, 0xc208042fc0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="70.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:532 +0x472</sentence>
+            <sentence id="70.14">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df0a80, 0x40, 0xc208b8cde0, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="70.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:2018 +0x4e9</sentence>
+            <sentence id="70.16">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df0a80, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="70.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="70.18">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df0a80, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="70.19"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="70.20">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208dfe200, 0x0, 0x0)</sentence>
+            <sentence id="70.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="70.22">github.com/docker/docker/daemon.(*Container).Mount(0xc208dfe200, 0x0, 0x0)</sentence>
+            <sentence id="70.23"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="70.24">github.com/docker/docker/daemon.(*Container).Start(0xc208dfe200, 0x0, 0x0)</sentence>
+            <sentence id="70.25"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="70.26">github.com/docker/docker/daemon.func·025(0xc208dfe200, 0xc208038601)</sentence>
+            <sentence id="70.27"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="70.28">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="70.29"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="71">
+            <sentence id="71.1">goroutine 739 [semacquire]:</sentence>
+            <sentence id="71.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="71.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="71.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df0e80, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="71.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="71.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df0e80, 0x40, 0xc208b8d8c0, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="71.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="71.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df0e80, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="71.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="71.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df0e80, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="71.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="71.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208dfee00, 0x0, 0x0)</sentence>
+            <sentence id="71.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="71.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208dfee00, 0x0, 0x0)</sentence>
+            <sentence id="71.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="71.16">github.com/docker/docker/daemon.(*Container).Start(0xc208dfee00, 0x0, 0x0)</sentence>
+            <sentence id="71.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="71.18">github.com/docker/docker/daemon.func·025(0xc208dfee00, 0xc208038601)</sentence>
+            <sentence id="71.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="71.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="71.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="72">
+            <sentence id="72.1">goroutine 740 [semacquire]:</sentence>
+            <sentence id="72.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="72.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="72.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df11c0, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="72.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="72.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df11c0, 0x40, 0xc208e3c360, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="72.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="72.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df11c0, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="72.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="72.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df11c0, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="72.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="72.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208dff400, 0x0, 0x0)</sentence>
+            <sentence id="72.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="72.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208dff400, 0x0, 0x0)</sentence>
+            <sentence id="72.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="72.16">github.com/docker/docker/daemon.(*Container).Start(0xc208dff400, 0x0, 0x0)</sentence>
+            <sentence id="72.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="72.18">github.com/docker/docker/daemon.func·025(0xc208dff400, 0xc208038601)</sentence>
+            <sentence id="72.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="72.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="72.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="73">
+            <sentence id="73.1">goroutine 741 [semacquire]:</sentence>
+            <sentence id="73.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="73.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="73.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df1d00, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="73.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="73.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df1d00, 0x40, 0xc208bfa960, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="73.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="73.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df1d00, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="73.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="73.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df1d00, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="73.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="73.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208a53200, 0x0, 0x0)</sentence>
+            <sentence id="73.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="73.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208a53200, 0x0, 0x0)</sentence>
+            <sentence id="73.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="73.16">github.com/docker/docker/daemon.(*Container).Start(0xc208a53200, 0x0, 0x0)</sentence>
+            <sentence id="73.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="73.18">github.com/docker/docker/daemon.func·025(0xc208a53200, 0xc208038601)</sentence>
+            <sentence id="73.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="73.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="73.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="74">
+            <sentence id="74.1">goroutine 742 [semacquire]:</sentence>
+            <sentence id="74.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="74.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="74.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208a706c0, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="74.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="74.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208a706c0, 0x40, 0xc208bfaf60, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="74.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="74.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208a706c0, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="74.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="74.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208a706c0, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="74.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="74.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208a72a00, 0x0, 0x0)</sentence>
+            <sentence id="74.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="74.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208a72a00, 0x0, 0x0)</sentence>
+            <sentence id="74.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="74.16">github.com/docker/docker/daemon.(*Container).Start(0xc208a72a00, 0x0, 0x0)</sentence>
+            <sentence id="74.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="74.18">github.com/docker/docker/daemon.func·025(0xc208a72a00, 0xc208038601)</sentence>
+            <sentence id="74.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="74.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="74.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="75">
+            <sentence id="75.1">goroutine 743 [semacquire]:</sentence>
+            <sentence id="75.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="75.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="75.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df0640, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="75.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="75.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df0640, 0x40, 0xc208bfb560, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="75.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="75.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df0640, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="75.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="75.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df0640, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="75.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="75.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208b2d600, 0x0, 0x0)</sentence>
+            <sentence id="75.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="75.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208b2d600, 0x0, 0x0)</sentence>
+            <sentence id="75.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="75.16">github.com/docker/docker/daemon.(*Container).Start(0xc208b2d600, 0x0, 0x0)</sentence>
+            <sentence id="75.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="75.18">github.com/docker/docker/daemon.func·025(0xc208b2d600, 0xc208038601)</sentence>
+            <sentence id="75.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="75.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="75.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="76">
+            <sentence id="76.1">goroutine 744 [semacquire]:</sentence>
+            <sentence id="76.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="76.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="76.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df1b00, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="76.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="76.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df1b00, 0x40, 0xc208bfbb60, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="76.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="76.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df1b00, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="76.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="76.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df1b00, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="76.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="76.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208a52c00, 0x0, 0x0)</sentence>
+            <sentence id="76.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="76.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208a52c00, 0x0, 0x0)</sentence>
+            <sentence id="76.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="76.16">github.com/docker/docker/daemon.(*Container).Start(0xc208a52c00, 0x0, 0x0)</sentence>
+            <sentence id="76.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="76.18">github.com/docker/docker/daemon.func·025(0xc208a52c00, 0xc208038601)</sentence>
+            <sentence id="76.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="76.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="76.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+        </paragraph>
+        <paragraph id="77">
+            <sentence id="77.1">goroutine 745 [semacquire]:</sentence>
+            <sentence id="77.2">sync.(*Mutex).Lock(0xc208068308)</sentence>
+            <sentence id="77.3"> /usr/local/go/src/sync/mutex.go:66 +0xd3</sentence>
+            <sentence id="77.4">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).lookupDeviceWithLock(0xc208068300, 0xc208df1f00, 0x40, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="77.5"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:396 +0x53</sentence>
+            <sentence id="77.6">github.com/docker/docker/daemon/graphdriver/devmapper.(*DeviceSet).MountDevice(0xc208068300, 0xc208df1f00, 0x40, 0xc208e3cde0, 0x5e, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="77.7"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/deviceset.go:1994 +0x68</sentence>
+            <sentence id="77.8">github.com/docker/docker/daemon/graphdriver/devmapper.(*Driver).Get(0xc208793540, 0xc208df1f00, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="77.9"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/graphdriver/devmapper/driver.go:183 +0x440</sentence>
+            <sentence id="77.10">github.com/docker/docker/daemon/graphdriver.(*NaiveDiffDriver).Get(0xc2087967c0, 0xc208df1f00, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="77.11"> &lt;autogenerated&gt;:26 +0xb1</sentence>
+            <sentence id="77.12">github.com/docker/docker/daemon.(*Daemon).Mount(0xc208087040, 0xc208a53800, 0x0, 0x0)</sentence>
+            <sentence id="77.13"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:919 +0xbf</sentence>
+            <sentence id="77.14">github.com/docker/docker/daemon.(*Container).Mount(0xc208a53800, 0x0, 0x0)</sentence>
+            <sentence id="77.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:573 +0x46</sentence>
+            <sentence id="77.16">github.com/docker/docker/daemon.(*Container).Start(0xc208a53800, 0x0, 0x0)</sentence>
+            <sentence id="77.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:268 +0x189</sentence>
+            <sentence id="77.18">github.com/docker/docker/daemon.func·025(0xc208a53800, 0xc208038601)</sentence>
+            <sentence id="77.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:343 +0x4b8</sentence>
+            <sentence id="77.20">created by github.com/docker/docker/daemon.(*Daemon).restore</sentence>
+            <sentence id="77.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/daemon.go:347 +0xa8f</sentence>
+            <sentence id="77.22">"'</sentence>
+        </paragraph>
+        <paragraph id="78">
+            <sentence id="78.1">Log during automatic startup of affected containers:</sentence>
+        </paragraph>
+        <paragraph id="79">
+            <sentence id="79.1">"'
+ERRO[0019] Failed to start container c964c22f2553575decd6605b233eb734e8c2c25bbb1bf84c9ce32be0c1e27544: open : no such file or directory
+ERRO[0023] Failed to start container 7b9b9e3f4eea0867a4f22c880755022031b0ba1ef3f03e4e0be8715c2b34fa58: open : no such file or directory
+"'</sentence>
+        </paragraph>
+        <paragraph id="80">
+            <sentence id="80.1">Additional log output from manual start of an affected container:</sentence>
+        </paragraph>
+        <paragraph id="81">
+            <sentence id="81.1">"'</sentence>
+            <sentence id="81.2">ERRO[0046] failed to cleanup up stale network sandbox for container 7b9b9e3f4eea0867a4f22c880755022031b0ba1ef3f03e4e0be8715c2b34fa58</sentence>
+            <sentence id="81.3">WARN[0049] Failed adding service host entries to the running container: open : no such file or directory</sentence>
+            <sentence id="81.4">2015/11/02 18:32:12 http: panic serving @: runtime error: invalid memory address or nil pointer dereference</sentence>
+            <sentence id="81.5">goroutine 1626 [running]:</sentence>
+            <sentence id="81.6">net/http.func·011()</sentence>
+            <sentence id="81.7"> /usr/local/go/src/net/http/server.go:1130 +0xbb</sentence>
+            <sentence id="81.8">github.com/docker/libnetwork.(*sandbox).updateDNS(0xc2087c1040, 0xc2088c6100, 0x0, 0x0)</sentence>
+            <sentence id="81.9"> /usr/src/docker/vendor/src/github.com/docker/libnetwork/sandbox.go:769 +0x638</sentence>
+            <sentence id="81.10">github.com/docker/libnetwork.(*endpoint).sbJoin(0xc20958db90, 0x7f0b50d588d8, 0xc2087c1040, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="81.11"> /usr/src/docker/vendor/src/github.com/docker/libnetwork/endpoint.go:400 +0xc31</sentence>
+            <sentence id="81.12">github.com/docker/libnetwork.(*endpoint).Join(0xc208834870, 0x7f0b50d588d8, 0xc2087c1040, 0x0, 0x0, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="81.13"> /usr/src/docker/vendor/src/github.com/docker/libnetwork/endpoint.go:324 +0x1a8</sentence>
+            <sentence id="81.14">github.com/docker/docker/daemon.(*Container).connectToNetwork(0xc208a8aa00, 0xc208a8e7e9, 0x3, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="81.15"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container_unix.go:1042 +0x905</sentence>
+            <sentence id="81.16">github.com/docker/docker/daemon.(*Container).allocateNetwork(0xc208a8aa00, 0x0, 0x0)</sentence>
+            <sentence id="81.17"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container_unix.go:937 +0x4c5</sentence>
+            <sentence id="81.18">github.com/docker/docker/daemon.(*Container).initializeNetworking(0xc208a8aa00, 0x0, 0x0)</sentence>
+            <sentence id="81.19"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container_unix.go:1084 +0x4c6</sentence>
+            <sentence id="81.20">github.com/docker/docker/daemon.(*Container).Start(0xc208a8aa00, 0x0, 0x0)</sentence>
+            <sentence id="81.21"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/container.go:276 +0x236</sentence>
+            <sentence id="81.22">github.com/docker/docker/daemon.(*Daemon).ContainerStart(0xc208077040, 0xc2084e6297, 0x11, 0x0, 0x0, 0x0)</sentence>
+            <sentence id="81.23"> /usr/src/docker/.gopath/src/github.com/docker/docker/daemon/start.go:47 +0x24f</sentence>
+            <sentence id="81.24">github.com/docker/docker/api/server/router/local.(*router).postContainersStart(0xc208aa4140, 0x7f0b500d2868, 0xc20941b620, 0x7f0b500d2830, 0xc209418000, 0xc208b82c30, 0xc20941b3e0, 0x0, 0x0)</sentence>
+            <sentence id="81.25"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/router/local/container.go:185 +0x162</sentence>
+            <sentence id="81.26">github.com/docker/docker/api/server/router/local.*router.(github.com/docker/docker/api/server/router/local.postContainersStart)·fm(0x7f0b500d2868, 0xc20941b620, 0x7f0b500d2830, 0xc209418000, 0xc208b82c30, 0xc20941b3e0, 0x0, 0x0)</sentence>
+            <sentence id="81.27"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/router/local/local.go:134 +0x7b</sentence>
+            <sentence id="81.28">github.com/docker/docker/api/server.func·004(0x7f0b500d2868, 0xc20941b620, 0x7f0b500d2830, 0xc209418000, 0xc208b82c30, 0xc20941b3e0, 0x0, 0x0)</sentence>
+            <sentence id="81.29"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/middleware.go:87 +0x7c7</sentence>
+            <sentence id="81.30">github.com/docker/docker/api/server.func·003(0x7f0b5447da50, 0xc208028fd0, 0x7f0b500d2830, 0xc209418000, 0xc208b82c30, 0xc20941b3e0, 0x0, 0x0)</sentence>
+            <sentence id="81.31"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/middleware.go:66 +0x10e</sentence>
+            <sentence id="81.32">github.com/docker/docker/api/server.func·002(0x7f0b5447da50, 0xc208028fd0, 0x7f0b500d2830, 0xc209418000, 0xc208b82c30, 0xc20941b3e0, 0x0, 0x0)</sentence>
+            <sentence id="81.33"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/middleware.go:49 +0x47c</sentence>
+            <sentence id="81.34">github.com/docker/docker/api/server.func·001(0x7f0b5447da50, 0xc208028fd0, 0x7f0b500d2830, 0xc209418000, 0xc208b82c30, 0xc20941b3e0, 0x0, 0x0)</sentence>
+            <sentence id="81.35"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/middleware.go:27 +0x1dc</sentence>
+            <sentence id="81.36">github.com/docker/docker/api/server.func·007(0x7f0b500d2830, 0xc209418000, 0xc208b82c30)</sentence>
+            <sentence id="81.37"> /usr/src/docker/.gopath/src/github.com/docker/docker/api/server/server.go:156 +0x265</sentence>
+            <sentence id="81.38">net/http.HandlerFunc.ServeHTTP(0xc208966200, 0x7f0b500d2830, 0xc209418000, 0xc208b82c30)</sentence>
+            <sentence id="81.39"> /usr/local/go/src/net/http/server.go:1265 +0x41</sentence>
+            <sentence id="81.40">github.com/gorilla/mux.(*Router).ServeHTTP(0xc208b34500, 0x7f0b500d2830, 0xc209418000, 0xc208b82c30)</sentence>
+            <sentence id="81.41"> /usr/src/docker/vendor/src/github.com/gorilla/mux/mux.go:98 +0x297</sentence>
+            <sentence id="81.42">net/http.serverHandler.ServeHTTP(0xc2080407e0, 0x7f0b500d2830, 0xc209418000, 0xc208b82c30)</sentence>
+            <sentence id="81.43"> /usr/local/go/src/net/http/server.go:1703 +0x19a</sentence>
+            <sentence id="81.44">net/http.(*conn).serve(0xc209467860)</sentence>
+            <sentence id="81.45"> /usr/local/go/src/net/http/server.go:1204 +0xb57</sentence>
+            <sentence id="81.46">created by net/http.(*Server).Serve</sentence>
+            <sentence id="81.47"> /usr/local/go/src/net/http/server.go:1751 +0x35e</sentence>
+            <sentence id="81.48">INFO[0056] POST /v1.21/containers/hcf-consul-server/start</sentence>
+            <sentence id="81.49">WARN[0056] Failed detaching sandbox eda05a1ffd687cb003dba7d424544fafa92bc786e8cf3be24b26cb18e73890a6 from endpoint e29281c63af4bb0c2caa32e44ada6dc81e454e1326462505eef4ca66f4462b8b: failed to get network from store during leave: network e4434e0ab90c291f80146e5aac139268c92df2a1841d84f0c05d2a8917f659e8 not found</sentence>
+        </paragraph>
+        <paragraph id="82">
+            <sentence id="82.1">WARN[0056] Failed deleting endpoint e29281c63af4bb0c2caa32e44ada6dc81e454e1326462505eef4ca66f4462b8b: failed to get network during Delete: network e4434e0ab90c291f80146e5aac139268c92df2a1841d84f0c05d2a8917f659e8 not found</sentence>
+        </paragraph>
+        <paragraph id="83">
+            <sentence id="83.1">WARN[0056] Failed detaching sandbox eda05a1ffd687cb003dba7d424544fafa92bc786e8cf3be24b26cb18e73890a6 from endpoint b2962df1fe4a144ba9b0340f772ff1e42cb1828833d4e7b350c7293751e5c727: failed to get endpoint from store during leave: could not find endpoint b2962df1fe4a144ba9b0340f772ff1e42cb1828833d4e7b350c7293751e5c727: Key not found in store</sentence>
+        </paragraph>
+        <paragraph id="84">
+            <sentence id="84.1">WARN[0056] Failed deleting endpoint b2962df1fe4a144ba9b0340f772ff1e42cb1828833d4e7b350c7293751e5c727: failed to get endpoint from store during Delete: could not find endpoint b2962df1fe4a144ba9b0340f772ff1e42cb1828833d4e7b350c7293751e5c727: Key not found in store</sentence>
+        </paragraph>
+        <paragraph id="85">
+            <sentence id="85.1">ERRO[0056] failed to cleanup up stale network sandbox for container 7b9b9e3f4eea0867a4f22c880755022031b0ba1ef3f03e4e0be8715c2b34fa58</sentence>
+            <sentence id="85.2">ERRO[0056] failed to umount /data/docker/containers/7b9b9e3f4eea0867a4f22c880755022031b0ba1ef3f03e4e0be8715c2b34fa58/shm: invalid argument</sentence>
+            <sentence id="85.3">ERRO[0056] failed to umount /data/docker/containers/7b9b9e3f4eea0867a4f22c880755022031b0ba1ef3f03e4e0be8715c2b34fa58/mqueue: invalid argument</sentence>
+            <sentence id="85.4">ERRO[0056] 7b9b9e3f4eea0867a4f22c880755022031b0ba1ef3f03e4e0be8715c2b34fa58: Failed to umount ipc filesystems: failed to cleanup ipc mounts:</sentence>
+            <sentence id="85.5">invalid argument</sentence>
+            <sentence id="85.6">invalid argument</sentence>
+            <sentence id="85.7">ERRO[0057] Handler for POST /v1.21/containers/hcf-consul-server/start returned error: Cannot start container hcf-consul-server: container already connected to network bridge</sentence>
+            <sentence id="85.8">ERRO[0057] HTTP Error err=Cannot start container hcf-consul-server: container already connected to network bridge statusCode=500</sentence>
+            <sentence id="85.9">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

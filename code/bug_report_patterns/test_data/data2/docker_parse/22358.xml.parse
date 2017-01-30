@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22358</id>
+    <title>Remove `docker/` prefix from log messages tag</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When I specify [logger tag](https://docs.docker.com/engine/admin/logging/log_tags/) for application running in docker container, I expect all messages of application will have exact same tag, but actually every message tag prefixed with `docker/`.</sentence>
+            <sentence id="1.2">And there is no way to remove this prefix from tag.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Launch application
+```
+docker run -d --log-driver=syslog --log-opt syslog-address=udp://172.16.155.205:514 --log-opt tag="hello-world" hello-world
+```</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Expected log messages
+```
+...
+Apr 27 09:10:55 example.com hello-world[755]: Hello from Docker.</sentence>
+            <sentence id="3.2">Apr 27 09:10:55 example.com hello-world[755]: This message shows that your installation appears to be working correctly.</sentence>
+            <sentence id="3.3">Apr 27 09:10:55 example.com hello-world[755]: 
+Apr 27 09:10:55 example.com hello-world[755]: To generate this message, Docker took the following steps:
+...
+```</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Actual log messages
+```
+...
+Apr 27 09:10:55 example.com docker/hello-world[755]: Hello from Docker.</sentence>
+            <sentence id="4.2">Apr 27 09:10:55 example.com docker/hello-world[755]: This message shows that your installation appears to be working correctly.</sentence>
+            <sentence id="4.3">Apr 27 09:10:55 example.com docker/hello-world[755]: 
+Apr 27 09:10:55 example.com docker/hello-world[755]: To generate this message, Docker took the following steps:
+...
+```</sentence>
+        </paragraph>
+    </description>
+</bug>

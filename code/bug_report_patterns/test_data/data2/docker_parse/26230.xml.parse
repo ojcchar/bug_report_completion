@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26230</id>
+    <title>support set shm-size to images when docker build</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">[root@adc01klb tmp]# docker --version</sentence>
+            <sentence id="2.2">Docker version 1.12.1, build 23cf638</sentence>
+            <sentence id="2.3">**Output of 'docker info':**</sentence>
+            <sentence id="2.4">[root@adc01klb tmp]# docker info</sentence>
+            <sentence id="2.5">Containers: 3</sentence>
+            <sentence id="2.6">Running: 0</sentence>
+            <sentence id="2.7">Paused: 0</sentence>
+            <sentence id="2.8">Stopped: 3</sentence>
+            <sentence id="2.9">Images: 19</sentence>
+            <sentence id="2.10">Server Version: 1.12.1</sentence>
+            <sentence id="2.11">Storage Driver: btrfs</sentence>
+            <sentence id="2.12">Build Version: Btrfs v3.19.1</sentence>
+            <sentence id="2.13">Library Version: 101</sentence>
+            <sentence id="2.14">Logging Driver: json-file</sentence>
+            <sentence id="2.15">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="2.16">Plugins:</sentence>
+            <sentence id="2.17">Volume: local</sentence>
+            <sentence id="2.18">Network: null bridge host overlay</sentence>
+            <sentence id="2.19">Swarm: inactive</sentence>
+            <sentence id="2.20">Runtimes: runc</sentence>
+            <sentence id="2.21">Default Runtime: runc</sentence>
+            <sentence id="2.22">Security Options: seccomp</sentence>
+            <sentence id="2.23">Kernel Version: 4.1.12-37.6.3.</sentence>
+            <sentence id="2.24">el7uek.x86_64</sentence>
+            <sentence id="2.25">Operating System: Oracle Linux Server 7.1</sentence>
+            <sentence id="2.26">OSType: linux</sentence>
+            <sentence id="2.27">Architecture: x86_64</sentence>
+            <sentence id="2.28">CPUs: 4</sentence>
+            <sentence id="2.29">Total Memory: 14.57 GiB</sentence>
+            <sentence id="2.30">Name: adc01klb</sentence>
+            <sentence id="2.31">ID: VU4C:BYLG:4PY5:645N:A3EF:BY75:JMVU:XHLW:56H2:WQ2R:XARC:K7CN</sentence>
+            <sentence id="2.32">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="2.33">Debug Mode (client): false</sentence>
+            <sentence id="2.34">Debug Mode (server): false</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="3.2">[root@adc01klb tmp]# uname -a</sentence>
+            <sentence id="3.3">Linux adc01klb 4.1.12-37.6.3.</sentence>
+            <sentence id="3.4">el7uek.x86_64 #2 SMP Fri Aug 12 15:44:33 PDT 2016 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="4.2">1 Run command like "docker build --shm-size=512K -t test -f test1.dockerfile ."</sentence>
+            <sentence id="4.3">2 After build, run into the container using the image just built:</sentence>
+            <sentence id="4.4">[root@adc01klb tmp]# docker run -it ff24885393fa bash</sentence>
+            <sentence id="4.5">[root@e0405006caee /]# df -h</sentence>
+            <sentence id="4.6">Filesystem Size Used Avail Use% Mounted on</sentence>
+            <sentence id="4.7">/dev/loop0 45G 196M 42G 1% /</sentence>
+            <sentence id="4.8">tmpfs 7.3G 0 7.3G 0% /dev</sentence>
+            <sentence id="4.9">tmpfs 7.3G 0 7.3G 0% /sys/fs/cgroup</sentence>
+            <sentence id="4.10">/dev/loop0 45G 196M 42G 1% /etc/resolv.</sentence>
+            <sentence id="4.11">conf</sentence>
+            <sentence id="4.12">/dev/loop0 45G 196M 42G 1% /etc/hostname</sentence>
+            <sentence id="4.13">/dev/loop0 45G 196M 42G 1% /etc/hosts</sentence>
+            <sentence id="4.14">shm 64M 0 64M 0% /dev/shm</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Describe the results you received:**</sentence>
+            <sentence id="5.2">The mount size of /dev/shm is still 64M</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Describe the results you expected:**</sentence>
+            <sentence id="6.2">The mount size of /dev/shm should be the same as we specified.</sentence>
+        </paragraph>
+    </description>
+</bug>

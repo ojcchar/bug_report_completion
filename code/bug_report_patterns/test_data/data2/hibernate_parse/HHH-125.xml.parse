@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-125</id>
+    <title>SEVERE: ORA-01009: missing mandatory parameter</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">SEVERE: ORA-01009: missing mandatory parameter</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This error ocurs when I try to load an object with a many-to-many relationship with itself.</sentence>
+            <sentence id="2.2">This task worked in Hibernate 2.1.7 with and Hibernate 3 beta 3 with Hypersonic but no with Hibernate beta 3 Oracle.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This is the stack trace:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">INFO: Error performing load command</sentence>
+            <sentence id="4.2">org.hibernate.exception.GenericJDBCException: could not load an entity: [CategoryData#5]</sentence>
+            <sentence id="4.3">	at org.hibernate.exception.ErrorCodeConverter.handledNonSpecificException(ErrorCodeConverter.java:92)</sentence>
+            <sentence id="4.4">	at org.hibernate.exception.ErrorCodeConverter.convert(ErrorCodeConverter.java:80)</sentence>
+            <sentence id="4.5">	at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:43)</sentence>
+            <sentence id="4.6">	at org.hibernate.loader.Loader.loadEntity(Loader.java:1180)</sentence>
+            <sentence id="4.7">	at org.hibernate.loader.EntityLoader.load(EntityLoader.java:135)</sentence>
+            <sentence id="4.8">	at org.hibernate.loader.EntityLoader.load(EntityLoader.java:121)</sentence>
+            <sentence id="4.9">	at org.hibernate.persister.BasicEntityPersister.load(BasicEntityPersister.java:2339)</sentence>
+            <sentence id="4.10">	at org.hibernate.event.DefaultLoadEventListener.loadFromDatasource(DefaultLoadEventListener.java:359)</sentence>
+            <sentence id="4.11">	at org.hibernate.event.DefaultLoadEventListener.doLoad(DefaultLoadEventListener.java:340)</sentence>
+            <sentence id="4.12">	at org.hibernate.event.DefaultLoadEventListener.load(DefaultLoadEventListener.java:159)</sentence>
+            <sentence id="4.13">	at org.hibernate.event.DefaultLoadEventListener.load(DefaultLoadEventListener.java:132)</sentence>
+            <sentence id="4.14">	at org.hibernate.event.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:111)</sentence>
+            <sentence id="4.15">	at org.hibernate.impl.SessionImpl.immediateLoad(SessionImpl.java:737)</sentence>
+            <sentence id="4.16">	at org.hibernate.proxy.AbstractLazyInitializer.initialize(AbstractLazyInitializer.java:59)</sentence>
+            <sentence id="4.17">	at org.hibernate.proxy.AbstractLazyInitializer.getImplementation(AbstractLazyInitializer.java:80)</sentence>
+            <sentence id="4.18">	at org.hibernate.proxy.CGLIBLazyInitializer.intercept(CGLIBLazyInitializer.java:115)</sentence>
+            <sentence id="4.19">	at CategoryData$$EnhancerByCGLIB$$26b33c88.toString(&lt;generated&gt;)</sentence>
+            <sentence id="4.20">	at java.lang.String.valueOf(String.java:2577)</sentence>
+            <sentence id="4.21">	at java.io.PrintStream.print(PrintStream.java:616)</sentence>
+            <sentence id="4.22">	at java.io.PrintStream.println(PrintStream.java:753)</sentence>
+            <sentence id="4.23">	at CategoryData.getData(CategoryData.java:330)</sentence>
+            <sentence id="4.24">	at CategoryData.main(CategoryData.java:250)</sentence>
+            <sentence id="4.25">Caused by: java.sql.SQLException: ORA-01009: missing mandatory parameter</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">	at oracle.jdbc.dbaccess.DBError.throwSqlException(DBError.java:134)</sentence>
+            <sentence id="5.2">	at oracle.jdbc.ttc7.TTIoer.processError(TTIoer.java:289)</sentence>
+            <sentence id="5.3">	at oracle.jdbc.ttc7.Oall7.receive(Oall7.java:579)</sentence>
+            <sentence id="5.4">	at oracle.jdbc.ttc7.TTC7Protocol.doOall7(TTC7Protocol.java:1894)</sentence>
+            <sentence id="5.5">	at oracle.jdbc.ttc7.TTC7Protocol.fetch(TTC7Protocol.java:1199)</sentence>
+            <sentence id="5.6">	at oracle.jdbc.driver.OracleResultSetImpl.next(OracleResultSetImpl.java:295)</sentence>
+            <sentence id="5.7">	at org.hibernate.loader.Loader.doQuery(Loader.java:366)</sentence>
+            <sentence id="5.8">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:195)</sentence>
+            <sentence id="5.9">	at org.hibernate.loader.Loader.loadEntity(Loader.java:1171)</sentence>
+            <sentence id="5.10">	... 18 more</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1813</id>
+    <title>2nd level cached collections are locked causing a cache miss</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Using the second level cache, collections are fetched from the database due to the cached item being locked.</sentence>
+            <sentence id="1.2">This happens in the most simple use case:</sentence>
+            <sentence id="1.3">1 Insert an entity with a collection</sentence>
+            <sentence id="1.4">2 Commit.</sentence>
+            <sentence id="1.5">3 Fetch the entity</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I've written a simple test case and see the following in the log file:</sentence>
+            <sentence id="2.2">11:52:47,159 DEBUG [ReadWriteCache] Invalidating: domain.Cat.kittens#539957</sentence>
+            <sentence id="2.3">11:52:47,177 DEBUG [ReadWriteCache] Inserting: domain.Cat#539957</sentence>
+            <sentence id="2.4">11:52:47,179 DEBUG [ReadWriteCache] Inserted: domain.Cat#539957</sentence>
+            <sentence id="2.5">11:52:47,180 DEBUG [ReadWriteCache] Inserting: domain.Kitten#540214</sentence>
+            <sentence id="2.6">11:52:47,180 DEBUG [ReadWriteCache] Inserted: domain.Kitten#540214</sentence>
+            <sentence id="2.7">11:52:47,181 DEBUG [ReadWriteCache] Releasing: domain.Cat.kittens#539957</sentence>
+            <sentence id="2.8">11:52:49,221 DEBUG [ReadWriteCache] Caching: domain.Cat#539957</sentence>
+            <sentence id="2.9">11:52:49,221 DEBUG [ReadWriteCache] Item was already cached: domain.Cat#539957</sentence>
+            <sentence id="2.10">11:52:49,223 DEBUG [ReadWriteCache] Cache lookup: domain.Cat.kittens#539957</sentence>
+            <sentence id="2.11">11:52:49,223 DEBUG [ReadWriteCache] Cached item was locked: domain.Cat.kittens#539957</sentence>
+            <sentence id="2.12">11:52:49,229 DEBUG [ReadWriteCache] Caching: domain.Kitten#540214</sentence>
+            <sentence id="2.13">11:52:49,229 DEBUG [ReadWriteCache] Item was already cached: domain.Kitten#540214</sentence>
+            <sentence id="2.14">11:52:49,230 DEBUG [ReadWriteCache] Caching: domain.Cat.kittens#539957</sentence>
+            <sentence id="2.15">11:52:49,231 DEBUG [ReadWriteCache] Cached: domain.Cat.kittens#539957</sentence>
+            <sentence id="2.16">domain.Cat.kittens [C/H/M/P]: 1/0/1/1</sentence>
+            <sentence id="2.17">domain.Cat [C/H/M/P]: 1/0/0/1</sentence>
+            <sentence id="2.18">domain.Kitten [C/H/M/P]: 1/0/0/1</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This happens whether the collection is mapped as inverse or not.</sentence>
+            <sentence id="3.2">I've attached the test case source and hbms (although it might need to be tweaked for the proper DB before running, and I didn't include the dependencies JARs).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here's a code excerpt of the interesting part (tx is TransactionTemplate using HibnerateTransactionManager and hibernate is HibernateTemplate from the spring framework):</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">tx.execute(new TransactionCallback() {
+			public Object doInTransaction(TransactionStatus status) {
+				// create a Cat with one Kitten
+				Cat cat = new Cat();
+				Kitten kitten = new Kitten();
+				cat.addKitten(kitten);
+				
+				hibernate.save(cat);
+				
+				return null;
+			}			
+		});
+		
+		Thread.sleep(2000L);
+		
+		tx.execute(new TransactionCallback() {
+			public Object doInTransaction(TransactionStatus status) {
+				// load all cats
+				List&lt;Cat&gt; allCats = hibernate.loadAll(Cat.class);
+				return null;
+			}
+		});</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I can supply further information if needed.</sentence>
+        </paragraph>
+    </description>
+</bug>

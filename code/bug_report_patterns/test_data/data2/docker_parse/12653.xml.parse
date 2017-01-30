@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>12653</id>
+    <title>'docker load' failed with Untar exit status 1 no such file or directory</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We are running a stress testing against docker saving and loading images:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">1 Save an already built docker image via: docker save --output local_file image;</sentence>
+            <sentence id="2.2">2 Upload the saved image file to a cloud storage, e.g. openstack swift;</sentence>
+            <sentence id="2.3">3 Download the image file, and do a 'docker load -i'.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">We ran the above step 1) through step 3) 60 times, but saw 2 'docker load' failures out of 60 runs.</sentence>
+            <sentence id="3.2">For the error cases, docker load returns an 1, and in /var/log/upstart/docker.log :</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+Untar exit status 1 lchown /usr/bin/unzipsfx: no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">^[[34mINFO^[[0m[0577] -job load() = ERR (1)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">^[[31mERRO^[[0m[0577] Handler for POST /images/load returned error: Untar exit status 1 lchown /usr/bin/unzipsfx: no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">^[[31mERRO^[[0m[0577] HTTP Error: statusCode=404 Untar exit status 1 lchown /usr/bin/unzipsfx: no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Untar exit status 1 no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">^[[34mINFO^[[0m[0577] -job load() = ERR (1)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">^[[31mERRO^[[0m[0577] Handler for POST /images/load returned error: Untar exit status 1 no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">^[[31mERRO^[[0m[0577] HTTP Error: statusCode=404 Untar exit status 1 no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">$ sudo docker info
+Containers: 1
+Images: 13
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 20
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-45-generic
+Operating System: Ubuntu 14.04.1 LTS
+CPUs: 4
+Total Memory: 3.855 GiB
+Name: arbor-k1-20150422-gupstream-33-perf-4202
+ID: FOC6:XHMT:GCFU:A3A6:BWPY:3XJH:OVV5:7MOU:57LA:WZZ4:JYIK:WKVG</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">$ sudo docker version
+Client version: 1.5.0
+Client API version: 1.17
+Go version (client): go1.4.1
+Git commit (client): a8a31ef
+OS/Arch (client): linux/amd64
+Server version: 1.5.0
+Server API version: 1.17
+Go version (server): go1.4.1
+Git commit (server): a8a31ef</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">$ uname -a
+Linux 20150422-gupstream-33-perf-4202 3.13.0-45-generic #74-Ubuntu SMP Tue Jan 13 19:36:28 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

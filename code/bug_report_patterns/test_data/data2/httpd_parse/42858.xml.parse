@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>42858</id>
+    <title>OS 64 (winnt_accept: Asynchronous AcceptEx failed) possible cause?</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Lately I frequently see the error message: [warn] (OS 64)The specified network 
+name is no longer available.</sentence>
+            <sentence id="1.2">: winnt_accept: Asynchronous AcceptEx failed.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I updated Apache (to 2.2.4) and PHP (to 5.2.3), but the problem persists.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">After studying the traffic log and locating traffic at or just before the error 
+date/time, I found that a combination of two pages always produces this error.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">test.phtml -&gt; HTML file (no PHP in it) that calls a second page with a 
+parameter (added to the URL, e.g. ?</sentence>
+            <sentence id="4.2">subpage=1).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">test2.phtml -&gt; PHP file with a reference to $subpage (without using $_GET 
+properly).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Works fine, until I put in an onload in the BODY tag of index.phtml.</sentence>
+            <sentence id="6.2">From off 
+that moment, whenever I go to test2.phtml and then use the back button, the OS 
+64 error is added to the log.</sentence>
+            <sentence id="6.3">NOTE: This only happens when the logop.gif is 
+used as a background of the div (http://www.newthesis.com/images/logop.gif)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Here are the two files:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">[file test.phtml]</sentence>
+            <sentence id="8.2">&lt;HTML&gt;</sentence>
+            <sentence id="8.3">&lt;HEAD&gt;</sentence>
+            <sentence id="8.4">&lt;script language="Javascript"&gt;</sentence>
+            <sentence id="8.5">function setcontentpos(startup)</sentence>
+            <sentence id="8.6">{</sentence>
+            <sentence id="8.7">   x = Math.round((document.body.clientWidth-800)/2);</sentence>
+            <sentence id="8.8">   y = Math.round((document.body.clientHeight-600)/2);</sentence>
+            <sentence id="8.9">   if (x&lt;1) {x=1;}</sentence>
+            <sentence id="8.10">   if (y&lt;1) {y=1;}</sentence>
+            <sentence id="8.11">   document.getElementById('content').style.left=x;</sentence>
+            <sentence id="8.12">   document.getElementById('content').style.top=y;</sentence>
+            <sentence id="8.13">   if (startup==1)</sentence>
+            <sentence id="8.14">   {</sentence>
+            <sentence id="8.15">      document.getElementById('content').style.display='inline';</sentence>
+            <sentence id="8.16">      document.getElementById('contenthidden').style.display='none';</sentence>
+            <sentence id="8.17">   }   </sentence>
+            <sentence id="8.18">}</sentence>
+            <sentence id="8.19">&lt;/script&gt;</sentence>
+            <sentence id="8.20">&lt;/HEAD&gt;</sentence>
+            <sentence id="8.21">&lt;body id="body" onload="setcontentpos(1)" onresize="setcontentpos(0)"&gt;</sentence>
+            <sentence id="8.22">&lt;div id="content" style="position : absolute; width : 800px; height : 600px; </sentence>
+            <sentence id="8.23">left : 1px; top : 1px; background-position : center; background-image:url</sentence>
+            <sentence id="8.24">('images/logop.gif'); background-repeat : no-repeat; display : none;"&gt;</sentence>
+            <sentence id="8.25">&lt;INPUT TYPE="BUTTON" onclick="self.navigate('test2.phtml?subpage=1');" </sentence>
+            <sentence id="8.26">VALUE="go to page 1"&gt;</sentence>
+            <sentence id="8.27">&lt;/div&gt;</sentence>
+            <sentence id="8.28">&lt;/BODY&gt;</sentence>
+            <sentence id="8.29">&lt;/HTML&gt;</sentence>
+            <sentence id="8.30">[/file]</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">[file test2.phtml]
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+Got news today...&lt;BR&gt;&lt;BR&gt;
+&lt;?</sentence>
+            <sentence id="9.2">$hr="&lt;/span&gt;&lt;/div&gt;&lt;BR&gt;&lt;HR&gt;&lt;BR&gt;\n";
+   switch ($subpage)
+   {
+      case 1 : echo "Company".</sentence>
+            <sentence id="9.3">$hr;
+      break;
+      case 2 : echo "People".</sentence>
+            <sentence id="9.4">$hr; 
+      break;
+      case 3 : echo "Partners".</sentence>
+            <sentence id="9.5">$hr; 
+      break;
+      
+   }
+   
+?</sentence>
+            <sentence id="9.6">&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+[/file]</sentence>
+        </paragraph>
+    </description>
+</bug>

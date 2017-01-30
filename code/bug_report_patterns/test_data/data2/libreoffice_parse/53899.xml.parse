@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>53899</id>
+    <title>ThisComponent.CurrentController is NULL when first calculating cell formulas</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 65919</sentence>
+            <sentence id="1.2">Demo spreadsheet showing NULL CurrentController at start-up</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In Basic macros, ThisComponent.CurrentController is not being initialized before evaluating formulas in spreadsheet cells the first time after start-up.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Consequently, if a cell formula calls a macro which tries to access the current frame, an error occurs.</sentence>
+            <sentence id="3.2">After start-up the problem goes away, i.e. 
+ThisComponent.CurrentController is defined.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Please open the attached demo .</sentence>
+            <sentence id="4.2">ods file.</sentence>
+        </paragraph>
+    </description>
+</bug>

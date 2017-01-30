@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>286568</id>
+    <title>@MappedSuperclass is broken without @DiscriminatorValue</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I get a can't instantiate class exception when I run the query "select o from Site o" when I have the following</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">@MappedSuperclass
+public abstract class Site extends {
+  @SequenceGenerator(name = "SITE_PK", sequenceName = "SEQ_SITE_ID")
+  @Id
+  @GeneratedValue(generator = "SITE_PK", strategy = GenerationType.SEQUENCE)
+  @Column(name = "SITE_ID", nullable = false)
+  private Long siteId;
+}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">@Entity
+//@DiscriminatorValue("1")
+@Table(name = "SITE")
+public class SiteBean extends Site {
+...
+}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If I enable @DiscriminatorValue("1") in SiteBean, it all works fine.</sentence>
+        </paragraph>
+    </description>
+</bug>

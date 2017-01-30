@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2901</id>
+    <title>Repeating method declaration in interface hierarchy causes faulty method lookup in proxies</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Consider the following two interfaces</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">interface A
+{
+  public abstract void b();
+}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">interface B extends A
+{
+  public abstract void b();
+}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Note that B repeats the definition of "b", which is perfectly legal java code.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Now consider these two classes:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">abstract class AImpl implements A
+{
+}</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">public class BImpl extends AImpl implements B
+{
+    public final void b()
+    {
+        // implementation is irrelevant
+    }
+}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Now consider that mappings have been created where interfaces A and B are given as the "proxy" type for mapped entity types AImpl and BImpl, respectively, and that the BImpl mapping "extends" the AImpl mapping.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Now, when an object is loaded by refering to the base type (AImpl), then invocations of the method "b" will raise the following exception:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">java.lang.IllegalArgumentException: object is not an instance of declaring class</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">A short time spent debugging suggested to me that the method that the proxy (a proxy for A, not B!) selected to delegate the call to the "wrong" method somehow, causing this error.</sentence>
+            <sentence id="11.2">The problem can be remedied by removing the declaration for "b" in the B interface.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">So, there is a workaround: don't repeat declarations.</sentence>
+            <sentence id="12.2">But still I would prefer to see this issue solved.</sentence>
+        </paragraph>
+    </description>
+</bug>

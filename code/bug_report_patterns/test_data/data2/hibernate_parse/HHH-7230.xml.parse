@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7230</id>
+    <title>Query "select new pakage.Object ..." throws the ClassCastException when the first level pakage is "by"</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The problem appears, when class is placed in the package with first level "by", e.g. "by.bntu.shop.domain.dto.ProductDto".</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Test method:
+public void testExecSearchQuery1() {</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">EntityManagerFactory emf = Persistence.createEntityManagerFactory("VideoShopPU");
+        EntityManager entityManager = emf.createEntityManager();
+        String queryStr = "SELECT new by.bntu.shop.domain.dto.ProductDto(c.id, c.price)  FROM ProductEntity AS c";
+        TypedQuery&lt;ProductDto&gt; query = entityManager.createQuery(queryStr, ProductDto.class); //throws exception!</sentence>
+            <sentence id="3.2">List&lt;ProductDto&gt; results = query.getResultList();
+}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Stack trace:</sentence>
+            <sentence id="4.2">java.lang.ClassCastException: org.hibernate.hql.internal.ast.tree.SqlNode cannot be cast to org.hibernate.hql.internal.ast.tree.FromReferenceNode</sentence>
+            <sentence id="4.3">	at org.hibernate.hql.internal.ast.tree.DotNode.getLhs(DotNode.java:614)</sentence>
+            <sentence id="4.4">	at org.hibernate.hql.internal.ast.tree.DotNode.getPath(DotNode.java:629)</sentence>
+            <sentence id="4.5">	at org.hibernate.hql.internal.ast.tree.DotNode.getPath(DotNode.java:635)</sentence>
+            <sentence id="4.6">	at org.hibernate.hql.internal.ast.tree.DotNode.getPath(DotNode.java:635)</sentence>
+            <sentence id="4.7">	at org.hibernate.hql.internal.ast.tree.DotNode.getPath(DotNode.java:635)</sentence>
+            <sentence id="4.8">	at org.hibernate.hql.internal.ast.tree.DotNode.getPath(DotNode.java:635)</sentence>
+            <sentence id="4.9">	at org.hibernate.hql.internal.ast.tree.ConstructorNode.prepare(ConstructorNode.java:142)</sentence>
+            <sentence id="4.10">	at org.hibernate.hql.internal.ast.HqlSqlWalker.processConstructor(HqlSqlWalker.java:1021)</sentence>
+            <sentence id="4.11">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectExpr(HqlSqlBaseWalker.java:2126)</sentence>
+            <sentence id="4.12">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectExprList(HqlSqlBaseWalker.java:1992)</sentence>
+            <sentence id="4.13">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectClause(HqlSqlBaseWalker.java:1433)</sentence>
+            <sentence id="4.14">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:559)</sentence>
+            <sentence id="4.15">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:287)</sentence>
+            <sentence id="4.16">	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:235)</sentence>
+            <sentence id="4.17">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:248)</sentence>
+            <sentence id="4.18">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:183)</sentence>
+            <sentence id="4.19">	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:136)</sentence>
+            <sentence id="4.20">	at org.hibernate.engine.query.spi.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:106)</sentence>
+            <sentence id="4.21">	at org.hibernate.engine.query.spi.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:81)</sentence>
+            <sentence id="4.22">	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:167)</sentence>
+            <sentence id="4.23">	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:217)</sentence>
+            <sentence id="4.24">	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:195)</sentence>
+            <sentence id="4.25">	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1649)</sentence>
+            <sentence id="4.26">	at org.hibernate.ejb.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:296)</sentence>
+            <sentence id="4.27">	at by.bntu.shop.unittests.ProductDaoTest.testExecSearchQuery1(ProductDaoTest.java:65)</sentence>
+        </paragraph>
+    </description>
+</bug>

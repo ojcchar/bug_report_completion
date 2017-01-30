@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1889</id>
+    <title>When voiding a patient via the standard Patient Form, validation does not enforce entering a "void reason"</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If you void a Patient via the main patient form, the validator should enforce that you also provide a "void reason".</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This is not currently the case, so if you check the "void" box and don't enter a void reason, upon submittal you get an API exception:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">An Internal Error has Occurred
+org.openmrs.api.APIException</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The voided bit was set to true, so a void reason is required at save time for object: Patient#5 of class: class org.openmrs.Patient</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7805</id>
+    <title>@NotFound(IGNORE) does not work (ObjectNotFound), if same non-existing entity is referenced twice</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Assume the following:</sentence>
+            <sentence id="1.2">Two entity types:</sentence>
+            <sentence id="1.3">RelationOne
+        @ManyToOne
+        @NotFound(IGNORE)
+        RelationTwo relationTwo;</sentence>
+            <sentence id="1.4">RelationTwo
+        (nothing special)</sentence>
+            <sentence id="1.5">Further:
+    insert one instance of RelationTwo
+    insert two instances of RelationOne, which reference RelationTwo</sentence>
+            <sentence id="1.6">Next step:
+    commit</sentence>
+            <sentence id="1.7">Next:
+    new Session &amp; TX
+    Load RelationOne (Session.get())
+    Delete RelationOne (Session.delete())
+    commit</sentence>
+            <sentence id="1.8">Next:
+    new Session &amp; TX
+    Load one instance of RelationTwo (everything is fine)
+    Load next instance of RelationTwo (FAILURE)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{noformat}</sentence>
+            <sentence id="2.2">org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.hrs.frw.jpa.flux.test.entities.RelationTwo#RelationId{idNumber=31, idString='x1'}]</sentence>
+            <sentence id="2.3">	at org.hibernate.internal.SessionFactoryImpl$1$1.handleEntityNotFound(SessionFactoryImpl.java:242)</sentence>
+            <sentence id="2.4">	at org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:210)</sentence>
+            <sentence id="2.5">	at org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:260)</sentence>
+            <sentence id="2.6">	at org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:148)</sentence>
+            <sentence id="2.7">	at org.hibernate.internal.SessionImpl.fireLoad(SessionImpl.java:1075)</sentence>
+            <sentence id="2.8">	at org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1002)</sentence>
+            <sentence id="2.9">	at org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:613)</sentence>
+            <sentence id="2.10">	at org.hibernate.type.EntityType.resolve(EntityType.java:441)</sentence>
+            <sentence id="2.11">	at org.hibernate.engine.internal.TwoPhaseLoad.doInitializeEntity(TwoPhaseLoad.java:168)</sentence>
+            <sentence id="2.12">	at org.hibernate.engine.internal.TwoPhaseLoad.initializeEntity(TwoPhaseLoad.java:134)</sentence>
+            <sentence id="2.13">	at org.hibernate.loader.Loader.initializeEntitiesAndCollections(Loader.java:999)</sentence>
+            <sentence id="2.14">	at org.hibernate.loader.Loader.doQuery(Loader.java:878)</sentence>
+            <sentence id="2.15">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:293)</sentence>
+            <sentence id="2.16">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:263)</sentence>
+            <sentence id="2.17">	at org.hibernate.loader.Loader.loadEntity(Loader.java:1977)</sentence>
+            <sentence id="2.18">{noformat}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{{org.hibernate.event.internal.DefaultLoadEventListener#proxyOrLoad}} contains the following code:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{noformat}
+		// look for a proxy
+        Object proxy = persistenceContext.getProxy(keyToLoad);
+        if (proxy !</sentence>
+            <sentence id="4.2">= null) {
+			return returnNarrowedProxy(event, persister, keyToLoad, options, persistenceContext, proxy);
+		}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">if (options.isAllowProxyCreation()) {
+			return createProxyIfNecessary(event, persister, keyToLoad, options, persistenceContext);
+		}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">// return a newly loaded object
+        return load(event, persister, keyToLoad, options);
+{noformat}</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The load of the first instance of RelationTwo has a {{null}} proxy variable for RelationOne, but the second load of RelationTwo has a non-null proxy variable for RelationOne.</sentence>
+            <sentence id="7.2">This results in a call to {{org.hibernate.event.internal.DefaultLoadEventListener#load}} which unconditionally raises an {{ObjectNotFound}} exception.</sentence>
+        </paragraph>
+    </description>
+</bug>

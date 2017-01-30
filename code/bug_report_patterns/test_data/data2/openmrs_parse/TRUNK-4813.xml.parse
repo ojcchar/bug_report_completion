@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4813</id>
+    <title>SQLException during the initial setup on MySQL 5.7</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When configuring a new OpenMRS server (initial setup), an SQL exception is thrown:
+Error executing SQL UPDATE person_attribute_type as A JOIN person_attribute_type as B ON A.name = B.name SET A.sort_weight = (select count(*) from (select * from person_attribute_type) pat where pat.name &lt; A.name) WHERE A.sort_weight is null: You can't specify target table 'A' for update in FROM clause: Caused By: You can't specify target table 'A' for update in FROM clause Error while trying to update to the latest database version</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Full stacktrace and screenshot are in attachment.</sentence>
+            <sentence id="2.2">I use the latest MySQL server version (5.7.10)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">To reproduce this, download the openmrs war file from https://sourceforge.net/projects/openmrs/files/releases/OpenMRS_Platform_2.0.0/ and follow the .war package install instructions in the readme.txt as below:</sentence>
+            <sentence id="3.2">1 Install Apache Tomcat.</sentence>
+            <sentence id="3.3">2 Install MySQL 5.7 or higher.</sentence>
+            <sentence id="3.4">3 Put openmrs.war into &lt;tomcathome&gt;/webapps.</sentence>
+            <sentence id="3.5">Notice that the war file exceeds 50MB which is the default maximum war file size accepted by tomcat and therefore you may have to look into https://talk.openmrs.org/t/openmrs-war-file-exceeding-50mbs-configured-for-tomcat/861 to solve the error you may get while uploading it into tomcat</sentence>
+            <sentence id="3.6">4 Visit http://localhost:8080/openmrs and run the installation wizard.</sentence>
+            <sentence id="3.7">You can choose the "Simple" installation type.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">You could also see https://wiki.openmrs.org/display/docs/Installing+OpenMRS</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-236</id>
+    <title>Hardcoded import of Log4J forces keeping log4j.jar in classpath</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There is a import statement</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">import org.apache.log4j.Logger;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">in 
+org.hibernate.tuple.PojoTuplizer.java
+org.hibernate.tuple.DynamicMapTuplizer.java
+org.hibernate.tuple.Dom4jTuplizer.java</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This forces users to keep log4j.jar in classpath.</sentence>
+            <sentence id="4.2">This is in conflict with the statement in The Hibernate reference section 3.5 that states that Log4j is optional.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10410</id>
+    <title>Co-linear points are causing an exception</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When trying to create a polygon with co-linear latitudes hibernate spatial is throwing an exception.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Here is the text from the developer who found the issue.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The shape it is constructing is org.geolatte.geom.Polygon</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">SRID=4326;POLYGON((4.442222 48.633333,5.398611 48.633333,6.141667 48.633333,5.942222 48.495556,5.169167 48.389444,4.528333 48.573056,4.442222 48.633333))
+Crs is org.geolatte.geom.crs.Geographic2DCoordinateReferenceSystem@969543e0</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">SDOGeometry it is converting it to is (2003,4326,null,null,null)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The shape consists of following 3 lines, which are being appended to make a polygon.</sentence>
+            <sentence id="6.2">(should it be saved as another type of shape???</sentence>
+            <sentence id="6.3">Ie multi-line)
+Lat1                                        Long1                                    Lat2                                        Long2
+48.63333		4.442222		48.63333		5.398611
+48.63333		5.398611		48.63333		6.141667
+48.63333		6.141667		48.49556		5.942222</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">However as they are all on the same latitude, they will be in a straight line when persisting when using hibernate.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Here is the stack trace copied from eclipse when the actual exception is thrown.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Daemon Thread [Camel (asn-business-app) thread #2 - JmsConsumer[AIRSCAPE.DAFIF_IMPORT]] (Suspended (exception IllegalArgumentException))    </sentence>
+            <sentence id="9.2">       NumericalMethods.isCounterClockwise(Position, Position, Position) line: 72 </sentence>
+            <sentence id="9.3">       NumericalMethods.isCounterClockwise(PositionSequence&lt;?&gt;) line: 92    </sentence>
+            <sentence id="9.4">       SdoPolygonEncoder(AbstractSDOEncoder).addPolygon(SDOGeometry, Polygon) line: 44   </sentence>
+            <sentence id="9.5">       SdoPolygonEncoder.encode(G) line: 26     </sentence>
+            <sentence id="9.6">       SdoPolygonEncoder.encode(Geometry) line: 12     </sentence>
+            <sentence id="9.7">       Encoders.encode(Geometry&lt;?&gt;) line: 41    </sentence>
+            <sentence id="9.8">       SDOGeometryValueBinder&lt;J&gt;.toNative(Geometry, Connection) line: 63    </sentence>
+            <sentence id="9.9">       SDOGeometryValueBinder&lt;J&gt;.bind(PreparedStatement, J, int, WrapperOptions) line: 52 </sentence>
+            <sentence id="9.10">       JTSGeometryType(AbstractStandardBasicType&lt;T&gt;).nullSafeSet(PreparedStatement, Object, int, WrapperOptions) line: 257  </sentence>
+            <sentence id="9.11">       JTSGeometryType(AbstractStandardBasicType&lt;T&gt;).nullSafeSet(PreparedStatement, Object, int, SessionImplementor) line: 252     </sentence>
+            <sentence id="9.12">       JTSGeometryType(AbstractSingleColumnStandardBasicType&lt;T&gt;).nullSafeSet(PreparedStatement, Object, int, boolean[], SessionImplementor) line: 39    </sentence>
+            <sentence id="9.13">       SingleTableEntityPersister(AbstractEntityPersister).dehydrate(Serializable, Object[], Object, boolean[], boolean[][], int, PreparedStatement, SessionImplementor, int, boolean) line: 2598    </sentence>
+            <sentence id="9.14">       SingleTableEntityPersister(AbstractEntityPersister).insert(Serializable, Object[], boolean[], int, String, Object, SessionImplementor) line: 2882  </sentence>
+            <sentence id="9.15">       SingleTableEntityPersister(AbstractEntityPersister).insert(Serializable, Object[], Object, SessionImplementor) line: 3385    </sentence>
+            <sentence id="9.16">       EntityInsertAction.execute() line: 89    </sentence>
+            <sentence id="9.17">       ActionQueue.executeActions(ExecutableList&lt;E&gt;) line: 560       </sentence>
+            <sentence id="9.18">       ActionQueue.executeActions() line: 434   </sentence>
+            <sentence id="9.19">       JpaFlushEventListener(AbstractFlushingEventListener).performExecutions(EventSource) line: 337   </sentence>
+            <sentence id="9.20">       JpaFlushEventListener(DefaultFlushEventListener).onFlush(FlushEvent) line: 39     </sentence>
+            <sentence id="9.21">       SessionImpl.flush() line: 1282    </sentence>
+            <sentence id="9.22">       EntityManagerImpl(AbstractEntityManagerImpl).flush() line: 1300      </sentence>
+            <sentence id="9.23">       GeneratedMethodAccessor394.invoke(Object, Object[]) line: not available    </sentence>
+            <sentence id="9.24">       DelegatingMethodAccessorImpl.invoke(Object, Object[]) line: not available  </sentence>
+            <sentence id="9.25">       Method.invoke(Object, Object...) line: not available   </sentence>
+            <sentence id="9.26">       SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(Object, Method, Object[]) line: 291     </sentence>
+            <sentence id="9.27">       $Proxy98.flush() line: not available     </sentence>
+            <sentence id="9.28">       SimpleJpaRepository&lt;T,ID&gt;.flush() line: 486     </sentence>
+            <sentence id="9.29">       GeneratedMethodAccessor396.invoke(Object, Object[]) line: not available    </sentence>
+            <sentence id="9.30">       DelegatingMethodAccessorImpl.invoke(Object, Object[]) line: not available  </sentence>
+            <sentence id="9.31">       Method.invoke(Object, Object...) line: not available   </sentence>
+            <sentence id="9.32">       RepositoryFactorySupport$QueryExecutorMethodInterceptor.executeMethodOn(Object, Method, Object[]) line: 483     </sentence>
+            <sentence id="9.33">       RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(MethodInvocation) line: 468    </sentence>
+            <sentence id="9.34">       RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(MethodInvocation) line: 440      </sentence>
+            <sentence id="9.35">       ReflectiveMethodInvocation.proceed() line: 179  </sentence>
+            <sentence id="9.36">       DefaultMethodInvokingMethodInterceptor.invoke(MethodInvocation) line: 61   </sentence>
+            <sentence id="9.37">       ReflectiveMethodInvocation.proceed() line: 179  </sentence>
+            <sentence id="9.38">       TransactionInterceptor$1.proceedWithInvocation() line: 99     </sentence>
+            <sentence id="9.39">       TransactionInterceptor(TransactionAspectSupport).invokeWithinTransaction(Method, Class&lt;?&gt;, InvocationCallback) line: 281     </sentence>
+            <sentence id="9.40">       TransactionInterceptor.invoke(MethodInvocation) line: 96      </sentence>
+            <sentence id="9.41">       ReflectiveMethodInvocation.proceed() line: 179  </sentence>
+            <sentence id="9.42">       PersistenceExceptionTranslationInterceptor.invoke(MethodInvocation) line: 136     </sentence>
+            <sentence id="9.43">       ReflectiveMethodInvocation.proceed() line: 179  </sentence>
+            <sentence id="9.44">       CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(MethodInvocation) line: 131     </sentence>
+            <sentence id="9.45">       ReflectiveMethodInvocation.proceed() line: 179  </sentence>
+            <sentence id="9.46">       ExposeInvocationInterceptor.invoke(MethodInvocation) line: 92 </sentence>
+            <sentence id="9.47">       ReflectiveMethodInvocation.proceed() line: 179  </sentence>
+            <sentence id="9.48">       JdkDynamicAopProxy.invoke(Object, Method, Object[]) line: 208 </sentence>
+            <sentence id="9.49">       $Proxy119.flush() line: not available    </sentence>
+            <sentence id="9.50">       RepositorySuasService(GenericDafifDataTypePersister&lt;D,T&gt;).addSublist(List&lt;D&gt;) line: 74   </sentence>
+            <sentence id="9.51">       RepositorySuasService(GenericDafifDataTypePersister&lt;D,T&gt;).add(Collection&lt;D&gt;) line: 57    </sentence>
+            <sentence id="9.52">       NativeMethodAccessorImpl.invoke0(Method, Object, Object[]) line: not available [native method]  </sentence>
+            <sentence id="9.53">       NativeMethodAccessorImpl.invoke(Object, Object[]) line: not available      </sentence>
+            <sentence id="9.54">       DelegatingMethodAccessorImpl.invoke(Object, Object[]) line: not available  </sentence>
+            <sentence id="9.55">       Method.invoke(Object, Object...) line: not available   </sentence>
+            <sentence id="9.56">       AopUtils.invokeJoinpointUsingReflection(Object, Method, Object[]) line: 302 </sentence>
+            <sentence id="9.57">       ReflectiveMethodInvocation.invokeJoinpoint() line: 190 </sentence>
+            <sentence id="9.58">       ReflectiveMethodInvocation.proceed() line: 157  </sentence>
+            <sentence id="9.59">       TransactionInterceptor$1.proceedWithInvocation() line: 99     </sentence>
+            <sentence id="9.60">       TransactionInterceptor(TransactionAspectSupport).invokeWithinTransaction(Method, Class&lt;?&gt;, InvocationCallback) line: 281     </sentence>
+            <sentence id="9.61">       TransactionInterceptor.invoke(MethodInvocation) line: 96      </sentence>
+            <sentence id="9.62">       ReflectiveMethodInvocation.proceed() line: 179  </sentence>
+            <sentence id="9.63">       JdkDynamicAopProxy.invoke(Object, Method, Object[]) line: 208 </sentence>
+            <sentence id="9.64">       $Proxy120.add(Collection) line: not available   </sentence>
+            <sentence id="9.65">       OneParseDafifProcessor&lt;T&gt;.process(Long, File) line: 74 </sentence>
+            <sentence id="9.66">       DafifImportProcessor.lambda$2(ImportJobId, Long, File, DafifDataTypeProcessor) line: 350 </sentence>
+            <sentence id="9.67">       19678733.accept(Object) line: not available     </sentence>
+            <sentence id="9.68">       ArrayList&lt;E&gt;.forEach(Consumer&lt;? super E&gt;) line: not available </sentence>
+            <sentence id="9.69">       DafifImportProcessor.processFiles(Long, File, ImportJobId) line: 347 </sentence>
+            <sentence id="9.70">       DafifImportProcessor.process(ImportJobEntry, ImportJobId) line: 189  </sentence>
+            <sentence id="9.71">       DafifImportProcessor$$FastClassBySpringCGLIB$$e26bd991.invoke(int, Object, Object[]) line: not available     </sentence>
+            <sentence id="9.72">       MethodProxy.invoke(Object, Object[]) line: 204  </sentence>
+            <sentence id="9.73">       CglibAopProxy$CglibMethodInvocation.invokeJoinpoint() line: 718      </sentence>
+            <sentence id="9.74">       CglibAopProxy$CglibMethodInvocation(ReflectiveMethodInvocation).proceed() line: 157      </sentence>
+            <sentence id="9.75">       TransactionInterceptor$1.proceedWithInvocation() line: 99     </sentence>
+            <sentence id="9.76">       TransactionInterceptor(TransactionAspectSupport).invokeWithinTransaction(Method, Class&lt;?&gt;, InvocationCallback) line: 281     </sentence>
+            <sentence id="9.77">       TransactionInterceptor.invoke(MethodInvocation) line: 96      </sentence>
+            <sentence id="9.78">       CglibAopProxy$CglibMethodInvocation(ReflectiveMethodInvocation).proceed() line: 179      </sentence>
+            <sentence id="9.79">       CglibAopProxy$DynamicAdvisedInterceptor.intercept(Object, Method, Object[], MethodProxy) line: 654       </sentence>
+            <sentence id="9.80">       DafifImportProcessor$$EnhancerBySpringCGLIB$$455a78e5.process(ImportJobEntry, ImportJobId) line: not available     </sentence>
+            <sentence id="9.81">       NativeMethodAccessorImpl.invoke0(Method, Object, Object[]) line: not available [native method]  </sentence>
+            <sentence id="9.82">       NativeMethodAccessorImpl.invoke(Object, Object[]) line: not available      </sentence>
+            <sentence id="9.83">       DelegatingMethodAccessorImpl.invoke(Object, Object[]) line: not available  </sentence>
+            <sentence id="9.84">       Method.invoke(Object, Object...) line: not available   </sentence>
+            <sentence id="9.85">       MethodInfo.invoke(Method, Object, Object[], Exchange) line: 408      </sentence>
+            <sentence id="9.86">       MethodInfo$1.doProceed(AsyncCallback) line: 279 </sentence>
+            <sentence id="9.87">       MethodInfo$1.proceed(AsyncCallback) line: 252   </sentence>
+            <sentence id="9.88">       BeanProcessor.process(Exchange, AsyncCallback) line: 177      </sentence>
+            <sentence id="9.89">       AsyncProcessorHelper.process(AsyncProcessor, Exchange) line: 109     </sentence>
+            <sentence id="9.90">       BeanProcessor.process(Exchange) line: 68 </sentence>
+            <sentence id="9.91">       BeanProducer.process(Exchange, AsyncCallback) line: 38 </sentence>
+            <sentence id="9.92">       SendProcessor.process(Exchange, AsyncCallback) line: 141      </sentence>
+            <sentence id="9.93">       InstrumentationProcessor.process(Exchange, AsyncCallback) line: 77   </sentence>
+            <sentence id="9.94">       DefaultErrorHandler(RedeliveryErrorHandler).process(Exchange, AsyncCallback) line: 460   </sentence>
+            <sentence id="9.95">       DefaultChannel(CamelInternalProcessor).process(Exchange, AsyncCallback) line: 190 </sentence>
+            <sentence id="9.96">       Pipeline.process(Exchange, Exchange, AsyncCallback, Iterator&lt;Processor&gt;, AsyncProcessor) line: 121       </sentence>
+            <sentence id="9.97">       Pipeline.process(Exchange, AsyncCallback) line: 83     </sentence>
+            <sentence id="9.98">       DefaultErrorHandler(RedeliveryErrorHandler).process(Exchange, AsyncCallback) line: 460   </sentence>
+            <sentence id="9.99">       CamelInternalProcessor.process(Exchange, AsyncCallback) line: 190    </sentence>
+            <sentence id="9.100">       Splitter(MulticastProcessor).doProcessSequential(Exchange, AtomicExchange, Iterable&lt;ProcessorExchangePair&gt;, Iterator&lt;ProcessorExchangePair&gt;, ProcessorExchangePair, AsyncCallback, AtomicInteger) line: 668   </sentence>
+            <sentence id="9.101">       Splitter(MulticastProcessor).doProcessSequential(Exchange, AtomicExchange, Iterable&lt;ProcessorExchangePair&gt;, AsyncCallback) line: 596     </sentence>
+            <sentence id="9.102">       Splitter(MulticastProcessor).process(Exchange, AsyncCallback) line: 237    </sentence>
+            <sentence id="9.103">       Splitter.process(Exchange, AsyncCallback) line: 104    </sentence>
+            <sentence id="9.104">       InstrumentationProcessor.process(Exchange, AsyncCallback) line: 77   </sentence>
+            <sentence id="9.105">       DefaultErrorHandler(RedeliveryErrorHandler).process(Exchange, AsyncCallback) line: 460   </sentence>
+            <sentence id="9.106">       DefaultChannel(CamelInternalProcessor).process(Exchange, AsyncCallback) line: 190 </sentence>
+            <sentence id="9.107">       Pipeline.process(Exchange, Exchange, AsyncCallback, Iterator&lt;Processor&gt;, AsyncProcessor) line: 121       </sentence>
+            <sentence id="9.108">       Pipeline.process(Exchange, AsyncCallback) line: 83     </sentence>
+            <sentence id="9.109">       CamelInternalProcessor.process(Exchange, AsyncCallback) line: 190    </sentence>
+            <sentence id="9.110">       AsyncProcessorHelper.process(AsyncProcessor, Exchange) line: 109     </sentence>
+            <sentence id="9.111">       CamelInternalProcessor(DelegateAsyncProcessor).process(Exchange) line: 87  </sentence>
+            <sentence id="9.112">       EndpointMessageListener.onMessage(Message, Session) line: 112 </sentence>
+            <sentence id="9.113">       DefaultJmsMessageListenerContainer(AbstractMessageListenerContainer).doInvokeListener(SessionAwareMessageListener, Session, Message) line: 689 </sentence>
+            <sentence id="9.114">       DefaultJmsMessageListenerContainer(AbstractMessageListenerContainer).invokeListener(Session, Message) line: 649   </sentence>
+            <sentence id="9.115">       DefaultJmsMessageListenerContainer(AbstractMessageListenerContainer).doExecuteListener(Session, Message) line: 619   </sentence>
+            <sentence id="9.116">       DefaultJmsMessageListenerContainer(AbstractPollingMessageListenerContainer).doReceiveAndExecute(Object, Session, MessageConsumer, TransactionStatus) line: 307 </sentence>
+            <sentence id="9.117">       DefaultJmsMessageListenerContainer(AbstractPollingMessageListenerContainer).receiveAndExecute(Object, Session, MessageConsumer) line: 245      </sentence>
+            <sentence id="9.118">       DefaultMessageListenerContainer$AsyncMessageListenerInvoker.invokeListener() line: 1144  </sentence>
+            <sentence id="9.119">       DefaultMessageListenerContainer$AsyncMessageListenerInvoker.executeOngoingLoop() line: 1136     </sentence>
+            <sentence id="9.120">       DefaultMessageListenerContainer$AsyncMessageListenerInvoker.run() line: 1033      </sentence>
+            <sentence id="9.121">       ThreadPoolExecutor.runWorker(ThreadPoolExecutor$Worker) line: not available </sentence>
+            <sentence id="9.122">       ThreadPoolExecutor$Worker.run() line: not available    </sentence>
+            <sentence id="9.123">       Thread.run() line: not available  </sentence>
+        </paragraph>
+    </description>
+</bug>

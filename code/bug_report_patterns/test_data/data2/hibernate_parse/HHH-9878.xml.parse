@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9878</id>
+    <title>Schema Validator fails to validate a table with a camel case property</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Having an entity with a camel case property like this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code:java}
+@Entity
+@Table(name = "Table1")
+public class Table1 implements java.io.Serializable {
+	[...] // omitting the id and other properties to shorten code here...
+	private String aCamelCaseField;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">@Column(name = "aCamelCaseField", nullable = false, length = 50)
+	public String getaCamelCaseField() {
+		return aCamelCaseField;
+	}
+	[...] // omitting other stuffs, like setters and so on...
+}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">results in a schema validation exception:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">{code:java}</sentence>
+            <sentence id="5.2">22 giu 2015 16:09:39,785  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [</sentence>
+            <sentence id="5.3">	name: TestPU</sentence>
+            <sentence id="5.4">	...]</sentence>
+            <sentence id="5.5">22 giu 2015 16:09:39,898  INFO Version:37 - HHH000412: Hibernate Core {5.0.0.CR1}</sentence>
+            <sentence id="5.6">22 giu 2015 16:09:39,905  INFO Environment:207 - HHH000205: Loaded properties from resource hibernate.properties: {hibernate.connection.password=****, hibernate.c3p0.acquire_increment=10, hibernate.connection.autocommit=false, hibernate.c3p0.idle_test_period=3000, hibernate.c3p0.checkoutTimeout=5000, hibernate.default_catalog=Test, hibernate.show_sql=true, hibernate.c3p0.max_statements=0, hibernate.bytecode.use_reflection_optimizer=false, hibernate.c3p0.timeout=300, hibernate.archive.autodetection=, hibernate.hbm2ddl.auto=validate, hibernate.c3p0.min_size=5, hibernate.default_schema=dbo, hibernate.connection.username=sa, hibernate.connection.driver_class=net.sourceforge.jtds.jdbc.Driver, hibernate.current_session_context_class=thread, hibernate.c3p0.max_size=30, hibernate.connection.provider_class=org.hibernate.c3p0.internal.C3P0ConnectionProvider, hibernate.dialect=org.hibernate.dialect.SQLServerDialect, hibernate.connection.url=jdbc:jtds:sqlserver://localhost/Test;instance=SQL2012, hibernate.c3p0.max_statements_per_connection=0}</sentence>
+            <sentence id="5.7">22 giu 2015 16:09:39,906  INFO Environment:329 - HHH000021: Bytecode provider name : javassist</sentence>
+            <sentence id="5.8">22 giu 2015 16:09:39,965  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</sentence>
+            <sentence id="5.9">22 giu 2015 16:09:40,140  INFO ConnectionProviderInitiator:173 - HHH000130: Instantiating explicit connection provider: org.hibernate.c3p0.internal.C3P0ConnectionProvider</sentence>
+            <sentence id="5.10">22 giu 2015 16:09:40,158  INFO C3P0ConnectionProvider:117 - HHH010002: C3P0 using driver: net.sourceforge.jtds.jdbc.Driver at URL: jdbc:jtds:sqlserver://localhost/Test;instance=SQL2012</sentence>
+            <sentence id="5.11">22 giu 2015 16:09:40,158  INFO C3P0ConnectionProvider:118 - HHH000046: Connection properties: {user=sa, password=****, autocommit=false}</sentence>
+            <sentence id="5.12">22 giu 2015 16:09:40,158  INFO C3P0ConnectionProvider:121 - HHH000006: Autocommit mode: false</sentence>
+            <sentence id="5.13">22 giu 2015 16:09:40,179  INFO MLog:92 - MLog clients using log4j logging.</sentence>
+            <sentence id="5.14">22 giu 2015 16:09:40,593  INFO C3P0Registry:216 - Initializing c3p0-0.9.2.1 [built 20-March-2013 11:16:28 +0000; debug? true; trace: 10]</sentence>
+            <sentence id="5.15">22 giu 2015 16:09:40,678  INFO AbstractPoolBackedDataSource:522 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@59f79a33 [ connectionPoolDataSource -&gt; com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@3ec0ff4 [ acquireIncrement -&gt; 10, acquireRetryAttempts -&gt; 0, acquireRetryDelay -&gt; 1000, autoCommitOnClose -&gt; false, automaticTestTable -&gt; null, breakAfterAcquireFailure -&gt; false, checkoutTimeout -&gt; 5000, connectionCustomizerClassName -&gt; null, connectionTesterClassName -&gt; com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -&gt; false, factoryClassLocation -&gt; null, forceIgnoreUnresolvedTransactions -&gt; false, identityToken -&gt; 1hge4v99a7npwtz8t3l4l|fd736f, idleConnectionTestPeriod -&gt; 3000, initialPoolSize -&gt; 5, maxAdministrativeTaskTime -&gt; 0, maxConnectionAge -&gt; 0, maxIdleTime -&gt; 300, maxIdleTimeExcessConnections -&gt; 0, maxPoolSize -&gt; 30, maxStatements -&gt; 0, maxStatementsPerConnection -&gt; 0, minPoolSize -&gt; 5, nestedDataSource -&gt; com.mchange.v2.c3p0.DriverManagerDataSource@c5ec4e65 [ description -&gt; null, driverClass -&gt; null, factoryClassLocation -&gt; null, identityToken -&gt; 1hge4v99a7npwtz8t3l4l|10875ae, jdbcUrl -&gt; jdbc:jtds:sqlserver://localhost/Test;instance=SQL2012, properties -&gt; {user=******, password=******, autocommit=false} ], preferredTestQuery -&gt; null, propertyCycle -&gt; 0, statementCacheNumDeferredCloseThreads -&gt; 0, testConnectionOnCheckin -&gt; false, testConnectionOnCheckout -&gt; false, unreturnedConnectionTimeout -&gt; 0, usesTraditionalReflectiveProxies -&gt; false; userOverrides: {} ], dataSourceName -&gt; null, factoryClassLocation -&gt; null, identityToken -&gt; 1hge4v99a7npwtz8t3l4l|581b90, numHelperThreads -&gt; 3 ]</sentence>
+            <sentence id="5.16">22 giu 2015 16:09:41,114  INFO Dialect:154 - HHH000400: Using dialect: org.hibernate.dialect.SQLServerDialect</sentence>
+            <sentence id="5.17">22 giu 2015 16:09:41,206  INFO LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4</sentence>
+            <sentence id="5.18">22 giu 2015 16:09:41,693  INFO SchemaValidator:69 - HHH000229: Running schema validator</sentence>
+            <sentence id="5.19">javax.persistence.PersistenceException: [PersistenceUnit: TestPU] Unable to build Hibernate SessionFactory</sentence>
+            <sentence id="5.20">	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.persistenceException(EntityManagerFactoryBuilderImpl.java:854)</sentence>
+            <sentence id="5.21">	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:782)</sentence>
+            <sentence id="5.22">	at org.hibernate.jpa.HibernatePersistenceProvider.createEntityManagerFactory(HibernatePersistenceProvider.java:58)</sentence>
+            <sentence id="5.23">	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:55)</sentence>
+            <sentence id="5.24">	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:39)</sentence>
+            <sentence id="5.25">	at testH5.TestH5.main(TestH5.java:20)</sentence>
+            <sentence id="5.26">Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing column [aCamelCaseField] in table [Table1]</sentence>
+            <sentence id="5.27">	at org.hibernate.tool.schema.internal.SchemaValidatorImpl.validateTable(SchemaValidatorImpl.java:85)</sentence>
+            <sentence id="5.28">	at org.hibernate.tool.schema.internal.SchemaValidatorImpl.doValidation(SchemaValidatorImpl.java:50)</sentence>
+            <sentence id="5.29">	at org.hibernate.tool.hbm2ddl.SchemaValidator.validate(SchemaValidator.java:91)</sentence>
+            <sentence id="5.30">	at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:476)</sentence>
+            <sentence id="5.31">	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:445)</sentence>
+            <sentence id="5.32">	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:779)</sentence>
+            <sentence id="5.33">	... 4 more</sentence>
+            <sentence id="5.34">{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Investigating for the cause, brought me to 
+org.hibernate.engine.jdbc.env.internal.NormalizingIdentifierHelperImpl#toIdentifierFromMetaData() at line 222:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">{code:java}
+		// lovely decipher of whether the incoming value represents a quoted identifier...
+		final boolean isUpperCase = text.toUpperCase( Locale.ROOT ).</sentence>
+            <sentence id="7.2">equals( text );
+		final boolean isLowerCase = text.toLowerCase( Locale.ROOT ).</sentence>
+            <sentence id="7.3">equals( text );
+		final boolean isMixedCase = !</sentence>
+            <sentence id="7.4">isLowerCase &amp;&amp; !</sentence>
+            <sentence id="7.5">isUpperCase;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">if ( quotedCaseStrategy == IdentifierCaseStrategy.MIXED &amp;&amp; isMixedCase ) { // THIS IS LINE 222
+			log.trace( "Interpreting return value as quoted due to case strategy" );
+			return Identifier.toIdentifier( text, true );
+		}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">This way a quoted column name is generated and expected later at org.hibernate.tool.schema.internal.SchemaValidatorImpl#validateTable() line 83-84.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">{code:java}
+			final ColumnInformation existingColumn = tableInformation.getColumn( Identifier.toIdentifier( column.getQuotedName() ) );
+			if ( existingColumn == null ) {
+				throw new SchemaManagementException(
+						String.format(
+								"Schema-validation: missing column [%s] in table [%s]",
+								column.getName(),
+								table.getName()
+						)
+				);
+			}</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">{code}</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">If I redefine the getter in the entity using the backtick as:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">{code:java}
+	@Column(name = "'aCamelCaseField'", nullable = false, length = 50)
+	public String getaCamelCaseField() {
+		return aCamelCaseField;
+	}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">everything works fine.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">This strange behaviour is not present in version 4.3.10, and the entity is correctly validated even without the backticks.</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">I think the validator should be robust enough to manage the presence or the absence of backticks in the column definition, so it should escape the eventually present backticks in order to check for column existence.</sentence>
+            <sentence id="16.2">.</sentence>
+            <sentence id="16.3">or maybe, it should add backticks in every column definition so that comparing just works.</sentence>
+            <sentence id="16.4">.</sentence>
+        </paragraph>
+    </description>
+</bug>

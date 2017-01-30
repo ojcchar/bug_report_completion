@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9058</id>
+    <title>docker run --device does not preserve group</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The "docker run" command flag "device" does not preserve the localhost device group when copied into the docker container.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">```
+docker run --device=/dev/snd/timer:/dev/snd/timer -p 2222:22 -dt sound/example</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1"># On my local system
+[localhost]$ ls -l /dev/snd/timer
+crw-rw----+ 1 root audio 116, 33 Oct 25 23:16 /dev/snd/timer</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1"># Inside the docker instance
+[user@2ecae939d223 ~]$ ls -l /dev/snd/timer
+crw-rw----.</sentence>
+            <sentence id="4.2">1 root root 116, 33 Nov 10 00:52 /dev/snd/timer
+```</sentence>
+        </paragraph>
+    </description>
+</bug>

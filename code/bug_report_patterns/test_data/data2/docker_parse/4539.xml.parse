@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4539</id>
+    <title>read tcp 162.159.251.135:443: connection reset by peer complete</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I keep getting the following error when trying to pull ubuntu image:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+$ sudo docker pull ubuntu:precise
+Pulling repository ubuntu
+9cd978db300e: Error pulling image (precise) from ubuntu, endpoint: https://cdn-registry-1.docker.io/v1/, flate: read error at
+9cd978db300e: Error pulling image (precise) from ubuntu, flate: read error at offset 196608: read tcp 162.159.251.135:443: connection reset by peer complete</sentence>
+            <sentence id="2.2">2014/03/08 21:13:00 pull: Could not find repository on any of the indexed registries.
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+$ sudo docker version
+Client version: 0.8.1
+Go version (client): go1.2
+Git commit (client): a1598d1
+Server version: 0.8.1
+Git commit (server): a1598d1
+Go version (server): go1.2
+Last stable version: 0.8.1
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">My host machine is Ubuntu 12.04.4 LTS.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I believe this might be related to my slow connection speed but I have no problem 'wget'ing ISOs for example.</sentence>
+        </paragraph>
+    </description>
+</bug>

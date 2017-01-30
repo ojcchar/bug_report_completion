@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13805</id>
+    <title>Like count  total_count  is inaccurate pending on capitalization and www</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">*Sample page</sentence>
+            <sentence id="1.2">http://ratemeshareme.com/facebook/TheShawn.html</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">*forum for follow up</sentence>
+            <sentence id="2.2">http://forum.developers.facebook.net/viewtopic.php?id=82014</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">using 4 URL variations fql.query link_stat_ i have noticed that share_count and  comment_count_ are duplicated per WWW. but the like_count is unique per WWW and per capitalization.</sentence>
+            <sentence id="3.2">below is the same page with 4 URL variants WWW &amp; capitalization.</sentence>
+            <sentence id="3.3">It returns interesting results.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">http://ratemeshareme.com/facebook/theshawn.html
+    http://ratemeshareme.com/facebook/TheShawn.html
+    http://www.ratemeshareme.com/facebook/theshawn.html
+    http://www.ratemeshareme.com/facebook/TheShawn.html</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Shares 8 Likes 7 Comments 9 (24)
+http://ratemeshareme.com/facebook/theshawn.html
+Shares 25 Likes 10 Comments 8 (43)
+http://ratemeshareme.com/facebook/TheShawn.html
+Shares 8 Likes 3 Comments 9 (20)
+http://www.ratemeshareme.com/facebook/theshawn.html
+Shares 25 Likes 12 Comments 8 (45)
+http://www.ratemeshareme.com/facebook/TheShawn.html
+(Total = 132 ) (Actual = 82)
+(Url 1.)</sentence>
+            <sentence id="5.2">8 + 7 + 9 = 24
+(Url 2.)</sentence>
+            <sentence id="5.3">25 + 10 + 8 = 43
+(Url 3.)</sentence>
+            <sentence id="5.4">8 + 3 + 9 = 20
+(Url 4.)</sentence>
+            <sentence id="5.5">25 + 12 + 8 = 45
+Total = 132
+Remove Duplicate Share &amp; Comment Count from url 1 and 2  no www.</sentence>
+            <sentence id="5.6">(132) - (8 + 9 + 25 + 8) = 82 (Actual Count)</sentence>
+        </paragraph>
+    </description>
+</bug>

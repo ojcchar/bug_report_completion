@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4897</id>
+    <title>Java Serialization incorrect for OpenMRS Objects</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Strange we'd never discovered this before, but as it turns out, all OpenMRS objects aren't getting properly serialized when using standard Java serialization.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you specify that a superclass implements Serializable, then all subclasses will also be serializable and adding "implements Serializable" to the subclasses is redundant.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">*However*, if you mark a subclass as Serializable, it turns out that any properties of superclasses aren't serialized.</sentence>
+            <sentence id="3.2">In OpenMRS we mark the subclasses like Person, etc, as Serializable, but BaseOpenmrsData, BaseOpenmrsMetadata and BaseOpenMRSObject are NOT marked as serializable, so therefore when serializing an object the uuid and associated auditable information are lost.</sentence>
+            <sentence id="3.3">Simply adding "serializable" to BaseOpenObject corrects this problem.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">More info:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">http://stackoverflow.com/questions/14042319/how-serialization-works-when-only-subclass-implements-serializable</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">http://stackoverflow.com/questions/9142516/if-my-class-implements-serializable-do-i-have-to-implement-it-in-its-subclasses</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Note that this does not affect serialization via XStream, probably why we haven't noticed it before.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">For those that are curious, this issue does manifest itself whem tomcat serializes sessions during a server restart.</sentence>
+            <sentence id="8.2">We discovered if a user is logged in and a server restart occurs, then after restart Context.getAuthenticatedUser.getUuid() returns an incorrect, random uuid.</sentence>
+            <sentence id="8.3">(Which was screwing up the synchronization via the sync module, for what it's worth)</sentence>
+        </paragraph>
+    </description>
+</bug>

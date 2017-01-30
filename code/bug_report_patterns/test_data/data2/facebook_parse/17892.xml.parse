@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17892</id>
+    <title>fb:profile-pic XFBML creates non-secure urls in https</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If a user is browsing in secure mode and they hit an app that uses XFBML_ the image is referenced via http instead of https.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">A work-around is to place the fb:profile-pic XFBML within a serverfbml block.</sentence>
+            <sentence id="2.2">This is obviously not ideal and is prone to iframe issues_ (there s a min-height on the serverfbml iframe.)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">My final workaround is to just use the graph API and refer to https when we notice the user broswing in secure mode.</sentence>
+            <sentence id="3.2">This is also not ideal since FB redirects from https://graph.facebook.com/user_id/picture to their FBCDN address_ slowing down the render time for the image.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Similar report here:
+http://bugs.developers.facebook.net/show_bug.cgi?id=17308</sentence>
+        </paragraph>
+    </description>
+</bug>

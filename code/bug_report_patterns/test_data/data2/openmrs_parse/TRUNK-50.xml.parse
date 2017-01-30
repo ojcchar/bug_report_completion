@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-50</id>
+    <title>Obs not voided when updated via saving an Encounter</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When you change an Obs value and then save the Obs by saving the parent Encounter via the API (ie calling saveEncounter, not saveObs), instead of voiding the Obs and creating a new one, it simply updates the Obs.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">See attached test case.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">h4.</sentence>
+            <sentence id="3.2">Proposed Solution</sentence>
+            <sentence id="3.3">- Encounter.obs in the mapping file shouldn't cascade any operation to the Obs and let the API do it explicitly, same for ConceptProposal.obs</sentence>
+            <sentence id="3.4">- Add Obs.dirty field which is non persistent and defaults to false, update every setter in Obs class to set the dirty field to true if the old and new field values are not the same</sentence>
+            <sentence id="3.5">- When updating an Obs, the API should check if Obs.dirty is set true, voids it and creates a new Obs to replace it</sentence>
+            <sentence id="3.6">- EncounterService.saveEncounter should loop over all the Obs an encounter contains and call saveObs for each after saving the encounter.</sentence>
+            <sentence id="3.7">- Obs are immutable except for voided, voidedBy, voidReason and dateVoided fields, register a subclass of ImmutableEntityInterceptor for Obs just like we did for orders to fail when an updated obs is flushed.</sentence>
+            <sentence id="3.8">See [ImmutableOrderInterceptor|https://github.com/openmrs/openmrs-core/blob/master/api/src/main/java/org/openmrs/api/db/hibernate/ImmutableOrderInterceptor.java] for an example.</sentence>
+            <sentence id="3.9">- It would be nice to include a test in ObsTest that reflectively fetches all fields in Obs, loops over all of them to ensure that if a given setter is called with a new value, the Obs gets marked dirty, this will be future-proofing the class in case new fields get added later</sentence>
+        </paragraph>
+    </description>
+</bug>

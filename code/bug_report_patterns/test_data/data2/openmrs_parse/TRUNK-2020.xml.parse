@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2020</id>
+    <title>NullPointerException when getting a concept name</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">(Reported anonymously via the openmrs in-app bug report system).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Version: 1.7.1  Build 17223
+Started Modules: serialization.xstream v0.2.5, logic v0.4, dataentrystatistics v1.3, programlocation v0.0.2, reporting v0.5.3.3, metadatasharing v0.8.1.6, printing v1.3, patientimage v0.3.3, htmlformentry v1.7.1, sync v0.94, xforms v3.9.8, reportingcompatibility v1.5.2.1, mdrtb v2.1.0.0, htmlwidgets v1.5.6.1</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Summary:
+java.lang.NullPointerException</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Description:</sentence>
+            <sentence id="4.2">Stack trace:</sentence>
+            <sentence id="4.3">org.openmrs.Concept.getPreferredName(Concept.java:699)</sentence>
+            <sentence id="4.4">org.openmrs.Concept.getName(Concept.java:581)</sentence>
+            <sentence id="4.5">org.openmrs.ProgramWorkflowState.toString(ProgramWorkflowState.java:69)</sentence>
+            <sentence id="4.6">java.lang.String.valueOf(String.java:2838)</sentence>
+            <sentence id="4.7">java.lang.StringBuilder.append(StringBuilder.java:132)</sentence>
+            <sentence id="4.8">java.util.AbstractCollection.toString(AbstractCollection.java:439)</sentence>
+            <sentence id="4.9">java.lang.String.valueOf(String.java:2838)</sentence>
+            <sentence id="4.10">java.lang.StringBuilder.append(StringBuilder.java:132)</sentence>
+            <sentence id="4.11">org.openmrs.aop.LoggingAdvice.invoke(LoggingAdvice.java:91)</sentence>
+            <sentence id="4.12">	at [ignored] ...</sentence>
+            <sentence id="4.13">$Proxy269.saveItems(Unknown Source)</sentence>
+            <sentence id="4.14">	at [ignored] ...</sentence>
+            <sentence id="4.15">$Proxy269.saveItems(Unknown Source)</sentence>
+            <sentence id="4.16">org.openmrs.module.metadatasharing.web.controller.MetadataSharingController.importPackage(MetadataSharingController.java:390)</sentence>
+            <sentence id="4.17">	at [ignored] ...</sentence>
+            <sentence id="4.18">javax.servlet.http.HttpServlet.service(HttpServlet.java:617)</sentence>
+            <sentence id="4.19">javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+            <sentence id="4.20">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+            <sentence id="4.21">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.22">org.openmrs.module.web.filter.ForcePasswordChangeFilter.doFilter(ForcePasswordChangeFilter.java:65)</sentence>
+            <sentence id="4.23">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.24">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.25">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+            <sentence id="4.26">org.openmrs.module.xforms.web.XformsFilter.doFilter(XformsFilter.java:60)</sentence>
+            <sentence id="4.27">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:74)</sentence>
+            <sentence id="4.28">org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+            <sentence id="4.29">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.30">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.31">org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:112)</sentence>
+            <sentence id="4.32">	at [ignored] ...</sentence>
+            <sentence id="4.33">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.34">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.35">	at [ignored] ...</sentence>
+            <sentence id="4.36">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.37">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.38">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+            <sentence id="4.39">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.40">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.41">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+            <sentence id="4.42">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.43">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.44">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+            <sentence id="4.45">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.46">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.47">	at [ignored] ...</sentence>
+            <sentence id="4.48">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.49">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.50">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+            <sentence id="4.51">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</sentence>
+            <sentence id="4.52">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</sentence>
+            <sentence id="4.53">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+            <sentence id="4.54">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+            <sentence id="4.55">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:298)</sentence>
+            <sentence id="4.56">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:857)</sentence>
+            <sentence id="4.57">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:588)</sentence>
+            <sentence id="4.58">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)</sentence>
+            <sentence id="4.59">java.lang.Thread.run(Thread.java:636)</sentence>
+        </paragraph>
+    </description>
+</bug>

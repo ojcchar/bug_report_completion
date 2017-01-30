@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23616</id>
+    <title>Can not reduce size of the docker image after deleting the build tools from child image that were installed in base image</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I am using docker-alpine 3.3 as the base image and building another image from it.</sentence>
+            <sentence id="2.2">Following is the dockerfile for this</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">FROM xxx/alpine3.3:latest
+MAINTAINER xxx@xxx.com 
+RUN apk update
+RUN apk add --update bash 
+RUN apk add --update nodejs
+RUN apk add --update curl 
+RUN npm install -g gulp-cli
+RUN apk add --update python 
+RUN apk add --update make 
+RUN apk add --update g++</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Then this created docker images is used as the base image for another docker file where I do npm install and then remove the build tools like python, make and g++ after npm install.</sentence>
+            <sentence id="4.2">Following is the docker file
+FROM dockerbase:latest
+MAINTAINER xxx@xxx.com 
+COPY common /opt/project1324/common
+RUN /usr/bin/npm install
+RUN apk del python
+RUN apk del make
+RUN apk del g++</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">But the size of the docker image has no difference for the cases when I delete those packages and do not delete those packages.</sentence>
+            <sentence id="5.2">Infact, the size is a little bit more when I delete those packages.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Is there a way to delete those build tools from all the layers of docker image so that the size of the docker image decreases.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">How can I remove these build tools?</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17656</id>
+    <title>Client (docker push) appears not to respect /etc/hosts or work with subdomains (and manages to resolve and entry for example.com, wat)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm running 'Docker version 1.8.3, build f4bf5c7' on Mac OSX El Capitan.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I created a self-signed certificate and built me an image from this dockerfile:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+FROM registry</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">COPY certs/ /certs/
+ENV REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.</sentence>
+            <sentence id="4.2">crt REGISTRY_HTTP_TLS_KEY=/certs/domain.</sentence>
+            <sentence id="4.3">key
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Then I started my image from this 'docker-compose.yml' (the extra env variables are in there because I didn't know if something was happening with the timing of the 'ENV' from the dockerfile'):</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'</sentence>
+            <sentence id="6.2">docker_hub:</sentence>
+            <sentence id="6.3">build: docker-hub</sentence>
+            <sentence id="6.4">ports:</sentence>
+            <sentence id="6.5">"0.0.0.0:5000:5000"</sentence>
+            <sentence id="6.6">environment:</sentence>
+            <sentence id="6.7">REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.</sentence>
+            <sentence id="6.8">crt</sentence>
+            <sentence id="6.9">REGISTRY_HTTP_TLS_KEY: /certs/domain.</sentence>
+            <sentence id="6.10">key</sentence>
+            <sentence id="6.11">"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Now, do the following:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+docker pull busybox
+docker tag busybox example.com:5000/busybox
+"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Then insert into '/etc/hosts' the output of 'docker-machine ip default' pointing to 'example.com'.</sentence>
+            <sentence id="9.2">I tried using 'subdomain.mycompany.com' but that didn't work - it was resolving to 'mycompany.com''s IP address.</sentence>
+            <sentence id="9.3">So I tried 'example.com'.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Well, that didn't work either.</sentence>
+            <sentence id="10.2">Not only did it not work, it actually resolved 'example.com' to the ip address '93.184.216.34', which apparently belongs to Edgecast?</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">---</sentence>
+            <sentence id="11.2"># Edit/Solved?</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">So I discovered my issue as I was typing this - the 'push' command doesn't run from _my_ box, it runs from within the docker VM.</sentence>
+            <sentence id="12.2">I had to run 'docker-machine ssh default' and then edit _its_ '/etc/hosts'.</sentence>
+            <sentence id="12.3">Of course there I could just put '127.0.0.1 example.com' in as the entry.</sentence>
+            <sentence id="12.4">Doh!</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Anyway, I'm not sure if there should be an annotation in the documentation to point that out.</sentence>
+            <sentence id="13.2">Or maybe I'm just the only one crazy enough to try such things :trollface:.</sentence>
+            <sentence id="13.3">In any case, at least now if someone is searching for 'docker push subdomain' they might have a chance of finding _this_ issue.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Feel free to close this issue if it's not worth adding anything to the docs, or let me know if I can help clarify anything!</sentence>
+            <sentence id="14.2">Thanks for making Docker so awesome :+1:</sentence>
+        </paragraph>
+    </description>
+</bug>

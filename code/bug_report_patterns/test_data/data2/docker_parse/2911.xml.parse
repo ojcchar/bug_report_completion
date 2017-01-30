@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2911</id>
+    <title>Pulling multiple images with shared layers simultaneously fails (v0.7.0)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Starting with a clean Linux 13.04 (raring) VM with kernel 3.8.0-33 and Docker 0.7.0.</sentence>
+            <sentence id="1.2">1 Start a registry on port 8080: 'docker run -d -p 8080:5000 stackbrew/registry'</sentence>
+            <sentence id="1.3">2 Create the following Dockerfile (note: the ADD is deliberately in an odd place):</sentence>
+            <sentence id="1.4">"'
+FROM ubuntu:12.04
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get install -y python-software-properties
+RUN echo "deb http://archive.ubuntu.com/ubuntu precise universe" &gt; /etc/apt/sources.list.d/universe.list
+RUN add-apt-repository ppa:chris-lea/node.js
+RUN apt-get update
+ADD . /src
+RUN apt-get install -y nodejs</sentence>
+            <sentence id="1.5">EXPOSE 8080
+WORKDIR /src</sentence>
+            <sentence id="1.6">RUN cd /src; npm install</sentence>
+            <sentence id="1.7">CMD node index.js</sentence>
+            <sentence id="1.8">"'</sentence>
+            <sentence id="1.9">1 Run this script (can take 15+ minutes):</sentence>
+            <sentence id="1.10">"'
+#!/bin/bash</sentence>
+            <sentence id="1.11">VERSION=$(date +"%s")</sentence>
+            <sentence id="1.12">for i in {1.</sentence>
+            <sentence id="1.13">.20}; do
+ docker build -t localhost:8080/demo/bug-$i:$VERSION .</sentence>
+            <sentence id="1.14">docker tag localhost:8080/demo/bug-$i:$VERSION localhost:8080/demo/bug-$i:latest
+ docker push localhost:8080/demo/bug-$i
+done
+"'</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This script emulates building 20 different services which share a lot of common layers.</sentence>
+            <sentence id="2.2">1 Run the following script (this script can be run repeatedly):</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+#!/bin/bash</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1"># Ensure no containers from previous demos are running
+docker ps | grep 'demo/bug' | awk '{print $1;}' | xargs docker kill</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1"># Ensure the local docker daemon has no copies of these images
+docker images | grep 'demo/bug' | awk '{print $1":"$2;}' | xargs docker rmi</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">for i in {1.</sentence>
+            <sentence id="6.2">.20}; do
+ docker run -d -P localhost:8080/demo/bug-$i:latest &amp;
+done
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Note that the 'docker run' has an '&amp;' on the end, so this script attempts to start all 20 service simultaneously, having first made sure that none of the images/layers are present locally.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Observe it failing in lots of different ways!</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The failures can be more easily observed by running, say, terminator on Linux, starting 20 terminals and having them all linked and running the 'docker run' command separately (but simultaneously) in each terminal.</sentence>
+            <sentence id="9.2">Make sure you're running 'bug-1' in one terminal, 'bug-2' in the next terminal, etc.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Failure modes we've seen:</sentence>
+            <sentence id="10.2">1 'Error: start: No such container: &lt;containerId&gt;'</sentence>
+            <sentence id="10.3">2 'Error pulling image (latest) from localhost:8080/demo/bug-X, Image &lt;imageId&gt; already exists'</sentence>
+            <sentence id="10.4">3 'Server error: 404 trying to fetch remote history for demo/bug-X'</sentence>
+        </paragraph>
+    </description>
+</bug>

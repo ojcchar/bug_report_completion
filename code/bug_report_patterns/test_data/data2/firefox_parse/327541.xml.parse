@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>327541</id>
+    <title>Can't build Firefox with --with-libxul-sdk and places together</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.8.0.1) Gecko/20060210 Ubuntu/dapper Firefox/1.5.0.1
+Build Identifier: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9a1) Gecko/20060216 Firefox/1.6a1</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When building firefox with places and --with-libxul-sdk, there is an error in browser/browser/components/build:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">make[1]: *** No rule to make target `.</sentence>
+            <sentence id="3.2">.</sentence>
+            <sentence id="3.3">/.</sentence>
+            <sentence id="3.4">.</sentence>
+            <sentence id="3.5">/.</sentence>
+            <sentence id="3.6">.</sentence>
+            <sentence id="3.7">/db/morkreader/libmorkreader_s.a', needed by `libbrowsercomps.so'.</sentence>
+            <sentence id="3.8">Stop.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">coming from:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">ifdef MOZ_PLACES
+EXTRA_DSO_LDOPTS += $(DEPTH)/db/morkreader/$(LIB_PREFIX)morkreader_s.</sentence>
+            <sentence id="5.2">$(LIB_SUFFIX)
+endif</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The problem may be that morkreader is in tear_50 which is not being built when using libxul.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Manually running make in mozilla/db fixes the issue by the way.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Steps to Reproduce:</sentence>
+        </paragraph>
+    </description>
+</bug>

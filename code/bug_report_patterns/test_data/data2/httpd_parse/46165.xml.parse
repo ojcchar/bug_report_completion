@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>46165</id>
+    <title>Slash in URL causes endless loop</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi, I'm using the following rule:
+RewriteRule ^([0-9]+_[^\-]+)\-([^\-]+).</sentence>
+            <sentence id="1.2">*\.</sentence>
+            <sentence id="1.3">html$ $1.html?</sentence>
+            <sentence id="1.4">tag=$2 [N]</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">An URL like "1_a-a/1_a-a.html" is correctly rewritten to "1_a.html?tag=a/1_a" and I would expect that the rewriter quits after this because the new URL does not match the Rewrite-Rule but it does not.</sentence>
+            <sentence id="2.2">The rewriter gets stuck in an endless loop and starts eating up memory:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">rewrite '1_a-a/1_a-a.</sentence>
+            <sentence id="3.2">html' -&gt; '1_a.</sentence>
+            <sentence id="3.3">html?tag=a/1_a'
+rewrite '1_a.</sentence>
+            <sentence id="3.4">html/1_a-a.</sentence>
+            <sentence id="3.5">html' -&gt; '1_a.</sentence>
+            <sentence id="3.6">html/1_a.html?tag=a'
+rewrite '1_a.</sentence>
+            <sentence id="3.7">html/1_a.html/1_a-a.</sentence>
+            <sentence id="3.8">html' -&gt; '1_a.</sentence>
+            <sentence id="3.9">html/1_a.html/1_a.</sentence>
+            <sentence id="3.10">html?tag=a'
+rewrite '1_a.</sentence>
+            <sentence id="3.11">html/1_a.html/1_a.</sentence>
+            <sentence id="3.12">html/1_a-a.</sentence>
+            <sentence id="3.13">html' -&gt; '1_a.</sentence>
+            <sentence id="3.14">html/1_a.html/1_a.</sentence>
+            <sentence id="3.15">html/1_a.html?tag=a'
+rewrite '1_a.</sentence>
+            <sentence id="3.16">html/1_a.html/1_a.</sentence>
+            <sentence id="3.17">html/1_a.html/1_a-a.</sentence>
+            <sentence id="3.18">html' -&gt; '1_a.</sentence>
+            <sentence id="3.19">html/1_a.html/1_a.</sentence>
+            <sentence id="3.20">html/1_a.html/1_a.</sentence>
+            <sentence id="3.21">html?tag=a'
+(...)</sentence>
+        </paragraph>
+    </description>
+</bug>

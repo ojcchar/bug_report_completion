@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>266896</id>
+    <title>using DDE and WWW_OpenURL to open a file results in a truncated file name</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I am using labview to open a html file in the default browser.</sentence>
+            <sentence id="2.2">It has a canned
+DDE call using WWW_OpenURL.</sentence>
+            <sentence id="2.3">This works fine in IE, but in Firefox it truncates
+the URL.</sentence>
+            <sentence id="2.4">If no browser is open it will only open a blank page, and if a window
+is open, it will say that the file ...htm could not be found.</sentence>
+            <sentence id="2.5">It seems to trim
+off the last character.</sentence>
+            <sentence id="2.6">If I try to open a .htm file it will report that it
+tried to open a .ht file and failed.</sentence>
+            <sentence id="2.7">It seems to report the error twice.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+            <sentence id="3.2">Steps to Reproduce:</sentence>
+            <sentence id="3.3">1 Send DDE WWW_OpenURL to Firefox</sentence>
+            <sentence id="3.4">2 send url with .</sentence>
+            <sentence id="3.5">html</sentence>
+            <sentence id="3.6">3 browser will report no .</sentence>
+            <sentence id="3.7">htm file found.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Actual Results:  
+error box will open saying the file could not be found.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Expected Results:  
+it should have opened the .html file as the url was sent.</sentence>
+        </paragraph>
+    </description>
+</bug>

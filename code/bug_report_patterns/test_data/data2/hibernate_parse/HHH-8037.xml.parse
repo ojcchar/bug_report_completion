@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8037</id>
+    <title>Empty SQL statements with custom UniqueDelegate</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">hibernate-core 4.1.10 introduced org.hibernate.dialect.unique.UniqueDelegate to handle creation of unique constraints.</sentence>
+            <sentence id="1.2">If you implement a custom UniqueDelegate (e.g. one that creates the unique constraints directly in the column or table definition, like earlier versions of hibernate did), the resulting DDL script may contain empty SQL statements, which most databases cannot handle.</sentence>
+            <sentence id="1.3">This happens if the custom UniqueDelegate implementation returns an empty String on UniqueDelegate.applyUniquesOnAlter(UniqueKey) or UniqueDelegate.dropUniquesOnAlter(UniqueKey).</sentence>
+            <sentence id="1.4">org.hibernate.metamodel.relational.UniqueKey should check the return values of that methods and return a String array of length 0 if the String is empty or null.</sentence>
+        </paragraph>
+    </description>
+</bug>

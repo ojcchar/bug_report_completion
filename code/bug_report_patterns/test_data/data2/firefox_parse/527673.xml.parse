@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>527673</id>
+    <title>Assertion Failed when bookmarking page from menu or using Ctrl+D shortcut</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2b1) Gecko/20091029 Firefox/3.6b1
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2b1) Gecko/20091029 Firefox/3.6b1</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The following error results when you try to bookmark the page using the menu or the Ctrl+D shortcut</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Assertion Failed</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">ASSERT: parent node must have _DOMElement set
+Stack Trace: 
+0:PMV_nodeRemoved([object ResultNodeClassInfo],[object ResultNodeClassInfo],10)
+1:removeItem(152)
+2:PCIT_undoTransaction()
+3:undoTransaction()
+4:placesTxn_undoTransaction()
+5:undoTransaction()
+6:SU_cancelButtonOnCommand()
+7:oncommand([object XULCommandEvent])</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Steps to Reproduce:</sentence>
+            <sentence id="6.2">1 Press Ctrl+D OR click on "Bookmark This Page" under bookmarks menu</sentence>
+            <sentence id="6.3">Actual Results:</sentence>
+            <sentence id="6.4">The following error results when you try to bookmark the page using the menu or the Ctrl+D shortcut</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Assertion Failed</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">ASSERT: parent node must have _DOMElement set
+Stack Trace: 
+0:PMV_nodeRemoved([object ResultNodeClassInfo],[object ResultNodeClassInfo],10)
+1:removeItem(152)
+2:PCIT_undoTransaction()
+3:undoTransaction()
+4:placesTxn_undoTransaction()
+5:undoTransaction()
+6:SU_cancelButtonOnCommand()
+7:oncommand([object XULCommandEvent])</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Expected Results:  
+The Assertion Failed Error should not be happen.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">FIREFOX ADD-ONS INSTALLED:
+Adblock Plus
+Chromifox Companion
+Download StatusBar
+Gmail Notifier
+Java Quick Starter
+Pray Times
+Tab Mix Plus
+WorldIP</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">FIREFOX THEME USED:
+Chromifox Extreme</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">ABOUT;BUILDCONFIG</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Source</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Built from http://hg.mozilla.org/releases/mozilla-1.9.2/rev/3b49c063bb42
+Build platform
+target
+i686-pc-mingw32</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">Build tools
+Compiler 	Version 	Compiler flags
+cl 	14.00.50727.762 	-TC -nologo -W3 -Gy -Fdgenerated.pdb -DNDEBUG -DTRIMMED -Zi -UDEBUG -DNDEBUG -GL -wd4624 -wd4952 -O1
+cl 	14.00.50727.762 	-GR- -TP -nologo -Zc:wchar_t- -W3 -Gy -Fdgenerated.pdb -DNDEBUG -DTRIMMED -Zi -UDEBUG -DNDEBUG -GL -wd4624 -wd4952 -O1</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Configure arguments</sentence>
+            <sentence id="16.2">--enable-application=browser --enable-update-channel=beta --enable-update-packaging --enable-jemalloc --enable-official-branding</sentence>
+        </paragraph>
+    </description>
+</bug>

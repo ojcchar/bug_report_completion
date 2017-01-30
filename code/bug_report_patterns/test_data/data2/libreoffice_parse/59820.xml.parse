@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>59820</id>
+    <title>FILEOPEN: default csv column width is wrong with multiline cells</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 73611
+test file with multiline cells to show default column-width bug</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When opening csv-file libreoffice-calc tries to set an optimal default width for columns.</sentence>
+            <sentence id="2.2">But it fails if some cells has multiline content.</sentence>
+            <sentence id="2.3">Column width for a column, that contains multiline cells defaults to very large (i think it just counts max number of characters in every cell and ignores the fact that there are line breaks).</sentence>
+            <sentence id="2.4">* see attached example file</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">If after opening the file i r-click on the column header and select "optimal column width" - column shrinks properly to fit the cells.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This bug is more hurting because resizing very wide columns is now broken ( see bug https://bugs.freedesktop.org/show_bug.cgi?id=57361 )</sentence>
+        </paragraph>
+    </description>
+</bug>

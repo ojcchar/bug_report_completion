@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>90744</id>
+    <title>Paragraph style with Area fill set Black incorrectly draws fill into Space Above</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Attaching a test document prepared on Windows 7 sp1, 64-bit en-US with
+Version: 4.4.3.1
+Build ID: b2f347f2ac68821efc00b6f1793cda90af748118
+Locale: en_US</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This may be continuation of bug 82661 -- Paragraph background fills all space above paragraph, but seems to be a very specific corner case.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">In the test document, have modified Title style as Title1, Area fill is set to Gray6 and Font effects have set font to Yellow.</sentence>
+            <sentence id="3.2">Have an Area above of 2.0cm and and Area below of 1.0cm</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If the Area fill is modified to Black, the Area above paragraph will be filled black.</sentence>
+            <sentence id="4.2">Revert to Gray6 and area above is not filled--just the line(s) with text.</sentence>
+            <sentence id="4.3">Also seems to be positional, in that if it occurs at a natural page break (or start of document), the area above is not filled.</sentence>
+            <sentence id="4.4">Following a manual page break, it does.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Area fill color other than Black does not manifest the issue.</sentence>
+        </paragraph>
+    </description>
+</bug>

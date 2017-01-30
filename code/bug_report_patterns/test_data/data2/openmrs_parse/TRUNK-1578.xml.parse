@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1578</id>
+    <title>Cannot delete a module that has been compiled with a later Java than is running tomcat</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I built a module on my laptop using Java 6.</sentence>
+            <sentence id="1.2">I deployed it on our Rwanda production server, which I believe is running tomcat with Java 5.</sentence>
+            <sentence id="1.3">The module won't start, but in addition I cannot delete it from the manage modules admin interface.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">At a minimum one should be able to delete a malfunctioning module without having to restart tomcat.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The stack trace is below, from when I click the trash can icon to delete the module.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">java.lang.UnsupportedClassVersionError</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Bad version number in .</sentence>
+            <sentence id="5.2">class file</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">java.lang.ClassLoader.defineClass1(Native Method)</sentence>
+            <sentence id="6.2">java.lang.ClassLoader.defineClass(ClassLoader.java:620)</sentence>
+            <sentence id="6.3">java.security.SecureClassLoader.defineClass(SecureClassLoader.java:124)</sentence>
+            <sentence id="6.4">java.net.URLClassLoader.defineClass(URLClassLoader.java:260)</sentence>
+            <sentence id="6.5">java.net.URLClassLoader.access$100(URLClassLoader.java:56)</sentence>
+            <sentence id="6.6">java.net.URLClassLoader$1.run(URLClassLoader.java:195)</sentence>
+            <sentence id="6.7">java.security.AccessController.doPrivileged(Native Method)</sentence>
+            <sentence id="6.8">java.net.URLClassLoader.findClass(URLClassLoader.java:188)</sentence>
+            <sentence id="6.9">org.openmrs.module.ModuleClassLoader.loadClass(ModuleClassLoader.java:440)</sentence>
+            <sentence id="6.10">org.openmrs.module.ModuleClassLoader.loadClass(ModuleClassLoader.java:365)</sentence>
+            <sentence id="6.11">java.lang.ClassLoader.loadClass(ClassLoader.java:251)</sentence>
+            <sentence id="6.12">org.openmrs.module.Module.expandExtensionNames(Module.java:345)</sentence>
+            <sentence id="6.13">org.openmrs.module.Module.getExtensions(Module.java:320)</sentence>
+            <sentence id="6.14">org.openmrs.module.ModuleFactory.startModule(ModuleFactory.java:388)</sentence>
+            <sentence id="6.15">org.openmrs.module.web.controller.ModuleListController.onSubmit(ModuleListController.java:164)</sentence>
+            <sentence id="6.16">org.springframework.web.servlet.mvc.SimpleFormController.processFormSubmission(SimpleFormController.java:258)</sentence>
+            <sentence id="6.17">org.springframework.web.servlet.mvc.AbstractFormController.handleRequestInternal(AbstractFormController.java:250)</sentence>
+            <sentence id="6.18">org.springframework.web.servlet.mvc.AbstractController.handleRequest(AbstractController.java:153)</sentence>
+            <sentence id="6.19">org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter.handle(SimpleControllerHandlerAdapter.java:45)</sentence>
+            <sentence id="6.20">org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:806)</sentence>
+            <sentence id="6.21">org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:736)</sentence>
+            <sentence id="6.22">org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:396)</sentence>
+            <sentence id="6.23">org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:360)</sentence>
+            <sentence id="6.24">javax.servlet.http.HttpServlet.service(HttpServlet.java:710)</sentence>
+            <sentence id="6.25">javax.servlet.http.HttpServlet.service(HttpServlet.java:803)</sentence>
+            <sentence id="6.26">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+            <sentence id="6.27">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="6.28">org.openmrs.web.OpenmrsFilter.doFilter(OpenmrsFilter.java:122)</sentence>
+            <sentence id="6.29">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="6.30">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="6.31">org.springframework.orm.hibernate3.support.OpenSessionInViewFilter.doFilterInternal(OpenSessionInViewFilter.java:174)</sentence>
+            <sentence id="6.32">org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:77)</sentence>
+            <sentence id="6.33">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="6.34">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="6.35">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+            <sentence id="6.36">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:175)</sentence>
+            <sentence id="6.37">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:128)</sentence>
+            <sentence id="6.38">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+            <sentence id="6.39">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+            <sentence id="6.40">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:263)</sentence>
+            <sentence id="6.41">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:844)</sentence>
+            <sentence id="6.42">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:584)</sentence>
+            <sentence id="6.43">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:447)</sentence>
+            <sentence id="6.44">java.lang.Thread.run(Thread.java:595)</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>41935</id>
+    <title>[svx] deadlock in viewobjectcontactofunocontrol.cxx</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 52473
+gdb stack trace</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">got a deadlock in viewobjectcontactofunocontrol.cxx while running the subsequent tests; stack trace attached.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">the interesting frames are:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">thread 3:
+#7  0x00007fb570d49621 in sdr::contact::ViewObjectContactOfUnoControl_Impl::propertyChange (this=0x3150cc0) at /data/lo/core/svx/source/sdr/contact/viewobjectcontactofunocontrol.</sentence>
+            <sentence id="4.2">cxx:1498</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">SolarMutexGuard aSolarGuard;
+    // (re)painting might require VCL operations, which need the SolarMutex</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">[...]</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">VOCGuard aGuard( *this );</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">thread 1:
+#13 0x00007fb570d4bb8c in sdr::contact::ViewObjectContactOfUnoControl::isPrimitiveVisible (this=
+0x273a4f0, _rDisplayInfo=...) at /data/lo/core/svx/source/sdr/contact/viewobjectcontactofunocont
+rol.cxx:1854</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">bool ViewObjectContactOfUnoControl::isPrimitiveVisible( const DisplayInfo&amp; _rDisplayInfo ) const
+    {
+        VOCGuard aGuard( *m_pImpl );</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">so we have different methods of sdr::contact::ViewObjectContactOfUnoControl that lock either their own mutex via VOCGuard, or both their own mutex and SolarMutex.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">apparently the method from frame 13 isPrimitiveVisible _should_ have locked the SolarMutex as well, because it later calls into other stuff that tries to get the SolarMutex and deadlocks.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">given all this i tend towards not introducing a SolarMutexGuard in isPrimitiveVisible, because who knows what other methods here eventually call into stuff that needs SolarMutex.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">rather i'd like to remove the VOCGuard and associated mutex with prejudice and replace all VOCGuard usages with SolarMutexGuard.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">another peculiar thing in the stack is that thread #1 calls SwCrsrShell::Paint and then does a lot of stuff without acquiring the SolarMutex; don't know if that is bad or not.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24675</id>
+    <title>macOS Sierra - Compatibility - Docker for Mac</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+'none'. Menu bar 👉 Info pane shows:
+Version 1.12.0-rc4-beta19 (build: 10258)
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+'none'. Menu bar 👉 Diagnose &amp; feedback shows:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Docker for Mac: version: win-v1.12.0-beta19
+OS X: version 10.12 (build: 16A239j)
+logs: /tmp/20160715-102808.</sentence>
+            <sentence id="5.2">tar.gz
+failure: com.docker.osxfs is not running
+[ERROR] docker-cli
+ docker ps failed
+[OK] app
+[OK] moby-syslog
+[OK] virtualization
+[OK] menubar
+[OK] system
+[ERROR] osxfs
+ com.docker.osxfs is not running
+[OK] db
+[OK] slirp
+[OK] moby-console
+[OK] logs
+[OK] vmnetd
+[OK] env
+[ERROR] moby
+ /Users/rowankaag/Library/Containers/com.</sentence>
+            <sentence id="5.3">docker.docker/Data/com.</sentence>
+            <sentence id="5.4">docker.driver.amd64-linux/console-ring does not exist
+[OK] driver.amd64-linux
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="6.2">Docker for Mac.</sentence>
+            <sentence id="6.3">Tried factory reset and re-install.</sentence>
+            <sentence id="6.4">Problems since previous update (beta 18)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 Install macOS Sierra</sentence>
+            <sentence id="7.3">2 Install Docker for Mac</sentence>
+            <sentence id="7.4">3 Start Docker</sentence>
+            <sentence id="7.5">4 Experience freezing/hanging/everlasting-starting of Docker</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you received:**</sentence>
+            <sentence id="8.2">None, Docker won't get past starting.</sentence>
+            <sentence id="8.3">Sometimes it does start and running 'docker ps' does work and shows no containers running.</sentence>
+            <sentence id="8.4">Then when running another docker command (I tried docker rm -f nginx) it freezes the last command.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Describe the results you expected:**</sentence>
+            <sentence id="9.2">Somewhat functioning Docker, expecting minor issues in global area's like networking.</sentence>
+            <sentence id="9.3">The container framework doesn't seem to function at all.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="10.2">As far as I can remember, Docker was working until Docker for Mac beta 17.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Seems familiar to:
+https://forums.docker.com/t/docker-is-stuck-starting-no-log-entries-explaining/14347
+https://forums.docker.com/t/com-docker-osxfs-is-not-running/15757</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">After reading about factory reset killing containers, this might explain the hanging of running the container as it didn't exist?</sentence>
+            <sentence id="12.2">I can't perform a factory reset now with the new beta as others suggested in the above links.</sentence>
+            <sentence id="12.3">When attempting to go to Menu Bar 👉 Docker 👉 Preferences, I'm faced with:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"Error.
+Failed to retrieve settings values.
+frontend process failed" 
+</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26586</id>
+    <title>Docker with device mapper failing to restart / produces unrecoverable state for containers</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;!</sentence>
+            <sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+            <sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+            <sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+            <sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+            <sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------------------------------------------------</sentence>
+            <sentence id="4.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="4.3">---------------------------------------------------</sentence>
+            <sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="4.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">We have docker-compose v1 yml for adding containers into our dev servers.</sentence>
+            <sentence id="6.2">We use salt for CM, and before changes to containers it often restarts the docker service.</sentence>
+            <sentence id="6.3">One of our containers isn't well and is often in a restarting state.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 have a restarting container</sentence>
+            <sentence id="7.3">2 restart docker through systemctl</sentence>
+            <sentence id="7.4">3 docker dies as devicemapper directories are missing</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Happens with 1.12.0 and 1.12.1 on Debian Jessie backport 4.6.0 kernel and docker-compose 1.7.1 and 1.8.0.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Describe the results you received:**</sentence>
+            <sentence id="9.2">dead docker</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Describe the results you expected:**</sentence>
+            <sentence id="10.2">live docker</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">after reboot, containers fail to come up reporting:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"'</sentence>
+            <sentence id="13.2">Sep 15 03:03:47 ids20-ls systemd[1]: Started Docker Application Container Engine.</sentence>
+            <sentence id="13.3">Sep 15 03:04:05 ids20-ls dockerd[1105]: time="2016-09-15T03:04:05.734329778Z" level=error msg="Handler for GET /v1.21/containers/f638087727167954ec40eb708092c945be839616e55bb86eb23d551baca2072d/json returned error: devmapper: Unknown device 6667170411c9bd740fb4b93d414b59e8026ca18be4becbd7a7db3a53f58300f6"</sentence>
+            <sentence id="13.4">Sep 15 03:04:08 ids20-ls dockerd[1105]: time="2016-09-15T03:04:08.539616411Z" level=error msg="Handler for GET /v1.21/containers/4262d73ab7c8a12a95b68090e447635841a46287d502855ef9741625e98fab7a/json returned error: devmapper: Unknown device efb456f5f15ea18e326c90cfaba94e7dec9fa314314e4b0d93173f013b2cff95"</sentence>
+            <sentence id="13.5">...</sentence>
+            <sentence id="13.6">"'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Only cleaning out of the containers from /var/lib/docker allows containers to be redownloaded and started, but a docker restart again triggers the same situation.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">journal logs attached below</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">"'
+Client:
+ Version: 1.12.0
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 8eab29e
+ Built: Thu Jul 28 21:40:59 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Server:
+ Version: 1.12.0
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 8eab29e
+ Built: Thu Jul 28 21:40:59 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">"'</sentence>
+            <sentence id="20.2">Containers: 17</sentence>
+            <sentence id="20.3"> Running: 0</sentence>
+            <sentence id="20.4"> Paused: 0</sentence>
+            <sentence id="20.5"> Stopped: 17</sentence>
+            <sentence id="20.6">Images: 15</sentence>
+            <sentence id="20.7">Server Version: 1.12.0</sentence>
+            <sentence id="20.8">Storage Driver: devicemapper</sentence>
+            <sentence id="20.9"> Pool Name: docker-8:1-1445487-pool</sentence>
+            <sentence id="20.10"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="20.11"> Base Device Size: 10.74 GB</sentence>
+            <sentence id="20.12"> Backing Filesystem: ext4</sentence>
+            <sentence id="20.13"> Data file: /dev/loop0</sentence>
+            <sentence id="20.14"> Metadata file: /dev/loop1</sentence>
+            <sentence id="20.15"> Data Space Used: 305.7 MB</sentence>
+            <sentence id="20.16"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="20.17"> Data Space Available: 107.1 GB</sentence>
+            <sentence id="20.18"> Metadata Space Used: 733.2 kB</sentence>
+            <sentence id="20.19"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="20.20"> Metadata Space Available: 2.147 GB</sentence>
+            <sentence id="20.21"> Thin Pool Minimum Free Space: 10.74 GB</sentence>
+            <sentence id="20.22"> Udev Sync Supported: true</sentence>
+            <sentence id="20.23"> Deferred Removal Enabled: false</sentence>
+            <sentence id="20.24"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="20.25"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="20.26"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="20.27"> WARNING: Usage of loopback devices is strongly discouraged for production use. Use '--storage-opt dm.thinpooldev' to specify a custom block storage device.</sentence>
+            <sentence id="20.28"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="20.29"> Library Version: 1.02.90 (2014-09-01)</sentence>
+            <sentence id="20.30">Logging Driver: json-file</sentence>
+            <sentence id="20.31">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="20.32">Plugins:</sentence>
+            <sentence id="20.33"> Volume: local</sentence>
+            <sentence id="20.34"> Network: host null bridge overlay</sentence>
+            <sentence id="20.35">Swarm: inactive</sentence>
+            <sentence id="20.36">Runtimes: runc</sentence>
+            <sentence id="20.37">Default Runtime: runc</sentence>
+            <sentence id="20.38">Security Options:</sentence>
+            <sentence id="20.39">Kernel Version: 4.6.0-0.bpo.1-amd64</sentence>
+            <sentence id="20.40">Operating System: Debian GNU/Linux 8 (jessie)</sentence>
+            <sentence id="20.41">OSType: linux</sentence>
+            <sentence id="20.42">Architecture: x86_64</sentence>
+            <sentence id="20.43">CPUs: 16</sentence>
+            <sentence id="20.44">Total Memory: 14.1 GiB</sentence>
+            <sentence id="20.45">Name: ids22-ls</sentence>
+            <sentence id="20.46">ID: OU53:FKFS:5JS5:WVKK:FHOQ:CPZP:2GK7:EGED:WYUC:SS45:XTAD:KDMF</sentence>
+            <sentence id="20.47">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="20.48">Debug Mode (client): false</sentence>
+            <sentence id="20.49">Debug Mode (server): false</sentence>
+            <sentence id="20.50">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="20.51">WARNING: No memory limit support</sentence>
+            <sentence id="20.52">WARNING: No swap limit support</sentence>
+            <sentence id="20.53">WARNING: No kernel memory limit support</sentence>
+            <sentence id="20.54">WARNING: No oom kill disable support</sentence>
+            <sentence id="20.55">Insecure Registries:</sentence>
+            <sentence id="20.56"> 127.0.0.0/8</sentence>
+            <sentence id="20.57">"'</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">"'</sentence>
+            <sentence id="22.2">Sep 15 01:46:35 ids20-ls dockerd[23360]: time="2016-09-15T01:46:35.912423453Z" level=error msg="Handler for POST /v1.24/containers/4e93eeccb1d3621598a17a21d22a7126d317a9d5415462216e62a62bfc346243/exec returned error: Container 4e93eeccb1d3621598a17a21d22a7126d317a9d5415462216e62a62bfc346243 is restarting, wait until the container is running"</sentence>
+            <sentence id="22.3">Sep 15 01:46:41 ids20-ls dockerd[23360]: time="2016-09-15T01:46:41.76671163Z" level=error msg="containerd: notify OOM events" error="cgroup path for memory not found"</sentence>
+            <sentence id="22.4">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.419559086Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.5">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.447504896Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.6">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.470643705Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.7">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.493563918Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.8">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.516319442Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.9">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.539091564Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.10">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.555115701Z" level=error msg="containerd: start container" error="oci runtime error: rootfs (\"/var/lib/docker/devicemapper/mnt/e0a1254637b49c4dd6e175b27d054b93c7f07ac2678d60f366b8226ba9ce286e/rootfs\") does not exist" id=f4663e9f6020b403684d75cdd9a5a642485f21d7f68ee443164525bf4bb1e803</sentence>
+            <sentence id="22.11">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.566096490Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.12">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.588848725Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.13">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.611329623Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.14">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.660783657Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.15">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.683916353Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.16">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.709199713Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.17">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.714245965Z" level=error msg="Error running exec in container: unable to find user golang: no matching entries in passwd file"</sentence>
+            <sentence id="22.18">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.717173604Z" level=error msg="Error setting up exec command in container f4663e9f6020b403684d75cdd9a5a642485f21d7f68ee443164525bf4bb1e803: Container f4663e9f6020b403684d75cdd9a5a642485f21d7f68ee443164525bf4bb1e803 is restarting, wait until the container is running"</sentence>
+            <sentence id="22.19">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.717198844Z" level=error msg="Handler for POST /v1.24/containers/f4663e9f6020b403684d75cdd9a5a642485f21d7f68ee443164525bf4bb1e803/exec returned error: Container f4663e9f6020b403684d75cdd9a5a642485f21d7f68ee443164525bf4bb1e803 is restarting, wait until the container is running"</sentence>
+            <sentence id="22.20">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.739706150Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.21">Sep 15 02:12:48 ids20-ls systemd[1]: [/lib/systemd/system/docker.service:24] Unknown lvalue 'Delegate' in section 'Service'</sentence>
+            <sentence id="22.22">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.763545686Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.23">Sep 15 02:12:48 ids20-ls systemd[1]: Stopping Docker Application Container Engine...</sentence>
+            <sentence id="22.24">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.769517837Z" level=info msg="Processing signal 'terminated'"</sentence>
+            <sentence id="22.25">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.787737370Z" level=error msg="Error running exec in container: rpc error: code = 2 desc = oci runtime error: exec failed: process_linux.go:75: starting setns process caused \"fork/exec /proc/self/exe: no such file or directory\""</sentence>
+            <sentence id="22.26">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.836051694Z" level=warning msg="libcontainerd: container 9b480c2fd5abc05387983cb045ffdd611a10080349578a4102d4084c55acbb15 restart canceled"</sentence>
+            <sentence id="22.27">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.841178949Z" level=warning msg="libcontainerd: container 192775a4287e9b1cbea93e3ee670ea182eb1e7b63f5bfa1871c7d33873cd9f27 restart canceled"</sentence>
+            <sentence id="22.28">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.845727923Z" level=warning msg="libcontainerd: container f67191f71803891b6097e304ac95ba49cf1e3a0ab91bf04ff5d3ada88e524358 restart canceled"</sentence>
+            <sentence id="22.29">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.852449029Z" level=warning msg="libcontainerd: container 8aa1cbf4ad6ac80e3fbc745f1240751cdad08bf3fbbc8370d099898a1f7cc06b restart canceled"</sentence>
+            <sentence id="22.30">Sep 15 02:12:48 ids20-ls dockerd[23360]: time="2016-09-15T02:12:48.857240195Z" level=warning msg="libcontainerd: container 1f1fdde97f60f2097e5a99a2b2eb9c363d2f6d7e667d2e0499f6519c807a374c restart canceled"</sentence>
+            <sentence id="22.31">Sep 15 02:12:55 ids20-ls dockerd[23360]: time="2016-09-15T02:12:55.310802726Z" level=warning msg="libcontainerd: container 7a20ca1dfd922f08e45cd521e1b02b7113c49985dd64887f0e45f7fbe105f86b restart canceled"</sentence>
+            <sentence id="22.32">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.769969443Z" level=info msg="Container f4663e9f6020b403684d75cdd9a5a642485f21d7f68ee443164525bf4bb1e803 failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.33">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.787542082Z" level=info msg="Container b122c6aa36e44c50637e2c8b956327406a09d395fb4c194d7b3468ec4adf1242 failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.34">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.787572376Z" level=info msg="Container f638087727167954ec40eb708092c945be839616e55bb86eb23d551baca2072d failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.35">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.787594293Z" level=info msg="Container 794100aeeffc1a3024fbf1ed6466c53c4987d82cb25c551f446b5091f2aac560 failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.36">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.787675044Z" level=info msg="Container f2532a750f652f5648d95dd393ca7865e185fc52ecb2f25142fad663a61dd164 failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.37">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.787692920Z" level=info msg="Container 3ef9e355c1d1363e68495e99d83f8e210bdecf907e5c93434782c7e833124f3b failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.38">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.787723676Z" level=info msg="Container bdad2832679f784401669fd61374e006cf000fc0a9a7802dd08484bc95eb323f failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.39">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.787753845Z" level=info msg="Container 4e93eeccb1d3621598a17a21d22a7126d317a9d5415462216e62a62bfc346243 failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.40">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.787774540Z" level=info msg="Container 4262d73ab7c8a12a95b68090e447635841a46287d502855ef9741625e98fab7a failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.41">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.787852560Z" level=info msg="Container 3bf80b0a0e27ec05478f050e10438c36d40a2579fdfda630969bc16260411356 failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.42">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.788583505Z" level=info msg="Container fe4e49c0b51ca325ac0b959f0eaad83ba0311e89798bb0526110cd6148a0fc1f failed to exit within 10 seconds of signal 15 - using the force"</sentence>
+            <sentence id="22.43">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.845425193Z" level=warning msg="libcontainerd: container 794100aeeffc1a3024fbf1ed6466c53c4987d82cb25c551f446b5091f2aac560 restart canceled"</sentence>
+            <sentence id="22.44">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.850826571Z" level=warning msg="libcontainerd: container f638087727167954ec40eb708092c945be839616e55bb86eb23d551baca2072d restart canceled"</sentence>
+            <sentence id="22.45">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.855774410Z" level=warning msg="libcontainerd: container b122c6aa36e44c50637e2c8b956327406a09d395fb4c194d7b3468ec4adf1242 restart canceled"</sentence>
+            <sentence id="22.46">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.861098639Z" level=warning msg="libcontainerd: container f2532a750f652f5648d95dd393ca7865e185fc52ecb2f25142fad663a61dd164 restart canceled"</sentence>
+            <sentence id="22.47">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.866591890Z" level=warning msg="libcontainerd: container 3ef9e355c1d1363e68495e99d83f8e210bdecf907e5c93434782c7e833124f3b restart canceled"</sentence>
+            <sentence id="22.48">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.871329162Z" level=warning msg="libcontainerd: container 4262d73ab7c8a12a95b68090e447635841a46287d502855ef9741625e98fab7a restart canceled"</sentence>
+            <sentence id="22.49">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.876529065Z" level=warning msg="libcontainerd: container 4e93eeccb1d3621598a17a21d22a7126d317a9d5415462216e62a62bfc346243 restart canceled"</sentence>
+            <sentence id="22.50">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.881723824Z" level=warning msg="libcontainerd: container bdad2832679f784401669fd61374e006cf000fc0a9a7802dd08484bc95eb323f restart canceled"</sentence>
+            <sentence id="22.51">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.888094707Z" level=warning msg="libcontainerd: container fe4e49c0b51ca325ac0b959f0eaad83ba0311e89798bb0526110cd6148a0fc1f restart canceled"</sentence>
+            <sentence id="22.52">Sep 15 02:12:58 ids20-ls dockerd[23360]: time="2016-09-15T02:12:58.892282021Z" level=warning msg="libcontainerd: container 3bf80b0a0e27ec05478f050e10438c36d40a2579fdfda630969bc16260411356 restart canceled"</sentence>
+            <sentence id="22.53">Sep 15 02:13:03 ids20-ls dockerd[23360]: time="2016-09-15T02:13:03.769825071Z" level=error msg="Force shutdown daemon"</sentence>
+            <sentence id="22.54">Sep 15 02:13:03 ids20-ls dockerd[23360]: time="2016-09-15T02:13:03.770177428Z" level=info msg="stopping containerd after receiving terminated"</sentence>
+            <sentence id="22.55">Sep 15 02:13:04 ids20-ls systemd[1]: Starting Docker Application Container Engine...</sentence>
+            <sentence id="22.56">Sep 15 02:13:04 ids20-ls dockerd[1548]: time="2016-09-15T02:13:04.813923239Z" level=info msg="libcontainerd: new containerd process, pid: 1557"</sentence>
+            <sentence id="22.57">Sep 15 02:13:05 ids20-ls dockerd[1548]: time="2016-09-15T02:13:05.821192729Z" level=error msg="[graphdriver] prior storage driver \"devicemapper\" failed: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.58">Sep 15 02:13:05 ids20-ls dockerd[1548]: time="2016-09-15T02:13:05.821257286Z" level=fatal msg="Error starting daemon: error initializing graphdriver: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.59">Sep 15 02:13:05 ids20-ls systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE</sentence>
+            <sentence id="22.60">Sep 15 02:13:05 ids20-ls systemd[1]: Failed to start Docker Application Container Engine.</sentence>
+            <sentence id="22.61">Sep 15 02:13:05 ids20-ls systemd[1]: Unit docker.service entered failed state.</sentence>
+            <sentence id="22.62">Sep 15 02:13:06 ids20-ls systemd[1]: Starting Docker Application Container Engine...</sentence>
+            <sentence id="22.63">Sep 15 02:13:06 ids20-ls dockerd[1622]: time="2016-09-15T02:13:06.710015476Z" level=info msg="libcontainerd: new containerd process, pid: 1629"</sentence>
+            <sentence id="22.64">Sep 15 02:13:07 ids20-ls dockerd[1622]: time="2016-09-15T02:13:07.718703156Z" level=error msg="[graphdriver] prior storage driver \"devicemapper\" failed: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.65">Sep 15 02:13:07 ids20-ls dockerd[1622]: time="2016-09-15T02:13:07.718781080Z" level=fatal msg="Error starting daemon: error initializing graphdriver: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.66">Sep 15 02:13:07 ids20-ls systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE</sentence>
+            <sentence id="22.67">Sep 15 02:13:07 ids20-ls systemd[1]: Failed to start Docker Application Container Engine.</sentence>
+            <sentence id="22.68">Sep 15 02:13:07 ids20-ls systemd[1]: Unit docker.service entered failed state.</sentence>
+            <sentence id="22.69">Sep 15 02:13:07 ids20-ls systemd[1]: Starting Docker Application Container Engine...</sentence>
+            <sentence id="22.70">Sep 15 02:13:07 ids20-ls dockerd[1649]: time="2016-09-15T02:13:07.749175172Z" level=info msg="libcontainerd: new containerd process, pid: 1655"</sentence>
+            <sentence id="22.71">Sep 15 02:13:08 ids20-ls dockerd[1649]: time="2016-09-15T02:13:08.755876309Z" level=error msg="[graphdriver] prior storage driver \"devicemapper\" failed: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.72">Sep 15 02:13:08 ids20-ls dockerd[1649]: time="2016-09-15T02:13:08.755942322Z" level=fatal msg="Error starting daemon: error initializing graphdriver: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.73">Sep 15 02:13:08 ids20-ls systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE</sentence>
+            <sentence id="22.74">Sep 15 02:13:08 ids20-ls systemd[1]: Failed to start Docker Application Container Engine.</sentence>
+            <sentence id="22.75">Sep 15 02:13:08 ids20-ls systemd[1]: Unit docker.service entered failed state.</sentence>
+            <sentence id="22.76">Sep 15 02:13:08 ids20-ls systemd[1]: Starting Docker Application Container Engine...</sentence>
+            <sentence id="22.77">Sep 15 02:13:08 ids20-ls dockerd[1678]: time="2016-09-15T02:13:08.785531838Z" level=info msg="libcontainerd: new containerd process, pid: 1684"</sentence>
+            <sentence id="22.78">Sep 15 02:13:09 ids20-ls dockerd[1678]: time="2016-09-15T02:13:09.792255827Z" level=error msg="[graphdriver] prior storage driver \"devicemapper\" failed: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.79">Sep 15 02:13:09 ids20-ls dockerd[1678]: time="2016-09-15T02:13:09.792320857Z" level=fatal msg="Error starting daemon: error initializing graphdriver: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.80">Sep 15 02:13:09 ids20-ls systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE</sentence>
+            <sentence id="22.81">Sep 15 02:13:09 ids20-ls systemd[1]: Failed to start Docker Application Container Engine.</sentence>
+            <sentence id="22.82">Sep 15 02:13:09 ids20-ls systemd[1]: Unit docker.service entered failed state.</sentence>
+            <sentence id="22.83">Sep 15 02:13:09 ids20-ls systemd[1]: Starting Docker Application Container Engine...</sentence>
+            <sentence id="22.84">Sep 15 02:13:09 ids20-ls dockerd[1725]: time="2016-09-15T02:13:09.817726677Z" level=info msg="libcontainerd: new containerd process, pid: 1731"</sentence>
+            <sentence id="22.85">Sep 15 02:13:10 ids20-ls dockerd[1725]: time="2016-09-15T02:13:10.827176909Z" level=error msg="[graphdriver] prior storage driver \"devicemapper\" failed: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.86">Sep 15 02:13:10 ids20-ls dockerd[1725]: time="2016-09-15T02:13:10.827251869Z" level=fatal msg="Error starting daemon: error initializing graphdriver: open /var/lib/docker/devicemapper/devicemapper/data: no such file or directory"</sentence>
+            <sentence id="22.87">Sep 15 02:13:10 ids20-ls systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE</sentence>
+            <sentence id="22.88">Sep 15 02:13:10 ids20-ls systemd[1]: Failed to start Docker Application Container Engine.</sentence>
+            <sentence id="22.89">Sep 15 02:13:10 ids20-ls systemd[1]: Unit docker.service entered failed state.</sentence>
+            <sentence id="22.90">Sep 15 02:13:10 ids20-ls systemd[1]: Starting Docker Application Container Engine...</sentence>
+            <sentence id="22.91">Sep 15 02:13:10 ids20-ls systemd[1]: docker.service start request repeated too quickly, refusing to start.</sentence>
+            <sentence id="22.92">Sep 15 02:13:10 ids20-ls systemd[1]: Failed to start Docker Application Container Engine.</sentence>
+            <sentence id="22.93">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

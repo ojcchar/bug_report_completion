@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-759</id>
+    <title>problem for mixxing setmaxresults and setlockmode</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">there is a problem for mixxing setmaxresults and setlockmode.</sentence>
+            <sentence id="1.2">the problem is that "ORA-00904: invalid column name".</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The error info is as the below:</sentence>
+            <sentence id="2.2">Hibernate: select * from ( select idmapp0_.RI as col_0_0_ from PCTMNGT.IDMAP_P idmapp0_ where idmapp0_.STATUS=? ) where rownum &lt;= ? for update of idmapp0_.RI</sentence>
+            <sentence id="2.3">14:21:54,076 DEBUG  AbstractBatcher:AbstractBatcher.java:365 - preparing statement</sentence>
+            <sentence id="2.4">14:21:54,082 DEBUG  AbstractBatcher:AbstractBatcher.java:285 - about to close PreparedStatement (open PreparedStatements: 1, globally: 1)</sentence>
+            <sentence id="2.5">14:21:54,083 DEBUG  AbstractBatcher:AbstractBatcher.java:403 - closing statement</sentence>
+            <sentence id="2.6">14:21:54,090  WARN  JDBCExceptionReporter:JDBCExceptionReporter.java:71 - SQL Error: 904, SQLState: 42000</sentence>
+            <sentence id="2.7">14:21:54,091 ERROR  JDBCExceptionReporter:JDBCExceptionReporter.java:72 - ORA-00904: invalid column name</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The source code is as the below:
+    	//query an unused emid for new tone
+    	query = av_session.</sentence>
+            <sentence id="3.2">createQuery("select v_idmap from IdmapP as v_idmap where v_idmap.</sentence>
+            <sentence id="3.3">status=:v_status");
+    	query.setCharacter("v_status",EMID_STATUS.</sentence>
+            <sentence id="3.4">UNUSED.charValue());
+    	query.setMaxResults(1);
+    	query.setLockMode("v_idmap",LockMode.UPGRADE);
+    	it = query.iterate();
+    	if( !</sentence>
+            <sentence id="3.5">it.hasNext() )
+    	{
+    		tx.rollback();
+        	lv_err = "addRing::doAddRingFile: no unused EMID for new tone in idmap.</sentence>
+            <sentence id="3.6">toneid="+av_tone;
+        	throw new InterfaceErrException(lv_err,INTERFACE_RETCODE.</sentence>
+            <sentence id="3.7">SYSTEM_ERR);
+    	}</sentence>
+        </paragraph>
+    </description>
+</bug>

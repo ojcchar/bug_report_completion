@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>25949</id>
+    <title>php_value in virtualhost also exists in another virtualhost entry</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Apache 2.0.48 PHP4.3.4 
+ 
+&lt;VirtualHost 195.195.195.195&gt; 
+ ServerName www.foo.com 
+ ..... 
+ php_flag magic_quotes_gpc off 
+ php_value include_path /www/foo/htdocs/include 
+ php_value auto_prepend_file foo.php 
+ php_admin_value safe_mode off 
+ 
+&lt;/VirtualHost&gt; 
+ 
+&lt;VirtualHost 195.195.195.195&gt; 
+ ServerName www.foo1.com 
+ ... 
+&lt;/VirtualHost&gt; 
+ 
+foo1.com loads /www/foo/htdocs/include/foo.</sentence>
+            <sentence id="1.2">php 
+But I have no php_value entry in this VirtualHost section.</sentence>
+            <sentence id="1.3">I hope it's not my config prob.</sentence>
+        </paragraph>
+    </description>
+</bug>

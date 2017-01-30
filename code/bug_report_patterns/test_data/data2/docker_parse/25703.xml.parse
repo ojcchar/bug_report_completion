@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>25703</id>
+    <title>Docker don't remove processes when stopping/removing containers</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Wed Apr 27 00:34:42 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Wed Apr 27 00:34:42 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Wed Apr 27 00:34:42 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Server:</sentence>
+            <sentence id="7.2"> Version: 1.11.1</sentence>
+            <sentence id="7.3"> API version: 1.23</sentence>
+            <sentence id="7.4"> Go version: go1.5.4</sentence>
+            <sentence id="7.5"> Git commit: 5604cbe</sentence>
+            <sentence id="7.6"> Built: Wed Apr 27 00:34:42 2016</sentence>
+            <sentence id="7.7"> OS/Arch: linux/amd64</sentence>
+            <sentence id="7.8">[root@node3 puppet]# docker info</sentence>
+            <sentence id="7.9">Containers: 5</sentence>
+            <sentence id="7.10"> Running: 5</sentence>
+            <sentence id="7.11"> Paused: 0</sentence>
+            <sentence id="7.12"> Stopped: 0</sentence>
+            <sentence id="7.13">Images: 421</sentence>
+            <sentence id="7.14">Server Version: 1.11.1</sentence>
+            <sentence id="7.15">Storage Driver: devicemapper</sentence>
+            <sentence id="7.16"> Pool Name: docker-8:32-402653313-pool</sentence>
+            <sentence id="7.17"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="7.18"> Base Device Size: 10.74 GB</sentence>
+            <sentence id="7.19"> Backing Filesystem: xfs</sentence>
+            <sentence id="7.20"> Data file: /dev/vg-docker/data</sentence>
+            <sentence id="7.21"> Metadata file: /dev/vg-docker/metadata</sentence>
+            <sentence id="7.22"> Data Space Used: 168.5 GB</sentence>
+            <sentence id="7.23"> Data Space Total: 423.1 GB</sentence>
+            <sentence id="7.24"> Data Space Available: 254.6 GB</sentence>
+            <sentence id="7.25"> Metadata Space Used: 184.8 MB</sentence>
+            <sentence id="7.26"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="7.27"> Metadata Space Available: 1.963 GB</sentence>
+            <sentence id="7.28"> Udev Sync Supported: true</sentence>
+            <sentence id="7.29"> Deferred Removal Enabled: false</sentence>
+            <sentence id="7.30"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="7.31"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="7.32"> Library Version: 1.02.107-RHEL7 (2015-12-01)</sentence>
+            <sentence id="7.33">Logging Driver: json-file</sentence>
+            <sentence id="7.34">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="7.35">Plugins: </sentence>
+            <sentence id="7.36"> Volume: local</sentence>
+            <sentence id="7.37"> Network: bridge null host</sentence>
+            <sentence id="7.38">Kernel Version: 3.10.0-327.4.5.el7.x86_64</sentence>
+            <sentence id="7.39">Operating System: CentOS Linux 7 (Core)</sentence>
+            <sentence id="7.40">OSType: linux</sentence>
+            <sentence id="7.41">Architecture: x86_64</sentence>
+            <sentence id="7.42">CPUs: 8</sentence>
+            <sentence id="7.43">Total Memory: 27.48 GiB</sentence>
+            <sentence id="7.44">Name: node3.beta.codenvy.com</sentence>
+            <sentence id="7.45">ID: 6X2X:6M7N:SI6A:J3W6:EOBZ:ULGS:5M5L:N3N7:5S7F:6OFV:JT54:MUYR</sentence>
+            <sentence id="7.46">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="7.47">Debug mode (client): false</sentence>
+            <sentence id="7.48">Debug mode (server): false</sentence>
+            <sentence id="7.49">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="7.50">WARNING: bridge-nf-call-iptables is disabled</sentence>
+            <sentence id="7.51">WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+            <sentence id="7.52">"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Azure Standard D4 (8 cores, 28 GB memory)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="10.2">1 Don't know just run and stop containers via swarm (Server Version: swarm/1.2.3)</sentence>
+            <sentence id="10.3">2</sentence>
+            <sentence id="10.4">3</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you received:**</sentence>
+            <sentence id="11.2">Inspecting high CPU using processes I found several processes that was run in containers but still running long time after containers are stopped/removed</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"'</sentence>
+            <sentence id="12.2">ps auxf | less -S</sentence>
+            <sentence id="12.3">root 58162 0.0 0.0 53208 15020 ? Ss Aug04 2:25 /usr/lib/systemd/systemd-journald</sentence>
+            <sentence id="12.4">root 1295 4.2 0.7 6029956 223872 ? Ssl Aug04 648:43 /usr/bin/docker daemon -H fd:// --selinux-enabled=false -g /var/lib/docker --insecure-registry beta.codenvy.com:5000 --storage-driver=devicemapper --storage-opt dm.basesize=</sentence>
+            <sentence id="12.5">root 1300 0.0 0.0 545620 16396 ? Ssl Aug04 4:01 \_ docker-containerd -l /var/run/docker/libcontainerd/docker-containerd.sock --runtime docker-runc</sentence>
+            <sentence id="12.6">root 19268 0.0 0.0 19772 1296 ? Ss Aug06 0:00 | \_ /bin/bash -c trap '[ -z "$(jobs -p)" ] || kill $(jobs -p); [ -e /tmp/docker-exec-20860.pid ] &amp;&amp; rm /tmp/docker-exec-20860.pid' EXIT; echo $$&gt;/tmp/docker-exec-20860.p</sentence>
+            <sentence id="12.7">root 19412 56.6 3.1 6706436 917136 ? Sl Aug06 7440:42 | | \_ /opt/jre1.8.0_65/bin/java -Djava.util.logging.config.file=/root/che/ws-agent/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogM</sentence>
+            <sentence id="12.8">root 37995 0.0 0.0 407056 4460 ? Sl 08:49 0:00 | \_ docker-containerd-shim 937c296343557540097a7d4ed077aa7427bee371a13b19556b915633fb250003 /var/run/docker/libcontainerd/937c296343557540097a7d4ed077aa7427bee371a13b195</sentence>
+            <sentence id="12.9">skryzhny 38011 0.0 0.0 4440 528 ? Ss 08:49 0:00 | | \_ /bin/sh -c tail -f /dev/null</sentence>
+            <sentence id="12.10">"'</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Process 19412 is high CPU user and was in container.</sentence>
+            <sentence id="13.2">There no containers older than 1 hour, so I think docker wasn't able to stop all processes when stopping container.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">On another node:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"'</sentence>
+            <sentence id="15.2">root 29709 0.0 0.1 139476 54748 ? Ss Jul24 3:41 /usr/lib/systemd/systemd-journald</sentence>
+            <sentence id="15.3">root 8550 0.0 0.0 19772 360 ? Ss Aug06 0:00 /bin/bash -c trap '[ -z "$(jobs -p)" ] || kill $(jobs -p); [ -e /tmp/docker-exec-20683.pid ] &amp;&amp; rm /tmp/docker-exec-20683.pid' EXIT; echo $$&gt;/tmp/docker-exec-20683.pid; slee</sentence>
+            <sentence id="15.4">root 8633 45.3 3.2 6706436 930428 ? Sl Aug06 6067:25 \_ /opt/jre1.8.0_65/bin/java -Djava.util.logging.config.file=/root/che/ws-agent/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -</sentence>
+            <sentence id="15.5">root 10167 0.0 0.0 19772 144 ? Ss Aug06 0:00 /bin/bash -c trap '[ -z "$(jobs -p)" ] || kill $(jobs -p); [ -e /tmp/docker-exec-20689.pid ] &amp;&amp; rm /tmp/docker-exec-20689.pid' EXIT; echo $$&gt;/tmp/docker-exec-20689.pid; slee</sentence>
+            <sentence id="15.6">root 10233 43.5 3.1 6706436 909748 ? Sl Aug06 5814:15 \_ /opt/jre1.8.0_65/bin/java -Djava.util.logging.config.file=/root/che/ws-agent/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -</sentence>
+            <sentence id="15.7">root 57178 0.0 0.0 21764 916 ? Ss Aug07 0:00 /bin/bash -c trap '[ -z "$(jobs -p)" ] || kill $(jobs -p); [ -e /tmp/docker-exec-21856.pid ] &amp;&amp; rm /tmp/docker-exec-21856.pid' EXIT; echo $$&gt;/tmp/docker-exec-21856.pid; slee</sentence>
+            <sentence id="15.8">root 57240 47.9 3.2 6706208 931004 ? Sl Aug07 5672:29 \_ /opt/jre1.8.0_65/bin/java -Djava.util.logging.config.file=/root/che/ws-agent/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -</sentence>
+            <sentence id="15.9">root 40251 0.0 0.1 923224 32808 ? Sl Aug08 3:59 /usr/bin/python2 -s /usr/bin/fail2ban-server -s /var/run/fail2ban/fail2ban.sock -p /var/run/fail2ban/fail2ban.pid -x -b</sentence>
+            <sentence id="15.10">"'</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">**Describe the results you expected:**</sentence>
+            <sentence id="16.2">All processes belonged to stopped containers are killed</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="17.2">It happened on 2 out of 3 swarm nodes, I didn't seen that before, on older docker/swarm versions.</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">I let these processes running, so I able to collect additional info.</sentence>
+            <sentence id="18.2">Please supply command how to get it.</sentence>
+        </paragraph>
+    </description>
+</bug>

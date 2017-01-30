@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5895</id>
+    <title>Hibernate throws an exception when executing a select statement with order by clause</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hibernate throws an exception when executing a select statement (see below) with order by clause.</sentence>
+            <sentence id="1.2">select 
+ escalation0_.</sentence>
+            <sentence id="1.3">ESCALATIONCASE as ESCALATI6_0_1_, 
+ escalation0_.</sentence>
+            <sentence id="1.4">GUID as GUID1_, 
+ escalation0_.</sentence>
+            <sentence id="1.5">GUID as GUID1_0_, 
+ escalation0_.</sentence>
+            <sentence id="1.6">creationDate as creation3_1_0_, 
+ escalation0_.</sentence>
+            <sentence id="1.7">OPTLOCK as OPTLOCK1_0_, 
+ escalation0_.</sentence>
+            <sentence id="1.8">description as descript5_1_0_, 
+ escalation0_.</sentence>
+            <sentence id="1.9">ESCALATIONCASE as ESCALATI6_1_0_ 
+from esk_history 
+ escalation0_ where escalation0_.</sentence>
+            <sentence id="1.10">ESCALATIONCASE in (select escalation0_.</sentence>
+            <sentence id="1.11">GUID from esk_case escalation0_) order by esk_history.</sentence>
+            <sentence id="1.12">creationDate asc</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The exception:</sentence>
+            <sentence id="2.2">2011-02-04 11:06:23,010 DEBUG [org.hibernate.util.JDBCExceptionReporter] could not load collection by subselect: [org.jboss.testcase.EscalationCaseImpl.escalationCaseHistories#&lt;4, 3, 5, 2, 1&gt;] [select escalation0_.ESCALATIONCASE as ESCALATI6_0_1_, escalation0_.GUID as GUID1_, escalation0_.GUID as GUID1_0_, escalation0_.creationDate as creation3_1_0_, escalation0_.OPTLOCK as OPTLOCK1_0_, escalation0_.description as descript5_1_0_, escalation0_.ESCALATIONCASE as ESCALATI6_1_0_ from esk_history escalation0_ where escalation0_.ESCALATIONCASE in (select escalation0_.GUID from esk_case escalation0_) order by esk_history.creationDate asc]</sentence>
+            <sentence id="2.3">com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'esk_history.creationDate' in 'order clause'</sentence>
+            <sentence id="2.4">        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</sentence>
+            <sentence id="2.5">        at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)</sentence>
+            <sentence id="2.6">        at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)</sentence>
+            <sentence id="2.7">        at java.lang.reflect.Constructor.newInstance(Constructor.java:513)</sentence>
+            <sentence id="2.8">        at com.mysql.jdbc.Util.handleNewInstance(Util.java:407)</sentence>
+            <sentence id="2.9">        at com.mysql.jdbc.Util.getInstance(Util.java:382)</sentence>
+            <sentence id="2.10">        at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)</sentence>
+            <sentence id="2.11">        at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3593)</sentence>
+            <sentence id="2.12">        at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3525)</sentence>
+            <sentence id="2.13">        at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1986)</sentence>
+            <sentence id="2.14">        at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2140)</sentence>
+            <sentence id="2.15">        at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2626)</sentence>
+            <sentence id="2.16">        at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2111)</sentence>
+            <sentence id="2.17">        at com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2273)</sentence>
+            <sentence id="2.18">        at org.jboss.resource.adapter.jdbc.WrappedPreparedStatement.executeQuery(WrappedPreparedStatement.java:255)</sentence>
+            <sentence id="2.19">        at org.hibernate.jdbc.AbstractBatcher.getResultSet(AbstractBatcher.java:187)</sentence>
+            <sentence id="2.20">        at org.hibernate.loader.Loader.getResultSet(Loader.java:1787)</sentence>
+            <sentence id="2.21">        at org.hibernate.loader.Loader.doQuery(Loader.java:674)</sentence>
+            <sentence id="2.22">        at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:236)</sentence>
+            <sentence id="2.23">        at org.hibernate.loader.Loader.loadCollectionSubselect(Loader.java:2066)</sentence>
+            <sentence id="2.24">        at org.hibernate.loader.collection.SubselectOneToManyLoader.initialize(SubselectOneToManyLoader.java:58)</sentence>
+            <sentence id="2.25">        at org.hibernate.persister.collection.AbstractCollectionPersister.initialize(AbstractCollectionPersister.java:565)</sentence>
+            <sentence id="2.26">        at org.hibernate.event.def.DefaultInitializeCollectionEventListener.onInitializeCollection(DefaultInitializeCollectionEventListener.java:60)</sentence>
+            <sentence id="2.27">        at org.hibernate.impl.SessionImpl.initializeCollection(SessionImpl.java:1716)</sentence>
+            <sentence id="2.28">        at org.hibernate.collection.AbstractPersistentCollection.forceInitialization(AbstractPersistentCollection.java:454)</sentence>
+            <sentence id="2.29">        at org.hibernate.engine.StatefulPersistenceContext.initializeNonLazyCollections(StatefulPersistenceContext.java:844)</sentence>
+            <sentence id="2.30">        at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:241)</sentence>
+            <sentence id="2.31">        at org.hibernate.loader.Loader.doList(Loader.java:2220)</sentence>
+            <sentence id="2.32">        at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2104)</sentence>
+            <sentence id="2.33">        at org.hibernate.loader.Loader.list(Loader.java:2099)</sentence>
+            <sentence id="2.34">        at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:378)</sentence>
+            <sentence id="2.35">        at org.hibernate.hql.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:341)</sentence>
+            <sentence id="2.36">        at org.hibernate.engine.query.HQLQueryPlan.performList(HQLQueryPlan.java:172)</sentence>
+            <sentence id="2.37">        at org.hibernate.impl.SessionImpl.list(SessionImpl.java:1121)</sentence>
+            <sentence id="2.38">        at org.hibernate.impl.QueryImpl.list(QueryImpl.java:79)</sentence>
+            <sentence id="2.39">        at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:65)</sentence>
+            <sentence id="2.40">        at org.jboss.testcase.SOEscalationCaseServiceBean.findEscalations(SOEscalationCaseServiceBean.java:54)</sentence>
+            <sentence id="2.41">        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="2.42">        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)</sentence>
+            <sentence id="2.43">        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</sentence>
+            <sentence id="2.44">        at java.lang.reflect.Method.invoke(Method.java:597)</sentence>
+            <sentence id="2.45">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:112)</sentence>
+            <sentence id="2.46">        at org.jboss.ejb3.interceptor.InvocationContextImpl.proceed(InvocationContextImpl.java:166)</sentence>
+            <sentence id="2.47">        at org.jboss.ejb3.interceptor.EJB3InterceptorsInterceptor.invoke(EJB3InterceptorsInterceptor.java:63)</sentence>
+            <sentence id="2.48">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.49">        at org.jboss.ejb3.connectionmanager.CachedConnectionInterceptor.invoke(CachedConnectionInterceptor.java:57)</sentence>
+            <sentence id="2.50">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.51">        at org.jboss.ejb3.entity.TransactionScopedEntityManagerInterceptor.invoke(TransactionScopedEntityManagerInterceptor.java:54)</sentence>
+            <sentence id="2.52">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.53">        at org.jboss.ejb3.AllowedOperationsInterceptor.invoke(AllowedOperationsInterceptor.java:47)</sentence>
+            <sentence id="2.54">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.55">        at org.jboss.ejb3.timer.TimerTxRegistrationInterceptor.invoke(TimerTxRegistrationInterceptor.java:38)</sentence>
+            <sentence id="2.56">        at org.jboss.ejb3.timer.TimerTxRegistrationInterceptor.invoke(TimerTxRegistrationInterceptor.java:29)</sentence>
+            <sentence id="2.57">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.58">        at org.jboss.aspects.tx.TxPolicy.invokeInOurTx(TxPolicy.java:79)</sentence>
+            <sentence id="2.59">        at org.jboss.aspects.tx.TxInterceptor$Required.invoke(TxInterceptor.java:191)</sentence>
+            <sentence id="2.60">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.61">        at org.jboss.aspects.tx.TxPropagationInterceptor.invoke(TxPropagationInterceptor.java:94)</sentence>
+            <sentence id="2.62">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.63">        at org.jboss.ejb3.stateless.StatelessInstanceInterceptor.invoke(StatelessInstanceInterceptor.java:70)</sentence>
+            <sentence id="2.64">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.65">        at org.jboss.ejb3.tx.NullInterceptor.invoke(NullInterceptor.java:42)</sentence>
+            <sentence id="2.66">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.67">        at org.jboss.aspects.security.AuthenticationInterceptor.invoke(AuthenticationInterceptor.java:77)</sentence>
+            <sentence id="2.68">        at org.jboss.ejb3.security.Ejb3AuthenticationInterceptor.invoke(Ejb3AuthenticationInterceptor.java:139)</sentence>
+            <sentence id="2.69">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.70">        at org.jboss.ejb3.ENCPropagationInterceptor.invoke(ENCPropagationInterceptor.java:46)</sentence>
+            <sentence id="2.71">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.72">        at org.jboss.ejb3.interceptor.EJB3TCCLInterceptor.invoke(EJB3TCCLInterceptor.java:86)</sentence>
+            <sentence id="2.73">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.74">        at org.jboss.ejb3.asynchronous.AsynchronousInterceptor.invoke(AsynchronousInterceptor.java:106)</sentence>
+            <sentence id="2.75">        at org.jboss.aop.joinpoint.MethodInvocation.invokeNext(MethodInvocation.java:101)</sentence>
+            <sentence id="2.76">        at org.jboss.ejb3.stateless.StatelessContainer.dynamicInvoke(StatelessContainer.java:281)</sentence>
+            <sentence id="2.77">        at org.jboss.aop.Dispatcher.invoke(Dispatcher.java:106)</sentence>
+            <sentence id="2.78">        at org.jboss.aspects.remoting.AOPRemotingInvocationHandler.invoke(AOPRemotingInvocationHandler.java:82)</sentence>
+            <sentence id="2.79">        at org.jboss.remoting.ServerInvoker.invoke(ServerInvoker.java:862)</sentence>
+            <sentence id="2.80">        at org.jboss.remoting.transport.socket.ServerThread.processInvocation(ServerThread.java:634)</sentence>
+            <sentence id="2.81">        at org.jboss.remoting.transport.socket.ServerThread.dorun(ServerThread.java:409)</sentence>
+            <sentence id="2.82">        at org.jboss.remoting.transport.socket.ServerThread.run(ServerThread.java:176)</sentence>
+            <sentence id="2.83">2011-02-04 11:06:23,010 WARN  [org.hibernate.util.JDBCExceptionReporter] SQL Error: 1054, SQLState: 42S22</sentence>
+            <sentence id="2.84">2011-02-04 11:06:23,010 ERROR [org.hibernate.util.JDBCExceptionReporter] Unknown column 'esk_history.creationDate' in 'order clause'</sentence>
+            <sentence id="2.85">2011-02-04 11:06:23,011 DEBUG [org.hibernate.ejb.AbstractEntityManagerImpl] mark transaction for rollback</sentence>
+            <sentence id="2.86">2011-02-04 11:06:23,012 DEBUG [org.jboss.ejb3.entity.ManagedEntityManagerFactory] ************** closing entity managersession *************</sentence>
+        </paragraph>
+    </description>
+</bug>

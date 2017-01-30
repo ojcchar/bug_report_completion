@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-461</id>
+    <title>Merge patients: encounter.obs.person not updated, will fail on obs without encounter</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Merge patients has two bugs:</sentence>
+            <sentence id="1.2"># When moving encounter the person_id on associated obs will not get reset; this is due to code in saveEncounter() that will only update person info on obs when encounter date has changed.</sentence>
+            <sentence id="1.3"># Save of obs without encounter fails stating that no change message provided.</sentence>
+            <sentence id="1.4">This is because patientserviceimpl calls obsService.saveObs(obs, null).</sentence>
+        </paragraph>
+    </description>
+</bug>

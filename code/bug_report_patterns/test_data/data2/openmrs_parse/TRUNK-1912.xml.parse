@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1912</id>
+    <title>Patient filter incompatibilities between OpenMRS 1.5 and 1.6</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">On our production server, we are trying to migrate from OpenMRS 1.5 to OpenMRS 1.6.</sentence>
+            <sentence id="1.2">Testing this, we find that whenever we try to view a Data Export, the page is unable to load, and the log file contains the following stack trace:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">ERROR - errorhandler_jsp._jspService(72) |2010-11-30 16:46:50,360| Error on page /openmrs/WEB-INF/view/module/reportingcompatibility/reports/dataExportForm.jsp</sentence>
+            <sentence id="2.2">java.lang.NullPointerException</sentence>
+            <sentence id="2.3">at org.openmrs.reporting.ReportObjectWrapper.getReportObject(ReportObjectWrapper.java:302)</sentence>
+            <sentence id="2.4">at org.openmrs.reporting.db.hibernate.HibernateReportObjectDAO.getReportObjectsByType(HibernateReportObjectDAO.java:156)</sentence>
+            <sentence id="2.5">at org.openmrs.reporting.impl.ReportObjectServiceImpl.getReportObjectsByType(ReportObjectServiceImpl.java:75)</sentence>
+            <sentence id="2.6">at sun.reflect.GeneratedMethodAccessor936.invoke(Unknown Source)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Looking into this, the issue is that the system is trying to load every Patient Filter report object (to display in the "saved searches" list, and some of these saved Patient Filters contain invalid XML.</sentence>
+            <sentence id="3.2">The reason they are invalid seems to be due to the person / user refactoring that went into 1.6 - the deserialization process is trying to call methods like "setFirstName", etc on User, and is unable to do so.</sentence>
+            <sentence id="3.3">There are a couple of issues here:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">* The code does not sufficiently handle deserialization errors - throwing an uncaught NullPointerException, rather than catching this exception and continuing to load the report objects that it can load.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">* The migration from 1.5 to 1.6 has not sufficiently provided backwards compatibility or migration utilities for these objects</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">* The Exception Handler for the deserialization process does not sufficiently log the errors that are happening.</sentence>
+        </paragraph>
+    </description>
+</bug>

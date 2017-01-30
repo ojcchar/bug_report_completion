@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8866</id>
+    <title>HQL Query with enum and @Convert</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hibernate parser can't create a HQL query which is using enum with assigned @javax.</sentence>
+            <sentence id="1.2">persistence.Converter.</sentence>
+            <sentence id="1.3">Please, see test case.</sentence>
+            <sentence id="1.4">Example of an exception is:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">org.hibernate.QueryException: Could not format constant value to SQL literal: bug.TestEnum.VALUE [FROM bug.TestEntity t WHERE t.testEnum = bug.TestEnum.VALUE]</sentence>
+            <sentence id="2.2">	at org.hibernate.QueryException.generateQueryException(QueryException.java:137)</sentence>
+            <sentence id="2.3">	at org.hibernate.QueryException.wrapWithQueryString(QueryException.java:120)</sentence>
+            <sentence id="2.4">... more</sentence>
+            <sentence id="2.5">Caused by: org.hibernate.QueryException: Could not format constant value to SQL literal: bug.TestEnum.VALUE</sentence>
+            <sentence id="2.6">	at org.hibernate.hql.internal.ast.tree.JavaConstantNode.getRenderText(JavaConstantNode.java:91)</sentence>
+            <sentence id="2.7">	at org.hibernate.hql.internal.ast.SqlGenerator.out(SqlGenerator.java:128)</sentence>
+            <sentence id="2.8">	at org.hibernate.hql.internal.antlr.SqlGeneratorBase.simpleExpr(SqlGeneratorBase.java:2942)</sentence>
+            <sentence id="2.9">... more</sentence>
+            <sentence id="2.10">*Caused by: java.lang.ClassCastException: org.hibernate.type.descriptor.converter.AttributeConverterTypeAdapter cannot be cast to org.hibernate.type.LiteralType*</sentence>
+            <sentence id="2.11">	at org.hibernate.hql.internal.ast.tree.JavaConstantNode.getRenderText(JavaConstantNode.java:86)</sentence>
+            <sentence id="2.12">... 46 more</sentence>
+        </paragraph>
+    </description>
+</bug>

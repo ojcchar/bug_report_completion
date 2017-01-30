@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18518</id>
+    <title>[PATCH] Compilation fails when using preinstalled libapr</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">modules/aaa/config.</sentence>
+            <sentence id="1.2">m4 has hardcoded include path for APR.</sentence>
+            <sentence id="1.3">This doesn't work when
+APR is installed in system and included one from tarball is not used.</sentence>
+            <sentence id="1.4">This patch fix it.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">--- apache2-2.0.44/modules/aaa/config.</sentence>
+            <sentence id="2.2">m4~       2003-03-25 12:32:35 +0300</sentence>
+            <sentence id="2.3">+++ apache2-2.0.44/modules/aaa/config.</sentence>
+            <sentence id="2.4">m4        2003-03-25 12:32:18 +0300</sentence>
+            <sentence id="2.5">@@ -11,7 +11,7 @@</sentence>
+            <sentence id="2.6">APACHE_MODULE(auth_digest, RFC2617 Digest authentication, , , most, [</sentence>
+            <sentence id="2.7">ap_old_cppflags=$CPPFLAGS</sentence>
+            <sentence id="2.8">-  CPPFLAGS="$CPPFLAGS -I$APR_SOURCE_DIR/include -I$abs_builddir/srclib/apr/include"</sentence>
+            <sentence id="2.9">+  CPPFLAGS="$CPPFLAGS $INCLUDES"</sentence>
+            <sentence id="2.10">AC_TRY_COMPILE([#include &lt;apr.h&gt;],</sentence>
+            <sentence id="2.11">[#if !</sentence>
+            <sentence id="2.12">APR_HAS_RANDOM</sentence>
+            <sentence id="2.13">#error You need APR random support to use auth_digest.</sentence>
+        </paragraph>
+    </description>
+</bug>

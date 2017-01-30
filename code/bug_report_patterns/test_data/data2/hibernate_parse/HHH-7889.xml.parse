@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7889</id>
+    <title>Sybase jConnect driver cannot use ResultSet.getClob(String) method</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When using @Lob on a String-typed attribute, with a column of type {{text}} in database, I get this while fetching data (the french exception message says something like "the SybResultSet.getClob(String) method is not supported and should not have been called."):</sentence>
+            <sentence id="1.2">{code}</sentence>
+            <sentence id="1.3">java.lang.UnsupportedOperationException: La méthode com.sybase.jdbc4.jdbc.SybResultSet.getClob(String) n'est pas supportée et n'aurait pas dû être appelée.</sentence>
+            <sentence id="1.4">	at com.sybase.jdbc4.jdbc.ErrorMessage.raiseRuntimeException(Unknown Source) ~[jconn4.jar:na]</sentence>
+            <sentence id="1.5">	at com.sybase.jdbc4.utils.Debug.notSupported(Unknown Source) ~[jconn4.jar:na]</sentence>
+            <sentence id="1.6">	at com.sybase.jdbc4.jdbc.SybResultSet.getClob(Unknown Source) ~[jconn4.jar:na]</sentence>
+            <sentence id="1.7">	at org.apache.tomcat.dbcp.dbcp.DelegatingResultSet.getClob(DelegatingResultSet.java:568) ~[tomcat-dbcp.jar:7.0.14]</sentence>
+            <sentence id="1.8">	at org.apache.tomcat.dbcp.dbcp.DelegatingResultSet.getClob(DelegatingResultSet.java:568) ~[tomcat-dbcp.jar:7.0.14]</sentence>
+            <sentence id="1.9">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.6.0_30]</sentence>
+            <sentence id="1.10">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) ~[na:1.6.0_30]</sentence>
+            <sentence id="1.11">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25) ~[na:1.6.0_30]</sentence>
+            <sentence id="1.12">	at java.lang.reflect.Method.invoke(Method.java:597) ~[na:1.6.0_30]</sentence>
+            <sentence id="1.13">	at org.hibernate.engine.jdbc.internal.proxy.AbstractResultSetProxyHandler.continueInvocation(AbstractResultSetProxyHandler.java:104) ~[hibernate-core-4.1.9.Final.jar:4.1.9.Final]</sentence>
+            <sentence id="1.14">	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81) ~[hibernate-core-4.1.9.Final.jar:4.1.9.Final]</sentence>
+            <sentence id="1.15">	at $Proxy128.getClob(Unknown Source) ~[na:na]</sentence>
+            <sentence id="1.16">	at org.hibernate.type.descriptor.sql.ClobTypeDescriptor$4.doExtract(ClobTypeDescriptor.java:108) ~[hibernate-core-4.1.9.Final.jar:4.1.9.Final]</sentence>
+            <sentence id="1.17">	at org.hibernate.type.descriptor.sql.BasicExtractor.extract(BasicExtractor.java:65) ~[hibernate-core-4.1.9.Final.jar:4.1.9.Final]</sentence>
+            <sentence id="1.18">	at org.hibernate.type.AbstractStandardBasicType.nullSafeGet(AbstractStandardBasicType.java:261) ~[hibernate-core-4.1.9.Final.jar:4.1.9.Final]</sentence>
+            <sentence id="1.19">	at org.hibernate.type.AbstractStandardBasicType.nullSafeGet(AbstractStandardBasicType.java:257) ~[hibernate-core-4.1.9.Final.jar:4.1.9.Final]</sentence>
+            <sentence id="1.20">	at org.hibernate.type.AbstractStandardBasicType.nullSafeGet(AbstractStandardBasicType.java:247) ~[hibernate-core-4.1.9.Final.jar:4.1.9.Final]</sentence>
+            <sentence id="1.21">	at org.hibernate.type.AbstractStandardBasicType.hydrate(AbstractStandardBasicType.java:332) ~[hibernate-core-4.1.9.Final.jar:4.1.9.Final]</sentence>
+            <sentence id="1.22">	at org.hibernate.persister.entity.AbstractEntityPersister.hydrate(AbstractEntityPersister.java:2873) ~[hibernate-core-4.1.9.Final.jar:4.1.9.Final]</sentence>
+            <sentence id="1.23">{code}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Note: I'm currently migrating from Hibernate 3.5.3-Final to 4.1.9.</sentence>
+            <sentence id="2.2">Final, and everything was working fine before the upgrade.</sentence>
+            <sentence id="2.3">Migration guides didn't tell much about LOBs, so I changed nothing @Lob-related in my code/mapping.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">As the [HibernateCoreMigrationGuide36|https://community.jboss.org/wiki/HibernateCoreMigrationGuide36] wiki page suggested for other database systems, I tried leveraging the {{hibernate.jdbc.use_streams_for_binary}} configuration parameter, but to no avail.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This issue may be related to HHH-3691 or HHH-3892.</sentence>
+        </paragraph>
+    </description>
+</bug>

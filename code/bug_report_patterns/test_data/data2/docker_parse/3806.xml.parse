@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3806</id>
+    <title>Error with volume mount through symlink</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">On master ed12818f99589b2b65a4f2510996f6bc6e828820, I get:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+bundles/0.7.6-dev/binary/docker-0.7.6-dev run -rm -v=/var/run:/foo base echo hi
+hi
+2014/01/28 14:24:46 Error: container_delete: No such id: run
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">A pull request is incoming to fix the unclear error message, which makes it sound like there is no container called 'run'.</sentence>
+            <sentence id="3.2">This was very confusing for us since in our case the name of the mount was the name of the container, making it hard to diagnose what was happening.</sentence>
+        </paragraph>
+    </description>
+</bug>

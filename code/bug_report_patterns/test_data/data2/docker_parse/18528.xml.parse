@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18528</id>
+    <title>Docker volumes with Z option fail if the host directory is missing</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:
+Docker volumes with Z option fail if the host directory is missing.</sentence>
+            <sentence id="1.2">This is unique to the Z modes - RW/RO create the directory if it's not present.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">'docker version':
+Client:
+ Version: 1.9.1-fc23
+ API version: 1.21
+ Package version: docker-1.9.1-2.</sentence>
+            <sentence id="2.2">git78bc3ea.fc23.x86_64
+ Go version: go1.5.1
+ Git commit: f7c1d52-dirty
+ Built: Fri Nov 20 21:07:14 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.9.1-fc23
+ API version: 1.21
+ Package version: docker-1.9.1-2.</sentence>
+            <sentence id="3.2">git78bc3ea.fc23.x86_64
+ Go version: go1.5.1
+ Git commit: f7c1d52-dirty
+ Built: Fri Nov 20 21:07:14 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">'docker info':</sentence>
+            <sentence id="4.2">Containers: 4</sentence>
+            <sentence id="4.3">Images: 58</sentence>
+            <sentence id="4.4">Server Version: 1.9.1-fc23</sentence>
+            <sentence id="4.5">Storage Driver: devicemapper</sentence>
+            <sentence id="4.6"> Pool Name: atomicos-docker--pool</sentence>
+            <sentence id="4.7"> Pool Blocksize: 524.3 kB</sentence>
+            <sentence id="4.8"> Base Device Size: 107.4 GB</sentence>
+            <sentence id="4.9"> Backing Filesystem: xfs</sentence>
+            <sentence id="4.10"> Data file:</sentence>
+            <sentence id="4.11"> Metadata file:</sentence>
+            <sentence id="4.12"> Data Space Used: 2.919 GB</sentence>
+            <sentence id="4.13"> Data Space Total: 15.77 GB</sentence>
+            <sentence id="4.14"> Data Space Available: 12.86 GB</sentence>
+            <sentence id="4.15"> Metadata Space Used: 1.065 MB</sentence>
+            <sentence id="4.16"> Metadata Space Total: 46.14 MB</sentence>
+            <sentence id="4.17"> Metadata Space Available: 45.07 MB</sentence>
+            <sentence id="4.18"> Udev Sync Supported: true</sentence>
+            <sentence id="4.19"> Deferred Removal Enabled: true</sentence>
+            <sentence id="4.20"> Deferred Deletion Enabled: true</sentence>
+            <sentence id="4.21"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="4.22"> Library Version: 1.02.109 (2015-09-22)</sentence>
+            <sentence id="4.23">Execution Driver: native-0.2</sentence>
+            <sentence id="4.24">Logging Driver: journald</sentence>
+            <sentence id="4.25">Kernel Version: 4.2.6-301.fc23.x86_64</sentence>
+            <sentence id="4.26">Operating System: Fedora 23 (Twenty Three)</sentence>
+            <sentence id="4.27">CPUs: 2</sentence>
+            <sentence id="4.28">Total Memory: 1.954 GiB</sentence>
+            <sentence id="4.29">Name: ip-10-0-2-15.eu-west-1.compute.internal</sentence>
+            <sentence id="4.30">ID: X46Y:VYPI:E6BC:JFBF:WLJO:LCFF:7KG5:BQFX:GFFW:MTTD:A5RT:AEF4</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">'uname -a':
+Linux ip-10-0-2-15.</sentence>
+            <sentence id="5.2">eu-west-1.</sentence>
+            <sentence id="5.3">compute.internal 4.2.6-301.</sentence>
+            <sentence id="5.4">fc23.x86_64 #1 SMP Fri Nov 20 22:22:41 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Environment details (AWS, VirtualBox, physical, etc.):
+VirtualBox (OSX), OS is fedora-atomic-23</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">How reproducible:
+Always</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Steps to Reproduce:</sentence>
+            <sentence id="8.2">1 docker run -v /path/that/does/not/exist:/path:Z image</sentence>
+            <sentence id="8.3">2</sentence>
+            <sentence id="8.4">3</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Actual Results:
+Error response from daemon: no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Expected Results:
+Docker creates /path/that/does/not/exist and runs the image.</sentence>
+            <sentence id="10.2">This is the normal behaviour when using RW or RO modes.</sentence>
+        </paragraph>
+    </description>
+</bug>

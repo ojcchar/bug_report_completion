@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9011</id>
+    <title>Startup fails Loader throws exception</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I just tried upgrading from 4.2.8 to 4.2.9 and I'm getting fatal exceptions</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code}</sentence>
+            <sentence id="2.2">Caused by: org.hibernate.PropertyAccessException: IllegalArgumentException occurred calling getter of nl.msw.compraventa.model.location.Country.countryCode</sentence>
+            <sentence id="2.3">	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.get(BasicPropertyAccessor.java:187)</sentence>
+            <sentence id="2.4">	at org.hibernate.tuple.entity.AbstractEntityTuplizer.getPropertyValue(AbstractEntityTuplizer.java:630)</sentence>
+            <sentence id="2.5">	at org.hibernate.persister.entity.AbstractEntityPersister.getPropertyValue(AbstractEntityPersister.java:4535)</sentence>
+            <sentence id="2.6">	at org.hibernate.engine.internal.StatefulPersistenceContext$1.extractNaturalIdValues(StatefulPersistenceContext.java:2078)</sentence>
+            <sentence id="2.7">	at org.hibernate.event.internal.DefaultLoadEventListener.doLoad(DefaultLoadEventListener.java:434)</sentence>
+            <sentence id="2.8">	at org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:207)</sentence>
+            <sentence id="2.9">	at org.hibernate.event.internal.DefaultLoadEventListener.returnNarrowedProxy(DefaultLoadEventListener.java:292)</sentence>
+            <sentence id="2.10">	at org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:255)</sentence>
+            <sentence id="2.11">	at org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:151)</sentence>
+            <sentence id="2.12">	at org.hibernate.internal.SessionImpl.fireLoad(SessionImpl.java:1017)</sentence>
+            <sentence id="2.13">	at org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:944)</sentence>
+            <sentence id="2.14">	at org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:714)</sentence>
+            <sentence id="2.15">	at org.hibernate.type.EntityType.resolve(EntityType.java:502)</sentence>
+            <sentence id="2.16">	at org.hibernate.engine.internal.TwoPhaseLoad.doInitializeEntity(TwoPhaseLoad.java:168)</sentence>
+            <sentence id="2.17">	at org.hibernate.engine.internal.TwoPhaseLoad.initializeEntity(TwoPhaseLoad.java:137)</sentence>
+            <sentence id="2.18">	at org.hibernate.loader.Loader.initializeEntitiesAndCollections(Loader.java:1112)</sentence>
+            <sentence id="2.19">	at org.hibernate.loader.Loader.processResultSet(Loader.java:969)</sentence>
+            <sentence id="2.20">	at org.hibernate.loader.Loader.doQuery(Loader.java:917)</sentence>
+            <sentence id="2.21">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:348)</sentence>
+            <sentence id="2.22">	at org.hibernate.loader.Loader.doList(Loader.java:2550)</sentence>
+            <sentence id="2.23">	at org.hibernate.loader.Loader.doList(Loader.java:2536)</sentence>
+            <sentence id="2.24">	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2366)</sentence>
+            <sentence id="2.25">	at org.hibernate.loader.Loader.list(Loader.java:2361)</sentence>
+            <sentence id="2.26">	at org.hibernate.loader.criteria.CriteriaLoader.list(CriteriaLoader.java:124)</sentence>
+            <sentence id="2.27">	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1587)</sentence>
+            <sentence id="2.28">	at org.hibernate.internal.CriteriaImpl.list(CriteriaImpl.java:374)</sentence>
+            <sentence id="2.29">	at org.appfuse.dao.hibernate.GenericDaoHibernate.getAll(GenericDaoHibernate.java:117)</sentence>
+            <sentence id="2.30">	at org.appfuse.service.impl.GenericManagerImpl.getAll(GenericManagerImpl.java:80)</sentence>
+            <sentence id="2.31">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="2.32">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</sentence>
+            <sentence id="2.33">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="2.34">	at java.lang.reflect.Method.invoke(Method.java:606)</sentence>
+            <sentence id="2.35">	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:319)</sentence>
+            <sentence id="2.36">	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183)</sentence>
+            <sentence id="2.37">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)</sentence>
+            <sentence id="2.38">	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:110)</sentence>
+            <sentence id="2.39">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+            <sentence id="2.40">	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:90)</sentence>
+            <sentence id="2.41">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+            <sentence id="2.42">	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)</sentence>
+            <sentence id="2.43">	at com.sun.proxy.$Proxy148.getAll(Unknown Source)</sentence>
+            <sentence id="2.44">	at nl.project.service.feed.impl.YQLGoogleFeedServiceImpl.&lt;init&gt;(YQLGoogleFeedServiceImpl.java:40)</sentence>
+            <sentence id="2.45">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</sentence>
+            <sentence id="2.46">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)</sentence>
+            <sentence id="2.47">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</sentence>
+            <sentence id="2.48">	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)</sentence>
+            <sentence id="2.49">	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:147)</sentence>
+            <sentence id="2.50">	... 41 more</sentence>
+            <sentence id="2.51">Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class</sentence>
+            <sentence id="2.52">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="2.53">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</sentence>
+            <sentence id="2.54">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="2.55">	at java.lang.reflect.Method.invoke(Method.java:606)</sentence>
+            <sentence id="2.56">	at org.hibernate.property.BasicPropertyAccessor$BasicGetter.get(BasicPropertyAccessor.java:164)</sentence>
+            <sentence id="2.57">	... 87 more</sentence>
+            <sentence id="2.58">{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Stepping through this, what seems to be happening is that Hibernate is trying to invoke a getter of Country.countryCode on the Language class.</sentence>
+            <sentence id="3.2">Looks like some of the optimizations have left Hibernate confused.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The classes in question:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">{code}
+@Entity
+@Immutable
+@Table
+@NamedQueries({
+	@NamedQuery(name="country.getByCountryCode", query="select c from Country c where c.countryCode = :countryCode")
+})
+@FetchProfiles({
+	@FetchProfile(name = FetchProfileName.OFFER_DETAIL, fetchOverrides = {
+		@FetchProfile.</sentence>
+            <sentence id="5.2">FetchOverride(entity = Country.class, association = "defaultLanguage", mode = FetchMode.JOIN)
+	})
+})
+@NaturalIdCache(region=CacheRegion.NATURAL)
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE,region=CacheRegion.COUNTRY)
+public class Country implements Serializable, GeoLocation, Comparable&lt;Country&gt;, URLLocation{</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">private Long id;
+	private String name, countryCode;
+	private Language defaultLanguage;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">@ManyToOne(fetch=FetchType.EAGER, optional=false)
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE,region=CacheRegion.NEVERCHANGE)
+	@JoinColumn(name="FK_LanguageID", nullable=false)
+	@Fetch(FetchMode.SELECT)
+	@JsonIgnore
+	public Language getDefaultLanguage() {
+		return defaultLanguage;
+	}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">[...]
+}
+{code}
+@Entity
+@Immutable
+@Table
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region=CacheRegion.COUNTRY)
+@NaturalIdCache(region=CacheRegion.NATURAL)
+public class Language implements Serializable, Comparable&lt;Language&gt;, IEntity {</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">private Long id;
+	private String language;
+	private String languageCode;</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">[...]
+{code}</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

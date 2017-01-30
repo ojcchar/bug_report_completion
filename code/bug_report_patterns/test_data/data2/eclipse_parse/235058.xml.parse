@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>235058</id>
+    <title>[spec] javadoc for JavaCore#setComplianceOptions needs improvement</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I20080530-1730</sentence>
+            <sentence id="1.2">The javadoc forJavaCore#setComplianceOptions starts with:</sentence>
+            <sentence id="1.3">* Sets the default's compiler options inside the given options map according</sentence>
+            <sentence id="1.4">* to the given compliance.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">which is almost meaningless.</sentence>
+            <sentence id="2.2">Having discussed with Olivier and read the code, I believe that the original intent was to set in the provided map the values of the sole options that were impacted by the compliance, deriving their values as the compiler would do 'by default' when provided the compliance only (that is, without any other option than JavaCore.COMPILER_COMPLIANCE being specified by the caller).</sentence>
+            <sentence id="2.3">Since some of these options definitely have a non-mandatory flavor when considering some compliance levels (aka JavaCore.COMPILER_PB_ASSERT_IDENTIFIER for 1.3 or 1.4), rendering the effective behavior in a concise documentation may turn out to be a bit challenging.</sentence>
+        </paragraph>
+    </description>
+</bug>

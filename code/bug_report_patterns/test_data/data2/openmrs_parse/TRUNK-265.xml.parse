@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-265</id>
+    <title>Complex obs images of type other than jpg aren't displayed right in the edit obs page</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There's a bad line of code in ComplexObsServlet that causes all complex obs to be treated as JPG images, regardless of their actual file extension.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This
+{code}String[] parts = cd.getTitle().split(".");
+{code}
+Should turn into this
+{code}String[] parts = cd.getTitle().split("\.");
+{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

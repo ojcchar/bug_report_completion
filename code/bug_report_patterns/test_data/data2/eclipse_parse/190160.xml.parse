@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>190160</id>
+    <title>Problems with efficiency have been detected on BIRT code base.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build ID: 2.1.2</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Steps To Reproduce:</sentence>
+            <sentence id="2.2">I have been running Jtest's BugDetective feature on BIRT source code and it reported a few places where an inefficient iteration over map takes place.</sentence>
+            <sentence id="2.3">From the point of view of efficiency it is better to iterate over the set of map entries rather than, having obtained a key set, extract a corresponding value (which is considered to be a very consuming operation) at every single iteration.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Found places are:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">1 org.eclipse.birt.chart.event.InteractionEvent.java - see the screenshot Efficiency-1;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">2 org.eclipse.birt.core.util.IOUtil - the screenshot Efficiency-2;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Please let me know if this is a real problem or BugDetective is mistaken.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Thank you!</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">More information:</sentence>
+        </paragraph>
+    </description>
+</bug>

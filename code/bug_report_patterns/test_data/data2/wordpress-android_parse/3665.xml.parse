@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3665</id>
+    <title>My Profile: no error shown if settings couldn't be retrieved/saved</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Having created a new blank site and configured `wp.oauth.app_id` and `wp.oauth.app_secret` in `gradle.properties`, go to the My Profile section in the app, the settings can't be loaded as we get a 401 error from the server.</sentence>
+            <sentence id="1.2">Attempting to modify any of the values then hitting the back arrow or back key throws an http `401` error as well as can be seen in the following logcat piece:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">` 01-26 17:06:38.001 14234-14315/org.wordpress.android E/WordPress: [1816] BasicNetwork.performRequest: Unexpected response code 401 for https://public-api.wordpress.com/rest/v1.1/me/settings</sentence>
+            <sentence id="2.2">01-26 17:06:38.002 14234-14234/org.wordpress.android E/WordPress-API: null</sentence>
+            <sentence id="2.3"> com.android.volley.AuthFailureError</sentence>
+            <sentence id="2.4"> at com.android.volley.toolbox.BasicNetwork.performRequest(BasicNetwork.java:171)</sentence>
+            <sentence id="2.5"> at com.android.volley.NetworkDispatcher.run(NetworkDispatcher.java:114)</sentence>
+            <sentence id="2.6">`</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">1 No errors are shown to the user - the user should be informed of what happened and ideally be suggested an action to take</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">2 It shouldn't be getting a 401 error at this time either</sentence>
+        </paragraph>
+    </description>
+</bug>

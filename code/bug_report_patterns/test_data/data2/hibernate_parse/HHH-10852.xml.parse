@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10852</id>
+    <title>org.hibernate.WrongClassException after setting default_batch_fetch_size</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In order optimize the load time of our entities, we set the default_batch_fetch_size to 256 (previously the value was not set at all). Now during a specific operation in which we load a set of entities, some of them with eager loading and some of them with lazy loading, we get the exception from below. The data model is the following:</sentence>
+            <sentence id="1.2">A - entity</sentence>
+            <sentence id="1.3">B1 and B2 entities where B2 extends B1 and both B1 and B2 are stored in same table but differentiated by DTYPE</sentence>
+            <sentence id="1.4">C - entity</sentence>
+            <sentence id="1.5">Entity A contains a list of B1 and B2 entities (eager loading) and only B2 contains a list of C entities which are lazy loaded. </sentence>
+            <sentence id="1.6">The exception happens when loading all A entities at once and going through B1/B2 list and trying to access first entity from list of C entities (which for that specific case are loaded lazily). </sentence>
+            <sentence id="1.7">When debugged, the object referenced in exception is totally unrelated to the entity accessed.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The stacktrace was generated using Hibernate 4.3.5, however the issue is also reproducible on 4.3.11</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">org.hibernate.WrongClassException: Object [id=4010] was not of the specified subclass [B2] : loaded object was of wrong class class B1</sentence>
+            <sentence id="3.2">	at org.hibernate.loader.Loader.instanceAlreadyLoaded(Loader.java:1550)</sentence>
+            <sentence id="3.3">	at org.hibernate.loader.Loader.getRow(Loader.java:1503)</sentence>
+            <sentence id="3.4">	at org.hibernate.loader.Loader.getRowFromResultSet(Loader.java:725)</sentence>
+            <sentence id="3.5">	at org.hibernate.loader.Loader.processResultSet(Loader.java:952)</sentence>
+            <sentence id="3.6">	at org.hibernate.loader.Loader.doQuery(Loader.java:920)</sentence>
+            <sentence id="3.7">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:354)</sentence>
+            <sentence id="3.8">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:324)</sentence>
+            <sentence id="3.9">	at org.hibernate.loader.Loader.loadCollectionBatch(Loader.java:2299)</sentence>
+            <sentence id="3.10">	at org.hibernate.loader.collection.plan.LegacyBatchingCollectionInitializerBuilder$LegacyBatchingCollectionInitializer.initialize(LegacyBatchingCollectionInitializerBuilder.java:100)</sentence>
+            <sentence id="3.11">	at org.hibernate.persister.collection.AbstractCollectionPersister.initialize(AbstractCollectionPersister.java:693)</sentence>
+            <sentence id="3.12">	at org.hibernate.event.internal.DefaultInitializeCollectionEventListener.onInitializeCollection(DefaultInitializeCollectionEventListener.java:92)</sentence>
+            <sentence id="3.13">	at org.hibernate.internal.SessionImpl.initializeCollection(SessionImpl.java:1897)</sentence>
+            <sentence id="3.14">	at org.hibernate.collection.internal.AbstractPersistentCollection$4.doWork(AbstractPersistentCollection.java:558)</sentence>
+            <sentence id="3.15">	at org.hibernate.collection.internal.AbstractPersistentCollection.withTemporarySessionIfNeeded(AbstractPersistentCollection.java:260)</sentence>
+            <sentence id="3.16">	at org.hibernate.collection.internal.AbstractPersistentCollection.initialize(AbstractPersistentCollection.java:554)</sentence>
+            <sentence id="3.17">	at org.hibernate.collection.internal.AbstractPersistentCollection.read(AbstractPersistentCollection.java:142)</sentence>
+            <sentence id="3.18">	at org.hibernate.collection.internal.PersistentBag.get(PersistentBag.java:466)</sentence>
+        </paragraph>
+    </description>
+</bug>

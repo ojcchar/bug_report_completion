@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22836</id>
+    <title>Container random port change when added to another network</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have an annoying issue with random ports (i.e. `docker run -P ...`)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">`docker ps` and `docker port` show a port that is not the real opened port.</sentence>
+            <sentence id="2.2">After some tests I found that the port is changed when I use `docker network connect`</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">---------------------------------------------------</sentence>
+            <sentence id="3.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="3.3">---------------------------------------------------</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of `docker version`:**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">```
+Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Tue Apr 26 23:30:23 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Server:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Tue Apr 26 23:30:23 2016
+ OS/Arch: linux/amd64
+```</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Output of `docker info`:**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">```
+Containers: 2
+ Running: 2
+ Paused: 0
+ Stopped: 0
+Images: 813
+Server Version: 1.11.1
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 961
+ Dirperm1 Supported: false
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins: 
+ Volume: local
+ Network: bridge null host
+Kernel Version: 3.13.0-37-generic
+Operating System: Ubuntu 14.04.1 LTS
+OSType: linux
+Architecture: x86_64
+CPUs: 8
+Total Memory: 15.58 GiB
+Docker Root Dir: /var/lib/docker
+Debug mode (client): false
+Debug mode (server): false
+Registry: https://index.docker.io/v1/
+WARNING: No swap limit support
+```</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="10.2">```</sentence>
+            <sentence id="10.3">docker network create net1</sentence>
+            <sentence id="10.4">docker run --name ctn1 -d --net net1 --net-alias titi -p 8080:8080 tomcat:7</sentence>
+            <sentence id="10.5">docker network create net01234567</sentence>
+            <sentence id="10.6">docker run --name ctn2 -d --net net1 -P tomcat:7</sentence>
+            <sentence id="10.7">docker network connect --alias=toto net01234567 ctn2</sentence>
+            <sentence id="10.8">```</sentence>
+            <sentence id="10.9">1 I use tomcat but it could be any image with exposed ports</sentence>
+            <sentence id="10.10">2 Not sure it helps but if the name of my second network is shorter, it works</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you received:**</sentence>
+            <sentence id="11.2">```</sentence>
+            <sentence id="11.3">➜ docker port ctn2</sentence>
+            <sentence id="11.4">8080/tcp -&gt; 0.0.0.0:32913</sentence>
+            <sentence id="11.5">```</sentence>
+            <sentence id="11.6">```</sentence>
+            <sentence id="11.7">➜ sudo netstat -ntlp | grep docker-proxy</sentence>
+            <sentence id="11.8">tcp6 0 0 :::8080 :::* LISTEN 21540/docker-proxy</sentence>
+            <sentence id="11.9">tcp6 0 0 :::32914 :::* LISTEN 21814/docker-proxy</sentence>
+            <sentence id="11.10">```</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Describe the results you expected:**</sentence>
+            <sentence id="12.2">The `docker port` output and the real opened port given by `netstat` should have been the same</sentence>
+        </paragraph>
+    </description>
+</bug>

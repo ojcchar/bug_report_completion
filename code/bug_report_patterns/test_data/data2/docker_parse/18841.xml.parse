@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18841</id>
+    <title>docker overlay network lost when reboot ?</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">docker overlay network lost when reboot,recreate error:</sentence>
+            <sentence id="1.2">```
+docker network create --driver overlay swarm-net
+Error response from daemon: error getting pools config from store during init: could not get pools config from store: Unexpected response code: 500
+```
+must rm consul and recreate it</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">```
+docker run -d -p 8500:8500 -h consul --name consul progrium/consul -server -bootstrap
+```
+and I must recreate all container in this swarm master</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">```
+docker version &amp;&amp; docker info &amp;&amp; uname -a
+Client:
+ Version: 1.9.1
+ API version: 1.21
+ Go version: go1.4.2
+ Git commit: a34a1d5
+ Built: Fri Nov 20 13:25:01 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Server:</sentence>
+            <sentence id="4.2"> Version: 1.9.1</sentence>
+            <sentence id="4.3"> API version: 1.21</sentence>
+            <sentence id="4.4"> Go version: go1.4.2</sentence>
+            <sentence id="4.5"> Git commit: a34a1d5</sentence>
+            <sentence id="4.6"> Built: Fri Nov 20 13:25:01 UTC 2015</sentence>
+            <sentence id="4.7"> OS/Arch: linux/amd64</sentence>
+            <sentence id="4.8">Containers: 10</sentence>
+            <sentence id="4.9">Images: 118</sentence>
+            <sentence id="4.10">Server Version: 1.9.1</sentence>
+            <sentence id="4.11">Storage Driver: devicemapper</sentence>
+            <sentence id="4.12"> Pool Name: docker-253:0-33993639-pool</sentence>
+            <sentence id="4.13"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="4.14"> Base Device Size: 107.4 GB</sentence>
+            <sentence id="4.15"> Backing Filesystem:</sentence>
+            <sentence id="4.16"> Data file: /dev/loop0</sentence>
+            <sentence id="4.17"> Metadata file: /dev/loop1</sentence>
+            <sentence id="4.18"> Data Space Used: 2.941 GB</sentence>
+            <sentence id="4.19"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="4.20"> Data Space Available: 9.86 GB</sentence>
+            <sentence id="4.21"> Metadata Space Used: 5.575 MB</sentence>
+            <sentence id="4.22"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="4.23"> Metadata Space Available: 2.142 GB</sentence>
+            <sentence id="4.24"> Udev Sync Supported: true</sentence>
+            <sentence id="4.25"> Deferred Removal Enabled: false</sentence>
+            <sentence id="4.26"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="4.27"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="4.28"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="4.29"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="4.30"> Library Version: 1.02.107-RHEL7 (2015-10-14)</sentence>
+            <sentence id="4.31">Execution Driver: native-0.2</sentence>
+            <sentence id="4.32">Logging Driver: json-file</sentence>
+            <sentence id="4.33">Kernel Version: 3.10.0-327.3.1.el7.x86_64</sentence>
+            <sentence id="4.34">Operating System: CentOS Linux 7 (Core)</sentence>
+            <sentence id="4.35">CPUs: 1</sentence>
+            <sentence id="4.36">Total Memory: 993 MiB</sentence>
+            <sentence id="4.37">Name: localhost.localdomain</sentence>
+            <sentence id="4.38">ID: R2NX:ZX6S:PQIE:R65Y:X62A:ACXU:MALH:RXHK:BRF5:6RMU:NJLG:TMPL</sentence>
+            <sentence id="4.39">WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+            <sentence id="4.40">Cluster store: consul://192.168.60.41:8500</sentence>
+            <sentence id="4.41">Cluster advertise: 192.168.60.41:2376</sentence>
+            <sentence id="4.42">Linux localhost.localdomain 3.10.0-327.3.1.el7.x86_64 #1 SMP Wed Dec 9 14:09:15 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+            <sentence id="4.43">```</sentence>
+        </paragraph>
+    </description>
+</bug>

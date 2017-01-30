@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4371</id>
+    <title>docker inspect --format doesn't emit JSON.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">- 'docker inspect $image' emits JSON.</sentence>
+            <sentence id="1.2">- 'docker inspect --format='{{ .</sentence>
+            <sentence id="1.3">config.Cmd }}' $image' does not emit JSON.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The output that comes from 'docker inspect --format' is informative, but is ambiguous, and is not usefully machine readable.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For example 'CMD ["echo", "hello world"]' and 'CMD ["echo", "hello", "world"]' have different meanings, but both result in '[echo hello world]' from 'docker inspect --format='{{ .</sentence>
+            <sentence id="3.2">config.Cmd }}''.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">## Use-case</sentence>
+            <sentence id="4.2">Trying to 'docker run &amp;&amp; docker commit', with the committed image inheriting the default command from the original image.</sentence>
+            <sentence id="4.3">- Start with an image which has some unknown 'CMD' / 'config.Cmd'.</sentence>
+            <sentence id="4.4">- Run a build process as a container from that image.</sentence>
+            <sentence id="4.5">- Query the image for its CMD.</sentence>
+            <sentence id="4.6">- Commit the container, injecting the CMD using 'docker commit --run'.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Step four can't be achieved using 'docker inspect --format=...' and 'docker commit --run=...' because the former doesn't emit the JSON required by the latter.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">## Demo</sentence>
+            <sentence id="6.2">"' sh
+#!/bin/bash
+set -e</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1"># Create a container to commit.</sentence>
+            <sentence id="7.2">rm -f .</sentence>
+            <sentence id="7.3">cid
+docker run --cidfile=.</sentence>
+            <sentence id="7.4">cid ubuntu:13.10 true
+cid=$(cat .</sentence>
+            <sentence id="7.5">cid)</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1"># Commit the container with a config.Cmd (like CMD in Dockerfile)
+cmd_in='["echo", "hello world"]'
+docker commit --run="{\"Cmd\": $cmd_in}" $cid testimage:a &gt;/dev/null</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1"># Query testimage:a for its CMD to pass to testimage:b
+cmd_out=$(docker inspect --format='{{ .</sentence>
+            <sentence id="9.2">config.Cmd }}' testimage:a)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">echo "cmd_in: $cmd_in"
+echo "cmd_out: $cmd_out"</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1"># Try to create testimage:b passing in the CMD from testimage:a
+docker commit --run="{\"Cmd\": $cmd_out}" $cid testimage:b &gt;/dev/null
+"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">The above code doesn't work, because '$cmd_out' isn't valid JSON, and has lost too much information to reconstruct it into JSON.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"'
+cmd_in: ["echo", "hello world"]
+cmd_out: [echo hello world]
+2014/02/26 18:46:53 invalid character 'e' looking for beginning of value
+"'
+## Version</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"'
+$ docker -v
+Docker version 0.8.1, build a1598d1</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">$ docker info
+Containers: 25
+Images: 68
+Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Dirs: 118</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">$ uname -a
+Linux ubuntu-13 3.11.0-17-generic #31-Ubuntu SMP Mon Feb 3 21:52:43 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

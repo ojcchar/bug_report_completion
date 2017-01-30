@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>15146</id>
+    <title>One invalid id makes the whole ?ids=.._.._.. request fail</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When you request invalid id_ like
+https://graph.facebook.com/434085561047?access_token=...
+you get the  invalid id  error.</sentence>
+            <sentence id="1.2">It s ok.</sentence>
+            <sentence id="1.3">But in case of multiple ids_ like in
+https://graph.facebook.com/?ids=4_434085561047&amp;access_token=...
+the same error is return for the request as a whole_ even if id 4 is correct.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This pretty invalidates ?</sentence>
+            <sentence id="2.2">ids=.... style requests.</sentence>
+            <sentence id="2.3">errors (at least this one) should be returns per id in the result.</sentence>
+        </paragraph>
+    </description>
+</bug>

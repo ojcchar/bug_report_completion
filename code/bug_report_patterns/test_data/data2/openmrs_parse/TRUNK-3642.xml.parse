@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3642</id>
+    <title>Updating concept indexes fails in tests</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Calling Context.getConceptService().updateConceptIndexes() fails with:</sentence>
+            <sentence id="1.2">{code}</sentence>
+            <sentence id="1.3">ERROR - TimerSchedulerTask.run(54) |2012-07-26 13:15:22,482| FATAL ERROR: Task [class org.openmrs.scheduler.tasks.TaskThreadedInitializationWrapper] failed due to exception [java.lang.NullPointerException]</sentence>
+            <sentence id="1.4">java.lang.NullPointerException</sentence>
+            <sentence id="1.5">	at org.openmrs.scheduler.tasks.ConceptIndexUpdateTask.execute(ConceptIndexUpdateTask.java:102)</sentence>
+            <sentence id="1.6">	at org.openmrs.scheduler.tasks.TaskThreadedInitializationWrapper.execute(TaskThreadedInitializationWrapper.java:72)</sentence>
+            <sentence id="1.7">	at org.openmrs.scheduler.timer.TimerSchedulerTask.execute(TimerSchedulerTask.java:98)</sentence>
+            <sentence id="1.8">	at org.openmrs.api.context.Daemon$2.run(Daemon.java:128)</sentence>
+            <sentence id="1.9">{code}</sentence>
+            <sentence id="1.10">My guess is that a transaction where a definition is saved is not yet committed when a scheduled task tries to find it.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2453</id>
+    <title>Inserting BIT to PostgreSQL table</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I created a Table which has a column active as Boolean in the entity and the HBM file specifies the type as boolean.</sentence>
+            <sentence id="1.2">When I use this configuration with MySQL it works fine, but when I use it with PostgreSQL I get an javax.sql.BatchUpdateException.</sentence>
+            <sentence id="1.3">so later I changed the HBM file 'active' column type to 'yes_no' and than it works fine.</sentence>
+            <sentence id="1.4">So I confirmed that the problem is due to the BIT(1) column.</sentence>
+            <sentence id="1.5">So I next tried to manually insert into the column and it PgSQL tells that 1 needs to be casted.</sentence>
+            <sentence id="1.6">Please let me know if I can help in other ways, I will be most grateful to help.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Thank you,</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Imran</sentence>
+        </paragraph>
+    </description>
+</bug>

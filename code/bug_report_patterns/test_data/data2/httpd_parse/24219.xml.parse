@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24219</id>
+    <title>mod_deflate doesn't compress for IE with documented settings</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The apache2 docs suggest the following settings for mod_deflate:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Insert filter
+SetOutputFilter DEFLATE</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1"># Netscape 4.x has some problems...
+BrowserMatch ^Mozilla/4 gzip-only-text/html</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1"># Netscape 4.06-4.08 have some more problems
+BrowserMatch ^Mozilla/4\.0[678] no-gzip</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1"># MSIE masquerades as Netscape, but it is fine
+BrowserMatch \bMSIE !</sentence>
+            <sentence id="5.2">no-gzip !</sentence>
+            <sentence id="5.3">gzip-only-text/html</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">However, I've found that this leads to NO compression for IE(6).</sentence>
+            <sentence id="6.2">Changing the 
+last line to 
+BrowserMatch MSIE !no-gzip !gzip-only-text/html
+works.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I'd suspect \b is not treated correctly in the regex?</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Best regards,
+Andreas</sentence>
+        </paragraph>
+    </description>
+</bug>

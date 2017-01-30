@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20438</id>
+    <title>LimitRequestFieldSize/LimitRequestFields Issue</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Apache 2.0.46 and prior suffer from an error in the request field handling.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Apache treats:</sentence>
+            <sentence id="2.2">GET / HTTP/1.1
+Host: localhost
+Accept-Encoding: [2000 characters]
+Accept-Encoding: [2000 characters]
+Accept-Encoding: [2000 characters]
+Accept-Encoding: [2000 characters]
+Accept-Encoding: [2000 characters]</sentence>
+            <sentence id="2.3">AS</sentence>
+            <sentence id="2.4">GET / HTTP/1.1
+Host: localhost
+Accept-Encoding: [2000],[2000],[2000],[2000],[2000]</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This bypasses the LimitRequestFieldSize directive.</sentence>
+            <sentence id="3.2">This also works on headers 
+that normally shouldn't use multiple options (e.g, User-Agent).</sentence>
+            <sentence id="3.3">I am not 
+certain of this, but wouldn't such concatenations also bypass 
+LimitRequestFields?</sentence>
+            <sentence id="3.4">This is no major deal, but perhaps the docs should be 
+updated to indicate this behavior?</sentence>
+        </paragraph>
+    </description>
+</bug>

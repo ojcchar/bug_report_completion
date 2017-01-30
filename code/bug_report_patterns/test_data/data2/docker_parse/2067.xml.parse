@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2067</id>
+    <title>/dev/stdin: Stale NFS file handle0.9.0</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Steps to reproduce:</sentence>
+            <sentence id="1.2">1 Run the base Ubuntu image `docker run -i -t ubuntu /bin/bash`</sentence>
+            <sentence id="1.3">2 Install the package `openssh-client` to get `ssh-keygen`: `apt-get install openssh-client`</sentence>
+            <sentence id="1.4">3 `ssh-keygen -lf /dev/stdin &lt;&lt;&lt; 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDH+AMHzNxT+KRmWboP+iGH6nXcs+gjNlZHSDZdssQvS/eJIn/kWDhSiI7VaJGijnW+cSdA7NAxLIRgiXMymrwHvIZWjUumbUY+S5b6v/4lurvt9iFEXf4bUwpT0kBqYT0Uo80x/ycHTQ6LN6k9tLKHDFrDVMl6DCPGGTjO+XMrvvI2oE7dCNDKL03lnw804M0ZbOQcVFnVkKqDVMKwzy0ho+SVjdDeEoSpo5WstiB+o4iMN0tE+bJ1Qmy5ObwV1SgkfHLEaUhivdenmizUqw/2hoRmVHeAgbWZXLQR1y0VN5VGwtGUkObKk9k8VEa/KvlbM6V6mdX0VfMEzB3i2LFZ root@f1d7fcdadc01'`</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Following the symlinks, `/dev/stdin` → `/dev/fd/0` → `/dev/pts/4`, it seems like the last link is broken.</sentence>
+            <sentence id="2.2">The only thing existing in `/dev/pts/` is `ptmx`.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">It is not possible to pipe stuff to `ssh-keygen`, so I *think* I am dependent on `/dev/stdin` working as on my host system.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Any ideas?</sentence>
+            <sentence id="4.2">Is this a bug?</sentence>
+        </paragraph>
+    </description>
+</bug>

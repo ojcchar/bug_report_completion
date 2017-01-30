@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>864</id>
+    <title>AbsoluteTop giving incorrect coordinates in Dialog object</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This is tough to explain_ so I m going to try my best.</sentence>
+            <sentence id="1.2">:)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have FBML in a dialog.</sentence>
+            <sentence id="2.2">I have a div element that is position:absolute.</sentence>
+            <sentence id="2.3">If I were to do a myElement.setStyle( top _ myElement.getAbsoluteTop() +  px )_ you d expect it to not move.</sentence>
+            <sentence id="2.4">But it does move -- it moves 125 pixels down from where it was originally.</sentence>
+            <sentence id="2.5">Why 125px?</sentence>
+            <sentence id="2.6">125 is the amount of pixels down from the top of the page that the Dialog object is located by.</sentence>
+            <sentence id="2.7">Why is this a problem?</sentence>
+            <sentence id="2.8">It s a problem because the dialog is never guaranteed to be at 125 pixels_ it could be a very different number depending on how much through the page the user is scrolled vertically by before opening this Dialog.</sentence>
+            <sentence id="2.9">There is no way of finding out how much the value is exactly.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Using FireBug i was able to find out the div that contains this info:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;div class= generic_dialog_popup  style= top: 125px; &gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">What would be best for solving this is either:</sentence>
+            <sentence id="5.2">1 getAbsoluteTop returns the proper Y with the Dialog top auto-appended to it.</sentence>
+            <sentence id="5.3">2 make a document.getTopPosition or set the  top  of the document.getRootElement to the right value so I can use getStyle().</sentence>
+        </paragraph>
+    </description>
+</bug>

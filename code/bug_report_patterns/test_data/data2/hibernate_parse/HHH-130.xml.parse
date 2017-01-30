@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-130</id>
+    <title>Instead of updating a row, hibernates deletes a row and re-inserts</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">These Hibernate messages:</sentence>
+            <sentence id="1.2">Hibernate: insert into settings (name, description, system_dataset_path, user_dataset_path, id) values (?, ?, ?, ?, null)</sentence>
+            <sentence id="1.3">Hibernate: call identity()</sentence>
+            <sentence id="1.4">Hibernate: insert into fileset (path, id) values (?, null)</sentence>
+            <sentence id="1.5">Hibernate: call identity()</sentence>
+            <sentence id="1.6">Hibernate: insert into file_pattern (pattern, id) values (?, null)</sentence>
+            <sentence id="1.7">Hibernate: call identity()</sentence>
+            <sentence id="1.8">Hibernate: insert into file_pattern (pattern, id) values (?, null)</sentence>
+            <sentence id="1.9">Hibernate: call identity()</sentence>
+            <sentence id="1.10">Hibernate: insert into fileset (path, id) values (?, null)</sentence>
+            <sentence id="1.11">Hibernate: call identity()</sentence>
+            <sentence id="1.12">Hibernate: insert into file_pattern (pattern, id) values (?, null)</sentence>
+            <sentence id="1.13">Hibernate: call identity()</sentence>
+            <sentence id="1.14">Hibernate: insert into file_pattern (pattern, id) values (?, null)</sentence>
+            <sentence id="1.15">Hibernate: call identity()</sentence>
+            <sentence id="1.16">Hibernate: insert into workspace (settings_id, id) values (?, null)</sentence>
+            <sentence id="1.17">Hibernate: call identity()</sentence>
+            <sentence id="1.18">Hibernate: update fileset set settings_id=?, id=? where id=?</sentence>
+            <sentence id="1.19">Hibernate: update fileset set settings_id=?, id=? where id=?</sentence>
+            <sentence id="1.20">Hibernate: update file_pattern set fileset_id=?, id=? where id=?</sentence>
+            <sentence id="1.21">Hibernate: update file_pattern set fileset_id=?, id=? where id=?</sentence>
+            <sentence id="1.22">Hibernate: update file_pattern set fileset_id=?, id=? where id=?</sentence>
+            <sentence id="1.23">Hibernate: update file_pattern set fileset_id=?, id=? where id=?</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Actually produce this sql:</sentence>
+            <sentence id="2.2">SET AUTOCOMMIT TRUE</sentence>
+            <sentence id="2.3">INSERT INTO SETTINGS VALUES(1,'testName','testDescription ---- ','C:/temp/system/dataset','C:/temp/user/dataset')</sentence>
+            <sentence id="2.4">INSERT INTO FILESET VALUES(1,'d:/abepath',NULL)</sentence>
+            <sentence id="2.5">INSERT INTO FILE_PATTERN VALUES(1,'**/*.class',NULL)</sentence>
+            <sentence id="2.6">INSERT INTO FILE_PATTERN VALUES(2,'**/*.jar',NULL)</sentence>
+            <sentence id="2.7">INSERT INTO FILESET VALUES(2,'e:/abepath',NULL)</sentence>
+            <sentence id="2.8">INSERT INTO FILE_PATTERN VALUES(3,'**/*.txt',NULL)</sentence>
+            <sentence id="2.9">INSERT INTO FILE_PATTERN VALUES(4,'**/*.java',NULL)</sentence>
+            <sentence id="2.10">INSERT INTO WORKSPACE VALUES(1,1)</sentence>
+            <sentence id="2.11">DELETE FROM FILESET WHERE ID=1</sentence>
+            <sentence id="2.12">INSERT INTO FILESET VALUES(0,'d:/abepath',1)</sentence>
+            <sentence id="2.13">DELETE FROM FILESET WHERE ID=2</sentence>
+            <sentence id="2.14">INSERT INTO FILESET VALUES(1,'e:/abepath',1)</sentence>
+            <sentence id="2.15">DELETE FROM FILE_PATTERN WHERE ID=1</sentence>
+            <sentence id="2.16">INSERT INTO FILE_PATTERN VALUES(0,'**/*.class',1)</sentence>
+            <sentence id="2.17">DELETE FROM FILE_PATTERN WHERE ID=2</sentence>
+            <sentence id="2.18">INSERT INTO FILE_PATTERN VALUES(1,'**/*.jar',1)</sentence>
+            <sentence id="2.19">DISCONNECT</sentence>
+        </paragraph>
+    </description>
+</bug>

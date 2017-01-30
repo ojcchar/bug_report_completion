@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9490</id>
+    <title>exports.c does not build on make install</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">On doing make install, on sun (SunOS lonsdev1 5.8 Generic_108528-14 sun4u sparc 
+SUNW,Ultra-4),  I get the following error.</sentence>
+            <sentence id="1.2">I have not applied any patches.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">/bin/bash /users/dclancy/APACHE/httpd-2.0.36/srclib/apr/libtool --silent --</sentence>
+            <sentence id="2.2">mode=compile gcc  -g -O2 -pthreads    -DSOLARIS2=8 -D_POSIX_PTHREAD_SEMANTICS -</sentence>
+            <sentence id="2.3">D_REENTRANT -DAP_HAVE_DESIGNATED_INITIALIZER   -I. -</sentence>
+            <sentence id="2.4">I/users/dclancy/APACHE/httpd-2.0.36/os/unix -I/users/dclancy/APACHE/httpd-</sentence>
+            <sentence id="2.5">2 0.36/server/mpm/prefork -I/users/dclancy/APACHE/httpd-2.0.36/modules/http -</sentence>
+            <sentence id="2.6">I/users/dclancy/APACHE/httpd-2.0.36/modules/proxy -I/users/dclancy/APACHE/httpd-</sentence>
+            <sentence id="2.7">2 0.36/include -I/users/dclancy/APACHE/httpd-2.0.36/srclib/apr/include -</sentence>
+            <sentence id="2.8">I/users/dclancy/APACHE/httpd-2.0.36/srclib/apr-util/include -</sentence>
+            <sentence id="2.9">I/users/dclancy/APACHE/httpd-2.0.36/modules/dav/main -I/usr/local/include -</sentence>
+            <sentence id="2.10">prefer-non-pic -static -c exports.c &amp;&amp; touch exports.lo</sentence>
+            <sentence id="2.11">exports.c:1361: redefinition of `ap_hack_apr_allocator_create'</sentence>
+            <sentence id="2.12">exports.c:165: `ap_hack_apr_allocator_create' previously defined here</sentence>
+            <sentence id="2.13">exports.c:1362: redefinition of `ap_hack_apr_allocator_destroy'</sentence>
+            <sentence id="2.14">exports.c:166: `ap_hack_apr_allocator_destroy' previously defined here</sentence>
+            <sentence id="2.15">exports.c:1363: redefinition of `ap_hack_apr_allocator_alloc'</sentence>
+            <sentence id="2.16">exports.c:167: `ap_hack_apr_allocator_alloc' previously defined here</sentence>
+            <sentence id="2.17">exports.c:1364: redefinition of `ap_hack_apr_allocator_free'</sentence>
+            <sentence id="2.18">exports.c:168: `ap_hack_apr_allocator_free' previously defined here</sentence>
+            <sentence id="2.19">exports.c:1365: redefinition of `ap_hack_apr_allocator_set_owner'</sentence>
+            <sentence id="2.20">exports.c:169: `ap_hack_apr_allocator_set_owner' previously defined here</sentence>
+            <sentence id="2.21">exports.c:1366: redefinition of `ap_hack_apr_allocator_get_owner'</sentence>
+            <sentence id="2.22">exports.c:170: `ap_hack_apr_allocator_get_owner' previously defined here</sentence>
+            <sentence id="2.23">..............................</sentence>
+            <sentence id="2.24">exports.c:2096: redefinition of `ap_hack_apr_xml_quote_elem'</sentence>
+            <sentence id="2.25">exports.c:900: `ap_hack_apr_xml_quote_elem' previously defined here</sentence>
+            <sentence id="2.26">exports.c:2097: redefinition of `ap_hack_apr_xml_insert_uri'</sentence>
+            <sentence id="2.27">exports.c:901: `ap_hack_apr_xml_insert_uri' previously defined here</sentence>
+            <sentence id="2.28">*** Error code 1</sentence>
+            <sentence id="2.29">make: Fatal error: Command failed for target `exports.lo'</sentence>
+            <sentence id="2.30">Current working directory /users/dclancy/APACHE/httpd-2.0.36/server</sentence>
+            <sentence id="2.31">*** Error code 1</sentence>
+            <sentence id="2.32">make: Fatal error: Command failed for target `all-recursive'</sentence>
+            <sentence id="2.33">Current working directory /users/dclancy/APACHE/httpd-2.0.36/server</sentence>
+            <sentence id="2.34">*** Error code 1</sentence>
+            <sentence id="2.35">make: Fatal error: Command failed for target `all-recursive'</sentence>
+            <sentence id="2.36">dclancy@lonsdev1:/users/dclancy/APACHE/httpd-2.0.36 83 :</sentence>
+            <sentence id="2.37">dclancy@lonsdev1:/users/dclancy/APACHE/httpd-2.0.36 83 : uname -a</sentence>
+            <sentence id="2.38">SunOS lonsdev1 5.8 Generic_108528-14 sun4u sparc SUNW,Ultra-4</sentence>
+        </paragraph>
+    </description>
+</bug>

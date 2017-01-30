@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2375</id>
+    <title>1.8.x maven build is platform dependent</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As 1.8.0 is our first mavenized release, we have discovered some problems related to builds in heterogenous environments.</sentence>
+            <sentence id="1.2">In Bamboo, we are not able to build with mvn due to encoding problems, e.g.:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code}</sentence>
+            <sentence id="2.2">build	17-Jun-2011 16:13:51	/opt/bamboohome/xml-data/build-dir/JAVADOC-V18X-JOB1/api/src/main/java/org/openmrs/util/databasechange/BooleanConceptChangeSet.java:[59,52] unmappable character for encoding ASCII</sentence>
+            <sentence id="2.3">build	17-Jun-2011 16:13:51	/opt/bamboohome/xml-data/build-dir/JAVADOC-V18X-JOB1/api/src/main/java/org/openmrs/util/databasechange/BooleanConceptChangeSet.java:[59,53] unmappable character for encoding ASCII</sentence>
+            <sentence id="2.4">build	17-Jun-2011 16:13:51	/opt/bamboohome/xml-data/build-dir/JAVADOC-V18X-JOB1/api/src/main/java/org/openmrs/util/databasechange/BooleanConceptChangeSet.java:[60,47] unmappable character for encoding ASCII</sentence>
+            <sentence id="2.5">build	17-Jun-2011 16:13:51	/opt/bamboohome/xml-data/build-dir/JAVADOC-V18X-JOB1/api/src/main/java/org/openmrs/util/databasechange/BooleanConceptChangeSet.java:[60,48] unmappable character for encoding ASCII</sentence>
+            <sentence id="2.6">build	17-Jun-2011 16:13:51	/opt/bamboohome/xml-data/build-dir/JAVADOC-V18X-JOB1/api/src/main/java/org/openmrs/util/databasechange/BooleanConceptChangeSet.java:[67,49] unmappable character for encoding ASCII</sentence>
+            <sentence id="2.7">build	17-Jun-2011 16:13:51	/opt/bamboohome/xml-data/build-dir/JAVADOC-V18X-JOB1/api/src/main/java/org/openmrs/util/databasechange/BooleanConceptChangeSet.java:[67,50] unmappable character for encoding ASCII</sentence>
+            <sentence id="2.8">{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">A bit of research shows this is not uncommon, and that the mvn-compiler-plugin configuration needs to be updated to include an *encoding* reference, e.g.,</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{code}
+&lt;plugin&gt;
+  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+  &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+  &lt;configuration&gt;
+    &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+  &lt;/configuration&gt;
+&lt;/plugin&gt;
+{code}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Source: http://stackoverflow.com/questions/1562843/howto-use-maven-in-a-heterogenous-environment-with-different-encodings</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This is a blocker for us being able to set up Bamboo to use Maven correctly starting with the 1.8.x branch.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>29055</id>
+    <title>Arguments not getting passed to ENTRYPOINT</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When I deploy a stack with a compose file using:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&gt; docker deploy --compose-file docker-compose.</sentence>
+            <sentence id="2.2">yml e1</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">the service does not start.</sentence>
+            <sentence id="3.2">I checked the logs of the containers that were launched for starting the service:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&gt; [admin@gol05854 compose]$ docker logs 1cbba24d26c7
+&gt; container_linux.</sentence>
+            <sentence id="4.2">go:247: starting container process caused "exec: \"3\": executable file not found in $PATH"</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">My dockerfile has:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">&gt; [admin@gol05854 compose]$ cat .</sentence>
+            <sentence id="6.2">.</sentence>
+            <sentence id="6.3">/proc1/Dockerfile
+&gt; FROM alpine
+&gt; COPY server.sh .</sentence>
+            <sentence id="6.4">/server.sh
+&gt; RUN chmod 777 server.sh
+&gt; RUN mkdir log
+&gt; 
+&gt; ENTRYPOINT [".</sentence>
+            <sentence id="6.5">/server.sh"]
+&gt; CMD ["1"]</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">My compose file has:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">&gt; my_server:
+&gt; image: yashgt/proc1:latest
+&gt; command: ["3"]</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">My intention is to pass the argument "3" to the entrypoint.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Apparently, the elements in the command array of the compose file get interpreted as the executable that will override the entrypoint.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**This is not the behavior of compose.</sentence>
+            <sentence id="11.2">The docker-compose up command works fine and the container gets launched with "3" as an argument going to the entrypoint.</sentence>
+            <sentence id="11.3">**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Here is the docker info
+[docker-info-gol05854.</sentence>
+            <sentence id="12.2">txt](https://github.com/docker/docker/files/626573/docker-info-gol05854.txt)</sentence>
+        </paragraph>
+    </description>
+</bug>

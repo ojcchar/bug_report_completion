@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4327</id>
+    <title>Instantiation error on the settings form</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Occasionally when you go to the setting page you get this error:
+{code}
+HTTP Status 500 - Could not instantiate bean class [java.util.List]: Specified class is an interface.</sentence>
+            <sentence id="1.2">{code}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">SettingsController.getSettingsForm(...) has an argument of type List&lt;String&gt;, it needs to be set to a concrete class like ArrayList&lt;String&gt; or Vector&lt;String&gt;, spring attempts to create an instance of the specified argument type before passing it to the controller hence the exception</sentence>
+        </paragraph>
+    </description>
+</bug>

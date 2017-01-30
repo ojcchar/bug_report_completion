@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7397</id>
+    <title>Incorrect SQL generated when removing element from a collection when there is a ManyToAny mapping</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've been experiencing an interesting Hibernate issue in my application relating to removing an entity from a collection where there is a ManyToAny mapping from the entity that contains the collection to the interface that defines the members in the collection.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Consider the following mapping from the class "ColorGroup" for a set of "GroupMember"s:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{code:java}
+    @AnyMetaDef(
+        name = "GroupMember",
+        idType = "long",
+        metaType = "string",
+        metaValues = {
+            @MetaValue(value = "BrassMember", targetEntity = BrassMember.class),
+            @MetaValue(value = "SilverMember", targetEntity = SilverMember.class)})
+    @ManyToAny(metaDef = "GroupMember", metaColumn = @Column(name = "member_type"), fetch = FetchType.LAZY)
+    @JoinTable(name = "GroupMembership",
+        joinColumns = @JoinColumn(name = "group_id", nullable = false),
+        inverseJoinColumns = @JoinColumn(name = "member_id", nullable = false)
+    )
+    private Set&lt;GroupMember members;
+{code}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">There is also a GroupMembership table that looks like this:
+{code:sql}
+CREATE TABLE GroupMembership (
+    group_id bigint(20) NOT NULL,
+    member_id bigint(20) NOT NULL,
+    member_type varchar(100) NOT NULL,</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">CONSTRAINT GroupMembership_PK PRIMARY KEY (group_id, member_id, member_type),
+    CONSTRAINT GroupMembership_member_id_FK FOREIGN KEY (member_id) REFERENCES GroupMember (groupMember_id),
+    CONSTRAINT GroupMembership_group_id_FK FOREIGN KEY (group_id) REFERENCES ColorGroup (id)
+);
+{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">group_id is foreign key'ed to the ColorGroup table and member_id is foreign key'ed to a GroupMember table.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">If multiple items (GroupMembers) are added to the "members" set in "ColorGroup", and then one is removed, the following error is encountered:</sentence>
+            <sentence id="7.2">{quote}</sentence>
+            <sentence id="7.3">2012-06-18 16:39:30,685 DEBUG [main] [org.hibernate.SQL] delete from GroupMembership where group_id=? and member_id=?</sentence>
+            <sentence id="7.4">Hibernate: delete from GroupMembership where group_id=? and member_id=?</sentence>
+            <sentence id="7.5">2012-06-18 16:39:30,695 WARN  [main] [o.h.u.JDBCExceptionReporter] SQL Error: 0, SQLState: S1009</sentence>
+            <sentence id="7.6">2012-06-18 16:39:30,695 ERROR [main] [o.h.u.JDBCExceptionReporter] Parameter index out of range (3 &gt; number of parameters, which is 2).</sentence>
+            <sentence id="7.7">2012-06-18 16:39:30,706 ERROR [main] [o.h.e.d.AbstractFlushingEventListener] Could not synchronize database state with session</sentence>
+            <sentence id="7.8">org.hibernate.exception.GenericJDBCException: could not delete collection rows: [scratch.hibernate.ColorGroup.members#1]</sentence>
+            <sentence id="7.9">	at org.hibernate.exception.SQLStateConverter.handledNonSpecificException(SQLStateConverter.java:140) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.10">	at org.hibernate.exception.SQLStateConverter.convert(SQLStateConverter.java:128) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.11">	at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:66) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.12">	at org.hibernate.persister.collection.AbstractCollectionPersister.deleteRows(AbstractCollectionPersister.java:1352) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.13">	at org.hibernate.action.CollectionUpdateAction.execute(CollectionUpdateAction.java:84) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.14">	at org.hibernate.engine.ActionQueue.execute(ActionQueue.java:273) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.15">	at org.hibernate.engine.ActionQueue.executeActions(ActionQueue.java:265) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.16">	at org.hibernate.engine.ActionQueue.executeActions(ActionQueue.java:187) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.17">	at org.hibernate.event.def.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:321) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.18">	at org.hibernate.event.def.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:51) [hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.19">	at org.hibernate.impl.SessionImpl.flush(SessionImpl.java:1216) [hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.20">	at org.hibernate.impl.SessionImpl.managedFlush(SessionImpl.java:383) [hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.21">	at org.hibernate.transaction.JDBCTransaction.commit(JDBCTransaction.java:133) [hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.22">	at scratch.hibernate.MappingTest.testBasicUsage(MappingTest.java:77) [bin/:na]</sentence>
+            <sentence id="7.23">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.6.0_17]</sentence>
+            <sentence id="7.24">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) ~[na:1.6.0_17]</sentence>
+            <sentence id="7.25">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25) ~[na:1.6.0_17]</sentence>
+            <sentence id="7.26">	at java.lang.reflect.Method.invoke(Method.java:597) ~[na:1.6.0_17]</sentence>
+            <sentence id="7.27">	at junit.framework.TestCase.runTest(TestCase.java:168) [junit-4.6.jar:na]</sentence>
+            <sentence id="7.28">	at junit.framework.TestCase.runBare(TestCase.java:134) [junit-4.6.jar:na]</sentence>
+            <sentence id="7.29">	at junit.framework.TestResult$1.protect(TestResult.java:110) [junit-4.6.jar:na]</sentence>
+            <sentence id="7.30">	at junit.framework.TestResult.runProtected(TestResult.java:128) [junit-4.6.jar:na]</sentence>
+            <sentence id="7.31">	at junit.framework.TestResult.run(TestResult.java:113) [junit-4.6.jar:na]</sentence>
+            <sentence id="7.32">	at junit.framework.TestCase.run(TestCase.java:124) [junit-4.6.jar:na]</sentence>
+            <sentence id="7.33">	at junit.framework.TestSuite.runTest(TestSuite.java:232) [junit-4.6.jar:na]</sentence>
+            <sentence id="7.34">	at junit.framework.TestSuite.run(TestSuite.java:227) [junit-4.6.jar:na]</sentence>
+            <sentence id="7.35">	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:91) [junit-4.6.jar:na]</sentence>
+            <sentence id="7.36">	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:49) [.cp/:na]</sentence>
+            <sentence id="7.37">	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38) [.cp/:na]</sentence>
+            <sentence id="7.38">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467) [.cp/:na]</sentence>
+            <sentence id="7.39">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683) [.cp/:na]</sentence>
+            <sentence id="7.40">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390) [.cp/:na]</sentence>
+            <sentence id="7.41">	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197) [.cp/:na]</sentence>
+            <sentence id="7.42">Caused by: java.sql.SQLException: Parameter index out of range (3 &gt; number of parameters, which is 2).</sentence>
+            <sentence id="7.43">	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1073) ~[mysql-connector-java-5.1.20.jar:na]</sentence>
+            <sentence id="7.44">	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:987) ~[mysql-connector-java-5.1.20.jar:na]</sentence>
+            <sentence id="7.45">	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:982) ~[mysql-connector-java-5.1.20.jar:na]</sentence>
+            <sentence id="7.46">	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:927) ~[mysql-connector-java-5.1.20.jar:na]</sentence>
+            <sentence id="7.47">	at com.mysql.jdbc.PreparedStatement.checkBounds(PreparedStatement.java:3754) ~[mysql-connector-java-5.1.20.jar:na]</sentence>
+            <sentence id="7.48">	at com.mysql.jdbc.PreparedStatement.setInternal(PreparedStatement.java:3738) ~[mysql-connector-java-5.1.20.jar:na]</sentence>
+            <sentence id="7.49">	at com.mysql.jdbc.PreparedStatement.setInternal(PreparedStatement.java:3780) ~[mysql-connector-java-5.1.20.jar:na]</sentence>
+            <sentence id="7.50">	at com.mysql.jdbc.PreparedStatement.setLong(PreparedStatement.java:3796) ~[mysql-connector-java-5.1.20.jar:na]</sentence>
+            <sentence id="7.51">	at org.hibernate.type.descriptor.sql.BigIntTypeDescriptor$1.doBind(BigIntTypeDescriptor.java:52) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.52">	at org.hibernate.type.descriptor.sql.BasicBinder.bind(BasicBinder.java:89) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.53">	at org.hibernate.type.AbstractStandardBasicType.nullSafeSet(AbstractStandardBasicType.java:282) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.54">	at org.hibernate.type.AbstractStandardBasicType.nullSafeSet(AbstractStandardBasicType.java:277) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.55">	at org.hibernate.type.AbstractSingleColumnStandardBasicType.nullSafeSet(AbstractSingleColumnStandardBasicType.java:85) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.56">	at org.hibernate.type.AnyType.nullSafeSet(AnyType.java:162) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.57">	at org.hibernate.persister.collection.AbstractCollectionPersister.writeElementToWhere(AbstractCollectionPersister.java:844) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.58">	at org.hibernate.persister.collection.AbstractCollectionPersister.deleteRows(AbstractCollectionPersister.java:1316) ~[hibernate-core-3.6.0.jar:3.6.0.Final]</sentence>
+            <sentence id="7.59">	... 29 common frames omitted</sentence>
+            <sentence id="7.60">{quote}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">It seems that the correct delete sql is generated: _delete from GroupMembership where group_id=?</sentence>
+            <sentence id="8.2">and member_id=?</sentence>
+            <sentence id="8.3">_</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">However, the binding does not appear to be functioning properly because Hibernate is trying to bind a parameter in the third parameter position despite there only being positions for two parameters.</sentence>
+            <sentence id="9.2">Here is an excerpt from a log when more detailed sql logging is enabled:
+{quote}
+[org.hibernate.type.descriptor.sql.BasicBinder] binding parameter
+ [1] as [BIGINT] - 15 [o.h.type.descriptor.sql.BasicBinder] binding
+ parameter [3] as [BIGINT] - 20 [o.h.util.JDBCExceptionReporter]
+ Parameter index out of range (3  number of parameters, which is 2).</sentence>
+            <sentence id="9.3">{quote}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Tracing through the hibernate code, I noticed in AbstractCollectionPersister.deleteRows() that initially the key ("group_id" in this case) is written to the prepared statement for the deletion in writeKey().</sentence>
+            <sentence id="10.2">Subsequently, the location of the next parameter to write to the prepared statement is incremented, which is correct.</sentence>
+            <sentence id="10.3">Next, Hibernate goes to write the member_id element to the prepared statement in writeElementToWhere().</sentence>
+            <sentence id="10.4">Interestingly, the counter is incremented again before the element is written to the prepared statement, thus causing the error.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">I've included a zip file that contains a test case (readme, java code, hibernate config) to generate this error.</sentence>
+        </paragraph>
+    </description>
+</bug>

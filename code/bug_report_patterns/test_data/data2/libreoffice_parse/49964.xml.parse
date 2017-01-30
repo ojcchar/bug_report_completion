@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>49964</id>
+    <title>crash by uncaught exception from libvisio</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Error to open a pps archive
+Upstreamed from lp#957776:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">ProblemType: Crash</sentence>
+            <sentence id="2.2">DistroRelease: Ubuntu 12.04</sentence>
+            <sentence id="2.3">Package: libreoffice-core 1:3.5.0-2ubuntu1</sentence>
+            <sentence id="2.4">ProcVersionSignature: Ubuntu 3.2.0-18.29-generic-pae 3.2.9</sentence>
+            <sentence id="2.5">Uname: Linux 3.2.0-18-generic-pae i686</sentence>
+            <sentence id="2.6">NonfreeKernelModules: nvidia</sentence>
+            <sentence id="2.7">ApportVersion: 1.94.1-0ubuntu2</sentence>
+            <sentence id="2.8">Architecture: i386</sentence>
+            <sentence id="2.9">Date: Sat Mar 17 10:24:42 2012</sentence>
+            <sentence id="2.10">ExecutablePath: /usr/lib/libreoffice/program/soffice.bin</sentence>
+            <sentence id="2.11">InstallationMedia: Ubuntu 11.10 "Oneiric Ocelot" - Release i386 (20111012)</sentence>
+            <sentence id="2.12">ProcCmdline: /usr/lib/libreoffice/program/soffice.bin --impress /home/User Name/Escritorio/LaSillaAud.1.pps --splash-pipe=6</sentence>
+            <sentence id="2.13">Signal: 6</sentence>
+            <sentence id="2.14">SourcePackage: libreoffice</sentence>
+            <sentence id="2.15">StacktraceTop:</sentence>
+            <sentence id="2.16"> raise () from /lib/i386-linux-gnu/libc.so.6</sentence>
+            <sentence id="2.17"> abort () from /lib/i386-linux-gnu/libc.so.6</sentence>
+            <sentence id="2.18"> __gnu_cxx::__verbose_terminate_handler() () from /usr/lib/i386-linux-gnu/libstdc++.so.6</sentence>
+            <sentence id="2.19"> ?? () from /usr/lib/i386-linux-gnu/libstdc++.so.6</sentence>
+            <sentence id="2.20"> std::terminate() () from /usr/lib/i386-linux-gnu/libstdc++.so.6</sentence>
+            <sentence id="2.21">Title: soffice.bin crashed with SIGABRT in raise()</sentence>
+            <sentence id="2.22">UpgradeStatus: Upgraded to precise on 2012-03-11 (5 days ago)</sentence>
+            <sentence id="2.23">UserGroups: adm admin cdrom dialout lpadmin plugdev sambashare</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">this:
+...
+#6  0xb741c05e in __cxa_throw () from /usr/lib/i386-linux-gnu/libstdc++.</sentence>
+            <sentence id="3.2">so.6
+No symbol table info available.</sentence>
+            <sentence id="3.3">#7  0xac5aa8e6 in libvisio::readU8(WPXInputStream*) () from /usr/lib/libreoffice/program/.</sentence>
+            <sentence id="3.4">.</sentence>
+            <sentence id="3.5">/program/libvisioimportlo.</sentence>
+            <sentence id="3.6">so
+No symbol table info available.</sentence>
+            <sentence id="3.7">#8  0xac586b08 in libvisio::VisioDocument::isSupported(WPXInputStream*) () from /usr/lib/libreoffice/program/.</sentence>
+            <sentence id="3.8">.</sentence>
+            <sentence id="3.9">/program/libvisioimportlo.</sentence>
+            <sentence id="3.10">so
+...</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">looks like a uncaught exception from libvisio, for more details see downstream.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">@Fridrich: Care to have a look?</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1270</id>
+    <title>LogicService fails to correctly parse a LogicCriteria expression that contains only and aggregator and token</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The following query works by correctly returning a single Result:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">LogicService.parseQuery("LAST TOKEN_NAME BEFORE TODAY");</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">However, this next query fails to work, returning as many Results as the patient has:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">LogicService.parseQuery("LAST TOKEN_NAME");</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">So, essentially, this currently evaluates the same as LogicService.parseQuery("TOKEN_NAME");</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Please find attached a patch which contains the fix within LogicQueryTreeParser, along with a unit test which fails for the current 1.5.x, but which will succeed with this patch.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Win, FYI for the module...</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Any objections, please holler.</sentence>
+        </paragraph>
+    </description>
+</bug>

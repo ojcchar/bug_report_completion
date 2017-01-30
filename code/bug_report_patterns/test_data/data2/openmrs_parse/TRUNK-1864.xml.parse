@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1864</id>
+    <title>Make Concept required on concept drug form</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Version: 1.7.0 RC2 Build 16313</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">A user got this error when submitting a new concept drug.</sentence>
+            <sentence id="2.2">I assume they were not picking a concept to enter.</sentence>
+            <sentence id="2.3">Add a validator to the page that checks for concept and returns the user to the edit page if they did not enter one.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Summary:
+java.lang.NumberFormatException: For input string:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Description:</sentence>
+            <sentence id="4.2">Stack trace:</sentence>
+            <sentence id="4.3">java.lang.NumberFormatException.forInputString(Unknown Source)</sentence>
+            <sentence id="4.4">java.lang.Integer.parseInt(Unknown Source)</sentence>
+            <sentence id="4.5">java.lang.Integer.valueOf(Unknown Source)</sentence>
+            <sentence id="4.6">org.openmrs.web.controller.concept.ConceptDrugFormController.onSubmit(ConceptDrugFormController.java:92)</sentence>
+            <sentence id="4.7">	at [ignored] ...</sentence>
+            <sentence id="4.8">javax.servlet.http.HttpServlet.service(HttpServlet.java:637)</sentence>
+            <sentence id="4.9">javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+            <sentence id="4.10">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+            <sentence id="4.11">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.12">org.openmrs.module.web.filter.ForcePasswordChangeFilter.doFilter(ForcePasswordChangeFilter.java:65)</sentence>
+            <sentence id="4.13">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.14">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.15">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+            <sentence id="4.16">org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+            <sentence id="4.17">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.18">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.19">org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:112)</sentence>
+            <sentence id="4.20">	at [ignored] ...</sentence>
+            <sentence id="4.21">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.22">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.23">	at [ignored] ...</sentence>
+            <sentence id="4.24">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.25">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.26">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+            <sentence id="4.27">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.28">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.29">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+            <sentence id="4.30">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.31">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.32">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:83)</sentence>
+            <sentence id="4.33">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.34">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.35">	at [ignored] ...</sentence>
+            <sentence id="4.36">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="4.37">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="4.38">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+            <sentence id="4.39">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</sentence>
+            <sentence id="4.40">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</sentence>
+            <sentence id="4.41">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+            <sentence id="4.42">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+            <sentence id="4.43">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:298)</sentence>
+            <sentence id="4.44">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:852)</sentence>
+            <sentence id="4.45">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:588)</sentence>
+            <sentence id="4.46">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)</sentence>
+            <sentence id="4.47">java.lang.Thread.run(Unknown Source)</sentence>
+        </paragraph>
+    </description>
+</bug>

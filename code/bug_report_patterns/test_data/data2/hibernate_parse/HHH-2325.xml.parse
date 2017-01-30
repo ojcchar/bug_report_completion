@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2325</id>
+    <title>Exception handling in NullableType - NullPointerException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I think the exception handling in nullabletype is broken/non-aligned.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">in nullsafeset:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">catch (RuntimeException re) {
+			LogFactory.getLog( getClass() ).</sentence>
+            <sentence id="3.2">info(
+					"could not bind value '" + toString(value) + 
+					"' to parameter: " + index
+				);
+		}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">notice that there are no throw re; here.</sentence>
+            <sentence id="4.2">meaning an exception can occur but the code will just continue.</sentence>
+            <sentence id="4.3">AND RuntimeException is catched instead of Throwable meaning SQLException's which is the most likely exception will not result in a logging.</sentence>
+        </paragraph>
+    </description>
+</bug>

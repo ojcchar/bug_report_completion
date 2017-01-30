@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>288169</id>
+    <title>Snow Leopard (OS X 10.6) : BIRT Report Designer Crashes Eclipse</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6; en-us) AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3 Safari/531.9
+Build Identifier: 20090619-0625</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The BIRT Report Designer crashes Eclipse immediately upon clicking on a report design.</sentence>
+            <sentence id="2.2">The Report Designer is unusable in Snow Leopard (even with 32-bit Java enabled as default)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">1 Install Eclipse on a Mac OS X 10.6</sentence>
+            <sentence id="4.3">2 Open a .</sentence>
+            <sentence id="4.4">rptdesign file</sentence>
+            <sentence id="4.5">3 Click on the report design (invoke the Report Designer plugin)</sentence>
+            <sentence id="4.6">4 Notice Elcipse crash</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Process:         eclipse [20398]
+Path:            /Applications/eclipse/Eclipse.</sentence>
+            <sentence id="5.2">app/Contents/MacOS/eclipse
+Identifier:      org.eclipse.eclipse
+Version:         3.5 (3.5)
+Code Type:       X86 (Native)
+Parent Process:  launchd [115]</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Date/Time:       2009-08-31 13:17:38.817 -0500
+OS Version:      Mac OS X 10.6 (10A432)
+Report Version:  6</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Interval Since Last Report:          772 sec
+Crashes Since Last Report:           1
+Per-App Interval Since Last Report:  372 sec
+Per-App Crashes Since Last Report:   1
+Anonymous UUID:                      E7F9E1AC-A027-4F56-944C-C42667953C57</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
+Exception Codes: KERN_INVALID_ADDRESS at 0x000000006bda7100
+Crashed Thread:  0  Dispatch queue: com.apple.main-thread</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Application Specific Information:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Java information:
+ Exception type: Bus Error (0xa) at pc=0x97c71df0</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Java VM: Java HotSpot(TM) Client VM (14.1-b02-90 mixed mode macosx-x86)</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Current thread (0x13800000):  JavaThread "main" [_thread_in_native, id=-1608452864, stack(0xbf800000,0xc0000000)]</sentence>
+            <sentence id="12.2">Stack: [0xbf800000,0xc0000000]</sentence>
+            <sentence id="12.3">Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)</sentence>
+            <sentence id="12.4">J  org.eclipse.swt.internal.cocoa.OS.objc_msgSend(II)I</sentence>
+            <sentence id="12.5">j  org.eclipse.swt.internal.cocoa.NSBezierPath.fill()V+7</sentence>
+            <sentence id="12.6">j  org.eclipse.swt.graphics.GC.fillRectangle(IIII)V+136</sentence>
+            <sentence id="12.7">j  org.eclipse.birt.chart.reportitem.ui.DesignerRepresentation.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+244</sentence>
+            <sentence id="12.8">j  org.eclipse.draw2d.Figure.paint(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.9">j  org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure.paintChildren(Lorg/eclipse/draw2d/Graphics;)V+119</sentence>
+            <sentence id="12.10">j  org.eclipse.draw2d.Figure.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+143</sentence>
+            <sentence id="12.11">j  org.eclipse.draw2d.Figure.paint(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.12">j  org.eclipse.draw2d.Figure.paintChildren(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.13">j  org.eclipse.draw2d.Figure.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+120</sentence>
+            <sentence id="12.14">j  org.eclipse.draw2d.Figure.paint(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.15">j  org.eclipse.draw2d.Figure.paintChildren(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.16">j  org.eclipse.draw2d.Figure.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+120</sentence>
+            <sentence id="12.17">j  org.eclipse.draw2d.Figure.paint(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.18">j  org.eclipse.draw2d.Figure.paintChildren(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.19">j  org.eclipse.draw2d.Figure.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+120</sentence>
+            <sentence id="12.20">j  org.eclipse.draw2d.ScalableFreeformLayeredPane.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+24</sentence>
+            <sentence id="12.21">j  org.eclipse.draw2d.Figure.paint(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.22">j  org.eclipse.draw2d.Figure.paintChildren(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.23">j  org.eclipse.draw2d.Figure.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+120</sentence>
+            <sentence id="12.24">j  org.eclipse.draw2d.Figure.paint(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.25">j  org.eclipse.draw2d.Figure.paintChildren(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.26">j  org.eclipse.draw2d.Figure.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+100</sentence>
+            <sentence id="12.27">j  org.eclipse.draw2d.Viewport.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+32</sentence>
+            <sentence id="12.28">j  org.eclipse.draw2d.Figure.paint(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.29">j  org.eclipse.draw2d.Figure.paintChildren(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.30">j  org.eclipse.draw2d.Figure.paintClientArea(Lorg/eclipse/draw2d/Graphics;)V+120</sentence>
+            <sentence id="12.31">j  org.eclipse.draw2d.Figure.paint(Lorg/eclipse/draw2d/Graphics;)V+60</sentence>
+            <sentence id="12.32">j  org.eclipse.draw2d.DeferredUpdateManager.paint(Lorg/eclipse/swt/graphics/GC;)V+71</sentence>
+            <sentence id="12.33">j  org.eclipse.draw2d.LightweightSystem.paint(Lorg/eclipse/swt/graphics/GC;)V+5</sentence>
+            <sentence id="12.34">j  org.eclipse.draw2d.LightweightSystem$2.handleEvent(Lorg/eclipse/swt/widgets/Event;)V+8</sentence>
+            <sentence id="12.35">J  org.eclipse.swt.widgets.EventTable.sendEvent(Lorg/eclipse/swt/widgets/Event;)V</sentence>
+            <sentence id="12.36">j  org.eclipse.swt.widgets.Display.sendEvent(Lorg/eclipse/swt/widgets/EventTable;Lorg/eclipse/swt/widgets/Event;)V+24</sentence>
+            <sentence id="12.37">j  org.eclipse.swt.widgets.Widget.sendEvent(Lorg/eclipse/swt/widgets/Event;)V+9</sentence>
+            <sentence id="12.38">j  org.eclipse.swt.widgets.Widget.sendEvent(ILorg/eclipse/swt/widgets/Event;Z)V+73</sentence>
+            <sentence id="12.39">j  org.eclipse.swt.widgets.Widget.sendEvent(ILorg/eclipse/swt/widgets/Event;)V+4</sentence>
+            <sentence id="12.40">j  org.eclipse.swt.widgets.Control.drawWidget(ILorg/eclipse/swt/internal/cocoa/NSGraphicsContext;Lorg/eclipse/swt/internal/cocoa/NSRect;)V+115</sentence>
+            <sentence id="12.41">j  org.eclipse.swt.widgets.Canvas.drawWidget(ILorg/eclipse/swt/internal/cocoa/NSGraphicsContext;Lorg/eclipse/swt/internal/cocoa/NSRect;)V+16</sentence>
+            <sentence id="12.42">J  org.eclipse.swt.widgets.Widget.drawRect(IILorg/eclipse/swt/internal/cocoa/NSRect;)V</sentence>
+            <sentence id="12.43">j  org.eclipse.swt.widgets.Canvas.drawRect(IILorg/eclipse/swt/internal/cocoa/NSRect;)V+32</sentence>
+            <sentence id="12.44">J  org.eclipse.swt.widgets.Display.windowProc(III)I</sentence>
+            <sentence id="12.45">v  ~StubRoutines::call_stub</sentence>
+            <sentence id="12.46">J  org.eclipse.swt.internal.cocoa.OS.objc_msgSendSuper(Lorg/eclipse/swt/internal/cocoa/objc_super;IIIIZ)I</sentence>
+            <sentence id="12.47">J  org.eclipse.swt.widgets.Display.applicationNextEventMatchingMask(IIIIII)I</sentence>
+            <sentence id="12.48">J  org.eclipse.swt.widgets.Display.applicationProc(IIIIII)I</sentence>
+            <sentence id="12.49">v  ~StubRoutines::call_stub</sentence>
+            <sentence id="12.50">J  org.eclipse.swt.internal.cocoa.OS.objc_msgSend(IIIIIZ)I</sentence>
+            <sentence id="12.51">J  org.eclipse.swt.internal.cocoa.NSApplication.nextEventMatchingMask(ILorg/eclipse/swt/internal/cocoa/NSDate;Lorg/eclipse/swt/internal/cocoa/NSString;Z)Lorg/eclipse/swt/internal/cocoa/NSEvent;</sentence>
+            <sentence id="12.52">J  org.eclipse.swt.widgets.Display.readAndDispatch()Z</sentence>
+            <sentence id="12.53">j  org.eclipse.ui.internal.Workbench.runEventLoop(Lorg/eclipse/jface/window/Window$IExceptionHandler;Lorg/eclipse/swt/widgets/Display;)V+9</sentence>
+            <sentence id="12.54">j  org.eclipse.ui.internal.Workbench.runUI()I+393</sentence>
+            <sentence id="12.55">j  org.eclipse.ui.internal.Workbench.access$4(Lorg/eclipse/ui/internal/Workbench;)I+1</sentence>
+            <sentence id="12.56">j  org.eclipse.ui.internal.Workbench$5.run()V+55</sentence>
+            <sentence id="12.57">j  org.eclipse.core.databinding.observable.Realm.runWithDefault(Lorg/eclipse/core/databinding/observable/Realm;Ljava/lang/Runnable;)V+12</sentence>
+            <sentence id="12.58">j  org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Lorg/eclipse/swt/widgets/Display;Lorg/eclipse/ui/application/WorkbenchAdvisor;)I+18</sentence>
+            <sentence id="12.59">j  org.eclipse.ui.PlatformUI.createAndRunWorkbench(Lorg/eclipse/swt/widgets/Display;Lorg/eclipse/ui/application/WorkbenchAdvisor;)I+2</sentence>
+            <sentence id="12.60">j  org.eclipse.ui.internal.ide.application.IDEApplication.start(Lorg/eclipse/equinox/app/IApplicationContext;)Ljava/lang/Object;+84</sentence>
+            <sentence id="12.61">j  org.eclipse.equinox.internal.app.EclipseAppHandle.run(Ljava/lang/Object;)Ljava/lang/Object;+135</sentence>
+            <sentence id="12.62">j  org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(Ljava/lang/Object;)Ljava/lang/Object;+103</sentence>
+            <sentence id="12.63">j  org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(Ljava/lang/Object;)Ljava/lang/Object;+29</sentence>
+            <sentence id="12.64">j  org.eclipse.core.runtime.adaptor.EclipseStarter.run(Ljava/lang/Object;)Ljava/lang/Object;+149</sentence>
+            <sentence id="12.65">j  org.eclipse.core.runtime.adaptor.EclipseStarter.run([Ljava/lang/String;Ljava/lang/Runnable;)Ljava/lang/Object;+183</sentence>
+            <sentence id="12.66">v  ~StubRoutines::call_stub</sentence>
+            <sentence id="12.67">j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0</sentence>
+            <sentence id="12.68">j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87</sentence>
+            <sentence id="12.69">j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6</sentence>
+            <sentence id="12.70">j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161</sentence>
+            <sentence id="12.71">j  org.eclipse.equinox.launcher.Main.invokeFramework([Ljava/lang/String;[Ljava/net/URL;)V+211</sentence>
+            <sentence id="12.72">j  org.eclipse.equinox.launcher.Main.basicRun([Ljava/lang/String;)V+114</sentence>
+            <sentence id="12.73">j  org.eclipse.equinox.launcher.Main.run([Ljava/lang/String;)I+4</sentence>
+            <sentence id="12.74">v  ~StubRoutines::call_stub</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Java Threads: ( =&gt; current thread )</sentence>
+            <sentence id="13.2">  0x130d0000 JavaThread "Worker-8" [_thread_blocked, id=-1324027904, stack(0xb104f000,0xb114f000)]</sentence>
+            <sentence id="13.3">  0x139f3800 JavaThread "[ThreadPool Manager] - Idle Thread" daemon [_thread_blocked, id=-1309749248, stack(0xb1ded000,0xb1eed000)]</sentence>
+            <sentence id="13.4">  0x138af000 JavaThread "Worker-5" [_thread_blocked, id=-1312919552, stack(0xb1ae7000,0xb1be7000)]</sentence>
+            <sentence id="13.5">  0x1395d400 JavaThread "Worker-4" [_thread_blocked, id=-1313976320, stack(0xb19e5000,0xb1ae5000)]</sentence>
+            <sentence id="13.6">  0x131fa800 JavaThread "JavaScript indexing" daemon [_thread_blocked, id=-1316651008, stack(0xb1758000,0xb1858000)]</sentence>
+            <sentence id="13.7">  0x131eec00 JavaThread "Java indexing" daemon [_thread_blocked, id=-1318744064, stack(0xb1559000,0xb1659000)]</sentence>
+            <sentence id="13.8">  0x139f2400 JavaThread "Bundle File Closer" daemon [_thread_blocked, id=-1319800832, stack(0xb1457000,0xb1557000)]</sentence>
+            <sentence id="13.9">  0x13081400 JavaThread "[Timer] - Main Queue Handler" daemon [_thread_blocked, id=-1322971136, stack(0xb1151000,0xb1251000)]</sentence>
+            <sentence id="13.10">  0x13944c00 JavaThread "Framework Event Dispatcher" daemon [_thread_blocked, id=-1325084672, stack(0xb0f4d000,0xb104d000)]</sentence>
+            <sentence id="13.11">  0x13042000 JavaThread "Start Level Event Dispatcher" daemon [_thread_blocked, id=-1326284800, stack(0xb0e28000,0xb0f28000)]</sentence>
+            <sentence id="13.12">  0x13041800 JavaThread "State Data Manager" daemon [_thread_blocked, id=-1327341568, stack(0xb0d26000,0xb0e26000)]</sentence>
+            <sentence id="13.13">  0x1300dc00 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=-1329491968, stack(0xb0b19000,0xb0c19000)]</sentence>
+            <sentence id="13.14">  0x1300cc00 JavaThread "CompilerThread0" daemon [_thread_blocked, id=-1330548736, stack(0xb0a17000,0xb0b17000)]</sentence>
+            <sentence id="13.15">  0x1300c000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=-1331605504, stack(0xb0915000,0xb0a15000)]</sentence>
+            <sentence id="13.16">  0x1300b000 JavaThread "Surrogate Locker Thread (CMS)" daemon [_thread_blocked, id=-1332662272, stack(0xb0813000,0xb0913000)]</sentence>
+            <sentence id="13.17">  0x13001400 JavaThread "Finalizer" daemon [_thread_blocked, id=-1333719040, stack(0xb0711000,0xb0811000)]</sentence>
+            <sentence id="13.18">  0x138ab400 JavaThread "Reference Handler" daemon [_thread_blocked, id=-1334775808, stack(0xb060f000,0xb070f000)]</sentence>
+            <sentence id="13.19">=&gt;0x13800000 JavaThread "main" [_thread_in_native, id=-1608452864, stack(0xbf800000,0xc0000000)]</sentence>
+            <sentence id="13.20">Other Threads:</sentence>
+            <sentence id="13.21">  0x13000c00 VMThread [stack: 0xb050d000,0xb060d000] [id=-1335832576]</sentence>
+            <sentence id="13.22">  0x13016800 WatcherThread [stack: 0xb0c1b000,0xb0d1b000] [id=-1328435200]</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">VM state:not at safepoint (normal execution)
+VM Mutex/Monitor currently owned by a thread: None</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">Heap
+ par new generation   total 28672K, used 4897K [0x16010000, 0x18010000, 0x18010000)
+  eden space 24576K,   8% used [0x16010000, 0x16219908, 0x17810000)
+  from space 4096K,  68% used [0x17c10000, 0x17ecee28, 0x18010000)
+  to   space 4096K,   0% used [0x17810000, 0x17810000, 0x17c10000)
+ concurrent mark-sweep generation total 507904K, used 30369K [0x18010000, 0x37010000, 0x56010000)
+ concurrent-mark-sweep perm gen total 69724K, used 61101K [0x56010000, 0x5a427000, 0x66010000)</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Virtual Machine Arguments:
+JVM Args: -Dosgi.requiredJavaVersion=1.5 -XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts -XX:MaxPermSize=256m -Xms512m -Xmx1024m -Xdock:icon=.</sentence>
+            <sentence id="16.2">.</sentence>
+            <sentence id="16.3">/Resources/Eclipse.</sentence>
+            <sentence id="16.4">icns -XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts 
+Java Command: &lt;unknown&gt;
+Launcher Type: generic
+Physical Memory: Page Size = 4k, Total = 3840M, Free = 13M</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>15956</id>
+    <title>Unsupported content file</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Just updated from 1.7.1 to 1.8.0</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">curl -XGET 'http://127.0.0.1:2375/version'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{"Version":"1.8.1","ApiVersion":"1.20","GitCommit":"d12ea79","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.16.0-4-amd64","BuildTime":"Thu Aug 13 02:20:14 UTC 2015"}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">curl -XGET 'http://127.0.0.1:2375/info'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">{"ID":"KF3S:J2QG:OP6T:JZ2P:CQWT:5P5V:EXWG:IKHX:2AX3:WWN5:322O:53L6","Containers":1,"Images":103,"Driver":"aufs","DriverStatus":[["Root Dir","/opt/docker/aufs"],["Backing Filesystem","extfs"],["Dirs","105"],["Dirperm1 Supported","true"]],"MemoryLimit":false,"SwapLimit":false,"CpuCfsPeriod":false,"CpuCfsQuota":false,"IPv4Forwarding":true,"BridgeNfIptables":true,"BridgeNfIp6tables":true,"Debug":false,"NFd":17,"OomKillDisable":false,"NGoroutines":30,"SystemTime":"2015-08-31T18:51:43.757684989+02:00","ExecutionDriver":"native-0.2","LoggingDriver":"json-file","NEventsListener":0,"KernelVersion":"3.16.0-4-amd64","OperatingSystem":"Debian GNU/Linux 8 (jessie)","IndexServerAddress":"https://index.docker.io/v1/","RegistryConfig":{"InsecureRegistryCIDRs":["127.0.0.0/8"],"IndexConfigs":{"172.24.0.40:5000":{"Name":"172.24.0.40:5000","Mirrors":[],"Secure":false,"Official":false},"docker.io":{"Name":"docker.io","Mirrors":null,"Secure":true,"Official":true}},"Mirrors":null},"InitSha1":"adf381ad91157d139cc0db713963144d07fee714","InitPath":"/usr/lib/docker/dockerinit","NCPU":2,"MemTotal":2107985920,"DockerRootDir":"/opt/docker","HttpProxy":"","HttpsProxy":"","NoProxy":"","Name":"log1","Labels":null,"ExperimentalBuild":false}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">uname -a
+Linux log1 3.16.0-4-amd64 #1 SMP Debian 3.16.7-ckt11-1+deb8u2 (2015-07-17) x86_64 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Doing 
+curl -X POST 'http://127.0.0.1:2375/build?t=127.0.0.1:5000/zookeeper&amp;remote=http://mercurial.local/ms/raw-file/tip/Dockerfiles/Services/zookeeper/Dockerfile'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">got 
+Error detecting content type for remote http://mercurial.local/ms/raw-file/tip/Dockerfiles/Services/zookeeper/Dockerfile: unsupported Content-Type "application/binary"</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">and build not happen.</sentence>
+            <sentence id="9.2">On 1.7.1 no issues.</sentence>
+            <sentence id="9.3">Any workaround?</sentence>
+            <sentence id="9.4">There is no way to change CT for mercurial web server output.</sentence>
+        </paragraph>
+    </description>
+</bug>

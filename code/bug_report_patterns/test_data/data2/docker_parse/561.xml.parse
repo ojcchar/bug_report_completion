@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>561</id>
+    <title>"make" fails with go1.1</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The issue is related to the issue described in https://code.google.com/p/go/issues/detail?id=5396 (which is referring to the documentation about the change that was made for go1.1).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The "go get" line now fails because without "-d" (download-only) it implies "go install", which cannot be run outside the GOPATH (which our symlinked directory is).</sentence>
+            <sentence id="2.2">The simple fix is to just switch out "go get" for "go get -d", especially since this is used mainly to make sure our "go build" doesn't fail (and has the deps it requires).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I'm happy to submit a pull request with this fix, if my solution is acceptable.</sentence>
+        </paragraph>
+    </description>
+</bug>

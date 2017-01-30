@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6917</id>
+    <title>Persist deleted entity in collection which is not removed from collection</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In one-to-many relationship, hibernate will not delete the entity from the collection if the entity is deleted from the outside and was not removed from the collection.</sentence>
+            <sentence id="1.2">For example, we have two classes:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">class A { @OneToMany(cascade=CascadeType.ALL) Collection&lt;B&gt; bs; }
+class B { @ManyToOne A a;}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">A has a collection of B, say b1, b2, b3.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The following code will raise EntityNotFoundException: deleted entity passed to persist B#null</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">for(B b : A.bs) {
+   BService.delete(b); // No call to persist(A)
+}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">After we delete the b1, the deletion of b2 will cause the error.</sentence>
+            <sentence id="6.2">A complete test case attached.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I found out before each query org.hibernate.event.def.AbstractFlushingEventListener class calls prepareEntityFlushes(EventSource session).</sentence>
+            <sentence id="7.2">If I delete one entity B but did not remove it from the collection A.bs, Hibernate will throw the exception "deleted entity passed to persist" when persisting A, even I did not call persist A.</sentence>
+            <sentence id="7.3">So the exception could be thrown any time (for example, it throws when I execute a SELECT query).</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I am expecting a transparent action that Hibernate will update the collection directly.</sentence>
+            <sentence id="8.2">BTW, I test eclipselink and it did not complain about deleted entity.</sentence>
+        </paragraph>
+    </description>
+</bug>

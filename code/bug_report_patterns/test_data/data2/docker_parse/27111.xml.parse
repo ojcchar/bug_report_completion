@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27111</id>
+    <title>Docker service ps shows odd ordering</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When inspecting the history of containers for a service, the ordering is confusing, or I just don't understand what is going on.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="3.2">I haven't been able to reproduce, but this is what I did.</sentence>
+            <sentence id="3.3">1 Update a running service to an image that doesn't exist.</sentence>
+            <sentence id="3.4">2 Update the same service to an image that DOES exist.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">2/3 of the new containers either died or were shutdown.</sentence>
+            <sentence id="5.2">1 of the new containers successfully started.</sentence>
+            <sentence id="5.3">The odd thing is that in 'docker service ps kong', the service that is running is not the one that is left-most or at the top of the list.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">!</sentence>
+            <sentence id="6.2">[image](https://cloud.githubusercontent.com/assets/571756/19038566/1755a122-894a-11e6-9641-83efb5b43fee.png)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Describe the results you expected:**</sentence>
+            <sentence id="7.2">I expected 1 service running, with it being at the top of the list.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="8.2">To reproduce this, we might need to have a container that has an occasional failure on startup--I'm not sure.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'
+Client:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: Thu Aug 18 05:33:38 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Server:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: Thu Aug 18 05:33:38 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"'</sentence>
+            <sentence id="13.2">root@swarmdev:/home/ubuntu# docker info</sentence>
+            <sentence id="13.3">Containers: 14</sentence>
+            <sentence id="13.4"> Running: 14</sentence>
+            <sentence id="13.5"> Paused: 0</sentence>
+            <sentence id="13.6"> Stopped: 0</sentence>
+            <sentence id="13.7">Images: 12</sentence>
+            <sentence id="13.8">Server Version: 1.12.1</sentence>
+            <sentence id="13.9">Storage Driver: aufs</sentence>
+            <sentence id="13.10"> Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="13.11"> Backing Filesystem: extfs</sentence>
+            <sentence id="13.12"> Dirs: 146</sentence>
+            <sentence id="13.13"> Dirperm1 Supported: true</sentence>
+            <sentence id="13.14">Logging Driver: json-file</sentence>
+            <sentence id="13.15">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="13.16">Plugins:</sentence>
+            <sentence id="13.17"> Volume: local</sentence>
+            <sentence id="13.18"> Network: null bridge host overlay</sentence>
+            <sentence id="13.19">Swarm: active</sentence>
+            <sentence id="13.20"> NodeID: 5hiqzkjsb1jbkny1vuvh6bh7w</sentence>
+            <sentence id="13.21"> Is Manager: true</sentence>
+            <sentence id="13.22"> ClusterID: 0d17s2mvdj4i4w6j6eyj06ob2</sentence>
+            <sentence id="13.23"> Managers: 1</sentence>
+            <sentence id="13.24"> Nodes: 1</sentence>
+            <sentence id="13.25"> Orchestration:</sentence>
+            <sentence id="13.26"> Task History Retention Limit: 5</sentence>
+            <sentence id="13.27"> Raft:</sentence>
+            <sentence id="13.28"> Snapshot Interval: 10000</sentence>
+            <sentence id="13.29"> Heartbeat Tick: 1</sentence>
+            <sentence id="13.30"> Election Tick: 3</sentence>
+            <sentence id="13.31"> Dispatcher:</sentence>
+            <sentence id="13.32"> Heartbeat Period: 5 seconds</sentence>
+            <sentence id="13.33"> CA Configuration:</sentence>
+            <sentence id="13.34"> Expiry Duration: 3 months</sentence>
+            <sentence id="13.35"> Node Address: 10.4.0.4</sentence>
+            <sentence id="13.36">Runtimes: runc</sentence>
+            <sentence id="13.37">Default Runtime: runc</sentence>
+            <sentence id="13.38">Security Options: apparmor seccomp</sentence>
+            <sentence id="13.39">Kernel Version: 4.4.0-36-generic</sentence>
+            <sentence id="13.40">Operating System: Ubuntu 16.04.1 LTS</sentence>
+            <sentence id="13.41">OSType: linux</sentence>
+            <sentence id="13.42">Architecture: x86_64</sentence>
+            <sentence id="13.43">CPUs: 2</sentence>
+            <sentence id="13.44">Total Memory: 3.359 GiB</sentence>
+            <sentence id="13.45">Name: swarmdev</sentence>
+            <sentence id="13.46">ID: TSZI:POAG:YCAO:L37D:ISMX:M2NE:B2HE:EZJF:W3CR:JMIM:MEEE:TURK</sentence>
+            <sentence id="13.47">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="13.48">Debug Mode (client): false</sentence>
+            <sentence id="13.49">Debug Mode (server): false</sentence>
+            <sentence id="13.50">Username: odysseyops</sentence>
+            <sentence id="13.51">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="13.52">WARNING: No swap limit support</sentence>
+            <sentence id="13.53">Insecure Registries:</sentence>
+            <sentence id="13.54"> 127.0.0.0/8</sentence>
+            <sentence id="13.55">"'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="14.2">This on an Azure VM and I cannot access the previously failed-to-start containers since we are using docker-cleanup to cleanup old containers/images.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">The custom kong image is just an image with custom plugins installed.</sentence>
+            <sentence id="15.2">The command at container init is exactly the same as the public, official kong image.</sentence>
+        </paragraph>
+    </description>
+</bug>

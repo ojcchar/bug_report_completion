@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>280536</id>
+    <title>Popup blocker offers to unblock wrong host/domain on pages with frames</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041122 Firefox/1.0
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041122 Firefox/1.0</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When I open the website at http://www.grendel-base.com a popup is blocked.</sentence>
+            <sentence id="2.2">Clicking the icon for popup configuration in the bottom right, I have the option
+to "Allow popups for www.grendel-base.com" and "Show:
+http://www.industrialnation.nl/grendel/frameset.htm" because the popup is
+located on another server.</sentence>
+            <sentence id="2.3">This is correct and not an attempt to hijack the
+browser or something, but rather a technique used by lots of website owners who
+store their website on a free webhoster and own a domain with very limited storage.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">1 Open www.grendel-base.com with popup blocking enabled</sentence>
+            <sentence id="4.3">2 "Allow popups for "Allow popups for www.grendel-base.com"</sentence>
+            <sentence id="4.4">Actual Results:</sentence>
+            <sentence id="4.5">Nothing happens, no popup.</sentence>
+            <sentence id="4.6">Only way tt see the popup is to open it manually via "Show: http://www.industrialnation.nl/grendel/frameset.htm" and that everytime since it does not create a ruleset.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Expected Results:  
+Popup that was called FROM www.grendel-base.com should be opened as well as
+those STORED ON www.grendel-base.com and a ruleset should be created for this,
+since a user with no knowledge about servers and redirects will not know what
+went wrong and blame it on Firefox.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>338</id>
+    <title>Make is broken</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I was able to checkout the code install go and run make in the root directory to make the build a few days ago.</sentence>
+            <sentence id="1.2">Now when I run make in the root of the repo I get the error in [1].</sentence>
+            <sentence id="1.3">I believe this commit is the source of the problem:
+https://github.com/dotcloud/docker/commit/37a78902db9e968d307d0c0325612e8bef20bc69</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Am I doing it wrong?</sentence>
+            <sentence id="2.2">The build process is just checkout docker, install go if necessary, and then run make at the root of the repo?</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">[1]</sentence>
+            <sentence id="3.2"># _/home/[user]/git/docker/docker</sentence>
+            <sentence id="3.3">./docker.go:29: undefined: docker.GIT_COMMIT</sentence>
+            <sentence id="3.4">./docker.go:29: cannot assign to docker.GIT_COMMIT</sentence>
+            <sentence id="3.5"># _/home/[user]/git/docker/docker</sentence>
+            <sentence id="3.6">./docker.go:29: undefined: docker.GIT_COMMIT</sentence>
+            <sentence id="3.7">./docker.go:29: cannot assign to docker.GIT_COMMIT</sentence>
+            <sentence id="3.8">make: 1.json 10.json 101.json 102.json 103.json 104.json 105.json 106.json 107.json 108.json 109.json 11.json 110.json 111.json 112.json 113.json 114.json 115.json 116.json 117.json 118.json 119.json 12.json 120.json 121.json 122.json 123.json 124.json 125.json 126.json 127.json 128.json 129.json 13.json 130.json 131.json 132.json 133.json 134.json 135.json 136.json 137.json 138.json 139.json 14.json 140.json 141.json 142.json 143.json 144.json 145.json 146.json 147.json 148.json 149.json 15.json 150.json 151.json 152.json 153.json 154.json 155.json 156.json 157.json 158.json 159.json 16.json 160.json 161.json 162.json 163.json 164.json 165.json 166.json 167.json 168.json 169.json 17.json 170.json 171.json 172.json 173.json 174.json 175.json 176.json 177.json 178.json 179.json 18.json 180.json 181.json 182.json 183.json 184.json 185.json 186.json 187.json 188.json 189.json 19.json 190.json 191.json 192.json 193.json 194.json 195.json 196.json 197.json 198.json 199.json 2.json 20.json 200.json 201.json 202.json 203.json 204.json 205.json 206.json 207.json 208.json 209.json 21.json 210.json 211.json 212.json 213.json 214.json 215.json 216.json 217.json 218.json 219.json 22.json 220.json 221.json 222.json 223.json 224.json 225.json 226.json 227.json 228.json 229.json 23.json 230.json 231.json 232.json 233.json 234.json 235.json 236.json 237.json 238.json 239.json 24.json 240.json 241.json 242.json 243.json 244.json 245.json 246.json 247.json 248.json 249.json 25.json 250.json 251.json 252.json 253.json 254.json 255.json 256.json 257.json 258.json 259.json 26.json 260.json 261.json 262.json 263.json 264.json 265.json 266.json 267.json 268.json 269.json 27.json 270.json 271.json 272.json 273.json 274.json 275.json 276.json 277.json 278.json 279.json 28.json 280.json 281.json 282.json 283.json 284.json 285.json 286.json 287.json 288.json 289.json 29.json 290.json 291.json 292.json 293.json 294.json 295.json 296.json 297.json 298.json 299.json 3.json 30.json 300.json 301.json 302.json 303.json 304.json 305.json 306.json 307.json 308.json 309.json 31.json 310.json 311.json 312.json 313.json 314.json 315.json 316.json 317.json 318.json 319.json 32.json 320.json 321.json 322.json 323.json 324.json 325.json 326.json 327.json 328.json 329.json 33.json 330.json 331.json 332.json 333.json 334.json 335.json 336.json 337.json 338.json 34.json 35.json 36.json 37.json 38.json 39.json 4.json 40.json 41.json 42.json 43.json 44.json 45.json 46.json 47.json 48.json 5.json 6.json 7.json 8.json 9.json node_modules [/home/[user]/git/docker/bin/docker] Error 2</sentence>
+        </paragraph>
+    </description>
+</bug>

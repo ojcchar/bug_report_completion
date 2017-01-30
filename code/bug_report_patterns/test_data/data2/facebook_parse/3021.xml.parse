@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3021</id>
+    <title>admin_getMetrics() API call on new facebook</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The admin_getMetrics() API call fails on new facebook applications.</sentence>
+            <sentence id="1.2">For example_ the call:
+$result = $facebook-&gt;api_client-&gt;admin_getMetrics(1214031600_ 1214895600_ 604800_ array( active_users ));</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">works from old facebook.</sentence>
+            <sentence id="2.2">But on new facebook_ it yields an error about having an invalid metric parameter name (in this case active_users).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Using the FQL directly works fine.</sentence>
+        </paragraph>
+    </description>
+</bug>

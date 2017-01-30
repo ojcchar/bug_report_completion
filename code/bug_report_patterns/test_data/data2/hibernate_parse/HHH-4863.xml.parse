@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4863</id>
+    <title>Hibernate - ORA-01024: invalid datatype in OCI call</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi Hibernate,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I recently tried hibernate in Oracle 9i and use the same in Oracle 8i, however when I tried the same settings I am getting a ORA-01024: invalid datatype in OCI call.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Bellow are my hbm settings:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;class name="SimpleVO"  table="REGISTRATION"&gt;
+     &lt;id name="userId" type="string" column="USER_ID"  /&gt;   
+	 &lt;property name="userName" type="string" column="USER_NAME" /&gt;
+	 &lt;property name="regDate"  type="timestamp" column="REG_DATE" /&gt;
+  &lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Bellow is my VO class:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">import java.util.Date;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">public class SimpleVO {
+	private String userId;
+	private String userName;
+	private Date regDate;
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public Date getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Below is my client class:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">manifest = new ManifestVO();
+manifest.setUserId("01ABC");
+manifest.setUserName("test_user");	  				         
+manifest.setRegDate(new Date());
+Session session = HibernateManager.getSession();
+session.save(manifest);
+session.getTransaction().</sentence>
+            <sentence id="9.2">commit();
+HibernateManager.closeSession(session);</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Here is the field Type in My Oracle 8i:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Name:     Type:
+REG_DATE  DATE</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">The following settings works in Oracle 9i but not in Oracle 8i.</sentence>
+            <sentence id="12.2">I tried to set the hbm type to = java.util.Date but I get the same error.</sentence>
+            <sentence id="12.3">I also tried to set the hbm type to string but it inserts an empty string in the database for the date field.</sentence>
+            <sentence id="12.4">Please help as this limits my capability to use hibernate in ORACLE 8 platform.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Thank you.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Cordially,</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">Jan</sentence>
+        </paragraph>
+    </description>
+</bug>

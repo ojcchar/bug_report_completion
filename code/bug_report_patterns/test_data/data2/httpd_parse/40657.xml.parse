@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>40657</id>
+    <title>util_ldap_cache_mgr extra semicolon line 302</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">httpd-2.2.3/modules/ldap/util_ldap_cache_mgr.c:
+extra semicolon near line 302</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">for (i = 0; primes[i] &amp;&amp; primes[i] &lt; cache-&gt;size; ++i) ;
+            cache-&gt;size = primes[i]?</sentence>
+            <sentence id="2.2">primes[i] : primes[i-1];</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">should be:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">for (i = 0; primes[i] &amp;&amp; primes[i] &lt; cache-&gt;size; ++i)
+            cache-&gt;size = primes[i]?</sentence>
+            <sentence id="4.2">primes[i] : primes[i-1];</sentence>
+        </paragraph>
+    </description>
+</bug>

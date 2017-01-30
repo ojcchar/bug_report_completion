@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>45693</id>
+    <title>Long referer with reverse proxy runs in errors</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">we run on a solaris 10 machine an apache web server 2.2 (sorry, I don't know the last version, I've just an extract of the conf files).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">We have a portal and use the proxy module to pass and passreverse communication to other application servers.</sentence>
+            <sentence id="3.2">Also we are using a Single Sign On product, which forces a cookie refresh every 10 minutes.</sentence>
+            <sentence id="3.3">The refresh is very simple, the loaded sso module just calls the cookie provider, gets the cookie and redirects back to the origin URL.</sentence>
+            <sentence id="3.4">And here is the problem, the cookie provider URL is called with a very long session string.</sentence>
+            <sentence id="3.5">The URL is a little bit longer then 1400 chars.</sentence>
+            <sentence id="3.6">In the redirect back to the origin URL the referer contains this long URL.</sentence>
+            <sentence id="3.7">Now the browser presents an HTTP 502 error.</sentence>
+            <sentence id="3.8">The origin URL is a proxy URL, which is passing to one of the application servers.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here is our config:
+...
+SSLProxyEngine on
+...
+ProxyRequests Off
+&lt;Proxy *&gt;
+	Order	deny,allow
+	Allow	from all
+&lt;/Proxy&gt;
+ProxyPass        /folder/ http://server.test.net:8080/folder/
+ProxyPassReverse /folder/ http://server.test.net:8080/folder/
+...</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">You can rebuild the problem very easy, just set up an apache with proxy pass und pass reverse to e.g. www.google.de.</sentence>
+            <sentence id="5.2">Then use the firefox plugin "modify headers" and add a header named "Referer" with a long URL e.g. www.google.de/test1234567.......... If you try to access the proxy URL, a 502 will be produced.</sentence>
+            <sentence id="5.3">In our tests we have found a max.supported Referer length of 1060 chars.</sentence>
+            <sentence id="5.4">All longer URLs will produce the error.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">We have tried to use badheader directive, but without luck.</sentence>
+            <sentence id="6.2">Then we have used mod_headers and it worked.</sentence>
+            <sentence id="6.3">But this is just a workaround:
+# if referer contain www.google.de set variable
+SetEnvIf Referer "www\.</sentence>
+            <sentence id="6.4">google\.</sentence>
+            <sentence id="6.5">de" rewrite_true
+# if variable true, set new header with content https://www.google.de
+RequestHeader set Referer "https://www.google.de" env=rewrite_true</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">bye,
+Alex</sentence>
+        </paragraph>
+    </description>
+</bug>

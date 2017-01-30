@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8800</id>
+    <title>Hibernate 4.2.2 not validating entity upon insertion into its @OneToMany Collection</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">*Preconditions:*</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Create a parent entity with OneToMany association to its children:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Parent {
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "parent", fetch = FetchType.EAGER)
+    @Size(min = 0, max = 4)
+    List&lt;Child&gt; children = new ArrayList&lt;Child&gt;();</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">// invoke inside transaction 
+    public void addChild(Child child) {
+        child.setParent(this);
+        children.add(child);
+    }
+}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">*Reproduction steps:*</sentence>
+            <sentence id="5.2">Create a parent entity and try to add five children, one at a time.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">*Result:*</sentence>
+            <sentence id="6.2">All five children successfully created w/o throwing validation errors</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">*Expected result:*</sentence>
+            <sentence id="7.2">Validation error when adding the 5th child.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Additional notes:
+org/hibernate/event/internal/DefaultFlushEntityEventListener.</sentence>
+            <sentence id="8.2">java:isUpdateNecessary() method returns false for described above steps, but should return true since collection size is changing and this must be validated.</sentence>
+        </paragraph>
+    </description>
+</bug>

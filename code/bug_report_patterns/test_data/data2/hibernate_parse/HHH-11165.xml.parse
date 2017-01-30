@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-11165</id>
+    <title>HBM mapping: Customize unique key name for many-to-one with orphan-delete cascading fails</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Some background about this issue can be found in the Hibernate forum here:
+https://forum.hibernate.org/viewtopic.php?f=1&amp;t=1043689&amp;sid=333833f9c9690a36a4b468f5c32390c6</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The issue is that it's not possible with recent Hibernate 5.x versions to customize the unique key name on a many-to-one association with the unique-key attribute that has also a orphan delete cascading.</sentence>
+            <sentence id="2.2">(The upcoming attachment has a complete test case)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The following mapping ...
+{code:xml}
+&lt;many-to-one cascade="all-delete-orphan" entity-name="TestWorkflowItem" column="next_id" unique-key="uk_nextid" name="next" foreign-key="fk_testworkflowitem_workflowitem"/&gt;
+{code}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">...causes a mapping Exception:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">{code:java}</sentence>
+            <sentence id="5.2">org.hibernate.testing.junit4.CallbackException: org.hibernate.testing.junit4.BaseCoreFunctionalTestCase#buildSessionFactory</sentence>
+            <sentence id="5.3">        at org.hibernate.testing.junit4.TestClassMetadata.performCallbackInvocation(TestClassMetadata.java:203)</sentence>
+            <sentence id="5.4">        at org.hibernate.testing.junit4.TestClassMetadata.invokeCallback(TestClassMetadata.java:187)</sentence>
+            <sentence id="5.5">        at org.hibernate.testing.junit4.TestClassMetadata.performCallbacks(TestClassMetadata.java:181)</sentence>
+            <sentence id="5.6">        at org.hibernate.testing.junit4.TestClassMetadata.performBeforeClassCallbacks(TestClassMetadata.java:172)</sentence>
+            <sentence id="5.7">        at org.hibernate.testing.junit4.BeforeClassCallbackHandler.evaluate(BeforeClassCallbackHandler.java:25)</sentence>
+            <sentence id="5.8">        at org.hibernate.testing.junit4.AfterClassCallbackHandler.evaluate(AfterClassCallbackHandler.java:25)</sentence>
+            <sentence id="5.9">        at org.junit.runners.ParentRunner.run(ParentRunner.java:309)</sentence>
+            <sentence id="5.10">        at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)</sentence>
+            <sentence id="5.11">        at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)</sentence>
+            <sentence id="5.12">        at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)</sentence>
+            <sentence id="5.13">        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="5.14">        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="5.15">        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="5.16">        at java.lang.reflect.Method.invoke(Method.java:498)</sentence>
+            <sentence id="5.17">        at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)</sentence>
+            <sentence id="5.18">        at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)</sentence>
+            <sentence id="5.19">        at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)</sentence>
+            <sentence id="5.20">        at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)</sentence>
+            <sentence id="5.21">        at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)</sentence>
+            <sentence id="5.22">Caused by: org.hibernate.boot.MappingException: many-to-one attribute [TestWorkflowItem.next] specified delete-orphan but is not specified as unique; remove delete-orphan cascading or specify unique="true" : origin(org/hibernate/test/TestWorkflowItem</sentence>
+            <sentence id="5.23">.hbm.xml)</sentence>
+            <sentence id="5.24">        at org.hibernate.boot.model.source.internal.hbm.ModelBinder.createManyToOneAttribute(ModelBinder.java:2174)</sentence>
+            <sentence id="5.25">        at org.hibernate.boot.model.source.internal.hbm.ModelBinder.bindAllEntityAttributes(ModelBinder.java:1215)</sentence>
+            <sentence id="5.26">        at org.hibernate.boot.model.source.internal.hbm.ModelBinder.bindRootEntity(ModelBinder.java:264)</sentence>
+            <sentence id="5.27">        at org.hibernate.boot.model.source.internal.hbm.ModelBinder.bindEntityHierarchy(ModelBinder.java:184)</sentence>
+            <sentence id="5.28">        at org.hibernate.boot.model.source.internal.hbm.HbmMetadataSourceProcessorImpl.processEntityHierarchies(HbmMetadataSourceProcessorImpl.java:144)</sentence>
+            <sentence id="5.29">        at org.hibernate.boot.model.process.spi.MetadataBuildingProcess$1.processEntityHierarchies(MetadataBuildingProcess.java:218)</sentence>
+            <sentence id="5.30">        at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:265)</sentence>
+            <sentence id="5.31">        at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:83)</sentence>
+            <sentence id="5.32">        at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:418)</sentence>
+            <sentence id="5.33">        at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:87)</sentence>
+            <sentence id="5.34">        at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:692)</sentence>
+            <sentence id="5.35">        at org.hibernate.testing.junit4.BaseCoreFunctionalTestCase.buildSessionFactory(BaseCoreFunctionalTestCase.java:107)</sentence>
+            <sentence id="5.36">        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="5.37">        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="5.38">        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="5.39">        at java.lang.reflect.Method.invoke(Method.java:498)</sentence>
+            <sentence id="5.40">        at org.hibernate.testing.junit4.TestClassMetadata.performCallbackInvocation(TestClassMetadata.java:200)</sentence>
+            <sentence id="5.41">        ... 18 more</sentence>
+            <sentence id="5.42">{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">If the many-to-one mapping is changed to also include unique="true", the mapping exception goes away, but the specified unique key name "uk_nextid" is ignored and not used.</sentence>
+            <sentence id="6.2">Instead an auto-generated key name is used:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">{code:sql}
+alter table test_workflowitem add constraint UK_kewmkhh9wckso1vdmvph1l98p unique (next_id)
+{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

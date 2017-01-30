@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8034</id>
+    <title>undefined symbol: RSA_generate_key</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">(Note: This issue was posted to users@httpd.apache.org, but didn't receive any 
+responses.)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have been unable to get Apache 2.0.35's built-in mod_ssl to work.</sentence>
+            <sentence id="2.2">I've tried 
+building on Solaris 7 and 8 with the same results.</sentence>
+            <sentence id="2.3">I've tried building mod_ssl 
+both shared and staticly; both fail, but with different reasons, which I will 
+detail below.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">### SHARED</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">When I build a shared mod_ssl, I use the following configure:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">.</sentence>
+            <sentence id="5.2">/configure --prefix=/local/opt/apache2 \</sentence>
+            <sentence id="5.3">--enable-usertrack=shared \</sentence>
+            <sentence id="5.4">--enable-so \</sentence>
+            <sentence id="5.5">--with-mpm=worker \</sentence>
+            <sentence id="5.6">--disable-imap \</sentence>
+            <sentence id="5.7">--enable-cgid \</sentence>
+            <sentence id="5.8">--enable-ssl=shared \          # shared mod_ssl</sentence>
+            <sentence id="5.9">--with-ssl=/usr/local/ssl \    # OpenSSL 0.9.6b</sentence>
+            <sentence id="5.10">--enable-dav=shared \</sentence>
+            <sentence id="5.11">--enable-dav-fs=shared</sentence>
+            <sentence id="5.12">It builds and installs fine.</sentence>
+            <sentence id="5.13">When I start it in non-ssl mode, it also</sentence>
+            <sentence id="5.14">works fine.</sentence>
+            <sentence id="5.15">But when I try "apachectl startssl" I get the following output:</sentence>
+            <sentence id="5.16">Syntax error on line 220 of /local/opt/apache2/conf/httpd.</sentence>
+            <sentence id="5.17">conf:
+  Cannot load /local/opt/apache2/modules/mod_ssl.so into server: ld.so.1:
+/local/opt/apache2/bin/httpd: fatal: relocation error: file
+/local/opt/apache2/modules/mod_ssl.so: symbol X509_INFO_free: referenced
+symbol not found
+  .</sentence>
+            <sentence id="5.18">/apachectl startssl: httpd could not be started</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The syntax error it is complaining about is from the stock httpd.conf:</sentence>
+            <sentence id="6.2">LoadModule ssl_module modules/mod_ssl.so</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Running just 'apachectl start' works fine, but, of course, it doesn't serve
+SSL.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">### STATIC</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">So since that didn't work, I tried building a staticly-linked mod_ssl
+with the following configure:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">.</sentence>
+            <sentence id="10.2">/configure --prefix=/local/opt/apache2 \</sentence>
+            <sentence id="10.3">--enable-usertrack=shared \</sentence>
+            <sentence id="10.4">--enable-so \</sentence>
+            <sentence id="10.5">--with-mpm=worker \</sentence>
+            <sentence id="10.6">--disable-imap \</sentence>
+            <sentence id="10.7">--enable-cgid \</sentence>
+            <sentence id="10.8">--enable-ssl \                  # static</sentence>
+            <sentence id="10.9">--with-ssl=/usr/local/ssl \</sentence>
+            <sentence id="10.10">--enable-dav=shared \</sentence>
+            <sentence id="10.11">--enable-dav-fs=shared</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">This builds and installs fine.</sentence>
+            <sentence id="11.2">However, when I try to start using 
+'apachectl startssl' I simply get the following:</sentence>
+            <sentence id="11.3">Segmentation Fault
+  .</sentence>
+            <sentence id="11.4">/apachectl startssl: httpd could not be started</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">When I try a plain 'apachectl start' I get the following message in 
+the error_log:</sentence>
+            <sentence id="12.2">[error] mod_ssl: Init: Failed to generate temporary 512 bit RSA private
+key</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">I found this message in the mod_ssl FAQ which basically says you can fix it 
+using SSLRandomKey directives.</sentence>
+            <sentence id="13.2">However, the default ssl.conf already has these 
+lines:</sentence>
+            <sentence id="13.3">SSLRandomSeed startup builtin
+  SSLRandomSeed connect builtin</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Note that Apache 1.3.x with mod_ssl 2.8.4 and OpenSSL 0.9.6b on both the 
+Solaris 7 and 8 boxes works fine.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5465</id>
+    <title>HQL left join fetch of an element collection following a left join fetch of a one-to-one relationship causes NullPointerException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">HQL queries of the form 
+"from EntityA a left join fetch a.entityB b left join fetch b.items"
+fail with a NullPointerExeption when EntityA and EntityB have a one-to-one (@OneToOne) relationship and EntityB.items is an element collection (@ElementCollection, aka collection of values).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For comparison, the following HQL queries are all admissible (which intends to demonstrate that no particular clause of the the above HQL is incorrect):
+"from EntityB b left join fetch b.items"
+"from EntityA a left join fetch a.entityB"
+"from EntityA a left join fetch a.entityB.items"
+"from EntityA a left join fetch a.entityCs c left join fetch c.items" (where EntityA and EntityC have a one-to-many (@OneToMany) relationship, and EntityC.items is an element collection)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Test code is attached.</sentence>
+            <sentence id="3.2">The log output along with thrown exception is attached as log.txt.</sentence>
+        </paragraph>
+    </description>
+</bug>

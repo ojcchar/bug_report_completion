@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23181</id>
+    <title>java.rmi.server.ExportException: Listen failed on port: 1098; nested exception is: java.net.SocketException: Operation not permitted</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;!</sentence>
+            <sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+            <sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+            <sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+            <sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+            <sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------------------------------------------------</sentence>
+            <sentence id="4.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="4.3">---------------------------------------------------</sentence>
+            <sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="4.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+Client:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Tue Apr 26 23:43:49 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Server:
+ Version: 1.11.1
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: 5604cbe
+ Built: Tue Apr 26 23:43:49 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+Containers: 58
+ Running: 1
+ Paused: 0
+ Stopped: 57
+Images: 137
+Server Version: 1.11.1
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 242
+ Dirperm1 Supported: true
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins: 
+ Volume: local
+ Network: bridge null host
+Kernel Version: 4.4.0-22-generic
+Operating System: Ubuntu 16.04 LTS
+OSType: linux
+Architecture: x86_64
+CPUs: 8
+Total Memory: 15.63 GiB
+Name: TOQUELAU
+ID: DSMI:554H:O6A7:KYIW:BDBR:MMUL:PRZB:QQEU:3BZQ:DWJZ:V77U:I3EZ
+Docker Root Dir: /var/lib/docker
+Debug mode (client): false
+Debug mode (server): false
+Registry: https://index.docker.io/v1/
+WARNING: No swap limit support</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">AWS, VirtualBox</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="13.2">1 Using image centos:7</sentence>
+            <sentence id="13.3">2 Install jboss 4.2.3-jdk6</sentence>
+            <sentence id="13.4">3 Install suport 32 bit lib with "yum install glibc.i686"</sentence>
+            <sentence id="13.5">4 Install jdk1.8.0_51 64bit</sentence>
+            <sentence id="13.6">5 Configure JAVA_HOME and PATH with JAVA_HOME/bin</sentence>
+            <sentence id="13.7">6 Run command /jboss-4.2.3.</sentence>
+            <sentence id="13.8">GA/bin/run.</sentence>
+            <sentence id="13.9">sh -b 0.0.0.0 -c minimal</sentence>
+            <sentence id="13.10"># **Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">JBoss Bootstrap Environment</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">JBOSS_HOME: /jboss-4.2.3.</sentence>
+            <sentence id="15.2">GA</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">JAVA: /jdk1.8.0_51/bin/java</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">JAVA_OPTS: -Dprogram.name=run.sh -server -Xms128m -Xmx512m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.net.preferIPv4Stack=true</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">CLASSPATH: /jboss-4.2.3.</sentence>
+            <sentence id="18.2">GA/bin/run.</sentence>
+            <sentence id="18.3">jar:/jdk1.8.0_51/lib/tools.</sentence>
+            <sentence id="18.4">jar
+#</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">23:38:21,476 INFO [Server] Starting JBoss (MX MicroKernel)...</sentence>
+            <sentence id="19.2">23:38:21,477 INFO [Server] Release ID: JBoss [Trinity] 4.2.3.GA (build: SVNTag=JBoss_4_2_3_GA date=200807181439)</sentence>
+            <sentence id="19.3">23:38:21,477 INFO [Server] Home Dir: /jboss-4.2.3.GA</sentence>
+            <sentence id="19.4">23:38:21,477 INFO [Server] Home URL: file:/jboss-4.2.3.GA/</sentence>
+            <sentence id="19.5">23:38:21,478 INFO [Server] Patch URL: null</sentence>
+            <sentence id="19.6">23:38:21,478 INFO [Server] Server Name: minimal</sentence>
+            <sentence id="19.7">23:38:21,478 INFO [Server] Server Home Dir: /jboss-4.2.3.GA/server/minimal</sentence>
+            <sentence id="19.8">23:38:21,478 INFO [Server] Server Home URL: file:/jboss-4.2.3.GA/server/minimal/</sentence>
+            <sentence id="19.9">23:38:21,478 INFO [Server] Server Log Dir: /jboss-4.2.3.GA/server/minimal/log</sentence>
+            <sentence id="19.10">23:38:21,478 INFO [Server] Server Temp Dir: /jboss-4.2.3.GA/server/minimal/tmp</sentence>
+            <sentence id="19.11">23:38:21,478 INFO [Server] Root Deployment Filename: jboss-service.xml</sentence>
+            <sentence id="19.12">23:38:21,595 INFO [ServerInfo] Java version: 1.8.0_51,Oracle Corporation</sentence>
+            <sentence id="19.13">23:38:21,596 INFO [ServerInfo] Java VM: Java HotSpot(TM) Server VM 25.51-b03,Oracle Corporation</sentence>
+            <sentence id="19.14">23:38:21,596 INFO [ServerInfo] OS-System: Linux 4.4.0-22-generic,i386</sentence>
+            <sentence id="19.15">23:38:21,676 INFO [Server] Core system initialized</sentence>
+            <sentence id="19.16">23:38:21,834 INFO [Log4jService$URLWatchTimerTask] Configuring from URL: resource:jboss-log4j.xml</sentence>
+            <sentence id="19.17">23:38:21,890 WARN [ServiceController] Problem starting service jboss:service=Naming</sentence>
+            <sentence id="19.18">java.rmi.server.ExportException: Listen failed on port: 1098; nested exception is: </sentence>
+            <sentence id="19.19"> java.net.SocketException: Operation not permitted</sentence>
+            <sentence id="19.20"> at sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:343)</sentence>
+            <sentence id="19.21"> at sun.rmi.transport.tcp.TCPTransport.exportObject(TCPTransport.java:249)</sentence>
+            <sentence id="19.22"> at sun.rmi.transport.tcp.TCPEndpoint.exportObject(TCPEndpoint.java:411)</sentence>
+            <sentence id="19.23"> at sun.rmi.transport.LiveRef.exportObject(LiveRef.java:147)</sentence>
+            <sentence id="19.24"> at sun.rmi.server.UnicastServerRef.exportObject(UnicastServerRef.java:208)</sentence>
+            <sentence id="19.25"> at java.rmi.server.UnicastRemoteObject.exportObject(UnicastRemoteObject.java:383)</sentence>
+            <sentence id="19.26"> at java.rmi.server.UnicastRemoteObject.exportObject(UnicastRemoteObject.java:346)</sentence>
+            <sentence id="19.27"> at org.jnp.server.Main.initJnpInvoker(Main.java:354)</sentence>
+            <sentence id="19.28"> at org.jnp.server.Main.start(Main.java:316)</sentence>
+            <sentence id="19.29"> at org.jboss.naming.NamingService.startService(NamingService.java:284)</sentence>
+            <sentence id="19.30"> at org.jboss.system.ServiceMBeanSupport.jbossInternalStart(ServiceMBeanSupport.java:289)</sentence>
+            <sentence id="19.31"> at org.jboss.system.ServiceMBeanSupport.jbossInternalLifecycle(ServiceMBeanSupport.java:245)</sentence>
+            <sentence id="19.32"> at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="19.33"> at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="19.34"> at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="19.35"> at java.lang.reflect.Method.invoke(Method.java:497)</sentence>
+            <sentence id="19.36"> at org.jboss.mx.interceptor.ReflectedDispatcher.invoke(ReflectedDispatcher.java:155)</sentence>
+            <sentence id="19.37"> at org.jboss.mx.server.Invocation.dispatch(Invocation.java:94)</sentence>
+            <sentence id="19.38"> at org.jboss.mx.interceptor.AbstractInterceptor.invoke(AbstractInterceptor.java:133)</sentence>
+            <sentence id="19.39"> at org.jboss.mx.server.Invocation.invoke(Invocation.java:88)</sentence>
+            <sentence id="19.40"> at org.jboss.mx.interceptor.ModelMBeanOperationInterceptor.invoke(ModelMBeanOperationInterceptor.java:142)</sentence>
+            <sentence id="19.41"> at org.jboss.mx.server.Invocation.invoke(Invocation.java:88)</sentence>
+            <sentence id="19.42"> at org.jboss.mx.server.AbstractMBeanInvoker.invoke(AbstractMBeanInvoker.java:264)</sentence>
+            <sentence id="19.43"> at org.jboss.mx.server.MBeanServerImpl.invoke(MBeanServerImpl.java:659)</sentence>
+            <sentence id="19.44"> at org.jboss.system.ServiceController$ServiceProxy.invoke(ServiceController.java:978)</sentence>
+            <sentence id="19.45"> at com.sun.proxy.$Proxy0.start(Unknown Source)</sentence>
+            <sentence id="19.46"> at org.jboss.system.ServiceController.start(ServiceController.java:417)</sentence>
+            <sentence id="19.47"> at org.jboss.system.ServiceController.start(ServiceController.java:435)</sentence>
+            <sentence id="19.48"> at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="19.49"> at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="19.50"> at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="19.51"> at java.lang.reflect.Method.invoke(Method.java:497)</sentence>
+            <sentence id="19.52"> at org.jboss.mx.interceptor.ReflectedDispatcher.invoke(ReflectedDispatcher.java:155)</sentence>
+            <sentence id="19.53"> at org.jboss.mx.server.Invocation.dispatch(Invocation.java:94)</sentence>
+            <sentence id="19.54"> at org.jboss.mx.server.Invocation.invoke(Invocation.java:86)</sentence>
+            <sentence id="19.55"> at org.jboss.mx.server.AbstractMBeanInvoker.invoke(AbstractMBeanInvoker.java:264)</sentence>
+            <sentence id="19.56"> at org.jboss.mx.server.MBeanServerImpl.invoke(MBeanServerImpl.java:659)</sentence>
+            <sentence id="19.57"> at org.jboss.mx.util.MBeanProxyExt.invoke(MBeanProxyExt.java:210)</sentence>
+            <sentence id="19.58"> at com.sun.proxy.$Proxy4.start(Unknown Source)</sentence>
+            <sentence id="19.59"> at org.jboss.deployment.SARDeployer.start(SARDeployer.java:304)</sentence>
+            <sentence id="19.60"> at org.jboss.deployment.MainDeployer.start(MainDeployer.java:1025)</sentence>
+            <sentence id="19.61"> at org.jboss.deployment.MainDeployer.deploy(MainDeployer.java:819)</sentence>
+            <sentence id="19.62"> at org.jboss.deployment.MainDeployer.deploy(MainDeployer.java:782)</sentence>
+            <sentence id="19.63"> at org.jboss.deployment.MainDeployer.deploy(MainDeployer.java:766)</sentence>
+            <sentence id="19.64"> at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="19.65"> at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="19.66"> at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="19.67"> at java.lang.reflect.Method.invoke(Method.java:497)</sentence>
+            <sentence id="19.68"> at org.jboss.mx.interceptor.ReflectedDispatcher.invoke(ReflectedDispatcher.java:155)</sentence>
+            <sentence id="19.69"> at org.jboss.mx.server.Invocation.dispatch(Invocation.java:94)</sentence>
+            <sentence id="19.70"> at org.jboss.mx.server.Invocation.invoke(Invocation.java:86)</sentence>
+            <sentence id="19.71"> at org.jboss.mx.server.AbstractMBeanInvoker.invoke(AbstractMBeanInvoker.java:264)</sentence>
+            <sentence id="19.72"> at org.jboss.mx.server.MBeanServerImpl.invoke(MBeanServerImpl.java:659)</sentence>
+            <sentence id="19.73"> at org.jboss.mx.util.MBeanProxyExt.invoke(MBeanProxyExt.java:210)</sentence>
+            <sentence id="19.74"> at com.sun.proxy.$Proxy5.deploy(Unknown Source)</sentence>
+            <sentence id="19.75"> at org.jboss.system.server.ServerImpl.doStart(ServerImpl.java:482)</sentence>
+            <sentence id="19.76"> at org.jboss.system.server.ServerImpl.start(ServerImpl.java:362)</sentence>
+            <sentence id="19.77"> at org.jboss.Main.boot(Main.java:200)</sentence>
+            <sentence id="19.78"> at org.jboss.Main$1.run(Main.java:508)</sentence>
+            <sentence id="19.79"> at java.lang.Thread.run(Thread.java:745)</sentence>
+            <sentence id="19.80">Caused by: java.net.SocketException: Operation not permitted</sentence>
+            <sentence id="19.81"> at java.net.ServerSocket.createImpl(ServerSocket.java:307)</sentence>
+            <sentence id="19.82"> at java.net.ServerSocket.getImpl(ServerSocket.java:257)</sentence>
+            <sentence id="19.83"> at java.net.ServerSocket.bind(ServerSocket.java:375)</sentence>
+            <sentence id="19.84"> at java.net.ServerSocket.&lt;init&gt;(ServerSocket.java:237)</sentence>
+            <sentence id="19.85"> at org.jboss.net.sockets.DefaultSocketFactory.createServerSocket(DefaultSocketFactory.java:120)</sentence>
+            <sentence id="19.86"> at org.jboss.net.sockets.DefaultSocketFactory.createServerSocket(DefaultSocketFactory.java:95)</sentence>
+            <sentence id="19.87"> at sun.rmi.transport.tcp.TCPEndpoint.newServerSocket(TCPEndpoint.java:666)</sentence>
+            <sentence id="19.88"> at sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:330)</sentence>
+            <sentence id="19.89"> ... 59 more</sentence>
+            <sentence id="19.90">23:38:21,892 ERROR [Server] Root deployment has missing dependencies; continuing</sentence>
+            <sentence id="19.91">Incomplete Deployment listing:</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">--- MBeans waiting for other MBeans ---</sentence>
+            <sentence id="20.2">ObjectName: jboss:service=Naming</sentence>
+            <sentence id="20.3">State: FAILED</sentence>
+            <sentence id="20.4">Reason: java.rmi.server.ExportException: Listen failed on port: 1098; nested exception is:</sentence>
+            <sentence id="20.5">java.net.SocketException: Operation not permitted</sentence>
+            <sentence id="20.6">I Depend On:</sentence>
+            <sentence id="20.7">jboss.system:service=ThreadPool</sentence>
+            <sentence id="20.8">jboss:service=NamingBeanImpl</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">--- MBEANS THAT ARE THE ROOT CAUSE OF THE PROBLEM ---</sentence>
+            <sentence id="21.2">ObjectName: jboss:service=Naming</sentence>
+            <sentence id="21.3">State: FAILED</sentence>
+            <sentence id="21.4">Reason: java.rmi.server.ExportException: Listen failed on port: 1098; nested exception is:</sentence>
+            <sentence id="21.5">java.net.SocketException: Operation not permitted</sentence>
+            <sentence id="21.6">I Depend On:</sentence>
+            <sentence id="21.7">jboss.system:service=ThreadPool</sentence>
+            <sentence id="21.8">jboss:service=NamingBeanImpl</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">"'</sentence>
+            <sentence id="22.2">at org.jboss.deployment.MainDeployer.checkIncompleteDeployments(MainDeployer.java:1385)</sentence>
+            <sentence id="22.3">at org.jboss.deployment.MainDeployer.deploy(MainDeployer.java:785)</sentence>
+            <sentence id="22.4">at org.jboss.deployment.MainDeployer.deploy(MainDeployer.java:766)</sentence>
+            <sentence id="22.5">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="22.6">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</sentence>
+            <sentence id="22.7">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="22.8">at java.lang.reflect.Method.invoke(Method.java:497)</sentence>
+            <sentence id="22.9">at org.jboss.mx.interceptor.ReflectedDispatcher.invoke(ReflectedDispatcher.java:155)</sentence>
+            <sentence id="22.10">at org.jboss.mx.server.Invocation.dispatch(Invocation.java:94)</sentence>
+            <sentence id="22.11">at org.jboss.mx.server.Invocation.invoke(Invocation.java:86)</sentence>
+            <sentence id="22.12">at org.jboss.mx.server.AbstractMBeanInvoker.invoke(AbstractMBeanInvoker.java:264)</sentence>
+            <sentence id="22.13">at org.jboss.mx.server.MBeanServerImpl.invoke(MBeanServerImpl.java:659)</sentence>
+            <sentence id="22.14">at org.jboss.mx.util.MBeanProxyExt.invoke(MBeanProxyExt.java:210)</sentence>
+            <sentence id="22.15">at com.sun.proxy.$Proxy5.deploy(Unknown Source)</sentence>
+            <sentence id="22.16">at org.jboss.system.server.ServerImpl.doStart(ServerImpl.java:482)</sentence>
+            <sentence id="22.17">at org.jboss.system.server.ServerImpl.start(ServerImpl.java:362)</sentence>
+            <sentence id="22.18">at org.jboss.Main.boot(Main.java:200)</sentence>
+            <sentence id="22.19">at org.jboss.Main$1.run(Main.java:508)</sentence>
+            <sentence id="22.20">at java.lang.Thread.run(Thread.java:745)</sentence>
+            <sentence id="22.21">"'</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">23:38:21,894 INFO [Server] JBoss (MX MicroKernel) [4.2.3.</sentence>
+            <sentence id="23.2">GA (build: SVNTag=JBoss_4_2_3_GA date=200807181439)] Started in 415ms</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">**Describe the results you expected:**</sentence>
+            <sentence id="24.2">Not happen:</sentence>
+            <sentence id="24.3">23:38:21,890 WARN [ServiceController] Problem starting service jboss:service=Naming</sentence>
+            <sentence id="24.4">java.rmi.server.ExportException: Listen failed on port: 1098; nested exception is: </sentence>
+            <sentence id="24.5">java.net.SocketException: Operation not permitted</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+    </description>
+</bug>

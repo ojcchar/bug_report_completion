@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20101</id>
+    <title>Docker embedded dns seems to ignore --dns</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">docker version:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client:
+ Version: 1.10.0
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: 590d5108
+ Built: Thu Feb 4 18:36:33 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.10.0
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: 590d5108
+ Built: Thu Feb 4 18:36:33 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">docker info:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+Containers: 5
+ Running: 0
+ Paused: 0
+ Stopped: 5
+Images: 343
+Server Version: 1.10.0
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 355
+ Dirperm1 Supported: false
+Execution Driver: native-0.2
+Logging Driver: json-file
+Plugins: 
+ Volume: local
+ Network: bridge null host
+Kernel Version: 3.13.0-71-generic
+Operating System: Ubuntu 14.04.3 LTS
+OSType: linux
+Architecture: x86_64
+CPUs: 4
+Total Memory: 15.58 GiB
+Name: myhostname
+ID: BCKZ:2QNT:KCIO:3N4A:662P:P64V:7K4C:FP2X:4WZ3:2WFX:YFJZ:UKON
+WARNING: No swap limit support
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Environment:
+Physical machine</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">My resolv.conf file</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+nameserver 127.0.1.1
+search mycompany.se
+"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I am sitting behind a corporate network and my machine has 127.0.0.1 in the resolv.conf therefore I need to configure the dns manually.</sentence>
+            <sentence id="9.2">Up until now I have just set --dns in the DOCKER_OPTS daemon configuration (/etc/default/docker) and this works just fine when using the legacy bridge network however I noticed that when I try to use a user-created network, it does not work, even though I have set the --dns in the daemon configuration</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'
+root@883f9af11cfa:/# ping www.google.com
+ping: unknown host www.google.com
+"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">I cannot find any information regarding how to configure the embedded dns other than calling --dns flag when running "docker run" and that did not help eithert when I tried.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Am I missing something regarding how to use user-specific networks in such a setup?</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">I am able to ping the dns server without any problems</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"'
+root@883f9af11cfa:/# ping 127.0.0.11
+PING 127.0.0.11 (127.0.0.11) 56(84) bytes of data.
+64 bytes from 127.0.0.11: icmp_seq=1 ttl=64 time=0.076 ms
+64 bytes from 127.0.0.11: icmp_seq=2 ttl=64 time=0.070 ms
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

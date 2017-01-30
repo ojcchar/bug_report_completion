@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>51071</id>
+    <title>FILESAVE: CSV form .odt should be an export, not a save-as target</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Problem description:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">As soon as there is more than 1 table in the spreadsheet, the CSV save-as target becomes very error-prone.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Steps to reproduce:</sentence>
+            <sentence id="3.2">1 Create new spreadsheet test.ods</sentence>
+            <sentence id="3.3">2 Create a table table1 with content A1=ABC</sentence>
+            <sentence id="3.4">3 Create another table table2 with content A1=123</sentence>
+            <sentence id="3.5">4 Open table2</sentence>
+            <sentence id="3.6">5 Save as test.csv</sentence>
+            <sentence id="3.7">6 Warning is shown that only the current table *was* saved</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Current behavior: Only the currently opened table is saved, whenever "Save" is chosen.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Expected behavior: There should be an error message on each save, saying that only the current table was saved.</sentence>
+            <sentence id="5.2">Better would be to prevent the "save as csv" option altogether and add an "export to csv" option.</sentence>
+            <sentence id="5.3">The current implementation makes losing data very easy, because users might expect all tables to be saved.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Platform (if different from the browser): Ubuntu 12.04
+              
+Browser: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.19 (KHTML, like Gecko) Ubuntu/12.04 Chromium/18.0.1025.151 Chrome/18.0.1025.151 Safari/535.19</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>106554</id>
+    <title>Problem in staticinitialization with pertypewithin aspect</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Here is a small test case that illustrates the problem I'm seeing with the 
+AspectJ in CVS HEAD (it also affects 1.5.0 M2):</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The program should output 1 but it outputs null instead.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">public aspect AspectStatic {
+    public interface Iface {
+    }</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">private static Class[] managedInterfaces = { Iface.class };
+    private static Object assembler = initAssembler();
+    private static Object initAssembler() {
+            return new Integer(1);
+    }</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">public static void main(String args[]) {
+        System.out.println("test = "+assembler);
+    }
+}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">aspect StopsInit pertypewithin(AspectStatic) {
+    before() : staticinitialization(*) {
+    }
+}</sentence>
+        </paragraph>
+    </description>
+</bug>

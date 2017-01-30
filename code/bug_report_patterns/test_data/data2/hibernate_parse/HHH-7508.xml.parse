@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7508</id>
+    <title>Debug logging throws MissingFormatArgumentException when using non standard Optimizer</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In line 102 of OptimizerFactory.java, the following causes a MissingFormatArgumentException because the s% to be replaced by a String.format in a logger has no arguments.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">LOG.debugf( "Unknown optimizer key [%s]; returning null assuming Optimizer impl class name" );</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Solve it by removing the [%s].</sentence>
+        </paragraph>
+    </description>
+</bug>

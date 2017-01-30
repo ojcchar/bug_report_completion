@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1923</id>
+    <title>PatientServiceImpl.saveCauseOfDeathObs needs to provide a change message when updating the cause of death obs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The saveCauseOfDeathObs method needs to specify a change message when updating the cause of death obs.</sentence>
+            <sentence id="1.2">Otherwise, you get the following error:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">An Internal Error has Occurred
+org.openmrs.api.APIException</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">ChangeMessage is required when updating an obs in the database</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This occurs, for example, if you try to call "processDeath" on the same patient twice.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This is very similar to TRUNK-1871</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9445</id>
+    <title>JPA 2.1 ConstructorResult Causing ClassCastException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Problem: Using a join in a constructor result, the DTO class is being cast by hibernate to be java.lang.Object</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">i.e. java.lang.ClassCastException: [Ljava.lang.Object; cannot be cast to com...presentation.article.CommentInfoListItemDTO</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The code/classes driving this are attached.</sentence>
+            <sentence id="3.2">Also the question is well stated on Stack Overflow... but I really think this is a bug, so am opening an issue.</sentence>
+            <sentence id="3.3">The link to the SO question is listed below.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">From the driver file (a JSF Managed Bean) I am calling the code like so:
+// Instance variables
+    CommentInfoListFacade commentInfoListFacade;
+    List&lt;CommentInfoListItemDTO&gt; commentInfoList;
+// Inside a @PostConstruct init method
+    @PostConstruct
+    public void init() {
+        commentInfoList = commentInfoListFacade.getCommentTitleListByPersonId(personId);
+    }</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Please see the issue on Stack Overflow.</sentence>
+            <sentence id="5.2">I asked the question, but I really think this is more than likely a bug.</sentence>
+            <sentence id="5.3">It explains the issue well, with code examples.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">http://stackoverflow.com/questions/26375565/jpa-2-1-constructorresult-causing-classcastexception</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Stacktrace, create table, table insert, and source code attached.</sentence>
+        </paragraph>
+    </description>
+</bug>

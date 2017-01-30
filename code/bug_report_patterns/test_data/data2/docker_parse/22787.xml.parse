@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22787</id>
+    <title>userland proxy: can map only about 75 ports, then crash</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client:
+ Version: 1.12.0-dev
+ API version: 1.24
+ Go version: go1.6.2
+ Git commit: 4c68381
+ Built: Tue May 17 13:15:34 2016
+ OS/Arch: linux/amd64
+ Experimental: true</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.12.0-dev
+ API version: 1.24
+ Go version: go1.6.2
+ Git commit: 4c68381
+ Built: Tue May 17 13:15:34 2016
+ OS/Arch: linux/amd64
+ Experimental: true
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'</sentence>
+            <sentence id="5.2">Containers: 9</sentence>
+            <sentence id="5.3"> Running: 0</sentence>
+            <sentence id="5.4"> Paused: 0</sentence>
+            <sentence id="5.5"> Stopped: 9</sentence>
+            <sentence id="5.6">Images: 156</sentence>
+            <sentence id="5.7">Server Version: 1.12.0-dev</sentence>
+            <sentence id="5.8">Storage Driver: overlay</sentence>
+            <sentence id="5.9"> Backing Filesystem: extfs</sentence>
+            <sentence id="5.10">Logging Driver: journald</sentence>
+            <sentence id="5.11">Cgroup Driver: systemd</sentence>
+            <sentence id="5.12">Plugins: </sentence>
+            <sentence id="5.13"> Volume: local</sentence>
+            <sentence id="5.14"> Network: bridge null host</sentence>
+            <sentence id="5.15">Kernel Version: 4.5.4-300.fc24.x86_64</sentence>
+            <sentence id="5.16">Operating System: Fedora 24 (Workstation Edition)</sentence>
+            <sentence id="5.17">OSType: linux</sentence>
+            <sentence id="5.18">Architecture: x86_64</sentence>
+            <sentence id="5.19">CPUs: 4</sentence>
+            <sentence id="5.20">Total Memory: 11.44 GiB</sentence>
+            <sentence id="5.21">Name: localhost.localdomain</sentence>
+            <sentence id="5.22">ID: JQDM:ZDU3:BYSR:SIMJ:QGDH:GBGW:MF7Q:VYLQ:UYFD:W5KY:H4WG:PIMF</sentence>
+            <sentence id="5.23">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="5.24">Debug Mode (client): false</sentence>
+            <sentence id="5.25">Debug Mode (server): true</sentence>
+            <sentence id="5.26"> File Descriptors: 13</sentence>
+            <sentence id="5.27"> Goroutines: 25</sentence>
+            <sentence id="5.28"> System Time: 2016-05-17T13:16:47.266675081+02:00</sentence>
+            <sentence id="5.29"> EventsListeners: 0</sentence>
+            <sentence id="5.30">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="5.31">Experimental: true</sentence>
+            <sentence id="5.32">Insecure Registries:</sentence>
+            <sentence id="5.33"> localhost</sentence>
+            <sentence id="5.34"> 127.0.0.0/8</sentence>
+            <sentence id="5.35">"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="6.2">physical</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 'docker run -d -p 3800-3900:3800-3900 busybox'</sentence>
+            <sentence id="7.3">2</sentence>
+            <sentence id="7.4">3</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+$ docker run -d -p 3800-3900:3800-3900 busybox
+b72fac23d8d206685af20c2b3347ee204f984af31d7b4668ecb90c04a0f3bd5e
+docker: Error response from daemon: driver failed programming external connectivity on endpoint agitated_yonath (c5d43f54b8cb043ffd0228cd7085e39c74fcd4cb63a907f507701819a57c7bf5): Error starting userland proxy:.
+"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">daemon logs:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'</sentence>
+            <sentence id="11.2">[...]</sentence>
+            <sentence id="11.3">May 17 13:18:41 localhost.localdomain docker[8260]: time="2016-05-17T13:18:41.781922490+02:00" level=debug msg="Firewalld passthrough: ipv4, [-t filter -D DOCKER ! -i docker0 -o docker0 -p tcp -d 172.17.0.2 --dport 3825 -j ACCEPT]"</sentence>
+            <sentence id="11.4">May 17 13:18:41 localhost.localdomain docker[8260]: time="2016-05-17T13:18:41.786532455+02:00" level=debug msg="Firewalld passthrough: ipv4, [-t nat -D POSTROUTING -p tcp -s 172.17.0.2 -d 172.17.0.2 --dport 3825 -j MASQUERADE]"</sentence>
+            <sentence id="11.5">May 17 13:18:42 localhost.localdomain docker[8260]: time="2016-05-17T13:18:42.793004819+02:00" level=debug msg="Firewalld passthrough: ipv4, [-t nat -D DOCKER -p tcp -d 0/0 --dport 3824 -j DNAT --to-destination 172.17.0.2:3824 ! -i docker0]"</sentence>
+            <sentence id="11.6">May 17 13:18:42 localhost.localdomain docker[8260]: time="2016-05-17T13:18:42.797841695+02:00" level=debug msg="Firewalld passthrough: ipv4, [-t filter -D DOCKER ! -i docker0 -o docker0 -p tcp -d 172.17.0.2 --dport 3824 -j ACCEPT]"</sentence>
+            <sentence id="11.7">May 17 13:18:42 localhost.localdomain docker[8260]: time="2016-05-17T13:18:42.802873216+02:00" level=debug msg="Firewalld passthrough: ipv4, [-t nat -D POSTROUTING -p tcp -s 172.17.0.2 -d 172.17.0.2 --dport 3824 -j MASQUERADE]"</sentence>
+            <sentence id="11.8">May 17 13:18:42 localhost.localdomain docker[8260]: time="2016-05-17T13:18:42.838669820+02:00" level=debug msg="Releasing addresses for endpoint agitated_yonath's interface on network bridge"</sentence>
+            <sentence id="11.9">May 17 13:18:42 localhost.localdomain docker[8260]: time="2016-05-17T13:18:42.838775023+02:00" level=debug msg="ReleaseAddress(LocalDefault/172.17.0.0/16, 172.17.0.2)"</sentence>
+            <sentence id="11.10">May 17 13:18:42 localhost.localdomain docker[8260]: time="2016-05-17T13:18:42.862952769+02:00" level=error msg="Handler for POST /v1.24/containers/b72fac23d8d206685af20c2b3347ee204f984af31d7b4668ecb90c04a0f3bd5e/start returned error: driver failed programming external connectivity on endpoint agitated_yonath (c5d43f54b8cb043ffd0228cd7085e39c74fcd4cb63a907f507701819a57c7bf5): Error starting userland proxy: "</sentence>
+            <sentence id="11.11">"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Describe the results you expected:**</sentence>
+            <sentence id="12.2">container starts fine</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="13.2">It often fails on 75 ports, or such as this case at 76.</sentence>
+            <sentence id="13.3">Also, after running this tests at least 7-8 times I get:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"'
+/proc/self/exe: Resource temporary unavailable
+"'</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">/cc @mavenugo @aboch @jeremyeder</sentence>
+        </paragraph>
+    </description>
+</bug>

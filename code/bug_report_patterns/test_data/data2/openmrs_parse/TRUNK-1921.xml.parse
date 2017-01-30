@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1921</id>
+    <title>JTDS JDBC Driver not supported</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">(Reported anonymously through the ERR project)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The JTDS JDBC driver, found here: http://jtds.sourceforge.net/ is not supported by OpenMRS as the DatabaseUtil class assumes that if the connectionURL contains "sqlserver" that you are using the microsoft drivers.</sentence>
+            <sentence id="2.2">The fix is trivial, the loadDatabaseDriver method simply needs to add this check just before the check for "sqlserver".</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">else if (connectionUrl.contains("jtds"))
+    Class.forName("net.sourceforge.jtds.jdbc.Driver");</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7236</id>
+    <title>Natural-id : NullPointerException after persisting null String value, if using @NaturalIdCache</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Following new matrix testmethod</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code:title=org.hibernate.test.naturalid.mutable.cached.CachedMutableNaturalIdTest.java|borderStyle=solid}
+        @Test
+	public void testNaturalIdPersistNullValue() {
+		Session session = openSession();
+		session.beginTransaction();
+		Another it = new Another();
+		it.setName(null);
+		session.save( it );
+		session.getTransaction().</sentence>
+            <sentence id="2.2">commit(); // throws NPE
+		session.close();
+	}
+{code}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">raises:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">java.lang.NullPointerException</sentence>
+            <sentence id="4.2">	at org.hibernate.type.descriptor.java.AbstractTypeDescriptor.extractHashCode(AbstractTypeDescriptor.java:88)</sentence>
+            <sentence id="4.3">	at org.hibernate.type.AbstractStandardBasicType.getHashCode(AbstractStandardBasicType.java:201)</sentence>
+            <sentence id="4.4">	at org.hibernate.type.AbstractStandardBasicType.getHashCode(AbstractStandardBasicType.java:205)</sentence>
+            <sentence id="4.5">	at org.hibernate.cache.spi.NaturalIdCacheKey.&lt;init&gt;(NaturalIdCacheKey.java:79)</sentence>
+            <sentence id="4.6">	at org.hibernate.engine.internal.StatefulPersistenceContext$1.managedSharedCacheEntries(StatefulPersistenceContext.java:1801)</sentence>
+            <sentence id="4.7">	at org.hibernate.engine.internal.StatefulPersistenceContext$1.manageSharedNaturalIdCrossReference(StatefulPersistenceContext.java:1792)</sentence>
+            <sentence id="4.8">	at org.hibernate.action.internal.AbstractEntityInsertAction.handleNaturalIdPostSaveNotifications(AbstractEntityInsertAction.java:198)</sentence>
+            <sentence id="4.9">	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:130)</sentence>
+            <sentence id="4.10">	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:362)</sentence>
+            <sentence id="4.11">	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:354)</sentence>
+            <sentence id="4.12">	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:275)</sentence>
+            <sentence id="4.13">	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:326)</sentence>
+            <sentence id="4.14">	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:52)</sentence>
+            <sentence id="4.15">	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1181)</sentence>
+            <sentence id="4.16">	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:379)</sentence>
+            <sentence id="4.17">	at org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction.beforeTransactionCommit(JdbcTransaction.java:101)</sentence>
+            <sentence id="4.18">	at org.hibernate.engine.transaction.spi.AbstractTransactionImpl.commit(AbstractTransactionImpl.java:175)</sentence>
+            <sentence id="4.19">	at org.hibernate.test.naturalid.mutable.cached.CachedMutableNaturalIdTest.testNaturalIdPersistNullValue(CachedMutableNaturalIdTest.java:127)</sentence>
+            <sentence id="4.20">	...</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">N.B.: The exception does not happen without the @NaturalIdCache annotation</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Proposed solution: see pull request</sentence>
+        </paragraph>
+    </description>
+</bug>

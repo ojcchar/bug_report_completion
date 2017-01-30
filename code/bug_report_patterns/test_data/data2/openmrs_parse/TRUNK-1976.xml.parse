@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1976</id>
+    <title>openmrs-lib-cache temp directories not being deleted</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have discovered a problem on demo.openmrs.org that may need to be investigated:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The temp files created named such as &lt;TOMCAT_ROOT&gt;/temp/1275717893280.openmrs-lib-cache/* are not being automatically deleted.</sentence>
+            <sentence id="2.2">Individually, these are rather small, but on the demo site I found a total of 4 GB of these files from the last several months.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">We don't necessarily do anything unusual on the demo server, but we do undeploy and redeploy the application every night.</sentence>
+            <sentence id="3.2">After that we restart Tomcat by sending a kill signal and restarting it.</sentence>
+        </paragraph>
+    </description>
+</bug>

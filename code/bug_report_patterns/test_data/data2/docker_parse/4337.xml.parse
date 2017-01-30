@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4337</id>
+    <title>docker pull ignoring https with 0.8.1 on OS X/boot2docker</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">"' bash
+$ docker version
+Client version: 0.8.1
+Go version (client): go1.2
+Git commit (client): a1598d1
+Server version: 0.8.1
+Git commit (server): a1598d1
+Go version (server): go1.2</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">$ docker login https://registry.example.com
+...
+Login Succeeded</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">$ docker pull registry.example.com/somecontainer
+2014/02/25 15:49:29 Invalid Registry endpoint: Get http://registry.example.com/v1/_ping: dial tcp 192.168.1.55:80: i/o timeout
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Note in the pull there it is trying to connect to http, not https.</sentence>
+            <sentence id="4.2">In my '~/.dockercfg' file, I do have the full URL (with 'https') in there.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Possibly related to #4267, #3956, #3683, and #3946.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Unfortunately the workaround I originally used in #3946 for the SSL certificate problem -- ssh'ing into the boot2docker VM and running 'docker login' and 'docker pull' -- no longer seems to work:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"' bash
+$ docker login https://registry.example.com
+...
+2014/02/25 20:53:53 Error: auth: Invalid Registry endpoint: Get https://registry.example.com/v1/_ping: dial tcp: i/o timeout
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Not sure what's up with that... I can 'nc -v registry.example.com 443' fine.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2325</id>
+    <title>some issues using rmi and pull</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">"' bash
+# docker version
+Client version: 0.6.4
+Go version (client): go1.1.2
+Git commit (client): 2f74b1c
+Server version: 0.6.4
+Git commit (server): 2f74b1c
+Go version (server): go1.1.2
+Last stable version: 0.6.4
+"'</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I first pull ubuntu</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"' bash
+# docker pull ubuntu
+Pulling repository ubuntu
+8dbd9e392a96: Download complete
+b750fe79269d: Download complete
+27cf78414709: Download complete
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Weird already : I downloaded 3 images ID but only 2 different ID are listed</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"' bash
+# docker images
+REPOSITORY TAG ID CREATED SIZE
+ubuntu 12.04 8dbd9e392a96 6 months ago 131.5 MB (virtual 131.5 MB)
+ubuntu latest 8dbd9e392a96 6 months ago 131.5 MB (virtual 131.5 MB)
+ubuntu precise 8dbd9e392a96 6 months ago 131.5 MB (virtual 131.5 MB)
+ubuntu 12.10 b750fe79269d 7 months ago 24.65 kB (virtual 180.1 MB)
+ubuntu quantal b750fe79269d 7 months ago 24.65 kB (virtual 180.1 MB)
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">So I try first to remove the image I don't need aka '12.10' this also deletes the mysterious '27cf78414709'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"' bash
+# docker rmi b750fe79269d
+Untagged: b750fe79269d
+Deleted: b750fe79269d
+Deleted: 27cf78414709
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">However now '12.04' has lost it's tags.</sentence>
+            <sentence id="8.2">This would be very confusing if there were more than 2 real images ID in this repo.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"' bash
+# docker images
+REPOSITORY TAG ID CREATED SIZE
+&lt;none&gt; &lt;none&gt; 8dbd9e392a96 6 months ago 131.5 MB (virtual 131.5 MB)
+"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">I falled back to 'docker pull -t="12.04" ubuntu' which only got me one image and no extra tags.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Note 1_download_json.</sentence>
+            <sentence id="11.2">sh</sentence>
+            <sentence id="11.3">The mystery image is actualy taggable :</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"' bash
+# docker tag 27cf78414709 ubuntu mystery
+# docker images
+REPOSITORY TAG ID CREATED SIZE
+ubuntu 12.04 8dbd9e392a96 6 months ago 131.5 MB (virtual 131.5 MB)
+ubuntu latest 8dbd9e392a96 6 months ago 131.5 MB (virtual 131.5 MB)
+ubuntu precise 8dbd9e392a96 6 months ago 131.5 MB (virtual 131.5 MB)
+ubuntu 12.10 b750fe79269d 7 months ago 24.65 kB (virtual 180.1 MB)
+ubuntu quantal b750fe79269d 7 months ago 24.65 kB (virtual 180.1 MB)
+ubuntu mystery 27cf78414709 7 months ago 180.1 MB (virtual 180.1 MB)</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">**Note 2**</sentence>
+            <sentence id="14.2">Weirdly this command also deletes some things</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"' bash
+# docker rmi ubuntu
+Untagged: 8dbd9e392a96
+Deleted: 8dbd9e392a96
+"'</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">When the the doc states :</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">"' bash</sentence>
+            <sentence id="17.2"># docker rmi</sentence>
+            <sentence id="17.3">Usage: docker rmi IMAGE [IMAGE...]</sentence>
+            <sentence id="17.4">Remove one or more images</sentence>
+            <sentence id="17.5">"'</sentence>
+            <sentence id="17.6">- The word 'IMAGE' is not very explicit as it can match the REPO in some weird way or the ID but not the TAG</sentence>
+            <sentence id="17.7">- The fact that rmi deletes non tagged images is also not mentionned</sentence>
+        </paragraph>
+    </description>
+</bug>

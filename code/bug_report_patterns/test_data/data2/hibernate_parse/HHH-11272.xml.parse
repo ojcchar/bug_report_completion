@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-11272</id>
+    <title>CLONE[HHH-8873] - @Where not supported for @MappedSuperClass</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I am trying to annotate @Where(clause = "deleted = 'false'") in @MappedSuperclass.</sentence>
+            <sentence id="1.2">But Hibernate does not support.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">@MappedSuperclass
+@Where(clause = "deleted = 'false'")
+public abstract class BaseEntity&lt;ID extends Serializable&gt; implements Serializable {</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">public static final String DELETED_COLUMN = "deleted";
+	public static final String ACTIVE_COLUMN = "active";</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">/** System generated Serial Version UID.</sentence>
+            <sentence id="4.2">*/</sentence>
+            <sentence id="4.3">private static final long serialVersionUID = 1L;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">/** The id.</sentence>
+            <sentence id="5.2">*/</sentence>
+            <sentence id="5.3">@Id</sentence>
+            <sentence id="5.4">@GeneratedValue(strategy = GenerationType.IDENTITY)</sentence>
+            <sentence id="5.5">@Basic(optional = false)</sentence>
+            <sentence id="5.6">@Column(name = "id", nullable = false, updatable = false, columnDefinition = "BIGINT UNSIGNED")</sentence>
+            <sentence id="5.7">protected ID id;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">/** The active.</sentence>
+            <sentence id="6.2">*/</sentence>
+            <sentence id="6.3">@Column(nullable = false, columnDefinition = "BOOLEAN default '1'")</sentence>
+            <sentence id="6.4">protected boolean active = true;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">/** The deleted.</sentence>
+            <sentence id="7.2">*/</sentence>
+            <sentence id="7.3">@Column(nullable = false, columnDefinition = "BOOLEAN default '0'")</sentence>
+            <sentence id="7.4">protected boolean deleted = false;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">/**</sentence>
+            <sentence id="8.2">* Gets the id.</sentence>
+            <sentence id="8.3">*</sentence>
+            <sentence id="8.4">* @return the id</sentence>
+            <sentence id="8.5">*/</sentence>
+            <sentence id="8.6">public ID getId() {</sentence>
+            <sentence id="8.7">return id;</sentence>
+            <sentence id="8.8">}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">/**</sentence>
+            <sentence id="9.2">* Gets the active.</sentence>
+            <sentence id="9.3">*</sentence>
+            <sentence id="9.4">* @return the active</sentence>
+            <sentence id="9.5">*/</sentence>
+            <sentence id="9.6">public boolean getActive() {</sentence>
+            <sentence id="9.7">return active;</sentence>
+            <sentence id="9.8">}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">/**</sentence>
+            <sentence id="10.2">* Sets the active.</sentence>
+            <sentence id="10.3">*</sentence>
+            <sentence id="10.4">* @param active the new active</sentence>
+            <sentence id="10.5">*/</sentence>
+            <sentence id="10.6">public void setActive(boolean active) {</sentence>
+            <sentence id="10.7">this.active = active;</sentence>
+            <sentence id="10.8">}</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">/**</sentence>
+            <sentence id="11.2">* Gets the deleted.</sentence>
+            <sentence id="11.3">*</sentence>
+            <sentence id="11.4">* @return the deleted</sentence>
+            <sentence id="11.5">*/</sentence>
+            <sentence id="11.6">public Boolean getDeleted() {</sentence>
+            <sentence id="11.7">return deleted;</sentence>
+            <sentence id="11.8">}</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">/**</sentence>
+            <sentence id="12.2">* Sets the deleted.</sentence>
+            <sentence id="12.3">*</sentence>
+            <sentence id="12.4">* @param deleted the new deleted</sentence>
+            <sentence id="12.5">*/</sentence>
+            <sentence id="12.6">public void setDeleted(boolean deleted) {</sentence>
+            <sentence id="12.7">this.deleted = deleted;</sentence>
+            <sentence id="12.8">}</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">/*</sentence>
+            <sentence id="13.2">* (non-Javadoc)</sentence>
+            <sentence id="13.3">*</sentence>
+            <sentence id="13.4">* @see java.lang.Object#hashCode()</sentence>
+            <sentence id="13.5">*/</sentence>
+            <sentence id="13.6">@Override</sentence>
+            <sentence id="13.7">public int hashCode() {</sentence>
+            <sentence id="13.8">int hash = 0;</sentence>
+            <sentence id="13.9">hash += (this.getId() !</sentence>
+            <sentence id="13.10">= null ?</sentence>
+            <sentence id="13.11">this.getId().</sentence>
+            <sentence id="13.12">hashCode() : 0);</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">return hash;
+	}</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">/*</sentence>
+            <sentence id="15.2">* (non-Javadoc)</sentence>
+            <sentence id="15.3">*</sentence>
+            <sentence id="15.4">* @see java.lang.Object#equals(java.lang.Object)</sentence>
+            <sentence id="15.5">*/</sentence>
+            <sentence id="15.6">@Override</sentence>
+            <sentence id="15.7">public boolean equals(Object object) {</sentence>
+            <sentence id="15.8">if (this == object) return true;</sentence>
+            <sentence id="15.9">if (object == null) return false;</sentence>
+            <sentence id="15.10">if (getClass() !</sentence>
+            <sentence id="15.11">= object.getClass()) return false;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">BaseEntity&lt;?</sentence>
+            <sentence id="16.2">&gt; other = (BaseEntity&lt;?</sentence>
+            <sentence id="16.3">&gt;) object;
+		if (this.getId() !</sentence>
+            <sentence id="16.4">= other.getId() &amp;&amp; (this.getId() == null || !</sentence>
+            <sentence id="16.5">this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
+	}</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">/*</sentence>
+            <sentence id="17.2">* (non-Javadoc)</sentence>
+            <sentence id="17.3">*</sentence>
+            <sentence id="17.4">* @see java.lang.Object#toString()</sentence>
+            <sentence id="17.5">*/</sentence>
+            <sentence id="17.6">@Override</sentence>
+            <sentence id="17.7">public String toString() {</sentence>
+            <sentence id="17.8">return this.getClass().</sentence>
+            <sentence id="17.9">getName() + " [ID=" + id + "]";</sentence>
+            <sentence id="17.10">}</sentence>
+            <sentence id="17.11">}</sentence>
+        </paragraph>
+    </description>
+</bug>

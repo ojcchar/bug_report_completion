@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26801</id>
+    <title>Windows: Data race in restarting</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Found running CI locally using master at c0699cd4a43ccc3b1e3624379e46e9ed94f7428c (morning of 9/21/16).</sentence>
+            <sentence id="1.2">@darrenstahlmsft @swernli FYI</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">There were several triggers - all were a combination of restart with some other condition.</sentence>
+            <sentence id="2.2">The restart is being called from https://github.com/docker/docker/blob/master/libcontainerd/container_windows.go#L272 (in the current codebase, L282 in the commit above).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The problem is fairly complex to explain.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">During a start call from the daemon into libcontainerd (https://github.com/docker/docker/blob/master/daemon/start.go#L153), the container lock is already held at https://github.com/docker/docker/blob/master/daemon/start.go#L94.</sentence>
+            <sentence id="4.2">libcontainerd calls back into the monitor with a 'StateStart' from https://github.com/docker/docker/blob/master/libcontainerd/container_windows.go#L158.</sentence>
+            <sentence id="4.3">In the monitor, there is an explicit comment that for 'StateStart' and 'StateRestore', the container lock is already held, so doesn't need to take it.</sentence>
+            <sentence id="4.4">This is true from the above set of events during a 'normal' container start.</sentence>
+            <sentence id="4.5">Here's the monitor code in question: https://github.com/docker/docker/blob/master/daemon/monitor.go#L89-L99</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The problem though is that a start on account of a restart is initiated from inside libcontainerd https://github.com/docker/docker/blob/master/libcontainerd/container_windows.go#L272, through a call to Create(), but in this case the lock in the monitor is NOT held.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I have a fix in the works and know how to solve - just opening the issue to keep track of it.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Some of the data races found, all a similar pattern:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">!</sentence>
+            <sentence id="8.2">[image](https://cloud.githubusercontent.com/assets/10522484/18732953/e0078488-801b-11e6-91df-d66cc5c805a8.png)</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">!</sentence>
+            <sentence id="9.2">[image](https://cloud.githubusercontent.com/assets/10522484/18732957/e8b58f3a-801b-11e6-86c7-26f3dc7b10ef.png)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">!</sentence>
+            <sentence id="10.2">[image](https://cloud.githubusercontent.com/assets/10522484/18732959/ec9de764-801b-11e6-8402-4410d1b68080.png)</sentence>
+        </paragraph>
+    </description>
+</bug>

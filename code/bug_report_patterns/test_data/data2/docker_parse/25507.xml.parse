@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>25507</id>
+    <title>Be able to override daemon's log-opt to nothing</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client:
+ Version: 1.11.2
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: b9f10c9
+ Built: Wed Jun 1 21:47:50 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.11.2
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: b9f10c9
+ Built: Wed Jun 1 21:47:50 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'</sentence>
+            <sentence id="5.2">Containers: 1</sentence>
+            <sentence id="5.3"> Running: 0</sentence>
+            <sentence id="5.4"> Paused: 0</sentence>
+            <sentence id="5.5"> Stopped: 1</sentence>
+            <sentence id="5.6">Images: 1</sentence>
+            <sentence id="5.7">Server Version: 1.11.2</sentence>
+            <sentence id="5.8">Storage Driver: aufs</sentence>
+            <sentence id="5.9"> Root Dir: /mnt/aufs</sentence>
+            <sentence id="5.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="5.11"> Dirs: 9</sentence>
+            <sentence id="5.12"> Dirperm1 Supported: false</sentence>
+            <sentence id="5.13">Logging Driver: gelf</sentence>
+            <sentence id="5.14">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="5.15">Plugins:</sentence>
+            <sentence id="5.16"> Volume: local</sentence>
+            <sentence id="5.17"> Network: bridge null host</sentence>
+            <sentence id="5.18">Kernel Version: 3.13.0-91-generic</sentence>
+            <sentence id="5.19">Operating System: Ubuntu 14.04.4 LTS</sentence>
+            <sentence id="5.20">OSType: linux</sentence>
+            <sentence id="5.21">Architecture: x86_64</sentence>
+            <sentence id="5.22">CPUs: 2</sentence>
+            <sentence id="5.23">Total Memory: 7.797 GiB</sentence>
+            <sentence id="5.24">Name: ip-10-50-41-147</sentence>
+            <sentence id="5.25">ID: NU4N:XBKZ:2NBZ:EQPC:IJUM:JWLQ:VNYG:VDKL:LZ25:C3WC:TUEE:6KZQ</sentence>
+            <sentence id="5.26">Docker Root Dir: /mnt</sentence>
+            <sentence id="5.27">Debug mode (client): false</sentence>
+            <sentence id="5.28">Debug mode (server): true</sentence>
+            <sentence id="5.29"> File Descriptors: 13</sentence>
+            <sentence id="5.30"> Goroutines: 31</sentence>
+            <sentence id="5.31"> System Time: 2016-08-08T18:46:20.639612847Z</sentence>
+            <sentence id="5.32"> EventsListeners: 0</sentence>
+            <sentence id="5.33">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="5.34">WARNING: No swap limit support</sentence>
+            <sentence id="5.35">"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="6.2">- AWS instance running Ubuntu 14.04 LTS</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 Update '/etc/default/docker' to include something like 'DOCKER_OPTS="--log-driver=json-file --log-opt max-file=10"'</sentence>
+            <sentence id="7.3">2 Run [gist](https://gist.github.com/xbglowx/df3b359bebe76c03d98b93d793178969), which will start a redis container with log driver json-file and an empty log options, and then print its log driver/options.</sentence>
+            <sentence id="7.4">'sudo ./run_container.py'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you received:**</sentence>
+            <sentence id="8.2">The container inherited the daemon's log options</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Describe the results you expected:**</sentence>
+            <sentence id="9.2">No log options, since I specified an empty log options.</sentence>
+        </paragraph>
+    </description>
+</bug>

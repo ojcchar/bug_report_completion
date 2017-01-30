@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18784</id>
+    <title>inconsistencies in /etc/hosts container discovery</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There are some inconsistencies in the way '/etc/hosts' is populated by libnetwork,
+let's star 2 containers with a name &amp; an hostname and look at '/etc/hosts' in the 2nd one:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+$ docker run --net test -d --name name1 --hostname hostname1 busybox ping google.com
+eeaa5f3439203738a517aef3bdcde532cb745c4bfb2e2730c5e4a9a7c104fe2e</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">$ docker run --net test -d --name name2 --hostname hostname2 busybox ping google.com
+8455e8b83f73d128d087425a08ffbf27075b4001e17a3905d19fecb542127874</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">$ docker exec -it 8455e8b83f73d128d087425a08ffbf27075b4001e17a3905d19fecb542127874 cat /etc/hosts
+127.0.0.1 localhost
+::1 localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.18.0.3 hostname2
+172.18.0.2 name1
+172.18.0.2 name1.test
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">We see the container sees itself via hostname but see other containers via their name.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I think it should change it to something like:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'
+127.0.0.1 localhost hostname2
+::1 localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.18.0.3 name2
+172.18.0.3 name2.test
+172.18.0.2 name1
+172.18.0.2 name1.test
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">ping @mavenugo @mrjana 
+/cc @mgoelzer</sentence>
+        </paragraph>
+    </description>
+</bug>

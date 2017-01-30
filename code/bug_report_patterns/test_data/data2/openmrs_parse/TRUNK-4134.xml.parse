@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4134</id>
+    <title>ModuleActivator.started()/.contextRefreshed() not called when module is stopped/restarted or newly uploaded</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When a module is stopped then started or newly uploaded, its ModuleActivator.started() and contextRefreshed() methods are not called.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">From a quick look debug of the code, it looks like the module being started is not included in the list of started modules that ModuleUtils.refreshApplicationContext() iterates through ( from ModuleFactory.getStartedModulesInOrder() ).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I wasn't sure if I understood the contract for when .started() and .contextRefreshed() were supposed to be called, but in the portion of ModuleUtils.refreshApplicationContext() that looks through all the modules, it seems like it was intended to recognize the newly started module and call .started() on it.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">It could be fixed by checking if startedModules.contains(startedModule) and adding it if it's not in there.</sentence>
+        </paragraph>
+    </description>
+</bug>

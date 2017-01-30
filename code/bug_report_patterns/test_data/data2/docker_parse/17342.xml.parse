@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17342</id>
+    <title>/etc/hosts not updated on disconnect</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">the network stack is updated but not `/etc/hosts` --- is this expected behavior?</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">```
+ ubuntu@ip-172-31-36-118:~$ docker network disconnect isolated_nw container2
+ubuntu@ip-172-31-36-118:~$ docker network disconnect bridge container2
+ubuntu@ip-172-31-36-118:~$ docker attach container2</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">/ # cat /etc/hosts
+172.17.0.3	8845961414ca
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.17.0.2	container1
+172.17.0.2	container1.bridge
+172.19.0.3	container3
+172.19.0.3	container3.isolated_nw
+/ # ubuntu@ip-172-31-36-118:~$ docker attach container2</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">/ # ifconfig
+lo Link encap:Local Loopback 
+ inet addr:127.0.0.1 Mask:255.0.0.0
+ inet6 addr: ::1/128 Scope:Host
+ UP LOOPBACK RUNNING MTU:65536 Metric:1
+ RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+ TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+ collisions:0 txqueuelen:0 
+ RX bytes:0 (0.0 B) TX bytes:0 (0.0 B)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">/ # cat /etc/hosts
+172.17.0.3	8845961414ca
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.17.0.2	container1
+172.17.0.2	container1.bridge
+172.19.0.3	container3
+172.19.0.3	container3.isolated_nw
+/ # ping container1
+PING container1 (172.17.0.2): 56 data bytes
+ping: sendto: Network is unreachable
+/ # 
+```</sentence>
+        </paragraph>
+    </description>
+</bug>

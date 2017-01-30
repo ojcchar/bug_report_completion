@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14819</id>
+    <title>Error response from daemon: Cannot start container ... invalid argument</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I am trying to run a simple "Hello world" example with docker, but all I get is this error:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+$ sudo docker run ubuntu ls
+Error response from daemon: Cannot start container 5bdd2cc7e430fde99ad30fba4c72bd3c62507f75f2581721e5c3172364f41364: invalid argument
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Docker/system info:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+$ uname -a
+Linux fatcat 3.13.0-57-generic #95~precise1-Ubuntu SMP Mon Jun 22 09:43:07 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">$ docker info
+Containers: 13
+Images: 14
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 40
+ Dirperm1 Supported: false
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 3.13.0-57-generic
+Operating System: Ubuntu precise (12.04.5 LTS)
+CPUs: 8
+Total Memory: 15.32 GiB
+Name: fatcat
+ID: D4YA:R437:TXWY:LNJ3:OEMZ:232K:HSTB:HVX5:NDU7:H5XP:UX3B:TA6B
+WARNING: No swap limit support</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">$ docker version
+Client version: 1.7.1
+Client API version: 1.19
+Go version (client): go1.4.2
+Git commit (client): 786b29d
+OS/Arch (client): linux/amd64
+Server version: 1.7.1
+Server API version: 1.19
+Go version (server): go1.4.2
+Git commit (server): 786b29d
+OS/Arch (server): linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I've tried a couple of things that I've seen in other issues, but it didn't get me anywhere.</sentence>
+        </paragraph>
+    </description>
+</bug>

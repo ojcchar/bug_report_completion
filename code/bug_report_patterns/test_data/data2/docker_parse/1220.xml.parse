@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>1220</id>
+    <title>Error pulling from a private docker registry server</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">After pushing to a private registry, I attempt to pull the same image from a different host and receive the following error on the client:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+2013/07/17 01:30:55 Internal server error: 404 trying to fetch remote history for mcflurry
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here's a dump of the request/response that seems to be failing:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+T 127.0.0.1:35129 -&gt; 127.0.0.1:5005 [AP]
+GET /v1/images/mcflurry/ancestry HTTP/1.0.
+Host: 127.0.0.1:5005.
+Connection: close.
+User-Agent: Go 1.1 package http.
+Authorization: Token.
+Accept-Encoding: gzip.
+.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">##
+T 127.0.0.1:5005 -&gt; 127.0.0.1:35129 [AP]
+HTTP/1.0 404 NOT FOUND.</sentence>
+            <sentence id="5.2">Server: gunicorn/0.17.4.</sentence>
+            <sentence id="5.3">Date: Wed, 17 Jul 2013 01:30:55 GMT.</sentence>
+            <sentence id="5.4">Connection: close.</sentence>
+            <sentence id="5.5">Expires: -1.</sentence>
+            <sentence id="5.6">Content-Type: application/json.</sentence>
+            <sentence id="5.7">Pragma: no-cache.</sentence>
+            <sentence id="5.8">Cache-Control: no-cache.</sentence>
+            <sentence id="5.9">Content-Length: 34.</sentence>
+            <sentence id="5.10">X-Docker-Registry-Version: 0.5.1.</sentence>
+            <sentence id="5.11">X-Docker-Registry-Config: prod.</sentence>
+            <sentence id="5.12">.</sentence>
+            <sentence id="5.13">{
+ "error": "Image not found"
+}
+####
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

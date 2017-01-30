@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>320281</id>
+    <title>No SelectionChangeEvent on Graph.setSelection()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">On one side I've registered a SelectionChangeListener on a Graph Object and on another side I've set the selection of the graph by a key event.</sentence>
+            <sentence id="1.2">But after the setSelection i get no SelectionChangeEvent, selecting by mouse works perfect.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In our graph you can navigate withe the arrow keys to select the next GraphNode.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I've fixed this by adding the fireWidgetSelectedEvent() in the loop of the setSelection() method.</sentence>
+            <sentence id="3.2">I think the same for selectAll() method.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">/**</sentence>
+            <sentence id="5.2">* Changes the selection to the list of items</sentence>
+            <sentence id="5.3">*</sentence>
+            <sentence id="5.4">* @param l</sentence>
+            <sentence id="5.5">*/</sentence>
+            <sentence id="5.6">public void setSelection(GraphItem[] nodes) {</sentence>
+            <sentence id="5.7">clearSelection();</sentence>
+            <sentence id="5.8">if (nodes !</sentence>
+            <sentence id="5.9">= null) {</sentence>
+            <sentence id="5.10">for (int i = 0; i &lt; nodes.length; i++) {</sentence>
+            <sentence id="5.11">if (nodes[i] !</sentence>
+            <sentence id="5.12">= null &amp;&amp; nodes[i] instanceof GraphItem) {</sentence>
+            <sentence id="5.13">selectedItems.add(nodes[i]);</sentence>
+            <sentence id="5.14">(nodes[i]).</sentence>
+            <sentence id="5.15">highlight();</sentence>
+            <sentence id="5.16">fireWidgetSelectedEvent(nodes[i]);</sentence>
+            <sentence id="5.17">}</sentence>
+            <sentence id="5.18">}</sentence>
+            <sentence id="5.19">}</sentence>
+            <sentence id="5.20">}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I hope it's right.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">By the way, why so many methods are private?</sentence>
+            <sentence id="7.2">So I can't fix or extends classes.</sentence>
+        </paragraph>
+    </description>
+</bug>

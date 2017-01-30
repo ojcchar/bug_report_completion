@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3239</id>
+    <title>Automated Error Reportorg.hibernate.NonUniqueObjectException: a different object with the same identifier value was already associated with the session: [org.openmrs.Role#Usuario EESS]</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Version: 1.9.0 RC2 Build 26739
+Implementation ID: 
+User ID: ivant
+Started Modules: serialization.xstream v0.2.5, addresshierarchy v2.2.2, reporting v0.7.1, patientimage v0.3.3, htmlformentry19ext v0.9, idgen v2.1, programoverview v1.0, logic v0.5.2, patientflags v1.3.4, htmlformentry v1.9.1, rolebasedhomepage v2.0, htmlformflowsheet v1.2.2, conceptsearch v0.2, xforms v4.0.9.2, reportingcompatibility v1.5.7, requestaccount v1.2, htmlwidgets v1.6.0</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Summary:
+org.hibernate.NonUniqueObjectException: a different object with the same identifier value was already associated with the session: [org.openmrs.Role#Usuario EESS]</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Description:</sentence>
+            <sentence id="3.2">Stack trace:</sentence>
+            <sentence id="3.3">org.hibernate.engine.StatefulPersistenceContext.checkUniqueness(StatefulPersistenceContext.java:638)</sentence>
+            <sentence id="3.4">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.performUpdate(DefaultSaveOrUpdateEventListener.java:305)</sentence>
+            <sentence id="3.5">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.entityIsDetached(DefaultSaveOrUpdateEventListener.java:246)</sentence>
+            <sentence id="3.6">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.performSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:112)</sentence>
+            <sentence id="3.7">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.onSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:93)</sentence>
+            <sentence id="3.8">org.hibernate.impl.SessionImpl.fireSaveOrUpdate(SessionImpl.java:685)</sentence>
+            <sentence id="3.9">org.hibernate.impl.SessionImpl.saveOrUpdate(SessionImpl.java:677)</sentence>
+            <sentence id="3.10">org.hibernate.impl.SessionImpl.saveOrUpdate(SessionImpl.java:673)</sentence>
+            <sentence id="3.11">org.openmrs.api.db.hibernate.HibernateUserDAO.saveRole(HibernateUserDAO.java:226)</sentence>
+            <sentence id="3.12">org.openmrs.api.impl.UserServiceImpl.saveRole(UserServiceImpl.java:313)</sentence>
+            <sentence id="3.13">	at [ignored] ...</sentence>
+            <sentence id="3.14">$Proxy105.saveRole(Unknown Source)</sentence>
+            <sentence id="3.15">	at [ignored] ...</sentence>
+            <sentence id="3.16">org.openmrs.aop.LoggingAdvice.invoke(LoggingAdvice.java:122)</sentence>
+            <sentence id="3.17">	at [ignored] ...</sentence>
+            <sentence id="3.18">$Proxy106.saveRole(Unknown Source)</sentence>
+            <sentence id="3.19">	at [ignored] ...</sentence>
+            <sentence id="3.20">$Proxy106.saveRole(Unknown Source)</sentence>
+            <sentence id="3.21">org.openmrs.web.controller.user.RoleFormController.onSubmit(RoleFormController.java:108)</sentence>
+            <sentence id="3.22">	at [ignored] ...</sentence>
+            <sentence id="3.23">org.openmrs.web.controller.user.RoleFormController.processFormSubmission(RoleFormController.java:87)</sentence>
+            <sentence id="3.24">	at [ignored] ...</sentence>
+            <sentence id="3.25">javax.servlet.http.HttpServlet.service(HttpServlet.java:637)</sentence>
+            <sentence id="3.26">javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</sentence>
+            <sentence id="3.27">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</sentence>
+            <sentence id="3.28">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="3.29">org.openmrs.module.web.filter.ForcePasswordChangeFilter.doFilter(ForcePasswordChangeFilter.java:65)</sentence>
+            <sentence id="3.30">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="3.31">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="3.32">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:76)</sentence>
+            <sentence id="3.33">org.openmrs.module.xforms.web.XformsFilter.doFilter(XformsFilter.java:60)</sentence>
+            <sentence id="3.34">org.openmrs.module.web.filter.ModuleFilterChain.doFilter(ModuleFilterChain.java:74)</sentence>
+            <sentence id="3.35">org.openmrs.module.web.filter.ModuleFilter.doFilter(ModuleFilter.java:58)</sentence>
+            <sentence id="3.36">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="3.37">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="3.38">org.openmrs.web.filter.OpenmrsFilter.doFilterInternal(OpenmrsFilter.java:111)</sentence>
+            <sentence id="3.39">	at [ignored] ...</sentence>
+            <sentence id="3.40">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="3.41">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="3.42">	at [ignored] ...</sentence>
+            <sentence id="3.43">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="3.44">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="3.45">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:109)</sentence>
+            <sentence id="3.46">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="3.47">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="3.48">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:109)</sentence>
+            <sentence id="3.49">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="3.50">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="3.51">org.openmrs.web.filter.StartupFilter.doFilter(StartupFilter.java:109)</sentence>
+            <sentence id="3.52">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="3.53">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="3.54">	at [ignored] ...</sentence>
+            <sentence id="3.55">org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)</sentence>
+            <sentence id="3.56">org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</sentence>
+            <sentence id="3.57">org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</sentence>
+            <sentence id="3.58">org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</sentence>
+            <sentence id="3.59">org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:563)</sentence>
+            <sentence id="3.60">org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</sentence>
+            <sentence id="3.61">org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)</sentence>
+            <sentence id="3.62">org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</sentence>
+            <sentence id="3.63">org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:293)</sentence>
+            <sentence id="3.64">org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:859)</sentence>
+            <sentence id="3.65">org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:602)</sentence>
+            <sentence id="3.66">org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)</sentence>
+            <sentence id="3.67">java.lang.Thread.run(Thread.java:636)</sentence>
+        </paragraph>
+    </description>
+</bug>

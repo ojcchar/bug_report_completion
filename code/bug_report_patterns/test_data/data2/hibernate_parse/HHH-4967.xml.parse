@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4967</id>
+    <title>Mapping a class more than once using entity names causes NullPointerException in org.hibernate.ejb.event.EJB3FlushEntityEventListener</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Map a class more than once and use *entity names*, e.g. as follows:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{code:xml}
+&lt;?</sentence>
+            <sentence id="2.2">xml version="1.0"?</sentence>
+            <sentence id="2.3">&gt;
+&lt;!</sentence>
+            <sentence id="2.4">DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"&gt;
+&lt;hibernate-mapping&gt;
+    &lt;!</sentence>
+            <sentence id="2.5">-- Mapping for multilingual texts up to 4000 characters --&gt;
+    &lt;class dynamic-insert="true" dynamic-update="true" optimistic-lock="version"
+           name="mypackage.MultilingualText" table="multilingualtext"
+           entity-name="MultilingualShort"&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">...</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;!</sentence>
+            <sentence id="4.2">-- the short text --&gt;
+        &lt;property name="text" type="java.lang.String"&gt;
+            &lt;column name="text" sql-type="varchar2(4000)" /&gt;
+        &lt;/property&gt;
+           
+    &lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;!</sentence>
+            <sentence id="5.2">-- Mapping for multilingual texts holding more than 4000 characters --&gt;
+    &lt;class dynamic-insert="true" dynamic-update="true" optimistic-lock="version" 
+           name="mypackage.MultilingualText" table="multilinguallongtext" 
+           entity-name="MultilingualLong"&gt;
+           
+        ...</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">&lt;!</sentence>
+            <sentence id="6.2">-- the long text --&gt;
+        &lt;property name="text" type="java.lang.String"&gt;
+            &lt;column name="text" sql-type="clob" /&gt;
+        &lt;/property&gt;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&lt;/class&gt;
+    
+&lt;/hibernate-mapping&gt;
+{code}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Use this entity names within a list / set / map /... as follows:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">{code:xml}
+&lt;class name="myClass" ...&gt;
+    ...</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">&lt;!</sentence>
+            <sentence id="10.2">-- multilingual text field for up to 4000 characters --&gt;
+    &lt;set access="field" cascade="all,delete-orphan" fetch="join" lazy="false"
+         name="description" table="myclassdescription"&gt;
+        &lt;key&gt;
+            &lt;column name="myclass_id" sql-type="varchar2(36)" /&gt;
+        &lt;/key&gt;
+        &lt;many-to-many unique="true" class="mypackage.MultilingualText" 
+            entity-name="MultilingualShort"&gt;
+            &lt;column name="text_id" sql-type="varchar2(36)"/&gt;
+        &lt;/many-to-many&gt;
+    &lt;/set&gt;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">...
+&lt;/class&gt;
+{code}</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">When modifying such a list / set / map and calling {{entityManager.merge(&lt;myClass&gt;)}} you get the following exception on {{entityManager.flush()}}:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">{noformat}</sentence>
+            <sentence id="13.2">java.lang.NullPointerException</sentence>
+            <sentence id="13.3">	at org.hibernate.ejb.event.EJB3FlushEntityEventListener.copyState(EJB3FlushEntityEventListener.java:53)</sentence>
+            <sentence id="13.4">	at org.hibernate.ejb.event.EJB3FlushEntityEventListener.invokeInterceptor(EJB3FlushEntityEventListener.java:42)</sentence>
+            <sentence id="13.5">	at org.hibernate.event.def.DefaultFlushEntityEventListener.handleInterception(DefaultFlushEntityEventListener.java:308)</sentence>
+            <sentence id="13.6">	at org.hibernate.event.def.DefaultFlushEntityEventListener.scheduleUpdate(DefaultFlushEntityEventListener.java:248)</sentence>
+            <sentence id="13.7">	at org.hibernate.event.def.DefaultFlushEntityEventListener.onFlushEntity(DefaultFlushEntityEventListener.java:128)</sentence>
+            <sentence id="13.8">	at org.hibernate.event.def.AbstractFlushingEventListener.flushEntities(AbstractFlushingEventListener.java:196)</sentence>
+            <sentence id="13.9">	at org.hibernate.event.def.AbstractFlushingEventListener.flushEverythingToExecutions(AbstractFlushingEventListener.java:76)</sentence>
+            <sentence id="13.10">	at org.hibernate.event.def.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:26)</sentence>
+            <sentence id="13.11">	at org.hibernate.impl.SessionImpl.flush(SessionImpl.java:1000)</sentence>
+            <sentence id="13.12">	at org.hibernate.ejb.AbstractEntityManagerImpl.flush(AbstractEntityManagerImpl.java:304)</sentence>
+            <sentence id="13.13">{noformat}</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">*Solution:* correct the {{org.hibernate.ejb.event.EJB3FlushEntityEventListener}} as follows:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">{code:title=EJB3FlushEntityEventListener.java|borderStyle=solid}</sentence>
+            <sentence id="15.2">/**</sentence>
+            <sentence id="15.3">* Overrides the LifeCycle OnSave call to call the PreUpdate operation.</sentence>
+            <sentence id="15.4">* &lt;p&gt;</sentence>
+            <sentence id="15.5">* Error corrected version derived from {@code hibernate-entitymanager-3.3.2GA}.</sentence>
+            <sentence id="15.6">* See method {@code copyState}: considered entity name!</sentence>
+            <sentence id="15.7">*/</sentence>
+            <sentence id="15.8">public class EJB3FlushEntityEventListener extends DefaultFlushEntityEventListener implements CallbackHandlerConsumer {</sentence>
+            <sentence id="15.9">/**</sentence>
+            <sentence id="15.10">* This class serial version UID.</sentence>
+            <sentence id="15.11">*/</sentence>
+            <sentence id="15.12">private static final long serialVersionUID = 1L;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">private EntityCallbackHandler callbackHandler;</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">public void setCallbackHandler(EntityCallbackHandler callbackHandler) {
+		this.callbackHandler = callbackHandler;
+	}</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">public EJB3FlushEntityEventListener() {
+		super();
+	}</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">public EJB3FlushEntityEventListener(EntityCallbackHandler callbackHandler) {
+		super();
+		this.callbackHandler = callbackHandler;
+	}</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">@Override
+	protected boolean invokeInterceptor(
+			SessionImplementor session, Object entity, EntityEntry entry, Object[] values, EntityPersister persister
+	) {
+		boolean isDirty = false;
+		if ( entry.getStatus() !</sentence>
+            <sentence id="20.2">= Status.DELETED ) {
+			if ( callbackHandler.preUpdate( entity ) ) {
+				isDirty = copyState( entity, entry.getEntityName() ,persister.getPropertyTypes(), values, session.getFactory() );
+			}
+		}
+		return super.invokeInterceptor( session, entity, entry, values, persister ) || isDirty;
+	}</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">/**</sentence>
+            <sentence id="21.2">* copy the entity state into the state array and return true if the state has changed</sentence>
+            <sentence id="21.3">*/</sentence>
+            <sentence id="21.4">// modified parameter list: ++entityName</sentence>
+            <sentence id="21.5">private boolean copyState(Object entity, String entityName, Type[] types, Object[] state, SessionFactory sf) {</sentence>
+            <sentence id="21.6">// modified: consider entity names when resolving metadata!</sentence>
+            <sentence id="21.7">ClassMetadata metadata =</sentence>
+            <sentence id="21.8">(entityName !</sentence>
+            <sentence id="21.9">= null ?</sentence>
+            <sentence id="21.10">sf.getClassMetadata(entityName) : sf.getClassMetadata(entity.getClass()));</sentence>
+            <sentence id="21.11">Object[] newState = metadata.getPropertyValues( entity, EntityMode.POJO );</sentence>
+            <sentence id="21.12">int size = newState.length;</sentence>
+            <sentence id="21.13">boolean isDirty = false;</sentence>
+            <sentence id="21.14">for ( int index = 0; index &lt; size ; index++ ) {</sentence>
+            <sentence id="21.15">if ( !</sentence>
+            <sentence id="21.16">types[index].</sentence>
+            <sentence id="21.17">isEqual( state[index], newState[index], EntityMode.POJO ) ) {</sentence>
+            <sentence id="21.18">isDirty = true;</sentence>
+            <sentence id="21.19">state[index] = newState[index];</sentence>
+            <sentence id="21.20">}</sentence>
+            <sentence id="21.21">}</sentence>
+            <sentence id="21.22">return isDirty;</sentence>
+            <sentence id="21.23">}</sentence>
+            <sentence id="21.24">}</sentence>
+            <sentence id="21.25">{code}</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">The significant change of the code is to consider the entity name when looking up {{ClassMetadata}} in method {{copyState()}}:</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">{code}
+    ClassMetadata metadata = (entityName !</sentence>
+            <sentence id="23.2">= null ?</sentence>
+            <sentence id="23.3">sf.getClassMetadata(entityName) : sf.getClassMetadata(entity.getClass()));
+{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

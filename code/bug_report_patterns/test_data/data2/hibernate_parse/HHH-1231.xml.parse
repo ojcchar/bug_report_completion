@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1231</id>
+    <title>Error while firing Select query to a table with 4 fields combined together forming a compiste id</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This is my mapping file:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;?</sentence>
+            <sentence id="2.2">xml version="1.0" encoding="UTF-8"?</sentence>
+            <sentence id="2.3">&gt;
+&lt;!</sentence>
+            <sentence id="2.4">DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;hibernate-mapping&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;class name="com.marsh.cansys.clt.services.client.business.ClientAddressUsageBO" table="CLIENT.CLT_ADD_USG"&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;composite-id&gt;
+			&lt;key-property name="cltNo" length="10" column="CLT_NO"/&gt;
+			&lt;key-property name="cltOfcNo" length="10" column="CLT_OFC_NO" type="integer"/&gt;
+			&lt;key-property name="cltAddKey" length="10" column="CLT_ADD_KEY" type="long"/&gt;
+			&lt;key-property name="cltAddType" length="3" column="CLT_ADD_TYPE"/&gt;
+		&lt;/composite-id&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">&lt;!</sentence>
+            <sentence id="6.2">-- property name="cltNo" type="long"&gt;
+			&lt;column name="CLT_NO"/&gt;
+		&lt;/property&gt;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&lt;property name="cltOfcNo" type="long"&gt;
+			&lt;column name="CLT_OFC_NO"/&gt;
+		&lt;/property&gt;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">&lt;property name="cltAddKey" type="long"&gt;
+			&lt;column name="CLT_ADD_KEY"/&gt;
+		&lt;/property&gt;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">&lt;property name="cltAddType"&gt;
+			&lt;column name="CLT_ADD_TYPE"/&gt;
+		&lt;/property--&gt;</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">&lt;property name="cltAdrLuby" type="long"&gt;
+			&lt;column name="CLT_ADD_LUBY"/&gt;
+		&lt;/property&gt;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">&lt;property name="cltAdrLudt" type="calendar_date"&gt;
+			&lt;column name="CLT_ADR_LUDT"/&gt;
+		&lt;/property&gt;</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">&lt;property name="syncManageCustomer"&gt;
+			&lt;column name="SYNC_MANAGE_CUSTOMER_FG"/&gt;
+		&lt;/property&gt;</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">&lt;!</sentence>
+            <sentence id="13.2">--  one-to-one name="clientAddress"
+					class="com.marsh.cansys.clt.services.client.business.ClientAddressBO"
+					cascade="all"/--&gt;
+		
+		&lt;!</sentence>
+            <sentence id="13.3">-- property name="clientAddress" type="java.lang.Object"
+				access="com.marsh.cansys.clt.services.client.business.ClientAddressBO"/--&gt;
+	&lt;/class&gt;
+&lt;/hibernate-mapping&gt;</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">This is my DAO:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">/*</sentence>
+            <sentence id="15.2">* Created on Dec 6, 2005</sentence>
+            <sentence id="15.3">*/</sentence>
+            <sentence id="15.4">package com.marsh.cansys.ams.address.DAO;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">import java.util.List;</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.Transaction;</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">import com.marsh.cansys.ams.dataaccess.HibernateSessionFactory;
+import com.marsh.cansys.clt.services.client.business.ClientAddressUsageBO;
+import com.marsh.cansys.clt.services.client.business.ClientAddressUsageBOIF;</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">public class AddressDAO {</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">Session session;
+	
+	public ClientAddressUsageBOIF getClientAddress() {</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">Integer cltNo = new Integer("747776");
+		Integer cltOfcNo = new Integer("3");</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">getConnection();
+		Transaction tx = session.beginTransaction();</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">Query q = session.createQuery(
+		"from com.marsh.cansys.clt.services.client.business.ClientAddressUsageBO c");// where c.cltNo = 747776 and c.cltOfcNo=3 and c.cltAddType='PRI' and c.cltAddKey=262050");
+//		 "select c.syncManageCustomer from
+//		 com.marsh.cansys.clt.services.client.business.ClientAddressUsageBO c
+//		 where c.cltNo = 747776");</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">//		 List result = session.createQuery
+		// ("from
+		// com.marsh.cansys.clt.services.client.business.ClientAddressUsageBO c
+		// where c.cltNo = 747776 and c.cltOfcNo = 3")
+		// .</sentence>
+            <sentence id="24.2">setInteger(0, 7467776)
+		// .</sentence>
+            <sentence id="24.3">setInteger(1, 3)
+		// .</sentence>
+            <sentence id="24.4">list();
+		 List result = q.list();
+		// ClientAddressUsageBOIF addressUsageBO = (ClientAddressUsageBO)
+		tx.commit();
+		HibernateSessionFactory.closeSession();
+		return null;
+	}
+	
+	public void getConnection() {
+		try {
+			session = HibernateSessionFactory.currentSession();
+		} catch (Exception e) {
+			System.out.println("Hibernation error");
+			e.printStackTrace();
+		}
+	}
+}</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">When I fire the above query I am getting the following stackTrace</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">org.hibernate.QueryException: addEntity() or addScalar() must be called on a sql query before executing the query. [from com.marsh.cansys.clt.services.client.business.ClientAddressUsageBO c where c.cltNo = 747776 and c.cltOfcNo=3 and c.cltAddType='PRI' and c.cltAddKey=262050]</sentence>
+            <sentence id="26.2">	at org.hibernate.impl.SQLQueryImpl.verifyParameters(SQLQueryImpl.java:169)</sentence>
+            <sentence id="26.3">	at org.hibernate.impl.SQLQueryImpl.list(SQLQueryImpl.java:140)</sentence>
+            <sentence id="26.4">	at com.marsh.cansys.ams.address.DAO.AddressDAO.getClientAddress(AddressDAO.java:44)</sentence>
+            <sentence id="26.5">	at com.marsh.cansys.clt.services.client.controller.AddressControllerImpl.getClientAddress(AddressControllerImpl.java:32)</sentence>
+            <sentence id="26.6">	at com.marsh.cansys.clt.services.client.controller.AddressControllerImpl.main(AddressControllerImpl.java:25)</sentence>
+            <sentence id="26.7">Exception in thread "main" </sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">Why am I getting this exception...Please help.</sentence>
+        </paragraph>
+    </description>
+</bug>

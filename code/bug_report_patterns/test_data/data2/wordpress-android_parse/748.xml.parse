@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>748</id>
+    <title>NUX Crash on error when activity is detached</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;pre&gt;&lt;code&gt;</sentence>
+            <sentence id="1.2">// java.lang.IllegalStateException: Fragment NewBlogFragment{536b8a14} not attached to Activity</sentence>
+            <sentence id="1.3">// at android.support.v4.app.Fragment.getResources(Fragment.java:579)</sentence>
+            <sentence id="1.4">// at android.support.v4.app.Fragment.getString(Fragment.java:601)</sentence>
+            <sentence id="1.5">// at org.wordpress.android.ui.accounts.NewAccountAbstractPageFragment.showError(NewAccountAbstractPageFragment.java:143)</sentence>
+            <sentence id="1.6">// at org.wordpress.android.ui.accounts.NewAccountAbstractPageFragment$ErrorListener.onErrorResponse(NewAccountAbstractPageFragment.java:129)</sentence>
+            <sentence id="1.7">// at org.wordpress.android.util.WPRestClient$Request.abort(WPRestClient.java:476)</sentence>
+            <sentence id="1.8">// at org.wordpress.android.WordPress$OauthAuthenticator$2.onErrorResponse(WordPress.java:440)</sentence>
+            <sentence id="1.9">// at com.android.volley.Request.deliverError(Request.java:517)</sentence>
+            <sentence id="1.10">// at com.android.volley.ExecutorDelivery$ResponseDeliveryRunnable.run(ExecutorDelivery.java:101)</sentence>
+            <sentence id="1.11">// at android.os.Handler.handleCallback(Handler.java:725)</sentence>
+            <sentence id="1.12">// at android.os.Handler.dispatchMessage(Handler.java:92)</sentence>
+            <sentence id="1.13">// at android.os.Looper.loop(Looper.java:137)</sentence>
+            <sentence id="1.14">// at android.app.ActivityThread.main(ActivityThread.java:5041)</sentence>
+            <sentence id="1.15">// at java.lang.reflect.Method.invokeNative(Native Method)</sentence>
+            <sentence id="1.16">// at java.lang.reflect.Method.invoke(Method.java:511)</sentence>
+            <sentence id="1.17">// at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:793)</sentence>
+            <sentence id="1.18">// at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:560)</sentence>
+            <sentence id="1.19">// at dalvik.system.NativeStart.main(Native Method)</sentence>
+            <sentence id="1.20">// </sentence>
+            <sentence id="1.21">&lt;/code&gt;&lt;/pre&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3222</id>
+    <title>Login to wpcom doesn't refresh the main tabbed interface</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I did a couple of logins/logouts and found out that [resetFragments](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/WordPress/src/main/java/org/wordpress/android/ui/main/WPMainActivity.java#L317) doesn't actually recreate new fragments when called.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I set a breakpoint in [WPMainTabAdapter.getItem](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/WordPress/src/main/java/org/wordpress/android/ui/main/WPMainTabAdapter.java#L53) and it doesn't get called upon login.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Sorry for the long GIF.</sentence>
+            <sentence id="3.2">At the end of the login process you can see that the Sites tab is still empty.</sentence>
+            <sentence id="3.3">Other tabs get populated with a delay (that's because i'm throttling the connection) instead the Sites tab isn't get updated.</sentence>
+            <sentence id="3.4">!</sentence>
+            <sentence id="3.5">[login-logout](https://cloud.githubusercontent.com/assets/518232/10043241/9dcf7cfe-61f1-11e5-9154-03a636f32e4b.gif)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">/cc @nbradbury</sentence>
+        </paragraph>
+    </description>
+</bug>

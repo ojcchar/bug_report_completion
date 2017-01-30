@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3216</id>
+    <title>Incorrect parse result in ParameterParser</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">A very simple hql will cause the ParameterMetadata.getOrdinalParameterDescriptor() method throw this Exception: 
+"Remember that ordinal parameters are 1-based!"</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">HQL:
+from User u where u.userName = ? and u.userType = 'call'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The reason is found out to be this:</sentence>
+            <sentence id="3.2">ParameterParser.java
+public static void parse(String sqlString, Recognizer recognizer) throws QueryException {
+	boolean hasMainOutputParameter = sqlString.indexOf( "call" ) &gt; 0 &amp;&amp;
+		sqlString.indexOf( "?" )</sentence>
+            <sentence id="3.3">&lt; sqlString.indexOf( "call" ) &amp;&amp;
+		sqlString.indexOf( "=" ) &lt; sqlString.indexOf( "call" );</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The hql above match these conditions, so the hasMainOutputParameter is set to true.</sentence>
+            <sentence id="4.2">Thus the first normal ordinal parameter is bypassed, exception is thrown.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Suggestion: Strenthen the checking of the hasMainOutputParameter.</sentence>
+        </paragraph>
+    </description>
+</bug>

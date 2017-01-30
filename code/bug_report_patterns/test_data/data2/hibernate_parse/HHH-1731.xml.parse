@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1731</id>
+    <title>configuration.setProperty("connection.url", newJdbcUrl) fails</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">It appears that, after</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Configuration configuration = new Configuration().</sentence>
+            <sentence id="2.2">configure(cfgFileName);</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">but before</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">new SchemaExport(configuration).</sentence>
+            <sentence id="4.2">create(false,true);
+   sessionFactory = configuration.buildSessionFactory()</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">the JDBC Connection URL can't be changed with</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">configuration.setProperty("connection.url", newJdbcUrl)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Trying to do so causes configuration.getProperty to return the new value,
+but the SessionFactory gets confused and appears to use the old value.</sentence>
+            <sentence id="7.2">I have the impression that configure(cfgFileName) sets the properties
+of the Configuration in some "hard" way, so that later calls to setProperty
+are mostly ignored (except that getProperty returns the new value).</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">The attached file attempts to do this, and fails.</sentence>
+        </paragraph>
+    </description>
+</bug>

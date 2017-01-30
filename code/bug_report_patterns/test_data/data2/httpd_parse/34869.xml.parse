@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>34869</id>
+    <title>Intermittent File/Dir Mode Problems</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I am running Apache 2.0.46 under RHEL3 with the latest up2date patches.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Intermittently, I will have problems with files and directories created by
+apache from both PHP and mod_perl applications (our custom apps, and RT in
+particular) where the directories and/or files will wind up with (typically)
+zero modes (0000).</sentence>
+            <sentence id="2.2">The applications in question seem to be doing the right
+thing in setting explicit modes on files/dirs that are created, and normal
+exhibit expected behaviour.</sentence>
+            <sentence id="2.3">But intermittently this problem will recur without
+any other accompanying events.</sentence>
+            <sentence id="2.4">It also seems to clear up on its own without my
+intervention, although I have to chmod files that have already been created.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">A developer I'm working with who is developing under a fairly different
+environment (OSX, PHP5, Apache 2.0.52) who experiences the same problem with PHP
+session files in /tmp winding up, again intermittently, with 0000 modes.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">So the commonality here seems to be Apache 2.</sentence>
+            <sentence id="4.2">I haven't been able to to
+correlate this with any other log events.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I am going to create a simple PHP program that will create files and dirs
+through apache and have it run itself regularly via cron and see what happens in
+terms of the modes.</sentence>
+        </paragraph>
+    </description>
+</bug>

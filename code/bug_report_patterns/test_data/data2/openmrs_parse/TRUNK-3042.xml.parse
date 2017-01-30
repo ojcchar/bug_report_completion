@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3042</id>
+    <title>Duplicate message code within message.properties file</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There are three codes within the message properties file that have been mistakenly duplicated.</sentence>
+            <sentence id="1.2">IN each case, one of the duplicates must be removed.</sentence>
+            <sentence id="1.3">* {{install.error.unableCreateDb}}</sentence>
+            <sentence id="1.4">* {{Provider.title}} (duplicate is lowercase: {{provider.title}})</sentence>
+            <sentence id="1.5">* {{Encounter.edit}}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Ideally, any code using these duplicates would be checked and fixed if necessary (e.g., adding a non-duplicating message code if appropriate); however, I don't think this should keep us from correcting these duplicates, especially because we cannot use [Amanuens|http://amanuens.com] for translating our message bundles in trunk until these duplicates are removed.</sentence>
+        </paragraph>
+    </description>
+</bug>

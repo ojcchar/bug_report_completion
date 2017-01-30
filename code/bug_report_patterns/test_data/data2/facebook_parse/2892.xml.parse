@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2892</id>
+    <title>next parameter in query string does not account for already existing parameters in canvas url page</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">my canvas url could be something like:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">http://apps.facebook.com/myapp/</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">which points to:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">http://www.mysite.com/myapp.aspx?val1=1&amp;val2=2</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">but when I throw in the next=?</sentence>
+            <sentence id="5.2">val3=3&amp;val4=4</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">it returns a url that looks like this:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">http://www.mysite.com/myapp.aspx?val1=1&amp;val2=2?val3=3&amp;val4=4</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">notice the extra  ? in the query string (facebook should recognize and convert it to a  &amp; )</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>113724</id>
+    <title>NPE thrown out when preview cascading parameter with a static parameter</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">description:
+NPE thrown out when preview cascading parameter with a static parameter</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">steps to reproduce:</sentence>
+            <sentence id="2.2">1 new a data source and data set</sentence>
+            <sentence id="2.3">2 new a cascading parameter</sentence>
+            <sentence id="2.4">3 new a static parameter</sentence>
+            <sentence id="2.5">4 drag the static parameter to layout view</sentence>
+            <sentence id="2.6">5 drag static parameter to cascading parameter group</sentence>
+            <sentence id="2.7">6 preview</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">actual result:
+NullPointerException thrown out</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">expected result:
+No NullPointerException thrown out</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Exception stack trace:</sentence>
+            <sentence id="5.2">java.lang.NullPointerException</sentence>
+            <sentence id="5.3">	at </sentence>
+            <sentence id="5.4">org.eclipse.birt.data.engine.executor.CachedResultSet.getNumberOfUserDefinedCom</sentence>
+            <sentence id="5.5">putedColumn(CachedResultSet.java:380)</sentence>
+            <sentence id="5.6">	at </sentence>
+            <sentence id="5.7">org.eclipse.birt.data.engine.executor.CachedResultSet.populateResultSet</sentence>
+            <sentence id="5.8">(CachedResultSet.java:216)</sentence>
+            <sentence id="5.9">	at org.eclipse.birt.data.engine.executor.CachedResultSet.&lt;init&gt;</sentence>
+            <sentence id="5.10">(CachedResultSet.java:117)</sentence>
+            <sentence id="5.11">	at org.eclipse.birt.data.engine.executor.DataSourceQuery.execute</sentence>
+            <sentence id="5.12">(DataSourceQuery.java:503)</sentence>
+            <sentence id="5.13">	at </sentence>
+            <sentence id="5.14">org.eclipse.birt.data.engine.impl.PreparedExtendedDSQuery$ExtendedDSQueryExecut</sentence>
+            <sentence id="5.15">or.executeOdiQuery(PreparedExtendedDSQuery.java:313)</sentence>
+            <sentence id="5.16">	at org.eclipse.birt.data.engine.impl.PreparedQuery$Executor.execute</sentence>
+            <sentence id="5.17">(PreparedQuery.java:627)</sentence>
+            <sentence id="5.18">	at org.eclipse.birt.data.engine.impl.QueryResults.getResultIterator</sentence>
+            <sentence id="5.19">(QueryResults.java:98)</sentence>
+            <sentence id="5.20">	at </sentence>
+            <sentence id="5.21">org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.evaluateQuer</sentence>
+            <sentence id="5.22">y(GetParameterDefinitionTask.java:586)</sentence>
+            <sentence id="5.23">	at </sentence>
+            <sentence id="5.24">org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterDialog.getSe</sentence>
+            <sentence id="5.25">lectionChoice(InputParameterDialog.java:621)</sentence>
+            <sentence id="5.26">	at </sentence>
+            <sentence id="5.27">org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterDialog.build</sentence>
+            <sentence id="5.28">ChoiceList(InputParameterDialog.java:533)</sentence>
+            <sentence id="5.29">	at </sentence>
+            <sentence id="5.30">org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterDialog.rendP</sentence>
+            <sentence id="5.31">arameterComboBox(InputParameterDialog.java:485)</sentence>
+            <sentence id="5.32">	at </sentence>
+            <sentence id="5.33">org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterDialog.rendS</sentence>
+            <sentence id="5.34">calarParameter(InputParameterDialog.java:336)</sentence>
+            <sentence id="5.35">	at </sentence>
+            <sentence id="5.36">org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterDialog.rende</sentence>
+            <sentence id="5.37">rParameterWidgets(InputParameterDialog.java:209)</sentence>
+            <sentence id="5.38">	at </sentence>
+            <sentence id="5.39">org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterDialog.rende</sentence>
+            <sentence id="5.40">rParameterWidgets(InputParameterDialog.java:204)</sentence>
+        </paragraph>
+    </description>
+</bug>

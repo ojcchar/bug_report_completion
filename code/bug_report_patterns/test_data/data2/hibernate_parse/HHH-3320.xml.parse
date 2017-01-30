@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3320</id>
+    <title>JPA Max/Min aggregate functions do not return same state-field type when argument is a java.sql.Timestamp</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">According the JPQL specification, MAX and MIN aggregate functions should return the type of the state-field to which they are applied.</sentence>
+            <sentence id="1.2">However, if one tries to query MAX or MIN on a java.sql.Timestamp entity field and tries to populate a class which expects a java.sql.Timestamp in the constructor with the result of MAX or MIN, Hibernate fails with javax.persistence.PersistenceException.</sentence>
+            <sentence id="1.3">The result of MAX or MIN in this case are being java.util.Date instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The error result in type mismatch should ideally also be more helpful, because it is very difficult to understand what and where the problem is, unless you know about it beforehand.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here is an example Entity, with the aggregate class and query, together with the exception that occurs:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">... 
+import java.sql.Timestamp;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">@Entity 
+@Table(name="pending_events") 
+public class PendingEvent implements Serializable 
+{ 
+... 
+    @Column(name="event_time", updatable=false, nullable=false) 
+    private Timestamp eventTime; 
+... 
+}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">import java.sql.Timestamp;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">public class EventEntry 
+{ 
+    private String sender; 
+    private Timestamp lastEventTime;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">public EventEntry(String sender, Timestamp lastEventTime) 
+    { 
+        this.sender= sender; 
+        this.lastEventTime = lastEventTime; 
+    } 
+... 
+}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">SELECT NEW mt.com.jbx.EventEntry(p.sender, MAX(p.eventTime)) FROM PendingEvent p WHERE p.recipient.id=?</sentence>
+            <sentence id="9.2">GROUP BY p.sender ORDER BY MAX(p.eventTime) DESC</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">java.lang.ExceptionInInitializerError </sentence>
+            <sentence id="10.2">Caused by: javax.persistence.PersistenceException: [PersistenceUnit: EventsPU] Unable to build EntityManagerFactory </sentence>
+            <sentence id="10.3">        at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:677) </sentence>
+            <sentence id="10.4">        at org.hibernate.ejb.HibernatePersistence.createEntityManagerFactory(HibernatePersistence.java:126) </sentence>
+            <sentence id="10.5">        at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:52) </sentence>
+            <sentence id="10.6">        at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:34) </sentence>
+            <sentence id="10.7">        at mt.com.jbx.EventHandler.&lt;clinit&gt;(EventHandler.java:33) </sentence>
+            <sentence id="10.8">Caused by: org.hibernate.HibernateException: Errors in named queries: getEventSummary </sentence>
+            <sentence id="10.9">        at org.hibernate.impl.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:365) </sentence>
+            <sentence id="10.10">        at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1300) </sentence>
+            <sentence id="10.11">        at org.hibernate.cfg.AnnotationConfiguration.buildSessionFactory(AnnotationConfiguration.java:859) </sentence>
+            <sentence id="10.12">        at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:669)</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>5078</id>
+    <title>Kernel crash</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">'3 2.0-4-amd64 #1 SMP Debian 3.2.54-2 x86_64 GNU/Linux'</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client version: 0.9.1
+Go version (client): go1.2.1
+Git commit (client): 3600720
+Server version: 0.9.1
+Git commit (server): 3600720
+Go version (server): go1.2.1
+Last stable version: 0.9.1
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Hi there,</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">On a fresh debian install on bare metal, with barely any software installed besides docker, I randomly get kernel crashes.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">It usually happens randomly, and then, running docker commands triggers these crashes again.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">For example, as I was running an 'ansible' script on my containers, I got a kernel crash (of the host):</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'
+Message from syslogd@redacted at Apr 8 02:33:47 ... [851/1819]
+ kernel:[ 4820.910097] Stack:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4820.915288] Call Trace:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4820.925678] Code: 04 48 8b 56 08 eb 1d 0f b6 32 ff c9 48 ff c2 48 89 f7 48 c1 ee 04 48 c1 e7 04 48 01 fe 48 01 f0 48 6b c0 0b 85 c9 75 df 89 45 00 &lt;f6&gt; 03 01 74 15 48 8b 43 60 48 8b 73 30 48 89 ea 48 89 df ff 50</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4820.930268] CR2: 0000000000000000</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4820.936367] Oops: 0000 [#4] SMP</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4820.964217] Stack:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4820.968833] Call Trace:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4820.978934] Code: 04 48 8b 56 08 eb 1d 0f b6 32 ff c9 48 ff c2 48 89 f7 48 c1 ee 04 48 c1 e7 04 48 01 fe 48 01 f0 48 6b c0 0b 85 c9 75 df 89 45 00 &lt;f6&gt; 03 01 74 15 48 8b 43 60 48 8b 73 30 48 89 ea 48 89 df ff 50</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4820.983736] CR2: 0000000000000000</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4820.990483] Oops: 0000 [#5] SMP</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4821.016524] Stack:</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4821.020813] Call Trace:</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4821.033441] Code: 04 48 8b 56 08 eb 1d 0f b6 32 ff c9 48 ff c2 48 89 f7 48 c1 ee 04 48 c1 e7 04 48 01 fe 48 01 f0 48 6b c0 0b 85 c9 75 df 89 45 00 &lt;f6&gt; 03 01 74 15 48 8b 43 60 48 8b 73 30 48 89 ea 48 89 df ff 50</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">Message from syslogd@redacted at Apr 8 02:33:47 ...
+ kernel:[ 4821.038585] CR2: 0000000000000000
+"'</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">It is completely unclear to me whether docker is the main source of these crashes, or if something else (hardware failure?)</sentence>
+            <sentence id="21.2">is going on.</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">It seemed to me that one specific container caused this since I couldn't access it anymore.</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">Then I tried running a 'docker commit the_suspected_container' and got the same thing</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">"'
+Message from syslogd@redacted at Apr 8 02:45:55 ...
+ kernel:[ 5547.289186] Oops: 0010 [#10] SMP </sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">Message from syslogd@redacted at Apr 8 02:45:55 ...
+ kernel:[ 5547.316228] Stack:</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">Message from syslogd@redacted at Apr 8 02:45:55 ...
+ kernel:[ 5547.320899] Call Trace:</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">Message from syslogd@redacted at Apr 8 02:45:55 ...
+ kernel:[ 5547.334765] Code: Bad RIP value.</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">Message from syslogd@redacted at Apr 8 02:45:55 ...
+ kernel:[ 5547.338006] CR2: 0000000000000000
+"'
+### Here's some kern.log:</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">"'</sentence>
+            <sentence id="29.2">Apr 8 02:33:36 ks4000991 kernel: [ 4810.004540] BUG: unable to handle kernel NULL pointer dereference at (null)</sentence>
+            <sentence id="29.3">Apr 8 02:33:36 ks4000991 kernel: [ 4810.004581] IP: [&lt;ffffffff8110b9d1&gt;] d_hash_and_lookup+0x38/0x66</sentence>
+            <sentence id="29.4">Apr 8 02:33:36 ks4000991 kernel: [ 4810.004610] PGD 1db75b067 PUD 1db75a067 PMD 0</sentence>
+            <sentence id="29.5">Apr 8 02:33:36 ks4000991 kernel: [ 4810.004632] Oops: 0000 [#1] SMP </sentence>
+            <sentence id="29.6">Apr 8 02:33:36 ks4000991 kernel: [ 4810.004649] CPU 3 </sentence>
+            <sentence id="29.7">Apr 8 02:33:36 ks4000991 kernel: [ 4810.004658] Modules linked in: fuse xt_multiport veth xt_addrtype xt_conntrack ipt_MASQUERADE iptable_nat nf_nat bridge aufs(C) 8021q garp stp xt_tcpudp nf_conntrack_ipv4 nf_defrag_ipv4 xt_state nf_conntrack iptable_filter ip_tables x_tables loop snd_pcm snd_page_alloc snd_timer snd soundcore i915 psmouse coretemp crc32c_in</sentence>
+            <sentence id="29.8">tel ghash_clmulni_intel drm_kms_helper drm cryptd i2c_algo_bit i2c_i801 iTCO_wdt wmi i2c_core iTCO_vendor_support serio_raw pcspkr evdev acpi_cpufreq mperf e1000e xhci_hcd button processor video ehci_hcd thermal_sys usbcore usb_common ext4 crc16 mbcache jbd2 dm_mod raid1 md_mod sd_mod crc_t10dif ahci libahci libata scsi_mod</sentence>
+            <sentence id="29.9">Apr 8 02:33:36 ks4000991 kernel: [ 4810.004964] </sentence>
+            <sentence id="29.10">Apr 8 02:33:36 ks4000991 kernel: [ 4810.004973] Pid: 8133, comm: sh Tainted: G C 3.2.0-4-amd64 #1 Debian 3.2.54-2 /DH61AG</sentence>
+            <sentence id="29.11">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005017] RIP: 0010:[&lt;ffffffff8110b9d1&gt;] [&lt;ffffffff8110b9d1&gt;] d_hash_and_lookup+0x38/0x66</sentence>
+            <sentence id="29.12">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005053] RSP: 0018:ffff8801b6af7d28 EFLAGS: 00010246</sentence>
+            <sentence id="29.13">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005085] RAX: 00000000000199ec RBX: 0000000000000000 RCX: 0000000000000000</sentence>
+            <sentence id="29.14">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005120] RDX: ffff8801b6af7d75 RSI: 0000000000000373 RDI: 0000000000000370</sentence>
+            <sentence id="29.15">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005159] RBP: ffff8801b6af7d60 R08: 000000000000000a R09: 00000000fffffffa</sentence>
+            <sentence id="29.16">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005197] R10: 0000000000000000 R11: ffff88021656e000 R12: ffff880214be82c0</sentence>
+            <sentence id="29.17">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005233] R13: ffff88015231ae80 R14: 0000000000000011 R15: 0000000000000011</sentence>
+            <sentence id="29.18">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005272] FS: 00007f9ecb851700(0000) GS:ffff88021f380000(0000) knlGS:0000000000000000</sentence>
+            <sentence id="29.19">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005318] CS: 0010 DS: 0000 ES: 0000 CR0: 000000008005003b</sentence>
+            <sentence id="29.20">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005351] CR2: 0000000000000000 CR3: 00000001db4c8000 CR4: 00000000000406e0</sentence>
+            <sentence id="29.21">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005387] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000</sentence>
+            <sentence id="29.22">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005422] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400</sentence>
+            <sentence id="29.23">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005461] Process sh (pid: 8133, threadinfo ffff8801b6af6000, task ffff880216517590)</sentence>
+            <sentence id="29.24">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005504] Stack:</sentence>
+            <sentence id="29.25">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005517] 0000000000000002 ffff8801b6af7d73 0000000000000001 ffffffff81143c29</sentence>
+            <sentence id="29.26">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005563] 0000000206677448 ffff880214be82c0 ffff8801b6af7dc0 00000002000199ec</sentence>
+            <sentence id="29.27">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005611] ffff8801b6af7d73 0034003731060e90 ffffffff8100d025 0000000060ca8b69</sentence>
+            <sentence id="29.28">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005658] Call Trace:</sentence>
+            <sentence id="29.29">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005673] [&lt;ffffffff81143c29&gt;] ? proc_flush_task+0x98/0x1cc</sentence>
+            <sentence id="29.30">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005699] [&lt;ffffffff8100d025&gt;] ? paravirt_write_msr+0xb/0xe</sentence>
+            <sentence id="29.31">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005724] [&lt;ffffffff8134fdc7&gt;] ? _raw_spin_unlock_irqrestore+0xe/0xf</sentence>
+            <sentence id="29.32">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005752] [&lt;ffffffff810489e2&gt;] ? release_task+0x2b/0x331</sentence>
+            <sentence id="29.33">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005775] [&lt;ffffffff81049250&gt;] ? wait_consider_task+0x568/0x916</sentence>
+            <sentence id="29.34">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005801] [&lt;ffffffff810496f5&gt;] ? do_wait+0xf7/0x20f</sentence>
+            <sentence id="29.35">Apr 8 02:33:36 ks4000991 kernel: [ 4810.005823] [&lt;ffffffff8103a54b&gt;] ? resched_task+0x39/0x65</sentence>
+            <sentence id="29.36">Apr 8 02:33:36 ks4000991 kernel: [ 4810.006880] [&lt;ffffffff8103fa81&gt;] ? wake_up_new_task+0xb9/0xc2</sentence>
+            <sentence id="29.37">Apr 8 02:33:36 ks4000991 kernel: [ 4810.007971] [&lt;ffffffff8104a8e2&gt;] ? sys_wait4+0x98/0xb5</sentence>
+            <sentence id="29.38">Apr 8 02:33:36 ks4000991 kernel: [ 4810.008988] [&lt;ffffffff8104895b&gt;] ? task_stopped_code+0x37/0x37</sentence>
+            <sentence id="29.39">Apr 8 02:33:36 ks4000991 kernel: [ 4810.009978] [&lt;ffffffff81354d92&gt;] ? system_call_fastpath+0x16/0x1b</sentence>
+            <sentence id="29.40">Apr 8 02:33:36 ks4000991 kernel: [ 4810.011045] Code: 04 48 8b 56 08 eb 1d 0f b6 32 ff c9 48 ff c2 48 89 f7 48 c1 ee 04 48 c1 e7 04 48 01 fe 48 01 f0 48 6b c0 0b 85 c9 75 df 89 45 00 &lt;f6&gt; 03 01 74 15 48 8b 43 60 48 8b 73 30 48 89 ea 48 89 df ff 50 </sentence>
+            <sentence id="29.41">Apr 8 02:33:36 ks4000991 kernel: [ 4810.013552] RIP [&lt;ffffffff8110b9d1&gt;] d_hash_and_lookup+0x38/0x66</sentence>
+            <sentence id="29.42">Apr 8 02:33:36 ks4000991 kernel: [ 4810.014969] RSP &lt;ffff8801b6af7d28&gt;</sentence>
+            <sentence id="29.43">Apr 8 02:33:36 ks4000991 kernel: [ 4810.016365] CR2: 0000000000000000</sentence>
+            <sentence id="29.44">Apr 8 02:33:36 ks4000991 kernel: [ 4810.055512] [drm:intel_dp_complete_link_train] *ERROR* failed to train DP, aborting</sentence>
+            <sentence id="29.45">Apr 8 02:33:36 ks4000991 kernel: [ 4810.087847] ---[ end trace 71d8bf5739c2db82 ]---</sentence>
+            <sentence id="29.46">Apr 8 02:33:39 ks4000991 kernel: [ 4813.427276] BUG: unable to handle kernel NULL pointer dereference at (null)</sentence>
+            <sentence id="29.47">Apr 8 02:33:39 ks4000991 kernel: [ 4813.428676] IP: [&lt;ffffffff8110b9d1&gt;] d_hash_and_lookup+0x38/0x66</sentence>
+            <sentence id="29.48">Apr 8 02:33:39 ks4000991 kernel: [ 4813.430073] PGD 1521c7067 PUD 1521c6067 PMD 0 </sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

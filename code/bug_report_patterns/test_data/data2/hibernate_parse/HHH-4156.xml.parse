@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4156</id>
+    <title>c3p0 is not used when only specific hibernate.c3p0.* properties</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">in hibernate document, it says:
+{quote}
+C3P0 is an open source JDBC connection pool distributed along with Hibernate in the lib directory.</sentence>
+            <sentence id="1.2">Hibernate will use its org.hibernate.connection.C3P0ConnectionProvider for connection pooling if you set hibernate.c3p0.</sentence>
+            <sentence id="1.3">* properties.</sentence>
+            <sentence id="1.4">{quote}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">but this is not working anymore, if you not explicitly add this property:</sentence>
+            <sentence id="2.2">&lt;property name="hibernate.connection.provider_class"&gt;org.hibernate.connection.C3P0ConnectionProvider&lt;/property&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

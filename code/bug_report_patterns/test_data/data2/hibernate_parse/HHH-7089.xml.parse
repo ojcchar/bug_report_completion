@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7089</id>
+    <title>NPE during SessionFactoryImpl init when 2L caching is enabled and @NaturalIdCache is used with EHcache</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory always returns null for buildNaturalIdRegion due to an oversight during work on HHH-6974</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The result is that if Second-Level caching is enabled and any entity is annotated with @NaturalIdCache session factory creation fails with a NPE</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{noformat}</sentence>
+            <sentence id="3.2">     [java] Caused by: java.lang.NullPointerException</sentence>
+            <sentence id="3.3">     [java] 	at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:361)</sentence>
+            <sentence id="3.4">     [java] 	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1740)</sentence>
+            <sentence id="3.5">     [java] 	at org.hibernate.ejb.EntityManagerFactoryImpl.&lt;init&gt;(EntityManagerFactoryImpl.java:88)</sentence>
+            <sentence id="3.6">     [java] 	at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:904)</sentence>
+            <sentence id="3.7">     [java] 	at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:889)</sentence>
+            <sentence id="3.8">     [java] 	at org.hibernate.ejb.HibernatePersistence.createContainerEntityManagerFactory(HibernatePersistence.java:73)</sentence>
+            <sentence id="3.9">{noformat}</sentence>
+        </paragraph>
+    </description>
+</bug>

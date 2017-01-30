@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>5130</id>
+    <title>"docker build" now takes a long time in 0.10.0</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">After updating to 0.10.0 from 0.9.1, I notice that running **docker build** now takes a very long time (~5 minutes for me vs ~1 second previously).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">My Dockerfile has **ADD run.sh /bin /boot /dev /etc /home /initrd.img /lib /lib32 /lib64 /lost+found /media /mnt /opt /proc /root /run /sbin /srv /sys /tmp /usr /var /vmlinuz /work command.</sentence>
+            <sentence id="2.2">It appears that **build** makes a complete copy of the file system.</sentence>
+            <sentence id="2.3">And my FROM image is ~10G.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Now, if I change the above ADD command to **ADD run.sh /run.sh**, then the build time comes back to ~1 second.</sentence>
+            <sentence id="3.2">Is this behavior intentional?</sentence>
+        </paragraph>
+    </description>
+</bug>

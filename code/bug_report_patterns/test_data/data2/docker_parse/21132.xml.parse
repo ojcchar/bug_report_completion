@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>21132</id>
+    <title>Cannot attach network to stopped container with --net none</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client:
+ Version: 1.10.2
+ API version: 1.22
+ Go version: go1.6
+ Git commit: c3959b1
+ Built: Tue Feb 23 21:11:36 UTC 2016
+ OS/Arch: darwin/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.10.3
+ API version: 1.22
+ Go version: go1.5.3
+ Git commit: 20f81dd
+ Built: Thu Mar 10 21:49:11 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'</sentence>
+            <sentence id="5.2">Containers: 11</sentence>
+            <sentence id="5.3"> Running: 1</sentence>
+            <sentence id="5.4"> Paused: 0</sentence>
+            <sentence id="5.5"> Stopped: 10</sentence>
+            <sentence id="5.6">Images: 6</sentence>
+            <sentence id="5.7">Server Version: 1.10.3</sentence>
+            <sentence id="5.8">Storage Driver: aufs</sentence>
+            <sentence id="5.9"> Root Dir: /mnt/sda1/var/lib/docker/aufs</sentence>
+            <sentence id="5.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="5.11"> Dirs: 78</sentence>
+            <sentence id="5.12"> Dirperm1 Supported: true</sentence>
+            <sentence id="5.13">Execution Driver: native-0.2</sentence>
+            <sentence id="5.14">Logging Driver: json-file</sentence>
+            <sentence id="5.15">Plugins:</sentence>
+            <sentence id="5.16"> Volume: local</sentence>
+            <sentence id="5.17"> Network: weavemesh bridge null host</sentence>
+            <sentence id="5.18">Kernel Version: 4.1.19-boot2docker</sentence>
+            <sentence id="5.19">Operating System: Boot2Docker 1.10.3 (TCL 6.4.1); master : 625117e - Thu Mar 10 22:09:02 UTC 2016</sentence>
+            <sentence id="5.20">OSType: linux</sentence>
+            <sentence id="5.21">Architecture: x86_64</sentence>
+            <sentence id="5.22">CPUs: 1</sentence>
+            <sentence id="5.23">Total Memory: 1.523 GiB</sentence>
+            <sentence id="5.24">Name: default</sentence>
+            <sentence id="5.25">ID: DNVE:MHQ6:R3KE:PWMV:AC7P:T27J:NSZS:NDX5:X5FC:6GFA:BWLA:2WVU</sentence>
+            <sentence id="5.26">Debug mode (server): true</sentence>
+            <sentence id="5.27"> File Descriptors: 20</sentence>
+            <sentence id="5.28"> Goroutines: 33</sentence>
+            <sentence id="5.29"> System Time: 2016-03-11T19:46:17.855346239Z</sentence>
+            <sentence id="5.30"> EventsListeners: 1</sentence>
+            <sentence id="5.31"> Init SHA1:</sentence>
+            <sentence id="5.32"> Init Path: /usr/local/bin/docker</sentence>
+            <sentence id="5.33"> Docker Root Dir: /mnt/sda1/var/lib/docker</sentence>
+            <sentence id="5.34">Username: sheerun</sentence>
+            <sentence id="5.35">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="5.36">Labels:</sentence>
+            <sentence id="5.37"> provider=parallels</sentence>
+            <sentence id="5.38">"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="6.2">"'
+docker network create --driver overlay --subnet 10.40.1.0/16 --internal net1
+docker network create --driver overlay --subnet 10.50.1.0/16 --internal net2
+docker create --name busybox -ti --net none busybox ifconfig
+docker network connect --ip 10.40.0.5 net1 busybox
+docker network connect --ip 10.50.0.5 net2 busybox
+docker start -ai busybox
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Describe the results you received:**</sentence>
+            <sentence id="7.2">&gt; Error response from daemon: Container cannot be connected to multiple networks with one of the networks in private (none) mode</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you expected:**</sentence>
+            <sentence id="8.2">Docker is connected is started with 2 networks connected.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">The only method that works is following:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'
+docker create --name busybox -ti --net net1 --ip 10.40.1.0 busybox ifconfig
+docker network connect --ip 10.40.1.0 net2 busybox
+docker start -ai busybox
+"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">I find this method of attaching multiple networks inconsistent... As you always need to list first network with '--net' and '--ip', instead just creating container and attaching multiple networks the same way.</sentence>
+            <sentence id="12.2">.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1452</id>
+    <title>Native SQL query is missing join if entity includes many-to-one on secondary table</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Mapping of a many-to-one across a join table:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;class name="Item"&gt;
+    &lt;join table="ITEM_BUYER"
+          optional="true"&gt;
+        &lt;key column="ITEM_ID"/&gt;
+        &lt;many-to-one name="buyer" column="USER_ID"/&gt;
+    &lt;/join&gt;
+&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Query:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">result = session.createSQLQuery("select {i.*} from ITEM i" +
+                                        " join USERS u on i.SELLER_ID = u.USER_ID" +
+                                        " where u.USERNAME = :uname")
+                         .</sentence>
+            <sentence id="4.2">addEntity("i", Item.class)
+                         .</sentence>
+            <sentence id="4.3">setParameter("uname", "turin")
+                         .</sentence>
+            <sentence id="4.4">list();</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Generated SQL and exception:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Hibernate:</sentence>
+            <sentence id="6.2">/* dynamic native SQL query */ select</sentence>
+            <sentence id="6.3">i.ITEM_ID as ITEM1_7_0_,</sentence>
+            <sentence id="6.4">i.OBJ_VERSION as OBJ2_7_0_,</sentence>
+            <sentence id="6.5">i.NAME as NAME7_0_,</sentence>
+            <sentence id="6.6">i.DESCRIPTION as DESCRIPT4_7_0_,</sentence>
+            <sentence id="6.7">i.INITIAL_PRICE as INITIAL5_7_0_,</sentence>
+            <sentence id="6.8">i.INITIAL_PRICE_CURRENCY as INITIAL6_7_0_,</sentence>
+            <sentence id="6.9">i.RESERVE_PRICE as RESERVE7_7_0_,</sentence>
+            <sentence id="6.10">i.RESERVE_PRICE_CURRENCY as RESERVE8_7_0_,</sentence>
+            <sentence id="6.11">i.START_DATE as START9_7_0_,</sentence>
+            <sentence id="6.12">i.END_DATE as END10_7_0_,</sentence>
+            <sentence id="6.13">i.STATE as STATE7_0_,</sentence>
+            <sentence id="6.14">i.APPROVAL_DATETIME as APPROVAL12_7_0_,</sentence>
+            <sentence id="6.15">i.CREATED as CREATED7_0_,</sentence>
+            <sentence id="6.16">i.APPROVED_BY_USER_ID as APPROVED14_7_0_,</sentence>
+            <sentence id="6.17">i.SELLER_ID as SELLER15_7_0_,</sentence>
+            <sentence id="6.18">i_1_.</sentence>
+            <sentence id="6.19">USER_ID as USER2_2_0_,</sentence>
+            <sentence id="6.20">'T' as formula0_0_,</sentence>
+            <sentence id="6.21">i.ITEM_ID as formula1_0_</sentence>
+            <sentence id="6.22">from</sentence>
+            <sentence id="6.23">ITEM i</sentence>
+            <sentence id="6.24">join</sentence>
+            <sentence id="6.25">USERS u</sentence>
+            <sentence id="6.26">on i.SELLER_ID = u.USER_ID</sentence>
+            <sentence id="6.27">where</sentence>
+            <sentence id="6.28">u.USERNAME = ?</sentence>
+            <sentence id="6.29">03:45:18,243  WARN JDBCExceptionReporter:71 - SQL Error: -28, SQLState: S0022</sentence>
+            <sentence id="6.30">03:45:18,244 ERROR JDBCExceptionReporter:72 - Column not found: I_1_.</sentence>
+            <sentence id="6.31">USER_ID in statement [/* dynamic native SQL query */ select i.ITEM_ID as ITEM1_7_0_, i.OBJ_VERSION as OBJ2_7_0_, i.NAME as NAME7_0_, i.DESCRIPTION as DESCRIPT4_7_0_, i.INITIAL_PRICE as INITIAL5_7_0_, i.INITIAL_PRICE_CURRENCY as INITIAL6_7_0_, i.RESERVE_PRICE as RESERVE7_7_0_, i.RESERVE_PRICE_CURRENCY as RESERVE8_7_0_, i.START_DATE as START9_7_0_, i.END_DATE as END10_7_0_, i.STATE as STATE7_0_, i.APPROVAL_DATETIME as APPROVAL12_7_0_, i.CREATED as CREATED7_0_, i.APPROVED_BY_USER_ID as APPROVED14_7_0_, i.SELLER_ID as SELLER15_7_0_, i_1_.</sentence>
+            <sentence id="6.32">USER_ID as USER2_2_0_, 'T' as formula0_0_, i.ITEM_ID as formula1_0_ from ITEM i join USERS u on i.SELLER_ID = u.USER_ID where u.USERNAME = ?]</sentence>
+        </paragraph>
+    </description>
+</bug>

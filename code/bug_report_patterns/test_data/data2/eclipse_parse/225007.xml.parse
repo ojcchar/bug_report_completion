@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>225007</id>
+    <title>Activating a context does not seem to activate any ancestor context</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build ID: I20080327-2251</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Steps To Reproduce:</sentence>
+            <sentence id="2.2">1 Defined a context in plugin.xml to be:</sentence>
+            <sentence id="2.3">&lt;extension point="org.eclipse.ui.contexts"&gt;</sentence>
+            <sentence id="2.4">&lt;context</sentence>
+            <sentence id="2.5">name="nameB"</sentence>
+            <sentence id="2.6">parentId="a"</sentence>
+            <sentence id="2.7">description="descB"</sentence>
+            <sentence id="2.8">id="b"&gt;</sentence>
+            <sentence id="2.9">&lt;/context&gt;</sentence>
+            <sentence id="2.10">&lt;/extension&gt;</sentence>
+            <sentence id="2.11">2 In another plugin.xml, I define another context:</sentence>
+            <sentence id="2.12">&lt;extension point="org.eclipse.ui.contexts"&gt;</sentence>
+            <sentence id="2.13">&lt;context</sentence>
+            <sentence id="2.14">name="nameC"</sentence>
+            <sentence id="2.15">parentId="b"</sentence>
+            <sentence id="2.16">description="descC"</sentence>
+            <sentence id="2.17">id="c"&gt;</sentence>
+            <sentence id="2.18">&lt;/context&gt;</sentence>
+            <sentence id="2.19">&lt;/extension&gt;</sentence>
+            <sentence id="2.20">3 In my source code, I have:</sentence>
+            <sentence id="2.21">IContextService service = (IContextService) getSite().</sentence>
+            <sentence id="2.22">getService(IContextService.class);</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">service.activateContext("c");</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">More information:
+After calling service.activateContext("c"), neither context "b" nor "a" become activated.</sentence>
+            <sentence id="4.2">Reading the Eclipse help on Contexts leads me to believe that once a context is activated, its ancestor contexts are activated as well.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"Contexts are hierarchical in nature.</sentence>
+            <sentence id="5.2">When a context is active, the commands available in the context and in its parent contexts are also available."</sentence>
+            <sentence id="5.3">from http://help.eclipse.org/help33/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/workbench_advext_contexts.htm</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I can, however, activate the context "b" by doing service.activateContext(service.getContext("c").</sentence>
+            <sentence id="6.2">getParentId())</sentence>
+        </paragraph>
+    </description>
+</bug>

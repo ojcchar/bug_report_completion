@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>90052</id>
+    <title>Libreoffice might hang when inserting text in narrow Writer table cell</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I had problems with inserting new text in a table cell.</sentence>
+            <sentence id="1.2">I hope you can reproduce the problem with the following procedure:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Make a table.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Fill in a cell with a value of a few tens of characters.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Make the cell's column very narrow, say half an inch wide.</sentence>
+            <sentence id="4.2">The strings and words of the value will break across lines.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Look at the places where words break.</sentence>
+            <sentence id="5.2">A word will break, of course, when there's not sufficient room for the next character.</sentence>
+            <sentence id="5.3">There might be a little bit of space, but not enough.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Try to find a place where this little bit of space is as narrow as possible.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Click at that narrow space.</sentence>
+            <sentence id="7.2">The caret might appear, as it should.</sentence>
+            <sentence id="7.3">Then try to key in a character.</sentence>
+            <sentence id="7.4">Now Libreoffice might hang.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Or the caret might not show, Libreoffice having hanged already.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">If Libreoffice doesn't hang, adjust the cell width to find an even narrower space at a word break, and try again.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">All of Libreoffice hangs - not just Writer and the current document.</sentence>
+            <sentence id="10.2">Other applications might also be affected.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">When it hangs I can see in my System Monitor one processor running at 100%.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">I have tried it on one computer only, with</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Version: 4.2.7.2
+Build ID: 420m0(Build:2)</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Linux Mint 17 Qiana
+Ubuntu 14.04.2 LTS</sentence>
+        </paragraph>
+    </description>
+</bug>

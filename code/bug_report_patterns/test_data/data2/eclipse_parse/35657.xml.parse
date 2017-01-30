@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>35657</id>
+    <title>Eclipse crashes and throws exception when starting up in Chinese locales</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Overview Description:
+For any Chinese locale on Sun Solaris 9, Eclipse will crash and throw a null
+pointer exception when the user attempts to start Eclipse in that environment.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Steps to Reproduce:</sentence>
+            <sentence id="2.2">1 Log into Solaris using any Chinese locale (e.g., zh_TW.</sentence>
+            <sentence id="2.3">BIG5, zh_CN.</sentence>
+            <sentence id="2.4">GB18030, zh).</sentence>
+            <sentence id="2.5">2 Open a terminal session and start Eclipse.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Actual Results:</sentence>
+            <sentence id="3.2">Eclipse crashed and threw the following exception:</sentence>
+            <sentence id="3.3">java.lang.ExceptionInInitializerError: java.lang.NullPointerException</sentence>
+            <sentence id="3.4">        at</sentence>
+            <sentence id="3.5">org.eclipse.jface.preference.PreferenceConverter.&lt;clinit&gt;(PreferenceConverter.java:75)</sentence>
+            <sentence id="3.6">        at</sentence>
+            <sentence id="3.7">org.eclipse.ui.internal.WorkbenchPlugin.initializeDefaultPreferences(WorkbenchPlugin.java:441)</sentence>
+            <sentence id="3.8">        at</sentence>
+            <sentence id="3.9">org.eclipse.ui.plugin.AbstractUIPlugin.initializeDefaultPluginPreferences(AbstractUIPlugin.java:631)</sentence>
+            <sentence id="3.10">        at org.eclipse.core.runtime.Plugin.getPluginPreferences(Plugin.java:347)</sentence>
+            <sentence id="3.11">        at</sentence>
+            <sentence id="3.12">org.eclipse.ui.plugin.AbstractUIPlugin$CompatibilityPreferenceStore.initialize(AbstractUIPlugin.java:176)</sentence>
+            <sentence id="3.13">        at</sentence>
+            <sentence id="3.14">org.eclipse.ui.plugin.AbstractUIPlugin.getPreferenceStore(AbstractUIPlugin.java:568)</sentence>
+            <sentence id="3.15">        at org.eclipse.ui.internal.Workbench.getPreferenceStore(Workbench.java:701)</sentence>
+            <sentence id="3.16">        at org.eclipse.ui.internal.Workbench.init(Workbench.java:844)</sentence>
+            <sentence id="3.17">        at org.eclipse.ui.internal.Workbench.run(Workbench.java:1373)</sentence>
+            <sentence id="3.18">        at</sentence>
+            <sentence id="3.19">org.eclipse.core.internal.boot.InternalBootLoader.run(InternalBootLoader.java:845)</sentence>
+            <sentence id="3.20">        at org.eclipse.core.boot.BootLoader.run(BootLoader.java:461)</sentence>
+            <sentence id="3.21">        at java.lang.reflect.Method.invoke(Native Method)</sentence>
+            <sentence id="3.22">        at org.eclipse.core.launcher.Main.basicRun(Main.java:291)</sentence>
+            <sentence id="3.23">        at org.eclipse.core.launcher.Main.run(Main.java:747)</sentence>
+            <sentence id="3.24">        at org.eclipse.core.launcher.Main.main(Main.java:583)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Expected Results:
+Eclipse should start normally.</sentence>
+            <sentence id="4.2">I have tested this with a Japanese locale
+(ja_JP.</sentence>
+            <sentence id="4.3">eucJP), and Eclipse started normally.</sentence>
+            <sentence id="4.4">Note that no Eclipse language packs
+were installed, as my intention was only to test the functionality of an English
+version of Eclipse in a different locale.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Build Date &amp; Platform:
+Build 200303202147 (RC3a) on Sun Solaris 9</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Additional Builds and Platforms:</sentence>
+            <sentence id="6.2">- Also Occurs On</sentence>
+            <sentence id="6.3">Build 200211071448 (2.0.2) on Sun Solaris 9</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">However, on Eclipse 2.0.2, a different exception is thrown, and instead of
+crashing, Eclipse hangs.</sentence>
+            <sentence id="7.2">Here is the exception:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">java.lang.NullPointerException</sentence>
+            <sentence id="8.2">        at org.eclipse.swt.graphics.Device.&lt;init&gt;(Device.java:121)</sentence>
+            <sentence id="8.3">        at org.eclipse.swt.widgets.Display.&lt;init&gt;(Display.java:319)</sentence>
+            <sentence id="8.4">        at org.eclipse.swt.widgets.Display.&lt;init&gt;(Display.java:316)</sentence>
+            <sentence id="8.5">        at org.eclipse.ui.internal.Workbench.run(Workbench.java:1308)</sentence>
+            <sentence id="8.6">        at</sentence>
+            <sentence id="8.7">org.eclipse.core.internal.boot.InternalBootLoader.run(InternalBootLoader.java:831)</sentence>
+            <sentence id="8.8">        at org.eclipse.core.boot.BootLoader.run(BootLoader.java:462)</sentence>
+            <sentence id="8.9">        at java.lang.reflect.Method.invoke(Native Method)</sentence>
+            <sentence id="8.10">        at org.eclipse.core.launcher.Main.basicRun(Main.java:247)</sentence>
+            <sentence id="8.11">        at org.eclipse.core.launcher.Main.run(Main.java:703)</sentence>
+            <sentence id="8.12">        at org.eclipse.core.launcher.Main.main(Main.java:539)</sentence>
+        </paragraph>
+    </description>
+</bug>

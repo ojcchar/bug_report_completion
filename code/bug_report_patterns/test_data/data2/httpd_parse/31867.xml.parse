@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>31867</id>
+    <title>Option to supress link to Parent Directory</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If a automated tool is used to scan a website it can start to crawl upwards in 
+file structure.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This happens if the start-URL points to a location without an index.html
+If mod_autoindex generates a index.html, it will contain a link to a directory 
+level one level up i.e. Parent Directory.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">An automated tool such as HTTrack (http://www.httrack.com/) will treat Parent 
+Directory as any link and climb one level up and scan that level.</sentence>
+            <sentence id="3.2">This is not 
+always good.</sentence>
+            <sentence id="3.3">HTTrack may work it self up to top level if only mod_autoindex generates the 
+contents of each directory.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Suggestion: Add IndexOptions Directive "SuppressParentDirectory" to prevent 
+mod_autoindex to show a link to the parent directory.</sentence>
+        </paragraph>
+    </description>
+</bug>

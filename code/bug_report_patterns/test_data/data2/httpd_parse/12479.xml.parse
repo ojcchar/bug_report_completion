@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>12479</id>
+    <title>htpasswd -c option is "backwards"</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When running htpasswd on Solaris 2.8 it appears that the -c option (create file)</sentence>
+            <sentence id="1.2">is enabled by default, which over-writes existing password file.</sentence>
+            <sentence id="1.3">By specifying</sentence>
+            <sentence id="1.4">-c it adds to the file.</sentence>
+            <sentence id="1.5">This behaviour is opposite the description in the man page.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">There is a note in the 2.0.40 changelog that may relate:</sentence>
+            <sentence id="2.2">"Fix a silly htpasswd.c logic error that incorrectly reported that both -c and</sentence>
+            <sentence id="2.3">-n had been used.</sentence>
+            <sentence id="2.4">PR 9989  [Cliff Woolley]"</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Note that no error is reported whether -c is used or not.</sentence>
+        </paragraph>
+    </description>
+</bug>

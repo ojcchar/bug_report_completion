@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3752</id>
+    <title>Error with sql generated for set of subclass A in a peer subclass B.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">A mapping such as the following contrived examples does not yield the expected results and causes and error:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;class name="com.foo.Foo1" table="FOO1"&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;id
+name="id"
+         type="java.lang.Integer"
+         column="ID"
+&gt;
+         &lt;generator class="sequence" &gt;
+         &lt;param name="sequence"&gt;ID_SEQ&lt;/param&gt;
+         &lt;/generator&gt;
+&lt;/id&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;discriminator column="FOO_TYPE_ID" type="java.lang.Integer"/&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;subclass name="com.foo.Foo2" discriminator-value="0"&gt;
+&lt;join table="FOO2"&gt;
+&lt;key column="ID"/&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">&lt;property
+name="label"
+type="java.lang.String"
+column="LABEL"
+not-null="true"
+length="255"
+/&gt;
+&lt;/join&gt;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&lt;subclass name="com.foo.BarOne" discriminator-value="1"&gt;
+&lt;set
+name="barTwos"
+inverse="true"
+&gt;
+&lt;key&gt;
+&lt;column name="PARENT_ID" /&gt;
+&lt;/key&gt;
+&lt;one-to-many class="com.foo.BarTwo" /&gt;
+&lt;/set&gt;
+&lt;/subclass&gt;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">&lt;subclass name="com.foo.BarTwo" discriminator-value="2"&gt;
+&lt;join table="BAR"&gt;
+&lt;key column="ID"/&gt;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">&lt;many-to-one
+name="parent"
+class="com.foo.BarOne"
+not-null="true"
+column="PARENT_ID"
+/&gt;
+&lt;/join&gt;
+&lt;/subclass&gt;
+&lt;/subclass&gt;
+&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">The sql created to populate the set "bartwos" looks like this looks like:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">select
+bartwos0_.</sentence>
+            <sentence id="11.2">PARENT_ID as PA3_1_,
+bartwos0_.</sentence>
+            <sentence id="11.3">ID as ID1_1_,
+bartwos0_.</sentence>
+            <sentence id="11.4">ID as ID1_52_0_,
+bartwos0_.</sentence>
+            <sentence id="11.5">FOO_TYPE_ID as FO2_52_0_,
+bartwos0_1_.</sentence>
+            <sentence id="11.6">LABEL as LABEL76_0_,
+bartwos0_2_.</sentence>
+            <sentence id="11.7">PARENT_ID as PA2_87_0_
+from FOO1 bartwos0_, FOO2 bartwos0_1_, BAR2 bartwos0_2_
+where bartwos0_.</sentence>
+            <sentence id="11.8">ID=bartwos0_1_.</sentence>
+            <sentence id="11.9">ID
+and bartwos0_.</sentence>
+            <sentence id="11.10">ID=bartwos0_2_.</sentence>
+            <sentence id="11.11">ID
+and bartwos0_.</sentence>
+            <sentence id="11.12">PARENT_ID=?</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">And yields the following error message:
+java.sql.SQLException: ORA-00904: "BARTWOS0_".</sentence>
+            <sentence id="12.2">"PARENT_ID: invalid identifier</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">The basic problem is that it should be looking for the property PARENT_ID on BAR2, but it is looking for it on FOO1.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">I am refiling this bug because I originally only filed agains 3.2.4.</sentence>
+            <sentence id="14.2">It has been a year with no comments on it so I a resubmitting for all affected versions I have tried.</sentence>
+        </paragraph>
+    </description>
+</bug>

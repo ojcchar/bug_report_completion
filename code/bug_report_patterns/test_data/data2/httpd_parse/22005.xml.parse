@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22005</id>
+    <title>Win32: "Help I'm Stuck!" menu item leads to dead end</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Amusing.</sentence>
+            <sentence id="1.2">If a user tries to open a last-ditch menu item in W32, they will be
+taken to a text page that is rather unhelpful.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">To reproduce:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">1 Using Windows, Open: Start -&gt; Programs -&gt; Apache HTTP Server 2.0.47 -&gt; Help</sentence>
+            <sentence id="3.2">I'm Stuck!</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">results: User is presented with a page that reads:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"URI: index.html.en Content-Language: en Content-type: text/html;
+charset=ISO-8859-1"</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">In my case the path is .</sentence>
+            <sentence id="6.2">.</sentence>
+            <sentence id="6.3">/Apache%20Group/Apache2/manual/faq/index.</sentence>
+            <sentence id="6.4">html but the
+.</sentence>
+            <sentence id="6.5">html file simply contains the above text.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">expected results: Page represents the index page of a FAQ or manual.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">NOTE: There are several other .</sentence>
+            <sentence id="8.2">html files in the same directory that are not
+complete.</sentence>
+        </paragraph>
+    </description>
+</bug>

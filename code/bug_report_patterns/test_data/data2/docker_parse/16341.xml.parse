@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>16341</id>
+    <title> device-mapper: table: 253:7: thin: Couldn't open thin internal device</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">info about my configuration:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+# uname -a
+Linux XXXXXXl 4.1.6-100.fc21.x86_64 #1 SMP Mon Aug 17 22:20:37 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1"># docker version
+Client:
+ Version: 1.8.1.</sentence>
+            <sentence id="4.2">fc21
+ API version: 1.20
+ Package Version: docker-io-1.8.1-2.</sentence>
+            <sentence id="4.3">git32b8b25.fc21.x86_64
+ Go version: go1.4.2
+ Git commit: 32b8b25/1.8.1
+ Built: 
+ OS/Arch: linux/amd64
+Cannot connect to the Docker daemon.</sentence>
+            <sentence id="4.4">Is 'docker -d' running on this host?</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1"># rpm -q docker-io
+docker-io-1.8.1-2.</sentence>
+            <sentence id="5.2">git32b8b25.fc21.x86_64</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1"># cat /etc/fedora-release 
+Fedora release 21 (Twenty One)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">After docker upgrades I can't start the service:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+# systemctl status docker.service -l
+● docker.service - Docker Application Container Engine
+ Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled)
+ Active: failed (Result: exit-code) since mié 2015-09-16 16:53:58 CEST; 13min ago
+ Docs: http://docs.docker.com
+ Process: 4138 ExecStart=/usr/bin/docker -d $OPTIONS $DOCKER_STORAGE_OPTIONS $DOCKER_NETWORK_OPTIONS $INSECURE_REGISTRY (code=exited, status=1/FAILURE)
+ Main PID: 4138 (code=exited, status=1/FAILURE)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">sep 16 16:53:58 patxuko.local docker[4138]: Warning: '-d' is deprecated, it will be removed soon. See usage.</sentence>
+            <sentence id="10.2">sep 16 16:53:58 patxuko.local docker[4138]: time="2015-09-16T16:53:58+02:00" level=warning msg="please use 'docker daemon' instead."</sentence>
+            <sentence id="10.3">sep 16 16:53:58 patxuko.local docker[4138]: time="2015-09-16T16:53:58.234295219+02:00" level=info msg="Listening for HTTP on unix (/var/run/docker.sock)"</sentence>
+            <sentence id="10.4">sep 16 16:53:58 patxuko.local docker[4138]: time="2015-09-16T16:53:58.269879366+02:00" level=fatal msg="Error starting daemon: error initializing graphdriver: Could not query and save base device UUID:Error running DeviceCreate (ActivateDevice) dm_task_run failed"</sentence>
+            <sentence id="10.5">sep 16 16:53:58 patxuko.local systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE</sentence>
+            <sentence id="10.6">sep 16 16:53:58 patxuko.local systemd[1]: Failed to start Docker Application Container Engine.</sentence>
+            <sentence id="10.7">sep 16 16:53:58 patxuko.local systemd[1]: Unit docker.service entered failed state.</sentence>
+            <sentence id="10.8">sep 16 16:53:58 patxuko.local systemd[1]: docker.service failed.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">To be honest I've fully upgraded the system to last versions because I've got this «table: 253:7: thin: Couldn't open thin internal device» after a blackout.</sentence>
+            <sentence id="12.2">So, maybe the thin device is corrupt but I have no idea how really check and fix it.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">I prepared a more detailed error log at http://pastebin.centos.org/34436/</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Please ask any info I could gather for you.</sentence>
+        </paragraph>
+    </description>
+</bug>

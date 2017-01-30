@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1925</id>
+    <title>Column lazy fetch via annotation doesn't work</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have annotated a column in my Journal class as follows:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">@Basic(fetch = FetchType.LAZY)
+    @Column(name = "jouEntryDate", unique = false, nullable = true, insertable = true, updatable = true, length = 23)
+    public Date getEntryDate() {
+        return this.entryDate;
+    }</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">And I then execute the following test:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">public void testLazyColumnLoading() {
+        
+        Journal journal = (Journal) getSession().</sentence>
+            <sentence id="4.2">load(Journal.class, new Long(1));
+        assertFalse(Hibernate.isPropertyInitialized(journal, "entryDate"));
+        logger.debug("Journal narrative: " + journal.getJouNarrative());
+        assertFalse(Hibernate.isPropertyInitialized(journal, "entryDate"));
+        logger.debug("Journal entry date: " + journal.getEntryDate());
+        assertTrue(Hibernate.isPropertyInitialized(journal, "entryDate"));
+        
+    }</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Which generates the following SQL:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">14:44:39,376 DEBUG SQL  -</sentence>
+            <sentence id="6.2">/* load com.catlin.da.insuranceledger.model.Journal */ select</sentence>
+            <sentence id="6.3">journal0_.</sentence>
+            <sentence id="6.4">jouSID as jouSID11_0_,</sentence>
+            <sentence id="6.5">journal0_.</sentence>
+            <sentence id="6.6">jouContraSIDjou as jouCont21_11_0_,</sentence>
+            <sentence id="6.7">journal0_.</sentence>
+            <sentence id="6.8">jouContraOfSIDjou as jouCont22_11_0_,</sentence>
+            <sentence id="6.9">journal0_.</sentence>
+            <sentence id="6.10">jouSIDjgp as jouSIDjgp11_0_,</sentence>
+            <sentence id="6.11">journal0_.</sentence>
+            <sentence id="6.12">jouStatusENUM as jouStatu2_11_0_,</sentence>
+            <sentence id="6.13">journal0_.</sentence>
+            <sentence id="6.14">jouReplaceOfSIDjou as jouRepl24_11_0_,</sentence>
+            <sentence id="6.15">journal0_.</sentence>
+            <sentence id="6.16">jouNarrative as jouNarra3_11_0_,</sentence>
+            <sentence id="6.17">journal0_.</sentence>
+            <sentence id="6.18">jouFunctionalAmtTotal as jouFunct4_11_0_,</sentence>
+            <sentence id="6.19">journal0_.</sentence>
+            <sentence id="6.20">jouEntryDate as jouEntry5_11_0_,</sentence>
+            <sentence id="6.21">journal0_.</sentence>
+            <sentence id="6.22">jouCodejty as jouCodejty11_0_,</sentence>
+            <sentence id="6.23">journal0_.</sentence>
+            <sentence id="6.24">jouLedgerIDlgr as jouLedg26_11_0_,</sentence>
+            <sentence id="6.25">journal0_.</sentence>
+            <sentence id="6.26">jouInsDate as jouInsDate11_0_,</sentence>
+            <sentence id="6.27">journal0_.</sentence>
+            <sentence id="6.28">jouInsSIDusr as jouInsSI7_11_0_,</sentence>
+            <sentence id="6.29">journal0_.</sentence>
+            <sentence id="6.30">jouModVersn as jouModVe8_11_0_,</sentence>
+            <sentence id="6.31">journal0_.</sentence>
+            <sentence id="6.32">jouUpdDate as jouUpdDate11_0_,</sentence>
+            <sentence id="6.33">journal0_.</sentence>
+            <sentence id="6.34">jouUserLastUpdSIDusr as jouUser10_11_0_,</sentence>
+            <sentence id="6.35">journal0_.</sentence>
+            <sentence id="6.36">jouAdditionalRef as jouAddi11_11_0_,</sentence>
+            <sentence id="6.37">journal0_.</sentence>
+            <sentence id="6.38">jouInstantiatingActionENUM as jouInst12_11_0_,</sentence>
+            <sentence id="6.39">journal0_.</sentence>
+            <sentence id="6.40">jouAccountingPeriodCodeacp as jouAcco27_11_0_,</sentence>
+            <sentence id="6.41">journal0_.</sentence>
+            <sentence id="6.42">jouSettlementMethodENUM as jouSett13_11_0_,</sentence>
+            <sentence id="6.43">journal0_.</sentence>
+            <sentence id="6.44">jouSourceTable as jouSour14_11_0_,</sentence>
+            <sentence id="6.45">journal0_.</sentence>
+            <sentence id="6.46">jouSourceID as jouSour15_11_0_,</sentence>
+            <sentence id="6.47">journal0_.</sentence>
+            <sentence id="6.48">jouSIDcll as jouSIDcll11_0_,</sentence>
+            <sentence id="6.49">journal0_.</sentence>
+            <sentence id="6.50">jouSIDcmv as jouSIDcmv11_0_,</sentence>
+            <sentence id="6.51">journal0_.</sentence>
+            <sentence id="6.52">jouSIDinl as jouSIDinl11_0_,</sentence>
+            <sentence id="6.53">journal0_.</sentence>
+            <sentence id="6.54">jouSIDrks as jouSIDrks11_0_,</sentence>
+            <sentence id="6.55">journal0_.</sentence>
+            <sentence id="6.56">jouPostedBySIDusr as jouPost18_11_0_,</sentence>
+            <sentence id="6.57">journal0_.</sentence>
+            <sentence id="6.58">jouInsuredSIDpty as jouInsu30_11_0_,</sentence>
+            <sentence id="6.59">journal0_.</sentence>
+            <sentence id="6.60">jouPayeePayerSIDpty as jouPaye31_11_0_,</sentence>
+            <sentence id="6.61">journal0_.</sentence>
+            <sentence id="6.62">jouBrokerSIDpty as jouBrok32_11_0_,</sentence>
+            <sentence id="6.63">journal0_.</sentence>
+            <sentence id="6.64">jouMessageRef as jouMess19_11_0_,</sentence>
+            <sentence id="6.65">journal0_.</sentence>
+            <sentence id="6.66">jouOrigMessageRef as jouOrig20_11_0_</sentence>
+            <sentence id="6.67">from</sentence>
+            <sentence id="6.68">jouJournal journal0_</sentence>
+            <sentence id="6.69">where</sentence>
+            <sentence id="6.70">journal0_.</sentence>
+            <sentence id="6.71">jouSID=?</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I.e. the SQL includes entryDate and the test fails at the 2nd assert.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Hibernate doesn't appear to honouring the     @Basic(fetch = FetchType.LAZY) annotation, even though Hibernate debug indicates that it has recognised it.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">What am I doing wrong?</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Thanks,
+Matt.</sentence>
+        </paragraph>
+    </description>
+</bug>

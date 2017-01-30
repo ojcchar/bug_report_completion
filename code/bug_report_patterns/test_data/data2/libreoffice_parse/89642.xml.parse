@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>89642</id>
+    <title>ODF_text_reference_v3.odt crashes master</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 113666
+The file crashing the import.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">ODF_text_reference_v3.</sentence>
+            <sentence id="2.2">odt from http://katana.oooninja.com/w/reference_sample_documents crashes master (77debb673e61340dfc3ddc63b6d72731c091c210).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">#6  0x00007ffff6bc5fa2 in __cxa_call_unexpected () from /usr/lib64/libstdc++.</sentence>
+            <sentence id="3.2">so.6</sentence>
+            <sentence id="3.3">#7  0x00007fffc86b879c in SvXMLImport::startElement (this=0x7fffaf97f2c0, rName="form:formatted-text",</sentence>
+            <sentence id="3.4">xAttrList=uno::Reference to (sax_expatwrap::AttributeList *) 0x7fffaf20ba40) at /local/libreoffice/master/xmloff/source/core/xmlimp.cxx:634</sentence>
+            <sentence id="3.5">#8  0x00007fffb617306f in (anonymous namespace)::SaxExpatParser_Impl::callbackStartElement (pvThis=0x14bb750, pwName=0x15c7e40 "form:formatted-text", awAttributes=0x14f9090)</sentence>
+            <sentence id="3.6">at /local/libreoffice/master/sax/source/expatwrap/sax_expat.</sentence>
+            <sentence id="3.7">cxx:784</sentence>
+            <sentence id="3.8">#9  0x00007fffb6171364 in (anonymous namespace)::call_callbackStartElement (userData=0x14bb750, name=0x15c7e40 "form:formatted-text", atts=0x14f9090)</sentence>
+            <sentence id="3.9">at /local/libreoffice/master/sax/source/expatwrap/sax_expat.</sentence>
+            <sentence id="3.10">cxx:281</sentence>
+            <sentence id="3.11">#10 0x00007fffb61a4d73 in doContent (parser=0x15859d0, startTagLevel=0, enc=0x7fffb63f6920 &lt;utf8_encoding&gt;,</sentence>
+            <sentence id="3.12">s=0x152ac4c "&lt;form:formatted-text form:name=\"FormattedField\" form:control-implementation=\"ooo:com.sun.star.form.component.FormattedField\" form:id=\"control3\" form:current</sentence>
+            <sentence id="3.13">-value=\"39459\" form:convert-empty-to-null=\"t"..., end=0x152baa3 "", nextPtr=0x1585a00, haveMore=1 '\001')</sentence>
+            <sentence id="3.14">at /local/libreoffice/master/workdir/UnpackedTarball/expat/lib/xmlparse.</sentence>
+            <sentence id="3.15">c:2443</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Attaching the file too.</sentence>
+        </paragraph>
+    </description>
+</bug>

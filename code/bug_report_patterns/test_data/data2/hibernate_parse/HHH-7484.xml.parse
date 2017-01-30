@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7484</id>
+    <title>Mapped superclass can't be found from Index</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">{code}</sentence>
+            <sentence id="1.2">Caused by: java.lang.NullPointerException</sentence>
+            <sentence id="1.3">	at org.hibernate.metamodel.internal.source.annotations.EntityHierarchyBuilder.findRootEntityClassInfo(EntityHierarchyBuilder.java:182)</sentence>
+            <sentence id="1.4">	at org.hibernate.metamodel.internal.source.annotations.EntityHierarchyBuilder.createEntityHierarchies(EntityHierarchyBuilder.java:85)</sentence>
+            <sentence id="1.5">	at org.hibernate.metamodel.internal.source.annotations.AnnotationMetadataSourceProcessorImpl.extractEntityHierarchies(AnnotationMetadataSourceProcessorImpl.java:181)</sentence>
+            <sentence id="1.6">	at org.hibernate.metamodel.internal.MetadataImpl.processMappings(MetadataImpl.java:311)</sentence>
+            <sentence id="1.7">	at org.hibernate.metamodel.internal.MetadataImpl.&lt;init&gt;(MetadataImpl.java:190)</sentence>
+            <sentence id="1.8">	at org.hibernate.metamodel.internal.MetadataBuilderImpl.buildMetadata(MetadataBuilderImpl.java:94)</sentence>
+            <sentence id="1.9">	at org.hibernate.metamodel.MetadataSources.buildMetadata(MetadataSources.java:128)</sentence>
+            <sentence id="1.10">	at org.hibernate.testing.junit4.BaseCoreFunctionalTestCase.buildMetadata(BaseCoreFunctionalTestCase.java:167)</sentence>
+            <sentence id="1.11">	at org.hibernate.testing.junit4.BaseCoreFunctionalTestCase.buildSessionFactory(BaseCoreFunctionalTestCase.java:145)</sentence>
+            <sentence id="1.12">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="1.13">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</sentence>
+            <sentence id="1.14">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</sentence>
+            <sentence id="1.15">	at java.lang.reflect.Method.invoke(Method.java:601)</sentence>
+            <sentence id="1.16">	at org.hibernate.testing.junit4.TestClassMetadata.invokeCallback(TestClassMetadata.java:196)</sentence>
+            <sentence id="1.17">	... 14 more</sentence>
+            <sentence id="1.18">{code}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">this can be reproduced by _org.hibernate.test.annotations.lob.LobTest_ (with @FailureExpectedWithNewMetamodel removed)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">we only add @Entity classes into Metadata, but not the @MappedSuperclass, this used to be work with _Configuration_, but with new metamodel, we only index the entity class which explicitly added</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Hardy, I'm assigning this to you, but feel free to reassign, thanks</sentence>
+        </paragraph>
+    </description>
+</bug>

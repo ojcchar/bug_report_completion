@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>34699</id>
+    <title>unix user authnetication</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi Apache Team,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In one of my application,I wanted to provide the unix user authentication
+without having an userfile.That is all the unix user must view webpages if
+his/her unix userid is a valid one.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">And I found some information related to it in web ,which was as below and I
+downloaded the mod_auth_unix.</sentence>
+            <sentence id="3.2">c ,the source file of AuhtUnix directive.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;Directory /some/fancy/scripts/here&gt;
+                  AuthType Basic
+                  AuthName &lt;unix-user&gt;
+                  AuthUnix suid
+                  &lt;Limit GET POST&gt;
+                      require valid-user
+                  &lt;/Limit&gt;
+ &lt;/Directory&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">But When I tried with making a dynamic shared object using the configure
+script,I got some errors.Please find them below.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Directory from which the following command was executed:</sentence>
+            <sentence id="6.2">/home/users/chidamba/httpd-2.0.43</sentence>
+            <sentence id="6.3">syntax used :</sentence>
+            <sentence id="6.4">.</sentence>
+            <sentence id="6.5">/configure</sentence>
+            <sentence id="6.6">--add-module=module_type:/home/users/chidamba/authunix/mod_auth_unix.</sentence>
+            <sentence id="6.7">c</sentence>
+            <sentence id="6.8">--enable-auth_unix=shared</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I got the following message</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Result:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">configure: error: unrecognized option:</sentence>
+            <sentence id="9.2">--add-module=module_type:/home/users/chidamba/authunix/mod_auth_unix.</sentence>
+            <sentence id="9.3">c</sentence>
+            <sentence id="9.4">Try `.</sentence>
+            <sentence id="9.5">/configure --help' for more information.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">And when I ran ./configure -h ,the -add-module option was not found .</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">May I request you to help me ,on how to build shared object  
+with configure script and also if there is any other directive available to do
+unix user validation without having an userfile .</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Thanks in advance
+Regards,
+Chidambaram</sentence>
+        </paragraph>
+    </description>
+</bug>

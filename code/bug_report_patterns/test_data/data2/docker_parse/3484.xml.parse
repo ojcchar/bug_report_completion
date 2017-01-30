@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3484</id>
+    <title>VOLUME ownership behavior is unstable</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">VOLUME ownership behavior is unstable when build with Dockerfile.</sentence>
+            <sentence id="1.2">Here is my tests.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Test1</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Dockerfile</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+FROM base
+MAINTAINER yss44</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">VOLUME ["/data"]</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">CMD ["/bin/bash"]
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Result</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+$ docker build -t yss44/volumetest .
+$ docker run -t -i yss44/volumetest
+root@995d3546f0f3:/# ls -la /data
+total 8
+drwx------ 2 root root 4096 Jan 7 15:12 .
+drwxr-xr-x 39 root root 4096 Jan 7 15:12 ..
+"'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+$ docker run -t -i -v /data yss44/volumetest
+root@bf43f2bc7fb2:/# ls -la /data
+total 8
+drwx------ 2 root root 4096 Jan 7 15:16 .
+drwxr-xr-x 39 root root 4096 Jan 7 15:16 ..
+"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">These tests are the save behavior,but last one something wrong.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'
+$ mkdir 'pwd'/data
+$ docker run -t -i -v 'pwd'/data:/data yoshiso/testv
+root@5d4cf9da211a:/# ls -la /data
+total 4
+drwxr-xr-x 1 1000 1000 68 Jan 7 15:17 .
+drwxr-xr-x 39 root root 4096 Jan 7 15:18 ..
+"'
+## Test2</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Changing volume directory owner in Dockerfile.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Dockerfile</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"'
+FROM base
+MAINTAINER yss44</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">VOLUME ["/data"]</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">RUN useradd yss44
+RUN chown yss44 /data</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">CMD ["/bin/bash"]
+"'</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Result</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">"'
+$ docker run -i -t yss44/volumetest2
+root@d49889465052:/# ls -la /data
+total 8
+drwx------ 2 root root 4096 Jan 7 15:20 .
+drwxr-xr-x 45 root root 4096 Jan 7 15:20 ..
+"'</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">"'
+$ docker run -i -t -v /data yss44/volumetest2
+root@3868c798966b:/# ls -la /data
+total 8
+drwx------ 2 root root 4096 Jan 7 15:22 .
+drwxr-xr-x 45 root root 4096 Jan 7 15:22 ..
+"'</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">These tests are also the same behavior, but last test behaves different.</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">"'
+$ docker run -i -t -v 'pwd'/data:/data yss44/volumetest2
+root@77a811695a0c:/# ls -la /data
+total 4
+drwxr-xr-x 1 yss44 yss44 68 Jan 7 15:17 .
+drwxr-xr-x 45 root root 4096 Jan 7 15:22 ..
+"'</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">Which behavior is correct?</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">Environment</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">Host OS
+Ubuntu 12.04</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">$ docker version</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">"'
+Client version: 0.7.3
+Go version (client): go1.2
+Git commit (client): 8502ad4
+Server version: 0.7.3
+Git commit (server): 8502ad4
+Go version (server): go1.2
+docker infoLast stable version: 0.7.3
+"'</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">$ docker info</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">"'
+Containers: 56
+Images: 257
+Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Dirs: 369
+Username: yoshiso
+Registry: [https://index.docker.io/v1/]
+WARNING: No swap limit support
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

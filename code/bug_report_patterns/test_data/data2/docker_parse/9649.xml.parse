@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9649</id>
+    <title>FATA[0025] Error response from daemon: The database file is locked: database is locked</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I upgraded to 1.4.0 earlier today and kept getting this error anytime I tried to run a container.</sentence>
+            <sentence id="1.2">"'
+FATA[0025] Error response from daemon: The database file is locked: database is locked
+"'</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I downgraded to 1.3.3 can launch my containers again.</sentence>
+            <sentence id="2.2">I'm on Arch Linux.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Working configuration:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+$ uname -a
+Linux vaio 3.17.6-1-ARCH #1 SMP PREEMPT Sun Dec 7 23:43:32 UTC 2014 x86_64 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">$ docker version
+Client version: 1.3.3
+Client API version: 1.15
+Go version (client): go1.3.3
+Git commit (client): d344625
+OS/Arch (client): linux/amd64
+Server version: 1.3.3
+Server API version: 1.15
+Go version (server): go1.3.3
+Git commit (server): d344625</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">$ docker -D info
+Containers: 8
+Images: 74
+Storage Driver: btrfs
+Execution Driver: native-0.2
+Kernel Version: 3.17.6-1-ARCH
+Operating System: Arch Linux
+Debug mode (server): false
+Debug mode (client): true
+Fds: 10
+Goroutines: 11
+EventsListeners: 0
+Init SHA1: de6b8776d75861fa5b65c009b72ce3623844161b
+Init Path: /usr/lib/docker/dockerinit
+WARNING: No swap limit support
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Failing configuration:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+$ docker version
+Client version: 1.4.0
+Client API version: 1.16
+Go version (client): go1.4
+Git commit (client): 4595d4f
+OS/Arch (client): linux/amd64
+Server version: 1.4.0
+Server API version: 1.16
+Go version (server): go1.4
+Git commit (server): 4595d4f</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">$ docker -D info
+Containers: 8
+Images: 74
+Storage Driver: btrfs
+ Build Version: Btrfs v3.17.3
+ Library Version: 101
+Execution Driver: native-0.2
+Kernel Version: 3.17.6-1-ARCH
+Operating System: Arch Linux
+CPUs: 8
+Total Memory: 7.784 GiB
+Name: vaio
+ID: M2RW:DSXH:5K2C:FZLP:MLV4:TKER:NEVD:OPUI:TGG4:F37Y:K53F:XU6H
+Debug mode (server): false
+Debug mode (client): true
+Fds: 9
+Goroutines: 11
+EventsListeners: 0
+Init SHA1: 2e79cfaf6d5817238fadf85fcba334061029fd5d
+Init Path: /usr/lib/docker/dockerinit
+Docker Root Dir: /var/lib/docker
+WARNING: No swap limit support
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

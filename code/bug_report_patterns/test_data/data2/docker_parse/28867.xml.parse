@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>28867</id>
+    <title>docker top CONTAINER [ps OPTIONS] -- OPTIONS not working</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">There was a similar issue reported earlier (https://github.com/docker/docker/issues/6482) but that does not seem to be my issue.</sentence>
+            <sentence id="2.2">Please see below.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="3.2">1 Start an interactive 'ubuntu' container</sentence>
+            <sentence id="3.3">"'
+docker run -it ubuntu /bin/bash
+"'</sentence>
+            <sentence id="3.4">2 Inspect processes with formatting</sentence>
+            <sentence id="3.5">"'</sentence>
+            <sentence id="3.6">root@9789d48f3b76:/# ps o pid,cmd</sentence>
+            <sentence id="3.7">PID CMD</sentence>
+            <sentence id="3.8">1 /bin/bash</sentence>
+            <sentence id="3.9">12 ps o pid,cmd</sentence>
+            <sentence id="3.10">"'</sentence>
+            <sentence id="3.11">3 In another terminal, ensure container is being listed</sentence>
+            <sentence id="3.12">"'
+docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+9789d48f3b76 ubuntu "/bin/bash" About a minute ago Up About a minute pensive_meitner
+"'</sentence>
+            <sentence id="3.13">4 Use the same options that worked in the container with 'docker top'</sentence>
+            <sentence id="3.14">"'
+docker top 9789d48f3b76 o pid,cmd
+PID USER TIME COMMAND
+8962 root 0:00 /bin/bash
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Describe the results you received:**</sentence>
+            <sentence id="4.2">No matter what options I offer 'docker top' I always get the same results back.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Describe the results you expected:**</sentence>
+            <sentence id="5.2">I would have expected that if the container can support the arguments being supplied to 'ps' then supplying them to 'top' would return the same results (which apparently was the case with issue https://github.com/docker/docker/issues/6482)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="6.2">I tried this with commands that expect a '-' as well</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**In the container**</sentence>
+            <sentence id="7.2">"'</sentence>
+            <sentence id="7.3">root@9789d48f3b76:/# ps -e</sentence>
+            <sentence id="7.4">PID TTY TIME CMD</sentence>
+            <sentence id="7.5">1 ?</sentence>
+            <sentence id="7.6">00:00:00 bash</sentence>
+            <sentence id="7.7">24 ?</sentence>
+            <sentence id="7.8">00:00:00 ps</sentence>
+            <sentence id="7.9">"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Using the docker CLI**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+docker top 9789d48f3b76 -e
+PID USER TIME COMMAND
+8962 root 0:00 /bin/bash
+"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'
+Client:
+ Version: 1.12.3
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 6b644ec
+ Built: Thu Oct 27 00:09:21 2016
+ OS/Arch: darwin/amd64
+ Experimental: true</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Server:
+ Version: 1.12.3
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 6b644ec
+ Built: Thu Oct 27 00:09:21 2016
+ OS/Arch: linux/amd64
+ Experimental: true
+"'</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"'</sentence>
+            <sentence id="14.2">Containers: 6</sentence>
+            <sentence id="14.3"> Running: 3</sentence>
+            <sentence id="14.4"> Paused: 0</sentence>
+            <sentence id="14.5"> Stopped: 3</sentence>
+            <sentence id="14.6">Images: 50</sentence>
+            <sentence id="14.7">Server Version: 1.12.3</sentence>
+            <sentence id="14.8">Storage Driver: aufs</sentence>
+            <sentence id="14.9"> Root Dir: /var/lib/docker/aufs</sentence>
+            <sentence id="14.10"> Backing Filesystem: extfs</sentence>
+            <sentence id="14.11"> Dirs: 127</sentence>
+            <sentence id="14.12"> Dirperm1 Supported: true</sentence>
+            <sentence id="14.13">Logging Driver: json-file</sentence>
+            <sentence id="14.14">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="14.15">Plugins:</sentence>
+            <sentence id="14.16"> Volume: local</sentence>
+            <sentence id="14.17"> Network: host null bridge overlay</sentence>
+            <sentence id="14.18">Swarm: inactive</sentence>
+            <sentence id="14.19">Runtimes: runc</sentence>
+            <sentence id="14.20">Default Runtime: runc</sentence>
+            <sentence id="14.21">Security Options: seccomp</sentence>
+            <sentence id="14.22">Kernel Version: 4.4.30-moby</sentence>
+            <sentence id="14.23">Operating System: Alpine Linux v3.4</sentence>
+            <sentence id="14.24">OSType: linux</sentence>
+            <sentence id="14.25">Architecture: x86_64</sentence>
+            <sentence id="14.26">CPUs: 4</sentence>
+            <sentence id="14.27">Total Memory: 1.951 GiB</sentence>
+            <sentence id="14.28">Name: moby</sentence>
+            <sentence id="14.29">ID: KRFD:CKJW:ZKSQ:WMJJ:T477:ZPYU:NKXF:L6Y6:THDM:4AE6:RGBI:BPU6</sentence>
+            <sentence id="14.30">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="14.31">Debug Mode (client): false</sentence>
+            <sentence id="14.32">Debug Mode (server): true</sentence>
+            <sentence id="14.33"> File Descriptors: 30</sentence>
+            <sentence id="14.34"> Goroutines: 54</sentence>
+            <sentence id="14.35"> System Time: 2016-11-27T13:39:01.058080347Z</sentence>
+            <sentence id="14.36"> EventsListeners: 1</sentence>
+            <sentence id="14.37">No Proxy: *.local, 169.254/16</sentence>
+            <sentence id="14.38">Username: looselytyped</sentence>
+            <sentence id="14.39">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="14.40">Experimental: true</sentence>
+            <sentence id="14.41">Insecure Registries:</sentence>
+            <sentence id="14.42"> 127.0.0.0/8</sentence>
+            <sentence id="14.43">"'</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">If there is anything other details I can provide you with, please let me know.</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Thank you so much!</sentence>
+        </paragraph>
+    </description>
+</bug>

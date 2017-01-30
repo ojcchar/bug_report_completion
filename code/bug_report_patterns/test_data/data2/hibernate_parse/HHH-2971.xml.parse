@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2971</id>
+    <title>AbstractFlushingEventListener catches, logs and re-throws HibernateException in performExecutions generating noisy logs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">AbstractFlushingEventListener catches HibernateException, logs an error, and re-throws the same HibernateException... so the Exception gets logged twice, or worse [ in the case i'm looking at, an offline locker ], an expected Exception [ConstraingViolationException] is caught and discarded, but an error is still logged</sentence>
+        </paragraph>
+    </description>
+</bug>

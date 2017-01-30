@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27322</id>
+    <title>srclib/apr-util/configure script does not use LDFLAGS env var</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">(*) I have the Berkeley DB 4.2 libraries installed in a non-standard location</sentence>
+            <sentence id="1.2">(/opt/ISWberkeleydb).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">(*) I use the following to configure Apache 2.0.48:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">LDFLAGS="-R/opt/ISWberkeleydb/lib -R/opt/GNUgdb/lib -R/opt/ISWopenssl/lib" \</sentence>
+            <sentence id="3.2">PATH=/usr/local/bin:$PATH \</sentence>
+            <sentence id="3.3">.</sentence>
+            <sentence id="3.4">.</sentence>
+            <sentence id="3.5">/httpd-2.0.48/configure \</sentence>
+            <sentence id="3.6">--prefix=/opt/ISWapache \</sentence>
+            <sentence id="3.7">--with-gdbm=/opt/GNUgdbm \</sentence>
+            <sentence id="3.8">--enable-modules=all \</sentence>
+            <sentence id="3.9">--with-mpm=worker \</sentence>
+            <sentence id="3.10">--enable-mods-shared=all \</sentence>
+            <sentence id="3.11">--enable-ssl \</sentence>
+            <sentence id="3.12">--with-ssl=/opt/ISWopenssl \</sentence>
+            <sentence id="3.13">--enable-suexec \</sentence>
+            <sentence id="3.14">--with-suexec-bin=/sbin/suexec \</sentence>
+            <sentence id="3.15">--with-suexec-caller=apache \</sentence>
+            <sentence id="3.16">--with-suexec-userbin=www \</sentence>
+            <sentence id="3.17">--with-suexec-uidmin=10001 \</sentence>
+            <sentence id="3.18">--with-suexec-gidmin=10001 \</sentence>
+            <sentence id="3.19">--with-suexec-safepath=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:</sentence>
+            <sentence id="3.20">/usr/local/bin \</sentence>
+            <sentence id="3.21">--with-dbm=db4 \</sentence>
+            <sentence id="3.22">--with-berkeley-db=/opt/ISWberkeleydb</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The configure script will not properly detect the Berkeley DB 4.2 libraries.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">If I add /opt/ISWberkeleydb/lib to the system search paths (using the crle 
+command), the above configure command will work (so I have a workaround).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">(*) When I look into the config.log file in srclib/apr-util/config.log, I can see that the -R/opt/ISWberkeleydb/lib that I provided in the LDFLAGS environment variable is not being used:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">configure:13128: result: no</sentence>
+            <sentence id="7.2">configure:12933: checking db.h usability</sentence>
+            <sentence id="7.3">configure:12942: gcc -c  -g -O2 -pthreads -I/opt/GNUgdbm/include -I/opt/ISWberke</sentence>
+            <sentence id="7.4">leydb/include conftest.c &gt;&amp;5</sentence>
+            <sentence id="7.5">configure:12945: $?</sentence>
+            <sentence id="7.6">= 0</sentence>
+            <sentence id="7.7">configure:12948: test -s conftest.o</sentence>
+            <sentence id="7.8">configure:12951: $?</sentence>
+            <sentence id="7.9">= 0</sentence>
+            <sentence id="7.10">configure:12960: result: yes</sentence>
+            <sentence id="7.11">configure:12964: checking db.h presence</sentence>
+            <sentence id="7.12">configure:12971: gcc -E -I/opt/GNUgdbm/include -I/opt/ISWberkeleydb/include conf</sentence>
+            <sentence id="7.13">test.c</sentence>
+            <sentence id="7.14">configure:12977: $?</sentence>
+            <sentence id="7.15">= 0</sentence>
+            <sentence id="7.16">configure:12995: result: yes</sentence>
+            <sentence id="7.17">configure:13013: checking for db.h</sentence>
+            <sentence id="7.18">configure:13020: result: yes</sentence>
+            <sentence id="7.19">configure:13036: checking for db</sentence>
+            <sentence id="7.20">configure:13099: gcc -o conftest  -g -O2 -pthreads -I/opt/GNUgdbm/include -I/opt</sentence>
+            <sentence id="7.21">/ISWberkeleydb/include  -L/opt/ISWberkeleydb/lib conftest.c -L/opt/GNUgdbm/lib</sentence>
+            <sentence id="7.22">-ldb &gt;&amp;5</sentence>
+            <sentence id="7.23">configure:13102: $?</sentence>
+            <sentence id="7.24">= 0</sentence>
+            <sentence id="7.25">configure:13104: .</sentence>
+            <sentence id="7.26">/conftest</sentence>
+            <sentence id="7.27">ld.so.1: .</sentence>
+            <sentence id="7.28">/conftest: fatal: libdb-4.2.</sentence>
+            <sentence id="7.29">so: open failed: No such file or directory</sentence>
+            <sentence id="7.30">/dsk/data0/build/httpd-2.0.48/srclib/apr-util/configure: line 1: 26875 Killed</sentence>
+            <sentence id="7.31">.</sentence>
+            <sentence id="7.32">/conftest$ac_exeext</sentence>
+            <sentence id="7.33">configure:13107: $?</sentence>
+            <sentence id="7.34">= 137</sentence>
+            <sentence id="7.35">configure: program exited with status 137</sentence>
+            <sentence id="7.36">configure: failed program was:</sentence>
+            <sentence id="7.37">#line 13056 "configure"</sentence>
+            <sentence id="7.38">#include "confdefs.h"</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">#include &lt;stdio.h&gt;
+#include &lt;db.h&gt;
+main ()
+{
+  int major, minor, patch;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">db_version(&amp;major, &amp;minor, &amp;patch);</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">/* Sanity check: ensure that db.h constants actually match the db library */</sentence>
+            <sentence id="10.2">if (major !</sentence>
+            <sentence id="10.3">= DB_VERSION_MAJOR</sentence>
+            <sentence id="10.4">|| minor !</sentence>
+            <sentence id="10.5">= DB_VERSION_MINOR</sentence>
+            <sentence id="10.6">|| patch !</sentence>
+            <sentence id="10.7">= DB_VERSION_PATCH)</sentence>
+            <sentence id="10.8">exit (1);</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">/* Run-time check:  ensure the library claims to be the correct version.</sentence>
+            <sentence id="11.2">*/</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">if (4 !</sentence>
+            <sentence id="12.2">= -1) {
+    if (major &lt; 4)
+      exit (1);
+    if (major &gt; 4)
+      exit (0);
+  }</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">if (0 !</sentence>
+            <sentence id="13.2">= -1) {
+    if (minor &lt; 0)
+      exit (1);
+    if (minor &gt; 0)
+      exit (0);
+  }</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">if (-1 == -1
+      || patch &gt;= -1)
+    exit (0);
+  else
+    exit (1);
+}</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">configure:13128: result: no
+configure:13382: error: Berkeley db4 not found</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>19151</id>
+    <title>Make test-integration-cli failed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:
+No change with the upstream code but the tests 'DockerHubPullSuite.TestPullFromCentralRegistry' and 'DockerHubPullSuite.TestPullFromCentralRegistryImplicitRefParts' failed.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">More info:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+[root@localhost docker]# TESTFLAGS='-check.f DockerHubPullSuite.TestPullFromCentralRegistry' make test-integration-cli
+docker run --rm -i --privileged -e BUILDFLAGS -e DOCKER_CLIENTONLY -e DOCKER_DEBUG -e DOCKER_EXPERIMENTAL -e DOCKER_FILE -e DOCKER_GRAPHDRIVER -e DOCKER_REMAP_ROOT -e DOCKER_STORAGE_OPTS -e DOCKER_USERLANDPROXY -e TESTDIRS -e TESTFLAGS -e TIMEOUT -v "/home/docker/bundles:/go/src/github.com/docker/docker/bundles" -t "docker-dev:master" hack/make.sh dynbinary test-integration-cli</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">bundles/1.10.0-dev already exists.</sentence>
+            <sentence id="4.2">Removing.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">=====dynbinary====</sentence>
+            <sentence id="5.2">---&gt; Making bundle: dynbinary (in bundles/1.10.0-dev/dynbinary)</sentence>
+            <sentence id="5.3">Created binary: bundles/1.10.0-dev/dynbinary/dockerinit-1.10.0-dev</sentence>
+            <sentence id="5.4">Building: bundles/1.10.0-dev/dynbinary/docker-1.10.0-dev</sentence>
+            <sentence id="5.5">Created binary: bundles/1.10.0-dev/dynbinary/docker-1.10.0-dev</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">=====test-integration-cli====</sentence>
+            <sentence id="6.2">---&gt; Making bundle: test-integration-cli (in bundles/1.10.0-dev/test-integration-cli)</sentence>
+            <sentence id="6.3">---&gt; Making bundle: .</sentence>
+            <sentence id="6.4">integration-daemon-start (in bundles/1.10.0-dev/test-integration-cli)</sentence>
+            <sentence id="6.5">+++ exec docker daemon --debug --host unix:///go/src/github.</sentence>
+            <sentence id="6.6">com/docker/docker/bundles/1.10.0-dev/test-integration-cli/docker.</sentence>
+            <sentence id="6.7">sock --storage-driver vfs --pidfile bundles/1.10.0-dev/test-integration-cli/docker.</sentence>
+            <sentence id="6.8">pid --userland-proxy=true</sentence>
+            <sentence id="6.9">---&gt; Making bundle: .</sentence>
+            <sentence id="6.10">integration-daemon-setup (in bundles/1.10.0-dev/test-integration-cli)</sentence>
+            <sentence id="6.11">---&gt; Making bundle: .</sentence>
+            <sentence id="6.12">ensure-emptyfs (in bundles/1.10.0-dev/test-integration-cli)</sentence>
+            <sentence id="6.13">++++ tar -cC bundles/1.10.0-dev/test-integration-cli/emptyfs .</sentence>
+            <sentence id="6.14">++++ docker load</sentence>
+            <sentence id="6.15">---&gt; Making bundle: .</sentence>
+            <sentence id="6.16">ensure-frozen-images (in bundles/1.10.0-dev/test-integration-cli)</sentence>
+            <sentence id="6.17">++++ tar -cC /docker-frozen-images .</sentence>
+            <sentence id="6.18">++++ docker load</sentence>
+            <sentence id="6.19">---&gt; Making bundle: .</sentence>
+            <sentence id="6.20">ensure-httpserver (in bundles/1.10.0-dev/test-integration-cli)</sentence>
+            <sentence id="6.21">+ go test -check.f DockerHubPullSuite.TestPullFromCentralRegistry -test.timeout=60m -check.v github.com/docker/docker/integration-cli</sentence>
+            <sentence id="6.22">INFO: Testing against a local daemon</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">----------------------------------------------------------------------</sentence>
+            <sentence id="7.2">FAIL: docker_cli_pull_test.</sentence>
+            <sentence id="7.3">go:20: DockerHubPullSuite.TestPullFromCentralRegistry</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">docker_cli_pull_test.go:26:</sentence>
+            <sentence id="8.2"> c.Assert(out, checker.Contains, "Pulling from library/hello-world", check.Commentf("expected the 'library/' prefix to be automatically assumed"))</sentence>
+            <sentence id="8.3">... obtained string = "" +</sentence>
+            <sentence id="8.4">... "Using default tag: latest</sentence>
+            <sentence id="8.5">" +</sentence>
+            <sentence id="8.6">... "Pulling repository docker.io/library/hello-world</sentence>
+            <sentence id="8.7">" +</sentence>
+            <sentence id="8.8">... "975b84d108f1: Pulling image (latest) from docker.io/library/hello-world</sentence>
+            <sentence id="8.9">" +</sentence>
+            <sentence id="8.10">... "975b84d108f1: Pulling image (latest) from docker.io/library/hello-world, endpoint: https://registry-1.docker.io/v1/</sentence>
+            <sentence id="8.11">" +</sentence>
+            <sentence id="8.12">... "975b84d108f1: Pulling dependent layers</sentence>
+            <sentence id="8.13">" +</sentence>
+            <sentence id="8.14">... "3f12c794407e: Pulling metadata</sentence>
+            <sentence id="8.15">" +</sentence>
+            <sentence id="8.16">... "3f12c794407e: Pulling fs layer</sentence>
+            <sentence id="8.17">" +</sentence>
+            <sentence id="8.18">... "3f12c794407e: Download complete</sentence>
+            <sentence id="8.19">" +</sentence>
+            <sentence id="8.20">... "975b84d108f1: Pulling metadata</sentence>
+            <sentence id="8.21">" +</sentence>
+            <sentence id="8.22">... "975b84d108f1: Pulling fs layer</sentence>
+            <sentence id="8.23">" +</sentence>
+            <sentence id="8.24">... "975b84d108f1: Download complete</sentence>
+            <sentence id="8.25">" +</sentence>
+            <sentence id="8.26">... "975b84d108f1: Download complete</sentence>
+            <sentence id="8.27">" +</sentence>
+            <sentence id="8.28">... "Status: Downloaded newer image for hello-world:latest</sentence>
+            <sentence id="8.29">" +</sentence>
+            <sentence id="8.30">... "docker.io/library/hello-world: this image was pulled from a legacy registry. Important: This registry version will not be supported in future versions of docker.</sentence>
+            <sentence id="8.31">"</sentence>
+            <sentence id="8.32">... substring string = "Pulling from library/hello-world"</sentence>
+            <sentence id="8.33">... expected the 'library/' prefix to be automatically assumed</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">----------------------------------------------------------------------</sentence>
+            <sentence id="9.2">FAIL: docker_cli_pull_test.</sentence>
+            <sentence id="9.3">go:69: DockerHubPullSuite.TestPullFromCentralRegistryImplicitRefParts</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">docker_cli_pull_test.go:83:</sentence>
+            <sentence id="10.2"> c.Assert(out, checker.Contains, "Image is up to date for hello-world:latest")</sentence>
+            <sentence id="10.3">... obtained string = "" +</sentence>
+            <sentence id="10.4">... "Using default tag: latest</sentence>
+            <sentence id="10.5">" +</sentence>
+            <sentence id="10.6">... "Pulling repository docker.io/library/hello-world</sentence>
+            <sentence id="10.7">" +</sentence>
+            <sentence id="10.8">... "975b84d108f1: Pulling image (latest) from docker.io/library/hello-world</sentence>
+            <sentence id="10.9">" +</sentence>
+            <sentence id="10.10">... "975b84d108f1: Pulling image (latest) from docker.io/library/hello-world, endpoint: https://registry-1.docker.io/v1/</sentence>
+            <sentence id="10.11">" +</sentence>
+            <sentence id="10.12">... "975b84d108f1: Pulling dependent layers</sentence>
+            <sentence id="10.13">" +</sentence>
+            <sentence id="10.14">... "3f12c794407e: Pulling metadata</sentence>
+            <sentence id="10.15">" +</sentence>
+            <sentence id="10.16">... "3f12c794407e: Pulling fs layer</sentence>
+            <sentence id="10.17">" +</sentence>
+            <sentence id="10.18">... "3f12c794407e: Download complete</sentence>
+            <sentence id="10.19">" +</sentence>
+            <sentence id="10.20">... "975b84d108f1: Pulling metadata</sentence>
+            <sentence id="10.21">" +</sentence>
+            <sentence id="10.22">... "975b84d108f1: Pulling fs layer</sentence>
+            <sentence id="10.23">" +</sentence>
+            <sentence id="10.24">... "975b84d108f1: Download complete</sentence>
+            <sentence id="10.25">" +</sentence>
+            <sentence id="10.26">... "975b84d108f1: Download complete</sentence>
+            <sentence id="10.27">" +</sentence>
+            <sentence id="10.28">... "Status: Downloaded newer image for hello-world:latest</sentence>
+            <sentence id="10.29">" +</sentence>
+            <sentence id="10.30">... "docker.io/library/hello-world: this image was pulled from a legacy registry. Important: This registry version will not be supported in future versions of docker.</sentence>
+            <sentence id="10.31">"</sentence>
+            <sentence id="10.32">... substring string = "Image is up to date for hello-world:latest"</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">OOPS: 0 passed, 2 FAILED</sentence>
+            <sentence id="11.2">--- FAIL: Test (211.07s)</sentence>
+            <sentence id="11.3">FAIL</sentence>
+            <sentence id="11.4">coverage: 21.4% of statements</sentence>
+            <sentence id="11.5">exit status 1</sentence>
+            <sentence id="11.6">FAIL github.com/docker/docker/integration-cli 211.438s</sentence>
+            <sentence id="11.7">---&gt; Making bundle: .</sentence>
+            <sentence id="11.8">integration-daemon-stop (in bundles/1.10.0-dev/test-integration-cli)</sentence>
+            <sentence id="11.9">+++++ cat bundles/1.10.0-dev/test-integration-cli/docker.</sentence>
+            <sentence id="11.10">pid</sentence>
+            <sentence id="11.11">++++ kill 5336</sentence>
+            <sentence id="11.12">make: 0_download_all_bugs.</sentence>
+            <sentence id="11.13">sh 1_download_json.</sentence>
+            <sentence id="11.14">sh data data2 log_download_1.</sentence>
+            <sentence id="11.15">txt log_download_2.</sentence>
+            <sentence id="11.16">txt log_download_3.</sentence>
+            <sentence id="11.17">txt log_download_4.</sentence>
+            <sentence id="11.18">txt nohup.out only_bugs.</sentence>
+            <sentence id="11.19">csv pull_requests.</sentence>
+            <sentence id="11.20">csv script2.sh [test-integration-cli]</sentence>
+            <sentence id="11.21">"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">'docker version':</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"' Client:
+ Version: 1.10.0-dev
+ API version: 1.22
+ Go version: go1.5.1
+ Git commit: e9f7241-dirty
+ Built: Wed Dec 30 08:12:05 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Server:
+ Version: 1.10.0-dev
+ API version: 1.22
+ Go version: go1.5.1
+ Git commit: e9f7241-dirty
+ Built: Wed Dec 30 08:12:05 2015
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">'docker info':</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">"'</sentence>
+            <sentence id="16.2">Containers: 5</sentence>
+            <sentence id="16.3">Images: 2</sentence>
+            <sentence id="16.4">Server Version: 1.10.0-dev</sentence>
+            <sentence id="16.5">Storage Driver: devicemapper</sentence>
+            <sentence id="16.6"> Pool Name: mydocker-docker--pool</sentence>
+            <sentence id="16.7"> Pool Blocksize: 524.3 kB</sentence>
+            <sentence id="16.8"> Base Device Size: 107.4 GB</sentence>
+            <sentence id="16.9"> Backing Filesystem: xfs</sentence>
+            <sentence id="16.10"> Data file: </sentence>
+            <sentence id="16.11"> Metadata file: </sentence>
+            <sentence id="16.12"> Data Space Used: 2.746 GB</sentence>
+            <sentence id="16.13"> Data Space Total: 21.45 GB</sentence>
+            <sentence id="16.14"> Data Space Available: 18.7 GB</sentence>
+            <sentence id="16.15"> Metadata Space Used: 1.798 MB</sentence>
+            <sentence id="16.16"> Metadata Space Total: 54.53 MB</sentence>
+            <sentence id="16.17"> Metadata Space Available: 52.73 MB</sentence>
+            <sentence id="16.18"> Udev Sync Supported: false</sentence>
+            <sentence id="16.19"> Deferred Removal Enabled: false</sentence>
+            <sentence id="16.20"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="16.21"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="16.22"> Library Version: 1.02.82-git (2013-10-04)</sentence>
+            <sentence id="16.23">Execution Driver: native-0.2</sentence>
+            <sentence id="16.24">Logging Driver: json-file</sentence>
+            <sentence id="16.25">Plugins: </sentence>
+            <sentence id="16.26"> Volume: local</sentence>
+            <sentence id="16.27"> Network: bridge null host</sentence>
+            <sentence id="16.28">Kernel Version: 3.10.0-229.el7.x86_64</sentence>
+            <sentence id="16.29">Operating System: CentOS Linux 7 (Core)</sentence>
+            <sentence id="16.30">OSType: linux</sentence>
+            <sentence id="16.31">Architecture: x86_64</sentence>
+            <sentence id="16.32">CPUs: 8</sentence>
+            <sentence id="16.33">Total Memory: 7.64 GiB</sentence>
+            <sentence id="16.34">Name: localhost.localdomain</sentence>
+            <sentence id="16.35">ID: 3QIL:6NMH:UT3P:7VAU:YJRR:QI25:KYFZ:BBPA:YJSJ:PTNZ:GFZS:YYCM</sentence>
+            <sentence id="16.36">WARNING: bridge-nf-call-iptables is disabled</sentence>
+            <sentence id="16.37">WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+            <sentence id="16.38">"'</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">'uname -a'</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">"'
+Linux localhost.localdomain 3.10.0-229.el7.x86_64 #1 SMP Fri Mar 6 11:36:42 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+"'</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">How reproducible:
+Git clone the upstream, running the command:</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">"'
+TESTFLAGS='-check.f DockerHubPullSuite.TestPullFromCentralRegistry' make test-integration-cli
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

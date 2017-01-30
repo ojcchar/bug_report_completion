@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>5205</id>
+    <title>friends_list for friend-less user is array(  ) instead of array()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The PHP client takes fb_params[ friends ] of friend-less user and explodes on  _ _ resulting in the silly array(  ) result for friends.get() for a user with no friends.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">It should just return array()</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Ridiculously simple patch:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">--- /usr/share/php/facebook-platform/php/facebook.</sentence>
+            <sentence id="4.2">php   2009-03-11 17:11:02.000000000 -0500</sentence>
+            <sentence id="4.3">+++ facebook.patched.php        2009-05-05 15:36:07.000000000 -0500</sentence>
+            <sentence id="4.4">@@ -81_7 +81_7 @@</sentence>
+            <sentence id="4.5">$this-&gt;api_client-&gt;set_user($defaultUser);</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">-    if (isset($this-&gt;fb_params[ friends ])) {</sentence>
+            <sentence id="5.2">+    if (isset($this-&gt;fb_params[ friends ]) &amp;&amp; strlen($this-&gt;fb_params[ friends ])) {</sentence>
+            <sentence id="5.3">$this-&gt;api_client-&gt;friends_list = explode( _ _ $this-&gt;fb_params[ friends ]);</sentence>
+            <sentence id="5.4">}</sentence>
+            <sentence id="5.5">if (isset($this-&gt;fb_params[ added ])) {</sentence>
+        </paragraph>
+    </description>
+</bug>

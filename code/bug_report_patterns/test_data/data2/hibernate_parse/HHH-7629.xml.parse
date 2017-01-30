@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7629</id>
+    <title>Initialize PersistentCollection with fetchType LAZY returns NPE</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">@JoinTable(name = "JOIN_TABLE", joinColumns = { @JoinColumn(name = "JOIN_TABLE_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "ENTITY_ID", referencedColumnName = "ID") })</sentence>
+            <sentence id="1.2">@ManyToMany(fetch = FetchType.LAZY)</sentence>
+            <sentence id="1.3">private Set&lt;JoinTable&gt; aProperty;</sentence>
+            <sentence id="1.4">When fetching this entity, and after initialize, I get all the valid attribute values but the aProperty is defined as PersistenceCollection.</sentence>
+            <sentence id="1.5">This collection is not intialized yet. When I initialize this collection as follow:</sentence>
+            <sentence id="1.6">(PersistentCollection) entity).forceInitialization();</sentence>
+            <sentence id="1.7">Or</sentence>
+            <sentence id="1.8">Hibernate.initialize(entity);</sentence>
+            <sentence id="1.9">I got NullPointerException:</sentence>
+            <sentence id="1.10">Caused by: java.lang.NullPointerException</sentence>
+            <sentence id="1.11">        at org.hibernate.engine.internal.StatefulPersistenceContext.getLoadedCollectionOwnerOrNull(StatefulPersistenceContext.java:790)</sentence>
+            <sentence id="1.12">        at org.hibernate.event.spi.AbstractCollectionEvent.getLoadedOwnerOrNull(AbstractCollectionEvent.java:75)</sentence>
+            <sentence id="1.13">        at org.hibernate.event.spi.InitializeCollectionEvent.&lt;init&gt;(InitializeCollectionEvent.java:36)</sentence>
+            <sentence id="1.14">        at org.hibernate.internal.SessionImpl.initializeCollection(SessionImpl.java:1803)</sentence>
+            <sentence id="1.15">        at org.hibernate.collection.internal.AbstractPersistentCollection.forceInitialization(AbstractPersistentCollection.java:489)</sentence>
+            <sentence id="1.16">        at org.hibernate.Hibernate.initialize(Hibernate.java:77)</sentence>
+            <sentence id="1.17">When I check source code of class org.hibernate.engine.internal.StatefulPersistenceContext.getLoadedCollectionOwnerOrNull(StatefulPersistenceContext.java:790)</sentence>
+            <sentence id="1.18">                CollectionEntry ce = getCollectionEntry( collection );</sentence>
+            <sentence id="1.19">790             if ( ce.getLoadedPersister() == null ) {</sentence>
+            <sentence id="1.20">791</sentence>
+            <sentence id="1.21">                        return null; // early exit...</sentence>
+            <sentence id="1.22">792             }</sentence>
+            <sentence id="1.23">Looks like the CollectionEntry ce is null. This collection entry is fetched from collectionEntries.get(coll);</sentence>
+            <sentence id="1.24">// Identity map of CollectionEntry instances, by the collection wrapper</sentence>
+            <sentence id="1.25">121     private IdentityMap&lt;PersistentCollection, CollectionEntry&gt; collectionEntries;</sentence>
+            <sentence id="1.26">I checked Jboss docs, it mentioned the way to initilialize the collection is as I have done above.</sentence>
+            <sentence id="1.27">http://docs.jboss.org/hibernate/orm/3.3/reference/en/html/performance.html#performance-fetching-initialization</sentence>
+            <sentence id="1.28">For now, I have to set the fetchType to EAGER for my assetVersions which is not what I want to do due to performance impact.</sentence>
+        </paragraph>
+    </description>
+</bug>

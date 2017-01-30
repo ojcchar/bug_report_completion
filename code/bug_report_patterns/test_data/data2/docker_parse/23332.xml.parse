@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23332</id>
+    <title>could not launch any new docker container after 1850 containers launched</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">&lt;!</sentence>
+            <sentence id="1.2">--
+If you are reporting a new issue, make sure that we do not have any duplicates
+already open.</sentence>
+            <sentence id="1.3">You can ensure this by searching the issue list for this
+repository.</sentence>
+            <sentence id="1.4">If there is a duplicate, please close your issue and add a comment
+to the existing issue instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you suspect your issue is a bug, please edit your issue description to
+include the BUG REPORT INFORMATION shown below.</sentence>
+            <sentence id="2.2">If you fail to provide this
+information within 7 days, we cannot debug your issue and will close it.</sentence>
+            <sentence id="2.3">We
+will, however, reopen it if you later provide the information.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For more information about reporting issues, see
+https://github.com/docker/docker/blob/master/CONTRIBUTING.md#reporting-other-issues</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------------------------------------------------</sentence>
+            <sentence id="4.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="4.3">---------------------------------------------------</sentence>
+            <sentence id="4.4">Use the commands below to provide key information from your environment:</sentence>
+            <sentence id="4.5">You do NOT have to include this information if this is a FEATURE REQUEST</sentence>
+            <sentence id="4.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+Client:
+ Version: 1.11.2
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: b9f10c9
+ Built: Wed Jun 1 22:00:43 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Server:
+ Version: 1.11.2
+ API version: 1.23
+ Go version: go1.5.4
+ Git commit: b9f10c9
+ Built: Wed Jun 1 22:00:43 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+Containers: 1918
+ Running: 1853
+ Paused: 0
+ Stopped: 65
+Images: 2
+Server Version: 1.11.2
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 3858
+ Dirperm1 Supported: true
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins: 
+ Volume: local
+ Network: bridge null host
+Kernel Version: 4.4.0-21-generic
+Operating System: Ubuntu 16.04 LTS
+OSType: linux
+Architecture: x86_64
+CPUs: 24
+Total Memory: 188.7 GiB
+Name: x3650m4n08
+ID: WL45:4OZ5:5ANE:LX2U:HRYA:DEKQ:DNE6:2HY6:CK3E:HJ7I:MAM5:JY6P
+Docker Root Dir: /var/lib/docker
+Debug mode (client): false
+Debug mode (server): false
+Registry: https://index.docker.io/v1/
+WARNING: No swap limit support
+"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="11.2">1 docker pull yeasy/hyperledger-peer:noops</sentence>
+            <sentence id="11.3">2 Run the test script as shown below, the script sets the related limits to be bigger numbers and tries to launch 10000 docker containers.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"'
+#!/bin/bash</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1"># Prerequisites setup</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">echo "root soft nofile 1048576" &gt; /etc/security/limits.</sentence>
+            <sentence id="14.2">conf
+echo "root hard nofile 1048576" &gt;&gt; /etc/security/limits.</sentence>
+            <sentence id="14.3">conf
+echo "root soft nproc 10485760" &gt;&gt; /etc/security/limits.</sentence>
+            <sentence id="14.4">conf
+echo "root hard nproc 10485760" &gt;&gt; /etc/security/limits.</sentence>
+            <sentence id="14.5">conf
+echo "root soft stack 32768" &gt;&gt; /etc/security/limits.</sentence>
+            <sentence id="14.6">conf
+echo "root hard stack 32768" &gt;&gt; /etc/security/limits.</sentence>
+            <sentence id="14.7">conf
+echo "kernel.threads-max = 2091845" &gt;&gt; /etc/sysctl.</sentence>
+            <sentence id="14.8">conf
+sysctl -p
+echo 210000 &gt; /proc/sys/kernel/pty/max
+mkdir -p /etc/systemd/system/docker.service.d/</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">tee /etc/systemd/system/docker.service.d/tasksmax.conf &lt;&lt;-'EOF'
+[Service]
+TasksMax=infinity
+EOF
+systemctl daemon-reload
+systemctl restart docker</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">for i in 'seq 1 10';
+do
+ brctl addbr docker$i
+ ifconfig docker$i 172.</sentence>
+            <sentence id="16.2">$i.254.254/16 up
+ docker network create --driver=bridge --ip-range=172.</sentence>
+            <sentence id="16.3">$i.0.0/16 --subnet=172.</sentence>
+            <sentence id="16.4">$i.0.0/16 -o "com.docker.network.bridge.name=docker$i" docker$i
+done</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">for i in 'seq 1 10'; do</sentence>
+            <sentence id="17.2">for j in 'seq 1 1000'; do</sentence>
+            <sentence id="17.3">let "z=($i-1)*1000+$j"</sentence>
+            <sentence id="17.4">echo $z</sentence>
+            <sentence id="17.5">docker run --restart=unless-stopped --net=docker$i -d -e CORE_PEER_ID=vp0 -e CORE_VM_ENDPOINT=http://172.$i.254.254:2375 -e CORE_PEER_ADDRESSAUTODETECT=true -e CORE_NOOPS_BLOCK_TIMEOUT=10 yeasy/hyperledger-peer:noops &gt; /dev/null</sentence>
+            <sentence id="17.6">done</sentence>
+            <sentence id="17.7">done</sentence>
+            <sentence id="17.8">"'</sentence>
+            <sentence id="17.9">1 When launches about 1850 containers, will get "pthread_create failed" error and could not launch any new containers.</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">**Describe the results you received:**</sentence>
+            <sentence id="18.2">The output from the script:</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">"'
+1844
+1845
+1846
+1847
+1848
+1849
+1850
+1851
+1852
+1853
+1854
+docker: Error response from daemon: rpc error: code = 2 desc = "oci runtime error: exit status 2: runtime/cgo: pthread_create failed: Resource temporarily unavailable
+runtime/cgo: pthread_create failed: Resource temporarily unavailable
+SIGABRT: abort
+PC=0x7f9834314418 m=0</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">goroutine 0 [idle]:</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">goroutine 1 [runnable, locked to thread]:</sentence>
+            <sentence id="21.2">runtime.lock(0xc82006c058)</sentence>
+            <sentence id="21.3">	/usr/local/go/src/runtime/lock_futex.go:42 fp=0xc82005fe38 sp=0xc82005fe30</sentence>
+            <sentence id="21.4">runtime.chanrecv(0x120dee0, 0xc82006c000, 0x0, 0xc82005ff01, 0x420000)</sentence>
+            <sentence id="21.5">	/usr/local/go/src/runtime/chan.go:401 +0x148 fp=0xc82005fef8 sp=0xc82005fe38</sentence>
+            <sentence id="21.6">runtime.chanrecv1(0x120dee0, 0xc82006c000, 0x0)</sentence>
+            <sentence id="21.7">	/usr/local/go/src/runtime/chan.go:349 +0x2b fp=0xc82005ff28 sp=0xc82005fef8</sentence>
+            <sentence id="21.8">runtime.gcenable()</sentence>
+            <sentence id="21.9">	/usr/local/go/src/runtime/mgc.go:207 +0x76 fp=0xc82005ff50 sp=0xc82005ff28</sentence>
+            <sentence id="21.10">runtime.main()</sentence>
+            <sentence id="21.11">	/usr/local/go/src/runtime/proc.go:73 +0x138 fp=0xc82005ffa0 sp=0xc82005ff50</sentence>
+            <sentence id="21.12">runtime.goexit()</sentence>
+            <sentence id="21.13">	/usr/local/go/src/runtime/asm_amd64.s:1721 +0x1 fp=0xc82005ffa8 sp=0xc82005ffa0</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">goroutine 17 [syscall, locked to thread]:
+runtime.goexit()
+	/usr/local/go/src/runtime/asm_amd64.s:1721 +0x1</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">rax 0x0
+rbx 0x7f98346a3700
+rcx 0x7f9834314418
+rdx 0x6
+rdi 0xa20
+rsi 0xa20
+rbp 0x1ad238a
+rsp 0x7fff3bd65218
+r8 0x7f98346a4770
+r9 0x7f98352e5880
+r10 0x8
+r11 0x202
+r12 0x2897320
+r13 0x1a79070
+r14 0x0
+r15 0x8
+rip 0x7f9834314418
+rflags 0x202
+cs 0x33
+fs 0x0
+gs 0x0
+".</sentence>
+            <sentence id="23.2">1855
+docker: Error response from daemon: rpc error: code = 2 desc = "containerd: container not started".</sentence>
+            <sentence id="23.3">1856
+"'</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">**Describe the results you expected:**</sentence>
+            <sentence id="24.2">As indicated in https://github.com/docker/docker/issues/22978, I could launch more than 9000 containers with the same docker image(different arch of course) and similar hardware configuration on ppc64le platform, I expect to be able to launch similar number of docker containers on x86 also.</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+    </description>
+</bug>

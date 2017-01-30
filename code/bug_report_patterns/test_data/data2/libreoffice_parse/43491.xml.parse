@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>43491</id>
+    <title>CONFIGURATION: Using existing User Profile after update existing WRITER documents VIEWING settings are modified</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Steps how to reproduce with Server installation of MSVC Master "LibO-dev 3.5.0 – WIN7 Home Premium (64bit) ENGLISH UI [Build ID:  a286353-090bcba-3bf3b94]" Win-x86@6 – 2011-12-02_22:36:35):</sentence>
+            <sentence id="1.2">1 Do a Server installation of that build</sentence>
+            <sentence id="1.3">2 Modify bootsrtap.ini so that Master will use Existing user profile, that</sentence>
+            <sentence id="1.4">IMHO should be the situation for an upgrade (Mention hints on</sentence>
+            <sentence id="1.5">&lt;https://wiki.documentfoundation.org/Installing_in_parallel&gt;, Last line for</sentence>
+            <sentence id="1.6">WIN installation in bootsrtap.ini should be modified to</sentence>
+            <sentence id="1.7">"UserInstallation=$SYSUSERCONFIG/Libreoffice/3"</sentence>
+            <sentence id="1.8">3 close bootsrtap.ini</sentence>
+            <sentence id="1.9">4 Start Libo Master with double click on soffice.exe</sentence>
+            <sentence id="1.10">5 Open an existing WRITER  document with Table of contents and Variables</sentence>
+            <sentence id="1.11">Expected: TOC and variables should have black background as they have in 3.4</sentence>
+            <sentence id="1.12">Actual: Document looks like "read only", TOC and variables are white,</sentence>
+            <sentence id="1.13">additionally margin marks and similar are not shown.</sentence>
+            <sentence id="1.14">But "(read only)</sentence>
+            <sentence id="1.15">hint in window heading does not exist.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">TOC can be updated, texts can be edited, but paragraph and page formatting are greyed out in Menu 'Format'.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">My suspect: that might be a problem for upgrades.</sentence>
+        </paragraph>
+    </description>
+</bug>

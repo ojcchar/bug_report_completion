@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>91654</id>
+    <title>FILEOPEN: XLSX - Conditional Formatting rules not imported correctly</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The green data bar lines mentioned in bug 90511 didnt get fixed with the patches Markus submitted and i believe this to be due to the order of the rules in LO is different from how it is in Excel.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Excel</sentence>
+            <sentence id="2.2">------</sentence>
+            <sentence id="2.3">C5:E30</sentence>
+            <sentence id="2.4">F5:F30</sentence>
+            <sentence id="2.5">F5:F29</sentence>
+            <sentence id="2.6">C4:E30</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">LO</sentence>
+            <sentence id="3.2">------</sentence>
+            <sentence id="3.3">C4:E30</sentence>
+            <sentence id="3.4">C5:E30</sentence>
+            <sentence id="3.5">F5:F29</sentence>
+            <sentence id="3.6">F5:F30</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This maybe caused by the fact that C5:E30 and F5:F30 have multiple rules with the same range which appear above and below C4:E30 and F5:F29 with Excels rules list, while in LO they are all grouped under one entry in the manage conditional formatting dialog.</sentence>
+            <sentence id="4.2">I assumed this is the case, as deleting F5:F29 in LO fixes the problem.</sentence>
+        </paragraph>
+    </description>
+</bug>

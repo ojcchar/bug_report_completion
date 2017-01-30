@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14440</id>
+    <title>oom_kill_disable poorly understood &amp; implemented</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">While it's no secret I've been hugely against this feature since back when it was just a proposal/PR (#12528/#11034), upon further investigation, it seems that the feature was implemented without much understanding, as proven by the fact that it doesn't even work :-)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Ok, so first subject, it doesn't work (docker 1.7.0):
+I don't know where docker thinks it's setting the cgroup parameter to disable the oom killer, but it's not on the cgroup used by the container.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+# docker run -i --privileged --oom-kill-disable fedora:20 bash &lt;&lt;'EOF' 
+mount -n -t tmpfs -o uid=0,gid=0,mode=0755 cgroup /sys/fs/cgroup
+mkdir /sys/fs/cgroup/memory
+mount -n -t cgroup -o memory cgroup /sys/fs/cgroup/memory
+memcgpath="/sys/fs/cgroup/memory/$(awk -F: '$2 == "memory" { print $3 }' &lt; /proc/1/cgroup)"
+echo "memcgpath=$memcgpath"
+cat $memcgpath/memory.oom_control
+EOF</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">memcgpath=/sys/fs/cgroup/memory//system.slice/docker-dc1408974e62968ff7e73fe3206045a98a540a0f455d864677be5e9a47d76cc5.</sentence>
+            <sentence id="4.2">scope
+oom_kill_disable 0
+under_oom 0
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Secondly, the cgroup oom_kill_disable setting only does anything if a cgroup memory limit is also in place.</sentence>
+            <sentence id="5.2">Currently nothing enforces or advises the oom-kill-disable option only be used in conjunction with a memory limit.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Thirdly, using this flag requires manual intervention if the container does hit an OOM condition. </sentence>
+            <sentence id="6.2">The flag does prevent the process from being killed, but the process hangs instead (goes into defunct state). </sentence>
+            <sentence id="6.3">This means manual intervention is required to either kill the process/container, or to increase the memory limits. </sentence>
+            <sentence id="6.4">If you want to increase the limits, you have to go mucking around in the cgroup filesystem. </sentence>
+            <sentence id="6.5">So realistically, the action to take here is to manually kill the container.</sentence>
+            <sentence id="6.6">To compound this, the fact that the process has been sent defunct is not easily observable. </sentence>
+            <sentence id="6.7">From the perspective of someone using the docker client, the container is still running, the processes inside it are still there, they just stop responding.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&amp;nbsp;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Here's a little test container I created for this: [phemmer/do-oom](https://registry.hub.docker.com/u/phemmer/do-oom/) ([github](http://github.com/phemmer/docker-do-oom))</sentence>
+            <sentence id="8.2">The container runs a process which allocates 20gb of memory, and then tries to use that 20gb (which invokes OOM).</sentence>
+            <sentence id="8.3">**NOTE**: I do not advise running this container on a system which you care about.</sentence>
+            <sentence id="8.4">The OOM killer is very indiscriminate, and can kill anything.</sentence>
+            <sentence id="8.5">Also don't run it on a system with swap enabled, or the entire system will likely come grinding to a halt.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The first example, we run the container with oom killer (supposedly) disabled:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'
+# docker run -ti --oom-kill-disable do-oom 
+mallocs complete
+Used 0 bytes
+Used 104857600 bytes
+Used 209715200 bytes
+Used 314572800 bytes
+Used 419430400 bytes
+Used 524288000 bytes
+Used 629145600 bytes
+Used 734003200 bytes
+Used 838860800 bytes
+Used 943718400 bytes
+Used 1048576000 bytes
+Used 1153433600 bytes
+Used 1258291200 bytes
+Used 1363148800 bytes
+Used 1468006400 bytes
+Used 1572864000 bytes
+Used 1677721600 bytes
+Used 1782579200 bytes
+Used 1887436800 bytes
+Used 1992294400 bytes
+Used 2097152000 bytes
+Used 2202009600 bytes
+Used 2306867200 bytes
+Killed
+#
+"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Here we see the container was killed due to OOM.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">&amp;nbsp;</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Now we set a limit of 500M</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">"'
+# docker run -ti --oom-kill-disable -m 500M do-oom 
+mallocs complete
+Used 0 bytes
+Used 104857600 bytes
+Used 209715200 bytes
+Used 314572800 bytes
+Used 419430400 bytes
+Killed
+#
+"'</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">&amp;nbsp;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Now lets run it with the fix enabled, but no memory limit:</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">"'
+# docker run -ti --oom-kill-disable --privileged do-oom fix do-oom
+mallocs complete
+Used 0 bytes
+Used 104857600 bytes
+Used 209715200 bytes
+Used 314572800 bytes
+Used 419430400 bytes
+Used 524288000 bytes
+Used 629145600 bytes
+Used 734003200 bytes
+Used 838860800 bytes
+Used 943718400 bytes
+Used 1048576000 bytes
+Used 1153433600 bytes
+Used 1258291200 bytes
+Used 1363148800 bytes
+Used 1468006400 bytes
+Used 1572864000 bytes
+Used 1677721600 bytes
+Used 1782579200 bytes
+Used 1887436800 bytes
+Used 1992294400 bytes
+Used 2097152000 bytes
+Used 2202009600 bytes
+Used 2306867200 bytes
+Used 2411724800 bytes
+#
+"'</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Still was killed</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">&amp;nbsp;</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">Now we run it with a memory limit, and the fix enabled:</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">"'
+# docker run -ti --oom-kill-disable -m 500M --privileged do-oom fix do-oom 
+mallocs complete
+Used 0 bytes
+Used 104857600 bytes
+Used 209715200 bytes
+Used 314572800 bytes
+Used 419430400 bytes
+"'</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">Here the process just hangs as it's gone defunct.</sentence>
+            <sentence id="22.2">CTRL+C doesn't work, and we have to detach &amp; kill the container.</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">---</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">"'
+# docker version
+Client version: 1.7.0
+Client API version: 1.19
+Go version (client): go1.4.2
+Git commit (client): 0baf609
+OS/Arch (client): linux/amd64
+Server version: 1.7.0
+Server API version: 1.19
+Go version (server): go1.4.2
+Git commit (server): 0baf609
+OS/Arch (server): linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1"># docker info
+Containers: 107
+Images: 376
+Storage Driver: btrfs
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 3.18.1-gentoo
+Operating System: Gentoo/Linux
+CPUs: 4
+Total Memory: 7.512 GiB
+Name: gadget
+ID: KLI3:BPWQ:CK45:NJCL:ULCH:BV6Z:XDFM:YKTZ:EZ7D:UBE7:ZQCK:HOGN
+Username: phemmer
+Registry: https://index.docker.io/v1/</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1"># uname -a
+Linux gadget 3.18.1-gentoo #1 SMP Sun Dec 21 12:15:16 EST 2014 x86_64 Intel(R) Core(TM) i7-3517U CPU @ 1.90GHz GenuineIntel GNU/Linux
+"'</sentence>
+        </paragraph>
+    </description>
+</bug>

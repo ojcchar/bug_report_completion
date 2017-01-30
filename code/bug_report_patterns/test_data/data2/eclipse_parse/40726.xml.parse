@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>40726</id>
+    <title>Cannot export feature: feature id is not found.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When working with a plugin, right clicking on the project and selecting "Update
+Classpath" (and then doing the update) causes the source folder to be changed to
+what used to be the output folder) - while the output folder stays the same.</sentence>
+            <sentence id="1.2">So
+now you have no source files, and and empty output folder.</sentence>
+            <sentence id="1.3">It has to be
+manually reset.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This behavior also happens from time to time when you are editing a plugin.xml
+file.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I think it stems from the fact that in the plugin editor - on the runtime tab the default library that it sets up has the library content set to the source path.     </sentence>
+            <sentence id="3.2">But then when you build and export the plugin, the jar file is of course empty, as there are no class files in the src folder (at least not if your output directory is elsewhere).</sentence>
+            <sentence id="3.3">So, I manually change the library content to be my compiler output directory... by changing the build.properties file so that the source.libraryname.jar file = the compiler output directory.</sentence>
+            <sentence id="3.4">but now, it wrongly assumes that the project build path should be changed to be in sync with the plugin file, and it assumes that the library content entry is a source folder, not a class folder, and removes the source folder.</sentence>
+        </paragraph>
+    </description>
+</bug>

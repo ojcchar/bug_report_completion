@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1287</id>
+    <title>Problem with WAS ExtendedJTATransaction not available when using MDB</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm currently having problems with the WAS6 ExtendedJTATransaction when using an MDB to update the database.</sentence>
+            <sentence id="1.2">The problem does not occur when using CMT SSBs.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">It looks like the ExtendedJTATransaction is simply not available after the CMT completes and the WebSphereExtendedJTATransactionLookup class attempts to look it up at java:comp/websphere/ExtendedJTATransaction as part of the normal 'after completion' callback.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The problem occurs when the afterCompletion callback event fires and the ConnectionManager.isAggressiveRelease() method is called from ConnectionManager.afterTransaction().</sentence>
+            <sentence id="3.2">This attempts to check to see if a transaction is in progress.</sentence>
+            <sentence id="3.3">This test in fact causes the transaction manager to be created (together with a look up of the current transaction) The lookup of the ExtendedJTATransaction fails and the an exception is thrown (see stack trace below).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Although there may be an inconsistency in the way that a SSB and MDB operate, It seems fair to say that the transaction may not be available if it has completed.</sentence>
+            <sentence id="4.2">A workaround is therefore requested.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Stack trace:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">[15/12/05 11:07:49:303 GMT] 0000003f RegisteredSyn E   WTRN0074E: Exception caught from after_completion synchronization operation: org.hibernate.HibernateException: javax.naming.NameNotFoundException: Name comp/websphere not found in context "java:".</sentence>
+            <sentence id="6.2">	at org.hibernate.transaction.WebSphereExtendedJTATransactionLookup$TransactionManagerAdapter$TransactionAdapter.&lt;init&gt;(WebSphereExtendedJTATransactionLookup.java:235)</sentence>
+            <sentence id="6.3">	at org.hibernate.transaction.WebSphereExtendedJTATransactionLookup$TransactionManagerAdapter$TransactionAdapter.&lt;init&gt;(WebSphereExtendedJTATransactionLookup.java:215)</sentence>
+            <sentence id="6.4">	at org.hibernate.transaction.WebSphereExtendedJTATransactionLookup$TransactionManagerAdapter.getTransaction(WebSphereExtendedJTATransactionLookup.java:163)</sentence>
+            <sentence id="6.5">	at org.hibernate.util.JTAHelper.isTransactionInProgress(JTAHelper.java:36)</sentence>
+            <sentence id="6.6">	at org.hibernate.jdbc.JDBCContext.isTransactionInProgress(JDBCContext.java:180)</sentence>
+            <sentence id="6.7">	at org.hibernate.jdbc.ConnectionManager.isAggressiveRelease(ConnectionManager.java:142)</sentence>
+            <sentence id="6.8">	at org.hibernate.jdbc.ConnectionManager.afterTransaction(ConnectionManager.java:189)</sentence>
+            <sentence id="6.9">	at org.hibernate.jdbc.JDBCContext.afterTransactionCompletion(JDBCContext.java:213)</sentence>
+            <sentence id="6.10">	at org.hibernate.transaction.CacheSynchronization.afterCompletion(CacheSynchronization.java:85)</sentence>
+            <sentence id="6.11">	at org.hibernate.transaction.WebSphereExtendedJTATransactionLookup$1.invoke(WebSphereExtendedJTATransactionLookup.java:265)</sentence>
+            <sentence id="6.12">	at $Proxy30.afterCompletion(Unknown Source)</sentence>
+            <sentence id="6.13">	at com.ibm.ws.jtaextensions.SynchronizationCallbackWrapper.afterCompletion(SynchronizationCallbackWrapper.java:74)</sentence>
+            <sentence id="6.14">	at com.ibm.ws.Transaction.JTA.RegisteredSyncs.distributeAfter(RegisteredSyncs.java(Compiled Code))</sentence>
+            <sentence id="6.15">	at com.ibm.ws.Transaction.JTA.TransactionImpl.distributeAfter(TransactionImpl.java:3652)</sentence>
+            <sentence id="6.16">	at com.ibm.ws.Transaction.JTA.TransactionImpl.postCompletion(TransactionImpl.java:3631)</sentence>
+            <sentence id="6.17">	at com.ibm.ws.Transaction.JTA.TransactionImpl.internalCommit(TransactionImpl.java:2522)</sentence>
+            <sentence id="6.18">	at com.ibm.ws.Transaction.JTA.TransactionImpl.stage2CommitProcessing(TransactionImpl.java:1609)</sentence>
+            <sentence id="6.19">	at com.ibm.ws.Transaction.JTA.TransactionImpl.processCommit(TransactionImpl.java:1483)</sentence>
+            <sentence id="6.20">	at com.ibm.ws.Transaction.JTA.TransactionImpl.commit(TransactionImpl.java:1414)</sentence>
+            <sentence id="6.21">	at com.ibm.ws.Transaction.JTA.TranManagerImpl.commit(TranManagerImpl.java:236)</sentence>
+            <sentence id="6.22">	at com.ibm.ws.Transaction.JTA.TranManagerSet.commit(TranManagerSet.java:157)</sentence>
+            <sentence id="6.23">	at com.ibm.ejs.csi.TranStrategy.commit(TranStrategy.java:716)</sentence>
+            <sentence id="6.24">	at com.ibm.ejs.csi.TranStrategy.postInvoke(TranStrategy.java:167)</sentence>
+            <sentence id="6.25">	at com.ibm.ejs.csi.TransactionControlImpl.postInvoke(TransactionControlImpl.java:569)</sentence>
+            <sentence id="6.26">	at com.ibm.ejs.container.EJSContainer.postInvoke(EJSContainer.java(Compiled Code))</sentence>
+            <sentence id="6.27">	at com.ibm.ejs.container.MDBWrapper.onMessage(MDBWrapper.java:102)</sentence>
+            <sentence id="6.28">	at com.ibm.ejs.container.MDBWrapper.onMessage(MDBWrapper.java:127)</sentence>
+            <sentence id="6.29">	at com.ibm.ejs.jms.listener.ServerSession.run(ServerSession.java:458)</sentence>
+            <sentence id="6.30">	at com.ibm.ws.util.ThreadPool$Worker.run(ThreadPool.java:1455)</sentence>
+            <sentence id="6.31">Caused by: javax.naming.NameNotFoundException: Name comp/websphere not found in context "java:".</sentence>
+            <sentence id="6.32">	at com.ibm.ws.naming.ipbase.NameSpace.getParentCtxInternal(NameSpace.java(Compiled Code))</sentence>
+            <sentence id="6.33">	at com.ibm.ws.naming.ipbase.NameSpace.lookupInternal(NameSpace.java(Compiled Code))</sentence>
+            <sentence id="6.34">	at com.ibm.ws.naming.ipbase.NameSpace.lookup(NameSpace.java(Inlined Compiled Code))</sentence>
+            <sentence id="6.35">	at com.ibm.ws.naming.urlbase.UrlContextImpl.lookup(UrlContextImpl.java(Compiled Code))</sentence>
+            <sentence id="6.36">	at com.ibm.ws.naming.java.javaURLContextRoot.lookup(javaURLContextRoot.java(Compiled Code))</sentence>
+            <sentence id="6.37">	at com.ibm.ws.naming.java.javaURLContextRoot.lookup(javaURLContextRoot.java(Compiled Code))</sentence>
+            <sentence id="6.38">	at javax.naming.InitialContext.lookup(InitialContext.java(Compiled Code))</sentence>
+            <sentence id="6.39">	at org.hibernate.transaction.WebSphereExtendedJTATransactionLookup$TransactionManagerAdapter$TransactionAdapter.&lt;init&gt;(WebSphereExtendedJTATransactionLookup.java:227)</sentence>
+            <sentence id="6.40">	... 28 more</sentence>
+        </paragraph>
+    </description>
+</bug>

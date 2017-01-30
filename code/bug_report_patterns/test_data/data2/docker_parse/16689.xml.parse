@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>16689</id>
+    <title>CoreOS 815.0.0/Docker 1.8.2 cannot pull images from docker hub - hangs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">"'
+docker version:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Client:
+ Version: 1.8.2
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: fae4436-dirty
+ Built: Thu Sep 24 08:01:15 UTC 2015
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.8.2
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: fae4436-dirty
+ Built: Thu Sep 24 08:01:15 UTC 2015
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+docker Info:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Containers: 1
+Images: 295
+Storage Driver: overlay
+ Backing Filesystem: extfs
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 4.2.0-coreos-r1
+Operating System: CoreOS 815.0.0
+CPUs: 2
+Total Memory: 1.958 GiB
+Name: docker.vm
+ID: WPPL:HA2U:IKEC:C2N7:7SJY:5O47:XMTI:GMHF:ZCMQ:PA4Q:23NZ:MXHG
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+uname -a:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Linux docker.vm 4.2.0-coreos-r1 #2 SMP Thu Sep 24 08:00:18 UTC 2015 x86_64 Intel(R) Xeon(R) CPU E5-1650 v2 @ 3.50GHz GenuineIntel GNU/Linux
+"'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"'
+Steps to reproduce the problem:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">1 docker pull ubuntu</sentence>
+            <sentence id="9.2">2 docker pull registry</sentence>
+            <sentence id="9.3">3 docker pull &lt;image&gt;</sentence>
+            <sentence id="9.4">"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"'
+Environment details:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">OSX 10.10.5 with VMWare Fusion Professional Version 7.1.2 (2779224)
+CoreOS 815.0.0 as docker vm
+(Darwin projim.local 14.5.0 Darwin Kernel Version 14.5.0: Wed Jul 29 02:26:53 PDT 2015; root:xnu-2782.40.9~1/RELEASE_X86_64 x86_64)
+OSX Docker version:
+Client:
+ Version: 1.8.2
+ API version: 1.20
+ Go version: go1.5.1
+ Git commit: 0a8c2e3
+ Built: Fri Sep 11 01:46:35 UTC 2015
+ OS/Arch: darwin/amd64</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Server:
+ Version: 1.8.2
+ API version: 1.20
+ Go version: go1.4.2
+ Git commit: fae4436-dirty
+ Built: Thu Sep 24 08:01:15 UTC 2015
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">"'
+Actual Results:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">johnt@docker ~ $ docker pull ubuntu
+Using default tag: latest
+latest: Pulling from library/ubuntu
+d3a1f33e8a5a: Pull complete
+c22013c84729: Pull complete
+d74508fb6632: Extracting [==================================================&gt;] 683 B/683 B
+91e54dfb1179: Layer already being pulled by another client.</sentence>
+            <sentence id="14.2">Waiting.</sentence>
+            <sentence id="14.3">91e54dfb1179: Layer already being pulled by another client.</sentence>
+            <sentence id="14.4">Waiting.
+"'</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">"'
+Docker daemon logs</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Oct 01 03:44:30 docker.vm dockerd[691]: time="2015-10-01T03:44:30.675373326Z" level=info msg="POST /v1.20/images/create?</sentence>
+            <sentence id="16.2">fromImage=ubuntu%3Alatest"
+Oct 01 03:44:32 docker.vm dockerd[691]: time="2015-10-01T03:44:32.115229896Z" level=info msg="Image manifest for ubuntu:latest has been verified"
+Oct 01 03:44:44 docker.vm dockerd[691]: time="2015-10-01T03:44:44.758692829Z" level=error msg="error copying from layer download progress reader: download canceled"
+"'</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">"'
+After deleting the images and turning debug on for the daemon:</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">johnt@docker ~ $ docker pull ubuntu
+Using default tag: latest
+latest: Pulling from library/ubuntu
+d3a1f33e8a5a: Pull complete
+c22013c84729: Pull complete
+d74508fb6632: Pull complete
+91e54dfb1179: Layer already being pulled by another client.</sentence>
+            <sentence id="18.2">Waiting.
+"'</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">"'
+Docker daemon logs</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">Oct 01 03:51:21 docker.vm dockerd[1438]: time="2015-10-01T03:51:21.981865973Z" level=debug msg="Calling POST /images/create"</sentence>
+            <sentence id="20.2">Oct 01 03:51:21 docker.vm dockerd[1438]: time="2015-10-01T03:51:21.981940265Z" level=info msg="POST /v1.20/images/create?fromImage=ubuntu%3Alatest"</sentence>
+            <sentence id="20.3">Oct 01 03:51:21 docker.vm dockerd[1438]: time="2015-10-01T03:51:21.982017616Z" level=debug msg="Trying to pull ubuntu from https://registry-1.docker.io v2"</sentence>
+            <sentence id="20.4">Oct 01 03:51:22 docker.vm dockerd[1438]: time="2015-10-01T03:51:22.005598404Z" level=debug msg="Fetched 1 base graphs at 2015-10-01 03:51:22.005580244 +0000 UTC"</sentence>
+            <sentence id="20.5">Oct 01 03:51:22 docker.vm dockerd[1438]: time="2015-10-01T03:51:22.011216184Z" level=debug msg="Reloaded graph with 3 grants expiring at 2017-03-22 19:04:46.713978458 +0000 UTC"</sentence>
+            <sentence id="20.6">Oct 01 03:51:22 docker.vm dockerd[1438]: time="2015-10-01T03:51:22.220205756Z" level=debug msg="Pulling tag from V2 registry: \"latest\""</sentence>
+            <sentence id="20.7">Oct 01 03:51:22 docker.vm dockerd[1438]: time="2015-10-01T03:51:22.916631378Z" level=debug msg="Key check result: verified"</sentence>
+            <sentence id="20.8">Oct 01 03:51:22 docker.vm dockerd[1438]: time="2015-10-01T03:51:22.916705680Z" level=info msg="Image manifest for ubuntu:latest has been verified"</sentence>
+            <sentence id="20.9">Oct 01 03:51:22 docker.vm dockerd[1438]: time="2015-10-01T03:51:22.917266306Z" level=debug msg="pulling blob \"sha256:bbe1c4256df30171585344c50fab278157cbf2cb3a2016bb720e99e49a759743\" to d3a1f33e8a5a513092f01bb7eb1c2abf4d711e5105390a3fe1ae2248cfde1391"</sentence>
+            <sentence id="20.10">Oct 01 03:51:22 docker.vm dockerd[1438]: time="2015-10-01T03:51:22.917454453Z" level=debug msg="pulling blob \"sha256:911d09728ffd9388b33c62f8ea09d751350a882f719794acb3b186dcf5b958df\" to c22013c8472965aa5b62559f2b540cd440716ef149756e7b958a1b2aba421e87"</sentence>
+            <sentence id="20.11">Oct 01 03:51:22 docker.vm dockerd[1438]: time="2015-10-01T03:51:22.917567797Z" level=debug msg="pulling blob \"sha256:615765bc0d9f82db061f7575d01bd94c99465a6e8dc1a45b793e6fd179e1ddae\" to d74508fb6632491cea586a1fd7d748dfc5274cd6fdfedee309ecdcbc2bf5cb82"</sentence>
+            <sentence id="20.12">Oct 01 03:51:22 docker.vm dockerd[1438]: time="2015-10-01T03:51:22.917693025Z" level=debug msg="pulling blob \"sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4\" to 91e54dfb11794fad694460162bf0cb0a4fa710cfa3f60979c177d920813e267c"</sentence>
+            <sentence id="20.13">Oct 01 03:51:24 docker.vm dockerd[1438]: time="2015-10-01T03:51:24.005939768Z" level=debug msg="Downloaded c22013c8472965aa5b62559f2b540cd440716ef149756e7b958a1b2aba421e87 to tempfile /var/lib/docker/tmp/GetImageBlob714743613"</sentence>
+            <sentence id="20.14">Oct 01 03:51:24 docker.vm dockerd[1438]: time="2015-10-01T03:51:24.568914642Z" level=debug msg="Downloaded d74508fb6632491cea586a1fd7d748dfc5274cd6fdfedee309ecdcbc2bf5cb82 to tempfile /var/lib/docker/tmp/GetImageBlob224874360"</sentence>
+            <sentence id="20.15">Oct 01 03:51:31 docker.vm dockerd[1438]: time="2015-10-01T03:51:31.734185276Z" level=debug msg="Downloaded d3a1f33e8a5a513092f01bb7eb1c2abf4d711e5105390a3fe1ae2248cfde1391 to tempfile /var/lib/docker/tmp/GetImageBlob551874518"</sentence>
+            <sentence id="20.16">Oct 01 03:51:31 docker.vm dockerd[1438]: time="2015-10-01T03:51:31.734622736Z" level=debug msg="Start untar layer"</sentence>
+            <sentence id="20.17">Oct 01 03:51:36 docker.vm dockerd[1438]: time="2015-10-01T03:51:36.081522580Z" level=debug msg="Untar time: 4.346893513s"</sentence>
+            <sentence id="20.18">"'</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">Trying to do the pull direct from the CoreOS VM running docker has the same hanging affect.</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">"'
+Expected Results:</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">johnt@newjim ~⚡ docker pull ubuntu 
+latest: Pulling from library/ubuntu</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">d3a1f33e8a5a: Pull complete
+c22013c84729: Pull complete
+d74508fb6632: Pull complete
+91e54dfb1179: Pull complete
+library/ubuntu:latest: The image you are pulling has been verified.</sentence>
+            <sentence id="24.2">Important: image verification is a tech preview feature and should not be relied on to provide security.</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">Digest: sha256:73fbe2308f5f5cb6e343425831b8ab44f10bbd77070ecdfbe4081daa4dbe3ed1
+Status: Downloaded newer image for ubuntu:latest
+johnt@newjim ~⚡
+"'</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">"'
+Additional Info:</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">Works on my OSX 10.10.5 laptop with the same vmware fusion and CoreOS versions.</sentence>
+            <sentence id="27.2">However my docker client on the laptop is Docker version 1.7.1, build 786b29.</sentence>
+            <sentence id="27.3">(Darwin newjim.local 14.5.0 Darwin Kernel Version 14.5.0: Wed Jul 29 02:26:53 PDT 2015; root:xnu-2782.40.9~1/RELEASE_X86_64 x86_64)</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">Docker version:</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">Client version: 1.7.1
+Client API version: 1.19
+Go version (client): go1.4.2
+Git commit (client): 786b29d
+OS/Arch (client): darwin/amd64
+Server version: 1.8.2
+Server API version: 1.20
+Go version (server): go1.4.2
+Git commit (server): fae4436-dirty
+OS/Arch (server): linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">Seems related to https://github.com/docker/docker/pull/15545 and https://github.com/docker/docker/issues/12823.</sentence>
+        </paragraph>
+        <paragraph id="31">
+            <sentence id="31.1">Thoughts?</sentence>
+        </paragraph>
+    </description>
+</bug>

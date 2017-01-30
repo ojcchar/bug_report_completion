@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>40511</id>
+    <title>bootstrap exception when running java application with Libreoffice API</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We have written a java-application that opens (with LibreOffice) and modifies a list of files.</sentence>
+            <sentence id="1.2">This worked -probably- with LibreOffice 3.3.2, but with Libreoffice 3.4.2 we get a bootstrap exception: 
+Cannot bootstrap OOo:
+com.sun.star.comp.BootstrapException
+Recompiling in SDK 3.4.2 was not possible because a path could not be found (unfortunately, no further explanation).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I checked my bootstrap.ini file:
+[Bootstrap]
+BaseInstallation=${OOO_BASE_DIR}
+InstallMode=&lt;installmode&gt;
+ProductKey=LibreOffice 3.4
+UserInstallation=$SYSUSERCONFIG/LibreOffice/3
+[ErrorReport]
+ErrorReportPort=80
+ErrorReportServer=</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">It seems to me that OOO_BASE_DIR is not a correct value.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Note:
+I have not written the jave-application, nor compliled it.</sentence>
+            <sentence id="4.2">I'm a user.</sentence>
+            <sentence id="4.3">The application wiorked fine with OpenOffice,org and has been modified to work with LibreOffice (paths have been changed, no API-calls).</sentence>
+        </paragraph>
+    </description>
+</bug>

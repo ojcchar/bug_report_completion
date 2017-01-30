@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>16552</id>
+    <title>"Unknown filesystem type on /dev/mapper/docker-202" when trying to build image.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm trying to build a new image from one of my base images, and when build runs, it failed with something like this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Step 1 : RUN npm install -g gulp karma-cli mocha coffee-script
+Unknown filesystem type on /dev/mapper/docker-202:16-802820-5a81f86e959d602cfe6b7de45f497e59e05b80f0b8817eb780842dea7dd7fabc-init
+"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I'm on Ubuntu 12.04.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+$ docker version
+Client version: 1.7.1
+Client API version: 1.19
+Go version (client): go1.4.2
+Git commit (client): 786b29d
+OS/Arch (client): linux/amd64
+Server version: 1.7.1
+Server API version: 1.19
+Go version (server): go1.4.2
+Git commit (server): 786b29d
+OS/Arch (server): linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I have my '/etc/default/docker' configured to pass '-g /mnt/docker'.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+$ mount | grep '/mnt'
+/dev/xvdb on /mnt type ext3 (rw,_netdev)
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">'/dev/xvdb/' is backed by an Amazon EBS.</sentence>
+        </paragraph>
+    </description>
+</bug>

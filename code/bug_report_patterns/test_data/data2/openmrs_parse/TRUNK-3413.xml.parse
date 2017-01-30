@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3413</id>
+    <title>Unable to delete scheduled tasks that refer to classes that are not available</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Modules often create scheduled tasks.</sentence>
+            <sentence id="1.2">When the modules are not started or are removed, the scheduled tasks typically are left behind.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If I try to clean up and delete such a scheduled task from within the scheduler user interface, I get an error and am unable to delete the task:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For example:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{code}</sentence>
+            <sentence id="4.2">WARN - SchedulerListController.onSubmit(130) |2012-06-07 13:39:09,704| Error processing schedulerlistcontroller task</sentence>
+            <sentence id="4.3">org.openmrs.api.APIException: '[TaskDefinition  id=116 name=Process Usage Statistics Data class=org.openmrs.module.usagestatistics.StatsAggregatorTask startTime=2011-05-22 00:00:00.0 repeatInterval=3600 secondsUntilNext=1250]' failed to validate with reason: taskClass: Class [{0}] could not be found.  Check war file and/or modules for class [{0}].</sentence>
+            <sentence id="4.4">	at org.openmrs.validator.ValidateUtil.validate(ValidateUtil.java:85)</sentence>
+            <sentence id="4.5">	at org.openmrs.aop.RequiredDataAdvice.before(RequiredDataAdvice.java:137)</sentence>
+            <sentence id="4.6">	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:49)</sentence>
+            <sentence id="4.7">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+            <sentence id="4.8">	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)</sentence>
+            <sentence id="4.9">	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)</sentence>
+            <sentence id="4.10">	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)</sentence>
+            <sentence id="4.11">	at $Proxy133.saveTaskDefinition(Unknown Source)</sentence>
+            <sentence id="4.12">{code}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This needs to be fixed, as there is no way to remove unused scheduled tasks otherwise, except by going to the db directly.</sentence>
+        </paragraph>
+    </description>
+</bug>

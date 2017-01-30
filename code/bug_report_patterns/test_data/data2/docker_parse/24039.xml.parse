@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24039</id>
+    <title>Install script broken for RHEL 7.2</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">"'
+# ./install-docker.sh 
+in do_install()
+debug do_install3 lsb_dist=redhatenterpriseserver</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Either your platform is not easily detectable, is not supported by this
+ installer script (yet - PRs welcome!</sentence>
+            <sentence id="2.2">[hack/install.</sentence>
+            <sentence id="2.3">sh]), or does not yet have
+ a package for Docker.</sentence>
+            <sentence id="2.4">Please visit the following URL for more detailed
+ installation instructions:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">https://docs.docker.com/engine/installation/
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The box is a Virtual Machine.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">"'
+cat /etc/redhat-release 
+Red Hat Enterprise Linux Server release 7.2 (Maipo)
+"'</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="6.2">1 RHEL 7.2 box</sentence>
+            <sentence id="6.3">2 curl -fsSL https://test.docker.com/ | sh</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Describe the results you received:**</sentence>
+            <sentence id="7.2">The install script doesn't handle the RHEL 7.2 distribution correctly.</sentence>
+            <sentence id="7.3">The case statement in do_install() looks for redhat, but in my case lsb_dist=RedHatEnterpriseServer.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you expected:**</sentence>
+            <sentence id="8.2">The test version of Docker to be installed on my RHEL 7.2 box (1.12.</sentence>
+            <sentence id="8.3">x).</sentence>
+        </paragraph>
+    </description>
+</bug>

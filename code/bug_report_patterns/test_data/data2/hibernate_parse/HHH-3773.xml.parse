@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3773</id>
+    <title>NPE when generating schema containing OneToMany relations </title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have an entity P having a one-to-many relation to an entity C.
+I mark P as @Audited.</sentence>
+            <sentence id="1.2">I do not mark C as @Audited.</sentence>
+            <sentence id="1.3">Neither do I mark the field containing the relation from P to Cs.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When building the schema I get:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">java.lang.NullPointerException</sentence>
+            <sentence id="3.2">	at org.hibernate.envers.configuration.metadata.CollectionMetadataGenerator.addOneToManyAttached(CollectionMetadataGenerator.java:164)</sentence>
+            <sentence id="3.3">	at org.hibernate.envers.configuration.metadata.CollectionMetadataGenerator.addCollection(CollectionMetadataGenerator.java:150)</sentence>
+            <sentence id="3.4">	at org.hibernate.envers.configuration.metadata.AuditMetadataGenerator.addValue(AuditMetadataGenerator.java:141)</sentence>
+            <sentence id="3.5">	at org.hibernate.envers.configuration.metadata.AuditMetadataGenerator.addProperties(AuditMetadataGenerator.java:161)</sentence>
+            <sentence id="3.6">	at org.hibernate.envers.configuration.metadata.AuditMetadataGenerator.generateSecondPass(AuditMetadataGenerator.java:385)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If I mark C as @Audited it goes away and the schema is generated as supposed to.</sentence>
+        </paragraph>
+    </description>
+</bug>

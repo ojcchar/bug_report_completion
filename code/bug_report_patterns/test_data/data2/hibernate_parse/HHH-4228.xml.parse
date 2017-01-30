@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4228</id>
+    <title>@TableGenerator realisation does not respect initialValue</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I would like to have generated IDs for a certain entity type start at the value of 1000.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Consider the following example.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">@TableGenerator(name = "employee", 
+table = "SEQUENCES", 
+pkColumnName = "name", 
+valueColumnName = "value", 
+pkColumnValue = "employee", 
+allocationSize = 10, 
+initialValue = 1000)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Hibernate generates the SEQUENCES table correctly but it always returns 1 as the first generated key.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">In the source code of AnnotationBinder.java which seems to be responsible for binding the @TableGenerator annotation to a MultipleHiLoPerTableGenerator instance  the initialValue property is ignored.</sentence>
+        </paragraph>
+    </description>
+</bug>

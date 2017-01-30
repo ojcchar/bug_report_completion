@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>7483</id>
+    <title>Cannot save an image when specifying both namespace and version</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">According to the docs, I should be able to save a single image by specifying namespace/tag:version, but this always fails for me with:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">2014/07/29 23:23:52 Error: mkdir /tmp/docker-export-858462892/mynamespace/myrepo:1.0.0: no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">```</sentence>
+            <sentence id="3.2">vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker/save-test$ docker build -t mynamespace/myrepo:1.0.0 .</sentence>
+            <sentence id="3.3">Sending build context to Docker daemon 2.56 kB</sentence>
+            <sentence id="3.4">Sending build context to Docker daemon</sentence>
+            <sentence id="3.5">Step 0 : FROM busybox</sentence>
+            <sentence id="3.6">Pulling repository busybox</sentence>
+            <sentence id="3.7">d200959a3e91: Download complete</sentence>
+            <sentence id="3.8">37fca75d01ff: Download complete</sentence>
+            <sentence id="3.9">a9eb17255234: Download complete</sentence>
+            <sentence id="3.10">fd5373b3d938: Download complete</sentence>
+            <sentence id="3.11">511136ea3c5a: Download complete</sentence>
+            <sentence id="3.12">42eed7f1bf2a: Download complete</sentence>
+            <sentence id="3.13">c120b7cab0b0: Download complete</sentence>
+            <sentence id="3.14">120e218dd395: Download complete</sentence>
+            <sentence id="3.15">1f5049b3536e: Download complete</sentence>
+            <sentence id="3.16">f06b02872d52: Download complete</sentence>
+            <sentence id="3.17">---&gt; a9eb17255234</sentence>
+            <sentence id="3.18">Step 1 : CMD echo "hello world"</sentence>
+            <sentence id="3.19">---&gt; Running in a1249d508391</sentence>
+            <sentence id="3.20">---&gt; 16a69a2920aa</sentence>
+            <sentence id="3.21">Removing intermediate container a1249d508391</sentence>
+            <sentence id="3.22">Successfully built 16a69a2920aa</sentence>
+            <sentence id="3.23">vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker/save-test$ docker save mynamespace/myrepo:1.0.0 &gt; savedImage.tar</sentence>
+            <sentence id="3.24">2014/07/29 23:23:52 Error: mkdir /tmp/docker-export-858462892/mynamespace/myrepo:1.0.0: no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker/save-test$ docker info
+Containers: 1
+Images: 20
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Dirs: 22
+Execution Driver: native-0.2
+Kernel Version: 3.13.0-32-generic
+vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker/save-test$ docker --version
+Docker version 1.1.2, build d84a070
+```</sentence>
+        </paragraph>
+    </description>
+</bug>

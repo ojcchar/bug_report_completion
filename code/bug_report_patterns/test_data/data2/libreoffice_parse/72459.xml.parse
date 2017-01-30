@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>72459</id>
+    <title>VIEWING: chart:include-hidden-cells attribute appears to be ignored when references are external</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 90437
+Two ODS with charts showing references to hidden cell data (local and external).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Problem description: 
+There appears to be a difference in how values in hidden cells are included in a chart, depending on whether the reference (data) is local or external.</sentence>
+            <sentence id="2.2">This may not be a bug but rather an artifact of either the ODF specification or the manner in which the ODF specification is implemented in LO.</sentence>
+            <sentence id="2.3">I am report this as a bug to at least get this matter clarified.</sentence>
+            <sentence id="2.4">ODF v1.2, Part 1, 20.25 states:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&gt; The chart:include-hidden-cells attribute specifies whether data points in hidden cells are
+&gt; plotted in a chart.</sentence>
+            <sentence id="3.2">The default is to plot data points in hidden cells.</sentence>
+            <sentence id="3.3">&gt; This attribute can be used within styles that are applied to a &lt;chart:plot-area&gt; element.</sentence>
+            <sentence id="3.4">&gt; The defined values for the chart:include-hidden-cells attribute are:
+&gt; ● false: data points in hidden cells are not plotted in a chart.</sentence>
+            <sentence id="3.5">&gt; ● true: data points in hidden cells are plotted in a chart.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The first thing to note is "the default is to plot data points in hidden cells" because it would seem that this is not what LO implements, at least from what is contained in this report.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The attached pair of example spreadsheets were created under Ubuntu 10.04 x86_64 using v4.1.3.2 Build ID: 70feb7d99726f064edab4605a8ab840c50ec57a and are fairly self-explanatory:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">- hidden_cells_local.</sentence>
+            <sentence id="6.2">ods: three sheets (complete, column, row) showing how data is suppressed from appearing in a chart if either a column or row is hidden.</sentence>
+            <sentence id="6.3">- hidden_cells_external.</sentence>
+            <sentence id="6.4">ods: one sheet with three charts referencing the data ranges (one sheet per chart) in the first file.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The local file suppresses display of data as expected.</sentence>
+            <sentence id="7.2">The external file displays all data in each chart regardless of the state of cell hiding.</sentence>
+            <sentence id="7.3">The code in hidden_cells_external.</sentence>
+            <sentence id="7.4">ods/Object\ 2/content.</sentence>
+            <sentence id="7.5">xml (the chart referencing the column sheet) reveals:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">&gt; &lt;style:style style:name="ch4" style:family="chart"&gt;
+&gt;    &lt;style:chart-properties chart:include-hidden-cells="false" ... &gt;
+&gt; &lt;/style:style&gt;
+&gt; ...
+&gt; &lt;chart:plot-area chart:style-name="ch4" table:cell-range-address="'file:///home/oweng/doc/hidden_cells_local.</sentence>
+            <sentence id="8.2">ods'#column.</sentence>
+            <sentence id="8.3">A1:'file:///home/oweng/doc/hidden_cells_local.</sentence>
+            <sentence id="8.4">ods'#column.</sentence>
+            <sentence id="8.5">C6" ... &gt;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The only significant difference between the above and that for hidden_cells_local.</sentence>
+            <sentence id="9.2">ods/Object\ 3/content.</sentence>
+            <sentence id="9.3">xml (the bar chart in the column sheet) appears to be the table:cell-range-address:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">&gt; &lt;style:style style:name="ch3" style:family="chart"&gt;
+&gt;    &lt;style:chart-properties chart:include-hidden-cells="false" ... &gt;
+&gt; &lt;/style:style&gt;
+&gt; ...
+&gt; &lt;chart:plot-area chart:style-name="ch3" table:cell-range-address="column.A1:column.C6" ... &gt;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">By way of further testing I have opened both attached sheets under the same operating system using:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">- v3.3.0.4 OOO330m19 Build: 6</sentence>
+            <sentence id="12.2">- v3.4.6.2 OOO340m1 Build: 602</sentence>
+            <sentence id="12.3">- v3.5.7.2 Build ID: 3215f89-f603614-ab984f2-7348103-1225a5b</sentence>
+            <sentence id="12.4">- v3.6.7.2 Build ID: e183d5b</sentence>
+            <sentence id="12.5">- v4.0.6.2 Build ID: 2e2573268451a50806fcd60ae2d9fe01dd0ce24</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">In all cases the display of hidden cell data is suppressed from appearing in the corresponding chart in the local file and revealed in the external file.</sentence>
+            <sentence id="13.2">If this is a problem, it would appear to be Inherited From OOo, so I have set the version as such.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Steps to reproduce:</sentence>
+            <sentence id="14.2">1 Open hidden_cells_external.</sentence>
+            <sentence id="14.3">ods (attached).</sentence>
+            <sentence id="14.4">2 Respond "Yes" when asked to update external references.</sentence>
+            <sentence id="14.5">3 Note second and third chart (column/row in title) display all data i.e., identical display to first chart.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">Current behavior:
+References to external data in a chart appear to ignore the value of the chart:include-hidden-cells attribute.</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Expected behavior:
+The value of the chart:include-hidden-cells attribute is taken into consideration, even when references are external.</sentence>
+            <sentence id="16.2">Operating System: Ubuntu
+Version: Inherited From OOo</sentence>
+        </paragraph>
+    </description>
+</bug>

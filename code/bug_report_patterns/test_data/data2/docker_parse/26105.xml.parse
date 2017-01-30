@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26105</id>
+    <title>manager cannot re-join a swarm</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+Client:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: 
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Server:
+ Version: 1.12.1
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 23cf638
+ Built: 
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'</sentence>
+            <sentence id="6.2">Containers: 0</sentence>
+            <sentence id="6.3"> Running: 0</sentence>
+            <sentence id="6.4"> Paused: 0</sentence>
+            <sentence id="6.5"> Stopped: 0</sentence>
+            <sentence id="6.6">Images: 0</sentence>
+            <sentence id="6.7">Server Version: 1.12.1</sentence>
+            <sentence id="6.8">Storage Driver: devicemapper</sentence>
+            <sentence id="6.9"> Pool Name: docker-253:1-134219095-pool</sentence>
+            <sentence id="6.10"> Pool Blocksize: 65.54 kB</sentence>
+            <sentence id="6.11"> Base Device Size: 10.74 GB</sentence>
+            <sentence id="6.12"> Backing Filesystem: xfs</sentence>
+            <sentence id="6.13"> Data file: /dev/loop0</sentence>
+            <sentence id="6.14"> Metadata file: /dev/loop1</sentence>
+            <sentence id="6.15"> Data Space Used: 11.8 MB</sentence>
+            <sentence id="6.16"> Data Space Total: 107.4 GB</sentence>
+            <sentence id="6.17"> Data Space Available: 29.42 GB</sentence>
+            <sentence id="6.18"> Metadata Space Used: 581.6 kB</sentence>
+            <sentence id="6.19"> Metadata Space Total: 2.147 GB</sentence>
+            <sentence id="6.20"> Metadata Space Available: 2.147 GB</sentence>
+            <sentence id="6.21"> Thin Pool Minimum Free Space: 10.74 GB</sentence>
+            <sentence id="6.22"> Udev Sync Supported: true</sentence>
+            <sentence id="6.23"> Deferred Removal Enabled: false</sentence>
+            <sentence id="6.24"> Deferred Deletion Enabled: false</sentence>
+            <sentence id="6.25"> Deferred Deleted Device Count: 0</sentence>
+            <sentence id="6.26"> Data loop file: /var/lib/docker/devicemapper/devicemapper/data</sentence>
+            <sentence id="6.27"> WARNING: Usage of loopback devices is strongly discouraged for production use. Use '--storage-opt dm.thinpooldev' to specify a custom block storage device.</sentence>
+            <sentence id="6.28"> Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata</sentence>
+            <sentence id="6.29"> Library Version: 1.02.107-RHEL7 (2015-12-01)</sentence>
+            <sentence id="6.30">Logging Driver: json-file</sentence>
+            <sentence id="6.31">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="6.32">Plugins:</sentence>
+            <sentence id="6.33"> Volume: local</sentence>
+            <sentence id="6.34"> Network: null host bridge overlay</sentence>
+            <sentence id="6.35">Swarm: active</sentence>
+            <sentence id="6.36"> NodeID: a28v5f1uree3lc6mcpebxfhv1</sentence>
+            <sentence id="6.37"> Is Manager: true</sentence>
+            <sentence id="6.38"> ClusterID: 7s75jejmdfyavyf6b5qrt5pyj</sentence>
+            <sentence id="6.39"> Managers: 3</sentence>
+            <sentence id="6.40"> Nodes: 3</sentence>
+            <sentence id="6.41"> Orchestration:</sentence>
+            <sentence id="6.42"> Task History Retention Limit: 5</sentence>
+            <sentence id="6.43"> Raft:</sentence>
+            <sentence id="6.44"> Snapshot Interval: 10000</sentence>
+            <sentence id="6.45"> Heartbeat Tick: 1</sentence>
+            <sentence id="6.46"> Election Tick: 3</sentence>
+            <sentence id="6.47"> Dispatcher:</sentence>
+            <sentence id="6.48"> Heartbeat Period: 5 seconds</sentence>
+            <sentence id="6.49"> CA Configuration:</sentence>
+            <sentence id="6.50"> Expiry Duration: 3 months</sentence>
+            <sentence id="6.51"> Node Address: 10.149.1.34</sentence>
+            <sentence id="6.52">Runtimes: runc</sentence>
+            <sentence id="6.53">Default Runtime: runc</sentence>
+            <sentence id="6.54">Security Options: seccomp</sentence>
+            <sentence id="6.55">Kernel Version: 3.10.0-327.18.2.el7.x86_64</sentence>
+            <sentence id="6.56">Operating System: CentOS Linux 7 (Core)</sentence>
+            <sentence id="6.57">OSType: linux</sentence>
+            <sentence id="6.58">Architecture: x86_64</sentence>
+            <sentence id="6.59">CPUs: 1</sentence>
+            <sentence id="6.60">Total Memory: 1.657 GiB</sentence>
+            <sentence id="6.61">Name: ip-10-149-1-34.uco.ubisoft.onbe</sentence>
+            <sentence id="6.62">ID: HMU7:YFT3:UMO2:FSPU:MQRT:ZS76:6SB6:R7EQ:AINR:3UMD:QAB2:DEEE</sentence>
+            <sentence id="6.63">Docker Root Dir: /var/lib/docker</sentence>
+            <sentence id="6.64">Debug Mode (client): false</sentence>
+            <sentence id="6.65">Debug Mode (server): false</sentence>
+            <sentence id="6.66">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="6.67">WARNING: bridge-nf-call-ip6tables is disabled</sentence>
+            <sentence id="6.68">Insecure Registries:</sentence>
+            <sentence id="6.69"> 127.0.0.0/8</sentence>
+            <sentence id="6.70">"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="7.2">Three nodes on openstack</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="8.2">1 create three nodes on openstack 'manager1, manager2, manager3'</sentence>
+            <sentence id="8.3">2 On 'manager1', run 'docker swarm init'</sentence>
+            <sentence id="8.4">3 On 'manager2' and 'manager3', run 'docker swarm join' with manager 'join-token' to join the network.</sentence>
+            <sentence id="8.5">4 'docker node list', everything is ok, the 'manager1' is the 'leader'</sentence>
+            <sentence id="8.6">5 On 'manager1', 'docker swarm leave --force', the 'manager2' becomes 'leader',</sentence>
+            <sentence id="8.7">6 'manager3' left swarm 'docker swarm leave --force'</sentence>
+            <sentence id="8.8">7 'manager3' tries to rejoin the swarm with same manager token (as shown on 'manager2' with 'join-token') and 'manager2' IP address, shown error</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+Error response from daemon: This node is already part of a swarm. Use "docker swarm leave" to leave this swarm and join another one.
+"'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">while on 'manager2', the 'manager status' is 'Unreachable'.</sentence>
+            <sentence id="10.2">Same thing happens, when 'manager1' tries to rejoin the swarm.</sentence>
+        </paragraph>
+    </description>
+</bug>

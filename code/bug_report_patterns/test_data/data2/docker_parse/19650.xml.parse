@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>19650</id>
+    <title>Docker inspect returns empty 'Parent' field for image that should have parent</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I noticed during integration test errors in #16609 that 'docker inspect busybox' may report an empty Parent field.</sentence>
+            <sentence id="1.2">This seems to be incorrect behavior (and causes integration tests to fail):</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Repro:</sentence>
+            <sentence id="2.2">```
+DOCKER_HOST=tcp://0.0.0.0:2375 bundles/1.10.0-dev/binary/docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+eeee0535bf3c: Pull complete 
+a3ed95caeb02: Pull complete 
+Digest: sha256:c1bc9b4bffe665bf014a305cc6cf3bca0e6effeb69d681d7a208ce741dad58e0
+Status: Downloaded newer image for busybox:latest</sentence>
+            <sentence id="2.3">DOCKER_HOST=tcp://0.0.0.0:2375 bundles/1.10.0-dev/binary/docker inspect -f '{{.</sentence>
+            <sentence id="2.4">Parent}}' busybox
+(empty reponse)
+```</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Daemon log during pull:</sentence>
+            <sentence id="3.2">```</sentence>
+            <sentence id="3.3">DEBU[0201] Calling POST /v1.23/images/create</sentence>
+            <sentence id="3.4">DEBU[0201] POST /v1.23/images/create?fromImage=busybox%3Alatest</sentence>
+            <sentence id="3.5">DEBU[0201] Trying to pull busybox from https://registry-1.docker.io v2</sentence>
+            <sentence id="3.6">DEBU[0202] Increasing token expiration to: 0 seconds </sentence>
+            <sentence id="3.7">DEBU[0203] Pulling ref from V2 registry: busybox:latest </sentence>
+            <sentence id="3.8">DEBU[0203] pulling blob "sha256:eeee0535bf3cec7a24bff2c6e97481afa3d37e2cdeff277c57cb5cbdb2fa9e92" </sentence>
+            <sentence id="3.9">DEBU[0203] pulling blob "sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4" </sentence>
+            <sentence id="3.10">DEBU[0203] Downloaded a3ed95caeb02 to tempfile /tmp/dockerlib/tmp/GetImageBlob481827976 </sentence>
+            <sentence id="3.11">DEBU[0203] Downloaded eeee0535bf3c to tempfile /tmp/dockerlib/tmp/GetImageBlob511138887 </sentence>
+            <sentence id="3.12">DEBU[0203] Applied tar sha256:2c84284818d186d88a16ac7fa731d4b71ba69ecfe11b4ce00413366833cb2403 to a19fcf37210d6e4e6f460897bf3f03c4cf2e467b356d218949117502d4ee36b2, size: 1113554 </sentence>
+            <sentence id="3.13">DEBU[0203] Applied tar sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef to 1268fb74d315934dcb9a31ff1dd1549638ba79b5c1e3b21a34b8f7c341d1a44d, size: 0 </sentence>
+            <sentence id="3.14">```</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Daemon log during inspect:
+```
+DEBU[0249] Calling GET /v1.23/containers/busybox/json
+DEBU[0249] GET /v1.23/containers/busybox/json
+ERRO[0249] Handler for GET /v1.23/containers/busybox/json returned error: No such container: busybox
+DEBU[0249] Calling GET /v1.23/images/busybox/json
+DEBU[0249] GET /v1.23/images/busybox/json
+```</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Recommended additional integration test (this currently fails, in master):</sentence>
+            <sentence id="5.2">```</sentence>
+            <sentence id="5.3">diff --git a/integration-cli/docker_cli_inspect_test.</sentence>
+            <sentence id="5.4">go b/integration-cli/docker_cli_inspect_test.</sentence>
+            <sentence id="5.5">go</sentence>
+            <sentence id="5.6">index c39b2a0.</sentence>
+            <sentence id="5.7">.7c7e07d 100644</sentence>
+            <sentence id="5.8">--- a/integration-cli/docker_cli_inspect_test.</sentence>
+            <sentence id="5.9">go</sentence>
+            <sentence id="5.10">+++ b/integration-cli/docker_cli_inspect_test.</sentence>
+            <sentence id="5.11">go</sentence>
+            <sentence id="5.12">@@ -415,3 +415,14 @@ func (s *DockerSuite) TestInspectContainerNetworkCustom(c *check.C) {</sentence>
+            <sentence id="5.13">c.Assert(err, checker.IsNil)</sentence>
+            <sentence id="5.14">c.Assert(strings.TrimSpace(out), checker.Equals, strings.TrimSpace(netOut))</sentence>
+            <sentence id="5.15">}</sentence>
+            <sentence id="5.16">+</sentence>
+            <sentence id="5.17">+func (*DockerSuite) TestInspectParentImage(c *check.C) {</sentence>
+            <sentence id="5.18">+ testRequires(c, DaemonIsLinux)</sentence>
+            <sentence id="5.19">+</sentence>
+            <sentence id="5.20">+ _, _, err := dockerCmdWithError("pull", "busybox")</sentence>
+            <sentence id="5.21">+ c.Assert(err, check.IsNil)</sentence>
+            <sentence id="5.22">+</sentence>
+            <sentence id="5.23">+ parent, err := inspectField("busybox", "Parent")</sentence>
+            <sentence id="5.24">+ c.Assert(err, check.IsNil)</sentence>
+            <sentence id="5.25">+ c.Assert(parent, checker.Not(checker.Equals), "")</sentence>
+            <sentence id="5.26">+}</sentence>
+            <sentence id="5.27">```</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Version:
+```
+DOCKER_HOST=tcp://0.0.0.0:2375 bundles/1.10.0-dev/binary/docker version
+Client:
+ Version: 1.10.0-dev
+ API version: 1.23
+ Go version: go1.5.3
+ Git commit: 9600991-unsupported
+ Built: Mon Jan 25 03:00:52 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Server:
+ Version: 1.10.0-dev
+ API version: 1.23
+ Go version: go1.5.3
+ Git commit: 9600991-unsupported
+ Built: Mon Jan 25 03:00:52 2016
+ OS/Arch: linux/amd64
+```</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Info:</sentence>
+            <sentence id="8.2">```</sentence>
+            <sentence id="8.3">DOCKER_HOST=tcp://0.0.0.0:2375 bundles/1.10.0-dev/binary/docker info</sentence>
+            <sentence id="8.4">Containers: 0</sentence>
+            <sentence id="8.5"> Running: 0</sentence>
+            <sentence id="8.6"> Paused: 0</sentence>
+            <sentence id="8.7"> Stopped: 0</sentence>
+            <sentence id="8.8">Images: 1</sentence>
+            <sentence id="8.9">Server Version: 1.10.0-dev</sentence>
+            <sentence id="8.10">Storage Driver: aufs</sentence>
+            <sentence id="8.11"> Root Dir: /tmp/dockerlib/aufs</sentence>
+            <sentence id="8.12"> Backing Filesystem: extfs</sentence>
+            <sentence id="8.13"> Dirs: 2</sentence>
+            <sentence id="8.14"> Dirperm1 Supported: true</sentence>
+            <sentence id="8.15">Execution Driver: native-0.2</sentence>
+            <sentence id="8.16">Logging Driver: json-file</sentence>
+            <sentence id="8.17">Plugins: </sentence>
+            <sentence id="8.18"> Volume: local</sentence>
+            <sentence id="8.19"> Network: bridge null host</sentence>
+            <sentence id="8.20">Kernel Version: 3.16.0-4-amd64</sentence>
+            <sentence id="8.21">Operating System: Debian GNU/Linux 8 (jessie)</sentence>
+            <sentence id="8.22">OSType: linux</sentence>
+            <sentence id="8.23">Architecture: x86_64</sentence>
+            <sentence id="8.24">CPUs: 16</sentence>
+            <sentence id="8.25">Total Memory: 22.64 GiB</sentence>
+            <sentence id="8.26">Name: don</sentence>
+            <sentence id="8.27">ID: BTA7:EUOC:F2TE:IKBJ:A4DN:V2KV:L4ON:ZQF5:FSTL:QUVX:2GTS:TE57</sentence>
+            <sentence id="8.28">Debug mode (server): true</sentence>
+            <sentence id="8.29"> File Descriptors: 12</sentence>
+            <sentence id="8.30"> Goroutines: 38</sentence>
+            <sentence id="8.31"> System Time: 2016-01-25T03:07:47.981436541Z</sentence>
+            <sentence id="8.32"> EventsListeners: 0</sentence>
+            <sentence id="8.33"> Init SHA1: </sentence>
+            <sentence id="8.34"> Init Path: /ngi-persist/don/docker/bundles/1.10.0-dev/binary/docker</sentence>
+            <sentence id="8.35"> Docker Root Dir: /tmp/dockerlib</sentence>
+            <sentence id="8.36">Username: dkjer</sentence>
+            <sentence id="8.37">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="8.38">WARNING: No memory limit support</sentence>
+            <sentence id="8.39">WARNING: No swap limit support</sentence>
+            <sentence id="8.40">WARNING: No oom kill disable support</sentence>
+            <sentence id="8.41">WARNING: No cpu cfs quota support</sentence>
+            <sentence id="8.42">WARNING: No cpu cfs period support</sentence>
+            <sentence id="8.43">```</sentence>
+        </paragraph>
+    </description>
+</bug>

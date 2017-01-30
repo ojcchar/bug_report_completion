@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9820</id>
+    <title>Segfaults with SetEnv in per-directory configuration files</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">SetEnv works without any problems if set in httpd.conf but setting in 
+an .htaccess ('AllowOverride All MultiViews' set for Directory context) causes 
+segmentation faults and no content is delivered to user-agent.</sentence>
+            <sentence id="1.2">Same for 
+UnsetEnv and PassEnv.</sentence>
+            <sentence id="1.3">It doesn't depend on type of variable set.</sentence>
+            <sentence id="1.4">In case of PassEnv a previously undefined variable gives</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">[Wed Jun 12 23:37:17 2002] [warn] PassEnv variable LD_LIBRARY_PATH was undefined
+[Wed Jun 12 23:37:17 2002] [notice] child pid 28855 exit signal Segmentation 
+fault (11)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">in my error_log.</sentence>
+            <sentence id="3.2">Maybe this can help to find the point where the segfault 
+occurs.</sentence>
+            <sentence id="3.3">mod_setenvif directives work without difficulties and so far there's a less 
+elegant workaround, e.g.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">SetEnvIf I_AM_NO_REAL_VARIABLE "^$" MY_VARIABLE=bla</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">which can be used under these circumstances.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Apache 2.0.36 was compiled on Kernel 2.4.18 using the following options:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">LDFLAGS="-L/opt/BerkeleyDB.3.3.11/lib"; export LDFLAGS</sentence>
+            <sentence id="7.2">LIBS="-ldb-3.3"; export LIBS</sentence>
+            <sentence id="7.3">INCLUDES="-I/opt/BerkeleyDB.3.3.11/include"; export INCLUDES</sentence>
+            <sentence id="7.4">".</sentence>
+            <sentence id="7.5">/configure" \</sentence>
+            <sentence id="7.6">"--prefix=/opt/apache2" \</sentence>
+            <sentence id="7.7">"--exec-prefix=/opt/apache2" \</sentence>
+            <sentence id="7.8">"--sbindir=/opt/apache2/sbin" \</sentence>
+            <sentence id="7.9">"--libexecdir=/opt/apache2/lib" \</sentence>
+            <sentence id="7.10">"--datadir=/opt/apache2/share" \</sentence>
+            <sentence id="7.11">"--sysconfdir=/opt/apache2/etc" \</sentence>
+            <sentence id="7.12">"--sharedstatedir=/opt/apache2/com" \</sentence>
+            <sentence id="7.13">"--localstatedir=/opt/apache2/var" \</sentence>
+            <sentence id="7.14">"--enable-auth-dbm" \</sentence>
+            <sentence id="7.15">"--enable-auth-digest" \</sentence>
+            <sentence id="7.16">"--enable-cache" \</sentence>
+            <sentence id="7.17">"--enable-ext-filter" \</sentence>
+            <sentence id="7.18">"--enable-charset-lite" \</sentence>
+            <sentence id="7.19">"--enable-deflate" \</sentence>
+            <sentence id="7.20">"--enable-disk-cache" \</sentence>
+            <sentence id="7.21">"--enable-mem-cache" \</sentence>
+            <sentence id="7.22">"--enable-mime-magic" \</sentence>
+            <sentence id="7.23">"--enable-cern-meta" \</sentence>
+            <sentence id="7.24">"--enable-expires" \</sentence>
+            <sentence id="7.25">"--enable-headers" \</sentence>
+            <sentence id="7.26">"--enable-usertrack" \</sentence>
+            <sentence id="7.27">"--enable-unique-id" \</sentence>
+            <sentence id="7.28">"--enable-proxy" \</sentence>
+            <sentence id="7.29">"--enable-proxy-connect" \</sentence>
+            <sentence id="7.30">"--enable-proxy-ftp" \</sentence>
+            <sentence id="7.31">"--enable-proxy-http" \</sentence>
+            <sentence id="7.32">"--enable-ssl" \</sentence>
+            <sentence id="7.33">"--enable-static-support" \</sentence>
+            <sentence id="7.34">"--enable-http" \</sentence>
+            <sentence id="7.35">"--enable-dav" \</sentence>
+            <sentence id="7.36">"--enable-info" \</sentence>
+            <sentence id="7.37">"--enable-dav-fs" \</sentence>
+            <sentence id="7.38">"--enable-suexec" \</sentence>
+            <sentence id="7.39">"--enable-speling" \</sentence>
+            <sentence id="7.40">"--disable-userdir" \</sentence>
+            <sentence id="7.41">"--enable-rewrite" \</sentence>
+            <sentence id="7.42">"--enable-so" \</sentence>
+            <sentence id="7.43">"--with-suexec-caller=wwwrun" \</sentence>
+            <sentence id="7.44">"--with-suexec-docroot=/www" \</sentence>
+            <sentence id="7.45">"--with-suexec-uidmin=500" \</sentence>
+            <sentence id="7.46">"--with-suexec-logfile=/opt/apache2/var/log/suexec.</sentence>
+            <sentence id="7.47">log" \</sentence>
+            <sentence id="7.48">"--with-suexec-safepath=/usr/bin:/usr/local/bin" \</sentence>
+            <sentence id="7.49">"$@"</sentence>
+        </paragraph>
+    </description>
+</bug>

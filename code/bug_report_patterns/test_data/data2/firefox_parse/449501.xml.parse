@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>449501</id>
+    <title>ARIA role: alert will fail if the text content is more than a certain length</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">User-Agent:       Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1
+Build Identifier: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">ARIA role: alert does not always cause the added node to be spoken by the user's assistive technology.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Under JAWS 9, if the text content of an alert is greater than a certain length, the alert will not be spoken when it is added.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Please see the attached example.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Steps to Reproduce:</sentence>
+            <sentence id="6.2">1 Open the attached example while running Firefox 3 and JAWS 9.</sentence>
+            <sentence id="6.3">2 Click on "Show the alert that works".</sentence>
+            <sentence id="6.4">Notice that the alert text is read out.</sentence>
+            <sentence id="6.5">3 Click on "Show the alert that fails".</sentence>
+            <sentence id="6.6">Notice that the alert text is not read out.</sentence>
+            <sentence id="6.7">Actual Results:</sentence>
+            <sentence id="6.8">The alert is only read in the first case, but nothing is spoken for the second case.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Expected Results:  
+Both alerts should be spoken.</sentence>
+        </paragraph>
+    </description>
+</bug>

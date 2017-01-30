@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3728</id>
+    <title>NonUniqueObjectException: a different object with the same identifier value was already associated with the session: [org.openmrs.Patient#]</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This was submitted anonymously through the ERR reporting system</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The first task of this ticket is to reproduce this error.</sentence>
+            <sentence id="2.2">We have no supporting documentation on this, but it has been submitted multiple times.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Version: 1.9.1  Build 28992
+Implementation ID: 
+User ID: admin
+Started Modules: serialization.xstream v0.2.7, logic v0.5.2, reporting v0.7.2, patientflags v1.3.4, htmlformentry19ext v0.9, htmlformentry v1.10.0, xforms v4.0.9.5, reportingcompatibility v1.5.8, htmlwidgets v1.6.2</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Summary:
+org.hibernate.NonUniqueObjectException: a different object with the same identifier value was already associated with the session: [org.openmrs.Patient#9348]</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Description:</sentence>
+            <sentence id="5.2">Stack trace:</sentence>
+            <sentence id="5.3">org.hibernate.engine.StatefulPersistenceContext.checkUniqueness(StatefulPersistenceContext.java:638)</sentence>
+            <sentence id="5.4">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.performUpdate(DefaultSaveOrUpdateEventListener.java:305)</sentence>
+            <sentence id="5.5">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.entityIsDetached(DefaultSaveOrUpdateEventListener.java:246)</sentence>
+            <sentence id="5.6">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.performSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:112)</sentence>
+            <sentence id="5.7">org.hibernate.event.def.DefaultSaveOrUpdateEventListener.onSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:93)</sentence>
+            <sentence id="5.8">org.hibernate.impl.SessionImpl.fireSaveOrUpdate(SessionImpl.java:685)</sentence>
+            <sentence id="5.9">org.hibernate.impl.SessionImpl.saveOrUpdate(SessionImpl.java:677)</sentence>
+            <sentence id="5.10">org.hibernate.impl.SessionImpl.saveOrUpdate(SessionImpl.java:673)</sentence>
+            <sentence id="5.11">org.openmrs.api.db.hibernate.HibernatePatientDAO.savePatient(HibernatePatientDAO.java:103)</sentence>
+            <sentence id="5.12">org.openmrs.api.impl.PatientServiceImpl.savePatient(PatientServiceImpl.java:142)</sentence>
+            <sentence id="5.13">	at [ignored] ...</sentence>
+            <sentence id="5.14">$Proxy97.savePatient(Unknown Source)</sentence>
+            <sentence id="5.15">	at [ignored] ...</sentence>
+            <sentence id="5.16">org.openmrs.aop.LoggingAdvice.invoke(LoggingAdvice.java:122)</sentence>
+            <sentence id="5.17">	at [ignored] ...</sentence>
+            <sentence id="5.18">$Proxy98.savePatient(Unknown Source)</sentence>
+            <sentence id="5.19">	at [ignored] ...</sentence>
+            <sentence id="5.20">$Proxy98.savePatient(Unknown Source)</sentence>
+            <sentence id="5.21">org.openmrs.web.controller.patient.ShortPatientFormController.saveShortPatient(ShortPatientFormController.java:238)</sentence>
+            <sentence id="5.22">&lt;snip&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

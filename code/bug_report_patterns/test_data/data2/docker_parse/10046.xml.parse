@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10046</id>
+    <title>docker exec does not properly add process to cgroups</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">reproducing:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">'docker exec id cat /proc/self/cgroup'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Notice the values changing when you run this for many times.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Looking at the code the issue seems to be that when 'nsenter-exec' starts there is a race between the parent adding 'nsenter-exec' to appropriate 'cgroups' and launching the user process.</sentence>
+            <sentence id="4.2">Only a subset of 'cgroups' have been added before the fork(at least in my machine).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Any recommendations for the best way of solving this?</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">/cc @crosbymichael</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'</sentence>
+            <sentence id="7.2">&gt; docker version</sentence>
+            <sentence id="7.3">Client version: 1.4.1-dev</sentence>
+            <sentence id="7.4">Client API version: 1.16</sentence>
+            <sentence id="7.5">Go version (client): go1.4</sentence>
+            <sentence id="7.6">Git commit (client): 43c5038</sentence>
+            <sentence id="7.7">OS/Arch (client): linux/amd64</sentence>
+            <sentence id="7.8">Server version: 1.4.1-dev</sentence>
+            <sentence id="7.9">Server API version: 1.16</sentence>
+            <sentence id="7.10">Go version (server): go1.4</sentence>
+            <sentence id="7.11">Git commit (server): 43c5038</sentence>
+            <sentence id="7.12">&gt; docker info</sentence>
+            <sentence id="7.13">Containers: 7</sentence>
+            <sentence id="7.14">Images: 19</sentence>
+            <sentence id="7.15">Storage Driver: aufs</sentence>
+            <sentence id="7.16"> Root Dir: /home/vagrant/docker-dev-aufs/aufs</sentence>
+            <sentence id="7.17"> Dirs: 33</sentence>
+            <sentence id="7.18">Execution Driver: native-0.2</sentence>
+            <sentence id="7.19">Kernel Version: 3.16.0-25-generic</sentence>
+            <sentence id="7.20">Operating System: Ubuntu 14.04.1 LTS</sentence>
+            <sentence id="7.21">CPUs: 4</sentence>
+            <sentence id="7.22">Total Memory: 993.4 MiB</sentence>
+            <sentence id="7.23">Name: docker-vagrant</sentence>
+            <sentence id="7.24">ID: QFMK:3C7H:CQ7V:ETRJ:ZK6G:Q366:ORM5:XQ4I:7RLY:M7B3:UXE3:LEQK</sentence>
+            <sentence id="7.25">Debug mode (server): true</sentence>
+            <sentence id="7.26">Debug mode (client): false</sentence>
+            <sentence id="7.27">Fds: 30</sentence>
+            <sentence id="7.28">Goroutines: 37</sentence>
+            <sentence id="7.29">EventsListeners: 0</sentence>
+            <sentence id="7.30">Init Path: /home/vagrant/bundles/338/1.4.1-dev/binary/docker</sentence>
+            <sentence id="7.31">Docker Root Dir: /home/vagrant/docker-dev-aufs</sentence>
+            <sentence id="7.32">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>44961</id>
+    <title>SSL session resumption does not properly work with openssl &gt;  0.9.8f</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In the method 'int ssl_hook_Access(request_rec *r)' the session id context will 
+set again in case of a full renegotiation [1].</sentence>
+            <sentence id="1.2">And since openssl/0.9.8f the context check of a SSL session has been restricted,
+see [2].</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">That has the effect, that ssl session caching does not work, if the ssl session  
+has been established by a full renegotiation.</sentence>
+            <sentence id="2.2">(unless a third party ssl session 
+cache is used, that is correcting the session id context)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I think the initial reason for changing the session id context was to avoid 
+session resumption if a client cert is requested (SSL_VERIFY_PEER).</sentence>
+            <sentence id="3.2">But since the option SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION has been 
+introduced, that is not longer necessary.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">So it would propose the following change:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">--- 617,627 ----</sentence>
+            <sentence id="5.2">"Performing full renegotiation: "</sentence>
+            <sentence id="5.3">"complete handshake protocol");</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">+ #ifndef SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION
+              SSL_set_session_id_context(ssl,
+                                         (unsigned char *)&amp;id,
+                                         sizeof(id));
++ #endif</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">SSL_renegotiate(ssl);
+              SSL_do_handshake(ssl);</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">[1] file ssl_engine_kernel.</sentence>
+            <sentence id="8.2">c line 620</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">request_rec *id = r-&gt;main ?</sentence>
+            <sentence id="9.2">r-&gt;main : r;</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">/* do a full renegotiation */</sentence>
+            <sentence id="10.2">ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, r-&gt;server,</sentence>
+            <sentence id="10.3">"Performing full renegotiation: "</sentence>
+            <sentence id="10.4">"complete handshake protocol");</sentence>
+            <sentence id="10.5">SSL_set_session_id_context(ssl,</sentence>
+            <sentence id="10.6">(unsigned char *)&amp;id,</sentence>
+            <sentence id="10.7">sizeof(id));</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">[2] http://www.openssl.org/news/changelog.html</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Changes between 0.9.8e and 0.9.8f  [11 Oct 2007]</sentence>
+            <sentence id="12.2">...</sentence>
+            <sentence id="12.3">...</sentence>
+            <sentence id="12.4">*) In the SSL/TLS server implementation, be strict about session ID</sentence>
+            <sentence id="12.5">context matching (which matters if an application uses a single</sentence>
+            <sentence id="12.6">external cache for different purposes).</sentence>
+            <sentence id="12.7">Previously,</sentence>
+            <sentence id="12.8">out-of-context reuse was forbidden only if SSL_VERIFY_PEER was</sentence>
+            <sentence id="12.9">set.</sentence>
+            <sentence id="12.10">This did ensure strict client verification, but meant that,</sentence>
+            <sentence id="12.11">with applications using a single external cache for quite</sentence>
+            <sentence id="12.12">different requirements, clients could circumvent ciphersuite</sentence>
+            <sentence id="12.13">restrictions for a given session ID context by starting a session</sentence>
+            <sentence id="12.14">in a different context.</sentence>
+            <sentence id="12.15">[Bodo Moeller]</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-456</id>
+    <title>Session still holds references to entities after close()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Session still holds references to entities in
+SessionImpl.persistentContext.entityEntries.entryArray.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">adding following line to IdentityMap.clear() fixes it:
+entryArray = new Map.Entry[0];</sentence>
+        </paragraph>
+    </description>
+</bug>

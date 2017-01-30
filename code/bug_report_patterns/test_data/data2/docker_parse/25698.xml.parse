@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>25698</id>
+    <title>Intermittent failure connecting to port</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If I run a global nginx (or tomcat, doesn't matter) service in a swarm, exposing a port on each node (I am load balancing to my cluster and need the same port open everywhere)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">docker service create --name my-nginx --with-registry-auth --mode global -p 7011:7011 -p 7010:7010 my-nginx:0.3</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The service starts on every node fine.</sentence>
+            <sentence id="3.2">(yay)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">On any node I try to connect to the port and sometimes it works
+'# nc -zv localhost 7010
+Connection to localhost 7010 port [tcp/http-alt] succeeded!'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">and sometimes it doesn't"</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"'
+# nc -zv localhost 7010
+nc: connect to localhost port 7010 (tcp) failed: Connection refused
+"'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">If I curl, I get similar results, but sometimes it seems to timeout.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Output of 'docker version':**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">"'
+Client:
+ Version: 1.12.0
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 8eab29e
+ Built: Thu Jul 28 22:00:36 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Server:
+ Version: 1.12.0
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 8eab29e
+ Built: Thu Jul 28 22:00:36 2016
+ OS/Arch: linux/amd64
+"'</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Output of 'docker info':**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">"'
+Client:
+ Version: 1.12.0
+ API version: 1.24
+ Go version: go1.6.3
+ Git commit: 8eab29e
+ Built: Thu Jul 28 22:00:36 2016
+ OS/Arch: linux/amd64</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Server:</sentence>
+            <sentence id="13.2"> Version: 1.12.0</sentence>
+            <sentence id="13.3"> API version: 1.24</sentence>
+            <sentence id="13.4"> Go version: go1.6.3</sentence>
+            <sentence id="13.5"> Git commit: 8eab29e</sentence>
+            <sentence id="13.6"> Built: Thu Jul 28 22:00:36 2016</sentence>
+            <sentence id="13.7"> OS/Arch: linux/amd64</sentence>
+            <sentence id="13.8">root@ip-172-31-35-10:/home/ubuntu/setup/nginx# docker info</sentence>
+            <sentence id="13.9">Containers: 12</sentence>
+            <sentence id="13.10"> Running: 4</sentence>
+            <sentence id="13.11"> Paused: 0</sentence>
+            <sentence id="13.12"> Stopped: 8</sentence>
+            <sentence id="13.13">Images: 12</sentence>
+            <sentence id="13.14">Server Version: 1.12.0</sentence>
+            <sentence id="13.15">Storage Driver: aufs</sentence>
+            <sentence id="13.16"> Root Dir: /data/docker/aufs</sentence>
+            <sentence id="13.17"> Backing Filesystem: extfs</sentence>
+            <sentence id="13.18"> Dirs: 73</sentence>
+            <sentence id="13.19"> Dirperm1 Supported: true</sentence>
+            <sentence id="13.20">Logging Driver: json-file</sentence>
+            <sentence id="13.21">Cgroup Driver: cgroupfs</sentence>
+            <sentence id="13.22">Plugins:</sentence>
+            <sentence id="13.23"> Volume: local</sentence>
+            <sentence id="13.24"> Network: null host bridge overlay</sentence>
+            <sentence id="13.25">Swarm: active</sentence>
+            <sentence id="13.26"> NodeID: bd2rri2d7heioizz6ti7fs14o</sentence>
+            <sentence id="13.27"> Is Manager: true</sentence>
+            <sentence id="13.28"> ClusterID: 6poe5sl596j8c233f77da4vjt</sentence>
+            <sentence id="13.29"> Managers: 3</sentence>
+            <sentence id="13.30"> Nodes: 3</sentence>
+            <sentence id="13.31"> Orchestration:</sentence>
+            <sentence id="13.32"> Task History Retention Limit: 5</sentence>
+            <sentence id="13.33"> Raft:</sentence>
+            <sentence id="13.34"> Snapshot interval: 10000</sentence>
+            <sentence id="13.35"> Heartbeat tick: 1</sentence>
+            <sentence id="13.36"> Election tick: 3</sentence>
+            <sentence id="13.37"> Dispatcher:</sentence>
+            <sentence id="13.38"> Heartbeat period: 5 seconds</sentence>
+            <sentence id="13.39"> CA configuration:</sentence>
+            <sentence id="13.40"> Expiry duration: 3 months</sentence>
+            <sentence id="13.41"> Node Address: 172.31.35.10</sentence>
+            <sentence id="13.42">Runtimes: runc</sentence>
+            <sentence id="13.43">Default Runtime: runc</sentence>
+            <sentence id="13.44">Security Options: apparmor</sentence>
+            <sentence id="13.45">Kernel Version: 4.4.0-31-generic</sentence>
+            <sentence id="13.46">Operating System: Ubuntu 16.04.1 LTS</sentence>
+            <sentence id="13.47">OSType: linux</sentence>
+            <sentence id="13.48">Architecture: x86_64</sentence>
+            <sentence id="13.49">CPUs: 2</sentence>
+            <sentence id="13.50">Total Memory: 7.795 GiB</sentence>
+            <sentence id="13.51">Name: ip-172-31-35-10</sentence>
+            <sentence id="13.52">ID: MUUA:UEUC:CC7V:WNU7:6SCE:JLD4:ULVI:YYH3:6R3D:EZI4:XIGW:F3QX</sentence>
+            <sentence id="13.53">Docker Root Dir: /data/docker</sentence>
+            <sentence id="13.54">Debug Mode (client): false</sentence>
+            <sentence id="13.55">Debug Mode (server): false</sentence>
+            <sentence id="13.56">Registry: https://index.docker.io/v1/</sentence>
+            <sentence id="13.57">WARNING: No swap limit support</sentence>
+            <sentence id="13.58">Insecure Registries:</sentence>
+            <sentence id="13.59"> 127.0.0.0/8</sentence>
+            <sentence id="13.60">"'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">I am on AWS</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="16.2">1 Deploy global service opening port N</sentence>
+            <sentence id="16.3">2 try to connect to port N on any box (it fails intermittently)</sentence>
+            <sentence id="16.4">3</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">"'
+# nc -zv localhost 7010
+Connection to localhost 7010 port [tcp/http-alt] succeeded!
+# nc -zv localhost 7010
+nc: connect to localhost port 7010 (tcp) failed: Connection refused
+"'</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">"'
+# nc -zv localhost 7010
+Connection to localhost 7010 port [tcp/http-alt] succeeded!
+"'</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">All the time</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">it happens every time I start a service, but intermittently.</sentence>
+            <sentence id="23.2">Maybe 50% failures.</sentence>
+        </paragraph>
+    </description>
+</bug>

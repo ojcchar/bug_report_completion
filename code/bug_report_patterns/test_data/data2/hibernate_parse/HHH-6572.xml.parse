@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6572</id>
+    <title>IdentifierGeneratorHelper.getGeneratedIdentity() assumes that id column will always be at index 1</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If the database columns are created such that the serial id is *not* the first one, then the EntityManager.persist(Object) method sets the wrong value on the entity's @Id field (it sets it to the value of the first db column).</sentence>
+            <sentence id="1.2">For example:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Create the table:</sentence>
+            <sentence id="2.2">CREATE TABLE info.rmbtest_course2
+(
+  fee integer,
+  id bigserial NOT NULL,
+  starttime timestamp without time zone,
+  title character varying(100) NOT NULL,
+  CONSTRAINT rmbtest_course2_pkey PRIMARY KEY (id)
+)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">*Note that the id column is the second column*.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Create the entity:
+package testhibernate.course;</sentence>
+            <sentence id="4.2">import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;</sentence>
+            <sentence id="4.3">import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;</sentence>
+            <sentence id="4.4">@Entity(name = "course")
+@Table(name = "rmbTest_course2", schema = "info")
+@NamedQueries(@NamedQuery(name = "Course.findByTest", query = "from course"))
+public class Course {</sentence>
+            <sentence id="4.5">@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private final Long id;</sentence>
+            <sentence id="4.6">@Column(name = "TITLE", length = 100, nullable = false)
+    private final String title;</sentence>
+            <sentence id="4.7">@Column(name = "FEE")
+    private final int fee;</sentence>
+            <sentence id="4.8">@Column(name = "startTime")
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    private final DateTime startTime;</sentence>
+            <sentence id="4.9">public Course(final String title, final int fee, final DateTime startTime) {</sentence>
+            <sentence id="4.10">this.id = null;
+        this.title = title;
+        this.fee = fee;
+        this.startTime = startTime;
+    }</sentence>
+            <sentence id="4.11">/**</sentence>
+            <sentence id="4.12">* Required by JPA</sentence>
+            <sentence id="4.13">*/</sentence>
+            <sentence id="4.14">public Course() {</sentence>
+            <sentence id="4.15">id = null;</sentence>
+            <sentence id="4.16">title = null;</sentence>
+            <sentence id="4.17">fee = 0;</sentence>
+            <sentence id="4.18">startTime = null;</sentence>
+            <sentence id="4.19">}</sentence>
+            <sentence id="4.20">public CourseKey getKey() {</sentence>
+            <sentence id="4.21">return new CourseKey(id);
+    }</sentence>
+            <sentence id="4.22">public String getTitle() {</sentence>
+            <sentence id="4.23">return title;
+    }</sentence>
+            <sentence id="4.24">public int getFee() {</sentence>
+            <sentence id="4.25">return fee;
+    }</sentence>
+            <sentence id="4.26">public DateTime getStartTime() {</sentence>
+            <sentence id="4.27">return startTime;
+    }</sentence>
+            <sentence id="4.28">@Override
+    public String toString()
+    {
+        return "Course{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", fee=" + fee +
+                ", startTime=" + startTime +
+                '}';
+    }
+}</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Run this code:</sentence>
+            <sentence id="5.2">Course course = new Course("Core Spring", 1000, new DateTime());</sentence>
+            <sentence id="5.3">course = myRepository.save(course);</sentence>
+            <sentence id="5.4">System.out.println("key = " + course.getKey());</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">In this case the returned course.getKey() should've been the auto allocated serial id, but it is 1000, i.e. the first column in the table.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The problem is that IdentifierGeneratorHelper.get(ResultSet rs, Type type) assumes that the id column is always the first column.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">As a workaround I have set my entities @Id annotations to:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">...
+public class Course {</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">@Id
+    @GeneratedValue(generator = "myGenerator")
+    @GenericGenerator(name = "myGenerator", strategy = "testhibernate.MyGenerator")
+    @Column(name = "ID")
+    private final Long id;
+...</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">and had the following Generator code:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">package testhibernate;</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">import org.hibernate.HibernateException;
+import org.hibernate.dialect.Dialect;
+import org.hibernate.id.IdentifierGenerationException;
+import org.hibernate.id.IdentifierGeneratorHelper;
+import org.hibernate.id.IdentityGenerator;
+import org.hibernate.id.PostInsertIdentityPersister;
+import org.hibernate.id.ResultSetIdentifierConsumer;
+import org.hibernate.id.insert.InsertGeneratedIdentifierDelegate;
+import org.hibernate.persister.entity.SingleTableEntityPersister;
+import org.hibernate.type.CustomType;
+import org.hibernate.type.Type;</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">public class MyGenerator extends IdentityGenerator
+{
+    @Override
+    public InsertGeneratedIdentifierDelegate getInsertGeneratedIdentifierDelegate(final PostInsertIdentityPersister persister,
+                                                                                  final Dialect dialect,
+                                                                                  final boolean isGetGeneratedKeysEnabled) throws HibernateException
+    {
+        final InsertGeneratedIdentifierDelegate result;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">if(isGetGeneratedKeysEnabled)
+        {
+            result = new MyGetGeneratedKeysDelegate(persister, dialect);
+        }
+        else
+        {
+            result = super.getInsertGeneratedIdentifierDelegate(persister, dialect, isGetGeneratedKeysEnabled);
+        }</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">return result;
+    }</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">private static class MyGetGeneratedKeysDelegate extends GetGeneratedKeysDelegate
+    {
+        private final PostInsertIdentityPersister persister;</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">private MyGetGeneratedKeysDelegate(final PostInsertIdentityPersister persister, final Dialect dialect)
+        {
+            super(persister, dialect);</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">assert persister !</sentence>
+            <sentence id="20.2">= null;</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">this.persister = persister;
+        }</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">private Serializable getGeneratedIdentityByColumnName(ResultSet rs,
+                                                              Type type,
+                                                              String columnName) throws SQLException, HibernateException {
+            if ( !</sentence>
+            <sentence id="22.2">rs.next() ) {
+                throw new HibernateException( "The database returned no natively generated identity value" );
+            }</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">final Serializable id = get(rs, type, columnName);
+            // todo log.debug( "Natively generated identity: " + id );
+            return id;
+        }</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">private Serializable get(ResultSet rs, Type type, String columnName) throws SQLException, IdentifierGenerationException
+        {
+            if ( ResultSetIdentifierConsumer.class.isInstance( type ) )
+            {
+                return ( ( ResultSetIdentifierConsumer ) type ).</sentence>
+            <sentence id="24.2">consumeIdentifier( rs );
+            }</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">if ( CustomType.class.isInstance( type ) )
+            {
+                final CustomType customType = (CustomType) type;
+                if ( ResultSetIdentifierConsumer.class.isInstance( customType.getUserType() ) ) {
+                    return ( (ResultSetIdentifierConsumer) customType.getUserType() ).</sentence>
+            <sentence id="25.2">consumeIdentifier( rs );
+                }
+            }</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">            Class&lt;?&gt; clazz = type.getReturnedClass();</sentence>
+            <sentence id="26.2">            if ( clazz == Long.class )</sentence>
+            <sentence id="26.3">            {</sentence>
+            <sentence id="26.4">                return rs.getLong(columnName);</sentence>
+            <sentence id="26.5">            }</sentence>
+            <sentence id="26.6">            else if ( clazz == Integer.class )</sentence>
+            <sentence id="26.7">            {</sentence>
+            <sentence id="26.8">                return rs.getInt(columnName);</sentence>
+            <sentence id="26.9">            }</sentence>
+            <sentence id="26.10">            else if ( clazz == Short.class )</sentence>
+            <sentence id="26.11">            {</sentence>
+            <sentence id="26.12">                return rs.getShort(columnName);</sentence>
+            <sentence id="26.13">            }</sentence>
+            <sentence id="26.14">            else if ( clazz == String.class )</sentence>
+            <sentence id="26.15">            {</sentence>
+            <sentence id="26.16">                return rs.getString( columnName );</sentence>
+            <sentence id="26.17">            }</sentence>
+            <sentence id="26.18">            else if ( clazz == BigInteger.class )</sentence>
+            <sentence id="26.19">            {</sentence>
+            <sentence id="26.20">                return rs.getBigDecimal( columnName ).setScale( 0, BigDecimal.ROUND_UNNECESSARY ).toBigInteger();</sentence>
+            <sentence id="26.21">            }</sentence>
+            <sentence id="26.22">            else if ( clazz == BigDecimal.class )</sentence>
+            <sentence id="26.23">            {</sentence>
+            <sentence id="26.24">                return rs.getBigDecimal( columnName ).setScale( 0, BigDecimal.ROUND_UNNECESSARY );</sentence>
+            <sentence id="26.25">            }</sentence>
+            <sentence id="26.26">            else</sentence>
+            <sentence id="26.27">            {</sentence>
+            <sentence id="26.28">                throw new IdentifierGenerationException("unrecognised id type : " + type.getName() + " -&gt; " + clazz.getName());</sentence>
+            <sentence id="26.29">            }</sentence>
+            <sentence id="26.30">        }</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">@Override
+        public Serializable executeAndExtract(final PreparedStatement insert) throws SQLException
+        {
+            insert.executeUpdate();</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">ResultSet rs = insert.getGeneratedKeys();
+            try
+            {
+                final Type identifierType = persister.getIdentifierType();</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">Serializable result = null;
+                boolean useDefaultTechnique = true;</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">if(persister instanceof SingleTableEntityPersister)
+                {
+                    final String[] idColumnNames = ((SingleTableEntityPersister)persister).</sentence>
+            <sentence id="30.2">getIdentifierColumnNames();
+                    if(idColumnNames.length == 1)
+                    {
+                        // do it by column name
+                        result = getGeneratedIdentityByColumnName(rs, identifierType, idColumnNames[0] );</sentence>
+        </paragraph>
+        <paragraph id="31">
+            <sentence id="31.1">useDefaultTechnique = false;
+                    }
+                    else
+                    {
+                        // todo - log
+                    }
+                }
+                else
+                {
+                    // todo - log
+                }</sentence>
+        </paragraph>
+        <paragraph id="32">
+            <sentence id="32.1">if(useDefaultTechnique)
+                {
+                    result = IdentifierGeneratorHelper.getGeneratedIdentity(rs, identifierType);
+                }</sentence>
+        </paragraph>
+        <paragraph id="33">
+            <sentence id="33.1">return result;
+            }
+            finally
+            {
+                rs.close();
+            }
+        }
+    }</sentence>
+        </paragraph>
+        <paragraph id="34">
+            <sentence id="34.1">}</sentence>
+        </paragraph>
+        <paragraph id="35">
+            <sentence id="35.1">This seems to do the trick but is obviously an ugly hack.</sentence>
+        </paragraph>
+    </description>
+</bug>

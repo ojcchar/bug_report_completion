@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2296</id>
+    <title>PersonNameValidator gives the wrong field names</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The PersonNameValidator.validate(Object, Errors) method reports errors on the "names[0].</sentence>
+            <sentence id="1.2">xyzName" field instead of the "xyzName" field.</sentence>
+            <sentence id="1.3">This is incorrect behavior.</sentence>
+            <sentence id="1.4">A Spring validator should report errors on the correct field names given the object that was passed in.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">To do this ticket, change the behavior of the PersonNameValidator.validate method to act like it's supposed to, and determine everywhere in the core codebase that was depending on the incorrect behavior, and change it to expect the new behavior, or else change it to call the validatePersonName(PersonName, Errors, boolean, boolean) method.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">PS- The workaround to get correct spring validator behavior from the current validator is to call
+{code}validatePersonName(pn, errors, false, true){code}
+instead of the regular validate(Object, Errors) method.</sentence>
+        </paragraph>
+    </description>
+</bug>

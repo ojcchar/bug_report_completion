@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10302</id>
+    <title>Apache 2.0.39 appears to be vulnerable to DoS, possibly worse</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This evening, I returned from dinner to find that my Apache 2.0.39 Web server, 
+running on FreeBSD, was completely unresponsive.</sentence>
+            <sentence id="1.2">A "ps" command revealed that 
+the server had spawned dozens of child processes.</sentence>
+            <sentence id="1.3">And the error log had filled 
+up with messages that looked like this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">[Wed Jun 26 15:55:01 2002] [error] server reached MaxClients setting, consider </sentence>
+            <sentence id="2.2">raising the MaxClients setting</sentence>
+            <sentence id="2.3">[Wed Jun 26 21:28:36 2002] [warn] child process 164 still did not exit, sending </sentence>
+            <sentence id="2.4">a SIGTERM</sentence>
+            <sentence id="2.5">[Wed Jun 26 21:28:36 2002] [warn] child process 165 still did not exit, sending </sentence>
+            <sentence id="2.6">a SIGTERM</sentence>
+            <sentence id="2.7">[Wed Jun 26 21:28:36 2002] [warn] child process 166 still did not exit, sending </sentence>
+            <sentence id="2.8">a SIGTERM</sentence>
+            <sentence id="2.9">[Wed Jun 26 21:28:36 2002] [warn] child process 167 still did not exit, sending </sentence>
+            <sentence id="2.10">a SIGTERM</sentence>
+            <sentence id="2.11">[Wed Jun 26 21:28:36 2002] [warn] child process 168 still did not exit, sending </sentence>
+            <sentence id="2.12">a SIGTERM</sentence>
+            <sentence id="2.13">[Wed Jun 26 21:28:36 2002] [warn] child process 497 still did not exit, sending </sentence>
+            <sentence id="2.14">a SIGTERM</sentence>
+            <sentence id="2.15">[Wed Jun 26 21:28:36 2002] [warn] child process 498 still did not exit, sending </sentence>
+            <sentence id="2.16">a SIGTERM</sentence>
+            <sentence id="2.17">[Wed Jun 26 21:28:36 2002] [warn] child process 1307 still did not exit, sending </sentence>
+            <sentence id="2.18">a SIGTERM</sentence>
+            <sentence id="2.19">[Wed Jun 26 21:28:36 2002] [warn] child process 2965 still did not exit, sending </sentence>
+            <sentence id="2.20">a SIGTERM</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">...and many more similar messages.</sentence>
+            <sentence id="3.2">These were followed by a continuous stream of 
+messages which started with the following and continued in a similar vein:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.2">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.3">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.4">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.5">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.6">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.7">httpd in free(): warning: chunk is already free</sentence>
+            <sentence id="4.8">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.9">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.10">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.11">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.12">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.13">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.14">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.15">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.16">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.17">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.18">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.19">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.20">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.21">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.22">httpd in free(): warning: page is already free</sentence>
+            <sentence id="4.23">httpd in free(): warning: page is already free</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">While the Apache Group has claimed that Apache HTTPD 2.0.39 is immune to the 
+apache-scalp.</sentence>
+            <sentence id="5.2">c exploit, users on several mailing lists say that these symptoms 
+are similar to those which are seen when the exploit is used against one of the 
+vulnerable Apache versions.</sentence>
+            <sentence id="5.3">Even if no one got in, the fact that someone clearly 
+triggered a memory management bug, and that the Web server was tied up in knots 
+until I shut it down and restarted it is greatly disturbing.</sentence>
+            <sentence id="5.4">There may be an 
+effective DoS against Apache even the intruder can't break root.</sentence>
+            <sentence id="5.5">Please 
+investigate....</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">--Brett Glass</sentence>
+        </paragraph>
+    </description>
+</bug>

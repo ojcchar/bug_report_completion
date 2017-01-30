@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>11385</id>
+    <title>Throw error when `--lxc-conf` is used with native driver</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">To replicate: run the docker daemon with '-b none' but _not_ with any '-e' flag.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">root@kit1:~# docker run -d --name pctest --lxc-conf="lxc.network.type=veth" \</sentence>
+            <sentence id="2.3">--lxc-conf="lxc.network.link=docker0" --lxc-conf="lxc.network.flags=up" phusion/baseimage:latest</sentence>
+            <sentence id="2.4">a7ab640b333d2f7a3e5859dad272fb43e32fd98cf72d7e60abb396ba7ae0deb2</sentence>
+            <sentence id="2.5">root@kit1:~# docker exec pctest ifconfig eth0</sentence>
+            <sentence id="2.6">eth0: error fetching interface information: Device not found</sentence>
+            <sentence id="2.7">"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Expected behaviour: I think that docker run should reject any '--lxc-conf' option if the daemon is not using the lxc driver.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Test based on [this posting](https://goldmann.pl/blog/2014/01/30/assigning-ip-addresses-to-docker-containers-via-dhcp/).</sentence>
+            <sentence id="4.2">Further discussion [here](https://groups.google.com/forum/#!topic/docker-dev/hvs58JQ1vDs)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">(Aside: the lxc configuration is accepted when running docker with '-e lxc', but then 'docker exec' does not work with that driver!)</sentence>
+        </paragraph>
+    </description>
+</bug>

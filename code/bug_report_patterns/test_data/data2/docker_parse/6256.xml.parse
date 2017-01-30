@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>6256</id>
+    <title>OS X client-only build fails (0.12)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The client-only dynbinary build currently fails on OS X due to a Linux-specific header in libcontainer/namespaces.</sentence>
+            <sentence id="1.2">The relevant error output is:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">---&gt; Making bundle: dynbinary (in bundles/0.12.0/dynbinary)</sentence>
+            <sentence id="2.3"># github.com/dotcloud/docker/pkg/libcontainer/namespaces</sentence>
+            <sentence id="2.4">/private/tmp/docker-LRMv/pkg/libcontainer/namespaces/nsenter.go:7:10: fatal error: 'linux/sched.</sentence>
+            <sentence id="2.5">h' file not found</sentence>
+            <sentence id="2.6">#include &lt;linux/sched.</sentence>
+            <sentence id="2.7">h&gt;</sentence>
+            <sentence id="2.8">^</sentence>
+            <sentence id="2.9">1 error generated.</sentence>
+            <sentence id="2.10">Error: docker 0.12.0 did not build</sentence>
+            <sentence id="2.11">"'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This came up when attempting to update the Homebrew package to 0.12.</sentence>
+            <sentence id="3.2">The Homebrew package is built with 'AUTO_GOPATH' and 'DOCKER_CLIENTONLY' both set to '1', and by running 'hack/make.</sentence>
+            <sentence id="3.3">sh dynbinary'.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Full logs here: https://gist.github.com/6b83e46e22273b40b518</sentence>
+        </paragraph>
+    </description>
+</bug>

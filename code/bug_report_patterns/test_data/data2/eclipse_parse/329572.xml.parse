@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>329572</id>
+    <title>[JSF2.0] org.eclipse.wst.html.core.internal.document.ElementStyleImpl cannot be cast to org.w3c.dom.Attr</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Steps: Can't re-create the bug.</sentence>
+            <sentence id="1.2">See the following exception in the log when building the JSF 2.0 based Smoke test application</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">eclipse.buildId=I20101028-1441
+java.version=1.6.0_18
+java.vendor=Sun Microsystems Inc.</sentence>
+            <sentence id="2.2">BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86 -data D:\Eclipse\ws\helios-scratch1</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Error
+Fri Nov 05 10:30:57 PDT 2010
+A structured model client, org.eclipse.wst.html.core.internal.htmlcss.HTMLDocumentAdapter@f2037 threw following exception during adapter notification (CHANGE )</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">java.lang.ClassCastException: org.eclipse.wst.html.core.internal.document.ElementStyleImpl cannot be cast to org.w3c.dom.Attr</sentence>
+            <sentence id="4.2">at org.eclipse.wst.html.core.internal.htmlcss.HTMLDocumentAdapter.notifyChanged(HTMLDocumentAdapter.java:306)</sentence>
+            <sentence id="4.3">at org.eclipse.wst.sse.core.internal.provisional.AbstractNotifier.notify(AbstractNotifier.java:202)</sentence>
+            <sentence id="4.4">at org.eclipse.wst.xml.core.internal.document.XMLModelNotifierImpl.notify(XMLModelNotifierImpl.java:238)</sentence>
+            <sentence id="4.5">at org.eclipse.wst.xml.core.internal.document.XMLModelNotifierImpl.notifyDeferred(XMLModelNotifierImpl.java:340)</sentence>
+            <sentence id="4.6">at org.eclipse.wst.xml.core.internal.document.XMLModelNotifierImpl.endChanging(XMLModelNotifierImpl.java:178)</sentence>
+            <sentence id="4.7">at org.eclipse.wst.xml.core.internal.document.DOMModelImpl.changedModel(DOMModelImpl.java:163)</sentence>
+            <sentence id="4.8">at org.eclipse.jst.pagedesigner.commands.DesignerCommand.postPostExecute(DesignerCommand.java:221)</sentence>
+            <sentence id="4.9">at org.eclipse.jst.pagedesigner.commands.CreateItemCommand.postPostExecute(CreateItemCommand.java:79)</sentence>
+            <sentence id="4.10">at org.eclipse.jst.pagedesigner.commands.DesignerCommand.execute(DesignerCommand.java:129)</sentence>
+            <sentence id="4.11">at org.eclipse.gef.commands.CommandStack.execute(CommandStack.java:197)</sentence>
+            <sentence id="4.12">at org.eclipse.jst.pagedesigner.dnd.internal.PDTemplateTransferDropTargetListener.handleDrop(PDTemplateTransferDropTargetListener.java:127)</sentence>
+            <sentence id="4.13">at org.eclipse.gef.dnd.AbstractTransferDropTargetListener.drop(AbstractTransferDropTargetListener.java:183)</sentence>
+            <sentence id="4.14">at org.eclipse.jst.pagedesigner.dnd.internal.PDTemplateTransferDropTargetListener.drop(PDTemplateTransferDropTargetListener.java:110)</sentence>
+            <sentence id="4.15">at org.eclipse.jface.util.DelegatingDropAdapter$3.run(DelegatingDropAdapter.java:211)</sentence>
+            <sentence id="4.16">at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)</sentence>
+            <sentence id="4.17">at org.eclipse.ui.internal.JFaceUtil$1.run(JFaceUtil.java:49)</sentence>
+            <sentence id="4.18">at org.eclipse.jface.util.SafeRunnable.run(SafeRunnable.java:175)</sentence>
+            <sentence id="4.19">at org.eclipse.jface.util.DelegatingDropAdapter.drop(DelegatingDropAdapter.java:209)</sentence>
+            <sentence id="4.20">at org.eclipse.swt.dnd.DNDListener.handleEvent(DNDListener.java:90)</sentence>
+            <sentence id="4.21">at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)</sentence>
+            <sentence id="4.22">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1053)</sentence>
+            <sentence id="4.23">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1077)</sentence>
+            <sentence id="4.24">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1062)</sentence>
+            <sentence id="4.25">at org.eclipse.swt.widgets.Widget.notifyListeners(Widget.java:774)</sentence>
+            <sentence id="4.26">at org.eclipse.swt.dnd.DropTarget.Drop(DropTarget.java:456)</sentence>
+            <sentence id="4.27">at org.eclipse.swt.dnd.DropTarget$3.method6(DropTarget.java:258)</sentence>
+            <sentence id="4.28">at org.eclipse.swt.internal.ole.win32.COMObject.callback6(COMObject.java:119)</sentence>
+            <sentence id="4.29">at org.eclipse.swt.internal.ole.win32.COM.DoDragDrop(Native Method)</sentence>
+            <sentence id="4.30">at org.eclipse.swt.dnd.DragSource.drag(DragSource.java:363)</sentence>
+            <sentence id="4.31">at org.eclipse.swt.dnd.DragSource.access$0(DragSource.java:289)</sentence>
+            <sentence id="4.32">at org.eclipse.swt.dnd.DragSource$1.handleEvent(DragSource.java:172)</sentence>
+            <sentence id="4.33">at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)</sentence>
+            <sentence id="4.34">at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1053)</sentence>
+            <sentence id="4.35">at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4084)</sentence>
+            <sentence id="4.36">at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3675)</sentence>
+            <sentence id="4.37">at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2629)</sentence>
+            <sentence id="4.38">at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2593)</sentence>
+            <sentence id="4.39">at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2427)</sentence>
+            <sentence id="4.40">at org.eclipse.ui.internal.Workbench$7.run(Workbench.java:670)</sentence>
+            <sentence id="4.41">at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)</sentence>
+            <sentence id="4.42">at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:663)</sentence>
+            <sentence id="4.43">at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)</sentence>
+            <sentence id="4.44">at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:115)</sentence>
+            <sentence id="4.45">at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)</sentence>
+            <sentence id="4.46">at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)</sentence>
+            <sentence id="4.47">at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)</sentence>
+            <sentence id="4.48">at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:369)</sentence>
+            <sentence id="4.49">at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)</sentence>
+            <sentence id="4.50">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</sentence>
+            <sentence id="4.51">at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)</sentence>
+            <sentence id="4.52">at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)</sentence>
+            <sentence id="4.53">at java.lang.reflect.Method.invoke(Unknown Source)</sentence>
+            <sentence id="4.54">at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:621)</sentence>
+            <sentence id="4.55">at org.eclipse.equinox.launcher.Main.basicRun(Main.java:576)</sentence>
+            <sentence id="4.56">at org.eclipse.equinox.launcher.Main.run(Main.java:1409)</sentence>
+        </paragraph>
+    </description>
+</bug>
