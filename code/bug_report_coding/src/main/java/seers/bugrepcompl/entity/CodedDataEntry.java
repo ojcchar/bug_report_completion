@@ -20,6 +20,10 @@ public class CodedDataEntry {
 	public final String instanceId;
 	public final String[] patternsNoTesting;
 
+	public CodedDataEntry(String project, String bugId) {
+		this(project, bugId, null, null, null, false, false, false, null, null, null, null, null, null, null);
+	}
+
 	public CodedDataEntry(String project, String bugId, String entryId, String paragraphTxt, String sentenceTxt,
 			boolean isObsBehavior, boolean isExpecBehavior, boolean isStepsToRepro, String pattern1, String pattern2,
 			String pattern3, String pattern4, String mainCoder, String instanceId, String[] patternsNoTesting) {
@@ -49,6 +53,37 @@ public class CodedDataEntry {
 				+ pattern1 + ", pattern2=" + pattern2 + ", pattern3=" + pattern3 + ", pattern4=" + pattern4
 				+ ", mainCoder=" + mainCoder + ", instanceId=" + instanceId + ", patternsNoTesting="
 				+ Arrays.toString(patternsNoTesting) + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bugId == null) ? 0 : bugId.hashCode());
+		result = prime * result + ((project == null) ? 0 : project.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CodedDataEntry other = (CodedDataEntry) obj;
+		if (bugId == null) {
+			if (other.bugId != null)
+				return false;
+		} else if (!bugId.equals(other.bugId))
+			return false;
+		if (project == null) {
+			if (other.project != null)
+				return false;
+		} else if (!project.equals(other.project))
+			return false;
+		return true;
 	}
 
 }

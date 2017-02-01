@@ -56,7 +56,5 @@ public class CodedBug {
 			return false;
 		return true;
 	}
-	
-	
 
 }

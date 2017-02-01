@@ -59,17 +59,17 @@ public class BugReportDescription {
 	}
 
 	private List<seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph> toParagraphs2() {
-		if (this.paragraphs==null) {
+		if (this.paragraphs == null) {
 			return null;
 		}
-		
+
 		List<seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph> pars2 = new ArrayList<>();
 		for (DescriptionParagraph par : this.paragraphs) {
-			
+
 			pars2.add(par.toParagraph2());
-			
+
 		}
-		
+
 		return pars2;
 	}
 }

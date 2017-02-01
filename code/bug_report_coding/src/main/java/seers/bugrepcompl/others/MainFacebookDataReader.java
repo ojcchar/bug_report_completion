@@ -44,7 +44,8 @@ public class MainFacebookDataReader {
 
 	private static List<List<String>> readLines(String fileIn) throws FileNotFoundException, IOException {
 		CsvParser csvParser = new CsvParserBuilder().separator(',').build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileIn), "Cp1252"), csvParser)) {
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(fileIn), "Cp1252"),
+				csvParser)) {
 			return csvReader.readAll();
 		}
 	}

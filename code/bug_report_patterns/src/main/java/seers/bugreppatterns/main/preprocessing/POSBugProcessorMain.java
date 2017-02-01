@@ -58,6 +58,7 @@ public class POSBugProcessorMain {
 		}
 	}
 
+
 	public static void writeBug(BugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
 		File projectFolder = new File(outputFolder + File.separator + bug.getProject() + "_parse");
 		if (!projectFolder.exists()) {
@@ -79,6 +80,7 @@ public class POSBugProcessorMain {
 		String stncTxt = TextProcessor.getStringFromTermsAndPos(sentence, false);
 		return stncTxt;
 	}
+
 
 	public static BugReport readBug(String inputFolder, TextInstance bug) throws Exception {
 		String filepath = inputFolder + File.separator + bug.getProject() + "_parse" + File.separator + bug.getBugId()

@@ -1,4 +1,4 @@
-package seers.bugrepcompl.entity.shortcodingparse;
+package seers.bugrepcompl.entity.patterncoding;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +25,15 @@ public class BugReport {
 	public BugReport() {
 	}
 
+	public BugReport(String id, BugReportTitle title, BugReportDescription description, String noBug, String comments) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.noBug = noBug;
+		this.comments = comments;
+	}
+
 	public BugReport(BugReport bugReport) {
 		this.id = bugReport.getId();
 		this.title = new BugReportTitle(bugReport.getTitle());
@@ -38,15 +47,6 @@ public class BugReport {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-	}
-
-	public BugReport(String id, BugReportTitle title, BugReportDescription description, String noBug, String comments) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.noBug = noBug;
-		this.comments = comments;
 	}
 
 	public String getId() {
@@ -95,22 +95,13 @@ public class BugReport {
 				+ "]";
 	}
 
-	public seers.bugrepcompl.entity.regularparse.BugReport toRegularParsedBug() {
-		seers.bugrepcompl.entity.regularparse.BugReport bug = new seers.bugrepcompl.entity.regularparse.BugReport();
-		bug.setId(id);
-		bug.setTitle(this.getTitle().getValue());
-		if (this.description != null) {
-			bug.setDescription(this.description.toRegularParsedDescription());
-		}
-		return bug;
-	}
+	public seers.bugrepcompl.entity.shortcodingparse.BugReport toShortCodedBug() {
 
-	public seers.bugrepcompl.entity.patterncoding.BugReport toPatternCodingBug() {
 
-		seers.bugrepcompl.entity.patterncoding.BugReportTitle title2 = title.toPatternCodingTitle();
-		seers.bugrepcompl.entity.patterncoding.BugReportDescription description2 = description
+		seers.bugrepcompl.entity.shortcodingparse.BugReportTitle title2 = title.toPatternCodingTitle();
+		seers.bugrepcompl.entity.shortcodingparse.BugReportDescription description2 = description
 				.toPatternCodingDescription();
-		seers.bugrepcompl.entity.patterncoding.BugReport bug = new seers.bugrepcompl.entity.patterncoding.BugReport(id,
+		seers.bugrepcompl.entity.shortcodingparse.BugReport bug = new seers.bugrepcompl.entity.shortcodingparse.BugReport(id,
 				title2, description2, noBug, comments);
 		return bug;
 	}

@@ -55,6 +55,7 @@ public class BugReport {
 	public void setDescription(BugReportDescription description) {
 		this.description = description;
 	}
+
 	public String getNoBug() {
 		return noBug;
 	}
@@ -73,15 +74,14 @@ public class BugReport {
 
 	@Override
 	public String toString() {
-		return "BR [id=" + id + ", tit=" + title + ", desc=" + description + ", noBug=" + noBug
-				+ ", com=" + comments + "]";
+		return "BR [id=" + id + ", tit=" + title + ", desc=" + description + ", noBug=" + noBug + ", com=" + comments
+				+ "]";
 	}
 
 	public seers.bugrepcompl.entity.shortcodingparse.BugReport toBugReport2() {
-		seers.bugrepcompl.entity.shortcodingparse.BugReport bug2 = new seers.bugrepcompl.entity.shortcodingparse.BugReport(id, title.toTitle2(), description.toDescription2());
+		seers.bugrepcompl.entity.shortcodingparse.BugReport bug2 = new seers.bugrepcompl.entity.shortcodingparse.BugReport(
+				id, title.toTitle2(), description.toDescription2());
 		return bug2;
 	}
-
-	
 
 }

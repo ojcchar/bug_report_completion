@@ -45,7 +45,8 @@ public class SampleFileCreator {
 
 	private static List<List<String>> readLines(File sampleFile) throws FileNotFoundException, IOException {
 		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(';').build();
-		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(sampleFile), "Cp1252"), csvParser)) {
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(sampleFile), "Cp1252"),
+				csvParser)) {
 			return csvReader.readAll();
 		}
 	}

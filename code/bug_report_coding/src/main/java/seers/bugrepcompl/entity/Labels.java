@@ -10,7 +10,7 @@ public class Labels {
 
 	public static final String CODED_BY_DAVIES = "davies";
 
-	public Labels(){
+	public Labels() {
 	}
 
 	public Labels(String isOB, String isEB, String isSR) {
@@ -105,7 +105,5 @@ public class Labels {
 	public String toString() {
 		return "Labels [isOB=" + isOB + ", isEB=" + isEB + ", isSR=" + isSR + ", codedBy=" + codedBy + "]";
 	}
-	
-	
 
 }

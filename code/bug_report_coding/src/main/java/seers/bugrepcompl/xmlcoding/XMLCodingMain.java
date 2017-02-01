@@ -22,20 +22,24 @@ import seers.bugrepcompl.entity.codingparse.BugReport;
 
 public class XMLCodingMain {
 
-//	static HashSet<String> allowedCoders = new HashSet<String>(
-//			Arrays.asList(new String[] { "andi", "juan", "laura", "fiorella", "jing", "oscar" }));
+	// static HashSet<String> allowedCoders = new HashSet<String>(
+	// Arrays.asList(new String[] { "andi", "juan", "laura", "fiorella", "jing",
+	// "oscar" }));
 	static HashSet<String> allowedCoders = new HashSet<String>(
-	Arrays.asList(new String[] { "oscar", "lau", "ana", "daniel", "alejo" }));
-//	static HashSet<String> allowedCoders = new HashSet<String>(
-//			Arrays.asList(new String[] { "alex" }));
-	
+			Arrays.asList(new String[] { "oscar", "lau", "ana", "daniel", "alejo" }));
+	// static HashSet<String> allowedCoders = new HashSet<String>(
+	// Arrays.asList(new String[] { "alex" }));
+
 	static boolean copyOriginal = false;
 
 	public static void main(String[] args) throws Exception {
 
-//		String inFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
-//		String xmlFilesDir = "C:/Users/ojcch/Documents/Dropbox/Research/BUG_REPORT_PROJECT_JING/Data/final_coding";
-//		String outFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data/alex_xml";
+		// String inFile =
+		// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
+		// String xmlFilesDir =
+		// "C:/Users/ojcch/Documents/Dropbox/Research/BUG_REPORT_PROJECT_JING/Data/final_coding";
+		// String outFolder =
+		// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data/alex_xml";
 
 		String inFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/old_data_coding.csv";
 		String xmlFilesDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/old_data";
@@ -120,7 +124,7 @@ public class XMLCodingMain {
 	}
 
 	private static void copyOriginal(TextInstance bug, File bugsDir, String xmlFilesDir) throws IOException {
-		
+
 		if (!copyOriginal) {
 			return;
 		}

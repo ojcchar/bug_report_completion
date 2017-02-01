@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.quux00.simplecsv.CsvParser;
 import net.quux00.simplecsv.CsvParserBuilder;
@@ -140,6 +142,29 @@ public class DataReader {
 				TextInstance instance = new TextInstance(project, bugId, instanceId);
 
 				entries.put(instance, labels);
+			});
+
+			return entries;
+		}
+	}
+
+	public static Set<String> readPatternList(String patternsFile) throws IOException {
+		CsvParser csvParser = new CsvParserBuilder().multiLine(true).separator(';').build();
+		try (CsvReader csvReader = new CsvReader(new InputStreamReader(new FileInputStream(patternsFile), "Cp1252"),
+				csvParser)) {
+
+			List<List<String>> allLines = csvReader.readAll();
+
+			Set<String> entries = new LinkedHashSet<>();
+
+			allLines.subList(1, allLines.size()).forEach(line -> {
+
+				String pattern = line.get(3).trim();
+				
+				if (!pattern.isEmpty()) {
+					entries.add(pattern);
+				}
+
 			});
 
 			return entries;

@@ -1,4 +1,4 @@
-package seers.bugrepcompl.entity.shortcodingparse;
+package seers.bugrepcompl.entity.patterncoding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 @XmlRootElement(name = "desc")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -73,31 +74,10 @@ public class BugReportDescription {
 		return sentences;
 	}
 
-	public seers.bugrepcompl.entity.regularparse.BugReportDescription toRegularParsedDescription() {
+	public seers.bugrepcompl.entity.shortcodingparse.BugReportDescription toPatternCodingDescription() {
+		seers.bugrepcompl.entity.shortcodingparse.BugReportDescription desc = new seers.bugrepcompl.entity.shortcodingparse.BugReportDescription();
 
-		seers.bugrepcompl.entity.regularparse.BugReportDescription desc = new seers.bugrepcompl.entity.regularparse.BugReportDescription();
-
-		List<seers.bugrepcompl.entity.regularparse.DescriptionParagraph> paragraphs2 = null;
-		if (paragraphs != null) {
-			paragraphs2 = new ArrayList<>();
-
-			for (DescriptionParagraph par : paragraphs) {
-				if (par != null) {
-					paragraphs2.add(par.toRegularParsedParagraph());
-				}
-
-			}
-		}
-
-		desc.setParagraphs(paragraphs2);
-
-		return desc;
-	}
-
-	public seers.bugrepcompl.entity.patterncoding.BugReportDescription toPatternCodingDescription() {
-		seers.bugrepcompl.entity.patterncoding.BugReportDescription desc = new seers.bugrepcompl.entity.patterncoding.BugReportDescription();
-
-		List<seers.bugrepcompl.entity.patterncoding.DescriptionParagraph> paragraphs2 = null;
+		List<seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph> paragraphs2 = null;
 		if (paragraphs != null) {
 			paragraphs2 = new ArrayList<>();
 
@@ -113,4 +93,5 @@ public class BugReportDescription {
 
 		return desc;
 	}
+
 }

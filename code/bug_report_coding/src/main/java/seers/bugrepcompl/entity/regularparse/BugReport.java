@@ -15,7 +15,7 @@ public class BugReport {
 	private String title;
 	@XmlElement(name = "description")
 	private BugReportDescription description;
-	
+
 	public BugReport() {
 	}
 

@@ -1,4 +1,4 @@
-package seers.bugrepcompl.xmlcoding;
+package seers.bugreppatterns.main.golset;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -16,8 +16,11 @@ import seers.bugrepcompl.entity.shortcodingparse.BugReport;
 import seers.bugrepcompl.entity.shortcodingparse.BugReportDescription;
 import seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph;
 import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
+import seers.bugrepcompl.xmlcoding.AgreementMain;
+import seers.bugrepcompl.xmlcoding.CodedBug;
+import seers.bugrepcompl.xmlcoding.SampleEntry;
 
-public class GoldSetMain {
+public class BugGoldSetMain {
 
 	//new data
 	static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data_after_conflicts";

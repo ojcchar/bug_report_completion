@@ -38,6 +38,23 @@ public class DescriptionParagraph {
 		this.sentences = sentences;
 	}
 
+	public DescriptionParagraph(DescriptionParagraph descriptionParagraph) {
+
+		this.ob = descriptionParagraph.ob;
+		this.eb = descriptionParagraph.eb;
+		this.sr = descriptionParagraph.sr;
+		this.id = descriptionParagraph.id;
+
+		if (descriptionParagraph.sentences != null) {
+
+			this.sentences = new ArrayList<>();
+			for (DescriptionSentence descriptionSentence : descriptionParagraph.sentences) {
+				this.sentences.add(new DescriptionSentence(descriptionSentence));
+			}
+		}
+
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -135,6 +152,28 @@ public class DescriptionParagraph {
 			for (DescriptionSentence sent : sentences) {
 				if (sent != null) {
 					sentences2.add(sent.toRegularParsedSentence());
+				}
+
+			}
+		}
+		par.setSentences(sentences2);
+		return par;
+	}
+
+	public seers.bugrepcompl.entity.patterncoding.DescriptionParagraph toPatternCodingParagraph() {
+
+		seers.bugrepcompl.entity.patterncoding.DescriptionParagraph par = new seers.bugrepcompl.entity.patterncoding.DescriptionParagraph();
+		par.setId(id);
+		par.setOb(ob);
+		par.setEb(eb);
+		par.setSr(sr);
+		List<seers.bugrepcompl.entity.patterncoding.DescriptionSentence> sentences2 = null;
+		if (sentences != null) {
+			sentences2 = new ArrayList<>();
+
+			for (DescriptionSentence sent : sentences) {
+				if (sent != null) {
+					sentences2.add(sent.toPatternCodingSentence());
 				}
 
 			}

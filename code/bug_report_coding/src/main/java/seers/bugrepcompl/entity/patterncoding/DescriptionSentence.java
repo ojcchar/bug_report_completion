@@ -1,4 +1,4 @@
-package seers.bugrepcompl.entity.shortcodingparse;
+package seers.bugrepcompl.entity.patterncoding;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,6 +16,8 @@ public class DescriptionSentence {
 	private String eb = "";
 	@XmlAttribute
 	private String sr = "";
+	@XmlAttribute
+	private String patterns = null;
 
 	@XmlAttribute(name = "id")
 	private String id;
@@ -25,11 +27,12 @@ public class DescriptionSentence {
 	public DescriptionSentence() {
 	}
 
-	public DescriptionSentence(String ob, String eb, String sr, String id, String value) {
+	public DescriptionSentence(String ob, String eb, String sr, String patterns, String id, String value) {
 		super();
 		this.ob = ob;
 		this.eb = eb;
 		this.sr = sr;
+		this.patterns = patterns;
 		this.id = id;
 		this.value = value;
 	}
@@ -41,6 +44,7 @@ public class DescriptionSentence {
 		this.sr = descriptionSentence.sr;
 		this.id = descriptionSentence.id;
 		this.value = descriptionSentence.value;
+		this.patterns = descriptionSentence.patterns;
 	}
 
 	public String getId() {
@@ -83,50 +87,16 @@ public class DescriptionSentence {
 		this.sr = sr;
 	}
 
-	@Override
-	public String toString() {
-		return "stnc [ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", id=" + id + ", val=" + value + "]";
+	public String getPatterns() {
+		return patterns;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public void setPatterns(String patterns) {
+		this.patterns = patterns;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DescriptionSentence other = (DescriptionSentence) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	public seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence toPatternCodingSentence() {
+		return new seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence(ob, eb, sr, id, value);
 	}
-
-	public seers.bugrepcompl.entity.regularparse.DescriptionSentence toRegularParsedSentence() {
-		seers.bugrepcompl.entity.regularparse.DescriptionSentence sent = new seers.bugrepcompl.entity.regularparse.DescriptionSentence();
-		sent.setId(id);
-		sent.setValue(this.value);
-		return sent;
-	}
-
-	public seers.bugrepcompl.entity.patterncoding.DescriptionSentence toPatternCodingSentence() {
-		return new seers.bugrepcompl.entity.patterncoding.DescriptionSentence(ob, eb, sr, null, id, value);
-	}
-
-	// @Override
-	// public String toString() {
-	// return "stnc [" + getId() + ", " + value + "]";
-	// }
 
 }

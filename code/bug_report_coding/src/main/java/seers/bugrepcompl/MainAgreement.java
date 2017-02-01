@@ -91,9 +91,8 @@ public class MainAgreement {
 
 			for (CodedDataEntry e1 : st1) {
 
-				Optional<CodedDataEntry> entry = st2.stream().filter(
-						e2 -> (e2.paragraphTxt + e2.sentenceTxt).trim().equalsIgnoreCase((e1.paragraphTxt + e1.sentenceTxt)))
-						.findAny();
+				Optional<CodedDataEntry> entry = st2.stream().filter(e2 -> (e2.paragraphTxt + e2.sentenceTxt).trim()
+						.equalsIgnoreCase((e1.paragraphTxt + e1.sentenceTxt))).findAny();
 
 				if (!entry.isPresent()) {
 					continue;
@@ -199,7 +198,6 @@ public class MainAgreement {
 
 		}
 	}
-
 
 	public static class CodingAssigment {
 

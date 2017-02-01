@@ -77,7 +77,5 @@ public class TextInstance {
 	public String toString() {
 		return "[proj=" + project + ", bugId=" + bugId + ", instId=" + instanceId + "]";
 	}
-	
-	
 
 }

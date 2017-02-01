@@ -19,8 +19,15 @@ public class BugReportTitle {
 
 	@XmlValue
 	private String value;
-	
+
 	public BugReportTitle() {
+	}
+
+	public BugReportTitle(BugReportTitle bugReportTitle) {
+		this.ob = bugReportTitle.ob;
+		this.eb = bugReportTitle.eb;
+		this.sr = bugReportTitle.sr;
+		this.value = bugReportTitle.value;
 	}
 
 	public BugReportTitle(String ob, String eb, String sr, String value) {
@@ -110,7 +117,9 @@ public class BugReportTitle {
 			return false;
 		return true;
 	}
-	
-	
+
+	public seers.bugrepcompl.entity.patterncoding.BugReportTitle toPatternCodingTitle() {
+		return new seers.bugrepcompl.entity.patterncoding.BugReportTitle(ob, eb, sr, null, value);
+	}
 
 }

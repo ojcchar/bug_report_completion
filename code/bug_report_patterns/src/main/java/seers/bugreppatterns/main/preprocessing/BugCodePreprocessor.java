@@ -1,5 +1,6 @@
 package seers.bugreppatterns.main.preprocessing;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,18 +8,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.regularparse.BugReport;
-import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
+//import seers.bugrepcompl.entity.regularparse.BugReport;
+//import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
+//import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
+import seers.bugrepcompl.entity.shortcodingparse.BugReport;
+import seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph;
+import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
 import seers.bugrepcompl.utils.DataReader;
 
 public class BugCodePreprocessor {
 
-	static String xmlBugDir = "C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/test_data/data";
-	private static String goldSetFile = "C:/Users/ojcch/Documents/Repositories/Git/bug_report_completion/code/bug_report_patterns/gold-set-B-all_data.csv";
-	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/code_preprocessing";
+//	//not coded data
+//	static String xmlBugDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/regular_parsed_data";
+//	private static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/gold-set-B-all_data.csv";
+//	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/data/code_preprocessing";
+
+	//coded data (remember to change the imports!!)
+	static String xmlBugDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/final_data";
+	private static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/gold-set-B-all_data.csv";
+	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/data/code_preprocessing_coded";
 
 	static HashMap<String, List<String>> systemRegexes = new HashMap<>();
 	static HashMap<String, List<String>> systemStartRegexes = new HashMap<>();
@@ -26,32 +37,44 @@ public class BugCodePreprocessor {
 	static HashMap<String, List<List<String>>> systemGroupRegexes = new HashMap<>();
 	static HashMap<String, List<String>> systemIniSeparators = new HashMap<>();
 
-	static HashSet<String> allowedSystems = new HashSet<String>(Arrays.asList(new String[] { "httpd" }));
+	static HashSet<String> allowedSystems = new HashSet<String>(Arrays.asList(new String[] { "docker", "eclipse",
+			"facebook", "firefox", "hibernate", "httpd", "libreoffice", "openmrs", "wordpress-android" }));
+	// static HashSet<String> allowedSystems = new
+	// HashSet<String>(Arrays.asList(new String[] { "wordpress-android" }));
 
 	static {
 
 		// docker
-		systemIniSeparators.put("docker", Arrays.asList("```"));
+		systemIniSeparators.put("docker", Arrays.asList("```", "\"'"));
 
 		systemRegexes.put("docker",
 				Arrays.asList("/home/.*/docker/", "\\.\\/docker", "Makefile:\\d+", "\\[default\\] ", "drwxr", "-rw-",
 						"docker version.*\\:", "docker info.*\\:", "Version\\: ", "uname \\-a", "Linux.*x86_64.*GNU",
 						"x86_64.*GNU.*Linux", "Containers\\:", "Client version\\:", "iface .*address ", "\\:\\~\\/ ",
 						"\\:\\~\\# ", "\\~\\]\\# ", "cat \\/", "\\$ sudo ", "\\$ ps \\-", "\\/bin/docker ", " RUN ",
-						">RUN "));
+						">RUN ", "dockerd\\[\\d+\\]\\:", "ERRO\\[\\d+\\]", "systemd\\[\\d+\\]\\:",
+						":\\~\\$ docker start", ":: busybox", "kernel: \\[ \\d+\\.\\d+\\]", "Message from syslogd"));
 
 		systemStartRegexes.put("docker",
 				Arrays.asList(" ?\\[[0-9A-Fa-f]+\\]", "\\[error\\]", "\\[ERROR\\]", " ?\\d{4}\\/\\d{2}\\/\\d{2}",
 						" ?\\d{4}-\\d{2}-\\d{2}", "ERRO\\[", "WARN\\[", "DEBU\\[", "INFO\\[", "FATA\\[", " ?sudo ",
-						" ?at .+\\d+"));
+						" ?at .+\\d+", "\\$ docker run -"));
 
 		List<List<String>> dockerGroupRegexes = new ArrayList<>();
 
 		dockerGroupRegexes.add(Arrays.asList("docker version.*\\:", "Version\\: ", "OS\\/Arch: ", "API version\\: "));
 		dockerGroupRegexes.add(Arrays.asList("docker info.*\\:", "Containers\\:", "Images\\:", "Operating System\\:",
 				"CPUs\\:", "Total Memory\\:"));
-		dockerGroupRegexes.add(Arrays.asList(" eth", "address ", "netmask ", "auto eth", "iface "));
+		dockerGroupRegexes.add(Arrays.asList(" eth", "address ", "netmask ", "auto eth", "iface ", "inet ", "inet6 "));
 		dockerGroupRegexes.add(Arrays.asList("container_name\\: ", "image\\: ", "ports\\: ", "volumes\\: "));
+		dockerGroupRegexes.add(Arrays.asList("goroutine \\d+ \\[", "0x[0-9A-Fa-f]+"));
+		dockerGroupRegexes.add(Arrays.asList("\\d+: [main|Init]", "Package: ", "File: "));
+		dockerGroupRegexes.add(Arrays.asList("\\$ docker run -", "exit status"));
+		dockerGroupRegexes.add(Arrays.asList("Making bundle: ", "bundles\\/"));
+		dockerGroupRegexes.add(Arrays.asList("docker_.+test.*\\.go:\\d+:", "[0-9A-Fa-f]+"));
+		dockerGroupRegexes.add(Arrays.asList(" INFO \\[", " WARN \\[", " DEBUG \\[", " ERROR \\["));
+		dockerGroupRegexes.add(Arrays.asList("ObjectName: ", "State: "));
+		dockerGroupRegexes.add(Arrays.asList("level=info ", "level=warning ", "level=error "));
 
 		systemGroupRegexes.put("docker", dockerGroupRegexes);
 
@@ -66,7 +89,7 @@ public class BugCodePreprocessor {
 						"package ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;", "User\\-Agent\\: ", "Java VM\\: ", "VM state\\:",
 						"Heap.+total \\d+.+ used \\d+", "ini \\-command ", "\\\\jre\\\\bin\\\\java ",
 						"Build version\\: ", "Unexpected Signal : ", "0x[0-9A-Fa-f]+ - 0x[0-9A-Fa-f]+",
-						"java -version\\:", "java version \\\"", "public class ", "public static "));
+						"java -version\\:", "java version \\\"", "public class ", "public static ", "\\(D\\:\\\\"));
 
 		systemEndRegexes.put("eclipse",
 				Arrays.asList("\\) line: \\d+", "\\) line: not available \\[native method\\]", "\\(Unknown Source\\)"));
@@ -92,7 +115,11 @@ public class BugCodePreprocessor {
 		eclipseGroupRegexes.add(Arrays.asList("eclipse\\.buildId\\=", "java\\.fullversion\\="));
 		eclipseGroupRegexes.add(Arrays.asList("try \\{", "for ?\\(", "if ?\\(", "public static ", "while ?\\(",
 				"return [a-zA-z]+\\;", "public void "));
-		// eclipseGroupRegexes.add(Arrays.asList("", "", "", "", "" ,""));
+		eclipseGroupRegexes
+				.add(Arrays.asList("\\d+\\s+Project.+is missing required", "The project cannot be built until"));
+		eclipseGroupRegexes.add(Arrays.asList("<w:wordDocument ", "<w:style "));
+		eclipseGroupRegexes.add(Arrays.asList("line \\d+: warning:", "line \\d+: error:"));
+		eclipseGroupRegexes.add(Arrays.asList("Enter bugs above this line", "installation :"));
 
 		systemGroupRegexes.put("eclipse", eclipseGroupRegexes);
 
@@ -159,20 +186,24 @@ public class BugCodePreprocessor {
 
 		systemIniSeparators.put("hibernate", Arrays.asList("{code}", "{noformat}"));
 
-		systemRegexes.put("hibernate", Arrays.asList("^(\\s+)?at .+\\(Unknown Source\\)$",
-				"^(\\s+)?at .+\\(Native Method\\)$", " throw new [a-zA-Z0-9]+ ?\\(", ";.+\\}$"));
+		systemRegexes.put("hibernate",
+				Arrays.asList("^(\\s+)?at .+\\(Unknown Source\\)$", "^(\\s+)?at .+\\(Native Method\\)$",
+						" throw new [a-zA-Z0-9]+ ?\\(", ";.+\\}$", "\\{code\\}$", "INFO \\[", "WARN \\[", "ERROR \\[",
+						"DEBUG \\["));
 
-		systemStartRegexes.put("hibernate", Arrays.asList(
-				"(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
-				"(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)", "!ENTRY ", "!MESSAGE ",
-				"!STACK ", "import ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;", "package ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;",
-				"User\\-Agent\\: ", "Java VM\\: ", "VM state\\:", "Heap.+total \\d+.+ used \\d+", "public class ",
-				"public static ", "private static ", "\\@Entity", "\\@Table\\(", "\\@Column\\(", "\\@Id", "\\@Override",
-				"@Field\\(", "@Lob", "@Cache", "@MappedSuperclass", "@ManyToOne", "@NotNull", "@DefaultBooleanValue\\(",
-				"\\@OneToMany\\(", "CREATE TABLE ", "\\@Embeddable", "(public|private) [a-zA-Z0-9]+ .+\\).*\\{",
-				"\\@Test", "class [a-zA-Z0-9]+ ?\\{", "\\{code\\:java\\}", "\\{code\\}", "try \\{", "for ?\\(",
-				"if ?\\(", "public static ", "else if ?\\(", "\\*\\;.+import ", "\\<persistence-unit", "\\<provider",
-				"\\<\\/persistence-unit", "\\<property", "\\<column", "\\<subclass", "registerColumnType\\("));
+		systemStartRegexes.put("hibernate",
+				Arrays.asList("(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+						"(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)", "!ENTRY ", "!MESSAGE ",
+						"!STACK ", "import ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;",
+						"package ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;", "User\\-Agent\\: ", "Java VM\\: ", "VM state\\:",
+						"Heap.+total \\d+.+ used \\d+", "public class ", "public static ", "private static ",
+						"\\@Entity", "\\@Table\\(", "\\@Column\\(", "\\@Id", "\\@Override", "@Field\\(", "@Lob",
+						"@Cache", "@MappedSuperclass", "@ManyToOne", "@NotNull", "@DefaultBooleanValue\\(", "@Column",
+						"\\@OneToMany\\(", "CREATE TABLE ", "\\@Embeddable", "(public|private) [a-zA-Z0-9]+ .+\\).*\\{",
+						"\\@Test", "class [a-zA-Z0-9]+ ?\\{", "\\{code\\:java\\}", "\\{code", "try \\{", "for ?\\(",
+						"if ?\\(", "public static ", "else if ?\\(", "\\*\\;.+import ", "\\<persistence-unit",
+						"\\<provider", "\\<\\/persistence-unit", "\\<property", "\\<column", "\\<subclass",
+						"registerColumnType\\(", "Hibernate: .+\\(", "INSERT INTO ", "DELETE FROM "));
 
 		List<List<String>> hibernateGroupRegexes = new ArrayList<>();
 
@@ -184,7 +215,7 @@ public class BugCodePreprocessor {
 				"\\*\\/"));
 		hibernateGroupRegexes.add(Arrays.asList("at ([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+",
 				"\\([a-zA-Z0-9]+\\.java:\\d+\\)", "Caused by\\: ([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+"));
-		hibernateGroupRegexes.add(Arrays.asList("INFO \\[", "WARN \\[", "ERROR \\["));
+		hibernateGroupRegexes.add(Arrays.asList("INFO \\[", "WARN \\[", "ERROR \\[", "DEBUG \\["));
 		hibernateGroupRegexes.add(Arrays.asList("\\<persistence-unit", "\\<provider", "\\<\\/persistence-unit",
 				"\\<property", "\\<column"));
 		hibernateGroupRegexes.add(Arrays.asList("\\<ehcache", "\\<defaultCache", "\\<defaultCache"));
@@ -193,9 +224,130 @@ public class BugCodePreprocessor {
 		hibernateGroupRegexes
 				.add(Arrays.asList("SELECT ", "INNER JOIN", "WHERE ", "select ", "as col_", "inner join", "where "));
 		hibernateGroupRegexes.add(Arrays.asList("openSession\\(", "beginTransaction\\(", "commit\\(\\)\\;"));
+		hibernateGroupRegexes.add(Arrays.asList("\\[javac\\] ", "\\[javac\\] \\d+ error"));
+		hibernateGroupRegexes.add(Arrays.asList("Daemon Thread ", "\\) line: \\d+"));
+		hibernateGroupRegexes.add(Arrays.asList("\\d+ DEBUG SQL", "select"));
 
 		systemGroupRegexes.put("hibernate", hibernateGroupRegexes);
 
+		// -------------------------------------------------
+
+		// httpd
+		systemStartRegexes.put("httpd",
+				Arrays.asList("Installing configuration files.+\\[", "\\/configure --", "use [a-zA-Z0-9]+\\:\\:.+",
+						"#use [a-zA-Z0-9]+\\:\\:.+", "#define ", "^c.+mod_.+.$", "\\[.+\\].+\\[info\\]",
+						".+\\[.+\\].+\\\"GET \\/\\\"", "httpd in free\\(\\)\\:"));
+
+		List<List<String>> httpdGroupRegexes = new ArrayList<>();
+
+		httpdGroupRegexes.add(Arrays.asList("if \\[ \\!", "\\]\\; then", "if not exist \\\"", "mkdir \\\"", "$ diff"));
+
+		httpdGroupRegexes
+				.add(Arrays.asList("See any operating system documentation", "more information, such as the ld"));
+		httpdGroupRegexes.add(Arrays.asList("If you ever happen to want", "in a given directory, LIBDIR"));
+		httpdGroupRegexes.add(Arrays.asList("Building shared\\: ", "Building shared\\: mod"));
+		httpdGroupRegexes.add(Arrays.asList("configure --prefix\\=", "gmake install", "config --prefix\\=",
+				"CXXFLAGS\\=", "CFLAGS\\=", "--prefix\\=", "--with-"));
+		httpdGroupRegexes
+				.add(Arrays.asList(" \\[info\\] ", " \\[warn\\] ", " \\[notice\\] ", " \\[debug\\] ", "\\[error\\] "));
+		httpdGroupRegexes.add(Arrays.asList("^\\d+\\:.+\\= \\d+", "^\\d+\\:.+\\= \\d+ \\[\\d+\\]"));
+		httpdGroupRegexes.add(Arrays.asList("Reading symbols from \\/", "Loaded symbols for \\/"));
+		httpdGroupRegexes
+				.add(Arrays.asList("No symbol table info available\\.", "\\#\\d+\\s+0x[0-9A-Fa-f]+\\s+in\\s+\\?\\?",
+						"\\#\\d+\\s+0x[0-9A-Fa-f]+\\s+in\\s+.+", "\\#\\d+\\s+0x[0-9A-Fa-f]+\\s+in\\s+.+at\\s+.+\\d+"));
+		httpdGroupRegexes.add(Arrays.asList("GDB is free software", "This GDB was configured as"));
+		httpdGroupRegexes.add(Arrays.asList("-rw-", "-rwx", "\\$ ls -"));
+		httpdGroupRegexes.add(Arrays.asList("exports\\.c\\:\\d+", "make\\[\\d+\\]\\:", "make\\: "));
+		httpdGroupRegexes.add(Arrays.asList("VirtualHost ", "ServerName ", "CacheRoot ", "AllowOverride ", "Directory ",
+				"CacheSize "));
+		httpdGroupRegexes.add(Arrays.asList("User-Agent\\: ", "Host\\: ", "Keep-Alive\\: ", "Connection\\: "));
+		httpdGroupRegexes.add(Arrays.asList("crashdump\\[\\d+\\]\\:", "0x[0-9A-Fa-f]+", "SIGSEGV", "Segmentation fault",
+				"\\s+inet\\s+", "\\s+TCP\\s+", "SIGTRAP"));
+		httpdGroupRegexes.add(Arrays.asList("\\<div ", "\\<\\/div\\>", "\\<script", "\\<\\/script\\>", "\\<span ",
+				"\\&lt\\;script", "\\&lt\\;\\/script", "\\<a href\\=", "\\<br\\>", "\\-->", "\\<\\!", "\\<html\\>",
+				"\\<\\/html\\>", "\\<head\\>", "\\<body\\>", "\\<\\/body\\>"));
+		httpdGroupRegexes.add(Arrays.asList("try \\{", "for ?\\(", "if ?\\(", "else if ?\\(", "while ?\\(",
+				"return [a-zA-z]+\\;", "public void ", "else ?\\{", "exit ?\\(0\\)\\;", "exit ?\\(1\\)\\;"));
+		httpdGroupRegexes.add(Arrays.asList("configure\\:\\d+\\: ", "configure\\:\\d+\\: gcc "));
+		httpdGroupRegexes.add(Arrays.asList("Server version\\: ", "Server built\\: "));
+		httpdGroupRegexes.add(Arrays.asList("make\\[1\\]\\: ", "make\\[2\\]\\: "));
+		httpdGroupRegexes.add(Arrays.asList("0x[0-9A-Fa-f]+", ", line \\d+ in", "SIGTRAP"));
+		httpdGroupRegexes.add(Arrays.asList("--- ", "\\+\\+\\+ "));
+		httpdGroupRegexes.add(Arrays.asList("AllowOverride ", "Allow from ", "\\<Location"));
+
+		systemGroupRegexes.put("httpd", httpdGroupRegexes);
+
+		// -------------------------------------------------
+
+		// libreoffice
+
+		List<List<String>> libreofficeGroupRegexes = new ArrayList<>();
+
+		libreofficeGroupRegexes.add(Arrays.asList("--enable-", "--with-"));
+		libreofficeGroupRegexes.add(Arrays.asList("AE162\\=", "AD162\\="));
+		libreofficeGroupRegexes.add(Arrays.asList("Range\\(\\\"B3\\\"\\)", "Range\\(\\\"C3\\\"\\)"));
+		libreofficeGroupRegexes.add(Arrays.asList("#\\d+\\s+0x[0-9A-Fa-f]+\\s+in", "at\\s+.+:\\d+"));
+		libreofficeGroupRegexes.add(Arrays.asList("ProblemType: ", "DistroRelease: "));
+		systemGroupRegexes.put("libreoffice", libreofficeGroupRegexes);
+
+		// -------------------------------------------------
+
+		// openmrs
+
+		systemIniSeparators.put("openmrs", Arrays.asList("{code}", "{noformat}"));
+
+		systemStartRegexes.put("openmrs",
+				Arrays.asList("([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+						"([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+						"([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+						"\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+						"(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+						"(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+						"(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+						"(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+						"(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+						"Caused by\\: .+Exception.+\\:",
+						"([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+ \\. [a-zA-Z0-9]+ \\(\\d+\\)"));
+
+		List<List<String>> openmrsGroupRegexes = new ArrayList<>();
+
+		openmrsGroupRegexes.add(Arrays.asList("INFO - ", "ERROR - "));
+
+		openmrsGroupRegexes.add(Arrays.asList("([a-zA-Z0-9]+[\\.])+[a-zA-Z0-9]+Exception:",
+				"([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)"));
+		systemGroupRegexes.put("openmrs", openmrsGroupRegexes);
+
+		// -------------------------------------------------
+
+		// wordpress-android
+
+		systemIniSeparators.put("wordpress-android", Arrays.asList("```"));
+
+		systemRegexes.put("wordpress-android",
+				Arrays.asList("([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+						"([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+						"([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+						"\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+						"(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+						"(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+						"(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+						"(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+						"(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+						"Caused by\\: .+Exception.+\\:"));
+
+		systemStartRegexes.put("wordpress-android", Arrays.asList("\\[screen shot", "\\[screenshot"));
+
+		List<List<String>> wordpressGroupRegexes = new ArrayList<>();
+
+		wordpressGroupRegexes.add(Arrays.asList("\\[INFO\\]", "\\[WARN\\]", "\\[DEBUG\\]", "\\[ERROR\\]"));
+
+		wordpressGroupRegexes
+				.add(Arrays.asList("D\\/Cursor", "D\\/ActionBarSherlock", "D\\/AndroidRuntime", "E\\/AndroidRuntime"));
+
+		wordpressGroupRegexes.add(
+				Arrays.asList("\\<\\/methodResponse", "\\<\\/fault", "\\<\\/methodResponse", "\\<\\/methodResponse"));
+
+		systemGroupRegexes.put("wordpress-android", wordpressGroupRegexes);
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -215,11 +367,13 @@ public class BugCodePreprocessor {
 
 				System.out.print("Processing " + bugInstance + " ");
 
-				BugReport bugReport = POSBugProcessorMain.readBug(xmlBugDir, bugInstance);
+				BugReport bugReport = readBug(xmlBugDir, bugInstance);
+//				BugReport bugReport = POSBugProcessorMain.readBug(xmlBugDir, bugInstance);
 				BugReport bugPreprocessed = new BugReport(bugReport);
 				boolean changed = preprocessBug(bugInstance, bugPreprocessed);
 
-				POSBugProcessorMain.writeBug(bugPreprocessed, outputFolder, bugInstance);
+//				POSBugProcessorMain.writeBug(bugPreprocessed, outputFolder, bugInstance);
+				writeBug(bugPreprocessed, outputFolder, bugInstance);
 
 				if (changed) {
 					System.out.println(" [changed]");
@@ -234,6 +388,26 @@ public class BugCodePreprocessor {
 		}
 
 	}
+	
+	public static seers.bugrepcompl.entity.shortcodingparse.BugReport readBug(String inputFolder, TextInstance bug) throws Exception {
+		String filepath = inputFolder + File.separator + bug.getProject() + File.separator + bug.getBugId()
+				+ ".parse.xml";
+		seers.bugrepcompl.entity.shortcodingparse.BugReport xmlBug = XMLHelper.readXML(seers.bugrepcompl.entity.shortcodingparse.BugReport.class, filepath);
+		return xmlBug;
+	}
+	
+
+	public static void writeBug(seers.bugrepcompl.entity.shortcodingparse.BugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
+		File projectFolder = new File(outputFolder + File.separator + bug.getProject() );
+		if (!projectFolder.exists()) {
+			projectFolder.mkdir();
+		}
+
+		File outputFile = new File(projectFolder.getAbsolutePath() + File.separator + bug.getBugId() + ".parse.xml");
+		XMLHelper.writeXML(seers.bugrepcompl.entity.shortcodingparse.BugReport.class, bugPreprocessed, outputFile);
+
+	}
+	
 
 	private static boolean preprocessBug(TextInstance bugInstance, BugReport bugReport) throws Exception {
 

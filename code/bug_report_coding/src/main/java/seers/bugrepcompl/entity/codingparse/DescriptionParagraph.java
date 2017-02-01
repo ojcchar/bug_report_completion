@@ -26,7 +26,7 @@ public class DescriptionParagraph {
 	@XmlElement(name = "sentence")
 	private List<DescriptionSentence> sentences;
 
-	 public String getId() {
+	public String getId() {
 		return id;
 	}
 

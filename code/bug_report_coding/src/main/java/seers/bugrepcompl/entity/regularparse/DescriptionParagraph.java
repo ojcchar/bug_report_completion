@@ -100,7 +100,5 @@ public class DescriptionParagraph {
 			return false;
 		return true;
 	}
-	
-	
 
 }
