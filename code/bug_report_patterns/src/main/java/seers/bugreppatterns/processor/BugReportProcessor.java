@@ -27,6 +27,11 @@ public class BugReportProcessor extends TextInstanceProcessor {
 
 				BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
 				Document bugReport = ParsingUtils.parseDocument(system, bugRep);
+
+				if (bugReport.getNumOfSentences() == 0) {
+					LOGGER.warn("[" + system + "] bug has no description " + file.getName());
+				}
+
 				LinkedHashMap<PatternMatcher, Integer> patternMatches = new LinkedHashMap<>();
 
 				// int numOfSentences = bugReport.getNumOfSentences();
@@ -40,7 +45,7 @@ public class BugReportProcessor extends TextInstanceProcessor {
 				}
 
 				PredictionOutput predictionOutput = predictor.predictLabels(bugRep.getId(), "0", patternMatches);
-				
+
 				writePreFeatures(bugRep.getId(), "0", predictionOutput.getFeatures());
 				writePrediction(bugRep.getId(), "0", predictionOutput.getLabels());
 
