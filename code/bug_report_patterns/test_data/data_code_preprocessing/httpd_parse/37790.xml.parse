@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>37790</id>
+    <title>server blocks on error return from POST_READ_REQUEST</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The following code was sent to me as a test case.</sentence>
+            <sentence id="1.2">It blocks for a long time!</sentence>
+            <sentence id="1.3">int test(request_rec *r) {  
+        ap_log_error(APLOG_MARK, APLOG_NOTICE | APLOG_NOERRNO, 0, r-&gt;server,  
+"Return an error");  
+        return HTTP_FORBIDDEN;  
+}  
+static void register_hooks(apr_pool_t *p)  
+{  
+    ap_hook_post_read_request(test, NULL, NULL, APR_HOOK_MIDDLE);  
+}  
+ 
+When run, it blocks in ap_discard_request_body, called from ap_die.</sentence>
+            <sentence id="1.4">The bug seems to be that it's trying to read input before attaching the 
+HTTP_IN filter.</sentence>
+            <sentence id="1.5">The patch attached fixes it, though I'm not sure it's 
+optimal.</sentence>
+        </paragraph>
+    </description>
+</bug>

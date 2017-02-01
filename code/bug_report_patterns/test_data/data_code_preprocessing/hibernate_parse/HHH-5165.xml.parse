@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5165</id>
+    <title>FetchMode=Eager not respected, N+1 SELECT Problem</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Two classes A, B with 1:n relationship.</sentence>
+            <sentence id="1.2">Fetching all instances of B with an empty DetachedCriteria instance does not repsect FetchMode.JOIN but issues a SELECT for each A (N+1 SELECT problem).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This causes the bug:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">findByCriteria(DetachedCriteria.forClass(B.class));</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This works - but I need that second setFetchMode:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">findByCriteria(DetachedCriteria.forClass(B.class)
+ .</sentence>
+            <sentence id="5.2">setFetchMode("a", FetchMode.JOIN)
+ .</sentence>
+            <sentence id="5.3">setFetchMode("a.bs", FetchMode.JOIN)
+);</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">HQL works too.</sentence>
+            <sentence id="6.2">Here are two classes that cause the bug:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">private String name;
+ private A a;</sentence>
+        </paragraph>
+    </description>
+</bug>

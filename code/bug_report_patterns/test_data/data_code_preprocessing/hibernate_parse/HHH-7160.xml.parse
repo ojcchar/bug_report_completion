@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7160</id>
+    <title>NaturalIdXrefDelegate#cache() needs to remove obsolete entries in shared cache when NaturalId values changed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Method NaturalIdXrefDelegate#cache() misses to remove obsolete entry in naturalIdToPkMap when NaturalId values changed,
+thus NaturalIdAccess delivers results even by searching with obsolete values (see attached Testcase).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Cause:
+following instruction is missing in Method NaturalIdXrefDelegate#cache():</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>12653</id>
+    <title>'docker load' failed with Untar exit status 1 no such file or directory</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We are running a stress testing against docker saving and loading images:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">1 Save an already built docker image via: docker save --output local_file image;</sentence>
+            <sentence id="2.2">2 Upload the saved image file to a cloud storage, e.g. openstack swift;</sentence>
+            <sentence id="2.3">3 Download the image file, and do a 'docker load -i'.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">We ran the above step 1) through step 3) 60 times, but saw 2 'docker load' failures out of 60 runs.</sentence>
+            <sentence id="3.2">For the error cases, docker load returns an 1, and in /var/log/upstart/docker.log :</sentence>
+        </paragraph>
+    </description>
+</bug>

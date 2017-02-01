@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2690</id>
+    <title>Cascade delete and ternary association after upgrade</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">My classes:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">private long id;
+	private String name;
+	private Map/*&lt;Attribute,AttributeValue&gt;*/ attributeValues;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">//getters/setters/hashcode/equals
+}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">private long id;
+	private String value;
+	private Product product;
+	private Attribute attribute;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">//getters/setters/hashcode/equals
+}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">private long id;
+	private String name;</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">//getters/setters/hashcode/equals
+}</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Fragment of mapping:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">&lt;class name="Product"&gt;
+  &lt;id name="id" column="id" type="long" unsaved-value="0"&gt;
+    &lt;generator class="native"/&gt;
+  &lt;/id&gt;
+  &lt;property name="name" not-null="true"/&gt;
+  &lt;map name="attributeValues" lazy="true" inverse="false" cascade="all-delete-orphan"&gt;
+    &lt;key column="product_id" not-null="true"/&gt;
+    &lt;map-key-many-to-many column="attribute_id" class="Attribute"/&gt;
+    &lt;one-to-many class="AttributeValue"/&gt;
+  &lt;/map&gt;
+&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">... and my exception after upgrading hibernate in my application.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">I've tried many versions of hibernate using test from attachment 
+( mvn -Dhibernate.version=&lt;version&gt; clean compile test ) and I think that  
+bug was introduced between 3.2.0.</sentence>
+            <sentence id="15.2">ga and 3.2.1.</sentence>
+            <sentence id="15.3">ga</sentence>
+        </paragraph>
+    </description>
+</bug>

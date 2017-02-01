@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10254</id>
+    <title>Schema-validation: missing column looking for camel case instead of snake case</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Switching to hibernate 5.0.3 from 4.3.11 I started getting an error during schema validation when my service starts up:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The joined entities are (fields removed):</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">and</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">@ElementCollection
+    @CollectionTable(name = "processing_dataset_sources", joinColumns = @JoinColumn(name = "processing_dataset_id"))
+    @Column(name = "source", nullable = false, columnDefinition = "varchar(100)")
+    private Set&lt;String&gt; sources = new HashSet&lt;&gt;(0);</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">If I'm doing something wrong, please advise.</sentence>
+            <sentence id="13.2">As mentioned above, this was working under 4.3.11 but does not work under 5.0.0 nor 5.0.3.</sentence>
+        </paragraph>
+    </description>
+</bug>

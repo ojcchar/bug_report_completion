@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>46342</id>
+    <title>Reduce debug messages from mod_authnz_ldap</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 22993
+Patch to reduce the number of debug messages</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Using mod_authnz_ldap with loglevel debug results in 8 messages every time an LDAP URL is parsed.</sentence>
+            <sentence id="2.2">Because this happens early in startup, these go to stderr, and on Windows create a separate error event in the event log for every message, which is worse.</sentence>
+            <sentence id="2.3">It also shows up when you do "apachectl -k stop".</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I'm not sure this information needs to be logged at all (maybe left over from when this code was developed?)</sentence>
+            <sentence id="3.2">.</sentence>
+            <sentence id="3.3">But if we do want it logged, at least we can cut down the number of messages from 8 to 1, which will greatly reduce the clutter in the Windows event log.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The patch provided collapses the information from the 8 separate messages into a single message.</sentence>
+            <sentence id="4.2">Instead of</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">[Thu Dec 04 14:14:15 2008] [debug] mod_authnz_ldap.c(918): [1160] auth_ldap url parse: `ldap://example.com/o=apache,c=US?cn?sub?'</sentence>
+            <sentence id="5.2">[Thu Dec 04 14:14:15 2008] [debug] mod_authnz_ldap.c(927): [1160] auth_ldap url parse: Host: example.com</sentence>
+            <sentence id="5.3">[Thu Dec 04 14:14:15 2008] [debug] mod_authnz_ldap.c(929): [1160] auth_ldap url parse: Port: 389</sentence>
+            <sentence id="5.4">[Thu Dec 04 14:14:15 2008] [debug] mod_authnz_ldap.c(931): [1160] auth_ldap url parse: DN: o=apache,c=US</sentence>
+            <sentence id="5.5">[Thu Dec 04 14:14:15 2008] [debug] mod_authnz_ldap.c(933): [1160] auth_ldap url parse: attrib: cn</sentence>
+            <sentence id="5.6">[Thu Dec 04 14:14:15 2008] [debug] mod_authnz_ldap.c(935): [1160] auth_ldap url parse: scope: subtree</sentence>
+            <sentence id="5.7">[Thu Dec 04 14:14:15 2008] [debug] mod_authnz_ldap.c(940): [1160] auth_ldap url parse: filter: (null)</sentence>
+            <sentence id="5.8">[Thu Dec 04 14:14:15 2008] [debug] mod_authnz_ldap.c(1016): LDAP: auth_ldap not using SSL connections</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">the output is one line like this</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">[Thu Dec 04 14:05:06 2008] [debug] mod_authnz_ldap.</sentence>
+            <sentence id="7.2">c(999): [1651] auth_ldap url parse: `ldaps://example.com:636/o=apache,c=US?cn?sub?'</sentence>
+            <sentence id="7.3">, Host: example.com:636, Port: 636, DN: o=apache,c=US, attrib: cn, scope: subtree, filter: (null), connection mode: SSL</sentence>
+        </paragraph>
+    </description>
+</bug>

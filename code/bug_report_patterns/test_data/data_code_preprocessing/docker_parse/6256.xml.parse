@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>6256</id>
+    <title>OS X client-only build fails (0.12)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The client-only dynbinary build currently fails on OS X due to a Linux-specific header in libcontainer/namespaces.</sentence>
+            <sentence id="1.2">The relevant error output is:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This came up when attempting to update the Homebrew package to 0.12.</sentence>
+            <sentence id="3.2">The Homebrew package is built with 'AUTO_GOPATH' and 'DOCKER_CLIENTONLY' both set to '1', and by running 'hack/make.</sentence>
+            <sentence id="3.3">sh dynbinary'.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Full logs here: https://gist.github.com/6b83e46e22273b40b518</sentence>
+        </paragraph>
+    </description>
+</bug>

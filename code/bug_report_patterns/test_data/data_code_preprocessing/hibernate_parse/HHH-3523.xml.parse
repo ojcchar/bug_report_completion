@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3523</id>
+    <title>org.hibernate.id.enhanced.SequenceStyleGenerator causes org.hibernate.MappingException with SAPDB and DB2Dialect</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">I suspect the cause is in 
+org.hibernate.dialect.Dialect#getCreateSequenceString(String sequenceName, int initialValue, int incrementSize)
+		if ( supportsPooledSequences() ) {
+			return getCreateSequenceString( sequenceName ) + " start with " + initialValue + " increment by " + incrementSize;
+		}
+		throw new MappingException( "Dialect does not support pooled sequences" );</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This call requires not just that dialect supports sequences but that dialect supports pooled sequences.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">But the algorithm that tries to determine whether the table should be used to emulate the sequence lets the dialects that supports sequences but not pooled sequences to slip through.</sentence>
+            <sentence id="4.2">It looks like the DB2 and SAPDB dialects fail in this category because of:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">org.hibernate.id.enhanced.SequenceStyleGenerator#configure(Type type, Properties params, Dialect dialect)
+...
+		if ( dialect.supportsSequences() &amp;&amp; !</sentence>
+            <sentence id="5.2">forceTableUse ) {
+			if ( OptimizerFactory.POOL.equals( optimizationStrategy ) &amp;&amp; !</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Attached is a zip file with a small maven project with unit-test that replicates the problem.</sentence>
+            <sentence id="7.2">It generates DDL for different databases: Hipersonic, Derby, Oracle, MySql, PostgreSQL, MSSQL, DB2, and SAPDB.</sentence>
+            <sentence id="7.3">The data-model contains 2 tables Person and Event in many-to-many relation.</sentence>
+        </paragraph>
+    </description>
+</bug>

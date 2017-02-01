@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>43318</id>
+    <title>If backend provides a broken HTTP response line, the response is returned as HTTP body</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">A broken CherryPy backend (returning "HTTP/1.1 Date: blahblah" as the first
+line) revealed a bug in the mod_proxy_http code.</sentence>
+            <sentence id="1.2">If the HTTP response line is
+malformed, mod_proxy_http acts as if ProxyBadHeader was set to StartBody, i.e.
+it returns the entire backend response as the body of the proxy's response.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">We're tracking the issue at
+https://bugs.launchpad.net/ubuntu/+source/apache2/+bug/137233</sentence>
+        </paragraph>
+    </description>
+</bug>

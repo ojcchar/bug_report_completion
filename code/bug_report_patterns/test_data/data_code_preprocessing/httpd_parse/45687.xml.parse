@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>45687</id>
+    <title>mod_charset_lite can drop error responses</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 22480
+Patch for mod_charset_lite.</sentence>
+            <sentence id="1.2">c</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">With mod_charset_lite in use, some error responses may not be returned
+correctly.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For example, when a request body exceeds the configured LimitRequestBody, a 413
+should be returned, but with mod_charset_lite in use, instead a 403 might be
+returned (if the URI is forbidden).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">To reproduce:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Build with mod_charset_lite (I don't think it gets built by default except on
+z/OS).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Include something like this in the configuration:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">LoadModule charset_lite_module modules/mod_charset_lite.</sentence>
+            <sentence id="7.2">so
+&lt;Location /&gt;
+CharsetSourceEnc ISO8859-1
+CharsetDefault ASCII
+LimitRequestBody 2048
+&lt;/Location&gt;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Submit a POST with a body over 2048 bytes.</sentence>
+            <sentence id="8.2">The response status should be 413,
+but it will be something else (e.g. 404).</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The underlying cause is mod_charset_lite not treating metadata buckets
+specially.</sentence>
+            <sentence id="9.2">When a request body size limit is exceeded, for example, the error
+code is communicated by adding an error bucket to the brigade.</sentence>
+            <sentence id="9.3">When it gets to
+mod_charset_lite, the module reads the data from it (none) and discards it;
+thus the error code never gets to the end of the filter chain and is not sent
+back to the client.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">I've confirmed the problem on httpd-trunk on Linux, revision 688719.</sentence>
+            <sentence id="10.2">It has
+also been seen on older releases on z/OS.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">It did not show up in a bugzilla search.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">I've come up with a fix, and verified that it compiles without warning on Linux
+and solves the problem, so that a 413 response is sent back in the scenario
+described above.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">A patch is attached for httpd-trunk.</sentence>
+            <sentence id="13.2">I'd welcome comments on it.</sentence>
+        </paragraph>
+    </description>
+</bug>

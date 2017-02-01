@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10937</id>
+    <title>The generation of the drop schema does not filter sequence with schemaFilter</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When using SchemaExport to generate DDL, the drop schema does not rely on the SchemaFilter to filter sequences.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The suggested correction is to add a call to this filter after ligne L243</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">https://github.com/aleksabl/hibernate-core/blob/master/hibernate-core/src/main/java/org/hibernate/tool/schema/internal/SchemaDropperImpl.java#L243</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Remark : this is done on the create schema in this line :</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">https://github.com/hibernate/hibernate-orm/blob/master/hibernate-core/src/main/java/org/hibernate/tool/schema/internal/SchemaCreatorImpl.java#L285</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This is just a mirror correction on the drop side.</sentence>
+        </paragraph>
+    </description>
+</bug>

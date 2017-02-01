@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26238</id>
+    <title>ADD vs COPY causes ghost files</title>
+    <description>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Running on an EC2 instance in AWS.</sentence>
+            <sentence id="7.2">Upgraded 14.04 to 16.04.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="8.2">1 Bundle large amount of files into .tar and use ADD to copy and extract the files into the image.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The running apache or nginx inside the container doesn't see some of the files.</sentence>
+            <sentence id="9.2">After I 'exec' into the container and do a 'find' or 'ls' command over the files, then they become visible and get served normally.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">I solved this problem by using 'COPY' in stead to get the .tar file into the image and then just manually extracting the contents to where it should be.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">As mentioned above, the image is being built on an Ubuntu EC2 instance in AWS, but then I build the same image on my local machine using Docker for Mac, it works perfectly.</sentence>
+        </paragraph>
+    </description>
+</bug>

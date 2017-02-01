@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9426</id>
+    <title>Modelgen error caused by Map&lt;String, ArrayList&lt;Long&gt;&gt; property</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Project based on the org.jboss.spec.archetypes:jboss-javaee6-webapp-archetype:7.1.3.Final Maven archetype</sentence>
+            <sentence id="1.2">I simply added a property to the 'Member' entity.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">@ElementCollection
+	private Map&lt;String, ArrayList&lt;Long&gt;&gt; aggregates;</sentence>
+            <sentence id="2.2">And got this as generated:
+	public static volatile MapAttribute&lt;Member, String, ArrayList&lt;E&gt;&gt; aggregates;</sentence>
+            <sentence id="2.3">Which causes the error:
+E cannot be resolved to a type</sentence>
+        </paragraph>
+    </description>
+</bug>

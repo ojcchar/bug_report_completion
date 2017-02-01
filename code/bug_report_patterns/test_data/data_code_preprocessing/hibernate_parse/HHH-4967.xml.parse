@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4967</id>
+    <title>Mapping a class more than once using entity names causes NullPointerException in org.hibernate.ejb.event.EJB3FlushEntityEventListener</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Map a class more than once and use *entity names*, e.g. as follows:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">...</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;!</sentence>
+            <sentence id="5.2">-- Mapping for multilingual texts holding more than 4000 characters --&gt;
+    &lt;class dynamic-insert="true" dynamic-update="true" optimistic-lock="version" 
+           name="mypackage.MultilingualText" table="multilinguallongtext" 
+           entity-name="MultilingualLong"&gt;
+           
+        ...</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Use this entity names within a list / set / map /... as follows:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">&lt;!</sentence>
+            <sentence id="10.2">-- multilingual text field for up to 4000 characters --&gt;
+    &lt;set access="field" cascade="all,delete-orphan" fetch="join" lazy="false"
+         name="description" table="myclassdescription"&gt;
+        &lt;key&gt;
+            &lt;column name="myclass_id" sql-type="varchar2(36)" /&gt;
+        &lt;/key&gt;
+        &lt;many-to-many unique="true" class="mypackage.MultilingualText" 
+            entity-name="MultilingualShort"&gt;
+            &lt;column name="text_id" sql-type="varchar2(36)"/&gt;
+        &lt;/many-to-many&gt;
+    &lt;/set&gt;</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">When modifying such a list / set / map and calling {{entityManager.merge(&lt;myClass&gt;)}} you get the following exception on {{entityManager.flush()}}:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">*Solution:* correct the {{org.hibernate.ejb.event.EJB3FlushEntityEventListener}} as follows:</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">private EntityCallbackHandler callbackHandler;</sentence>
+        </paragraph>
+    </description>
+</bug>

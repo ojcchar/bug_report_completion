@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7317</id>
+    <title>Boolean values bound to parameters in SQL predicate cause failures using DB2 with deferPrepares = true</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This is reproduced by org.hibernate.test.annotations.manytomany.ManyToManyMaxFetchDepth0Test.testCompositePk using DB2 for query:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">In this query, "elder" is bound as a Boolean value when the column is actually a smallint.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Setting deferPrepares=false would probably fix this, but that could have an undesirable impact on performance.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This can be fixed by overriding Dialect.getSqlTypeDescriptorOverride(int sqlCode) for DB2Dialect to return SmallIntTypeDescriptor.INSTANCE for sqlCode == Types.BOOLEAN.</sentence>
+            <sentence id="5.2">This works with deferPrepares=true.</sentence>
+        </paragraph>
+    </description>
+</bug>

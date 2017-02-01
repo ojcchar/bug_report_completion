@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2370</id>
+    <title>Xml-persisted empty string are interpreted as null value</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">NullableType.Object fromXMLString(String xml, Mapping factory) method returns null if the string is an empty string (string with a length of 0).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This creates some problems when you use xml persistence to export or import empty string property with the not-null costraint.</sentence>
+            <sentence id="2.2">Look at the attachment simple project (or here: http://forum.hibernate.org/viewtopic.php?t=969755 ) for an example that will throw an unexpected exception.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This problem could be easily fixed removing the "|| xml.length()==0" boolean expression from the fromXMLString method.</sentence>
+            <sentence id="3.2">I think that it would be better not only with strings but even with other types; for example an xml tag that should be interpreted as an Integer and contains an empty string should throw an exception, and should not return a null value.</sentence>
+            <sentence id="3.3">The null value is already represented by the absence of the xml tag.</sentence>
+        </paragraph>
+    </description>
+</bug>

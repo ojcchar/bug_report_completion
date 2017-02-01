@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8471</id>
+    <title>Named Query with JOIN FETCH missing objects</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The following named query "findAllRealWithVehicle" fails to fetch all RealRun objects and returns only some.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">RealRun.java:
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Run.java:
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">}</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">PhysicalVehicle.java:</sentence>
+        </paragraph>
+    </description>
+</bug>

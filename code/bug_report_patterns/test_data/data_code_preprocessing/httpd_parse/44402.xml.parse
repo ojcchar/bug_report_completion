@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>44402</id>
+    <title>Worker mpm crashes (SEGV) under stress with static workload</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I am running specweb99 static content workload with httpd 2.2.6 on Solaris
+nevada (snv_79).</sentence>
+            <sentence id="1.2">I am seeing several crashes.</sentence>
+            <sentence id="1.3">Typically crash do reproduce in
+10 minutes.</sentence>
+            <sentence id="1.4">Here are the details :
+Apache version : httpd-2.2.6
+Simultaneous connection : 1000
+Hardware : X4100 Server (4 core 2.8 GHz)
+CPU : Only single core is enabled
+Architecture : x86_64</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">httpd.conf contains :
+&lt;IfModule worker.c&gt;
+ListenBackLog     50000
+StartServers         2
+ThreadLimit        500
+ThreadsPerChild    500
+MinSpareThreads    100
+MaxSpareThreads    100
+ThreadsPerChild    500
+MaxClients        1000
+MaxRequestsPerChild  0
+&lt;/IfModule&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Listen 192.168.21.1:80
+Listen 192.168.22.1:80</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here is the most common stack trace.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">prefork mpm works just fine.</sentence>
+        </paragraph>
+    </description>
+</bug>

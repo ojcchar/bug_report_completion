@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3320</id>
+    <title>JPA Max/Min aggregate functions do not return same state-field type when argument is a java.sql.Timestamp</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">According the JPQL specification, MAX and MIN aggregate functions should return the type of the state-field to which they are applied.</sentence>
+            <sentence id="1.2">However, if one tries to query MAX or MIN on a java.sql.Timestamp entity field and tries to populate a class which expects a java.sql.Timestamp in the constructor with the result of MAX or MIN, Hibernate fails with javax.persistence.PersistenceException.</sentence>
+            <sentence id="1.3">The result of MAX or MIN in this case are being java.util.Date instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The error result in type mismatch should ideally also be more helpful, because it is very difficult to understand what and where the problem is, unless you know about it beforehand.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here is an example Entity, with the aggregate class and query, together with the exception that occurs:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">... 
+import java.sql.Timestamp;</sentence>
+        </paragraph>
+    </description>
+</bug>

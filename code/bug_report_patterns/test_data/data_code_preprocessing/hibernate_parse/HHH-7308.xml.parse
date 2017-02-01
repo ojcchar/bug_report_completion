@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7308</id>
+    <title>beforeTransactionCompletion() not getting called in the same scenarios as afterTransactionCompletion() in the TransactionObserver for child Sessions</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As part of the fix for HHH-7239 which was originally addressing an issue with memory consumption it was decided at the last minute to correct the fact that the after transaction processing wasn't being called on child sessions.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">However, in certain cases (i.e the child session was closed()) the beforeTransactionCompletion() isn't getting called but the the afterTransactionCompletion() is.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This caused an issue with Hibernate search where an exception was being thrown "Access a Sealed WorkQueue which has not been sealed" since the beforeTransactionCompletion() never got called.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">It's a relatively easy fix, pull request forthcoming.</sentence>
+        </paragraph>
+    </description>
+</bug>

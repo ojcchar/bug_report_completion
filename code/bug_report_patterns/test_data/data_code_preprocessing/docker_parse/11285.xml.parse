@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>11285</id>
+    <title>docker load clobbers the name of the existing image</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:.</sentence>
+            <sentence id="1.2">Given an image "foo:latest" with ID 1234 already in docker, docker load &lt; foo.tar with ID 5678 (same name, different ID) clobbers the existing name (of ID 1234) to "&lt;none&gt;".</sentence>
+            <sentence id="1.3">Since images are most often referenced by name, it's not a very nice thing to do w/o being documented or issuing a "Warning: image foo already exists, renaming to &lt;none&gt;".</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Version-Release number of selected component (if applicable):
+docker-1.4.1-12.</sentence>
+            <sentence id="2.2">el7.x86_64</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">How reproducible:
+Minor prep.</sentence>
+            <sentence id="3.2">required.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">1 docker run --name foo rhel7 /bin/true</sentence>
+            <sentence id="4.3">2 docker commit foo foobar</sentence>
+            <sentence id="4.4">(note image ID)</sentence>
+            <sentence id="4.5">3 docker save foobar &gt; foobar.tar</sentence>
+            <sentence id="4.6">4 docker rm foo</sentence>
+            <sentence id="4.7">5 docker rmi foobar</sentence>
+            <sentence id="4.8">6 docker run --name bar rhel7 /bin/false</sentence>
+            <sentence id="4.9">7 docker commit bar foobar</sentence>
+            <sentence id="4.10">(note image ID)</sentence>
+            <sentence id="4.11">8 docker rm bar</sentence>
+            <sentence id="4.12">9 docker load &lt; foobar.tar</sentence>
+            <sentence id="4.13">10.</sentence>
+            <sentence id="4.14">docker images</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected results:</sentence>
+            <sentence id="6.2">Allow the load, but issue "Warning: existing image will be renamed &lt;none&gt;"</sentence>
+            <sentence id="6.3">-or-</sentence>
+            <sentence id="6.4">Document this in a "note" in the docker load man page</sentence>
+            <sentence id="6.5">-or-</sentence>
+            <sentence id="6.6">Fail the load with a 'image foobar already exists'</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Additional Info: Docker load creates a new image with {ID: 5678} but also clobbers the name of the existing image {ID: 1234}</sentence>
+        </paragraph>
+    </description>
+</bug>

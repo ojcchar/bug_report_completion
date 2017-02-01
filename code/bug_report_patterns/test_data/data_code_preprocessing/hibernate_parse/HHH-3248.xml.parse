@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3248</id>
+    <title>org.hibernate.cache.EhCache.toMap() throws NullPointerException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The toMap() method of org.hibernate.cache.EhCache is not null-safe.</sentence>
+            <sentence id="1.2">The expression</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">cache.get( key ).</sentence>
+            <sentence id="2.2">getObjectValue()</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Will throw a NPE, since get(key) may return a null in cases where the key exists in the cache, but the value does not, e.g. if it has expired.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This should either check for the null, or the list of keys should be obtained using getKeysWithExpiredCheck(), rather than just getKeys().</sentence>
+        </paragraph>
+    </description>
+</bug>

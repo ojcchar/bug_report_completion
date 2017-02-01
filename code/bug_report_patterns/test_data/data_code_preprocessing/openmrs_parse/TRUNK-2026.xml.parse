@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2026</id>
+    <title>save* and create* Before Advisor throws ClassCastException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I wrote a save method with the following signature: saveMyObject(String, Integer, Integer), in both the service and DAO layers.</sentence>
+            <sentence id="1.2">When trying to execute the save method, I got the following error:</sentence>
+            <sentence id="1.3">{{java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.String}}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">It is because org.openmrs.aop.RequiredDataAdvice is trying to cast the second argument (in my case an Integer) as a String because the save method is assumed to be intended to have this alternate format.</sentence>
+            <sentence id="2.2">There is no try/catch around this call, and there is really no need for it if this kind of save or create method should be allowed.</sentence>
+            <sentence id="2.3">Ben provided me with the attached (patch) solution, even though I also changed my code to addMyObject() so I could avoid the advisor.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9421</id>
+    <title>Wrong sql generated when both key() and value() function exists in where.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have entity like this:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">}
+{code}
+will generate table like this:
+{quote}
+ core_user(id,username); 
+core_user_extra(user_id,name,value);
+{quote} 
+ when search user use JPQL: 
+{code} from account a join a.attributes m where key(m) = ?</sentence>
+            <sentence id="3.2">1 and value(m) = ?</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Hibernate generate wrong sql:</sentence>
+            <sentence id="4.3">    from</sentence>
+            <sentence id="4.4">        core_user genericuse0_ cross </sentence>
+            <sentence id="4.5">    join</sentence>
+            <sentence id="4.6">        core_user_extra attributes1_ cross </sentence>
+            <sentence id="4.7">    join</sentence>
+            <sentence id="4.8">        core_user_extra attributes2_ </sentence>
+            <sentence id="4.9">    where</sentence>
+            <sentence id="4.10">        genericuse0_.id=attributes1_.accountId </sentence>
+            <sentence id="4.11">        and genericuse0_.id=attributes2_.accountId </sentence>
+            <sentence id="4.12">        and attributes1_.name=? </sentence>
+            <sentence id="4.13">        and (</sentence>
+            <sentence id="4.14">            select</sentence>
+            <sentence id="4.15">                attributes2_.value </sentence>
+            <sentence id="4.16">            from</sentence>
+            <sentence id="4.17">                core_user_extra attributes2_ </sentence>
+            <sentence id="4.18">            where</sentence>
+            <sentence id="4.19">                genericuse0_.id=attributes2_.accountId</sentence>
+            <sentence id="4.20">        )=?</sentence>
+            <sentence id="4.22">I think the right sql may be </sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">And EclipseLink generate sql as I expected.</sentence>
+            <sentence id="5.3">AND (t0.value = ?))</sentence>
+        </paragraph>
+    </description>
+</bug>

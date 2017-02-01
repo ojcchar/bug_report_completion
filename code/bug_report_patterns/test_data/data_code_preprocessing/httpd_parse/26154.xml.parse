@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26154</id>
+    <title>Enclosed directives are overwritten and/or not assigned</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Following situation:
+2 JRun-Servers are running on different ports and are working well.</sentence>
+            <sentence id="1.2">Apache 2.0.44 is our HTTPD-Server.</sentence>
+            <sentence id="1.3">The problem is to connect these two servers to Apache HTTPD-server.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Following solutions were tested and are NOT working:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If only one of them is available in httpd.conf it works fine, are both of them 
+administered in httpd.conf, only the last one works.</sentence>
+            <sentence id="4.2">For the first one I get 
+Index of /&lt;firstOne&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The same problem occurs for following configuration:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">In the documentation there is following text:
+&lt;Location&gt; Description: Applies enclosed directives only to matching URLs 
+&lt;Directory&gt; Descritpion: Enclose a group of directives that apply only to the 
+named file-system directory and sub-directories</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">In my oppinion these behavior is a bug.</sentence>
+            <sentence id="8.2">JRun recommends &lt;virtual-hosts&gt; which are not applicable in our case (only one 
+IP, closed network without DNS)</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">so far
+regards
+Mike</sentence>
+        </paragraph>
+    </description>
+</bug>

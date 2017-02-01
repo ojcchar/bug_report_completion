@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26105</id>
+    <title>manager cannot re-join a swarm</title>
+    <description>
+        <paragraph id="7">
+            <sentence id="7.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="7.2">Three nodes on openstack</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="8.2">1 create three nodes on openstack 'manager1, manager2, manager3'</sentence>
+            <sentence id="8.3">2 On 'manager1', run 'docker swarm init'</sentence>
+            <sentence id="8.4">3 On 'manager2' and 'manager3', run 'docker swarm join' with manager 'join-token' to join the network.</sentence>
+            <sentence id="8.5">4 'docker node list', everything is ok, the 'manager1' is the 'leader'</sentence>
+            <sentence id="8.6">5 On 'manager1', 'docker swarm leave --force', the 'manager2' becomes 'leader',</sentence>
+            <sentence id="8.7">6 'manager3' left swarm 'docker swarm leave --force'</sentence>
+            <sentence id="8.8">7 'manager3' tries to rejoin the swarm with same manager token (as shown on 'manager2' with 'join-token') and 'manager2' IP address, shown error</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">while on 'manager2', the 'manager status' is 'Unreachable'.</sentence>
+            <sentence id="10.2">Same thing happens, when 'manager1' tries to rejoin the swarm.</sentence>
+        </paragraph>
+    </description>
+</bug>

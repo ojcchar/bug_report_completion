@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6572</id>
+    <title>IdentifierGeneratorHelper.getGeneratedIdentity() assumes that id column will always be at index 1</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If the database columns are created such that the serial id is *not* the first one, then the EntityManager.persist(Object) method sets the wrong value on the entity's @Id field (it sets it to the value of the first db column).</sentence>
+            <sentence id="1.2">For example:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Create the table:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">*Note that the id column is the second column*.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Run this code:</sentence>
+            <sentence id="5.2">Course course = new Course("Core Spring", 1000, new DateTime());</sentence>
+            <sentence id="5.3">course = myRepository.save(course);</sentence>
+            <sentence id="5.4">System.out.println("key = " + course.getKey());</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">In this case the returned course.getKey() should've been the auto allocated serial id, but it is 1000, i.e. the first column in the table.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The problem is that IdentifierGeneratorHelper.get(ResultSet rs, Type type) assumes that the id column is always the first column.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">As a workaround I have set my entities @Id annotations to:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">...
+public class Course {</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">and had the following Generator code:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">package testhibernate;</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">private MyGetGeneratedKeysDelegate(final PostInsertIdentityPersister persister, final Dialect dialect)
+        {
+            super(persister, dialect);</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">assert persister !</sentence>
+            <sentence id="20.2">= null;</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">ResultSet rs = insert.getGeneratedKeys();
+            try
+            {
+                final Type identifierType = persister.getIdentifierType();</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">Serializable result = null;
+                boolean useDefaultTechnique = true;</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.2">getIdentifierColumnNames();
+                    if(idColumnNames.length == 1)
+                    {
+                        // do it by column name
+                        result = getGeneratedIdentityByColumnName(rs, identifierType, idColumnNames[0] );</sentence>
+        </paragraph>
+        <paragraph id="34">
+            <sentence id="34.1">}</sentence>
+        </paragraph>
+        <paragraph id="35">
+            <sentence id="35.1">This seems to do the trick but is obviously an ugly hack.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20103</id>
+    <title>[1.10] Pushing large layers results in a no such host error but works with 1.9.1 </title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description of problem:**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I'm unable to push layers that aren't extremely tiny using 1.10.</sentence>
+            <sentence id="2.2">A 180mb layer failed for me 5 times in a row, and in all cases it got to about 80% finished before failing with:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">_dial tcp: lookup XXX.dkr.ecr.us-east-1.</sentence>
+            <sentence id="3.2">amazonaws.com on 127.0.1.1:53: no such host_</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.2">Here's the Storage Driver component:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">'How reproducible':</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Unfortunately I can't share the image because it contains private code, but a typical Ruby on Rails application with a few gems should do the trick.</sentence>
+            <sentence id="10.2">I am pretty sure the 180mb layer was the point where it was trying to install a bunch of gems but it's hard to say for sure.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">'Additional info':</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">If I build the same exact image using Docker 1.9.1 then it pushes successfully.</sentence>
+            <sentence id="12.2">I also deleted the image from the private repo to test it multiple times and it worked 100% of the time.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">---</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">It's also worth mentioning that my workstation is always a bit weird when I'm maxing out my bandwidth.</sentence>
+            <sentence id="14.2">My internet connection is about 30mb down and 5mb up.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">During the push (or any other activity where I saturate my upstream), my network connection tends to be nearly unusable for any other tasks on this machine.</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">For example, during this push, I couldn't visit a website without it timing out.</sentence>
+            <sentence id="16.2">Even my IRC client will timeout sometimes.</sentence>
+            <sentence id="16.3">I understand this isn't related to Docker and this is the only workstation I've ever used in my entire life that this happens on, but I wanted to add this because maybe 1.10 needs to be a little more robust when it comes to handling this because 1.9.1 works flawlessly.</sentence>
+        </paragraph>
+    </description>
+</bug>

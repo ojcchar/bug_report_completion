@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1219</id>
+    <title>New query parser does not allow subselects folowing "from"</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The new query parser does not allow subselects folowing "from".</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Example:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">select us from UserSubject us join (select max(us2.date) as date from UserSubject) us2 ...</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Exception from version 3.1rc3:</sentence>
+        </paragraph>
+    </description>
+</bug>

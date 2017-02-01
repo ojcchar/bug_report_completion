@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-296</id>
+    <title>merge sorted map/set</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When merging an entity parent that has property children mapped as sorted map(sorted=natural), each child in turn has property grand-children mapped as sorted map(sorted=natural),
+hibernate throws an below exception.</sentence>
+            <sentence id="1.2">&lt;b&gt;When merging by method saveOrUpdateCopy() in Hibernate2.1, no error happens.</sentence>
+            <sentence id="1.3">&lt;b&gt;
+If structure is only parent -&gt; children, no error happens too.</sentence>
+            <sentence id="1.4">When I try debugging into hibernate code, the grand-chilren property is null, instead of return a new TreeMap(sorted), a new HashMap is returned.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">mapping file:
+&lt;hibernate-mapping package="dummy"&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;!</sentence>
+            <sentence id="3.2">-- parent --&gt;
+	&lt;class lazy="true" name="Parent" table="parent"&gt;
+		&lt;id name="id" type="java.lang.Long" column="ID"&gt;
+			&lt;generator class="native" /&gt;
+		&lt;/id&gt;
+		&lt;property name="name" column="name" type="java.lang.String" /&gt;
+		&lt;map name="children" lazy="true" inverse="false"
+			cascade="all-delete-orphan" sort="natural"&gt;
+			&lt;key column="parent_id" /&gt;
+			&lt;index column="orders" type="java.lang.Integer" /&gt;
+			&lt;one-to-many class="Child" /&gt;
+		&lt;/map&gt;
+	&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;!</sentence>
+            <sentence id="4.2">-- child --&gt;
+	&lt;class lazy="true" name="Child" table="child"&gt;
+		&lt;id name="id" type="java.lang.Long" column="ID"&gt;
+			&lt;generator class="native" /&gt;
+		&lt;/id&gt;
+		&lt;property name="name" column="name" type="java.lang.String" /&gt;
+		&lt;property name="order" column="orders" type="java.lang.Integer" /&gt;
+		&lt;many-to-one name="parent" class="Parent" column="parent_id" /&gt;
+		&lt;map name="children" lazy="true" inverse="false"
+			cascade="all-delete-orphan" sort="natural"&gt;
+			&lt;key column="parent_id" /&gt;
+			&lt;index column="orders" type="java.lang.Integer" /&gt;
+			&lt;one-to-many class="GrandChild" /&gt;
+		&lt;/map&gt;
+	&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">restartSession();</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Child child = new Child("child name",null, null, null);
+        GrandChild grandChild = new GrandChild("grand child name", null,null);
+        child.addGrandChild(grandChild);
+        parent.addChild(child);</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-931</id>
+    <title>ObjectNotFoundException When Editing a Role or User</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As found by tmdugan:
+{code}*org.hibernate.ObjectNotFoundException*
+No row with the given identifier exists: [Tribes|org.openmrs.Privilege#Manage]</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Here is part of the stack trace:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">org.hibernate.impl.SessionFactoryImpl$1.</sentence>
+            <sentence id="3.2">handleEntityNotFound(SessionFactoryImpl.java:377)</sentence>
+            <sentence id="3.34">*org.openmrs.api.db.hibernate.HibernateUserDAO.getAllRoles(HibernateUserDAO.java:287)*</sentence>
+            <sentence id="3.35">*org.openmrs.api.impl.UserServiceImpl.getAllRoles(UserServiceImpl.java:258)*</sentence>
+            <sentence id="3.36">*org.openmrs.api.impl.UserServiceImpl.getRoles(UserServiceImpl.java:251)*</sentence>
+            <sentence id="3.37">{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

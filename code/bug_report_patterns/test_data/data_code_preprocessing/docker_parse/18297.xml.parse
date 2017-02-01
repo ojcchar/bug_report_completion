@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18297</id>
+    <title>docker network create with IPv6 subnets using iptables fails</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:
+The docker network create command does not work with IPv6 subnets using iptables.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Environment details (AWS, VirtualBox, physical, etc.):
+Fedora 23, DigitalOcean</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">How reproducible:
+100%</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Steps to Reproduce:</sentence>
+            <sentence id="9.2">1 `dnf --enablerepo=updates-testing install docker`</sentence>
+            <sentence id="9.3">2 `docker network create --subnet=2001:470::/64 test`</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Actual Results:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Expected Results:
+Docker currently does not deal with IPv6 rules so it could just not do anything in this case either.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Additional info:
+On the other hand, IPv6 subnets do work on my workstation that's running with firewalld.</sentence>
+        </paragraph>
+    </description>
+</bug>

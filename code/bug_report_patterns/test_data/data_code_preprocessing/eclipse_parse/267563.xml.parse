@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>267563</id>
+    <title>Password in Property binding is modified after reopen the data source</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description:
+Password in Property binding is modified after reopen the data source</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Build number:</sentence>
+            <sentence id="2.2">2 5.0.v20090309-0630</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Steps to reproduce:</sentence>
+            <sentence id="3.2">1 New a JDBC Data source</sentence>
+            <sentence id="3.3">2 Specify the password in Property Binding page, for example abcdefg and finish the data source</sentence>
+            <sentence id="3.4">3 Check the XML source to make sure the password has been encrypted, in my build the code is YWJjZGVmZw==.</sentence>
+            <sentence id="3.5">4 Reopen the data source and goto Property Binding and Finish data source</sentence>
+            <sentence id="3.6">5 At this time, the report has a dirty mark and save the report and recheck the encrypted code in XML Source, it has been modified to abcdAAAA.</sentence>
+            <sentence id="3.7">6 Do Step4 again and click OK to finsh the data source</sentence>
+            <sentence id="3.8">7 After step6, the report is modified and save the report(after saving, Exception thrown out and block the UI operation)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Expected result:
+The reopen will not change the password in Property Binding</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual result:
+After step4, the encrypted code has been changed, so that the report has a dirty mark and after step6, a Exception thrown out and it will block all the UI operation.</sentence>
+        </paragraph>
+    </description>
+</bug>

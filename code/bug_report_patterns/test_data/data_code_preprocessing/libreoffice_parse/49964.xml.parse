@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>49964</id>
+    <title>crash by uncaught exception from libvisio</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Error to open a pps archive
+Upstreamed from lp#957776:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">this:
+...
+#6  0xb741c05e in __cxa_throw () from /usr/lib/i386-linux-gnu/libstdc++.</sentence>
+            <sentence id="3.2">so.6
+No symbol table info available.</sentence>
+            <sentence id="3.3">#7  0xac5aa8e6 in libvisio::readU8(WPXInputStream*) () from /usr/lib/libreoffice/program/.</sentence>
+            <sentence id="3.4">.</sentence>
+            <sentence id="3.5">/program/libvisioimportlo.</sentence>
+            <sentence id="3.6">so
+No symbol table info available.</sentence>
+            <sentence id="3.7">#8  0xac586b08 in libvisio::VisioDocument::isSupported(WPXInputStream*) () from /usr/lib/libreoffice/program/.</sentence>
+            <sentence id="3.8">.</sentence>
+            <sentence id="3.9">/program/libvisioimportlo.</sentence>
+            <sentence id="3.10">so
+...</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">looks like a uncaught exception from libvisio, for more details see downstream.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">@Fridrich: Care to have a look?</sentence>
+        </paragraph>
+    </description>
+</bug>

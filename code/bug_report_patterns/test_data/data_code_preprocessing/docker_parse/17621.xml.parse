@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17621</id>
+    <title>Panic during restart of containers attached to multiple networks. Found during testing of fix for #17526.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:</sentence>
+            <sentence id="1.2">Panic during restart of containers attached to multiple networks.</sentence>
+            <sentence id="1.3">Found during testing of fix for #17526.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Environment details (AWS, VirtualBox, physical, etc.):</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">HP Public Cloud (OpenStack)</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">How reproducible:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Every time</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Steps to Reproduce:</sentence>
+            <sentence id="13.2">1 Run a container, attached to a specific network with '--net=&lt;network&gt;' and '--restart=always'</sentence>
+            <sentence id="13.3">2 Attach the container to a second network with 'docker network connect &lt;network&gt; &lt;container&gt;'</sentence>
+            <sentence id="13.4">3 Reboot container host</sentence>
+            <sentence id="13.5">4 Observe that container is not running.</sentence>
+            <sentence id="13.6">5 Attempt to start with 'docker start &lt;container&gt;'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Actual Results:</sentence>
+            <sentence id="14.2">Container fails to start on boot, subsequent 'docker start &lt;container&gt;' command nets:</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Expected Results:</sentence>
+            <sentence id="16.2">Container should be started, connected to all connected networks at reboot.</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Additional info:</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Log output during shutdown (after issuing 'sudo reboot' command):</sentence>
+        </paragraph>
+        <paragraph id="78">
+            <sentence id="78.1">Log during automatic startup of affected containers:</sentence>
+        </paragraph>
+        <paragraph id="80">
+            <sentence id="80.1">Additional log output from manual start of an affected container:</sentence>
+        </paragraph>
+    </description>
+</bug>

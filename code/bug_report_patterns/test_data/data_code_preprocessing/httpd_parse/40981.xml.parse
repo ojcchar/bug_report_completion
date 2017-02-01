@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>40981</id>
+    <title>Apache2 service does not start after httpd.conf is modified.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The Apache2 service does not restart after the httpd.conf file is modified.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Add to httpd.conf
+# For PHP 5 
+LoadModule php5_module "C:/PHP/php5apache2.</sentence>
+            <sentence id="2.2">dll"
+AddType application/x-httpd-php .</sentence>
+            <sentence id="2.3">php</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1"># configure the path to php.ini
+PHPIniDir "C:/PHP/"</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The Apache2 service does not restart with the error message:
+The Apache2.2 service terminated with service-specific error 1.</sentence>
+        </paragraph>
+    </description>
+</bug>

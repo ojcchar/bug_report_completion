@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13665</id>
+    <title>docker kill sends SIGKILL regardless of -s flag</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As of Docker 1.7 RC1, it seems that 'POST /containers/:name/kill' ignores the 'signal' parameter, always sending SIGKILL.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Here's a quick test run on a 1.7.1 RC machine, sending SIGWINCH to 'top' running in 'busybox':</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Here's the relevant log output:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">And the same on a 1.6.2 machine:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"""
+time="2015-06-02T14:18:05Z" level=debug msg="Calling POST /containers/{name:.*}/kill"
+time="2015-06-02T14:18:05Z" level=info msg="POST /v1.18/containers/15150f649f3a9e228df542e60519bfe7a9839b3a9e51ace77589a602baf3b50a/kill?signal=SIGWINCH"
+time="2015-06-02T14:18:05Z" level=info msg="+job kill(15150f649f3a9e228df542e60519bfe7a9839b3a9e51ace77589a602baf3b50a, SIGWINCH)"
+time="2015-06-02T14:18:05Z" level=debug msg="Sending 28 to 15150f649f3a9e228df542e60519bfe7a9839b3a9e51ace77589a602baf3b50a"
+time="2015-06-02T14:18:05Z" level=info msg="-job kill(15150f649f3a9e228df542e60519bfe7a9839b3a9e51ace77589a602baf3b50a, SIGWINCH) = OK (0)""'
+"""
+</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4567</id>
+    <title>EntiytManager's QueryImpl mishandles ordinal position of HQL-style positional parameters</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Even though JPAQL does not allow such a syntax, HQL allow JDBC-style positional parameters to be used (?as opposed to ?1 which JPA requires).</sentence>
+            <sentence id="1.2">Currently there is a bug in org.hibernate.ejb.QueryImpl which mishandles the ordinal position for these parameters causing them to be "off by one".</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The symptom is an error like : java.lang.IllegalArgumentException: Unable to locate parameter with position [1]</sentence>
+        </paragraph>
+    </description>
+</bug>

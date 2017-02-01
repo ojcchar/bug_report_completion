@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>121640</id>
+    <title>[Contributions] CCombo objects contributed to toolbars perceive spurious typing</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I wrapped a CCombo into a ControlContribution and added it to a view toolbar.</sentence>
+            <sentence id="1.2">It thinks that someone is typing at when the view comes up the first time.</sentence>
+            <sentence id="1.3">The stacktrace below shows that some WM_COMMAND is being reinterpreted as typing.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This sure produces funny-looking results, since even if the Editable flag is false and the READ_ONLY property is true, the spurious characters are accepted into the Text and are displayed.</sentence>
+        </paragraph>
+    </description>
+</bug>

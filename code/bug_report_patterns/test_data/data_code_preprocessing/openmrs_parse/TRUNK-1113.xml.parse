@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1113</id>
+    <title>Liquibase demo dataset has bad data in program table</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The liquibase demo dataset that gets run by the wizard has bad data in the program table.</sentence>
+            <sentence id="1.2">There are three rows, whose concept ids are 9, 10, and 11.</sentence>
+            <sentence id="1.3">They're labeled as HIV Program, MDR-TB Program, and Malaria Program, but the concepts are actually Blood Sugar, Bronchitis Acute, and Bronchitis Recurrent.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Three possible fixes:</sentence>
+            <sentence id="2.2">* (Best) In the demo dataset, add concepts for those 3 programs, and change the lines in the program table to point to them.</sentence>
+            <sentence id="2.3">* (Medium) There's a concept 5487 called TUBERCULOSIS TREATMENT OR DOT PROGRAM.</sentence>
+            <sentence id="2.4">Remove those 3 entries in the program table, but create a new one called TB Program, referencing 5487.</sentence>
+            <sentence id="2.5">* (Worst) Just delete the 3 programs.</sentence>
+        </paragraph>
+    </description>
+</bug>

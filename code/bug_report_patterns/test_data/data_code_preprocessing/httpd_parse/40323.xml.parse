@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>40323</id>
+    <title>mod_ext_filter`s ExtFilterDefine exhibits problems with case</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Standard httpd.conf directives added for mod_ext_filter:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">ExtFilterDefine myfilterZ cmd="/scriptpath/scriptname.</sentence>
+            <sentence id="2.2">pl"
+&lt;Location /home&gt;
+  SetOutputFilter myfilterZ
+&lt;/Location&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Apache config test passes, but on making a request that should hit the filter,
+the following error is logged:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">[Fri Aug 25 10:07:42 2006] [error] [client 192.168.56.15] couldn't find
+definition of filter 'myfilterz'</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Workaround was to change mod configuration parameters and location directive to
+all lowercase.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">ExtFilterDefine myfilterz cmd="/scriptpath/scriptname.</sentence>
+            <sentence id="6.2">pl"
+&lt;Location /home&gt;
+  SetOutputFilter myfilterz
+&lt;/Location&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

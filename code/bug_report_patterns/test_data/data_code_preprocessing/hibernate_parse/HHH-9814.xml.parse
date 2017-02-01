@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9814</id>
+    <title>Illegal SQL generated for count distinct queries of embeddables</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">the following query generates illegal SQL if the entity uses an embeddable as primary key:</sentence>
+            <sentence id="1.5">This is just the simplest example for such a query. In reality the query is much more complicated and involves left joins (the reason for the distinct). It does not matter whether this is done in JPQL or as a criteria query.</sentence>
+            <sentence id="1.6">The generated SQL is not legal in Oracle:</sentence>
+            <sentence id="1.10">Trying to reformulate as e.g. {{distinct concat(field1,field2)}} fails in HQL. </sentence>
+            <sentence id="1.11">For Oracle in particular the correct SQL should probably look more like:</sentence>
+        </paragraph>
+    </description>
+</bug>

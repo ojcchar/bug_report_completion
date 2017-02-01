@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>50278</id>
+    <title>-DFOREGROUND and ap_unixd_killpg()/ap_os_killpg()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">-DFOREGROUND mutes setsid() call so entire httpd processes collection (master + childs) inherites process group from the parent process which is usually some sort of supervisor process.</sentence>
+            <sentence id="1.2">Regardless of fact that https is NOT process group leader in given case httpd uses *_killpg() call[s] during cleanup stage what effectively kills entire process group httpd do not own.</sentence>
+            <sentence id="1.3">This is complete disaster and apache must not do this.</sentence>
+            <sentence id="1.4">httpd should check whether it is process group leader or not first.</sentence>
+            <sentence id="1.5">If not, it must not kill process group it belongs.</sentence>
+            <sentence id="1.6">Saying that I see no other way as to keep childs PIDs somewhere and kill them separately one by one.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In theory "httpd -DFOREGROUND -DNO_DETACH" should make apache run as well behaved application, but we see that this does not work at all.</sentence>
+            <sentence id="2.2">In some cases it can kill init and this is what must never happen.</sentence>
+        </paragraph>
+    </description>
+</bug>

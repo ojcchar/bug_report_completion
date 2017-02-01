@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10410</id>
+    <title>Co-linear points are causing an exception</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When trying to create a polygon with co-linear latitudes hibernate spatial is throwing an exception.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Here is the text from the developer who found the issue.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The shape it is constructing is org.geolatte.geom.Polygon</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">SRID=4326;POLYGON((4.442222 48.633333,5.398611 48.633333,6.141667 48.633333,5.942222 48.495556,5.169167 48.389444,4.528333 48.573056,4.442222 48.633333))
+Crs is org.geolatte.geom.crs.Geographic2DCoordinateReferenceSystem@969543e0</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">SDOGeometry it is converting it to is (2003,4326,null,null,null)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The shape consists of following 3 lines, which are being appended to make a polygon.</sentence>
+            <sentence id="6.2">(should it be saved as another type of shape???</sentence>
+            <sentence id="6.3">Ie multi-line)
+Lat1                                        Long1                                    Lat2                                        Long2
+48.63333		4.442222		48.63333		5.398611
+48.63333		5.398611		48.63333		6.141667
+48.63333		6.141667		48.49556		5.942222</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">However as they are all on the same latitude, they will be in a straight line when persisting when using hibernate.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Here is the stack trace copied from eclipse when the actual exception is thrown.</sentence>
+        </paragraph>
+    </description>
+</bug>

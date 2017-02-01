@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-959</id>
+    <title>most concept object's 'name' methods shouldn't return voided names</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">openmrs1.4</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">the following methods in the Concept domain object will return voided concept_names and shouldn't:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">getNameKnownAs(String term, Locale inLocale),
+findNameTaggedWith(ConceptNameTag conceptNameTag),
+getPreferredName(Locale forLocale),
+getBestName(Locale locale),
+getCompatibleNames(Locale desiredLocale),
+getBestShortName(Locale locale),
+getShortNameInLocale(Locale locale),
+getShortestName(Locale locale, Boolean exact),
+isNamed(String name),</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">and maybe</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">hasName(String name, Locale locale)</sentence>
+        </paragraph>
+    </description>
+</bug>

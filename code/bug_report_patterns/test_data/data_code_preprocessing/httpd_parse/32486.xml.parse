@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>32486</id>
+    <title>TLS Upgrade: Duplicate Upgrade Headers</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I haven't had a chance to debug it, but with 'SSLEngine Optional' in -trunk, the
+server has a duplicated 'Ugrade' header.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Headers from  http://svn.northnitch.com/</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">HTTP/1.1 200 OK
+Date: Thu, 02 Dec 2004 03:28:42 GMT
+Server: Apache/2.1.2-dev (Unix) mod_ssl/2.1.2-dev OpenSSL/0.9.7c-p1 DAV/2 SVN/1.1.1
+Upgrade: TLS/1.0, HTTP/1.1
+Upgrade: TLS/1.0, HTTP/1.1
+Last-Modified: Sat, 29 May 2004 06:45:19 GMT
+ETag: "5868bd-487-91401dc0"
+Accept-Ranges: bytes
+Content-Length: 1159
+Content-Type: text/html; charset=ISO-8859-1</sentence>
+        </paragraph>
+    </description>
+</bug>

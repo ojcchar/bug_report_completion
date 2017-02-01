@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-57</id>
+    <title>Liquidbase update 20100517-1545 failing</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm unable to install the latest version of trunk because liquibase changeset 20100517-1545 is failing.</sentence>
+            <sentence id="1.2">It's throwing a "multiple results in getInt" exception.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">It looks like this is the problematic sql query: SELECT concept_id FROM concept_name WHERE name = 'True'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">In the haiti-mdr database, the name "True" appears three times in the concept_name table--because it is specified as the name, short name, and synonym for the "True" concept.</sentence>
+        </paragraph>
+    </description>
+</bug>

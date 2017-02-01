@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1287</id>
+    <title>Problem with WAS ExtendedJTATransaction not available when using MDB</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm currently having problems with the WAS6 ExtendedJTATransaction when using an MDB to update the database.</sentence>
+            <sentence id="1.2">The problem does not occur when using CMT SSBs.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">It looks like the ExtendedJTATransaction is simply not available after the CMT completes and the WebSphereExtendedJTATransactionLookup class attempts to look it up at java:comp/websphere/ExtendedJTATransaction as part of the normal 'after completion' callback.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The problem occurs when the afterCompletion callback event fires and the ConnectionManager.isAggressiveRelease() method is called from ConnectionManager.afterTransaction().</sentence>
+            <sentence id="3.2">This attempts to check to see if a transaction is in progress.</sentence>
+            <sentence id="3.3">This test in fact causes the transaction manager to be created (together with a look up of the current transaction) The lookup of the ExtendedJTATransaction fails and the an exception is thrown (see stack trace below).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Although there may be an inconsistency in the way that a SSB and MDB operate, It seems fair to say that the transaction may not be available if it has completed.</sentence>
+            <sentence id="4.2">A workaround is therefore requested.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Stack trace:</sentence>
+        </paragraph>
+    </description>
+</bug>

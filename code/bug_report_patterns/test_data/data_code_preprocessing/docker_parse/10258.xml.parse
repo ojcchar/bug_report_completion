@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10258</id>
+    <title>Docker push in v1.4.1 doesn't work against private registry running behind nginx ssl proxy (with suggested config)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When pushing against a private registry (running v0.9.1), it fails with the following message:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">commands run:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The reason is because v1.4.1 attempts to hit ``https://docker.example.com/v2/``.</sentence>
+            <sentence id="4.2">With the suggested nginx config (https://github.com/docker/docker-registry/blob/f96d5ec35a797953cee18a35410e5c0cd5394e56/contrib/nginx/nginx_1-3-9.conf#L30), this returns a 401 (unauthorized).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Forcing a 404 for the ``/v2/`` url makes docker v1.4.1 fallback to the ``/v1/`` restful endpoint, and everything works great.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Example:</sentence>
+        </paragraph>
+    </description>
+</bug>

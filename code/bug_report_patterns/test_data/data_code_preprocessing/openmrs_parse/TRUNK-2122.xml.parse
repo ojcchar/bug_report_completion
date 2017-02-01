@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2122</id>
+    <title>NullPointerException thrown when displaying certain controller forms</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Affects: 
+Manage Privileges Form: /admin/users/privilege.</sentence>
+            <sentence id="1.2">form 
+Order Type: /admin/orders/orderType.</sentence>
+            <sentence id="1.3">list
+Concept Class: /admin/concepts/conceptClass.</sentence>
+            <sentence id="1.4">form</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Since the controller is a session form, the command object will be saved in the session attribute.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">AbstractSessionManager$Session.setAttribute() is comparing (value == null) on an object previously
+loaded into the session.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This bug seems only to appear with Jetty on more than one request for a controller form.</sentence>
+            <sentence id="4.2">This issue does not occur when running on Tomcat.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">See TRUNK-1850</sentence>
+        </paragraph>
+    </description>
+</bug>

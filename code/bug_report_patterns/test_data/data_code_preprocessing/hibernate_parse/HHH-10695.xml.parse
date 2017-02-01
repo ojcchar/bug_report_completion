@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10695</id>
+    <title>MySQL fails using the NCLOB type</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Just like with [PostgreSQL|https://hibernate.atlassian.net/browse/HHH-10693], MySQL [does not support all nationalized types|http://dev.mysql.com/doc/refman/5.7/en/string-types.html] (e.g. NCLOB).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">To replicate this issue, you need to run the following tests using MySQL:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1"># {{org.hibernate.userguide.mapping.basic.NClobCharArrayTest}}
+# {{org.hibernate.userguide.mapping.basic.NClobStringTest}}
+# {{org.hibernate.userguide.mapping.basic.NClobTest}}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">On the other hand, [{{NVARCHAR}} is supported|http://dev.mysql.com/doc/refman/5.7/en/string-type-overview.html]:</sentence>
+        </paragraph>
+    </description>
+</bug>

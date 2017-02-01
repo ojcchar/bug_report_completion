@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10046</id>
+    <title>docker exec does not properly add process to cgroups</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">reproducing:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Notice the values changing when you run this for many times.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Looking at the code the issue seems to be that when 'nsenter-exec' starts there is a race between the parent adding 'nsenter-exec' to appropriate 'cgroups' and launching the user process.</sentence>
+            <sentence id="4.2">Only a subset of 'cgroups' have been added before the fork(at least in my machine).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Any recommendations for the best way of solving this?</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">/cc @crosbymichael</sentence>
+        </paragraph>
+    </description>
+</bug>

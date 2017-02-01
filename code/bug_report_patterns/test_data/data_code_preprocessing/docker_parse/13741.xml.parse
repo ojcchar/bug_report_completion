@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13741</id>
+    <title>docker run ubuntu:14.04 /bin/echo 'Hello world' fails on new Wndows boot2docker install</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">initializing...
+Virtual machine boot2docker-vm already exists</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">starting...
+Waiting for VM and Docker daemon to start...
+...........</sentence>
+            <sentence id="2.2">.</sentence>
+            <sentence id="2.3">ooo
+Started.</sentence>
+            <sentence id="2.4">Writing C:\Users\lwilson.boot2docker\certs\boot2docker-vm\ca.pem
+Writing C:\Users\lwilson.boot2docker\certs\boot2docker-vm\cert.pem
+Writing C:\Users\lwilson.boot2docker\certs\boot2docker-vm\key.pem</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">To connect the Docker client to the Docker daemon, please set:
+ export DOCKER_HOST=tcp://192.168.59.103:2376
+ export DOCKER_CERT_PATH='C:\Users\lwilson.boot2docker\certs\boot2docker-vm'
+ export DOCKER_TLS_VERIFY=1</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">IP address of docker VM:
+192.168.59.103</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">setting environment variables ...
+Writing C:\Users\lwilson.boot2docker\certs\boot2docker-vm\ca.pem
+Writing C:\Users\lwilson.boot2docker\certs\boot2docker-vm\cert.pem
+Writing C:\Users\lwilson.boot2docker\certs\boot2docker-vm\key.pem
+ export DOCKER_HOST=tcp://192.168.59.103:2376
+ export DOCKER_CERT_PATH='C:\Users\lwilson\.</sentence>
+            <sentence id="5.2">boot2docker\certs\boot2docker-vm'
+ export DOCKER_TLS_VERIFY=1</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">You can now use 'docker' directly, or 'boot2docker ssh' to log into the VM.</sentence>
+            <sentence id="6.2">Welcome to Git (version 1.9.5-preview20150319)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Run 'git help git' to display the help index.</sentence>
+            <sentence id="7.2">Run 'git help &lt;command&gt;' to display help for specific commands.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">lwilson@LENOVO-LAPTOP ~
+$ docker run ubuntu:14.04 /bin/echo 'Hello world' 
+FATA[0000] Error response from daemon: Cannot start container 5ecfa25102f612cad0208ecc0a0a18507279bce72ef313ff5a9bc7cf786c11b: [8] System error: exec: "C:/Program Files (x86)/Git/bin/echo": stat C:/Program Files (x86)/Git/bin/echo: no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">lwilson@LENOVO-LAPTOP ~</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">YES, the folder exists ...</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">lwilson@LENOVO-LAPTOP ~
+$ "C:/Program Files (x86)/Git/bin/echo" hi
+hi</sentence>
+        </paragraph>
+    </description>
+</bug>

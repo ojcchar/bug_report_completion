@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4954</id>
+    <title>ObsService.saveObs should throw a validation exception if the obs and its encounter point to different persons</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If I add an obs for person p1 to an encounter for patient p2, and try to save this, the API should fail with a validation exception.</sentence>
+            <sentence id="1.2">But this is not happening.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">-- original text below</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">When a new obs is created with person p1, and it is associated to encounter whose patient is p2, the obs needs to be updated to encounter's patient.</sentence>
+            <sentence id="3.2">But it is not happening.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{code:java}
+	@Test
+	@Verifies(value = "should add person with encounter patient for a new obs", method = "saveObs(Obs,String)")
+	public void saveObs_shouldUpdateObsPersonValueWithEncounterPatientForNewObs() throws Exception {
+		executeDataSet(ENCOUNTER_OBS_XML);</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">ObsService os = Context.getObsService();
+		ConceptService cs = Context.getConceptService();
+		EncounterService es = Context.getEncounterService();
+		PersonService ps = Context.getPersonService();</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Obs o = new Obs();
+		o.setConcept(cs.getConcept(3));
+		o.setDateCreated(new Date());
+		o.setCreator(Context.getAuthenticatedUser());
+		o.setLocation(new Location(1));
+		o.setObsDatetime(new Date());
+		o.setValueText("Testing");
+		o.setPerson(ps.getPerson(2)); // Setting this person (2) as different from that of encounter person (7)
+		o.setEncounter(es.getEncounter(2));</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Obs o1 = os.saveObs(o,null);</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">assertNotNull(o1);
+		assertNotNull(o1.getPerson());
+		assertTrue(o1.getPerson().</sentence>
+            <sentence id="8.2">getId().</sentence>
+            <sentence id="8.3">equals(7)); //This fails with the value of person=2
+	}
+{code}</sentence>
+        </paragraph>
+    </description>
+</bug>

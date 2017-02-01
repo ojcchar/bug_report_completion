@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2698</id>
+    <title>optimistic-lock="dirty" does not throw StaleObjectException if object modified by another session using detached objects</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We have two clients, a web client and a swing client.</sentence>
+            <sentence id="1.2">With optimistic-lock="dirty" defined for an entity, if two web clients modify the same field on the same entity, it throws StaleObjectException as expected.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">We also have a swing client that sends detached entities back and forth.</sentence>
+            <sentence id="2.2">If the detached client modifies and entity at the same time as the web client, no exception is thrown, but the web client fails the update.</sentence>
+            <sentence id="2.3">The reason being is the web client has an extra where clause that includes the modified field, instead of just the primary key.</sentence>
+            <sentence id="2.4">Since the detached client changed the value already, the web client finds nothing to update.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For example, changing description field, web client does something like:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">update MyEntity set description = "web description" where id = 1 and description = "old description";</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">detached client does before web client completes:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">update MyEntity where id = 1 set description = "some other description";</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">web client continues and doesn't find anything to update, because where clause in first query fails.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I would think in this particular scenario, if the web client finds nothing to update, it would throw a StaleObjectStateException.</sentence>
+        </paragraph>
+    </description>
+</bug>

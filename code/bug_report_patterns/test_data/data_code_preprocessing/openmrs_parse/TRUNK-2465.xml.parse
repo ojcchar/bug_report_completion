@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2465</id>
+    <title>Ordering of encounters on formentry tab incorrect</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When fixing these tickets: TRUNK-2103 and this one TRUNK-1375 the display order of encounters on the personFormEntry portlet changed from the default (desc encounterDatetime?) to ordering on patient name.</sentence>
+            <sentence id="1.2">The limiting of the encounters seems to be done before the sorting, so its getting the first encounters (asc encounterDatetime).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The best fix for this would be to pass the sort order and number of results to the encounter service to get the desired number of results in the right order from the database instead of relying on the PatientEncountersPortletController and PortletController to provide the big long list of encounters</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13877</id>
+    <title>Dockerfile CMD &amp; ENTRYPOINT Gotcha</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Aside from the standard gotchas mentioned in the docs between the array and string forms of 'CMD' and 'ENTRYPOINT' markers, I've noticed another gotcha behaviour that is at the very least SUPER unproductive.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">List the steps to reproduce the issue:</sentence>
+            <sentence id="5.2">1 Take the following dockerfile as an example</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.4">1 docker build -t test .</sentence>
+            <sentence id="7.5">2 docker run test</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Describe the results you received:</sentence>
+            <sentence id="8.2">The result of 'docker run &lt;imagename&gt;' will be:</sentence>
+            <sentence id="8.3">'-: 1: -: [/bin/echo]: not found'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Describe the results you expected:
+Expected behaviour would be that the 'ENTRYPOINT' line be interpreted as:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"' Dockerfile
+ENTRYPOINT ["/bin/echo"]
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

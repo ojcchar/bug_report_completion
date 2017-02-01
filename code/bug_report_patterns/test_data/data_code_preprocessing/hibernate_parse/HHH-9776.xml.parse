@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9776</id>
+    <title>org.hibernate.cache.infinispan.impl.BaseRegion.getElementCountInMemory() is no longer correct</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As of Infinispan 7, Cache.size() returns the total size of the cluster-wide cache space.</sentence>
+            <sentence id="1.2">This method should use cache.getAdvancedCache().withFlags(Flag.CACHE_MODE_LOCAL, Flag.SKIP_CACHE_LOAD).size() to return just the in-memory entries.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>35657</id>
+    <title>Eclipse crashes and throws exception when starting up in Chinese locales</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Overview Description:
+For any Chinese locale on Sun Solaris 9, Eclipse will crash and throw a null
+pointer exception when the user attempts to start Eclipse in that environment.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Steps to Reproduce:</sentence>
+            <sentence id="2.2">1 Log into Solaris using any Chinese locale (e.g., zh_TW.</sentence>
+            <sentence id="2.3">BIG5, zh_CN.</sentence>
+            <sentence id="2.4">GB18030, zh).</sentence>
+            <sentence id="2.5">2 Open a terminal session and start Eclipse.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Expected Results:
+Eclipse should start normally.</sentence>
+            <sentence id="4.2">I have tested this with a Japanese locale
+(ja_JP.</sentence>
+            <sentence id="4.3">eucJP), and Eclipse started normally.</sentence>
+            <sentence id="4.4">Note that no Eclipse language packs
+were installed, as my intention was only to test the functionality of an English
+version of Eclipse in a different locale.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Build Date &amp; Platform:
+Build 200303202147 (RC3a) on Sun Solaris 9</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Additional Builds and Platforms:</sentence>
+            <sentence id="6.2">- Also Occurs On</sentence>
+            <sentence id="6.3">Build 200211071448 (2.0.2) on Sun Solaris 9</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">However, on Eclipse 2.0.2, a different exception is thrown, and instead of
+crashing, Eclipse hangs.</sentence>
+            <sentence id="7.2">Here is the exception:</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>1925</id>
+    <title>HOME and PATH vars lost when using FROM</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Building a Dockerfile against an existing image appears to import all of the ENV variables except HOME and PATH.</sentence>
+            <sentence id="1.2">This is making it very difficult to build a good base image for my project...</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">**base/Dockerfile:**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**test/Dockerfile:**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I build the base image using 'docker build -t base base' and get:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">But when I build the test image using 'docker build test' I get:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">As you can see, the 'TEST' var keeps it's value while 'HOME' does not.</sentence>
+            <sentence id="12.2">The 'PATH' var also loses it's value.</sentence>
+        </paragraph>
+    </description>
+</bug>

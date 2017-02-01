@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>28051</id>
+    <title>Connecting to an overlay network with the network ID causes the network to not get deleted properly</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you create an attachable overlay network and then connect a container to it using the network's ID, then deleting the container and then the network results in the network not really getting deleted, but instead somehow getting downgraded to a local network.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**Steps to reproduce the issue:**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Describe the results you received:**</sentence>
+            <sentence id="5.2">The 'testnet' network showed up as a "local" overlay network.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Describe the results you expected:**</sentence>
+            <sentence id="6.2">The 'testnet' network would be gone.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="7.2">This happens deterministically.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.2">Docker version 1.12.2-cs2</sentence>
+        </paragraph>
+    </description>
+</bug>

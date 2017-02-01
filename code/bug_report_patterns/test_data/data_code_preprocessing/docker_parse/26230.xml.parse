@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26230</id>
+    <title>support set shm-size to images when docker build</title>
+    <description>
+        <paragraph id="3">
+            <sentence id="3.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="3.3">Linux adc01klb 4.1.12-37.6.3.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="4.2">1 Run command like "docker build --shm-size=512K -t test -f test1.dockerfile ."</sentence>
+            <sentence id="4.3">2 After build, run into the container using the image just built:</sentence>
+            <sentence id="4.4">[root@adc01klb tmp]# docker run -it ff24885393fa bash</sentence>
+            <sentence id="4.5">[root@e0405006caee /]# df -h</sentence>
+            <sentence id="4.6">Filesystem Size Used Avail Use% Mounted on</sentence>
+            <sentence id="4.7">/dev/loop0 45G 196M 42G 1% /</sentence>
+            <sentence id="4.8">tmpfs 7.3G 0 7.3G 0% /dev</sentence>
+            <sentence id="4.9">tmpfs 7.3G 0 7.3G 0% /sys/fs/cgroup</sentence>
+            <sentence id="4.10">/dev/loop0 45G 196M 42G 1% /etc/resolv.</sentence>
+            <sentence id="4.11">conf</sentence>
+            <sentence id="4.12">/dev/loop0 45G 196M 42G 1% /etc/hostname</sentence>
+            <sentence id="4.13">/dev/loop0 45G 196M 42G 1% /etc/hosts</sentence>
+            <sentence id="4.14">shm 64M 0 64M 0% /dev/shm</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Describe the results you received:**</sentence>
+            <sentence id="5.2">The mount size of /dev/shm is still 64M</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Describe the results you expected:**</sentence>
+            <sentence id="6.2">The mount size of /dev/shm should be the same as we specified.</sentence>
+        </paragraph>
+    </description>
+</bug>

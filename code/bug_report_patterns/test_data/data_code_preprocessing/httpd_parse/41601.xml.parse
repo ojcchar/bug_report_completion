@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>41601</id>
+    <title>proxied redirects lose output headers</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Problem: With Apache configured as a reverse HTTP proxy, when the backend server
+returns a redirect, any output headers (other than Location) are getting lost.</sentence>
+            <sentence id="1.2">I
+noticed and reproduced this with Set-Cookie but it applies to others too.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Cause: What's happening is that proxy_http_handler() in
+modules/proxy/mod_proxy_http.</sentence>
+            <sentence id="2.2">c is returning an error state (ie: not OK or DONE)
+to ap_process_request() in modules/http/http_request.c ap_invoke_handler (by way
+of ap_invoke_handler/ap_run_handler).</sentence>
+            <sentence id="2.3">This causes ap_die() to be invoked, and
+there the output headers are replaced with the error headers.</sentence>
+            <sentence id="2.4">The Location is
+specifically kept.</sentence>
+            <sentence id="2.5">The body is also potentially stripped (though for most
+redirects this is not an issue).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The bug seems to be that ap_proxy_http_process_response() - called within
+proxy_http_handler() - is being too restrictive in what HTTP status code it
+considers to be "not an error" when dealing with its error-override logic:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">So if you have 'ProxyErrorOverride On', this will return OK if the status coming
+from the backend server is &gt;= 200 or &lt; 300 only.</sentence>
+            <sentence id="5.2">Obviously redirects (which are
+not errors) fall outside of this range.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Fix: the check here needs to also include redirect status codes.</sentence>
+            <sentence id="6.2">Ie: use
+ap_is_HTTP_REDIRECT.</sentence>
+            <sentence id="6.3">There is a similar check futher up in the same function
+which also needs ammending (that deals with passing the body through).</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This bug is a regression in behaviour from the 2.0 branch (currently we run</sentence>
+            <sentence id="7.2">2 0.58).</sentence>
+            <sentence id="7.3">Bug discovered and fix tested with 2.2.4 (will attach patch).</sentence>
+            <sentence id="7.4">Looking</sentence>
+            <sentence id="7.5">at SVN, the current behaviour has been in the 2.2 branch since before 2.2.0, and</sentence>
+            <sentence id="7.6">it is also in current trunk.</sentence>
+        </paragraph>
+    </description>
+</bug>

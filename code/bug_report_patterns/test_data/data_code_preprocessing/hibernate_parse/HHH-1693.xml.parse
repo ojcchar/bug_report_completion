@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1693</id>
+    <title>subselect fetching a collection with a composite-key fails</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The sql generated for a collection mapping that uses subselect fetching and a composite key will not run under SQLServer2000.</sentence>
+            <sentence id="1.2">Batch fetching can be used as an alternative.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">example mapping:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;bag name="contactMedia" table="SUBJECT_CONTACT_MEDIA"  fetch="subselect"&gt;
+			&lt;key&gt;
+				&lt;column name="external_id"/&gt;
+				&lt;column name="batch_id"/&gt;
+			&lt;/key&gt;
+			&lt;one-to-many class="..."/&gt;
+		&lt;/bag&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

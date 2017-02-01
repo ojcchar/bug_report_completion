@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27129</id>
+    <title>Do not update /var/lib/docker/volumes/metadata.db if the volume is created by a volume plugin</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Problem**</sentence>
+            <sentence id="1.2">The problem arises when the data volumes are shared between multiple docker-engines using a volume plugin.</sentence>
+            <sentence id="1.3">Removing a data volume created by the plugin (docker volume rm vol-name) on one of the docker-engine removes the entry for the volume in the metadata.db of that particular docker host.</sentence>
+            <sentence id="1.4">The removed volume entry is still present in the metadata.db of the other docker hosts which are running the other docker-engines.</sentence>
+            <sentence id="1.5">This leads to a situation where a volume cannot be created again with the name same as the one deleted in one of the docker hosts which have a shared view of the volumes using the plugin.</sentence>
+            <sentence id="1.6">Other commands such as 'docker volume ls/rm/inspect' behave as expected and report that the volume is not present.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">**Since, the existence of a volume is checked with the plugin for every command, I believe that it is appropriate to check with the plugin when a 'docker volume create -d plugin --name vol-name' is issued instead of just checking the metadata.db alone and concluding that the volume is created/present where the reality is different.</sentence>
+            <sentence id="2.2">**</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">It is undesirable to restart the docker daemon in other hosts to rebuild the metadata.db for every 'docker volume rm vol-name' issued against the volumes from the plugin.</sentence>
+        </paragraph>
+    </description>
+</bug>

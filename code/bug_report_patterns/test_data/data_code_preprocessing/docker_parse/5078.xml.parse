@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>5078</id>
+    <title>Kernel crash</title>
+    <description>
+        <paragraph id="3">
+            <sentence id="3.1">Hi there,</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">On a fresh debian install on bare metal, with barely any software installed besides docker, I randomly get kernel crashes.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">It usually happens randomly, and then, running docker commands triggers these crashes again.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">For example, as I was running an 'ansible' script on my containers, I got a kernel crash (of the host):</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">It is completely unclear to me whether docker is the main source of these crashes, or if something else (hardware failure?)</sentence>
+            <sentence id="21.2">is going on.</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">It seemed to me that one specific container caused this since I couldn't access it anymore.</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">Then I tried running a 'docker commit the_suspected_container' and got the same thing</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.8">tel ghash_clmulni_intel drm_kms_helper drm cryptd i2c_algo_bit i2c_i801 iTCO_wdt wmi i2c_core iTCO_vendor_support serio_raw pcspkr evdev acpi_cpufreq mperf e1000e xhci_hcd button processor video ehci_hcd thermal_sys usbcore usb_common ext4 crc16 mbcache jbd2 dm_mod raid1 md_mod sd_mod crc_t10dif ahci libahci libata scsi_mod</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

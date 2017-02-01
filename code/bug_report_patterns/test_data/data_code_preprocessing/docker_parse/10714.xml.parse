@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10714</id>
+    <title>Volume mounted :ro loses restriction when crossing a host mount point?</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Mapping a host volume ro, where host has mounts within the
+mapped path, the ro restriction is not applied once the hosts mount-point is crossed from within the container, as demonstrated when I thought I might map my entire host read-only:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Host:
+Filesystem 1K-blocks Used Available Use% Mounted on
+/dev/sda3 460030500 307655252 152375248 67% /
+tmpfs 8220152 536 8219616 1% /tmp</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">docker run -it -v /:/host:ro ubuntu bash</sentence>
+            <sentence id="3.2">root@62b3edab74c6:/# touch /host/#asdf</sentence>
+            <sentence id="3.3">touch: cannot touch '/host/#asdf': Read-only file system</sentence>
+            <sentence id="3.4">root@62b3edab74c6:/# touch /host/tmp/#asdf</sentence>
+            <sentence id="3.5">root@62b3edab74c6:/# ls -l !</sentence>
+            <sentence id="3.6">$</sentence>
+            <sentence id="3.7">ls -l /host/tmp/#asdf</sentence>
+        </paragraph>
+    </description>
+</bug>

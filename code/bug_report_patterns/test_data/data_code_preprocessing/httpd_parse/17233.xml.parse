@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17233</id>
+    <title>apachectl assumes ulimit exists</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Under Cygwin 1.3.20 on Win2kSP3, Apache 2.0.44 apachectl assumes that "ulimit" 
+exists.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This results in unsightly but it would appear otherwise benign warnings on 
+startup:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">$ .</sentence>
+            <sentence id="3.2">/apachectl start
+ulimit: ulimit: not available on this system</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">ulimit: ulimit: not available on this system</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Perhaps apachectl should test -x for the presence of ulimit first?</sentence>
+            <sentence id="5.2">or use 
+autoconf to see if it exists?</sentence>
+        </paragraph>
+    </description>
+</bug>

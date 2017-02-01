@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2857</id>
+    <title>Improper table constraint of form.encounter_type to users.user_id</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I cannot find where this constraint is created, but it is present in all of my 1.8.2 instances.</sentence>
+            <sentence id="1.2">I have looked in several liquibase changesets and sqldiffs.</sentence>
+            <sentence id="1.3">As a result, if we do not have a matching User.userId for an EncounterType.encounterTypeId, we cannot assign that EncounterType to any Form.</sentence>
+            <sentence id="1.4">This is the relevant line:</sentence>
+        </paragraph>
+    </description>
+</bug>

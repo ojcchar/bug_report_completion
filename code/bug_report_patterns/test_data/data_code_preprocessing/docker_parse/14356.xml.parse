@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14356</id>
+    <title>Proxy within container only works with proxy ip, rather than hostname</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:
+When behind a corporate proxy, http://proxy.company.com:8080/, I can set the
+proxy variables for the docker daemon on my host machine.</sentence>
+            <sentence id="1.2">However once in a
+container, ubuntu:14.04, attempting to set the proxies with</sentence>
+            <sentence id="1.4">or when building a container with</sentence>
+            <sentence id="1.6">Does not work.</sentence>
+            <sentence id="1.7">This is using the --net=host option with docker run.</sentence>
+            <sentence id="1.8">I could not figure out how to give the build access to the host network.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The trick I found was to ping proxy.company.com from my host and get the ip
+then set the proxies from within my container like so.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Environment details (AWS, VirtualBox, physical, etc.):
+physical</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">How reproducible:
+Every time</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Steps to Reproduce:</sentence>
+            <sentence id="11.2">1 Start container</sentence>
+            <sentence id="11.3">2 Set proxies</sentence>
+            <sentence id="11.4">3 apt-get / ping anything</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Actual Results:
+apt-get says:
+Can't resolve hostname proxy.company.com
+when updating</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Expected Results / What would work best:
+If it would resolve the hostname proxy.company.com and find the ip
+of the proxy itself</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Additional info:</sentence>
+        </paragraph>
+    </description>
+</bug>

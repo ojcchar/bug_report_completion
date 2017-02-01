@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-838</id>
+    <title>CannotResolveClassException: org.openmrs.User$$EnhancerByCGLIB$$fff1cb7</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">OpenMRS Version: 1.5.0 beta2 Build 8803</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Related Tickets: TRAC-1588, TRAC-1604</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I added the xstream-1.3.1.</sentence>
+            <sentence id="3.2">jar to my local openmrs-branches-1.5.</sentence>
+            <sentence id="3.3">x workspace, ran a clean build, and deployed the new WAR to Tomcat.</sentence>
+            <sentence id="3.4">I was able to save, retrieve, edit a few cohort definitions (serialization and deserialization was working fine).</sentence>
+            <sentence id="3.5">Then on restart of Tomcat, the exception above is thrown on any request that tries to deserialize the cohort definitions that were saved.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I assume this is due to the fact that the classpath has been refreshed and the class org.openmrs.User$$EnhancerByCGLIB$$fff1cb7d no longer exists.</sentence>
+            <sentence id="4.2">We need to make sure all proxy class references are converted back to openmrs classes during serialization.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Please let me know when that is done in the 1.5.x branch.</sentence>
+        </paragraph>
+    </description>
+</bug>

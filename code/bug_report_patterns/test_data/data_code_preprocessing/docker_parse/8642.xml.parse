@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8642</id>
+    <title>On OS X, cannot pipe stdin to docker with `docker -i` as in 1.2.0</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Previously, the following would send the command `echo hi` to a new docker container (and hence print `hi`), and then exit:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">echo "echo hi" | docker run -i ubuntu</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">However, with Docker 1.3.0, the `stdin` connection is kept alive and never closed when running this same command -- ie, `hi` is printed and then the stdin connection is locked.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Is there an alternative way to send information through `stdin` and have it immediately close after, through the console?</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Motivation: I have some `go` code that attempts to pipe commands through `stdin` to newly started containers.</sentence>
+        </paragraph>
+    </description>
+</bug>

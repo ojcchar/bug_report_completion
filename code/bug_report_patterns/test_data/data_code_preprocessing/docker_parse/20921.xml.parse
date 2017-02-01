@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20921</id>
+    <title>Local volumes driver behaviour with a network mount and multiple docker engines</title>
+    <description>
+        <paragraph id="9">
+            <sentence id="9.1">Provide additional environment details (AWS, VirtualBox, physical, etc.):
+Physical machines</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**List the steps to reproduce the issue:**</sentence>
+            <sentence id="10.2">1 Mount an NFS location as /var/lib/docker/volumes on 2 docker engines</sentence>
+            <sentence id="10.3">2 Create a volume, named `example` when running a container on 1st docker engine</sentence>
+            <sentence id="10.4">3 Perform `docker volume ls` on the other docker engine - the volume will not be listed.</sentence>
+            <sentence id="10.5">`volume rm` or `volume inspect` will not work either.</sentence>
+            <sentence id="10.6">4 Create a new container on the 2nd docker engine with the `-v example:/path` - this container on the second host is able to read the volume.</sentence>
+            <sentence id="10.7">5 Restart 2nd docker engine, `docker volume ls` will list this volume.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you received:**</sentence>
+            <sentence id="11.2">A docker engine only scans the volumes directory upon startup, as seen [here](https://github.com/docker/docker/blob/master/volume/local/local.go#L79).</sentence>
+            <sentence id="11.3">After that, the data structure used by the local driver knows only about volumes that were created, deleted by the docker engine running on that particular host.</sentence>
+            <sentence id="11.4">If changes happened from another docker-engine to this shared network location, the docker engine doesn't seem to pick it up.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Describe the results you expected:**</sentence>
+            <sentence id="12.2">If behaviour were changed to listing all volumes under that folder, and not only the ones created by the docker-engine running on that particular host, multi-host volume management will probably become much easier and not need much more than the local volume plugin.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">There is probably additional complexity here which I'm not appreciating, but just wanted to raise this anyway.</sentence>
+        </paragraph>
+    </description>
+</bug>

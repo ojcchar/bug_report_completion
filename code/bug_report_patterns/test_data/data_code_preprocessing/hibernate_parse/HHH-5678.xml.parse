@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5678</id>
+    <title>Entity Remains in L2 Cache After StaleObjectStateException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">StaleObjectStateExceptions will happen, and the optimistic locking mechanism is a great benefit overall for our application.</sentence>
+            <sentence id="1.2">Unfortunately after this occurs, the invalid (version mismatch with DB) version of the entity can get 'stuck' in the L2 cache.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">We could write application level code to handle this, but it's ugly and intrusive.</sentence>
+            <sentence id="2.2">The best solution is for Hibernate Core to evict from L2 whenever a StaleObjectStateException is thrown.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">If you didn't want to change current behavior this could be configurable I guess.</sentence>
+            <sentence id="3.2">The default behavior should probably be 'evict'.</sentence>
+        </paragraph>
+    </description>
+</bug>

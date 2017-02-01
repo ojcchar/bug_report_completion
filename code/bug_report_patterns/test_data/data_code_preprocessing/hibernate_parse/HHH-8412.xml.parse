@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8412</id>
+    <title>copy blob </title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Scenario:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The entity manager and a blob are defined in an entity class as:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">@PersistenceContext transiet EntityManager em;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">@Basic(fetch=FetchType.LAZY)
+@Column (insertable=true,updatable=false,name="document")
+@Blob 
+private Blob doc;
+public InputStream getDoc() { return doc.getBinaryStream(); }
+public void setDoc(InputStream is) {
+    Session hibnernateSession=(Session)em.getDelegate();
+    LobCreator creator=Hibernate.getLobCreator(hibernateSession);
+    doc=createBlob(is, is.available());
+}
+...</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">When copying an entity instance called oldAttachment to an instance called newAttachment  under Hibernate 4.1.7.</sentence>
+            <sentence id="5.2">Final,   we can do something like:
+  newAttachment.setDoc(  oldAttachment.getDoc()  );
+then call   
+   save( newAttachment ) to finish the transaction.</sentence>
+            <sentence id="5.3">it works perfectly.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">But now under Hibernate 4.2.3.</sentence>
+            <sentence id="6.2">Final, running into exception:
+java.sql.SQLException: ORA-01407: cannot insert
+("ABC".</sentence>
+            <sentence id="6.3">"ACHMENT_TABLE".</sentence>
+            <sentence id="6.4">"DOC") to NULL</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">To work-round the issue, we have to read through the stream, then passing the stream to the newAttachment something like:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">So I am wondering if it is a bug of 4.2.3.</sentence>
+            <sentence id="9.2">Final or something else.</sentence>
+        </paragraph>
+    </description>
+</bug>

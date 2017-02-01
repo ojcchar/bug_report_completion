@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>42065</id>
+    <title>EnableSendFile can slow file transfers on Windows</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We run Apache 2.0.59 (32 bit .</sentence>
+            <sentence id="1.2">exe) on Windows 2003 Server Enterprise Edition 64
+Bit.</sentence>
+            <sentence id="1.3">When EnableSendFile is enabled (the default) file transfers can be slow.</sentence>
+            <sentence id="1.4">For instance, on our gigabit lan, the file transfer would average around 300
+kB/s.</sentence>
+            <sentence id="1.5">This only seemed to affect HTTP file transfers.</sentence>
+            <sentence id="1.6">HTTPS would be normal
+speed.</sentence>
+            <sentence id="1.7">This bug only affected a few machines on the lan (we don't know why-
+maybe some timing issue?)</sentence>
+            <sentence id="1.8">.</sentence>
+            <sentence id="1.9">Once EnableSendFile was turned off the file transfer
+would go at 11 mB/s.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The file transfer client was running Windows XP (booting a Ubuntu live cd didn't
+seem to have the problem on the same hardware).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Maybe EnableSendFile could be off by default for the win32 source...</sentence>
+        </paragraph>
+    </description>
+</bug>

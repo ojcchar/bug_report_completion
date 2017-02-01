@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>45196</id>
+    <title>Apache 2.2.8 segfaults when trying to connect to a LDAP server</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 22120
+Backtrace</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I'm using an Apache 2.2.8 on Linux 2.6.16.13-4-smp and tried to open a
+LDAP connection using mod_authz_ldap and mod_auth_digest, but I got a
+Segmentation Fault.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The intereting part of my configuration file follows.</sentence>
+            <sentence id="3.2">Obviously personal
+data have been changed due to privacy.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">========
+NameVirtualHost myhost:80</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">ServerName myhost.myintranet</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">DocumentRoot /home/myhost/</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">&lt;Location /&gt;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Options +Indexes
+Dav On
+AuthType Digest
+AuthName LDAP_Protected_Place
+AuthDigestProvider ldap-alias1
+AuthzLDAPAuthoritative on
+AuthLDAPGroupAttributeIsDN on
+Order deny,allow
+Allow from all
+  require valid-user</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">&lt;/Location&gt;
+&lt;Location /ldap-status&gt;
+SetHandler ldap-status
+&lt;/Location&gt;
+&lt;/VirtualHost&gt;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">====</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">The next file is the strace of the httpd proccess during an
+authentication and the following crash</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">===</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">===</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Then, I'll add the last lines of the ltrace of the httpd.</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">===</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">===</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">The backtrace of the error is attached.</sentence>
+        </paragraph>
+    </description>
+</bug>

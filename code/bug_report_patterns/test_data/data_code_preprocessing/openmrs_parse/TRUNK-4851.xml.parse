@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4851</id>
+    <title>Error in unit test of PatientServiceTest class</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">for unit test checkPatientIdentifiers_shouldThrowErrorWhenPatientHasIdenticalIdentifiers</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Developers expect a DuplicateIdentifierException to be thrown during testing, but this not the case.</sentence>
+            <sentence id="2.2">The  reason for this is because a PatientIdentifierException is thrown before a DuplicateIdentifierException can be raise.</sentence>
+            <sentence id="2.3">To fix this, the "location" field of the PatientIdentifier field must be initialized.</sentence>
+            <sentence id="2.4">See pull request for the fix:
+https://github.com/openmrs/openmrs-core/pull/1767</sentence>
+        </paragraph>
+    </description>
+</bug>

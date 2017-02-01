@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>50902</id>
+    <title>on major load on the server, poll() hangs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi there,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Thought this bug is related to bug #50247, but as per Eric's suggestion I'm opening a new bug.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The httpd in question is 2.2.16 running on EC2.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">We see that after ~10 minutes of significant load, some of the worker processes get hang on poll().</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">By hang I mean that poll() call didn't finish for more than 30 seconds.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This is the stacktrace from one of the processes that are in this state:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Please let me know if there's any more information I can provide - this problem
+is obviously a major concern to us.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Thanks,
+Tal</sentence>
+        </paragraph>
+    </description>
+</bug>

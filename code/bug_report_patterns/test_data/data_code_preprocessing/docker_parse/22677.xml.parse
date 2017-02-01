@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22677</id>
+    <title>Space Exhaustion on 1.11 Container Mounts?</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We're having issues where we are unable to run even the most modest of docker-in-docker testing scenarios because even though the host volume group has 100GB+ data space, almost every operation fails with a message about free space, such as:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">It appears that for some reason space is getting consumed on the host, despite us using a devicemapper storage device (you can see confirmation of this below in the docker info output).</sentence>
+            <sentence id="3.2">The ExecStart options we are using are:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="11.2">CentOS 7 running in VM.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="12.2">1 docker run --rm -it centos:7 df -h</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Describe the results you received:**</sentence>
+            <sentence id="13.2">When running various operations inside the container, it seems that a huge amount of space is consumed on the /etc/hosts mount.</sentence>
+            <sentence id="13.3">For example:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">**Describe the results you expected:**</sentence>
+            <sentence id="15.2">The /etc/hosts mount should not be showing so much used space.</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">The reason this is problematic is that when I run docker-in-docker type CI testing, we've got issues where even though we mount a volume to hold /var/lib/docker content - the /etc/hosts mount just fills up almost immediately and dies.</sentence>
+            <sentence id="17.2">For example, here's another machine, here's the output from the most affected machine we have.</sentence>
+            <sentence id="17.3">Note I'm literally just starting up a blank container and running the command to show free space.</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">"'
+[sgray@build ~]$ docker run --rm -it centos:7 df -h
+Filesystem Size Used Avail Use% Mounted on
+/dev/mapper/docker-253:0-662217-c65cb6b4ab5c21adb37aa84505e2b7ab4653580238f5ddd06c4cc6e131368781 10G 241M 9.8G 3% /
+tmpfs 24G 0 24G 0% /dev
+tmpfs 24G 0 24G 0% /sys/fs/cgroup
+/dev/mapper/centos-root 12G 10G 651M 95% /etc/hosts
+shm 64M 0 64M 0% /dev/shm
+[sgray@build ~]$
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>98110</id>
+    <title>Convert-Script from XHP to MediaWiki modifications</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Regarding Bug 62292 our Python script has to be modified which transforms our xml help files (xhp) to mediawiki content.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">At the moment content of
+&lt;item type="keycode"&gt;&lt;switchinline select="sys"&gt;&lt;caseinline select="MAC"&gt;Command&lt;/caseinline&gt;&lt;defaultinline&gt;Ctrl&lt;/defaultinline&gt;&lt;/switchinline&gt;+Tab&lt;/item&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">gets converted to 
+{{KeyCode|CommandCtrl+Tab}}</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">which is simply wrong.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The best result would be something like
+{{KeyCode|{{System|default=Ctrl|mac=Command}}+Tab}}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The Python script can be found at
+http://opengrok.libreoffice.org/xref/help/to-wiki/wikiconv2.py</sentence>
+        </paragraph>
+    </description>
+</bug>

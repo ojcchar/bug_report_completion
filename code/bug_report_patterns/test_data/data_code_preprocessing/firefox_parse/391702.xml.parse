@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>391702</id>
+    <title>Prevent opening of two new tabs on clicking a link</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Let's say Firefox is set so that new pages should be opened in new tabs instead of a new window.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Create a file with this content:
+&lt;a href="http://www.google.com/" onclick="window.open(this.href); return false;"&gt;Test&lt;/a&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">1 Middle-click on it.</sentence>
+            <sentence id="3.2">Result: It correctly opens Google in a new tab.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">2 Control-click on it.</sentence>
+            <sentence id="4.2">Result: It opens TWO new tabs containing Google.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Since Middle-click and Control-click of a link are usually seen to be two ways to do the same thing (the latter is for people who do not have a middle mouse button) then their behavior should be consistent.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I think the correct behavior is to open a SINGLE new tab, as Middle-click does.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The "return false" in the JavaScript should prevent the href to be opened by the Control-click.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">ANOTHER EXPERIMENT:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">1 Set Firefox to open pages in new windows instead of tabs.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">2 Control-click on the link.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Result: A new window AND a new tab is loaded.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Apparently, the onclick causes the opening of the new window, while the Control-click causes the opening of a new tab.</sentence>
+            <sentence id="12.2">Again, it appears that the "return false" line is ignored.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10303</id>
+    <title>Using a --pid=host container results in unstoppable container</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have been working on a OpenStack Nova compute node container set.</sentence>
+            <sentence id="1.2">It involves at the moment a nova-network container, and a nova-compute container.</sentence>
+            <sentence id="1.3">The nova-compute container runs libvirt and nova-compute.</sentence>
+            <sentence id="1.4">I probably will split these into separate containers at some point, if that would work.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I recently introduced the --pid=host flag to my start script for docker and it results in an unkillable container.</sentence>
+            <sentence id="2.2">docker stop blocks permanently.</sentence>
+            <sentence id="2.3">pressing ctrl-c on the docker cli process and running docker stop again result in errors about processes not found.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The worst part is processes in the original container are leaked into the operating system permanently.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">To run this container for debugging, it is necessary to stop libvirt in your host OS (because the container will want to run libvirt in your host OS).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The start command is here:</sentence>
+            <sentence id="5.2">https://github.com/sdake/compute-upgrade/blob/master/tools/start-compute#L29</sentence>
+        </paragraph>
+    </description>
+</bug>

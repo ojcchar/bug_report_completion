@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3206</id>
+    <title>Files created into a host mounted directory are owned by root user</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When saving a file by running an application in a Docker container to an host mounted directory, that file results to be owned by the root user in the host file system.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example:</sentence>
+            <sentence id="2.2">docker run -v $PWD:/data ubuntu touch /data/hello</sentence>
+            <sentence id="2.3">ls -la</sentence>
+            <sentence id="2.6">.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The host OS is: CentOS release 6.5 (Final)
+Linux kernel: 2.6.32-431.</sentence>
+            <sentence id="3.2">el6.x86_64</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">docker version</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">docker info</sentence>
+        </paragraph>
+    </description>
+</bug>

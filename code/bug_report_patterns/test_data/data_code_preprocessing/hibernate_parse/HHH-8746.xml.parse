@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8746</id>
+    <title>Regresion after upgrade to 4.2.0: hibernate merge detached Object twice</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi i have two entities in OneToMany relation like this:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">and use case like this:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.2">get(Ppv.class, 1l);</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">getSession().</sentence>
+            <sentence id="8.2">clear();
+    
+    ppv.uvazeks.remove(ppv.uvazeks.iterator().</sentence>
+            <sentence id="8.3">next());
+    getSession().</sentence>
+            <sentence id="8.4">merge(ppv);
+    getSession().</sentence>
+            <sentence id="8.5">flush();
+    
+    getSession().</sentence>
+            <sentence id="8.6">clear();
+    
+    ppv.uvazeks.remove(ppv.uvazeks.iterator().</sentence>
+            <sentence id="8.7">next());
+    getSession().</sentence>
+            <sentence id="8.8">merge(ppv);
+    //this flush cause exception
+    getSession().</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">caused exception</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Simple maven test case attached.</sentence>
+        </paragraph>
+    </description>
+</bug>

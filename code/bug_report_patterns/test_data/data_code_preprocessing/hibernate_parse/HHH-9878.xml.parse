@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9878</id>
+    <title>Schema Validator fails to validate a table with a camel case property</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Having an entity with a camel case property like this:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">results in a schema validation exception:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">This way a quoted column name is generated and expected later at org.hibernate.tool.schema.internal.SchemaValidatorImpl#validateTable() line 83-84.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">everything works fine.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">This strange behaviour is not present in version 4.3.10, and the entity is correctly validated even without the backticks.</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">I think the validator should be robust enough to manage the presence or the absence of backticks in the column definition, so it should escape the eventually present backticks in order to check for column existence.</sentence>
+            <sentence id="16.2">.</sentence>
+            <sentence id="16.3">or maybe, it should add backticks in every column definition so that comparing just works.</sentence>
+            <sentence id="16.4">.</sentence>
+        </paragraph>
+    </description>
+</bug>

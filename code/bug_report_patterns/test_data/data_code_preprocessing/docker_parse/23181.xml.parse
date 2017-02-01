@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23181</id>
+    <title>java.rmi.server.ExportException: Listen failed on port: 1098; nested exception is: java.net.SocketException: Operation not permitted</title>
+    <description>
+        <paragraph id="11">
+            <sentence id="11.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">AWS, VirtualBox</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="13.2">1 Using image centos:7</sentence>
+            <sentence id="13.3">2 Install jboss 4.2.3-jdk6</sentence>
+            <sentence id="13.4">3 Install suport 32 bit lib with "yum install glibc.i686"</sentence>
+            <sentence id="13.5">4 Install jdk1.8.0_51 64bit</sentence>
+            <sentence id="13.6">5 Configure JAVA_HOME and PATH with JAVA_HOME/bin</sentence>
+            <sentence id="13.7">6 Run command /jboss-4.2.3.</sentence>
+            <sentence id="13.8">GA/bin/run.</sentence>
+            <sentence id="13.9">sh -b 0.0.0.0 -c minimal</sentence>
+            <sentence id="13.10"># **Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">JBoss Bootstrap Environment</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">JBOSS_HOME: /jboss-4.2.3.</sentence>
+            <sentence id="15.2">GA</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">JAVA: /jdk1.8.0_51/bin/java</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">JAVA_OPTS: -Dprogram.name=run.sh -server -Xms128m -Xmx512m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.net.preferIPv4Stack=true</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">CLASSPATH: /jboss-4.2.3.</sentence>
+            <sentence id="18.2">GA/bin/run.</sentence>
+            <sentence id="18.3">jar:/jdk1.8.0_51/lib/tools.</sentence>
+            <sentence id="18.4">jar
+#</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">23:38:21,894 INFO [Server] JBoss (MX MicroKernel) [4.2.3.</sentence>
+            <sentence id="23.2">GA (build: SVNTag=JBoss_4_2_3_GA date=200807181439)] Started in 415ms</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">**Describe the results you expected:**</sentence>
+            <sentence id="24.2">Not happen:</sentence>
+            <sentence id="24.3">23:38:21,890 WARN [ServiceController] Problem starting service jboss:service=Naming</sentence>
+            <sentence id="24.4">java.rmi.server.ExportException: Listen failed on port: 1098; nested exception is: </sentence>
+            <sentence id="24.5">java.net.SocketException: Operation not permitted</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+    </description>
+</bug>

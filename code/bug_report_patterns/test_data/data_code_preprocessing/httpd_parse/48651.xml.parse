@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>48651</id>
+    <title>Permission denied: mod_fcgid: apr_global_mutex_child_init error</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">FreeBSD 7.2-RELEASE-p4 amd64</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Latest version of mod_fcgid 2.3.5 fails with this error in httpd-error.</sentence>
+            <sentence id="2.2">log:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">[Mon Feb 01 15:55:03 2010] [emerg] (13)Permission denied: mod_fcgid: apr_global_mutex_child_init error</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Previous version 2.3.4 works fine.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">As I can see, it tries to create mutex in /var/tmp
+On FreeBSD this dir has theese permissions:
+drwxrwxrwt   6 root    wheel      3.0K Feb  1 15:55 tmp</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Version 2.3.4 creates file with "www" owner:</sentence>
+            <sentence id="6.2">-rw-------  1 www  wheel     0B Feb  1 15:55 tmp.2.</sentence>
+            <sentence id="6.3">CMfelr</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">But version 2.3.5 creates it with "root" owner:</sentence>
+            <sentence id="7.2">-rw-------  1 root  wheel     0B Feb  1 16:02 tmp.4.</sentence>
+            <sentence id="7.3">GgLDa9</sentence>
+        </paragraph>
+    </description>
+</bug>

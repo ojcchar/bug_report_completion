@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7157</id>
+    <title>Bi-directional Many-to-One and One-to-Many mapping with EmbeddedId fails</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Please see attached test cases on git: https://github.com/panghy/envers-embeddedid-test</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Hibernate tries to insert a parameter in the Audit table where there isn't one (6 parameter, trying to insert 7 and more).</sentence>
+            <sentence id="2.2">The issue goes away if we add a @NotAudited annotation to the OneToMany side of the relation (commented out in the code).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.2">, ?</sentence>
+            <sentence id="3.3">, ?</sentence>
+            <sentence id="3.4">, ?</sentence>
+            <sentence id="3.5">, ?</sentence>
+            <sentence id="3.6">, ?)</sentence>
+            <sentence id="3.7">Mar 8, 2012 2:11:39 AM org.hibernate.engine.jdbc.batch.internal.AbstractBatchImpl release
+INFO: HHH000010: On release of batch it still contained JDBC statements</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3583</id>
+    <title>Crietia API with empty Disjunction expressions doesn't work in a natural way</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">The reason for the "1=1" is due to the implict Conjunction() which is the default for criteria.add(Expression.something()).</sentence>
+            <sentence id="2.2">add(Expression.something())</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Thinking through this problem domain until conclusion you end up at the question "How should an empty Junction be handled (in respect of its enclosing expression) ?"</sentence>
+            <sentence id="3.2">This is akin to SQL NULL type handling, i.e. NULL value is not a value; an "empty expression" is not an expression.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Looking a the problem from the point of view what mades the most natural and straight forward Critiera API the natural expectation is for an empty expression to have no observable effect on the result set.</sentence>
+            <sentence id="4.2">This depends on the nature of the enclosing Junction the expression belongs to (is it Conjunction() or Disjunction() ?)</sentence>
+            <sentence id="4.3">.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The next issue you have to deal with is what if you have nested empty expressions, the natural way a user expects it to work is to resolve an Junction graph of empty expressions to a single empty expression, for example "((() OR ()) AND () AND (() OR ()))" is equivalent to "()".</sentence>
+            <sentence id="5.2">The notation "()" refers to an empty expression.</sentence>
+            <sentence id="5.3">So then it is necessary to deal with recursion.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">In some situations it maybe necessary/desired to dictate what to do with an empty expression, for example wanting to always treat the result as a logical TRUE, or logical FALSE in your expression graph on a Junction() by Junction() basis.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Please find attached a patch with 2 new testcases that will resolve the unnatural behavior observed when an empty Disjunction() is used in a Criteria API expression.</sentence>
+            <sentence id="7.2">The testcases cover testing a number of nesting scenarios.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Should this patch be reviewed and approved the only external change from the previous version should be when an empty Disjunction() added into the expression of a Critiera API query it should return less data than before, since the "OR (1=1)" expression will become "OR (1=0)".</sentence>
+            <sentence id="8.2">Due to the previous behavior the additions I now make in creating EmptyMode at the same time are just not visible.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Please also advise if any additional documentation is needed citing references to the section/files/javadoc where I can document this feature/change best.</sentence>
+        </paragraph>
+    </description>
+</bug>

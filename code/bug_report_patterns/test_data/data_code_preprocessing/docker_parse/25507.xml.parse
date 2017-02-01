@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>25507</id>
+    <title>Be able to override daemon's log-opt to nothing</title>
+    <description>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="6.2">- AWS instance running Ubuntu 14.04 LTS</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 Update '/etc/default/docker' to include something like 'DOCKER_OPTS="--log-driver=json-file --log-opt max-file=10"'</sentence>
+            <sentence id="7.3">2 Run [gist](https://gist.github.com/xbglowx/df3b359bebe76c03d98b93d793178969), which will start a redis container with log driver json-file and an empty log options, and then print its log driver/options.</sentence>
+            <sentence id="7.4">'sudo ./run_container.py'</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you received:**</sentence>
+            <sentence id="8.2">The container inherited the daemon's log options</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Describe the results you expected:**</sentence>
+            <sentence id="9.2">No log options, since I specified an empty log options.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>12580</id>
+    <title>ADD/COPY file sets host UID/GID values if target directory does not yet exist</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">File copied using ADD/COPY to folder that does not exist in container results in UID:GID for that file set to host values</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example, dockerfile</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.4">results in:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">If i create `/app` directory first, then uid:gid is 0:0 on both files as expected.</sentence>
+            <sentence id="5.2">Copying folder does not show such behavior and works as expected.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Docker from fedora 21 repo.</sentence>
+        </paragraph>
+    </description>
+</bug>

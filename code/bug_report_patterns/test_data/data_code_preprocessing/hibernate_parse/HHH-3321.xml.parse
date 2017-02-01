@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3321</id>
+    <title>@Size(min) fails in PostLoad</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've standard parent-child mapping.</sentence>
+            <sentence id="1.2">In parent I set validation for the childList list for minimum 1 and maximum 4 (max is not a problem)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I create then a Parent and add Child to childCollection (one child added).</sentence>
+            <sentence id="2.2">When I call validation
+new ClassValidator&lt;Person&gt;(Person.class).getInvalidValues(myPerson);
+I see no exception/message - all is fine.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The problem appears when I call entityManager.merge(myPerson) - there is an information that minimum child number is 1.</sentence>
+            <sentence id="3.2">I think it is a problem in PostLoad -&gt; Parent entity is persisted and validated in PostLoad.</sentence>
+            <sentence id="3.3">Child entries are not yet persisted and it leads to exception.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Is it possible to disable automatic validation in PostLoad or general when I want to validate manually?</sentence>
+            <sentence id="4.2">Is there any way around?</sentence>
+        </paragraph>
+    </description>
+</bug>

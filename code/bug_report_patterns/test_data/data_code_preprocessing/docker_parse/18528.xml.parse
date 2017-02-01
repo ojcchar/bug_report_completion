@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18528</id>
+    <title>Docker volumes with Z option fail if the host directory is missing</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:
+Docker volumes with Z option fail if the host directory is missing.</sentence>
+            <sentence id="1.2">This is unique to the Z modes - RW/RO create the directory if it's not present.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.2">eu-west-1.</sentence>
+            <sentence id="5.3">compute.internal 4.2.6-301.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Environment details (AWS, VirtualBox, physical, etc.):
+VirtualBox (OSX), OS is fedora-atomic-23</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">How reproducible:
+Always</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Steps to Reproduce:</sentence>
+            <sentence id="8.2">1 docker run -v /path/that/does/not/exist:/path:Z image</sentence>
+            <sentence id="8.3">2</sentence>
+            <sentence id="8.4">3</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Actual Results:
+Error response from daemon: no such file or directory</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Expected Results:
+Docker creates /path/that/does/not/exist and runs the image.</sentence>
+            <sentence id="10.2">This is the normal behaviour when using RW or RO modes.</sentence>
+        </paragraph>
+    </description>
+</bug>

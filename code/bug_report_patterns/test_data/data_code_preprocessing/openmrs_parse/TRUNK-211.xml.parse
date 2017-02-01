@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-211</id>
+    <title>Saving an existing encounter with a new Obs fails.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In our 1.4.x sync branch you used to be able to add new Obs to an already existing encounter/order.</sentence>
+            <sentence id="1.2">In 1.6.x this throws an error.</sentence>
+            <sentence id="1.3">Pseudo code:  
+	// Order and Encounter exists in the DB
+	Order o = ...;
+	Encounter e = o.getEncounter(); 
+	Obs newObs = new Obs();
+	newObs.setEncounter(e);
+	newObs.setOrder(o);
+	e.addObs(newObs);
+	...
+	Context.getEncounterService().</sentence>
+            <sentence id="1.4">saveEncounter(e);</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">If sync is installed it fails on the null uuid check that's triggered by the save - HibernateSyncInterceptor.packageObject line 772.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>281074</id>
+    <title>firefox does not close a self closing anchor tag (&lt;a /&gt;) even tho it validates xhtml 1.0</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">When using a self closing anchor tag, usually used for creating page anchors to
+sections (ex: &lt;a name="sec1" /&gt;) FF 1.0 does not close the anchor.</sentence>
+            <sentence id="2.2">This makes
+following content part of the anchor and has the potential to make non anchor
+elements display wrong.</sentence>
+            <sentence id="2.3">This may be a Gecko problem.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">1 Create an xhtml 1.0 template</sentence>
+            <sentence id="4.3">2 add this code (or something similar): &lt;h1&gt;&lt;a name="sec1" /&gt;Text&lt;/h1&gt;</sentence>
+            <sentence id="4.4">3</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual Results:  
+"Text" will become a link even tho the anchor has closed.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected Results:  
+Closed the anchor.</sentence>
+        </paragraph>
+    </description>
+</bug>

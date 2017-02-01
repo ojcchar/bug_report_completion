@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>38213</id>
+    <title>Segmentation Fault with multiple #include's</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I had a request to enable SSI on one of the domains I manage on a 2.0.55 server
+(built from source) on Debian Linux.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">SSI behavior can only be described as "odd".</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here is a real example:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I verified the existence and permission of all files.</sentence>
+            <sentence id="6.2">This causes a Seg Fault
+in the apache logs though:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">[Mon Jan 09 22:05:49 2006] [notice] child pid 10562 exit signal Segmentation
+fault (11)</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">SSI seems to work ok in other situations though - I can display the current
+date/time without any issues.</sentence>
+            <sentence id="8.2">I can display the date then include a single file
+using one of the above directives, and vice versa (display date after an
+include), but the moment I do two #include's as above Apache chokes.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I enabled SSI by putting the following in a .htaccess in the top-level directory
+for the domain:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Options +Includes
+AddType text/html .</sentence>
+            <sentence id="10.2">shtml
+AddOutputFilter INCLUDES .</sentence>
+            <sentence id="10.3">shtml</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Apache was compiled with:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Here is a gdb session from a core dump:</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">nKeyLength=83, pData=0xbfffe108) at
+/usr/local/source/web/php/php-4.3.11/Zend/zend_hash.c:895
+895                     if ((p-&gt;h == h) &amp;&amp; (p-&gt;nKeyLength == nKeyLength)) {
+(gdb) thread apply all bt full</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Thread 1 (process 14516):
+#0  0x407c2ca3 in zend_hash_find (ht=0x409a8ed4, arKey=0x893bcb4
+"/usr/local/sites/www.coachingrelationships.com/web/devt/includes/menu-utility.html",</sentence>
+        </paragraph>
+    </description>
+</bug>

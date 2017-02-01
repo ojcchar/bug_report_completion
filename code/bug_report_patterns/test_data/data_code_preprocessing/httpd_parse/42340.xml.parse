@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>42340</id>
+    <title>Client serving fails when accessing network mounted device.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Release: Apache HTTP Server 2.2.2-1.2
+OS: Linux 2.6.19 FC5 (Fedora Core 5)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Server to client processing (file serving) fails when accessing files on 
+network mounted device files, CIFS or SMBFS.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Whenever a web directory or virtual host is mounted via CIFS (Common Internet 
+File System) Apache fails to serve the files (network transfer) to the client.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Upon accessing standard pages the html apparently transfers but all other file 
+types fail.</sentence>
+            <sentence id="4.2">Images come up blank.</sentence>
+            <sentence id="4.3">Documents and other binary file 
+types â€œappearâ€� to download on index listing access but there is no actual 
+transfer and the files are completely empty with zero size.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The error log records: (75)Value too large for defined data type: 
+core_output_filter: writing data to the network</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Apache Server 2.0 (and below) was able to fully access network file shares, 
+both CIFS and SMBFS, and transfer all file type without problems.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This issue was also submitted by Tim Garton in the mail archives Feb, 14 2006</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">http://mail-archives.apache.org/mod_mbox/httpd-users/200602.mbox/%
+3C43F24EF0.1080507@hightechhigh.org%3E</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3051</id>
+    <title>Changed by info is not updated when saving updates on dictionary</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In our development server, The changed by info did not get save after changes are made on existing concepts.</sentence>
+            <sentence id="1.2">This issue happens to some concepts but not all.</sentence>
+            <sentence id="1.3">An example is [Concept ID 1839|http://forms.ampath.or.ke:8080/openmrs/dictionary/concept.htm?conceptId=1839].</sentence>
+            <sentence id="1.4">Original concept was created back in 2008 and last changed was made on November 2011.</sentence>
+            <sentence id="1.5">Please see attached screenshot which shows changed by info does not display.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">FYI on our OpenMRS instance:
+Last Build: Aug 12 2011 09:58 AM Version: 1.8.2 Build 22077</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">TODO:</sentence>
+            <sentence id="3.2">- Test that this is reproduceable in 1.8 and 1.9</sentence>
+            <sentence id="3.3">- In AuditableInterceptor.onFlushDirty(), ignore changes from null to empty and vice versa for string properties</sentence>
+        </paragraph>
+    </description>
+</bug>

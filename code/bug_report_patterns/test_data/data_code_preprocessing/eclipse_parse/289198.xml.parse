@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>289198</id>
+    <title>Exception when removing/reading resource with same path</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I get an exception when removing a resource and then adding a new with the same path:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">CDOResource cdoResource = transaction.getOrCreateResource("/model1");
+    transaction.commit();
+    cdoResource.getContents().</sentence>
+            <sentence id="2.2">clear();
+    transaction.getResourceSet().</sentence>
+            <sentence id="2.3">getResources().</sentence>
+            <sentence id="2.4">remove(cdoResource);
+    transaction.commit();
+    CDOResourceNode resourceNode = transaction.getResourceNode("/model1");
+    CDOResource resource = transaction.getResource("/model1");</sentence>
+        </paragraph>
+    </description>
+</bug>

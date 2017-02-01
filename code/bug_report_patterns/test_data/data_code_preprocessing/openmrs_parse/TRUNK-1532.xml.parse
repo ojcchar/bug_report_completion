@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1532</id>
+    <title>OBX with empty datetime for observation handled incorrectly</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Burke,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Thereâ€™s a small bug in the HL7 R01 handler.</sentence>
+            <sentence id="2.2">If an OBX doesnâ€™t contain a "datetime of observation" then the current code interprets that as "Sun Nov 30 00:00:00 EST 2" (in the year 2 A.D.).</sentence>
+            <sentence id="2.3">I believe it should come out null, and then default to the encounter.datetime</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The code was as follows:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I want to add the following before the try block:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Please confirm that this sounds right.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Darius</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>246948</id>
+    <title>[hotbug] Authentication failure due to duplicate connection profiles in DTPConnectionProfileRepository</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build ID: WTP 3.0.1 + patches</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Steps To Reproduce:</sentence>
+            <sentence id="2.2">We (IBM) are requesting an official patch for this based on WTP 3.0.1.</sentence>
+            <sentence id="2.3">I have attached a patch file to this bug.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The reason this is important to us is that user can easily get themselves into a state where the Dali tools can't connect to the database associated with their JPA project.</sentence>
+            <sentence id="3.2">The only way to recover is to restart the workbench and ensure the DTP connection profiles get loaded from outside the Dali tools.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">1 The user starts Eclipse on a workspace which already has a connection profile defined.</sentence>
+            <sentence id="4.2">They have not set a password for the database.</sentence>
+            <sentence id="4.3">The Data Source Explorer has not been activated, so the connection profiles have not been loaded.</sentence>
+            <sentence id="4.4">2 The user brings up the wizard to create a new JPA project, chooses the connection from the dropdown, and clicks connect.</sentence>
+            <sentence id="4.5">This fails, because the password hasn't been set.</sentence>
+            <sentence id="4.6">3 They cancel the wizard, go to the DSE view and set the password, and connect to the database.</sentence>
+            <sentence id="4.7">4 They go back into the wizard to create a new JPA project, but the connection still fails, with an error indicating the password wasn't specified.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">There also are many other scenarios that can lead to this.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The problem is in DTPConnectionProfileRepository.start(), which first adds a profile listener, and then calls dtpProfileManager.getProfiles() and iterates through the profiles returned by DTP, adding them to the list of profiles it knows about.</sentence>
+            <sentence id="6.2">Problem is, if the call to dtpProfileManager.getProfiles() results in DTP loading the profiles for the first time, it sends out notifications, so the listener also adds the profiles, resulting in duplicates.</sentence>
+            <sentence id="6.3">It's these duplicates entries that cause the problem.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I'm aware of bug 246270 against DTP, but the patch attached to that bug doesn't completely solve the problem for us.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">[00315295]</sentence>
+        </paragraph>
+    </description>
+</bug>

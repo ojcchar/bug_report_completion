@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10649</id>
+    <title>When 2LC enabled, flush session and then refresh entity cause dirty read in another session / transaction</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">public CacheableItem() {
+	}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">CacheableItem item1 = s1.get( CacheableItem.class, item.getId() ); // into persistent context
+	item1.setName( "some name" );</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">s1.flush();
+	s1.clear(); // clear persistent context
+	s1.refresh( item1 );</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">item1 = s1.get( CacheableItem.class, item.getId() );
+	assertEquals( "some name", item1.getName() );</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">assertEquals( "item", item2.getName() );</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">} catch (PessimisticLockException expected) {
+		// expected if MVCC is not enabled
+	} catch (Exception e) {
+		throw e;
+	} finally {
+		s2.getTransaction().</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">s1.getTransaction().</sentence>
+            <sentence id="16.2">rollback();
+	s1.close();</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">In fact, this issue does not only replicate for refresh only, but every time we evict from the cache and reload an uncommitted entry:</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">So, it must be addresses such that once an entry is locked, the locked is not released when the entry is evicted.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9462</id>
+    <title>Updating non-@Version-ed entity with LockModeType.OPTIMISTIC throws NullPointerException: null 	at org.hibernate.action.internal.EntityVerifyVersionProcess.doBeforeTransactionCompletion</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When querying then 'merge()'-ing an entity without '@Version', Hibernate throws NPE:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Hibernate should throw an exception with technical explanation reason of the failure, for example whether a required annotation is missing.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Similar issues:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">1 https://developer.jboss.org/thread/173302?_sscc=t</sentence>
+            <sentence id="4.2">2 http://stackoverflow.com/questions/5727565/hibernate-throws-nullpointerexception-in-entityverifyversionprocess</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Tag [~ceefour]</sentence>
+        </paragraph>
+    </description>
+</bug>

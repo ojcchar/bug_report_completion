@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2914</id>
+    <title>Hibernate cannot save properties that arae collections of elements of union-subclasses.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have a class Departament that have a collection of class AbstractPerson:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;bag lazy="true" name="person" cascade="save-update"&gt;
+			&lt;key column="idPerson" /&gt;
+			&lt;one-to-many class="AbstractPerson" /&gt;
+		&lt;/bag&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">AbstractPerson is abstract an have a lot os subclasses all of then mapped using union-subclass (none of the abstract classes has a table, all of them are mapped with abstract="true")</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">When I do a code like:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">AbstractPerson student = new Student();
+Departament departament = new Departament();
+departament.getPersons().</sentence>
+            <sentence id="5.2">add( student );
+...
+session.saveOrUpdate( student )
+...</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I receive the exception:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">...</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">if show_sql is active hibernate prints the sql:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">update AbstractPerson set idDepartament =?</sentence>
+            <sentence id="10.2">where id=?</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Why is Hibernate trying to access a table that wat NOT declared and does not exist (as the AbstractPerson is mapped with abstract "true") instead of look for the type of the object (in this case Student) and create a sql with the right table (update user set idDepartament =?</sentence>
+            <sentence id="11.2">where id=?)</sentence>
+            <sentence id="11.3">?</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>21125</id>
+    <title>hack/make/.detect-daemon-osarch fails on linux/arm</title>
+    <description>
+        <paragraph id="9">
+            <sentence id="9.1">When trying to build the docker-dev image (with 'make build') I noticed that the script was using the usual Dockerfile instead of the Dockerfile.armhf, which of course resulted in a failure.</sentence>
+            <sentence id="9.2">(Can't run the AMD64 image on armhf)
+I looked into the Makefile and saw that it is pulling the "DOCKER_OSARCH" variable from the script hack/make/.</sentence>
+            <sentence id="9.3">detect-daemon-osarch, which exports DOCKER_ENGINE_OSARCH, DOCKER_ENGINE_GOOS, DOCKER_ENGINE_GOARCH and DOCKER_CLIENT_OSARCH</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Describe the results you received:**</sentence>
+            <sentence id="10.3">The variables DOCKER_ENGINE_GOOS and DOCKER_ENGINE_GOARCH both depend on DOCKER_ENGINE_OSARCH, therefore they are false, too.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+    </description>
+</bug>

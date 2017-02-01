@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18074</id>
+    <title>Building a dynamic Docker binary on ARM fails when buildflags includes 'journald'</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">docker-version:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">List the steps to reproduce the issue:</sentence>
+            <sentence id="8.2">1 Clone the current docker/docker repository on a Scaleway C1 ARM server</sentence>
+            <sentence id="8.3">2 change into the docker repository root directory</sentence>
+            <sentence id="8.4">3 run 'make build' to create the Docker Dev image</sentence>
+            <sentence id="8.5">4 run 'docker run -ti --privileged docker-dev:HEAD bash'</sentence>
+            <sentence id="8.6">5 run 'hack/make.</sentence>
+            <sentence id="8.7">sh dynbinary'</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Describe the results you received:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Running 'hack/make.sh dynbinary' fails with the following error:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Digging deeper this can be traced back to 
+https://github.com/docker/docker/blob/master/hack/make/binary#L40</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">After experimenting with the buildflags/tags in the 'go build' command it turns out that without the 'journald' flag it works.</sentence>
+            <sentence id="13.2">Adding it triggers the above error.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Describe the results you expected:
+A dynamically build Docker binary in bundles/latest/*.</sentence>
+            <sentence id="14.2">No error messages.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">**Any ideas/hints how this can be fixed?</sentence>
+            <sentence id="15.2">**</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">**Note**: This needs to be fixed as part of #17802.</sentence>
+        </paragraph>
+    </description>
+</bug>

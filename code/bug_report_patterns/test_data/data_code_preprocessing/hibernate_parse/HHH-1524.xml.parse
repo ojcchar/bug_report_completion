@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1524</id>
+    <title>Error on left outer join with Oracle Dialect: ORA-00936: missing expression</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">With this HQL:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">from Company comp
+left outer join comp.employees empl
+with empl.birthday &gt; :date</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Produce following SQL:
+    select
+        company0_.</sentence>
+            <sentence id="3.2">id as id0_0_,
+        employees1_.</sentence>
+            <sentence id="3.3">id as id1_1_,
+        company0_.</sentence>
+            <sentence id="3.4">companyName as companyN2_0_0_,
+        employees1_.</sentence>
+            <sentence id="3.5">name as name1_1_,
+        employees1_.</sentence>
+            <sentence id="3.6">birthday as birthday1_1_,
+        employees1_.</sentence>
+            <sentence id="3.7">companyId as companyId1_1_ 
+    from
+        TB_COMPANY_TEMP company0_,
+        TB_EMPLOYEE_TEMP employees1_ 
+    where
+        company0_.</sentence>
+            <sentence id="3.8">id=employees1_.</sentence>
+            <sentence id="3.9">companyId(+) 
+        and (employees1_.</sentence>
+            <sentence id="3.10">birthday(+)&gt;(+)=?)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">When it is run, the stacktrace is:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The correct where clause should be :
+    where
+        company0_.</sentence>
+            <sentence id="6.2">id=employees1_.</sentence>
+            <sentence id="6.3">companyId(+) 
+        and (employees1_.</sentence>
+            <sentence id="6.4">birthday(+)&gt;=?)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This error don't occur with MySQLDialect or SQLServerDialect.</sentence>
+            <sentence id="7.2">Probably it considers &gt;= as two operators instead of a single operator.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4371</id>
+    <title>docker inspect --format doesn't emit JSON.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">- 'docker inspect $image' emits JSON.</sentence>
+            <sentence id="1.2">- 'docker inspect --format='{{ .</sentence>
+            <sentence id="1.3">config.Cmd }}' $image' does not emit JSON.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The output that comes from 'docker inspect --format' is informative, but is ambiguous, and is not usefully machine readable.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For example 'CMD ["echo", "hello world"]' and 'CMD ["echo", "hello", "world"]' have different meanings, but both result in '[echo hello world]' from 'docker inspect --format='{{ .</sentence>
+            <sentence id="3.2">config.Cmd }}''.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">## Use-case</sentence>
+            <sentence id="4.2">Trying to 'docker run &amp;&amp; docker commit', with the committed image inheriting the default command from the original image.</sentence>
+            <sentence id="4.3">- Start with an image which has some unknown 'CMD' / 'config.Cmd'.</sentence>
+            <sentence id="4.4">- Run a build process as a container from that image.</sentence>
+            <sentence id="4.5">- Query the image for its CMD.</sentence>
+            <sentence id="4.6">- Commit the container, injecting the CMD using 'docker commit --run'.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Step four can't be achieved using 'docker inspect --format=...' and 'docker commit --run=...' because the former doesn't emit the JSON required by the latter.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">## Demo</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">The above code doesn't work, because '$cmd_out' isn't valid JSON, and has lost too much information to reconstruct it into JSON.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3224</id>
+    <title>Port already in use error when running a container</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I started seeing this behavior after upgrading from 0.6.6 to 0.7.1</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Steps to reproduce:</sentence>
+            <sentence id="2.2">1 Run a container with -p</sentence>
+            <sentence id="2.3">2 Stop container</sentence>
+            <sentence id="2.4">3 Remove container</sentence>
+            <sentence id="2.5">4 Repeat step 1</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Step 4 will fail with "Port already in use" error corresponding to whatever was used with -p</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here's some screen-scrape love:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">relevs09:~/build &gt;&gt;&gt; sudo docker ps -a
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">relevs09:~/build &gt;&gt;&gt; sudo netstat -lntp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name
+tcp 0 0 0.0.0.0:22 0.0.0.0:\* LISTEN 1905/sshd 
+tcp6 0 0 :::22 :::\* LISTEN 1905/sshd</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">relevs09:~/build &gt;&gt;&gt; sudo docker run -d -name dns_master -h foosrv0 -dns 127.0.0.1 -p 53:53/udp stackmachine.com/windowsrefund/foo:dns_master
+580fb786794f21c32160ae2b66dd087fbaf8db0ad9e4f8888ec957fd99c9be39</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">relevs09:~/build &gt;&gt;&gt; sudo docker stop dns_master
+dns_master</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">relevs09:~/build &gt;&gt;&gt; sudo docker rm dns_master
+dns_master</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">relevs09:~/build &gt;&gt;&gt; sudo docker ps -a
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">relevs09:~/build &gt;&gt;&gt; sudo docker run -d -name dns_master -h foosrv0 -dns 127.0.0.1 -p 53:53/udp stackmachine.com/windowsrefund/foo:dns_master
+ba9864d582689637dd87aeace7478b8c7200d209102b8cb6d54702059eeddc5a
+2013/12/16 00:41:13 Error: start: Cannot start container ba9864d582689637dd87aeace7478b8c7200d209102b8cb6d54702059eeddc5a: Port already in use: 53</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">relevs09:~/build &gt;&gt;&gt; sudo netstat -lntp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name
+tcp 0 0 0.0.0.0:22 0.0.0.0:\* LISTEN 1905/sshd 
+tcp6 0 0 :::22 :::\* LISTEN 1905/sshd</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">relevs09:~/build &gt;&gt;&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

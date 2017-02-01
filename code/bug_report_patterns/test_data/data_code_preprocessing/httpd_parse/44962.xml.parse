@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>44962</id>
+    <title>crash on file_get_contents using localhost url</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Apache crashes if a lot of file_get_contents of a localhost file are done.</sentence>
+            <sentence id="1.2">The following PHP script reproduces the problem:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;?</sentence>
+            <sentence id="2.2">php
+echo '&lt;pre&gt;';
+for ($i=1;;$i++)
+{ echo $i."\n";
+  flush();ob_flush();
+  $contents = file_get_contents('http://localhost/test.htm');
+}
+?</sentence>
+            <sentence id="2.3">&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">After 203 iterations the Apache server crashes and has to be stopped and started (a restart does not get the server working again, only a stop and start works).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The error.log only contains this (I guess this just confirms that the Apache server has crashed and no longer responds):
+[Fri May 09 12:15:04 2008] [error] [client 192.168.0.1] PHP Warning:  file_get_contents(http://localhost/test.htm) [&lt;a href='function.file-get-contents'&gt;function.file-get-contents&lt;/a&gt;]: failed to open stream: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.\r\n in C:\\Andre\\Apache\\test.php on line 6</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The problem depends on the contents of the test.htm file.</sentence>
+            <sentence id="5.2">If it only contains</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">the script runs until it reaches the max execution time.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">If the localhost is replaced with the IP address or domain name the problem does not occur (but the script becomes much slower due to the network access).</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The test.htm that reproduces the problem contains:</sentence>
+        </paragraph>
+    </description>
+</bug>

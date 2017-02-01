@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8578</id>
+    <title>Bulk delete cascading into many-to-many join table not properly handling where clause</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Follows up on HHH-8476.</sentence>
+            <sentence id="1.2">DeleteExecutor was always calling DeleteStatement#getWhereClause.</sentence>
+            <sentence id="1.3">If one doesn't exist, it needlessly creates one and warns.</sentence>
+            <sentence id="1.4">Make 'er smarter.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>127201</id>
+    <title>Check for missing Bundle-Activator class doesn't handle nested types properly</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">build I20060208</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">EMF-generated plugins often generate the bundle activator class as a nested class.</sentence>
+            <sentence id="2.2">In the Manifest.MF, it has, e.g.:
+Bundle-Activator: org.eclipse.ui.examples.modelexplorer.modeler.provider.ModelerEditPlugin$Implementation</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This is the correct format expected by the runtime, but the PDE checker does not process it correctly.</sentence>
+            <sentence id="3.2">It reports it as missing:
+'org.eclipse.ui.examples.modelexplorer.modeler.provider.ModelerEditPlugin$Implementation' does not exist.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If the $ is change to a ., then PDE is happy, but the runtime is not.</sentence>
+        </paragraph>
+    </description>
+</bug>

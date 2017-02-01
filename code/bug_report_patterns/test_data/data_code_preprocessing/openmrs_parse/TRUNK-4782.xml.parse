@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4782</id>
+    <title>Retrospective edit of Orders.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The below scenario is for retrospective create and update of drug orders.</sentence>
+            <sentence id="1.2">* A user is trying to enter patient record data for a previous date (say on 20th of Oct 2015 for 12th and 13th of Oct 2015)</sentence>
+            <sentence id="1.3">* User enters a drug order(D1) for a patient for a specific date (say 12th of Oct 2015) for a duration of 2 days.</sentence>
+            <sentence id="1.4">(the auto expire date will then be 14th of Oct 2015).</sentence>
+            <sentence id="1.5">* The user finds that the patient has visited the hospital again the next day(13th of Oct 2015) and the drug order was edited.</sentence>
+            <sentence id="1.6">A revised drug order(D2) needs to be created with the previous order as D1.</sentence>
+            <sentence id="1.7">The save of the drug order fails with an exception, *Cannot discontinue an order that is already stopped, expired or voided*.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The save of D2 fails as the drug order has already *expired* with respect to the current date of data entry (20th Oct 2015).</sentence>
+            <sentence id="2.2">But since the actual drug was edited not on 20th but on 13th, the revision of the drug order D1 must be allowed.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The OpenMRS Order service API uses the current date of the system to check for the state of the drug order.</sentence>
+            <sentence id="3.2">If the drug order is expired with respect to the current date, the revision of the drug order is not allowed.</sentence>
+            <sentence id="3.3">The API must check the state of the order based on the dateActivated of the revised order(D2) instead of the current system time to allow for retrospective entry of drug order create.</sentence>
+        </paragraph>
+    </description>
+</bug>

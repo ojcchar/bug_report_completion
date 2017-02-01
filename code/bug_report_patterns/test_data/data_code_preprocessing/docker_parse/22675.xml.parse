@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22675</id>
+    <title>Docker Daemon 1.11 inside Netns + Overlay Network</title>
+    <description>
+        <paragraph id="8">
+            <sentence id="8.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">VM Ubuntu 14.04.4 LTS under KVM</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Steps to reproduce the issue:**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.19">1 unshare -n .</sentence>
+            <sentence id="11.20">/start.sh</sentence>
+            <sentence id="11.21">2 docker -H tcp://20.20.20.1:2376 run -itd alpine sh</sentence>
+            <sentence id="11.22">3 docker -H tcp://20.20.20.1:2376 network create -d overlay demo</sentence>
+            <sentence id="11.23">4 docker -H tcp://20.20.20.1:2376 run -itd --name c1 --net=demo alpine sh</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Describe the results you received:**</sentence>
+            <sentence id="12.2">- The Step 2 works correctly.</sentence>
+            <sentence id="12.3">- at step 4, I get this error from Docker CLI : :</sentence>
+            <sentence id="12.4">docker: Error response from daemon: error creating external connectivity network: cannot restrict inter-container communication: please ensure that br_netfilter kernel module is loaded.</sentence>
+            <sentence id="12.5">- From The Docker Daemon, I get : http://pastebin.com/rGkmxmfx</sentence>
+            <sentence id="12.6">- I had already tried starting Docker Daemon with "--icc=true" param, but without success.</sentence>
+            <sentence id="12.7">- The Overlay network works correctly when the daemon is launched outside the netns</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Please, Any idea ?</sentence>
+        </paragraph>
+    </description>
+</bug>

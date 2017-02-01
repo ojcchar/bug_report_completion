@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>288017</id>
+    <title>Duplicate implementation of function in generated source file</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When I try to build my test program, I'm getting a compile error from the generated source file.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For some reason, the function ti_sysbios_hal_Hwi_getHookContext__E is being implemented twice in the generated source file.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I tracked down the following dependencies.</sentence>
+            <sentence id="4.2">When building the test program, I'm using xdctools 3.15.03.67.</sentence>
+            <sentence id="4.3">The package ti.sdo.ipc.notifyDrivers was built using xdctools 3.15.01.59.</sentence>
+            <sentence id="4.4">I then rebuilt this package with the newer xdctools.</sentence>
+            <sentence id="4.5">Once I did that, I was able to rebuild the test program without errors.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I guess this means that xdctools 3.15.03.67 is *not* compatible with xdctools 3.15.01.59.</sentence>
+            <sentence id="5.2">It is my understanding that all xdctools 3.15.xx.xx releases should be compatible.</sentence>
+        </paragraph>
+    </description>
+</bug>

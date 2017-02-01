@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22836</id>
+    <title>Container random port change when added to another network</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have an annoying issue with random ports (i.e. `docker run -P ...`)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">`docker ps` and `docker port` show a port that is not the real opened port.</sentence>
+            <sentence id="2.2">After some tests I found that the port is changed when I use `docker network connect`</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">---------------------------------------------------</sentence>
+            <sentence id="3.2">BUG REPORT INFORMATION</sentence>
+            <sentence id="3.3">---------------------------------------------------</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="10.9">1 I use tomcat but it could be any image with exposed ports</sentence>
+            <sentence id="10.10">2 Not sure it helps but if the name of my second network is shorter, it works</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Describe the results you expected:**</sentence>
+            <sentence id="12.2">The `docker port` output and the real opened port given by `netstat` should have been the same</sentence>
+        </paragraph>
+    </description>
+</bug>

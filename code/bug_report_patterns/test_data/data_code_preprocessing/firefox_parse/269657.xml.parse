@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>269657</id>
+    <title>Incorrect rendering when building with -arch:sse2</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">It seems to show up randomly in all webpages.</sentence>
+            <sentence id="2.2">When you scroll down and a line
+of text is cut at the bottom of the screen.</sentence>
+            <sentence id="2.3">When you scroll down further, this
+line of text seems to be missing a horizontal line of pixels.</sentence>
+            <sentence id="2.4">If you highlight
+the text with the mouse, it changes back to normal.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.2">Steps to Reproduce:</sentence>
+            <sentence id="3.3">1 Build Firefox using -arch:SSE2</sentence>
+            <sentence id="3.4">2 Visit webpage full of text</sentence>
+            <sentence id="3.5">3 Scroll down</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Actual Results:  
+A horizontal pixel seems to be getting chopped off from the text where scrolling
+stops and resumes again.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Expected Results:  
+Display the text properly.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I don't get this problem if I use an official build or leave out -arch:SSE2 when
+building.</sentence>
+        </paragraph>
+    </description>
+</bug>

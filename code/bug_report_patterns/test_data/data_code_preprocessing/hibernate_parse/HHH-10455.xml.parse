@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10455</id>
+    <title>MapJoin results in NPE when using key()</title>
+    <description>
+        <paragraph id="8">
+            <sentence id="8.1">Batch b = new Batch();
+		b.setName("Test");
+		b.getBatchNodeMetadata().</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">MapJoin&lt;Batch, Node, BatchNodeMetadata&gt; nodes = root.join(Batch_.</sentence>
+            <sentence id="10.2">batchNodeMetadata);</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">query.select(nodes.key());
+		query.where(cb.equal(root, batch));</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">return em.createQuery(query).</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">*Output*</sentence>
+            <sentence id="13.2">Everything from the setup seems to be correct</sentence>
+        </paragraph>
+    </description>
+</bug>

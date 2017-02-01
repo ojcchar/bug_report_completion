@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>50996</id>
+    <title>SERVERADMIN parameter not working</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Running the MSI installer with parameters, e.g:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&gt; msiexec /i "$R0" /quiet /passive /qn /norestart SERVERADMIN=test@test.com AGREETOLICENSE="Yes" ALLUSERS=null APPLICATIONUSERS="OnlyCurrentUser" INSTALLDIR="$Apache_Home" SETUPTYPE="Typical" SERVICENAME=apache2.2</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">results in an error message in the installer, that the server admin field is not set in httpd.conf and that the service cannot be started.</sentence>
+            <sentence id="3.2">Upon closer inspection, when the installer is finished, this field value is blank in httpd.conf.</sentence>
+            <sentence id="3.3">I would expect the field to be set to "test@test.com" in this case.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Side note: Is there a way to tell apache installer not to start the service?</sentence>
+        </paragraph>
+    </description>
+</bug>

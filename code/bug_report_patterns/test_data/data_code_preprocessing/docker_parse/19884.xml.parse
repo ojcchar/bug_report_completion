@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>19884</id>
+    <title>2 veth are created when **deleting** a container with overlay network</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">It seems that the host interfaces are not cleaned correctly when deleting a container with overlay interface.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">How to reproduce:</sentence>
+            <sentence id="2.2">Setup: docker engine with etcd as the KV store for overlay network</sentence>
+            <sentence id="2.3">1 Create an overlay network "docker network create --driver=overlay nw1"</sentence>
+            <sentence id="2.4">2 create and start a container "docker run -d --name=cont1 --net=nw1 busybox httpd -f -p 3000)</sentence>
+            <sentence id="2.5">---&gt; a new veth is created on the host (connected to docker_gwbridge)</sentence>
+            <sentence id="2.6">3 Delete the container "docker rm -f test_cont1"</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">---&gt; The veth that created at (2) is removed</sentence>
+            <sentence id="3.2">---&gt; Two new veth interfaces are CREATED on the host as a result of the container removal.</sentence>
+        </paragraph>
+    </description>
+</bug>

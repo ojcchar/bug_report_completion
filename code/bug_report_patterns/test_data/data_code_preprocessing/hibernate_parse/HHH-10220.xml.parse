@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10220</id>
+    <title>DISTINCT does not work with aggregate functions in JPQL</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The JPQL: SELECT SUM(DISTINCT df.fileSize) from Datafile df is, I believe, valid but is rejected with: org.hibernate.hql.internal.ast.QuerySyntaxException: unexpected token: DISTINCT near line 1, column 14 [SELECT SUM ( DISTINCT df.fileSize ) FROM org.icatproject.core.entity.Datafile df]</sentence>
+            <sentence id="1.2">I see that the documentation only states that COUNT(DISTINCT .. will work.</sentence>
+            <sentence id="1.3">However all the aggregate functions should accept the DISTINCT keyword.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Please note that I have also reported this as https://hibernate.atlassian.net/browse/HQLPARSER-67 being unsure where best to report it</sentence>
+        </paragraph>
+    </description>
+</bug>

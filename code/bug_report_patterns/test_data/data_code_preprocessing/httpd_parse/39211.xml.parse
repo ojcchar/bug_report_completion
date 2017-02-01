@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>39211</id>
+    <title>mod-auth-dbm (require group &lt;empty&gt;) doesn't work with fastcgi</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">Require user apeel vinita
+    Require group
+&lt;/LocationMatch&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">where group is empty, even though I'm(vinita) in the user list, I keep getting
+"user vinita not in right group" when fastcgi is loaded and using AuthDBMType SDBM</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">BUT, if don't load fastcgi, same access control works fine with mod-auth-dbm,
+also same access control with fastcgi works for mod-auth.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">fastcgi configuration
+cd /usr/local/apps/apache-2.0.55/src/mod_fastcgi-2.4.2
+cp Makefile.AP2 Makefile
+make top_dir=/usr/local/apps/apache-2.0.55 &gt; .</sentence>
+            <sentence id="6.2">.</sentence>
+            <sentence id="6.3">/log.make.fcgi 2&gt;&amp;1
+make top_dir=/usr/local/apps/apache-2.0.55 install &gt; .</sentence>
+            <sentence id="6.4">.</sentence>
+            <sentence id="6.5">/log.install.fcgi 2&gt;&amp;1</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">thanks
+vinita</sentence>
+        </paragraph>
+    </description>
+</bug>

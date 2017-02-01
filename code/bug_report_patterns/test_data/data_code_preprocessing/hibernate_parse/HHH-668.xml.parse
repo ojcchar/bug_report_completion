@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-668</id>
+    <title>Nullpointer when lazy-loading instrumented entity</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">java.lang.NullPointerException</sentence>
+            <sentence id="1.2">at</sentence>
+            <sentence id="1.3">org.hibernate.persister.entity.BasicEntityPersister.initializeLazyProperty(B</sentence>
+            <sentence id="1.4">asicEntityPersister.java:709)</sentence>
+            <sentence id="1.5">at</sentence>
+            <sentence id="1.7">at</sentence>
+            <sentence id="1.8">org.hibernate.intercept.FieldInterceptor.readObject(FieldInterceptor.java:12</sentence>
+            <sentence id="1.9">9</sentence>
+            <sentence id="1.10">at</sentence>
+            <sentence id="1.11">eu.cec.regio.sysaudit.domain.adonis.AdonisReferenceDocument.</sentence>
+            <sentence id="1.12">$cglib_read_imag</sentence>
+            <sentence id="1.13">e(AdonisReferenceDocument.java)</sentence>
+            <sentence id="1.14">at</sentence>
+            <sentence id="1.15">eu.cec.regio.sysaudit.domain.adonis.AdonisReferenceDocument.getImage(AdonisR</sentence>
+            <sentence id="1.16">eferenceDocument.java:63)</sentence>
+            <sentence id="1.17">at</sentence>
+            <sentence id="1.18">eu.cec.regio.sysaudit.web.action.adonis.UploadIfsAdonisDocumentWithMetadata.</sentence>
+            <sentence id="1.19">upload(UploadIfsAdonisDocumentWithMetadata.java:123)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Worked fine with Hibernate 3.0.5.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Line 709 in BasicEntityPersister:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">snapshot[ lazyPropertyNumbers[j] ] = lazyPropertyTypes[j].</sentence>
+            <sentence id="4.2">deepCopy( propValue, session.getEntityMode(), factory );</sentence>
+        </paragraph>
+    </description>
+</bug>

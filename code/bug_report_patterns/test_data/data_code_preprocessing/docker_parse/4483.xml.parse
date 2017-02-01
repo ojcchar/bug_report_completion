@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4483</id>
+    <title>IPV6 address</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Tried to run:
+docker run -lxc-conf="lxc.network.ipv6=myip/112" -lxc-conf="lxc.network.ipv6.gateway=mygw" -i -t ubuntu /bin/bash</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">After that the ip address wasn't set entire correct.</sentence>
+            <sentence id="2.2">The gateway ip was added as second ip address and the gateway configuration was wrong.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Before upgrading to 0.8.1 i was able to fix this when setting the ip addresses in my run.sh.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Now i get an error when executing:
+ip -6 addr add myip dev eth0</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">RTNETLINK answers: Operation not permitted</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">How can i make this work again?</sentence>
+            <sentence id="6.2">Or will i have to downgrade to 0.7.1 again?</sentence>
+        </paragraph>
+    </description>
+</bug>

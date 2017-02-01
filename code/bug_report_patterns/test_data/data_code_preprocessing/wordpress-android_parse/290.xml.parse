@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>290</id>
+    <title>Can't connect to site that uses HTTPS redirect</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">A user reported an issue with logging in to a site (http://www.androidpolice.com).</sentence>
+            <sentence id="1.2">The RSD response returned an HTTPS URL but the site would redirect all HTTPS request to HTTP.</sentence>
+            <sentence id="1.3">This confused the app and returned and ugly XML parser error in the app:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">!</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This was fixable by instructing the user to enter the full path to xmlrpc.php, but the app can probably be smarter about catching this issue and then trying the URL again without using HTTPS.</sentence>
+        </paragraph>
+    </description>
+</bug>

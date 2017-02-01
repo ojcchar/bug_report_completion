@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4893</id>
+    <title>AND is not escaped in lucene query</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">At times you may see:
+{code}
+HTTP Status 500 - java.lang.IllegalStateException: Invalid query</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">type Exception report</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">message java.lang.IllegalStateException: Invalid query</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">description The server encountered an internal error that prevented it from fulfilling this request.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">exception</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">It is caused by not escaping AND in the query.</sentence>
+            <sentence id="10.2">See http://stackoverflow.com/a/10757968</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Note the actual fix may be simply using lowercase letters.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">We should escape or lowercase any reserved operators.</sentence>
+            <sentence id="12.2">See also [this|https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Escaping Special Characters]</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Talk thread: https://talk.openmrs.org/t/error-importing-metadata-using-metadata-sharing-module-on-platform-1-11-5/6285/4</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">It's not that critical as most users have "AND", "OR" and "NOT" in concept stop words list, which excludes them from the query as well.</sentence>
+        </paragraph>
+    </description>
+</bug>

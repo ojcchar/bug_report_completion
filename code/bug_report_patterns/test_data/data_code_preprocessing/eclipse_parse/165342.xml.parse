@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>165342</id>
+    <title>org.xml.sax.SAXParseException: XML document structures must start and end within the same entity.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The setup:
+new technology Agent Controller (release 4.3.0-200610310100) on a Linux machine,
+Agent Controller client (using tptpcore.jar) on Windows,
+Agent Controller client (using tptpcore.jar) on Linux.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Both clients call 'getAgent' on the AgentController class in a loop.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The client on Windows works fine.</sentence>
+            <sentence id="3.2">The client on Linux prints the following stacktrace on the console:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">After investigating, I narrowed the problem to the 'readTPTPCmdStringFromBuffer' method in TPTPMessageUtil.java.</sentence>
+            <sentence id="5.2">The problem is that the position of the command in the binary buffer is not correctly calculated.</sentence>
+            <sentence id="5.3">It is not appropriate to use lengths calculated on the character representation to reason about the binary buffer, because some characters
+(such as new lines) may be represented in a different amount of bytes.</sentence>
+            <sentence id="5.4">I implemented a quick and dirty fix, which happens to work:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">return offset+commandLengthInBytes;
+	}</sentence>
+        </paragraph>
+    </description>
+</bug>

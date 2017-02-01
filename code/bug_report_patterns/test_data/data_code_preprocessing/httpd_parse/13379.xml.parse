@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13379</id>
+    <title>Apache service will not start when installing php4.2.2 or above</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">After installing php 4.2.2 or 4.2.3 and editing httpd.conf with the lines</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">LoadModule php4_module C:/Apache/php/sapi/php4apache2.dll
+AddType application/x-httpd-php .</sentence>
+            <sentence id="2.2">php4 .</sentence>
+            <sentence id="2.3">php
+AddType application/x-httpd-php-source .</sentence>
+            <sentence id="2.4">phps</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Apache will not start, restart, or boot as service or manually.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Versions tested: 2.0.42 and 2.0.43 of apache ( msi and exe stable 
+distributions )
+Versions tested: 4.2.2 and 4.2.3 of php ( current stable distribution )
+OS: Windows XP pro mounted on ntfs filesystem</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Windows event syslog reports that:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Cannot load C:/Apache/php/sapi/php4apache2.dll into server: Impossible to 
+locate the specified procedure.</sentence>
+        </paragraph>
+    </description>
+</bug>

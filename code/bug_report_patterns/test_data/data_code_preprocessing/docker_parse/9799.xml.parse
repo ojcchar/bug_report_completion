@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9799</id>
+    <title>Docker Daemon OOM Crash -- [Reproducible via docker run]</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Docker daemon has a monotonically increasing memory usage due to logs from a long running process, eventually causing an OOM crash killing the daemon.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">On running the following command:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">docker run -d debian:wheezy bash -c 'while true; do for i in {1.</sentence>
+            <sentence id="3.2">.100};do echo "Just logging!!!!"</sentence>
+            <sentence id="3.3">1&gt;&amp;2; done; sleep 1; done;'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">docker daemon process's memory usage accelerates very quickly.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Is the only way to avoid this is by piping the logs of a log-intensive-long-running process to a file and mounting it on host or to keep truncating the logs in cron using this [new feature](https://github.com/docker/docker/pull/9753)?</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Docker version facing this issue at: Docker version 1.4.1, build 5bc2ff8</sentence>
+        </paragraph>
+    </description>
+</bug>

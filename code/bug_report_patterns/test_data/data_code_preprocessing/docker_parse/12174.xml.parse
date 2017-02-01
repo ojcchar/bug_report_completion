@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>12174</id>
+    <title>Docker selects wrong container based on name after extended container thrashing</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I wish I had something more concrete and concise to report, however I have seen this phenomenon twice but have not nailed down what is happening.</sentence>
+            <sentence id="1.2">I have a system where I am creating and destroying hundreds of containers every day (5 at a time, probably 10 times an hour or so).</sentence>
+            <sentence id="1.3">I have a container called 'db' that is long lived (has been up 11 days now).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">After some time (it just occurred to me, so about 11 days of this) when I do:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">docker logs -f db</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">instead of getting the db logs, I am getting the logs for a different container.</sentence>
+            <sentence id="4.2">If I use the long or short id instead of the name, I get the correct logs.</sentence>
+        </paragraph>
+    </description>
+</bug>

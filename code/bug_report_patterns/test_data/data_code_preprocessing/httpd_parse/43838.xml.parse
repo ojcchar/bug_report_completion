@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>43838</id>
+    <title>If-Modified-Since request and htcacheclean conflict</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Setup:
+  Apache2.2.3 setup as a reverse proxy, in a test environment ready to replace 
+a production box.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Problem:
+  Excessive 'If-Modified-Since' traffic to upstream server.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Cause:
+   Every night htcacheclean is run.</sentence>
+            <sentence id="3.2">A returning Client requests an object/file using 'If-Modifed-Since' in the 
+header, as the client has locally cached copy.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Symptom:
+   Reverse proxy makes 'If-Modifed-Since' request to upstream server as object 
+is not available in cache.</sentence>
+            <sentence id="4.2">Upstream server will reply with '304 Not-Modifed'.</sentence>
+            <sentence id="4.3">Note, Proxy still doesn't have a copy.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The expected action would be for the proxy to get the object, and 
+report '304 Not-Modifed' to the client, so that the next request is served out 
+of cache, and no further traffic occurs between proxy and upstream server.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Observation:
+  If the clients cache is cleared, the next request comes from the upstream 
+server, then subsequent requests come from the proxy's cache.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Hack:
+In mod-proxy-http.</sentence>
+            <sentence id="7.2">c we have removed the test 'if r-&gt;main' check (snippet 
+below), which appears to remove the "If-*" headers to the upstream server, but 
+this may have other side effects, but gives us the desired operation.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">/* for sub-requests, ignore freshness/expiry headers */</sentence>
+            <sentence id="8.2">// CJW - Ignore Freshness on requests</sentence>
+            <sentence id="8.3">//if (r-&gt;main) {</sentence>
+            <sentence id="8.4">if (    !</sentence>
+            <sentence id="8.5">strcasecmp(headers_in[counter].</sentence>
+            <sentence id="8.6">key, "If-Match")</sentence>
+            <sentence id="8.7">|| !</sentence>
+            <sentence id="8.8">strcasecmp(headers_in[counter].</sentence>
+            <sentence id="8.9">key, "If-Modified-Since")</sentence>
+            <sentence id="8.10">|| !</sentence>
+            <sentence id="8.11">strcasecmp(headers_in[counter].</sentence>
+            <sentence id="8.12">key, "If-Range")</sentence>
+            <sentence id="8.13">|| !</sentence>
+            <sentence id="8.14">strcasecmp(headers_in[counter].</sentence>
+            <sentence id="8.15">key, "If-Unmodified-Since")</sentence>
+            <sentence id="8.16">|| !</sentence>
+            <sentence id="8.17">strcasecmp(headers_in[counter].</sentence>
+            <sentence id="8.18">key, "If-None-Match")) {</sentence>
+            <sentence id="8.19">continue;</sentence>
+            <sentence id="8.20">}</sentence>
+            <sentence id="8.21">//}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">How should this senario really be fixed?</sentence>
+        </paragraph>
+    </description>
+</bug>

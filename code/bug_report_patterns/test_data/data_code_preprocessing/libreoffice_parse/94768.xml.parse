@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>94768</id>
+    <title>ODF export: invalid &lt;style:graphic-properties&gt; child of paragraph style</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 119286
+input file to recreate the bug</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Under certain circumstances, LO can create seriously invalid ODF.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">An element &lt;style:style style:family="paragraph" ...&gt; may not have a child element &lt;style:graphic-properties&gt;.</sentence>
+            <sentence id="3.2">In LO 5.0.1.2, it can create such elements.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">To recreate the problem, open the attached before.odt.</sentence>
+            <sentence id="4.2">Now save it and look at styles.xml.</sentence>
+            <sentence id="4.3">This will contain this fragment:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;style:style style:name="Code" style:family="paragraph" style:parent-style-name="Standard"&gt;
+      &lt;style:graphic-properties draw:fill="solid" draw:fill-color="#d9d9d9" draw:opacity="100%"/&gt;
+      &lt;style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">To recreate the issue, LO is configured to save to 'ODF 1.2'.</sentence>
+            <sentence id="6.2">The option 'ODF format version:' is set to '1.2'.</sentence>
+        </paragraph>
+    </description>
+</bug>

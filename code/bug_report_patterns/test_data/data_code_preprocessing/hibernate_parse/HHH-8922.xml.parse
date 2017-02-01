@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8922</id>
+    <title>ClassLoaderServiceImpl introduces random classpath ordering via HashSet</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In previous versions of hibernate upto and including 4.2.8 the classpath order was respected when loading persistence.xml.</sentence>
+            <sentence id="1.2">The implementation was in {{org.hibernate.service.classloading.internal.ClassLoaderServiceImpl.getResources(String)}} which was implemented using an {{ArrayList}}</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">But since 4.3.0 the functionality appears to have been moved to:
+{{org.hibernate.boot.registry.classloading.internal.ClassLoaderServiceImpl.getResources(String)}} using a {{HashSet}} introducing an undesirable random element into the ordering.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>46697</id>
+    <title>configure: error: ... Error, SSL/TLS libraries were missing or unusable when building apache 2.2.9</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi, I am trying to build apache 2.2.9 with OpenSSL 0.9.7d and am running into the error "configure: error: ... Error, SSL/TLS libraries were missing or unusable"
+This is on solaris 9.</sentence>
+            <sentence id="1.2">Abstract from the configuyre log is as below</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.23">checking for zlib location... /usr/local</sentence>
+            <sentence id="2.24">  adding "-R/usr/local/lib" to LDFLAGS</sentence>
+            <sentence id="2.25">  adding "-lz" to LIBS</sentence>
+            <sentence id="2.26">checking for zlib library... found</sentence>
+            <sentence id="2.27">  forcing MOD_DEFLATE_LDADD to "-lz"</sentence>
+            <sentence id="2.28">  removed "-lz" from LIBS</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.5">  adding "-I$(top_builddir)/server" to INCLUDES</sentence>
+            <sentence id="3.14">checking sys/times.h usability... yes</sentence>
+            <sentence id="3.15">checking sys/times.h presence... yes</sentence>
+            <sentence id="3.16">checking for sys/times.h... yes</sentence>
+            <sentence id="3.17">checking for times... yes</sentence>
+            <sentence id="3.28">  adding "-I$(top_srcdir)/modules/proxy/../generators" to INCLUDES</sentence>
+            <sentence id="3.30">checking for SSL/TLS toolkit base... /opt/OpenSSL</sentence>
+            <sentence id="3.31">checking for OpenSSL version... checking openssl/opensslv.h usability... yes</sentence>
+            <sentence id="3.32">checking openssl/opensslv.h presence... yes</sentence>
+            <sentence id="3.33">checking for openssl/opensslv.h... yes</sentence>
+            <sentence id="3.34">checking openssl/ssl.h usability... yes</sentence>
+            <sentence id="3.35">checking openssl/ssl.h presence... yes</sentence>
+            <sentence id="3.36">checking for openssl/ssl.h... yes</sentence>
+            <sentence id="3.37">OK</sentence>
+            <sentence id="3.38">checking openssl/engine.h usability... yes</sentence>
+            <sentence id="3.39">checking openssl/engine.h presence... yes</sentence>
+            <sentence id="3.40">checking for openssl/engine.h... yes</sentence>
+            <sentence id="3.41">checking for SSLeay_version in -lcrypto... no</sentence>
+            <sentence id="3.42">checking for SSL_CTX_new in -lssl... no</sentence>
+            <sentence id="3.43">checking for ENGINE_init... no</sentence>
+            <sentence id="3.44">checking for ENGINE_load_builtin_engines... no</sentence>
+            <sentence id="3.45">checking for SSL_set_cert_store... no</sentence>
+            <sentence id="3.46">configure: error: ... Error, SSL/TLS libraries were missing or unusable</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7489</id>
+    <title>Quotes in @Table annotation causes generated sql queries to fail</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have a entity-class "User" with a table annotation @Table(name="\"User\"") to get a "User" table generated in Postgres, generated select statements with table joins in it fail:
+Hibernate: select address0_.</sentence>
+            <sentence id="1.2">"User"_i" as User1_8_1_, ...</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">See http://stackoverflow.com/questions/4350874/unable-to-use-table-named-user-in-postgresql-hibernate</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6137</id>
+    <title>Multiple sql queries String with same content in several EntityLoader instances</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Digging in heap dumps to solve a memory leak problem I found that some memory was wasted by multiple instances of String holding the exact same sql query in the EntityLoader class (the 'sql' instance variable).</sentence>
+            <sentence id="1.2">As long as those query strings may be big (depending on the number of join they contain) it would be nice to .intern() the sql queries before storing them in the EntityLoader.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Rem: this was not the cause of the memory leak I was looking for.</sentence>
+        </paragraph>
+    </description>
+</bug>

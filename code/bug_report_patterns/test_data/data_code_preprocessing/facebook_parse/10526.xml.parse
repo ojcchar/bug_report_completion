@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10526</id>
+    <title>Facebook Connect for iPhone: login and publishing issues</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have been using Facebook Connect in my iPhone app (iCandyMobile) for over a year now so I am familiar with the Connect code.</sentence>
+            <sentence id="1.2">I recently implemented several new apps all containing the Facebook Connect feature but pointing to new Facebook apps.</sentence>
+            <sentence id="1.3">All has been well with my connection to facebook until recently (the last 1-2weeks).</sentence>
+            <sentence id="1.4">I now have two issues: publishing &amp; logging in (i.e. maintaining the logged in state).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">1 Publishing: I have not changed the code for publishing but there seems to be a change in the way the request is now handled.</sentence>
+            <sentence id="2.2">When I press the  Publish  button on the facebook interface after entering some text about a post_ I get an empty window with only an  X  in the upper right-hand corner and the app just sits there.</sentence>
+            <sentence id="2.3">If I tap the  X  it closes the window calling the dialogDidCancel callback.</sentence>
+            <sentence id="2.4">The post actually works and shows up on my wall.</sentence>
+            <sentence id="2.5">However_ it appears as though a callback is not being set to close the window.</sentence>
+            <sentence id="2.6">From a user s perspective it appears as though the FB post has failed and there are no instructions as to how to proceed.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">2 Logging in: I have a facility in my  Settings  UI which implements the Facebook Connect login procedures.</sentence>
+            <sentence id="3.2">Users use this to log them selves in once.</sentence>
+            <sentence id="3.3">Then_ while using my app_ they can simply publish to their wall at any time.</sentence>
+            <sentence id="3.4">This has always worked fine and the user need only log in once_ not each time the apps starts.</sentence>
+            <sentence id="3.5">However_ as with the case in #1 above_ in the last few weeks something has changed.</sentence>
+            <sentence id="3.6">The app is sometimes popping up the web based login screen when the user tries to publish even though the user has already logged in via the Settings facility.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I found that others are having similar problems_ e.g.
+http://stackoverflow.com/questions/2896254/when-is-facebook-connect-supposed-to-call-its-delegate-methods</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">but no solutions have been posted.</sentence>
+            <sentence id="5.2">I see no new lines of code in the samples provided on the web.</sentence>
+            <sentence id="5.3">Did I miss an update or something?</sentence>
+        </paragraph>
+    </description>
+</bug>

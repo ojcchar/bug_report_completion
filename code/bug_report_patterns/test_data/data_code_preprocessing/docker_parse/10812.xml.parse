@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10812</id>
+    <title>Different IPs for docker registry should be tried if available</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">See the second problem from https://github.com/docker/docker/issues/10614#issuecomment-74160895.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Currently only the first one is used.</sentence>
+            <sentence id="2.2">If node that owns the first IP dies, then registry looks unavailable for docker server, even if there are more alive nodes.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">See https://github.com/bobrik/buzzer for an example.</sentence>
+        </paragraph>
+    </description>
+</bug>

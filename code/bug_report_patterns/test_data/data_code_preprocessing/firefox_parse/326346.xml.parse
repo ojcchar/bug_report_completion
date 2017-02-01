@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>326346</id>
+    <title>JS error when selecting text on page</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Steps:</sentence>
+            <sentence id="1.2">1 open places</sentence>
+            <sentence id="1.3">2 open a link (e.g. a live bookmark entry from the "latest headlines" on the toolbar)</sentence>
+            <sentence id="1.4">3 click to select text on the page</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Expected results</sentence>
+            <sentence id="2.2">- text is selected, no spew to console</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Actual results:</sentence>
+            <sentence id="3.2">- text is selected, but js errors: "this._activeView.getResult() has no properties"</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Looks like the command updater is assuming the activeView will always have a result - it not necessarily the case since menuitems destroy theirs as they disappear.</sentence>
+        </paragraph>
+    </description>
+</bug>

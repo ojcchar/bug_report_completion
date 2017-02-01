@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26198</id>
+    <title>BUG: docker-compose running on Windows doesn't pull images from private Registry</title>
+    <description>
+        <paragraph id="10">
+            <sentence id="10.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">'OS: Windows 10 Pro
+' Two private registry tested</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="12.2">1 docker login private.registry.tld(Should result: Login Successful)</sentence>
+            <sentence id="12.4">2 docker-compose up -d</sentence>
+            <sentence id="12.6">3 Using docker-compose pull
+			"'</sentence>
+            <sentence id="12.7">ERROR: Get https://private.registry.tld/v2/npm-boiler/manifests/latest: unauthorized: authentication required
+			"'</sentence>
+            <sentence id="12.8">4 If I pull them one by one works</sentence>
+            <sentence id="12.10">5 insecure-registry already used, doesn't works.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">What should I do?</sentence>
+            <sentence id="13.2">Can I use docker-compose inside Windows?</sentence>
+            <sentence id="13.3">Private-Registry Problems?</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">I will appreciate your help, thank you!</sentence>
+        </paragraph>
+    </description>
+</bug>

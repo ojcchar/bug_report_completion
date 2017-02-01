@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6746</id>
+    <title>ConcurrentModificationException in org.hibernate.connection.DriverManagerConnectionProvider.close()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">A java.util.ConcurrentModificationException is thrown intermittently from DriverManagerConnectionProvider.close().</sentence>
+            <sentence id="1.2">This is the stacktrace:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">All the other methods in that class synchronize their access to the pool ArrayList, but close() does not (even though it iterates over the list).</sentence>
+        </paragraph>
+    </description>
+</bug>

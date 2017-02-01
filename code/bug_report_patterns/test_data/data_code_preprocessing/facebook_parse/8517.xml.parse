@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8517</id>
+    <title>Error requesting extended permissions when user is not logged in</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If a user is logged out when requesting extended permissions_ they are prompted to log in_ then approve the permissions_ but then it gets stuck here:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">http://img94.imageshack.us/img94/986/screenshot20100128at853.png</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here is the login url:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">http://www.facebook.com/login.php?api_key=MY_KEY&amp;fbconnect=true&amp;connect_display=page&amp;return_session=true&amp;session_key_only=true&amp;next=http://www.MY_URL.com&amp;req_perms=publish_stream_offline_access&amp;v=1.0</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">If the user tries a second time everything works fine.</sentence>
+            <sentence id="5.2">If the user is logged in_ everything works great.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">BTW_ the url when I get that error is:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">http://www.facebook.com/connect/prompt_permissions.php?session={%22session_key%22%3A%22SESSIONKEY%22%2C%22uid%22%3AUID%2C%22expires%22%3A0%2C%22secret%22%3A%22SECRET%22%2C%22sig%22%3A%22SECRET%22}&amp;next=http%3A%2F%2Fwww.</sentence>
+            <sentence id="7.2">MY_URL.</sentence>
+            <sentence id="7.3">com%2F</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">So_ the server is validating the request.</sentence>
+            <sentence id="8.2">It is just dying on the redirect back to next.</sentence>
+        </paragraph>
+    </description>
+</bug>

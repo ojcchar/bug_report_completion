@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4333</id>
+    <title>Time format should include seconds</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The date formatters returned by Context.getTimeFormat() and Context.getDateTimeFormat() exclude seconds from the date therefore any code that uses dates formatted by these formatters and requires a precision of up to seconds fails because the seconds get discarded.</sentence>
+            <sentence id="1.2">This needs to be updated to include seconds.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">It makes sense to discard time when displaying dates in the UI but at the API level we shouldn't.</sentence>
+        </paragraph>
+    </description>
+</bug>

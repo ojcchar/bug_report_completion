@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>1871</id>
+    <title>IllegalStateException in ReaderPostDetail</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Reader detail may crash when a very large 'text' column is stored.</sentence>
+            <sentence id="1.2">Same cause as #1838, which was fixed by skipping the text column when viewing a list of posts, which won't work in the reader detail view since the text is necessary.</sentence>
+            <sentence id="1.3">Possible solution is to detect the size of the JSON text when parsing the response and limiting how much of it is stored.</sentence>
+        </paragraph>
+    </description>
+</bug>

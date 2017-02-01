@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>333287</id>
+    <title>Parser fails to deduce type in situation involving heavy template use (another one)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 185868
+source file that reproduces the error</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For the code in the attached file, the parser gives an error at the call to
+f(*iter) in main():</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Invalid arguments Candidates are: void f(int)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">It seems the parser is unable to deduce the type of *iter, even though there is a very plain</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">int operator*() const</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">in the base class of iter's type.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">What seems to be confusing the parser is that the base class of iter's type has an (unused) template parameter which is instantiated with a rather complex type (called "messed_up_type" in the code).</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">The code in this example was reduced from code in boost and libstdc++.</sentence>
+        </paragraph>
+    </description>
+</bug>

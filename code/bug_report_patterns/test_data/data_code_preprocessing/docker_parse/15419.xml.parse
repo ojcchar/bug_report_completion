@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>15419</id>
+    <title>Cannot utilise previous defines in an single ENV block</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If you attempt to declare and re-use an environment variable declared in one single'ENV' command, the usages of that environment variable are not substituted correctly.</sentence>
+            <sentence id="1.2">#### Example</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'
+ENV \
+ MYSQL_VERSION="5.1.36" \
+ MYSQL_ARCHIVE="https://cdn.mysql.com/Downloads/Connector-J/mysql-connector-java-${MYSQL_VERSION}.tar.gz"
+"'
+#### Expected</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The environment variable MYSQL_ARCHIVE should be built using the previously defined MYSQL_VERSION environment variable.</sentence>
+            <sentence id="3.2">#### Affects</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">version 1.7.1, build 786b29d</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>72032</id>
+    <title>FORMATTING: Vertically merged cells in TABLE are distorted</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 89835
+Problem showcase</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Under certain conditions, the vertically merged cells of a table are distorted.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Steps to reproduce (the easiest I found, and giving me 100% reproducibility):</sentence>
+            <sentence id="3.2">1 Create an empty text document in Writer using default template (I know that 4.2 will include a different default template than 4.1.x, so steps may be different for later versions).</sentence>
+            <sentence id="3.3">2 Insert a new table having 2 columns and 9 rows.</sentence>
+            <sentence id="3.4">3 In the table, merge each 3 cells in the first column (1+2+3, 4+5+6, 7+8+9).</sentence>
+            <sentence id="3.5">4 Insert 48 empty lines (paragraphs) before the table, so that the table is split across the first and second pages.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Expected result: the table should be normal.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual result: the last row of the table is distorted: the first column looks like only two cells are merged (7+8), and the  ninth cell disappears (even if Table-&gt;Table Boundaries is turned on, there are no borders in the place where 9th cell must be).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">If saved and reopened, the table shows correctly, but deleting and then inserting again one of the empty paragraphs before the table brings the problem back.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The distortion is not a visual artifact; it is printed and exported to PDF etc.</sentence>
+            <sentence id="7.2">It is not bound to the last row only; sometimes cells in the middle are affected.</sentence>
+            <sentence id="7.3">It is not always evident that this problem is related to the data before the table; I had to recreate my complex tables many times thinking that I broke them somehow, just to see another distorted cell.</sentence>
+            <sentence id="7.4">And it's not always possible to get rid of the problem just changing previous lines, especially with complex and long tables splitting over many pages, because distortion just moves from one cell to another.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Tested with 3.3.0.4, 3.4.6rc2, 3.5.7rc2, 3.6.7.2, 4.1.3.2 and AOO4.0 under Win7x64 - all affected.</sentence>
+            <sentence id="8.2">Marking as Inherited from OOo.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Attached are the test document, the PDF and the screenshot of the problem.</sentence>
+            <sentence id="9.2">Note that the test odt will initially open fine; to see the problem, one must remove and then add one empty paragraph before the table.</sentence>
+        </paragraph>
+    </description>
+</bug>

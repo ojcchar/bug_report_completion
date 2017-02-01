@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27850</id>
+    <title>FormLayout Optimization</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Posted by Nick Evgeniev on EclipseCorner.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Subject: Re: [SWT] PATCH, new widget.</sentence>
+            <sentence id="2.2">(was Re: [SWT] Table disable selection)
+From: nick@octet.com (Nick Evgeniev)
+Newsgroups: eclipse.tools
+Organization: EclipseCorner
+Date: Dec 05 2002 21:21:33</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This is a multi-part message in MIME format.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">------=_NextPart_000_000F_01C29CA4.497E9FC0</sentence>
+            <sentence id="4.2">Content-Type: multipart/alternative;</sentence>
+            <sentence id="4.3">boundary="----=_NextPart_001_0010_01C29CA4.497E9FC0"</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">------=_NextPart_001_0010_01C29CA4.497E9FC0</sentence>
+            <sentence id="5.2">Content-Type: text/plain;</sentence>
+            <sentence id="5.3">charset="iso-8859-1"</sentence>
+            <sentence id="5.4">Content-Transfer-Encoding: quoted-printable</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Hi,</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Attached archive contains patched FormData and modified EFormLayout.</sentence>
+            <sentence id="7.2">=
+Note that FormData now incompatible :( with original FormLayout (Until =
+you rename EFormLayout to FormLayout).</sentence>
+            <sentence id="7.3">FormData has been optimized to =
+cache its expensive calculations and avoid N^2 algorithm.</sentence>
+            <sentence id="7.4">EFormLayout =
+calls flushCache() on each FormData before layouting.</sentence>
+            <sentence id="7.5">I've got 4 times =
+increased performance on pocketpc with this patch!</sentence>
+            <sentence id="7.6">For complex layouts =
+with a lot of "chained" widgets performance gain will be higher.</sentence>
+            <sentence id="7.7">=20</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Cumulative results are:</sentence>
+            <sentence id="8.2">- EFormLayout.layout(Composite, boolean) honors flushCache parameter</sentence>
+            <sentence id="8.3">- FormData uses linear algorithm instead of N^2</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The next step that should be taken is to avoid multiple FormAttachment =
+creation during layout process....</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">The fact that FormLayout works on XP but fails on Pocket PC points to =
+a bug on Pocket PC.</sentence>
+            <sentence id="10.2">I believe your changes fix the symptom, not=20
+  the real problem.</sentence>
+            <sentence id="10.3">Also, the EFormLayout code is wrong in that if the =
+application code explicilty calls Composite.layout() because a child has = changed, EFormLayout will not layout. =20</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">No, the code is correct Composite.layout() will call =
+EFormLayout.layout(this, true).</sentence>
+            <sentence id="11.2">In that case EFormLayout won't cache its =
+previous state, but do relayout as expected.</sentence>
+            <sentence id="11.3">Hence the code just honors =
+flushCache parameter and doesn't break existing functionality.</sentence>
+            <sentence id="11.4">.</sentence>
+            <sentence id="11.5">Am I =
+right?</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">=20</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Sure the algorithm of FormLayout must be optimized to cache its =
+calculations.</sentence>
+            <sentence id="13.2">May be I've missed somthing but to my understanding it =
+does a lot of unnecessary calculations that takes about 3 seconds to =
+layout 10 controls on pocketpc</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>37145</id>
+    <title>data loss with httpd-2.0.55 reverse proxy method=post</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">2 PCs with httpd-2.0.55 running and https enabled (OS SLES9).</sentence>
+            <sentence id="1.2">The first one is
+the "real" webserver with all the documents (HTML-pages, etc), the other
+webserver is configured as a reverse proxy which gets all the data from the
+"real" webserver.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">With a browser I can access both webservers and everything seems to be OK.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The problem: 
+When I get a form (method="post") through the reverse proxy and send it back,
+some of the "post"ed data dont reach the "real" webserver.</sentence>
+            <sentence id="3.2">It seems to happen always if the total amount of posted data is larger than 8
+kbytes.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">When I get a form from the "real" webserver directly and send it back there is
+no loss of data (at any amount).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The "real" webserver and the reverse proxy are talking via https to each other.</sentence>
+            <sentence id="5.2">Switching to http does not solve the problem.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">When _both_ webservers are switched to http the problem has disappeared, but
+this is not really a solution for me.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Downgrading the reverse proxy to httpd-2.0.54 (both webservers with https,
+"real" webserver stays with httpd-2.0.55) solved the problem.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">During all tries I left the httpd.conf and ssl.conf unchanged (exception:
+ProxyPass and ProxyPassReverse for http/https switching of course)</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Reverse proxy configuration:
+&lt;IfModule mod_proxy.</sentence>
+            <sentence id="9.2">c&gt;
+    SSLProxyEngine       on
+    ProxyRequests        off
+    ProxyPass            /  https://10.34.56.78/
+    ProxyPassReverse     /  https://10.34.56.78/
+&lt;/IFModule&gt;</sentence>
+        </paragraph>
+    </description>
+</bug>

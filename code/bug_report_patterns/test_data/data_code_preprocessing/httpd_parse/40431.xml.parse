@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>40431</id>
+    <title>Language of date on error pages</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The error text (e.g. "Objekt nicht gefunden" and its longer explanation) is 
+presented in the language the client requests.</sentence>
+            <sentence id="1.2">However, in the footer, the date 
+is shown in the language corresponding to the locale on the server side.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example, if the language requested by the client is German, but httpd is 
+running fr_FR locale, the page will be partially German, partially French.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Apache should make an attempt to print the date in the language requested by 
+the client.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>503124</id>
+    <title>custom size (32x16) for menupopup icons in toolbarbutton</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">I have a custom toolbar that dynamically downloads it's content.</sentence>
+            <sentence id="2.2">The icons there are of size 32x16.</sentence>
+            <sentence id="2.3">The staight forward way to render them:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;menupopup&gt;
+&lt;menuitem image="example.png" label="a label" class="menuitem-iconic" /&gt;
+&lt;/menupopup&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">results in a shrinkage of the icons.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I tried the -moz-image-region to achieve normal rendering, but the icons are either stretched or ovelapped over the vertical separating line (of the menupopup).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Is there any way customize this size?</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Steps to Reproduce:</sentence>
+            <sentence id="8.2">run this in XUL editor:</sentence>
+            <sentence id="8.3">&lt;?</sentence>
+            <sentence id="8.4">xml version="1.0"?</sentence>
+            <sentence id="8.5">&gt;</sentence>
+            <sentence id="8.6">&lt;?</sentence>
+            <sentence id="8.7">xml-stylesheet href="chrome://global/skin/" type="text/css"?</sentence>
+            <sentence id="8.8">&gt;</sentence>
+            <sentence id="8.9">&lt;window id="yourwindow" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;</sentence>
+            <sentence id="8.10">&lt;toolbar mode="full" id="toolbar" class="chromeclass-toolbar"&gt;</sentence>
+            <sentence id="8.11">&lt;toolbarbutton id="mainMenu" type="menu" image="http://www.xywidgets.com/widgets/il_lovebar/logo.png"&gt;</sentence>
+            <sentence id="8.12">&lt;menupopup&gt;</sentence>
+            <sentence id="8.13">&lt;menuitem label="a label" class="menuitem-iconic" image="http://www.xywidgets.com/widgets/il_lovebar/existinguserblue.png"  /&gt;</sentence>
+            <sentence id="8.18">Actual Results:</sentence>
+            <sentence id="8.19">the icon is shrinked to 16x16</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Expected Results:  
+icon size expected to be rendered as in it's original dimensions.</sentence>
+        </paragraph>
+    </description>
+</bug>

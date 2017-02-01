@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17055</id>
+    <title>illegal memory reference on exit of Apache2.0.44/mod_ssl ;win32</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Apache 2.0.44, Openssl 0.9.7, Zlib 1.1.4, compiled on VS.NET Enterprise, Win2K 
+SP3.</sentence>
+            <sentence id="1.2">Openssl compiled with MASM functions.</sentence>
+            <sentence id="1.3">Mod_deflate is not loaded.</sentence>
+            <sentence id="1.4">Everything else is standard loaded, with mod_ssl loaded.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Everything works fine, if no HTTPS(:443) requests happen.</sentence>
+            <sentence id="2.2">After an HTTPS page 
+is loaded, if Apache is restared or stoped the following message will appear, 
+then Apache exits.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I have noticed, that if Loglevel, in httpd.conf, is at 'warn' or bellow, this 
+error apears.</sentence>
+            <sentence id="3.2">If loglevel is above 'warn', this error does NOT happen.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I have also reproduced this error with someone elses compiled code, 
+http://hunter.campbus.com/.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Apache.exe - Application Error
+The instruction at "0x77f85c41" referenced memory at "0x00000010".</sentence>
+            <sentence id="5.2">The memory 
+could not be "written".</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Debug</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"Unhandled exception at 0x77f85c41 in Apache.exe: 0xC0000005: Access violation 
+writing location 0x00000010."</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">77F85BFA  xor         ecx,ecx </sentence>
+            <sentence id="8.2">77F85BFC  cmp         esi,dword ptr [eax+0A0h] </sentence>
+            <sentence id="8.3">77F85C02  sete        cl   </sentence>
+            <sentence id="8.4">77F85C05  mov         byte ptr [ebp+8],cl </sentence>
+            <sentence id="8.5">77F85C08  mov         eax,dword ptr fs:[00000018h] </sentence>
+            <sentence id="8.6">77F85C0E  movzx       edx,cl </sentence>
+            <sentence id="8.7">77F85C11  mov         dword ptr [eax+0F84h],edx </sentence>
+            <sentence id="8.8">77F85C17  cmp         byte ptr ds:[77FCF1DCh],bl </sentence>
+            <sentence id="8.9">77F85C1D  jne         77F9DB53 </sentence>
+            <sentence id="8.10">77F85C23  mov         al,byte ptr ds:[77FCF1D0h] </sentence>
+            <sentence id="8.11">77F85C28  neg         al   </sentence>
+            <sentence id="8.12">77F85C2A  sbb         eax,eax </sentence>
+            <sentence id="8.13">77F85C2C  not         eax  </sentence>
+            <sentence id="8.14">77F85C2E  and         eax,77FCF480h </sentence>
+            <sentence id="8.15">77F85C33  cmp         dword ptr [esi+10h],ebx </sentence>
+            <sentence id="8.16">77F85C36  mov         dword ptr [ebp-4],eax </sentence>
+            <sentence id="8.17">77F85C39  je          77F891F2 </sentence>
+            <sentence id="8.18">77F85C3F  mov         eax,dword ptr [esi] </sentence>
+            <sentence id="8.19">77F85C41  inc         dword ptr [eax+10h]</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">eax is zero.</sentence>
+        </paragraph>
+    </description>
+</bug>

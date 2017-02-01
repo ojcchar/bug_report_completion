@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5346</id>
+    <title>StandardQueryCache not alive after EntityManagerFactory is re-created</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi all,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I'm facing a trouble that no post seems to be treating yet: I use Hibernate through the JPA API + EhCache as a 2nd level cache.In the appli.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">After a long inactivity period, I happen to get a PersistenceException at the first request to my entity manager.</sentence>
+            <sentence id="3.2">In this case, I create a new EntityManagerFactory, and a new EntityManager.</sentence>
+            <sentence id="3.3">At that moment:</sentence>
+            <sentence id="3.4">- the first request raises an exception about the StandardCacheQuery not being alive.</sentence>
+            <sentence id="3.5">- most curious, the second request works fine.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The exception stack is listed at the end.</sentence>
+            <sentence id="4.2">Other information about the context follows.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Thx in advance for your help.</sentence>
+            <sentence id="5.2">Regards.</sentence>
+            <sentence id="5.3">Franck.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Entities:</sentence>
+            <sentence id="9.2">---------</sentence>
+            <sentence id="9.3">My entities are described with the annotation:</sentence>
+            <sentence id="9.5">or</sentence>
+        </paragraph>
+    </description>
+</bug>

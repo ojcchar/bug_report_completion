@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>132219</id>
+    <title>Use diagram editor mapmode in ShapeCompartmentFigure and ResizableCompartmentFigure</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Now these figures use MapModeUtil class to obtain IMapMode instance but fail 
+since it's used from constructor when they have no parent figure.</sentence>
+            <sentence id="1.2">This 
+effectively results in default mapmode that is himetric.</sentence>
+            <sentence id="1.3">So when another 
+mapmode is specified in diagram editor it is ignored.</sentence>
+            <sentence id="1.4">Now inner scrollpane is 
+configured to have a margin border that is very thick when diagram editor does 
+not use himetric mode so compartment contents are visible only when parent node 
+is very big.</sentence>
+        </paragraph>
+    </description>
+</bug>

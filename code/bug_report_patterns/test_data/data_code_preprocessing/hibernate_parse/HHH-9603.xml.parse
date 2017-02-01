@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9603</id>
+    <title>Custom RevisionEntity &amp; related RevChanges doesn't respect default_schema</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The schema for audit tables, including revinfo &amp; revchanges can be specified via org.hibernate.envers.default_schema.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If you have a custom revision entity, annotated with @RevisionEntity, and extending DefaultTrackingModifiedEntitiesRevisionEntity, it is not created in the specified schema.</sentence>
+            <sentence id="2.2">This can be "fixed" by specifying the schema attribute on @Table but it should really follow the schema defined using default_schema.</sentence>
+            <sentence id="2.3">Besides having to define the audit schema in two places this would break deployments where the only change would have been to the schemas defined in the Hibernate config.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">In addition, the related revchanges table is not created in the defined default_schema.</sentence>
+            <sentence id="3.2">HHH-7441 suggests overriding the @JoinTable on @ModifiedEntityNames but this is also messy and should simply follow the schema defined using default_schema.</sentence>
+        </paragraph>
+    </description>
+</bug>

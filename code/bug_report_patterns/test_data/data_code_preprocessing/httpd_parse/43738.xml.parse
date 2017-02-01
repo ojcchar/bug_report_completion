@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>43738</id>
+    <title>Who is hiding my buffered POST data from mod_ssl after renegotiation?</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">These logs show a connection to a FastCGI server in a directory which requires
+SSL renegotiation.</sentence>
+            <sentence id="1.2">mod_fastcgi uses the deprecated ap_get_client_block() family
+ to read POST data from the client, but rewriting it to use the underlying
+Apache 2 APIs shows identical s.</sentence>
+            <sentence id="1.3">I've deleted a few lines that aren't
+relevant to this analysis...</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The reason for the timeout is that the FastCGI server is waiting to read POST</sentence>
+            <sentence id="3.2">data from the server which never arrives.  In fact, the server thinks it should</sentence>
+            <sentence id="3.3">be passing client data, but when ap_get_client_block() attempts to read the</sentence>
+            <sentence id="3.4">client data, it gets an EOS.  More interestingly, an examination of the</sentence>
+            <sentence id="3.5">input_filter chain at that point shows "http_in" followed by "ssl/tls filter"; I</sentence>
+            <sentence id="3.6">believe the second (or maybe the first) filter here should be "ssl/tls buffer"</sentence>
+            <sentence id="3.7">instead.  (We know from the two previous lines that the POST content has been</sentence>
+            <sentence id="3.8">successfully buffered.)  The buffer does eventually get read, as the following</sentence>
+            <sentence id="3.9">log entries show -- but not by mod_fastcgi.  The very last thing that</sentence>
+            <sentence id="3.10">ssl_io_buffer_fill() does is add the "ssl/tls buffer" filter, so I don't</sentence>
+            <sentence id="3.11">understand why it doesn't appear at the head of the input filter list when</sentence>
+            <sentence id="3.12">ap_get_client_block() is running, nor why it does get read (and presumably is in</sentence>
+            <sentence id="3.13">the filter chain) after the request is aborted.</sentence>
+        </paragraph>
+    </description>
+</bug>

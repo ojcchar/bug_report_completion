@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>38014</id>
+    <title>[PatchAvailable] The status '100 Continue' will be sent after the final status code</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In the case of keepalive the request body will be discared in 
+'ap_discard_request_body(..)'.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">By that the status line  'HTTP/1.1 100 Continue' will be sent 
+after the final status code if the body has not been consumed 
+until now:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Another point is that it makes no sense to possibly *invite* the client 
+for sending the body just to discard it.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">The fix is quite small, see the following patch:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Index: server/protocol.</sentence>
+            <sentence id="6.2">c</sentence>
+            <sentence id="6.3">===================================================================</sentence>
+            <sentence id="6.4">RCS file:</sentence>
+            <sentence id="6.5">/opt/projects/CVSROOT/navajo/src/org/apache/httpd-2.2.</sentence>
+            <sentence id="6.6">X/server/protocol.</sentence>
+            <sentence id="6.7">c,v</sentence>
+            <sentence id="6.8">retrieving revision 1.1</sentence>
+            <sentence id="6.9">diff -c -r1.1 protocol.c</sentence>
+            <sentence id="6.10">*** server/protocol.</sentence>
+            <sentence id="6.11">c   2005/12/08 14:51:37     1.1</sentence>
+            <sentence id="6.12">--- server/protocol.</sentence>
+            <sentence id="6.13">c   2005/12/22 19:14:56</sentence>
+            <sentence id="6.14">***************</sentence>
+            <sentence id="6.15">*** 1116,1122 ****</sentence>
+            <sentence id="6.16">*/</sentence>
+            <sentence id="6.17">AP_DECLARE(void) ap_finalize_request_protocol(request_rec *r)</sentence>
+            <sentence id="6.18">{</sentence>
+            <sentence id="6.19">!</sentence>
+            <sentence id="6.20">(void) ap_discard_request_body(r);</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">/* tell the filter chain there is no more content coming */</sentence>
+            <sentence id="7.2">if (!</sentence>
+            <sentence id="7.3">r-&gt;eos_sent) {</sentence>
+            <sentence id="7.4">--- 1116,1129 ----</sentence>
+            <sentence id="7.5">*/</sentence>
+            <sentence id="7.6">AP_DECLARE(void) ap_finalize_request_protocol(request_rec *r)</sentence>
+            <sentence id="7.7">{</sentence>
+            <sentence id="7.8">!</sentence>
+            <sentence id="7.9">/* Avoid sending 'HTTP/1.1 100 Continue' after the response.</sentence>
+            <sentence id="7.10">!</sentence>
+            <sentence id="7.11">If the client is waiting for 'HTTP/1.1 100 Continue' before</sentence>
+            <sentence id="7.12">!</sentence>
+            <sentence id="7.13">sending the body, the body has been already sent, or will never be.</sentence>
+            <sentence id="7.14">!</sentence>
+            <sentence id="7.15">(see rfc 2616 section 8.2.3)</sentence>
+            <sentence id="7.16">!</sentence>
+            <sentence id="7.17">*/</sentence>
+            <sentence id="7.18">!</sentence>
+            <sentence id="7.19">r-&gt;expecting_100 = 0;</sentence>
+            <sentence id="7.20">!</sentence>
+            <sentence id="7.21">!</sentence>
+            <sentence id="7.22">(void) ap_discard_request_body(r);</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">/* tell the filter chain there is no more content coming */</sentence>
+            <sentence id="8.2">if (!</sentence>
+            <sentence id="8.3">r-&gt;eos_sent) {</sentence>
+        </paragraph>
+    </description>
+</bug>

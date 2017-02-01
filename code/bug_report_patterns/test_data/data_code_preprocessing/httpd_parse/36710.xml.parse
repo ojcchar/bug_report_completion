@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>36710</id>
+    <title>CGI output not captured</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When a batch file is executed via CGI, the output of programs this batch file
+calls is not captured and sent to the client.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Example:</sentence>
+            <sentence id="2.2">contents of test.cmd</sentence>
+            <sentence id="2.3">--------------------</sentence>
+            <sentence id="2.4">@echo off</sentence>
+            <sentence id="2.5">echo Content-type: text/plain</sentence>
+            <sentence id="2.6">echo.</sentence>
+            <sentence id="2.7">echo pinging 192.168.0.160</sentence>
+            <sentence id="2.8">ping.exe 192.168.0.160</sentence>
+            <sentence id="2.9">echo done</sentence>
+            <sentence id="2.10">--------------------</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The host is pinged, thus the ping.exe is executed (I can see the ICMP packets
+with Ethereal, but the output of the ping program does not appear in the browser
+window (only the text 'pinging 192.168.2.160' and 'done').</sentence>
+        </paragraph>
+    </description>
+</bug>

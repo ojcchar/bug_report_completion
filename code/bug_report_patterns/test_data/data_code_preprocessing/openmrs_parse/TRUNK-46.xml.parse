@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-46</id>
+    <title>Patient.indentifiers TreeSet collection updates may result in inconsistent behavior</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As part of sync module testing, the following behavior was observed.</sentence>
+            <sentence id="1.2">From specifics of how it relates to sync and sync-based scenario, see ticket TRAC-1535.</sentence>
+            <sentence id="1.3">\</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The core of the issue is that Patient.identifiers is a TreeSet collection which is exposed to manipulation but the codebase makes no guarantees to its proper sort.</sentence>
+            <sentence id="2.2">TreeSets that hold referenced objects aren't automatically resorted when the values of these objects change.</sentence>
+            <sentence id="2.3">This may, in some cases, result in TreeSet (it is actually the treemap that backs up the treeset implementation that is here in question) being internally setup in a way that produced incorrect results for remove(), contains() operations since those are implemented in treeset in terms of treepmap traversal based on results of CompareTo() operation.</sentence>
+            <sentence id="2.4">In terms of PatientIdentifier, this is most evident with changing values to voided since the PatientIdentifier.CompareTo() sorts voided as 'last'.</sentence>
+            <sentence id="2.5">This mean, that if a collection contains id1, id2, id3 and id1 is voided; the order should now be: id2,id3,id1.</sentence>
+            <sentence id="2.6">However this does not happen.</sentence>
+            <sentence id="2.7">As a result, it is possible that then identifiers.contains(id3) returns false since the treepmap is now essentially corrupted.\</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The practical problem in OpenMRS with the above is that hibernate processes collections exactly using contains()/remove() mechanism to evaluate if child objects need to be removed/deleted from associations.</sentence>
+            <sentence id="3.2">This is already coded around in the NewPatientFormController.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The following pseudo unit test demonstrates this behavior.</sentence>
+            <sentence id="4.2">To debug copy it to PatientTest.PatientTest.java and execute to see the problem, follow the comments.</sentence>
+        </paragraph>
+    </description>
+</bug>

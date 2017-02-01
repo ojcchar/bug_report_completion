@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4761</id>
+    <title>Projection row count fails with MySQL causing paged results to fail</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi all</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have a piece of Java code that gets back a paged result set is as follows</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">// Lots of general criteria above this which generates the WHERE clause
+  .</sentence>
+            <sentence id="3.2">.</sentence>
+            <sentence id="3.3">.</sentence>
+            <sentence id="3.4">.</sentence>
+            <sentence id="3.5">criteria.setMaxResults(maxResults);
+  criteria.setFirstResult(firstResult);
+  criteria.addOrder(Order.desc("id"));
+  
+  // Execute the actual search (**this works and brings back the expected list**)
+  List&lt;WiretapEventHeader&gt; wiretapResults = criteria.list();</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">// Now execute a std hibernate method to get the rowcount so we can page correctly
+  criteria.setProjection(Projections.rowCount());
+  Integer rowCount = 0;
+  List&lt;Integer&gt; rowCountList = criteria.list();
+  
+  // BUG?</sentence>
+            <sentence id="4.2">We never go into this if case if we go beyond the first page
+  if (!</sentence>
+            <sentence id="4.3">rowCountList.isEmpty())
+  {
+    rowCount = rowCountList.get(0);
+  }
+  // Continuation of BUG?</sentence>
+            <sentence id="4.4">Always pass in 0 as rowCount when we go beyond the first page
+  return new PagedWiretapSearchResult(wiretapResults, rowCount, firstResult);</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">* The SQL it runs to perform a rowcount when listing the first page (which is successful) is:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">* The SQL it runs to perform a rowcount when listing the subsequent pages (BUG?</sentence>
+            <sentence id="7.2">not successful) is:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I simplified this down to the examples I gave the MySQL guys in http://bugs.mysql.com/bug.php?id=50005 and ran those from the MySQL query console, when providing the limit ?</sentence>
+            <sentence id="9.2">, ?</sentence>
+            <sentence id="9.3">case, you simply do not get back what I think are sensible results.</sentence>
+            <sentence id="9.4">In fact more often than not you get NULL list returned which causes the PagedWiretapSearchResult(wiretapResults, rowCount, firstResult) to execute with 0 rowCount which then returns a pagedResultSet with resultSize == 0</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">So I think Hibernate core needs to use alternative SQL to get the Projected rowcount from MySQL5</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">I've run the exact same code against Sybase without error.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Hope that all made sense, let me know if you need more details!</sentence>
+        </paragraph>
+    </description>
+</bug>

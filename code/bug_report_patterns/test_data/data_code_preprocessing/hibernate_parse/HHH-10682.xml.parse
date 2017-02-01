@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10682</id>
+    <title>WrongclassException when sharing Primary Key classes among entity classes</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We are using Spring Data Jpa 1.9.4 and have multiple entity classes that share the same Primary Key class.</sentence>
+            <sentence id="1.2">We are encountering a WrongClassException when we make multiple sequential calls to findAll() on different CrudRepositories.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The problem appears to be that the entities are stored in the session by the EntityManager and retrieved by their key only, which may return object of a different entity.</sentence>
+            <sentence id="2.2">Please see the attached code for an example.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">We were able to work around this issue by manually clearing the EntityManager between each call to findAll().</sentence>
+        </paragraph>
+    </description>
+</bug>

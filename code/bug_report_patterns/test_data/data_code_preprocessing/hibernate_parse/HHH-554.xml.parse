@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-554</id>
+    <title>Hibernate 3 HQL to SQL FROM Clause Comma Generation Problem</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I am in the process of migrating from Hibernate 2.0 to Hibernate 3.0.</sentence>
+            <sentence id="1.2">I am attempting to execute a Hibernate 3.0 query that was generated from an HQL string.</sentence>
+            <sentence id="1.3">The following is an example of the HQL I am using:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The following is an example of the generated SQL string:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Notice that it is adding a comma (,) character between the two left outer joins.</sentence>
+            <sentence id="5.2">This is incorrect since the comma shouldn't be there and as a result, I am getting a SQL Exception.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Note that the nested select is because I am using setFirstResult and setMaxResults on my Query object.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">When I used Hibernate 2, the same SQL was generated, but without the incorrect comma.</sentence>
+            <sentence id="7.2">It appears that the SQL generation in Hibernate 3.0 has been completely re-written using ANTLR instead of pure Java code so it is hard to debug into the source to see what is happening.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Has anybody had a similar problem and/or can anybody provide any suggestions on how to get past this problem?</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Thanks in advance.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">- Andrew Pach</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">(I have slightly modified the above examples to make them a little easier to read - but the point should still be clear)</sentence>
+        </paragraph>
+    </description>
+</bug>

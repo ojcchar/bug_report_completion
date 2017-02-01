@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>46582</id>
+    <title>RewriteMap internal functions are not well documented</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In the RewriteMap Directive, section "Internal Function" the documentation says:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">MapType: int, MapSource: Internal Apache function
+Here, the source is an internal Apache function.</sentence>
+            <sentence id="2.2">Currently you cannot create your own, but the following functions already exist:
+...</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Since Apache-2.0.37 this is not true anymore.</sentence>
+            <sentence id="3.2">With the introduction of the function: ap_register_rewrite_mapfunc every Apache Module Writer can now create its own internal RewriteMap.</sentence>
+            <sentence id="3.3">I used this undocumented feature and explained it here: http://code.google.com/p/modicpquery/wiki/Internals</sentence>
+        </paragraph>
+    </description>
+</bug>

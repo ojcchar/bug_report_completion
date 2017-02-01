@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>90621</id>
+    <title>FORMATTING: Custom character styles are not applied in bibliographies</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When a character style is specified for the selected part on the structure lineÂ¹, in the entries tab of the window to modify a bibliography, the character style is applied only if it is one of the character styles that come with LibreOffice.</sentence>
+            <sentence id="1.2">If the character style was created by the user, it is not applied.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Steps to reproduce:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">1 Create a new document in LibreOffice Writer.</sentence>
+            <sentence id="3.2">2 Insert a bibliography.</sentence>
+            <sentence id="3.3">3 Insert a bibliography entry (with type book) somewhere in the document, either from the bibliography database or from the document itself.</sentence>
+            <sentence id="3.4">4 Open the dialog to modify the bibliography.</sentence>
+            <sentence id="3.5">5 In the entries tab, select the book entry type and select one of the parts on the structure line.</sentence>
+            <sentence id="3.6">6 Change the character style to one of the character styles in the drop-down menu.</sentence>
+            <sentence id="3.7">7 Close the dialog and update the bibliography if needed.</sentence>
+            <sentence id="3.8">8 Observe the style of the part you set a character style for.</sentence>
+            <sentence id="3.9">It should be applied.</sentence>
+            <sentence id="3.10">9 Create a new character style.</sentence>
+            <sentence id="3.11">10.</sentence>
+            <sentence id="3.12">Repeat steps 4 to 7, with the new character style you have created.</sentence>
+            <sentence id="3.13">11.</sentence>
+            <sentence id="3.14">This time, the character style should not be applied.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Remark: if the document, at this point, is saved as a flat ODT file and is examined in a text editor, the custom character style will be seen (text:style-name="_34__20_Style_20_name") in the text:bibliography-entry-template element for the book entry template.</sentence>
+            <sentence id="4.2">This might mean that the change is saved, but that custom character styles are not rendered in bibliographies.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">1: https://help.libreoffice.org/Writer/Entries_bibliography#Character_Style</sentence>
+        </paragraph>
+    </description>
+</bug>

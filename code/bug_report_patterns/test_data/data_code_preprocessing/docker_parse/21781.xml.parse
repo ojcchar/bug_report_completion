@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>21781</id>
+    <title>Log driver error after upgrading docker from 1.62 to 1.9.1</title>
+    <description>
+        <paragraph id="5">
+            <sentence id="5.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">EC2</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 Have containers running with docker 1.6.2 installed</sentence>
+            <sentence id="7.3">2 Stop docker daemon</sentence>
+            <sentence id="7.4">3 uninstall lxc-docker-1.6.2</sentence>
+            <sentence id="7.5">4 install docker-engine=1.9.1-0~trusty</sentence>
+            <sentence id="7.6">5 start docker and make sure containers come back up</sentence>
+            <sentence id="7.7">6 add '--log-driver=fluentd' to DOCKER_OPTS</sentence>
+            <sentence id="7.8">7 restart docker</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Containers will fail with '"logs" command is supported only for "json-file" and "journald" logging drivers (got: fluentd)' even though the fluentd log driver was added in '1.8.0'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">New Fluentd driver is used</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">It seems like the old containers that were moved from 1.6.2 still think they are running on 1.6.2?</sentence>
+            <sentence id="13.2">Do I have to kill and recreate them in order to get them to use the "new" docker version?</sentence>
+        </paragraph>
+    </description>
+</bug>

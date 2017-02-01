@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6724</id>
+    <title>AnnotationBinder and HbmBinder improperly set EntityPersisterClass upon class hierarchy</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In Hibernate Core 3.6, PersisterClassProvider (the father of PersisterClassResolver) was called before the Binder phase could set any default value (in particular in the inheritance case).</sentence>
+            <sentence id="1.2">This was done in EntityBinder.bindEntity() if @Persister was not explicitly set.</sentence>
+            <sentence id="1.3">In Hibernate Core 4, such calls to PersisterClassResolver are done in PersisterFactoryImpl#createEntityPersister.</sentence>
+            <sentence id="1.4">This is after the Binder phase which sets persister values when mapping a class hierarchy (AnnotationBinder#bindClass line 608, 631 and 651).</sentence>
+            <sentence id="1.5">Hibernate OGM is not given opportunity to override the value.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">A fix for this involves not setting PersistentClass#setEntityPersisterClass in the Binders (unless explicitly set) and move the class hierarchy decision logic to PersisterClassResolver.</sentence>
+            <sentence id="2.2">Note that the initial PersisterClassResolver implementation was incomplete.</sentence>
+        </paragraph>
+    </description>
+</bug>

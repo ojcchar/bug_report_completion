@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5396</id>
+    <title>JPQL KEY(), ENTRY() and VALUE() does not recognize alias refs</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The KEY() and VALUE() operators for persistent maps do not seem to be implemented in Hibernate.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">E.g. consider the query</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">given the following classes and mappings.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">private String language;</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">(Note that these mappings are similar to but slightly different from the ones I used in HHH-5393.</sentence>
+            <sentence id="11.2">This time the map key column has a different name, creating a redundant column I would have liked to avoid.</sentence>
+            <sentence id="11.3">That way, Hibernate is at least happy about the mapping.)</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Running the query, I get the following exception:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Using upper-case 'KEY(m)', the exception is different:</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">(The message from PostgreSQL means "Function key(bigint) does not exist".)</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">I had a look at the ANTLR grammar for the query parser a while ago (which may have been before 3.5.3), and as far as I could make out, key() and value() are only recognized as lower case keywords, and while the parser accepts the syntax, it fails to generate any appropriate actions.</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">The stack traces are up-to-date though, I just ran my test cases on Hibernate 3.5.3.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7167</id>
+    <title>The new natural id code introduced in 4.1.1 depends on the order the entity persisters are loaded which leads to fatal errors</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">After upgrade to 4.1.1, our application doesn't work anymore because the sqlEntityIdByNaturalIdString field of the entity persister is null while it shouldn't be.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The problem is that the new code requires the entityPersisters to be postInstantiate()d in a specific order namely the root entity persister should be initialized before the child classes (which is not guaranteed at all and is not the case in our application because of the way our classes are organized).</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">-&gt; if the root persister is not postInstantiate()d yet (which is our case here), sqlEntityIdByNaturalIdString is null and so is the one of the concrete class leading to fatal error when trying to execute queries using the natural id.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">In this case, we should force the postInstantiation of the root entity persister before using sqlEntityIdByNaturalIdString (or we should at least generate its sqlEntityIdByNaturalIdString).</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Feel free to ping me if you need any further information.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">--</sentence>
+            <sentence id="10.2">Guillaume</sentence>
+        </paragraph>
+    </description>
+</bug>

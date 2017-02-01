@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>89117</id>
+    <title>EclipsePreference usage issues</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Using I20050324</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">1 When a preference node is added, I attach a IPreferenceChangeListener to the</sentence>
+            <sentence id="2.2">node.</sentence>
+            <sentence id="2.3">I would like to remove the Listener when the node is being removed.</sentence>
+            <sentence id="2.4">However, if you remove a listener when the node is removed, its throws an</sentence>
+            <sentence id="2.5">IllegalStateException.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">2 There is no way of knowing if a Preference has been removed.</sentence>
+            <sentence id="3.2">Its not clear</sentence>
+            <sentence id="3.3">that the listeners (NodeChange/PreferenceChange) of a Preference ever gets</sentence>
+            <sentence id="3.4">cleaned up on removed.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">3 Its also not clear that the children nodes should be removed after the parent</sentence>
+            <sentence id="4.2">node has its keys removed and itself removed.</sentence>
+        </paragraph>
+    </description>
+</bug>

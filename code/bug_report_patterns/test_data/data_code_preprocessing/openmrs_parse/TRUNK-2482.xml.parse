@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2482</id>
+    <title>In 2.x, uploading a module completely crashes OpenMRS</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I uploaded a module, and I get the following stack trace.</sentence>
+            <sentence id="1.2">(I tried with a custom build of the growthchart module, and with the webservices.rest module, which I know worked earlier today.)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">From that point, any page I visit give s similar stack trace, e.g. admin.page gives:
+{code}
+class java.lang.NullPointerException</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.50">{code}</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The "fix" is to restart jetty.</sentence>
+        </paragraph>
+    </description>
+</bug>

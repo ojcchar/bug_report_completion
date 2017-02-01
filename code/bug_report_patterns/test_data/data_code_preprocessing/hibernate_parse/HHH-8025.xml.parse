@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8025</id>
+    <title>Binary compatibility broken between 4.1.9 -&gt; 4.1.10 for Restrictions.eq and Restrictions.ne</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When HHH-2951 was fixed, the return types for the org.hibernate.criterion.Restrictions methods Restrictions.ne and Restrictions.eq were changed from SimpleExpression to Criterion.</sentence>
+            <sentence id="1.2">See the git change log here:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">https://github.com/hibernate/hibernate-orm/commit/70454c9168129620089be47db0524652a4bd8c1e</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Replacing the 4.1.9 build for the 4.1.10 build causes the following runtime exception when either of these Restrictions methods are invoked:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">and for Restrictions.ne:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">As the version number was effectively upgraded by only a minor point release, it could be reasonably expected that this type of change would not have occurred.</sentence>
+            <sentence id="7.2">Would it be possible to confirm that this api breaking change was expected as part of this release and was the only possible solution to the HHH-2951 issue.</sentence>
+        </paragraph>
+    </description>
+</bug>

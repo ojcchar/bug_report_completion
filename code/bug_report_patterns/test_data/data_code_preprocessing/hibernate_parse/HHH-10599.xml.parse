@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10599</id>
+    <title>DetachedCriteria with SubqueryExpression criterion are not serializable as intended</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">By design, DetachedCriteria are intended to be serializable and this is something we have been leveraging in our result paging system for years.</sentence>
+            <sentence id="1.2">We are now hitting an issue when adding subqueries to the detached criteria where our session replication breaks on the serialization attempt.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In contrast to the rest of the DetachedCriteria object graph, the following classes are not serializable:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Instances of these can be present inside of any SubqueryExpression instance, which is connected to a DetachedCriteria as follows:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">An example criteria that ends up with a PropertySubqueryExpression in that List:</sentence>
+        </paragraph>
+    </description>
+</bug>

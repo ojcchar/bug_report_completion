@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18189</id>
+    <title>Port mapping behaviour differs between docker-machine and centos 7 - the mapped host port is open even though the container port is closed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">## BUG REPORT INFORMATION</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">List the steps to reproduce the issue:</sentence>
+            <sentence id="2.2">On OS X, using docker-machine 0.5.0 and docker 1.9.0:</sentence>
+            <sentence id="2.7">On Centos 7, with docker 1.9.1:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Describe the results you received:</sentence>
+            <sentence id="3.2">- On centos 7, the mapped host port appears _open_ and you can connect to it.</sentence>
+            <sentence id="3.3">You can also send data to it.</sentence>
+            <sentence id="3.4">- On docker-machine on OS X has the mapped host port appears _closed_ and you cannot connect to it.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Describe the results you expected:</sentence>
+            <sentence id="4.2">- On both platforms the port mapped on the host is closed, as the container port is closed/does not exist.</sentence>
+            <sentence id="4.3">You cannot connect to the host port.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Provide additional info you think is important:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This is problematic for us as we are trying to wait for services to start from outside the docker container without knowing if they are http, https, other protocol etc.</sentence>
+            <sentence id="6.2">It works fine with docker-machine, but with centos 7 we cannot simply try to connect to the socket, as it will connect.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Another problem is we get really odd errors when pinging these services if they aren't up; for example performing a HTTPS get will result in a SSLHandshakeException rather than a ConnectionRefused.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">---</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">More OS X information:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">More Centos 7 infomation:</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">----------END REPORT ---------</sentence>
+        </paragraph>
+    </description>
+</bug>

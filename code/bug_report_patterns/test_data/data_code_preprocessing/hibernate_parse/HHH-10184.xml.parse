@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10184</id>
+    <title>Unable to load persistence units from JPA persistence.xml if another persistence.xml with jta-data-source is there in classpath</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've a application which is using JPA to perform database operations and has its own persistence.xml with unit-name as "myappunit".</sentence>
+            <sentence id="1.2">This application is dependent on a 3rd party library that too has persistence.xml but with jta-data-source as it can be deployed within a container.</sentence>
+            <sentence id="1.3">Now issue is, while trying to create an instance  entity manager factory for unit-name "myappunit", I'm getting.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">First of all, the above error message is very ambigious, as it is not telling for with persistence.xml the exception is thrown.</sentence>
+            <sentence id="3.2">One need to enable trace level logs of hibernate to figure out for which persistece.xml the exception is thrown.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Upon further debugging and enabling logs I found that in doResolve of PersistenceXmlParser, if validation of even one persistence.xml fails, the complete process of creation of entity manger gets beak.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I think the logic should continue with rest of persistence.xml's and the proper exception handling should be there along with logging.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The current code for doResolve in PersistenceXmlParser is</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">It would be nice if it will be modified as
+{noformat}
+public List&lt;ParsedPersistenceXmlDescriptor&gt; doResolve(Map integration) {
+		final List&lt;ParsedPersistenceXmlDescriptor&gt; persistenceUnits = new ArrayList&lt;ParsedPersistenceXmlDescriptor&gt;();</sentence>
+        </paragraph>
+    </description>
+</bug>

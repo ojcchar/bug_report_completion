@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10426</id>
+    <title>Load fails w/ FATA[0000] Error: Untar fork/exec /usr/bin/docker: argument list too long</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">You can get this error if you have a several hundred images on your host.</sentence>
+            <sentence id="2.2">I had ~450 images (as reported by 'docker images | wc -l') and when loading a saved image it would fail consistently w/ this error.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This looks like it might be related to https://github.com/docker/docker/blob/092d52281d20e3456677ac11d781abf1cd0bdd8f/graph/load.go#L41 which constructs a list of all image IDs on the host which is then serialized to JSON and passed as an argument to a subsequent exec call.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">After deleting my images down to ~250, 'docker load' started working again.</sentence>
+        </paragraph>
+    </description>
+</bug>

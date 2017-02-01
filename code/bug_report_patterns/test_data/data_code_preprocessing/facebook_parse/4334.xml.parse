@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4334</id>
+    <title>Issue with FB.Facebook.init calls to XD_receiver.htm via relative path</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The FB.Facebook.init function needs to handle additional parameters beyond just the relative path to XT_receiver.htm or the relative path needs to be able to handle paths such as  ../XD_receiver.htm</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When tracing connection calls via Firebug Net panel_ I noticed the following:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">When reporting back to the facebook connect site_ the parameter that passes the location of XD_receiver.</sentence>
+            <sentence id="3.2">htm actually changes based on the current path of the site:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Any base URL or URL plus one folder passes the parameter correctly.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Example: staging.lifeyoumentary.com OR staging.lifeyoumentary.com/stories will return the below</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">channel=http%3A%2F%2Fstaging.</sentence>
+            <sentence id="6.2">lifeyoumentary.com%2FFxd_receiver.</sentence>
+            <sentence id="6.3">htm</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">As soon as I another backslash is added_ the relative path is no longer correct:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Example: staging.lifeyoumentary.com/stories/add will return the following_ notice the path is no longer correct.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">channel=http%3A%2F%2Fstaging.</sentence>
+            <sentence id="9.2">lifeyoumentary.com%2Fstories%2Fxd_receiver.</sentence>
+            <sentence id="9.3">htm</sentence>
+        </paragraph>
+    </description>
+</bug>

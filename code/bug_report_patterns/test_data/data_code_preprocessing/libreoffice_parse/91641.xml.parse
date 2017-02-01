@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>91641</id>
+    <title>using kmfl in calc transposes characters when editing existing text</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">For Linux, KMFL (ibus) takes a sequence of keystrokes and converts them into a complex character.</sentence>
+            <sentence id="1.2">In Calc, when editing an existing line of text, the character AFTER the cursor is moved in front of the inserted complex character.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example typing ";n" produces "Å‹".</sentence>
+            <sentence id="2.2">If I am editing "Hello World" and have the cursor in front of W, the buggy end result will be "Hello WÅ‹orld" instead of "Hello Å‹World"</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">á¹¬he problem occurs in oldest-bibisect-43 (and in OpenOffice), so marking as pre-bibisect 3.5.</sentence>
+            <sentence id="3.2">An assert in the development version (dbggui.cxx:817ish) causes calc to exit when doing the "hello Å‹World" test.</sentence>
+            <sentence id="3.3">I removed the assert and confirmed that this bug still exists in 5.0 development tree.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">A comment from potentially related bug 85912 might be helpful here:
+KMFL (and other inputs methods) need to be able to delete text that has been previously entered.</sentence>
+            <sentence id="4.2">There are couple of ways to do this, one being to use a system call like "delete surrounding text".</sentence>
+            <sentence id="4.3">Another method is to simulate the backspace key.</sentence>
+            <sentence id="4.4">The former method is the preferred method because it gives better control over what is deleted.</sentence>
+            <sentence id="4.5">However applications have to be written to support "surrounding text".</sentence>
+            <sentence id="4.6">Apps are supposed to report to ibus whether they support "surrounding text" calls and if they don't,  then kmfl falls back to simulating the backspace key.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">There is a work around (confirmed that it also works for this bug).</sentence>
+            <sentence id="5.2">If you tell libreoffice to interface with ibus using xim rather than the "GTK ibus connector" it currently uses, then calc will "not assert".</sentence>
+            <sentence id="5.3">If you want to test it out to see if it works for you, try the following from a terminal:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">XMODIFIERS=@im=ibus GTK_IM_MODULE=xim libreoffice --writer</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">instructions for installing kmfl can be found here:
+http://linux.lsdev.sil.org/wiki/index.php/Installing_KMFL_on_Ubuntu</sentence>
+        </paragraph>
+    </description>
+</bug>

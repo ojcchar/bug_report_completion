@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1952</id>
+    <title>HQL query that uses implicit polymorphism returns (# concrete classes x n) rows, not n rows, when setMaxResults(n) is used</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If I have m mapped entities that implement the same interface and execute a polymorphic query with setMaxResults(n) I get n x m rows instead of n rows in my result.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Query:
+session.createQuery("from Animal").</sentence>
+            <sentence id="2.2">setMaxResults(1)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Hibernate mapping:
+	&lt;class
+		name="Lion"
+		table="lion" lazy="false"&gt;
+		
+		&lt;id name="id"&gt;
+			&lt;generator class="sequence"&gt;
+				&lt;param name="sequence"&gt;animal_seq&lt;/param&gt;
+			&lt;/generator&gt;
+		&lt;/id&gt;
+				
+	&lt;/class&gt;
+	
+	&lt;class
+		name="Tiger"
+		table="tiger" lazy="false"&gt;
+		
+		&lt;id name="id"&gt;
+			&lt;generator class="sequence"&gt;
+				&lt;param name="sequence"&gt;animal_seq&lt;/param&gt;
+			&lt;/generator&gt;
+		&lt;/id&gt;
+				
+	&lt;/class&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Class definitions:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">public interface Animal {</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">private Long id;</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">private Long id;</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">SQL:
+create sequence animal_seq start with 1
+/</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">create table lion (id number(12) primary key)
+/</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">create table tiger (id number(12) primary key)
+/</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">insert into lion values (animal_seq.</sentence>
+            <sentence id="18.2">nextval)
+/</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">insert into tiger values (animal_seq.</sentence>
+            <sentence id="19.2">nextval)
+/</sentence>
+        </paragraph>
+    </description>
+</bug>

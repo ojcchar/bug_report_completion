@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>63718</id>
+    <title>error log file doesn't exist although path printed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 78227
+error message</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I'm trying to make this sample code work :</sentence>
+            <sentence id="2.2">---</sentence>
+            <sentence id="2.3">(...)</sentence>
+            <sentence id="2.4">dbContext = CreateUnoService("com.sun.star.sdb.DatabaseContext")</sentence>
+            <sentence id="2.5">dbBase = dbContext.getbyName(dbURL)</sentence>
+            <sentence id="2.6">dbConnexion = dbBase.getConnection("", "")</sentence>
+            <sentence id="2.7">statement = dbConnexion.createStatement()</sentence>
+            <sentence id="2.8">nbDropped = statement.executeUpdate("DELETE FROM" &amp; chr(34) &amp; "lyon" &amp; chr(34) )</sentence>
+            <sentence id="2.9">(...)</sentence>
+            <sentence id="2.10">---</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">When I run this code, I get the attached error message.</sentence>
+            <sentence id="3.2">Then I can't find the error log file whose path is printed in the message.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Is there a missing flush to log file ?</sentence>
+        </paragraph>
+    </description>
+</bug>

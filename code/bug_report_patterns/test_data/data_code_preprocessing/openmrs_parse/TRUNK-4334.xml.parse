@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4334</id>
+    <title>Error upgrading to daily build</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I got the following error when trying to upgrade with today's (March 27) daily build...</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{quote}</sentence>
+            <sentence id="2.2">â€¢??? Caused By: liquibase.exception.CustomChangeException: Error while updating duplicate LocationAttributeType object names:???</sentence>
+            <sentence id="2.3">â€¢??? Caused By: Table 'openmrs.location_attribute_typeinner' doesn't exist???</sentence>
+            <sentence id="2.4">â€¢Unable to update the database. See server error logs for the full stacktrace.</sentence>
+            <sentence id="2.5">â€¢??? Caused By: Error while updating duplicate LocationAttributeType object names:???</sentence>
+            <sentence id="2.6">â€¢???There was an error while updating the database to the latest. file: liquibase-update-to-latest.xml. Error: Migration failed for change set liquibase-update-to-latest.xml::20140304-TRUNK-4170-duplicateLocationAttributeTypeNameChangeSet::harsz89:???</sentence>
+            <sentence id="2.7">â€¢??? Reason: liquibase.exception.UnexpectedLiquibaseException: liquibase.exception.CustomChangeException: Error while updating duplicate LocationAttributeType object names:???</sentence>
+            <sentence id="2.8">{quote}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I tried upgrading from my previous daily build, and upgrading from my current OpenMRS 1.9.7 database as well.</sentence>
+            <sentence id="3.2">Both failed with the error above.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>319425</id>
+    <title>[compiler] JDT outputs corrupt .class file for problem type</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build Identifier: Version: 3.5.2 Build id: M20100211-1343</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">We ported an application from Object Pascal to Java, and that generated a huge but valid .</sentence>
+            <sentence id="2.2">java file with many inner classes and dozens of methods.</sentence>
+            <sentence id="2.3">One of those inner classes is compiled to a corrupt .class file, as displayed in the image.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">For legal reasons I can't send you the whole project.</sentence>
+            <sentence id="3.2">I'm sending you an image that shows the problem, the .</sentence>
+            <sentence id="3.3">java file and the corrupt .</sentence>
+            <sentence id="3.4">class file, but there are many dependecies and hence it won't simply compile.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I spent 4 hours trying to isolate it, but wasn't very successfull.</sentence>
+            <sentence id="4.2">Every change I made to the TRtDBConnection inner class produced either the same error or a completely unusable .</sentence>
+            <sentence id="4.3">class.</sentence>
+            <sentence id="4.4">For instance, if you add two new methods with the same name (which causes a semantic error), the .</sentence>
+            <sentence id="4.5">class is correctly generated, but any invocation would produce the standard "Unresolved compilation problem" error.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I found that if I create a new "sister" class, with empty implementations for the interface methods, I can instantiate and invoke methods normally.</sentence>
+            <sentence id="5.2">I'm in the process of gradually moving implementation from the bad class to the sister class, until the error shows up, but this is very painfull and time-consuming, since I have to resolve dependencies.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Additional information:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">-Eclipse error log shows nothing for the cleanup-rebuild operation that generates a bad .</sentence>
+            <sentence id="7.2">class.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">-This error happens in other machines and there are no bytecode modification tools in place, such as AOP.</sentence>
+            <sentence id="8.2">It's just a plain Java project.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">-Java compiler is set to 1.6 with default compliance settings.</sentence>
+            <sentence id="11.2">We are linking to a normal Java SE 6 library.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Steps to Reproduce:
+			Just compile.</sentence>
+        </paragraph>
+    </description>
+</bug>

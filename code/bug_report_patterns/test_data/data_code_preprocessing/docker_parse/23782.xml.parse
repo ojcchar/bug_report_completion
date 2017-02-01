@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23782</id>
+    <title>[1.12.0-rc2] Can not connect remote docker instance to running swarm cluster (rpc error: code = 4 desc = context deadline exceeded)</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">Client (laptop, OSX)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Server:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Client:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Server (swarm cluster):</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Configuration is a group of 4 swarm nodes running ubuntu 16.04.</sentence>
+            <sentence id="14.2">My 'client' is the Docker for Mac beta running on a different network (home).</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">From the swarm node leader:</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">4 nodes total talking on a private network:</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="19.2">1 Configure swarm 1.12 as above - the cluster has four total nodes using a private eth1 network to connect to one another.</sentence>
+            <sentence id="19.3">2 Now, using the docker for mac beta, perform a 'docker swarm join --manager publicIP:2377' you should see the following on the leader:</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">you can then run 'docker node accept ai6cie5sw35rucks3kfeojdw8' and we can see the node (the laptop) approved:</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.4">1 Type 'docker node ls' on the leader:</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">You can see it's in 'unreachable' state.</sentence>
+            <sentence id="24.2">1 Swap back to the client (laptop):</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">the Swarm cluster goes into an odd state throwing:</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">Additionally, I can not demote / rm on the leader:</sentence>
+        </paragraph>
+        <paragraph id="31">
+            <sentence id="31.1">in order to get out of that state you must run this on the client, then do the rm from the leader</sentence>
+        </paragraph>
+        <paragraph id="33">
+            <sentence id="33.1">**Describe the results you expected:**</sentence>
+            <sentence id="33.2">I expected the client on my remote laptop to be able to join as a manager to be able to deploy services / run cluster administration commands (it seems 'manager' mode is the only way to do this).</sentence>
+            <sentence id="33.3">The documentation doesn't make it clear if you can connect the docker client on one network / system remotely to the full swarm cluster without 'joining' as a master.</sentence>
+        </paragraph>
+        <paragraph id="34">
+            <sentence id="34.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="35">
+            <sentence id="35.1">If you join the 'client' as a default worker in a fresh cluster with only 1 manager, and then promote the remote client, all managers will begin throwing 'Error response from daemon: rpc error: code = 4 desc = context deadline exceeded' effectively going offline.</sentence>
+            <sentence id="35.2">See issue https://github.com/docker/docker/issues/23784</sentence>
+        </paragraph>
+    </description>
+</bug>

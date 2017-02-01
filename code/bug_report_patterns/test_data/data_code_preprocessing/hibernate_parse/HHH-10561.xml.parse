@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10561</id>
+    <title>Join on treated root not rendered in HQL</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When treating the root of a query as a subclass, joins on the treated root are not rendered in the resulting HQL, resulting in 'Invalid path' errors.</sentence>
+            <sentence id="1.2">For example, the following query:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Renders the following HQL:
+</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The join to Smell is not part of the resulting query, causing the following stacktrace when trying to execute the query:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">For this simple query, a work around is to start the query on SmellyCheese, eliminating the treat entirely, but in more complex situations (like dynamically generated queries), this is not always possible.</sentence>
+        </paragraph>
+    </description>
+</bug>

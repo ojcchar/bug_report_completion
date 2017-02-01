@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4720</id>
+    <title>Encounter search will not match on id unless it contains digits</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I found this by code inspection.</sentence>
+            <sentence id="1.2">It looks wrong :-)
+In HibernateEncounterDAO.createEncounterByQueryCriteria, there are two main clauses: one for if an identifier argument is provided, and one not.</sentence>
+            <sentence id="1.3">In the case where the identifier is not supplied, the query is supposed to match either patient name or identifier.</sentence>
+            <sentence id="1.4">However the code seems to choose which based on whether there is a digit in the text:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">} else {
+			String name = null;
+			String identifier = null;
+			if (query.matches(".</sentence>
+            <sentence id="2.2">*\d+.</sentence>
+            <sentence id="2.3">*")) {
+				identifier = query;
+			} else {
+				// there is no number in the string, search on name
+				name = query;
+			}
+			criteria = new PatientSearchCriteria(sessionFactory, criteria).</sentence>
+            <sentence id="2.4">prepareCriteria(name, identifier,
+			    new ArrayList&lt;PatientIdentifierType&gt;(), false, orderByNames, false);
+		}</sentence>
+        </paragraph>
+    </description>
+</bug>

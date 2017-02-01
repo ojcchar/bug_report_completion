@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3593</id>
+    <title>proposed concept queue - proposed concept text did not get saved to dictionary correctly</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">On the proposed concept queue, user can can choose "save as concept" and "save as synonym" when mapping to existing concepts.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If choosing "save as concept", the proposed concept text should be updated as fully specify name.</sentence>
+            <sentence id="2.2">However, concept dictionary did not get updated correctly.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">TODO:</sentence>
+            <sentence id="3.2">* Write unit tests to reproduce the problem, see [Jeremy's comment on TRUNK-3592|https://tickets.openmrs.org/browse/TRUNK-3592?focusedCommentId=188373&amp;page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-188373] for an hl7 message that you can process through the ORUR01 handler to test creating and processing a proposed concept.</sentence>
+            <sentence id="3.3">* Fix the failing unit tests</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">*Note:* This bug might only be in 1.8.x because probably the created concept's uuid is still null when hibernate performs a premature flush.</sentence>
+        </paragraph>
+    </description>
+</bug>

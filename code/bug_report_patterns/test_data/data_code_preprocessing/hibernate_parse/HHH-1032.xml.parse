@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1032</id>
+    <title>have proxy from ThreadLocalCurrentSession better handle UndeclaredThrowableException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In previous version of hibernate saving two object with the same id 
+gave an NonUniqueObjectException  which could easily be caught
+as it is derived from HibernateException.</sentence>
+            <sentence id="1.2">However in Hibernate 3.1 rc1 I get this stacktrace:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">where the original exception is contain in a rather ugly UndeclaredThrowableException.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-27</id>
+    <title>HSQLDB (unit test database) does not enforce not-null columns</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I noticed that HSQLDB is not enforcing not-null on the HL7Source column for the HL7InError.hbm.xml file while trying to troubleshoot a particular [ORUR01Handler test|http://dev.openmrs.org/browser/openmrs/trunk/test/api/org/openmrs/hl7/handler/ORUR01HandlerTest.java?rev=12157#L344] that succeeds in unit testing but [fails in real life|ticket:2306].</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I also asked about this in the Hibernate IRC channel, and [Steve Ebersole|http://relation.to/Bloggers/Steve] said that this is why they are moving to using [H2|http://www.h2database.com] for their unit tests:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">[chopin] hey folks, is there a known issue w/ hsqldb not recognizing not-null on fields?</sentence>
+            <sentence id="3.2">\</sentence>
+            <sentence id="3.3">[chopin] er, not enforcing?</sentence>
+            <sentence id="3.4">\</sentence>
+            <sentence id="3.5">[sebersole] chopin: these are the kinds of reasons we are moving to h2 for our testing db\</sentence>
+            <sentence id="3.6">[chopin] sebersole: ah\</sentence>
+            <sentence id="3.7">[sebersole] hsqldb gives too many false positives\</sentence>
+            <sentence id="3.8">[chopin] when you switched (if you did), did many, many, many unit tests finally fail?</sentence>
+            <sentence id="3.9">\</sentence>
+            <sentence id="3.10">*chopin loathes the potential\</sentence>
+            <sentence id="3.11">[sebersole] it lets you do all kinds of horsesh$t\</sentence>
+            <sentence id="3.12">[sebersole] chopin: we are still in the process\</sentence>
+            <sentence id="3.13">[chopin] sebersole: ah\</sentence>
+            <sentence id="3.14">[chopin] kthx\</sentence>
+            <sentence id="3.15">[sebersole] we just discussed this on monday\</sentence>
+            <sentence id="3.16">[sebersole] but the initial try gave 20 errors i think \</sentence>
+            <sentence id="3.17">[chopin] great ... glad we're not the only ones\</sentence>
+            <sentence id="3.18">[chopin] :-/\</sentence>
+            <sentence id="3.19">*chopin looks intently at h2\</sentence>
+            <sentence id="3.20">[sebersole] h2 is the same guy that originally wrote hsqldb btw\</sentence>
+            <sentence id="3.21">[sebersole] but h2 is far more fully featured</sentence>
+        </paragraph>
+    </description>
+</bug>

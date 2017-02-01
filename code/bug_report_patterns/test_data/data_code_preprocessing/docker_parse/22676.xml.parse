@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22676</id>
+    <title>when pushing with content trust enabled and invalid notary cert, it leaves broken state, preventing future pushes</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">1 set up a private registry with notary</sentence>
+            <sentence id="1.2">2 trust the private registry with --insecure-registry</sentence>
+            <sentence id="1.3">3 DON'T trust the private registry from the docker client (only the server)</sentence>
+            <sentence id="1.4">4 Try to push with DOCKER_CONTENT_TRUST enabled</sentence>
+            <sentence id="1.5">5 It'll fail with a certificate error</sentence>
+            <sentence id="1.15">6 Add the registry's cert to '~/.</sentence>
+            <sentence id="1.16">docker/tls/172.17.0.1/ca.crt'</sentence>
+            <sentence id="1.17">7 Push again</sentence>
+            <sentence id="1.18">8 Boom:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The problem is that the first push leaves behind the following directories and the second push gets confused by them:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="11.2">physical</sentence>
+        </paragraph>
+    </description>
+</bug>

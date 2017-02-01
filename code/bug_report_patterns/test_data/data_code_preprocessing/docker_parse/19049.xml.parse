@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>19049</id>
+    <title>"Stderr: Unable to find image 'distro' locally" using Docker 1.9.1 as a provider for Vagrant 1.7.4</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello, I have the following images (names slightly changed due to enterprise setting):</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">â‡’ docker images
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
+distro/fromtomee latest 17dbc9a93d2b 12 days ago 658 MB
+centos7/tomee latest e55a49fbaa87 12 days ago 614.4 MB</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I then run:
+â‡’ vagrant up --provider=docker</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">and get the following output:</sentence>
+            <sentence id="4.2">Bringing machine 'default' up with 'docker' provider...</sentence>
+            <sentence id="4.3">==&gt; default: Docker host is required. One will be created if necessary...</sentence>
+            <sentence id="4.4"> default: Docker host VM is already ready.</sentence>
+            <sentence id="4.5">==&gt; default: Syncing folders to the host VM...</sentence>
+            <sentence id="4.6"> default: The machine you're rsyncing folders to is configured to use</sentence>
+            <sentence id="4.7"> default: password-based authentication. Vagrant can't script rsync to automatically</sentence>
+            <sentence id="4.8"> default: enter this password, so you'll likely be prompted for a password</sentence>
+            <sentence id="4.9"> default: shortly.</sentence>
+            <sentence id="4.10"> default:</sentence>
+            <sentence id="4.11"> default: If you don't want to have to do this, please enable automatic</sentence>
+            <sentence id="4.12"> default: key insertion using 'config.ssh.insert_key'.</sentence>
+            <sentence id="4.13"> default: Rsyncing folder: /Users/bfallon/.m2/ =&gt; /var/lib/docker/docker_1451917171_69785</sentence>
+            <sentence id="4.14">docker@127.0.0.1's password:</sentence>
+            <sentence id="4.15"> default: Rsyncing folder: /Users/bfallon/projects/repo/distro/ =&gt; /var/lib/docker/docker_1451917171_23838</sentence>
+            <sentence id="4.16">docker@127.0.0.1's password:</sentence>
+            <sentence id="4.17">==&gt; default: Warning: When using a remote Docker host, forwarded ports will NOT be</sentence>
+            <sentence id="4.18">==&gt; default: immediately available on your machine. They will still be forwarded on</sentence>
+            <sentence id="4.19">==&gt; default: the remote machine, however, so if you have a way to access the remote</sentence>
+            <sentence id="4.20">==&gt; default: machine, then you should be able to access those ports there. This is</sentence>
+            <sentence id="4.21">==&gt; default: not an error, it is only an informational message.</sentence>
+            <sentence id="4.22">==&gt; default: Creating the container...</sentence>
+            <sentence id="4.23"> default: Name: distro_default_1451917323</sentence>
+            <sentence id="4.24"> default: Image: distro/fromtomee</sentence>
+            <sentence id="4.25"> default: Volume: /var/lib/docker/docker_1451917171_69785:/m2</sentence>
+            <sentence id="4.26"> default: Volume: /var/lib/docker/docker_1451917171_23838:/vagrant</sentence>
+            <sentence id="4.27"> default: Port: 7126:80</sentence>
+            <sentence id="4.28"> default: Port: 7127:443</sentence>
+            <sentence id="4.29"> default: Port: 7128:8080</sentence>
+            <sentence id="4.30"> default: Port: 7129:8443</sentence>
+            <sentence id="4.31"> default: Port: 7130:8787</sentence>
+            <sentence id="4.32">A Docker command executed by Vagrant didn't complete successfully!</sentence>
+            <sentence id="4.33">The command run along with the output from the command is shown</sentence>
+            <sentence id="4.34">below.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Command: "docker" "run" "--name" "distro_default_1451917323" "-d" "-p" "7126:80" "-p" "7127:443" "-p" "7128:8080" "-p" "7129:8443" "-p" "7130:8787" "-v" "/var/lib/docker/docker_1451917171_69785:/m2" "-v" "/var/lib/docker/docker_1451917171_23838:/vagrant" "distro/fromtomee"</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Stderr: Unable to find image 'distro/fromtomee:latest' locally
+Pulling repository distro/fromtomee
+Error: image distro/fromtomee:latest not found</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Stdout:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Now, we are just starting to move to Docker as an org, so we do not have any kind of private registry, however, the images is created locally as you can see above.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I am running on OS X Yosemite.</sentence>
+        </paragraph>
+    </description>
+</bug>

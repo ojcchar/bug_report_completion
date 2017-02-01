@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8270</id>
+    <title>Win2k - BSOD when stopping Apache2 service with Service Snap-in</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">OS: Win2k Server SP2 + crit.</sentence>
+            <sentence id="1.2">updates as of 17-APR-2002
+IE: 5.01 SP2</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">%JAVA_HOME% = d:\jdk1.3.01
+%APACHE_HOME = d:\Apache\Apache_httpd_2.0.35
+%ANT_HOME% = d:\Apache\jakarta-ant-1.4.1
+%CATALINA_HOME% = d:\apache\Tomcat_4.0.3</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Services:
+Apache Tomcat  "automatic" listen_port:8080 (defaults) (stand-alone)
+Apache2  "automatic" listen_port:80 (defaults)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Apache_2.035 docRoot d:\web_docs</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">steps:</sentence>
+            <sentence id="5.2">1 Boot machine</sentence>
+            <sentence id="5.3">2 Attempt to use "Services" snapin to stop Apache2</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Behavior:
+Service attempts to stop Apache2 but times out (un-able to stop service), then 
+dumps within 2 min to BSOD - mem dump -"LOCKED PAGES"</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">FYI Also:
+Changed services (Apache &amp; Tomcat - did not start tomcat) to "manual" -&gt; same 
+result).</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Will not release if run from cmd either.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Locks "task manager" up when trying to use "task manager" to end process.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Re-boot necessary to cure problem.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"Runs fine if no restart of service is needed w/o rebooting entire server."</sentence>
+        </paragraph>
+    </description>
+</bug>

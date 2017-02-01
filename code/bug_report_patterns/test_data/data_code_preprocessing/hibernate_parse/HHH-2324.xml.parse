@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2324</id>
+    <title>Column.getAlias(Dialect dialect) generates aliases longer than Dialect.getMaxAliasLenght()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">org.hibernate.mapping.Column.getAlias(Dialect dialect) doesn't honor Dialect.getMaxAliasLenght() all the time.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Given:</sentence>
+            <sentence id="2.2">- a column named "ABCDEFGHIK_X"</sentence>
+            <sentence id="2.3">- Dialect.getMaxAliasLenght() = 10</sentence>
+            <sentence id="2.4">- uniqueInteger = 12</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">getAlias generates the alias "ABCDEFGHIK12_" which is over 10 characters (13 actually).</sentence>
+            <sentence id="3.2">The problem happens, whenever an alias gets shortened due to an non-letter character and the shortened alias is less than or equal to Dialect.getMaxAliasLenght().</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">One possible fix could be another length check befor appending unique:</sentence>
+        </paragraph>
+    </description>
+</bug>

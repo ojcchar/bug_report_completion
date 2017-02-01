@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>320281</id>
+    <title>No SelectionChangeEvent on Graph.setSelection()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">On one side I've registered a SelectionChangeListener on a Graph Object and on another side I've set the selection of the graph by a key event.</sentence>
+            <sentence id="1.2">But after the setSelection i get no SelectionChangeEvent, selecting by mouse works perfect.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In our graph you can navigate withe the arrow keys to select the next GraphNode.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I've fixed this by adding the fireWidgetSelectedEvent() in the loop of the setSelection() method.</sentence>
+            <sentence id="3.2">I think the same for selectAll() method.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I hope it's right.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">By the way, why so many methods are private?</sentence>
+            <sentence id="7.2">So I can't fix or extends classes.</sentence>
+        </paragraph>
+    </description>
+</bug>

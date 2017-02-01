@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18853</id>
+    <title>--tmpfs fails with Permission denied and noexec is an invalid option</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">From https://github.com/rhatdan/docker/blob/b3e527dfd242ad30c0297c8b257862116cf2c50e/integration-cli/docker_cli_run_unix_test.go#L449: 
+'dockerCmdWithError("run", "--tmpfs", "/run:noexec,nosuid,rw,size=5k,mode=700", "busybox", "touch", "/run/somefile"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The logs below are generated with https://gist.github.com/konstruktoid/d5444c76cf502c795c29.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">_:: Mount a tmpfs to verify basic tmpfs works_</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">_:: Create a testfile in the tmpfs_</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">_:: debian_::wheezy container uname*</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">_:: debian_::wheezy container uname w readonly filesystem*</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">_:: debian_::wheezy container uname with --tmpfs /etc*</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">_:: debian_::wheezy container uname with --tmpfs /etc:noexec*</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">_:: debian_::wheezy container uname with --tmpfs /etc:rw,nosuid using sudo*</sentence>
+        </paragraph>
+        <paragraph id="45">
+            <sentence id="45.1">_:: Docker version_</sentence>
+        </paragraph>
+        <paragraph id="48">
+            <sentence id="48.1">_:: Docker info_</sentence>
+        </paragraph>
+        <paragraph id="50">
+            <sentence id="50.1">_:: Docker group_
+docker:x:999:tsj</sentence>
+        </paragraph>
+        <paragraph id="51">
+            <sentence id="51.1">_:: Host information_
+No LSB modules are available.</sentence>
+        </paragraph>
+    </description>
+</bug>

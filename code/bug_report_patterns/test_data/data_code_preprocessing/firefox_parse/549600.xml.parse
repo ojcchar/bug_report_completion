@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>549600</id>
+    <title>Firefox 3.6 bug on Mac with Flash MouseEvent</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">In a Flash Application, if you're using somewhere a MouseEvent.ROLL_OUT or MouseEvent.MOUSE_OUT, this event will be fired even if you only click on a object without leaving the object with the mouse.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">In short, MOUSE_OUT and ROLL_OUT flash events are fired when it shouldn't, details there:
+http://www.soundstep.com/blog/2010/03/02/firefox-3-6-mac-bug-with-mouseevent/</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This appears on Firefox 3.6</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Steps to Reproduce:</sentence>
+            <sentence id="6.2">1 embed a flash movie that uses MouseEvent.MOUSE_OUT</sentence>
+            <sentence id="6.3">2 click on the object where the event is added</sentence>
+            <sentence id="6.4">3 the MouseEvent.MOUSE_OUT will be fired on a click</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Actual Results:
+The Flash event MouseEvent.MOUSE_OUT will be fired on a click.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Expected Results:  
+The Flash event MouseEvent.MOUSE_OUT shoudn't be fired on a click.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The flash mouse events, such as Mouse_CLICK and the others, are coming from the browser.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">I believe that, or Firefox is firing mouse-out events when it shouldn't (on a click event), or somehow the flash is removed then put in place again on a click, so the flash loses the focus and fires a mouse_out event.</sentence>
+        </paragraph>
+    </description>
+</bug>

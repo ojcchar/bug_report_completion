@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>33207</id>
+    <title>Results of my suexec.c code audit</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've done a code audit of the suexec.c file just for fun.</sentence>
+            <sentence id="1.2">Here are my results:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">* you will have problems when sizeof(uid_t) &gt; sizeof(int).</sentence>
+            <sentence id="2.2">(consider 64 bit uid_t and 32 bit int; therefore don't use atoi(3).)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">* you will have problems when sizeof(gid_t) &gt; sizeof(int).</sentence>
+            <sentence id="3.2">(consider 64 bit gid_t and 32 bit int; therefore don't use atoi(3).)</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">* you did not check for NULL returns of strdup.</sentence>
+            <sentence id="4.2">Fixed in the patch.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">* you had a possible ("compile time") buffer overflow.</sentence>
+            <sentence id="5.2">As long as AP_SAFE_PATH is a string literal (which it should really be),</sentence>
+            <sentence id="5.3">the patched version is faster and occupied less memory.</sentence>
+            <sentence id="5.4">Fixed in the patch.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">* you had an unused variable (main:prog) in the code.</sentence>
+            <sentence id="6.2">Fixed in the patch.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">* you are still not able to report the failure of execv to the logfile.</sentence>
+            <sentence id="7.2">See the other bug reports.</sentence>
+        </paragraph>
+    </description>
+</bug>

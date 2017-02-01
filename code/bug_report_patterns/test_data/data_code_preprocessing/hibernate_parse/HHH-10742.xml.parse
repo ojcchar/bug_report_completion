@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10742</id>
+    <title>Hibernate dynamic subclassing makes invalid class loader assumptions</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When using hibernate persistent types are "enhanced" using javassist proxying.</sentence>
+            <sentence id="1.2">This proxying behaviour makes the assumption that javassist and hibernate internal types are directly loadable by the client's class loader.</sentence>
+            <sentence id="1.3">In some environments (for example OSGi) This isn't true.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The problem is here: https://github.com/hibernate/hibernate-orm/blob/ec4f20a5fba79444dbd704f1305f961c339dd7d1/hibernate-core/src/main/java/org/hibernate/proxy/pojo/javassist/JavassistProxyFactory.java#L96</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">There is a related issue in Aries here: https://issues.apache.org/jira/browse/ARIES-1534 but it would be best if the 5.0.x and 5.1.x Hibernate branches could be fixed</sentence>
+        </paragraph>
+    </description>
+</bug>

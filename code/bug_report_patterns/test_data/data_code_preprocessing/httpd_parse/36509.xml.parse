@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>36509</id>
+    <title>mod_rewrite incorrectly expands userdir URLs?</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Example:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">http://localhost/~alex/testsite/blahblahblah</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I have a .htaccess file in /home/alex/public_html/testsite that reads:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">RewriteEngine On
+#RewriteBase /~alex/testsite
+RewriteRule ^(.</sentence>
+            <sentence id="4.2">*?)</sentence>
+            <sentence id="4.3">$ url-handler.</sentence>
+            <sentence id="4.4">php</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Now according to the manual:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">"The RewriteBase directive explicitly sets the base URL for per-directory
+rewrites.</sentence>
+            <sentence id="6.2">As you will see below, RewriteRule can be used in per-directory config
+files (.</sentence>
+            <sentence id="6.3">htaccess).</sentence>
+            <sentence id="6.4">There it will act locally, i.e., the local directory prefix
+is stripped at this stage of processing and your rewriting rules act only on the
+remainder.</sentence>
+            <sentence id="6.5">At the end it is automatically added back to the path."</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">If I leave the RewriteBase uncommented, I get this: "The requested URL
+/home/alex/public_html/testsite/url-handler.</sentence>
+            <sentence id="7.2">php was not found on this server."</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Seems like some funny behaviour.</sentence>
+            <sentence id="8.2">Please correct me if I am wrong but this setup
+works flawlessly with addresses without the ~ as far as I can tell.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Cheers</sentence>
+        </paragraph>
+    </description>
+</bug>

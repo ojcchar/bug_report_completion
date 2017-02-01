@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>34608</id>
+    <title>In mod_vhost alias %O not being parsed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">One of my users who has a site hosted from mod_vhost_alias wanted SSI enabled.</sentence>
+            <sentence id="1.2">So I did what I though was the sensible thing</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This did not work, I had to actually create a directory for the site itself</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This properly enabled SSI for that site.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">However, it kind of defeats the purpose of mod_vhost_alias if the Directory
+directive won't interprete %O. I'm imagining it has something to do with
+Directory configurations at startup vs at request time.</sentence>
+            <sentence id="6.2">I could not find any
+documentation on what is allowed here.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This is probably more of a feature request but it felt like a bug when I was
+chasing it.</sentence>
+            <sentence id="7.2">I think the Options and Overrides do take effect here but have not
+tried to prove this yet.</sentence>
+        </paragraph>
+    </description>
+</bug>

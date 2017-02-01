@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2855</id>
+    <title>Crash report 4.1 - IllegalStateException accessing comment Cursor</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">[Accessing](https://github.com/wordpress-mobile/WordPress-Android/blob/4.1/WordPress/src/main/java/org/wordpress/android/datasets/CommentTable.java#L321) an OOB row?</sentence>
+            <sentence id="1.2">Weird because [moveToNext](https://github.com/wordpress-mobile/WordPress-Android/blob/4.1/WordPress/src/main/java/org/wordpress/android/datasets/CommentTable.java#L140) just returned true.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">java.lang.RuntimeException: An error occured while executing doInBackground()</sentence>
+            <sentence id="2.10">Caused by: java.lang.IllegalStateException: Couldn't read row 3, col 6 from CursorWindow. Make sure the Cursor is initialized correctly before accessing data from it.</sentence>
+            <sentence id="2.11"> at android.database.CursorWindow.nativeGetString(CursorWindow.java)</sentence>
+            <sentence id="2.23">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

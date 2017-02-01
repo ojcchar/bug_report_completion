@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9043</id>
+    <title>Volumes in v1.3+: mounted volumes in OSX 10.10 is 27x times slower than usage of VM filesystem</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">So I run docker with two volumes, like this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">docker run -ti --name nodejs2 -p 3000:3000 -v /data -v ~/test/game-backend/:/data2 dockerfile/nodejs</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The first volume `/data` is placed in VM and the second `/data2` is mounted from OS X 10.10 .</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Here is usage of `dd` tool and the impressive results.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Write speed **483 MB/s** to VM's `/data` dir:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">$ time sh -c "dd if=/dev/zero of=/data/1 bs=4k count=2000000 &amp;&amp; sync"
+ 2000000+0 records in
+ 2000000+0 records out
+ 8192000000 bytes (8.2 GB) copied, 16.9534 s, 483 MB/s</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">real 0m17.130s
+ user 0m0.460s
+ sys 0m15.860s</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Write speed **20.7 MB/s** to OS X mounted dir `/data2`:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">$ time sh -c "dd if=/dev/zero of=/data2/1 bs=4k count=2000000 &amp;&amp; sync"
+ 2000000+0 records in
+ 2000000+0 records out
+ 8192000000 bytes (8.2 GB) copied, 396.236 s, 20.7 MB/s</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">real 6m36.254s
+ user 0m0.730s
+ sys 3m6.400s</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Read speed **568 MB/s** from VM's `/data` dir:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">$ time sh -c "dd if=/data/1 of=/dev/null bs=4k"
+ 2000000+0 records in
+ 2000000+0 records out
+ 8192000000 bytes (8.2 GB) copied, 14.4115 s, 568 MB/s</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">real 0m14.418s
+ user 0m0.020s
+ sys 0m11.900s</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Write speed **20.4 MB/s** from OS X mounted dir `/data2` (I break it earlier to not to wait 6 mins):</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">$ time sh -c "dd if=/data2/1 of=/dev/null bs=4k"
+ ^C245397+0 records in
+ 245396+0 records out
+ 1005142016 bytes (1.0 GB) copied, 49.3521 s, 20.4 MB/s</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">real 0m49.358s
+ user 0m0.170s
+ sys 0m27.710s</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Both VM's virtual hard drive and mounted dir are located in physical SSD drive, but the speed difference is frustrating.</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Is this a bug?</sentence>
+        </paragraph>
+    </description>
+</bug>

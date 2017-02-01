@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9108</id>
+    <title>Envers with Embeddable having a collection of other entities results in PropertyAccessException: IllegalArgumentException</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">It is impossible to save with Envers Auditing enabled when the model has an embeddable that has a collection of other entities.</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">Test Code project structure taken from HHH-9105 attachment.</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">private SessionFactory sessionFactory;</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">// add your entities here e.g.:
+		//  config.addAnnotatedClass(Customer.class);
+		config.addAnnotatedClass(Header.class);
+		config.addAnnotatedClass(Item.class);</sentence>
+        </paragraph>
+        <paragraph id="28">
+            <sentence id="28.1">config.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
+		config.setProperty("hibernate.connection.url", "jdbc:hsqldb:mem:myunittests");
+		config.setProperty("hibernate.connection.username", "sa");
+		config.setProperty("hibernate.connection.password", "");
+		config.setProperty("hibernate.connection.pool_size", "1");
+		config.setProperty("hibernate.current_session_context_class", "thread");
+		config.setProperty("hibernate.hbm2ddl.auto", "update");
+		config.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+		config.setProperty("hibernate.show_sql", "true");</sentence>
+        </paragraph>
+    </description>
+</bug>

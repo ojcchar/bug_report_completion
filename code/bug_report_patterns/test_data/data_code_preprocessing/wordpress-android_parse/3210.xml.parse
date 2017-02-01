@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3210</id>
+    <title>Jetpack + Stats : The login form is not shown under some circumstances</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Under some circumstances the login form is not triggered by the Stats Service.</sentence>
+            <sentence id="1.2">Basically the service can't check if the blog is a Jetpack or not by using the remoteBlogID.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This is due to the fact that there are 2 entries in the DB for each Jetpack blog linked with the main wpcom account.</sentence>
+            <sentence id="2.2">The Stats service were loading the localBlogID by using the remoteID, and can happen, if you first logged to wpcom and then added the Jetpack blog, that the localblogID returned was the wrong one.</sentence>
+            <sentence id="2.3">That's due to the fact we're synching (and hiding) all blogs (wpcom + jetpack) when first logging to wpcom.</sentence>
+        </paragraph>
+    </description>
+</bug>

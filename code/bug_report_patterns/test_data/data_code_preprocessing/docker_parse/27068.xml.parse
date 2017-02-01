@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27068</id>
+    <title>Data from image is not copied to tmpfs named volumes upon container creation</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Data is not copied to tmpfs named volumes upon container creation.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="3.3">2 docker build -t foo-image .</sentence>
+            <sentence id="3.4">3 docker create -v foo1:/data foo-image # /data/atestfile exists in foo1</sentence>
+            <sentence id="3.5">4 docker volume create --driver local --opt type=tmpfs --opt device=tmpfs --opt o=size=1m,uid=0 --name foo2 # repeat step 3 -&gt; /data/atestfile doesn't exist in foo2</sentence>
+            <sentence id="3.6">5 docker volume create --name foo3 -o o=addr=10.0.0.1,rw,soft -o device=:/share -o type=nfs # repeat step 3 -&gt; /data/atestfile exists in foo3</sentence>
+        </paragraph>
+    </description>
+</bug>

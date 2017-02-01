@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>18529</id>
+    <title>Flaky test: TestRunGroupAdd can fail after TestPullImageWithAllTagFromCentralRegistry</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If run TestRunGroupAdd alone, busybox image is:
+busybox latest 8c2e06607696 7 months ago 2.43 MB
+and it has dbus group in /etc/group</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">But busybox latest image pulled from docker-hub is:
+busybox latest ac6a7980c6c2 14 hours ago 1.113 MB
+and it doesn't have dbus group.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Running along with another tests(after TestPullImageWithAllTagFromCentralRegistry) busybox image changes and it is from central registry, not from tar archive and thus TestRunGroupAdd fails.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Run just those two tests on fedora 20(docker branch v1.8.3 f4bf5c70268, added MYTEST prefix to show the problem more clearly):</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Additional info:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">"'
+docker --version
+Docker version 1.8.3, build f4bf5c7
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

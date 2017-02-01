@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8057</id>
+    <title>Bad proxy behavior when using store_data_at_delete and audited parent/child relationships</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Use hibernate.envers.store_data_at_delete = true
+ 
+{code}
+class Parent {
+  @Audited
+  String name;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">@Audited
+  Parent parent;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Transaction 1:</sentence>
+            <sentence id="5.2">Creates a parent.</sentence>
+            <sentence id="5.3">Creates a child for it.</sentence>
+            <sentence id="5.4">You get one revision, one Parent_AUD (create), and one Child_AUD (create).</sentence>
+            <sentence id="5.5">Transaction 2:</sentence>
+            <sentence id="5.6">Deletes the parent.</sentence>
+            <sentence id="5.7">Deletes the child.</sentence>
+            <sentence id="5.8">In my case, this is via cascade.</sentence>
+            <sentence id="5.9">You get one revision, one Parent_AUD (delete), and one Child_AUD (delete).</sentence>
+            <sentence id="5.10">Transaction 3:</sentence>
+            <sentence id="5.11">Lookup using the following code:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This throws an exception:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.20">When store_data_at_delete is true, the second Child_AUD entry contains a link to Parent_AUD, instead of a NULL.</sentence>
+            <sentence id="8.21">The audit query tries to build Child entities out of the two Child_AUD entries but fails for the second one.</sentence>
+            <sentence id="8.22">Why does it fail?</sentence>
+            <sentence id="8.23">Because the SQL query it uses to fetch the correct Parent_AUD entry ignores entries with revision type DEL.</sentence>
+            <sentence id="8.24">Here's the corresponding comment from EntitiesAtRevisionQuery.list():</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">I think the right thing to do here is relax that last condition when we're fetching a relation for a DEL audit entry.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Here's the corresponding forum post: https://community.jboss.org/message/800890</sentence>
+        </paragraph>
+    </description>
+</bug>

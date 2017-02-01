@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4155</id>
+    <title>Query.getSingleResult fails if a sored proc is used</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If you use Query.getSingleResult() on a named query that results in a stored proce call, the query is changed from</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">{call usp_RequestState_Get (:requestID ) }</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">to</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">{call usp_RequestState_Get (? ) }</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">to</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">{call usp_Requ top 2estState_Get (? ) }</sentence>
+            <sentence id="6.2">in (org.hibernate.loader.Loader.prepareQueryStatement() line 1557)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Code was working for 3.3.2</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Looks like this was broken/incorrectly implemented earlier  (than 3.3.2) but exasperated by the recent change to org.hibernate.ejb.QueryImpl.getSingleResult()  that forces a maxResult to 2.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I think the correct fix will be to not insert the limit statement (Loader.java line 15557) if the sql query does not start with a select call or if it is marked callable</sentence>
+        </paragraph>
+    </description>
+</bug>

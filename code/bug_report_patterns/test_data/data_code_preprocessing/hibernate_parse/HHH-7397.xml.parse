@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7397</id>
+    <title>Incorrect SQL generated when removing element from a collection when there is a ManyToAny mapping</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've been experiencing an interesting Hibernate issue in my application relating to removing an entity from a collection where there is a ManyToAny mapping from the entity that contains the collection to the interface that defines the members in the collection.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Consider the following mapping from the class "ColorGroup" for a set of "GroupMember"s:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">There is also a GroupMembership table that looks like this:
+{code:sql}
+CREATE TABLE GroupMembership (
+    group_id bigint(20) NOT NULL,
+    member_id bigint(20) NOT NULL,
+    member_type varchar(100) NOT NULL,</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">group_id is foreign key'ed to the ColorGroup table and member_id is foreign key'ed to a GroupMember table.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">It seems that the correct delete sql is generated: _delete from GroupMembership where group_id=?</sentence>
+            <sentence id="8.2">and member_id=?</sentence>
+            <sentence id="8.3">_</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">However, the binding does not appear to be functioning properly because Hibernate is trying to bind a parameter in the third parameter position despite there only being positions for two parameters.</sentence>
+            <sentence id="9.2">Here is an excerpt from a log when more detailed sql logging is enabled:
+{quote}
+[org.hibernate.type.descriptor.sql.BasicBinder] binding parameter
+ [1] as [BIGINT] - 15 [o.h.type.descriptor.sql.BasicBinder] binding
+ parameter [3] as [BIGINT] - 20 [o.h.util.JDBCExceptionReporter]
+ Parameter index out of range (3  number of parameters, which is 2).</sentence>
+            <sentence id="9.3">{quote}</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Tracing through the hibernate code, I noticed in AbstractCollectionPersister.deleteRows() that initially the key ("group_id" in this case) is written to the prepared statement for the deletion in writeKey().</sentence>
+            <sentence id="10.2">Subsequently, the location of the next parameter to write to the prepared statement is incremented, which is correct.</sentence>
+            <sentence id="10.3">Next, Hibernate goes to write the member_id element to the prepared statement in writeElementToWhere().</sentence>
+            <sentence id="10.4">Interestingly, the counter is incremented again before the element is written to the prepared statement, thus causing the error.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">I've included a zip file that contains a test case (readme, java code, hibernate config) to generate this error.</sentence>
+        </paragraph>
+    </description>
+</bug>

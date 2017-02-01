@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2315</id>
+    <title>Dockerfiles replace tabs in RUN on build</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I was reading the code for CmdBuild and noticed that there's code there to replace '	' with spaces.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">this seems to me like an un-necessary breakage of expectations.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">so to test I made a simple Dockerfile:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">and yup, the test_tab.txt file has a leading space where the tab should be.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">now, while some, like @steakknife (see #522 ) might take issue with tabs :) I'm not sure there's a need to do this (anymore - again, due to #522).</sentence>
+        </paragraph>
+    </description>
+</bug>

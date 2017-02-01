@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>16218</id>
+    <title>Invalid repository name error when full image ID is used in FROM</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">BUG REPORT INFORMATION
+=</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Since 1.8.0, using a full image identifier in the FROM command of a Dockerfile, makes docker build fail.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">List the steps to reproduce the issue:</sentence>
+            <sentence id="5.2">1 Create a Dockerfile with a FROM command with a 64-byte length image identifier</sentence>
+            <sentence id="5.3">2 Run docker build .</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Describe the results you received:
+```
+unable to process Dockerfile: unable to parse repository info: Invalid repository name (a47f6f7784e2654c7100de492e044f5fa2469d03b35253e64326fa35539f5fb6), cannot specify 64-byte hexadecimal strings
+```</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Describe the results you expected:
+docker build working</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Provide additional info you think is important:
+It started to fail on 1.8.0, it works if image identifier is truncated to less than 64-bytes length.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Image ids are used by [packer dockerfile post-processor](https://github.com/jgkim/packer-post-processor-docker-dockerfile) to add metadata to custom images.</sentence>
+        </paragraph>
+    </description>
+</bug>

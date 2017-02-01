@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>44433</id>
+    <title>Apache reports it is stopped before all child processes have stopped</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Apache should not report that it has stopped if not all the child processes have
+stopped.</sentence>
+            <sentence id="1.2">The effect of this is restart and graceful restart are completely
+useless (especially in automated scripts) because it attempts to start and
+thinks it is still running so does not start at all.</sentence>
+            <sentence id="1.3">Further documentation of
+this bug can be found at:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">http://bugs.gentoo.org/show_bug.cgi?id=110556</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">emerge -pv www-servers/apache:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">[ebuild   R   ] www-servers/apache-2.2.8  USE="ldap ssl suexec threads -debug</sentence>
+            <sentence id="4.2">-doc (-selinux) -sni -static" APACHE2_MODULES="actions alias auth_basic</sentence>
+            <sentence id="4.3">auth_digest authn_anon authn_dbd authn_dbm authn_default authn_file authz_dbm</sentence>
+            <sentence id="4.4">authz_default authz_groupfile authz_host authz_owner authz_user autoindex cache</sentence>
+            <sentence id="4.5">dav dav_fs dav_lock dbd deflate dir disk_cache env expires ext_filter</sentence>
+            <sentence id="4.6">file_cache filter headers ident imagemap include info log_config logio</sentence>
+            <sentence id="4.7">mem_cache mime mime_magic negotiation proxy proxy_ajp proxy_balancer</sentence>
+            <sentence id="4.8">proxy_connect proxy_http rewrite setenvif speling status unique_id userdir</sentence>
+            <sentence id="4.9">usertrack vhost_alias -asis -authn_alias -cern_meta -charset_lite -dumpio</sentence>
+            <sentence id="4.10">-log_forensic -proxy_ftp -version" APACHE2_MPMS="-event -itk -peruser -prefork</sentence>
+            <sentence id="4.11">-worker" 0 kB</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">emerge --info:</sentence>
+        </paragraph>
+    </description>
+</bug>

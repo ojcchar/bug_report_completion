@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>297946</id>
+    <title>ConcurrentModificationException during annotation hover.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build Identifier: I20090611-1540</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This is randomly observable during every day usage although not that frequently.</sentence>
+            <sentence id="2.2">It seems that the xtext validation job and the annotation hover are both concurrently accessing the document.</sentence>
+            <sentence id="2.3">I accidentally wrote a broken validator and figured out how to reproduce it!</sentence>
+            <sentence id="2.4">Stack trace:-</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Reproducible: Sometimes</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Steps to Reproduce:</sentence>
+            <sentence id="5.2">Under normal use you *may* see this randomly if you happen hover your mouse in the margin when a custom validator is asynchronously updating the document's annotations (or so it seems).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">You can reproduce quite easily with the following recipe.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Provided you get the timing right rather than an annotation hover you'll get the concurrent modification exception logged.</sentence>
+            <sentence id="8.2">After this occurs the editor's annotation hover is 'dead' and doesn't recover until you close/reopen the editor.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">NB It might be wise to kill the spawned eclipse rather than close it or else your test workspace attempts to (de)serialize all the errors which doesn't do it any favours.</sentence>
+        </paragraph>
+    </description>
+</bug>

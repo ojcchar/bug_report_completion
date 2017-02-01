@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-76</id>
+    <title>hql and group by problem</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">old parser in hibernate3 and hibernate2 parser create wrong sql from next hql (new parser work fine) :
+select bid.item.id,bid.item.name,min(bid.created)
+from Bid bid"
+group by bid.item.id,bid.item.name</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">query 1 doesn't work with oracle and postgresql (not group by column)
+in select list exists item1_.ITEM_ID and in group by bid0_.ITEM_ID</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Problem is in parsing - select clause is resolved on the end and then exists aliasPath for bid.item - group by is resolved before creating alias</sentence>
+        </paragraph>
+    </description>
+</bug>

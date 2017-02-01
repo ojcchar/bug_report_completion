@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>43250</id>
+    <title>mod_negotiation can't match file when filename has an uppercase chars</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I name the file "FooBar.baz.html", and try access to "/FooBar.baz".</sentence>
+            <sentence id="1.2">Then, the file provided correctly.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Next, I name the file "FooBar.Baz.html" and try access to "/FooBar.Baz".</sentence>
+            <sentence id="2.2">the server returned status "404 Object Not Found" and logged below line.</sentence>
+            <sentence id="2.3">&gt; Negotiation: discovered file(s) matching 
+request: /home/mayuki/tmp/apache/htdocs/FooBar.</sentence>
+            <sentence id="2.4">Baz (None could be negotiated).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">But, I expected return the file "FooBar.Baz.html".</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The reason of this problem is mod_mime.</sentence>
+            <sentence id="4.2">c returned "ap-mime-exceptions-list", 
+which contains lowercased elements.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">--</sentence>
+            <sentence id="5.2">File: FooBar.html</sentence>
+            <sentence id="5.3">URL: /FooBar</sentence>
+            <sentence id="5.4">Status: OK</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">File: FooBar.baz.html
+URL: /FooBar.baz
+Status: OK</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">File: FooBar.Baz.html
+URL: /FooBar.Baz
+Status: 404
+Expect: FooBar.Baz.html</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">File: FooBar.Baz.html
+URL: /FooBar.Baz.html
+Status: OK</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4886</id>
+    <title>A missing required module should not prevent starting of other modules</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When a required module is not started for any module, all modules are not started, including the ones which have all their dependencies started.</sentence>
+            <sentence id="1.2">As a result, the end user does not even have a way of starting the required modules because the legacyui module is not started and yet it is the one with the page to help the end user start the required modules.</sentence>
+            <sentence id="1.3">This should be fixed to the state we had before, where the module engine would still go ahead and start other modules which are fine.</sentence>
+        </paragraph>
+    </description>
+</bug>

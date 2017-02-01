@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8041</id>
+    <title>Objects fetched after query-cache expires are not refreshed in L2 cache</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When configuring query cache and second level object cache I came across a behavior which I don't know if it's a bug or a missing feature.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">1 Assuming all caches all empty, we run a query.</sentence>
+            <sentence id="2.2">The ids of the returned objects are stored in the query cache and the objects are stored in the L2 object cache.</sentence>
+            <sentence id="2.3">Great so far.</sentence>
+            <sentence id="2.4">2 Now, the query cache expires before the object cache does.</sentence>
+            <sentence id="2.5">The query is re-ran and the ids of the returned objects are cached in the query cache.</sentence>
+            <sentence id="2.6">3 The object cache expires.</sentence>
+            <sentence id="2.7">The query cache is still valid, so the ids are returned from the query cache.</sentence>
+            <sentence id="2.8">Unfortunately, the objects are no longer cached and hibernate fetches them all one-by-one, which takes forever.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Now the question: Why doesn't the query cache update the objects returned in step 2?</sentence>
+            <sentence id="3.2">The objects were fetched form the database, so we have a fresher version of them and an update of the L2 object cache could be performed.</sentence>
+            <sentence id="3.3">This way, the object cache wouldn't expire in step 3.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This behavior forces the one-by-one fetching of objects:</sentence>
+            <sentence id="4.2">* When the query cache expires first, it won't cache the objects (as described), which will eventually lead to a situation where the query cache is valid and the object cache expired.</sentence>
+            <sentence id="4.3">* When the object cache expires with the query cache still valid, hibernate performs a one-by-one fetching of all objects that are returned by the query cache.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I can see 2 solutions to this problem:</sentence>
+            <sentence id="5.2">1 Instead of fetching missing objects one-by-one, fetch them with an "in" statement so that only one query is executed.</sentence>
+            <sentence id="5.3">2 Refresh L2 objects when the query cache expires and the query is ran.</sentence>
+        </paragraph>
+    </description>
+</bug>

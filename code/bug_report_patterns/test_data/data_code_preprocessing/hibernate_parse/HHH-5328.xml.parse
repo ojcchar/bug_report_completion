@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5328</id>
+    <title>Equality check on a natural-id that references other entities</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">Updating fails because hibernate invokes the equals() method on OrgCantonImpl but as the parameter it sends the id of the Object to compare, which returns always false.</sentence>
+            <sentence id="2.2">This ends up in an exception: immutable natural identifier was modified...</sentence>
+        </paragraph>
+    </description>
+</bug>

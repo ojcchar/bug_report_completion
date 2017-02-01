@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>525</id>
+    <title>panic: exec format error</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Using Docker to run the following command:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;code&gt;docker run -i -t -p 8000 amrabed/webserver /bin/bash &lt; start &lt;/code&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">works normally.</sentence>
+            <sentence id="3.2">However,</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;code&gt;docker run -i -t -p 8000 amrabed/webserver /webserver/start&lt;/code&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">(same script within the docker image) generates the following error:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">panic: exec format error</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">goroutine 2 [syscall]:
+created by runtime.main
+ /usr/lib/go/src/pkg/runtime/proc.c:221</sentence>
+        </paragraph>
+    </description>
+</bug>

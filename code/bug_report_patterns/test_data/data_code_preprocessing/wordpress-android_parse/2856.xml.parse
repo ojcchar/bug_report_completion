@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2856</id>
+    <title>Crash report 4.1 - NPE showing a toast</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">[Failure](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/libs/utils/WordPressUtils/src/main/java/org/wordpress/android/util/ToastUtils.java#L23) making a toast from [NetworkUtils](https://github.com/wordpress-mobile/WordPress-Android/blob/develop/libs/utils/WordPressUtils/src/main/java/org/wordpress/android/util/NetworkUtils.java#L83).</sentence>
+            <sentence id="1.2">Need to make sure context isn't null.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String android.content.Context.getString(int)' on a null object reference</sentence>
+            <sentence id="2.13"> at java.lang.reflect.Method.invoke(Method.java)</sentence>
+            <sentence id="2.17">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

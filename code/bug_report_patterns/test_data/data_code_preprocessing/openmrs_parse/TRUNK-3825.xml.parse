@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3825</id>
+    <title>Remove loading of module specific log4j configuration files</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">WebModuleUtil.startModule loads log4j.xml files from modules (line 112):</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">if (mod.getLog4j() !</sentence>
+            <sentence id="2.2">= null) {
+  DOMConfigurator.configure(mod.getLog4j().</sentence>
+            <sentence id="2.3">getDocumentElement());
+}</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This should be removed as modules should not be able to re-configure logging:</sentence>
+            <sentence id="3.2">* Configuration should happen at an administrative rather than development level</sentence>
+            <sentence id="3.3">* Module specific configuration files often break the default logging of core</sentence>
+            <sentence id="3.4">* There's a LogManager module for this</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>16514</id>
+    <title>Wrong Content-Type in response of Remote API to the GET stats request</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:
+Using the Remote API, in the response to the GET request for the stats of a container the "Content-Type" is "text/plain; charset=utf-8", but should be "application/json", like it was in earlier versions of the Remote API.</sentence>
+            <sentence id="1.2">The problem is that parsers rely on the "Content-Type".</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Environment details (AWS, VirtualBox, physical, etc.):
+Physical</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">How reproducible:
+Always</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Steps to Reproduce:</sentence>
+            <sentence id="8.2">1 Just enter the following command line in terminal:</sentence>
+            <sentence id="8.3">$ echo -e "GET /containers/4d50a1065a88/stats HTTP/1.1</sentence>
+            <sentence id="8.4">" | sudo nc -q -1 -U /var/run/docker.sock</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Actual Results:
+HTTP/1.1 200 OK
+Server: Docker/1.8.2 (linux)
+Date: Wed, 23 Sep 2015 08:04:40 GMT
+Content-Type: text/plain; charset=utf-8
+Transfer-Encoding: chunked
+[...]</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Expected Results:
+HTTP/1.1 200 OK
+Server: Docker/1.8.2 (linux)
+Date: Wed, 23 Sep 2015 08:04:40 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+[...]</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Additional info:
+I didn't find another response yet that reports the wrong Content-Type, but also didn't check many yet.</sentence>
+        </paragraph>
+    </description>
+</bug>

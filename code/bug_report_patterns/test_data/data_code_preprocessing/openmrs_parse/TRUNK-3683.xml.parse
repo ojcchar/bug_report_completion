@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3683</id>
+    <title>Concept Map Types in the standard test dataset have the wrong uuids</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There are a few concept_map_type rows defined in standardTestDataset.xml, however these are not consistant with the ones we actually distribute with OpenMRS.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example in the test dataset the uuid for SAME-AS is f40555f0-49d5-11e0-8fed-18a905e044dc but in actual production databases it is 35543629-7d8c-11e1-909d-c80aa9edcf4e.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">We should change the concept_map_type rows in standardTestDataset.xml to be consistent (at least in their name and uuid) with what we actually distribute with OpenMRS.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I ran into this error because I'm trying to import a Metadata Sharing package that contains a concept (and a mapping) in a unit test, and it fails because it's trying to create duplicate ConceptMapTypes with the name SAME-AS. Some of the stack trace:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The workaround for me is to not use the standard test dataset.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23332</id>
+    <title>could not launch any new docker container after 1850 containers launched</title>
+    <description>
+        <paragraph id="10">
+            <sentence id="10.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="11.2">1 docker pull yeasy/hyperledger-peer:noops</sentence>
+            <sentence id="11.3">2 Run the test script as shown below, the script sets the related limits to be bigger numbers and tries to launch 10000 docker containers.</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.9">1 When launches about 1850 containers, will get "pthread_create failed" error and could not launch any new containers.</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">**Describe the results you received:**</sentence>
+            <sentence id="18.2">The output from the script:</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">**Describe the results you expected:**</sentence>
+            <sentence id="24.2">As indicated in https://github.com/docker/docker/issues/22978, I could launch more than 9000 containers with the same docker image(different arch of course) and similar hardware configuration on ppc64le platform, I expect to be able to launch similar number of docker containers on x86 also.</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+    </description>
+</bug>

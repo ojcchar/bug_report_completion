@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1581</id>
+    <title>ClassNotFoundException (org.openmrs.module.birt.BirtReport) on session loading during Tomcat startup</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When Tomcat is started, it tries to load objects that were persisted during the last Tomcat shutdown.</sentence>
+            <sentence id="1.2">Objects that were stored in the session during runtime are persisted to the file system when Tomcat stops executing.</sentence>
+            <sentence id="1.3">Objects created by OpenMRS modules are sometimes stored in the session, which means they need to be available when OpenMRS classes are loaded into the classloader (i.e. during Tomcat startup).</sentence>
+            <sentence id="1.4">However, these module classes are not loaded into the classloader until after the OpenMRS starts up.</sentence>
+            <sentence id="1.5">Therefore, Tomcat cannot load these module objects into the session during startup.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Possible solutions:</sentence>
+            <sentence id="2.2">1 Disable Tomcat's default session persistence / loading mechanism by override the OpenMRS webapp's context.xml</sentence>
+            <sentence id="2.3">2 Figure out a way to load all classes (from code API, web, modules) at once</sentence>
+        </paragraph>
+    </description>
+</bug>

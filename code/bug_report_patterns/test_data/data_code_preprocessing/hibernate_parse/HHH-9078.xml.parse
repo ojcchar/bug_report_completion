@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9078</id>
+    <title>OrderColumn doesn't actually work, index is always 0 across transactions</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Following the discussion and fix of HHH-8083, I never got OrderColumn to work but other priorities forced me to abandon this, but I spent some time on it now and found that the OrderColumn fix doesn't actually work.</sentence>
+            <sentence id="1.2">While the original testcase passes, if you add multiple items to the collection across flushes, newly added item will all be added with index 0.</sentence>
+            <sentence id="1.3">Any collection retrieval will then just contain the one item.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I've modified the original test case to prove this</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7437</id>
+    <title>Classcast issue with new property auditing feature of Envers(withModifiedFlag)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm using the latest Hibernate version with Envers support.</sentence>
+            <sentence id="1.2">I have two classes containing a One-To-Many and a Many-To-One relationship:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">When saving object A with a list of B object a got the following exception: (updating an object is no problem)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I think the problem is that Envers is trying to track the changes on the collection because it wants to save the audit trail record but the collection is not yet persisted to the database.</sentence>
+        </paragraph>
+    </description>
+</bug>

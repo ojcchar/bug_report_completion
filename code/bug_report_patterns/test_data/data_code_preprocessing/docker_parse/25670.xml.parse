@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>25670</id>
+    <title>Docker not mounting file using -v</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">---</sentence>
+            <sentence id="1.2">## BUG REPORT INFORMATION</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">VirtualBox Version 5.0.24 r108355</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="9.2">1 If I initial run the following command in maven project without building the war first it runs successfully and I can see that the *.</sentence>
+            <sentence id="9.3">war file is a folder in the container since there was nothing in the host.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.6">1 Now if I exit the container remove it and then build the *.war on the host I can see that the file exists on both the host and the VM.</sentence>
+            <sentence id="10.7">So I run the command again and I get the following error</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.5">1 If I restart the virtual vm though and then run the command again.</sentence>
+            <sentence id="11.6">It starts successfully and I now see that /test/root.war is the actually file.</sentence>
+            <sentence id="11.7">For some reason if I run the docker first without the file I have to restart the whole VM to remove it from cache.</sentence>
+            <sentence id="11.8">Now I thought it was VirtualBox but I've tested the scenario where cleaned the project, restart the VM, build the project and then ran the command everything happened as expected and the file exists.</sentence>
+            <sentence id="11.9">But if you run the command first before building, you'll have to restart the vm to be able to run the container again.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Is there something I'm doing wrong?</sentence>
+        </paragraph>
+    </description>
+</bug>

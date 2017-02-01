@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>21224</id>
+    <title>Docker network in internal mode will not use IPv4 by default and is very slow.</title>
+    <description>
+        <paragraph id="10">
+            <sentence id="10.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">AWS EC2 instance.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="12.2">1 Create a network in internal mode.</sentence>
+            <sentence id="12.6">1 Create two containers.</sentence>
+            <sentence id="12.11">1 Invoke ping from one container to outside, and from one container to another container</sentence>
+            <sentence id="12.22">1 Invoke ping from one container to outside, and from one container to another container, (set IPv4 explicitly)</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">As is shown in the above, when a bridge network is created with option '--internal', a simple ping test is very slow unless IPv4 option ('-4') is specified explicitly.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">In addition, even if '-4' is specified, it takes a long time (15s) for a ping to return 
+'ping: bad address 'www.google.com''.</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">**Describe the results you expected:**</sentence>
+            <sentence id="16.2">A simple ping test should return fairly quickly.</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="17.2">See https://github.com/docker/docker/pull/21200 for reference.</sentence>
+        </paragraph>
+    </description>
+</bug>

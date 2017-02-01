@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-11023</id>
+    <title>Startup performance regression : schema update/validate</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When using schema update/validate, Hibernate needs to access the current state of the schema on the database server.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">In 4.3, Hibernate was executing "SHOW FULL TABLES and SHOW FULL COLUMNS with LIKE '%' " in order to discover the complete database tables columns.</sentence>
+            <sentence id="2.2">Starting in 5.0 however Hibernate is no longer using "%" but it is giving as parameter all individual columns from every table it discovered.</sentence>
+            <sentence id="2.3">The amount of queries to the database during startup increased from ~200 to ~2700.</sentence>
+            <sentence id="2.4">Due to the constant load to which the server is exposed from other applications, each query takes 100-150ms, thus increasing the startup time of our application from 10-20 seconds to 4-5 minutes.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The number of queries can be easily seen by enabling MySQL query log.</sentence>
+        </paragraph>
+    </description>
+</bug>

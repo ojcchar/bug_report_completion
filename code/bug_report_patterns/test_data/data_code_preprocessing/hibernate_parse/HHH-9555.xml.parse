@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9555</id>
+    <title>Connection is not associated with a managed connection.org.jboss.jca.adapters.jdbc.jdk6.WrappedConnectionJDK6@25f1d9ee</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When using any of the hibernate versions 4.2.1 to 4.2.16,
+in the below code, inside callback session.doWork , after Iterator it.next() the associated dataSource to wrapper connection WrappedConnectionJDK6@25f1d9ee becomes NULL, subsequently stmt.executeQuery fails with  exception "Connection is not associated with a managed connection.org.jboss.jca.adapters.jdbc.jdk6.WrappedConnectionJDK6@25f1d9ee".</sentence>
+            <sentence id="1.2">We have configured JTA transaction manager, also aware of after_statement connection release mode, however same code with JTA transaction is working fine in hibernate versions 4.1.6 to 4.2.0.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Is this a new feature that now inside doWork callback we call not use connection (with JTA transaction) after Query.list/ Query.iterate.next or this is a longish bug?</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Statement stmt = connection.createStatement();
+					ResultSet rs = stmt.executeQuery("select count(*) from t_config_parm"); // Will fail here in Hibernate 4.2.15 with the error as in Summary line ,if previously called iterator it.next or query.list.</sentence>
+        </paragraph>
+    </description>
+</bug>

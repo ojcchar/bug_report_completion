@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2375</id>
+    <title>1.8.x maven build is platform dependent</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">As 1.8.0 is our first mavenized release, we have discovered some problems related to builds in heterogenous environments.</sentence>
+            <sentence id="1.2">In Bamboo, we are not able to build with mvn due to encoding problems, e.g.:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">A bit of research shows this is not uncommon, and that the mvn-compiler-plugin configuration needs to be updated to include an *encoding* reference, e.g.,</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Source: http://stackoverflow.com/questions/1562843/howto-use-maven-in-a-heterogenous-environment-with-different-encodings</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This is a blocker for us being able to set up Bamboo to use Maven correctly starting with the 1.8.x branch.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4053</id>
+    <title>Problems with ClassCast Exception</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We're having problems when we have a same dependency in two different modules.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For instance, we have the Module 1 with the Dependency A and we have Module 2 with the Dependency A as well.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">When we have both modules started and we are using a feature from the Module 1, we have a ClassCast Exception related to a class inside Dependency A.</sentence>
+            <sentence id="3.2">We activated the Class Loaders log and we figured out that, even though we are using a feature from the Module 1, he JVM is loading Dependency A classes from both Module 1 and 2, causing the ClassCastException</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Thread related to that problem:
+https://groups.google.com/a/openmrs.org/forum/#!topic/dev/desCg3JImdE</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I'm attaching the modules that we are required to reproduce the problem.</sentence>
+            <sentence id="5.2">Just create a new clean OpenMRS instalation (1.9.x) and add those modules.</sentence>
+            <sentence id="5.3">Also, it will be required create a bahmnicore.properties inside the .OpenMRS folder, this file is attached as well.</sentence>
+            <sentence id="5.4">It will be required create a patient_images folder inside .OpenMRS folder as well.</sentence>
+            <sentence id="5.5">Just do mkdir .OpenMRS/patient_images and it should be fine.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Modules:
+https://docs.google.com/file/d/0Bwd_2LZDBohOdnZUQWlkaUYzdlk/edit?usp=sharing</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Bahmnicore.properties file
+https://docs.google.com/file/d/0Bwd_2LZDBohOQktKbWVydUk0TGM/edit?usp=sharing</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">To trigger the bug, just access this url:
+http://localhost:8080/openmrs/ws/atomfeed/patient/recent</sentence>
+        </paragraph>
+    </description>
+</bug>

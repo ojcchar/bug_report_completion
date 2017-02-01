@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10443</id>
+    <title>SchemaUpdate and SchemaMigration do not release jdbc connection</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">DatabaseInformationImpl -&gt; extractionContext variable never release.</sentence>
+            <sentence id="1.2">cause a jdbc connection leak.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">åœ¨ DatabaseInformationImpl ç±»ä¸­çš„ extractionContext å�˜é‡�åœ¨ä½¿ç”¨å®Œæˆ�å�Žæ²¡æœ‰é‡Šæ”¾ï¼Œå¯¼è‡´ Jdbc è¿žæŽ¥æ³„éœ².</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">this.extractionContext = new ExtractionContextImpl(
+				serviceRegistry,
+				jdbcEnvironment,
+				jdbcConnectionAccess,
+				this,
+				defaultCatalogName,
+				defaultSchemaName
+		); // the make ï¼Œ è¿™é‡Œæž„é€ </sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">// todo : make this pluggable
+		this.extractor = new InformationExtractorJdbcDatabaseMetaDataImpl( extractionContext );</sentence>
+        </paragraph>
+    </description>
+</bug>

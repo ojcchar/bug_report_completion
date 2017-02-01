@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20067</id>
+    <title>docker network namespace ethernet interfaces race condition</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I started compiling this bug report while being on Docker 1.9.</sentence>
+            <sentence id="1.2">Then I realized 1.10 is out, so I upgraded.</sentence>
+            <sentence id="1.3">Then I found the problem persisted (and got even more undeterministic).</sentence>
+            <sentence id="1.4"># docker version</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected order of interfaces:
+lo
+eth0: main_network (the one used with run or create)
+eth1: other_network (connected by docker network command)
+### With Docker 1.9</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">WIth Docker 1.9 I used the following commands:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">docker run --name=container --net=main_network ...
+docker network connect other_network container</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I managed to reproduce the problem by repeating the above run/connect commands in a simple for loop.</sentence>
+            <sentence id="9.2">The order of the network interfaces was the "expected" about 98-99 times in 100 attempts.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">WIth Docker 1.10 I used the following commands:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">docker create --name=container --net=main_network ...
+docker network connect other_network container
+docker start container</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">By running these commands in a loop, the order of the network interfaces became more diverse (than it was with 1.9).</sentence>
+        </paragraph>
+    </description>
+</bug>

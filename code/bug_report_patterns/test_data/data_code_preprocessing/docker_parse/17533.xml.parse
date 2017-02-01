@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>17533</id>
+    <title>Entry missing in the /etc/hosts file of the source container after linking containers</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem: It seems that an entry in the file `/etc/hosts` of the source container is missing. </sentence>
+            <sentence id="1.2">The missing entry contains the ID of the recipient container. </sentence>
+            <sentence id="1.3">Below is the output of two the `hosts` files after containers are linked. </sentence>
+            <sentence id="1.4">*Host-1* (cffd3d6aaa69) is the source and *host-2* (4937d32a2ca3) is the recipient:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Environment details (AWS, VirtualBox, physical, etc.): The host machine is a VM running inside VMWare 11.1.2 build-2780323.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Steps to Reproduce:</sentence>
+            <sentence id="5.2">1 docker run -it --name=host-1 ubuntu:14.04</sentence>
+            <sentence id="5.3">2 docker run -it --name=host-2 --link host-1 ubuntu:14.04</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Actual Results:</sentence>
+            <sentence id="6.2">From the recipient container it is possible to `ping` the source container using its CONTAINER ID.</sentence>
+            <sentence id="6.3">However it is not possible to do the same from the source container to the recipient.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Expected Results:</sentence>
+            <sentence id="7.2">Both containers should be able to reach each other by using their CONTAINER IDs.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Additional info:
+The issue described above was detected during some tests with a cluster running Apache Storm.</sentence>
+            <sentence id="8.2">The symptom is that no message has been transferred among the members of the cluster.</sentence>
+            <sentence id="8.3">Looking at the Storm logs we found the following error:
+```
+b.s.m.n.StormClientErrorHandler [INFO] Connection failed Netty-Client-1dcef2215f68:6701
+java.nio.channels.UnresolvedAddressException: null
+```
+We fixed this behavior by using the `--hostname` option.</sentence>
+        </paragraph>
+    </description>
+</bug>

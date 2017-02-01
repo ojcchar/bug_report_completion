@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2909</id>
+    <title>Errors compiling client on Mac OSX 10.9</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I use docker on my Mac to control a server running in a VM.</sentence>
+            <sentence id="1.2">I have a local clone of the docker repo, and can successfully build 0.6.7.</sentence>
+            <sentence id="1.3">I'm getting the following errors building 0.7.0:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The process I'm using to build is:</sentence>
+            <sentence id="3.2">1 Clone the repo</sentence>
+            <sentence id="3.3">2 'cd $GOPATH/github.com/dotcloud/docker/docker'</sentence>
+            <sentence id="3.4">3 'git checkout v0.7.0'</sentence>
+            <sentence id="3.5">4 'CC=clang go install -a github.com/dotcloud/docker/docker'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If I 'git checkout v0.6.7' the build works just fine, but docker tells me I need to upgrade (obviously).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Going back a couple rc releases, it looks like the errors in 'diff.go' were introduced in 'v0.7.0-rc6'.</sentence>
+        </paragraph>
+    </description>
+</bug>

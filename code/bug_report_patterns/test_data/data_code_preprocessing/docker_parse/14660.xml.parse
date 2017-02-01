@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14660</id>
+    <title>Docker Search not working for private repos</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Description of problem:
+This causes docker-compose errors, but I believe that this is a docker issue.</sentence>
+            <sentence id="1.2">When doing a 'docker search &lt;organization-name&gt;' (after an appropriate 'docker login'), only public repos are shown.</sentence>
+            <sentence id="1.3">This also means that 'docker-compose up's will fail (not sure if relevant).</sentence>
+            <sentence id="1.4">However, manually docker pulling with organization-name/repo-name works.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Environment details (AWS, VirtualBox, physical, etc.):
+Virtualbox through Vagrant</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">How reproducible:
+fails every time</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Steps to Reproduce:</sentence>
+            <sentence id="9.2">1 'docker login'</sentence>
+            <sentence id="9.3">2 'docker search &lt;organization-name&gt;' - This will fail to find private repos</sentence>
+            <sentence id="9.4">3 'docker-compose up' will fail since it cannot find private repos.</sentence>
+            <sentence id="9.5">4 'docker pull &lt;organization-name/&lt;private-repo-name&gt;' (works)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Actual Results:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Expected Results:
+A 'docker search' and 'docker-compose' success (lists private repos and starts containers, respectively)</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Additional info:
+I am not sure if this is a bug or a new feature.</sentence>
+            <sentence id="13.2">Either way, any help would be appreciated.</sentence>
+        </paragraph>
+    </description>
+</bug>

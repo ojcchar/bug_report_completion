@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>55314</id>
+    <title>Delete or Backspace to empty cell, do not result in updating the IF function</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">- type xx in A1</sentence>
+            <sentence id="1.2">- add function in B1:  =IF(A1&lt;&gt;"";A1;"empty")</sentence>
+            <sentence id="1.3">&gt; B1 shows xx</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">- go to A1 and hit DEL</sentence>
+            <sentence id="2.2">&gt; A1 = empty, but B1 still shows xx  !!</sentence>
+            <sentence id="2.3">(same for using Backspace)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">- type F2 on A1, hit Backspace, Enter</sentence>
+            <sentence id="3.2">&gt; Now B1 shows "empty"</sentence>
+        </paragraph>
+    </description>
+</bug>

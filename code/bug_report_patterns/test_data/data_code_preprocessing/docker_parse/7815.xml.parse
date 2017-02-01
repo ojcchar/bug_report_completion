@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>7815</id>
+    <title>Problems binding udp ports to host ports via the API</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I am calling '/containers/&lt;id&gt;/start' with the follow JSON:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I expect this to bind host udp port 9090 to container udp port 9090,
+but the result of running 'docker inspect' after the container starts
+is:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">There's a weird entry there for '9090/udp/tcp', which makes me thing
+Docker (1.2.0-dev @ fb74135) is doing something funky with
+'PortBindings'.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Additionally, testing shows that the port is _not_ bound on the host.</sentence>
+            <sentence id="6.2">There is no iptables entry in the 'DOCKER' chain of the 'nat' table
+corresponding to this, and the 'docker' process only has a socket open
+for the tcp port:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">"'
+$ lsof -p &lt;docker pid&gt; | grep IP
+docker 1797 root 3u IPv6 25564090 0t0 TCP *:webcache (LISTEN)
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

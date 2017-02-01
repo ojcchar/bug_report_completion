@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7139</id>
+    <title>java.sql.SQLException: Invalid argument in JDBC call: parameter index out of range when trying to persist an entity mapped with insertable = false, updatable = false on @Column</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The following mappings are all JPA 1.0 compatible (no derived identifiers):</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">private Integer companyId;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">public PartnershipId()
+    {
+    }</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">Note, the insertable = false, updatable = false on @JoinColumn relationships.</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">Running the following test code</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">        PQ detachedPq = new PQ(1, "Test PQ");</sentence>
+            <sentence id="24.2">        Company detachedCompany = new Company(1, "Test Company");</sentence>
+            <sentence id="24.3">        PQ pq = em.merge(detachedPq);</sentence>
+            <sentence id="24.4">        Company company = em.merge(detachedCompany);</sentence>
+            <sentence id="24.5">        Partnership detachedPartnership = new Partnership(1, 1, 1);</sentence>
+            <sentence id="24.6">        detachedPartnership.setPQ(pq);</sentence>
+            <sentence id="24.7">        detachedPartnership.setCompany(company);</sentence>
+            <sentence id="24.8">        Partnership partnership = em.merge(detachedPartnership);</sentence>
+            <sentence id="24.9">        partnership = em.find(Partnership.class, new PartnershipId(1, 1));</sentence>
+            <sentence id="24.10">        System.out.println("Persistent partnership = ("</sentence>
+            <sentence id="24.11">            + partnership.getPQId() + ", "</sentence>
+            <sentence id="24.12">            + partnership.getCompanyId() + ", "</sentence>
+            <sentence id="24.13">            + partnership.getOrdinalNbr() + ")");</sentence>
+            <sentence id="24.14">        trans.commit();</sentence>
+            <sentence id="24.15">        close();</sentence>
+            <sentence id="24.16">    }</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">fails with a really strange exception:</sentence>
+        </paragraph>
+        <paragraph id="29">
+            <sentence id="29.1">Note the workaround to resolve this is to put '..., insertable = false, updatable = false' onto the relationships' '@JoinColumn's (but it's not really what I want).</sentence>
+        </paragraph>
+        <paragraph id="30">
+            <sentence id="30.1">Please fix.</sentence>
+        </paragraph>
+    </description>
+</bug>

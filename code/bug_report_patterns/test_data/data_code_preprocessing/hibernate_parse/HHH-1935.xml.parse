@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1935</id>
+    <title>Hibernate produces invalid "create table" SQL for Maps on SQL Server 2000</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have two cases where Hibernate3 produces invalid SQL for MS SQL Server 2000:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Case 1:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">@CollectionOfElements
+    @org.</sentence>
+            <sentence id="3.2">hibernate.annotations.MapKey
+    protected Map&lt;String, String&gt; properties;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Case 2:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">@ManyToMany
+    @MapKeyManyToMany
+    private Map&lt;A, B&gt; b;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">In Case 2, A and B are entities creating a ternary relationship between the parent class, A and B, and I get the following log output:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&gt;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Hibernate should not attempt to create a nullable primary key column by default on MS SQL Server.</sentence>
+        </paragraph>
+    </description>
+</bug>

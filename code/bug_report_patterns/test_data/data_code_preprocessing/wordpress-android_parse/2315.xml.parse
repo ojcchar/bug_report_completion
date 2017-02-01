@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>2315</id>
+    <title>Crash report 3.6: OOM in WPImageSpan.draw</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We should not decode bitmap resource during the 'draw' call [here](https://github.com/wordpress-mobile/WordPress-Android/blob/fc9f1990b7562ea2c5650b0ca5f0321e73b9f018/WordPress/src/main/java/org/wordpress/android/widgets/WPImageSpan.java#L82) (load it once and only call 'canvas.drawBitmap' during 'draw')</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"'</sentence>
+            <sentence id="2.2">java.lang.OutOfMemoryError</sentence>
+            <sentence id="2.3"> at android.graphics.BitmapFactory.nativeDecodeAsset(BitmapFactory.java)</sentence>
+            <sentence id="2.68"> at java.lang.reflect.Method.invokeNative(Method.java)</sentence>
+            <sentence id="2.72"> at dalvik.system.NativeStart.main(NativeStart.java)</sentence>
+            <sentence id="2.73">"'</sentence>
+        </paragraph>
+    </description>
+</bug>

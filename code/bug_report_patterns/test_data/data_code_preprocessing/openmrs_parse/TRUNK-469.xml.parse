@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-469</id>
+    <title>On cascade save or update, metadata fields (like dateCreated, dateChanged, etc) are not handled correctly</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There appears to be a trend in which developers assume that all persistable objects in the system will be saved using their own "save" method  (i.e. ConceptService.saveConcept() for Concept).</sentence>
+            <sentence id="1.2">However, there are lots of dependent objects associated with classes like Concept that are also "persisted" in the process of saving a concept, via a cascade save or update operation.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Metadata for these dependent objects is assumed to be set by the client during a cascade save operation.</sentence>
+            <sentence id="2.2">Sometimes this does not happen, in which case the service layer, should inject the current user and current date.</sentence>
+            <sentence id="2.3">Ben has demonstrated this approach in the ConceptService.modifyCollections() method.</sentence>
+            <sentence id="2.4">I don't agree that this is the best way to do inject these values into dependent objects, but aside from figuring out to let Hibernate set these fields (probably impossible) or using some AOP approach, we need to follow this convention for all entities in the system.</sentence>
+            <sentence id="2.5">Or we need to make sure the clients calling a saveParent() method also set these metadata fields for all dependent objects.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">A Hibernate alternative would be to use the "generated" attribute for each of the metadata fields for all entities.</sentence>
+            <sentence id="3.2">This way, we at least always have a value to set for these date fields.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" generated="insert"/&gt;
+		&lt;property name="dateChanged" type="java.util.Date" column="date_changed" length="19"  generated="always"/&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I have not tested this approach, but have read some Hibernate forums that it doesn't work quite the way people expect.</sentence>
+            <sentence id="5.2">However, I think it should be the first approach we attempt to implement and then move onto a modifyCollections() convention if it doesn't work.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The trouble would then be to find an elegant way to set the created_by and changed_by fields.</sentence>
+            <sentence id="6.2">These are customarily set as Context.getAuthenticatedUser() if either field is left null.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">For more information on generated properties, please see the following page:
+http://www.hibernate.org/hib_docs/reference/en/html/mapping-generated.html</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Eventually, if we ever move to a BaseOpenmrsObject pattern where all entities extend this base object (presumably with setters/getters for the metadata fields).</sentence>
+            <sentence id="8.2">Then we can use an AOP approach or Hibernate Interceptor to sets these fields just before they are persisted (SQL INSERT, SQL UPDATE).</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Justin</sentence>
+        </paragraph>
+    </description>
+</bug>

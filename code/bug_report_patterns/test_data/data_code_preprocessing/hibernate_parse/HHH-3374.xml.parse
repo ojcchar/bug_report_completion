@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3374</id>
+    <title>Subselect fetching fetches all elements in link table instead only needed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've some entity with many-to-many collection inside.</sentence>
+            <sentence id="1.2">Example:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I want to fetch this collection for items I've fetched.</sentence>
+            <sentence id="3.2">I do:
+        DetachedCriteria criteria = DetachedCriteria.forClass(messageClass);
+                criteria.setFetchMode("fileAttachments", FetchMode.SELECT);
+                List list = getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">And hibernate generates subquery like this:</sentence>
+            <sentence id="4.2">select</sentence>
+            <sentence id="4.3">        fileattach0_.message_id as message1_1_,</sentence>
+            <sentence id="4.4">        fileattach0_.file_attachment_id as file2_1_,</sentence>
+            <sentence id="4.5">        messageima1_.id as id12_0_,</sentence>
+            <sentence id="4.6">        messageima1_.creationDate as creation3_12_0_,</sentence>
+            <sentence id="4.7">        messageima1_.hostname as hostname12_0_,</sentence>
+            <sentence id="4.8">        messageima1_.name as name12_0_,</sentence>
+            <sentence id="4.9">        messageima1_.path as path12_0_,</sentence>
+            <sentence id="4.10">        messageima1_.submited as submited12_0_,</sentence>
+            <sentence id="4.11">        messageima1_.description as descript8_12_0_,</sentence>
+            <sentence id="4.12">        messageima1_.hasSmallImage as hasSmall9_12_0_,</sentence>
+            <sentence id="4.13">        messageima1_.height as height12_0_,</sentence>
+            <sentence id="4.14">        messageima1_.smallHeight as smallHe11_12_0_,</sentence>
+            <sentence id="4.15">        messageima1_.smallWidth as smallWidth12_0_,</sentence>
+            <sentence id="4.16">        messageima1_.tinyHeight as tinyHeight12_0_,</sentence>
+            <sentence id="4.17">        messageima1_.tinyWidth as tinyWidth12_0_,</sentence>
+            <sentence id="4.18">        messageima1_.width as width12_0_ </sentence>
+            <sentence id="4.19">    from</sentence>
+            <sentence id="4.20">        message_has_file_attachment fileattach0_ </sentence>
+            <sentence id="4.21">    left outer join</sentence>
+            <sentence id="4.22">        file_attachment messageima1_ </sentence>
+            <sentence id="4.23">            on fileattach0_.file_attachment_id=messageima1_.id </sentence>
+            <sentence id="4.24">    where</sentence>
+            <sentence id="4.25">        fileattach0_.message_id in (</sentence>
+            <sentence id="4.26">            select</sentence>
+            <sentence id="4.27">                this_.id </sentence>
+            <sentence id="4.28">            from</sentence>
+            <sentence id="4.29">                message this_ </sentence>
+            <sentence id="4.30">            inner join</sentence>
+            <sentence id="4.31">                a_user user2_ </sentence>
+            <sentence id="4.32">                    on this_.user_id=user2_.id </sentence>
+            <sentence id="4.33">            left outer join</sentence>
+            <sentence id="4.34">                file_attachment articlemes3_ </sentence>
+            <sentence id="4.35">                    on this_.image_id=articlemes3_.id </sentence>
+            <sentence id="4.36">            )</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">So it fetched ALL rows in table !</sentence>
+            <sentence id="5.2">And what happens if there will be a millions rows ?</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7737</id>
+    <title>Datatype 'text' maps to the deprecated LONG type in Oracle databases</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">For Oracle databases, Hibernate maps 'text' datatype to the LONG column type, which shouldn't be used anymore (please see http://docs.oracle.com/cd/B28359_01/server.111/b28318/datatype.htm#CNCPT1831).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example, the following GORM domain class will be mapped to a table with a 'content' column of type LONG:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Additionally, if there is more than one 'text' column, creation of the table will result in "ORA-01754: a table may contain only one column of type LONG", e.g. for the following class:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">The correct behavior would be to create columns of type CLOB.</sentence>
+            <sentence id="8.2">This is not a Grails issue, because the 'text' type is passed to Hibernate and Grails relies on Hibernate in this case.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Using CLOB instead of LONG can be achieved on the application level by adding 'clob' sqlType as a workaround, like in the following example:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">but it's only a workaround and doesn't resolve this problem at the source.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">The default behavior of Hibernate can prevent tables from being created (ORA-0175) and causes creation of tables with a deprecated column type.</sentence>
+        </paragraph>
+    </description>
+</bug>

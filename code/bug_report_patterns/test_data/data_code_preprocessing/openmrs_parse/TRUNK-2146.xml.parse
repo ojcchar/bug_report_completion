@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2146</id>
+    <title>Task initialization should happen in the daemon thread</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Since OpenMRS 1.7, the execute() method of scheduled tasks has been run in a separate daemon thread, with full privileges.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">However a scheduled task's initialize(TaskDefinition) method is not run in a daemon thread, so if I try to access the API in the initialize method, I get an exception.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">My specific example is that in the reporting module I am storing configuration information in TaskDefinition.properties, and I want to use the serialization service to deserialize those strings in the initialize method.</sentence>
+            <sentence id="3.2">I can code around this, so it isn't a blocker for me, but for consistency, tasks should be initialized with the same privileges they are run with.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">For posterity, the exception I'm seeing is:</sentence>
+        </paragraph>
+    </description>
+</bug>

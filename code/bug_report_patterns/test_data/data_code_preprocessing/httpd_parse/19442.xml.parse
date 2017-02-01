@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>19442</id>
+    <title>1xx response handling</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Looks like a couple of possible RFC 2616 MUST violations.</sentence>
+            <sentence id="1.2">The proxy forwards 101 (Switching Protocols) or 199 
+(Extension) 1xx response but then terminates the connection
+with the client instead of forwarding the "true/actual"
+200 (OK) response that follows a 1xx response.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The 100 (Continue) response is not forwarded at
+all, which avoids the connection termination problem
+mentioned above, but is also a MUST violation because
+all unsolicited 1xx responses must be forwarded.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">See attached trace(s) for details and ways to reproduce
+the violation mentioned above.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Test case IDs in the trace link to human-oriented test case
+description and RFC quotes, if available.</sentence>
+        </paragraph>
+    </description>
+</bug>

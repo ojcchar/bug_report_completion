@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>1985</id>
+    <title>Container can kill docker daemon</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If i run:
+sudo docker run alexl/test /usr/sbin/httpd -D FOREGROUND</sentence>
+            <sentence id="1.2">and then press ctrl-c, then the docker daemon dies with:
+2013/09/24 14:28:38 Received signal 'terminated', exiting</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This is because the httpd does kill(0, SIGTERM) to clean up all processes, but it seem like the docker daemon is in the same process group as the container, so it also gets the SIGTERM and exits.</sentence>
+        </paragraph>
+    </description>
+</bug>

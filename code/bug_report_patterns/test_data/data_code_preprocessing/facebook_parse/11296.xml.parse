@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>11296</id>
+    <title>Not receiving fb_sig_user after IE7 and IE8 users authorize application</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We currently use the old REST API.</sentence>
+            <sentence id="1.2">We updated to the very latest facebook php client and made use of require_login($permissions) to ask for some permissions.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">We discovered yesterday that a new user on Internet Explorer 7 or Internet Explorer 8 would run into problems due to the new permissions dialog.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Setup:</sentence>
+            <sentence id="3.2">- Use the latest facebook php library_ but still using the older REST API (not the graph api)</sentence>
+            <sentence id="3.3">- We have an FBML application which calls require_login() in the facebook.php client.</sentence>
+            <sentence id="3.4">(it also has an fb:iframe inside the canvas page in case that matters)</sentence>
+            <sentence id="3.5">- Use a New User who has not previously allowed the application uses IE7 or IE8</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Reproduction steps</sentence>
+            <sentence id="4.2">- New user clicks on an advertisement or viral story which sends them directly to http://apps.facebook.com/bakinglife</sentence>
+            <sentence id="4.3">- New user gets the new permissions dialog</sentence>
+            <sentence id="4.4">- New user authorizes the application by clicking allow</sentence>
+            <sentence id="4.5">- new user arrives at http://apps.facebook.com/bakinglife</sentence>
+            <sentence id="4.6">- fb_sig_user is not present in either the GET nor POST parameters_ so require_login fails to return their user ID.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This problem does not affect existing users_ only new users being sent through the new permissions dialog.</sentence>
+            <sentence id="5.2">This problem does not exist on Mac OSX Safari_ nor Firefox.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Our current workaround:</sentence>
+            <sentence id="6.2">- We have reverted to an older facebook php client_ and no longer ask for any permissions other than the default</sentence>
+            <sentence id="6.3">- We disabled the new permissions in the application settings.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The last step was critical as it fixed the problem for IE7 and IE8 users allowing the application.</sentence>
+            <sentence id="7.2">We have a reasonable amount of traffic ( over 500K DAU)_ and saw from our metrics that this affected a significant percentage of new users_ and was not an isolated incident.</sentence>
+            <sentence id="7.3">We have also replicated this behavior on our test applications.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Anyone else run into this and have any workarounds?</sentence>
+            <sentence id="8.2">For now we re planning on putting the new graph API in place in the hopes the the IE7/IE8 permissions bug isn t in the new API.</sentence>
+            <sentence id="8.3">I can provide a reproduction URL to one of our test applications if anyone is going to work on this.</sentence>
+        </paragraph>
+    </description>
+</bug>

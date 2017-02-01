@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13104</id>
+    <title>suexec log file location have a problem and -with-suexec-logfile does not work</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If i enabled suexec option, SuExec log file was not created initally and 
+suexec did not work.</sentence>
+            <sentence id="1.2">So i created /usr/local/apache2/logs/cgi.</sentence>
+            <sentence id="1.3">log 
+or /usr/local/apache2/logs/suexec_log, but it did not work.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">After that, i inspected source file of suexec.</sentence>
+            <sentence id="2.2">I found that source code in 
+support/suexec.</sentence>
+            <sentence id="2.3">h file says not apache2 but "apache".</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&gt; #ifndef AP_LOG_EXEC
+&gt; #define AP_LOG_EXEC "/usr/local/apache/logs/cgi.</sentence>
+            <sentence id="3.2">log"   /* Need me?</sentence>
+            <sentence id="3.3">*/
+                                  ~~~~~~
+&gt; #endif</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">In addition to this, it seems that "-with-suexec-logfile" compile flag does 
+not work.</sentence>
+        </paragraph>
+    </description>
+</bug>

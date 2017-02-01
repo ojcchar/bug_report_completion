@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20855</id>
+    <title>Replace docker 1.8.1 with docker 1.11.0-dev run would failed to run container</title>
+    <description>
+        <paragraph id="5">
+            <sentence id="5.1">I have old environment with Fedora 21 Atomic (integrated with docker 1.8.1).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Since I am helping debug the issue https://github.com/docker/docker/pull/20829
+I need to compier the docker code into 1.11.0-dev binary, and then replace that 1.8.1 daemon with 1.11.0-dev to verify if that #20829 fix the volume plugin issue.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I found the new binary would not run simple containers</sentence>
+            <sentence id="7.2">[**Note: I did not use volume-driver here]</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">The following is about when run 'docker-1.11.0-dev info'</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Provide additional environment details (AWS, VirtualBox, physical, etc.):</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">List the steps to reproduce the issue:</sentence>
+            <sentence id="11.2">1 Compier docker master branch code into binary</sentence>
+            <sentence id="11.3">2 Replace systemd service bin start to use the new binary( for example 1.11.0-dev)</sentence>
+            <sentence id="11.4">as following</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">1 And then start docker.</sentence>
+            <sentence id="13.2">2 Just run 'docker run -it busybox sh'</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">It would failed with</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Describe the results you received:
+ the new binary could not start containers</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">Describe the results you expected:
+I would expect new docker binary can start containers</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Provide additional info you think is important:
+nothing else</sentence>
+        </paragraph>
+    </description>
+</bug>

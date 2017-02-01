@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6630</id>
+    <title>Cascading save (JPA merge()) of a transient entity in a UserCollectionType yields duplicate INSERT</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When saving a new (transient) entity by cascading from a JPA merge() operation on its parent, Hibernate will generate [at least] two INSERT statements for the new entity when it is held in a UserCollectionType.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When not specifying a UserCollectionType, the problem does not occur.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The UserCollectionType (for the test case) appears as simple as at all possible, it simply delegates to an ArrayList.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The example/test case attached demonstrates the problem; the HibernateCollectionTest succeeds (and uses a model without the UserCollectionType internally), the UserCollectionTest fails with exactly the same operations, but the UserCollectionType (/jpaSandbox/src/main/java/de/soflimo/sandbox/model/impl/CustomList.java) specified in the mapping.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">A few notes about the example:</sentence>
+            <sentence id="5.2">- I'd expect this to run straightforwardly (using maven).</sentence>
+            <sentence id="5.3">- I'm not familiar with Hibernate outside of a Spring/JPA context, so that's what the test case uses.</sentence>
+            <sentence id="5.4">Feel free to further simplify the test case.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">1 'getFolderXXX()' at the very top of the Tests returns a (detached) freshly-created, empty Folder instance.</sentence>
+            <sentence id="6.2">The underlying FolderService.createFolderXXX() run in a transaction [configured using Spring] which ends when returning from the createFolderXXX() methods; i.e. the 'folder' instance in the test methods must be thought of as 'detached'.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">2 folder.addDocument() modifies the detached folder entity in-memory, by inserting a new (transient) Document entity into its documents collection.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">3 save(folder) implemented by FolderService.save() performs a JPA merge() on the detached and modified folder.</sentence>
+            <sentence id="8.2">This, again, is executed within a transaction.</sentence>
+            <sentence id="8.3">When using the built-in hibernate collection handling, this succeeds; but when specifying the CustomList UserCollectionType in the model mapping, committing this transaction fails because it tries to INSERT [at least] a second row with an identical uniqueKey.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">This problem is developing into a blocking issue for us, I'll be happy to try any workarounds and be of further assistance in finding and fixing the cause of this.</sentence>
+        </paragraph>
+    </description>
+</bug>

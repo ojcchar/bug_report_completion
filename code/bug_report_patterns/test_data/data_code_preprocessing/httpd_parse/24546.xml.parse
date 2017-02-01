@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24546</id>
+    <title>Compiling httpd 2.0.48 + openssl on Windows problem: Not found docs\conf\ssl-std.conf</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When compiling httpd2.0.48 + openssl-0.9.7c on Windows (using Cygwin), there 
+is an error in Makefile.win(633):</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">copy docs\conf\ssl-std.</sentence>
+            <sentence id="2.2">conf "$(INSTDIR)\conf\ssl.default.conf" &lt;.</sentence>
+            <sentence id="2.3">y</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">That error made compiling failed.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I believe that in this version (2.0.48), the ssl-std.conf file will be 
+generated automatically from "docs\conf\ssl-std.conf.in".</sentence>
+            <sentence id="4.2">But I don't know why 
+it was not generated.</sentence>
+        </paragraph>
+    </description>
+</bug>

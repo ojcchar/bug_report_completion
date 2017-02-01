@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26586</id>
+    <title>Docker with device mapper failing to restart / produces unrecoverable state for containers</title>
+    <description>
+        <paragraph id="5">
+            <sentence id="5.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">We have docker-compose v1 yml for adding containers into our dev servers.</sentence>
+            <sentence id="6.2">We use salt for CM, and before changes to containers it often restarts the docker service.</sentence>
+            <sentence id="6.3">One of our containers isn't well and is often in a restarting state.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 have a restarting container</sentence>
+            <sentence id="7.3">2 restart docker through systemctl</sentence>
+            <sentence id="7.4">3 docker dies as devicemapper directories are missing</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Happens with 1.12.0 and 1.12.1 on Debian Jessie backport 4.6.0 kernel and docker-compose 1.7.1 and 1.8.0.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Describe the results you received:**</sentence>
+            <sentence id="9.2">dead docker</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Describe the results you expected:**</sentence>
+            <sentence id="10.2">live docker</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">after reboot, containers fail to come up reporting:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Only cleaning out of the containers from /var/lib/docker allows containers to be redownloaded and started, but a docker restart again triggers the same situation.</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">journal logs attached below</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+    </description>
+</bug>

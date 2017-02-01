@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-452</id>
+    <title>FileNotFoundException thrown for test class during module deployment</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">FileNotFoundException: class path resource [org/openmrs/test/BaseContextSensitiveTest.class] cannot be opened because it does not exist</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This seems to be happening when two conditions are met:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">(1 there are test classes in any of the installed modules</sentence>
+            <sentence id="3.2">(2 the backports module is loaded</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The backports module adds an automatic component scanning that registers handlers during startup:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This causes spring to try to look at every class in the classpath to see if it is a handler.</sentence>
+            <sentence id="5.2">This is the only reason why these random test classes are ever loaded.</sentence>
+            <sentence id="5.3">Otherwise, the test classes would never be loaded because they're never referenced anywhere else in the code.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I have updated the build.xml in one of my modules to exclude the test classes from being included in the .omod, but this doesn't always prevent the exception from occurring.</sentence>
+            <sentence id="6.2">Perhaps this is a Tomcat caching issue.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Workaround:  Run "ant clean" before packaging the .</sentence>
+            <sentence id="7.2">omod for deployment.</sentence>
+        </paragraph>
+    </description>
+</bug>

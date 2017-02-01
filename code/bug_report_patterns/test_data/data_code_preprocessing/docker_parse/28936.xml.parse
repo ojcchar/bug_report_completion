@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>28936</id>
+    <title>Strange permission issues with named containers on 1.12.3</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">One of my container stopped to work after a version upgrade to 1.12.3, with my move from Fedora 24 to Fedora 25.</sentence>
+            <sentence id="2.2">It uses a named volume to store some files.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">After the upgrade, permissions and ownership are strange, with ???</sentence>
+            <sentence id="3.2">all over.</sentence>
+            <sentence id="3.3">Of course, I get "permission denied" for any operation in that folder.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Steps to reproduce the issue:**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I can reproduce the issue with this Dockerfile, for instance: https://hub.docker.com/r/phocean/etherpad/</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I run it with:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">So the named volume "etherpad" is created:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.2">root@7d8ce7d4c042:/opt/etherpad-lite# chown -R etherpad:etherpad /opt/etherpad-lite/var/*</sentence>
+            <sentence id="11.3">chown: cannot access '/opt/etherpad-lite/var/etherpad.db': Permission denied</sentence>
+            <sentence id="11.4">root@7d8ce7d4c042:/opt/etherpad-lite# ls -la /opt/etherpad-lite/var/</sentence>
+            <sentence id="11.5">ls: cannot access /opt/etherpad-lite/var/.</sentence>
+            <sentence id="11.6">gitignore: Permission denied</sentence>
+            <sentence id="11.7">ls: cannot access /opt/etherpad-lite/var/etherpad.db: Permission denied</sentence>
+            <sentence id="11.8">total 4</sentence>
+            <sentence id="11.10">2 etherpad etherpad 43 Nov 28 18:25 .</sentence>
+            <sentence id="11.12">9 etherpad etherpad 4096 Nov 28 18:25 .</sentence>
+            <sentence id="11.13">.</sentence>
+            <sentence id="11.14">-??????????</sentence>
+            <sentence id="11.15">?</sentence>
+            <sentence id="11.16">?</sentence>
+            <sentence id="11.17">?</sentence>
+            <sentence id="11.18">?</sentence>
+            <sentence id="11.19">?</sentence>
+            <sentence id="11.20">.</sentence>
+            <sentence id="11.21">gitignore</sentence>
+            <sentence id="11.22">-??????????</sentence>
+            <sentence id="11.23">?</sentence>
+            <sentence id="11.24">?</sentence>
+            <sentence id="11.25">?</sentence>
+            <sentence id="11.26">?</sentence>
+            <sentence id="11.27">?</sentence>
+            <sentence id="11.28">etherpad.db</sentence>
+            <sentence id="11.29">"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Another weired example (I can create a file but not remove it):</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Other output regarding SELinux (I get no error from there):</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">NB: I posted this request on the forum and IRC but no solution so far.</sentence>
+        </paragraph>
+    </description>
+</bug>

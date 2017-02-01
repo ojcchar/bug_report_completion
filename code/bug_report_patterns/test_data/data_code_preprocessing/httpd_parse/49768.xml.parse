@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>49768</id>
+    <title>[FIXED] Piped Log over /bin/sh/ -c</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello ;</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">With Apache version 2.2.16 (under Debian Squeeze) I've problem with a Piped log script.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Explanation:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">When run under Debian Lenny (Apache version 2.2.9), Apache spawn the log script directly.</sentence>
+            <sentence id="4.2">So, only one process appert when I run the 'px aux' command'.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Example for the Piped Error log:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">root      1253  0.0  0.2   5208  1364 pts/0    S+   18:16   0:00 /usr/bin/perl /var/www/ispcp/engine/ispcp-apache-logger -e</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">But under the latest Apache version (2.2.16), the script seem to be run over the '/bin/sh -c' command.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">root      1550  0.0  0.0   1748   484 pts/0    S+   18:16   0:00 /bin/sh -c /var/www/ispcp/engine/ispcp-apache-logger -e
+root      1551  0.0  0.2   5208  1364 pts/0    S+   18:16   0:00 /usr/bin/perl /var/www/ispcp/engine/ispcp-apache-logger</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I don't know why apache process like this now but this way is not good for me because now, I unable to trap any signal from my perl script.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Some info about my configuration:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">My relevant Apache configuration:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">LogFormat "%v %h %l %u %t \"%r\" %&gt;s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O" ispcplog</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">CustomLog "| /var/www/ispcp/engine/ispcp-apache-logger" ispcplog
+ErrorLog "| /var/www/ispcp/engine/ispcp-apache-logger -e"</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">dev:/home/nuxwin# uname -a
+Linux dev 2.6.26-2-686 #1 SMP Mon Jun 21 05:58:44 UTC 2010 i686 GNU/Linux</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Note: Sorry for my poor English, I'm french.</sentence>
+        </paragraph>
+    </description>
+</bug>

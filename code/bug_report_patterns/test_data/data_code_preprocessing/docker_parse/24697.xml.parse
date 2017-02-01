@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24697</id>
+    <title>Docker run works behind proxy, and Docker build does not</title>
+    <description>
+        <paragraph id="10">
+            <sentence id="10.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Windows 10 Pro - Hyper-V
+Dell Latitude 3540</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="12.2">1 docker run -it ruby bash</sentence>
+            <sentence id="12.3">2 Configure http_proxy and https_proxy env variables</sentence>
+            <sentence id="12.4">3 execute apt-get update (it should run fine)</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">part that don't work</sentence>
+            <sentence id="13.2">4 create a Dockerfile with this content</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.2">1 docker build .</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">It should run apt-get update/install and build the image.</sentence>
+        </paragraph>
+        <paragraph id="26">
+            <sentence id="26.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="26.2">- I have set in my Windows host the environment variables HTTP_PROXY and HTTPS_PROXY to make tools like GIT work behind a proxy.</sentence>
+            <sentence id="26.3">- My company uses a proxy with NTLM authentication, then I use Fiddler as a tunnel (Internet Options is set to use 127.0.0.1:7777 as the proxy)</sentence>
+        </paragraph>
+    </description>
+</bug>

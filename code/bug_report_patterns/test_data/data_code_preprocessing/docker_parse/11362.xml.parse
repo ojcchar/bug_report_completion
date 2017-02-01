@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>11362</id>
+    <title>du fails with overlay storage backend</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have an image whose size is roughly 800M.</sentence>
+            <sentence id="1.2">I start a container on it using
+`docker run -i -t &lt;myimage&gt;`
+Then i do `du -shx /` inside.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">On one system, I use the btrfs storage backend and i have
+`44c68d5b5ac4 / # du -shx /`
+`789M /`</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">On another one, using the overlay storage backend, I have :
+`e38c8dc904fd / # du -shx /`
+`11M /`</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">It's really weird, as ls -l does report the right size.</sentence>
+        </paragraph>
+    </description>
+</bug>

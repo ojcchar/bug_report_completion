@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1563</id>
+    <title>ParameterParser - if query contains the string "call" can cause Exception caused by check in ParameterParser.parse method</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I created a query involving an object named "Call" (table call) which uncovered a potential bug in the ParameterParser.</sentence>
+            <sentence id="1.2">The ParameterParser.parse(String sqlString, Recognizer recognizer) method's first line does this check:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">boolean hasMainOutputParameter = sqlString.indexOf( "call" ) &gt; 0 &amp;&amp;
+		                                 sqlString.indexOf( "?" )</sentence>
+            <sentence id="2.2">&lt; sqlString.indexOf( "call" ) &amp;&amp;
+		                                 sqlString.indexOf( "=" ) &lt; sqlString.indexOf( "call" );</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I haven't had a chance to dig deeper so I don't know what this is used for internally, but when I run this query:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This sets "hasMainOutputParameter" to true and causes the following Exception:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">org.hibernate.HibernateException: ordinal parameter mismatch</sentence>
+            <sentence id="6.2">   messages: [Ljava.lang.String;@6b9dfe</sentence>
+            <sentence id="6.3">   throwableCount: 1</sentence>
+            <sentence id="6.4">   throwables: [Ljava.lang.Throwable;@151a160</sentence>
+            <sentence id="6.6">org.hibernate.engine.query.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:95)</sentence>
+            <sentence id="6.7">org.hibernate.engine.query.HQLQueryPlan.&lt;init&gt;(HQLQueryPlan.java:54)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">If I reverse the where clause of the query like so:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">.</sentence>
+            <sentence id="9.2">.</sentence>
+            <sentence id="9.3">the check returns false as it should and the query succeeds.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">I'm in a rush right now, but I'll try and dig deeper and provide a test case and/or patch when I have a little more time.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4350</id>
+    <title>OpenmrsClassLoader may chose wrong ModuleClassLoader when one module name is a substring of another module name and there is a period in the name</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We have fixed as part of TRUNK-4348 the general case when one module name is a substring of another.</sentence>
+            <sentence id="1.2">But, as [~wyclif] points out, this may still fail if for modules with periods in the name.</sentence>
+            <sentence id="1.3">For instance, if there was a reporting.ui module, OpenmrsClassLoader would potentially match it with the reporting module classloader.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Potential fix?</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">We could change it so that it takes the classname and truncates at the last dot and then do an equals comparison.</sentence>
+            <sentence id="3.2">Are there any cases when we think doing that wouldn't be the right thing?</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">For example:
+int pos = className.lastIndexOf(".")</sentence>
+            <sentence id="4.2">;
+String classPackageName = className.substring(0, pos);
+tryToLoad = classPackageName.equals(moduleClassLoader.getModul().</sentence>
+            <sentence id="4.3">getPackageName())</sentence>
+        </paragraph>
+    </description>
+</bug>

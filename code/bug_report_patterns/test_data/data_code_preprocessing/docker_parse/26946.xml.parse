@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>26946</id>
+    <title>Connection to VIP fails exactly every other time</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've been using a three node cluster of bare-metal machines (packet) to test docker and different versions of MySQL.</sentence>
+            <sentence id="1.2">After much frustration with networking "not working" I finally figured out the issue was with the VIP and I could consistently repeat the failed connection.</sentence>
+            <sentence id="1.3">Here is my setup (may not be exactly same steps, since this all took place over several days):</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Setup nodes: test1, test2, test3</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">From test1 machine (which is swarm manager):</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">From test3 machine:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">So the network connection fails every other time when using "mysql55" or "10.0.0.9" but it succeeds every time if using the container IP "10.0.0.12".</sentence>
+            <sentence id="11.2">Result is the same using a php script with the php mysql client so it is not the mysql client binary.</sentence>
+            <sentence id="11.3">DNS resolution is not the issue either as the same issue occurs when using the IP address so it is an issue with the VIP.</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="17.2">Bare-metal on packet.net.</sentence>
+        </paragraph>
+    </description>
+</bug>

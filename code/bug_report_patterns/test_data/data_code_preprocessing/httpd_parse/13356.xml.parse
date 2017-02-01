@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13356</id>
+    <title>configure fails due to access to /dev/null (2.0.43!)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">./configure --with-mpm=prefork --enable-speling --enable-headers --enable-mods-shared=max --enable-mime-magic fails 
+										    with:... checking for unistd.h... yes checking minix/config.h usability... no checking minix/config.h presence... no 
+											checking for minix/config.h...no checking whether system uses EBCDIC... no performing libtool configuration... checking 
+											for ld used by GCC... /usr/ccs/bin/ld checking if the linker (/usr/ccs/bin/ld) is GNU ld... no checking for BSD-compatible 
+											nm... /users2/local/bin/nm -B loading cache /dev/null within ltconfig build/ltconfig[391]: /dev/null:  not found</sentence>
+            <sentence id="1.2">configure: error: libtool configure failed</sentence>
+            <sentence id="1.3">configure failed for srclib/apr</sentence>
+            <sentence id="1.4">The same configure line worked OK with 2.0.42.</sentence>
+        </paragraph>
+    </description>
+</bug>

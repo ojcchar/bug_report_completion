@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8690</id>
+    <title>hibernate.hbm2ddl.auto=validate throws errors "Wrong column type in xxx for column xxx. Found: float, expected: double precision" in Oracle database.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When a java "double" type is defined in an entity class, a "float" type column is created in oracle database when setting hibernate.hbm2ddl.auto=create(or update).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The java "double" type is interpreted as "double precision" in the table creation script by Hibernate.</sentence>
+            <sentence id="2.2">For example,</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">a table create script could look like:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">It generates a column "height" of type "float".</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The same table creation script generates type "double" in mysql database.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">It appears that oracle database doesn't have a data type "double".</sentence>
+            <sentence id="7.2">It has "BINARY_DOUBLE" instead.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">In addition, after a double type being created as "float" in the database, if setting the hibernate.hbm2ddl.auto=validate, it throws error:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Strong Liu has suggested to change the default type mapping in org.hibernate.dialect.Oracle8iDialect 
+from
+                registerColumnType( Types.DOUBLE, "double precision" );
+to
+                registerColumnType( Types.DOUBLE, "float" );</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">I have tried to create my own dialect to override the default behavior.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">For example:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">}</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">And then set my own dialect in the persistence.xml, for example:
+  &lt;property name="hibernate.dialect" value="jpa.test.hibernate.dialect.Oracle11gDialectExt" /&gt;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Then I don't see the error any more.</sentence>
+        </paragraph>
+    </description>
+</bug>

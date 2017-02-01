@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-627</id>
+    <title>incorrect pom.xml deployed to ibiblio</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">according to http://www.hibernate.org/hib_docs/v3/reference/en/html/quickstart.html the following jars are required by hibernate, but they are not listed in the pom.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">antlr (required)
+dom4j (required)
+CGLIB, asm (required)
+Commons Collections, Commons Logging (required)
+EHCache (required)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">maven2 can automatically include transitive dependencies, so if these are defined in the hibernate pom, they will automatically be included in my project.</sentence>
+            <sentence id="3.2">There are so many users of hibernate it would be a huge benifit to have these dependencies declared in one place instead of EVERY developer having to do it.</sentence>
+        </paragraph>
+    </description>
+</bug>

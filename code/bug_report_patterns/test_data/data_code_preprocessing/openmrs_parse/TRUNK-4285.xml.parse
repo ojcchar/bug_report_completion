@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4285</id>
+    <title>Incorrect behavior of Person.getPersonName() and getPersonAddress() for a voided Person</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If a person is voided, then all of their names, addresses, etc are voided.</sentence>
+            <sentence id="1.2">Thus calling getPersonName() or getPersonAddress() on a voided person returns null.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">And as a result Provider.getName() returns null if the provider points to a voided person.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I propose that we add a special-case to the getPersonName() and getPersonAddress() convenience methods so that if the person is voided, we don't exclude voided names/addresses as candidates for being returned.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">(This caused a bug in production in Mirebalais, since we were not expecting Provider.getName() to ever return null.</sentence>
+            <sentence id="4.2">We have added a workaround in our code, so this is not pressing.)</sentence>
+        </paragraph>
+    </description>
+</bug>

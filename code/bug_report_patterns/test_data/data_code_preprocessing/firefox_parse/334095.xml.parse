@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>334095</id>
+    <title>crash importing Safari bookmarks [@nsSafariProfileMigrator::CopyPreferences]</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">Every time I import safari bookmarks, Firefox crashes.</sentence>
+            <sentence id="2.2">With or without a new profile.</sentence>
+            <sentence id="2.3">The importer is at the 'Importing....' stage.</sentence>
+            <sentence id="2.4">When running from the command line I get the following:
+graham:~/Desktop graham$ 2006-04-15 09:02:08.596 firefox-bin[4844] *** -[NSCFString _getValue:forType:]: selector not recognized [self = 0x31101c0]
+2006-04-15 09:02:08.596 firefox-bin[4844] *** Uncaught exception: &lt;NSInvalidArgumentException&gt; *** -[NSCFString _getValue:forType:]: selector not recognized [self = 0x31101c0]</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Steps to Reproduce:</sentence>
+            <sentence id="4.2">1 Start firefox (with or without existing profile)</sentence>
+            <sentence id="4.3">2 Import from Safari</sentence>
+            <sentence id="4.4">3 Crash</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Actual Results:  
+It crashed.</sentence>
+            <sentence id="5.2">I received 2 stacktraces due to the apple crash system.</sentence>
+            <sentence id="5.3">I'll attach both - not sure which one is relevant.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected Results:  
+Imported bookmarks successfully.</sentence>
+        </paragraph>
+    </description>
+</bug>

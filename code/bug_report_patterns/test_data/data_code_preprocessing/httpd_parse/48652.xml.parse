@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>48652</id>
+    <title>"AuthType form" fails if a password contains  '&amp;' sign</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When I use '&amp;' (ampersand) sign in a user's password "AuthType form" fails to authenticate a user.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The configuration example is below.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">If I change AuthType to Basic the authentication works, so I think this is a bug in mod_auth_form.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;Location /test&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Require valid-user
+    ErrorDocument 401 /test-login
+    AuthType form
+    AuthName inline
+    AuthFormProvider ldap
+    AuthLDAPURL "ldap://192.168.0.100/ou=Users,dc=test,dc=company,dc=com?uid?one"
+    SessionCryptoPassphrase client-pass
+    Session On
+    SessionCookieName clientSSOpass path=/;httponly;secure;Version=1;
+    SessionMaxAge 0
+    AuthFormFakeBasicAuth On</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">ProxyPass http://server2:8080/test
+    ProxyPassReverse http://server2:8080/test
+    RequestHeader unset Accept-Encoding
+    RequestHeader set SSOHandler true
+&lt;/Location&gt;</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The Apache version I use is 2.3.4, system: Ubuntu 64bit</sentence>
+        </paragraph>
+    </description>
+</bug>

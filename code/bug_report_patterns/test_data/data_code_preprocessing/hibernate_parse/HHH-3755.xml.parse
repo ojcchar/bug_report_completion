@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3755</id>
+    <title>The .getClass() return Class wrong, return &lt;entity&gt;_$$_javassist_0</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If you observe the output of execution of the TestCX class, you see an error to second user (Clayton) in return of method getClass().</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">See class com.ws.model.entities.Mensagem_$$_javassist_0, it's not corret, 
+the correct output is: class com.ws.model.entities.Mensagem</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">In Attachement contain an .</sentence>
+            <sentence id="3.2">rar file with my miniproject to demonstrate a error.</sentence>
+            <sentence id="3.3">Execute TestCX to see aa error.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">User: Albatrox
+List Message...
+class com.ws.model.entities.Mensagem
+class com.ws.model.entities.Mensagem
+List MessageUser
+class com.ws.model.entities.MensagemDestinatario
+class com.ws.model.entities.MensagemDestinatario</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">User: Clayton
+List Message...
+class com.ws.model.entities.Mensagem_$$_javassist_0
+class com.ws.model.entities.Mensagem_$$_javassist_0
+List MessageUser
+class com.ws.model.entities.MensagemDestinatario
+class com.ws.model.entities.MensagemDestinatario</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">User: Jakovisk
+List Message...
+List MessageUser</sentence>
+        </paragraph>
+    </description>
+</bug>

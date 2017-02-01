@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10667</id>
+    <title>Markdown syntax problems in manpages</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There are errors in the manpages because parameters in angle brackets aren't included in 'md2man' output.</sentence>
+            <sentence id="1.2">For [example](https://github.com/docker/docker/blame/master/docs/man/Dockerfile.5.md#L137),</sentence>
+            <sentence id="1.6">renders as</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Note the missing '&lt;src&gt;' and '&lt;dest&gt;'.</sentence>
+            <sentence id="2.2">This can also be seen in GitHub's rendering of the text:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**ADD ["&lt;src&gt;"... "&lt;dest&gt;"]** This form is required for paths containing whitespace.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**PROBLEM**: man docs are often imporoperly formatted, using quotes or bolds when code blocks/segments are required</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**PROPOSED SOLUTION**: man docs should be updated to use appropriate backticks for either inline or blocked code.</sentence>
+            <sentence id="6.2">The 'dockerfile.5.</sentence>
+            <sentence id="6.3">md' has already been gone through, but wouldn't hurt another set of eyes.</sentence>
+        </paragraph>
+    </description>
+</bug>

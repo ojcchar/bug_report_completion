@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>7510</id>
+    <title>Posts via streamPublish don t appear in Live Feed of all friends_ but only on common friends</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Our Facebook application (ID 144030170500; 6m MAU) makes posts via FB.Connect.streamPublish.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Some posts are done on the wall of the user_ but some of the posts are done at the wall of the friends  walls by specifying the target_id.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The documentation (http://wiki.developers.facebook.com/index.php/FB.Connect.streamPublish) says:
+ The post also appears in the streams (News Feeds) of any user connected to the target of the post.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This is not the case: The post only appears in the streams of people who are friends with the user AND the target.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Example:</sentence>
+            <sentence id="5.2">- User A is using our application</sentence>
+            <sentence id="5.3">- User A is friends with user B</sentence>
+            <sentence id="5.4">- User C is friends with user A and user B</sentence>
+            <sentence id="5.5">- User D is friends with user B_ but not user A</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">User A posts on the wall of user B.
+=&gt; This post can now be seen by user C_ but not user D.</sentence>
+            <sentence id="6.2">However it should also be seen by user D.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Please fix this problem and make sure the platform behaves according to the documentation:
+ The post also appears in the streams (News Feeds) of any user connected to the target of the post.</sentence>
+        </paragraph>
+    </description>
+</bug>

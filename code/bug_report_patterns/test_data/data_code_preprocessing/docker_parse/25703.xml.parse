@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>25703</id>
+    <title>Docker don't remove processes when stopping/removing containers</title>
+    <description>
+        <paragraph id="8">
+            <sentence id="8.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Azure Standard D4 (8 cores, 28 GB memory)</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="10.3">2</sentence>
+            <sentence id="10.4">3</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you received:**</sentence>
+            <sentence id="11.2">Inspecting high CPU using processes I found several processes that was run in containers but still running long time after containers are stopped/removed</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Process 19412 is high CPU user and was in container.</sentence>
+            <sentence id="13.2">There no containers older than 1 hour, so I think docker wasn't able to stop all processes when stopping container.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">On another node:</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">**Describe the results you expected:**</sentence>
+            <sentence id="16.2">All processes belonged to stopped containers are killed</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="17.2">It happened on 2 out of 3 swarm nodes, I didn't seen that before, on older docker/swarm versions.</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">I let these processes running, so I able to collect additional info.</sentence>
+            <sentence id="18.2">Please supply command how to get it.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>6980</id>
+    <title>cap_set_file not permitted on aufs storage driver only</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When running this minimal Dockerfile:</sentence>
+            <sentence id="1.3">The following error occurs only when using the aufs storage driver:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When running with the devicemapper driver the command succeeds successfully.</sentence>
+            <sentence id="2.2">The capabilities listed for the process are identical under both storage drivers and include 'CAP_SETFCAP' and 'CAP_FOWNER' which are listed by 'set_cap_file' as requirements.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here is the full list of capabilities which both processes have:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">"'
+Capabilities for '11004': =ep cap_chown,cap_dac_override,cap_fowner,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_setfcap+i cap_dac_read_search,cap_fsetid,cap_linux_immutable,cap_net_broadcast,cap_net_admin,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_lease,cap_audit_write,cap_audit_control,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend-ep
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

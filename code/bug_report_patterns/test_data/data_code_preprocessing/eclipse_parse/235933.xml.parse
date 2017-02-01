@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>235933</id>
+    <title>Adding archive leaves file open</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build: 3.4 RC3</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">- From Available Software tab, select Add Site &gt; Archive &gt; and pick some jar file</sentence>
+            <sentence id="2.2">- It will fail to find a repository in the jar</sentence>
+            <sentence id="2.3">- Now try to delete the jar from the file system</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">-&gt; You can't delete the file.</sentence>
+            <sentence id="3.2">It looks like we keep a file handle open here that prevents deletion.</sentence>
+        </paragraph>
+    </description>
+</bug>

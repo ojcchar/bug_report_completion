@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7889</id>
+    <title>Sybase jConnect driver cannot use ResultSet.getClob(String) method</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When using @Lob on a String-typed attribute, with a column of type {{text}} in database, I get this while fetching data (the french exception message says something like "the SybResultSet.getClob(String) method is not supported and should not have been called."):</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Note: I'm currently migrating from Hibernate 3.5.3-Final to 4.1.9.</sentence>
+            <sentence id="2.2">Final, and everything was working fine before the upgrade.</sentence>
+            <sentence id="2.3">Migration guides didn't tell much about LOBs, so I changed nothing @Lob-related in my code/mapping.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">As the [HibernateCoreMigrationGuide36|https://community.jboss.org/wiki/HibernateCoreMigrationGuide36] wiki page suggested for other database systems, I tried leveraging the {{hibernate.jdbc.use_streams_for_binary}} configuration parameter, but to no avail.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This issue may be related to HHH-3691 or HHH-3892.</sentence>
+        </paragraph>
+    </description>
+</bug>

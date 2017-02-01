@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>14440</id>
+    <title>oom_kill_disable poorly understood &amp; implemented</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">While it's no secret I've been hugely against this feature since back when it was just a proposal/PR (#12528/#11034), upon further investigation, it seems that the feature was implemented without much understanding, as proven by the fact that it doesn't even work :-)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Ok, so first subject, it doesn't work (docker 1.7.0):
+I don't know where docker thinks it's setting the cgroup parameter to disable the oom killer, but it's not on the cgroup used by the container.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Secondly, the cgroup oom_kill_disable setting only does anything if a cgroup memory limit is also in place.</sentence>
+            <sentence id="5.2">Currently nothing enforces or advises the oom-kill-disable option only be used in conjunction with a memory limit.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Thirdly, using this flag requires manual intervention if the container does hit an OOM condition. </sentence>
+            <sentence id="6.2">The flag does prevent the process from being killed, but the process hangs instead (goes into defunct state). </sentence>
+            <sentence id="6.3">This means manual intervention is required to either kill the process/container, or to increase the memory limits. </sentence>
+            <sentence id="6.4">If you want to increase the limits, you have to go mucking around in the cgroup filesystem. </sentence>
+            <sentence id="6.5">So realistically, the action to take here is to manually kill the container.</sentence>
+            <sentence id="6.6">To compound this, the fact that the process has been sent defunct is not easily observable. </sentence>
+            <sentence id="6.7">From the perspective of someone using the docker client, the container is still running, the processes inside it are still there, they just stop responding.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&amp;nbsp;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Here's a little test container I created for this: [phemmer/do-oom](https://registry.hub.docker.com/u/phemmer/do-oom/) ([github](http://github.com/phemmer/docker-do-oom))</sentence>
+            <sentence id="8.2">The container runs a process which allocates 20gb of memory, and then tries to use that 20gb (which invokes OOM).</sentence>
+            <sentence id="8.3">**NOTE**: I do not advise running this container on a system which you care about.</sentence>
+            <sentence id="8.4">The OOM killer is very indiscriminate, and can kill anything.</sentence>
+            <sentence id="8.5">Also don't run it on a system with swap enabled, or the entire system will likely come grinding to a halt.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The first example, we run the container with oom killer (supposedly) disabled:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Here we see the container was killed due to OOM.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">&amp;nbsp;</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Now we set a limit of 500M</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">&amp;nbsp;</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Now lets run it with the fix enabled, but no memory limit:</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">Still was killed</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">&amp;nbsp;</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">Now we run it with a memory limit, and the fix enabled:</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">Here the process just hangs as it's gone defunct.</sentence>
+            <sentence id="22.2">CTRL+C doesn't work, and we have to detach &amp; kill the container.</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">---</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>31848</id>
+    <title>SEGV ssl_hook_UserCheck (r=0x3c19c050) at ssl_engine_kernel.c:848</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Apache 2 (self-compiled) on OpenBSD 3.5</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The child process crashes when I try to access a password-protected (AuthType Digest, Require valid-
+user) area on a virtual host which also has SSLEngine on.</sentence>
+            <sentence id="2.2">The request that causes the crash need not be 
+over SSL.</sentence>
+            <sentence id="2.3">After the request, I get tons of the following messages in my error_log:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">[Wed Oct 20 23:33:02 2004] [notice] child pid 748 exit signal Segmentation fault (11)
+[Wed Oct 20 23:33:02 2004] [notice] child pid 21686 exit signal Segmentation fault (11)
+[Wed Oct 20 23:33:02 2004] [notice] child pid 11754 exit signal Segmentation fault (11)
+[Wed Oct 20 23:33:02 2004] [notice] child pid 25724 exit signal Segmentation fault (11)
+...</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I started Apache under gdb in -X mode and got the following back trace:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Apache was configured like this:</sentence>
+        </paragraph>
+    </description>
+</bug>

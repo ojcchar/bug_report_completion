@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9565</id>
+    <title>EntityManager.merge(...) causes StackOverflowError on larger models</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When using a directed Graph structure model like this:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">- Graph, consists of set of nodes</sentence>
+            <sentence id="2.2">- Node, consists of set of neighbors</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">... and using it to create a sufficiently large closed Node Ring (about 3000 nodes), EntityManager.merge(graph) throws a StackOverflowError.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">EntityManager.persist(graph) works fine.</sentence>
+            <sentence id="4.2">Loading via HQL works as well, only EntityManager.merge(graph) seems to be affected.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I have attached a zipped, self-contained Eclipse Project that contains a minimal test case.</sentence>
+            <sentence id="5.2">Just run "src/test/java/test/JUnitTest.java" as a JUnit test.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">This is somewhat related to this closed bug: 
+https://hibernate.atlassian.net/browse/HHH-3046</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The repeating part of the Stack Trace is:</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>13952</id>
+    <title>Can not post to Facebook Pages (OAuthException (#1) An unknown error occurred)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi all.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When posting to a Facebook page_  an unknown error  is thrown.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Here are the steps to reproduce the issue:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">1 You need to grant the  manage_pages  and  publish_stream  permission to an app.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">You can do so in accessing this app:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">http://www.facebook.com/apps/application.php?id=105700929478254</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">(click on  go to app ).</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">2 You need to get the access token for managing the page thanks to a call to</sentence>
+            <sentence id="8.2">/me/accounts</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">The above application will list the output of  /me/accounts .</sentence>
+            <sentence id="9.2">Pick one of the
+ access token  in the list for any page to test (ACCESS_TOKEN_TEST_PAGE) and
+get the corresponding PAGE_ID (id) too</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">3 Open a terminal (and put a file.jpg test image somewhere) and run the following:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1"># curl -F  access_token=ACCESS_TOKEN_TEST_PAGE  \
+&gt; -F  message=Test  \
+&gt; -F  source=@f  \
+&gt; https://graph.facebook.com/PAGE_ID/photos</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">You get:</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Expected result:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">A picture identifier.</sentence>
+        </paragraph>
+    </description>
+</bug>

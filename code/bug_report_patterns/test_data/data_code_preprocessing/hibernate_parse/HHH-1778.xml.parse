@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1778</id>
+    <title>Transient object returned from session</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have object1 which have collection of object2 which have association with object3.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I add new object2 with transient instance of object3 into object1 collection.</sentence>
+            <sentence id="2.2">Then I save object1.</sentence>
+            <sentence id="2.3">It cascades save to object2.</sentence>
+            <sentence id="2.4">Then I need to reread the object1 state from the database.</sentence>
+            <sentence id="2.5">So I call session.get(Object1.class, object1.getId()); returned object contains newly added object2 in the collection and that object2 has original transient object3, which is not associated with the current session.</sentence>
+            <sentence id="2.6">So I get LazyInitializationException...</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I think that session have to check if all returned objects are associated with current session.</sentence>
+        </paragraph>
+    </description>
+</bug>

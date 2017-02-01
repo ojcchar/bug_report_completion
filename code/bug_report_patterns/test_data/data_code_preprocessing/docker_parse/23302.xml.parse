@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23302</id>
+    <title>Cannot remove network due to active endpoint, but cannot stop/remove containers</title>
+    <description>
+        <paragraph id="7">
+            <sentence id="7.1">I am trying to delete a network with `docker network rm &lt;network&gt;`, but it complains with</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Indeed, when I run `docker inspect xxx_default` I got:</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">But when I try to `docker stop/rm` any of these two containers (either by name or ID) I got:</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">So basically I'm stuck with a useless network, which I can't rm, and this is a real problem because I need to recreate the containers having that same name, but it complains with I try to recreate them.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Is there a way I can get out of this?</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">It's overlay networks, and I run consul as at the KV store.</sentence>
+            <sentence id="15.2">There is only one consul node, on the same host (because I don't need the multi host network know)</sentence>
+        </paragraph>
+        <paragraph id="16">
+            <sentence id="16.1">Thx in advance.</sentence>
+        </paragraph>
+    </description>
+</bug>

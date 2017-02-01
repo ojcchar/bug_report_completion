@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-6857</id>
+    <title>Stateless Sessions, Criteria &amp; "possible non-threadsafe access to the session" (but not with createQuery(String)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I originally posted most of the following on HHH-3220 which is salient to this discussion, I'll paste that here verbatim, but suffice to say that with StatelessSession.createCriteria(EntityClass) with Table_per_Class causes the infamous 'non-threadsafe' exception, yet StatelessSession.createQuery(String) does not:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">[original post from HHH-3220]</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I know this is marked as closed in 3.6.0+ however I'm hitting this exact same problem with 3.6.8.</sentence>
+            <sentence id="3.2">Final with a InheritanceType.TABLE_PER_CLASS setup, only when I issue a:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Which scrolls through the entire result-set, the above fails with the "non-threadsafe" error.</sentence>
+            <sentence id="5.2">However issuing an effectively-the-same-query using the createQuery method with:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">actually works fine.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">We originally had this Query-based execution failing with the non-threadsafe error under hibernate-core 3.3.0.GA, upgraded to 3.6.8.</sentence>
+            <sentence id="8.2">Final to fix the problem (as is documented here), and then have needed to switch to using Criteria for more flexible partitioning of the query (parallelise the row retrievals) now to find us back with the same problem.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Switching to/from Criteria-based scrolling through the entire tablespace fails/succeeds respectively.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Is there anyone out there with advice?</sentence>
+            <sentence id="10.2">I'm a bit confused as to whether the SessionWrapper class will help or not, I don't understand why a Criteria-based "select *" is executing any different than an explicit "select *" (which is what 'from &lt;entity&gt;' with no other criteria is right?)</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Any help really appreciated, I have 130 million records I need to scroll through that I don't really want to use a stateful session.</sentence>
+        </paragraph>
+    </description>
+</bug>

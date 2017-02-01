@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-2066</id>
+    <title>HSQL DB + multi-schema --&gt; raised an exception (Problem to get an increment key [select max(id) from table)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When trying to save an object that has an "incremental" primary key, Hibernate API tries to know what the max current id is by executing a "SELECT MAX".</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Though, in this particular sql query, schema name is not taken into account (in hsqldialect).</sentence>
+            <sentence id="2.2">This cause an error that prevents anyone from carrying out unit tests.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This bug also exists on 3.x versions</sentence>
+        </paragraph>
+    </description>
+</bug>

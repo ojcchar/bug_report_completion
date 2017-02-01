@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>21132</id>
+    <title>Cannot attach network to stopped container with --net none</title>
+    <description>
+        <paragraph id="6">
+            <sentence id="6.1">**Steps to reproduce the issue:**</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Describe the results you received:**</sentence>
+            <sentence id="7.2">&gt; Error response from daemon: Container cannot be connected to multiple networks with one of the networks in private (none) mode</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you expected:**</sentence>
+            <sentence id="8.2">Docker is connected is started with 2 networks connected.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">The only method that works is following:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">I find this method of attaching multiple networks inconsistent... As you always need to list first network with '--net' and '--ip', instead just creating container and attaching multiple networks the same way.</sentence>
+            <sentence id="12.2">.</sentence>
+        </paragraph>
+    </description>
+</bug>

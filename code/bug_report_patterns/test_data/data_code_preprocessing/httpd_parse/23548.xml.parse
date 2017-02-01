@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>23548</id>
+    <title>prefork model on solaris 2.6 mod_ldap leaves connections to ldap in close_wait</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We are running apache 2.0.47 in prefork model on solaris 2.6 and solaris 2.8.</sentence>
+            <sentence id="1.2">We are using the 
+ldap authenticator which is still in experimental mode using the NETSCAPE C libraries (without 
+SSL).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Authentication to ldap using .htaccess files occurs flawlessly.</sentence>
+            <sentence id="2.2">Each apache child holds open a 
+connection to ldap on port 389 for the specified length of time.</sentence>
+            <sentence id="2.3">However, when that time expires 
+or the port 389 connection is closed, the apache child does not reap the connection and it remains 
+stuck in close_wait.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Eventually Apache reaches the file descriptor limit (set to 64) and stop accepting new connections.</sentence>
+            <sentence id="3.2">We don't want to raise the FD limit we would like to get to the root cause.</sentence>
+            <sentence id="3.3">Any ideas?</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">We do not see this on solaris 2.8!</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">APPENDIX (error log , truss, lsof output from parent and children).</sentence>
+            <sentence id="5.2">========
+ERROR LOG INDICATES THE SYMPTOM:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Tue Sep 30 18:40:48 2003] [error] [client 10.0.0.2] (24)Too many open files</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">TRUSS of parent seems normal:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">15598:  poll(0xEFFFDA90, 0, 1000)                       = 0
+15598:  waitid(7, 0, 0xEFFFF9A0, 0107)                  = 0
+15598:        siginfo: SIG#0
+15598:  poll(0xEFFFDA90, 0, 1000)                       = 0
+15598:  waitid(7, 0, 0xEFFFF9A0, 0107)                  = 0
+15598:        siginfo: SIG#0
+15598:  poll(0xEFFFDA90, 0, 1000)                       = 0
+15598:  waitid(7, 0, 0xEFFFF9A0, 0107)                  = 0
+15598:        siginfo: SIG#0
+(SO ON AND SO FORTH)</sentence>
+        </paragraph>
+    </description>
+</bug>

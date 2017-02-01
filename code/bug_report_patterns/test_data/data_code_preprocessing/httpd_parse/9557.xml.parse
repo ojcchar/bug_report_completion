@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>9557</id>
+    <title>Corruption of HTTP/0.9 response</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">(remark: this problem</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&gt; telnet serv.primcnti.ru 80
+Escape character is '^]'.</sentence>
+            <sentence id="2.2">&gt; GET /
+Ã²/TD&gt;
+ &lt;TD&gt;&lt;INPUT name="DocYear" type="text" size="10" maxlength="4"&gt;&lt;/TD&gt;
+&lt;/TR&gt;
+&lt;TR&gt;
+&lt;...&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">'Cos request is quite bad, but in this case Apache must not (I think) start 
+answer with "Ã²"... The problem related only with 2.0.x, 1.3.x works better.</sentence>
+        </paragraph>
+    </description>
+</bug>

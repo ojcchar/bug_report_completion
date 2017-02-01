@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>16340</id>
+    <title>Ubuntu 14.04 - docker installation hangs at user input</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">i am using the docker installation script to install docker in ubuntu 14.04.</sentence>
+            <sentence id="2.2">The installation gets to the point where it is stopping for a user input</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Setting up docker-engine (1.8.2-0~trusty) ...</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Configuration file '/etc/init/docker.</sentence>
+            <sentence id="4.2">conf'</sentence>
+            <sentence id="4.3">==&gt; Deleted (by you or by a script) since installation.</sentence>
+            <sentence id="4.4">==&gt; Package distributor has shipped an updated version.</sentence>
+            <sentence id="4.5">What would you like to do about it ?</sentence>
+            <sentence id="4.6">Your options are:</sentence>
+            <sentence id="4.7">Y or I : install the package maintainer's version</sentence>
+            <sentence id="4.8">N or O : keep your currently-installed version</sentence>
+            <sentence id="4.9">D : show the differences between the versions</sentence>
+            <sentence id="4.10">Z : start a shell to examine the situation</sentence>
+            <sentence id="4.11">The default action is to keep your current version.</sentence>
+            <sentence id="4.12">*** docker.conf (Y/I/N/O/D/Z) [default=N] ?</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I Even after providing the input as I , it is stuck and not proceeding.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I have two issues,</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">1 This is running as a cloud init so the installation should be non interactive, so how to avoid this prompt and force it to install with new configuration</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">2 why it is getting stuck even after the input is provided</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Note:
+I think the prompt appears because of some residue files related to docker in the OS image.</sentence>
+            <sentence id="9.2">I even tried to delete them (as below) before starting the installation but still it ended up in the prompt</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.2">conf
+sudo rm -rf /etc/init.d/docker
+sudo rm -rf /etc/default/docker
+sudo rm -rf /etc/docker</sentence>
+        </paragraph>
+    </description>
+</bug>

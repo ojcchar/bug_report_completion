@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1231</id>
+    <title>Error while firing Select query to a table with 4 fields combined together forming a compiste id</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">This is my mapping file:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;?</sentence>
+            <sentence id="2.2">xml version="1.0" encoding="UTF-8"?</sentence>
+            <sentence id="2.3">&gt;
+&lt;!</sentence>
+            <sentence id="2.4">DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">&lt;hibernate-mapping&gt;</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;class name="com.marsh.cansys.clt.services.client.business.ClientAddressUsageBO" table="CLIENT.CLT_ADD_USG"&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">&lt;composite-id&gt;
+			&lt;key-property name="cltNo" length="10" column="CLT_NO"/&gt;
+			&lt;key-property name="cltOfcNo" length="10" column="CLT_OFC_NO" type="integer"/&gt;
+			&lt;key-property name="cltAddKey" length="10" column="CLT_ADD_KEY" type="long"/&gt;
+			&lt;key-property name="cltAddType" length="3" column="CLT_ADD_TYPE"/&gt;
+		&lt;/composite-id&gt;</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">&lt;!</sentence>
+            <sentence id="6.2">-- property name="cltNo" type="long"&gt;
+			&lt;column name="CLT_NO"/&gt;
+		&lt;/property&gt;</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">&lt;!</sentence>
+            <sentence id="13.2">--  one-to-one name="clientAddress"
+					class="com.marsh.cansys.clt.services.client.business.ClientAddressBO"
+					cascade="all"/--&gt;
+		
+		&lt;!</sentence>
+            <sentence id="13.3">-- property name="clientAddress" type="java.lang.Object"
+				access="com.marsh.cansys.clt.services.client.business.ClientAddressBO"/--&gt;
+	&lt;/class&gt;
+&lt;/hibernate-mapping&gt;</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">This is my DAO:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">/*</sentence>
+            <sentence id="15.2">* Created on Dec 6, 2005</sentence>
+            <sentence id="15.3">*/</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">Session session;
+	
+	public ClientAddressUsageBOIF getClientAddress() {</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">Integer cltNo = new Integer("747776");
+		Integer cltOfcNo = new Integer("3");</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">getConnection();
+		Transaction tx = session.beginTransaction();</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">When I fire the above query I am getting the following stackTrace</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">Why am I getting this exception...Please help.</sentence>
+        </paragraph>
+    </description>
+</bug>

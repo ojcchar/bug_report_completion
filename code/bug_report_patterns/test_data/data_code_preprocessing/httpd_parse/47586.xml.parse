@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>47586</id>
+    <title>httpd -k start doesn't start service when rotatelogs is used</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 24041
+Patch to move "-k start" for mpm_winnt form post config to pre config</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Observed on Windows XP SP 3.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Configuration: Default plus rotatelogs.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Service can be started and works using the service manager or ApacheMonitor.</sentence>
+            <sentence id="4.2">But when started via commandline "httpd -k start" the service doesn't start.</sentence>
+            <sentence id="4.3">The event log shows:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">(OS 10048)Normalerweise darf jede Socketadresse (Protokoll, Netzwerkadresse
+  oder Anschluss) nur jeweils einmal verwendet werden.</sentence>
+            <sentence id="5.2">: make_sock: could not
+  bind to address 0.0.0.0:8000</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">no listening sockets available, shutting down</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Unable to open logs</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">This doesn't happen on another test system with Windows 2K3 SP 2 using the same binaries and configuration.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Problem analysis shows:</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">"httpd -k start" starts the service in post config.</sentence>
+            <sentence id="10.2">Before it opens, it starts the listening sockets and also starts rotatelogs itself.</sentence>
+            <sentence id="10.3">Then, shortly before starting the service it closes the sockets it has opened.</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">If one looks at netstat between closing the sockets and the starting of the service, it still shows the socket listening (so the service can't successfully start).</sentence>
+            <sentence id="11.2">This only happens if rotatelogs is configured, so it seems the rotatelogs child process somehow inherits the socket and inhibits the close call from the parent to actualy succeed.</sentence>
+            <sentence id="11.3">The call to apr_socket_close() does return with APR_SUCCESS though.</sentence>
+            <sentence id="11.4">SysInternals ProcessExplorer and "netstat -ano" both show the httpd commandline process as having the socket in LISTEN even after it has called apr_socket_close().</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">There is a lot of additional network related software on the test system (VMWare, VPN clients etc.), but I think the attached patch is nevertheless valid in general.</sentence>
+            <sentence id="12.2">It moves the "-k start" handling from post config to pre config, so that no listeners are opened and no loggers spawned in the commandline process.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">See also</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">http://marc.info/?l=apache-httpd-dev&amp;m=124853079730814&amp;w=2</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">and the followup messages.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24039</id>
+    <title>Install script broken for RHEL 7.2</title>
+    <description>
+        <paragraph id="4">
+            <sentence id="4.1">The box is a Virtual Machine.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="6.2">1 RHEL 7.2 box</sentence>
+            <sentence id="6.3">2 curl -fsSL https://test.docker.com/ | sh</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Describe the results you received:**</sentence>
+            <sentence id="7.2">The install script doesn't handle the RHEL 7.2 distribution correctly.</sentence>
+            <sentence id="7.3">The case statement in do_install() looks for redhat, but in my case lsb_dist=RedHatEnterpriseServer.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you expected:**</sentence>
+            <sentence id="8.2">The test version of Docker to be installed on my RHEL 7.2 box (1.12.</sentence>
+            <sentence id="8.3">x).</sentence>
+        </paragraph>
+    </description>
+</bug>

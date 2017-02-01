@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>342401</id>
+    <title>cookie blocking does not work anymore</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">I recently checked my cookie list and I was horrified to see that I had hundreds of them, from many web site I had never ever allowed.</sentence>
+            <sentence id="2.2">After deleting all of them and deleting all my cookie site list, I was still amazed to see that any web site that was not in the "block" list was allowed, and that Firefox was not anymore asking me if I wanted to allow/block the web site from setting a cookie.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">After an hour of ggogling, I found that what is broken is the setting "network.cookie.lifetimePolicy" and the corresponding interface menu "Keep cookies".</sentence>
+            <sentence id="3.2">According to the knoledge base:</sentence>
+            <sentence id="3.3">http://kb.mozillazine.org/About:config_entries#Network..2A</sentence>
+            <sentence id="3.4">this is the description of the setting:</sentence>
+            <sentence id="3.5">--------------------------------------------------------------------</sentence>
+            <sentence id="3.6">Determines how browser sets  cookie lifetimes.</sentence>
+            <sentence id="3.7">0 (default): Use supplied lifetime</sentence>
+            <sentence id="3.8">1: Ask before accepting</sentence>
+            <sentence id="3.9">2: Accept for session only</sentence>
+            <sentence id="3.10">3: Cookies last for the number of days specified in network.cookie.lifetime.days</sentence>
+            <sentence id="3.11">Note: In Firefox, this can be changed via "Tools &amp;#8594; Options &amp;#8594; Privacy &amp;#8594; Cookies &amp;#8594; Keep Cookies"</sentence>
+            <sentence id="3.12">------------------------------------------------------------------</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">There are two huge obvious bugs in this:</sentence>
+            <sentence id="4.2">1 The "lifetime" policy should not decide of the policy to set cookies.</sentence>
+            <sentence id="4.3">They are two orthogonal choices.</sentence>
+            <sentence id="4.4">How can I decide if I want a cookie to be set or not and at the same time if I want its lifetime to be limited or not ?</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">2 The default of Firefox should not disable all possibilities to allow or block cookies.</sentence>
+            <sentence id="5.2">There is a really nice framework in Firefox to choose cookies based on the website, it is one of the main features and the new default is to disable the feature and allow all cookies ?</sentence>
+            <sentence id="5.3">This is insane !</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Steps to Reproduce:</sentence>
+            <sentence id="7.2">1 set the lifetime of cookies to "until they expire"</sentence>
+            <sentence id="7.3">2 go to a website that is not already in the block/allow list and register cookies</sentence>
+            <sentence id="7.4">Actual Results:</sentence>
+            <sentence id="7.5">no window pops up for asking the user if he wants to allow/block cookies.</sentence>
+            <sentence id="7.6">It looks like the web site does not have any cookie.</sentence>
+            <sentence id="7.7">But a cookie is silently written.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Expected Results:  
+setting the lifetime should not invalidate the possibility to allow/block cookies based on the website.</sentence>
+            <sentence id="8.2">The window allow/block should always popup like it used to be.</sentence>
+        </paragraph>
+    </description>
+</bug>

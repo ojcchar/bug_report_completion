@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9280</id>
+    <title>Table name generated for @ElementCollection uses owning entity class name instead of mapped entity name</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">If no collection table is specifically mapped and an entity name is specified (via @Entity(name="...") , the table name generated for @ElementCollection starts with its (unqualified) owning entity class name.</sentence>
+            <sentence id="1.2">It should start with the mapped entity name instead.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Currently, the collection table is named "Matrix_mvalues"; it should be "Mtx_mvalues".</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>43715</id>
+    <title>module header files not installed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Five modules which define optional functions do not have header files installed
+on Windows.</sentence>
+            <sentence id="1.2">They are:
+mod_cache.</sentence>
+            <sentence id="1.3">h     mod_dbd.</sentence>
+            <sentence id="1.4">h   mod_log_config.</sentence>
+            <sentence id="1.5">h
+mod_rewrite.</sentence>
+            <sentence id="1.6">h   mod_ssl.</sentence>
+            <sentence id="1.7">h</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This prevents using the APR_OPTIONAL_FN_TYPE macro with these modules' optional
+functions.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The other five modules with optional functions are correctly installed:
+mod_cgi.</sentence>
+            <sentence id="3.2">h       mod_core.</sentence>
+            <sentence id="3.3">h    mod_dav.</sentence>
+            <sentence id="3.4">h
+mod_include.</sentence>
+            <sentence id="3.5">h   mod_proxy.</sentence>
+            <sentence id="3.6">h   mod_so.</sentence>
+            <sentence id="3.7">h</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This is only a problem with Windows installs.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">A patch is provided for libhttpd.dsp which adds the missing headers to the
+project and copies them to .</sentence>
+            <sentence id="5.2">\include with a custom build step, like the
+correctly installed headers.</sentence>
+        </paragraph>
+    </description>
+</bug>

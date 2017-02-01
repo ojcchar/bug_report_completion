@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>25233</id>
+    <title>Docker failed to connect to VolumePlugin in v1.12 with .json file</title>
+    <description>
+        <paragraph id="10">
+            <sentence id="10.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="11.2">1 Destination: Enable Docker to use my VolumePlugin</sentence>
+            <sentence id="11.3">2 Method: Create plugin file in plugin directory./usr/lib/docker/plugins/volplugin/volplugin.json</sentence>
+            <sentence id="11.4">{</sentence>
+            <sentence id="11.5">"Name": "volplugin",</sentence>
+            <sentence id="11.6">"Addr": "http://127.0.0.1:7879"</sentence>
+            <sentence id="11.7">}</sentence>
+            <sentence id="11.8">3 Get Docker volume with cmd: docker volume ls</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Describe the results you received:**</sentence>
+            <sentence id="12.2">An error occurred trying to connect: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.24/volumes: EOF</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="13.2">I checked the above problem in Ubuntu 14.04 and Centos 7.</sentence>
+            <sentence id="13.3">With the above information, I want to know that Docker couldn't enable VolumePlugin with .</sentence>
+            <sentence id="13.4">json?</sentence>
+        </paragraph>
+    </description>
+</bug>

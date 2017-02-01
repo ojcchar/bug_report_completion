@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-1490</id>
+    <title>Error upgrading to OpenMRS 1.6 data model when Patient Flags module is installed</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When upgrading to the OpenMRS 1.6 data model with the Patient Flags module installed, the renaming of the role "System Developer" to "Administrator" (see ticket TRAC-1499) could potentially fail due a foreign key constraint, since the table patientflags_tag_role references role as a foreign key.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The liquibase update script needs to rename "System Developer" to "Administrator" any time it occurs in the patientflags_tag_role table.</sentence>
+        </paragraph>
+    </description>
+</bug>

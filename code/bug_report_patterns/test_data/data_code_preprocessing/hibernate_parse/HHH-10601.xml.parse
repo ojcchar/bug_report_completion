@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10601</id>
+    <title>Persistence.generateSchema - the output file contains duplicated DDL statements</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hi,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I am using the JPA2.1 API: Persistence.generateSchema(persistentUnit, properties) with Hibernate 4.3,5.0,5.1.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">My code: https://github.com/lorislab/jpa2-maven-plugin/blob/master/src/main/java/org/lorislab/maven/jpa2/SchemaGeneratorMojo.java</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Hibernate 4.3.x, 5.0.x generated the DDL-script fine (without semicolon).</sentence>
+            <sentence id="4.2">Hibernate 5.1 and Persistence.generateSchema generated the DDL-script with semicolon but the output file contains two same DDL-scripts.</sentence>
+            <sentence id="4.3">Example:
+Create Table TABLE1
+Create Index INDEX1
+Create Table TABLE1
+Create Index INDEX1</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I think itâ€™s because of the code in the EntityManagerFactoryBuilderImpl and SessionFactoryImpl.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Class: org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.generateSchema</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Commit: https://github.com/hibernate/hibernate-orm/commit/17de173cb5334d866f1886d3e057f49a6c987bad</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>42556</id>
+    <title>Apache with LDAP support segfaults on Solaris 9 with LDAP</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Apache 2.2.4 is compiled with OpenSSL 0.9.8e and OpenLDAP 2.3.32 using GCC 3.4.1
+on a Solaris 9 system with latest patch level.</sentence>
+            <sentence id="1.2">The Solaris 9 host is configured
+as a native LDAP over SSL client.</sentence>
+            <sentence id="1.3">LDAP is usesd for user authentication on the
+system.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Entries in /etc/nsswitch.</sentence>
+            <sentence id="2.2">conf:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">passwd:     files ldap
+group:      files ldap</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">In this setup the Apache causes segmentation faults when starting.</sentence>
+            <sentence id="4.2">See the
+output from error_log below.</sentence>
+            <sentence id="4.3">When disabling ldap in the group lookup in
+/etc/nsswitch.conf then Apache works fine.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This must have something to do in the way Solaris handles dynamic loading of
+libraries.</sentence>
+            <sentence id="5.2">None of the compiled Apache/OpenLDAP/OpenSSL Binaries/Modules is
+linked against Solaris native LDAP libraries.</sentence>
+            <sentence id="5.3">They all use the OpenLDAP libraries.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Apache Error Log</sentence>
+            <sentence id="6.2">----------------</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Truss Output of httpd Master Process</sentence>
+            <sentence id="8.2">------------------------------------</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Compile Instructions</sentence>
+            <sentence id="10.2">--------------------</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">unset LD_LIBRARY_PATH
+export PATH CC CFLAGS CXX CXXFLAGS LDFLAGS CPPFLAGS LD_OPTIONS
+alias make=gmake</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1849</id>
+    <title>Query on a one-to-one association with foreign generator does not work</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have 2 classes Master and Slave with Master that has a foreign generator on slave.</sentence>
+            <sentence id="1.2">  &lt;class name="Master"&gt;</sentence>
+            <sentence id="1.3">    &lt;id name="oid"&gt;</sentence>
+            <sentence id="1.4">      &lt;generator class="foreign"&gt;</sentence>
+            <sentence id="1.5">      &lt;param name="property"&gt;slave&lt;/param&gt;</sentence>
+            <sentence id="1.6">      &lt;/generator&gt;</sentence>
+            <sentence id="1.7">    &lt;/id&gt;</sentence>
+            <sentence id="1.8">    &lt;property name="libelle" type="string" /&gt;</sentence>
+            <sentence id="1.9">    &lt;one-to-one name="slave" class="Slave" constrained="true"/&gt;</sentence>
+            <sentence id="1.10">  &lt;/class&gt;</sentence>
+            <sentence id="1.11">If I do :</sentence>
+            <sentence id="1.12">query = session.createQuery("from Master master where master.slave=:slave");</sentence>
+            <sentence id="1.13">query.setParameter("slave", slave);</sentence>
+            <sentence id="1.14">query.list();</sentence>
+            <sentence id="1.15">There is a problem because the parameter is not set.</sentence>
+            <sentence id="1.16">Under hsqldb, there is no exception but the query return nothing.</sentence>
+            <sentence id="1.17">Under msde or firebird there is an exception.</sentence>
+            <sentence id="1.18">Under firebird it is "org.firebirdsql.jdbc.FBMissingParameterException: Not all parameters were set.".</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The same query on slave's oid works :
+query = session.createQuery("from Master master where master.slave.oid=:oid");
+query.setParameter("oid", 1);
+query.list();</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I've attached a simple project that shows the problem.</sentence>
+            <sentence id="3.2">I have tested this project with hibernate 3.0.5 and hibernate 3.2.0cr2.</sentence>
+            <sentence id="3.3">It works with the first one but not with the latter one.</sentence>
+        </paragraph>
+    </description>
+</bug>

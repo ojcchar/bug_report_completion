@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-4051</id>
+    <title>In context-sensitive tests, @SkipBaseSetup annotation is not inherited from superclasses</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I would like to be able to do something like this:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">However when I do a concrete implementation of this class, our test framework code doesn't notice the @SkipBaseSetup annotation on the abstract base class, and I have to add the annotation to the subclass as well.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">We need to fix org.openmrs.test.SkipBaseSetupAnnotationExecutionListener so that it also looks at superclasses of the test class for the SkipBaseSetup annotation.</sentence>
+        </paragraph>
+    </description>
+</bug>

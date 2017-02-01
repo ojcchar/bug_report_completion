@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>325264</id>
+    <title>NPE in Java breakpoint properties page with JavaStratumLineBreakpoint</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">+++ This bug was initially created as a clone of Bug #325161 +++</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Build Identifier:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This problem is reproduced in RAD.</sentence>
+            <sentence id="3.2">The JSP editor in RAD creates a JavaStratumLineBreakpoint when we double-click on the annotation column.</sentence>
+            <sentence id="3.3">When we open the breakpoint properties page for the JSP breakpoint, we see the following NullPointerException:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">java.lang.NullPointerException</sentence>
+            <sentence id="4.8">        .....</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">That is because there is no code to handle Stratum breakpoint type in JavaBreakpointPage.createTypeSpecificEditors() and the fEditor field is null.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Reproducible: Always</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Steps to Reproduce:</sentence>
+            <sentence id="7.2">1 Set a breakpoint on a JSP file in RAD</sentence>
+            <sentence id="7.3">2 Open the breakpoint properties page</sentence>
+        </paragraph>
+    </description>
+</bug>

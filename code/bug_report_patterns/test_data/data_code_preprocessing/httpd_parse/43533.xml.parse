@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>43533</id>
+    <title>Frequent crashes in mod_include's bndm()</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Over the past years Apache has crashed several times every hour.</sentence>
+            <sentence id="1.2">I've been running Apache 2 since 2.0.40 and now we're up at 2.0.61 and still
+experiencing these crashes so I guess it's about time I report this bug.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I saw someone else having a similar problem here.</sentence>
+            <sentence id="4.2">There was an open bug about
+random crashes in crc32 and bndm, but with Apache 2.2.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I've tried to log the PID along with the HTTP requests into a logfile and
+grepping out the PID after the crash but I guess the thread crashes before the
+log is written since I'm not finding anything interesting there.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I've not been able to reproduce this but it keeps happening several times each
+hour.</sentence>
+            <sentence id="6.2">Since we've got a fair share of traffic to this host I can't really gdb
+Apache and wait for a crash and see what's going on.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">It might be a memory corruption since we're getting crashes in other places
+aswell.</sentence>
+            <sentence id="7.2">It's not likely to be a hardware problem since the box have been
+replaced two times already (for performance reasons) and the crashes have
+continued on the new hardware aswell.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">This problem has occured on Mac OS X 10.3 and up to 10.4.10, both Server
+versions.</sentence>
+            <sentence id="9.2">We've been running a broad list of different versions of Apache 2,
+from .40 to .61.</sentence>
+            <sentence id="9.3">This problem occurs with the threaded worker.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Does anyone have any idea what's going on here?</sentence>
+        </paragraph>
+    </description>
+</bug>

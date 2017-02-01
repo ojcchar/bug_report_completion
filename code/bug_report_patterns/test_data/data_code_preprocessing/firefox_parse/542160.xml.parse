@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>542160</id>
+    <title>Restrict window navigation to prevent persistent phish/hijack</title>
+    <description>
+        <paragraph id="2">
+            <sentence id="2.1">By spawning a child window (window.open()) you can have a script running in the
+child regularly checking if window.opener.href is undefined, when it is
+undefined you can direct window.opener.location.href to any url you please</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Steps to Reproduce:</sentence>
+            <sentence id="5.2">Run the above code and attempt to change your address bar to</sentence>
+            <sentence id="5.3">http://www.yahoo.com, press enter and you will be directed to</sentence>
+            <sentence id="5.4">http://www.google.com</sentence>
+            <sentence id="5.5">Actual Results:</sentence>
+            <sentence id="5.6">Attempt to navigate to a page through the address bar, a book mark, or any other means results in the user being directed to a target url specified in the code above</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Expected Results:  
+Javascript access to parent window that is no longer of the same domain should be denied</sentence>
+        </paragraph>
+    </description>
+</bug>

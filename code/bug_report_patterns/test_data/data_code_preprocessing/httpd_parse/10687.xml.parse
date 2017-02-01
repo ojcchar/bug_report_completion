@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>10687</id>
+    <title>ssi include virtual strangeness</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I am experiencing a strange behaviour from SSI's ``#include virtual''
+element/attribute.</sentence>
+            <sentence id="2.2">The following piece of HTML/SSI fails to include
+(load) the intended html file (header.html), yet it does display the
+date (indicating that ssi is working).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Besides the error message on the webpage [an error occurred while
+processing this directive], there is also a log message sent to
+httpd-error.log:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">File does not exist: /u16/ugrad/guide/public_html/common/header.</sentence>
+            <sentence id="5.2">htm</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Yes, the 'l' is missing, whereas it does appear in the file name in
+the code above.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I copied common/header.html to common/header.htm, and added some text
+to header.htm to distinguish it from header.html.</sentence>
+            <sentence id="7.2">Upon reloading the
+page (which calls for header.html), the file header.htm is loaded
+instead.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">My httpd.conf file does not contain .</sentence>
+            <sentence id="8.2">htm extensions - only .</sentence>
+            <sentence id="8.3">html ones.</sentence>
+            <sentence id="8.4">I have the directive XBitHack set to 'on'.</sentence>
+        </paragraph>
+    </description>
+</bug>

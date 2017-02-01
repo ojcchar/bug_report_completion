@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8890</id>
+    <title>ssl stop serving pages after a couple of minutes</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have reproduced this on 3 different computers running Linux kernel &gt;=2.4.17
+glibc &gt;=2.2.4
+It works for some time then suddenly it stops working and never seems to work
+again, the process doesn't seem to be hanged, no 100% cpu load.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I'm not used to debug stuff so please let me know if I can contribute with more
+info here's what I think is useful.</sentence>
+            <sentence id="2.2">.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">When the server stops serving ssl pages I used this method to try and find out
+which process is responsible for that connection.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">sunkan:# netstat -anp|grep ht
+tcp        0      0 :::80                   :::*                    LISTEN     
+23193/httpd         
+tcp        0      0 :::443                  :::*                    LISTEN     
+23193/httpd         
+tcp      645      0 ::1:443                 ::1:32969               ESTABLISHED
+23195/httpd</sentence>
+        </paragraph>
+    </description>
+</bug>

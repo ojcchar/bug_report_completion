@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8788</id>
+    <title>Unnecessary warning logged about follow-on locking with Criteria query and LockMode NONE</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hibernate search uses Criteria api to fetch entities:
+{code}
+		Criteria criteria = session
+				.</sentence>
+            <sentence id="1.2">createCriteria( type )
+				.</sentence>
+            <sentence id="1.3">setCacheMode( cacheMode )
+				.</sentence>
+            <sentence id="1.4">setLockMode( LockMode.NONE )
+				.</sentence>
+            <sentence id="1.5">setCacheable( false )
+				.</sentence>
+            <sentence id="1.6">setFlushMode( FlushMode.MANUAL )
+				.</sentence>
+            <sentence id="1.7">setFetchSize( listIds.size() )
+				.</sentence>
+            <sentence id="1.8">setResultTransformer( CriteriaSpecification.DISTINCT_ROOT_ENTITY )
+				.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Which leads to the following warning being logged:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">CriteriaLoader.applyLocks() has detection for LockMode.NONE, but setting LockMode using Criteria adds LockMode for alias "this" which results in check for dialect.useFollowOnLocking() and logging HHH000444.</sentence>
+            <sentence id="4.2">Remaining code is almost useless with LockMode.NONE so warning HHH000444 warns about nothing.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22145</id>
+    <title>docker run leaves directories owned by root after exit</title>
+    <description>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 mkdir foo</sentence>
+            <sentence id="7.3">2 mkdir bar</sentence>
+            <sentence id="7.4">3 docker run -i -t -v $PWD/foo:$PWD/foo -v $PWD/bar:$PWD/foo/bar busybox</sentence>
+            <sentence id="7.5">4 ^D</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you received:**</sentence>
+            <sentence id="8.2">ls -l foo</sentence>
+            <sentence id="8.3">total 4</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Describe the results you expected:**</sentence>
+            <sentence id="9.2">Directory foo should have been empty.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="10.2">100% reproducible.</sentence>
+        </paragraph>
+    </description>
+</bug>

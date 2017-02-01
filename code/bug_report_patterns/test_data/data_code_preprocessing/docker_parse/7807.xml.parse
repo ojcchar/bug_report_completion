@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>7807</id>
+    <title>Network problem when using a second eth interface that have a bloc IP on it. (config included)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">One problem is that containers can't reach each other, when I ping from one to the other via the public ip redirected to them, it doesn't pass (see iptables problem below).</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The other problem is that every time I docker stop on a container, before I start it again I have to restart the whole docker (the daemon), if not, there is the port already binded error.</sentence>
+            <sentence id="3.2">Even if I lsof, I don't see it bind, but docker think it is...</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Also if I want to access the container from outside, I have to delete nat rule within DOCKER statement in iptables -L -t nat.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Kernel:
+```
+Linux 3.14-0.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Docker:
+</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">I kept the last one because it is on the adress of eth0, the others for eth1 I had to delete them for the container to be reachable from outside</sentence>
+        </paragraph>
+        <paragraph id="18">
+            <sentence id="18.1">I changed all the dns name and adresses to keep the server private.</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">Thanks,</sentence>
+        </paragraph>
+    </description>
+</bug>

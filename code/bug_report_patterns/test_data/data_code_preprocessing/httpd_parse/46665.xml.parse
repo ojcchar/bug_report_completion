@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>46665</id>
+    <title>Regexp parsing problem in ProxyPassMatch</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I setup a proxy to a tomcat server and I have problem with the ProxyPassMatch directive.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If I write :
+ProxyPassMatch ^(/.*\.page)$ ajp://hostname:8009$1
+then I get the following error :
+Syntax error on line 573 of C:/Program Files/Apache Software Foundation/Apache2.2/conf/httpd.conf:</sentence>
+            <sentence id="2.2">
+ProxyPass Unable to parse URL</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I noticed that it is the concatenation of hostname + port + $1 that causes trouble.</sentence>
+            <sentence id="3.2">If I remove :8009 or $1, the directive can be parsed, but of course it is not what I want !</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I found the following workaroud :
+ProxyPassMatch ^/(.</sentence>
+            <sentence id="4.2">*\.</sentence>
+            <sentence id="4.3">page)$ ajp://hostname:8009/$1</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">That makes it work.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Do you confirm that the initial syntax should work ?</sentence>
+        </paragraph>
+    </description>
+</bug>

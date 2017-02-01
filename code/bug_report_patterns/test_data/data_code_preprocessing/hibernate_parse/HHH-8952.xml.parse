@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-8952</id>
+    <title>NonBatchingBatch releases statements twice</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">{{NonBatchingBatch}} in {{addToBatch()}} method calls {{jdbcCoordinator.release(Statement))}} for every statement, and then calls {{releaseStatements}} method which calls {jrelease}} again. It causes an exception in {{JdbcCoordinatorImpl.close(Statement)}}, and although the exception is caught it causes early exit and I think should be avoided.</sentence>
+        </paragraph>
+    </description>
+</bug>

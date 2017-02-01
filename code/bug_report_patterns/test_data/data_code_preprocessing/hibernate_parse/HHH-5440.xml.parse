@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5440</id>
+    <title>Joined collection expressions not properly "rendered" in JPA Criteria queries</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The situation is as follow:
+I have an User class which has a collection of elements which is a Set of Role enum values and I want to search for users which have one of more roles.</sentence>
+            <sentence id="1.2">I want to use the CriteriaBuilder, because I have a search form with a lot of fields which are optional.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">@ElementCollection
+ @Enumerated(EnumType.STRING)
+ @Column(name = "ROLE")
+ @CollectionTable(name = "USER_ROLES", joinColumns = @JoinColumn(name = "USER_ID"))
+ private Set&lt;Role&gt; roles = new HashSet&lt;Role&gt;();</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">...
+}</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Creating the query with the CriteriaBuilder
+Set&lt;Role&gt; roles = new HashSet&lt;Role&gt;();
+roles.add(Role.ROLE_1);
+roles.add(Role.ROLE_2);</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+CriteriaQuery&lt;User&gt; criteriaQuery = criteriaBuilder.createQuery(User.class);</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Root&lt;User&gt; root = criteriaQuery.from(User.class);</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">criteriaQuery.where(root.join("roles").</sentence>
+            <sentence id="11.2">in(roles));</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">TypedQuery&lt;User&gt; query = entityManager.createQuery(criteriaQuery);
+query.getResultList();</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">This all works with OpenJPA 2.0.0</sentence>
+        </paragraph>
+    </description>
+</bug>

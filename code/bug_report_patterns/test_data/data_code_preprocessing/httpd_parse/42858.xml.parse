@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>42858</id>
+    <title>OS 64 (winnt_accept: Asynchronous AcceptEx failed) possible cause?</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Lately I frequently see the error message: [warn] (OS 64)The specified network 
+name is no longer available.</sentence>
+            <sentence id="1.2">: winnt_accept: Asynchronous AcceptEx failed.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I updated Apache (to 2.2.4) and PHP (to 5.2.3), but the problem persists.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">After studying the traffic log and locating traffic at or just before the error 
+date/time, I found that a combination of two pages always produces this error.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">test.phtml -&gt; HTML file (no PHP in it) that calls a second page with a 
+parameter (added to the URL, e.g. ?</sentence>
+            <sentence id="4.2">subpage=1).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">test2.phtml -&gt; PHP file with a reference to $subpage (without using $_GET 
+properly).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Works fine, until I put in an onload in the BODY tag of index.phtml.</sentence>
+            <sentence id="6.2">From off 
+that moment, whenever I go to test2.phtml and then use the back button, the OS 
+64 error is added to the log.</sentence>
+            <sentence id="6.3">NOTE: This only happens when the logop.gif is 
+used as a background of the div (http://www.newthesis.com/images/logop.gif)</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Here are the two files:</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">[file test2.phtml]
+&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+Got news today...&lt;BR&gt;&lt;BR&gt;
+&lt;?</sentence>
+            <sentence id="9.2">$hr="&lt;/span&gt;&lt;/div&gt;&lt;BR&gt;&lt;HR&gt;&lt;BR&gt;\n";
+   switch ($subpage)
+   {
+      case 1 : echo "Company".</sentence>
+            <sentence id="9.3">$hr;
+      break;
+      case 2 : echo "People".</sentence>
+            <sentence id="9.4">$hr; 
+      break;
+      case 3 : echo "Partners".</sentence>
+            <sentence id="9.5">$hr; 
+      break;
+      
+   }
+   
+?</sentence>
+            <sentence id="9.6">&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+[/file]</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-2651</id>
+    <title>Ugly stacktrace when trying to upload a non-image file as a complex obs with the ImageHandler</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I created a concept with datatype=complex, and chose the ImageHandler.</sentence>
+            <sentence id="1.2">Then I went to edit an existing encounter, and tried to add an obs of that concept, but I uploaded a non-image file.</sentence>
+            <sentence id="1.3">(It was a .patch file IIRC).</sentence>
+            <sentence id="1.4">And I got an ugly stack trace.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Cannot save complex obs where obsId=null because its ComplexData.getData() is null.</sentence>
+            <sentence id="2.2">An Internal Error has Occurred
+org.hibernate.LazyInitializationException
+failed to lazily initialize a collection of role: org.openmrs.Concept.names, no session or session was closed</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Consult the help document.</sentence>
+            <sentence id="3.2">Contact your friendly neighborhood administrator if it cannot be resolved.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Hide stack trace </sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">OpenMRS Version: 1.8.2 Build 23236</sentence>
+        </paragraph>
+    </description>
+</bug>

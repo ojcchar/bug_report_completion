@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7805</id>
+    <title>@NotFound(IGNORE) does not work (ObjectNotFound), if same non-existing entity is referenced twice</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Assume the following:</sentence>
+            <sentence id="1.2">Two entity types:</sentence>
+            <sentence id="1.3">RelationOne
+        @ManyToOne
+        @NotFound(IGNORE)
+        RelationTwo relationTwo;</sentence>
+            <sentence id="1.4">RelationTwo
+        (nothing special)</sentence>
+            <sentence id="1.5">Further:
+    insert one instance of RelationTwo
+    insert two instances of RelationOne, which reference RelationTwo</sentence>
+            <sentence id="1.6">Next step:
+    commit</sentence>
+            <sentence id="1.7">Next:
+    new Session &amp; TX
+    Load RelationOne (Session.get())
+    Delete RelationOne (Session.delete())
+    commit</sentence>
+            <sentence id="1.8">Next:
+    new Session &amp; TX
+    Load one instance of RelationTwo (everything is fine)
+    Load next instance of RelationTwo (FAILURE)</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">{{org.hibernate.event.internal.DefaultLoadEventListener#proxyOrLoad}} contains the following code:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The load of the first instance of RelationTwo has a {{null}} proxy variable for RelationOne, but the second load of RelationTwo has a non-null proxy variable for RelationOne.</sentence>
+            <sentence id="7.2">This results in a call to {{org.hibernate.event.internal.DefaultLoadEventListener#load}} which unconditionally raises an {{ObjectNotFound}} exception.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>7511</id>
+    <title>ADD and COPY does not work correctly with nested directory</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">ADD nested directory does not work well.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">This is reproduce step:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Directory:
+```
+.</sentence>
+            <sentence id="3.2">â”œâ”€â”€ Dockerfile
+â”œâ”€â”€ parent-dir
+â”‚Â Â  â”œâ”€â”€ child-dir
+â”‚Â Â  â”‚Â Â  â””â”€â”€ child.txt
+â”‚Â Â  â””â”€â”€ parent.txt
+â””â”€â”€ reproduce.txt
+```</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This is Dockerfile:
+https://github.com/sanemat/copy-example/blob/e4d6e6ea67ed9e9274830e0d23539ee6b3467f7d/Dockerfile</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This is example repo https://github.com/sanemat/copy-example</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">How to reproduce:
+$ git clone https://github.com/sanemat/copy-example.git
+$ cd copy-example
+$ chmod -R go-rwx .</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">$ ls -alR</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">$ docker build -t sanemat/copy-example .</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">% ls -alR /code/parent/</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">% cd /code/parent/child-dir</sentence>
+        </paragraph>
+    </description>
+</bug>

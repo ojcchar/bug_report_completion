@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>44114</id>
+    <title>CGI files doesn't compile</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello everybody,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I have a hard issue with the execution of a web application.</sentence>
+            <sentence id="2.2">I have compiled and
+built an Apache server with the following config:
+Apache/2.0.59 (Unix) mod_ssl/2.0.59 OpenSSL/0.9.8f DAV/2 PHP/5.2.3
+mod_apreq2-20051231/2.6.0 mod_perl/2.0.3 Perl/v5.8.4</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I have a mixture of php and cgi scripts in my web application, using mod_perl.</sentence>
+            <sentence id="3.2">I
+can init without problems the Apache server, but when I try to request a cgi
+page , the browser doesn't show anything but the Apache's "error_log" print out
+a line like this:
+"child pid xxxxx exit signal Segmentation fault (11), possible coredump in
+/export/home/cores" (however, when I try to request a php page, it loads without
+errors nor segfaults).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">While debugging with gdb that corefile and doing a backtrace, I get:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">For me it is obvious that is an error related to mod_perl, so give you more
+info, here is part of httpd.conf and startup.pl:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">httpd.conf</sentence>
+            <sentence id="7.2">------------</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">LoadModule perl_module  modules/mod_perl.so
+LoadModule apreq_module    modules/mod_apreq2.so
+LoadModule auth_ldap_module   modules/mod_auth_ldap.</sentence>
+            <sentence id="8.2">so
+LoadModule php5_module        modules/libphp5.</sentence>
+            <sentence id="8.3">so</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">startup.pl</sentence>
+            <sentence id="10.2">------------</sentence>
+            <sentence id="10.3">#!</sentence>
+            <sentence id="10.4">/usr/local/bin/perl</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">#use Apache2 ();</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1"># enable if the mod_perl 1.0 compatibility is needed
+# use Apache::compat ();</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1"># preload all mp2 modules
+# use ModPerl::MethodLookup;
+# ModPerl::MethodLookup::preload_all_modules();</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">use lib qw(/misc1/temp_project/bel_ngnsite/libs);
+use CgiLib;
+use ScmConf;
+use ScmLib;
+use CinsLib;
+use HtmlLib;
+use GlossaryLib;
+use RefLib;
+use DDTSRefLib;
+use PccLib;
+use HistoryLib;
+use CommentLib;
+use Dictionary;</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">1;</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">I have disabled the "use Apache2 ();" and "use Apache::Server", and also
+renaming the other Apache calls from Apache to Apache2 as given in
+"http://perl.apache.org/docs/2.0/user/porting/compat.html".</sentence>
+            <sentence id="23.2">I also have modified
+the libraries and scripts according to that web instructions.</sentence>
+        </paragraph>
+        <paragraph id="24">
+            <sentence id="24.1">If anyone could help with this it should be great, because I have been checking
+a lot of things, but I haven't found any solution to this issue.</sentence>
+        </paragraph>
+        <paragraph id="25">
+            <sentence id="25.1">Thanks in advance, and if you need some several info, please ask me for it
+Hector</sentence>
+        </paragraph>
+    </description>
+</bug>

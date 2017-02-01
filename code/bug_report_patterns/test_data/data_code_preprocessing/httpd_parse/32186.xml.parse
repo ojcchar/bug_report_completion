@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>32186</id>
+    <title>Apache-worker is crashing when sending data through PHP Script</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Try this small script:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;?</sentence>
+            <sentence id="2.2">php
+    error_log( "Hei" );
+	$fh = fopen( "c:/temp/x3.</sentence>
+            <sentence id="2.3">iso", "rb" );
+	
+	while ( !</sentence>
+            <sentence id="2.4">feof($fh) )
+		fpassthru( $fh );
+?</sentence>
+            <sentence id="2.5">&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The File may be of a size a 20 MB or so.</sentence>
+            <sentence id="3.2">I used an iso-Image of something.</sentence>
+            <sentence id="3.3">But 
+content doesn't matter.</sentence>
+            <sentence id="3.4">If the file-Transfer is interrupted by the client (IE closed f.e.) the worker 
+crashes.</sentence>
+            <sentence id="3.5">Ich you eleminate the "while" everything is ok.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This is only a simplified Script.</sentence>
+            <sentence id="4.2">Everytime when sending data throug an php 
+script, the worker crashes when connection is lost.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I'm using XP SP2, i tried the 3 config lines:</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">EnableSendfile Off
+EnableMMAP Off
+Win32DisableAcceptEx</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">No difference.</sentence>
+            <sentence id="7.2">Worker crashes.</sentence>
+            <sentence id="7.3">[Thu Nov 11 17:17:02 2004] [notice] Parent: child process exited with status 
+4294967295 -- Restarting.</sentence>
+            <sentence id="7.4">[Thu Nov 11 17:17:03 2004] [notice] Parent: Created child process 4968
+[Thu Nov 11 17:17:03 2004] [notice] Disabled use of AcceptEx() WinSock2 API
+[Thu Nov 11 17:17:03 2004] [notice] Child 4968: Child process is running
+[Thu Nov 11 17:17:03 2004] [notice] Child 4968: Acquired the start mutex.</sentence>
+            <sentence id="7.5">[Thu Nov 11 17:17:03 2004] [notice] Child 4968: Starting 250 worker threads.</sentence>
+            <sentence id="7.6">[Thu Nov 11 17:17:03 2004] [notice] Child 4968: Listening on port 8001.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">We can't continue developing our php-Application (Alternativ User Interface 
+for Multimedia Home-Devices), Subproject: Streaming Video-Content, if we can't 
+fix this bug.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Help would be great.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">sorry for my english ;)
+Yours
+Andreas</sentence>
+        </paragraph>
+    </description>
+</bug>

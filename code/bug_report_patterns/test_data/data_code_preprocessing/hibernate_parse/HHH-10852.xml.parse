@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10852</id>
+    <title>org.hibernate.WrongClassException after setting default_batch_fetch_size</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">In order optimize the load time of our entities, we set the default_batch_fetch_size to 256 (previously the value was not set at all). Now during a specific operation in which we load a set of entities, some of them with eager loading and some of them with lazy loading, we get the exception from below. The data model is the following:</sentence>
+            <sentence id="1.2">A - entity</sentence>
+            <sentence id="1.3">B1 and B2 entities where B2 extends B1 and both B1 and B2 are stored in same table but differentiated by DTYPE</sentence>
+            <sentence id="1.4">C - entity</sentence>
+            <sentence id="1.5">Entity A contains a list of B1 and B2 entities (eager loading) and only B2 contains a list of C entities which are lazy loaded. </sentence>
+            <sentence id="1.6">The exception happens when loading all A entities at once and going through B1/B2 list and trying to access first entity from list of C entities (which for that specific case are loaded lazily). </sentence>
+            <sentence id="1.7">When debugged, the object referenced in exception is totally unrelated to the entity accessed.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The stacktrace was generated using Hibernate 4.3.5, however the issue is also reproducible on 4.3.11</sentence>
+        </paragraph>
+    </description>
+</bug>

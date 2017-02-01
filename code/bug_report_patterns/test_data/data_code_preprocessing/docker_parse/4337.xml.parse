@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4337</id>
+    <title>docker pull ignoring https with 0.8.1 on OS X/boot2docker</title>
+    <description>
+        <paragraph id="4">
+            <sentence id="4.1">Note in the pull there it is trying to connect to http, not https.</sentence>
+            <sentence id="4.2">In my '~/.dockercfg' file, I do have the full URL (with 'https') in there.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Possibly related to #4267, #3956, #3683, and #3946.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Unfortunately the workaround I originally used in #3946 for the SSL certificate problem -- ssh'ing into the boot2docker VM and running 'docker login' and 'docker pull' -- no longer seems to work:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Not sure what's up with that... I can 'nc -v registry.example.com 443' fine.</sentence>
+        </paragraph>
+    </description>
+</bug>

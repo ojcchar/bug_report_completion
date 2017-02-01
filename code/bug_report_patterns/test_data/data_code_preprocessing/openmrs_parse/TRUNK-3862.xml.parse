@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3862</id>
+    <title>Unnecessary logged exceptions when saving forms (Save Handlers should ignore deprecated properties)</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Since OpenMRS 1.9, when we moved Form's XSLT and template columns into FormResources, there's a long, misleading, and unnecessary amount of exception logged every time the FormService.saveForm method is called.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">For example, when I build the EMR module for Mirebalais, I get a longer version of this:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I've been thinking about how we can stop this, and my current thought is to go through all of our handlers, and for each one that recurses on the object's properties (e.g. OpenmrsObjectSaveHandler recurses on all String properties to trim them), we should skip over @Deprecated properties.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Proposed solution:</sentence>
+            <sentence id="5.2">* Go through RequiredDataAdvice, and all handler classes that may be called from it (e.g. OpenmrsObjectSaveHandler) and ensure that every time we iterate over properties, we skip ones whose getter/setter is annotated with @Deprecated.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5352</id>
+    <title>Misleading replacement of commas with cross joins</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">There was a new feature implemented in 3.5.0-Beta-2: HHH-1480, as a result, for many dialects, the comma operator "," was replaced with "cross join".</sentence>
+            <sentence id="1.2">As it's already obvious from the feature's description, this changes join precedence.</sentence>
+            <sentence id="1.3">If the query contains outer joins (left or right) this replacement changes the results (because outer join precedence is important).</sentence>
+            <sentence id="1.4">This might not be interpreted as a bug if you know what SQL operator will be generated when you place a comma in HQL, but it's misleading if you don't.</sentence>
+            <sentence id="1.5">A HQL query like:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">is not equivalent with the SQL query:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">because the actual SQL query is:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The first SQL query would make a left join on B and C and then a cross join with the result and A (and this is what we should expect).</sentence>
+            <sentence id="7.2">The second SQL query makes a cross join on A and B and then a left join with the result and C (this is not expected since we had a comma in HQL).</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I understand the issues presented in HHH-1480, but they should be expected, i.e. a developer SHOULD expect a faliure from a query like 
+{noformat}select a from A a, B b join a.c C{noformat}
+because "a" is not visible in the join.</sentence>
+            <sentence id="8.2">Hibernate should not use a cross join behind the scenes to allow such a query at the expense of providing misleading results for others.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Maybe turn this into a feature/improvement or add another to allow explicit comma or croos join in HQL, or support parenthesis in HQL.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">The only workaround I can see for now is to re-order the query like this:</sentence>
+        </paragraph>
+    </description>
+</bug>

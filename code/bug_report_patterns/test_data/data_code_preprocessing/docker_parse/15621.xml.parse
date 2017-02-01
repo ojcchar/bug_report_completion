@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>15621</id>
+    <title>OOMKilled flag isn't always set to true when OOM occurs? </title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I wrote a simple program to allocate memory in python, 1 line:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">'wasted_memory = range(200000000)'</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">When I run 'docker run -m 200m --memory-swap -1 -v /Users/putilin/base/example_solutions/waste_memory.</sentence>
+            <sentence id="3.2">py:/waste_memory.</sentence>
+            <sentence id="3.3">py python:2.7 python /waste_memory.</sentence>
+            <sentence id="3.4">py' and then do 'docker inspect', I see '"OOMKilled": true' and '"ExitCode": 137'.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">This is expected.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">When I run bash and then run the program from bash(
+'docker run -m 200m --memory-swap -1 -v /Users/putilin/base/example_solutions/waste_memory.</sentence>
+            <sentence id="5.2">py:/waste_memory.</sentence>
+            <sentence id="5.3">py python:2.7 bash')</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I get this:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">When I exit, I see '"OOMKilled": true,'.</sentence>
+            <sentence id="8.2">This is expected.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">When I increase memory limit to 1000m and run it('docker run -it -m 1000m --memory-swap -1 -v /Users/putilin/base/example_solutions/waste_memory.</sentence>
+            <sentence id="9.2">py:/waste_memory.</sentence>
+            <sentence id="9.3">py python:2.7 python /waste_memory.</sentence>
+            <sentence id="9.4">py'), I get '"OOMKilled": false' but '"ExitCode": 137'.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">However, here is what happens when I run the same code using bash:</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">It is clearly being killed by OOM killer.</sentence>
+            <sentence id="12.2">However, when I run 'docker inspect' I see '"OOMKilled": false' for some reason.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">PS: I am on OS X, using docker-machine which automatically used boot2docker image.</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">Providing system information:</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">So, I think I provided all the steps, as for the system information.</sentence>
+            <sentence id="15.2">I am on OS X, I am using docker-machine with virtualbox as a driver.</sentence>
+        </paragraph>
+    </description>
+</bug>

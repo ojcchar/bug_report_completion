@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9688</id>
+    <title>Combination of @OrderBy and @SortComparator</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">We are migrating from 4.2.13 to 4.3.8.</sentence>
+            <sentence id="1.2">In our setup we had the following code snippet:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">h2.</sentence>
+            <sentence id="2.2">Observed behaviour
+</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">h3.</sentence>
+            <sentence id="3.2">Hibernate 4.2.13.</sentence>
+            <sentence id="3.3">Final
+In 4.2, the combination of @OrderBy and @Sort (we used @Sort there) worked fine (although I admit that this combination is somewhat strange).</sentence>
+            <sentence id="3.4">Both the @OrderBy and @Sort annotations are picked up.</sentence>
+            <sentence id="3.5">See org.hibernate.cfg.annotations.CollectionBinder.bind() line 454.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">h3.</sentence>
+            <sentence id="4.2">Hibernate 4.2.8.</sentence>
+            <sentence id="4.3">Final
+However, in Hibernate 4.3, the @SortComparator is silently ignored in case @OrderBy is set (ref: org.hibernate.cfg.annotations.CollectionBinder.applySortingAndOrdering(Collection) line 555).</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This results in a class cast exception:</sentence>
+            <sentence id="5.2">* The @SortComparator is silently ignored, therefore no comparator is set on the collection (lines 578 and 614).</sentence>
+            <sentence id="5.3">* Given that the type of the set is a SortedSet, a TreeSet is instantiated in org.hibernate.type.SortedSetType.instantiate(int).</sentence>
+            <sentence id="5.4">In this case, comparator is _null_</sentence>
+            <sentence id="5.5">* As the TreeSet is initialized with a class that does not implement Comparable, a ClassCast exception is thrown.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">h2.</sentence>
+            <sentence id="6.2">Expected behaviour
+The fact that @OrderBy takes precedence over @Sort* is fine with me.</sentence>
+            <sentence id="6.3">However, Hibernate should validate that both are set and issue and error in this behaviour that this is not allowed.</sentence>
+            <sentence id="6.4">This validation is needed, as it is not clear to the programmer why a ClassCast exception is thrown.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I would expect an additional check like below inserted at line 483 (after the if (isSorted)).</sentence>
+        </paragraph>
+    </description>
+</bug>

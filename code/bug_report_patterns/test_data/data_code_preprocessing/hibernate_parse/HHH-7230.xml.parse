@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7230</id>
+    <title>Query "select new pakage.Object ..." throws the ClassCastException when the first level pakage is "by"</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The problem appears, when class is placed in the package with first level "by", e.g. "by.bntu.shop.domain.dto.ProductDto".</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Test method:
+public void testExecSearchQuery1() {</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">EntityManagerFactory emf = Persistence.createEntityManagerFactory("VideoShopPU");
+        EntityManager entityManager = emf.createEntityManager();
+        String queryStr = "SELECT new by.bntu.shop.domain.dto.ProductDto(c.id, c.price)  FROM ProductEntity AS c";
+        TypedQuery&lt;ProductDto&gt; query = entityManager.createQuery(queryStr, ProductDto.class); //throws exception!</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>11087</id>
+    <title>Orphaned and unstoppable (superhuman strength?) containers with --pid=host</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've ran into an issue that is easily reproducible that puts a container into a state that can not be stopped and if you restart the Docker daemon it will also loose track of the existing container and spawn a new one.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The issue happens when you are running with `--pid=host` and you do a SIGKILL but that process has children that don't terminate when its parent dies.</sentence>
+            <sentence id="2.2">Docker never seems to see that the SIGKILL worked and will hang forever.</sentence>
+            <sentence id="2.3">The SIGKILL worked, but the container PID is gone.</sentence>
+            <sentence id="2.4">Now you do a `docker stop` or any action and Docker will complain that it can't find the process.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Now if you restart the Docker daemon, Docker thinks the container is gone (I assume because the PID is gone) and then it will start a new one but the old container cgroup still exists.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I haven't dug yet into the Docker code to see what is happening (I assume Docker thinks the SIGKILL isn't done because processes in the cgroup still exist), but here is a simple way to reproduce this issue.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Running the above will result in</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Seems like there are two things that should be addressed.</sentence>
+            <sentence id="10.2">1 Make SIGKILL work properly in this situation</sentence>
+            <sentence id="10.3">2 On restart check the cgroup for processes and freeze/kill those</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">Obligatory docker info/version</sentence>
+        </paragraph>
+    </description>
+</bug>

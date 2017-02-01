@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>166937</id>
+    <title>source lookup from log4j printout fail</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">source lookup (from clicking on log4j console printouts) failes in eclipse 3.2 when using brackets in log4j conversion pattern.</sentence>
+            <sentence id="1.2">This extremely useful feature worked fine until upgrading to eclipse 3.2.1
+Finally figured out that eclipse does not anymore handle the use of [brackets] in log4j conversion patterns.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">works not:
+log4j.appender.stdout.layout.ConversionPattern=%d %5p [%t] (%F:%L) - %m%n</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">works:
+log4j.appender.stdout.layout.ConversionPattern=%d %5p (%t) (%F:%L) - %m%n</sentence>
+        </paragraph>
+    </description>
+</bug>

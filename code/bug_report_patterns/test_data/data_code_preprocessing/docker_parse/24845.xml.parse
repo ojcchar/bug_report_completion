@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>24845</id>
+    <title>Docker-in-Docker networking/port exposure broken</title>
+    <description>
+        <paragraph id="8">
+            <sentence id="8.1">**Additional environment details (AWS, VirtualBox, physical, etc.):**</sentence>
+            <sentence id="8.2">Running on a vserver.</sentence>
+            <sentence id="8.3">All packages are up-to-date, all Docker images were downloaded on 7/20/2016.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">I'm trying to analyze possibly harmful binaries in a docker container and currently I'm trying to intercept their TLS traffic via mitmproxy.</sentence>
+            <sentence id="9.2">Since this is going to be automated, it is required to start/stop mitmproxy on demand from inside the container.</sentence>
+            <sentence id="9.3">Unfortunately, networking using Docker-in-Docker behaves different than suspected</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="10.2">1 Start [docker-in-docker](https://hub.docker.com/_/docker/) container</sentence>
+            <sentence id="10.3">2 Start analysis container linked to docker-in-docker container (for this example, the same image again)</sentence>
+            <sentence id="10.4">3 Start mitmproxy docker container from analysis image</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Describe the results you received:**</sentence>
+            <sentence id="11.2">mitmproxy container is running, but port is not exposed and container therefore not reachable.</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">**Describe the results you expected:**</sentence>
+            <sentence id="12.2">mitmproxy container is running, but port is exposed and container therefore reachable.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="13.2">Complete log of my commands.</sentence>
+            <sentence id="13.3">First I'm verifying that the basic idea (mitmproxy running in a container attached to the host) works, afterwards I'm setting up the dind image as described in it's documentation and repeating the mitmproxy steps without success.</sentence>
+            <sentence id="13.4">I also tried using '--net=host' for the inner container, but it didn't work either and I wanted to keep the steps as pure as possible</sentence>
+        </paragraph>
+    </description>
+</bug>

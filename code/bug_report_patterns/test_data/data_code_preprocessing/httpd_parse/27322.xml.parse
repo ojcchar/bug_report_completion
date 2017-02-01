@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>27322</id>
+    <title>srclib/apr-util/configure script does not use LDFLAGS env var</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">(*) I have the Berkeley DB 4.2 libraries installed in a non-standard location</sentence>
+            <sentence id="1.2">(/opt/ISWberkeleydb).</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">(*) I use the following to configure Apache 2.0.48:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The configure script will not properly detect the Berkeley DB 4.2 libraries.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">If I add /opt/ISWberkeleydb/lib to the system search paths (using the crle 
+command), the above configure command will work (so I have a workaround).</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">(*) When I look into the config.log file in srclib/apr-util/config.log, I can see that the -R/opt/ISWberkeleydb/lib that I provided in the LDFLAGS environment variable is not being used:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">#include &lt;stdio.h&gt;
+#include &lt;db.h&gt;
+main ()
+{
+  int major, minor, patch;</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">db_version(&amp;major, &amp;minor, &amp;patch);</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">/* Run-time check:  ensure the library claims to be the correct version.</sentence>
+            <sentence id="11.2">*/</sentence>
+        </paragraph>
+        <paragraph id="15">
+            <sentence id="15.1">configure:13128: result: no
+configure:13382: error: Berkeley db4 not found</sentence>
+        </paragraph>
+    </description>
+</bug>

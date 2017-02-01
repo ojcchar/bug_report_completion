@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>4101</id>
+    <title>Removed Jetpack blog reappears after signing in</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I can repro these steps on both an emulator and a real device (N6P):</sentence>
+            <sentence id="1.2">- Go to the settings of a JP site and remove it from the app</sentence>
+            <sentence id="1.3">- Disconnect from wp.com</sentence>
+            <sentence id="1.4">- Login again</sentence>
+            <sentence id="1.5">- The JP site now shows up again and is the default blog</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The problem appears to be due to [this line](https://github.com/wordpress-mobile/WordPress-Android/blob/80246ad8abc5477372dfe1425428b2e5858ecd03/WordPress/src/main/java/org/wordpress/android/WordPress.java#L684) in 'attemptToRestoreLastActiveBlog'.</sentence>
+            <sentence id="2.2">That call to 'getFirstVisibleBlogId' returns the ID of my JP site.</sentence>
+        </paragraph>
+    </description>
+</bug>

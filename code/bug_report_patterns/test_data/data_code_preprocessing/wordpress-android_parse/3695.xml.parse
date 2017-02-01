@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>3695</id>
+    <title>Stats returns an error when the app language is non-English and the device is rotated</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When the app language (set in Account Settings) is set to a language other than English, rotating the device while viewing stats returns the error "Stats couldn't be loaded for the required blog."</sentence>
+            <sentence id="1.2">(I couldn't reproduce this issue with the app language set to English.)</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Stats error from the logs:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">"'
+02-01 17:48:28.521 5608 5608 E WordPress-STATS: The blog with local_blog_id -1 cannot be loaded from the DB.
+"'</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Screenshot before rotating:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">!</sentence>
+            <sentence id="5.2">[2016-02-01 17 47 57](https://cloud.githubusercontent.com/assets/8658164/12725868/ad3f2b30-c90c-11e5-844b-73342a848253.png)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">After rotating:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">!</sentence>
+            <sentence id="7.2">[2016-02-01 17 48 01](https://cloud.githubusercontent.com/assets/8658164/12725876/b25f14f4-c90c-11e5-9ca7-d44496cbb5f8.png)</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Tested and confirmed in Spanish, German, and Arabic on Nexus 9, Android 6.0.1, app beta v. 5.0-rc-2.</sentence>
+        </paragraph>
+    </description>
+</bug>

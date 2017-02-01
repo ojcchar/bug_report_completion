@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1972</id>
+    <title>Expression.in on component object gives parameters til SQL in wrong order.</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm using an Expression.in on a component class with two attributes (one Long and one String).</sentence>
+            <sentence id="1.2">When executing the code I an empty list.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">When using the generated SQL in DBVisualizer adding the variables it returns the expectet list.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Debug log level and reveals (in sample project:
+Parameters are bound in the wrong order:
+Paramters are bound
+... where (this_.</sentence>
+            <sentence id="3.2">ejerlavskode, this_.</sentence>
+            <sentence id="3.3">matrikelnr) in ((9999, 9999), (01, 03))</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">should be 9999, 01, 9999, 03 according to
+... where (this_.</sentence>
+            <sentence id="4.2">ejerlavskode, this_.</sentence>
+            <sentence id="4.3">matrikelnr) in ((9999, 01), (9999, 03))</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Parameter pairs are by class Matrikelbetegnelse(ejerlavskode=9999, matrikenr=01)</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">I have made a small sample project:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">The project contains three classes BugTest , Main and Component.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">I have included a sql.ddl file with the create table, inserts of testdata, etc.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">You have to modify the "hibernate.test.xml" to include your URL, USER, PASSWORD and SCHEMA.</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">The BugTest main method contains two methods:</sentence>
+            <sentence id="10.2">- one 'testExpectedResult()' for the expectet result using Expression.sql(...) which works, but demands more code.</sentence>
+            <sentence id="10.3">SQL: from tan.main_table this_ where (this_.</sentence>
+            <sentence id="10.4">longValue, this_.</sentence>
+            <sentence id="10.5">stringValue) in ((?</sentence>
+            <sentence id="10.6">,?)</sentence>
+            <sentence id="10.7">, (?</sentence>
+            <sentence id="10.8">,?))</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">- two 'testBugResult()' for the incorrect result using Expression.in(...) which does not work, but is more elegant.</sentence>
+            <sentence id="11.2">SQL: from tan.main_table this_ where (this_.</sentence>
+            <sentence id="11.3">longValue, this_.</sentence>
+            <sentence id="11.4">stringValue) in ((?</sentence>
+            <sentence id="11.5">, ?)</sentence>
+            <sentence id="11.6">, (?</sentence>
+            <sentence id="11.7">, ?))</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">The generated SQL is the same using either statement.</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">Best regards,
+Thomas</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">P.S. I reported this problem on june 12'th (key=HHH-1832), but haven't heard anything.</sentence>
+        </paragraph>
+    </description>
+</bug>

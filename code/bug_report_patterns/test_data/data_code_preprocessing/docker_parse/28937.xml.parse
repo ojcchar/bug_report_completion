@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>28937</id>
+    <title>Docker daemon incorrectly reports "Error response from daemon: Cannot link to a non running container: /live-drupal AS /live-httpd/live-drupal" when container is live-drupal is running</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">**Description**</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">&lt;!</sentence>
+            <sentence id="2.2">--</sentence>
+            <sentence id="2.3">The Docker daemon throws the error "Error response from daemon: Cannot link to a non running container: /live-drupal AS /live-httpd/live-drupal".</sentence>
+            <sentence id="2.4">However, the live-drupal container is, in fact, up and running.</sentence>
+            <sentence id="2.5">I am able to see it listed as running in "docker ps" and I'm able to make a TCP connection to it.</sentence>
+            <sentence id="2.6">--&gt;</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="3.2">1 Start container live-drupal</sentence>
+            <sentence id="3.3">2 Start container live-httpd with a link to the live-drupal container</sentence>
+            <sentence id="3.4">3 Cause a fault in live-drupal which will also crash live-httpd</sentence>
+            <sentence id="3.5">4 Start live-drupal container</sentence>
+            <sentence id="3.6">5 Try to start live-httpd container and receive "Cannot link to a non running container" message even though the live-drupal container is running</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">**Describe the results you received:**</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+            <sentence id="6.2">This seems to happen fairly reliably when a fault occurs in our live-drupal container.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Docker version 1.12.3, build 6b644ec
+"'</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Running into this on AWS EC2 instances in us-east-1 region under Ubuntu 16.04.</sentence>
+        </paragraph>
+    </description>
+</bug>

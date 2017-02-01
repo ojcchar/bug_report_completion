@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>42073</id>
+    <title>Writer input fields are not populated using the Java UNO API</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I've been using OpenOffice and LibreOffice to batch process documents using the Java UNO interface.</sentence>
+            <sentence id="1.2">Upon updating to LibreOffice 3.4.3, LibreOffice is ignoring the Java UNO calls to populate the input fields with data.</sentence>
+            <sentence id="1.3">Running the same code with LibreOffice 3.3 works flawlessly.</sentence>
+            <sentence id="1.4">Below is sample code, which I've stepped through in debug mode, and everything is running correctly.</sentence>
+            <sentence id="1.5">The fields are found, but calling xPropertySet.setPropertyValue("Content", newValue) leaves the document unchanged.</sentence>
+            <sentence id="1.6">Updating table cells with 3.4.3, however, is working as expected.</sentence>
+            <sentence id="1.7">Has something changed with the API that is not documented?</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">CODE:
+String file = "/path/to/SomeFile.ott";</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">/* Initialize some variables */</sentence>
+            <sentence id="3.2">// xRemoteServiceManager initialized previously</sentence>
+            <sentence id="3.3">Object desktop = xRemoteServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", xRemoteContext);</sentence>
+            <sentence id="3.4">XComponentLoader xComponentLoader = (XComponentLoader) UnoRuntime.queryInterface(XComponentLoader.class, desktop);</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">// createPropertyValueArray and createPropertyValue are simply utility methods.</sentence>
+            <sentence id="4.2">PropertyValue[] xComponentLoadProps = createPropertyValueArray(
+                createPropertyValue("AsTemplate", new Any(Type.BOOLEAN, Boolean.TRUE)),
+                createPropertyValue("Hidden", new Any(Type.BOOLEAN, Boolean.TRUE)));</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">XComponent xTemplateComponent = (XComponent) xComponentLoader.loadComponentFromURL("file:///" + file, "_blank", 0, properties);</sentence>
+            <sentence id="5.2">XTextDocument comp = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xTemplateComponent);</sentence>
+            <sentence id="5.3">XBookmarksSupplier bookmarksSupplier = (XBookmarksSupplier) UnoRuntime.queryInterface(XBookmarksSupplier.class, comp);</sentence>
+            <sentence id="5.4">XNameAccess namedBookmarks = bookmarksSupplier.getBookmarks();</sentence>
+            <sentence id="5.5">XTextTablesSupplier xTablesSupplier = (XTextTablesSupplier) UnoRuntime.queryInterface(XTextTablesSupplier.class, comp);</sentence>
+            <sentence id="5.6">XNameAccess namedTables = xTablesSupplier.getTextTables();</sentence>
+            <sentence id="5.7">XDrawPageSupplier xSuppPage = (XDrawPageSupplier) UnoRuntime.queryInterface(XDrawPageSupplier.class, comp);</sentence>
+            <sentence id="5.8">XDrawPage xDrawPage = xSuppPage.getDrawPage();</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">/* Create a HashMap to reference all the text fields */</sentence>
+            <sentence id="6.2">XTextFieldsSupplier supplier = (XTextFieldsSupplier) UnoRuntime.queryInterface(XTextFieldsSupplier.class, comp);</sentence>
+            <sentence id="6.3">XEnumerationAccess enumAccess = supplier.getTextFields();</sentence>
+            <sentence id="6.4">XEnumeration xEnum = enumAccess.createEnumeration();</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Map textFields = new HashMap();</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">while (xEnum.hasMoreElements()) {
+    Object o = xEnum.nextElement();
+    XTextField text = (XTextField) UnoRuntime.queryInterface(XTextField.class, o);
+    XPropertySet xPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, text);
+    XServiceInfo xServiceInfo = (XServiceInfo) UnoRuntime.queryInterface(XServiceInfo.class, text);
+    if (xServiceInfo.supportsService("com.sun.star.text.TextField.Input")) {
+        textFields.put(((String) xPropertySet.getPropertyValue("Hint")), text);
+    }
+}</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">/* Set some input fields */</sentence>
+            <sentence id="9.2">setInputField("FirstName", "John");</sentence>
+            <sentence id="9.3">setInputField("LastName", "Doe");</sentence>
+            <sentence id="9.4">setInputField("Phone", "123-456-7890");</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">/* defined methods */</sentence>
+            <sentence id="10.2">public void setInputField(String name, String value) {</sentence>
+            <sentence id="10.3">String newValue = (value == null) ? ""</sentence>
+            <sentence id="10.4">: value.replaceAll("\u0000", "");</sentence>
+            <sentence id="10.5">newValue = (newValue.contains("</sentence>
+            <sentence id="10.6">")) ?</sentence>
+            <sentence id="10.7">newValue.replace("</sentence>
+            <sentence id="10.8">", "") : newValue.replace("</sentence>
+            <sentence id="10.9">", "</sentence>
+            <sentence id="10.10">");</sentence>
+            <sentence id="10.11">Object o = textFields.get(name);</sentence>
+            <sentence id="10.12">XTextField text = (XTextField) UnoRuntime.queryInterface(XTextField.class, o);</sentence>
+            <sentence id="10.13">XPropertySet xPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, text);</sentence>
+            <sentence id="10.14">xPropertySet.setPropertyValue("Content", newValue);</sentence>
+            <sentence id="10.15">}</sentence>
+        </paragraph>
+    </description>
+</bug>

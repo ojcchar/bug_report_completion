@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-9394</id>
+    <title>Still seeing inner join problem in 4.3.6</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Given this HQL:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">"select p, p.department from Person p left outer join p.department"</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I would expect to get results for Person's who have a null department ID.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">But instead the generated SQL is adding an inner join clause, filtering out those Persons without a department.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">That second inner join seems incorrect.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">This seems to be similar, if not the same as HHH-9284 and HHH-8980 which were closed as fixed in 4.3.6.</sentence>
+            <sentence id="7.2">But the above scenario occurs in 4.3.6.</sentence>
+        </paragraph>
+    </description>
+</bug>

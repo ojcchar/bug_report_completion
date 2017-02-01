@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8942</id>
+    <title>Unable to use --volumes-from with an unstarted container made with `docker create`</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Use case</sentence>
+            <sentence id="1.2">--</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">I would like to be able to easily script containers which have long-lived items such as history files or databases in it.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Method</sentence>
+            <sentence id="3.2">--</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">Problem</sentence>
+            <sentence id="6.2">--</sentence>
+            <sentence id="6.3">This almost works, except that `data-container` must be started once in order for the volume directory to come into existence.</sentence>
+            <sentence id="6.4">Since `scratch` doesn't have anything in it, it's not possible to start it without error.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Possible solutions</sentence>
+            <sentence id="7.2">--</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">1 Provide a way to make a container whose purpose is just to have data volumes</sentence>
+            <sentence id="8.2">2 OR `docker create` causes the volume to come into existence immediately</sentence>
+            <sentence id="8.3">3 OR `docker run` ensures that volumes which are defined in containers specified by `--volumes-from` come into existence before starting.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">/cc @drj11</sentence>
+        </paragraph>
+    </description>
+</bug>

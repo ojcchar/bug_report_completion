@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>90330</id>
+    <title>Corruption of saved file when comment is deleted with track changes</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I'm working on a pretty large file, authoring for PacktPub, and I'm running in to a pretty consistent issue.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The file is converted from a DOCX file, it has track changes turned on.</sentence>
+            <sentence id="2.2">It also has a lot of comments.</sentence>
+            <sentence id="2.3">The file will work fine.</sentence>
+            <sentence id="2.4">However if I delete a comment, save the file and re-open it.</sentence>
+            <sentence id="2.5">I get the error:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Read-Error.</sentence>
+            <sentence id="3.2">Format error discovered in the file in sub-document content.xml at 2,6039(row,col).</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">If I extract the content.xml and run xmllint on it I get the error:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">content.xml:2: parser error : Attribute office:name redefined
+    ame="__Annotation__2034_67113285111111" style:name="Table1" style:family="table"</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The first matching elements I find does indeed have 2 `office:name` element attributes:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">&lt;style:style office:name="__Annotation__1877_671132851111111111111" office:name="__Annotation__2034_67113285111111" style:name="Table1" style:family="table"&gt;
+        &lt;style:table-properties style:width="13.97cm" table:align="margins" style:writing-mode="lr-tb"/&gt;
+    &lt;/style:style&gt;</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Both `office:name` attribute values do refer to valid annotations.</sentence>
+            <sentence id="8.2">My solution to fixing the file is to remove that element, but if I delete another comment the problem arises again.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3931</id>
+    <title>Multiple Stored XSS via Patient Name</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The create patient flow is allows stored XSS when using the following
+name (script is executed when loading mdrtbEditPatient.form, and
+potentially other pages that display the patient name).
+"</sentence>
+            <sentence id="1.2">&gt;&lt;script&gt;alert("xss")&lt;/script&gt;</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Other places where patient/user name injects script:</sentence>
+            <sentence id="2.2">module/reporting/reports/reportHistory.form (xss in automatically populated into the "Requested By" dropdown)</sentence>
+            <sentence id="2.3">admin/users/user.</sentence>
+            <sentence id="2.4">form (Which Person?</sentence>
+            <sentence id="2.5">textbox autocomplete fires it)</sentence>
+            <sentence id="2.6">admin/encounters/encounter.</sentence>
+            <sentence id="2.7">form (same dropdown as above.</sentence>
+            <sentence id="2.8">Just fix this control)</sentence>
+            <sentence id="2.9">patientDashboard.form (multiple places where the name is displayed.</sentence>
+            <sentence id="2.10">Main page, demographics tab.</sentence>
+            <sentence id="2.11">Every page when logged in as the xss username ("Currently logged in as &lt;script&gt;.</sentence>
+            <sentence id="2.12">.")</sentence>
+            <sentence id="2.13">(meh.</sentence>
+            <sentence id="2.14">.)</sentence>
+            <sentence id="2.15">Privilege escalation scenario:</sentence>
+            <sentence id="2.16">Setup: Admin creates "Person" record and links it to a User account.</sentence>
+            <sentence id="2.17">1 User can change his/her name to include an XSS string (steal session cookie)</sentence>
+            <sentence id="2.18">2 User gets admin to visit their "Person" profile, i.e.</sentence>
+            <sentence id="2.19">admin/person/person.</sentence>
+            <sentence id="2.20">form?personId=93483.</sentence>
+            <sentence id="2.21">Script could steal admin</sentence>
+            <sentence id="2.22">cookie and send it to a malicious url.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">This issue was originally reported by: Kevin Jacobs</sentence>
+        </paragraph>
+    </description>
+</bug>

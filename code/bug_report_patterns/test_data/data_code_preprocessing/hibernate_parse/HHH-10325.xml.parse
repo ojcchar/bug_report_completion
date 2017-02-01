@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-10325</id>
+    <title>Test failure on MySQL and MariaDB because they do not allow casting as float type</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">{{org.hibernate.test.instrument.runtimeJavassistInstrumentationTest#testLazyBasicPropertyAccess}} is failing on MySQL and MariaDB because it has a property mapped as:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">MySQL and MariaDB do not allow casting as float.</sentence>
+            <sentence id="3.2">The purpose of the test is to test lazy basic properties.</sentence>
+            <sentence id="3.3">The custom read/write is not important to this test so {{&lt;column/&gt;}} can simply be removed.</sentence>
+            <sentence id="3.4">Tests intended for testing custom read/write use a different mapping file.</sentence>
+        </paragraph>
+    </description>
+</bug>

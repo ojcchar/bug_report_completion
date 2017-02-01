@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>52363</id>
+    <title>Unicode character sequence '\u000a'; causes JDT parsing error</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The following statement produces a compilation error in JDT, even though it 
+looks to me as a syntactically correct statement:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">char a = '\u000a';</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">same result is obtained for</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">char a = '\u000A';</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Trying to comment the line out by appending the line with // still produces a 
+compile-time error, which clearly indicates that something is wrong.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">----</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Other unicode character sequences such as</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">char a = '\u000b';</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">are accepted as correct.</sentence>
+        </paragraph>
+    </description>
+</bug>

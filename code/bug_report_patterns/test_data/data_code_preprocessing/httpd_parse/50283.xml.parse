@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>50283</id>
+    <title>configtest doesnt report error when modules arent enabled</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Situation:
+Below is .</sentence>
+            <sentence id="1.2">htaccess</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">AuthUserFile .</sentence>
+            <sentence id="2.2">htpasswd
+AuthName "Authorization Required"
+AuthType Basic
+require valid-user
+ExpiresActive on
+ExpiresDefault "access plus 2 hours"</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">But "expires" module isnt enabled in the host, and therefore results in "500 Internal Server error" when url is accessed via browser.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">However configtest gives OK
+# apache2ctl configtest
+Syntax OK</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">This should fail and if possible throw out which module isnt enabled.</sentence>
+            <sentence id="5.2">In other words, configtest should parse and check if modules are enabled and throw out appropriate failure message.</sentence>
+        </paragraph>
+    </description>
+</bug>

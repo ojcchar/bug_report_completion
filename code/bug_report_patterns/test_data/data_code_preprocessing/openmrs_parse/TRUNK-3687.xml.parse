@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>TRUNK-3687</id>
+    <title>Concepts not working properly in OpenMRS 1.9 with postgresql</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When trying to run an OpenMRS 1.9 instance with postgresql I came across an error when trying to search for Concepts from various Admin sections.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The error I received was "Column 'this_.word' must be in a GROUP-BY-Clause or used in an aggregate function"
+Full stacktrace can be viewed [here|http://pastebin.com/zBx7EXfp]</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">In order to reproduce, I made a fresh install of the latest revision of OpenMRS 1.9.x trunk and had it install tables + sample data to a postgres 8.4 DB.</sentence>
+            <sentence id="3.2">The error occured  from the first time running with the maven jetty:run goal.</sentence>
+        </paragraph>
+    </description>
+</bug>

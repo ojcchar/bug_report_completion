@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-1925</id>
+    <title>Column lazy fetch via annotation doesn't work</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I have annotated a column in my Journal class as follows:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">And I then execute the following test:</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Which generates the following SQL:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I.e. the SQL includes entryDate and the test fails at the 2nd assert.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Hibernate doesn't appear to honouring the     @Basic(fetch = FetchType.LAZY) annotation, even though Hibernate debug indicates that it has recognised it.</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">What am I doing wrong?</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Thanks,
+Matt.</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-282</id>
+    <title>Importing a composite-id ( XML )</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">XML mapping:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Export output:</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">&lt;A&gt;
+  &lt;fk1_id&gt;758&lt;/fk1_id&gt;
+  &lt;fk2_id&gt;301&lt;/fk2_id&gt;
+  &lt;property&gt;1&lt;/property&gt;
+&lt;/A&gt;
+&lt;A&gt;
+  &lt;fk1_id&gt;758&lt;/fk1_id&gt;
+  &lt;fk2_id&gt;323&lt;/fk2_id&gt;
+  &lt;property&gt;2&lt;/property&gt;
+&lt;/A&gt;</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">Exception:</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Java:</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">...</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">Session session = sessions.openSession();
+Session dom4jSession = session.getSession( EntityMode.DOM4J );</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">...</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">dom4jSession.replicate("A", item, ReplicationMode.OVERWRITE);</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">...</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">SQL:</sentence>
+        </paragraph>
+    </description>
+</bug>

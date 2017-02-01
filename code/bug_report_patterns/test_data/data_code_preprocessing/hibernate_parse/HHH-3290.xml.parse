@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-3290</id>
+    <title>Hibernate Statistics getExecutionMinTime() always returns 0</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">The minimum exec time is initialized to Zero but is never updated propertly to reflect the true minimum measured query time.</sentence>
+            <sentence id="1.2">This should be easy to fix:   Either set the MinTime = Long.MAX_VALUE , or,  set the MinTime=CurrentQueryTime only for the first measurement sample.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Here's some sample output:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">A portable JSP for dumping the hibernate statistics is provided.</sentence>
+            <sentence id="3.2">You will need to edit the ObjectName to reflect the name of the Hibernate
+statistics JMX Object in your implementation.</sentence>
+        </paragraph>
+    </description>
+</bug>

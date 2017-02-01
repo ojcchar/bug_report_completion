@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-130</id>
+    <title>Instead of updating a row, hibernates deletes a row and re-inserts</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">These Hibernate messages:</sentence>
+            <sentence id="1.18">Hibernate: update fileset set settings_id=?, id=? where id=?</sentence>
+            <sentence id="1.19">Hibernate: update fileset set settings_id=?, id=? where id=?</sentence>
+            <sentence id="1.20">Hibernate: update file_pattern set fileset_id=?, id=? where id=?</sentence>
+            <sentence id="1.21">Hibernate: update file_pattern set fileset_id=?, id=? where id=?</sentence>
+            <sentence id="1.22">Hibernate: update file_pattern set fileset_id=?, id=? where id=?</sentence>
+            <sentence id="1.23">Hibernate: update file_pattern set fileset_id=?, id=? where id=?</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Actually produce this sql:</sentence>
+            <sentence id="2.2">SET AUTOCOMMIT TRUE</sentence>
+            <sentence id="2.19">DISCONNECT</sentence>
+        </paragraph>
+    </description>
+</bug>

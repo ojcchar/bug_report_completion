@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>8027</id>
+    <title>--rm option in docker run does not make clean up on large stdin</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Example:</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">container does not removed, 
+but</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">all fine</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">PS:
+primitive workaround use sed instead of head (but sed increase total time)</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">"' bash
+seq 100000 | docker run --rm -i ubuntu bash -l -c 'cat | sed -n 1,1p'
+"'
+</sentence>
+        </paragraph>
+    </description>
+</bug>

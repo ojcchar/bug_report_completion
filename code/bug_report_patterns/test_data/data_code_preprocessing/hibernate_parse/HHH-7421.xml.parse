@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-7421</id>
+    <title>ObjectDeletedException with Session.get() and lock after read only HQL query</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">When an entity is read using a read-only HQL query, if you run a Session.get() for that entity with LockOptions.UPGRADE you get a ObjectDeletedException.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">The reason of the failure is that the EntityEntry has status READ after the HQL query, and when the lock mode is upgraded in the Session.get(), AbstractLockUpgradeEventListener thinks that the READ status is wrong, throwing the ObjectDeletedException.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">I think that a READ_ONLY entity should be moved to MANAGED if you lock it.</sentence>
+            <sentence id="3.2">Or, otherwise, advice in the docs that a READ_ONLY entity can't be locked.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Stacktrace:</sentence>
+        </paragraph>
+    </description>
+</bug>

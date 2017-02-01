@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>40357</id>
+    <title>[reconciling] Reconcile with errors should tolerate internal exceptions</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Build 20030716</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">If some compiler failure occurs during reconcile (see bug 40288), it seems that 
+the UI problem requestor will remain active.</sentence>
+            <sentence id="2.2">It should be protected with a 
+try/finally to ensure it doesn't remain active beyond reconciliation.</sentence>
+        </paragraph>
+    </description>
+</bug>

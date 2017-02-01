@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>20876</id>
+    <title>Question : my host and container don't see the folder linked by the volume. Is it because of Propagation: rprivate ?</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Hello,</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">the root of the problem is that I am trying to use a ssh key in a docker container (gocd-server) to be able to pull source code from a private git repository.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Now, if I understand correctly, I need to create a volume where I put my ssh keys and config file but the folder created is not shared between my container and my host.</sentence>
+            <sentence id="3.2">It only works if I copy the key inside my container and pull but if I restart the container, the setup is gone and I need to do it again.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">I can see that my container is writing on my host for a few volumes but not for others.</sentence>
+            <sentence id="4.2">For example, ./gocd/config (host) and /etc/go (container)</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">**host : **</sentence>
+            <sentence id="5.2">[20:23:07 - gillouche@arch:~/data/docker/gocd/config]$ ll</sentence>
+            <sentence id="5.3">total 92K</sentence>
+            <sentence id="5.8">xml</sentence>
+            <sentence id="5.10">xml.2016-03-02-05-23-01</sentence>
+            <sentence id="5.12">xsd</sentence>
+            <sentence id="5.14">jks</sentence>
+            <sentence id="5.16">pub</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">(I never wrote any of those files, they were written by the container)</sentence>
+            <sentence id="6.2">**container**</sentence>
+            <sentence id="6.3">root@746df548519b:/etc/go# ls -l</sentence>
+            <sentence id="6.4">total 4</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">I am using a docker-compose file and all my docker containers config/folders etc are in the same folder called docker.</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Here is my configurations :</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Here is the **docker inspect **of the running container</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">http://pastebin.com/CkXRjfu1</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Here is the **dockerfile** I used to create my gocd image</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">http://pastebin.com/yLq2CpfN</sentence>
+        </paragraph>
+        <paragraph id="19">
+            <sentence id="19.1">Provide additional environment details (AWS, VirtualBox, physical, etc.):
+No virtualbox, I am trying on my host first before moving everything to a synology NAS.</sentence>
+        </paragraph>
+        <paragraph id="20">
+            <sentence id="20.1">Describe the results you received:
+My container and my hosts don't see the changes on the volume.</sentence>
+        </paragraph>
+        <paragraph id="21">
+            <sentence id="21.1">Describe the results you expected:
+Be able to create file on the host folder and the container can see them.</sentence>
+        </paragraph>
+        <paragraph id="22">
+            <sentence id="22.1">Provide additional info you think is important:</sentence>
+        </paragraph>
+        <paragraph id="23">
+            <sentence id="23.1">Thanks.</sentence>
+        </paragraph>
+    </description>
+</bug>

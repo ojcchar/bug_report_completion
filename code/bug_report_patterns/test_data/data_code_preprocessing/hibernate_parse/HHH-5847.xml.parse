@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-5847</id>
+    <title>@OneToOne annotation with optional = true generates an exception when value is null</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I am currently in the process of upgrading from Hibernate 3.3 to 3.6.</sentence>
+            <sentence id="1.2">I didn't have the following problem before the upgrade.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Seems like there is a problem when I am trying to persist the object with: targetDays empty (it should be empty at this point).</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">@OneToOne(mappedBy = "campaign")
+    @JoinColumn(name = "campaign_id")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private DeliveryLimits deliveryLimits;</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">@OneToOne(mappedBy = "campaign")
+    @JoinColumn(name = "campaign_id")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private Cost cost;</sentence>
+        </paragraph>
+        <paragraph id="13">
+            <sentence id="13.1">@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "cmp_target_list_option",
+            joinColumns = {@JoinColumn(name = "campaign_id")},
+            inverseJoinColumns = @JoinColumn(name = "option_id"))
+    private Set&lt;ListTargetingParamOption&gt; listTargetingParamOptions;</sentence>
+        </paragraph>
+        <paragraph id="14">
+            <sentence id="14.1">@OneToOne(optional = true)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @PrimaryKeyJoinColumn
+    private LastStatus lastStatus;</sentence>
+        </paragraph>
+        <paragraph id="17">
+            <sentence id="17.1">@OneToOne(fetch = FetchType.LAZY, optional = true)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @PrimaryKeyJoinColumn
+    private TargetDays targetDays;</sentence>
+        </paragraph>
+        <paragraph id="27">
+            <sentence id="27.1">@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "cmp_target_publisher",
+            joinColumns = {@JoinColumn(name = "campaign_id")},
+            inverseJoinColumns = @JoinColumn(name = "publisher_id"))
+    @Sort(type = SortType.COMPARATOR, comparator = Publisher.PublisherComparator.class)
+    private SortedSet&lt;Publisher&gt; targetPublishers;</sentence>
+        </paragraph>
+        <paragraph id="37">
+            <sentence id="37.1">@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "cmp_target_site",
+            joinColumns = {@JoinColumn(name = "campaign_id")},
+            inverseJoinColumns = @JoinColumn(name = "site_id"))
+    @Sort(type = SortType.COMPARATOR, comparator = Site.SiteComparator.class)
+    private SortedSet&lt;Site&gt; targetSites;</sentence>
+        </paragraph>
+        <paragraph id="38">
+            <sentence id="38.1">public Campaign() {
+    }</sentence>
+        </paragraph>
+        <paragraph id="98">
+            <sentence id="98.1">}</sentence>
+        </paragraph>
+    </description>
+</bug>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>270798</id>
+    <title>URIUtil.fromString prohibits valid URI strings with escaped characters</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Created attachment 130567
+proposed patch</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Build ID: I20090325-1135</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">The method URIUtil.fromString(String) seems to be intended for conversion from string to URI in a user-friendly and backward-compatible way.</sentence>
+            <sentence id="3.2">Due to the mercyful implementation of the URL class there are many URL strings out there that will simply not be accepted by the URI single-argument constructor.</sentence>
+            <sentence id="3.3">Therefore it is clear that we need a way to convert these legacy URL strings to URI instances.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">Unfortunately the current implementation forces us to keep using the old unescaped URLs, and does not allow all valid (="encoded"/"escaped") URIs.</sentence>
+            <sentence id="4.2">If a URI string with an escape sequence (see example below) is passed in as argument to URIUtil.fromString, the escape character ('%') is escaped again.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">I propose to change the implementation so that it correctly converts both legacy URLs as well as valid URIs with escape sequences.</sentence>
+            <sentence id="5.2">With this proposal, the transition path towards valid ("escaped") URI strings is open, without breaking existing code.</sentence>
+        </paragraph>
+        <paragraph id="6">
+            <sentence id="6.1">The implementation of the proposal is very simple (see attached patch): if the string argument of URIUtil.fromString contains a percent character, assume that the string is an "escaped" URI string and pass it to the single-argument constructor URI(String).</sentence>
+            <sentence id="6.2">Otherwise do what is done by the current implementation, i.e. escape invalid characters and attempt to construct a URI from that.</sentence>
+        </paragraph>
+        <paragraph id="7">
+            <sentence id="7.1">Even though this patch changes the behavior of the method, I would not consider this to be breaking the API:</sentence>
+            <sentence id="7.2">1 According to the documentation of the current implementation, the string parameter must not contain the percent character ('%').</sentence>
+            <sentence id="7.3">The new implementation is less strict on that parameter.</sentence>
+            <sentence id="7.4">2 It is very unlikely that existing code relies on the old behavior that literal percent characters in the string argument are replaced by %25.</sentence>
+            <sentence id="7.5">In an environment where unescaped and escaped URLs are mixed, the percent character is usually used as an indicator for escaped URLs, and hence literal '%' is disallowed or just does not work.</sentence>
+            <sentence id="7.6">This was for example the case in the old update manager (see org.eclipse.update.internal.core.URLEncoder).</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">Code snippet to reproduce</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">The output is
+original: http://host/my%20path/
+parsed:   http://host/my%2520path/</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">but it should be
+original: http://host/my%20path/
+parsed:   http://host/my%20path/</sentence>
+        </paragraph>
+    </description>
+</bug>

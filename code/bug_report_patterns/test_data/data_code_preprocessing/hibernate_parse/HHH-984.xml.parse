@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-984</id>
+    <title>Hibernate doesn't fully comply with the JavaBean 1.01 spec</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">I already reported this bug at http://opensource2.atlassian.com/projects/hibernate/browse/HHH-755, but Gavin closed it with the comment, that Hibernate would comply with the JavaBean spec, but that's not true.</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">Consider a property 'fooDate', the getter would be 'getFooDate'.</sentence>
+            <sentence id="2.2">Now consider a property 'gDate', the getter would be?</sentence>
+            <sentence id="2.3">Right, 'getGDate' - but Hibernate looks for a 'getgDate' because of the property find algorithms in two methods: setterMethod() and getterMethod() of BasicPropertyAccessor.java.</sentence>
+        </paragraph>
+        <paragraph id="3">
+            <sentence id="3.1">Just calling Introspector.decapitalize() isn't enough to comply the spec fully.</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">The first action within setterMethod() and getterMethod() should be to capitalize the first letter of propertyName, then the comparison with the found setter/getter would succeed.</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">BTW: Eclipse creates a getGDate() and setGDate() for a property gDate - this is how I noticed the problem.</sentence>
+        </paragraph>
+    </description>
+</bug>

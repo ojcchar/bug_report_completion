@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>HHH-4695</id>
+    <title> Some annotations tests in IndexedCollectionTest fail due to "foreign key constraint" failure on MySQL InnoDB</title>
+    <description>
+        <paragraph id="1">
+            <sentence id="1.1">Test following tests are failing due to "foreign key constraint fail" in MySQL:</sentence>
+        </paragraph>
+        <paragraph id="2">
+            <sentence id="2.1">org.hibernate.test.annotations.indexcoll.IndexedCollectionTest.testDefaultMapKey
+org.hibernate.test.annotations.indexcoll.IndexedCollectionTest.testMapKeyToEntity
+org.hibernate.test.annotations.indexcoll.IndexedCollectionTest.testComponentSubPropertyMapKey
+org.hibernate.test.annotations.indexcoll.IndexedCollectionTest.testMapKeyEntityEntity</sentence>
+        </paragraph>
+        <paragraph id="4">
+            <sentence id="4.1">---------</sentence>
+        </paragraph>
+        <paragraph id="5">
+            <sentence id="5.1">these testes only fail on MySQL5InnoDBDialect AND MySQLInnoDBDialect, they pass MySQL5Dialect and MySQLDialect</sentence>
+        </paragraph>
+    </description>
+</bug>

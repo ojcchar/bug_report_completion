@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bug>
+    <id>22524</id>
+    <title>Documentation: Supervisor uses unsupported ubuntu version (13.04)</title>
+    <description>
+        <paragraph id="7">
+            <sentence id="7.1">**Steps to reproduce the issue:**</sentence>
+            <sentence id="7.2">1 Create the Dockerfile as specified in docs/admin/using_supervisord.md and the supervisors.conf</sentence>
+            <sentence id="7.3">2 Run docker build --no-cache -t &lt;your name here&gt;/supervisord .</sentence>
+        </paragraph>
+        <paragraph id="8">
+            <sentence id="8.1">**Describe the results you received:**</sentence>
+            <sentence id="8.2">Failed to fetch http://archive.ubuntu.com/ubuntu/dists/raring/main/source/Sources 404 Not Found [IP: 91.189.91.23 80]</sentence>
+        </paragraph>
+        <paragraph id="9">
+            <sentence id="9.1">**Describe the results you expected:**</sentence>
+        </paragraph>
+        <paragraph id="10">
+            <sentence id="10.1">Expected the container to be built successfully</sentence>
+        </paragraph>
+        <paragraph id="11">
+            <sentence id="11.1">**Additional information you deem important (e.g. issue happens only occasionally):**</sentence>
+        </paragraph>
+        <paragraph id="12">
+            <sentence id="12.1">Looks as though ubuntu:13.04 repositories are no longer available.</sentence>
+            <sentence id="12.2">Changing the container to ubuntu:15.04 allowed the docker build to run successfully</sentence>
+        </paragraph>
+    </description>
+</bug>
