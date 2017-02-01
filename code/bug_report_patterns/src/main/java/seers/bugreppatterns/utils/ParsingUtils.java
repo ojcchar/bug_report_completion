@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import seers.bugrepcompl.entity.regularparse.BugReport;
+import seers.bugrepcompl.entity.regularparse.BugReportDescription;
 import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
 import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
 import seers.bugreppatterns.entity.Document;
@@ -22,7 +23,11 @@ public class ParsingUtils {
 
 	public static Document parseDocument(String system, BugReport bugRep) {
 		Document doc = new Document(bugRep.getId());
-		List<DescriptionParagraph> paragraphs = bugRep.getDescription().getParagraphs();
+		BugReportDescription description = bugRep.getDescription();
+		if (description==null) {
+			return doc;
+		}
+		List<DescriptionParagraph> paragraphs = description.getParagraphs();
 		for (DescriptionParagraph par : paragraphs) {
 			Paragraph paragraph = parseParagraph(bugRep.getId(), par);
 			if (paragraph.isEmpty()) {
