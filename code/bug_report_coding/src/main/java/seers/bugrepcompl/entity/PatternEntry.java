@@ -1,6 +1,4 @@
-package seers.bugreppatterns.main.coocurrence;
-
-import seers.bugrepcompl.entity.TextInstance;
+package seers.bugrepcompl.entity;
 
 public class PatternEntry {
 

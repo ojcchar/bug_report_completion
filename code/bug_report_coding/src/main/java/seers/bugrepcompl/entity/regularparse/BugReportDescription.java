@@ -21,8 +21,11 @@ public class BugReportDescription {
 	public BugReportDescription(BugReportDescription description) {
 		this.paragraphs = new ArrayList<>();
 
-		for (DescriptionParagraph descriptionParagraph : description.paragraphs) {
-			this.paragraphs.add(new DescriptionParagraph(descriptionParagraph));
+		if (description != null) {
+
+			for (DescriptionParagraph descriptionParagraph : description.paragraphs) {
+				this.paragraphs.add(new DescriptionParagraph(descriptionParagraph));
+			}
 		}
 	}
 

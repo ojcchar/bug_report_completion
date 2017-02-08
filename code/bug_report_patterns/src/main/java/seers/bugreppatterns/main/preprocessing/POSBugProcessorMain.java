@@ -24,9 +24,14 @@ public class POSBugProcessorMain {
 //	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/data/preprocessed_data/no_preprocessing_but_pos";
 	
 	//new data
-	private static String xmlBugDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/regular_parsed_data";
-	private static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/gold_set.csv";
-	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/regular_parsed_data_with_pos";
+//	private static String xmlBugDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/regular_parsed_data";
+//	private static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/gold_set.csv";
+//	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/final_bug_data_old/regular_parsed_data_with_pos";
+	
+	//all data code removed
+	private static String xmlBugDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/code_preprocessing_original";
+	private static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/gold-set-B-all_data.csv";
+	private static String outputDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/code_preprocessing_original_pos";
 
 	public static void main(String[] args) throws Exception {
 

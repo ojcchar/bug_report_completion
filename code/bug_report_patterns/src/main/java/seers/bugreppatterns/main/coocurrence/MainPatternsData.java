@@ -17,6 +17,7 @@ import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.CodedDataEntry;
+import seers.bugrepcompl.entity.PatternEntry;
 import seers.bugrepcompl.entity.TextInstance;
 import seers.bugrepcompl.entity.regularparse.BugReport;
 import seers.bugrepcompl.utils.DataReader;

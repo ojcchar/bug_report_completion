@@ -144,7 +144,7 @@ public class CoocurrencePredictor extends LabelPredictor {
 	 * Return the elements in cooccurringPatterns which all their components
 	 * exist in patternMatches, even if extra patterns exist in patternMatches.
 	 * 
-	 * For example, the element {pattern1-pattern2} will be return if
+	 * For example, the element {pattern1-pattern2} will be returned if
 	 * patternMatches contain {pattern1, pattern2, pattern3}
 	 * 
 	 * @param cooccurringPatterns

@@ -28,27 +28,28 @@ import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
 
 public class AgreementMain {
 
-	// static HashSet<String> allowedCoders = new
-	// HashSet<String>(Arrays.asList(new String[] { "jing", "oscar" }));
+//	static HashSet<String> allowedCoders = new HashSet<String>(Arrays.asList(new String[] { "jing", "oscar" }));
 
 	// new data coding
-	// static List<String> allowedCoders = new ArrayList<>(
-	// new HashSet<String>(Arrays.asList("alex", "juan", "laura", "fiorella",
-	// "jing", "oscar", "alejo")));
-	// static String completeSamplePath =
-	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
-	// static String codedDataPath =
-	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
-	// static String outFolder =
-	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement";
+	static List<String> allowedCoders = new ArrayList<>(
+			new HashSet<String>(Arrays.asList("alex", "juan", "laura", "fiorella", "jing", "oscar", "alejo")));
+	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/complete_sample_seers50.csv";
+	static String codedDataPath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_data";
+	static String outFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement";
 
 	// old data coding
 
-	private static List<String> allowedCoders = new ArrayList<>(new HashSet<String>(
-			Arrays.asList("juan", "laura", "fiorella", "jing", "oscar", "alejo", "ana", "daniel", "davies", "lau")));
-	static String completeSamplePath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/old_data_coding.csv";
-	static String codedDataPath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_old_data - Copy";
-	static String outFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement_old_data";
+	// private static List<String> allowedCoders = new ArrayList<>(new
+	// HashSet<String>(
+	// Arrays.asList("juan", "laura", "fiorella", "jing", "oscar", "alejo",
+	// "ana", "daniel", "davies", "lau")));
+	// static String completeSamplePath =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/sample/andi_students/old_data_coding.csv";
+	// static String codedDataPath =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/coded_old_data
+	// - Copy";
+	// static String outFolder =
+	// "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/coding_final_round/coding/agreement_old_data";
 
 	static boolean onlyBugs = true;
 

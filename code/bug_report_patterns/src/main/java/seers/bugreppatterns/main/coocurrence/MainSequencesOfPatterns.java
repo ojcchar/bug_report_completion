@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import net.quux00.simplecsv.CsvParser;
 import net.quux00.simplecsv.CsvParserBuilder;
 import net.quux00.simplecsv.CsvReader;
+import seers.bugrepcompl.entity.PatternEntry;
 import seers.bugrepcompl.entity.TextInstance;
 import seers.bugreppatterns.pattern.predictor.coocurrence.CooccurringPattern;
 
