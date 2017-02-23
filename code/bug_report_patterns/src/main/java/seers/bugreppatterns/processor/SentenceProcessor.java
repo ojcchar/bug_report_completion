@@ -7,6 +7,7 @@ import java.util.List;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.regularparse.BugReport;
+import seers.bugrepcompl.entity.regularparse.BugReportDescription;
 import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
@@ -27,7 +28,15 @@ public class SentenceProcessor extends TextInstanceProcessor {
 
 			try {
 				BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
-				List<DescriptionParagraph> paragraphs = bugRep.getDescription().getParagraphs();
+
+				BugReportDescription description = bugRep.getDescription();
+				if (description == null) {
+					continue;
+				}
+				List<DescriptionParagraph> paragraphs = description.getParagraphs();
+				if (paragraphs == null) {
+					continue;
+				}
 
 				for (DescriptionParagraph paragraph : paragraphs) {
 
