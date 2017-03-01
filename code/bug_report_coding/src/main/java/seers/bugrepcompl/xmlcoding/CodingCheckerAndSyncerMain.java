@@ -133,13 +133,14 @@ public class CodingCheckerAndSyncerMain {
 
 		Set<String> patterns = CodingXMLNormalizationMain.pattenrsToSet(codedBug.getTitle().getPatterns());
 
-		patternsUsed.addAll(patterns);
-
-		if (patterns.stream().anyMatch(p -> !patternList.contains(p))) {
-			System.err.println("Wrong patterns: " + bugInstance + ", 0.1, " + patterns);
-		}
 
 		if (includeTitle) {
+			patternsUsed.addAll(patterns);
+			
+			if (patterns.stream().anyMatch(p -> !patternList.contains(p))) {
+				System.err.println("Wrong patterns: " + bugInstance + ", 0.1, " + patterns);
+			}
+			
 			for (String pattern : patterns) {
 
 				String patternType = pattern.substring(0, 1);

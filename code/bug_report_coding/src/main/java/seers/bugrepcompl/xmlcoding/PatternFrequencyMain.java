@@ -16,19 +16,88 @@ import seers.bugrepcompl.utils.DataReader;
 
 public class PatternFrequencyMain {
 
-//	static List<String> patterns = Arrays.asList("P_SR_LABELED_LIST");
+	// static List<String> patterns = Arrays.asList("P_SR_LABELED_LIST");
+
+	// static List<String> patterns = Arrays.asList("S_OB_NEG_AUX_VERB"
+	// , "S_OB_BUT_NEG", "S_OB_COND_NEG",
+	// "S_OB_VERB_ERROR", "S_OB_NEG_VERB", "S_OB_NEG_ADV_ADJ"
+	// );
+
+	// static List<String> patterns = Arrays.asList( "S_OB_COND_POS",
+	// "S_OB_OBS_BEHAVIOR", "S_OB_BUT", "P_OB_OBSERVED_BEHAVIOR_MULTI",
+	// "S_OB_WORKS_FINE", "S_OB_INSTEAD_OF");
+
+	// static List<String> patterns = Arrays.asList("S_OB_NEG_AUX_VERB"
+	// , "S_OB_BUT_NEG", "S_OB_COND_NEG",
+	// "S_OB_VERB_ERROR", "S_OB_NEG_VERB", "S_OB_NEG_ADV_ADJ", "S_OB_COND_POS",
+	// "S_OB_OBS_BEHAVIOR", "S_OB_BUT", "P_OB_OBSERVED_BEHAVIOR_MULTI",
+	// "S_OB_WORKS_FINE", "S_OB_INSTEAD_OF"
+	// );
+
+	// static List<String> patterns = Arrays.asList( "S_EB_SHOULD");
+
+	// static List<String> patterns = Arrays.asList( "S_EB_SHOULD",
+	// "S_EB_EXP_BEHAVIOR", "P_EB_EXP_BEHAVIOR_MULTI",
+	// "S_EB_INSTEAD_OF_EXP_BEHAVIOR", "S_EB_EXPECTED", "S_EB_WOULD_BE");
+
+	// static List<String> patterns = Arrays.asList( "P_SR_LABELED_LIST",
+	// "S_SR_COND_OBS", "S_SR_CODE_REF");
+
+	 static List<String> patterns = Arrays.asList( "P_SR_LABELED_LIST",
+	 "S_SR_COND_OBS", "S_SR_CODE_REF", "P_SR_ACTIONS_INF",
+	 "P_SR_LABELED_PARAGRAPH");
+
+	// static List<String> patterns = Arrays.asList("S_OB_NEG_AUX_VERB",
+	// "S_OB_COND_NEG", "S_OB_BUT_NEG", "S_OB_NEG_VERB");
+
+	// static List<String> patterns = Arrays.asList("S_OB_NEG_AUX_VERB",
+	// "S_OB_COND_NEG", "S_OB_BUT_NEG",
+	// "S_OB_VERB_ERROR", "S_OB_NEG_VERB", "S_OB_NEG_ADV_ADJ", "S_OB_COND_POS",
+	// "S_OB_BUT",
+	// "S_OB_ERROR_AS_SUBJECT", "S_OB_NEG_COND", "S_OB_INSTEAD_OF",
+	// "S_OB_SEEMS", "S_OB_OUTPUT_VERB",
+	// "S_OB_VERB_TO_BE_NEGATIVE", "S_OB_ONLY", "S_OB_ADV_FREQ",
+	// "S_OB_ADV_TIME_POS", "S_OB_STILL",
+	// "S_OB_ADV_TIME_NEG", "S_OB_PASSIVE_VOICE", "S_OB_NO_NOUN");
+
+	// static List<String> patterns = Arrays.asList("S_OB_NEG_AUX_VERB",
+	// "S_OB_COND_NEG", "S_OB_BUT_NEG",
+	// "S_OB_VERB_ERROR", "S_OB_NEG_VERB", "S_OB_NEG_ADV_ADJ", "S_OB_COND_POS",
+	// "S_OB_OBS_BEHAVIOR", "S_OB_BUT",
+	// "P_OB_OBSERVED_BEHAVIOR_MULTI", "S_OB_ERROR_AS_SUBJECT",
+	// "S_OB_WORKS_FINE", "S_OB_NEG_COND",
+	// "S_OB_INSTEAD_OF", "S_OB_SEEMS", "S_OB_OUTPUT_VERB",
+	// "S_OB_VERB_TO_BE_NEGATIVE", "S_OB_ONLY",
+	// "S_OB_ADV_FREQ", "S_OB_ADV_TIME_POS", "S_OB_STILL", "S_OB_ADV_TIME_NEG",
+	// "S_OB_PASSIVE_VOICE",
+	// "S_OB_NO_NOUN");
+
+	// static List<String> patterns = Arrays.asList("S_EB_SHOULD",
+	// "S_EB_EXP_BEHAVIOR", "P_EB_EXP_BEHAVIOR_MULTI",
+	// "S_EB_INSTEAD_OF_EXP_BEHAVIOR", "S_EB_EXPECTED", "S_EB_WOULD_BE",
+	// "S_EB_NEED_TO", "S_EB_MUST",
+	// "S_EB_WOULD_LIKE");
+
+	// static List<String> patterns = Arrays.asList("S_SR_COND_OBS",
+	// "S_SR_CODE_REF");
+
+	// static List<String> patterns = Arrays.asList("P_SR_LABELED_LIST",
+	// "S_SR_COND_OBS", "S_SR_CODE_REF",
+	// "P_SR_ACTIONS_INF", "P_SR_LABELED_PARAGRAPH",
+	// "P_SR_ACTIONS_MULTI_OBS_BEHAVIOR", "S_SR_IMPERATIVE_SEQUENCE",
+	// "S_SR_SIMPLE_PAST", "S_SR_TRY");
+
+	// static List<String> patterns = Arrays.asList("S_OB_NEG_AUX_VERB",
+	// "S_OB_COND_NEG", "S_OB_BUT_NEG", "S_OB_NEG_VERB");
+
+//	static List<String> patterns = Arrays.asList("S_OB_NEG_AUX_VERB", "S_OB_BUT_NEG", "S_OB_COND_NEG",
+//			"S_OB_VERB_ERROR", "S_OB_NEG_VERB", "S_OB_NEG_ADV_ADJ", "S_OB_COND_POS", "S_OB_OBS_BEHAVIOR", "S_OB_BUT",
+//			"P_OB_OBSERVED_BEHAVIOR_MULTI", "S_OB_WORKS_FINE", "S_OB_INSTEAD_OF", "P_SR_LABELED_LIST", "S_SR_COND_OBS",
+//			"S_SR_CODE_REF", "P_SR_ACTIONS_INF", "P_SR_LABELED_PARAGRAPH", "S_EB_SHOULD", "S_EB_EXP_BEHAVIOR",
+//			"P_EB_EXP_BEHAVIOR_MULTI", "S_EB_INSTEAD_OF_EXP_BEHAVIOR", "S_EB_EXPECTED");
 	
-//	 static List<String> patterns = Arrays.asList("S_OB_NEG_AUX_VERB"
-//	 , "S_OB_BUT_NEG", "S_OB_COND_NEG",
-//	 "S_OB_VERB_ERROR", "S_OB_NEG_VERB", "S_OB_NEG_ADV_ADJ"
-//	 );
-	 
-//	static List<String> patterns = Arrays.asList( "S_OB_COND_POS", "S_OB_OBS_BEHAVIOR", "S_OB_BUT", "P_OB_OBSERVED_BEHAVIOR_MULTI", "S_OB_WORKS_FINE", "S_OB_INSTEAD_OF");
-	 
-//	static List<String> patterns = Arrays.asList( "S_EB_SHOULD");
 	
-	static List<String> patterns = Arrays.asList( "S_EB_SHOULD", "S_EB_EXP_BEHAVIOR", "P_EB_EXP_BEHAVIOR_MULTI", "S_EB_INSTEAD_OF_EXP_BEHAVIOR", "S_EB_EXPECTED", "S_EB_WOULD_BE");
-	
+
 	static String typeOfInfo;
 	static {
 		typeOfInfo = patterns.get(0).substring(1, 5);
@@ -84,7 +153,7 @@ public class PatternFrequencyMain {
 	}
 
 	private static int getNumBugsTypeOfInfo(HashMap<TextInstance, Labels> goldSet) {
-		long num=-1;
+		long num = -1;
 		switch (typeOfInfo) {
 		case "_OB_":
 			num = goldSet.entrySet().stream().filter(e -> !e.getValue().getIsOB().trim().isEmpty()).count();
