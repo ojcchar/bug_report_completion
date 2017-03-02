@@ -24,6 +24,13 @@ public class TextParser {
 
 	public BugReportDescription parseText(String bugDescription) {
 
+		ArrayList<ArrayList<String>> paragraphSplit = splitText(bugDescription);
+
+		return createParsedDescription(paragraphSplit);
+
+	}
+
+	private ArrayList<ArrayList<String>> splitText(String bugDescription) {
 		// parse paragraphs
 		List<String> paragraphs = new ArrayList<>();
 		String[] txtSplit = bugDescription.split("\n\n");
@@ -36,9 +43,7 @@ public class TextParser {
 		}
 
 		ArrayList<ArrayList<String>> paragraphSplit = splitIntoParagraphsAndSentences(paragraphs);
-
-		return createParsedDescription(paragraphSplit);
-
+		return paragraphSplit;
 	}
 
 	private ArrayList<ArrayList<String>> splitIntoParagraphsAndSentences(List<String> paragraphs) {
@@ -165,6 +170,52 @@ public class TextParser {
 
 			for (int j = 1; j <= sentenceSplit.size(); j++) {
 				DescriptionSentence sent = new DescriptionSentence();
+				sent.setId(i + "." + j);
+				sent.setValue(sentenceSplit.get(j - 1));
+				sentences.add(sent);
+			}
+
+			paragraph.setSentences(sentences);
+			paragraphs.add(paragraph);
+
+		}
+
+		if (paragraphs.isEmpty()) {
+			return null;
+		}
+
+		desc.setParagraphs(paragraphs);
+
+		return desc;
+	}
+
+	public seers.bugrepcompl.entity.patterncoding.BugReportDescription parseText2(String description) {
+		ArrayList<ArrayList<String>> paragraphSplit = splitText(description);
+
+		return createParsedCodingDescription(paragraphSplit);
+	}
+
+	private seers.bugrepcompl.entity.patterncoding.BugReportDescription createParsedCodingDescription(
+			ArrayList<ArrayList<String>> paragraphSplit) {
+		seers.bugrepcompl.entity.patterncoding.BugReportDescription desc = new seers.bugrepcompl.entity.patterncoding.BugReportDescription();
+
+		List<seers.bugrepcompl.entity.patterncoding.DescriptionParagraph> paragraphs = new ArrayList<>();
+		for (int i = 1; i <= paragraphSplit.size(); i++) {
+
+			ArrayList<String> sentenceSplit = paragraphSplit.get(i - 1);
+			if (sentenceSplit.isEmpty()) {
+				continue;
+			}
+
+			// -----------------------
+
+			seers.bugrepcompl.entity.patterncoding.DescriptionParagraph paragraph = new seers.bugrepcompl.entity.patterncoding.DescriptionParagraph();
+			paragraph.setId(i + "");
+
+			List<seers.bugrepcompl.entity.patterncoding.DescriptionSentence> sentences = new ArrayList<>();
+
+			for (int j = 1; j <= sentenceSplit.size(); j++) {
+				seers.bugrepcompl.entity.patterncoding.DescriptionSentence sent = new seers.bugrepcompl.entity.patterncoding.DescriptionSentence();
 				sent.setId(i + "." + j);
 				sent.setValue(sentenceSplit.get(j - 1));
 				sentences.add(sent);

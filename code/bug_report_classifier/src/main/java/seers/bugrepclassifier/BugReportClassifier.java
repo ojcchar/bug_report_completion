@@ -10,20 +10,8 @@ import seers.bugreppatterns.pattern.predictor.PredictionOutput;
 public abstract class BugReportClassifier {
 
 	protected List<PatternMatcher> patterns;
-	protected File tempDir;
 
 	public BugReportClassifier(File filePatterns) throws Exception {
-
-		// ---------------------------------
-
-		tempDir = new File("temp_dir");
-		synchronized (tempDir) {
-			if (!tempDir.exists()) {
-				tempDir.mkdirs();
-			}
-		}
-
-		// -------------------------------
 
 		// load patterns
 
