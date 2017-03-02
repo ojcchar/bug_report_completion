@@ -20,6 +20,10 @@ public class ProblemIsPM extends ObservedBehaviorPatternMatcher {
 
 		List<Token> tokens = sentence.getTokens();
 
+		if (tokens.size() < 1) {
+			return 0;
+		}
+
 		int i = 0;
 		Token current = tokens.get(i);
 
@@ -28,8 +32,8 @@ public class ProblemIsPM extends ObservedBehaviorPatternMatcher {
 			current = tokens.get(i);
 		}
 
-		if (SentenceUtils.lemmasContainToken(PROBLEM_TERMS, current)
-				&& current.getGeneralPos().equals("NN") && i < tokens.size() - 1) {
+		if (SentenceUtils.lemmasContainToken(PROBLEM_TERMS, current) && current.getGeneralPos().equals("NN")
+				&& i < tokens.size() - 1) {
 			i++;
 			current = tokens.get(i);
 
@@ -38,9 +42,7 @@ public class ProblemIsPM extends ObservedBehaviorPatternMatcher {
 				current = tokens.get(i);
 			}
 
-			if (current.getLemma().equals("be")
-					&& (current.getPos().equals("VBP")
-							|| current.getPos().equals("VBZ"))) {
+			if (current.getLemma().equals("be") && (current.getPos().equals("VBP") || current.getPos().equals("VBZ"))) {
 				return 1;
 			}
 		}
