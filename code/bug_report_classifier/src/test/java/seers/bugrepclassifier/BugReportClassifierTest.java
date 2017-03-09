@@ -14,6 +14,7 @@ import net.quux00.simplecsv.CsvParser;
 import net.quux00.simplecsv.CsvParserBuilder;
 import net.quux00.simplecsv.CsvReader;
 import seers.appcore.xml.XMLHelper;
+import seers.bugrepclassifier.patternbased.PatternBugReportClassifier;
 import seers.bugrepcompl.entity.BugReport;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugreppatterns.pattern.predictor.PredictionOutput;

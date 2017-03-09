@@ -7,6 +7,7 @@ import java.io.File;
 import org.junit.Test;
 
 import seers.appcore.xml.XMLHelper;
+import seers.bugrepclassifier.parsing.TextParser;
 import seers.bugrepcompl.entity.BugReport;
 import seers.bugrepcompl.entity.regularparse.BugReportDescription;
 
