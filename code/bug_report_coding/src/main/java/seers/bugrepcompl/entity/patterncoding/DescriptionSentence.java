@@ -99,4 +99,10 @@ public class DescriptionSentence {
 		return new seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence(ob, eb, sr, id, value);
 	}
 
+	@Override
+	public String toString() {
+		return "{id=" + id + ", ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", pt=" + patterns
+				+ ", v=" + value + "}";
+	}
+
 }

@@ -119,4 +119,25 @@ public class DescriptionParagraph {
 		return par;
 	}
 
+	@Override
+	public String toString() {
+		return "\tpar{id=" + id + ", ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", pt=" + patterns + ", sts=\n"
+				+ getStrElements() + "\t]";
+	}
+
+	private String getStrElements() {
+		StringBuffer buf = new StringBuffer();
+
+		List<DescriptionSentence> sentences2 = getSentences();
+		if (sentences2 != null) {
+
+			for (DescriptionSentence el : sentences2) {
+				buf.append("\t\t");
+				buf.append(el);
+				buf.append("\t\t\r\n");
+			}
+		}
+		return buf.toString();
+	}
+
 }

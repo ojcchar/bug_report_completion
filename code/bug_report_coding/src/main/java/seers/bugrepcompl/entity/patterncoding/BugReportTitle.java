@@ -86,4 +86,9 @@ public class BugReportTitle {
 		return new seers.bugrepcompl.entity.shortcodingparse.BugReportTitle(ob, eb, sr, value);
 	}
 
+	@Override
+	public String toString() {
+		return "{ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", pt=" + patterns + ", v=" + value + "}";
+	}
+
 }

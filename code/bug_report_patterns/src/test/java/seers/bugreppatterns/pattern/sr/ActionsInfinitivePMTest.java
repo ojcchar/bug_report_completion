@@ -48,7 +48,9 @@ public class ActionsInfinitivePMTest extends BaseTest {
 						+ "[3] Display Nonprinting Characters in order to observe the result.\n"
 						+ "[4] Choose &#x201C;Align right&#x201D;. &#x2192; [5a] or [5b]\n"
 						+ "[5a] Click into the first third of the first line. Only a few tabs beginning in the third third to the end of the line are inserted.\n"
-						+ "[5b] Click into the third third of the first line. A lot of tabs beginning in the first third to the end of the line are inserted."
+						+ "[5b] Click into the third third of the first line. A lot of tabs beginning in the first third to the end of the line are inserted.",
+				"Crash on Nexus 4, ACV 1.4.1.4:\n" + "1. start the app\n" + "2. click menu\n" + "3. choose \"open\"\n"
+						+ "4. go to directories like /mnt\n" + "5. long-press a folder, like \"secure\"\n" + "6. crash"
 
 		};
 		TestUtils.testParagraphs(paragraphs, pm, 1);
@@ -70,16 +72,15 @@ public class ActionsInfinitivePMTest extends BaseTest {
 				"So if you're using suexec out of the box, you're pretty well hosed-up at this. point. I've been studying the suexec.c utility and it seems pretty tight the way. it is. I could hack it up but it seems a shame to have to resort to that. On the. other hand, my opinion is that its become so locked-down (and for good reason). that people DO look for ways around it, or else to modify it, to support this. one very common hosting configuration. Or else look for ways to \\cheat\" using. suid programs and the like to dart in, create a file the user can use-- or some. other trick, which likewise causes a number of security risks. So while its. possible to modify suexec.c to shoe-horn in support for the userdir/public_html. virtual host configuration, it doesn't seem to be the best solution available.\""
 
 		};
-		
+
 		TestUtils.testParagraphs(paragraphs, pm, 0);
-		
+
 		@SuppressWarnings("unused")
 		String[] knownFails = {
-				"1 missing concominant build options. 2 Build OK. 3 httpd.conf LoadModule ...../mod_access.. so directive are missing. 4 Apache won't start because directives Order,Allow,Deny exists in httpd.conf. "		};
-		
+				"1 missing concominant build options. 2 Build OK. 3 httpd.conf LoadModule ...../mod_access.. so directive are missing. 4 Apache won't start because directives Order,Allow,Deny exists in httpd.conf. " };
+
 		@SuppressWarnings("unused")
 		String[] trickyOnes = {
-				"If you ever happen to want to link against installed libraries. in a given directory, LIBDIR, you must either use libtool, and. specify the full pathname of the library, or use the `-LLIBDIR'. flag during linking and do at least one of the following:. - add LIBDIR to the `LD_RUN_PATH' environment variable. during linking. - use the `-Wl,--rpath -Wl,LIBDIR' linker flag. - have your system administrator add LIBDIR to `/etc/ld.. so.conf'. "
-		};
+				"If you ever happen to want to link against installed libraries. in a given directory, LIBDIR, you must either use libtool, and. specify the full pathname of the library, or use the `-LLIBDIR'. flag during linking and do at least one of the following:. - add LIBDIR to the `LD_RUN_PATH' environment variable. during linking. - use the `-Wl,--rpath -Wl,LIBDIR' linker flag. - have your system administrator add LIBDIR to `/etc/ld.. so.conf'. " };
 	}
 }

@@ -91,18 +91,17 @@ public class BugReport {
 
 	@Override
 	public String toString() {
-		return "BR [id=" + id + ", tit=" + title + ", desc=" + description + ", noBug=" + noBug + ", com=" + comments
+		return "BR [id=" + id + ", noBug=" + noBug + ", com=" + comments + ", tit=" + title + ", desc=\r\n" + description
 				+ "]";
 	}
 
 	public seers.bugrepcompl.entity.shortcodingparse.BugReport toShortCodedBug() {
 
-
 		seers.bugrepcompl.entity.shortcodingparse.BugReportTitle title2 = title.toPatternCodingTitle();
 		seers.bugrepcompl.entity.shortcodingparse.BugReportDescription description2 = description
 				.toPatternCodingDescription();
-		seers.bugrepcompl.entity.shortcodingparse.BugReport bug = new seers.bugrepcompl.entity.shortcodingparse.BugReport(id,
-				title2, description2, noBug, comments);
+		seers.bugrepcompl.entity.shortcodingparse.BugReport bug = new seers.bugrepcompl.entity.shortcodingparse.BugReport(
+				id, title2, description2, noBug, comments);
 		return bug;
 	}
 

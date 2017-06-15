@@ -83,7 +83,7 @@ public class TextParser {
 			}
 
 			ArrayList<String> parseSentences = new ArrayList<String>();
-			// if paragraph contains specical patterns, corenlp will process
+			// if paragraph contains special patterns, corenlp will process
 			// line by line.
 			// Otherwise, process the paragraph directly
 			if (flag == true) {
