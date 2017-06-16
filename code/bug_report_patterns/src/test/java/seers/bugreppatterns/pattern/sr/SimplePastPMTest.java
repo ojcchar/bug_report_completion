@@ -31,7 +31,10 @@ public class SimplePastPMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] texts = { "The fix for TRUNK-3934 checks whether the folder ~/." };
+		String[] texts = { 
+//				"The fix for TRUNK-3934 checks whether the folder ~/.",
+				"The problem happens in src/net/robotmedia/acv/ui/SDBrowserActivity.java:111, where you called file.list() and later used the result."
+		};
 
 		TestUtils.testSentences(texts, pm, 0);
 	}

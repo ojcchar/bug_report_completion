@@ -36,6 +36,7 @@ public class ConditionalObservedBehaviorPMTest extends BaseTest {
 				"When I select a file to attach to my current gmail message, Mozilla closes immediately with no warning or message.",
 				"If I copy /index.htm  to /index2.htm (or any other name) the SSI directives are processed, but not if the file is titled index.htm at root. ",
 				"When the patient is attempted to be saved, it gives the following error in OpenMRS 1.4.0.23 RC Build 7055 only (in the versions I have tried)...",
+//				"Right now_ when an application tab is render on a fan page_ we don t get the fb_sig_is_admin parameter"
 				
 		};
 		TestUtils.testSentences(txts, pm, 1);
@@ -168,7 +169,8 @@ public class ConditionalObservedBehaviorPMTest extends BaseTest {
 				"If a user is browsing in secure mode and they hit an app that uses XFBML_ the image is referenced via http instead of https.",
 				"After an HTTPS page  is loaded, if Apache is restared or stoped the following message will appear,  then Apache exits.",
 				"If you need more info or test I can help.",
-				"This occurs only when \"Allow Multiple\" answers is checked in the form schema in an obs group and multiple answers were then entered."
+				"This occurs only when \"Allow Multiple\" answers is checked in the form schema in an obs group and multiple answers were then entered.",
+				"The reason is that, when you don't have permission, File.list() would return null."
 		};
 
 		TestUtils.testSentences(txts, pm, 0);

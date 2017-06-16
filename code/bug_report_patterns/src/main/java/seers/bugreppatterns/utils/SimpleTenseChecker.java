@@ -27,8 +27,10 @@ public class SimpleTenseChecker {
 	public final static Set<String> PAST_UNDETECTED_VERBS = JavaUtils.getSet("set", "put");
 
 	public static final Set<String> DEFAULT_PRONOUN_LEMMAS = JavaUtils.getSet("i", "we");
-	public static final Set<String> DEFAULT_PRONOUN_POS_LEMMA = JavaUtils.getSet("NN-user", "PRP-i", "PRP-we",
-			"PRP-you");
+	public static final Set<String> DEFAULT_PRONOUN_POS_LEMMA = JavaUtils.getSet("NN-user", "PRP-i", "PRP-we"
+			,
+			"PRP-you"
+			);
 	public static final Set<String> DEFAULT_PRONOUN_POS = JavaUtils.getSet("PRP");
 
 	private boolean isCheckerPresent;
@@ -87,6 +89,13 @@ public class SimpleTenseChecker {
 	public static SimpleTenseChecker createPastCheckerOnlyPronouns(Set<String> verbsToAvoid) {
 		SimpleTenseChecker checker = new SimpleTenseChecker(PAST_POS, PAST_UNDETECTED_VERBS, verbsToAvoid,
 				DEFAULT_PRONOUN_POS, DEFAULT_PRONOUN_LEMMAS, DEFAULT_PRONOUN_POS_LEMMA);
+		checker.isCheckerPresent = false;
+		return checker;
+	}
+	
+	public static SimpleTenseChecker createPastCheckerOnlySpecificPronouns(Set<String> verbsToAvoid, Set<String> pronounsPosAllowed) {
+		SimpleTenseChecker checker = new SimpleTenseChecker(PAST_POS, PAST_UNDETECTED_VERBS, verbsToAvoid,
+				JavaUtils.getSet(""), DEFAULT_PRONOUN_LEMMAS, pronounsPosAllowed);
 		checker.isCheckerPresent = false;
 		return checker;
 	}
@@ -261,7 +270,7 @@ public class SimpleTenseChecker {
 					idxs.add(i);
 				}
 			} else {
-				
+
 				// case: "I did execute..."
 				// if the sentence is in past i should check this token for
 				// present tense and the previous token for past tense and the

@@ -33,7 +33,8 @@ public class SimplePresentPM extends ObservedBehaviorPatternMatcher {
 			SimpleTenseChecker checker = SimpleTenseChecker.createPresentCheckerPronounsAndNouns(null);
 			int numClauses = checker.countNumClauses(subSentence);
 
-			if (numClauses > 0 && !isNegative(subSentence)
+			if (numClauses > 0 
+					&& !isNegative(subSentence)
 					&& !SentenceUtils.sentenceContainsAnyLemmaIn(subSentence, FORBIDDEN_TERMS)) {
 				return 1;
 			}

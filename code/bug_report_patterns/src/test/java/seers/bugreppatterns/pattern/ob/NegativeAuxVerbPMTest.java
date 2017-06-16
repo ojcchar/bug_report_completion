@@ -36,7 +36,9 @@ public class NegativeAuxVerbPMTest extends BaseTest {
 	@Test
 	public void testNegatives() throws Exception {
 		String[] negs = { "Very hard to reproduce and not sure what to look for when it happens.",
-				"I changed the MTU to 1500 and not solved." };
+				"I changed the MTU to 1500 and not solved.",
+				"The reason is that, when you don't have permission, File.list() would return null."
+		};
 
 		TestUtils.testSentences(negs, pm, 0);
 	}

@@ -17,7 +17,7 @@ public class AttachRefPM extends ObservedBehaviorPatternMatcher {
 			"file", "sample", "example", "docx", "test", "project");
 
 	public final static PatternMatcher[] NEGATIVE_PMS = { new ErrorNounPhrasePM(), new NegativeAdjOrAdvPM(),
-			new NoNounPM(), new ErrorTermSubjectPM(), new InsteadOfOBPM(), new NegativeVerbPM() };
+			new NoNounPM(), new ErrorTermSubjectPM(), new InsteadOfOBPM(), new NegativeVerbPM(), new NegativeAuxVerbPM() };
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {

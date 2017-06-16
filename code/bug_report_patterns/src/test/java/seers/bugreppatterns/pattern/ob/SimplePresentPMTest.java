@@ -20,11 +20,15 @@ public class SimplePresentPMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = { "created sql is (old parser) :",
+		String[] sentences = { 
+				"created sql is (old parser) :",
 				"Apache caches response to a request with no-store\ncache-control directive.",
 				"Close all editors brings up hierarchy of object",
 				"Extension point reference matches open new editor each time",
-				"Default Button in Initialization Wizard is \"Back\" (again)" };
+				"Default Button in Initialization Wizard is \"Back\" (again)",
+//				"Note how the method passes a null map, so the EMF properties are not passed to the EM.",
+//				"Note how {{EntitytManagerFactoryImpl.createEntityManager()}} passes a null map, so the EMF properties are not passed to the EM."
+		};
 
 		TestUtils.testSentences(sentences, pm, 1);
 	}

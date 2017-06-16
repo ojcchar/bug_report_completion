@@ -5,6 +5,7 @@ import java.util.Set;
 import seers.bugreppatterns.utils.JavaUtils;
 
 public class NegativeTerms {
+
 	final public static Set<String> ADJECTIVES = JavaUtils.getSet("abnormal", "agressive", "ambiguous", "annoying",
 			"bad", "bizarre", "blank", "blocked", "bloken", "broken", "buggy", "challenging", "confusing",
 			"counter-intuitive", "corrupt", "corrupted", "cpu-bound", "dead", "different", "dirty",
@@ -14,7 +15,9 @@ public class NegativeTerms {
 			"funny-looking", "garbled", "gone", "hard", "ignored", "improper", "inaccessible", "inappropriate",
 			"incorrect", "inconsitant", "inconsistent", "incredible", "indefinite", "inefficient", "infinite",
 			"insecure", "invalid", "lost", "meaningless", "messed", "mis-parsed", "misleading", "misplaced", "missing",
-			"mistaken", "negative", "null", "odd", "off", "off-center", "old", "orphaned", "out-of", "out-of-date",
+			"mistaken", "negative", 
+//			"null", 
+			"odd", "off", "off-center", "old", "orphaned", "out-of", "out-of-date",
 			"outdated", "out-dated", "painful", "poor", "random", "reduced", "redundant", "repeated", "reversed",
 			"runaway", "semi", "silly", "slow", "spurious", "squashed", "strange", "stripped", "stuck", "tedious",
 			"terrible", "tiny", "truncated", "twice", "ugly", "unacceptable", "unchecked", "unclickable", "undefined",
@@ -42,9 +45,11 @@ public class NegativeTerms {
 
 	final public static Set<String> NOUNS = JavaUtils.getSet("401", "403", "404", "504", "ambiguity", "ambiguuty",
 			"block", "breakage", "bug", "chaos", "clash", "collision", "conflict", "confusion", "corruption", "crash",
-			"cut", "deadlock", "delay", "disaster", "duplicate", "error", "errore", "exception", "failure", "fault",
+			"cut", "deadlock", "delay", "disaster", "duplicate", "error", "errore", "exception", "fail", "failure", "fault",
 			"frustration", "glitch", "grief", "inability", "ise", "issue", "leak", "leakage", "lock", "loss", "malware",
-			"mismatch", "misplace", "mistake", "nil", "nonsense", "npe", "npes", "null", "omission", "overlap", "pain",
+			"mismatch", "misplace", "mistake", "nil", "nonsense", "npe", "npes", 
+			//"null", 
+			"omission", "overlap", "pain",
 			"peek", "poor", "problem", "race", "rarity", "runaway", "segfault", "segmentation", "spam", "stacktrace",
 			"symptom", "trouble", "truncation", "typo", "unavailability", "unnavigability", "violation",
 			// "wait",

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.utils.JavaUtils;
+import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
@@ -29,7 +30,18 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 			Token previousToken = tokens.get(not - 1);
 			// regular case: "the user is not..."
 			if (isAuxiliaryToken(previousToken)) {
-				return 1;
+
+				if (not - 3 < 0) {
+					return 1;
+				}
+
+				// avoid: when you do not
+				Token prevToken2 = tokens.get(not - 2);
+				Token prevToken3 = tokens.get(not - 3);
+				if (!(SentenceUtils.matchTermsByLemma(CONDITIONAL_TERMS, prevToken3)
+						&& prevToken2.getGeneralPos().equals("PRP") )) {
+					return 1;
+				}
 			}
 			// case: "the user is maybe not..."
 			else if (not - 2 >= 0 && previousToken.getGeneralPos().equals("RB")
@@ -127,7 +139,7 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 	final private static Set<String> POS_LEMMAS = JavaUtils.getSet("MD-can", "VB-do", "VB-be", "MD-would", "VB-have",
 			"MD-will", "MD-could", "MD-may");
 
-	private boolean isAuxiliaryToken(Token auxToken) {
+	public static boolean isAuxiliaryToken(Token auxToken) {
 		String posLemma = auxToken.getGeneralPos() + "-" + auxToken.getLemma().toLowerCase();
 		return POS_LEMMAS.stream().anyMatch(p -> posLemma.equals(p));
 	}
@@ -145,6 +157,7 @@ public class NegativeAuxVerbPM extends ObservedBehaviorPatternMatcher {
 	}
 
 	public static boolean isNot(Token token) {
-		return (token.getPos().equals("RB") && token.getLemma().equalsIgnoreCase("not")) || token.getWord().equals("NOT") || token.getLemma().equalsIgnoreCase("n`t");
+		return (token.getPos().equals("RB") && token.getLemma().equalsIgnoreCase("not"))
+				|| token.getWord().equals("NOT") || token.getLemma().equalsIgnoreCase("n`t");
 	}
 }

@@ -14,7 +14,8 @@ public class ButPMTest extends BaseTest {
 	@Test
 	public void testPositive() throws Exception {
 		String[] sentences = {
-
+				"In this example the `strace` output shows that `\"Entrypoint\": [\"/bin/bash\"-l\"]` was sent to the server, but inspecting the resulting image shows `\"Entrypoint\": null`.",
+				"The program should output 1 but it outputs null instead."
 		};
 		TestUtils.testSentences(sentences, pm, 1);
 	}

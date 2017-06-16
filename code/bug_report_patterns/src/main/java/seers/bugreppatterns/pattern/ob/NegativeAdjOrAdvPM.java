@@ -19,8 +19,14 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> nots = findNots(tokens);
 		for (Integer not : nots) {
 			try {
-				// Token auxToken = tokens.get(not - 1);
 				Token nextToken = tokens.get(not + 1);
+				Token verbToken = tokens.get(not - 1);
+				
+				if (NegativeAuxVerbPM.isAuxiliaryToken(verbToken)
+//						(verbToken.getPos().equals("VBZ") || verbToken.getPos().equals("VBZ") ) && verbToken.getLemma().equals("be")
+						) {
+					continue;
+				}
 
 				if (nextToken.getGeneralPos().equals("RB")) {
 					int index = not + 2;
@@ -47,6 +53,7 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 		List<Integer> tobes = findToBeVerbs(tokens);
 		for (Integer tobe : tobes) {
 			try {
+
 				Token nextToken = tokens.get(tobe + 1);
 
 				if (nextToken.getPos().equals("VBN") || nextToken.getPos().equals("VB")) {

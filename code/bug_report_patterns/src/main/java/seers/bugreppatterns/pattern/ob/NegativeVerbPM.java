@@ -35,18 +35,56 @@ public class NegativeVerbPM extends ObservedBehaviorPatternMatcher {
 							&& SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, token)) {
 
 						if (i - 1 >= 0) {
-							if (!(subClauseTokens.get(i - 1).getLemma().equals("a")
-									|| subClauseTokens.get(i - 1).getLemma().equals("the"))) {
-								return 1;
+							// avoid nouns, e.g.: "a crash"
+							// avoid enumerations, e.g.: "6. crash" or "6 crash"
+							Token prevToken = subClauseTokens.get(i - 1);
+							if (!(prevToken.getLemma().equals("a") || prevToken.getLemma().equals("the"))) {
+
+								// avoid enumerations, e.g.: "6. crash"
+								if (i - 2 >= 0) {
+									Token prevToken2 = subClauseTokens.get(i - 2);
+									if (!(prevToken2.getGeneralPos().equals("CD") && prevToken.getLemma().equals(".")
+											&& i - 2 == 0)) {
+										return 1;
+									}
+								} else {
+									// avoid enumerations, e.g.: "6 crash" or ". crash"
+									if (!((prevToken.getLemma().equals(".") || prevToken.getGeneralPos().equals("CD"))
+											&& i - 1 == 0)) {
+										return 1;
+									}
+								}
+
+								// if (!prevToken.getLemma().equals(".") && i -
+								// 2 >= 0) {
+								// return 1;
+								// } else {
+								//
+								// // avoid enumerations, e.g.: "6. crash"
+								// if (i - 2 >= 0) {
+								// Token prevToken2 = subClauseTokens.get(i -
+								// 2);
+								// if (!prevToken2.getGeneralPos().equals("CD"))
+								// {
+								// return 1;
+								// }
+								// } else {
+								// return 1;
+								// }
+								// }
 							}
 						} else {
 
-							// no conditional clause
-							// avoid cases: "if you delete"
-							// if (!SentenceUtils.containsTermsPriorToIndex(i,
-							// subClauseTokens, JavaUtils.getSet("if"))) {
-							return 1;
-							// }
+							if (!token.getGeneralPos().equals("NN")) {
+
+								// no conditional clause
+								// avoid cases: "if you delete"
+								// if
+								// (!SentenceUtils.containsTermsPriorToIndex(i,
+								// subClauseTokens, JavaUtils.getSet("if"))) {
+								return 1;
+								// }
+							}
 						}
 					}
 				}

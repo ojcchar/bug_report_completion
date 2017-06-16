@@ -63,7 +63,11 @@ public class MainHRClassifier {
 		// -----------------------------
 
 		for (String patternNameClassIndex : allPatterns) {
-
+			
+			if (patternNameClassIndex.trim().isEmpty()) {
+				continue;
+			}
+			
 			String[] split = patternNameClassIndex.split(" ");
 
 			String patternNameClass = split[0];

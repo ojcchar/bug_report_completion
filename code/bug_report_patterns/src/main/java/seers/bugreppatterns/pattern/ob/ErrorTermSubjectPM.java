@@ -66,6 +66,7 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 			Token token = tokens.get(i);
 
 			if (token.getGeneralPos().equals("VB")) {
+				int verbIdx = i;
 				boolean add = true;
 				// disregard verb if it starts the sentence
 				if (i == 0) {
@@ -83,14 +84,17 @@ public class ErrorTermSubjectPM extends ObservedBehaviorPatternMatcher {
 				// disregard verbs that come after preposition or determiner
 				if (i - 1 >= 0) {
 					Token prevToken = tokens.get(i - 1);
-					if (SentenceUtils.lemmasContainToken(ProblemInPM.PREP_TERMS, prevToken)
+
+					if (prevToken.getLemma().equals("to")) {
+						verbIdx = i-1;
+					} else if ((SentenceUtils.lemmasContainToken(ProblemInPM.PREP_TERMS, prevToken))
 							|| prevToken.getGeneralPos().equals("DT")) {
 						add = false;
 					}
 
 				}
 				if (add) {
-					verbs.add(i);
+					verbs.add(verbIdx);
 				}
 			}
 		}

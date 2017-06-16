@@ -21,7 +21,10 @@ public class NegativeVerbPMTest extends BaseTest {
 				"2.0M3 If a Node Mapping has two Feature Label Mappings, only the first is processed to resolve its View Pattern, the second retains its default text.",
 				"When I use Shift+Tab to decrease indentation level of selected C source lines, these selected C source lines are scrolled up or down (depends on its position on screen), why?",
 				"If the directory gets closed and opened again the right contents will show up.",
-				"Indeed, when I run `docker inspect xxx_default` I got:" 
+				"Indeed, when I run `docker inspect xxx_default` I got:" ,
+				"crash", 
+				"6. crash",
+				 "6 crash"
 				};
 
 		TestUtils.testSentences(negs, pm, 0);

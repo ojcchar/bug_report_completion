@@ -308,8 +308,12 @@ public class ConditionalObservedBehaviorPM extends StepsToReproducePatternMatche
 		} else
 		// case: When I do a session.save( parent )...
 		if ((nextToken2.getPos().equals("VBP") || nextToken2.getPos().equals("VBZ") || nextToken2.getPos().equals("VB"))
-				&& nextToken2.getLemma().equals("do") && (condTerm + 1 < clauseTokens.size())
-				&& !clauseTokens.get(condTerm + 1).getGeneralPos().equals("VB")) {
+				&& nextToken2.getLemma().equals("do") 
+				//
+				&& (condTerm + 1 < clauseTokens.size()) && !clauseTokens.get(condTerm + 1).getGeneralPos().equals("VB") 
+				// avoid: when I do not ... 
+				&& (condTerm + 3 < clauseTokens.size()) && !clauseTokens.get(condTerm + 3).getLemma().equals("not")
+				) {
 			return true;
 		}
 		return false;
