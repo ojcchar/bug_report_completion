@@ -240,7 +240,20 @@ public class SentenceUtils {
 	 * @return true if the token matches any of the lemmas, false otherwise
 	 */
 	public static boolean lemmasContainToken(Set<String> lemmas, Token token) {
-		return lemmas.stream().anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
+		return stringContainToken(lemmas, token.getLemma());
+	}
+
+	/**
+	 * Checks whether the string matches any of the strings in lemmas
+	 *
+	 * @param lemmas
+	 *            set of lemmas to compare against with
+	 * @param str
+	 *            the string to match
+	 * @return true if the string matches any of the lemmas, false otherwise
+	 */
+	public static boolean stringContainToken(Set<String> lemmas, String str) {
+		return lemmas.stream().anyMatch(t -> str.equalsIgnoreCase(t));
 	}
 
 	/**
