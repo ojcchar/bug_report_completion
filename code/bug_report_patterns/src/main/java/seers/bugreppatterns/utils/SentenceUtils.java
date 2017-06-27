@@ -253,6 +253,9 @@ public class SentenceUtils {
 	 * @return true if the string matches any of the lemmas, false otherwise
 	 */
 	public static boolean stringContainToken(Set<String> lemmas, String str) {
+		if (str == null) {
+			return false;
+		}
 		return lemmas.stream().anyMatch(t -> str.equalsIgnoreCase(t));
 	}
 

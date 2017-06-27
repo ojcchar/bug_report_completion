@@ -9,7 +9,7 @@ import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
 
-public class GerundSubjectPM extends ObservedBehaviorPatternMatcher {
+public class ActionSubjectPM extends ObservedBehaviorPatternMatcher {
 
 	final private static Set<String> VERBS_AS_NOUNS = JavaUtils.getSet("copy", "drag", "insert");
 

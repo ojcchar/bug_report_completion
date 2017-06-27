@@ -27,7 +27,8 @@ public class PassiveVoicePMTest extends BaseTest {
 				"All possible interfaces are proxied, both correct interfaces and incorrect interfaces.",
 				"The class name BBB is highlighted in editor correctly.",
 				"Docker option SELinux are both enabled.", "Docker option SELinux are (both) enabled",
-				"The reason is found out to be this:" 
+				"The reason is found out to be this:" ,
+				"Start date was set as current date and end range is mapped to immediate next date."
 				
 		};
 

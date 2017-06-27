@@ -17,7 +17,7 @@ import seers.bugreppatterns.pattern.eb.WouldLikePMTest;
 		DescriptionPMTest.class, DespitePMTest.class, DueToNegativePMTest.class, EndUpPMTest.class,
 		ErrorCondPMTest.class, ErrorHowPMTest.class, ErrorNounPhrasePMTest.class, ErrorTermsParagraphPMTest.class,
 		ErrorTermSubjectPMTest.class, ExceptPMTest.class, ForTimePMTest.class, FoundPMTest.class,
-		FrequencyAdverbPMTest.class, GerundSubjectPMTest.class, HappensPMTest.class, ImpossibleToPMTest.class,
+		FrequencyAdverbPMTest.class, ActionSubjectPMTest.class, HappensPMTest.class, ImpossibleToPMTest.class,
 		InsteadOfOBPMTest.class, KeepVerbPMTest.class, LeadsToNegativePmTest.class, LeadsToPMTest.class,
 		LeavesGerundPMTest.class, LogContainsPMTest.class, MakeImpossiblePMTest.class, NegativeAdjOrAdvPMTest.class,
 		NegativeAfterPMTest.class, NegativeAuxVerbPMTest.class, NegativeConditionalPMTest.class,
