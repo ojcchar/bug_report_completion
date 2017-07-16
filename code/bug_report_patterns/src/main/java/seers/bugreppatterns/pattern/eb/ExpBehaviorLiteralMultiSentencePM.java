@@ -28,12 +28,20 @@ public class ExpBehaviorLiteralMultiSentencePM extends ExpectedBehaviorPatternMa
 			if (!sentences.get(1).getTokens().isEmpty()) {
 
 				// ?s: '.' matches any character, including a line terminator
-				boolean b = text.matches("(?s)(\\W+ )?expect(ed)? ((result|behavio(u)?r) )?(:|-+)?.*");
+				boolean b = text.matches("(?s)(\\W+ )?expect(ed)? ((result|behavio(u)?r) ?)?(:|-+|\\W+)?$");
 				if (b) {
 					return 1;
 				} else {
-					b = text.matches("(?s)(\\W+ )?describe the result you expect(:|-+)?.*");
+					b = text.matches("(?s)(\\W+ )?describe the result you expect( (:|-+|\\W+))?$");
 					if (b) {
+						return 1;
+					}
+					
+					if (text.matches("^expect( log)? message$")) {
+						return 1;
+					}
+					
+					if (text.matches("^expect , in both case : .+")) {
 						return 1;
 					}
 				}

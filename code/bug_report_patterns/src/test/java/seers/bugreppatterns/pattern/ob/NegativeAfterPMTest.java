@@ -36,7 +36,7 @@ public class NegativeAfterPMTest extends BaseTest {
 				"Marquee Won't go away after I leave site!", "add bookmark dialog doesn't close after bookmark added",
 				"The add bookmark dialog doesn't close after the OK button is pressed.",
 				"Firefox forgets which sites are allowed to create popups after extended use. complete restart temporarily fixes problem",
-				"NPE after tapping new post", "Runaway processes after ssl proxy use", };
+				"NPE after tapping new post", "Runaway processes after ssl proxy use", "The new build crashes after searching anything" };
 
 		TestUtils.testSentences(negs, pm, 1);
 	}

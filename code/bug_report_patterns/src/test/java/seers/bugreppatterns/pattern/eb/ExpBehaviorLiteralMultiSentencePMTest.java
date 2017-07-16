@@ -12,6 +12,14 @@ public class ExpBehaviorLiteralMultiSentencePMTest extends BaseTest {
 	}
 
 	@Test
+	public void testNegatives() throws Exception {
+
+		String[] txts = {
+				"Expected: Both start and end range should be set as current date \nActual: Start date was set as current date and end range is mapped to immediate next date. And also Date time picker is shown for third time with current date set as default option." };
+		TestUtils.testParagraphs(txts, pm, 0);
+	}
+
+	@Test
 	public void testPositives() throws Exception {
 
 		String[] txts = {

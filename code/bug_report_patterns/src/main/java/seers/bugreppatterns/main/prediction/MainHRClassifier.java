@@ -2,6 +2,7 @@ package seers.bugreppatterns.main.prediction;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,7 @@ public class MainHRClassifier {
 	public static List<PatternMatcher> loadPatterns(File filePatterns)
 			throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
-		List<String> allPatterns = FileUtils.readLines(filePatterns);
+		List<String> allPatterns = FileUtils.readLines(filePatterns, Charset.defaultCharset());
 
 		List<PatternMatcher> patterns = new ArrayList<>();
 
