@@ -38,7 +38,7 @@ public class ErrorNounPhrasePMTest extends BaseTest {
 				"QuerySyntaxException \"with-clause expressions did not reference from-clause element to which the with-clause was associated\"",
 				"Hibernate 3.3.1.GA + Javassist issue 3.9.0.GA : java.lang.RuntimeException: by java.lang.NoClassDefFoundError: org/hibernate/proxy/HibernateProxy (OSGI Server)",
 				"SqlGrammarException", 
-				"a truncated file name", "fail", "6 crash", "6. crash",
+				"a truncated file name", "fail", "6 crash", "6. crash", "force close"
 //				"Crash on Nexus 4, ACV 1.4.1.4"
 				};
 

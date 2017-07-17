@@ -17,7 +17,7 @@ public class ErrorTermSubjectPMTest extends BaseTest {
 				"Full stack trace of any exception that occurs:",
 				"Unavailability of a method which tells if a user has given an extended permission to an application",
 				"the issues are",
-				"Fail to launch Help System from CD"
+				"Fail to launch Help System from CD",
 				};
 
 		TestUtils.testSentences(sentences, pm, 1);

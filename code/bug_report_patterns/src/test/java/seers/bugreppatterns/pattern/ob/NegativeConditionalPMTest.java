@@ -25,7 +25,9 @@ public class NegativeConditionalPMTest extends BaseTest {
 		String[] sentences = {
 				"The existing util_ldap.c considers it an error in util_ldap_cache_checkuserid if it searches for a user and gets back more than one entry.",
 				"Container random port change when added to another network",
-				"The temporary table code use to add the same Column(s) objects to the temporary Table leading to potential aliases clashes if the exact same column insertion sequence were not followed." };
+				"The temporary table code use to add the same Column(s) objects to the temporary Table leading to potential aliases clashes if the exact same column insertion sequence were not followed.",
+				"crash when enter word with apostrophe",
+				"force close when enter word with apostrophe"};
 		TestUtils.testSentences(sentences, pm, 1);
 	}
 }

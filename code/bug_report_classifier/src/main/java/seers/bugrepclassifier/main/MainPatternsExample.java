@@ -14,7 +14,7 @@ public class MainPatternsExample {
 		BugReportClassifier classifier = new PatternBugReportClassifier(filePatterns);
 
 		String[] bugDescriptions = { "This is not working", "This should be like this",
-				"when I run this command, there is a crash" };
+				"when I run this command, there is a crash", "Force Close when enter word with apostrophe" };
 
 		for (String bugDescription : bugDescriptions) {
 			PredictionOutput output = classifier.detectInformation("dummyId", bugDescription);
