@@ -3,6 +3,9 @@ package seers.bugreppatterns.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.ob.ButNegativePM;
@@ -120,6 +123,80 @@ public class SentenceUtils {
 	public static final Set<String> CLAUSE_SEPARATORS = JavaUtils.getSet(";", ",", "-", "_", "--", ":");
 	public static final Set<String> POS_SEPARATORS = JavaUtils.getSet("CC");
 	public static final Set<String> TERM_SEPARATORS = JavaUtils.getSet("and", "or", "but");
+
+	/**
+	 * Extract clauses or subsentences in the provided sentence, based on
+	 * 2-tokens clause separators
+	 * 
+	 * @param sentence
+	 * @param clauseSeparators
+	 *            a set of inmutable pair of strings
+	 * @return
+	 */
+	public static List<Sentence> extractClausesByPairsClauseSeparators(Sentence sentence,
+			Set<ImmutablePair<String, String>> clauseSeparators) {
+		List<Token> tokens = sentence.getTokens();
+
+		List<Sentence> clauses = new ArrayList<>();
+		List<Token> clauseTokens = new ArrayList<>();
+
+		for (int i = 0; i < tokens.size();) {
+
+			Token token = tokens.get(i);
+			Token nextToken = null;
+			if (i + 1 < tokens.size()) {
+				nextToken = tokens.get(i + 1);
+			}
+
+			if (matchTermsByLemma(clauseSeparators, token, nextToken)) {
+
+				if (!clauseTokens.isEmpty()) {
+
+					String text = clauseTokens.stream().map(Token::getWord).collect(Collectors.joining(" "));
+					List<Sentence> subSentences = TextProcessor.processTextFullPipeline(text, false);
+
+					clauses.addAll(subSentences);
+					clauseTokens = new ArrayList<>();
+				}
+
+				i += 2;
+
+			} else {
+				clauseTokens.add(token);
+				i++;
+			}
+
+		}
+
+		if (!clauseTokens.isEmpty()) {
+
+			String text = clauseTokens.stream().map(Token::getWord).collect(Collectors.joining(" "));
+			List<Sentence> subSentences = TextProcessor.processTextFullPipeline(text, false);
+
+			clauses.addAll(subSentences);
+		}
+
+		return clauses;
+	}
+
+	/**
+	 * Matches any of the given term pairs with the token and nextToken's lemma
+	 * (case ignored)
+	 * 
+	 * @param clauseSeparators
+	 * @param token
+	 * @param nextToken
+	 * @return
+	 */
+	private static boolean matchTermsByLemma(Set<ImmutablePair<String, String>> clauseSeparators, Token token,
+			Token nextToken) {
+
+		if (token == null || nextToken == null) {
+			return false;
+		}
+		return clauseSeparators.stream().anyMatch(p -> token.getLemma().equalsIgnoreCase(p.getKey())
+				&& nextToken.getLemma().equalsIgnoreCase(p.getValue()));
+	}
 
 	/**
 	 * Extract clauses or subsentences in the provided sentence, based on
@@ -347,8 +424,9 @@ public class SentenceUtils {
 
 	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("boomark", "build", "cache", "change", "check",
 			"clic", "click", "copy", "drag", "enter", "file", "fill", "goto", "import", "input", "insert", "install",
-			"load", "paste", "post", "press", "release", "rename", "return", "right-click", "run", "scale", "scroll",
-			"select", "show", "start", "stop", "surf", "try", "type", "typing", "use", "visit", "yield");
+			"load", "long-press", "paste", "post", "press", "release", "rename", "return", "right-click", "run",
+			"scale", "scroll", "select", "show", "start", "stop", "surf", "tap", "try", "type", "typing", "use",
+			"visit", "yield");
 
 	public final static Set<String> AMBIGUOUS_POS_VERBS = JavaUtils.getSet("put", "set", "cut", "quit", "shut");
 
