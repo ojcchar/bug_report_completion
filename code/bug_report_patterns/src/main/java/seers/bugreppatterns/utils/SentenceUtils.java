@@ -133,7 +133,85 @@ public class SentenceUtils {
 	 *            a set of inmutable pair of strings
 	 * @return
 	 */
-	public static List<Sentence> extractClausesByPairsClauseSeparators(Sentence sentence,
+	public static List<Sentence> extractClausesBySeparators(Sentence sentence, Set<String> separators) {
+
+		List<Sentence> sentences = new ArrayList<>();
+
+		List<List<Token>> clausesToks = null;
+		for (String separator : separators) {
+			clausesToks = getElementsBySeparator(sentence.getTokens(), separator);
+			if (clausesToks.size() != 1) {
+				break;
+			}
+		}
+
+		// ----------------------
+
+		for (List<Token> clauseTokens : clausesToks) {
+
+			String text = clauseTokens.stream().map(Token::getWord).collect(Collectors.joining(" "));
+			List<Sentence> subSentences = TextProcessor.processTextFullPipeline(text, false);
+
+			sentences.addAll(subSentences);
+		}
+
+		return sentences;
+	}
+
+	public static List<List<Token>> getElementsBySeparator(List<Token> tokens, String separator) {
+
+		List<List<Token>> clauses = new ArrayList<>();
+		List<Token> clause = new ArrayList<>();
+		for (int i = 0; i < tokens.size();) {
+			Token token = tokens.get(i);
+
+			String lemma = getLemmas(tokens, i, separator.length());
+			if (lemma.equals(separator)) {
+				if (!clause.isEmpty()) {
+					clauses.add(clause);
+				}
+
+				clause = new ArrayList<>();
+				i += separator.length();
+			} else {
+				clause.add(token);
+				i++;
+			}
+		}
+		if (!clause.isEmpty()) {
+			clauses.add(clause);
+		}
+
+		return clauses;
+	}
+
+	private static String getLemmas(List<Token> tokens, int i, int length) {
+
+		int toIndex = i + length;
+		List<Token> subList;
+		if (toIndex < tokens.size()) {
+			subList = tokens.subList(i, toIndex);
+		} else {
+			subList = tokens.subList(i, tokens.size());
+		}
+
+		StringBuffer buf = new StringBuffer();
+		for (Token token : subList) {
+			buf.append(token.getLemma());
+		}
+		return buf.toString();
+	}
+
+	/**
+	 * Extract clauses or subsentences in the provided sentence, based on
+	 * 2-tokens clause separators
+	 * 
+	 * @param sentence
+	 * @param clauseSeparators
+	 *            a set of inmutable pair of strings
+	 * @return
+	 */
+	public static List<Sentence> extractClausesBySeparatorPairs(Sentence sentence,
 			Set<ImmutablePair<String, String>> clauseSeparators) {
 		List<Token> tokens = sentence.getTokens();
 
@@ -229,9 +307,12 @@ public class SentenceUtils {
 					allowSplit = false;
 
 					// avoid splits when there are html codes: &#x633;
-				} else if (token.getLemma().equals("&") && checkHtmlCode(tokens, i)) {
-					allowSplit = false;
-					numNextTokens = 4;
+				} else if (token.getLemma().equals("&") ) {
+					int numToks = checkHtmlCode(tokens, i);
+					if (numToks!=-1) {
+						allowSplit = false;
+						numNextTokens = numToks;
+					}
 				}
 
 				// -----------------------------
@@ -276,13 +357,28 @@ public class SentenceUtils {
 		return extractClauses(sentence, CLAUSE_SEPARATORS);
 	}
 
-	private static boolean checkHtmlCode(List<Token> tokens, int ampersandIdx) {
+	private static int checkHtmlCode(List<Token> tokens, int ampersandIdx) {
+
+		int numTextTokens = checkXTokensForHtmlCode(tokens, ampersandIdx, 3);
+		if (numTextTokens == -1) {
+			numTextTokens = checkXTokensForHtmlCode(tokens, ampersandIdx, 4);
+		}
+
+		return numTextTokens;
+	}
+
+	private static int checkXTokensForHtmlCode(List<Token> tokens, int ampersandIdx, int numToks) {
 		int toIdx = tokens.size();
-		if (ampersandIdx + 4 < tokens.size()) {
-			toIdx = ampersandIdx + 4;
+		if (ampersandIdx + numToks < tokens.size()) {
+			toIdx = ampersandIdx + numToks;
 		}
 		String text = TextProcessor.getStringFromLemmas(new Sentence("0", tokens.subList(ampersandIdx, toIdx)));
-		return text.matches("\\& # \\d+ ;") || text.matches("\\& #[xX] [0-9a-fA-F]+ ;");
+		boolean match = text.matches("\\& # \\d+ ;") || text.matches("\\& #[xX] [0-9a-fA-F]+ ;")
+				|| text.matches("\\& #[xX][0-9a-fA-F]+ ;");
+		if (match) {
+			return numToks;
+		}
+		return -1;
 	}
 
 	/**
@@ -305,6 +401,17 @@ public class SentenceUtils {
 	 */
 	public static boolean matchTermsByLemma(Set<String> terms, Token token) {
 		return terms.stream().anyMatch(t -> token.getLemma().equalsIgnoreCase(t));
+	}
+
+	/**
+	 * Matches any of the given terms with the lemma (case ignored)
+	 *
+	 * @param terms
+	 * @param lemma
+	 * @return true if there is any match, false otherwise
+	 */
+	public static boolean matchTermsByLemma(Set<String> terms, String lemma) {
+		return terms.stream().anyMatch(t -> t.equalsIgnoreCase(lemma));
 	}
 
 	/**
@@ -425,7 +532,7 @@ public class SentenceUtils {
 	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("boomark", "build", "cache", "change", "check",
 			"clic", "click", "copy", "drag", "enter", "file", "fill", "goto", "import", "input", "insert", "install",
 			"load", "long-press", "paste", "post", "press", "release", "rename", "return", "right-click", "run",
-			"scale", "scroll", "select", "show", "start", "stop", "surf", "tap", "try", "type", "typing", "use",
+			"scale", "scroll", "select", "show", "start", "stop", "surf", "tap", "try", "type", "use", "view",
 			"visit", "yield");
 
 	public final static Set<String> AMBIGUOUS_POS_VERBS = JavaUtils.getSet("put", "set", "cut", "quit", "shut");
@@ -542,6 +649,7 @@ public class SentenceUtils {
 			if (secondToken != null) {
 				if ((firstToken.getPos().equals("RB") || firstToken.getPos().equals("JJ"))
 						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP")
+								|| (secondToken.getPos().equals("NN") && SentenceUtils.wordsContainToken(UNDETECTED_VERBS, secondToken))
 								|| SentenceUtils.lemmasContainToken(AMBIGUOUS_POS_VERBS, secondToken))
 						&& tokensNoSpecialChar.size() > 2) {
 					return true;

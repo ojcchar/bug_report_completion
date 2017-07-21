@@ -12,7 +12,9 @@ public class ComparativeAdjectivePMTest extends BaseTest {
 
 	@Test
 	public void testNegative() throws Exception {
-		String[] negs = {};
+		String[] negs = { " Long tap on note > send note > crash"
+
+		};
 
 		TestUtils.testSentences(negs, pm, 0);
 	}

@@ -117,7 +117,8 @@ public class AfterPositivePM extends ObservedBehaviorPatternMatcher {
 			Token token = tokens.get(i);
 			boolean add = true;
 			if (token.getGeneralPos().equals("VB")
-					|| SentenceUtils.matchTermsByLemma(SentenceUtils.UNDETECTED_VERBS, token)) {
+					|| SentenceUtils.matchTermsByLemma(SentenceUtils.UNDETECTED_VERBS, token)
+					|| token.getLemma().equalsIgnoreCase("typing")) {
 				// if (i == 0) {
 				// add = false;
 				// } else

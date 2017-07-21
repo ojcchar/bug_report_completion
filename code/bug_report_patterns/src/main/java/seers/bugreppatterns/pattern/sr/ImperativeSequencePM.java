@@ -12,6 +12,7 @@ import seers.textanalyzer.entity.Token;
  * Matcher for S_SR_IMPERATIVE_SEQUENCE.
  */
 public class ImperativeSequencePM extends StepsToReproducePatternMatcher {
+	
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
 
@@ -25,7 +26,7 @@ public class ImperativeSequencePM extends StepsToReproducePatternMatcher {
 			return 0;
 		}
 
-		List<Sentence> clauses = SentenceUtils.extractClauses(sentence);
+		List<Sentence> clauses = SentenceUtils.extractClauses(sentence, SentenceUtils.CLAUSE_SEPARATORS);
 
 		// Needed to recognize the case in which there are no imperatives at all
 		int imperativeSentences = 0;

@@ -35,7 +35,8 @@ public class ImperativeSequencePMTest extends BaseTest {
 				"Am not sure if the Problem is on the PHP or the Apache side....",
 				"Installed Apache on WIN2K ADVANCED SERVER with SP3.",
 				"This appeared when I log in Facebook on Mozilla Firefox:  Cookies are not enabled on your browser. Please adjust this in your security preferences before continuing. I ve check the Internet Options_ activate all cookies_ clear cache and cookies... but it didn t help. ",
-				"My app was approved a few days ago and is in the directory but search for it returns no results. Searching by name Pixeloki or be any words in the apps description does not work. "
+				"My app was approved a few days ago and is in the directory but search for it returns no results. Searching by name Pixeloki or be any words in the apps description does not work. ",
+				//"Long tap on note > send note > crash" //this an ActionSeparator expression
 //				"See what \\nhappens:"
 
 		};

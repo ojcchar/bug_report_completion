@@ -16,15 +16,15 @@ public class ActionsMultiPMTest extends BaseTest {
 
 		String[] txts = {
 		
-//				"Paste &#x633;&#x62A;&#x200C;&#x62A;&#x631; string from Notepad into Writer. Immediate crash.",
-//				"Add an item to the library outline.\n" + "Choose the edit menu.\n"
-//						+ "Actual: Undo is not available. Ctrl-Z does not undo the action.",
-//				"Go to http://www.footlocker.com/product/model:148756/sku:14674001/?supercat=home/?cm=HOME\n"
-//						+ "Click FB Share button\n" + "Post comment and share\n"
-//						+ "Result: In IE8_ after posting a comment the window doesn t automatically close as indicated.",
-//				"Resize the firefox window so it is very thin. The location widget shrinks correctly until it gets smaller than the URL icon.",
-//				"touch foo\n" + "touch goo\n" + "[visit /yoo?hoo=%3f in a browser]\n"
-//						+ "[note the broken links to \"foo%3fhoo=%253f\" and \"goo%3fhoo=%253f\"]",
+				"Paste &#x633;&#x62A;&#x200C;&#x62A;&#x631; string from Notepad into Writer. Immediate crash.",
+				"Add an item to the library outline.\n" + "Choose the edit menu.\n"
+						+ "Actual: Undo is not available. Ctrl-Z does not undo the action.",
+				"Go to http://www.footlocker.com/product/model:148756/sku:14674001/?supercat=home/?cm=HOME\n"
+						+ "Click FB Share button\n" + "Post comment and share\n"
+						+ "Result: In IE8_ after posting a comment the window doesn t automatically close as indicated.",
+				"Resize the firefox window so it is very thin. The location widget shrinks correctly until it gets smaller than the URL icon.",
+				"touch foo\n" + "touch goo\n" + "[visit /yoo?hoo=%3f in a browser]\n"
+						+ "[note the broken links to \"foo%3fhoo=%253f\" and \"goo%3fhoo=%253f\"]",
 						"The report works fine from the preview and from the HTML view. Select to run the report from the Web Viewer and then select the print report icon. In the dialog that comes up, select the PDF print format option and select OK. This results in the ArrayIndexOutOfBoundsException. Attaching a sample report to illustrate the problem. This report design works fine in BIRT 2.1.2 and does not work in 2.3 or 2.3.1."
 						
 		};

@@ -27,7 +27,8 @@ public class ComparativeAdjectivePM extends ObservedBehaviorPatternMatcher {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token current = tokens.get(i);
 
-			if (current.getPos().equals("JJR") || current.getPos().equals("RBR")) {
+			if ((current.getPos().equals("JJR") || current.getPos().equals("RBR"))
+					&& !(current.getLemma().equals(">") || current.getLemma().equals("<"))) {
 				comparatives.add(i);
 			}
 
