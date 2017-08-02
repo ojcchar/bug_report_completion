@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import seers.appcore.utils.ExceptionUtils;
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
+import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.ob.ButNegativePM;
 import seers.bugreppatterns.pattern.ob.ConditionalNegativePM;
 import seers.bugreppatterns.pattern.ob.NegativeAdjOrAdvPM;
@@ -307,9 +309,9 @@ public class SentenceUtils {
 					allowSplit = false;
 
 					// avoid splits when there are html codes: &#x633;
-				} else if (token.getLemma().equals("&") ) {
+				} else if (token.getLemma().equals("&")) {
 					int numToks = checkHtmlCode(tokens, i);
-					if (numToks!=-1) {
+					if (numToks != -1) {
 						allowSplit = false;
 						numNextTokens = numToks;
 					}
@@ -532,8 +534,8 @@ public class SentenceUtils {
 	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("boomark", "build", "cache", "change", "check",
 			"clic", "click", "copy", "drag", "enter", "file", "fill", "goto", "import", "input", "insert", "install",
 			"load", "long-press", "paste", "post", "press", "release", "rename", "return", "right-click", "run",
-			"scale", "scroll", "select", "show", "start", "stop", "surf", "tap", "try", "type", "use", "view",
-			"visit", "yield");
+			"scale", "scroll", "select", "show", "start", "stop", "surf", "tap", "try", "type", "use", "view", "visit",
+			"yield");
 
 	public final static Set<String> AMBIGUOUS_POS_VERBS = JavaUtils.getSet("put", "set", "cut", "quit", "shut");
 
@@ -649,7 +651,8 @@ public class SentenceUtils {
 			if (secondToken != null) {
 				if ((firstToken.getPos().equals("RB") || firstToken.getPos().equals("JJ"))
 						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP")
-								|| (secondToken.getPos().equals("NN") && SentenceUtils.wordsContainToken(UNDETECTED_VERBS, secondToken))
+								|| (secondToken.getPos().equals("NN")
+										&& SentenceUtils.wordsContainToken(UNDETECTED_VERBS, secondToken))
 								|| SentenceUtils.lemmasContainToken(AMBIGUOUS_POS_VERBS, secondToken))
 						&& tokensNoSpecialChar.size() > 2) {
 					return true;
@@ -834,6 +837,16 @@ public class SentenceUtils {
 	 */
 	public static boolean isImperativeSentence(Sentence sentence, boolean enableVerbTaggedAsNouns) {
 		return isImperativeSentence(sentence.getTokens(), enableVerbTaggedAsNouns);
+	}
+
+	public static boolean matchPatterns(Sentence sentence, Set<? extends PatternMatcher> patterns) {
+		return patterns.stream().anyMatch(p -> {
+			try {
+				return p.matchSentence(sentence) != 0;
+			} catch (Exception e) {
+				throw ExceptionUtils.getRuntimeException(e);
+			}
+		});
 	}
 
 }

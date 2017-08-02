@@ -9,8 +9,9 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class JavaUtils {
 
-	public static Set<String> getSet(String... terms) {
-		return new LinkedHashSet<String>(Arrays.asList(terms));
+	@SafeVarargs
+	public static <T> Set<T> getSet(T... elements) {
+		return new LinkedHashSet<T>(Arrays.asList(elements));
 	}
 
 	public static HashSet<ImmutablePair<String, String>> getPairSet(String... terms) {
