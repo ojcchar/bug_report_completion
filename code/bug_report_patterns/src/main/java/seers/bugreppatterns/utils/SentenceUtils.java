@@ -839,7 +839,7 @@ public class SentenceUtils {
 		return isImperativeSentence(sentence.getTokens(), enableVerbTaggedAsNouns);
 	}
 
-	public static boolean matchPatterns(Sentence sentence, Set<? extends PatternMatcher> patterns) {
+	public static boolean matchAnyPattern(Sentence sentence, Set<? extends PatternMatcher> patterns) {
 		return patterns.stream().anyMatch(p -> {
 			try {
 				return p.matchSentence(sentence) != 0;

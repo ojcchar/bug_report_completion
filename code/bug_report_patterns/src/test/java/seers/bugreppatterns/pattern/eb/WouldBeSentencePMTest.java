@@ -14,7 +14,8 @@ public class WouldBeSentencePMTest extends BaseTest {
 	@Test
 	public void testPositives() throws Exception {
 
-		String[] txts = { "The error message would be more helpful if it said:" };
+		String[] txts = { "The error message would be more helpful if it said:", 
+				"It would be nice if there was a horizontal slider that let a person flip quickly to at least the general area."};
 		TestUtils.testSentences(txts, pm, 1);
 
 	}
