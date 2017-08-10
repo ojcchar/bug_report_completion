@@ -214,7 +214,8 @@ public class BugPreprocessor extends ThreadProcessor {
 	}
 
 	public static boolean isSpecialChar(Token token) {
-		return token.getWord().matches("[^A-Za-z0-9]") || token.getWord().equals("``") || token.getWord().equals("''")
+		String word = token.getWord();
+		return word.matches("[^A-Za-z0-9]") || token.getWord().equals("``") || token.getWord().equals("''")
 				|| TextProcessor.isParenthesis(token.getWord())
 				|| token.getWord().matches("[\\Q$&+,:;=?@#|'<>.^*()%!-][}{\\E]++");
 	}

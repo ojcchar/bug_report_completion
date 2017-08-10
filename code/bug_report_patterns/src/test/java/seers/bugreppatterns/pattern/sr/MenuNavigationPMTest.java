@@ -15,7 +15,8 @@ public class MenuNavigationPMTest extends BaseTest {
 	public void testPositives() throws Exception {
 
 		String[] txts = {
-				"Adding a batch file (.bat) as a helper application seems to break the Download Actions component (in Tools | Options | Downloads | View & Edit Actions)." };
+				"Adding a batch file (.bat) as a helper application seems to break the Download Actions component (in Tools | Options | Downloads | View & Edit Actions).",
+				"select Menu > Preferences > Units > Imperial" };
 		TestUtils.testSentences(txts, pm, 1);
 
 	}

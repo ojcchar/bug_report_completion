@@ -14,7 +14,7 @@ public class MenuNavigationPM extends StepsToReproducePatternMatcher {
 
 	public final static Set<String> GUI_TERMS = JavaUtils.getSet("window", "windows", "menu", "option", "preference",
 			"tool", "setting", "checkbox", "list", "panel", "table", "project", "edit", "download", "section", "page",
-			"homepage", "screen");
+			"homepage", "screen", "preferences", "preference");
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
