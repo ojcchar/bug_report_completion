@@ -22,6 +22,18 @@ public class DescriptionSentence {
 	@XmlValue
 	private String value;
 
+	public DescriptionSentence() {
+	}
+
+	public DescriptionSentence(String ob, String eb, String sr, String id, String value) {
+		super();
+		this.ob = ob;
+		this.eb = eb;
+		this.sr = sr;
+		this.id = id;
+		this.value = value;
+	}
+
 	public String getId() {
 		return id;
 	}

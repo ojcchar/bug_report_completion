@@ -20,6 +20,14 @@ public class BugReportTitle {
 	@XmlValue
 	private String value;
 
+	public BugReportTitle() {
+	}
+
+	public BugReportTitle(String value) {
+		super();
+		this.value = value;
+	}
+
 	public String getOb() {
 		return ob;
 	}
