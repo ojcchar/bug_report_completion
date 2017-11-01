@@ -9,7 +9,7 @@ import org.junit.Test;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepclassifier.parsing.TextParser;
 import seers.bugrepcompl.entity.BugReport;
-import seers.bugrepcompl.entity.regularparse.BugReportDescription;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReportDescription;
 
 public class TextParserTest {
 
@@ -23,15 +23,15 @@ public class TextParserTest {
 		for (File file : noParsedFiles) {
 			
 			BugReport bug = XMLHelper.readXML(BugReport.class, file);
-			BugReportDescription parsedDesc = parser.parseText(bug.getDescription());
+			ParsedBugReportDescription parsedDesc = parser.parseText(bug.getDescription());
 
 			File parsedFile = new File("test_data/text_parser/parsed_bugs/" + file.getName() + ".parse");
-			seers.bugrepcompl.entity.regularparse.BugReport parsedBug = XMLHelper
-					.readXML(seers.bugrepcompl.entity.regularparse.BugReport.class, parsedFile);
+			seers.bugrepcompl.entity.regularparse.ParsedBugReport parsedBug = XMLHelper
+					.readXML(seers.bugrepcompl.entity.regularparse.ParsedBugReport.class, parsedFile);
 
 			System.out.print("Testing " + bug.getId() + "... ");
 
-			BugReportDescription expectedDescr = parsedBug.getDescription();
+			ParsedBugReportDescription expectedDescr = parsedBug.getDescription();
 			boolean equals = expectedDescr.equals(parsedDesc);
 			
 			if (equals) {

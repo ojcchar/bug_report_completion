@@ -20,10 +20,10 @@ import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.patterncoding.BugReport;
-import seers.bugrepcompl.entity.patterncoding.BugReportTitle;
-import seers.bugrepcompl.entity.patterncoding.DescriptionParagraph;
-import seers.bugrepcompl.entity.patterncoding.DescriptionSentence;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReport;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportTitle;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence;
 import seers.bugrepcompl.utils.DataReader;
 
 public class CodingXMLNormalizationMain {
@@ -63,9 +63,9 @@ public class CodingXMLNormalizationMain {
 
 				File xmlFile = new File(
 						codedDataFolder + File.separator + project + File.separator + bugId + ".parse.xml");
-				seers.bugrepcompl.entity.shortcodingparse.BugReport bugRep = XMLHelper
-						.readXML(seers.bugrepcompl.entity.shortcodingparse.BugReport.class, xmlFile);
-				BugReport codedBug = bugRep.toPatternCodingBug();
+				seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport bugRep = XMLHelper
+						.readXML(seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport.class, xmlFile);
+				PatternLabeledBugReport codedBug = bugRep.toPatternCodingBug();
 
 				// -----------------------------------------
 
@@ -103,7 +103,7 @@ public class CodingXMLNormalizationMain {
 					projectFolder.mkdirs();
 				}
 				File outputFile = new File(projectFolder + File.separator + bugId + ".parse.xml");
-				XMLHelper.writeXML(BugReport.class, codedBug, outputFile);
+				XMLHelper.writeXML(PatternLabeledBugReport.class, codedBug, outputFile);
 
 			} catch (Exception e) {
 				System.err.println("Error for " + bugInstance);
@@ -114,12 +114,12 @@ public class CodingXMLNormalizationMain {
 
 	}
 
-	private static int checkCoding(BugReport codedBug) {
+	private static int checkCoding(PatternLabeledBugReport codedBug) {
 
 		boolean isEverythingRight = true;
 		if (checkTitle) {
 
-			BugReportTitle title = codedBug.getTitle();
+			PatternLabeledBugReportTitle title = codedBug.getTitle();
 			Labels titleLabels = new Labels(title.getOb(), title.getEb(), title.getSr());
 			Set<String> patterns = pattenrsToSet(title.getPatterns());
 
@@ -135,8 +135,8 @@ public class CodingXMLNormalizationMain {
 
 		// ---------------------------------------------------
 
-		List<DescriptionParagraph> paragraphs = codedBug.getDescription().getParagraphs();
-		for (DescriptionParagraph paragraph : paragraphs) {
+		List<PatternLabeledDescriptionParagraph> paragraphs = codedBug.getDescription().getParagraphs();
+		for (PatternLabeledDescriptionParagraph paragraph : paragraphs) {
 			Labels labels2 = new Labels(paragraph.getOb(), paragraph.getEb(), paragraph.getSr());
 			Set<String> patterns2 = pattenrsToSet(paragraph.getPatterns());
 
@@ -163,8 +163,8 @@ public class CodingXMLNormalizationMain {
 
 		// ---------------------------------------------------
 
-		List<DescriptionSentence> sentences = codedBug.getDescription().getAllSentences();
-		for (DescriptionSentence sentence : sentences) {
+		List<PatternLabeledDescriptionSentence> sentences = codedBug.getDescription().getAllSentences();
+		for (PatternLabeledDescriptionSentence sentence : sentences) {
 			Labels labels2 = new Labels(sentence.getOb(), sentence.getEb(), sentence.getSr());
 			Set<String> patterns2 = pattenrsToSet(sentence.getPatterns());
 
@@ -249,7 +249,7 @@ public class CodingXMLNormalizationMain {
 		}
 	}
 
-	private static void processBug(BugReport bugRep, TextInstance bugInstance, Labels labels,
+	private static void processBug(PatternLabeledBugReport bugRep, TextInstance bugInstance, Labels labels,
 			List<CodedDataEntry> bugEntries) {
 
 		for (CodedDataEntry bugCodedEntry : bugEntries) {
@@ -292,16 +292,16 @@ public class CodingXMLNormalizationMain {
 
 			// title
 			if (isTitle) {
-				BugReportTitle title = bugRep.getTitle();
+				PatternLabeledBugReportTitle title = bugRep.getTitle();
 				setPatterns(title, patterns);
 			} else if (isParagraph) {
 				// paragraph
 
-				DescriptionParagraph paragraph = findParagraph(bugRep, changedId);
+				PatternLabeledDescriptionParagraph paragraph = findParagraph(bugRep, changedId);
 				setPatterns(paragraph, patterns);
 			} else if (isSentence) {
 				// sentence
-				DescriptionSentence sentence = findSentence(bugRep, changedId);
+				PatternLabeledDescriptionSentence sentence = findSentence(bugRep, changedId);
 				setPatterns(sentence, patterns);
 			} else {
 				throw new RuntimeException("Can't identify entry: " + bugCodedEntry);
@@ -324,7 +324,7 @@ public class CodingXMLNormalizationMain {
 		return changedId;
 	}
 
-	private static void setPatterns(DescriptionSentence sentence, Set<String> patterns) {
+	private static void setPatterns(PatternLabeledDescriptionSentence sentence, Set<String> patterns) {
 		List<String> allPatterns = new ArrayList<>();
 		if (!sentence.getOb().isEmpty()) {
 			allPatterns.addAll(patterns.stream().filter(p -> p.contains("_OB_")).collect(Collectors.toList()));
@@ -339,8 +339,8 @@ public class CodingXMLNormalizationMain {
 		sentence.setPatterns(getPatternsString(allPatterns));
 	}
 
-	private static DescriptionSentence findSentence(BugReport bugRep, String instanceId) {
-		Optional<DescriptionSentence> sentences = bugRep.getDescription().getAllSentences().stream()
+	private static PatternLabeledDescriptionSentence findSentence(PatternLabeledBugReport bugRep, String instanceId) {
+		Optional<PatternLabeledDescriptionSentence> sentences = bugRep.getDescription().getAllSentences().stream()
 				.filter(s -> s.getId().equals(instanceId)).findFirst();
 
 		if (!sentences.isPresent()) {
@@ -350,7 +350,7 @@ public class CodingXMLNormalizationMain {
 		return sentences.get();
 	}
 
-	private static void setPatterns(DescriptionParagraph paragraph, Set<String> patterns) {
+	private static void setPatterns(PatternLabeledDescriptionParagraph paragraph, Set<String> patterns) {
 		List<String> allPatterns = new ArrayList<>();
 		if (!paragraph.getOb().isEmpty()) {
 			allPatterns.addAll(patterns.stream().filter(p -> p.contains("_OB_")).collect(Collectors.toList()));
@@ -365,8 +365,8 @@ public class CodingXMLNormalizationMain {
 		paragraph.setPatterns(getPatternsString(allPatterns));
 	}
 
-	private static DescriptionParagraph findParagraph(BugReport bugRep, String instanceId) {
-		Optional<DescriptionParagraph> paragraph = bugRep.getDescription().getParagraphs().stream()
+	private static PatternLabeledDescriptionParagraph findParagraph(PatternLabeledBugReport bugRep, String instanceId) {
+		Optional<PatternLabeledDescriptionParagraph> paragraph = bugRep.getDescription().getParagraphs().stream()
 				.filter(p -> p.getId().equals(instanceId)).findFirst();
 
 		if (!paragraph.isPresent()) {
@@ -376,7 +376,7 @@ public class CodingXMLNormalizationMain {
 		return paragraph.get();
 	}
 
-	private static void setPatterns(BugReportTitle title, Set<String> patterns) {
+	private static void setPatterns(PatternLabeledBugReportTitle title, Set<String> patterns) {
 
 		List<String> allPatterns = new ArrayList<>();
 		if (!title.getOb().isEmpty()) {

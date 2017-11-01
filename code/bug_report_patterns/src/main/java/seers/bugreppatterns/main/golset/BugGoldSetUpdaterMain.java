@@ -13,7 +13,7 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugrepcompl.xmlcoding.AgreementMain;
 import seers.bugrepcompl.xmlcoding.CodedBug;
@@ -59,7 +59,7 @@ public class BugGoldSetUpdaterMain {
 
 					File xmlFile = new File(
 							codedDataFolder + File.separator + project + File.separator + bugId + ".parse.xml");
-					BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
+					ShortLabeledBugReport bugRep = XMLHelper.readXML(ShortLabeledBugReport.class, xmlFile);
 
 					CodedBug codedBug = AgreementMain.analyzeBugRep(bugRep);
 					Labels newLabels = codedBug.getLabels();

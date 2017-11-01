@@ -9,7 +9,7 @@ import seers.appcore.threads.processor.ThreadProcessor;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.regularparse.BugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.utils.ParsingUtils;
@@ -37,7 +37,7 @@ public class BugListProcessor extends ThreadProcessor {
 			// read xml
 			String bugFile = bugsDataFolder + File.separator + system + "_parse" + File.separator + bugId
 					+ ".xml.parse";
-			BugReport bugRep = XMLHelper.readXML(BugReport.class, bugFile);
+			ParsedBugReport bugRep = XMLHelper.readXML(ParsedBugReport.class, bugFile);
 			Document bugRepDoc = ParsingUtils.parseDocument(system, bugRep);
 
 			// read paragraphs

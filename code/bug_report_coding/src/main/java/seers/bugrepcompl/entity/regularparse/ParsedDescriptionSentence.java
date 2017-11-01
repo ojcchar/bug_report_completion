@@ -8,17 +8,17 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "sentence")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DescriptionSentence {
+public class ParsedDescriptionSentence {
 
 	@XmlAttribute(name = "id")
 	private String id;
 	@XmlValue
 	private String value;
 
-	public DescriptionSentence() {
+	public ParsedDescriptionSentence() {
 	}
 
-	public DescriptionSentence(DescriptionSentence descriptionSentence) {
+	public ParsedDescriptionSentence(ParsedDescriptionSentence descriptionSentence) {
 		this.id = descriptionSentence.id;
 		this.value = descriptionSentence.value;
 	}
@@ -61,7 +61,7 @@ public class DescriptionSentence {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DescriptionSentence other = (DescriptionSentence) obj;
+		ParsedDescriptionSentence other = (ParsedDescriptionSentence) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

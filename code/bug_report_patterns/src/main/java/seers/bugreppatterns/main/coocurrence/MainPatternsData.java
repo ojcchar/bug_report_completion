@@ -19,7 +19,7 @@ import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugrepcompl.entity.PatternEntry;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.regularparse.BugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.Paragraph;
@@ -80,7 +80,7 @@ public class MainPatternsData {
 				// read xml
 				String bugFile = bugsDataFolder + File.separator + project + "_parse" + File.separator + bugId
 						+ ".xml.parse";
-				BugReport bugRep = XMLHelper.readXML(BugReport.class, bugFile);
+				ParsedBugReport bugRep = XMLHelper.readXML(ParsedBugReport.class, bugFile);
 				bugRepDoc = ParsingUtils.parseDocument(project, bugRep);
 
 				parsedBugs.put(bugInstance, bugRepDoc);

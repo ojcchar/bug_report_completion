@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "sent")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DescriptionSentence {
+public class ShortLabeledDescriptionSentence {
 
 	@XmlAttribute
 	private String ob = "";
@@ -22,10 +22,10 @@ public class DescriptionSentence {
 	@XmlValue
 	private String value;
 
-	public DescriptionSentence() {
+	public ShortLabeledDescriptionSentence() {
 	}
 
-	public DescriptionSentence(String ob, String eb, String sr, String id, String value) {
+	public ShortLabeledDescriptionSentence(String ob, String eb, String sr, String id, String value) {
 		super();
 		this.ob = ob;
 		this.eb = eb;
@@ -34,7 +34,7 @@ public class DescriptionSentence {
 		this.value = value;
 	}
 
-	public DescriptionSentence(DescriptionSentence descriptionSentence) {
+	public ShortLabeledDescriptionSentence(ShortLabeledDescriptionSentence descriptionSentence) {
 
 		this.ob = descriptionSentence.ob;
 		this.eb = descriptionSentence.eb;
@@ -104,7 +104,7 @@ public class DescriptionSentence {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DescriptionSentence other = (DescriptionSentence) obj;
+		ShortLabeledDescriptionSentence other = (ShortLabeledDescriptionSentence) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -113,15 +113,15 @@ public class DescriptionSentence {
 		return true;
 	}
 
-	public seers.bugrepcompl.entity.regularparse.DescriptionSentence toRegularParsedSentence() {
-		seers.bugrepcompl.entity.regularparse.DescriptionSentence sent = new seers.bugrepcompl.entity.regularparse.DescriptionSentence();
+	public seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence toRegularParsedSentence() {
+		seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence sent = new seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence();
 		sent.setId(id);
 		sent.setValue(this.value);
 		return sent;
 	}
 
-	public seers.bugrepcompl.entity.patterncoding.DescriptionSentence toPatternCodingSentence() {
-		return new seers.bugrepcompl.entity.patterncoding.DescriptionSentence(ob, eb, sr, null, id, value);
+	public seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence toPatternCodingSentence() {
+		return new seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence(ob, eb, sr, null, id, value);
 	}
 
 	// @Override

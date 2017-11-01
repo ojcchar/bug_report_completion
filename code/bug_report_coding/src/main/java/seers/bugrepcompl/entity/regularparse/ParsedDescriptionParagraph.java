@@ -11,25 +11,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "paragraph")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DescriptionParagraph {
+public class ParsedDescriptionParagraph {
 
 	@XmlAttribute
 	private String id;
 
 	@XmlElement(name = "sentence")
-	private List<DescriptionSentence> sentences;
+	private List<ParsedDescriptionSentence> sentences;
 
-	public DescriptionParagraph() {
+	public ParsedDescriptionParagraph() {
 	}
 
-	public DescriptionParagraph(DescriptionParagraph descriptionParagraph) {
+	public ParsedDescriptionParagraph(ParsedDescriptionParagraph descriptionParagraph) {
 		this.id = descriptionParagraph.id;
 
 		if (descriptionParagraph.sentences != null) {
 
 			this.sentences = new ArrayList<>();
-			for (DescriptionSentence descriptionSentence : descriptionParagraph.sentences) {
-				this.sentences.add(new DescriptionSentence(descriptionSentence));
+			for (ParsedDescriptionSentence descriptionSentence : descriptionParagraph.sentences) {
+				this.sentences.add(new ParsedDescriptionSentence(descriptionSentence));
 			}
 		}
 	}
@@ -38,7 +38,7 @@ public class DescriptionParagraph {
 		return id;
 	}
 
-	public List<DescriptionSentence> getSentences() {
+	public List<ParsedDescriptionSentence> getSentences() {
 		return sentences;
 	}
 
@@ -46,7 +46,7 @@ public class DescriptionParagraph {
 		this.id = id;
 	}
 
-	public void setSentences(List<DescriptionSentence> sentences) {
+	public void setSentences(List<ParsedDescriptionSentence> sentences) {
 		this.sentences = sentences;
 	}
 
@@ -58,10 +58,10 @@ public class DescriptionParagraph {
 	private String getStrElements() {
 		StringBuffer buf = new StringBuffer();
 
-		List<DescriptionSentence> sentences2 = getSentences();
+		List<ParsedDescriptionSentence> sentences2 = getSentences();
 		if (sentences2 != null) {
 
-			for (DescriptionSentence el : sentences2) {
+			for (ParsedDescriptionSentence el : sentences2) {
 				buf.append("\t\t");
 				buf.append(el);
 				buf.append("\t\t\r\n");
@@ -87,7 +87,7 @@ public class DescriptionParagraph {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DescriptionParagraph other = (DescriptionParagraph) obj;
+		ParsedDescriptionParagraph other = (ParsedDescriptionParagraph) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

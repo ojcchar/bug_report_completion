@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "title")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BugReportTitle {
+public class ShortLabeledBugReportTitle {
 
 	@XmlAttribute
 	private String ob = "";
@@ -20,17 +20,17 @@ public class BugReportTitle {
 	@XmlValue
 	private String value;
 
-	public BugReportTitle() {
+	public ShortLabeledBugReportTitle() {
 	}
 
-	public BugReportTitle(BugReportTitle bugReportTitle) {
+	public ShortLabeledBugReportTitle(ShortLabeledBugReportTitle bugReportTitle) {
 		this.ob = bugReportTitle.ob;
 		this.eb = bugReportTitle.eb;
 		this.sr = bugReportTitle.sr;
 		this.value = bugReportTitle.value;
 	}
 
-	public BugReportTitle(String ob, String eb, String sr, String value) {
+	public ShortLabeledBugReportTitle(String ob, String eb, String sr, String value) {
 		super();
 		this.ob = ob;
 		this.eb = eb;
@@ -94,7 +94,7 @@ public class BugReportTitle {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BugReportTitle other = (BugReportTitle) obj;
+		ShortLabeledBugReportTitle other = (ShortLabeledBugReportTitle) obj;
 		if (eb == null) {
 			if (other.eb != null)
 				return false;
@@ -118,8 +118,8 @@ public class BugReportTitle {
 		return true;
 	}
 
-	public seers.bugrepcompl.entity.patterncoding.BugReportTitle toPatternCodingTitle() {
-		return new seers.bugrepcompl.entity.patterncoding.BugReportTitle(ob, eb, sr, null, value);
+	public seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportTitle toPatternCodingTitle() {
+		return new seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportTitle(ob, eb, sr, null, value);
 	}
 
 }

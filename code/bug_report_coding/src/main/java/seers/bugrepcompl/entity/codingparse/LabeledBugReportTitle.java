@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "title")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BugReportTitle {
+public class LabeledBugReportTitle {
 
 	@XmlAttribute
 	private String ob = "";
@@ -20,10 +20,10 @@ public class BugReportTitle {
 	@XmlValue
 	private String value;
 
-	public BugReportTitle() {
+	public LabeledBugReportTitle() {
 	}
 
-	public BugReportTitle(String value) {
+	public LabeledBugReportTitle(String value) {
 		super();
 		this.value = value;
 	}
@@ -65,8 +65,16 @@ public class BugReportTitle {
 		return "BugReportTitle [ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", value=" + value + "]";
 	}
 
-	public seers.bugrepcompl.entity.shortcodingparse.BugReportTitle toTitle2() {
-		return new seers.bugrepcompl.entity.shortcodingparse.BugReportTitle(ob, eb, sr, value);
+	public seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportTitle toTitle2() {
+		return new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportTitle(ob, eb, sr, value);
+	}
+
+	public boolean isObLabeled() {
+		return !getOb().trim().isEmpty();
+	}
+
+	public boolean isSrLabeled() {
+		return !getSr().trim().isEmpty();
 	}
 
 }

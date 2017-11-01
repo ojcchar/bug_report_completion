@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.xml.XMLHelper;
-import seers.bugrepcompl.entity.regularparse.BugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.PredictionOutput;
@@ -25,7 +25,7 @@ public class BugReportProcessor extends TextInstanceProcessor {
 
 			try {
 
-				BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
+				ParsedBugReport bugRep = XMLHelper.readXML(ParsedBugReport.class, file);
 				Document bugReport = ParsingUtils.parseDocument(system, bugRep);
 
 				if (bugReport.getNumOfSentences() == 0) {

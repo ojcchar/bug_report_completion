@@ -7,7 +7,7 @@ import java.util.Set;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
 import seers.bugrepcompl.utils.DataReader;
 
 public class FinalDataMain {
@@ -40,9 +40,9 @@ public class FinalDataMain {
 
 			File bugFile = new File(
 					finalCodingFolder + File.separator + project + File.separator + bugId + ".parse.xml");
-			BugReport codedBug = XMLHelper.readXML(BugReport.class, bugFile);
+			ShortLabeledBugReport codedBug = XMLHelper.readXML(ShortLabeledBugReport.class, bugFile);
 
-			seers.bugrepcompl.entity.regularparse.BugReport regularBug = codedBug.toRegularParsedBug();
+			seers.bugrepcompl.entity.regularparse.ParsedBugReport regularBug = codedBug.toRegularParsedBug();
 
 			File projectFolder = new File(outputFolder + File.separator + project + "_parse");
 			if (!projectFolder.exists()) {
@@ -50,7 +50,7 @@ public class FinalDataMain {
 			}
 
 			File outputFile = new File(projectFolder + File.separator + bugId + ".xml.parse");
-			XMLHelper.writeXML(seers.bugrepcompl.entity.regularparse.BugReport.class, regularBug, outputFile);
+			XMLHelper.writeXML(seers.bugrepcompl.entity.regularparse.ParsedBugReport.class, regularBug, outputFile);
 
 		}
 

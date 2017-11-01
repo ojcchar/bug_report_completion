@@ -8,39 +8,39 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "bug")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BugReport {
+public class ShortLabeledBugReport {
 
 	@XmlElement(name = "id")
 	private String id;
 	@XmlElement(name = "title")
-	private BugReportTitle title;
+	private ShortLabeledBugReportTitle title;
 	@XmlElement(name = "desc")
-	private BugReportDescription description;
+	private ShortLabeledBugReportDescription description;
 
 	@XmlAttribute(name = "no-bug")
 	private String noBug = "";
 	@XmlAttribute(name = "comments")
 	private String comments = "";
 
-	public BugReport() {
+	public ShortLabeledBugReport() {
 	}
 
-	public BugReport(BugReport bugReport) {
+	public ShortLabeledBugReport(ShortLabeledBugReport bugReport) {
 		this.id = bugReport.getId();
-		this.title = new BugReportTitle(bugReport.getTitle());
-		this.description = new BugReportDescription(bugReport.getDescription());
+		this.title = new ShortLabeledBugReportTitle(bugReport.getTitle());
+		this.description = new ShortLabeledBugReportDescription(bugReport.getDescription());
 		this.noBug = bugReport.noBug;
 		this.comments = bugReport.comments;
 	}
 
-	public BugReport(String id, BugReportTitle title, BugReportDescription description) {
+	public ShortLabeledBugReport(String id, ShortLabeledBugReportTitle title, ShortLabeledBugReportDescription description) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 	}
 
-	public BugReport(String id, BugReportTitle title, BugReportDescription description, String noBug, String comments) {
+	public ShortLabeledBugReport(String id, ShortLabeledBugReportTitle title, ShortLabeledBugReportDescription description, String noBug, String comments) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -53,11 +53,11 @@ public class BugReport {
 		return id;
 	}
 
-	public BugReportTitle getTitle() {
+	public ShortLabeledBugReportTitle getTitle() {
 		return title;
 	}
 
-	public BugReportDescription getDescription() {
+	public ShortLabeledBugReportDescription getDescription() {
 		return description;
 	}
 
@@ -65,11 +65,11 @@ public class BugReport {
 		this.id = id;
 	}
 
-	public void setTitle(BugReportTitle title) {
+	public void setTitle(ShortLabeledBugReportTitle title) {
 		this.title = title;
 	}
 
-	public void setDescription(BugReportDescription description) {
+	public void setDescription(ShortLabeledBugReportDescription description) {
 		this.description = description;
 	}
 
@@ -95,8 +95,8 @@ public class BugReport {
 				+ "]";
 	}
 
-	public seers.bugrepcompl.entity.regularparse.BugReport toRegularParsedBug() {
-		seers.bugrepcompl.entity.regularparse.BugReport bug = new seers.bugrepcompl.entity.regularparse.BugReport();
+	public seers.bugrepcompl.entity.regularparse.ParsedBugReport toRegularParsedBug() {
+		seers.bugrepcompl.entity.regularparse.ParsedBugReport bug = new seers.bugrepcompl.entity.regularparse.ParsedBugReport();
 		bug.setId(id);
 		bug.setTitle(this.getTitle().getValue());
 		if (this.description != null) {
@@ -105,12 +105,12 @@ public class BugReport {
 		return bug;
 	}
 
-	public seers.bugrepcompl.entity.patterncoding.BugReport toPatternCodingBug() {
+	public seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReport toPatternCodingBug() {
 
-		seers.bugrepcompl.entity.patterncoding.BugReportTitle title2 = title.toPatternCodingTitle();
-		seers.bugrepcompl.entity.patterncoding.BugReportDescription description2 = description
+		seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportTitle title2 = title.toPatternCodingTitle();
+		seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportDescription description2 = description
 				.toPatternCodingDescription();
-		seers.bugrepcompl.entity.patterncoding.BugReport bug = new seers.bugrepcompl.entity.patterncoding.BugReport(id,
+		seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReport bug = new seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReport(id,
 				title2, description2, noBug, comments);
 		return bug;
 	}

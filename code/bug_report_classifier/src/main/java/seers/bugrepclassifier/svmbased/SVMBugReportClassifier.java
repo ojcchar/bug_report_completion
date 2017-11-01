@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 
 import seers.bugrepclassifier.BugReportClassifier;
-import seers.bugrepclassifier.svmbased.model.BugReport;
+import seers.bugrepclassifier.svmbased.model.SVMBugReport;
 import seers.bugrepclassifier.svmbased.svm.BugReportFea;
 import seers.bugrepclassifier.svmbased.svm.util.Common;
 import seers.bugrepcompl.entity.Labels;
@@ -25,7 +25,7 @@ public class SVMBugReportClassifier extends BugReportClassifier {
 
 		// generate features
 
-		BugReport report = new BugReport(bugDescription);
+		SVMBugReport report = new SVMBugReport(bugDescription);
 		String model = "svm_model/exp/exp-modelall-0.005-b-pngram-light";
 		String featuresFile = "svm_model/exp/BugReportFea_exp_all";
 		String suffix = "eb";
@@ -42,7 +42,7 @@ public class SVMBugReportClassifier extends BugReportClassifier {
 		return output;
 	}
 
-	private String classifyInstance(String model, String featuresFile, String suffix, String bugId, BugReport report)
+	private String classifyInstance(String model, String featuresFile, String suffix, String bugId, SVMBugReport report)
 			throws IOException, InterruptedException {
 
 		BugReportFea fea = new BugReportFea(false, featuresFile);

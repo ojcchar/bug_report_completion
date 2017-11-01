@@ -8,24 +8,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "bug")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BugReport {
+public class LabeledBugReport {
 
 	@XmlElement(name = "id")
 	private String id;
 	@XmlElement(name = "title")
-	private BugReportTitle title;
+	private LabeledBugReportTitle title;
 	@XmlElement(name = "description")
-	private BugReportDescription description;
+	private LabeledBugReportDescription description;
 
 	@XmlAttribute(name = "no-bug")
 	private String noBug;
 	@XmlAttribute(name = "comments")
 	private String comments;
 
-	public BugReport() {
+	public LabeledBugReport() {
 	}
 
-	public BugReport(String id, BugReportTitle title, BugReportDescription description) {
+	public LabeledBugReport(String id, LabeledBugReportTitle title, LabeledBugReportDescription description) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -36,11 +36,11 @@ public class BugReport {
 		return id;
 	}
 
-	public BugReportTitle getTitle() {
+	public LabeledBugReportTitle getTitle() {
 		return title;
 	}
 
-	public BugReportDescription getDescription() {
+	public LabeledBugReportDescription getDescription() {
 		return description;
 	}
 
@@ -48,11 +48,11 @@ public class BugReport {
 		this.id = id;
 	}
 
-	public void setTitle(BugReportTitle title) {
+	public void setTitle(LabeledBugReportTitle title) {
 		this.title = title;
 	}
 
-	public void setDescription(BugReportDescription description) {
+	public void setDescription(LabeledBugReportDescription description) {
 		this.description = description;
 	}
 
@@ -78,8 +78,8 @@ public class BugReport {
 				+ "]";
 	}
 
-	public seers.bugrepcompl.entity.shortcodingparse.BugReport toBugReport2() {
-		seers.bugrepcompl.entity.shortcodingparse.BugReport bug2 = new seers.bugrepcompl.entity.shortcodingparse.BugReport(
+	public seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport toBugReport2() {
+		seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport bug2 = new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport(
 				id, title.toTitle2(), description.toDescription2());
 		return bug2;
 	}

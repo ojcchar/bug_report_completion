@@ -14,9 +14,9 @@ import seers.bugrepcompl.entity.TextInstance;
 //import seers.bugrepcompl.entity.regularparse.BugReport;
 //import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
 //import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence;
 import seers.bugrepcompl.utils.DataReader;
 
 public class BugCodePreprocessor {
@@ -367,9 +367,9 @@ public class BugCodePreprocessor {
 
 				System.out.print("Processing " + bugInstance + " ");
 
-				BugReport bugReport = readBug(xmlBugDir, bugInstance);
+				ShortLabeledBugReport bugReport = readBug(xmlBugDir, bugInstance);
 //				BugReport bugReport = POSBugProcessorMain.readBug(xmlBugDir, bugInstance);
-				BugReport bugPreprocessed = new BugReport(bugReport);
+				ShortLabeledBugReport bugPreprocessed = new ShortLabeledBugReport(bugReport);
 				boolean changed = preprocessBug(bugInstance, bugPreprocessed);
 
 //				POSBugProcessorMain.writeBug(bugPreprocessed, outputFolder, bugInstance);
@@ -389,27 +389,27 @@ public class BugCodePreprocessor {
 
 	}
 	
-	public static seers.bugrepcompl.entity.shortcodingparse.BugReport readBug(String inputFolder, TextInstance bug) throws Exception {
+	public static seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport readBug(String inputFolder, TextInstance bug) throws Exception {
 		String filepath = inputFolder + File.separator + bug.getProject() + File.separator + bug.getBugId()
 				+ ".parse.xml";
-		seers.bugrepcompl.entity.shortcodingparse.BugReport xmlBug = XMLHelper.readXML(seers.bugrepcompl.entity.shortcodingparse.BugReport.class, filepath);
+		seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport xmlBug = XMLHelper.readXML(seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport.class, filepath);
 		return xmlBug;
 	}
 	
 
-	public static void writeBug(seers.bugrepcompl.entity.shortcodingparse.BugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
+	public static void writeBug(seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
 		File projectFolder = new File(outputFolder + File.separator + bug.getProject() );
 		if (!projectFolder.exists()) {
 			projectFolder.mkdir();
 		}
 
 		File outputFile = new File(projectFolder.getAbsolutePath() + File.separator + bug.getBugId() + ".parse.xml");
-		XMLHelper.writeXML(seers.bugrepcompl.entity.shortcodingparse.BugReport.class, bugPreprocessed, outputFile);
+		XMLHelper.writeXML(seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport.class, bugPreprocessed, outputFile);
 
 	}
 	
 
-	private static boolean preprocessBug(TextInstance bugInstance, BugReport bugReport) throws Exception {
+	private static boolean preprocessBug(TextInstance bugInstance, ShortLabeledBugReport bugReport) throws Exception {
 
 		List<String> iniSeparators = systemIniSeparators.get(bugInstance.getProject());
 
@@ -432,7 +432,7 @@ public class BugCodePreprocessor {
 
 	}
 
-	private static boolean removeOtherSentences(BugReport bugReport, TextInstance bugInstance) {
+	private static boolean removeOtherSentences(ShortLabeledBugReport bugReport, TextInstance bugInstance) {
 		boolean changed = false;
 
 		List<String> regexes = systemRegexes.get(bugInstance.getProject());
@@ -443,9 +443,9 @@ public class BugCodePreprocessor {
 			return false;
 		}
 
-		List<DescriptionParagraph> paragraphsToRemove = new ArrayList<>();
-		List<DescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
-		for (DescriptionParagraph par : paragraphs) {
+		List<ShortLabeledDescriptionParagraph> paragraphsToRemove = new ArrayList<>();
+		List<ShortLabeledDescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
+		for (ShortLabeledDescriptionParagraph par : paragraphs) {
 
 			if (par == null || par.getSentences() == null) {
 				paragraphsToRemove.add(par);
@@ -456,9 +456,9 @@ public class BugCodePreprocessor {
 				paragraphsToRemove.add(par);
 			} else {
 
-				List<DescriptionSentence> sentencesToRemove = new ArrayList<>();
-				List<DescriptionSentence> sentences = par.getSentences();
-				for (DescriptionSentence sent : sentences) {
+				List<ShortLabeledDescriptionSentence> sentencesToRemove = new ArrayList<>();
+				List<ShortLabeledDescriptionSentence> sentences = par.getSentences();
+				for (ShortLabeledDescriptionSentence sent : sentences) {
 					if (checkSentence2(sent, regexes) || checkSentence3(sent, regexesStart)
 							|| checkSentence4(sent, regexesEnd)) {
 						sentencesToRemove.add(sent);
@@ -486,7 +486,7 @@ public class BugCodePreprocessor {
 		return changed;
 	}
 
-	private static boolean checkSentence4(DescriptionSentence sent, List<String> regexesEnd) {
+	private static boolean checkSentence4(ShortLabeledDescriptionSentence sent, List<String> regexesEnd) {
 
 		if (regexesEnd == null) {
 			return false;
@@ -499,7 +499,7 @@ public class BugCodePreprocessor {
 		return anyMatch;
 	}
 
-	private static boolean checkSentence3(DescriptionSentence sent, List<String> regexesStart2) {
+	private static boolean checkSentence3(ShortLabeledDescriptionSentence sent, List<String> regexesStart2) {
 
 		if (regexesStart2 == null) {
 			return false;
@@ -512,7 +512,7 @@ public class BugCodePreprocessor {
 		return anyMatch;
 	}
 
-	private static boolean checkParagraph2(DescriptionParagraph par, TextInstance bugInstance) {
+	private static boolean checkParagraph2(ShortLabeledDescriptionParagraph par, TextInstance bugInstance) {
 
 		List<List<String>> groupRegexes = systemGroupRegexes.get(bugInstance.getProject());
 
@@ -535,8 +535,8 @@ public class BugCodePreprocessor {
 		return false;
 	}
 
-	private static boolean checkRegex(List<String> regxs, List<DescriptionSentence> sentences) {
-		for (DescriptionSentence sent : sentences) {
+	private static boolean checkRegex(List<String> regxs, List<ShortLabeledDescriptionSentence> sentences) {
+		for (ShortLabeledDescriptionSentence sent : sentences) {
 			if (checkSentence2(sent, regxs)) {
 				return true;
 			}
@@ -544,7 +544,7 @@ public class BugCodePreprocessor {
 		return false;
 	}
 
-	private static boolean checkSentence2(DescriptionSentence sent, List<String> regexesLocal) {
+	private static boolean checkSentence2(ShortLabeledDescriptionSentence sent, List<String> regexesLocal) {
 
 		if (regexesLocal == null) {
 			return false;
@@ -557,13 +557,13 @@ public class BugCodePreprocessor {
 		return anyMatch;
 	}
 
-	private static boolean removeCode(BugReport bugReport, List<CodePair> pairs, String separator) {
+	private static boolean removeCode(ShortLabeledBugReport bugReport, List<CodePair> pairs, String separator) {
 
 		boolean changed = false;
 
-		List<DescriptionParagraph> paragraphsToRemove = new ArrayList<>();
-		List<DescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
-		for (DescriptionParagraph par : paragraphs) {
+		List<ShortLabeledDescriptionParagraph> paragraphsToRemove = new ArrayList<>();
+		List<ShortLabeledDescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
+		for (ShortLabeledDescriptionParagraph par : paragraphs) {
 
 			if (par == null || par.getSentences() == null) {
 				paragraphsToRemove.add(par);
@@ -574,9 +574,9 @@ public class BugCodePreprocessor {
 				paragraphsToRemove.add(par);
 			} else {
 
-				List<DescriptionSentence> sentencesToRemove = new ArrayList<>();
-				List<DescriptionSentence> sentences = par.getSentences();
-				for (DescriptionSentence sent : sentences) {
+				List<ShortLabeledDescriptionSentence> sentencesToRemove = new ArrayList<>();
+				List<ShortLabeledDescriptionSentence> sentences = par.getSentences();
+				for (ShortLabeledDescriptionSentence sent : sentences) {
 					CodePair pair = checkSentence(sent, pairs);
 
 					if (pair == null) {
@@ -619,7 +619,7 @@ public class BugCodePreprocessor {
 
 	}
 
-	private static CodePair checkSentence(DescriptionSentence sent, List<CodePair> pairs) {
+	private static CodePair checkSentence(ShortLabeledDescriptionSentence sent, List<CodePair> pairs) {
 		Integer parId = Integer.valueOf(sent.getId().split("\\.")[0]);
 		Integer sentId = Integer.valueOf(sent.getId().split("\\.")[1]);
 
@@ -655,7 +655,7 @@ public class BugCodePreprocessor {
 		return null;
 	}
 
-	private static boolean checkParagraph(DescriptionParagraph par, List<CodePair> pairs) {
+	private static boolean checkParagraph(ShortLabeledDescriptionParagraph par, List<CodePair> pairs) {
 		Integer parId = Integer.valueOf(par.getId());
 
 		for (CodePair pair : pairs) {
@@ -669,7 +669,7 @@ public class BugCodePreprocessor {
 			if (iniId < parId && parId < endId) {
 				return true;
 			} else {
-				List<DescriptionSentence> sentences = par.getSentences();
+				List<ShortLabeledDescriptionSentence> sentences = par.getSentences();
 				if (sentences.get(0).getId().equals(iniId)
 						&& sentences.get(sentences.size() - 1).getId().equals(iniId)) {
 					return true;
@@ -680,18 +680,18 @@ public class BugCodePreprocessor {
 		return false;
 	}
 
-	private static List<CodePair> findCodingPairs(BugReport bugReport, String separator, TextInstance bugInstance) {
+	private static List<CodePair> findCodingPairs(ShortLabeledBugReport bugReport, String separator, TextInstance bugInstance) {
 
-		List<DescriptionSentence> sentences = bugReport.getDescription().getAllSentences();
+		List<ShortLabeledDescriptionSentence> sentences = bugReport.getDescription().getAllSentences();
 		List<CodePair> pairs = new ArrayList<>();
 
 		// code to remove the docker template at the beginning of the bug
 		if (bugInstance.getProject().equals("docker") && sentences.size() > 10) {
-			DescriptionSentence firstSent = sentences.get(0);
+			ShortLabeledDescriptionSentence firstSent = sentences.get(0);
 			if (firstSent.getValue().equals("<!")) {
 
 				for (int i = 1; i < sentences.size(); i++) {
-					DescriptionSentence sent = sentences.get(i);
+					ShortLabeledDescriptionSentence sent = sentences.get(i);
 					if (sent.getValue().equals("BUG REPORT INFORMATION")) {
 						if (i + 4 <= sentences.size() - 1) {
 							if (sentences.get(i + 4).getValue().equals("-->")) {
@@ -710,7 +710,7 @@ public class BugCodePreprocessor {
 
 		String iniId = null;
 		String endId = null;
-		for (DescriptionSentence sent : sentences) {
+		for (ShortLabeledDescriptionSentence sent : sentences) {
 
 			if (sent.getValue().equals(separator)) {
 

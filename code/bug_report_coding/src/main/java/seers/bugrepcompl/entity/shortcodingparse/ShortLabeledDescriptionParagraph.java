@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "parg")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DescriptionParagraph {
+public class ShortLabeledDescriptionParagraph {
 
 	@XmlAttribute
 	private String ob = "";
@@ -24,12 +24,12 @@ public class DescriptionParagraph {
 	private String id;
 
 	@XmlElement(name = "st")
-	private List<DescriptionSentence> sentences;
+	private List<ShortLabeledDescriptionSentence> sentences;
 
-	public DescriptionParagraph() {
+	public ShortLabeledDescriptionParagraph() {
 	}
 
-	public DescriptionParagraph(String ob, String eb, String sr, String id, List<DescriptionSentence> sentences) {
+	public ShortLabeledDescriptionParagraph(String ob, String eb, String sr, String id, List<ShortLabeledDescriptionSentence> sentences) {
 		super();
 		this.ob = ob;
 		this.eb = eb;
@@ -38,7 +38,7 @@ public class DescriptionParagraph {
 		this.sentences = sentences;
 	}
 
-	public DescriptionParagraph(DescriptionParagraph descriptionParagraph) {
+	public ShortLabeledDescriptionParagraph(ShortLabeledDescriptionParagraph descriptionParagraph) {
 
 		this.ob = descriptionParagraph.ob;
 		this.eb = descriptionParagraph.eb;
@@ -48,8 +48,8 @@ public class DescriptionParagraph {
 		if (descriptionParagraph.sentences != null) {
 
 			this.sentences = new ArrayList<>();
-			for (DescriptionSentence descriptionSentence : descriptionParagraph.sentences) {
-				this.sentences.add(new DescriptionSentence(descriptionSentence));
+			for (ShortLabeledDescriptionSentence descriptionSentence : descriptionParagraph.sentences) {
+				this.sentences.add(new ShortLabeledDescriptionSentence(descriptionSentence));
 			}
 		}
 
@@ -59,7 +59,7 @@ public class DescriptionParagraph {
 		return id;
 	}
 
-	public List<DescriptionSentence> getSentences() {
+	public List<ShortLabeledDescriptionSentence> getSentences() {
 		return sentences;
 	}
 
@@ -67,7 +67,7 @@ public class DescriptionParagraph {
 		this.id = id;
 	}
 
-	public void setSentences(List<DescriptionSentence> sentences) {
+	public void setSentences(List<ShortLabeledDescriptionSentence> sentences) {
 		this.sentences = sentences;
 	}
 
@@ -104,10 +104,10 @@ public class DescriptionParagraph {
 	private String getStrElements() {
 		StringBuffer buf = new StringBuffer();
 
-		List<DescriptionSentence> sentences2 = getSentences();
+		List<ShortLabeledDescriptionSentence> sentences2 = getSentences();
 		if (sentences2 != null) {
 
-			for (DescriptionSentence el : sentences2) {
+			for (ShortLabeledDescriptionSentence el : sentences2) {
 				buf.append("\t\t");
 				buf.append(el);
 				buf.append("\t\t\r\n");
@@ -132,7 +132,7 @@ public class DescriptionParagraph {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DescriptionParagraph other = (DescriptionParagraph) obj;
+		ShortLabeledDescriptionParagraph other = (ShortLabeledDescriptionParagraph) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -141,15 +141,15 @@ public class DescriptionParagraph {
 		return true;
 	}
 
-	public seers.bugrepcompl.entity.regularparse.DescriptionParagraph toRegularParsedParagraph() {
+	public seers.bugrepcompl.entity.regularparse.ParsedDescriptionParagraph toRegularParsedParagraph() {
 
-		seers.bugrepcompl.entity.regularparse.DescriptionParagraph par = new seers.bugrepcompl.entity.regularparse.DescriptionParagraph();
+		seers.bugrepcompl.entity.regularparse.ParsedDescriptionParagraph par = new seers.bugrepcompl.entity.regularparse.ParsedDescriptionParagraph();
 		par.setId(id);
-		List<seers.bugrepcompl.entity.regularparse.DescriptionSentence> sentences2 = null;
+		List<seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence> sentences2 = null;
 		if (sentences != null) {
 			sentences2 = new ArrayList<>();
 
-			for (DescriptionSentence sent : sentences) {
+			for (ShortLabeledDescriptionSentence sent : sentences) {
 				if (sent != null) {
 					sentences2.add(sent.toRegularParsedSentence());
 				}
@@ -160,18 +160,18 @@ public class DescriptionParagraph {
 		return par;
 	}
 
-	public seers.bugrepcompl.entity.patterncoding.DescriptionParagraph toPatternCodingParagraph() {
+	public seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionParagraph toPatternCodingParagraph() {
 
-		seers.bugrepcompl.entity.patterncoding.DescriptionParagraph par = new seers.bugrepcompl.entity.patterncoding.DescriptionParagraph();
+		seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionParagraph par = new seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionParagraph();
 		par.setId(id);
 		par.setOb(ob);
 		par.setEb(eb);
 		par.setSr(sr);
-		List<seers.bugrepcompl.entity.patterncoding.DescriptionSentence> sentences2 = null;
+		List<seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence> sentences2 = null;
 		if (sentences != null) {
 			sentences2 = new ArrayList<>();
 
-			for (DescriptionSentence sent : sentences) {
+			for (ShortLabeledDescriptionSentence sent : sentences) {
 				if (sent != null) {
 					sentences2.add(sent.toPatternCodingSentence());
 				}

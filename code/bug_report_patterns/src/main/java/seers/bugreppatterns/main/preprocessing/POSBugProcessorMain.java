@@ -8,9 +8,9 @@ import java.util.Set;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.regularparse.BugReport;
-import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionParagraph;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
@@ -43,8 +43,8 @@ public class POSBugProcessorMain {
 
 			System.out.println("Processing " + bugInstance);
 
-			BugReport bugReport = readBug(xmlBugDir, bugInstance);
-			BugReport copyBug = new BugReport(bugReport);
+			ParsedBugReport bugReport = readBug(xmlBugDir, bugInstance);
+			ParsedBugReport copyBug = new ParsedBugReport(bugReport);
 
 			String title = getProcessedSentence("0", copyBug.getTitle());
 			copyBug.setTitle(title);
@@ -52,8 +52,8 @@ public class POSBugProcessorMain {
 			// ----------------
 
 			if (copyBug.getDescription() != null) {
-				List<DescriptionParagraph> paragraphs = copyBug.getDescription().getParagraphs();
-				for (DescriptionParagraph descriptionParagraph : paragraphs) {
+				List<ParsedDescriptionParagraph> paragraphs = copyBug.getDescription().getParagraphs();
+				for (ParsedDescriptionParagraph descriptionParagraph : paragraphs) {
 					preprocessParagraph(descriptionParagraph);
 				}
 			}
@@ -64,14 +64,14 @@ public class POSBugProcessorMain {
 	}
 
 
-	public static void writeBug(BugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
+	public static void writeBug(ParsedBugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
 		File projectFolder = new File(outputFolder + File.separator + bug.getProject() + "_parse");
 		if (!projectFolder.exists()) {
 			projectFolder.mkdir();
 		}
 
 		File outputFile = new File(projectFolder.getAbsolutePath() + File.separator + bug.getBugId() + ".xml.parse");
-		XMLHelper.writeXML(BugReport.class, bugPreprocessed, outputFile);
+		XMLHelper.writeXML(ParsedBugReport.class, bugPreprocessed, outputFile);
 
 	}
 
@@ -87,23 +87,23 @@ public class POSBugProcessorMain {
 	}
 
 
-	public static BugReport readBug(String inputFolder, TextInstance bug) throws Exception {
+	public static ParsedBugReport readBug(String inputFolder, TextInstance bug) throws Exception {
 		String filepath = inputFolder + File.separator + bug.getProject() + "_parse" + File.separator + bug.getBugId()
 				+ ".xml.parse";
-		BugReport xmlBug = XMLHelper.readXML(BugReport.class, filepath);
+		ParsedBugReport xmlBug = XMLHelper.readXML(ParsedBugReport.class, filepath);
 		return xmlBug;
 	}
 
-	private static void preprocessParagraph(DescriptionParagraph descriptionParagraph) {
+	private static void preprocessParagraph(ParsedDescriptionParagraph descriptionParagraph) {
 
-		List<DescriptionSentence> sentences = descriptionParagraph.getSentences();
+		List<ParsedDescriptionSentence> sentences = descriptionParagraph.getSentences();
 
 		if (sentences == null) {
 			return;
 		}
 
 		for (int i = 0; i < sentences.size(); i++) {
-			DescriptionSentence descriptionSentence = sentences.get(i);
+			ParsedDescriptionSentence descriptionSentence = sentences.get(i);
 
 			String stncProcessed = getProcessedSentence(descriptionSentence.getId(), descriptionSentence.getValue());
 			descriptionSentence.setValue(stncProcessed);

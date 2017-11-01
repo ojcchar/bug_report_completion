@@ -4,18 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugrepcompl.entity.BugReport;
-import seers.bugrepcompl.entity.regularparse.BugReportDescription;
-import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
+import seers.bugrepcompl.entity.codingparse.LabeledBugReport;
+import seers.bugrepcompl.entity.codingparse.LabeledBugReportDescription;
+import seers.bugrepcompl.entity.codingparse.LabeledBugReportTitle;
+import seers.bugrepcompl.entity.codingparse.LabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.codingparse.LabeledDescriptionSentence;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReport;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportDescription;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportTitle;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReportDescription;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionParagraph;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence;
 
 public class BugReportSentenceParser {
 
-	public static seers.bugrepcompl.entity.regularparse.BugReport parseBugReport(BugReport bugRep) {
+	public static ParsedBugReport parseBugReport(BugReport bugRep) {
 
 		List<List<String>> paragraphSplit = SentenceSplitter.splitIntoParagraphsAndSentences(bugRep.getDescription());
-		BugReportDescription parsedDescription = createParsedDescription(paragraphSplit);
+		ParsedBugReportDescription parsedDescription = createParsedDescription(paragraphSplit);
 
-		seers.bugrepcompl.entity.regularparse.BugReport parsedBugReport = new seers.bugrepcompl.entity.regularparse.BugReport();
+		ParsedBugReport parsedBugReport = new ParsedBugReport();
 		parsedBugReport.setDescription(parsedDescription);
 		parsedBugReport.setId(bugRep.getId());
 		parsedBugReport.setTitle(bugRep.getTitle());
@@ -24,41 +35,41 @@ public class BugReportSentenceParser {
 
 	}
 
-	public static seers.bugrepcompl.entity.codingparse.BugReport parseBugReportForCoding(BugReport bugRep) {
+	public static LabeledBugReport parseBugReportForCoding(BugReport bugRep) {
 
 		List<List<String>> paragraphSplit = SentenceSplitter.splitIntoParagraphsAndSentences(bugRep.getDescription());
-		seers.bugrepcompl.entity.codingparse.BugReportDescription parsedDescription = createParsedCodingDescription(
+		LabeledBugReportDescription parsedDescription = createParsedCodingDescription(
 				paragraphSplit);
 
-		seers.bugrepcompl.entity.codingparse.BugReport parsedBugReport = new seers.bugrepcompl.entity.codingparse.BugReport();
+		LabeledBugReport parsedBugReport = new LabeledBugReport();
 		parsedBugReport.setDescription(parsedDescription);
 		parsedBugReport.setId(bugRep.getId());
 		parsedBugReport.setTitle(
-				new seers.bugrepcompl.entity.codingparse.BugReportTitle(bugRep.getTitle()));
+				new LabeledBugReportTitle(bugRep.getTitle()));
 
 		return parsedBugReport;
 	}
 
-	public static seers.bugrepcompl.entity.patterncoding.BugReport parseBugReportForPatternCoding(BugReport bugRep) {
+	public static PatternLabeledBugReport parseBugReportForPatternCoding(BugReport bugRep) {
 
 		List<List<String>> paragraphSplit = SentenceSplitter.splitIntoParagraphsAndSentences(bugRep.getDescription());
-		seers.bugrepcompl.entity.patterncoding.BugReportDescription parsedDescription = createParsedPatternCodingDescription(
+		PatternLabeledBugReportDescription parsedDescription = createParsedPatternCodingDescription(
 				paragraphSplit);
 
-		seers.bugrepcompl.entity.patterncoding.BugReport parsedBugReport = new seers.bugrepcompl.entity.patterncoding.BugReport();
+		PatternLabeledBugReport parsedBugReport = new PatternLabeledBugReport();
 		parsedBugReport.setDescription(parsedDescription);
 		parsedBugReport.setId(bugRep.getId());
 		parsedBugReport.setTitle(
-				new seers.bugrepcompl.entity.patterncoding.BugReportTitle(null, null, null, null, bugRep.getTitle()));
+				new PatternLabeledBugReportTitle(null, null, null, null, bugRep.getTitle()));
 
 		return parsedBugReport;
 	}
 
-	private static seers.bugrepcompl.entity.codingparse.BugReportDescription createParsedCodingDescription(
+	private static LabeledBugReportDescription createParsedCodingDescription(
 			List<List<String>> paragraphSplit) {
-		seers.bugrepcompl.entity.codingparse.BugReportDescription desc = new seers.bugrepcompl.entity.codingparse.BugReportDescription();
+		LabeledBugReportDescription desc = new LabeledBugReportDescription();
 
-		List<seers.bugrepcompl.entity.codingparse.DescriptionParagraph> paragraphs = new ArrayList<>();
+		List<LabeledDescriptionParagraph> paragraphs = new ArrayList<>();
 		for (int i = 1; i <= paragraphSplit.size(); i++) {
 
 			List<String> sentenceSplit = paragraphSplit.get(i - 1);
@@ -68,13 +79,13 @@ public class BugReportSentenceParser {
 
 			// -----------------------
 
-			seers.bugrepcompl.entity.codingparse.DescriptionParagraph paragraph = new seers.bugrepcompl.entity.codingparse.DescriptionParagraph();
+			LabeledDescriptionParagraph paragraph = new LabeledDescriptionParagraph();
 			paragraph.setId(i + "");
 
-			List<seers.bugrepcompl.entity.codingparse.DescriptionSentence> sentences = new ArrayList<>();
+			List<LabeledDescriptionSentence> sentences = new ArrayList<>();
 
 			for (int j = 1; j <= sentenceSplit.size(); j++) {
-				seers.bugrepcompl.entity.codingparse.DescriptionSentence sent = new seers.bugrepcompl.entity.codingparse.DescriptionSentence();
+				LabeledDescriptionSentence sent = new LabeledDescriptionSentence();
 				sent.setId(i + "." + j);
 				sent.setValue(sentenceSplit.get(j - 1));
 				sentences.add(sent);
@@ -94,11 +105,11 @@ public class BugReportSentenceParser {
 		return desc;
 	}
 
-	private static BugReportDescription createParsedDescription(List<List<String>> paragraphSplit) {
+	private static ParsedBugReportDescription createParsedDescription(List<List<String>> paragraphSplit) {
 
-		BugReportDescription desc = new BugReportDescription();
+		ParsedBugReportDescription desc = new ParsedBugReportDescription();
 
-		List<DescriptionParagraph> paragraphs = new ArrayList<>();
+		List<ParsedDescriptionParagraph> paragraphs = new ArrayList<>();
 		for (int i = 1; i <= paragraphSplit.size(); i++) {
 
 			List<String> sentenceSplit = paragraphSplit.get(i - 1);
@@ -108,13 +119,13 @@ public class BugReportSentenceParser {
 
 			// -----------------------
 
-			DescriptionParagraph paragraph = new DescriptionParagraph();
+			ParsedDescriptionParagraph paragraph = new ParsedDescriptionParagraph();
 			paragraph.setId(i + "");
 
-			List<DescriptionSentence> sentences = new ArrayList<>();
+			List<ParsedDescriptionSentence> sentences = new ArrayList<>();
 
 			for (int j = 1; j <= sentenceSplit.size(); j++) {
-				DescriptionSentence sent = new DescriptionSentence();
+				ParsedDescriptionSentence sent = new ParsedDescriptionSentence();
 				sent.setId(i + "." + j);
 				sent.setValue(sentenceSplit.get(j - 1));
 				sentences.add(sent);
@@ -134,11 +145,11 @@ public class BugReportSentenceParser {
 		return desc;
 	}
 
-	private static seers.bugrepcompl.entity.patterncoding.BugReportDescription createParsedPatternCodingDescription(
+	private static PatternLabeledBugReportDescription createParsedPatternCodingDescription(
 			List<List<String>> paragraphSplit) {
-		seers.bugrepcompl.entity.patterncoding.BugReportDescription desc = new seers.bugrepcompl.entity.patterncoding.BugReportDescription();
+		PatternLabeledBugReportDescription desc = new PatternLabeledBugReportDescription();
 
-		List<seers.bugrepcompl.entity.patterncoding.DescriptionParagraph> paragraphs = new ArrayList<>();
+		List<PatternLabeledDescriptionParagraph> paragraphs = new ArrayList<>();
 		for (int i = 1; i <= paragraphSplit.size(); i++) {
 
 			List<String> sentenceSplit = paragraphSplit.get(i - 1);
@@ -148,13 +159,13 @@ public class BugReportSentenceParser {
 
 			// -----------------------
 
-			seers.bugrepcompl.entity.patterncoding.DescriptionParagraph paragraph = new seers.bugrepcompl.entity.patterncoding.DescriptionParagraph();
+			PatternLabeledDescriptionParagraph paragraph = new PatternLabeledDescriptionParagraph();
 			paragraph.setId(i + "");
 
-			List<seers.bugrepcompl.entity.patterncoding.DescriptionSentence> sentences = new ArrayList<>();
+			List<PatternLabeledDescriptionSentence> sentences = new ArrayList<>();
 
 			for (int j = 1; j <= sentenceSplit.size(); j++) {
-				seers.bugrepcompl.entity.patterncoding.DescriptionSentence sent = new seers.bugrepcompl.entity.patterncoding.DescriptionSentence();
+				PatternLabeledDescriptionSentence sent = new PatternLabeledDescriptionSentence();
 				sent.setId(i + "." + j);
 				sent.setValue(sentenceSplit.get(j - 1));
 				sentences.add(sent);

@@ -12,10 +12,10 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
-import seers.bugrepcompl.entity.shortcodingparse.BugReportDescription;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportDescription;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence;
 import seers.bugrepcompl.xmlcoding.AgreementMain;
 import seers.bugrepcompl.xmlcoding.CodedBug;
 import seers.bugrepcompl.xmlcoding.SampleEntry;
@@ -74,7 +74,7 @@ public class BugGoldSetMain {
 
 					File xmlFile = new File(
 							codedDataFolder + File.separator + project + File.separator + bugId + ".parse.xml");
-					BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
+					ShortLabeledBugReport bugRep = XMLHelper.readXML(ShortLabeledBugReport.class, xmlFile);
 
 					boolean bugHasDescription = true;
 
@@ -101,7 +101,7 @@ public class BugGoldSetMain {
 								systemFolder.mkdir();
 							}
 							File bugFile = new File(systemFolder + File.separator + bugId + ".parse.xml");
-							XMLHelper.writeXML(BugReport.class, bugRep, bugFile);
+							XMLHelper.writeXML(ShortLabeledBugReport.class, bugRep, bugFile);
 
 						}
 					}
@@ -164,26 +164,26 @@ public class BugGoldSetMain {
 		csWr.writeNext(header);
 	}
 
-	private static List<List<String>> cleanBugReport(BugReport bugRep, TextInstance bugInstance) {
+	private static List<List<String>> cleanBugReport(ShortLabeledBugReport bugRep, TextInstance bugInstance) {
 
-		BugReportDescription description = bugRep.getDescription();
+		ShortLabeledBugReportDescription description = bugRep.getDescription();
 
 		if (description == null) {
 			return null;
 		}
 
-		List<DescriptionParagraph> paragraphs = description.getParagraphs();
+		List<ShortLabeledDescriptionParagraph> paragraphs = description.getParagraphs();
 		if (paragraphs == null) {
 			return null;
 		}
-		List<DescriptionParagraph> paragraphsToDelete = new ArrayList<>();
+		List<ShortLabeledDescriptionParagraph> paragraphsToDelete = new ArrayList<>();
 
 		boolean bugChanged = false;
 		boolean mergedLabels = false;
 
-		for (DescriptionParagraph paragraph : paragraphs) {
+		for (ShortLabeledDescriptionParagraph paragraph : paragraphs) {
 
-			List<DescriptionSentence> sentences = paragraph.getSentences();
+			List<ShortLabeledDescriptionSentence> sentences = paragraph.getSentences();
 
 			// detect empty paragraphs
 			if (sentences == null || sentences.isEmpty()) {
@@ -194,8 +194,8 @@ public class BugGoldSetMain {
 				// --------------------
 
 				// detect empty sentences
-				List<DescriptionSentence> sentencesToDelete = new ArrayList<>();
-				for (DescriptionSentence sent : sentences) {
+				List<ShortLabeledDescriptionSentence> sentencesToDelete = new ArrayList<>();
+				for (ShortLabeledDescriptionSentence sent : sentences) {
 					if (sent.getValue().trim().isEmpty()) {
 						sentencesToDelete.add(sent);
 						bugChanged = true;
@@ -217,7 +217,7 @@ public class BugGoldSetMain {
 					// (paragraphs with 1 sentence) --> merge the labels of the
 					// paragraph and sentence
 
-					DescriptionSentence firstSent = sentences.get(0);
+					ShortLabeledDescriptionSentence firstSent = sentences.get(0);
 					if (sentences.size() == 1 && (!firstSent.getOb().equals(paragraph.getOb())
 							|| !firstSent.getEb().equals(paragraph.getEb())
 							|| !firstSent.getSr().equals(paragraph.getSr()))) {
@@ -240,7 +240,7 @@ public class BugGoldSetMain {
 		List<List<String>> changedLines = new ArrayList<>();
 
 		Integer paragraphId = 1;
-		for (DescriptionParagraph paragraph : paragraphs) {
+		for (ShortLabeledDescriptionParagraph paragraph : paragraphs) {
 
 			String parId = paragraph.getId();
 
@@ -252,7 +252,7 @@ public class BugGoldSetMain {
 			paragraph.setId(paragraphId.toString());
 
 			Integer sentId = 1;
-			for (DescriptionSentence sent : paragraph.getSentences()) {
+			for (ShortLabeledDescriptionSentence sent : paragraph.getSentences()) {
 
 				String oldSentId = sent.getId();
 				String newSentId = paragraphId.toString() + "." + sentId.toString();
@@ -283,7 +283,7 @@ public class BugGoldSetMain {
 
 	}
 
-	private static void mergeLabels(DescriptionParagraph paragraph, DescriptionSentence sent) {
+	private static void mergeLabels(ShortLabeledDescriptionParagraph paragraph, ShortLabeledDescriptionSentence sent) {
 
 		Labels labels = new Labels(paragraph.getOb(), paragraph.getEb(), paragraph.getSr());
 		Labels label = new Labels(sent.getOb(), sent.getEb(), sent.getSr());

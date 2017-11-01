@@ -17,7 +17,7 @@ public class BugReportParserTest {
 
 		BugReport bugRep = XMLHelper.readXML(BugReport.class, inFile);
 
-		seers.bugrepcompl.entity.regularparse.BugReport parsedBugReport = BugReportSentenceParser
+		seers.bugrepcompl.entity.regularparse.ParsedBugReport parsedBugReport = BugReportSentenceParser
 				.parseBugReport(bugRep);
 		System.out.println(parsedBugReport);
 	}
@@ -27,7 +27,7 @@ public class BugReportParserTest {
 
 		BugReport bugRep = XMLHelper.readXML(BugReport.class, inFile);
 
-		seers.bugrepcompl.entity.patterncoding.BugReport parsedBugReport = BugReportSentenceParser
+		seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReport parsedBugReport = BugReportSentenceParser
 				.parseBugReportForPatternCoding(bugRep);
 		System.out.println(parsedBugReport);
 	}
@@ -41,7 +41,7 @@ public class BugReportParserTest {
 			String inFile2 = "test_data" + File.separator + "sentence_splitting" + File.separator + file;
 			BugReport bugRep = XMLHelper.readXML(BugReport.class, inFile2);
 
-			seers.bugrepcompl.entity.patterncoding.BugReport parsedBugReport = BugReportSentenceParser
+			seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReport parsedBugReport = BugReportSentenceParser
 					.parseBugReportForPatternCoding(bugRep);
 			System.out.println(parsedBugReport);
 			System.out.println("-------------");

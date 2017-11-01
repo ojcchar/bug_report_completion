@@ -8,9 +8,9 @@ import java.util.List;
 
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence;
 
 public class FinalAndOldCodingChecker {
 
@@ -43,8 +43,8 @@ public class FinalAndOldCodingChecker {
 			if (finalFile.exists()) {
 				numComparisons++;
 
-				BugReport oldCodingBug = XMLHelper.readXML(BugReport.class, oldFile);
-				BugReport finalBug = XMLHelper.readXML(BugReport.class, finalFile);
+				ShortLabeledBugReport oldCodingBug = XMLHelper.readXML(ShortLabeledBugReport.class, oldFile);
+				ShortLabeledBugReport finalBug = XMLHelper.readXML(ShortLabeledBugReport.class, finalFile);
 
 				boolean conflict = checkConflict(oldCodingBug, finalBug);
 				if (conflict) {
@@ -61,7 +61,7 @@ public class FinalAndOldCodingChecker {
 
 	}
 
-	private static boolean checkConflict(BugReport oldCodingBug, BugReport finalBug) {
+	private static boolean checkConflict(ShortLabeledBugReport oldCodingBug, ShortLabeledBugReport finalBug) {
 
 		if (!oldCodingBug.getId().equals(finalBug.getId())) {
 			return true;
@@ -75,16 +75,16 @@ public class FinalAndOldCodingChecker {
 			return true;
 		}
 
-		List<DescriptionParagraph> oldParagraphs = oldCodingBug.getDescription().getParagraphs();
-		List<DescriptionParagraph> finalParagraphs = finalBug.getDescription().getParagraphs();
+		List<ShortLabeledDescriptionParagraph> oldParagraphs = oldCodingBug.getDescription().getParagraphs();
+		List<ShortLabeledDescriptionParagraph> finalParagraphs = finalBug.getDescription().getParagraphs();
 
 		boolean conflict = checkConflictsInParagraphs(oldParagraphs, finalParagraphs);
 		if (conflict) {
 			return true;
 		}
 
-		List<DescriptionSentence> allOldSentences = oldCodingBug.getDescription().getAllSentences();
-		List<DescriptionSentence> allFinalSentences = finalBug.getDescription().getAllSentences();
+		List<ShortLabeledDescriptionSentence> allOldSentences = oldCodingBug.getDescription().getAllSentences();
+		List<ShortLabeledDescriptionSentence> allFinalSentences = finalBug.getDescription().getAllSentences();
 
 		boolean conflict2 = checkConflicts(allOldSentences, allFinalSentences);
 		if (conflict2) {
@@ -94,16 +94,16 @@ public class FinalAndOldCodingChecker {
 		return false;
 	}
 
-	private static boolean checkConflicts(List<DescriptionSentence> allOldSentences,
-			List<DescriptionSentence> allFinalSentences) {
+	private static boolean checkConflicts(List<ShortLabeledDescriptionSentence> allOldSentences,
+			List<ShortLabeledDescriptionSentence> allFinalSentences) {
 
 		if (allOldSentences.size() != allFinalSentences.size()) {
 			return true;
 		}
 
 		for (int i = 0; i < allOldSentences.size(); i++) {
-			DescriptionSentence oldSent = allOldSentences.get(i);
-			DescriptionSentence finalSent = allFinalSentences.get(i);
+			ShortLabeledDescriptionSentence oldSent = allOldSentences.get(i);
+			ShortLabeledDescriptionSentence finalSent = allFinalSentences.get(i);
 
 			if (!oldSent.getId().equals(finalSent.getId())) {
 				return true;
@@ -129,16 +129,16 @@ public class FinalAndOldCodingChecker {
 		return false;
 	}
 
-	private static boolean checkConflictsInParagraphs(List<DescriptionParagraph> oldParagraphs,
-			List<DescriptionParagraph> finalParagraphs) {
+	private static boolean checkConflictsInParagraphs(List<ShortLabeledDescriptionParagraph> oldParagraphs,
+			List<ShortLabeledDescriptionParagraph> finalParagraphs) {
 
 		if (oldParagraphs.size() != finalParagraphs.size()) {
 			return true;
 		}
 
 		for (int i = 0; i < oldParagraphs.size(); i++) {
-			DescriptionParagraph oldPar = oldParagraphs.get(i);
-			DescriptionParagraph finalPar = finalParagraphs.get(i);
+			ShortLabeledDescriptionParagraph oldPar = oldParagraphs.get(i);
+			ShortLabeledDescriptionParagraph finalPar = finalParagraphs.get(i);
 
 			if (!oldPar.getId().equals(finalPar.getId())) {
 				return true;

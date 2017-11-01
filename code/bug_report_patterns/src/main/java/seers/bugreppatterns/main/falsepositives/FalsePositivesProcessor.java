@@ -12,7 +12,7 @@ import seers.appcore.threads.ThreadExecutor;
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
 import seers.appcore.xml.XMLHelper;
-import seers.bugrepcompl.entity.regularparse.BugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.main.falsepositives.FalsePositiveSummarizer.BugInstance;
 import seers.bugreppatterns.utils.ParsingUtils;
@@ -89,7 +89,7 @@ public class FalsePositivesProcessor extends ThreadProcessor {
 
 		if (bugRepDoc == null) {
 			String file = "test_data\\data\\" + system + "_parse\\" + bugId + ".xml.parse";
-			BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
+			ParsedBugReport bugRep = XMLHelper.readXML(ParsedBugReport.class, file);
 			bugRepDoc = ParsingUtils.parseDocument(system, bugRep);
 			bugReportsHash.put(sysBugIdKey, bugRepDoc);
 		}

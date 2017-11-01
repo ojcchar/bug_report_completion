@@ -10,30 +10,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "description")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BugReportDescription {
+public class ParsedBugReportDescription {
 
 	@XmlElement(name = "paragraph")
-	private List<DescriptionParagraph> paragraphs;
+	private List<ParsedDescriptionParagraph> paragraphs;
 
-	public BugReportDescription() {
+	public ParsedBugReportDescription() {
 	}
 
-	public BugReportDescription(BugReportDescription description) {
+	public ParsedBugReportDescription(ParsedBugReportDescription description) {
 		this.paragraphs = new ArrayList<>();
 
 		if (description != null) {
 
-			for (DescriptionParagraph descriptionParagraph : description.paragraphs) {
-				this.paragraphs.add(new DescriptionParagraph(descriptionParagraph));
+			for (ParsedDescriptionParagraph descriptionParagraph : description.paragraphs) {
+				this.paragraphs.add(new ParsedDescriptionParagraph(descriptionParagraph));
 			}
 		}
 	}
 
-	public List<DescriptionParagraph> getParagraphs() {
+	public List<ParsedDescriptionParagraph> getParagraphs() {
 		return paragraphs;
 	}
 
-	public void setParagraphs(List<DescriptionParagraph> paragraphs) {
+	public void setParagraphs(List<ParsedDescriptionParagraph> paragraphs) {
 		this.paragraphs = paragraphs;
 	}
 
@@ -45,18 +45,18 @@ public class BugReportDescription {
 	private String getStrElements() {
 		StringBuffer buf = new StringBuffer();
 
-		for (DescriptionParagraph el : getParagraphs()) {
+		for (ParsedDescriptionParagraph el : getParagraphs()) {
 			buf.append(el);
 			buf.append("\r\n");
 		}
 		return buf.toString();
 	}
 
-	public List<DescriptionSentence> getAllSentences() {
+	public List<ParsedDescriptionSentence> getAllSentences() {
 
-		List<DescriptionSentence> sentences = new ArrayList<>();
-		for (DescriptionParagraph par : paragraphs) {
-			List<DescriptionSentence> sentences2 = par.getSentences();
+		List<ParsedDescriptionSentence> sentences = new ArrayList<>();
+		for (ParsedDescriptionParagraph par : paragraphs) {
+			List<ParsedDescriptionSentence> sentences2 = par.getSentences();
 
 			if (sentences2 != null) {
 				sentences.addAll(sentences2);
@@ -86,7 +86,7 @@ public class BugReportDescription {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BugReportDescription other = (BugReportDescription) obj;
+		ParsedBugReportDescription other = (ParsedBugReportDescription) obj;
 		if (paragraphs == null) {
 			if (other.paragraphs != null)
 				return false;

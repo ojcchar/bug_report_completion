@@ -18,7 +18,7 @@ import net.quux00.simplecsv.CsvParserBuilder;
 import net.quux00.simplecsv.CsvReader;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.codingparse.BugReport;
+import seers.bugrepcompl.entity.codingparse.LabeledBugReport;
 
 public class XMLCodingMain {
 
@@ -94,17 +94,17 @@ public class XMLCodingMain {
 
 	}
 
-	static HashMap<TextInstance, seers.bugrepcompl.entity.shortcodingparse.BugReport> bugCache = new HashMap<>();
+	static HashMap<TextInstance, seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport> bugCache = new HashMap<>();
 
 	private static void createParsed(TextInstance bug, File parsedBugsDir, String xmlFilesDir) throws Exception {
 
 		try {
-			seers.bugrepcompl.entity.shortcodingparse.BugReport bugReport2 = bugCache.get(bug);
+			seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport bugReport2 = bugCache.get(bug);
 			if (bugReport2 == null) {
 
 				String bugFile = xmlFilesDir + File.separator + "bugs_parsed" + File.separator + bug.getProject()
 						+ "_parse" + File.separator + bug.getBugId() + ".xml.parse";
-				BugReport bugReport = XMLHelper.readXML(BugReport.class, bugFile);
+				LabeledBugReport bugReport = XMLHelper.readXML(LabeledBugReport.class, bugFile);
 
 				bugReport2 = bugReport.toBugReport2();
 
@@ -115,7 +115,7 @@ public class XMLCodingMain {
 			projFolder.mkdir();
 
 			File outputFile = new File(projFolder + File.separator + bug.getBugId() + ".parse.xml");
-			XMLHelper.writeXML(seers.bugrepcompl.entity.shortcodingparse.BugReport.class, bugReport2, outputFile);
+			XMLHelper.writeXML(seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport.class, bugReport2, outputFile);
 		} catch (Exception e) {
 			System.err.println("Error for bug " + bug);
 			throw e;

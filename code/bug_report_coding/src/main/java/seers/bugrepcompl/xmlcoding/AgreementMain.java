@@ -22,9 +22,9 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence;
 
 public class AgreementMain {
 
@@ -236,7 +236,7 @@ public class AgreementMain {
 					codedDataPath + File.separator + coder + File.separator + "bugs_parsed" + File.separator
 							+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
 			if (xmlFile.exists()) {
-				BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
+				ShortLabeledBugReport bugRep = XMLHelper.readXML(ShortLabeledBugReport.class, xmlFile);
 				return analyzeBugRep(bugRep);
 			}
 
@@ -250,10 +250,10 @@ public class AgreementMain {
 		throw new RuntimeException("No coded bug for " + sampleEntry.getInstance() + " - " + coder);
 	}
 
-	public static CodedBug analyzeBugRep(BugReport bugRep) {
+	public static CodedBug analyzeBugRep(ShortLabeledBugReport bugRep) {
 
-		List<DescriptionSentence> allSentences = bugRep.getDescription().getAllSentences();
-		List<DescriptionParagraph> paragraphs = bugRep.getDescription().getParagraphs();
+		List<ShortLabeledDescriptionSentence> allSentences = bugRep.getDescription().getAllSentences();
+		List<ShortLabeledDescriptionParagraph> paragraphs = bugRep.getDescription().getParagraphs();
 
 		boolean isBug = bugRep.getNoBug().trim().isEmpty();
 		if (paragraphs == null) {

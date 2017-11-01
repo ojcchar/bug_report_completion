@@ -21,7 +21,7 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import seers.bugrepclassifier.svmbased.svm.util.Common;
 
-public class BugReport {
+public class SVMBugReport {
 	public String fileID;
 	public String system;
 	public String reportID;
@@ -46,7 +46,7 @@ public class BugReport {
 		pipeline = new StanfordCoreNLP(props);
 	}
 
-	public BugReport(String fileID, String system) {
+	public SVMBugReport(String fileID, String system) {
 		System.setProperty("file.encoding", "UTF-8");
 		this.paragraphMap = new HashMap<String, ArrayList<String>>();
 		this.sentenceMap = new HashMap<String, String>();
@@ -60,7 +60,7 @@ public class BugReport {
 		this.preprocessing();
 	}
 
-	public BugReport(String bugDescription) {
+	public SVMBugReport(String bugDescription) {
 		this.paragraphMap = new HashMap<String, ArrayList<String>>();
 		this.sentenceMap = new HashMap<String, String>();
 		this.description = bugDescription;
@@ -248,7 +248,7 @@ public class BugReport {
 		for (int i = 0; i < 2; i++) {
 			String file = "/users/ljwinnie/Desktop/bug_report/data/eclipse/" + filelist[i];
 			System.out.println(file);
-			BugReport report = new BugReport(file, "eclipse");
+			SVMBugReport report = new SVMBugReport(file, "eclipse");
 		}
 	}
 }

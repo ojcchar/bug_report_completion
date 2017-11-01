@@ -12,9 +12,9 @@ import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.regularparse.BugReport;
-import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionParagraph;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -46,8 +46,8 @@ public class BugPreprocessor extends ThreadProcessor {
 
 			try {
 				System.out.println("Processing bug " + bug);
-				BugReport bugNotPreprocessed = readBug(inputFolder, bug);
-				BugReport bugPreprocessed = preprocessBug(bugNotPreprocessed);
+				ParsedBugReport bugNotPreprocessed = readBug(inputFolder, bug);
+				ParsedBugReport bugPreprocessed = preprocessBug(bugNotPreprocessed);
 				writeBug(bugPreprocessed, outputFolder, bug);
 			} catch (Exception e) {
 				System.err.println("Error for bug " + bug);
@@ -57,27 +57,27 @@ public class BugPreprocessor extends ThreadProcessor {
 		}
 	}
 
-	private BugReport readBug(String inputFolder, TextInstance bug) throws Exception {
+	private ParsedBugReport readBug(String inputFolder, TextInstance bug) throws Exception {
 		String filepath = inputFolder + File.separator + bug.getProject() + "_parse" + File.separator + bug.getBugId()
 				+ ".xml.parse";
-		BugReport xmlBug = XMLHelper.readXML(BugReport.class, filepath);
+		ParsedBugReport xmlBug = XMLHelper.readXML(ParsedBugReport.class, filepath);
 		return xmlBug;
 	}
 
-	private void writeBug(BugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
+	private void writeBug(ParsedBugReport bugPreprocessed, String outputFolder, TextInstance bug) throws Exception {
 		File projectFolder = new File(outputFolder + File.separator + bug.getProject() + "_parse");
 		if (!projectFolder.exists()) {
 			projectFolder.mkdir();
 		}
 
 		File outputFile = new File(projectFolder.getAbsolutePath() + File.separator + bug.getBugId() + ".xml.parse");
-		XMLHelper.writeXML(BugReport.class, bugPreprocessed, outputFile);
+		XMLHelper.writeXML(ParsedBugReport.class, bugPreprocessed, outputFile);
 
 	}
 
-	private BugReport preprocessBug(BugReport bugNotPreprocessed) {
+	private ParsedBugReport preprocessBug(ParsedBugReport bugNotPreprocessed) {
 
-		BugReport copyBug = new BugReport(bugNotPreprocessed);
+		ParsedBugReport copyBug = new ParsedBugReport(bugNotPreprocessed);
 
 		// ------------------------------------------------
 		// Title
@@ -92,8 +92,8 @@ public class BugPreprocessor extends ThreadProcessor {
 		// ------------------------------------------------
 		// Description
 
-		List<DescriptionParagraph> paragraphs = copyBug.getDescription().getParagraphs();
-		for (DescriptionParagraph descriptionParagraph : paragraphs) {
+		List<ParsedDescriptionParagraph> paragraphs = copyBug.getDescription().getParagraphs();
+		for (ParsedDescriptionParagraph descriptionParagraph : paragraphs) {
 			preprocessParagraph(descriptionParagraph);
 		}
 
@@ -102,16 +102,16 @@ public class BugPreprocessor extends ThreadProcessor {
 		return copyBug;
 	}
 
-	private void preprocessParagraph(DescriptionParagraph descriptionParagraph) {
+	private void preprocessParagraph(ParsedDescriptionParagraph descriptionParagraph) {
 
-		List<DescriptionSentence> sentences = descriptionParagraph.getSentences();
+		List<ParsedDescriptionSentence> sentences = descriptionParagraph.getSentences();
 
 		if (sentences == null) {
 			return;
 		}
 		
 		for (int i = 0; i < sentences.size(); i++) {
-			DescriptionSentence descriptionSentence = sentences.get(i);
+			ParsedDescriptionSentence descriptionSentence = sentences.get(i);
 
 			String sentenceTxt = descriptionSentence.getValue();
 

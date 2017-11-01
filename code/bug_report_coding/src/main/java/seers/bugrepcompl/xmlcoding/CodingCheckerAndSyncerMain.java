@@ -16,9 +16,9 @@ import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.PatternEntry;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.patterncoding.BugReport;
-import seers.bugrepcompl.entity.patterncoding.DescriptionParagraph;
-import seers.bugrepcompl.entity.patterncoding.DescriptionSentence;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReport;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence;
 import seers.bugrepcompl.utils.DataReader;
 
 public class CodingCheckerAndSyncerMain {
@@ -73,7 +73,7 @@ public class CodingCheckerAndSyncerMain {
 
 					File xmlFile = new File(
 							patternCodingFolder + File.separator + project + File.separator + bugId + ".parse.xml");
-					BugReport codedBug = XMLHelper.readXML(BugReport.class, xmlFile);
+					PatternLabeledBugReport codedBug = XMLHelper.readXML(PatternLabeledBugReport.class, xmlFile);
 
 					String bugType = typeOfIssues.get(bugInstance);
 					if (bugType == null) {
@@ -88,11 +88,11 @@ public class CodingCheckerAndSyncerMain {
 
 					if (writeSync) {
 
-						seers.bugrepcompl.entity.shortcodingparse.BugReport shortCodedBug = codedBug.toShortCodedBug();
+						seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport shortCodedBug = codedBug.toShortCodedBug();
 
 						File xmlFile2 = new File(
 								codedDataFolder + File.separator + project + File.separator + bugId + ".parse.xml");
-						XMLHelper.writeXML(seers.bugrepcompl.entity.shortcodingparse.BugReport.class, shortCodedBug,
+						XMLHelper.writeXML(seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport.class, shortCodedBug,
 								xmlFile2);
 					}
 
@@ -123,7 +123,7 @@ public class CodingCheckerAndSyncerMain {
 		}
 	}
 
-	private static List<Set<PatternEntry>> checkCodecBug(BugReport codedBug, TextInstance bugInstance, String bugType) {
+	private static List<Set<PatternEntry>> checkCodecBug(PatternLabeledBugReport codedBug, TextInstance bugInstance, String bugType) {
 
 		Set<PatternEntry> bugPatterns = new LinkedHashSet<>();
 		Set<PatternEntry> sentParPatterns = new LinkedHashSet<>();
@@ -156,9 +156,9 @@ public class CodingCheckerAndSyncerMain {
 		// ----------------------------------
 		// paragraphs
 
-		List<DescriptionParagraph> paragraphs = codedBug.getDescription().getParagraphs();
+		List<PatternLabeledDescriptionParagraph> paragraphs = codedBug.getDescription().getParagraphs();
 
-		for (DescriptionParagraph descriptionParagraph : paragraphs) {
+		for (PatternLabeledDescriptionParagraph descriptionParagraph : paragraphs) {
 			patterns = CodingXMLNormalizationMain.pattenrsToSet(descriptionParagraph.getPatterns());
 
 			patternsUsed.addAll(patterns);
@@ -181,8 +181,8 @@ public class CodingCheckerAndSyncerMain {
 			// ----------------------------------
 			// sentences
 
-			List<DescriptionSentence> sentences = descriptionParagraph.getSentences();
-			for (DescriptionSentence descriptionSentence : sentences) {
+			List<PatternLabeledDescriptionSentence> sentences = descriptionParagraph.getSentences();
+			for (PatternLabeledDescriptionSentence descriptionSentence : sentences) {
 				patterns = CodingXMLNormalizationMain.pattenrsToSet(descriptionSentence.getPatterns());
 
 				patternsUsed.addAll(patterns);

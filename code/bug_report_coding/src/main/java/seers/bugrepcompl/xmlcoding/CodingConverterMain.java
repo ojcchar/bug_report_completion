@@ -19,9 +19,9 @@ import net.quux00.simplecsv.CsvReader;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence;
 
 public class CodingConverterMain {
 
@@ -76,7 +76,7 @@ public class CodingConverterMain {
 						continue;
 					}
 				}
-				BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
+				ShortLabeledBugReport bugRep = XMLHelper.readXML(ShortLabeledBugReport.class, xmlFile);
 
 				// merge
 				mergeCoding(bugRep, codedSentences);
@@ -87,7 +87,7 @@ public class CodingConverterMain {
 
 				// write XML
 				File outputFile = new File(systemFolder + File.separator + bugInstance.getBugId() + ".parse.xml");
-				XMLHelper.writeXML(BugReport.class, bugRep, outputFile);
+				XMLHelper.writeXML(ShortLabeledBugReport.class, bugRep, outputFile);
 
 				processedBugs.add(bugInstance);
 			} catch (Exception e) {
@@ -125,7 +125,7 @@ public class CodingConverterMain {
 			File xmlFile = new File(
 					xmlFilesFolder + File.separator + coder + File.separator + "bugs_parsed" + File.separator
 							+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
-			BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
+			ShortLabeledBugReport bugRep = XMLHelper.readXML(ShortLabeledBugReport.class, xmlFile);
 
 			bugRep.setNoBug("x");
 
@@ -133,12 +133,12 @@ public class CodingConverterMain {
 			File outputFile = new File(
 					outputFolder + File.separator + coder + File.separator + "bugs_parsed" + File.separator
 							+ bugInstance.getProject() + File.separator + bugInstance.getBugId() + ".parse.xml");
-			XMLHelper.writeXML(BugReport.class, bugRep, outputFile);
+			XMLHelper.writeXML(ShortLabeledBugReport.class, bugRep, outputFile);
 		}
 
 	}
 
-	private static void mergeCoding(BugReport bugRep, Set<Entry<TextInstance, Labels>> codedSentences) {
+	private static void mergeCoding(ShortLabeledBugReport bugRep, Set<Entry<TextInstance, Labels>> codedSentences) {
 
 		for (Entry<TextInstance, Labels> sentenceEntry : codedSentences) {
 
@@ -155,7 +155,7 @@ public class CodingConverterMain {
 					bugRep.getTitle().setSr(labels.getIsSR());
 				} else {
 
-					Optional<DescriptionSentence> sent = bugRep.getDescription().getAllSentences().stream()
+					Optional<ShortLabeledDescriptionSentence> sent = bugRep.getDescription().getAllSentences().stream()
 							.filter(s -> s.getId().equals(instanceId)).findFirst();
 
 					if (!sent.isPresent()) {
@@ -175,7 +175,7 @@ public class CodingConverterMain {
 					bugRep.getTitle().setEb(labels.getIsEB());
 					bugRep.getTitle().setSr(labels.getIsSR());
 				} else {
-					Optional<DescriptionParagraph> par = bugRep.getDescription().getParagraphs().stream()
+					Optional<ShortLabeledDescriptionParagraph> par = bugRep.getDescription().getParagraphs().stream()
 							.filter(p -> p.getId().equals(instanceId)).findFirst();
 
 					if (!par.isPresent()) {

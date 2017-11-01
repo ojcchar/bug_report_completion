@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "sent")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DescriptionSentence {
+public class PatternLabeledDescriptionSentence {
 
 	@XmlAttribute
 	private String ob = "";
@@ -24,10 +24,10 @@ public class DescriptionSentence {
 	@XmlValue
 	private String value;
 
-	public DescriptionSentence() {
+	public PatternLabeledDescriptionSentence() {
 	}
 
-	public DescriptionSentence(String ob, String eb, String sr, String patterns, String id, String value) {
+	public PatternLabeledDescriptionSentence(String ob, String eb, String sr, String patterns, String id, String value) {
 		super();
 		this.ob = ob;
 		this.eb = eb;
@@ -37,7 +37,7 @@ public class DescriptionSentence {
 		this.value = value;
 	}
 
-	public DescriptionSentence(DescriptionSentence descriptionSentence) {
+	public PatternLabeledDescriptionSentence(PatternLabeledDescriptionSentence descriptionSentence) {
 
 		this.ob = descriptionSentence.ob;
 		this.eb = descriptionSentence.eb;
@@ -95,8 +95,8 @@ public class DescriptionSentence {
 		this.patterns = patterns;
 	}
 
-	public seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence toPatternCodingSentence() {
-		return new seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence(ob, eb, sr, id, value);
+	public seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence toPatternCodingSentence() {
+		return new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence(ob, eb, sr, id, value);
 	}
 
 	@Override

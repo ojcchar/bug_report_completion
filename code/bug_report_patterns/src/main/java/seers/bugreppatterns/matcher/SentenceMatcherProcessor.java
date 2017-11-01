@@ -10,9 +10,9 @@ import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.threads.processor.ThreadProcessor;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.CodedDataEntry;
-import seers.bugrepcompl.entity.regularparse.BugReport;
-import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionParagraph;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence;
 import seers.bugreppatterns.main.validation.MainMatcher;
 import seers.bugreppatterns.main.validation.MainMatcher.GoldSetClasses;
 import seers.textanalyzer.TextProcessor;
@@ -44,7 +44,7 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 					+ File.separator + bugId + ".xml.parse";
 
 			try {
-				BugReport bug = XMLHelper.readXML(BugReport.class, fileToRead);
+				ParsedBugReport bug = XMLHelper.readXML(ParsedBugReport.class, fileToRead);
 
 				checkSentence(sentence, bug);
 			} catch (Exception e) {
@@ -109,7 +109,7 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 		return false;
 	}
 
-	private void checkSentence(CodedDataEntry sentence, BugReport bug) {
+	private void checkSentence(CodedDataEntry sentence, ParsedBugReport bug) {
 
 		String project = sentence.project;
 		String bugId = sentence.bugId;
@@ -134,7 +134,7 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 		}
 	}
 
-	private void processParagraph(BugReport bug, String project, String bugId, String sentenceId, String paragraphTxt,
+	private void processParagraph(ParsedBugReport bug, String project, String bugId, String sentenceId, String paragraphTxt,
 			String cl1, String cl2, String cl3) {
 		String parId = null;
 		String title = bug.getTitle();
@@ -142,12 +142,12 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 		if (paragraphTxt.trim().equalsIgnoreCase(title)) {
 			parId = "0";
 		} else {
-			List<DescriptionParagraph> paragraphs = bug.getDescription().getParagraphs();
-			for (DescriptionParagraph p : paragraphs) {
+			List<ParsedDescriptionParagraph> paragraphs = bug.getDescription().getParagraphs();
+			for (ParsedDescriptionParagraph p : paragraphs) {
 
-				List<DescriptionSentence> sentences2 = p.getSentences();
-				DescriptionSentence first = sentences2.get(0);
-				DescriptionSentence last = sentences2.get(sentences2.size() - 1);
+				List<ParsedDescriptionSentence> sentences2 = p.getSentences();
+				ParsedDescriptionSentence first = sentences2.get(0);
+				ParsedDescriptionSentence last = sentences2.get(sentences2.size() - 1);
 
 				String firstTrim = first.getValue().trim();
 				String lastTrim = last.getValue().trim();
@@ -200,7 +200,7 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 		}
 	}
 
-	private void processSentence(BugReport bug, String project, String bugId, String sentenceId, String sentenceTxt,
+	private void processSentence(ParsedBugReport bug, String project, String bugId, String sentenceId, String sentenceTxt,
 			String cl1, String cl2, String cl3) {
 		String parId = null;
 		String sentId = null;
@@ -212,11 +212,11 @@ public class SentenceMatcherProcessor extends ThreadProcessor {
 			sentId = "0.1";
 		} else {
 
-			List<DescriptionParagraph> paragraphs = bug.getDescription().getParagraphs();
-			for (DescriptionParagraph p : paragraphs) {
+			List<ParsedDescriptionParagraph> paragraphs = bug.getDescription().getParagraphs();
+			for (ParsedDescriptionParagraph p : paragraphs) {
 
-				List<DescriptionSentence> sentences2 = p.getSentences();
-				Optional<DescriptionSentence> first = sentences2.stream()
+				List<ParsedDescriptionSentence> sentences2 = p.getSentences();
+				Optional<ParsedDescriptionSentence> first = sentences2.stream()
 						.filter(s -> sentenceTxt.trim().equalsIgnoreCase(s.getValue().trim())).findFirst();
 				if (first.isPresent()) {
 					parId = p.getId();

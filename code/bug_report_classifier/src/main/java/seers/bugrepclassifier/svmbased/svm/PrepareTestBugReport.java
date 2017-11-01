@@ -2,7 +2,7 @@ package seers.bugrepclassifier.svmbased.svm;
 
 import java.util.ArrayList;
 
-import seers.bugrepclassifier.svmbased.model.BugReport;
+import seers.bugrepclassifier.svmbased.model.SVMBugReport;
 import seers.bugrepclassifier.svmbased.svm.util.Common;
 
 public class PrepareTestBugReport {
@@ -21,7 +21,7 @@ public class PrepareTestBugReport {
 //			ngramflag = true;
 //		}
 		
-		BugReport report = new BugReport(rawfilepath,"");
+		SVMBugReport report = new SVMBugReport(rawfilepath,"");
 		
 		BugReportFea fea = new BugReportFea(false,featurepath);
 		

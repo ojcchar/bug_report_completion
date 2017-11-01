@@ -14,9 +14,9 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
-import seers.bugrepcompl.entity.shortcodingparse.BugReportDescription;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportDescription;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
@@ -55,7 +55,7 @@ public class WordStatsMain {
 
 					File xmlFile = new File(
 							codedDataFolder + File.separator + project + File.separator + bugId + ".parse.xml");
-					BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
+					ShortLabeledBugReport bugRep = XMLHelper.readXML(ShortLabeledBugReport.class, xmlFile);
 
 					processBug(bugRep, bugInstance, bugEntry.getValue());
 
@@ -87,14 +87,14 @@ public class WordStatsMain {
 		}
 	}
 
-	private static void processBug(BugReport bugRep, TextInstance bugInstance, Labels bugLabels) {
+	private static void processBug(ShortLabeledBugReport bugRep, TextInstance bugInstance, Labels bugLabels) {
 
-		BugReportDescription description = bugRep.getDescription();
+		ShortLabeledBugReportDescription description = bugRep.getDescription();
 		if (description == null) {
 			return;
 		}
 
-		List<DescriptionSentence> allSentences = description.getAllSentences();
+		List<ShortLabeledDescriptionSentence> allSentences = description.getAllSentences();
 
 		InstanceStats stats = bugStats.get(bugInstance);
 		if (stats == null) {
@@ -105,7 +105,7 @@ public class WordStatsMain {
 		Set<String> uniqueWords = new HashSet<>();
 		Set<String> uniqueLemmas = new HashSet<>();
 
-		for (DescriptionSentence sentence : allSentences) {
+		for (ShortLabeledDescriptionSentence sentence : allSentences) {
 			Sentence parsedSentence = SentenceUtils.parseSentence(sentence.getId(), sentence.getValue());
 
 			if (parsedSentence == null) {

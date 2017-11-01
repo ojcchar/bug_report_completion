@@ -8,9 +8,9 @@ import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
-import seers.bugrepcompl.entity.regularparse.BugReportDescription;
-import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReportDescription;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionParagraph;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence;
 
 public class TextParser {
 
@@ -22,7 +22,7 @@ public class TextParser {
 		pipeline = new StanfordCoreNLP(props);
 	}
 
-	public BugReportDescription parseText(String bugDescription) {
+	public ParsedBugReportDescription parseText(String bugDescription) {
 
 		ArrayList<ArrayList<String>> paragraphSplit = splitText(bugDescription);
 
@@ -149,11 +149,11 @@ public class TextParser {
 		return paragraphSplit;
 	}
 
-	private BugReportDescription createParsedDescription(ArrayList<ArrayList<String>> paragraphSplit) {
+	private ParsedBugReportDescription createParsedDescription(ArrayList<ArrayList<String>> paragraphSplit) {
 
-		BugReportDescription desc = new BugReportDescription();
+		ParsedBugReportDescription desc = new ParsedBugReportDescription();
 
-		List<DescriptionParagraph> paragraphs = new ArrayList<>();
+		List<ParsedDescriptionParagraph> paragraphs = new ArrayList<>();
 		for (int i = 1; i <= paragraphSplit.size(); i++) {
 
 			ArrayList<String> sentenceSplit = paragraphSplit.get(i - 1);
@@ -163,13 +163,13 @@ public class TextParser {
 
 			// -----------------------
 
-			DescriptionParagraph paragraph = new DescriptionParagraph();
+			ParsedDescriptionParagraph paragraph = new ParsedDescriptionParagraph();
 			paragraph.setId(i + "");
 
-			List<DescriptionSentence> sentences = new ArrayList<>();
+			List<ParsedDescriptionSentence> sentences = new ArrayList<>();
 
 			for (int j = 1; j <= sentenceSplit.size(); j++) {
-				DescriptionSentence sent = new DescriptionSentence();
+				ParsedDescriptionSentence sent = new ParsedDescriptionSentence();
 				sent.setId(i + "." + j);
 				sent.setValue(sentenceSplit.get(j - 1));
 				sentences.add(sent);
@@ -189,17 +189,17 @@ public class TextParser {
 		return desc;
 	}
 
-	public seers.bugrepcompl.entity.patterncoding.BugReportDescription parseText2(String description) {
+	public seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportDescription parseText2(String description) {
 		ArrayList<ArrayList<String>> paragraphSplit = splitText(description);
 
 		return createParsedCodingDescription(paragraphSplit);
 	}
 
-	private seers.bugrepcompl.entity.patterncoding.BugReportDescription createParsedCodingDescription(
+	private seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportDescription createParsedCodingDescription(
 			ArrayList<ArrayList<String>> paragraphSplit) {
-		seers.bugrepcompl.entity.patterncoding.BugReportDescription desc = new seers.bugrepcompl.entity.patterncoding.BugReportDescription();
+		seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportDescription desc = new seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportDescription();
 
-		List<seers.bugrepcompl.entity.patterncoding.DescriptionParagraph> paragraphs = new ArrayList<>();
+		List<seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionParagraph> paragraphs = new ArrayList<>();
 		for (int i = 1; i <= paragraphSplit.size(); i++) {
 
 			ArrayList<String> sentenceSplit = paragraphSplit.get(i - 1);
@@ -209,13 +209,13 @@ public class TextParser {
 
 			// -----------------------
 
-			seers.bugrepcompl.entity.patterncoding.DescriptionParagraph paragraph = new seers.bugrepcompl.entity.patterncoding.DescriptionParagraph();
+			seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionParagraph paragraph = new seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionParagraph();
 			paragraph.setId(i + "");
 
-			List<seers.bugrepcompl.entity.patterncoding.DescriptionSentence> sentences = new ArrayList<>();
+			List<seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence> sentences = new ArrayList<>();
 
 			for (int j = 1; j <= sentenceSplit.size(); j++) {
-				seers.bugrepcompl.entity.patterncoding.DescriptionSentence sent = new seers.bugrepcompl.entity.patterncoding.DescriptionSentence();
+				seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence sent = new seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence();
 				sent.setId(i + "." + j);
 				sent.setValue(sentenceSplit.get(j - 1));
 				sentences.add(sent);

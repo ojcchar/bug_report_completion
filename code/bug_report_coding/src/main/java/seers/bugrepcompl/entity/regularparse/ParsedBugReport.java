@@ -7,25 +7,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "bug")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BugReport {
+public class ParsedBugReport {
 
 	@XmlElement(name = "id")
 	private String id;
 	@XmlElement(name = "title")
 	private String title;
 	@XmlElement(name = "description")
-	private BugReportDescription description;
+	private ParsedBugReportDescription description;
 
-	public BugReport() {
+	public ParsedBugReport() {
 	}
 
-	public BugReport(BugReport bugReport) {
+	public ParsedBugReport(ParsedBugReport bugReport) {
 		this.id = bugReport.id;
 		this.title = bugReport.title;
-		this.description = new BugReportDescription(bugReport.description);
+		this.description = new ParsedBugReportDescription(bugReport.description);
 	}
 
-	public BugReport(String id, String title, BugReportDescription description) {
+	public ParsedBugReport(String id, String title, ParsedBugReportDescription description) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -40,7 +40,7 @@ public class BugReport {
 		return title;
 	}
 
-	public BugReportDescription getDescription() {
+	public ParsedBugReportDescription getDescription() {
 		return description;
 	}
 
@@ -52,7 +52,7 @@ public class BugReport {
 		this.title = title;
 	}
 
-	public void setDescription(BugReportDescription description) {
+	public void setDescription(ParsedBugReportDescription description) {
 		this.description = description;
 	}
 

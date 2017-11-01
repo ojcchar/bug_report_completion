@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "title")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BugReportTitle {
+public class PatternLabeledBugReportTitle {
 
 	@XmlAttribute
 	private String ob = "";
@@ -22,10 +22,10 @@ public class BugReportTitle {
 	@XmlValue
 	private String value;
 
-	public BugReportTitle() {
+	public PatternLabeledBugReportTitle() {
 	}
 
-	public BugReportTitle(String ob, String eb, String sr, String patterns, String value) {
+	public PatternLabeledBugReportTitle(String ob, String eb, String sr, String patterns, String value) {
 		super();
 		this.ob = ob;
 		this.eb = eb;
@@ -34,7 +34,7 @@ public class BugReportTitle {
 		this.value = value;
 	}
 
-	public BugReportTitle(BugReportTitle bugReportTitle) {
+	public PatternLabeledBugReportTitle(PatternLabeledBugReportTitle bugReportTitle) {
 		this.ob = bugReportTitle.ob;
 		this.eb = bugReportTitle.eb;
 		this.sr = bugReportTitle.sr;
@@ -82,8 +82,8 @@ public class BugReportTitle {
 		this.patterns = patterns;
 	}
 
-	public seers.bugrepcompl.entity.shortcodingparse.BugReportTitle toPatternCodingTitle() {
-		return new seers.bugrepcompl.entity.shortcodingparse.BugReportTitle(ob, eb, sr, value);
+	public seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportTitle toPatternCodingTitle() {
+		return new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportTitle(ob, eb, sr, value);
 	}
 
 	@Override

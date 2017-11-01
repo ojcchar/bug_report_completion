@@ -13,10 +13,10 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
-import seers.bugrepcompl.entity.shortcodingparse.BugReportDescription;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph;
-import seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportDescription;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence;
 import seers.bugrepcompl.utils.DataReader;
 
 public class SentenceGoldSetMain {
@@ -53,7 +53,7 @@ public class SentenceGoldSetMain {
 
 				File xmlFile = new File(
 						codedDataFolder + File.separator + project + File.separator + bugId + ".parse.xml");
-				BugReport bugRep = XMLHelper.readXML(BugReport.class, xmlFile);
+				ShortLabeledBugReport bugRep = XMLHelper.readXML(ShortLabeledBugReport.class, xmlFile);
 
 				processBug(bugRep, bugInstance, bugEntry.getValue());
 
@@ -94,23 +94,23 @@ public class SentenceGoldSetMain {
 		}
 	}
 
-	private static void processBug(BugReport bugRep, TextInstance bugInstance, Labels bugLabels) {
+	private static void processBug(ShortLabeledBugReport bugRep, TextInstance bugInstance, Labels bugLabels) {
 
-		BugReportDescription description = bugRep.getDescription();
+		ShortLabeledBugReportDescription description = bugRep.getDescription();
 		
 		if (description == null) {
 			return;
 		}
 		
-		List<DescriptionParagraph> paragraphs = description.getParagraphs();
+		List<ShortLabeledDescriptionParagraph> paragraphs = description.getParagraphs();
 
-		for (DescriptionParagraph paragraph : paragraphs) {
+		for (ShortLabeledDescriptionParagraph paragraph : paragraphs) {
 			processParagraph(paragraph, bugInstance, bugLabels);
 		}
 
 	}
 
-	private static void processParagraph(DescriptionParagraph paragraph, TextInstance bugInstance, Labels bugLabels) {
+	private static void processParagraph(ShortLabeledDescriptionParagraph paragraph, TextInstance bugInstance, Labels bugLabels) {
 
 		Labels paragraphLabels = new Labels(paragraph.getOb().trim(), paragraph.getEb().trim(),
 				paragraph.getSr().trim());
@@ -133,9 +133,9 @@ public class SentenceGoldSetMain {
 
 	}
 
-	private static void processSentences(List<DescriptionSentence> sentences, TextInstance bugInstance,
+	private static void processSentences(List<ShortLabeledDescriptionSentence> sentences, TextInstance bugInstance,
 			Labels bugLabels) {
-		for (DescriptionSentence sentence : sentences) {
+		for (ShortLabeledDescriptionSentence sentence : sentences) {
 			TextInstance sentenceInstance = new TextInstance(bugInstance.getProject(), bugInstance.getBugId(),
 					sentence.getId());
 			Labels sentenceLabels = goldSetSentences.get(sentenceInstance);
@@ -148,8 +148,8 @@ public class SentenceGoldSetMain {
 		}
 	}
 
-	private static void processSentencesEb(List<DescriptionSentence> sentences, TextInstance bugInstance) {
-		for (DescriptionSentence sentence : sentences) {
+	private static void processSentencesEb(List<ShortLabeledDescriptionSentence> sentences, TextInstance bugInstance) {
+		for (ShortLabeledDescriptionSentence sentence : sentences) {
 
 			TextInstance sentenceInstance = new TextInstance(bugInstance.getProject(), bugInstance.getBugId(),
 					sentence.getId());
@@ -162,8 +162,8 @@ public class SentenceGoldSetMain {
 		}
 	}
 
-	private static void processSentencesSr(List<DescriptionSentence> sentences, TextInstance bugInstance) {
-		for (DescriptionSentence sentence : sentences) {
+	private static void processSentencesSr(List<ShortLabeledDescriptionSentence> sentences, TextInstance bugInstance) {
+		for (ShortLabeledDescriptionSentence sentence : sentences) {
 
 			TextInstance sentenceInstance = new TextInstance(bugInstance.getProject(), bugInstance.getBugId(),
 					sentence.getId());
@@ -176,8 +176,8 @@ public class SentenceGoldSetMain {
 		}
 	}
 
-	private static void processSentencesOb(List<DescriptionSentence> sentences, TextInstance bugInstance) {
-		for (DescriptionSentence sentence : sentences) {
+	private static void processSentencesOb(List<ShortLabeledDescriptionSentence> sentences, TextInstance bugInstance) {
+		for (ShortLabeledDescriptionSentence sentence : sentences) {
 
 			TextInstance sentenceInstance = new TextInstance(bugInstance.getProject(), bugInstance.getBugId(),
 					sentence.getId());

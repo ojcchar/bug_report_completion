@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 
 import seers.bugrepclassifier.BugReportClassifier;
 import seers.bugrepclassifier.parsing.TextParser;
-import seers.bugrepcompl.entity.regularparse.BugReport;
-import seers.bugrepcompl.entity.regularparse.BugReportDescription;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReportDescription;
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.AnyMatchPredictor;
@@ -26,9 +26,9 @@ public class PatternBugReportClassifier extends BugReportClassifier {
 
 		// parse the description
 
-		BugReportDescription parsedDesc = txtParser.parseText(bugDescription);
+		ParsedBugReportDescription parsedDesc = txtParser.parseText(bugDescription);
 
-		BugReport bugRep = new BugReport();
+		ParsedBugReport bugRep = new ParsedBugReport();
 		bugRep.setId(bugId);
 		bugRep.setDescription(parsedDesc);
 

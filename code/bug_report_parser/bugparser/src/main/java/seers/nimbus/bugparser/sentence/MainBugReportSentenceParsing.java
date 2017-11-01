@@ -57,16 +57,16 @@ public class MainBugReportSentenceParsing {
 			try {
 				BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
 				if (codingParsing) {
-					seers.bugrepcompl.entity.codingparse.BugReport parsedBugReport = BugReportSentenceParser
+					seers.bugrepcompl.entity.codingparse.LabeledBugReport parsedBugReport = BugReportSentenceParser
 							.parseBugReportForCoding(bugRep);
 					File outputFile = new File(outFolder + File.separator + file.getName());
-					XMLHelper.writeXML(seers.bugrepcompl.entity.codingparse.BugReport.class, parsedBugReport,
+					XMLHelper.writeXML(seers.bugrepcompl.entity.codingparse.LabeledBugReport.class, parsedBugReport,
 							outputFile);
 				} else {
-					seers.bugrepcompl.entity.regularparse.BugReport parsedBugReport = BugReportSentenceParser
+					seers.bugrepcompl.entity.regularparse.ParsedBugReport parsedBugReport = BugReportSentenceParser
 							.parseBugReport(bugRep);
 					File outputFile = new File(outFolder + File.separator + file.getName());
-					XMLHelper.writeXML(seers.bugrepcompl.entity.regularparse.BugReport.class, parsedBugReport,
+					XMLHelper.writeXML(seers.bugrepcompl.entity.regularparse.ParsedBugReport.class, parsedBugReport,
 							outputFile);
 				}
 			} catch (Exception e) {

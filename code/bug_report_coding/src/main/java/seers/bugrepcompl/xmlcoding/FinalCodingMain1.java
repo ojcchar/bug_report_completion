@@ -12,7 +12,7 @@ import org.apache.commons.io.FileUtils;
 
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.TextInstance;
-import seers.bugrepcompl.entity.shortcodingparse.BugReport;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport;
 
 public class FinalCodingMain1 {
 
@@ -101,7 +101,7 @@ public class FinalCodingMain1 {
 				}
 
 				// check if the xml is valid
-				XMLHelper.readXML(BugReport.class, srcFile);
+				XMLHelper.readXML(ShortLabeledBugReport.class, srcFile);
 
 				File destFile = new File(
 						outputFolder + File.separator + project + File.separator + bugId + ".parse.xml");

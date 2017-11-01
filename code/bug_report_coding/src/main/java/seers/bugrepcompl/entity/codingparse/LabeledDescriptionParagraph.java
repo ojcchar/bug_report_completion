@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "paragraph")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DescriptionParagraph {
+public class LabeledDescriptionParagraph {
 
 	@XmlAttribute
 	private String ob = "";
@@ -24,13 +24,13 @@ public class DescriptionParagraph {
 	private String id;
 
 	@XmlElement(name = "sentence")
-	private List<DescriptionSentence> sentences;
+	private List<LabeledDescriptionSentence> sentences;
 
 	public String getId() {
 		return id;
 	}
 
-	public List<DescriptionSentence> getSentences() {
+	public List<LabeledDescriptionSentence> getSentences() {
 		return sentences;
 	}
 
@@ -38,7 +38,7 @@ public class DescriptionParagraph {
 		this.id = id;
 	}
 
-	public void setSentences(List<DescriptionSentence> sentences) {
+	public void setSentences(List<LabeledDescriptionSentence> sentences) {
 		this.sentences = sentences;
 	}
 
@@ -75,10 +75,10 @@ public class DescriptionParagraph {
 	private String getStrElements() {
 		StringBuffer buf = new StringBuffer();
 
-		List<DescriptionSentence> sentences2 = getSentences();
+		List<LabeledDescriptionSentence> sentences2 = getSentences();
 		if (sentences2 != null) {
 
-			for (DescriptionSentence el : sentences2) {
+			for (LabeledDescriptionSentence el : sentences2) {
 				buf.append("\t\t");
 				buf.append(el);
 				buf.append("\t\t\r\n");
@@ -87,21 +87,30 @@ public class DescriptionParagraph {
 		return buf.toString();
 	}
 
-	public seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph toParagraph2() {
-		List<seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence> sentences2 = toSentences2();
-		return new seers.bugrepcompl.entity.shortcodingparse.DescriptionParagraph(ob, eb, sr, id, sentences2);
+	public seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph toParagraph2() {
+		List<seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence> sentences2 = toSentences2();
+		return new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph(ob, eb, sr, id, sentences2);
 	}
 
-	private List<seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence> toSentences2() {
+	private List<seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence> toSentences2() {
 		if (this.sentences == null) {
 			return null;
 		}
 
-		List<seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence> sentences2 = new ArrayList<>();
-		for (DescriptionSentence sent : this.sentences) {
+		List<seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence> sentences2 = new ArrayList<>();
+		for (LabeledDescriptionSentence sent : this.sentences) {
 			sentences2.add(sent.toSentence2());
 		}
 		return sentences2;
+	}
+
+
+	public boolean isObLabeled() {
+		return !getOb().trim().isEmpty();
+	}
+
+	public boolean isSrLabeled() {
+		return !getSr().trim().isEmpty();
 	}
 
 }

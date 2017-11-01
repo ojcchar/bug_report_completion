@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import seers.bugrepclassifier.svmbased.model.BugReport;
+import seers.bugrepclassifier.svmbased.model.SVMBugReport;
 import seers.bugrepclassifier.svmbased.model.ParseResult;
 import seers.bugrepclassifier.svmbased.svm.util.Common;
 
 public class BugReportFea {
-	BugReport report;
+	SVMBugReport report;
 	public boolean train;
 	public HashMap<String, Integer> strFeaMap;
 	String name;
@@ -28,7 +28,7 @@ public class BugReportFea {
 		}
 	}
 	
-	public void configure(BugReport report){
+	public void configure(SVMBugReport report){
 		this.report = report;
 	}
 	

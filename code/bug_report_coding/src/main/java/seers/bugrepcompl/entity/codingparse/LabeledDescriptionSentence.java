@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "sentence")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DescriptionSentence {
+public class LabeledDescriptionSentence {
 
 	@XmlAttribute
 	private String ob = "";
@@ -22,10 +22,10 @@ public class DescriptionSentence {
 	@XmlValue
 	private String value;
 
-	public DescriptionSentence() {
+	public LabeledDescriptionSentence() {
 	}
 
-	public DescriptionSentence(String ob, String eb, String sr, String id, String value) {
+	public LabeledDescriptionSentence(String ob, String eb, String sr, String id, String value) {
 		super();
 		this.ob = ob;
 		this.eb = eb;
@@ -79,8 +79,8 @@ public class DescriptionSentence {
 		return "stnc [ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", id=" + id + ", val=" + value + "]";
 	}
 
-	public seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence toSentence2() {
-		return new seers.bugrepcompl.entity.shortcodingparse.DescriptionSentence(ob, eb, sr, id, value);
+	public seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence toSentence2() {
+		return new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence(ob, eb, sr, id, value);
 	}
 
 	// @Override
@@ -88,4 +88,12 @@ public class DescriptionSentence {
 	// return "stnc [" + getId() + ", " + value + "]";
 	// }
 
+
+	public boolean isObLabeled() {
+		return !getOb().trim().isEmpty();
+	}
+
+	public boolean isSrLabeled() {
+		return !getSr().trim().isEmpty();
+	}
 }

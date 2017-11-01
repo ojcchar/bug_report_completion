@@ -6,9 +6,9 @@ import java.util.List;
 
 import seers.appcore.threads.processor.ThreadParameters;
 import seers.appcore.xml.XMLHelper;
-import seers.bugrepcompl.entity.regularparse.BugReport;
-import seers.bugrepcompl.entity.regularparse.BugReportDescription;
-import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedBugReportDescription;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionParagraph;
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.PatternMatcher;
 import seers.bugreppatterns.pattern.predictor.PredictionOutput;
@@ -27,17 +27,17 @@ public class ParagraphProcessor extends TextInstanceProcessor {
 
 			try {
 
-				BugReport bugRep = XMLHelper.readXML(BugReport.class, file);
-				BugReportDescription description = bugRep.getDescription();
+				ParsedBugReport bugRep = XMLHelper.readXML(ParsedBugReport.class, file);
+				ParsedBugReportDescription description = bugRep.getDescription();
 				if (description == null) {
 					continue;
 				}
-				List<DescriptionParagraph> paragraphs = description.getParagraphs();
+				List<ParsedDescriptionParagraph> paragraphs = description.getParagraphs();
 				if (paragraphs == null) {
 					continue;
 				}
 
-				for (DescriptionParagraph paragraph : paragraphs) {
+				for (ParsedDescriptionParagraph paragraph : paragraphs) {
 
 					LinkedHashMap<PatternMatcher, Integer> patternMatches = new LinkedHashMap<>();
 
