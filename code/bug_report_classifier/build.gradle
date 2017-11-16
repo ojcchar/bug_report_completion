@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: "com.github.johnrengelman.shadow"
+
+group = 'seers'
+version = '0.1.1'
+
+description = "bug_report_classifier"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+repositories {
+     mavenCentral()
+	 mavenLocal()
+}
+dependencies {
+    compile group: 'seers', name: 'bug_report_patterns', version:'0.1.1'
+}
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.github.jengelman.gradle.plugins:shadow:2.0.1"
+  }
+}

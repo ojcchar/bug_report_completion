@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'seers.nimbus'
+version = '0.1.1'
+
+description = "bugparser"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+repositories {
+     mavenCentral()
+	 mavenLocal()
+}
+dependencies {
+    compile group: 'seers', name: 'bug_report_classifier', version:'0.1.1'
+}
