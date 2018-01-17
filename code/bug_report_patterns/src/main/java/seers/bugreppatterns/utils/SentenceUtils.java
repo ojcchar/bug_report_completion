@@ -537,7 +537,7 @@ public class SentenceUtils {
 			"scale", "scroll", "select", "show", "start", "stop", "surf", "tap", "try", "type", "use", "view", "visit",
 			"yield");
 
-	public final static Set<String> AMBIGUOUS_POS_VERBS = JavaUtils.getSet("put", "set", "cut", "quit", "shut");
+	public final static Set<String> AMBIGUOUS_POS_VERBS = JavaUtils.getSet("put", "set", "cut", "quit", "shut", "hit");
 
 	/**
 	 * Check if the sentence/clause is imperative or not. It takes into account
@@ -636,8 +636,12 @@ public class SentenceUtils {
 		Token firstToken = tokensNoSpecialChar.get(0);
 		Token secondToken = tokensNoSpecialChar.get(1);
 
-		if (firstToken.getPos().equals("VBN") || firstToken.getPos().equals("VBD") || firstToken.getPos().equals("VBG")
-				|| firstToken.getPos().equals("VBZ")) {
+		if ((firstToken.getPos().equals("VBN") || firstToken.getPos().equals("VBD") || firstToken.getPos().equals("VBG")
+				|| firstToken.getPos().equals("VBZ"))
+				&& !(
+//						SentenceUtils.lemmasContainToken(UNDETECTED_VERBS, firstToken)||
+								SentenceUtils.lemmasContainToken(AMBIGUOUS_POS_VERBS, firstToken))
+				) {
 			return false;
 		}
 

@@ -228,6 +228,8 @@ public class BaseTest {
 
 	public static Paragraph parseParagraph(String txt) {
 
+//		System.out.println(txt);
+
 		Paragraph paragraph = new Paragraph("0");
 		String[] lines = txt.split("\n");
 		for (String line : lines) {
@@ -236,8 +238,10 @@ public class BaseTest {
 				continue;
 			}
 
+//			System.out.println("LINE: "+line);
+
 			// bullets normalization
-			if (line.matches("(\\W*)\\d(\\w)?((\\.\\))|\\.|\\)|,|-)(.*)")) {
+			if (line.matches("(?s)(\\W*)\\d(\\w)?((\\.\\))|\\.|\\)|,|-)(.*)")) {
 				line = line.replaceFirst("((\\.\\))|\\.|\\)|,|-)\\s*", " ");
 			}
 

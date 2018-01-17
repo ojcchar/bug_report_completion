@@ -1,9 +1,6 @@
 package seers.bugreppatterns.utils;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
@@ -13,7 +10,7 @@ public class JavaUtils {
 	public static <T> Set<T> getSet(T... elements) {
 		return new LinkedHashSet<T>(Arrays.asList(elements));
 	}
-
+	
 	public static HashSet<ImmutablePair<String, String>> getPairSet(String... terms) {
 		HashSet<ImmutablePair<String, String>> set = new HashSet<>();
 

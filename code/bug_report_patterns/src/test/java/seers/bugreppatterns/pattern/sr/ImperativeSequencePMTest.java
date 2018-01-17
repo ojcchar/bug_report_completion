@@ -22,7 +22,7 @@ public class ImperativeSequencePMTest extends BaseTest {
 				"Tap on change date range and select range option",
 				"Tap on change date range",
 				"Select range option",
-		
+				"hit menu"
 		};
 
 		TestUtils.testSentences(texts, pm, 1);

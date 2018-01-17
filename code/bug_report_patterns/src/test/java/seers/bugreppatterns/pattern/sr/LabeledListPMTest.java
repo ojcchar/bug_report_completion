@@ -14,19 +14,25 @@ public class LabeledListPMTest extends BaseTest {
 	@Test
 	public void testPositives() throws Exception {
 		String[] txts = {
-				"Steps to Reproduce:\n" + "1. At the site <http://www.nm-msp.org/>, click on 'Find a Course'.\n" + "\n"
-						+ "2. You'll be presented with a chance to enter a ZIP and mileage radius: enter\n"
-						+ "87110 and leave the default radius at '50'.\n" + "\n"
-						+ "3. This takes you to a page of Albuquerque classes. On the left hand side of\n"
-						+ "each class listing is a tiny magnifying glass icon.\n" + "\n"
-						+ "4. If I click on this in Firefox, I am looped back to the same page. In IE or\n"
-						+ "Safari, I am taken to a map and class description.",
-						
-						"Steps to reproduce:\n"+
-								"1. Open LibreOffice from the LibreOffice.app icon. The start center opens.\n"+
-								"2a. WITHOUT clicking on anything or defocusing the window, press Cmd+O to open a file.\n"+
-								"2b. OR choose File -> Open from the menu.\n"+
-								"3. A dialog saying \"LibreOffice 5.0 - Fatal Error\" and \"Given module is not a frame nor a window, controller or model.\" opens. When you close the dialog, LO closes."
+
+				"Steps to reproduce the bug:\r\n" +
+						"1.Search for any concept that is present in the dictionary.\r\n" +
+						"2.Clicking on it will take you to the viewing concept page.(In the screenshot concept searched is TRUE).\r\n" +
+						"3. If we keep on clicking the next button or the prev button till the list is finished, an error is popped(screenshot attached).",
+
+//				"Steps to Reproduce:\n" + "1. At the site <http://www.nm-msp.org/>, click on 'Find a Course'.\n" + "\n"
+//						+ "2. You'll be presented with a chance to enter a ZIP and mileage radius: enter\n"
+//						+ "87110 and leave the default radius at '50'.\n" + "\n"
+//						+ "3. This takes you to a page of Albuquerque classes. On the left hand side of\n"
+//						+ "each class listing is a tiny magnifying glass icon.\n" + "\n"
+//						+ "4. If I click on this in Firefox, I am looped back to the same page. In IE or\n"
+//						+ "Safari, I am taken to a map and class description.",
+//
+//						"Steps to reproduce:\n"+
+//								"1. Open LibreOffice from the LibreOffice.app icon. The start center opens.\n"+
+//								"2a. WITHOUT clicking on anything or defocusing the window, press Cmd+O to open a file.\n"+
+//								"2b. OR choose File -> Open from the menu.\n"+
+//								"3. A dialog saying \"LibreOffice 5.0 - Fatal Error\" and \"Given module is not a frame nor a window, controller or model.\" opens. When you close the dialog, LO closes."
 		};
 
 		TestUtils.testParagraphs(txts, pm, 1);
