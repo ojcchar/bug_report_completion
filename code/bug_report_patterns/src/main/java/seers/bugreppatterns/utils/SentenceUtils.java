@@ -426,23 +426,39 @@ public class SentenceUtils {
 	 * @return true if the token matches any of the lemmas, false otherwise
 	 */
 	public static boolean lemmasContainToken(Set<String> lemmas, Token token) {
-		return stringContainToken(lemmas, token.getLemma());
+		return stringEqualsToAnyToken(lemmas, token.getLemma());
 	}
 
 	/**
-	 * Checks whether the string matches any of the strings in lemmas
+	 * Checks whether the string matches (is equalsIgnoreCase to) any of the strings in tokens
 	 *
-	 * @param lemmas
-	 *            set of lemmas to compare against with
+	 * @param tokens
+	 *            set of tokens to compare against with
 	 * @param str
 	 *            the string to match
-	 * @return true if the string matches any of the lemmas, false otherwise
+	 * @return true if the string matches any of the tokens, false otherwise
 	 */
-	public static boolean stringContainToken(Set<String> lemmas, String str) {
+	public static boolean stringEqualsToAnyToken(Set<String> tokens, String str) {
 		if (str == null) {
 			return false;
 		}
-		return lemmas.stream().anyMatch(t -> str.equalsIgnoreCase(t));
+		return tokens.stream().anyMatch(t -> str.equalsIgnoreCase(t));
+	}
+
+	/**
+	 * Checks whether the string contains any of the strings in tokens
+	 *
+	 * @param tokens
+	 *            set of tokens to compare against with
+	 * @param str
+	 *            the string to check
+	 * @return true if the string contains any of the tokens, false otherwise
+	 */
+	public static boolean stringContainsAnyToken(Set<String> tokens, String str) {
+		if (str == null) {
+			return false;
+		}
+		return tokens.stream().anyMatch(t -> str.toLowerCase().contains(t.toLowerCase()));
 	}
 
 	/**
