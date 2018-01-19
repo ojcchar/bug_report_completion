@@ -17,7 +17,7 @@ import seers.bugrepcompl.entity.CodedDataEntry;
 import seers.bugrepcompl.entity.TextInstance;
 import seers.bugrepcompl.utils.DataReader;
 import seers.bugreppatterns.main.validation.MainMatcher;
-import seers.bugreppatterns.utils.JavaUtils;
+import seers.appcore.utils.JavaUtils;
 
 public class MainCoOcurrenceAnalysis {
 

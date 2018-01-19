@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Test;
 
+import seers.appcore.utils.JavaUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 

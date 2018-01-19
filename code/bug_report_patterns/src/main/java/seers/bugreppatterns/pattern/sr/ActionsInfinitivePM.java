@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 import seers.bugreppatterns.entity.Paragraph;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.bugreppatterns.utils.JavaUtils;
+import seers.appcore.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;

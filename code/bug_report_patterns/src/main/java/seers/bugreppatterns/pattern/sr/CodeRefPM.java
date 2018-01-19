@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.bugreppatterns.utils.JavaUtils;
+import seers.appcore.utils.JavaUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;

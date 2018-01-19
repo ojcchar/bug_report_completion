@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import seers.bugreppatterns.entity.Document;
 import seers.bugreppatterns.entity.Paragraph;
-import seers.bugreppatterns.utils.JavaUtils;
+import seers.appcore.utils.JavaUtils;
 import seers.textanalyzer.entity.Sentence;
 
 public abstract class PatternMatcher {

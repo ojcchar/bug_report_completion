@@ -2,7 +2,7 @@ package seers.bugreppatterns.pattern.ob;
 
 import java.util.Set;
 
-import seers.bugreppatterns.utils.JavaUtils;
+import seers.appcore.utils.JavaUtils;
 
 public class NegativeTerms {
 

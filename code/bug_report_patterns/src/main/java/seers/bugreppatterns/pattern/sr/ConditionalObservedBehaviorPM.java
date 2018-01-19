@@ -24,7 +24,7 @@ import seers.bugreppatterns.pattern.ob.VerbErrorPM;
 import seers.bugreppatterns.pattern.ob.VerbNoPM;
 import seers.bugreppatterns.pattern.ob.VerbToBeNegativePM;
 import seers.bugreppatterns.pattern.ob.WorksFinePM;
-import seers.bugreppatterns.utils.JavaUtils;
+import seers.appcore.utils.JavaUtils;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
