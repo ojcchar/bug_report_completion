@@ -30,7 +30,7 @@ public class SentenceSplitter {
 		}
 
 		// split the input into paragraphs
-		List<String> paragraphs = Arrays.asList(inputText.split("\n\n"));
+		List<String> paragraphs = Arrays.asList(inputText.split("((\r\n)(\r\n)|\r\r|\n\n)"));
 
 		for (String paragraph : paragraphs) {
 
@@ -44,7 +44,7 @@ public class SentenceSplitter {
 			List<String> sentences = new ArrayList<>();
 
 			// split lines of this paragraph
-			List<String> textLines = Arrays.asList(paragraph.split("\n"));
+			List<String> textLines = Arrays.asList(paragraph.split("(\r\n|\r|\n)"));
 			for (String txtLine : textLines) {
 
 				if (txtLine.trim().isEmpty()) {
