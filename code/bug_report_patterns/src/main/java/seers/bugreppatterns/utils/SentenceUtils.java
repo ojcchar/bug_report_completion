@@ -115,9 +115,7 @@ public class SentenceUtils {
 			// continue;
 			// }
 
-			Sentence sentence = new Sentence(sentenceId, allTokens, sentenceEscaped);
-
-			return sentence;
+			return new Sentence(sentenceId, allTokens, sentenceEscaped);
 		}
 
 		return null;
