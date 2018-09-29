@@ -12,16 +12,17 @@ public class MainHRClassifierTest {
 
 
         String dataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17\\1_data" +
-                "\\2_preprocessed_data\\0_code_removal_only";
+                "\\1_coded_data\\0_labeled_data";
         String granularity = "SP-F";
         String systems = "docker,eclipse,facebook,firefox,hibernate,httpd,libreoffice,openmrs,wordpress-android";
-        String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\pattern_features\\auto_no_code_data";
+        String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\pattern_features\\auto_all_data";
         String predictionMethod = HeuristicsClassifier.Predictor.ANY_MATCH.toString();
         String pattersFile = "patterns.csv";
         String configFolder = "";
         String cooccurrOption =
                 HeuristicsClassifier.CooccurringFeaturesOption.ONLY_INDIV.toString();
-        String goldSetPath = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\generated_goldsets\\gold-set-B.csv";
+        String goldSetPath = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17\\1_data" +
+                "\\1_coded_data\\2_labeled_data_summary.csv";
         String addCooccuringPatternsForPrediction = "n";
         String cooccurFileSuffix = "";
 

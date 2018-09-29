@@ -61,10 +61,10 @@ public class SentenceParagraphFeaturesProcessor extends TextInstanceProcessor {
 
                     //---------------------------
 
-                    final List<PatternMatcher> paragraphCodedPatterns = getCodedPatterns(paragraph.getPatterns());
+                    /*final List<PatternMatcher> paragraphCodedPatterns = getCodedPatterns(paragraph.getPatterns());
                     for (PatternMatcher codedPattern : paragraphCodedPatterns) {
                         updatePattern(paragraphPattenMatches, codedPattern, 1);
-                    }
+                    }*/
 
                     //-------------------------
 
@@ -78,7 +78,7 @@ public class SentenceParagraphFeaturesProcessor extends TextInstanceProcessor {
 
                     //-------------------------
 
-                    final HashMap<Sentence, String> sentenceCodedPatterns = paragraphAndSentCodedPatterns.getRight();
+                    //final HashMap<Sentence, String> sentenceCodedPatterns = paragraphAndSentCodedPatterns.getRight();
 
                     for (Sentence sentence : parsedParagraph.getSentences()) {
 
@@ -87,11 +87,11 @@ public class SentenceParagraphFeaturesProcessor extends TextInstanceProcessor {
                                 new LinkedHashMap<>(paragraphPattenMatches);
                         //-------------------------
 
-                        final String sentPatts = sentenceCodedPatterns.get(sentence);
+                       /* final String sentPatts = sentenceCodedPatterns.get(sentence);
                         final List<PatternMatcher> sentCodedPatterns = getCodedPatterns(sentPatts);
                         for (PatternMatcher codedPattern : sentCodedPatterns) {
                             updatePattern(sentencePatternMatches, codedPattern, 1);
-                        }
+                        }*/
 
                         //-------------------------
 
@@ -175,6 +175,8 @@ public class SentenceParagraphFeaturesProcessor extends TextInstanceProcessor {
         List<Sentence> sentences2 = new ArrayList<>();
         for (PatternLabeledDescriptionSentence sentence : sentences) {
             final Sentence sent = SentenceUtils.parseSentence(sentence.getId(), sentence.getValue());
+            if (sent == null)
+                continue;
             sentenceCodedPatterns.put(sent, sentence.getPatterns());
             sentences2.add(sent);
         }

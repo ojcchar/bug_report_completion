@@ -25,11 +25,14 @@ public class SentenceGoldSetMain {
 //	private static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/final_data";
 	
 	//preprocessed data
-	private static String codedDataFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/code_preprocessing_coded";
+	private static String codedDataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
+			"\\1_data\\1_coded_data\\0_labeled_data";
 
-	private static String bugGoldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/gold-set-B-all_data.csv";
-	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data";
-	private static String bugTypesPath = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/bug_types.csv";
+	private static String bugGoldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
+			"\\1_data\\1_coded_data\\2_labeled_data_summary.csv";
+	static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\generated_goldsets";
+	private static String bugTypesPath = "C:\\Users\\ojcch\\Documents\\Repositories\\Git\\bug_report_completion\\code" +
+			"\\bug_report_patterns\\test_data\\matcher\\bug_types.csv";
 
 	static HashMap<TextInstance, Labels> goldSetSentences = new HashMap<>();
 
@@ -71,24 +74,30 @@ public class SentenceGoldSetMain {
 
 		try (CsvWriter writer = new CsvWriterBuilder(new FileWriter(outputFolder + File.separator + "gold-set-S.csv"))
 				.separator(';').build();) {
-			writer.writeNext(Arrays.asList("system", "bug_id", "sys_bug", "instance_id", "sys_bug_instance", "is_ob",
-					"is_eb", "is_sr", "used_for_patterns", "bug_type"));
+
+			/*writer.writeNext(Arrays.asList("system", "bug_id", "sys_bug", "instance_id", "sys_bug_instance", "is_ob",
+					"is_eb", "is_sr", "used_for_patterns", "bug_type"));*/
+			writer.writeNext(Arrays.asList("system", "bug_id","instance_id",  "is_ob",
+					"is_eb", "is_sr", "used_for_patterns"));
 
 			Set<Entry<TextInstance, Labels>> entrySet = goldSetSentences.entrySet();
 
 			for (Entry<TextInstance, Labels> entry : entrySet) {
 				TextInstance sentenceInstance = entry.getKey();
-				
-				String bugType = typeOfIssues.get(new TextInstance(sentenceInstance.getProject(), sentenceInstance.getBugId(), "0"));
+
+				/*String bugType = typeOfIssues.get(new TextInstance(sentenceInstance.getProject(), sentenceInstance.getBugId(), "0"));
 				if (bugType == null) {
 					bugType = "";
 				}
-				
+				*/
+
 				Labels value2 = entry.getValue();
-				String[] value = new String[] { sentenceInstance.getProject(), sentenceInstance.getBugId(),
+				/*String[] value = new String[] { sentenceInstance.getProject(), sentenceInstance.getBugId(),
 						sentenceInstance.getProject() + ";" + sentenceInstance.getBugId(), sentenceInstance.getInstanceId(),
 						sentenceInstance.getProject() + ";" + sentenceInstance.getBugId() + ";" + sentenceInstance.getInstanceId(), value2.getIsOB(),
-						value2.getIsEB(), value2.getIsSR(), value2.getCodedBy(), bugType };
+						value2.getIsEB(), value2.getIsSR(), value2.getCodedBy(), bugType };*/
+				String[] value = new String[] { sentenceInstance.getProject(), sentenceInstance.getBugId(),sentenceInstance.getInstanceId(), value2.getIsOB(),
+						value2.getIsEB(), value2.getIsSR(), value2.getCodedBy() };
 				writer.writeNext(Arrays.asList(value));
 			}
 		}
