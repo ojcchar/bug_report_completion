@@ -1,5 +1,6 @@
 package seers.bugreppatterns.main.preprocessing;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import seers.appcore.utils.JavaUtils;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
@@ -11,6 +12,8 @@ import seers.bugrepcompl.utils.DataReader;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 //import seers.bugrepcompl.entity.regularparse.BugReport;
 //import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
@@ -18,7 +21,7 @@ import java.util.*;
 
 public class BugCodePreprocessor {
 
-//	//not coded data
+    //	//not coded data
 //	static String xmlBugDir = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data
 // /regular_parsed_data";
 //	private static String goldSetFile = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/final_bug_data/gold-set
@@ -31,340 +34,23 @@ public class BugCodePreprocessor {
     private static String goldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\generated_goldsets\\bug_list" +
             ".csv";
     private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
-            "\\1_data\\2_preprocessed_data\\0_code_removal_only-10302018";
+            "\\1_data\\2_preprocessed_data\\0_content_tagging-10302018";
 
     //if true, the text that matches the regexes is removed, otherwise the text is tagged with special tags
-    private boolean performRemoval = false;
+    private static boolean performRemoval = false;
+
 
     //-------------------------------------------------------
 
-    //regexes by system in general
-    private static HashMap<String, List<String>> systemRegexes = new HashMap<>();
-    //regexes by system that match the start of sentences
-    private static HashMap<String, List<String>> systemStartRegexes = new HashMap<>();
-    //regexes by system that match the end of sentences
-    private static HashMap<String, List<String>> systemEndRegexes = new HashMap<>();
-    //regexes by system grouped by category
-    private static HashMap<String, List<List<String>>> systemGroupRegexes = new HashMap<>();
-
-    //these are for JIRA bugs, where there are special tags/separators to delimit and highlight code
-    private static HashMap<String, List<String>> systemIniSeparators = new HashMap<>();
-
-    //-------------------------------------------------------
 
     private static Set<String> allowedSystems = JavaUtils.getSet("docker", "eclipse",
             "facebook", "firefox", "hibernate", "httpd", "libreoffice", "openmrs", "wordpress-android");
-//    private static Set<String> allowedSystems = JavaUtils.getSet("httpd");
+
+//      private static Set<String> allowedSystems = JavaUtils.getSet("docker");
     // static HashSet<String> allowedSystems = new
     // HashSet<String>(Arrays.asList(new String[] { "wordpress-android" }));
+    //-------------------------------------------------------
 
-    static {
-
-        // docker
-        systemIniSeparators.put("docker", Arrays.asList("```", "\"'"));
-
-        systemRegexes.put("docker",
-                Arrays.asList("/home/.*/docker/", "\\.\\/docker", "Makefile:\\d+", "\\[default\\] ", "drwxr", "-rw-",
-                        "docker version.*\\:", "docker info.*\\:", "Version\\: ", "uname \\-a", "Linux.*x86_64.*GNU",
-                        "x86_64.*GNU.*Linux", "Containers\\:", "Client version\\:", "iface .*address ", "\\:\\~\\/ ",
-                        "\\:\\~\\# ", "\\~\\]\\# ", "cat \\/", "\\$ sudo ", "\\$ ps \\-", "\\/bin/docker ", " RUN ",
-                        ">RUN ", "dockerd\\[\\d+\\]\\:", "ERRO\\[\\d+\\]", "systemd\\[\\d+\\]\\:",
-                        ":\\~\\$ docker start", ":: busybox", "kernel: \\[ \\d+\\.\\d+\\]", "Message from syslogd"));
-
-        systemStartRegexes.put("docker",
-                Arrays.asList(" ?\\[[0-9A-Fa-f]+\\]", "\\[error\\]", "\\[ERROR\\]", " ?\\d{4}\\/\\d{2}\\/\\d{2}",
-                        " ?\\d{4}-\\d{2}-\\d{2}", "ERRO\\[", "WARN\\[", "DEBU\\[", "INFO\\[", "FATA\\[", " ?sudo ",
-                        " ?at .+\\d+", "\\$ docker run -"));
-
-        List<List<String>> dockerGroupRegexes = new ArrayList<>();
-
-        dockerGroupRegexes.add(Arrays.asList("docker version.*\\:", "Version\\: ", "OS\\/Arch: ", "API version\\: "));
-        dockerGroupRegexes.add(Arrays.asList("docker info.*\\:", "Containers\\:", "Images\\:", "Operating System\\:",
-                "CPUs\\:", "Total Memory\\:"));
-        dockerGroupRegexes.add(Arrays.asList(" eth", "address ", "netmask ", "auto eth", "iface ", "inet ", "inet6 "));
-        dockerGroupRegexes.add(Arrays.asList("container_name\\: ", "image\\: ", "ports\\: ", "volumes\\: "));
-        dockerGroupRegexes.add(Arrays.asList("goroutine \\d+ \\[", "0x[0-9A-Fa-f]+"));
-        dockerGroupRegexes.add(Arrays.asList("\\d+: [main|Init]", "Package: ", "File: "));
-        dockerGroupRegexes.add(Arrays.asList("\\$ docker run -", "exit status"));
-        dockerGroupRegexes.add(Arrays.asList("Making bundle: ", "bundles\\/"));
-        dockerGroupRegexes.add(Arrays.asList("docker_.+test.*\\.go:\\d+:", "[0-9A-Fa-f]+"));
-        dockerGroupRegexes.add(Arrays.asList(" INFO \\[", " WARN \\[", " DEBUG \\[", " ERROR \\["));
-        dockerGroupRegexes.add(Arrays.asList("ObjectName: ", "State: "));
-        dockerGroupRegexes.add(Arrays.asList("level=info ", "level=warning ", "level=error "));
-
-        systemGroupRegexes.put("docker", dockerGroupRegexes);
-
-        // -------------------------------------------------
-
-        // eclipse
-        systemRegexes.put("eclipse", Collections.singletonList("\\\\bin\\\\java "));
-
-        systemStartRegexes.put("eclipse",
-                Arrays.asList("(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
-                        "!ENTRY ", "!MESSAGE ", "!STACK ", "import ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;",
-                        "package ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;", "User\\-Agent\\: ", "Java VM\\: ", "VM state\\:",
-                        "Heap.+total \\d+.+ used \\d+", "ini \\-command ", "\\\\jre\\\\bin\\\\java ",
-                        "Build version\\: ", "Unexpected Signal : ", "0x[0-9A-Fa-f]+ - 0x[0-9A-Fa-f]+",
-                        "java -version\\:", "java version \\\"", "public class ", "public static ", "\\(D\\:\\\\"));
-
-        systemEndRegexes.put("eclipse",
-                Arrays.asList("\\) line: \\d+", "\\) line: not available \\[native method\\]", "\\(Unknown Source\\)"));
-
-        List<List<String>> eclipseGroupRegexes = new ArrayList<>();
-
-        eclipseGroupRegexes.add(Arrays.asList("eclipse\\.buildId\\=", "java\\.version\\=", "java\\.vendor\\="));
-        eclipseGroupRegexes.add(Arrays.asList("\\/\\*\\*", "\\*\\/"));
-        eclipseGroupRegexes.add(Arrays.asList("\\/\\* \\(non\\-Javadoc\\)", "\\*\\/"));
-        eclipseGroupRegexes
-                .add(Arrays.asList("at ([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+", "\\([a-zA-Z0-9]+\\.java:\\d+\\)"));
-        eclipseGroupRegexes.add(Arrays.asList("Process\\: ", "Parent Process\\: "));
-        eclipseGroupRegexes.add(Arrays.asList("OS Version\\: ", "Report Version\\: "));
-        eclipseGroupRegexes.add(Arrays.asList("Crashes Since Last Report\\: ", "Anonymous UUID\\: "));
-        eclipseGroupRegexes.add(Arrays.asList("Exception Type\\: ", "Crashed Thread\\: "));
-        eclipseGroupRegexes.add(Arrays.asList("Java information\\:", "Exception type\\: "));
-        eclipseGroupRegexes
-                .add(Arrays.asList("j  ([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+", "J  ([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+"));
-        eclipseGroupRegexes.add(Arrays.asList(" 0x[0-9A-Fa-f]+ JavaThread ", " 0x[0-9A-Fa-f]+ VMThread ",
-                " 0x[0-9A-Fa-f]+ WatcherThread "));
-        eclipseGroupRegexes.add(Arrays.asList("Virtual Machine Arguments\\:", "JVM Args\\: "));
-        eclipseGroupRegexes.add(Arrays.asList("ENTRY org.eclipse.osgi ", "SUBENTRY \\d org.eclipse.osgi "));
-        eclipseGroupRegexes.add(Arrays.asList("eclipse\\.buildId\\=", "java\\.fullversion\\="));
-        eclipseGroupRegexes.add(Arrays.asList("try \\{", "for ?\\(", "if ?\\(", "public static ", "while ?\\(",
-                "return [a-zA-z]+\\;", "public void "));
-        eclipseGroupRegexes
-                .add(Arrays.asList("\\d+\\s+Project.+is missing required", "The project cannot be built until"));
-        eclipseGroupRegexes.add(Arrays.asList("<w:wordDocument ", "<w:style "));
-        eclipseGroupRegexes.add(Arrays.asList("line \\d+: warning:", "line \\d+: error:"));
-        eclipseGroupRegexes.add(Arrays.asList("Enter bugs above this line", "installation :"));
-
-        systemGroupRegexes.put("eclipse", eclipseGroupRegexes);
-
-        // -------------------------------------------------
-
-        // facebook
-
-        systemRegexes.put("facebook", Collections.singletonList("if ?\\(.+\\{"));
-
-        systemStartRegexes.put("facebook", Arrays.asList("PHP_EOL", "\\$[a-zA-z]+ \\=", "foreach ?\\(", "echo  ",
-                "\\<\\?", "for ?\\(.+\\{", "User[ \\-]Agent\\: "));
-
-        List<List<String>> facebookGroupRegexes = new ArrayList<>();
-
-        facebookGroupRegexes.add(Arrays.asList("\\[\\{", " \\: \\[", "\\}\\_"));
-        facebookGroupRegexes.add(Arrays.asList("Request Stream\\:", "access_token\\="));
-        facebookGroupRegexes.add(Arrays.asList("\\<fb\\:", "\\<\\/fb"));
-        facebookGroupRegexes.add(Arrays.asList("\\<div ", "\\<\\/div\\>", "\\<script", "\\<\\/script\\>", "\\<span ",
-                "\\&lt\\;script", "\\&lt\\;\\/script", "\\<a href\\="));
-        facebookGroupRegexes.add(Arrays.asList("User\\-Agent", "Keep\\-Alive"));
-        facebookGroupRegexes.add(Arrays.asList("\\[key\\] \\=\\>", "\\[value\\] \\=\\>"));
-        facebookGroupRegexes.add(Arrays.asList("\\$[a-zA-z]+ \\=", "echo  ", "foreach ?\\(", "if ?\\(", "PHP_EOL",
-                "function ?\\(.+\\{", "else ?\\{", "\\$\\_POST\\[", "\\$\\_GET\\[", "\\= ?\\{", "\\}\\;",
-                "(onKeyup|onKeypress) ?\\:", "\\{$", "\\}$", "^\\{.+\\}$", "\\}\\)\\;"));
-        facebookGroupRegexes.add(Arrays.asList("line number\\: ", "stack\\: ", "message \\:"));
-        facebookGroupRegexes.add(Arrays.asList("User[ \\-]Agent\\: ", "NET CLR "));
-
-        systemGroupRegexes.put("facebook", facebookGroupRegexes);
-
-        // -------------------------------------------------
-
-        // firefox
-        systemStartRegexes.put("firefox",
-                Arrays.asList("User[ \\-]Agent\\: ", "( +)?xul\\.dll\\!", "( +)?USER32\\.DLL\\!",
-                        "( +)?mozcrt19\\.dll\\!", "NET CLR ", "Build tools.+Compiler.+Version.+flags",
-                        "Built from http\\:", "\\#[a-zA-Z]+ \\{", "\\d{4}-\\d{2}-\\d{2}.+firefox-bin",
-                        "\\d+.+xul\\.dll.+", "Reproducible: ", "\\<\\/[a-zA-Z]+\\>"));
-
-        List<List<String>> firefoxGroupRegexes = new ArrayList<>();
-
-        firefoxGroupRegexes.add(Arrays.asList("\\<div ", "\\<\\/div\\>", "\\<script", "\\<\\/script\\>", "\\<span ",
-                "\\&lt\\;script", "\\&lt\\;\\/script", "\\<a href\\=", "\\<br\\>", "\\-->", "\\<\\!", "\\<html\\>",
-                "\\<head\\>"));
-        // firefoxGroupRegexes.add(Arrays.asList("User\\-Agent",
-        // "Keep\\-Alive"));
-        firefoxGroupRegexes.add(Arrays.asList("\\$[a-zA-z]+ \\=", "echo  ", "foreach ?\\(", "for ?\\(", "if ?\\(",
-                "PHP_EOL", "function ?\\(.+\\{", "else ?\\{", "\\$\\_POST\\[", "\\$\\_GET\\[", "\\= ?\\{", "\\}\\;",
-                "(onKeyup|onKeypress) ?\\:", "\\{$", "\\}$", "^\\{.+\\}$", "\\}\\)\\;", "\\/\\*\\*", "\\*\\/",
-                "var [a-zA-z]+ \\= "));
-        firefoxGroupRegexes.add(Arrays.asList("xul\\.dll\\!", "USER32\\.DLL\\!", "mozcrt19\\.dll\\!"));
-        firefoxGroupRegexes.add(Arrays.asList("User[ \\-]Agent\\: ", "NET CLR ", "Build Identifier\\:"));
-        firefoxGroupRegexes.add(Arrays.asList("\\>TEST\\-INFO ", "\\>TEST-PASS "));
-        firefoxGroupRegexes.add(Arrays.asList("CrashTime\\: ", "ProductName\\: "));
-        firefoxGroupRegexes.add(Arrays.asList("ASSERT\\: ", "Stack Trace\\:"));
-        firefoxGroupRegexes.add(Arrays.asList("Configure arguments", "--enable-.+\\="));
-        firefoxGroupRegexes.add(Arrays.asList("TEST-UNEXPECTED-FAIL ", "PROCESS-CRASH "));
-        firefoxGroupRegexes.add(Arrays.asList("From\\: ", "Subject\\: "));
-
-        systemGroupRegexes.put("firefox", firefoxGroupRegexes);
-
-        // -------------------------------------------------
-
-        // hibernate
-
-        systemIniSeparators.put("hibernate", Arrays.asList("{code}", "{noformat}"));
-
-        systemRegexes.put("hibernate",
-                Arrays.asList("^(\\s+)?at .+\\(Unknown Source\\)$", "^(\\s+)?at .+\\(Native Method\\)$",
-                        " throw new [a-zA-Z0-9]+ ?\\(", ";.+\\}$", "\\{code\\}$", "INFO \\[", "WARN \\[", "ERROR \\[",
-                        "DEBUG \\["));
-
-        systemStartRegexes.put("hibernate",
-                Arrays.asList("(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
-                        "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)", "!ENTRY ", "!MESSAGE ",
-                        "!STACK ", "import ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;",
-                        "package ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;", "User\\-Agent\\: ", "Java VM\\: ", "VM state\\:",
-                        "Heap.+total \\d+.+ used \\d+", "public class ", "public static ", "private static ",
-                        "\\@Entity", "\\@Table\\(", "\\@Column\\(", "\\@Id", "\\@Override", "@Field\\(", "@Lob",
-                        "@Cache", "@MappedSuperclass", "@ManyToOne", "@NotNull", "@DefaultBooleanValue\\(", "@Column",
-                        "\\@OneToMany\\(", "CREATE TABLE ", "\\@Embeddable", "(public|private) [a-zA-Z0-9]+ .+\\).*\\{",
-                        "\\@Test", "class [a-zA-Z0-9]+ ?\\{", "\\{code\\:java\\}", "\\{code", "try \\{", "for ?\\(",
-                        "if ?\\(", "public static ", "else if ?\\(", "\\*\\;.+import ", "\\<persistence-unit",
-                        "\\<provider", "\\<\\/persistence-unit", "\\<property", "\\<column", "\\<subclass",
-                        "registerColumnType\\(", "Hibernate: .+\\(", "INSERT INTO ", "DELETE FROM "));
-
-        List<List<String>> hibernateGroupRegexes = new ArrayList<>();
-
-        hibernateGroupRegexes.add(Arrays.asList("public class ", "try \\{", "for ?\\(", "if ?\\(", "public static ",
-                "else if ?\\(", "while ?\\(", "return [a-zA-z]+\\;", "public void ", "\\@Entity", "\\@Table\\(",
-                "\\@Column\\(", "\\@Id", "\\@Override", "@Field\\(", "@Lob", "@MappedSuperclass", "@ManyToOne",
-                "@Cache", "@NotNull", "@DefaultBooleanValue\\(", "\\@OneToMany\\(", "CREATE TABLE ", "\\@Embeddable",
-                "\\@Test", " \\= new [a-zA-Z0-9]+ ?\\(", "\\{code\\:java\\}", "\\{code\\}", "\\* \\(non-Javadoc\\)",
-                "\\*\\/"));
-        hibernateGroupRegexes.add(Arrays.asList("at ([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+",
-                "\\([a-zA-Z0-9]+\\.java:\\d+\\)", "Caused by\\: ([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+"));
-        hibernateGroupRegexes.add(Arrays.asList("INFO \\[", "WARN \\[", "ERROR \\[", "DEBUG \\["));
-        hibernateGroupRegexes.add(Arrays.asList("\\<persistence-unit", "\\<provider", "\\<\\/persistence-unit",
-                "\\<property", "\\<column"));
-        hibernateGroupRegexes.add(Arrays.asList("\\<ehcache", "\\<defaultCache", "\\<defaultCache"));
-        hibernateGroupRegexes
-                .add(Arrays.asList("\\<hibernate-mapping", "\\<\\/hibernate-mapping", "\\<composite-id", "\\<class"));
-        hibernateGroupRegexes
-                .add(Arrays.asList("SELECT ", "INNER JOIN", "WHERE ", "select ", "as col_", "inner join", "where "));
-        hibernateGroupRegexes.add(Arrays.asList("openSession\\(", "beginTransaction\\(", "commit\\(\\)\\;"));
-        hibernateGroupRegexes.add(Arrays.asList("\\[javac\\] ", "\\[javac\\] \\d+ error"));
-        hibernateGroupRegexes.add(Arrays.asList("Daemon Thread ", "\\) line: \\d+"));
-        hibernateGroupRegexes.add(Arrays.asList("\\d+ DEBUG SQL", "select"));
-
-        systemGroupRegexes.put("hibernate", hibernateGroupRegexes);
-
-        // -------------------------------------------------
-
-        // httpd
-        systemStartRegexes.put("httpd",
-                Arrays.asList("Installing configuration files.+\\[", "\\/configure --", "use [a-zA-Z0-9]+\\:\\:.+",
-                        "#use [a-zA-Z0-9]+\\:\\:.+", "#define ", "^c.+mod_.+.$", "\\[.+\\].+\\[info\\]",
-                        ".+\\[.+\\].+\\\"GET \\/\\\"", "httpd in free\\(\\)\\:"));
-
-        List<List<String>> httpdGroupRegexes = new ArrayList<>();
-
-        httpdGroupRegexes.add(Arrays.asList("if \\[ \\!", "\\]\\; then", "if not exist \\\"", "mkdir \\\"", "$ diff"));
-
-        httpdGroupRegexes
-                .add(Arrays.asList("See any operating system documentation", "more information, such as the ld"));
-        httpdGroupRegexes.add(Arrays.asList("If you ever happen to want", "in a given directory, LIBDIR"));
-        httpdGroupRegexes.add(Arrays.asList("Building shared\\: ", "Building shared\\: mod"));
-        httpdGroupRegexes.add(Arrays.asList("configure --prefix\\=", "gmake install", "config --prefix\\=",
-                "CXXFLAGS\\=", "CFLAGS\\=", "--prefix\\=", "--with-"));
-        httpdGroupRegexes
-                .add(Arrays.asList(" \\[info\\] ", " \\[warn\\] ", " \\[notice\\] ", " \\[debug\\] ", "\\[error\\] "));
-        httpdGroupRegexes.add(Arrays.asList("^\\d+\\:.+\\= \\d+", "^\\d+\\:.+\\= \\d+ \\[\\d+\\]"));
-        httpdGroupRegexes.add(Arrays.asList("Reading symbols from \\/", "Loaded symbols for \\/"));
-        httpdGroupRegexes
-                .add(Arrays.asList("No symbol table info available\\.", "\\#\\d+\\s+0x[0-9A-Fa-f]+\\s+in\\s+\\?\\?",
-                        "\\#\\d+\\s+0x[0-9A-Fa-f]+\\s+in\\s+.+", "\\#\\d+\\s+0x[0-9A-Fa-f]+\\s+in\\s+.+at\\s+.+\\d+"));
-        httpdGroupRegexes.add(Arrays.asList("GDB is free software", "This GDB was configured as"));
-        httpdGroupRegexes.add(Arrays.asList("-rw-", "-rwx", "\\$ ls -"));
-        httpdGroupRegexes.add(Arrays.asList("exports\\.c\\:\\d+", "make\\[\\d+\\]\\:", "make\\: "));
-        httpdGroupRegexes.add(Arrays.asList("VirtualHost ", "ServerName ", "CacheRoot ", "AllowOverride ", "Directory ",
-                "CacheSize "));
-        httpdGroupRegexes.add(Arrays.asList("User-Agent\\: ", "Host\\: ", "Keep-Alive\\: ", "Connection\\: "));
-        httpdGroupRegexes.add(Arrays.asList("crashdump\\[\\d+\\]\\:", "0x[0-9A-Fa-f]+", "SIGSEGV", "Segmentation fault",
-                "\\s+inet\\s+", "\\s+TCP\\s+", "SIGTRAP"));
-        httpdGroupRegexes.add(Arrays.asList("\\<div ", "\\<\\/div\\>", "\\<script", "\\<\\/script\\>", "\\<span ",
-                "\\&lt\\;script", "\\&lt\\;\\/script", "\\<a href\\=", "\\<br\\>", "\\-->", "\\<\\!", "\\<html\\>",
-                "\\<\\/html\\>", "\\<head\\>", "\\<body\\>", "\\<\\/body\\>"));
-        httpdGroupRegexes.add(Arrays.asList("try \\{", "for ?\\(", "if ?\\(", "else if ?\\(", "while ?\\(",
-                "return [a-zA-z]+\\;", "public void ", "else ?\\{", "exit ?\\(0\\)\\;", "exit ?\\(1\\)\\;"));
-        httpdGroupRegexes.add(Arrays.asList("configure\\:\\d+\\: ", "configure\\:\\d+\\: gcc "));
-        httpdGroupRegexes.add(Arrays.asList("Server version\\: ", "Server built\\: "));
-        httpdGroupRegexes.add(Arrays.asList("make\\[1\\]\\: ", "make\\[2\\]\\: "));
-        httpdGroupRegexes.add(Arrays.asList("0x[0-9A-Fa-f]+", ", line \\d+ in", "SIGTRAP"));
-        httpdGroupRegexes.add(Arrays.asList("--- ", "\\+\\+\\+ "));
-        httpdGroupRegexes.add(Arrays.asList("AllowOverride ", "Allow from ", "\\<Location"));
-
-        systemGroupRegexes.put("httpd", httpdGroupRegexes);
-
-        // -------------------------------------------------
-
-        // libreoffice
-
-        List<List<String>> libreofficeGroupRegexes = new ArrayList<>();
-
-        libreofficeGroupRegexes.add(Arrays.asList("--enable-", "--with-"));
-        libreofficeGroupRegexes.add(Arrays.asList("AE162\\=", "AD162\\="));
-        libreofficeGroupRegexes.add(Arrays.asList("Range\\(\\\"B3\\\"\\)", "Range\\(\\\"C3\\\"\\)"));
-        libreofficeGroupRegexes.add(Arrays.asList("#\\d+\\s+0x[0-9A-Fa-f]+\\s+in", "at\\s+.+:\\d+"));
-        libreofficeGroupRegexes.add(Arrays.asList("ProblemType: ", "DistroRelease: "));
-        systemGroupRegexes.put("libreoffice", libreofficeGroupRegexes);
-
-        // -------------------------------------------------
-
-        // openmrs
-
-        systemIniSeparators.put("openmrs", Arrays.asList("{code}", "{noformat}"));
-
-        systemStartRegexes.put("openmrs",
-                Arrays.asList("([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
-                        "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
-                        "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
-                        "\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
-                        "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
-                        "(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
-                        "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
-                        "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
-                        "(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
-                        "Caused by\\: .+Exception.+\\:",
-                        "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+ \\. [a-zA-Z0-9]+ \\(\\d+\\)"));
-
-        List<List<String>> openmrsGroupRegexes = new ArrayList<>();
-
-        openmrsGroupRegexes.add(Arrays.asList("INFO - ", "ERROR - "));
-
-        openmrsGroupRegexes.add(Arrays.asList("([a-zA-Z0-9]+[\\.])+[a-zA-Z0-9]+Exception:",
-                "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)"));
-        systemGroupRegexes.put("openmrs", openmrsGroupRegexes);
-
-        // -------------------------------------------------
-
-        // wordpress-android
-
-        systemIniSeparators.put("wordpress-android", Collections.singletonList("```"));
-
-        systemRegexes.put("wordpress-android",
-                Arrays.asList("([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
-                        "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
-                        "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
-                        "\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
-                        "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
-                        "(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
-                        "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
-                        "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
-                        "(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
-                        "Caused by\\: .+Exception.+\\:"));
-
-        systemStartRegexes.put("wordpress-android", Arrays.asList("\\[screen shot", "\\[screenshot"));
-
-        List<List<String>> wordpressGroupRegexes = new ArrayList<>();
-
-        wordpressGroupRegexes.add(Arrays.asList("\\[INFO\\]", "\\[WARN\\]", "\\[DEBUG\\]", "\\[ERROR\\]"));
-
-        wordpressGroupRegexes
-                .add(Arrays.asList("D\\/Cursor", "D\\/ActionBarSherlock", "D\\/AndroidRuntime", "E\\/AndroidRuntime"));
-
-        wordpressGroupRegexes.add(
-                Arrays.asList("\\<\\/methodResponse", "\\<\\/fault", "\\<\\/methodResponse", "\\<\\/methodResponse"));
-
-        systemGroupRegexes.put("wordpress-android", wordpressGroupRegexes);
-    }
 
     public static void main(String[] args) throws Exception {
 
@@ -428,7 +114,7 @@ public class BugCodePreprocessor {
 
     private static boolean preprocessBug(TextInstance bugInstance, ShortLabeledBugReport bugReport) throws Exception {
 
-        List<String> iniSeparators = systemIniSeparators.get(bugInstance.getProject());
+        List<String> iniSeparators = BugCodeRegexes.systemIniSeparators.get(bugInstance.getProject());
 
         boolean changed = false;
 
@@ -452,47 +138,81 @@ public class BugCodePreprocessor {
     private static boolean removeOtherSentences(ShortLabeledBugReport bugReport, TextInstance bugInstance) {
         boolean changed = false;
 
-        List<String> regexes = systemRegexes.get(bugInstance.getProject());
-        List<String> regexesStart = systemStartRegexes.get(bugInstance.getProject());
-        List<String> regexesEnd = systemEndRegexes.get(bugInstance.getProject());
 
         if (bugReport.getDescription() == null) {
             return false;
         }
 
-        List<ShortLabeledDescriptionParagraph> paragraphsToRemove = new ArrayList<>();
+        List<ImmutablePair<String, ContentCategory>> generalRegexes =
+                BugCodeRegexes.systemRegexes.get(bugInstance.getProject());
+        List<ImmutablePair<String, ContentCategory>> startRegexes =
+                BugCodeRegexes.systemStartRegexes.get(bugInstance.getProject());
+        List<ImmutablePair<String, ContentCategory>> endRegexes =
+                BugCodeRegexes.systemEndRegexes.get(bugInstance.getProject());
+
+        //---------------------------------------
+        final Function<ImmutablePair<String, ContentCategory>, String> generalRxFn =
+                regex -> "(?s).*" + regex.getLeft() + ".*";
+        final Function<ImmutablePair<String, ContentCategory>, String> startRxFn =
+                regex -> "(?s)^" + regex.getLeft() + ".*";
+        final Function<ImmutablePair<String, ContentCategory>, String> endRxFn =
+                regex -> "(?s).*" + regex.getLeft() + "$";
+
+        //---------------------------------------
+
+        List<ImmutablePair<ShortLabeledDescriptionParagraph, ContentCategory>> paragraphsToRemove = new ArrayList<>();
         List<ShortLabeledDescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
+
         for (ShortLabeledDescriptionParagraph par : paragraphs) {
 
             if (par == null || par.getSentences() == null) {
-                paragraphsToRemove.add(par);
+                paragraphsToRemove.add(new ImmutablePair<>(par, null));
                 continue;
             }
 
-            if (checkParagraph2(par, bugInstance)) {
-                paragraphsToRemove.add(par);
+            final ContentCategory contentCategory1 = checkParagraph2(par, bugInstance);
+            if (contentCategory1 != null) {
+                paragraphsToRemove.add(new ImmutablePair<>(par, contentCategory1));
             } else {
 
-                List<ShortLabeledDescriptionSentence> sentencesToRemove = new ArrayList<>();
+                List<ImmutablePair<ShortLabeledDescriptionSentence, ContentCategory>>
+                        sentencesToRemove = new ArrayList<>();
                 List<ShortLabeledDescriptionSentence> sentences = par.getSentences();
                 for (ShortLabeledDescriptionSentence sent : sentences) {
-                    if (checkSentence2(sent, regexes) || checkSentence3(sent, regexesStart)
-                            || checkSentence4(sent, regexesEnd)) {
-                        sentencesToRemove.add(sent);
+
+                    ContentCategory contentCategory =
+                            findRegexThatMatchesSentence(sent, generalRegexes,
+                                    generalRxFn);
+
+                    if (contentCategory != null) {
+                        sentencesToRemove.add(new ImmutablePair<>(sent, contentCategory));
+                    } else {
+                        contentCategory =
+                                findRegexThatMatchesSentence(sent, startRegexes,
+                                        startRxFn);
+                        if (contentCategory != null) {
+                            sentencesToRemove.add(new ImmutablePair<>(sent, contentCategory));
+                        } else {
+
+                            contentCategory =
+                                    findRegexThatMatchesSentence(sent, endRegexes,
+                                            endRxFn);
+                            if (contentCategory != null) {
+                                sentencesToRemove.add(new ImmutablePair<>(sent, contentCategory));
+                            }
+                        }
                     }
                 }
 
-                boolean removeAll = sentences.removeAll(sentencesToRemove);
-                changed = changed || removeAll;
+                changed = removeSentences(changed, sentencesToRemove, sentences);
 
                 if (sentences.isEmpty()) {
-                    paragraphsToRemove.add(par);
+                    paragraphsToRemove.add(new ImmutablePair<>(par, null));
                 }
             }
         }
 
-        boolean removeAll = paragraphs.removeAll(paragraphsToRemove);
-        changed = changed || removeAll;
+        changed = removeParagraph(changed, paragraphsToRemove, paragraphs);
 
         // -----------------------------
 
@@ -503,89 +223,86 @@ public class BugCodePreprocessor {
         return changed;
     }
 
-    private static boolean checkSentence4(ShortLabeledDescriptionSentence sent, List<String> regexesEnd) {
+    private static boolean removeSentences(boolean changed,
+                                           List<ImmutablePair<ShortLabeledDescriptionSentence, ContentCategory>> sentencesToRemove,
+                                           List<ShortLabeledDescriptionSentence> sentences) {
+        if (performRemoval) {
+            boolean removeAll = sentences.removeAll(sentencesToRemove.stream()
+                    .map(ImmutablePair::getLeft).collect(Collectors.toList()));
+            changed = changed || removeAll;
+        } else {
+            for (ImmutablePair<ShortLabeledDescriptionSentence, ContentCategory> pair : sentencesToRemove) {
+                pair.getLeft().setValue(getTagText(pair.getRight()));
+                changed = true;
+            }
+        }
+        return changed;
+    }
 
-        if (regexesEnd == null) {
-            return false;
+    private static ContentCategory findRegexThatMatchesSentence(ShortLabeledDescriptionSentence sent,
+                                                                List<ImmutablePair<String, ContentCategory>> regexes,
+                                                                Function<ImmutablePair<String, ContentCategory>,
+                                                                        String> regexFunction) {
+        if (regexes == null) {
+            return null;
         }
 
         String value = sent.getValue();
-
-        return regexesEnd.stream().anyMatch(regex -> value.matches("(?s).*" + regex + "$"));
+        final Optional<ImmutablePair<String, ContentCategory>> matchedRegex =
+                regexes.stream().filter(regex -> value.matches(regexFunction.apply(regex))).findFirst();
+        return matchedRegex.map(ImmutablePair::getRight).orElse(null);
     }
 
-    private static boolean checkSentence3(ShortLabeledDescriptionSentence sent, List<String> regexesStart2) {
 
-        if (regexesStart2 == null) {
-            return false;
-        }
-
-        String value = sent.getValue();
-
-        return regexesStart2.stream().anyMatch(regex -> value.matches("(?s)^" + regex + ".*"));
+    private static boolean regexMatchSentence(List<ShortLabeledDescriptionSentence> sents,
+                                              String regex,
+                                              Function<String, String> regexFunction) {
+        return sents.stream().anyMatch(sent -> sent.getValue().matches(regexFunction.apply(regex)));
     }
 
-    private static boolean checkParagraph2(ShortLabeledDescriptionParagraph par, TextInstance bugInstance) {
+    private static ContentCategory checkParagraph2(ShortLabeledDescriptionParagraph par, TextInstance bugInstance) {
 
-        List<List<String>> groupRegexes = systemGroupRegexes.get(bugInstance.getProject());
+        List<ImmutablePair<List<String>, ContentCategory>> groupRegexes =
+                BugCodeRegexes.systemGroupRegexes.get(bugInstance.getProject());
 
-        if (groupRegexes == null) {
-            return false;
-        }
+        //--------------------------------
 
-        for (List<String> regxs : groupRegexes) {
+
+        for (ImmutablePair<List<String>, ContentCategory> pair : groupRegexes) {
             int numRegx = 0;
-            for (String reg : regxs) {
-                boolean matches = checkRegex(Collections.singletonList(reg), par.getSentences());
+            for (String reg : pair.getLeft()) {
+                boolean matches = regexMatchSentence(par.getSentences(), reg, regex -> "(?s).*" + regex + ".*");
                 if (matches) {
                     numRegx++;
                     if (numRegx > 1) {
-                        return true;
+                        return pair.getRight();
                     }
                 }
             }
         }
-        return false;
-    }
-
-    private static boolean checkRegex(List<String> regxs, List<ShortLabeledDescriptionSentence> sentences) {
-        for (ShortLabeledDescriptionSentence sent : sentences) {
-            if (checkSentence2(sent, regxs)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean checkSentence2(ShortLabeledDescriptionSentence sent, List<String> regexesLocal) {
-
-        if (regexesLocal == null) {
-            return false;
-        }
-
-        String value = sent.getValue();
-
-        return regexesLocal.stream().anyMatch(regex -> value.matches("(?s).*" + regex + ".*"));
+        return null;
     }
 
     private static boolean removeCode(ShortLabeledBugReport bugReport, List<CodePair> pairs, String separator) {
 
         boolean changed = false;
 
-        List<ShortLabeledDescriptionParagraph> paragraphsToRemove = new ArrayList<>();
+        List<ImmutablePair<ShortLabeledDescriptionParagraph, ContentCategory>> paragraphsToRemove = new ArrayList<>();
         List<ShortLabeledDescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
         for (ShortLabeledDescriptionParagraph par : paragraphs) {
 
             if (par == null || par.getSentences() == null) {
-                paragraphsToRemove.add(par);
+                paragraphsToRemove.add(new ImmutablePair<>(par, null));
                 continue;
             }
 
-            if (checkParagraph(par, pairs)) {
-                paragraphsToRemove.add(par);
+            final ContentCategory contentCategory = checkParagraph(par, pairs);
+            if (contentCategory != null) {
+                paragraphsToRemove.add(new ImmutablePair<>(par, contentCategory));
             } else {
 
-                List<ShortLabeledDescriptionSentence> sentencesToRemove = new ArrayList<>();
+                List<ImmutablePair<ShortLabeledDescriptionSentence, ContentCategory>> sentencesToRemove =
+                        new ArrayList<>();
                 List<ShortLabeledDescriptionSentence> sentences = par.getSentences();
                 for (ShortLabeledDescriptionSentence sent : sentences) {
                     CodePair pair = checkSentence(sent, pairs);
@@ -595,12 +312,14 @@ public class BugCodePreprocessor {
                     }
 
                     if (!pair.regex) {
-                        sentencesToRemove.add(sent);
+                        sentencesToRemove.add(new ImmutablePair<>(sent, pair.tag));
                     } else {
+                        //-----------------------------------
+
                         int indexOf = sent.getValue().indexOf(separator);
                         String newVal = sent.getValue().substring(0, indexOf);
                         if (newVal.trim().isEmpty()) {
-                            sentencesToRemove.add(sent);
+                            sentencesToRemove.add(new ImmutablePair<>(sent, pair.tag));
                         } else {
                             sent.setValue(newVal);
                             changed = true;
@@ -608,17 +327,15 @@ public class BugCodePreprocessor {
                     }
                 }
 
-                boolean removeAll = sentences.removeAll(sentencesToRemove);
-                changed = changed || removeAll;
+                changed = removeSentences(changed, sentencesToRemove, sentences);
 
                 if (sentences.isEmpty()) {
-                    paragraphsToRemove.add(par);
+                    paragraphsToRemove.add(new ImmutablePair<>(par, null));
                 }
             }
         }
 
-        boolean removeAll = paragraphs.removeAll(paragraphsToRemove);
-        changed = changed || removeAll;
+        changed = removeParagraph(changed, paragraphsToRemove, paragraphs);
 
         // -----------------------------
 
@@ -628,6 +345,40 @@ public class BugCodePreprocessor {
 
         return changed;
 
+    }
+
+    private static boolean removeParagraph(boolean changed, List<ImmutablePair<ShortLabeledDescriptionParagraph,
+            ContentCategory>> paragraphsToRemove, List<ShortLabeledDescriptionParagraph> paragraphs) {
+        if (performRemoval) {
+            boolean removeAll = paragraphs.removeAll(paragraphsToRemove.stream()
+                    .map(ImmutablePair::getLeft).collect(Collectors.toList()));
+            changed = changed || removeAll;
+        } else {
+            final List<ShortLabeledDescriptionParagraph> parsToDelete =
+                    paragraphsToRemove.stream().filter(p -> p.getRight() == null)
+                            .map(ImmutablePair::getLeft).collect(Collectors.toList());
+
+            boolean removeAll = paragraphs.removeAll(parsToDelete);
+            changed = changed || removeAll;
+
+            //-------------------------------------
+
+            List<ImmutablePair<ShortLabeledDescriptionParagraph, ContentCategory>> parsToChange =
+                    paragraphsToRemove.stream().filter(p -> p.getRight() != null)
+                            .collect(Collectors.toList());
+
+            for (ImmutablePair<ShortLabeledDescriptionParagraph, ContentCategory> pair : parsToChange) {
+                for (ShortLabeledDescriptionSentence sentence : pair.getLeft().getSentences()) {
+                    sentence.setValue(getTagText(pair.getRight()));
+                    changed = true;
+                }
+            }
+        }
+        return changed;
+    }
+
+    private static String getTagText(ContentCategory category) {
+        return "[" + category + "]";
     }
 
     private static CodePair checkSentence(ShortLabeledDescriptionSentence sent, List<CodePair> pairs) {
@@ -666,7 +417,7 @@ public class BugCodePreprocessor {
         return null;
     }
 
-    private static boolean checkParagraph(ShortLabeledDescriptionParagraph par, List<CodePair> pairs) {
+    private static ContentCategory checkParagraph(ShortLabeledDescriptionParagraph par, List<CodePair> pairs) {
         Integer parId = Integer.valueOf(par.getId());
 
         for (CodePair pair : pairs) {
@@ -678,20 +429,21 @@ public class BugCodePreprocessor {
             }
 
             if (iniId < parId && parId < endId) {
-                return true;
+                return pair.tag;
             } else {
                 List<ShortLabeledDescriptionSentence> sentences = par.getSentences();
                 if (sentences.get(0).getId().equals(iniId.toString())
                         && sentences.get(sentences.size() - 1).getId().equals(iniId.toString())) {
-                    return true;
+                    return pair.tag;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
-    private static List<CodePair> findCodingPairs(ShortLabeledBugReport bugReport, String separator, TextInstance bugInstance) {
+    private static List<CodePair> findCodingPairs(ShortLabeledBugReport bugReport, String separator,
+                                                  TextInstance bugInstance) {
 
         List<ShortLabeledDescriptionSentence> sentences = bugReport.getDescription().getAllSentences();
         List<CodePair> pairs = new ArrayList<>();
@@ -706,7 +458,8 @@ public class BugCodePreprocessor {
                     if (sent.getValue().equals("BUG REPORT INFORMATION")) {
                         if (i + 4 <= sentences.size() - 1) {
                             if (sentences.get(i + 4).getValue().equals("-->")) {
-                                pairs.add(new CodePair(firstSent.getId(), sentences.get(i + 4).getId(), false));
+                                pairs.add(new CodePair(firstSent.getId(), sentences.get(i + 4).getId(),
+                                        false, ContentCategory.PROJ_TEMPLATE));
                                 break;
                             }
                         }
@@ -729,7 +482,7 @@ public class BugCodePreprocessor {
                     iniId = sent.getId();
                 } else {
                     endId = sent.getId();
-                    pairs.add(new CodePair(iniId, endId, false));
+                    pairs.add(new CodePair(iniId, endId, false, ContentCategory.SRC_CODE));
                     iniId = null;
                     endId = null;
                 }
@@ -737,12 +490,12 @@ public class BugCodePreprocessor {
                 String separator2 = separator.replace("{", "\\{").replace("}", "\\}");
                 if (sent.getValue().matches("(?s).+" + separator2 + ".+" + separator2)) {
                     if (iniId == null) {
-                        pairs.add(new CodePair(sent.getId(), sent.getId(), true));
+                        pairs.add(new CodePair(sent.getId(), sent.getId(), true, ContentCategory.SRC_CODE));
                         iniId = null;
                         endId = null;
                     }
                 } else if (sent.getValue().startsWith(separator) && sent.getValue().endsWith(separator)) {
-                    pairs.add(new CodePair(sent.getId(), sent.getId(), false));
+                    pairs.add(new CodePair(sent.getId(), sent.getId(), false, ContentCategory.SRC_CODE));
                     iniId = null;
                     endId = null;
                 } else if (sent.getValue().startsWith(separator)) {
@@ -752,7 +505,7 @@ public class BugCodePreprocessor {
                 } else if (sent.getValue().endsWith(separator)) {
                     if (iniId != null) {
                         endId = sent.getId();
-                        pairs.add(new CodePair(iniId, endId, false));
+                        pairs.add(new CodePair(iniId, endId, false, ContentCategory.SRC_CODE));
                         iniId = null;
                         endId = null;
                     }
@@ -770,19 +523,27 @@ public class BugCodePreprocessor {
     public static class CodePair {
         String iniId;
         String endId;
+        ContentCategory tag;
 
         boolean regex;
 
-        CodePair(String iniId, String endId, boolean regex) {
+       /* CodePair(String iniId, String endId, boolean regex) {
+            this(iniId, endId, regex, null);
+        }*/
+
+        CodePair(String iniId, String endId, boolean regex, ContentCategory tag) {
             super();
+            if (tag == null)
+                throw new RuntimeException("Incorrect tag: " + tag);
             this.iniId = iniId;
             this.endId = endId;
             this.regex = regex;
+            this.tag = tag;
         }
 
         @Override
         public String toString() {
-            return "[i=" + iniId + ", e=" + endId + "]";
+            return "[i=" + iniId + ", e=" + endId + ", t=" + tag + "]";
         }
 
     }
