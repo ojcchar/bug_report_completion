@@ -143,24 +143,24 @@ public class BugCodePreprocessor {
             return false;
         }
 
-        List<ImmutablePair<String, ContentCategory>> generalRegexes =
+        List<ImmutablePair<String, BugContentCategory>> generalRegexes =
                 BugCodeRegexes.systemRegexes.get(bugInstance.getProject());
-        List<ImmutablePair<String, ContentCategory>> startRegexes =
+        List<ImmutablePair<String, BugContentCategory>> startRegexes =
                 BugCodeRegexes.systemStartRegexes.get(bugInstance.getProject());
-        List<ImmutablePair<String, ContentCategory>> endRegexes =
+        List<ImmutablePair<String, BugContentCategory>> endRegexes =
                 BugCodeRegexes.systemEndRegexes.get(bugInstance.getProject());
 
         //---------------------------------------
-        final Function<ImmutablePair<String, ContentCategory>, String> generalRxFn =
+        final Function<ImmutablePair<String, BugContentCategory>, String> generalRxFn =
                 regex -> "(?s).*" + regex.getLeft() + ".*";
-        final Function<ImmutablePair<String, ContentCategory>, String> startRxFn =
+        final Function<ImmutablePair<String, BugContentCategory>, String> startRxFn =
                 regex -> "(?s)^" + regex.getLeft() + ".*";
-        final Function<ImmutablePair<String, ContentCategory>, String> endRxFn =
+        final Function<ImmutablePair<String, BugContentCategory>, String> endRxFn =
                 regex -> "(?s).*" + regex.getLeft() + "$";
 
         //---------------------------------------
 
-        List<ImmutablePair<ShortLabeledDescriptionParagraph, ContentCategory>> paragraphsToRemove = new ArrayList<>();
+        List<ImmutablePair<ShortLabeledDescriptionParagraph, BugContentCategory>> paragraphsToRemove = new ArrayList<>();
         List<ShortLabeledDescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
 
         for (ShortLabeledDescriptionParagraph par : paragraphs) {
@@ -170,17 +170,17 @@ public class BugCodePreprocessor {
                 continue;
             }
 
-            final ContentCategory contentCategory1 = checkParagraph2(par, bugInstance);
+            final BugContentCategory contentCategory1 = checkParagraph2(par, bugInstance);
             if (contentCategory1 != null) {
                 paragraphsToRemove.add(new ImmutablePair<>(par, contentCategory1));
             } else {
 
-                List<ImmutablePair<ShortLabeledDescriptionSentence, ContentCategory>>
+                List<ImmutablePair<ShortLabeledDescriptionSentence, BugContentCategory>>
                         sentencesToRemove = new ArrayList<>();
                 List<ShortLabeledDescriptionSentence> sentences = par.getSentences();
                 for (ShortLabeledDescriptionSentence sent : sentences) {
 
-                    ContentCategory contentCategory =
+                    BugContentCategory contentCategory =
                             findRegexThatMatchesSentence(sent, generalRegexes,
                                     generalRxFn);
 
@@ -224,31 +224,31 @@ public class BugCodePreprocessor {
     }
 
     private static boolean removeSentences(boolean changed,
-                                           List<ImmutablePair<ShortLabeledDescriptionSentence, ContentCategory>> sentencesToRemove,
+                                           List<ImmutablePair<ShortLabeledDescriptionSentence, BugContentCategory>> sentencesToRemove,
                                            List<ShortLabeledDescriptionSentence> sentences) {
         if (performRemoval) {
             boolean removeAll = sentences.removeAll(sentencesToRemove.stream()
                     .map(ImmutablePair::getLeft).collect(Collectors.toList()));
             changed = changed || removeAll;
         } else {
-            for (ImmutablePair<ShortLabeledDescriptionSentence, ContentCategory> pair : sentencesToRemove) {
-                pair.getLeft().setValue(getTagText(pair.getRight()));
+            for (ImmutablePair<ShortLabeledDescriptionSentence, BugContentCategory> pair : sentencesToRemove) {
+                pair.getLeft().setValue(pair.getRight().getTagText());
                 changed = true;
             }
         }
         return changed;
     }
 
-    private static ContentCategory findRegexThatMatchesSentence(ShortLabeledDescriptionSentence sent,
-                                                                List<ImmutablePair<String, ContentCategory>> regexes,
-                                                                Function<ImmutablePair<String, ContentCategory>,
+    private static BugContentCategory findRegexThatMatchesSentence(ShortLabeledDescriptionSentence sent,
+                                                                   List<ImmutablePair<String, BugContentCategory>> regexes,
+                                                                   Function<ImmutablePair<String, BugContentCategory>,
                                                                         String> regexFunction) {
         if (regexes == null) {
             return null;
         }
 
         String value = sent.getValue();
-        final Optional<ImmutablePair<String, ContentCategory>> matchedRegex =
+        final Optional<ImmutablePair<String, BugContentCategory>> matchedRegex =
                 regexes.stream().filter(regex -> value.matches(regexFunction.apply(regex))).findFirst();
         return matchedRegex.map(ImmutablePair::getRight).orElse(null);
     }
@@ -260,15 +260,15 @@ public class BugCodePreprocessor {
         return sents.stream().anyMatch(sent -> sent.getValue().matches(regexFunction.apply(regex)));
     }
 
-    private static ContentCategory checkParagraph2(ShortLabeledDescriptionParagraph par, TextInstance bugInstance) {
+    private static BugContentCategory checkParagraph2(ShortLabeledDescriptionParagraph par, TextInstance bugInstance) {
 
-        List<ImmutablePair<List<String>, ContentCategory>> groupRegexes =
+        List<ImmutablePair<List<String>, BugContentCategory>> groupRegexes =
                 BugCodeRegexes.systemGroupRegexes.get(bugInstance.getProject());
 
         //--------------------------------
 
 
-        for (ImmutablePair<List<String>, ContentCategory> pair : groupRegexes) {
+        for (ImmutablePair<List<String>, BugContentCategory> pair : groupRegexes) {
             int numRegx = 0;
             for (String reg : pair.getLeft()) {
                 boolean matches = regexMatchSentence(par.getSentences(), reg, regex -> "(?s).*" + regex + ".*");
@@ -287,7 +287,7 @@ public class BugCodePreprocessor {
 
         boolean changed = false;
 
-        List<ImmutablePair<ShortLabeledDescriptionParagraph, ContentCategory>> paragraphsToRemove = new ArrayList<>();
+        List<ImmutablePair<ShortLabeledDescriptionParagraph, BugContentCategory>> paragraphsToRemove = new ArrayList<>();
         List<ShortLabeledDescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
         for (ShortLabeledDescriptionParagraph par : paragraphs) {
 
@@ -296,12 +296,12 @@ public class BugCodePreprocessor {
                 continue;
             }
 
-            final ContentCategory contentCategory = checkParagraph(par, pairs);
+            final BugContentCategory contentCategory = checkParagraph(par, pairs);
             if (contentCategory != null) {
                 paragraphsToRemove.add(new ImmutablePair<>(par, contentCategory));
             } else {
 
-                List<ImmutablePair<ShortLabeledDescriptionSentence, ContentCategory>> sentencesToRemove =
+                List<ImmutablePair<ShortLabeledDescriptionSentence, BugContentCategory>> sentencesToRemove =
                         new ArrayList<>();
                 List<ShortLabeledDescriptionSentence> sentences = par.getSentences();
                 for (ShortLabeledDescriptionSentence sent : sentences) {
@@ -348,7 +348,7 @@ public class BugCodePreprocessor {
     }
 
     private static boolean removeParagraph(boolean changed, List<ImmutablePair<ShortLabeledDescriptionParagraph,
-            ContentCategory>> paragraphsToRemove, List<ShortLabeledDescriptionParagraph> paragraphs) {
+            BugContentCategory>> paragraphsToRemove, List<ShortLabeledDescriptionParagraph> paragraphs) {
         if (performRemoval) {
             boolean removeAll = paragraphs.removeAll(paragraphsToRemove.stream()
                     .map(ImmutablePair::getLeft).collect(Collectors.toList()));
@@ -363,22 +363,18 @@ public class BugCodePreprocessor {
 
             //-------------------------------------
 
-            List<ImmutablePair<ShortLabeledDescriptionParagraph, ContentCategory>> parsToChange =
+            List<ImmutablePair<ShortLabeledDescriptionParagraph, BugContentCategory>> parsToChange =
                     paragraphsToRemove.stream().filter(p -> p.getRight() != null)
                             .collect(Collectors.toList());
 
-            for (ImmutablePair<ShortLabeledDescriptionParagraph, ContentCategory> pair : parsToChange) {
+            for (ImmutablePair<ShortLabeledDescriptionParagraph, BugContentCategory> pair : parsToChange) {
                 for (ShortLabeledDescriptionSentence sentence : pair.getLeft().getSentences()) {
-                    sentence.setValue(getTagText(pair.getRight()));
+                    sentence.setValue(pair.getRight().getTagText());
                     changed = true;
                 }
             }
         }
         return changed;
-    }
-
-    private static String getTagText(ContentCategory category) {
-        return "[" + category + "]";
     }
 
     private static CodePair checkSentence(ShortLabeledDescriptionSentence sent, List<CodePair> pairs) {
@@ -417,7 +413,7 @@ public class BugCodePreprocessor {
         return null;
     }
 
-    private static ContentCategory checkParagraph(ShortLabeledDescriptionParagraph par, List<CodePair> pairs) {
+    private static BugContentCategory checkParagraph(ShortLabeledDescriptionParagraph par, List<CodePair> pairs) {
         Integer parId = Integer.valueOf(par.getId());
 
         for (CodePair pair : pairs) {
@@ -459,7 +455,7 @@ public class BugCodePreprocessor {
                         if (i + 4 <= sentences.size() - 1) {
                             if (sentences.get(i + 4).getValue().equals("-->")) {
                                 pairs.add(new CodePair(firstSent.getId(), sentences.get(i + 4).getId(),
-                                        false, ContentCategory.PROJ_TEMPLATE));
+                                        false, BugContentCategory.PROJ_TEMPLATE));
                                 break;
                             }
                         }
@@ -482,7 +478,7 @@ public class BugCodePreprocessor {
                     iniId = sent.getId();
                 } else {
                     endId = sent.getId();
-                    pairs.add(new CodePair(iniId, endId, false, ContentCategory.SRC_CODE));
+                    pairs.add(new CodePair(iniId, endId, false, BugContentCategory.SRC_CODE));
                     iniId = null;
                     endId = null;
                 }
@@ -490,12 +486,12 @@ public class BugCodePreprocessor {
                 String separator2 = separator.replace("{", "\\{").replace("}", "\\}");
                 if (sent.getValue().matches("(?s).+" + separator2 + ".+" + separator2)) {
                     if (iniId == null) {
-                        pairs.add(new CodePair(sent.getId(), sent.getId(), true, ContentCategory.SRC_CODE));
+                        pairs.add(new CodePair(sent.getId(), sent.getId(), true, BugContentCategory.SRC_CODE));
                         iniId = null;
                         endId = null;
                     }
                 } else if (sent.getValue().startsWith(separator) && sent.getValue().endsWith(separator)) {
-                    pairs.add(new CodePair(sent.getId(), sent.getId(), false, ContentCategory.SRC_CODE));
+                    pairs.add(new CodePair(sent.getId(), sent.getId(), false, BugContentCategory.SRC_CODE));
                     iniId = null;
                     endId = null;
                 } else if (sent.getValue().startsWith(separator)) {
@@ -505,7 +501,7 @@ public class BugCodePreprocessor {
                 } else if (sent.getValue().endsWith(separator)) {
                     if (iniId != null) {
                         endId = sent.getId();
-                        pairs.add(new CodePair(iniId, endId, false, ContentCategory.SRC_CODE));
+                        pairs.add(new CodePair(iniId, endId, false, BugContentCategory.SRC_CODE));
                         iniId = null;
                         endId = null;
                     }
@@ -523,7 +519,7 @@ public class BugCodePreprocessor {
     public static class CodePair {
         String iniId;
         String endId;
-        ContentCategory tag;
+        BugContentCategory tag;
 
         boolean regex;
 
@@ -531,7 +527,7 @@ public class BugCodePreprocessor {
             this(iniId, endId, regex, null);
         }*/
 
-        CodePair(String iniId, String endId, boolean regex, ContentCategory tag) {
+        CodePair(String iniId, String endId, boolean regex, BugContentCategory tag) {
             super();
             if (tag == null)
                 throw new RuntimeException("Incorrect tag: " + tag);

@@ -6,21 +6,21 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static seers.bugreppatterns.main.preprocessing.ContentCategory.*;
+import static seers.bugreppatterns.main.preprocessing.BugContentCategory.*;
 
 public class BugCodeRegexes {
 
 
     //regexes by system in general
-    static HashMap<String, List<ImmutablePair<String, ContentCategory>>>
+    static HashMap<String, List<ImmutablePair<String, BugContentCategory>>>
             systemRegexes = new HashMap<>();
     //regexes by system that match the start of sentences
-    static HashMap<String, List<ImmutablePair<String, ContentCategory>>> systemStartRegexes = new HashMap<>();
+    static HashMap<String, List<ImmutablePair<String, BugContentCategory>>> systemStartRegexes = new HashMap<>();
     //regexes by system that match the end of sentences
-    static HashMap<String, List<ImmutablePair<String, ContentCategory>>> systemEndRegexes = new HashMap<>();
+    static HashMap<String, List<ImmutablePair<String, BugContentCategory>>> systemEndRegexes = new HashMap<>();
 
     //regexes by system grouped by "paragraph"
-    static HashMap<String, List<ImmutablePair<List<String>, ContentCategory>>> systemGroupRegexes = new HashMap<>();
+    static HashMap<String, List<ImmutablePair<List<String>, BugContentCategory>>> systemGroupRegexes = new HashMap<>();
 
     //these are for JIRA and Github bugs, where there are special tags/separators to delimit and highlight code
     static HashMap<String, List<String>> systemIniSeparators = new HashMap<>();
@@ -56,12 +56,12 @@ public class BugCodeRegexes {
                 "Caused by\\: .+Exception.+\\:");
 
         systemRegexes.put(projectName, regexes.stream()
-                .map(r -> new ImmutablePair<>(r, ContentCategory.EXEC_TRACES))
+                .map(r -> new ImmutablePair<>(r, BugContentCategory.EXEC_TRACES))
                 .collect(Collectors.toList())
         );
 
         systemStartRegexes.put(projectName, Stream.of("\\[screen shot", "\\[screenshot")
-                .map(r -> new ImmutablePair<>(r, ContentCategory.PROG_LOGS))
+                .map(r -> new ImmutablePair<>(r, BugContentCategory.PROG_LOGS))
                 .collect(Collectors.toList()));
 
         List<List<String>> logRx = new ArrayList<>();
@@ -95,7 +95,7 @@ public class BugCodeRegexes {
                         "(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
                         "Caused by\\: .+Exception.+\\:",
                         "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+ \\. [a-zA-Z0-9]+ \\(\\d+\\)")
-                        .map(r -> new ImmutablePair<>(r, ContentCategory.EXEC_TRACES))
+                        .map(r -> new ImmutablePair<>(r, BugContentCategory.EXEC_TRACES))
                         .collect(Collectors.toList())
         );
 
@@ -141,7 +141,7 @@ public class BugCodeRegexes {
                 Stream.of("Installing configuration files.+\\[", "\\/configure --", "use [a-zA-Z0-9]+\\:\\:.+",
                         "#use [a-zA-Z0-9]+\\:\\:.+", "#define ", "^c.+mod_.+.$", "\\[.+\\].+\\[info\\]",
                         ".+\\[.+\\].+\\\"GET \\/\\\"", "httpd in free\\(\\)\\:")
-                        .map(r -> new ImmutablePair<>(r, ContentCategory.PROG_LOGS))
+                        .map(r -> new ImmutablePair<>(r, BugContentCategory.PROG_LOGS))
                         .collect(Collectors.toList())
         );
 
@@ -190,15 +190,15 @@ public class BugCodeRegexes {
         final String projectName = "hibernate";
         systemIniSeparators.put(projectName, Arrays.asList("{code}", "{noformat}"));
 
-        Stream<ImmutablePair<String, ContentCategory>> tracesRegexes = Stream.of("^(\\s+)?at .+\\(Unknown Source\\)$"
+        Stream<ImmutablePair<String, BugContentCategory>> tracesRegexes = Stream.of("^(\\s+)?at .+\\(Unknown Source\\)$"
                 , "^(\\s+)?at .+\\(Native Method\\)$")
-                .map(r -> new ImmutablePair<>(r, ContentCategory.EXEC_TRACES));
+                .map(r -> new ImmutablePair<>(r, BugContentCategory.EXEC_TRACES));
 
-        Stream<ImmutablePair<String, ContentCategory>> codeRegexes =
+        Stream<ImmutablePair<String, BugContentCategory>> codeRegexes =
                 Stream.of(" throw new [a-zA-Z0-9]+ ?\\(", ";.+\\}$", "\\{code\\}$")
-                        .map(r -> new ImmutablePair<>(r, ContentCategory.SRC_CODE));
+                        .map(r -> new ImmutablePair<>(r, BugContentCategory.SRC_CODE));
 
-        Stream<ImmutablePair<String, ContentCategory>> logRegexes =
+        Stream<ImmutablePair<String, BugContentCategory>> logRegexes =
                 Stream.of("INFO \\[", "WARN \\[", "ERROR \\[", "DEBUG \\[")
                         .map(r -> new ImmutablePair<>(r, PROG_LOGS));
 
@@ -207,17 +207,17 @@ public class BugCodeRegexes {
                 .reduce(Stream::concat).get().collect(Collectors.toList()));
 
 
-        final Stream<ImmutablePair<String, ContentCategory>> tracesStr = Stream.of("(\\s+)?(at )?" +
+        final Stream<ImmutablePair<String, BugContentCategory>> tracesStr = Stream.of("(\\s+)?(at )?" +
                         "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
                 "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)")
-                .map(r -> new ImmutablePair<>(r, ContentCategory.EXEC_TRACES));
+                .map(r -> new ImmutablePair<>(r, BugContentCategory.EXEC_TRACES));
 
-        final Stream<ImmutablePair<String, ContentCategory>> logsStr = Stream.of("!ENTRY ", "!MESSAGE ",
+        final Stream<ImmutablePair<String, BugContentCategory>> logsStr = Stream.of("!ENTRY ", "!MESSAGE ",
                 "!STACK ",
                 "User\\-Agent\\: ", "Java VM\\: ", "VM state\\:",                "Heap.+total \\d+.+ used \\d+")
-                .map(r -> new ImmutablePair<>(r, ContentCategory.PROG_LOGS));
+                .map(r -> new ImmutablePair<>(r, BugContentCategory.PROG_LOGS));
 
-        final Stream<ImmutablePair<String, ContentCategory>> codeStr =
+        final Stream<ImmutablePair<String, BugContentCategory>> codeStr =
                 Stream.of("import ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;",
                         "package ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;",
                         "public class ", "public static ", "private static ",
@@ -228,7 +228,7 @@ public class BugCodeRegexes {
                         "if ?\\(", "public static ", "else if ?\\(", "\\*\\;.+import ", "\\<persistence-unit",
                         "\\<provider", "\\<\\/persistence-unit", "\\<property", "\\<column", "\\<subclass",
                         "registerColumnType\\(", "Hibernate: .+\\(", "INSERT INTO ", "DELETE FROM ")
-                        .map(r -> new ImmutablePair<>(r, ContentCategory.SRC_CODE));
+                        .map(r -> new ImmutablePair<>(r, BugContentCategory.SRC_CODE));
 
 
         systemStartRegexes.put(projectName,
@@ -277,7 +277,7 @@ public class BugCodeRegexes {
                         "( +)?mozcrt19\\.dll\\!", "NET CLR ", "Build tools.+Compiler.+Version.+flags",
                         "Built from http\\:", "\\#[a-zA-Z]+ \\{", "\\d{4}-\\d{2}-\\d{2}.+firefox-bin",
                         "\\d+.+xul\\.dll.+", "Reproducible: ", "\\<\\/[a-zA-Z]+\\>").stream()
-                        .map(r -> new ImmutablePair<>(r, ContentCategory.PROG_LOGS)).collect(Collectors.toList())
+                        .map(r -> new ImmutablePair<>(r, BugContentCategory.PROG_LOGS)).collect(Collectors.toList())
         );
 
         List<List<String>> codeRx = new ArrayList<>();
@@ -314,12 +314,12 @@ public class BugCodeRegexes {
 
         systemRegexes.put(projectName,
                 Stream.of("if ?\\(.+\\{").map(r -> new ImmutablePair<>(r,
-                        ContentCategory.SRC_CODE))
+                        BugContentCategory.SRC_CODE))
                         .collect(Collectors.toList()));
 
         systemStartRegexes.put(projectName, Stream.of("PHP_EOL", "\\$[a-zA-z]+ \\=", "foreach ?\\(", "echo  ",
                 "\\<\\?", "for ?\\(.+\\{", "User[ \\-]Agent\\: ").map(r -> new ImmutablePair<>(r,
-                ContentCategory.PROG_LOGS))
+                BugContentCategory.PROG_LOGS))
                 .collect(Collectors.toList()));
 
         List<List<String>> logRx = new ArrayList<>();
@@ -350,24 +350,24 @@ public class BugCodeRegexes {
         // eclipse
         final String projectName = "eclipse";
         systemRegexes.put(projectName, Stream.of("\\\\bin\\\\java ")
-                .map(r -> new ImmutablePair<>(r, ContentCategory.SRC_CODE))
+                .map(r -> new ImmutablePair<>(r, BugContentCategory.SRC_CODE))
                 .collect(Collectors.toList()));
 
 
         // -------------------------------------------------
 
-        final Stream<ImmutablePair<String, ContentCategory>> tracesRx = Stream.of("(\\s+)?(at )?" +
+        final Stream<ImmutablePair<String, BugContentCategory>> tracesRx = Stream.of("(\\s+)?(at )?" +
                 "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)")
                 .map(r -> new ImmutablePair<>(r, EXEC_TRACES));
 
-        final Stream<ImmutablePair<String, ContentCategory>> logsRx = Stream.of("!ENTRY ", "!MESSAGE ",
+        final Stream<ImmutablePair<String, BugContentCategory>> logsRx = Stream.of("!ENTRY ", "!MESSAGE ",
                 "!STACK ",
                 "User\\-Agent\\: ", "Java VM\\: ", "VM state\\:",
                 "Heap.+total \\d+.+ used \\d+", "ini \\-command ",
                 "Build version\\: ", "Unexpected Signal : ", "0x[0-9A-Fa-f]+ - 0x[0-9A-Fa-f]+")
                 .map(r -> new ImmutablePair<>(r, PROG_LOGS));
 
-        final Stream<ImmutablePair<String, ContentCategory>> codeRx = Stream.of("\\\\jre\\\\bin\\\\java ",
+        final Stream<ImmutablePair<String, BugContentCategory>> codeRx = Stream.of("\\\\jre\\\\bin\\\\java ",
                 "import ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;",
                 "package ([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]+\\;",
                 "public class ", "public static ",
@@ -426,11 +426,11 @@ public class BugCodeRegexes {
 
     private static void addGroupRegexes(String projectName, List<List<String>> codeRx2, List<List<String>> tracesRx2,
                                         List<List<String>> logsRx2) {
-        final Stream<ImmutablePair<List<String>, ContentCategory>> codeGrpRegexes = codeRx2 == null ? Stream.empty() :
+        final Stream<ImmutablePair<List<String>, BugContentCategory>> codeGrpRegexes = codeRx2 == null ? Stream.empty() :
                 codeRx2.stream().map(r -> new ImmutablePair<>(r, SRC_CODE));
-        final Stream<ImmutablePair<List<String>, ContentCategory>> tracesGrpRegexes = tracesRx2 == null ?
+        final Stream<ImmutablePair<List<String>, BugContentCategory>> tracesGrpRegexes = tracesRx2 == null ?
                 Stream.empty() : tracesRx2.stream().map(r -> new ImmutablePair<>(r, EXEC_TRACES));
-        final Stream<ImmutablePair<List<String>, ContentCategory>> logsGrpRegexes = logsRx2 == null ? Stream.empty() :
+        final Stream<ImmutablePair<List<String>, BugContentCategory>> logsGrpRegexes = logsRx2 == null ? Stream.empty() :
                 logsRx2.stream().map(r -> new ImmutablePair<>(r, PROG_LOGS));
 
         systemGroupRegexes.put(projectName, Stream.of(logsGrpRegexes, codeGrpRegexes, tracesGrpRegexes)
@@ -454,19 +454,19 @@ public class BugCodeRegexes {
                 " RUN ", ">RUN ", "dockerd\\[\\d+\\]\\:", "ERRO\\[\\d+\\]", "systemd\\[\\d+\\]\\:",
                 ":\\~\\$ docker start", ":: busybox", "kernel: \\[ \\d+\\.\\d+\\]", "Message from syslogd");
 
-        systemRegexes.put(projectName, regexes.stream().map(r -> new ImmutablePair<>(r, ContentCategory.PROG_LOGS))
+        systemRegexes.put(projectName, regexes.stream().map(r -> new ImmutablePair<>(r, BugContentCategory.PROG_LOGS))
                 .collect(Collectors.toList()));
 
         //--------------------------------------
 
 
-        Stream<ImmutablePair<String, ContentCategory>> logsRegexes = Stream.of(" ?\\[[0-9A-Fa-f]+\\]", "\\[error\\]",
+        Stream<ImmutablePair<String, BugContentCategory>> logsRegexes = Stream.of(" ?\\[[0-9A-Fa-f]+\\]", "\\[error\\]",
                 "\\[ERROR\\]", " ?\\d{4}\\/\\d{2}\\/\\d{2}",
                 " ?\\d{4}-\\d{2}-\\d{2}", "ERRO\\[", "WARN\\[", "DEBU\\[", "INFO\\[", "FATA\\[")
                 .map(r -> new ImmutablePair<>(r, PROG_LOGS));
-        Stream<ImmutablePair<String, ContentCategory>> codeRegexes = Stream.of(" ?sudo ", "\\$ docker run -")
+        Stream<ImmutablePair<String, BugContentCategory>> codeRegexes = Stream.of(" ?sudo ", "\\$ docker run -")
                 .map(r -> new ImmutablePair<>(r, SRC_CODE));
-        Stream<ImmutablePair<String, ContentCategory>> tracesRegexes = Stream.of(" ?at .+\\d+")
+        Stream<ImmutablePair<String, BugContentCategory>> tracesRegexes = Stream.of(" ?at .+\\d+")
                 .map(r -> new ImmutablePair<>(r, EXEC_TRACES));
 
         systemStartRegexes.put(projectName,
