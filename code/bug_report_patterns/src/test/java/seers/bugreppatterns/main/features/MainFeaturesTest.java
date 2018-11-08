@@ -9,8 +9,8 @@ public class MainFeaturesTest {
     @Test
     public void main() throws Exception {
 
-        String goldSetFolderPrefix = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\pattern_features\\auto_all_data";
-        String outputFolderPrefix = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\pattern_features" +
+        String goldSetFolderPrefix = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\pattern_features_11082018\\auto_all_data";
+        String outputFolderPrefix = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\pattern_features_11082018" +
                 "\\auto_all_data_features";
         String ourData = "y";
 

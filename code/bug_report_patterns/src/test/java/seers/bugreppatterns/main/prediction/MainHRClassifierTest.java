@@ -10,9 +10,9 @@ public class MainHRClassifierTest {
 
         /*String dataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17\\1_data" +
                 "\\1_coded_data\\0_labeled_data";*/
-        String dataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17\\1_data" +
-                "\\2_preprocessed_data\\0_content_tagging-10302018";
-        String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\pattern_features_11072018\\auto_all_data";
+        String dataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
+                "\\1_data\\2_preprocessed_data\\4_content_tagging_preprop2_labels_fixed-10302018";
+        String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\pattern_features_11082018\\auto_all_data";
 
         String goldSetPath = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17\\1_data" +
                 "\\1_coded_data\\2_labeled_data_summary.csv";
