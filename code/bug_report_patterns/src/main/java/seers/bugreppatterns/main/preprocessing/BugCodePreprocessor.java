@@ -1,5 +1,6 @@
 package seers.bugreppatterns.main.preprocessing;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import seers.appcore.utils.JavaUtils;
 import seers.appcore.xml.XMLHelper;
@@ -19,6 +20,10 @@ import java.util.stream.Collectors;
 //import seers.bugrepcompl.entity.regularparse.DescriptionParagraph;
 //import seers.bugrepcompl.entity.regularparse.DescriptionSentence;
 
+/**
+ * It tags sentences with the tags defined in BugContentCategory based on the regular expressions defined in
+ * BugCodeRegexes and heuristics such as the Jira special tags for code and other content
+ */
 public class BugCodePreprocessor {
 
     //	//not coded data
@@ -29,12 +34,16 @@ public class BugCodePreprocessor {
 //	static String outputFolder = "C:/Users/ojcch/Documents/Projects/Bug_autocompletion/data/code_preprocessing";
 
     //coded data (remember to change the imports!!)
-    private static String xmlBugDir = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
+   /* private static String xmlBugDir = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
             "\\1_data\\1_coded_data\\0_labeled_data";
     private static String goldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\generated_goldsets\\bug_list" +
             ".csv";
     private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
-            "\\1_data\\2_preprocessed_data\\0_content_tagging-10302018";
+            "\\1_data\\2_preprocessed_data\\0_content_tagging-10302018";  */
+    private static String xmlBugDir = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\0_labeled_data";
+    private static String goldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\bug_list.csv";
+    private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\1_preprocessed_data" +
+            "\\0_content_tagging-01102019";
 
     //if true, the text that matches the regexes is removed, otherwise the text is tagged with special tags
     private static boolean performRemoval = false;
@@ -43,8 +52,15 @@ public class BugCodePreprocessor {
     //-------------------------------------------------------
 
 
-    private static Set<String> allowedSystems = JavaUtils.getSet("docker", "eclipse",
-            "facebook", "firefox", "hibernate", "httpd", "libreoffice", "openmrs", "wordpress-android");
+    private static Set<String> allowedSystems = JavaUtils.getSet(
+//            "argouml", "jedit"
+            "openoffice"
+        /*    //"docker",
+            "eclipse",
+            "facebook", "firefox",
+            //"hibernate"            , "httpd",
+            "libreoffice", "openmrs", "wordpress-android"*/
+    );
 
 //      private static Set<String> allowedSystems = JavaUtils.getSet("docker");
     // static HashSet<String> allowedSystems = new
@@ -83,7 +99,7 @@ public class BugCodePreprocessor {
                     System.out.println(" [not changed]");
                 }
             } catch (Exception e) {
-                System.err.println("Error for " + bugInstance);
+                System.err.println("[ERR] Error for " + bugInstance);
                 e.printStackTrace();
             }
 
@@ -160,7 +176,8 @@ public class BugCodePreprocessor {
 
         //---------------------------------------
 
-        List<ImmutablePair<ShortLabeledDescriptionParagraph, BugContentCategory>> paragraphsToRemove = new ArrayList<>();
+        List<ImmutablePair<ShortLabeledDescriptionParagraph, BugContentCategory>> paragraphsToRemove =
+                new ArrayList<>();
         List<ShortLabeledDescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
 
         for (ShortLabeledDescriptionParagraph par : paragraphs) {
@@ -227,13 +244,20 @@ public class BugCodePreprocessor {
                                            List<ImmutablePair<ShortLabeledDescriptionSentence, BugContentCategory>> sentencesToRemove,
                                            List<ShortLabeledDescriptionSentence> sentences) {
         if (performRemoval) {
-            boolean removeAll = sentences.removeAll(sentencesToRemove.stream()
-                    .map(ImmutablePair::getLeft).collect(Collectors.toList()));
+            boolean removeAll = sentences.removeAll(
+                    sentencesToRemove.stream()
+                            .map(ImmutablePair::getLeft)
+                            .filter(s -> StringUtils.isEmpty(s.getOb()) && StringUtils.isEmpty(s.getEb()) && StringUtils.isEmpty(s.getSr()))
+                            .collect(Collectors.toList())
+            );
             changed = changed || removeAll;
         } else {
             for (ImmutablePair<ShortLabeledDescriptionSentence, BugContentCategory> pair : sentencesToRemove) {
-                pair.getLeft().setValue(pair.getRight().getTagText());
-                changed = true;
+                final ShortLabeledDescriptionSentence sentence = pair.getLeft();
+                if (StringUtils.isEmpty(sentence.getOb()) && StringUtils.isEmpty(sentence.getEb()) && StringUtils.isEmpty(sentence.getSr())) {
+                    sentence.setValue(pair.getRight().getTagText());
+                    changed = true;
+                }
             }
         }
         return changed;
@@ -242,7 +266,7 @@ public class BugCodePreprocessor {
     private static BugContentCategory findRegexThatMatchesSentence(ShortLabeledDescriptionSentence sent,
                                                                    List<ImmutablePair<String, BugContentCategory>> regexes,
                                                                    Function<ImmutablePair<String, BugContentCategory>,
-                                                                        String> regexFunction) {
+                                                                           String> regexFunction) {
         if (regexes == null) {
             return null;
         }
@@ -287,7 +311,8 @@ public class BugCodePreprocessor {
 
         boolean changed = false;
 
-        List<ImmutablePair<ShortLabeledDescriptionParagraph, BugContentCategory>> paragraphsToRemove = new ArrayList<>();
+        List<ImmutablePair<ShortLabeledDescriptionParagraph, BugContentCategory>> paragraphsToRemove =
+                new ArrayList<>();
         List<ShortLabeledDescriptionParagraph> paragraphs = bugReport.getDescription().getParagraphs();
         for (ShortLabeledDescriptionParagraph par : paragraphs) {
 
@@ -369,8 +394,10 @@ public class BugCodePreprocessor {
 
             for (ImmutablePair<ShortLabeledDescriptionParagraph, BugContentCategory> pair : parsToChange) {
                 for (ShortLabeledDescriptionSentence sentence : pair.getLeft().getSentences()) {
-                    sentence.setValue(pair.getRight().getTagText());
-                    changed = true;
+                    if (StringUtils.isEmpty(sentence.getOb()) && StringUtils.isEmpty(sentence.getEb()) && StringUtils.isEmpty(sentence.getSr())) {
+                        sentence.setValue(pair.getRight().getTagText());
+                        changed = true;
+                    }
                 }
             }
         }
@@ -510,7 +537,7 @@ public class BugCodePreprocessor {
         }
 
         if (iniId != null || endId != null) {
-            System.err.println("Could not find pair: " + iniId + ", " + endId);
+            System.err.println("[ERR] Could not find pair: " + iniId + ", " + endId);
         }
 
         return pairs;

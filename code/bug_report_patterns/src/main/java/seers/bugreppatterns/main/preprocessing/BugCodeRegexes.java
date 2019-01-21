@@ -36,6 +36,74 @@ public class BugCodeRegexes {
         addOpenMrsRegexes();
         addWordPressRegexes();
 
+        addArgoumlRegexes();
+        addJeditRegexes();
+        addOpenOfficeRegexes();
+    }
+
+    private static void addOpenOfficeRegexes() {
+
+        final String projectName = "openoffice";
+
+        List<List<String>> logRx = new ArrayList<>();
+        logRx.add(Arrays.asList("0x[0-9A-Fa-f]+", "\\+ \\d+", "\\.dylib", "Thread State", "at [a-zA-Z0-9]+\\.c:\\d+"));
+        logRx.add(Arrays.asList("Model:", "Graphics:", "Network Service:"));
+        logRx.add(Arrays.asList("ProblemType:", "Architecture:", "Uname:"));
+
+
+        List<List<String>> tracesRx = new ArrayList<>();
+        tracesRx.add(Arrays.asList("([a-zA-Z0-9]+[\\.])+[a-zA-Z0-9]+Exception:?",
+                "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)"
+        ));
+
+        addGroupRegexes(projectName, null, tracesRx, logRx);
+    }
+
+    private static void addJeditRegexes() {
+
+        final String projectName = "jedit";
+
+        List<List<String>> logRx = new ArrayList<>();
+        logRx.add(Arrays.asList("java\\.version", "java\\.vendor", "java\\.vm\\.version"));
+
+        List<List<String>> tracesRx = new ArrayList<>();
+        tracesRx.add(Arrays.asList("([a-zA-Z0-9]+[\\.])+[a-zA-Z0-9]+Exception:?",
+                "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+                "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\\\?\\([a-zA-Z0-9]+\\.java:\\d+\\\\?\\)",
+                "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\\\?\\(Unknown Source\\\\?\\)"));
+
+        addGroupRegexes(projectName, null, tracesRx, logRx);
+    }
+
+    private static void addArgoumlRegexes() {
+
+        final String projectName = "argouml";
+        List<String> regexes = Arrays.asList("([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+                "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+                "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+                "\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+                "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+                "(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+                "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+                "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+                "(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+                "Caused by\\: .+Exception.+\\:");
+
+        systemRegexes.put(projectName, regexes.stream()
+                .map(r -> new ImmutablePair<>(r, BugContentCategory.EXEC_TRACES))
+                .collect(Collectors.toList())
+        );
+
+        List<List<String>> logRx = new ArrayList<>();
+
+        logRx.add(Arrays.asList("Java Version", "Java Vendor", "Java Classpath"));
+
+        List<List<String>> tracesRx = new ArrayList<>();
+        tracesRx.add(Arrays.asList("([a-zA-Z0-9]+[\\.])+[a-zA-Z0-9]+Exception:",
+                "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+                "[argouml].*at.*([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+.*","\\([a-zA-Z0-9]+\\.java:\\d+\\)"));
+
+        addGroupRegexes(projectName, null, tracesRx, logRx);
     }
 
     private static void addWordPressRegexes() {

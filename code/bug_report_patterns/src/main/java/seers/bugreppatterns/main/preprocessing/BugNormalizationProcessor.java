@@ -28,18 +28,27 @@ public class BugNormalizationProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(BugNormalizationProcessor.class);
     static String DUMMY_TOKEN = "℘";
 
-    private static String xmlBugDir = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
+  /*  private static String xmlBugDir = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
             "\\1_data\\2_preprocessed_data\\0_content_tagging_preprop-10302018";
     private static String goldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\generated_goldsets\\bug_list" +
             ".csv";
     private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
-            "\\1_data\\2_preprocessed_data\\0_content_tagging_preprop2-10302018";
+            "\\1_data\\2_preprocessed_data\\0_content_tagging_preprop2-10302018";*/
+    private static String xmlBugDir = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\1_preprocessed_data" +
+          "\\0_content_tagging-01102019";
+    private static String goldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\bug_list.csv";
+    private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\1_preprocessed_data" +
+            "\\1_content_tagging_prep-01102019";
 
 
     private static Set<String> allowedSystems = JavaUtils.getSet(
-            "docker"
-            , "eclipse",
-            "facebook", "firefox", "hibernate", "httpd", "libreoffice", "openmrs",
+            "argouml", "jedit",
+            "openoffice",
+            //"docker",
+             "eclipse",
+            "facebook", "firefox",
+//            "hibernate", "httpd",
+            "libreoffice", "openmrs",
             "wordpress-android"
     );
 
@@ -77,7 +86,7 @@ public class BugNormalizationProcessor {
 
     private static void preProcessBug(TextInstance bugInstance, ShortLabeledBugReport bugRep) {
 
-        //encodeSpecialTokens(bugInstance, bugRep);
+        encodeSpecialTokens(bugInstance, bugRep);
         mergeSentences(bugInstance, bugRep);
 
     }

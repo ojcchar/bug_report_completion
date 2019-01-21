@@ -2,6 +2,7 @@ package seers.bugreppatterns.main.golset;
 
 import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
+import seers.appcore.utils.JavaUtils;
 import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.Labels;
 import seers.bugrepcompl.entity.TextInstance;
@@ -26,15 +27,31 @@ public class SentenceGoldSetMain {
 // /final_data";
 
     //preprocessed data
-    private static String codedDataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
+    /*private static String codedDataFolder =
+    "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
             "\\1_data\\2_preprocessed_data\\4_content_tagging_preprop2_labels_fixed-10302018";
 
     private static String bugGoldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
             "\\1_data\\1_coded_data\\2_labeled_data_summary.csv";
-    private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\generated_goldsets_11082018";
+    private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\generated_goldsets_11082018";*/
+
+    private static String codedDataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data" +
+            "\\1_preprocessed_data\\1_content_tagging_prep-01102019";
+
+    private static String bugGoldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\bug_list.csv";
+    private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\2_gold_sets";
 
     static HashMap<TextInstance, Labels> goldSetSentences = new HashMap<>();
 
+
+    private static Set<String> allowedSystems = JavaUtils.getSet(
+            "argouml", "jedit",
+            "openoffice",
+            "eclipse",
+            "facebook", "firefox",
+            "libreoffice", "openmrs",
+            "wordpress-android"
+    );
 
     public static void main(String[] args) throws Exception {
         HashMap<TextInstance, Labels> goldSet = DataReader.readGoldSet(bugGoldSetFile);
@@ -42,12 +59,14 @@ public class SentenceGoldSetMain {
         Set<TextInstance> bugInstances = goldSet.keySet();
 
         for (TextInstance bugInstance : bugInstances) {
-
+            String project = bugInstance.getProject();
+            if (!allowedSystems.contains(project)) {
+                continue;
+            }
             try {
 
                 System.out.println("Processing " + bugInstance + " ");
 
-                String project = bugInstance.getProject();
                 String bugId = bugInstance.getBugId();
 
                 File xmlFile = new File(
@@ -96,15 +115,14 @@ public class SentenceGoldSetMain {
 						.getInstanceId(), value2.getIsOB(),
 						value2.getIsEB(), value2.getIsSR(), value2.getCodedBy(), bugType };*/
                 String[] value = new String[]{sentenceInstance.getProject(), sentenceInstance.getBugId(),
-						sentenceInstance.getInstanceId(), value2.getIsOB(),
+                        sentenceInstance.getInstanceId(), value2.getIsOB(),
                         value2.getIsEB(), value2.getIsSR(), value2.getCodedBy()};
                 writer.writeNext(Arrays.asList(value));
             }
         }
     }
 
-    private static void processBug(ShortLabeledBugReport bugRep, TextInstance bugInstance)
-    {
+    private static void processBug(ShortLabeledBugReport bugRep, TextInstance bugInstance) {
 
         ShortLabeledBugReportDescription description = bugRep.getDescription();
 

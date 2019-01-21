@@ -1,12 +1,11 @@
 package seers.bugrepcompl.entity.shortcodingparse;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement(name = "desc")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -25,6 +24,8 @@ public class ShortLabeledBugReportDescription {
 
 	public ShortLabeledBugReportDescription(ShortLabeledBugReportDescription description) {
 		this.paragraphs = new ArrayList<>();
+
+		if (description == null ||  description.paragraphs == null) return;
 
 		for (ShortLabeledDescriptionParagraph descriptionParagraph : description.paragraphs) {
 			this.paragraphs.add(new ShortLabeledDescriptionParagraph(descriptionParagraph));
