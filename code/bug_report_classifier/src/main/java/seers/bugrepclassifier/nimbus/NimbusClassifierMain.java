@@ -30,6 +30,26 @@ public class NimbusClassifierMain {
 
         //call to a python script
 
+        {
+            //load the model
+
+            //for each paragraph
+            {
+
+                //input preparation
+                {
+                    //get the sentences
+
+                    //get the features for each sentence
+                }
+
+                //run the model
+
+                //read the model output (a file)
+
+            }
+        }
+
         return null;
     }
 
