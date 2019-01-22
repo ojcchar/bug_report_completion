@@ -2,8 +2,10 @@ package seers.bugrepclassifier.nimbus;
 
 import seers.bugrepcompl.entity.codingparse.LabeledBugReport;
 import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
+import seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class NimbusClassifierMain {
@@ -17,12 +19,21 @@ public class NimbusClassifierMain {
         //compute the pattern features for the bug report
 
         //proprogate the labels from the paragraphs to the sentences
-        HashMap<String, List<Integer>> patternFeatureMap = null;
+        HashMap<String, List<Integer>> patternFeatureMap = getPatternFeatureMap(preprocessedBugReport);
 
-        //
+        //classify
         HashMap<String, Boolean> classification = classify(preprocessedBugReport, patternFeatureMap);
 
-        return null;
+        //assign the labels to the sentences
+        LabeledBugReport labeledBugReport = null;
+        for (ParsedDescriptionSentence sentence : bugReport.getDescription().getAllSentences()) {
+        }
+
+        return labeledBugReport;
+    }
+
+    private LinkedHashMap<String, List<Integer>> getPatternFeatureMap(ParsedBugReport preprocessedBugReport) {
+        return new LinkedHashMap<>();
     }
 
     private HashMap<String, Boolean> classify(ParsedBugReport preprocessedBugReport,
@@ -54,6 +65,6 @@ public class NimbusClassifierMain {
     }
 
     private ParsedBugReport preprocessBugReport(ParsedBugReport bugReport) {
-        return null;
+        return bugReport;
     }
 }
