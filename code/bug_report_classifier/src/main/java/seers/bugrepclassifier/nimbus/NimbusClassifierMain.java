@@ -1,5 +1,8 @@
 package seers.bugrepclassifier.nimbus;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import seers.appcore.xml.XMLHelper;
 import seers.bugrepcompl.entity.codingparse.LabeledBugReport;
 import seers.bugrepcompl.entity.regularparse.ParsedBugReport;
 import seers.bugrepcompl.entity.regularparse.ParsedDescriptionSentence;
@@ -10,6 +13,15 @@ import java.util.List;
 
 public class NimbusClassifierMain {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(NimbusClassifierMain.class);
+
+    public LabeledBugReport identifyS2RSentences(String bugReportPath) throws Exception {
+        final ParsedBugReport bugReport = XMLHelper.readXML(ParsedBugReport.class, bugReportPath);
+
+        LOGGER.debug("# of sentences: " + bugReport.getDescription().getAllSentences().size());
+
+        return identifyS2RSentences(bugReport);
+    }
 
     public LabeledBugReport identifyS2RSentences(ParsedBugReport bugReport) throws Exception {
 
@@ -18,7 +30,7 @@ public class NimbusClassifierMain {
 
         //compute the pattern features for the bug report
 
-        //proprogate the labels from the paragraphs to the sentences
+        //propagate the labels from the paragraphs to the sentences
         HashMap<String, List<Integer>> patternFeatureMap = getPatternFeatureMap(preprocessedBugReport);
 
         //classify
