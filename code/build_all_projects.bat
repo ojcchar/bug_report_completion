@@ -14,13 +14,13 @@ cd "%BUG_REPORT_COMPLETION_REPO_PATH%" && git pull
 
 
 REM project building
-cd "%APPCORE_REPO_PATH%\appcore" && call gradlew clean install && @echo on
-cd "%TXT_ANALYZER_REPO_PATH%\text-analyzer" && call gradlew clean install && @echo on
-cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\bug_report_coding" && call gradlew clean install && @echo on
-cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\bug_report_patterns" && call gradlew clean install && @echo on
-cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\bug_report_classifier" && call gradlew clean install && @echo on
-cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\bug_report_parser\bugparser" && call gradlew clean install && @echo on
-cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\tools" && call gradlew clean install && @echo on
+cd "%APPCORE_REPO_PATH%\appcore" && call gradlew clean testClasses install && @echo on
+cd "%TXT_ANALYZER_REPO_PATH%\text-analyzer" && call gradlew clean testClasses install && @echo on
+cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\bug_report_coding" && call gradlew clean testClasses install && @echo on
+cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\bug_report_patterns" && call gradlew clean testClasses install && @echo on
+cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\bug_report_classifier" && call gradlew clean testClasses install && @echo on
+cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\bug_report_parser\bugparser" && call gradlew clean testClasses install && @echo on
+cd "%BUG_REPORT_COMPLETION_REPO_PATH%\code\tools" && call gradlew clean testClasses install && @echo on
 
 
 cd "%CUR_DIR%"
