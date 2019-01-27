@@ -855,10 +855,12 @@ if __name__ == '__main__':
             writer = csv.writer(outf, delimiter=';', quoting=csv.QUOTE_MINIMAL)
             for instance_text, decode_result in zip(data.raw_texts,decode_results):
                 for instance_id, pred in zip(instance_text[-1],decode_result):
-                    writer.writerow(instance_id.split("-")+[pred])
+                    sent_id = instance_id[instance_id.rfind("-")+1:]
+                    instance_id = instance_id[0:instance_id.rfind("-")]
+                    bug_id = instance_id[instance_id.rfind("-")+1:]
+                    system_id = instance_id[0:instance_id.rfind("-")]
+                    writer.writerow([system_id,bug_id,sent_id,pred])
                 
-
-
 
 
 
