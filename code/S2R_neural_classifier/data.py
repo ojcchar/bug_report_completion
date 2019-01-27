@@ -170,7 +170,7 @@ class Data:
     def initial_feature_alphabets(self):
         return
 
-    def build_alphabet(self, data_path, feature_path):
+    def build_alphabet(self, data_path, feature_path, fileext):
 
         dataset = [] #(paragraph (sentence list),tags)
         fnames = []
@@ -197,7 +197,7 @@ class Data:
         
         for root, dirs,files in os.walk(data_path):
             for f in files:
-                if not f.endswith(".parse.xml"):
+                if not f.endswith(fileext):
                     continue
                 f = os.path.join(root,f)
                 #print(f)
@@ -299,7 +299,7 @@ class Data:
                         continue
 
                     systemname = f.split("/")[-2]
-                    bugid = f.split("/")[-1].replace(".parse.xml","")
+                    bugid = f.split("/")[-1].replace(fileext,"")
 
                     instance_id = systemname+"-"+bugid+"-"+sent.get("id")
                     instance_ids.append(instance_id)
@@ -411,7 +411,7 @@ class Data:
 
         return dataset
 
-    def generate_instance(self, data_path, feature_path):
+    def generate_instance(self, data_path, feature_path, fileext):
 
         dataset = [] #(paragraph (sentence list),tags)
         fnames = []
@@ -422,7 +422,7 @@ class Data:
       
         for root, dirs,files in os.walk(data_path):
             for f in files:
-                if not f.endswith(".parse.xml"):
+                if not f.endswith(fileext):
                     continue
                 f = os.path.join(root,f)
 
@@ -469,6 +469,31 @@ class Data:
             tree = ET.parse(f)
             root = tree.getroot()
 
+            systemname = f.split("/")[-1].split("#")[0]
+            bugid = f.split("/")[-1].split("_")[1].replace(fileext,"")
+            #print("systemname:",systemname)
+            #print("bugid:",bugid)
+            #input(" ")
+
+            #process title
+            title = root.find('title')
+            tsentences = [word_tokenize(title.text)]
+            tlabels = ['O']
+            tinstance_id = systemname+"-"+bugid+"-0"
+            tinstance_ids = [tinstance_id]
+            tfeatures = []
+            if tinstance_id in pattern_feamap.keys():
+                foundpat = foundpat+1
+                #print(instance_id,pattern_feamap[instance_id])
+                tfeatures.append(pattern_feamap[tinstance_id])
+            else:
+                tfeatures.append([])
+
+            dataset.append((tsentences,tlabels,tfeatures,tinstance_ids))
+            #print("dataset:",dataset)
+            #input(" ")
+
+
             for paragraph in root.iter('parg'):
                 #print(paragraph.get("id"))
                 parg_label = ""
@@ -491,8 +516,6 @@ class Data:
                         input(f)
                         continue
 
-                    systemname = f.split("/")[-2]
-                    bugid = f.split("/")[-1].replace(".parse.xml","")
 
                     instance_id = systemname+"-"+bugid+"-"+sent.get("id")
                     instance_ids.append(instance_id)
@@ -549,6 +572,9 @@ class Data:
                         word = sentences[i][j]            
 
                 dataset.append((sentences,labels,features,instance_ids))
+
+            #print("dataset:",dataset)
+            #input(" ")
                 
         print("# foundpat",foundpat)
         print("vocabulary size:",self.word_alphabet.size())
@@ -557,7 +583,7 @@ class Data:
 
         return dataset
 
-    def load_gold_labels(self, data_path):
+    def load_gold_labels(self, data_path, fileext):
         label_map = {}
 
         fnames = []
@@ -569,7 +595,7 @@ class Data:
     
         for root, dirs,files in os.walk(data_path):
             for f in files:
-                if not f.endswith(".parse.xml"):
+                if not f.endswith(fileext):
                     continue
 
                 fnames.append(os.path.join(root,f))
@@ -612,7 +638,7 @@ class Data:
                     instance_ids.append(f+"-"+paragraph.get("id")+"-"+sent.get("id"))
 
                     systemname = f.split("/")[-2]
-                    bugid = f.split("/")[-1].replace(".parse.xml","")
+                    bugid = f.split("/")[-1].replace(fileext,"")
 
                     instance_id = systemname+"-"+bugid+"-"+sent.get("id")
                     #print(instance_id)

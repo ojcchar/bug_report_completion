@@ -12,7 +12,7 @@ import time
 import random
 import gc
 import argparse
-
+import csv
 
 
 from data import Data
@@ -812,6 +812,7 @@ if __name__ == '__main__':
     # parser.add_argument('--status', choices=['train', 'decode'], help='update algorithm', default='train')
     parser.add_argument('--config',  help='Configuration File' )
     parser.add_argument('--path',help='Path of Data File')
+    parser.add_argument('--outpath',help='Path of Output File')
 
     args = parser.parse_args()
     data = Data()
@@ -845,11 +846,17 @@ if __name__ == '__main__':
 
         print("raw_dir:",data.raw_dir)
         print("model_dir:",data.load_model_dir)
-        dataset = data.generate_instance(data.raw_dir, feature_path)
+        dataset = data.generate_instance(data.raw_dir, feature_path, ".xml")
         data.raw_texts, data.raw_Ids = data.read_instance(dataset,data.word_alphabet,data.char_alphabet,data.label_alphabet, data.feature_alphabets)
 
         decode_results, pred_scores = decode_one_doc(data, 'raw')
-        print(decode_results)
+
+        with open(args.outpath,'w') as outf:
+            writer = csv.writer(outf, delimiter=';', quoting=csv.QUOTE_MINIMAL)
+            for instance_text, decode_result in zip(data.raw_texts,decode_results):
+                for instance_id, pred in zip(instance_text[-1],decode_result):
+                    writer.writerow(instance_id.split("-")+[pred])
+                
 
 
 
