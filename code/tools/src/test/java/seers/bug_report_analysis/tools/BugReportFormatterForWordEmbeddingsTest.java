@@ -38,7 +38,8 @@ public class BugReportFormatterForWordEmbeddingsTest {
     public void parseDate() throws ParseException {
 
         String content = "Thu May 05 21:23:35 CST 2016";
-        DateTime val = BugReportFormatterForWordEmbeddings.parseDate(content);
+        String pattern = "EEE MMM dd HH:mm:ss zzz yyyy";
+        DateTime val = BugReportFormatterForWordEmbeddings.parseDate(content, pattern);
 
         assertNotNull(val);
     }

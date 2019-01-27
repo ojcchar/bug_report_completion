@@ -41,7 +41,7 @@ public abstract class TextInstanceProcessor extends ThreadProcessor {
 	protected void writePrediction(String bugRepId, String instanceId, Labels labels) throws Exception {
 
 		List<String> nextLine = Arrays.asList(
-				new String[] { system, bugRepId, instanceId, labels.getIsOB(), labels.getIsEB(), labels.getIsSR() });
+				system, bugRepId, instanceId, labels.getIsOB(), labels.getIsEB(), labels.getIsSR());
 		predictionWriter.writeNext(nextLine);
 	}
 

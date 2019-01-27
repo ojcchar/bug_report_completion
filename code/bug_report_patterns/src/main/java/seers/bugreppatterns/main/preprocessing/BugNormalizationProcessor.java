@@ -84,7 +84,7 @@ public class BugNormalizationProcessor {
 
     }
 
-    private static void preProcessBug(TextInstance bugInstance, ShortLabeledBugReport bugRep) {
+    protected static void preProcessBug(TextInstance bugInstance, ShortLabeledBugReport bugRep) {
 
         encodeSpecialTokens(bugInstance, bugRep);
         mergeSentences(bugInstance, bugRep);

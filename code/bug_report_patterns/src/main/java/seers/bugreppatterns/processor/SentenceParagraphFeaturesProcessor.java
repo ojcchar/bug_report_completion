@@ -21,10 +21,16 @@ import java.util.stream.Collectors;
 public class SentenceParagraphFeaturesProcessor extends TextInstanceProcessor {
 
     private List<PatternMatcher> paragraphPatterns;
+    boolean processTitle;
 
-    public SentenceParagraphFeaturesProcessor(ThreadParameters params) {
+    public SentenceParagraphFeaturesProcessor(ThreadParameters params, boolean processTitle) {
         super(params);
         paragraphPatterns = patterns.stream().filter(p -> p.getName().startsWith("P")).collect(Collectors.toList());
+        this.processTitle = processTitle;
+    }
+
+    public SentenceParagraphFeaturesProcessor(ThreadParameters params) {
+        this(params, false);
     }
 
     @Override
@@ -34,6 +40,33 @@ public class SentenceParagraphFeaturesProcessor extends TextInstanceProcessor {
 
             try {
                 PatternLabeledBugReport bugRep = XMLHelper.readXML(PatternLabeledBugReport.class, file);
+
+
+                if (processTitle){
+                    final String value = bugRep.getTitle().getValue();
+                    final Sentence sentence = SentenceUtils.parseSentence("0", value);
+
+                    LinkedHashMap<PatternMatcher, Integer> sentencePatternMatches =
+                            new LinkedHashMap<>();
+
+                    //-------------------------
+
+                    for (PatternMatcher patternMatcher : this.patterns) {
+                        int matchSentence = patternMatcher.matchSentence(sentence);
+                        if (matchSentence > 0) {
+                            updatePattern(sentencePatternMatches, patternMatcher, matchSentence);
+                        }
+                    }
+
+                    //-------------------------
+
+                    PredictionOutput predictionOutput = predictor.predictLabels(bugRep.getId(), sentence.getId(),
+                            sentencePatternMatches);
+
+                    writePreFeatures(bugRep.getId(), sentence.getId(), predictionOutput.getFeatures());
+                    writePrediction(bugRep.getId(), sentence.getId(), predictionOutput.getLabels());
+
+                }
 
                 PatternLabeledBugReportDescription description = bugRep.getDescription();
                 if (description == null) {

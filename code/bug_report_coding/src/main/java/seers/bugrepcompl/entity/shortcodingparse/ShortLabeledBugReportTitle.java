@@ -23,6 +23,10 @@ public class ShortLabeledBugReportTitle {
 	public ShortLabeledBugReportTitle() {
 	}
 
+	public ShortLabeledBugReportTitle(String value) {
+		this.value = value;
+	}
+
 	public ShortLabeledBugReportTitle(ShortLabeledBugReportTitle bugReportTitle) {
 		this.ob = bugReportTitle.ob;
 		this.eb = bugReportTitle.eb;

@@ -73,7 +73,7 @@ public class SentenceGoldSetMain {
                         codedDataFolder + File.separator + project + File.separator + bugId + ".parse.xml");
                 ShortLabeledBugReport bugRep = XMLHelper.readXML(ShortLabeledBugReport.class, xmlFile);
 
-                processBug(bugRep, bugInstance);
+                processBug(bugRep, bugInstance, false);
 
             } catch (Exception e) {
                 System.err.println("Error for " + bugInstance);
@@ -82,12 +82,13 @@ public class SentenceGoldSetMain {
 
         }
 
-        writeGoldSet();
+        final String outFile = outputFolder + File.separator + "gold-set-S.csv";
+        writeGoldSet(outFile);
     }
 
-    private static void writeGoldSet() throws Exception {
+    protected static void writeGoldSet(String outFile) throws Exception {
 
-        try (CsvWriter writer = new CsvWriterBuilder(new FileWriter(outputFolder + File.separator + "gold-set-S.csv"))
+        try (CsvWriter writer = new CsvWriterBuilder(new FileWriter(outFile))
                 .separator(';').build();) {
 
 			/*writer.writeNext(Arrays.asList("system", "bug_id", "sys_bug", "instance_id", "sys_bug_instance", "is_ob",
@@ -122,7 +123,19 @@ public class SentenceGoldSetMain {
         }
     }
 
-    private static void processBug(ShortLabeledBugReport bugRep, TextInstance bugInstance) {
+    protected static void processBug(ShortLabeledBugReport bugRep, TextInstance bugInstance, boolean processTitle) {
+
+        if (processTitle) {
+            TextInstance sentenceInstance = new TextInstance(bugInstance.getProject(), bugInstance.getBugId(), "0");
+            Labels sentenceLabels = goldSetSentences.get(sentenceInstance);
+            if (sentenceLabels != null) {
+                throw new RuntimeException("Sentence is repeated: " + "0");
+            }
+            sentenceLabels = new Labels( bugRep.getTitle().getOb().trim(),  bugRep.getTitle().getEb().trim(),  bugRep.getTitle().getSr().trim());
+            goldSetSentences.put(sentenceInstance, sentenceLabels);
+        }
+
+        //-----------------------------
 
         ShortLabeledBugReportDescription description = bugRep.getDescription();
 
@@ -131,6 +144,8 @@ public class SentenceGoldSetMain {
         }
 
         List<ShortLabeledDescriptionParagraph> paragraphs = description.getParagraphs();
+
+        if (paragraphs == null) return;
 
         for (ShortLabeledDescriptionParagraph paragraph : paragraphs) {
             processParagraph(paragraph, bugInstance);
