@@ -160,7 +160,7 @@ public class HeuristicsClassifier {
 		Set<CooccurringPattern> cooccurringFeatures = predictor.getCooccurringFeatures();
 		for (CooccurringPattern occurrringPatterns : cooccurringFeatures) {
 			List<String> nextLine = Arrays
-					.asList(new String[] { occurrringPatterns.getName(), occurrringPatterns.getId().toString() });
+					.asList(occurrringPatterns.getName(), occurrringPatterns.getId().toString());
 			featuresDefinitionsWriter.writeNext(nextLine);
 		}
 	}
@@ -168,7 +168,7 @@ public class HeuristicsClassifier {
 	private void writeIndividualFeatures(CsvWriter featuresDefinitionsWriter) {
 		for (PatternMatcher patternMatcher : patterns) {
 			List<String> nextLine = Arrays
-					.asList(new String[] { patternMatcher.getName(), patternMatcher.getCode().toString() });
+					.asList(patternMatcher.getName(), patternMatcher.getCode().toString());
 			featuresDefinitionsWriter.writeNext(nextLine);
 		}
 	}

@@ -29,6 +29,11 @@ public class ShortLabeledDescriptionParagraph {
 	public ShortLabeledDescriptionParagraph() {
 	}
 
+	public ShortLabeledDescriptionParagraph(String id, List<ShortLabeledDescriptionSentence> sentences) {
+		this.id = id;
+		this.sentences = sentences;
+	}
+
 	public ShortLabeledDescriptionParagraph(String ob, String eb, String sr, String id, List<ShortLabeledDescriptionSentence> sentences) {
 		super();
 		this.ob = ob;

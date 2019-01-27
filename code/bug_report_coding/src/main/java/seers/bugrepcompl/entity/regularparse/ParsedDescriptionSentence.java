@@ -1,5 +1,7 @@
 package seers.bugrepcompl.entity.regularparse;
 
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -75,4 +77,7 @@ public class ParsedDescriptionSentence {
 		return true;
 	}
 
+	public ShortLabeledDescriptionSentence toShortLabeledSentence() {
+		return new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence( id, value);
+	}
 }

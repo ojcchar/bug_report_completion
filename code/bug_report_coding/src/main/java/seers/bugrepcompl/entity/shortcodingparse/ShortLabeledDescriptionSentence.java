@@ -25,6 +25,11 @@ public class ShortLabeledDescriptionSentence {
 	public ShortLabeledDescriptionSentence() {
 	}
 
+	public ShortLabeledDescriptionSentence(String id, String value) {
+		this.id = id;
+		this.value = value;
+	}
+
 	public ShortLabeledDescriptionSentence(String ob, String eb, String sr, String id, String value) {
 		super();
 		this.ob = ob;
