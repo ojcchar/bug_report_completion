@@ -1,5 +1,8 @@
 package seers.bugrepcompl.entity.shortcodingparse;
 
+import seers.bugrepcompl.entity.codingparse.LabeledBugReportDescription;
+import seers.bugrepcompl.entity.codingparse.LabeledDescriptionParagraph;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -105,6 +108,26 @@ public class ShortLabeledBugReportDescription {
 			for (ShortLabeledDescriptionParagraph par : paragraphs) {
 				if (par != null) {
 					paragraphs2.add(par.toPatternCodingParagraph());
+				}
+
+			}
+		}
+
+		desc.setParagraphs(paragraphs2);
+
+		return desc;
+	}
+
+	public LabeledBugReportDescription toLabeledBugReportDescription() {
+		LabeledBugReportDescription desc = new LabeledBugReportDescription();
+
+		List<LabeledDescriptionParagraph> paragraphs2 = null;
+		if (paragraphs != null) {
+			paragraphs2 = new ArrayList<>();
+
+			for (ShortLabeledDescriptionParagraph par : paragraphs) {
+				if (par != null) {
+					paragraphs2.add(par.toLabeledDescriptionParagraph());
 				}
 
 			}

@@ -1,5 +1,7 @@
 package seers.bugrepcompl.entity.shortcodingparse;
 
+import seers.bugrepcompl.entity.codingparse.LabeledDescriptionSentence;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -129,7 +131,11 @@ public class ShortLabeledDescriptionSentence {
 		return new seers.bugrepcompl.entity.patterncoding.PatternLabeledDescriptionSentence(ob, eb, sr, null, id, value);
 	}
 
-	// @Override
+	public LabeledDescriptionSentence toLabeledDescriptionSentence() {
+		return new LabeledDescriptionSentence(ob, eb, sr, id, value);
+	}
+
+    // @Override
 	// public String toString() {
 	// return "stnc [" + getId() + ", " + value + "]";
 	// }
