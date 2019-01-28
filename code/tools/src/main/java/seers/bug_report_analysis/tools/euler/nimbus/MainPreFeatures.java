@@ -1,4 +1,4 @@
-package seers.bug_report_analysis.tools.nimbus;
+package seers.bug_report_analysis.tools.euler.nimbus;
 
 import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;

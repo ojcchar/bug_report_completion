@@ -1,4 +1,4 @@
-package seers.bug_report_analysis.tools.nimbus;
+package seers.bug_report_analysis.tools.euler.nimbus;
 
 import org.xml.sax.SAXException;
 import seers.appcore.xml.XMLHelper;
