@@ -34,7 +34,8 @@ public class ImperativeSequencePM extends StepsToReproducePatternMatcher {
 		int i;
 		for (i = 0; i < clauses.size(); i++) {
 			Sentence clause = clauses.get(i);
-			if (!SentenceUtils.isImperativeSentence(clause)) {
+			final List<Token> tokensNoBullet = LabeledListPM.getTokensNoBullet(clause);
+			if (!SentenceUtils.isImperativeSentence(tokensNoBullet, false)) {
 				// If the clause is not imperative there is only one case in
 				// which it will be
 				// accepted as part of this pattern: if it is at the beginning

@@ -130,7 +130,7 @@ public class SentenceUtils {
 	 * 2-tokens clause separators
 	 * 
 	 * @param sentence
-	 * @param clauseSeparators
+	 * @param separators
 	 *            a set of inmutable pair of strings
 	 * @return
 	 */
@@ -282,7 +282,6 @@ public class SentenceUtils {
 	 * CLAUSE_SEPARATORS and Coordinating conjuctions such as "and", "or",
 	 * "but", etc.
 	 *
-	 * @param tokens
 	 * @return
 	 */
 	public static List<Sentence> extractClauses(Sentence sentence, Set<String> clauseSeparators) {
@@ -351,7 +350,6 @@ public class SentenceUtils {
 	 * CLAUSE_SEPARATORS and Coordinating conjuctions such as "and", "or",
 	 * "but", etc.
 	 *
-	 * @param tokens
 	 * @return
 	 */
 	public static List<Sentence> extractClauses(Sentence sentence) {
@@ -617,9 +615,6 @@ public class SentenceUtils {
 	 * If enableVerbTaggedAsNouns is true, the method tries to detect imperative
 	 * tokens when verbs are incorrectly tagged as nouns
 	 *
-	 * @param tokens
-	 * @param enableVerbTaggedAsNouns
-	 * @return
 	 */
 	private static boolean checkForImperativeTokens(List<Token> tokens, boolean enableVerbTaggedAsNouns) {
 
@@ -627,7 +622,9 @@ public class SentenceUtils {
 		int idx = -1;
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.getLemma().matches("^\\w.*")) {
+			if (token.getLemma().matches("^\\w.*")
+					//&& !token.getLemma().matches("^[0-9]+.*")
+			) {
 				idx = i;
 				break;
 			}
@@ -729,7 +726,6 @@ public class SentenceUtils {
 	 * provided, matched by any of the default OB pattern matchers
 	 *
 	 * @param sentences
-	 * @param patterns
 	 * @return index of the 1st OB sentence found in the list or -1 otherwise
 	 * @throws Exception
 	 */
