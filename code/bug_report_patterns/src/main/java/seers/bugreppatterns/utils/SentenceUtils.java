@@ -545,7 +545,8 @@ public class SentenceUtils {
 	// ----------------------------------------
 
 	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("boomark", "build", "cache", "change", "check",
-			"clic", "click", "copy", "drag", "enter", "file", "fill", "goto", "import", "input", "insert", "install",
+			"clic", "click", "copy", "drag", "enter", "export",
+			"file", "fill", "goto", "import", "input", "insert", "install",
 			"load", "long-press", "paste", "post", "press", "release", "rename", "return", "right-click", "run",
 			"scale", "scroll", "select", "show", "start", "stop", "surf", "tap", "try", "type", "use", "view", "visit",
 			"yield");

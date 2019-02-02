@@ -89,7 +89,7 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 
 		String text = TextProcessor.getStringFromLemmas(sentence);
 		List<Token> tokens = sentence.getTokens();
-		List<Token> tokensNoBullet = new ArrayList<>();
+		List<Token> tokensNoBullet = tokens;
 
 		// no parentheses
 		if (!text.matches("^(-lcb-|-rcb-|-lrb-|-rrb-|-lsb-|-rsb-) \\D+ .+")) {
