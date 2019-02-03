@@ -115,6 +115,11 @@ public class LabeledListPM extends StepsToReproducePatternMatcher {
 
 			} else
 			// ---------------
+			// cases like: 1 .
+			if (text.matches("^(\\d+ \\.).+")) {
+				tokensNoBullet = tokens.subList(2, tokens.size());
+
+			} else
 			// cases like: 1. or -
 			if (text.matches("^(\\d+|\\-|\\*).+")) {
 				tokensNoBullet = tokens.subList(1, tokens.size());

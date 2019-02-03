@@ -548,7 +548,9 @@ public class SentenceUtils {
 			"clic", "click", "copy", "drag", "enter", "export",
 			"file", "fill", "goto", "import", "input", "insert", "install",
 			"load", "long-press", "paste", "post", "press", "release", "rename", "return", "right-click", "run",
-			"scale", "scroll", "select", "show", "start", "stop", "surf", "tap", "try", "type", "use", "view", "visit",
+			"scale", "scroll", "select", "show", "start", "stop", "surf",
+			"switch",
+			"tap", "try", "type", "use", "view", "visit",
 			"yield");
 
 	public final static Set<String> AMBIGUOUS_POS_VERBS = JavaUtils.getSet("put", "set", "cut", "quit", "shut", "hit");
