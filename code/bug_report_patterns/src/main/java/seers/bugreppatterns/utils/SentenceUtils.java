@@ -1,30 +1,19 @@
 package seers.bugreppatterns.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.tuple.ImmutablePair;
-
 import seers.appcore.utils.ExceptionUtils;
 import seers.appcore.utils.JavaUtils;
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.PatternMatcher;
-import seers.bugreppatterns.pattern.ob.ButNegativePM;
-import seers.bugreppatterns.pattern.ob.ConditionalNegativePM;
-import seers.bugreppatterns.pattern.ob.NegativeAdjOrAdvPM;
-import seers.bugreppatterns.pattern.ob.NegativeAuxVerbPM;
-import seers.bugreppatterns.pattern.ob.NegativeVerbPM;
-import seers.bugreppatterns.pattern.ob.NothingHappensPM;
-import seers.bugreppatterns.pattern.ob.NoticePM;
-import seers.bugreppatterns.pattern.ob.PassiveVoicePM;
-import seers.bugreppatterns.pattern.ob.SimplePresentPM;
-import seers.bugreppatterns.pattern.ob.StillSentencePM;
-import seers.bugreppatterns.pattern.ob.TimeAdverbPositivePM;
+import seers.bugreppatterns.pattern.ob.*;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
 import seers.textanalyzer.entity.Token;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author ojcch
@@ -128,7 +117,7 @@ public class SentenceUtils {
 	/**
 	 * Extract clauses or subsentences in the provided sentence, based on
 	 * 2-tokens clause separators
-	 * 
+	 *
 	 * @param sentence
 	 * @param separators
 	 *            a set of inmutable pair of strings
@@ -206,7 +195,7 @@ public class SentenceUtils {
 	/**
 	 * Extract clauses or subsentences in the provided sentence, based on
 	 * 2-tokens clause separators
-	 * 
+	 *
 	 * @param sentence
 	 * @param clauseSeparators
 	 *            a set of inmutable pair of strings
@@ -261,7 +250,7 @@ public class SentenceUtils {
 	/**
 	 * Matches any of the given term pairs with the token and nextToken's lemma
 	 * (case ignored)
-	 * 
+	 *
 	 * @param clauseSeparators
 	 * @param token
 	 * @param nextToken
@@ -547,7 +536,8 @@ public class SentenceUtils {
 	public final static Set<String> UNDETECTED_VERBS = JavaUtils.getSet("boomark", "build", "cache", "change", "check",
 			"clic", "click", "copy", "drag", "enter", "export",
 			"file", "fill", "goto", "import", "input", "insert", "install",
-			"load", "long-press", "paste", "post", "press", "release", "rename", "return", "right-click", "run",
+			"load", "long-press", "open",
+			"paste", "post", "press", "release", "rename", "return", "right-click", "run",
 			"scale", "scroll", "select", "show", "start", "stop", "surf",
 			"switch",
 			"tap", "try", "type", "use", "view", "visit",
@@ -571,7 +561,7 @@ public class SentenceUtils {
 	 * Check if the sentence/clause (represented by its list of tokens) is
 	 * imperative or not. It takes into account labels at the beginning of the
 	 * sentence, such as "exp. behavior: run the program"
-	 * 
+	 *
 	 * If enableVerbTaggedAsNouns is true, the method tries to detect imperative
 	 * sentences when verbs are incorrectly tagged as nouns
 	 *
@@ -589,10 +579,10 @@ public class SentenceUtils {
 
 		// ------------------------
 
-		// check for labels in the first labelLenght terms: find the token ":"
-		final int labelLenght = 5;
+		// check for labels in the first labelLength terms: find the token ":"
+		final int labelLength = 5;
 		int idx = -1;
-		for (int i = 0; i < tokens.size() && i <= labelLenght; i++) {
+		for (int i = 0; i < tokens.size() && i <= labelLength; i++) {
 
 			Token token = tokens.get(i);
 			if (token.getLemma().equals(":")) {
@@ -614,7 +604,7 @@ public class SentenceUtils {
 	/**
 	 * Check if the combination list of tokens matches the usual wording for an
 	 * imperative sentence: (adverb +) inf. verb + ...
-	 * 
+	 *
 	 * If enableVerbTaggedAsNouns is true, the method tries to detect imperative
 	 * tokens when verbs are incorrectly tagged as nouns
 	 *
@@ -665,9 +655,10 @@ public class SentenceUtils {
 			return true;
 		} else {
 
-			// case: the sentence starts with an adverb/adjective and then with
-			// a verb
 			if (secondToken != null) {
+
+                // case: the sentence starts with an adverb/adjective and then with
+                // a verb
 				if ((firstToken.getPos().equals("RB") || firstToken.getPos().equals("JJ"))
 						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP")
 								|| (secondToken.getPos().equals("NN")
@@ -676,6 +667,22 @@ public class SentenceUtils {
 						&& tokensNoSpecialChar.size() > 2) {
 					return true;
 				}
+
+
+                if (tokensNoSpecialChar.size() > 3) {
+
+                    Token thirdToken = tokensNoSpecialChar.get(2);
+                    // case: the sentence starts with two adverbs and then with
+                    // a verb
+                    if ((firstToken.getPos().equals("RB") && secondToken.getPos().equals("RB"))
+                            && (thirdToken.getPos().equals("VB") || thirdToken.getPos().equals("VBP")
+                            || (thirdToken.getPos().equals("NN")
+                            && SentenceUtils.wordsContainToken(UNDETECTED_VERBS, thirdToken))
+                            || SentenceUtils.lemmasContainToken(AMBIGUOUS_POS_VERBS, thirdToken))) {
+                        return true;
+                    }
+                }
+
 			}
 
 			// case: the first token is an undetected verb
@@ -845,7 +852,7 @@ public class SentenceUtils {
 	 * Check if the sentence/clause is imperative or not. It takes into account
 	 * labels at the beginning of the sentence, such as "exp. behavior: run the
 	 * program".
-	 * 
+	 *
 	 * If enableVerbTaggedAsNouns is true, the method tries to detect imperative
 	 * sentences when verbs are incorrectly tagged as nouns
 	 *
