@@ -17,8 +17,9 @@ import java.util.stream.Collectors;
 
 public class DataExtractorForStats {
 
-    static String bugsFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17\\1_data" +
-            "\\2_preprocessed_data\\4_content_tagging_preprop2_labels_fixed-10302018";
+    private static final String BUGS_FOLDER = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data" +
+            "\\1_preprocessed_data\\1_content_tagging_prep-01102019";
+    private static final boolean PERFORM_LABEL_PROPAGATION = false;
 
     public static void main(String[] args) throws Exception {
 
@@ -26,20 +27,27 @@ public class DataExtractorForStats {
         StringBuilder paragraphsBuilder = new StringBuilder();
         StringBuilder bugsBuilder = new StringBuilder();
 
-        final File[] systems = new File(bugsFolder).listFiles(File::isDirectory);
+        final File[] systems = new File(BUGS_FOLDER).listFiles(File::isDirectory);
         for (File system : systems) {
 
-            final File[] bugs = system.listFiles(f -> !f.isDirectory() && f.getName().endsWith(".xml"));
-            // System.out.println(system.getName() + ";" + bugs.length);
-            for (File bug : bugs) {
+            final File[] bugFiles = system.listFiles(f -> !f.isDirectory() && f.getName().endsWith(".xml"));
+            // System.out.println(system.getName() + ";" + bugFiles.length);
+            for (File bugFile : bugFiles) {
 
+//                System.out.println(bugFile);
 
                 List<String> tagSequenceBug = new ArrayList<>();
                 Set<String> uniqueTagsBug = new HashSet<>();
 
-                final ShortLabeledBugReport br = XMLHelper.readXML(ShortLabeledBugReport.class, bug);
+                final ShortLabeledBugReport br = XMLHelper.readXML(ShortLabeledBugReport.class, bugFile);
                 final ShortLabeledBugReportDescription description = br.getDescription();
+
+                if (description == null) continue;
+
                 final List<ShortLabeledDescriptionParagraph> paragraphs = description.getParagraphs();
+
+                if (paragraphs == null) continue;
+
                 for (ShortLabeledDescriptionParagraph paragraph : paragraphs) {
                     final List<ShortLabeledDescriptionSentence> sentences = paragraph.getSentences();
 
@@ -48,36 +56,39 @@ public class DataExtractorForStats {
 
                     for (ShortLabeledDescriptionSentence sentence : sentences) {
 
-                        //tag propagation
-                        //------------------------
 
                         final boolean isOBEmpty = StringUtils.isEmpty(sentence.getOb());
                         final boolean isEBEmpty = StringUtils.isEmpty(sentence.getEb());
                         final boolean isS2REmpty = StringUtils.isEmpty(sentence.getSr());
 
-                        boolean isSentenceNotTagged = isOBEmpty && isEBEmpty && isS2REmpty;
+                        final String obTag;
+                        final String ebTag;
+                        final String s2rTag;
 
-                        final String obTag = !isOBEmpty
-                                || (isSentenceNotTagged && !StringUtils.isEmpty(paragraph.getOb()))
-                                ? "ob" : "";
-                        final String ebTag = !isEBEmpty
-                                || (isSentenceNotTagged && !StringUtils.isEmpty(paragraph.getEb()))
-                                ? "eb" : "";
-                        final String s2rTag = !isS2REmpty
-                                || (isSentenceNotTagged && !StringUtils.isEmpty(paragraph.getSr()))
-                                ? "s2r" : "";
+                        if (PERFORM_LABEL_PROPAGATION) {
 
-                       /* final String obTag = !isOBEmpty
-                                || (isOBEmpty && !StringUtils.isEmpty(paragraph.getOb()))
-                                ? "1" : "";
-                        final String ebTag = !isEBEmpty
-                                || (isEBEmpty && !StringUtils.isEmpty(paragraph.getEb()))
-                                ? "1" : "";
-                        final String s2rTag = !isS2REmpty
-                                || (isS2REmpty && !StringUtils.isEmpty(paragraph.getSr()))
-                                ? "1" : "";*/
+                            //label propagation
+                            //------------------------
+
+                            boolean isSentenceNotTagged = isOBEmpty && isEBEmpty && isS2REmpty;
+
+                            obTag = !isOBEmpty
+                                    || (isSentenceNotTagged && !StringUtils.isEmpty(paragraph.getOb()))
+                                    ? "ob" : "";
+                            ebTag = !isEBEmpty
+                                    || (isSentenceNotTagged && !StringUtils.isEmpty(paragraph.getEb()))
+                                    ? "eb" : "";
+                            s2rTag = !isS2REmpty
+                                    || (isSentenceNotTagged && !StringUtils.isEmpty(paragraph.getSr()))
+                                    ? "s2r" : "";
+                        } else {
+                            obTag = !isOBEmpty ? "ob" : "";
+                            ebTag = !isEBEmpty ? "eb" : "";
+                            s2rTag = !isS2REmpty ? "s2r" : "";
+                        }
 
                         //--------------------------
+
                         final List<String> strings = new ArrayList<>(Arrays.asList(obTag, ebTag, s2rTag));
                         strings.removeAll(Collections.singleton(""));
                         LinkedHashSet<String> tagSet = new LinkedHashSet<>(strings);
@@ -160,13 +171,13 @@ public class DataExtractorForStats {
 
         }
 
-        File outFile = Paths.get(bugsFolder, "all_par_sentences.csv").toFile();
+        File outFile = Paths.get(BUGS_FOLDER, "all_par_sentences.csv").toFile();
         FileUtils.write(outFile, overallBuilder.toString(), Charset.defaultCharset());
 
-        outFile = Paths.get(bugsFolder, "all_par_sentences_seq.csv").toFile();
+        outFile = Paths.get(BUGS_FOLDER, "all_par_sentences_seq.csv").toFile();
         FileUtils.write(outFile, paragraphsBuilder.toString(), Charset.defaultCharset());
 
-        outFile = Paths.get(bugsFolder, "all_par_sentences_seq_bugs.csv").toFile();
+        outFile = Paths.get(BUGS_FOLDER, "all_par_sentences_seq_bugs.csv").toFile();
         FileUtils.write(outFile, bugsBuilder.toString(), Charset.defaultCharset());
     }
 
