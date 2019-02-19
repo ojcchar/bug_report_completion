@@ -171,7 +171,7 @@ public class BugPreprocessor extends ThreadProcessor {
 			}
 
 			if (isURL(token)) {
-				token = new Token("URL_TOK", "NN", "NN", "URL_TOK", "URL_TOK");
+				token = new Token("URL_TOK", "NN", "NN", "URL_TOK", "URL_TOK", -1, -1);
 			}
 
 			preprocesedStnce.addToken(token);

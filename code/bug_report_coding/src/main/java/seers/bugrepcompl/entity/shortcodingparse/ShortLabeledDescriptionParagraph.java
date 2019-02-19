@@ -1,5 +1,8 @@
 package seers.bugrepcompl.entity.shortcodingparse;
 
+import seers.bugrepcompl.entity.codingparse.LabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.codingparse.LabeledDescriptionSentence;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +30,11 @@ public class ShortLabeledDescriptionParagraph {
 	private List<ShortLabeledDescriptionSentence> sentences;
 
 	public ShortLabeledDescriptionParagraph() {
+	}
+
+	public ShortLabeledDescriptionParagraph(String id, List<ShortLabeledDescriptionSentence> sentences) {
+		this.id = id;
+		this.sentences = sentences;
 	}
 
 	public ShortLabeledDescriptionParagraph(String ob, String eb, String sr, String id, List<ShortLabeledDescriptionSentence> sentences) {
@@ -182,4 +190,21 @@ public class ShortLabeledDescriptionParagraph {
 		return par;
 	}
 
+	public LabeledDescriptionParagraph toLabeledDescriptionParagraph() {
+
+		LabeledDescriptionParagraph par = new LabeledDescriptionParagraph(ob, eb, sr, id);
+		List<LabeledDescriptionSentence> sentences2 = null;
+		if (sentences != null) {
+			sentences2 = new ArrayList<>();
+
+			for (ShortLabeledDescriptionSentence sent : sentences) {
+				if (sent != null) {
+					sentences2.add(sent.toLabeledDescriptionSentence());
+				}
+
+			}
+		}
+		par.setSentences(sentences2);
+		return par;
+	}
 }

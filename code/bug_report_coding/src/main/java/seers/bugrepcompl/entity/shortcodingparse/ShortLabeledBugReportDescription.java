@@ -1,12 +1,14 @@
 package seers.bugrepcompl.entity.shortcodingparse;
 
-import java.util.ArrayList;
-import java.util.List;
+import seers.bugrepcompl.entity.codingparse.LabeledBugReportDescription;
+import seers.bugrepcompl.entity.codingparse.LabeledDescriptionParagraph;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement(name = "desc")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -25,6 +27,8 @@ public class ShortLabeledBugReportDescription {
 
 	public ShortLabeledBugReportDescription(ShortLabeledBugReportDescription description) {
 		this.paragraphs = new ArrayList<>();
+
+		if (description == null ||  description.paragraphs == null) return;
 
 		for (ShortLabeledDescriptionParagraph descriptionParagraph : description.paragraphs) {
 			this.paragraphs.add(new ShortLabeledDescriptionParagraph(descriptionParagraph));
@@ -104,6 +108,26 @@ public class ShortLabeledBugReportDescription {
 			for (ShortLabeledDescriptionParagraph par : paragraphs) {
 				if (par != null) {
 					paragraphs2.add(par.toPatternCodingParagraph());
+				}
+
+			}
+		}
+
+		desc.setParagraphs(paragraphs2);
+
+		return desc;
+	}
+
+	public LabeledBugReportDescription toLabeledBugReportDescription() {
+		LabeledBugReportDescription desc = new LabeledBugReportDescription();
+
+		List<LabeledDescriptionParagraph> paragraphs2 = null;
+		if (paragraphs != null) {
+			paragraphs2 = new ArrayList<>();
+
+			for (ShortLabeledDescriptionParagraph par : paragraphs) {
+				if (par != null) {
+					paragraphs2.add(par.toLabeledDescriptionParagraph());
 				}
 
 			}

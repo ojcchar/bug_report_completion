@@ -1,5 +1,7 @@
 package seers.bugrepcompl.entity.shortcodingparse;
 
+import seers.bugrepcompl.entity.codingparse.LabeledBugReportTitle;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -21,6 +23,10 @@ public class ShortLabeledBugReportTitle {
 	private String value;
 
 	public ShortLabeledBugReportTitle() {
+	}
+
+	public ShortLabeledBugReportTitle(String value) {
+		this.value = value;
 	}
 
 	public ShortLabeledBugReportTitle(ShortLabeledBugReportTitle bugReportTitle) {
@@ -122,4 +128,7 @@ public class ShortLabeledBugReportTitle {
 		return new seers.bugrepcompl.entity.patterncoding.PatternLabeledBugReportTitle(ob, eb, sr, null, value);
 	}
 
+	public LabeledBugReportTitle toLabeledBugReportTitle() {
+		return new LabeledBugReportTitle(ob, eb, sr, value);
+	}
 }

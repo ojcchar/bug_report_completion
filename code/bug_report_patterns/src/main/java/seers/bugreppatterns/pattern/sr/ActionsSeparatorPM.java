@@ -1,15 +1,11 @@
 package seers.bugreppatterns.pattern.sr;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import seers.bugreppatterns.pattern.ObservedBehaviorPatternMatcher;
 import seers.bugreppatterns.pattern.StepsToReproducePatternMatcher;
-import seers.bugreppatterns.pattern.ob.ErrorNounPhrasePM;
-import seers.bugreppatterns.pattern.ob.LeadsToNegativePm;
-import seers.bugreppatterns.pattern.ob.LeadsToPM;
-import seers.bugreppatterns.pattern.ob.NegativeAuxVerbPM;
-import seers.bugreppatterns.pattern.ob.NegativeVerbPM;
-import seers.bugreppatterns.pattern.ob.VerbErrorPM;
+import seers.bugreppatterns.pattern.ob.*;
 import seers.bugreppatterns.utils.SentenceUtils;
 import seers.textanalyzer.TextProcessor;
 import seers.textanalyzer.entity.Sentence;
@@ -17,7 +13,8 @@ import seers.textanalyzer.entity.Sentence;
 public class ActionsSeparatorPM extends StepsToReproducePatternMatcher {
 
 	public static final ObservedBehaviorPatternMatcher[] OB_PMS = { new NegativeAuxVerbPM(), new NegativeVerbPM(),
-			new VerbErrorPM(), new LeadsToPM(), new LeadsToNegativePm(), new ErrorNounPhrasePM() };
+			new VerbErrorPM(), new LeadsToPM(), new LeadsToNegativePm(), new ErrorNounPhrasePM(),
+			new ConditionalPositivePM()};
 
 	@Override
 	public int matchSentence(Sentence sentence) throws Exception {
@@ -57,6 +54,14 @@ public class ActionsSeparatorPM extends StepsToReproducePatternMatcher {
 			if (numImperClause == clauses.size()) {
 				return 1;
 			}
+
+			List<Sentence> postClauses = new ArrayList<>();
+			if (lastImperClause + 1 < clauses.size()) {
+				postClauses = clauses.subList(lastImperClause + 1, clauses.size());
+			}
+
+			if (!postClauses.isEmpty() && postClauses.stream().allMatch(s -> s.getTokens().size()==1 && s.getTokens().get(0).getGeneralPos().equals("NN")))
+				return 1;
 		}
 
 		return 0;

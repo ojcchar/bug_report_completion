@@ -1,5 +1,9 @@
 package seers.bugrepcompl.entity.regularparse;
 
+import seers.bugrepcompl.entity.codingparse.LabeledDescriptionParagraph;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportDescription;
+import seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,4 +99,23 @@ public class ParsedBugReportDescription {
 		return true;
 	}
 
+	public ShortLabeledBugReportDescription toShortLabeledBRDescription() {
+		List<seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph> paragraphs2 = toParagraphs2();
+		return new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportDescription(paragraphs2);
+	}
+
+	private List<seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph> toParagraphs2() {
+		if (this.paragraphs == null) {
+			return null;
+		}
+
+		List<seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionParagraph> pars2 = new ArrayList<>();
+		for (ParsedDescriptionParagraph par : this.paragraphs) {
+
+			pars2.add(par.toShortLabeledParagraph());
+
+		}
+
+		return pars2;
+	}
 }

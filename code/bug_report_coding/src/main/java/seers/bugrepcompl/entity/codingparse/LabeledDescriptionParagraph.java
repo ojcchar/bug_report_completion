@@ -26,6 +26,16 @@ public class LabeledDescriptionParagraph {
 	@XmlElement(name = "sentence")
 	private List<LabeledDescriptionSentence> sentences;
 
+	public LabeledDescriptionParagraph() {
+	}
+
+	public LabeledDescriptionParagraph(String ob, String eb, String sr, String id) {
+		this.ob = ob;
+		this.eb = eb;
+		this.sr = sr;
+		this.id = id;
+	}
+
 	public String getId() {
 		return id;
 	}

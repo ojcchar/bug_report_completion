@@ -12,7 +12,8 @@ public class MenuNavigationPM extends StepsToReproducePatternMatcher {
 
 	public final static Set<String> SEPARATORS = JavaUtils.getSet("->", "-", "|", "--", ">");
 
-	public final static Set<String> GUI_TERMS = JavaUtils.getSet("window", "windows", "menu", "option", "preference",
+	public final static Set<String> GUI_TERMS = JavaUtils.getSet("window", "windows", "menu", "MENU",
+			"option", "preference", "click", "popup",
 			"tool", "setting", "checkbox", "list", "panel", "table", "project", "edit", "download", "section", "page",
 			"homepage", "screen", "preferences", "preference");
 

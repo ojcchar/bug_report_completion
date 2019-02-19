@@ -16,7 +16,7 @@ public class BugPreprocessorTest {
 		System.out.println("-------------------------------------------");
 		String[] txts = { "0.3.0", "3.8.11", ":592", "9,21" };
 		for (String txt : txts) {
-			boolean isNum = BugPreprocessor.isNumber(new Token(txt, null, null, null, null));
+			boolean isNum = BugPreprocessor.isNumber(new Token(txt, null, null, null, null, -1, -1));
 			System.out.println(txt + " -> " + isNum);
 			assertTrue(isNum);
 		}
@@ -29,10 +29,10 @@ public class BugPreprocessorTest {
 				//"hoohoo.ncsa.uiuc.edu",
 				"https://hibernate.atlassian.net/browse/hhh-10693]",
 				"http://dev.mysql.com/doc/refman/5.7/en/string-type-overview.html]:"
-				
+
 				};
 		for (String txt : txts) {
-			boolean isUrl = BugPreprocessor.isURL(new Token(txt, null, null, null, null));
+			boolean isUrl = BugPreprocessor.isURL(new Token(txt, null, null, null, null, -1, -1));
 			System.out.println(txt + " -> " + isUrl);
 			assertTrue(isUrl);
 		}
@@ -43,18 +43,18 @@ public class BugPreprocessorTest {
 		System.out.println("-------------------------------------------");
 		String[] txts = { "``", "####", ":[", "='{", "--", "*****", "," };
 		for (String txt : txts) {
-			boolean isChar = BugPreprocessor.isSpecialChar(new Token(txt, null, null, null, null));
+			boolean isChar = BugPreprocessor.isSpecialChar(new Token(txt, null, null, null, null, -1, -1));
 			System.out.println(txt + " -> " + isChar);
 			assertTrue(isChar);
 		}
 		System.out.println("-------------------------------------------");
 		String[] txts2 = { "FILESAVE", "VIEWING" };
 		for (String txt : txts2) {
-			boolean isChar = BugPreprocessor.isSpecialChar(new Token(txt, null, null, null, null));
+			boolean isChar = BugPreprocessor.isSpecialChar(new Token(txt, null, null, null, null, -1, -1));
 			System.out.println(txt + " -> " + isChar);
 			assertFalse(isChar);
 		}
-		
+
 	}
 
 	@Test
@@ -81,9 +81,9 @@ public class BugPreprocessorTest {
 			System.out.println(txt + " -> " + isTrace);
 			assertFalse(isTrace);
 		}
-		
-		
-		
+
+
+
 	}
 
 	@Test

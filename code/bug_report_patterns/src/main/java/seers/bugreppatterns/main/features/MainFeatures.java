@@ -33,7 +33,7 @@ public class MainFeatures {
 			ourData = "y".equalsIgnoreCase(args[2]);
 		}
 
-		String[] granularities = { "B", "P", "S" };
+		String[] granularities = { "SP-F" };
 
 		for (String granularity : granularities) {
 
@@ -82,7 +82,10 @@ public class MainFeatures {
 						.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
 				CsvWriter featuresSRWriter = new CsvWriterBuilder(
 						new FileWriter(outputFolderPrefix + "features-sr-" + granularity + ".txt")).separator(' ')
-								.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
+								.quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();
+			 CsvWriter featuresOBWriter = new CsvWriterBuilder(
+					 new FileWriter(outputFolderPrefix + "features-ob-" + granularity + ".txt")).separator(' ')
+					 .quoteChar(CsvWriter.NO_QUOTE_CHARACTER).build();) {
 
 			// --------------------------------------------
 
@@ -100,10 +103,12 @@ public class MainFeatures {
 				// classes
 				String eb = "";
 				String sr = "";
+				String ob = "";
 				Integer i = goldSetMap.get(key);
 				if (i != null) {
 					List<String> goldSet = linesGoldSet.get(i);
 
+					ob = goldSet.get(3);
 					eb = goldSet.get(4);
 					sr = goldSet.get(5);
 				}
@@ -117,6 +122,10 @@ public class MainFeatures {
 				if (!sr.trim().isEmpty()) {
 					classSr = "1";
 				}
+				String classOb = "2";
+				if (!ob.trim().isEmpty()) {
+					classOb = "1";
+				}
 
 				// file writing
 
@@ -129,6 +138,11 @@ public class MainFeatures {
 				nextLine.add(classSr);
 				nextLine.addAll(featureList);
 				featuresSRWriter.writeNext(nextLine);
+
+				nextLine = new ArrayList<>();
+				nextLine.add(classOb);
+				nextLine.addAll(featureList);
+				featuresOBWriter.writeNext(nextLine);
 
 			}
 		}

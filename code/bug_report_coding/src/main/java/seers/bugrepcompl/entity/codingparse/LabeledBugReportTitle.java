@@ -28,6 +28,13 @@ public class LabeledBugReportTitle {
 		this.value = value;
 	}
 
+	public LabeledBugReportTitle(String ob, String eb, String sr, String value) {
+		this.ob = ob;
+		this.eb = eb;
+		this.sr = sr;
+		this.value = value;
+	}
+
 	public String getOb() {
 		return ob;
 	}
