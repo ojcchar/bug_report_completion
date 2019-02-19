@@ -1,108 +1,224 @@
 package seers.bugrepcompl.entity.patterncoding;
 
+import org.xml.sax.SAXException;
+import seers.appcore.xml.XMLHelper;
+import seers.bugrepcompl.entity.Labels;
+import seers.bugrepcompl.entity.codeident.CodeTaggedBugReport;
+import seers.bugrepcompl.entity.codeident.TaggedText;
+import seers.bugrepcompl.xmlcoding.AgreementMain;
+
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @XmlRootElement(name = "bug")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PatternLabeledBugReport {
 
-	@XmlElement(name = "id")
-	private String id;
-	@XmlElement(name = "title")
-	private PatternLabeledBugReportTitle title;
-	@XmlElement(name = "desc")
-	private PatternLabeledBugReportDescription description;
+    List<TaggedText> codeSegments;
+    @XmlElement(name = "id")
+    private String id;
+    @XmlElement(name = "title")
+    private PatternLabeledBugReportTitle title;
+    @XmlElement(name = "desc")
+    private PatternLabeledBugReportDescription description;
+    @XmlAttribute(name = "no-bug")
+    private String noBug = "";
+    @XmlAttribute(name = "comments")
+    private String comments = "";
 
-	@XmlAttribute(name = "no-bug")
-	private String noBug = "";
-	@XmlAttribute(name = "comments")
-	private String comments = "";
+    private boolean hasCode = false;
+    private boolean hasOB = false;
+    private boolean hasEB = false;
+    private boolean hasS2R = false;
 
-	public PatternLabeledBugReport() {
-	}
+    public PatternLabeledBugReport() {
+    }
 
-	public PatternLabeledBugReport(String id, PatternLabeledBugReportTitle title, PatternLabeledBugReportDescription description, String noBug, String comments) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.noBug = noBug;
-		this.comments = comments;
-	}
+    public PatternLabeledBugReport(String id, PatternLabeledBugReportTitle title, PatternLabeledBugReportDescription description, String noBug, String comments) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.noBug = noBug;
+        this.comments = comments;
+    }
 
-	public PatternLabeledBugReport(PatternLabeledBugReport bugReport) {
-		this.id = bugReport.getId();
-		this.title = new PatternLabeledBugReportTitle(bugReport.getTitle());
-		this.description = new PatternLabeledBugReportDescription(bugReport.getDescription());
-		this.noBug = bugReport.noBug;
-		this.comments = bugReport.comments;
-	}
+    public PatternLabeledBugReport(PatternLabeledBugReport bugReport) {
+        this.id = bugReport.getId();
+        this.title = new PatternLabeledBugReportTitle(bugReport.getTitle());
+        this.description = new PatternLabeledBugReportDescription(bugReport.getDescription());
+        this.noBug = bugReport.noBug;
+        this.comments = bugReport.comments;
+    }
 
-	public PatternLabeledBugReport(String id, PatternLabeledBugReportTitle title, PatternLabeledBugReportDescription description) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.description = description;
-	}
+    public PatternLabeledBugReport(String id, PatternLabeledBugReportTitle title, PatternLabeledBugReportDescription description) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public static PatternLabeledBugReport buildFromComponents(String codedFilePath, File codeTaggedFile, Set<String> codeTypesToDiscard)
+            throws IOException, ParserConfigurationException, SAXException, JAXBException {
 
-	public PatternLabeledBugReportTitle getTitle() {
-		return title;
-	}
+        PatternLabeledBugReport codedBug = XMLHelper.readXML(PatternLabeledBugReport.class, codedFilePath);
 
-	public PatternLabeledBugReportDescription getDescription() {
-		return description;
-	}
+        codedBug.codeSegments = readCodeSegments(codeTaggedFile, codeTypesToDiscard);
+        codedBug.propagateParagraphLabels();
+        codedBug.cacheComponentLabels();
 
-	public void setId(String id) {
-		this.id = id;
-	}
+        return codedBug;
+    }
 
-	public void setTitle(PatternLabeledBugReportTitle title) {
-		this.title = title;
-	}
+    private static List<TaggedText> readCodeSegments(File codeTaggedFile, Set<String> codeTypesToDiscard) throws JAXBException, IOException, SAXException, ParserConfigurationException {
+        CodeTaggedBugReport codeTaggedBR = XMLHelper.readXML(CodeTaggedBugReport.class, codeTaggedFile);
 
-	public void setDescription(PatternLabeledBugReportDescription description) {
-		this.description = description;
-	}
+        List<TaggedText> descTaggedTexts = new ArrayList<>();
+        if (codeTaggedBR.getDescription() != null) {
+            descTaggedTexts = codeTaggedBR.getDescription().getTaggedTexts();
+            if (descTaggedTexts == null)
+                descTaggedTexts = new ArrayList<>();
+        }
 
-	public String getNoBug() {
-		return noBug;
-	}
+        return descTaggedTexts.stream().filter(taggedText -> {
+            final String type = taggedText.getType();
+            return !codeTypesToDiscard.contains(type);
+        }).collect(Collectors.toList());
+    }
 
-	public void setNoBug(String noBug) {
-		this.noBug = noBug;
-	}
+    public boolean hasCode() {
+        return hasCode;
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public boolean hasOB() {
+        return hasOB;
+    }
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    public boolean hasEB() {
+        return hasEB;
+    }
 
-	@Override
-	public String toString() {
-		return "BR [id=" + id + ", noBug=" + noBug + ", com=" + comments + ", tit=" + title + ", desc=\r\n" + description
-				+ "]";
-	}
+    public boolean hasS2R() {
+        return hasS2R;
+    }
 
-	public seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport toShortCodedBug() {
+    private void cacheComponentLabels() {
+        hasCode = !codeSegments.isEmpty();
+        if (title.getOb().equals("x")) {
+            hasOB = true;
+        }
+        if (title.getEb().equals("x")) {
+            hasEB = true;
+        }
+        if (title.getSr().equals("x")) {
+            hasS2R = true;
+        }
 
-		seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportTitle title2 = title.toPatternCodingTitle();
-		seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportDescription description2 = description
-				.toPatternCodingDescription();
-		seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport bug = new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport(
-				id, title2, description2, noBug, comments);
-		return bug;
-	}
+        for (PatternLabeledDescriptionSentence sentence : description.getAllSentences()) {
+            if (sentence.getOb().equals("x")) {
+                hasOB = true;
+            }
+            if (sentence.getEb().equals("x")) {
+                hasEB = true;
+            }
+            if (sentence.getSr().equals("x")) {
+                hasS2R = true;
+            }
+        }
+    }
 
+    private void propagateParagraphLabels() {
+        List<PatternLabeledDescriptionParagraph> paragraphs = description.getParagraphs();
+
+        if (paragraphs == null)
+            return;
+
+        for (PatternLabeledDescriptionParagraph paragraph : paragraphs) {
+
+            Labels paragraphLabels = new Labels(paragraph.getOb().trim(), paragraph.getEb().trim(),
+                    paragraph.getSr().trim());
+
+            List<PatternLabeledDescriptionSentence> sentences = paragraph.getSentences();
+            for (PatternLabeledDescriptionSentence sent : sentences) {
+                Labels sentLabels = new Labels(sent.getOb().trim(), sent.getEb().trim(), sent.getSr().trim());
+                Labels mergedLabels = AgreementMain.mergeLabels(sentLabels, paragraphLabels);
+
+                sent.setOb(mergedLabels.getIsOB());
+                sent.setEb(mergedLabels.getIsEB());
+                sent.setSr(mergedLabels.getIsSR());
+
+            }
+        }
+    }
+
+    public seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport toShortCodedBug() {
+
+        seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportTitle title2 = title.toPatternCodingTitle();
+        seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportDescription description2 = description
+                .toPatternCodingDescription();
+        seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport bug = new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport(
+                id, title2, description2, noBug, comments);
+        return bug;
+    }
+
+    @Override
+    public String toString() {
+        return "BR [id=" + id + ", noBug=" + noBug + ", com=" + comments + ", tit=" + title + ", desc=\r\n" + description
+                + "]";
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public PatternLabeledBugReportTitle getTitle() {
+        return title;
+    }
+
+    public void setTitle(PatternLabeledBugReportTitle title) {
+        this.title = title;
+    }
+
+    public PatternLabeledBugReportDescription getDescription() {
+        return description;
+    }
+
+    public void setDescription(PatternLabeledBugReportDescription description) {
+        this.description = description;
+    }
+
+    public String getNoBug() {
+        return noBug;
+    }
+
+    public void setNoBug(String noBug) {
+        this.noBug = noBug;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getCode() {
+        return codeSegments.stream()
+                .map(TaggedText::getValue)
+                .collect(Collectors.joining(" "));
+    }
 }
