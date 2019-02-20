@@ -99,6 +99,18 @@ public class PatternLabeledDescriptionSentence {
 		return new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledDescriptionSentence(ob, eb, sr, id, value);
 	}
 
+	public boolean hasOB() {
+		return ob.trim().equals("x");
+	}
+
+	public boolean hasEB() {
+		return eb.trim().equals("x");
+	}
+
+	public boolean hasS2R() {
+		return sr.trim().equals("x");
+	}
+
 	@Override
 	public String toString() {
 		return "{id=" + id + ", ob=" + ob + ", eb=" + eb + ", sr=" + sr + ", pt=" + patterns
