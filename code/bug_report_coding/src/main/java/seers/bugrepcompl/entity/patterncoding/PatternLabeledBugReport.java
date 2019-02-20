@@ -74,7 +74,6 @@ public class PatternLabeledBugReport {
 
         codedBug.codeSegments = readCodeSegments(codeTaggedFile, codeTypesToDiscard);
         codedBug.propagateParagraphLabels();
-        codedBug.cacheComponentLabels();
 
         return codedBug;
     }
@@ -96,47 +95,14 @@ public class PatternLabeledBugReport {
     }
 
     public boolean hasCode() {
-        return hasCode;
-    }
-
-    public boolean hasOB() {
-        return hasOB;
-    }
-
-    public boolean hasEB() {
-        return hasEB;
-    }
-
-    public boolean hasS2R() {
-        return hasS2R;
-    }
-
-    private void cacheComponentLabels() {
-        hasCode = !codeSegments.isEmpty();
-        if (title.getOb().equals("x")) {
-            hasOB = true;
-        }
-        if (title.getEb().equals("x")) {
-            hasEB = true;
-        }
-        if (title.getSr().equals("x")) {
-            hasS2R = true;
-        }
-
-        for (PatternLabeledDescriptionSentence sentence : description.getAllSentences()) {
-            if (sentence.getOb().equals("x")) {
-                hasOB = true;
-            }
-            if (sentence.getEb().equals("x")) {
-                hasEB = true;
-            }
-            if (sentence.getSr().equals("x")) {
-                hasS2R = true;
-            }
-        }
+        return !codeSegments.isEmpty();
     }
 
     private void propagateParagraphLabels() {
+        if (description == null) {
+            return;
+        }
+
         List<PatternLabeledDescriptionParagraph> paragraphs = description.getParagraphs();
 
         if (paragraphs == null)
