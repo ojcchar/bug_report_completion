@@ -1,0 +1,61 @@
+BUG REPORT TITLE:
+word_count fails in multi-node setup
+
+BUG REPORT DESCRIPTION:
+(also affects RC1, wasn't in the "Affects Versions" list)
+
+from a user list email:
+
+I am trying to run word_count example from contrib directory (0.7 beta
+3 and 0.7.0 rc 1).
+It works fine in a single-node configuration, but fails with 2+ nodes.
+
+It fails in the assert statement, which caused problems before
+(https://issues.apache.org/jira/browse/CASSANDRA-1700).
+
+Here's a simple ring I have and error messages.
+---
+Address         Status State   Load            Owns    Token
+
+143797990709940316224804537595633718982
+127.0.0.2       Up     Normal  40.2 KB         51.38%
+61078635599166706937511052402724559481
+127.0.0.1       Up     Normal  36.01 KB        48.62%
+143797990709940316224804537595633718982
+---
+[SERVER SIDE]
+
+ERROR 17:39:57,098 Fatal exception in thread Thread[ReadStage:4,5,main] java.lang.AssertionError:
+(143797990709940316224804537595633718982,61078635599166706937511052402724559481]
+	at org.apache.cassandra.db.ColumnFamilyStore.getRangeSlice(ColumnFamilyStore.java:1273)
+	at org.apache.cassandra.service.RangeSliceVerbHandler.doVerb(RangeSliceVerbHandler.java:48)
+	at org.apache.cassandra.net.MessageDeliveryTask.run(MessageDeliveryTask.java:62)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+---
+[CLIENT_SIDE] java.lang.RuntimeException: org.apache.thrift.TApplicationException:
+Internal error processing get_range_slices
+	at org.apache.cassandra.hadoop.ColumnFamilyRecordReader$RowIterator.maybeInit(ColumnFamilyRecordReader.java:277)
+	at org.apache.cassandra.hadoop.ColumnFamilyRecordReader$RowIterator.computeNext(ColumnFamilyRecordReader.java:292)
+	at org.apache.cassandra.hadoop.ColumnFamilyRecordReader$RowIterator.computeNext(ColumnFamilyRecordReader.java:189)
+	at com.google.common.collect.AbstractIterator.tryToComputeNext(AbstractIterator.java:136)
+	at com.google.common.collect.AbstractIterator.hasNext(AbstractIterator.java:131)
+	at org.apache.cassandra.hadoop.ColumnFamilyRecordReader.nextKeyValue(ColumnFamilyRecordReader.java:148)
+	at org.apache.hadoop.mapred.MapTask$NewTrackingRecordReader.nextKeyValue(MapTask.java:423)
+	at org.apache.hadoop.mapreduce.MapContext.nextKeyValue(MapContext.java:67)
+	at org.apache.hadoop.mapreduce.Mapper.run(Mapper.java:143)
+	at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:621)
+	at org.apache.hadoop.mapred.MapTask.run(MapTask.java:305)
+	at org.apache.hadoop.mapred.LocalJobRunner$Job.run(LocalJobRunner.java:177)
+Caused by: org.apache.thrift.TApplicationException: Internal error processing get_range_slices
+	at org.apache.thrift.TApplicationException.read(TApplicationException.java:108)
+at org.apache.cassandra.thrift.Cassandra$Client.recv_get_range_slices(Cassandra.java:724)
+at org.apache.cassandra.thrift.Cassandra$Client.get_range_slices(Cassandra.java:704)
+	at org.apache.cassandra.hadoop.ColumnFamilyRecordReader$RowIterator.maybeInit(ColumnFamilyRecordReader.java:255)
+	... 11 more
+---
+
+Looks like tokens used in ColumnFamilySplits
+(ColumnFamilyInputFormat.java) are on wrapping ranges (left_token > right_token).
+Any ideas how to fix this?

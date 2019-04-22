@@ -16,7 +16,7 @@ public class CodingFixerToSentencesOnly {
 
     public static void main(String[] args) {
 
-        String dataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\0_labeled_data";
+        String dataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse\\1_labeled_data";
 
         final Collection<File> xmlFiles = FileUtils.listFiles(new File(dataFolder), new String[]{"xml"}, true);
 
@@ -26,7 +26,7 @@ public class CodingFixerToSentencesOnly {
 
                 boolean b = processBR(br);
                 if (b) {
-                    //    XMLHelper.writeXML(br, xmlFile);
+                        XMLHelper.writeXML(br, xmlFile);
                     System.out.println(xmlFile.getParentFile().getName() + ";" + br.getId() + ";mod");
                 } else {
                     //   System.out.println(xmlFile.getParentFile().getName() + ";" + br.getId() + ";no_mod");

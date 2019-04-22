@@ -19,11 +19,11 @@ public class MainHRClassifierTest {
         String granularity = "SP-F";
 
         String systems = "docker,eclipse,facebook,firefox,hibernate,httpd,libreoffice,openmrs,wordpress-android";*/
-        String dataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data" +
-                "\\1_preprocessed_data\\1_content_tagging_prep-01102019";
-        String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\3_pattern_features";
-        String bugGoldSetPath = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\bug_list.csv";
-        String systems = "eclipse,facebook,firefox,libreoffice,openmrs,wordpress-android,argouml,jedit,openoffice";
+        String dataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse\\2_preprocessed_data" +
+                "\\1_content_tagging_prep-04222019";
+        String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse\\4_pattern_features";
+        String bugGoldSetPath = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse\\bug_list.csv";
+        String systems = "accumulo,amq,argouml,cassandra,cb,continuum,datamongo,derby,docker,drill,eclipse,facebook,firefox,groovy,hadoop,hbase,hibernate,hive,httpd,jedit,libreoffice,mahout,math,mng,myfaces,openjpa,openmrs,openoffice,pdfbox,pig,spark,wfcore,wicket,wordpress-android,ww";
 
 
         String granularity = "SP-F";

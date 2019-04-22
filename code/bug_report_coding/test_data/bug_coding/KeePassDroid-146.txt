@@ -1,0 +1,16 @@
+BUG REPORT TITLE:
+Auto-locked database loses unsaved entry
+
+BUG REPORT DESCRIPTION:
+When I create a new entry (or modify an existing entry) I lose the password if I do not immediately save the entry and the database gets locked after timeout.
+
+This has happened to me a number of times, most recently with dire consequences (laptop bricked due to lost BIOS password).
+I often do not save the new entry right away because I'm not sure if the password format meets a site's password criteria.
+So a very common workflow really.
+
+The current behavior strikes me as questionable.
+In general, losing an unsaved form entry due to a timeout is not acceptable in any environment.
+On mobile, in particular, a foreground app yanking the user's current form-based activity because the user is distracted is poor behavior.
+
+I'd think a straightforward (if temporary) fix would be to not lock the database if there is an active edit, or at least provide a setting to enable this behavior.
+Or auto-save the entry upon timeout instead of the far more dire yanking.
