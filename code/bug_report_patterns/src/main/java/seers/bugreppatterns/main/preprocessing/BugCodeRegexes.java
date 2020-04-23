@@ -39,6 +39,55 @@ public class BugCodeRegexes {
         addArgoumlRegexes();
         addJeditRegexes();
         addOpenOfficeRegexes();
+
+        addOtherSystemsRegexes();
+    }
+
+    private static void addOtherSystemsRegexes() {
+
+        List<String> projects = Arrays.asList("wfcore", "derby", "datamongo", "pig",
+                "math", "openjpa", "mng", "amq", "ww", "myfaces", "groovy", "drill", "continuum",
+                "wicket", "cb", "accumulo", "hbase", "spark", "hadoop", "cassandra", "hive", "pdfbox", "datacmns",
+                "mahout");
+
+        for (String projectName : projects) {
+
+            systemIniSeparators.put(projectName, Arrays.asList("{code}", "{noformat}"));
+
+            List<String> regexes = Arrays.asList("([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+                    "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+                    "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+                    "\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+                    "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+                    "(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+                    "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Unknown Source\\)",
+                    "(\\s+)?(at )?([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+                    "(\\s+)?(at )?\\$([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\(Native Method\\)",
+                    "Caused by\\: .+Exception.+\\:");
+
+            systemRegexes.put(projectName, regexes.stream()
+                    .map(r -> new ImmutablePair<>(r, BugContentCategory.EXEC_TRACES))
+                    .collect(Collectors.toList())
+            );
+
+            List<List<String>> logRx = new ArrayList<>();
+
+            logRx.add(Arrays.asList("Java Version", "Java Vendor", "Java Classpath"));
+            final List<String> logStrs = Arrays.asList("\\[INFO\\]", "\\[WARN\\]", "\\[DEBUG\\]", "\\[ERROR\\]");
+            logRx.add(logStrs);
+
+            systemStartRegexes.put(projectName, logStrs.stream()
+                    .map(r -> new ImmutablePair<>(r, BugContentCategory.PROG_LOGS))
+                    .collect(Collectors.toList())
+            );
+
+            List<List<String>> tracesRx = new ArrayList<>();
+            tracesRx.add(Arrays.asList("([a-zA-Z0-9]+[\\.])+[a-zA-Z0-9]+Exception:",
+                    "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
+                    "[argouml].*at.*([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+.*", "\\([a-zA-Z0-9]+\\.java:\\d+\\)"));
+
+            addGroupRegexes(projectName, null, tracesRx, logRx);
+        }
     }
 
     private static void addOpenOfficeRegexes() {
@@ -101,7 +150,7 @@ public class BugCodeRegexes {
         List<List<String>> tracesRx = new ArrayList<>();
         tracesRx.add(Arrays.asList("([a-zA-Z0-9]+[\\.])+[a-zA-Z0-9]+Exception:",
                 "([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+\\([a-zA-Z0-9]+\\.java:\\d+\\)",
-                "[argouml].*at.*([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+.*","\\([a-zA-Z0-9]+\\.java:\\d+\\)"));
+                "[argouml].*at.*([a-zA-Z0-9]+[\\.\\$])+[a-zA-Z0-9]+.*", "\\([a-zA-Z0-9]+\\.java:\\d+\\)"));
 
         addGroupRegexes(projectName, null, tracesRx, logRx);
     }
@@ -282,7 +331,7 @@ public class BugCodeRegexes {
 
         final Stream<ImmutablePair<String, BugContentCategory>> logsStr = Stream.of("!ENTRY ", "!MESSAGE ",
                 "!STACK ",
-                "User\\-Agent\\: ", "Java VM\\: ", "VM state\\:",                "Heap.+total \\d+.+ used \\d+")
+                "User\\-Agent\\: ", "Java VM\\: ", "VM state\\:", "Heap.+total \\d+.+ used \\d+")
                 .map(r -> new ImmutablePair<>(r, BugContentCategory.PROG_LOGS));
 
         final Stream<ImmutablePair<String, BugContentCategory>> codeStr =
@@ -303,7 +352,7 @@ public class BugCodeRegexes {
                 Stream.of(logsStr, codeStr, tracesStr)
                         .reduce(Stream::concat).get()
                         .collect(Collectors.toList())
-                );
+        );
 
         List<List<String>> codeRxs = new ArrayList<>();
 
@@ -494,11 +543,13 @@ public class BugCodeRegexes {
 
     private static void addGroupRegexes(String projectName, List<List<String>> codeRx2, List<List<String>> tracesRx2,
                                         List<List<String>> logsRx2) {
-        final Stream<ImmutablePair<List<String>, BugContentCategory>> codeGrpRegexes = codeRx2 == null ? Stream.empty() :
+        final Stream<ImmutablePair<List<String>, BugContentCategory>> codeGrpRegexes = codeRx2 == null ?
+                Stream.empty() :
                 codeRx2.stream().map(r -> new ImmutablePair<>(r, SRC_CODE));
         final Stream<ImmutablePair<List<String>, BugContentCategory>> tracesGrpRegexes = tracesRx2 == null ?
                 Stream.empty() : tracesRx2.stream().map(r -> new ImmutablePair<>(r, EXEC_TRACES));
-        final Stream<ImmutablePair<List<String>, BugContentCategory>> logsGrpRegexes = logsRx2 == null ? Stream.empty() :
+        final Stream<ImmutablePair<List<String>, BugContentCategory>> logsGrpRegexes = logsRx2 == null ?
+                Stream.empty() :
                 logsRx2.stream().map(r -> new ImmutablePair<>(r, PROG_LOGS));
 
         systemGroupRegexes.put(projectName, Stream.of(logsGrpRegexes, codeGrpRegexes, tracesGrpRegexes)

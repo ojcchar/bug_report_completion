@@ -13,14 +13,16 @@ public class MainFeaturesTest {
         String outputFolderPrefix = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\pattern_features_11082018" +
                 "\\auto_all_data_features";*/
 
-      /*  String goldSetFolderPrefix = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\3_pattern_features";
-        String outputFolderPrefix = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\3_pattern_features\\features";*/
+        String goldSetFolderPrefix = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse\\4_pattern_features";
+        String outputFolderPrefix = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse\\4_pattern_features\\features";
+/*
 
 
         String goldSetFolderPrefix = "C:\\Users\\ojcch\\Documents\\Repositories\\Git\\Android-Bug-Report-Reproduction" +
                 "\\EulerEvaluation\\Data\\2_nimbus_pattern_features\\prefeatures";
         String outputFolderPrefix = "C:\\Users\\ojcch\\Documents\\Repositories\\Git\\Android-Bug-Report-Reproduction" +
                 "\\EulerEvaluation\\Data\\2_nimbus_pattern_features\\features";
+*/
 
         String ourData = "y";
 

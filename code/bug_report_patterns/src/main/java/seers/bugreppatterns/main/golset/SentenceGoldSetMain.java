@@ -35,22 +35,23 @@ public class SentenceGoldSetMain {
             "\\1_data\\1_coded_data\\2_labeled_data_summary.csv";
     private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\generated_goldsets_11082018";*/
 
-    private static String codedDataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data" +
-            "\\1_preprocessed_data\\1_content_tagging_prep-01102019";
+    private static String codedDataFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse" +
+            "\\2_preprocessed_data\\1_content_tagging_prep-04222019";
 
-    private static String bugGoldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\bug_list.csv";
-    private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\2_gold_sets";
+    private static String bugGoldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse\\bug_list.csv";
+    private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse\\3_gold_sets";
+    private static boolean processTitle = false;
 
     static HashMap<TextInstance, Labels> goldSetSentences = new HashMap<>();
 
 
     private static Set<String> allowedSystems = JavaUtils.getSet(
-            "argouml", "jedit",
+          /*  "argouml", "jedit",
             "openoffice",
             "eclipse",
             "facebook", "firefox",
             "libreoffice", "openmrs",
-            "wordpress-android"
+            "wordpress-android"*/
     );
 
     public static void main(String[] args) throws Exception {
@@ -60,7 +61,7 @@ public class SentenceGoldSetMain {
 
         for (TextInstance bugInstance : bugInstances) {
             String project = bugInstance.getProject();
-            if (!allowedSystems.contains(project)) {
+            if (!allowedSystems.isEmpty() && !allowedSystems.contains(project)) {
                 continue;
             }
             try {
@@ -73,7 +74,7 @@ public class SentenceGoldSetMain {
                         codedDataFolder + File.separator + project + File.separator + bugId + ".parse.xml");
                 ShortLabeledBugReport bugRep = XMLHelper.readXML(ShortLabeledBugReport.class, xmlFile);
 
-                processBug(bugRep, bugInstance, false);
+                processBug(bugRep, bugInstance, processTitle);
 
             } catch (Exception e) {
                 System.err.println("Error for " + bugInstance);
@@ -83,6 +84,7 @@ public class SentenceGoldSetMain {
         }
 
         final String outFile = outputFolder + File.separator + "gold-set-S.csv";
+        new File(outputFolder).mkdirs();
         writeGoldSet(outFile);
     }
 
@@ -131,7 +133,8 @@ public class SentenceGoldSetMain {
             if (sentenceLabels != null) {
                 throw new RuntimeException("Sentence is repeated: " + "0");
             }
-            sentenceLabels = new Labels( bugRep.getTitle().getOb().trim(),  bugRep.getTitle().getEb().trim(),  bugRep.getTitle().getSr().trim());
+            sentenceLabels = new Labels(bugRep.getTitle().getOb().trim(), bugRep.getTitle().getEb().trim(),
+                    bugRep.getTitle().getSr().trim());
             goldSetSentences.put(sentenceInstance, sentenceLabels);
         }
 

@@ -40,10 +40,11 @@ public class BugCodePreprocessor {
             ".csv";
     private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\replication_package_fse17" +
             "\\1_data\\2_preprocessed_data\\0_content_tagging-10302018";  */
-    private static String xmlBugDir = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\0_labeled_data";
-    private static String goldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\bug_list.csv";
-    private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\1_data\\1_preprocessed_data" +
-            "\\0_content_tagging-01102019";
+    private static String xmlBugDir = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse" +
+            "\\1_labeled_data_selected_with_desc";
+    private static String goldSetFile = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse\\bug_list.csv";
+    private static String outputFolder = "C:\\Users\\ojcch\\Documents\\Projects\\Nimbus\\2_data_tse" +
+            "\\2_preprocessed_data\\0_content_tagging-04222019";
 
     //if true, the text that matches the regexes is removed, otherwise the text is tagged with special tags
     private static boolean performRemoval = false;
@@ -54,7 +55,7 @@ public class BugCodePreprocessor {
 
     private static Set<String> allowedSystems = JavaUtils.getSet(
 //            "argouml", "jedit"
-            "openoffice"
+            //"mng"
         /*    //"docker",
             "eclipse",
             "facebook", "firefox",
@@ -77,7 +78,7 @@ public class BugCodePreprocessor {
         for (TextInstance bugInstance : bugInstances) {
 
             String project = bugInstance.getProject();
-            if (!allowedSystems.contains(project)) {
+            if (!allowedSystems.isEmpty() && !allowedSystems.contains(project)) {
                 continue;
             }
 
