@@ -8,16 +8,13 @@ import seers.bugrepcompl.entity.codeident.TaggedText;
 import seers.bugrepcompl.xmlcoding.AgreementMain;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @XmlRootElement(name = "bug")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -67,33 +64,30 @@ public class PatternLabeledBugReport {
         this.description = description;
     }
 
-    public static PatternLabeledBugReport buildFromComponents(String codedFilePath, File codeTaggedFile, Set<String> codeTypesToDiscard)
+    @SuppressWarnings("unused")
+    public static PatternLabeledBugReport buildFromComponents(String codedFilePath, File codeTaggedFile)
             throws IOException, ParserConfigurationException, SAXException, JAXBException {
 
         PatternLabeledBugReport codedBug = XMLHelper.readXML(PatternLabeledBugReport.class, codedFilePath);
 
-        codedBug.codeSegments = readCodeSegments(codeTaggedFile, codeTypesToDiscard);
+        codedBug.codeSegments = readCodeSegments(codeTaggedFile);
         codedBug.propagateParagraphLabels();
 
         return codedBug;
     }
 
-    private static List<TaggedText> readCodeSegments(File codeTaggedFile, Set<String> codeTypesToDiscard) throws JAXBException, IOException, SAXException, ParserConfigurationException {
+    private static List<TaggedText> readCodeSegments(File codeTaggedFile) throws JAXBException, IOException, SAXException, ParserConfigurationException {
         CodeTaggedBugReport codeTaggedBR = XMLHelper.readXML(CodeTaggedBugReport.class, codeTaggedFile);
 
-        List<TaggedText> descTaggedTexts = new ArrayList<>();
-        if (codeTaggedBR.getDescription() != null) {
-            descTaggedTexts = codeTaggedBR.getDescription().getTaggedTexts();
-            if (descTaggedTexts == null)
-                descTaggedTexts = new ArrayList<>();
-        }
-
-        return descTaggedTexts.stream().filter(taggedText -> {
-            final String type = taggedText.getType();
-            return !codeTypesToDiscard.contains(type);
-        }).collect(Collectors.toList());
+        return Optional.ofNullable(codeTaggedBR.getDescription())
+                .map(d ->
+                        Optional.ofNullable(d.getTaggedTexts())
+                                .orElse(Collections.emptyList())
+                )
+                .orElse(Collections.emptyList());
     }
 
+    @SuppressWarnings("unused")
     public boolean hasCode() {
         return !codeSegments.isEmpty();
     }
@@ -131,9 +125,8 @@ public class PatternLabeledBugReport {
         seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportTitle title2 = title.toPatternCodingTitle();
         seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReportDescription description2 = description
                 .toPatternCodingDescription();
-        seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport bug = new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport(
+        return new seers.bugrepcompl.entity.shortcodingparse.ShortLabeledBugReport(
                 id, title2, description2, noBug, comments);
-        return bug;
     }
 
     @Override
@@ -182,9 +175,8 @@ public class PatternLabeledBugReport {
         this.comments = comments;
     }
 
-    public String getCode() {
-        return codeSegments.stream()
-                .map(TaggedText::getValue)
-                .collect(Collectors.joining(" "));
+    @SuppressWarnings("unused")
+    public List<TaggedText> getCode() {
+        return codeSegments;
     }
 }
