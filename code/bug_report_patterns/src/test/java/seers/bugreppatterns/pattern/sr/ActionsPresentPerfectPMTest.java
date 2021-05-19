@@ -17,6 +17,7 @@ public class ActionsPresentPerfectPMTest extends BaseTest {
 	public void testPositives() throws Exception {
 		String[] txts = {
 				"I have modified and removed a picture",
+				"I had modified and removed a picture",
 				"In the test document, I have modified Title style as Title1, Area fill is set to Gray6 and Font effects have set font to Yellow. ",
 
 		};

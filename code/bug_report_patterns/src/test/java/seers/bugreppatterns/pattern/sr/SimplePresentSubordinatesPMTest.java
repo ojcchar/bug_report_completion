@@ -13,14 +13,15 @@ public class SimplePresentSubordinatesPMTest extends BaseTest {
 
 	@Test
 	public void testPositives() throws Exception {
-		String[] txts = { 
+		String[] txts = {
+				"I type 1 in odometer",
 				"- I do a Java Search and sort the results by Parent Path",
 				"i create an application and i set it in a tab fan page. ", "On the Tomcat / mod_jk side I use:",
 				"The scenario is that the user selects an Exit Type that has a final state \"trigger\" associated with it.",
 				"I do npm install and then remove the build tools like python",
 				"You close it but it keeps coming back.",
 				"I do execute this",
-				
+				"I click on first Fillup history entry"
 				};	
 
 		TestUtils.testSentences(txts, pm, 1);
