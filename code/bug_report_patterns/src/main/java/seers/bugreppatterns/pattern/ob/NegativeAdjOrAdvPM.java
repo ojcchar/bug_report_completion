@@ -50,14 +50,17 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 		}
 
 		// cases such as is/are + negative verb in pp or adj
-		List<Integer> tobes = findToBeVerbs(tokens);
-		for (Integer tobe : tobes) {
+		List<Integer> toBeVerbs = findToBeVerbs(tokens);
+		for (Integer toBeVerb : toBeVerbs) {
 			try {
 
-				Token nextToken = tokens.get(tobe + 1);
+				Token nextToken = tokens.get(toBeVerb + 1);
 
 				if (nextToken.getPos().equals("VBN") || nextToken.getPos().equals("VB")) {
-					if (SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, nextToken)) {
+					if (SentenceUtils.lemmasContainToken(NegativeTerms.VERBS, nextToken)
+							||
+							SentenceUtils.wordsContainToken(NegativeTerms.ADJECTIVES, nextToken)
+					) {
 						return 1;
 					}
 				} else if (nextToken.getGeneralPos().equals("JJ")) {
@@ -65,7 +68,7 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 						return 1;
 					}
 				} else if (nextToken.getGeneralPos().equals("RB")) {
-					int index = tobe + 2;
+					int index = toBeVerb + 2;
 					if (index < tokens.size()) {
 						Token nextToken2 = tokens.get(index);
 						if (nextToken2.getPos().equals("VBN")) {
@@ -79,7 +82,7 @@ public class NegativeAdjOrAdvPM extends ObservedBehaviorPatternMatcher {
 						}
 					}
 				} else if (nextToken.getGeneralPos().equals("IN")) {
-					int index = tobe + 2;
+					int index = toBeVerb + 2;
 					if (index < tokens.size()) {
 						Token nextToken2 = tokens.get(index);
 						if (nextToken.getLemma().equalsIgnoreCase("out")

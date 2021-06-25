@@ -22,7 +22,9 @@ public class NegativeAdjOrAdvPMTest extends BaseTest {
 
 	@Test
 	public void testPositive() throws Exception {
-		String[] sentences = { "\"Image\" is negative int for container in /containers/json?all=1 output",
+		String[] sentences = {
+				"The plus symbol is gone",
+				"\"Image\" is negative int for container in /containers/json?all=1 output",
 				"Base shows things as they should be, and calc shows them messed up.",
 				"Getting each element of an array twice submitting form using POST",
 				"TP125: other projects referenced twice (1G83V7V)",
