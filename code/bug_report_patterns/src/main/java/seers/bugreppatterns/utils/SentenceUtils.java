@@ -13,6 +13,7 @@ import seers.textanalyzer.entity.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -428,7 +429,7 @@ public class SentenceUtils {
 		if (str == null) {
 			return false;
 		}
-		return tokens.stream().anyMatch(t -> str.equalsIgnoreCase(t));
+		return tokens.stream().anyMatch(str::equalsIgnoreCase);
 	}
 
 	/**
@@ -554,7 +555,12 @@ public class SentenceUtils {
 	 * @return
 	 */
 	public static boolean isImperativeSentence(Sentence sentence) {
-		return isImperativeSentence(sentence.getTokens(), false);
+		return isImperativeSentence(sentence.getTokens(), false, true);
+	}
+
+
+	public static boolean isImperativePastSentence(Sentence sentence) {
+		return isImperativeSentence(sentence.getTokens(), false, false);
 	}
 
 	/**
@@ -569,12 +575,17 @@ public class SentenceUtils {
 	 * @param enableVerbTaggedAsNouns
 	 * @return
 	 */
-	public static boolean isImperativeSentence(List<Token> tokens, boolean enableVerbTaggedAsNouns) {
+	public static boolean isImperativeSentence(List<Token> tokens, boolean enableVerbTaggedAsNouns,
+											   boolean isPresentTense) {
 
 		// --------------------------------
 
-		if (checkForImperativeTokens(tokens, enableVerbTaggedAsNouns)) {
-			return true;
+		if (isPresentTense) {
+			if (checkForPresentImperativeTokens(tokens, enableVerbTaggedAsNouns))
+				return true;
+		} else{
+			if(checkForPastImperativeTokens(tokens))
+				return true;
 		}
 
 		// ------------------------
@@ -593,7 +604,10 @@ public class SentenceUtils {
 		// if the ":" is found, check for the imperative tokens
 		if (idx != -1) {
 			if (idx + 2 < tokens.size()) {
-				return checkForImperativeTokens(tokens.subList(idx + 1, tokens.size()), enableVerbTaggedAsNouns);
+				if (isPresentTense)
+					return checkForPresentImperativeTokens(tokens.subList(idx + 1, tokens.size()), enableVerbTaggedAsNouns);
+				else
+					return checkForPastImperativeTokens(tokens.subList(idx + 1, tokens.size()));
 			}
 		}
 
@@ -609,28 +623,10 @@ public class SentenceUtils {
 	 * tokens when verbs are incorrectly tagged as nouns
 	 *
 	 */
-	private static boolean checkForImperativeTokens(List<Token> tokens, boolean enableVerbTaggedAsNouns) {
+	private static boolean checkForPresentImperativeTokens(List<Token> tokens, boolean enableVerbTaggedAsNouns) {
 
-		// make sure we discard non-word tokens at the beginning of the sentence
-		int idx = -1;
-		for (int i = 0; i < tokens.size(); i++) {
-			Token token = tokens.get(i);
-			if (token.getLemma().matches("^\\w.*")
-					//&& !token.getLemma().matches("^[0-9]+.*")
-			) {
-				idx = i;
-				break;
-			}
-
-		}
-
-		// the sentence is full of non-word tokens
-		if (idx == -1) {
-			return false;
-		}
-
-		// work only with word tokens
-		List<Token> tokensNoSpecialChar = tokens.subList(idx, tokens.size());
+		List<Token> tokensNoSpecialChar = getTokensNoSpecialChars(tokens);
+		if (tokensNoSpecialChar == null) return false;
 
 		// -----------------------------------
 
@@ -651,7 +647,8 @@ public class SentenceUtils {
 		}
 
 		// regular case, the sentence starts with a verb
-		if ((firstToken.getPos().equals("VB") || firstToken.getPos().equals("VBP"))) {
+		Function<Token, Boolean> isVerbInPresent = token -> token.getPos().equals("VB") || token.getPos().equals("VBP");
+		if (isVerbInPresent.apply(firstToken)) {
 			return true;
 		} else {
 
@@ -660,7 +657,7 @@ public class SentenceUtils {
                 // case: the sentence starts with an adverb/adjective and then with
                 // a verb
 				if ((firstToken.getPos().equals("RB") || firstToken.getPos().equals("JJ"))
-						&& (secondToken.getPos().equals("VB") || secondToken.getPos().equals("VBP")
+						&& (isVerbInPresent.apply(secondToken)
 								|| (secondToken.getPos().equals("NN")
 										&& SentenceUtils.wordsContainToken(UNDETECTED_VERBS, secondToken))
 								|| SentenceUtils.lemmasContainToken(AMBIGUOUS_POS_VERBS, secondToken))
@@ -675,7 +672,7 @@ public class SentenceUtils {
                     // case: the sentence starts with two adverbs and then with
                     // a verb
                     if ((firstToken.getPos().equals("RB") && secondToken.getPos().equals("RB"))
-                            && (thirdToken.getPos().equals("VB") || thirdToken.getPos().equals("VBP")
+                            && (isVerbInPresent.apply(thirdToken)
                             || (thirdToken.getPos().equals("NN")
                             && SentenceUtils.wordsContainToken(UNDETECTED_VERBS, thirdToken))
                             || SentenceUtils.lemmasContainToken(AMBIGUOUS_POS_VERBS, thirdToken))) {
@@ -701,6 +698,75 @@ public class SentenceUtils {
 					return true;
 				}
 			}
+		}
+		return false;
+	}
+
+	private static List<Token> getTokensNoSpecialChars(List<Token> tokens) {
+		// make sure we discard non-word tokens at the beginning of the sentence
+		int idx = -1;
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			if (token.getLemma().matches("^\\w.*")
+					//&& !token.getLemma().matches("^[0-9]+.*")
+			) {
+				idx = i;
+				break;
+			}
+
+		}
+
+		// the sentence is full of non-word tokens
+		if (idx == -1) {
+			return null;
+		}
+
+		// work only with word tokens
+		return tokens.subList(idx, tokens.size());
+	}
+
+
+	private static boolean checkForPastImperativeTokens(List<Token> tokens) {
+
+
+		List<Token> tokensNoSpecialChar = getTokensNoSpecialChars(tokens);
+		if (tokensNoSpecialChar == null) return false;
+		// -----------------------------------
+
+		if (tokensNoSpecialChar.size() < 2) {
+			return false;
+		}
+
+		Token firstToken = tokensNoSpecialChar.get(0);
+		Token secondToken = tokensNoSpecialChar.get(1);
+
+		// regular case, the sentence starts with a verb
+		if (firstToken.getPos().equals("VBD") || firstToken.getPos().equals("VBN") ) {
+			return true;
+		} else {
+
+			if (secondToken != null) {
+
+				// case: the sentence starts with an adverb/adjective and then with
+				// a verb
+				if ((firstToken.getPos().equals("RB") || firstToken.getPos().equals("JJ"))
+						&& (secondToken.getPos().equals("VBD") || firstToken.getPos().equals("VBN"))
+						&& tokensNoSpecialChar.size() > 2) {
+					return true;
+				}
+
+
+				if (tokensNoSpecialChar.size() > 3) {
+
+					Token thirdToken = tokensNoSpecialChar.get(2);
+					// case: the sentence starts with two adverbs and then with
+					// a verb
+					return (firstToken.getPos().equals("RB") && secondToken.getPos().equals("RB"))
+							&& (thirdToken.getPos().equals("VBD") || firstToken.getPos().equals("VBN") );
+				}
+
+			}
+
 		}
 		return false;
 	}
@@ -861,7 +927,7 @@ public class SentenceUtils {
 	 * @return
 	 */
 	public static boolean isImperativeSentence(Sentence sentence, boolean enableVerbTaggedAsNouns) {
-		return isImperativeSentence(sentence.getTokens(), enableVerbTaggedAsNouns);
+		return isImperativeSentence(sentence.getTokens(), enableVerbTaggedAsNouns, true);
 	}
 
 	public static boolean matchAnyPattern(Sentence sentence, Set<? extends PatternMatcher> patterns) {
