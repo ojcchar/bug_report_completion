@@ -18,7 +18,9 @@ public class SimpleTenseChecker {
 	public final static Set<String> PRESENT_POS = JavaUtils.getSet("VBP", "VBZ", "VB");
 	public final static Set<String> PRESENT_EXCLUDED_VERBS = JavaUtils.getSet("be", "seem", "can");
 	public static final Set<String> PRESENT_UNDETECTED_VERBS = JavaUtils.getSet("set", "put", "close", "cache", "scale",
-			"change", "type");
+			"change", "type"
+			, "input"
+	);
 
 	// {
 	// PRESENT_UNDETECTED_VERBS.addAll(SentenceUtils.UNDETECTED_VERBS);
