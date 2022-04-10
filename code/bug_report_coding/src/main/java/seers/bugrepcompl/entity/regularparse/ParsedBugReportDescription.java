@@ -59,6 +59,8 @@ public class ParsedBugReportDescription {
 	public List<ParsedDescriptionSentence> getAllSentences() {
 
 		List<ParsedDescriptionSentence> sentences = new ArrayList<>();
+		if (paragraphs == null) return sentences;
+
 		for (ParsedDescriptionParagraph par : paragraphs) {
 			List<ParsedDescriptionSentence> sentences2 = par.getSentences();
 
